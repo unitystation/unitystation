@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 /// Toggle for bool-based methods
 [RequireComponent(typeof(Toggle))]
@@ -17,6 +18,14 @@ public class NetToggle : NetUIStringElement
 		}
 	}
 
+	[SerializeField]
+	[InfoBox("If the toggle is part of a toggle group, and the toggles point to the same listeners below, " +
+			"then they will be hit multiple times (each toggle, on / off). This is often not desirable. " +
+			"A workaround is to only invoke the listener if the toggle is on, so the listener is only called once. " +
+			"Check 'Enable Workaround' to enable this behaviour. ", EInfoBoxType.Normal)]
+	// enough hours wasted on falling for the same mistake again and again... my darkest hours with that damned pipe dispenser
+	private bool enableWorkaround = false; 
+
 	public BoolEvent ServerMethod;
 	public BoolEventWithSubject ServerMethodWithSubject;
 
@@ -25,6 +34,12 @@ public class NetToggle : NetUIStringElement
 	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod?.Invoke(Element.isOn);
 		ServerMethodWithSubject?.Invoke(Element.isOn, subject);
+	}
+
+	public override void ExecuteClient()
+	{
+		if (enableWorkaround && Element.group != null && Element.isOn == false) return;
+		base.ExecuteClient();
 	}
 
 	public Toggle Element {
