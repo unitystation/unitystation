@@ -105,12 +105,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		//reclaim the space in the slot pool.
 		ItemSlot.Free(this);
 	}
-
-	private void OnDestroy()
-	{
-		//free the slots
-		ItemSlot.Free(this);
-	}
+	
 
 	public bool ServerTrySpawnAndAdd(GameObject inGameObject)
 	{
