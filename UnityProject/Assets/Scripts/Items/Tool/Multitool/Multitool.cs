@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity;
+using System.Text;
 
 // TODO: namespace me
 public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IInteractable<HandActivate>
@@ -127,14 +128,15 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			message = "The multitool's display lights up:\n";
 		}
 
+		StringBuilder sb = new StringBuilder(message);
 		foreach (var node in electricalNodes)
 		{
-			message += node.ShowInGameDetails() + "\n";
+			sb.AppendLine(node.ShowInGameDetails());
 		}
 
 		electricalNodes.Clear();
 		ElectricalPool.PooledFPCList.Add(electricalNodes);
-		Chat.AddExamineMsgFromServer(interaction.Performer, message);
+		Chat.AddExamineMsgFromServer(interaction.Performer, sb.ToString());
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
