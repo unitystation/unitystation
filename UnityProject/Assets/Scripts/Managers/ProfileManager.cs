@@ -44,6 +44,8 @@ public class ProfileManager : MonoBehaviour
 		Profiler.SetAreaEnabled(ProfilerArea.CPU, true);
 		Profiler.logFile = "Profiles/" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
 		Profiler.enableBinaryLog = true;
+		Profiler.enableAllocationCallstacks = true;
+		Profiler.maxUsedMemory = 1000000000; //1GB
 		Profiler.enabled = true;
 
 		UpdateManager.Instance.Profile = true;
@@ -61,7 +63,8 @@ public class ProfileManager : MonoBehaviour
 
 		runningProfile = false;
 		Profiler.enabled = false;
-		Profiler.enableBinaryLog = true;
+		Profiler.enableBinaryLog = false;
+		Profiler.enableAllocationCallstacks = false;
 		Profiler.logFile = "";
 
 		UpdateManager.Instance.Profile = false;
