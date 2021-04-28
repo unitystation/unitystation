@@ -20,7 +20,7 @@ namespace HealthV2
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
-	public abstract class LivingHealthMasterBase : NetworkBehaviour
+	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -930,6 +930,12 @@ namespace HealthV2
 		public void UpdateClientBrainStats(bool isHusk, int brainDamage)
 		{
 			//TODO: Reimplement
+		}
+
+		public void OnExposed(FireExposure exposure)
+		{
+			ChangeFireStacks(1f);
+			ApplyDamageAll(null, 1f, AttackType.Fire, DamageType.Burn, false);
 		}
 
 		/// <summary>
