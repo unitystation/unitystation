@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/4/29: Better multitool text. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[6425](https://github.com/unitystation/unitystation/pull/6425)
 * 2021/4/29: Players can now be set on fire from plasma fires by [Semuca](https://github.com/Semuca) in PR #[6430](https://github.com/unitystation/unitystation/pull/6430)
 * 2021/4/25: Disables damage message on Singularity, field generator, and tesla ball by [ThatDan123](https://github.com/ThatDan123) in PR #[6412](https://github.com/unitystation/unitystation/pull/6412)
 * 2021/4/25: Getup and laying down animations won't trigger if the player's sprites are already rotated. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6410](https://github.com/unitystation/unitystation/pull/6410)
