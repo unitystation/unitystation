@@ -39,6 +39,11 @@ public class ItemDictionary : SerializableDictionary<GameObject, int>
 }
 
 [Serializable]
+public class StringIntDictionary : SerializableDictionary<string, int>
+{
+}
+
+[Serializable]
 public class PropertyDictionary : SerializableDictionary<string, bool>
 {
 }

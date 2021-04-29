@@ -26,12 +26,18 @@
 			"<color=blue><size=32>Crew Objectives:</size></color>\n\n"+
 			"<size=24>- Subvert the threat.\n\n- Keep the productivity in the station.</size>";
 
-		public static readonly string StationObjective =
+		public static readonly string DeliveryStationObjective =
 			" <size=26>Asteroid bodies have been sighted in the local area around " +
-			"OutpostStation IV. Locate and exploit local sources for plasma deposits.</size>\n \n " +
+			"STATIONNAME. Locate and exploit local sources for MATERIAL deposits.</size>\n \n " +
 			"<color=blue><size=32>Crew Objectives:</size></color>\n \n <size=24>- Locate and mine " +
-			"local Plasma Deposits\n \n - Fulfill order of {0} Solid Plasma units and dispatch to " +
+			"local MATERIAL Deposits\n \n - Fulfill order of {0} MATERIAL sheets and dispatch to " +
 			"Central Command via Cargo Shuttle</size>\n \n <size=32>Latest Asteroid Sightings:" +
 			"</size>\n \n";
+
+		public static readonly string DeliveryStationObjectiveEnd =
+			" - Locate and mine " +
+			"local MATERIAL Deposits\n \n - Fulfill order of {0} MATERIAL sheets and dispatch to " +
+			"Central Command via Cargo Shuttle\n \n" +
+			" - Amount of MATERIAL sheets shipped: SHIPPEDVAL/{0}";
 	}
 }

@@ -193,9 +193,9 @@ namespace Antagonists
 		/// </summary>
 		public void ShowAntagStatusReport()
 		{
-			StringBuilder statusSB = new StringBuilder($"<color=white><size=60><b>End of Round Report</b></size></color>\n\n", 200);
+			StringBuilder statusSB = new StringBuilder();
 
-			var message = $"End of Round Report on {ServerData.ServerConfig.ServerName}\n";
+			var message = $"";
 
 			if (activeAntags.Count > 0)
 			{

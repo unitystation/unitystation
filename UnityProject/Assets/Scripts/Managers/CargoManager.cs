@@ -7,6 +7,9 @@ using Objects;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Objects;
+using Items;
+using System;
 
 namespace Systems.Cargo
 {
@@ -38,6 +41,8 @@ namespace Systems.Cargo
 		private float shuttleFlyDuration = 10f;
 
 		private Dictionary<string, ExportedItem> exportedItems = new Dictionary<string, ExportedItem>();
+
+		public event Action<GameObject> OnObjectSold;
 
 		private void Awake()
 		{
@@ -334,6 +339,7 @@ namespace Systems.Cargo
 			item.registerTile.UnregisterClient();
 			item.registerTile.UnregisterServer();
 			alreadySold.Add(item.gameObject);
+			OnObjectSold.Invoke(item.gameObject);
 			_ = Despawn.ServerSingle(item.gameObject);
 		}
 

@@ -45,8 +45,6 @@ namespace Managers
 		[NonSerialized] public AlertLevel CurrentAlertLevel;
 
 		//Server only:
-		private List<Vector2> asteroidLocations = new List<Vector2>();
-		private int plasmaOrderRequestAmt;
 		public DateTime lastAlertChange;
 		public double coolDownAlertChange = 5;
 
@@ -76,7 +74,7 @@ namespace Managers
 
 		private void OnRoundStart()
 		{
-			asteroidLocations.Clear();
+			//asteroidLocations.Clear();
 			ChangeAlertLevel(initialAlertLevel, false);
 			StartCoroutine(WaitToPrepareReport());
 		}
@@ -93,27 +91,6 @@ namespace Managers
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementWelcome);
 
 			yield return WaitFor.Seconds(60f);
-
-			//Gather asteroid locations:
-			foreach (var body in gameManager.SpaceBodies)
-			{
-				if (body.TryGetComponent<Asteroid>(out _))
-				{
-					asteroidLocations.Add(body.ServerState.Position);
-				}
-			}
-
-			//Add in random positions
-			int randomPosCount = Random.Range(1, 5);
-			for (int i = 0; i <= randomPosCount; i++)
-			{
-				asteroidLocations.Add(gameManager.RandomPositionInSolarSystem());
-			}
-
-			//Shuffle the list:
-			asteroidLocations = asteroidLocations.OrderBy(x => Random.value).ToList();
-			plasmaOrderRequestAmt = Random.Range(5, 50);
-
 
 			// Checks if there will be antags this round and sets the initial update/report
 			if (GameManager.Instance.GetGameModeName(true) != "Extended")
@@ -133,7 +110,6 @@ namespace Managers
 		{
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce, string.Format(ReportTemplates.InitialUpdate, ReportTemplates.ExtendedInitial),
 				UpdateSound.Notice);
-			SpawnReports(StationObjectiveReport());
 		}
 		private void SendAntagUpdate()
 		{
@@ -145,7 +121,6 @@ namespace Managers
 					ReportTemplates.AntagInitialUpdate+"\n\n"+
 					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.UpToBlue)),
 				UpdateSound.Alert);
-			SpawnReports(StationObjectiveReport());
 			SpawnReports(ReportTemplates.AntagThreat);
 			ChangeAlertLevel(AlertLevel.Blue, false);
 		}
@@ -228,6 +203,15 @@ namespace Managers
 		}
 
 		/// <summary>
+		/// Makes a written report that will spawn at all comms consoles. Must be called on server.
+		/// </summary>
+		/// <param name="text">String that will be the report body</param>
+		public void MakeQuietCommandReport(string text)
+		{
+			SpawnReports(text);
+		}
+
+		/// <summary>
 		/// Makes an announcement for all players. Must be called on server.
 		/// </summary>
 		/// <param name="template">String that will be the header of the annoucement. We have a couple ready to use </param>
@@ -275,19 +259,6 @@ namespace Managers
 				MatrixManager.MainStationMatrix);
 
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
-		}
-
-		private string StationObjectiveReport()
-		{
-			var report = new StringBuilder();
-			report.AppendFormat(ReportTemplates.StationObjective, plasmaOrderRequestAmt);
-
-			foreach (var location in asteroidLocations)
-			{
-				report.AppendFormat(" <size=24>{0}</size> ", Vector2Int.RoundToInt(location));
-			}
-
-			return report.ToString();
 		}
 
 		public enum UpdateSound {

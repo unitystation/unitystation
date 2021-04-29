@@ -7,7 +7,7 @@ namespace Antagonists
 	/// <summary>
 	/// Hijack the Emergency Shuttle by Escaping Alone
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Hijack")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Hijack")]
 	public class Hijack : Objective
 	{
 		/// <summary>

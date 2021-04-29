@@ -29,7 +29,7 @@ public enum Event
 	PlayerRejoined,
 	PreRoundStarted,
 	MatrixManagerInit,
-	BlobSpawned,
+	BlobSpawned
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
