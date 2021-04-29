@@ -31,7 +31,7 @@ namespace CustomInspectors
 				}
 				else
 				{
-					GUILayout.Label($"Connected to APC: {device.RelatedAPC.gameObject}");
+					GUILayout.Label($"Connected to APC: {device.RelatedAPC.gameObject.name}");
 				}
 			}
 

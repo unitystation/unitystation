@@ -232,7 +232,7 @@ namespace Systems.Electricity
 		public string ShowInGameDetails()
 		{
 			ElectricityFunctions.WorkOutActualNumbers(this);
-			return ("Component : " + Categorytype + "\nVoltage > " + Data.ActualVoltage.ToEngineering("V") + " Current > " + Data.CurrentInWire.ToEngineering("A"));
+			return $"{Categorytype}: {Data.ActualVoltage.ToEngineering("V")}, {Data.CurrentInWire.ToEngineering("A")}";
 		}
 
 		public virtual void ShowDetails()
