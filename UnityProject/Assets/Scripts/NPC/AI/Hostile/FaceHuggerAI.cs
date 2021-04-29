@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Systems.MobAIs
 {
-	public class FaceHuggerAI : GenericHostileAI, ICheckedInteractable<HandApply>, IServerSpawn
+	public class FaceHuggerAI : GenericHostileAI, ICheckedInteractable<HandApply>
 	{
 		[SerializeField]
 		[Tooltip("If true, this hugger won't be counted for the cap Queens use for lying eggs.")]
@@ -14,11 +14,25 @@ namespace Systems.MobAIs
 		//private MobMeleeAction mobMeleeAction;
 		private FaceHugAction faceHugAction;
 
+		#region Lifecycle
+
 		protected override void Awake()
 		{
 			faceHugAction = gameObject.GetComponent<FaceHugAction>();
 			base.Awake();
 		}
+
+		protected override void OnSpawnMob()
+		{
+			base.OnSpawnMob();
+			if (ignoreInQueenCount == false)
+			{
+				XenoQueenAI.AddFacehuggerToCount();
+			}
+			ResetBehaviours();
+		}
+
+		#endregion
 
 		/// <summary>
 		/// Looks around and tries to find players to target
@@ -80,17 +94,6 @@ namespace Systems.MobAIs
 			Inventory.ServerAdd(mask, handSlot, ReplacementStrategy.DropOther);
 
 			_ = Despawn.ServerSingle(gameObject);
-		}
-
-		public override void OnSpawnServer(SpawnInfo info)
-		{
-			if (ignoreInQueenCount == false)
-			{
-				XenoQueenAI.AddFacehuggerToCount();
-			}
-			base.OnSpawnServer(info);
-			ResetBehaviours();
-			BeginSearch();
 		}
 	}
 }

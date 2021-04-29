@@ -90,7 +90,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		void Freeze()
+		private void Freeze()
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.None;
@@ -104,7 +104,7 @@ namespace Systems.MobAIs
 			StartCoroutine(StatueStalk(target));
 		}
 
-		IEnumerator StatueStalk(GameObject stalked)
+		private IEnumerator StatueStalk(GameObject stalked)
 		{
 			while (!IsSomeoneLookingAtMe())
 			{
@@ -119,7 +119,7 @@ namespace Systems.MobAIs
 			yield break;
 		}
 
-		int DirToInt(Vector3 direction)
+		private int DirToInt(Vector3 direction)
 		{
 			var angleOfDir = Vector3.Angle((Vector2) direction, transform.up);
 			if (direction.x < 0f)
@@ -150,12 +150,6 @@ namespace Systems.MobAIs
 					return 2;
 
 			}
-		}
-
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			BeginSearch();
 		}
 
 		private readonly Dictionary<int, Orientation> orientations = new Dictionary<int, Orientation>()

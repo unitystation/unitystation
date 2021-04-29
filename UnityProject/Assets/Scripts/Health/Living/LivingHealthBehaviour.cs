@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Systems.Atmospherics;
-using Light2D;
-using Messages.Server.HealthMessages;
+using WebSocketSharp;
 using UnityEngine;
 using UnityEngine.Events;
-using Mirror;
 using UnityEngine.Profiling;
-using WebSocketSharp;
+using UnityEngine.Serialization;
+using Mirror;
+using Messages.Server.HealthMessages;
+using Systems.Atmospherics;
+using Light2D;
+
 
 /// <summary>
 /// The Required component for all living creatures
@@ -39,9 +41,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public float Resistance { get; } = 50;
 
 	[Tooltip("For mobs that can breath in any atmos environment")]
-	public bool canBreathAnywhere = false;
+	[FormerlySerializedAs("canBreathAnywhere")]
+	public bool canBreatheAnywhere = false;
 
 	public float OverallHealth { get; private set; } = 100;
+	[NonSerialized]
 	public float cloningDamage;
 
 	/// <summary>
@@ -86,6 +90,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public event Action OnDeathNotifyEvent;
 
+	[NonSerialized]
 	public float RTT;
 
 	public ConsciousState ConsciousState
@@ -207,7 +212,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
 
-		respiratorySystem.CanBreatheAnywhere = canBreathAnywhere;
+		respiratorySystem.CanBreatheAnywhere = canBreatheAnywhere;
 
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
@@ -553,7 +558,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		}
 	}
 
-
+	[NonSerialized]
 	public float RadiationStacks = 0;
 
 	/// <summary>
