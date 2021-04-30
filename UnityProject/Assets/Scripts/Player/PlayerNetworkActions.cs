@@ -174,7 +174,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		isRolling = true;
 
 		// Drop the player it they aren't already, prevent them from moving until the action is complete
-		if (!playerScript.registerTile.IsLayingDown)
+		if (playerScript.registerTile.IsLayingDown == false)
 		{
 			playerScript.registerTile.ServerSetIsStanding(false);
 			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
@@ -189,7 +189,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		while (playerScript.playerHealth.FireStacks > 0)
 		{
 			//Can only roll if you're conscious
-			if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS) {
+			if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			{
 				break;
 			}
 
