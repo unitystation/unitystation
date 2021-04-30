@@ -99,17 +99,19 @@ namespace UI.CharacterCreator
 		[Header("Character Selector")]
 		[SerializeField] private Text WindowName;
 
-		[SerializeField] private Text SlotsUsed;
-		[SerializeField] private Text CharacterPreviewName;
+		[SerializeField] private TMPro.TMP_Dropdown CharacterPreviewDropdown;
 		[SerializeField] private Text CharacterPreviewRace;
 		[SerializeField] private Text CharacterPreviewBodyType;
 		[SerializeField] private RawImage CharacterPreviewImg;
 
+		[SerializeField] private TMPro.TextMeshProUGUI GoBackButtonText;
 		[SerializeField] private GameObject CharacterPreviews;
 		[SerializeField] private GameObject NoCharactersError;
 		[SerializeField] private GameObject NoPreviewError;
+		[SerializeField] private GameObject ConfirmDeleteCharacterObject;
 		[SerializeField] private GameObject GoBackButton;
-		[SerializeField] private TMPro.TextMeshProUGUI GoBackButtonText;
+		[SerializeField] private GameObject DeleteCharacterButton;
+		[SerializeField] private Button EditCharacterButton;
 
 		[SerializeField] private GameObject CharacterSelectorPage;
 		[SerializeField] private GameObject CharacterCreatorPage;
@@ -206,6 +208,18 @@ namespace UI.CharacterCreator
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
+		public void ShowCharacterDeletionConfirmation()
+		{
+			DeleteCharacterButton.SetActive(false);
+			ConfirmDeleteCharacterObject.SetActive(true);
+		}
+
+		public void HideCharacterDeletionConfirmation()
+		{
+			DeleteCharacterButton.SetActive(true);
+			ConfirmDeleteCharacterObject.SetActive(false);
+		}
+
 		public void CreateCharacter()
 		{
 			CharacterSettings character = new CharacterSettings();
@@ -249,11 +263,28 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void RefreshSelectorData()
 		{
-			CharacterPreviewName.text = PlayerCharacters[currentCharacterIndex].Name;
+			CharacterPreviewDropdown.ClearOptions();
+			var itemOptions = PlayerCharacters.Select(pcd => pcd.Name).ToList();
+			CharacterPreviewDropdown.AddOptions(itemOptions);
+			CharacterPreviewDropdown.onValueChanged.AddListener(ItemChange);
+			CharacterPreviewDropdown.value = currentCharacterIndex;
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
-			SlotsUsed.text = $"{currentCharacterIndex + 1} / {PlayerCharacters.Count()}";
 			CheckPreviewImage();
+		}
+
+
+		/// <summary>
+		/// Whenever the player changes his character via the dropdown menu we make sure that currentCharacterIndex is set accordingly
+		/// And then we make sure that the currentCharacter is also loaded in.
+		/// </summary>
+		/// <param name="newValue"></param>
+		private void ItemChange(int newValue)
+		{
+			currentCharacterIndex = newValue;
+			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			SaveLastCharacterIndex();
+			RefreshSelectorData();
 		}
 
 		/// <summary>
@@ -275,6 +306,21 @@ namespace UI.CharacterCreator
 			{
 				CharacterPreviewImg.SetActive(false);
 				NoPreviewError.SetActive(true);
+			}
+		}
+
+		private void CheckIfCharacterListIsEmpty()
+		{
+			if(PlayerCharacters.Count == 0)
+			{
+				EditCharacterButton.enabled = false;
+				DeleteCharacterButton.SetActive(false);
+				ShowNoCharacterError();
+			}
+			else
+			{
+				EditCharacterButton.enabled = true;
+				DeleteCharacterButton.SetActive(true);
 			}
 		}
 
@@ -307,12 +353,12 @@ namespace UI.CharacterCreator
 			if (currentCharacterIndex != 0)
 			{
 				currentCharacterIndex--;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
+				ItemChange(currentCharacterIndex);
 			}
 			else
 			{
 				currentCharacterIndex = PlayerCharacters.Count() - 1;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
+				ItemChange(currentCharacterIndex);
 			}
 			RefreshSelectorData();
 			RefreshAll();
@@ -325,12 +371,12 @@ namespace UI.CharacterCreator
 			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
 			{
 				currentCharacterIndex++;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
+				ItemChange(currentCharacterIndex);
 			}
 			else
 			{
 				currentCharacterIndex = 0;
-				currentCharacter = PlayerCharacters[currentCharacterIndex];
+				ItemChange(currentCharacterIndex);
 			}
 			RefreshSelectorData();
 			RefreshAll();
@@ -1012,9 +1058,10 @@ namespace UI.CharacterCreator
 			currentCharacterIndex -= 1;
 			if(currentCharacterIndex == -1)
 			{
-				ShowNoCharacterError();
+				CheckIfCharacterListIsEmpty();
 				return;
 			}
+			HideCharacterDeletionConfirmation();
 			SaveCharacters();
 			RefreshSelectorData();
 		}
