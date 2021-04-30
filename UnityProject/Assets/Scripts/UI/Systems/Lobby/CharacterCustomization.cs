@@ -195,7 +195,7 @@ namespace UI.CharacterCreator
 			WindowName.text = "Character Settings";
 			CharacterSelectorPage.SetActive(false);
 			CharacterCreatorPage.SetActive(true);
-			GoBackButtonText.text = "Back";
+			GoBackButton.SetActive(false);
 			Cleanup();
 			LoadSettings(currentCharacter);
 			RefreshAll();
@@ -205,7 +205,7 @@ namespace UI.CharacterCreator
 		private void ShowCharacterSelectorPage()
 		{
 			WindowName.text = "Select your character";
-			GoBackButtonText.text = "Finish";
+			GoBackButton.SetActive(true);
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
 			CheckIfCharacterListIsEmpty();
@@ -247,14 +247,7 @@ namespace UI.CharacterCreator
 
 		public void HandleExitButton()
 		{
-			if (CharacterCreatorPage.activeSelf == true)
-			{
-				ShowCharacterSelectorPage();
-			}
-			else
-			{
-				gameObject.SetActive(false);
-			}
+			gameObject.SetActive(false);
 		}
 
 		public void DeleteCurrentCharacter()
@@ -1207,7 +1200,8 @@ namespace UI.CharacterCreator
 		public void OnCancelBtn()
 		{
 			PlayerManager.CurrentCharacterSettings = lastSettings;
-			gameObject.SetActive(false);
+			RefreshAll();
+			ShowCharacterSelectorPage();
 		}
 
 		#endregion
