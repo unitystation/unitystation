@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Explosions;
+using Systems.Interaction;
 using AddressableReferences;
 using DatabaseAPI;
 using UnityEngine;
@@ -22,8 +23,7 @@ using ScriptableObjects;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable,
-	IServerDespawn
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn
 {
 
 	/// <summary>
