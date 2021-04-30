@@ -188,7 +188,6 @@ namespace UI.CharacterCreator
 			EditCharacterButton.SetActive(false);
 			ConfirmDeleteCharacterObject.SetActive(false);
 			DeleteCharacterButton.SetActive(false);
-			CharacterPreviewDropdown.SetActive(false);
 		}
 
 		private void ShowCharacterCreator()
@@ -1022,14 +1021,22 @@ namespace UI.CharacterCreator
 				ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
 				Formatting = Formatting.Indented
 			};
-			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
-			string json = JsonConvert.SerializeObject(PlayerCharacters, settings);
+			string json;
 			string path = Application.persistentDataPath + "characters.json";
+			if (PlayerCharacters.Count == 0)
+			{
+				json = "";
+			}
+			else
+			{
+				json = JsonConvert.SerializeObject(PlayerCharacters, settings);
+			}
 			if(File.Exists(path))
 			{
 				File.Delete(path);
 			}
 			File.WriteAllText(path, json);
+			SaveLastCharacterIndex(); //Remember the current character index, prevents a bug for newly created characters.
 		}
 
 		/// <summary>
@@ -1038,13 +1045,18 @@ namespace UI.CharacterCreator
 		private void GetSavedCharacters()
 		{
 			PlayerCharacters.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
-			string path = Application.persistentDataPath;
+			string path = Application.persistentDataPath + "characters.json";
 
-			if(File.Exists(path + "characters.json"))
+			if (File.Exists(path))
 			{
+				string json = File.ReadAllText(path);
+				if(json == "")
+				{
+					ShowNoCharacterError();
+					return;
+				}
 				CharacterPreviews.SetActive(true);
 				NoCharactersError.SetActive(false);
-				string json = File.ReadAllText(path + "characters.json");
 				var characters = JsonConvert.DeserializeObject<List<CharacterSettings>>(json);
 
 				foreach (var c in characters)
