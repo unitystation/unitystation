@@ -34,7 +34,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	public Transform chatBubbleTarget;
 
-	private bool isRolling = false;
+	public bool isRolling { get; private set; } = false;
 
 	private void Awake()
 	{
@@ -165,15 +165,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	IEnumerator Roll()
 	{
-		//Can't roll if you're already rolling
-		if (isRolling == true)
+		//Can't roll if you're already rolling or have slipped
+		if (isRolling == true || playerScript.registerTile.IsSlippingServer == true)
 		{
 			yield return null;
 		}
 
 		isRolling = true;
 
-		// Drop the player it they aren't already, prevent them from moving until the action is complete
+		// Drop the player if they aren't already, prevent them from moving until the action is complete
 		if (playerScript.registerTile.IsLayingDown == false)
 		{
 			playerScript.registerTile.ServerSetIsStanding(false);
@@ -188,8 +188,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Remove fire and do part of a roll every .2 seconds
 		while (playerScript.playerHealth.FireStacks > 0)
 		{
-			//Can only roll if you're conscious
-			if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			//Can only roll if you're conscious and not stunned
+			if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
+				playerScript.registerTile.IsSlippingServer == true)
 			{
 				break;
 			}
@@ -205,18 +206,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			yield return WaitFor.Seconds(0.2f);
 		}
 
-		playerScript.playerHealth.Extinguish();
-		playerScript.playerMove.allowInput = true;
-
-		// Do not raise up a dead body
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
+		//If rolling is interrupted with a stun or unconsciousness, don't finalise the action
+		if (playerScript.playerHealth.FireStacks == 0)
 		{
+			playerScript.playerHealth.Extinguish();
 			playerScript.registerTile.ServerStandUp(true);
+			playerScript.playerMove.allowInput = true;
 		}
 
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
-			 || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
-		{
+		//Allow barely conscious players to move again if they are not stunned
+		if (playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS
+			&& playerScript.registerTile.IsSlippingServer == false) {
 			playerScript.playerMove.allowInput = true;
 		}
 
