@@ -233,7 +233,7 @@ namespace Objects
 		{
 			audioSourceParameters.Volume = newVolume;
 
-			audioSourceParameters.IsMute = newVolume == 0;
+			audioSourceParameters.IsMute = newVolume <= 0;
 
 			ChangeAudioSourceParametersMessage.SendToAll(guid, audioSourceParameters);
 		}
