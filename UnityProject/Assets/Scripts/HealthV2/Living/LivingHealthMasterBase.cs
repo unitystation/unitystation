@@ -935,7 +935,7 @@ namespace HealthV2
 		public void OnExposed(FireExposure exposure)
 		{
 			ChangeFireStacks(1f);
-			ApplyDamageAll(null, 1f, AttackType.Fire, DamageType.Burn, false);
+			ApplyDamageAll(null, 0.25f, AttackType.Fire, DamageType.Burn, false);
 		}
 
 		/// <summary>
