@@ -110,7 +110,6 @@ namespace UI.CharacterCreator
 		[SerializeField] private GameObject NoPreviewError;
 		[SerializeField] private GameObject ConfirmDeleteCharacterObject;
 		[SerializeField] private GameObject GoBackButton;
-		[SerializeField] private GameObject DeleteCharacterButton;
 		[SerializeField] private Button EditCharacterButton;
 
 		[SerializeField] private GameObject CharacterSelectorPage;
@@ -126,6 +125,7 @@ namespace UI.CharacterCreator
 		void OnEnable()
 		{
 			GetSavedCharacters();
+			CheckIfCharacterListIsEmpty();
 			WindowName.text = "Select your character";
 			LoadSettings(PlayerManager.CurrentCharacterSettings);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
@@ -134,7 +134,6 @@ namespace UI.CharacterCreator
 			colorPicker.onValueChanged.AddListener(OnColorChange);
 			DisplayErrorText("");
 			RefreshSelectorData();
-			
 		}
 
 		void OnDisable()
@@ -185,6 +184,9 @@ namespace UI.CharacterCreator
 		{
 			CharacterPreviews.SetActive(false);
 			NoCharactersError.SetActive(true);
+			EditCharacterButton.SetActive(false);
+			ConfirmDeleteCharacterObject.SetActive(false);
+			CharacterPreviewDropdown.SetActive(false);
 		}
 
 		private void ShowCharacterCreator()
@@ -202,21 +204,22 @@ namespace UI.CharacterCreator
 		private void ShowCharacterSelectorPage()
 		{
 			WindowName.text = "Select your character";
-			GoBackButtonText.text = "Exit";
+			GoBackButtonText.text = "Finish";
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
+			CheckIfCharacterListIsEmpty();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		public void ShowCharacterDeletionConfirmation()
 		{
-			DeleteCharacterButton.SetActive(false);
+			ConfirmDeleteCharacterObject.SetActive(false);
 			ConfirmDeleteCharacterObject.SetActive(true);
 		}
 
 		public void HideCharacterDeletionConfirmation()
 		{
-			DeleteCharacterButton.SetActive(true);
+			ConfirmDeleteCharacterObject.SetActive(true);
 			ConfirmDeleteCharacterObject.SetActive(false);
 		}
 
@@ -256,6 +259,7 @@ namespace UI.CharacterCreator
 		public void DeleteCurrentCharacter()
 		{
 			DeleteCharacterFromCharactersList(currentCharacterIndex);
+			HideCharacterDeletionConfirmation();
 		}
 
 		/// <summary>
@@ -263,16 +267,18 @@ namespace UI.CharacterCreator
 		/// </summary>
 		private void RefreshSelectorData()
 		{
-			CharacterPreviewDropdown.ClearOptions();
-			var itemOptions = PlayerCharacters.Select(pcd => pcd.Name).ToList();
-			CharacterPreviewDropdown.AddOptions(itemOptions);
-			CharacterPreviewDropdown.onValueChanged.AddListener(ItemChange);
-			CharacterPreviewDropdown.value = currentCharacterIndex;
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
 			CheckPreviewImage();
 		}
 
+		private void UpdateCharactersDropDown()
+		{
+			CharacterPreviewDropdown.ClearOptions();
+			var itemOptions = PlayerCharacters.Select(pcd => pcd.Name).ToList();
+			CharacterPreviewDropdown.AddOptions(itemOptions);
+			CharacterPreviewDropdown.onValueChanged.AddListener(ItemChange);
+		}
 
 		/// <summary>
 		/// Whenever the player changes his character via the dropdown menu we make sure that currentCharacterIndex is set accordingly
@@ -285,6 +291,7 @@ namespace UI.CharacterCreator
 			currentCharacter = PlayerCharacters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			RefreshSelectorData();
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
 		/// <summary>
@@ -313,14 +320,16 @@ namespace UI.CharacterCreator
 		{
 			if(PlayerCharacters.Count == 0)
 			{
-				EditCharacterButton.enabled = false;
-				DeleteCharacterButton.SetActive(false);
+				EditCharacterButton.SetActive(false);
+				ConfirmDeleteCharacterObject.SetActive(false);
+				CharacterPreviewDropdown.SetActive(false);
 				ShowNoCharacterError();
 			}
 			else
 			{
-				EditCharacterButton.enabled = true;
-				DeleteCharacterButton.SetActive(true);
+				EditCharacterButton.SetActive(true);
+				ConfirmDeleteCharacterObject.SetActive(true);
+				CharacterPreviewDropdown.SetActive(true);
 			}
 		}
 
@@ -353,12 +362,12 @@ namespace UI.CharacterCreator
 			if (currentCharacterIndex != 0)
 			{
 				currentCharacterIndex--;
-				ItemChange(currentCharacterIndex);
+				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
 			else
 			{
 				currentCharacterIndex = PlayerCharacters.Count() - 1;
-				ItemChange(currentCharacterIndex);
+				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
 			RefreshSelectorData();
 			RefreshAll();
@@ -371,12 +380,12 @@ namespace UI.CharacterCreator
 			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
 			{
 				currentCharacterIndex++;
-				ItemChange(currentCharacterIndex);
+				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
 			else
 			{
 				currentCharacterIndex = 0;
-				ItemChange(currentCharacterIndex);
+				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
 			RefreshSelectorData();
 			RefreshAll();
@@ -1044,6 +1053,7 @@ namespace UI.CharacterCreator
 					PlayerCharacters.Add(c);
 				}
 				currentCharacterIndex = PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
+				UpdateCharactersDropDown();
 				RefreshSelectorData();
 			}
 			else
@@ -1056,14 +1066,30 @@ namespace UI.CharacterCreator
 		{
 			PlayerCharacters.Remove(PlayerCharacters[index]);
 			currentCharacterIndex -= 1;
-			if(currentCharacterIndex == -1)
+			MakeSureCurrentCharacterIndexIsntABadValue();
+			if (PlayerCharacters.Count == 0)
 			{
 				CheckIfCharacterListIsEmpty();
-				return;
 			}
-			HideCharacterDeletionConfirmation();
-			SaveCharacters();
-			RefreshSelectorData();
+			else
+			{
+				UpdateCharactersDropDown();
+				CharacterPreviewDropdown.value = currentCharacterIndex;
+				HideCharacterDeletionConfirmation();
+				SaveCharacters();
+				SaveLastCharacterIndex();
+				RefreshSelectorData();
+			}
+		}
+
+		private void MakeSureCurrentCharacterIndexIsntABadValue()
+		{
+			if (currentCharacterIndex <= -1)
+			{
+				currentCharacterIndex = 0;
+				UpdateCharactersDropDown();
+				CharacterPreviewDropdown.value = currentCharacterIndex;
+			}
 		}
 
 		public void SaveExternalCustomisations()
