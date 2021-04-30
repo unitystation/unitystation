@@ -44,8 +44,8 @@ public class DisableNonEssentialScenes : EditorWindow
 
 		if (GUILayout.Button("Disable scenes"))
 		{
-			var gameManager = AssetDatabase.LoadAssetAtPath<GameManager>("Assets/Prefabs/GameManager.prefab");
-			if (!gameManager)
+			var gameManager = AssetDatabase.LoadAssetAtPath<GameManager>("Assets/Prefabs/SceneConstruction/NestedManagers/GameManager.prefab");
+			if (gameManager == null)
 			{
 				Logger.LogError("Can't find GameManager!", Category.Editor);
 			}
