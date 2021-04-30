@@ -109,6 +109,7 @@ namespace UI.CharacterCreator
 		[SerializeField] private GameObject NoCharactersError;
 		[SerializeField] private GameObject NoPreviewError;
 		[SerializeField] private GameObject ConfirmDeleteCharacterObject;
+		[SerializeField] private GameObject DeleteCharacterButton;
 		[SerializeField] private GameObject GoBackButton;
 		[SerializeField] private Button EditCharacterButton;
 
@@ -186,6 +187,7 @@ namespace UI.CharacterCreator
 			NoCharactersError.SetActive(true);
 			EditCharacterButton.SetActive(false);
 			ConfirmDeleteCharacterObject.SetActive(false);
+			DeleteCharacterButton.SetActive(false);
 			CharacterPreviewDropdown.SetActive(false);
 		}
 
@@ -213,13 +215,13 @@ namespace UI.CharacterCreator
 
 		public void ShowCharacterDeletionConfirmation()
 		{
-			ConfirmDeleteCharacterObject.SetActive(false);
+			DeleteCharacterButton.SetActive(false);
 			ConfirmDeleteCharacterObject.SetActive(true);
 		}
 
 		public void HideCharacterDeletionConfirmation()
 		{
-			ConfirmDeleteCharacterObject.SetActive(true);
+			DeleteCharacterButton.SetActive(true);
 			ConfirmDeleteCharacterObject.SetActive(false);
 		}
 
@@ -321,15 +323,12 @@ namespace UI.CharacterCreator
 			if(PlayerCharacters.Count == 0)
 			{
 				EditCharacterButton.SetActive(false);
-				ConfirmDeleteCharacterObject.SetActive(false);
-				CharacterPreviewDropdown.SetActive(false);
 				ShowNoCharacterError();
 			}
 			else
 			{
 				EditCharacterButton.SetActive(true);
-				ConfirmDeleteCharacterObject.SetActive(true);
-				CharacterPreviewDropdown.SetActive(true);
+				HideCharacterDeletionConfirmation();
 			}
 		}
 
@@ -1070,6 +1069,7 @@ namespace UI.CharacterCreator
 			if (PlayerCharacters.Count == 0)
 			{
 				CheckIfCharacterListIsEmpty();
+				SaveCharacters();
 			}
 			else
 			{
