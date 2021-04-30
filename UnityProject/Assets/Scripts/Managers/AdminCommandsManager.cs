@@ -65,21 +65,14 @@ namespace AdminCommands
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
-			string msg;
+			Chat.Instance.OOCMute = !Chat.Instance.OOCMute;
 
-			if (Chat.Instance.OOCMute)
-			{
-				Chat.Instance.OOCMute = false;
-				msg = "OOC has been unmuted";
-			}
-			else
-			{
-				Chat.Instance.OOCMute = true;
-				msg = "OOC has been muted";
-			}
+			var msg = $"OOC has been {(Chat.Instance.OOCMute ? "muted" : "unmuted")}";
 
 			Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
+
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: {(Chat.Instance.OOCMute ? "Muted" : "Unmuted")} OOC");
 		}
 
 		#endregion
@@ -112,12 +105,7 @@ namespace AdminCommands
 
 				Chat.AddGameWideSystemMsgToChat("<color=blue>An Admin started the round early.</color>");
 
-				var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Force STARTED the round.";
-
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
-					msg,
-					"");
+				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Force STARTED the round.");
 			}
 		}
 
@@ -132,11 +120,7 @@ namespace AdminCommands
 				VideoPlayerMessage.Send(VideoType.RestartRound);
 				GameManager.Instance.EndRound();
 
-				var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Force ENDED the round.";
-
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-					"");
+				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Force ENDED the round.");
 			}
 		}
 
@@ -147,12 +131,7 @@ namespace AdminCommands
 
 			if (SubSceneManager.AdminForcedMainStation == nextMap) return;
 
-			var msg =
-				$"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.");
 
 			SubSceneManager.AdminForcedMainStation = nextMap;
 		}
@@ -164,12 +143,7 @@ namespace AdminCommands
 
 			if (SubSceneManager.AdminForcedAwaySite == nextAwaySite) return;
 
-			var msg =
-				$"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.");
 
 			SubSceneManager.AdminForcedAwaySite = nextAwaySite;
 		}
@@ -183,12 +157,7 @@ namespace AdminCommands
 
 			if (currentLevel == alertLevel) return;
 
-			var msg =
-				$"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the alert level from {currentLevel} to {alertLevel}.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the alert level from {currentLevel} to {alertLevel}.");
 
 			GameManager.Instance.CentComm.ChangeAlertLevel(alertLevel);
 		}
@@ -211,11 +180,7 @@ namespace AdminCommands
 				var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
 				CentComm.MakeShuttleCallAnnouncement(minutes, text, true);
 
-				var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle.";
-
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
-					msg, "");
+				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle.");
 			}
 		}
 
@@ -230,11 +195,7 @@ namespace AdminCommands
 
 			CentComm.MakeShuttleRecallAnnouncement(text);
 
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle.");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -244,11 +205,7 @@ namespace AdminCommands
 
 			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Notice);
 
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT.");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -258,11 +215,7 @@ namespace AdminCommands
 
 			GameManager.Instance.CentComm.MakeCommandReport(text, CentComm.UpdateSound.Notice);
 
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT.");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -276,12 +229,7 @@ namespace AdminCommands
 
 			shuttle.blockCall = toggleBool;
 
-			var state = toggleBool ? "BLOCKED" : "UNBLOCKED";
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: {state} shuttle calling.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: {(toggleBool ? "BLOCKED" : "UNBLOCKED")} shuttle calling.");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -295,12 +243,7 @@ namespace AdminCommands
 
 			shuttle.blockRecall = toggleBool;
 
-			var state = toggleBool ? "BLOCKED" : "UNBLOCKED";
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: {state} shuttle recalling.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: {(toggleBool ? "BLOCKED" : "UNBLOCKED")} shuttle recalling.");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -309,6 +252,8 @@ namespace AdminCommands
 			if (IsAdmin(adminId, adminToken) == false) return;
 
 			Systems.GhostRoles.GhostRoleManager.Instance.ServerCreateRole(deathsquadRole);
+
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Created a Death Squad.");
 		}
 
 		#endregion
@@ -335,9 +280,9 @@ namespace AdminCommands
 					string message =
 						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
 					Logger.Log(message, Category.Admin);
-					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
-					DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(
-						DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
+
+					LogAdminAction(message);
+
 					player.Script.playerHealth.ServerGibPlayer();
 				}
 			}
@@ -352,21 +297,17 @@ namespace AdminCommands
 		{
 			if (IsAdmin(adminId, adminToken) == false) return;
 
-			var players = FindObjectsOfType(typeof(PlayerScript));
+			var players = PlayerList.Instance.InGamePlayers;
 
-			if (players == null) return; //If list of Players is empty dont run rest of code.
+			if (players == null || players.Count == 0) return; //If list of Players is empty dont run rest of code.
 
-			foreach (PlayerScript player in players)
+			foreach (var player in players)
 			{
 				// SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject,
 				// player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 			}
 
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: played the global sound: {index}.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
-				"");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: played the global sound: {index}.");
 		}
 
 		#endregion
@@ -439,6 +380,17 @@ namespace AdminCommands
 			var itemStorage = AdminManager.Instance.GetItemSlotStorage(connectedPlayer);
 			var slot = itemStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
 			Inventory.ServerDespawn(slot);
+		}
+
+		#endregion
+
+		#region LogAdminAction
+
+		public static void LogAdminAction(string msg, string userName = "")
+		{
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
+				userName);
 		}
 
 		#endregion
