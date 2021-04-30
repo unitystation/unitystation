@@ -222,7 +222,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (!IsLayingDown) return;
 
 		// Can't help a player up if they're rolling
-		if (playerScript.playerNetworkActions.isRolling) return;
+		if (playerScript.playerNetworkActions.IsRolling) return;
 
 		// Check if lying down because of stun. If stunned, there is a chance helping can fail.
 		if (IsSlippingServer && Random.Range(0, 100) > HELP_CHANCE) return;

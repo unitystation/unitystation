@@ -264,7 +264,7 @@ public class StandardProgressAction : IProgressAction
 		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
 		       playerScript.playerMove.IsCuffed == false &&
 		       playerScript.registerTile.IsSlippingServer == false &&
-			   playerScript.playerNetworkActions.isRolling == false &&
+			   playerScript.playerNetworkActions.IsRolling == false &&
 		       (progressActionConfig.AllowTurning ||
 		        playerScript.playerDirectional.CurrentDirection != initialDirection) &&
 		       playerScript.PlayerSync.IsMoving == false &&

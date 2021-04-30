@@ -34,7 +34,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	public Transform chatBubbleTarget;
 
-	public bool isRolling { get; private set; } = false;
+	public bool IsRolling { get; private set; } = false;
 
 	private void Awake()
 	{
@@ -166,12 +166,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	IEnumerator Roll()
 	{
 		//Can't roll if you're already rolling or have slipped
-		if (isRolling == true || playerScript.registerTile.IsSlippingServer == true)
+		if (IsRolling == true || playerScript.registerTile.IsSlippingServer == true)
 		{
 			yield return null;
 		}
 
-		isRolling = true;
+		IsRolling = true;
 
 		// Drop the player if they aren't already, prevent them from moving until the action is complete
 		if (playerScript.registerTile.IsLayingDown == false)
@@ -220,7 +220,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.playerMove.allowInput = true;
 		}
 
-		isRolling = false;
+		IsRolling = false;
 		yield return null;
 	}
 
