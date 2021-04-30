@@ -53,6 +53,9 @@ namespace UI
 		private GameObject characterCustomization = null;
 
 		[SerializeField]
+		private UI.CharacterCreator.CharacterCustomization characterCreator = null;
+
+		[SerializeField]
 		private GUI_JobPreferences localJobPref = null;
 
 		[SerializeField]
@@ -191,6 +194,11 @@ namespace UI
 		public void OnReadyButton()
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			if(characterCreator.PlayerCharacters.Count == 0)
+			{
+				warnText.SetActive(true);
+				return;
+			}
 			SetReady(!isReady);
 			TryShowAdminPanel();
 		}
