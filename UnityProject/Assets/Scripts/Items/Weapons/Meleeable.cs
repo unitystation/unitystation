@@ -13,7 +13,18 @@ namespace Systems.Interaction
 		[SerializeField]
 		private bool isMeleeable = true;
 		// If it has this component, isn't it assumed to be meleeable? Is this still true for tilemaps?
-		public bool IsMeleeable => isMeleeable;
+		public bool IsMeleeable
+		{
+			get
+			{
+				if (isMeleeable == false)
+				{
+					Logger.LogWarning($"Remove {nameof(Meleeable)} component from {this} if it isn't meleeable, " +
+						$"instead of relying on the isMeleeable field.");
+				}
+				return isMeleeable;
+			}
+		}
 
 		/// <summary>
 		/// Which layers are allowed to be attacked
