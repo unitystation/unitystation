@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4527534762131918}
   - component: {fileID: 114341119007412586}
   - component: {fileID: 499351249353511896}
-  - component: {fileID: 114326413956932616}
   - component: {fileID: 114734890905785284}
   - component: {fileID: 114182420558184634}
   - component: {fileID: 114776788309089574}
@@ -111,27 +110,6 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
---- !u!114 &114326413956932616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011433845357754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMeleeable: 0
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114734890905785284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  pickupAnimSpeed: 0.2
 --- !u!114 &114182420558184634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114883521337486670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +228,10 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,7 +247,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &1397050043076861577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &1373280397285383934
 MonoBehaviour:
   m_ObjectHideFlags: 0
