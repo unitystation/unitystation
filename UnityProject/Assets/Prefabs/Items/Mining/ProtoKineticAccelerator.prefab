@@ -25,8 +25,6 @@ MonoBehaviour:
   SpawnsCasing: 0
   MagInternal: 1
   SmartGun: 0
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
   FiringSoundA:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticShot.prefab
@@ -49,6 +47,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   FireDelay: 0
+  AllowSuicide: 0
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
@@ -59,9 +58,8 @@ MonoBehaviour:
   allowPinSwap: 1
   isSuppressed: 0
   isSuppressible: 0
-  Projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
+  projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
     type: 3}
-  rechargeTime: 1.6
 --- !u!1001 &326958216201229889
 PrefabInstance:
   m_ObjectHideFlags: 0

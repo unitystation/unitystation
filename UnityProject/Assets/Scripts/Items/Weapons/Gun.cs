@@ -280,7 +280,7 @@ namespace Weapons
 			}
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(pinPrefab).GameObject, pinSlot);
-			FiringPin.gunComp = this.GetComponent<Gun>();
+			FiringPin.gunComp = this;
 
 			if (suppressorPrefab != null && isSuppressed && isSuppressible)
 			{
@@ -476,6 +476,7 @@ namespace Weapons
 
 			if (FiringPin != null)
 			{
+				FiringPin.gunComp = this;
 				FiringPin.ClientBehaviour(interaction, isSuicide);
 			}
 		}
@@ -612,7 +613,7 @@ namespace Weapons
 				$"You insert the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.",
 				$"{interaction.Performer.ExpensiveName()} inserts the {interaction.UsedObject.gameObject.ExpensiveName()} into {gameObject.ExpensiveName()}.");
 			Inventory.ServerTransfer(interaction.FromSlot, pinSlot);
-			FiringPin.gunComp = this.GetComponent<Gun>();
+			FiringPin.gunComp = this;
 		}
 
 		/// <summary>
