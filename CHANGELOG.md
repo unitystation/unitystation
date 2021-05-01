@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/5/1: Fix jukebox breaking when setting volume to 0. by [Korywon](https://github.com/Korywon) in PR #[6446](https://github.com/unitystation/unitystation/pull/6446)
 * 2021/4/30: Fixed healthdoll selection bug by [DTraitor](https://github.com/DTraitor) in PR #[6439](https://github.com/unitystation/unitystation/pull/6439)
 * 2021/4/29: Fixed action icons not disappearing after death by [Semuca](https://github.com/Semuca) in PR #[6431](https://github.com/unitystation/unitystation/pull/6431)
 * 2021/4/29: Better multitool text. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[6425](https://github.com/unitystation/unitystation/pull/6425)
