@@ -166,7 +166,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	IEnumerator Roll()
 	{
 		//Can't roll if you're already rolling or have slipped
-		if (IsRolling == true || playerScript.registerTile.IsSlippingServer == true)
+		if (IsRolling || playerScript.registerTile.IsSlippingServer)
 		{
 			yield return null;
 		}
@@ -190,7 +190,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			//Can only roll if you're conscious and not stunned
 			if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-				playerScript.registerTile.IsSlippingServer == true)
+				playerScript.registerTile.IsSlippingServer)
 			{
 				break;
 			}
