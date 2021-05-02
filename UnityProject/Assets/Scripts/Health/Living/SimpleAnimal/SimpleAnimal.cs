@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
@@ -10,6 +11,7 @@ namespace Systems.Mob
 		private MobSprite mobSprite;
 
 		//Syncvar hook so that new players can sync state on start
+		[NonSerialized]
 		[SyncVar(hook = nameof(SyncAliveState))]
 		public bool deadState;
 

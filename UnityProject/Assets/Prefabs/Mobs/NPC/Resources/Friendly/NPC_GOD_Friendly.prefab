@@ -93,8 +93,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
-  canBreathAnywhere: 0
-  cloningDamage: 0
+  canBreatheAnywhere: 1
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
@@ -104,9 +103,6 @@ MonoBehaviour:
   - {fileID: 186469482417783052}
   allowKnifeHarvest: 0
   butcherResults: []
-  RTT: 0
-  RadiationStacks: 0
-  deadState: 0
 --- !u!114 &114555785714625820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,8 +150,9 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114386898746361270
 MonoBehaviour:
@@ -187,13 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeable: 1
   butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+  butcherSound: 
 --- !u!114 &114536369792164230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114379009499332576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,10 +238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &1750259749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +290,12 @@ MonoBehaviour:
   spriteHandler: {fileID: 6463072077799225617}
   spriteRend: {fileID: 4890346600101626888}
   aliveSpriteIndex: 0
+  deadStateRep: 2
   deadSpriteIndex: 1
+  deadOrientation: 90
+  knockedDownStateRep: 2
+  knockedDownSpriteIndex: 1
+  knockedDownOrientation: 90
   burningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
     type: 3}
   electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
@@ -325,7 +324,7 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 0
-  followTarget: {fileID: 0}
+  FollowTarget: {fileID: 0}
 --- !u!114 &8093655862165673158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,19 +380,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: 
-  knockedDownRotation: 90
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 30
   doRandomActionWhenInTask: 0
   GenericSounds:
   - SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -411,6 +409,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &5654320338845658687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,7 +670,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 21
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300072, guid: 106277f633a313a4990add9de887d387, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 106277f633a313a4990add9de887d387, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
