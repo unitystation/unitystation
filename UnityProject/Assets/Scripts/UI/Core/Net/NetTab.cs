@@ -16,7 +16,7 @@ public enum NetTabType
 	Spawner = 3,
 	Paper = 4,
 	ChemistryDispenser = 5,
-	Apc = 6,
+	APC = 6,
 	Cargo = 7,
 	CloningConsole = 8,
 	SecurityRecords = 9,
@@ -59,6 +59,8 @@ public enum NetTabType
 /// </summary>
 public class NetTab : Tab
 {
+	public NetTabType Type = NetTabType.None;
+
 	[SerializeField]
 	public ConnectedPlayerEvent OnTabClosed = new ConnectedPlayerEvent();
 
@@ -68,17 +70,17 @@ public class NetTab : Tab
 	[SerializeField]
 	public ConnectedPlayerEvent OnTabOpened = new ConnectedPlayerEvent();
 
-	[HideInInspector]
+	[NonSerialized]
 	public GameObject Provider;
 
+	[NonSerialized]
 	public RegisterTile ProviderRegisterTile;
-	public NetTabType Type = NetTabType.None;
+	
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor(Provider, Type);
 
 	/// Is current tab a server tab?
 	public bool IsServer => transform.parent.name == nameof(NetworkTabManager);
 
-	//	public static readonly NetTab Invalid = new NetworkTabInfo(null);
 	private ISet<NetUIElementBase> Elements => new HashSet<NetUIElementBase>(GetComponentsInChildren<NetUIElementBase>(false));
 
 	public Dictionary<string, NetUIElementBase> CachedElements { get; } = new Dictionary<string, NetUIElementBase>();

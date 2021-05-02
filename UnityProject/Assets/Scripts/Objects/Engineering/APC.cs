@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using AddressableReferences;
 using Electricity.Inheritance;
 using Systems.Electricity;
-using Messages.Server;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,7 +14,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn, ISetMultitoolMaster
+	public class APC : SubscriptionController, INodeControl, IServerDespawn, ISetMultitoolMaster
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -49,7 +48,7 @@ namespace Objects.Engineering
 
 
 		[SerializeField, FormerlySerializedAs("NetTabType")]
-		private NetTabType netTabType = NetTabType.Apc;
+		private NetTabType netTabType = NetTabType.APC;
 
 		[Tooltip("Sound used when the APC loses all power.")]
 		[SerializeField] private AddressableAudioSource NoPowerSound = null;
@@ -177,23 +176,6 @@ namespace Objects.Engineering
 
 			resistanceSourceModule.Resistance = (1 / CalculatingResistance);
 		}
-
-		#region Interaction
-
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (interaction.TargetObject != gameObject) return false;
-			if (interaction.HandObject != null) return false;
-			return true;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			TabUpdateMessage.Send(interaction.Performer, gameObject, netTabType, TabAction.Open);
-		}
-
-		#endregion
 
 		// -----------------------------------------------------
 		//					APC STATE THINGS
