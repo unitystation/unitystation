@@ -21,9 +21,7 @@ using ScriptableObjects;
 /// </summary>
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
-[RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable,
-	IServerDespawn
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn
 {
 
 	/// <summary>

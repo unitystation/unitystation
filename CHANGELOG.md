@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/1: Fixes PKA not working due to projectile not being set by [ThatDan123](https://github.com/ThatDan123) in PR #[6448](https://github.com/unitystation/unitystation/pull/6448)
+* 2021/5/1: Fixes guns not validating correctly on client due to reference not set by [ThatDan123](https://github.com/ThatDan123) in PR #[6448](https://github.com/unitystation/unitystation/pull/6448)
 * 2021/5/1: Fix jukebox breaking when setting volume to 0. by [Korywon](https://github.com/Korywon) in PR #[6446](https://github.com/unitystation/unitystation/pull/6446)
 * 2021/4/30: Fixed healthdoll selection bug by [DTraitor](https://github.com/DTraitor) in PR #[6439](https://github.com/unitystation/unitystation/pull/6439)
 * 2021/4/29: Fixed action icons not disappearing after death by [Semuca](https://github.com/Semuca) in PR #[6431](https://github.com/unitystation/unitystation/pull/6431)

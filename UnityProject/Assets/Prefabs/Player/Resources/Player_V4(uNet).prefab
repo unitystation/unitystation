@@ -666,7 +666,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  KnifeTrait: {fileID: 0}
+  meleeSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Punch2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Punch3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Punch4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1097,11 +1121,13 @@ MonoBehaviour:
     reagents:
       m_keys: []
       m_values: []
+    reagentKeys: []
   ReadyBloodPool:
     temperature: 0
     reagents:
       m_keys: []
       m_values: []
+    reagentKeys: []
   bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
 --- !u!114 &4232843736106124361
 MonoBehaviour:
