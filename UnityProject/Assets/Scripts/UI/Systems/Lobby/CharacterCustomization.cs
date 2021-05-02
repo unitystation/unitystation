@@ -1040,7 +1040,7 @@ namespace UI.CharacterCreator
 		/// <summary>
 		/// Get all characters that are saved in %APPDATA%/Locallow/unitystation/characters.json
 		/// </summary>
-		private void GetSavedCharacters()
+		public void GetSavedCharacters()
 		{
 			PlayerCharacters.Clear(); //Clear all entries so we don't have duplicates when re-opening the character page.
 			string path = Application.persistentDataPath + "characters.json";
