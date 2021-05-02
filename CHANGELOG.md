@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/2: Plasma fire damage tweaks by [Semuca](https://github.com/Semuca) in PR #[6441](https://github.com/unitystation/unitystation/pull/6441)
+* 2021/5/2: Stop, drop, and roll is now better by [Semuca](https://github.com/Semuca) in PR #[6441](https://github.com/unitystation/unitystation/pull/6441)
 * 2021/5/1: Fixes PKA not working due to projectile not being set by [ThatDan123](https://github.com/ThatDan123) in PR #[6448](https://github.com/unitystation/unitystation/pull/6448)
 * 2021/5/1: Fixes guns not validating correctly on client due to reference not set by [ThatDan123](https://github.com/ThatDan123) in PR #[6448](https://github.com/unitystation/unitystation/pull/6448)
 * 2021/5/1: Fix jukebox breaking when setting volume to 0. by [Korywon](https://github.com/Korywon) in PR #[6446](https://github.com/unitystation/unitystation/pull/6446)
