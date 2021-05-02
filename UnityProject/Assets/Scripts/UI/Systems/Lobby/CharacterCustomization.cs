@@ -123,6 +123,11 @@ namespace UI.CharacterCreator
 
 		#region Lifecycle
 
+		void Awake()
+		{
+			GetSavedCharacters();
+		}
+
 		void OnEnable()
 		{
 			GetSavedCharacters();
