@@ -6,7 +6,8 @@ namespace Systems.MobAIs
 {
 	public class XenoAI: GenericHostileAI
 	{
-		[SerializeField][Tooltip("If true, this Xeno won't ever attempt to become Queen.")]
+		[SerializeField]
+		[Tooltip("If true, this Xeno won't ever attempt to become Queen.")]
 		private bool disableAscension = false;
 
 		[SerializeField]
@@ -19,6 +20,12 @@ namespace Systems.MobAIs
 		[HideIf(nameof(disableAscension))]
 		[Tooltip("Reference to the Queen prefab to be spawned if this xeno becomes a Queen")]
 		private GameObject queenPrefab = default;
+
+		protected override void OnAIStart()
+		{
+			base.OnAIStart();
+			TryBecomingQueen();
+		}
 
 		private void TryBecomingQueen()
 		{
@@ -46,12 +53,6 @@ namespace Systems.MobAIs
 			}
 
 			return XenoQueenAI.CurrentQueensAmt >= queenCap;
-		}
-
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			TryBecomingQueen();
 		}
 	}
 }
