@@ -15,19 +15,11 @@ namespace Pipes
 
 		public Color Colour = Color.white;
 
-		public void SetColour(Color newColour)
-		{
-			Colour = newColour;
-			spritehandler.SetColor(Colour);
-		}
+		#region Lifecycle
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-		}
-
-		public virtual void TickUpdate()
-		{
 		}
 
 		public virtual void OnSpawnServer(SpawnInfo info)
@@ -45,17 +37,25 @@ namespace Pipes
 		}
 
 		/// <summary>
-		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+		/// Is the function to denote that it will be pooled or destroyed immediately after this function is finished.
+		/// Used for cleaning up anything that needs to be cleaned up before this happens.
 		/// </summary>
 		public virtual void OnDespawnServer(DespawnInfo info)
 		{
 			pipeData.OnDisable();
 		}
 
+		#endregion
+
+		public virtual void TickUpdate() { }
+
+		#region Interaction
+
 		public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
+
 			return true;
 		}
 
@@ -66,7 +66,7 @@ namespace Pipes
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 				{
 					ToolUtils.ServerPlayToolSound(interaction);
-					var Item = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation : this.transform.localRotation);
+					var Item = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: this.transform.localRotation);
 					Item.GameObject.GetComponent<PipeItem>().SetColour(Colour);
 					OnDisassembly(interaction);
 					pipeData.OnDisable();
@@ -82,9 +82,17 @@ namespace Pipes
 
 		public virtual void OnDisassembly(HandApply interaction) { }
 
+		#endregion
+
+		public void SetColour(Color newColour)
+		{
+			Colour = newColour;
+			spritehandler.SetColor(Colour);
+		}
+
 		#region Editor
 
-		void OnDrawGizmos()
+		private void OnDrawGizmos()
 		{
 			Gizmos.color = Color.white;
 			DebugGizmoUtils.DrawText(pipeData.mixAndVolume.Density().ToString(), transform.position, 10);

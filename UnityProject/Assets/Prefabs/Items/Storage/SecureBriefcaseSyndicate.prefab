@@ -18,10 +18,20 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 8813056083015508576, guid: 9d38d05935ee3be43915c3d0c69a2104,
+        type: 3}
+      propertyPath: throwDamage
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8981261106994597122, guid: 9d38d05935ee3be43915c3d0c69a2104,
         type: 3}
       propertyPath: m_Name
       value: SecureBriefcaseSyndicate
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984781605349732470, guid: 9d38d05935ee3be43915c3d0c69a2104,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8984781605349732470, guid: 9d38d05935ee3be43915c3d0c69a2104,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8984781605349732470, guid: 9d38d05935ee3be43915c3d0c69a2104,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984781605349732470, guid: 9d38d05935ee3be43915c3d0c69a2104,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8984781605349732470, guid: 9d38d05935ee3be43915c3d0c69a2104,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8984781605349732470, guid: 9d38d05935ee3be43915c3d0c69a2104,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8984781605349732470, guid: 9d38d05935ee3be43915c3d0c69a2104,
         type: 3}

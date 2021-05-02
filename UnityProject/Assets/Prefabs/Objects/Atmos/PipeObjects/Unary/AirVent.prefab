@@ -44,6 +44,7 @@ MonoBehaviour:
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
         Gases:
         - 0
@@ -111,17 +112,17 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -175,6 +176,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: air vent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: willHighlight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
