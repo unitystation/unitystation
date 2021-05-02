@@ -306,7 +306,7 @@ namespace UI.CharacterCreator
 				CharacterPreviewImg.SetActive(true);
 				NoPreviewError.SetActive(false);
 				Debug.Log(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG");
-				StartCoroutine(GetPreviewImage(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG"));
+				if(this.gameObject.activeSelf) { StartCoroutine(GetPreviewImage(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG")); }
 			}
 			else
 			{
