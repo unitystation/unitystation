@@ -68,9 +68,12 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		tileChangeManager = GetComponent<TileChangeManager>();
 		CacheTileMaps();
 
-		// register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
-		// so registration cannot be inside Start or Awake method inside CableCuttingWindow
-		NetworkServer.RegisterHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
+		// Register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
+		// so registration cannot be inside Start or Awake method inside CableCuttingWindow. ReplaceHandler does the same
+		// thing as RegisterHandler, except RegisterHandler warns about conflicting ID types. See Mirror's documentation or
+		// Mirror's implementation of these methods in NetworkServer.cs.
+		// TODO: This is somehow called multiple times. Document how this happens.
+		NetworkServer.ReplaceHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
 	}
 
 	/// <summary>
