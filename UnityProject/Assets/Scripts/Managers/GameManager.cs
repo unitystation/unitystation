@@ -166,7 +166,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		Physics.autoSimulation = false;
-		Physics2D.simulationMode = SimulationMode2D.Script;
+		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
 
 	private void OnEnable()
