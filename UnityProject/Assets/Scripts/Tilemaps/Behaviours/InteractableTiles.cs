@@ -72,7 +72,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		// so registration cannot be inside Start or Awake method inside CableCuttingWindow. ReplaceHandler does the same
 		// thing as RegisterHandler, except RegisterHandler warns about conflicting ID types. See Mirror's documentation or
 		// Mirror's implementation of these methods in NetworkServer.cs.
-		// TODO: This is somehow called multiple times. Document how this happens.
+		// TODO: This is somehow called multiple times. Not sure why. Figure out if it's an issue and document why this
+		//       happens.
 		NetworkServer.ReplaceHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
 	}
 
