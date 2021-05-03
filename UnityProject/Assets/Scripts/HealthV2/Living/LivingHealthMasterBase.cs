@@ -594,7 +594,10 @@ namespace HealthV2
 				}
 			}
 
-			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+			if (damageType == DamageType.Brute)
+			{
+				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+			}
 		}
 
 		/// <summary>
@@ -612,8 +615,10 @@ namespace HealthV2
 
 			body.TakeDamage(damagedBy, damage, attackType, damageType);
 
-			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
-			//TODO: Reimplement
+			if (damageType == DamageType.Brute)
+			{
+				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+			}
 		}
 
 		/// <summary>
@@ -730,7 +735,10 @@ namespace HealthV2
 				}
 			}
 
-			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+			if (damageType == DamageType.Brute)
+			{
+				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+			}
 		}
 
 		/// <summary>
@@ -935,7 +943,7 @@ namespace HealthV2
 		public void OnExposed(FireExposure exposure)
 		{
 			ChangeFireStacks(1f);
-			ApplyDamageAll(null, 1f, AttackType.Fire, DamageType.Burn, false);
+			ApplyDamageAll(null, 0.25f, AttackType.Fire, DamageType.Burn, false);
 		}
 
 		/// <summary>
