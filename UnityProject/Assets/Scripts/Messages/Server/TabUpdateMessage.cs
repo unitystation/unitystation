@@ -118,7 +118,12 @@ namespace Messages.Server
 				case TabAction.Open:
 					NetworkTabManager.Instance.Add(provider, type, recipient);
 					var instance = NetworkTabManager.Instance.Get(provider, type);
-					if (instance == null) return null;
+					if (instance == null)
+					{
+						Logger.LogError($"Couldn't find NetTab to send! " +
+								$"Does the tab prefab match the type '{type}'? Expecting prefab name Tab'{type}' in a specific folder.");
+						return default;
+					}
 					values = instance.ElementValues;
 					break;
 				case TabAction.Close:

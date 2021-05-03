@@ -16,8 +16,9 @@ namespace Systems.MobAIs
 		/// </summary>
 		public int PlaySoundTime = 3;
 
-		private void Start()
+		protected override void OnAIStart()
 		{
+			base.OnAIStart();
 			PlaySound();
 		}
 

@@ -128,9 +128,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		MoveAction.MoveUp, MoveAction.MoveLeft, MoveAction.MoveDown, MoveAction.MoveRight
 	};
 
-	public Directional PlayerDirectional;
-
-	[HideInInspector] public PlayerNetworkActions pna;
+	[NonSerialized]
+	public PlayerNetworkActions pna;
 
 	[SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
 	[SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
@@ -144,6 +143,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
 	private PlayerScript playerScript;
+	private Directional PlayerDirectional;
 
 	private void Awake()
 	{

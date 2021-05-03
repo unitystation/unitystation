@@ -14,23 +14,30 @@ namespace Systems.MobAIs
 		[Tooltip("Reference to the  Xenomorph so we can spawn it")] [SerializeField]
 		private GameObject xenomorph = null;
 
-		protected override void Awake()
+		#region Lifecycle
+
+		protected override void OnAIStart()
 		{
-			simpleAnimal = GetComponent<SimpleAnimal>();
-			base.Awake();
+			StartFleeing(gameObject, 10f);
+			StartCoroutine(Grow());
 		}
+
+		public override void OnDespawnServer(DespawnInfo info)
+		{
+			base.OnDespawnServer(info);
+			StopAllCoroutines();
+		}
+
+		#endregion Lifecycle
 
 		protected override void DoRandomAction()
 		{
-			if(DMMath.Prob(5))
+			if (DMMath.Prob(5))
 			{
 				StartCoroutine(ChaseTail(Random.Range(1, 4)));
-				StartFleeing(gameObject, 10f);
 			}
-			else
-			{
-				StartFleeing(gameObject, 10f);
-			}
+
+			StartFleeing(gameObject, 10f);
 		}
 
 		private IEnumerator Grow()
@@ -48,19 +55,6 @@ namespace Systems.MobAIs
 		protected override void OnAttackReceived(GameObject damagedBy = null)
 		{
 			StartFleeing(damagedBy);
-		}
-
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			StartFleeing(gameObject, 10f);
-			StartCoroutine(Grow());
-		}
-
-		public override void OnDespawnServer(DespawnInfo info)
-		{
-			base.OnDespawnServer(info);
-			StopAllCoroutines();
 		}
 	}
 }

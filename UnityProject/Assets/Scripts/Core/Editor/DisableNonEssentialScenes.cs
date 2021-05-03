@@ -22,6 +22,9 @@ public class DisableNonEssentialScenes : EditorWindow
 	private bool removeAsteroids = true;
 	private bool removeLavaLand = true;
 	private bool removeAdditionalScenes = true;
+	private bool isQuickLoad = false;
+	// TODO: use to disable all asteroids, extras etc and not leave one remaining
+	// Also consider having an option to enable quickload from here
 
 	[MenuItem("Tools/Remove non-essential scenes", priority = 100)]
 	public static void ShowWindow()
@@ -41,6 +44,16 @@ public class DisableNonEssentialScenes : EditorWindow
 
 		if (GUILayout.Button("Disable scenes"))
 		{
+			var gameManager = AssetDatabase.LoadAssetAtPath<GameManager>("Assets/Prefabs/SceneConstruction/NestedManagers/GameManager.prefab");
+			if (gameManager == null)
+			{
+				Logger.LogError("Can't find GameManager!", Category.Editor);
+			}
+			else
+			{
+				isQuickLoad = gameManager.QuickLoad;
+			}
+
 			StartDisablingScenes();
 		}
 	}
@@ -114,10 +127,10 @@ public class DisableNonEssentialScenes : EditorWindow
 	private void LeaveOneAwaySite()
 	{
 		// get scriptable object with list of all away sites
-		var awayWorldsSO = Resources.LoadAll<AwayWorldListSO>("").FirstOrDefault();
+		var awayWorldsSO = AssetDatabase.LoadAssetAtPath<AwayWorldListSO>("Assets/ScriptableObjects/SubScenes/AwayWorldList.asset");
 		if (!awayWorldsSO)
 		{
-			Logger.LogError("Can't find AwayWorldListSO in resources folder!", Category.Editor);
+			Logger.LogError("Can't find AwayWorldListSO!", Category.Editor);
 			return;
 		}
 
@@ -140,10 +153,10 @@ public class DisableNonEssentialScenes : EditorWindow
 	private static void LeaveOneAsteroid()
 	{
 		// get scriptable object with list of all asteroids
-		var asteroidListSO = Resources.LoadAll<AsteroidListSO>("").FirstOrDefault();
+		var asteroidListSO = AssetDatabase.LoadAssetAtPath<AsteroidListSO>("Assets/ScriptableObjects/SubScenes/AsteroidListSO.asset");
 		if (!asteroidListSO)
 		{
-			Logger.LogError("Can't find AsteroidListSO in resources folder!", Category.Editor);
+			Logger.LogError("Can't find AsteroidListSO!", Category.Editor);
 			return;
 		}
 
@@ -168,10 +181,10 @@ public class DisableNonEssentialScenes : EditorWindow
 		var exceptStations = new List<string> { exceptStation };
 
 		// get scriptable object with list of all stations
-		var mainStationsSO = Resources.LoadAll<MainStationListSO>("").FirstOrDefault();
+		var mainStationsSO = AssetDatabase.LoadAssetAtPath<MainStationListSO>("Assets/ScriptableObjects/SubScenes/MainStationList.asset");
 		if (!mainStationsSO)
 		{
-			Logger.LogError("Can't find MainStationListSO in resources folder!", Category.Editor);
+			Logger.LogError("Can't find MainStationListSO!", Category.Editor);
 			return;
 		}
 

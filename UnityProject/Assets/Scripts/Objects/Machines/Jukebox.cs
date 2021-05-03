@@ -195,7 +195,7 @@ namespace Objects
 				{
 					SoundManager.StopNetworked(guid);
 				}
-				
+
 				currentSongTrackIndex--;
 				UpdateGUI();
 
@@ -214,7 +214,7 @@ namespace Objects
 				{
 					SoundManager.StopNetworked(guid);
 				}
-				
+
 				currentSongTrackIndex++;
 				UpdateGUI();
 
@@ -233,8 +233,7 @@ namespace Objects
 		{
 			audioSourceParameters.Volume = newVolume;
 
-			if( newVolume == 0)
-				audioSourceParameters.IsMute = true;
+			audioSourceParameters.IsMute = newVolume <= 0;
 
 			ChangeAudioSourceParametersMessage.SendToAll(guid, audioSourceParameters);
 		}

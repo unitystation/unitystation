@@ -6,8 +6,12 @@ using UnityEngine;
 
 namespace Objects
 {
+	/// <summary>
+	/// Allows objects like chairs, stools to be picked up (by tranforming into an item)
+	/// when the object is dragged onto the player's character.
+	/// </summary>
 	[RequireComponent(typeof(MouseDraggable))]
-	public class ChairDraggable : MonoBehaviour, ICheckedInteractable<MouseDrop>
+	public class ObjectPickupable : MonoBehaviour, ICheckedInteractable<MouseDrop>
 	{
 		[SerializeField] private GameObject prefabVariant = null;
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
