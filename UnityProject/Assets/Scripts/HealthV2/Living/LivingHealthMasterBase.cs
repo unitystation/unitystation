@@ -551,7 +551,7 @@ namespace HealthV2
 			}
 		}
 
-		protected void SetConsciousState(ConsciousState NewConsciousState)
+		private void SetConsciousState(ConsciousState NewConsciousState)
 		{
 			if (ConsciousState != NewConsciousState)
 			{
