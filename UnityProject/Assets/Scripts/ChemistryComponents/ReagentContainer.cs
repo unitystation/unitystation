@@ -324,7 +324,7 @@ namespace Chemistry.Components
 
 		public IEnumerator<KeyValuePair<Chemistry.Reagent, float>> GetEnumerator()
 		{
-			return (IEnumerator<KeyValuePair<Chemistry.Reagent, float>>)CurrentReagentMix.reagents;
+			return CurrentReagentMix.reagents.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
