@@ -64,11 +64,6 @@ namespace HealthV2
 					{
 						OnConsciousStateChangeServer.Invoke(oldState, value);
 					}
-
-					if (value == ConsciousState.DEAD)
-					{
-						Death();
-					}
 				}
 			}
 		}
@@ -552,7 +547,7 @@ namespace HealthV2
 
 			if (hasAllHeartAttack)
 			{
-				SetConsciousState(ConsciousState.DEAD);
+				Death();
 			}
 		}
 
@@ -905,6 +900,7 @@ namespace HealthV2
 		///</Summary>
 		public virtual void Death()
 		{
+			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
