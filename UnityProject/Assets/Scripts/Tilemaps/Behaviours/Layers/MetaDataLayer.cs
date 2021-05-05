@@ -26,6 +26,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private void OnDestroy()
 	{
+		//In the case of the matrix remaining in memory after the round ends, this will ensure the MetaDataNodes are GC
 		nodes.Clear();
 	}
 
