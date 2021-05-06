@@ -347,6 +347,7 @@ public class ChatUI : MonoBehaviour
 
 	private void PlayerSendChat(string sendMessage)
 	{
+		sendMessage = sendMessage.Replace("\n", " ").Replace("\r", " ");
 		if(selectedVoiceLevel == -1)
 			sendMessage = "#" + sendMessage;
 		if(selectedVoiceLevel == 1)
