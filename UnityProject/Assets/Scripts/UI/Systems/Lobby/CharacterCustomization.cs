@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using NaughtyAttributes;
+using System.Globalization;
 
 namespace UI.CharacterCreator
 {
@@ -118,6 +119,8 @@ namespace UI.CharacterCreator
 
 		private CharacterSettings lastSettings;
 		private int currentCharacterIndex = 0;
+
+		private TextInfo TI = new CultureInfo("en-US", false).TextInfo;
 
 		#region Lifecycle
 
@@ -1166,7 +1169,7 @@ namespace UI.CharacterCreator
 
 		private string TruncateName(string proposedName)
 		{
-			proposedName = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(proposedName.ToLower());
+			proposedName = TI.ToTitleCase(proposedName.ToLower());
 			if (proposedName.Length >= CharacterSettings.MAX_NAME_LENGTH)
 			{
 				return proposedName.Substring(0, CharacterSettings.MAX_NAME_LENGTH);
