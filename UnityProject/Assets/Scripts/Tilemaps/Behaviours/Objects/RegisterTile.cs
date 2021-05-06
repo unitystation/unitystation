@@ -90,6 +90,18 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 					OnRotate(new MatrixRotationInfo(matrix.MatrixMove, matrix.MatrixMove.FacingOffsetFromInitial,
 						NetworkSide.Client, RotationEvent.Register));
 				}
+
+				if (isServer && TryGetComponent<ItemStorage>(out var itemStorage))
+				{
+					foreach (var itemSlot in itemStorage.GetItemSlots())
+					{
+						if (itemSlot.Item)
+						{
+							var itemSlotRegisterItem = itemSlot.Item.GetComponent<RegisterItem>();
+							itemSlotRegisterItem.matrix = matrix;
+						}
+					}
+				}
 			}
 		}
 	}
