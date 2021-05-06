@@ -120,7 +120,7 @@ namespace UI.CharacterCreator
 		private CharacterSettings lastSettings;
 		private int currentCharacterIndex = 0;
 
-		private TextInfo TI = new CultureInfo("en-US", false).TextInfo;
+		private TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
 		#region Lifecycle
 
