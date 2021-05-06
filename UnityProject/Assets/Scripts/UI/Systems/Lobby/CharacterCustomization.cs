@@ -1169,7 +1169,7 @@ namespace UI.CharacterCreator
 
 		private string TruncateName(string proposedName)
 		{
-			proposedName = TI.ToTitleCase(proposedName.ToLower());
+			proposedName = textInfo.ToTitleCase(proposedName.ToLower());
 			if (proposedName.Length >= CharacterSettings.MAX_NAME_LENGTH)
 			{
 				return proposedName.Substring(0, CharacterSettings.MAX_NAME_LENGTH);
