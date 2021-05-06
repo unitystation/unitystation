@@ -135,8 +135,37 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
 	private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
 
-	[SyncVar(hook = nameof(UpdateClientState))]
 	private TransformState clientState = TransformState.Uninitialized; //last reliable state from server
+
+	#region ClientStateSyncVars
+	// ClientState SyncVars, separated out of clientState TransformState
+	// So we only send the relevant data not all values each time, to reduce network usage
+
+	[SyncVar(hook = nameof(SyncClientStateSpeed))]
+	private float clientStateSpeed;
+
+	[SyncVar(hook = nameof(SyncClientStateWorldImpulse))]
+	private Vector2 clientStateWorldImpulse;
+
+	[SyncVar(hook = nameof(SyncClientStateMatrixId))]
+	private int clientStateMatrixId = -1;
+
+	[SyncVar(hook = nameof(SyncClientStateLocalPosition))]
+	private Vector3 clientStateLocalPosition = TransformState.HiddenPos;
+
+	[SyncVar(hook = nameof(SyncClientStateIsFollowUpdate))]
+	private bool clientStateIsFollowUpdate;
+
+	[SyncVar(hook = nameof(SyncClientStateSpinRotation))]
+	private float clientStateSpinRotation;
+
+	[SyncVar(hook = nameof(SyncClientStateSpinFactor))]
+	private sbyte clientStateSpinFactor;
+
+	private bool clientValueChanged;
+
+	#endregion
+
 	private TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
@@ -198,8 +227,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		{
 			registerTile = GetComponent<RegisterTile>();
 		}
-
-		UpdateClientState(clientState, clientState);
 	}
 
 	public override void OnStartServer()
@@ -312,13 +339,22 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// <returns>true if transform changed</returns>
 	private bool Synchronize()
 	{
+		//Isn't run on server as clientValueChanged is always false for server
+		//Pokes the client to do changes if values have changed from syncvars
+		if (clientValueChanged)
+		{
+			clientValueChanged = false;
+			PerformClientStateUpdate(clientState, clientState);
+		}
+
 		if (!predictedState.Active)
 		{
 			return false;
 		}
 
 		bool server = isServer;
-		if ( server && !serverState.Active ) {
+		if ( server && !serverState.Active )
+		{
 			return false;
 		}
 
@@ -560,11 +596,95 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 		#endregion
 
-	/// Called from TransformStateMessage, applies state received from server to client
-	public void UpdateClientState(TransformState oldState, TransformState newState)
-	{
-		clientState = newState;
+	#region ClientState SyncMethods
 
+	[Client]
+	public void SyncClientStateSpeed(float oldSpeed, float newSpeed)
+	{
+		clientStateSpeed = newSpeed;
+		clientState.Speed = newSpeed;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateWorldImpulse(Vector2 oldWorldImpulse, Vector2 newWorldImpulse)
+	{
+		clientStateWorldImpulse = newWorldImpulse;
+		clientState.WorldImpulse = newWorldImpulse;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateMatrixId(int oldMatrixId, int newMatrixId)
+	{
+		clientStateMatrixId = newMatrixId;
+		clientState.MatrixId = newMatrixId;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateLocalPosition(Vector3 oldLocalPosition, Vector3 newLocalPosition)
+	{
+		clientStateLocalPosition = newLocalPosition;
+		clientState.Position = newLocalPosition;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateIsFollowUpdate(bool oldIsFollowUpdate, bool newIsFollowUpdate)
+	{
+		clientStateIsFollowUpdate = newIsFollowUpdate;
+		clientState.IsFollowUpdate = newIsFollowUpdate;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateSpinRotation(float oldSpinRotation, float newSpinRotation)
+	{
+		clientStateSpinRotation = newSpinRotation;
+		clientState.SpinRotation = newSpinRotation;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateSpinFactor(sbyte oldSpinFactor, sbyte newSpinFactor)
+	{
+		clientStateSpinFactor = newSpinFactor;
+		clientState.SpinFactor = newSpinFactor;
+		ClientValueChanged();
+	}
+
+	[Client]
+	private void ClientValueChanged()
+	{
+		if (clientValueChanged == false)
+		{
+			Poke();
+		}
+
+		clientValueChanged = true;
+	}
+
+	#endregion
+
+	[Server]
+	private void UpdateClientState(TransformState oldState, TransformState newState)
+	{
+		clientStateSpeed = newState.speed;
+		clientStateWorldImpulse = newState.WorldImpulse;
+		clientStateMatrixId = newState.MatrixId;
+		clientStateLocalPosition = newState.Position;
+		clientStateIsFollowUpdate = newState.IsFollowUpdate;
+		clientStateSpinRotation = newState.SpinRotation;
+		clientStateSpinFactor = newState.SpinFactor;
+
+		clientState = newState;
+		PerformClientStateUpdate(oldState, newState);
+	}
+
+	/// Called from TransformStateMessage, applies state received from server to client
+	private void PerformClientStateUpdate(TransformState oldState, TransformState newState)
+	{
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
 		//Ignore "Follow Updates" if you're pulling it
