@@ -1097,6 +1097,7 @@ namespace UI.CharacterCreator
 			DisplayErrorText("");
 			try
 			{
+				currentCharacter.Name = TruncateName(currentCharacter.Name);
 				currentCharacter.ValidateSettings();
 			}
 			catch (InvalidOperationException e)
@@ -1165,6 +1166,7 @@ namespace UI.CharacterCreator
 
 		private string TruncateName(string proposedName)
 		{
+			proposedName = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(proposedName.ToLower());
 			if (proposedName.Length >= CharacterSettings.MAX_NAME_LENGTH)
 			{
 				return proposedName.Substring(0, CharacterSettings.MAX_NAME_LENGTH);
