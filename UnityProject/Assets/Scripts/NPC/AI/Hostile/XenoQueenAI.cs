@@ -31,6 +31,27 @@ namespace Systems.MobAIs
 
 		public static int CurrentQueensAmt => currentQueensAmt;
 
+		protected override void OnSpawnMob()
+		{
+			base.OnSpawnMob();
+			AddResetHandler();
+
+			if (ignoreForQueenCount == false)
+			{
+				currentQueensAmt++;
+			}
+		}
+
+		protected override void OnAIStart()
+		{
+			base.OnAIStart();
+
+			if (fertility != 0)
+			{
+				FertilityLoop();
+			}
+		}
+
 		private bool HuggerCapReached()
 		{
 			if (huggerCap < 0)
@@ -93,24 +114,6 @@ namespace Systems.MobAIs
 
 			EventManager.AddHandler(Event.RoundStarted, ResetStaticCounters);
 			resetHandlerAdded = true;
-		}
-
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			AddResetHandler();
-
-			if (fertility != 0)
-			{
-				FertilityLoop();
-			}
-
-			BeginSearch();
-
-			if (ignoreForQueenCount == false)
-			{
-				currentQueensAmt ++;
-			}
 		}
 
 		protected override void HandleDeathOrUnconscious()

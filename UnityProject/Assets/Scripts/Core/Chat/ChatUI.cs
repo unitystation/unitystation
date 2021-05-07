@@ -347,6 +347,7 @@ public class ChatUI : MonoBehaviour
 
 	private void PlayerSendChat(string sendMessage)
 	{
+		sendMessage = sendMessage.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 		if(selectedVoiceLevel == -1)
 			sendMessage = "#" + sendMessage;
 		if(selectedVoiceLevel == 1)

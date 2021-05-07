@@ -11,7 +11,7 @@ using Objects.Construction;
 /// </summary>
 public class MetaDataLayer : MonoBehaviour
 {
-	private MetaDataDictionary nodes = new MetaDataDictionary();
+	private SerializableDictionary<Vector3Int, MetaDataNode> nodes = new SerializableDictionary<Vector3Int, MetaDataNode>();
 
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
@@ -22,6 +22,12 @@ public class MetaDataLayer : MonoBehaviour
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
+	}
+
+	private void OnDestroy()
+	{
+		//In the case of the matrix remaining in memory after the round ends, this will ensure the MetaDataNodes are GC
+		nodes.Clear();
 	}
 
 	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true)

@@ -262,11 +262,12 @@ public class StandardProgressAction : IProgressAction
 	{
 		//note: doesn't check cross matrix situations.
 		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
-		       !playerScript.playerMove.IsCuffed &&
-		       !playerScript.registerTile.IsSlippingServer &&
+		       playerScript.playerMove.IsCuffed == false &&
+		       playerScript.registerTile.IsSlippingServer == false &&
+			   playerScript.playerNetworkActions.IsRolling == false &&
 		       (progressActionConfig.AllowTurning ||
 		        playerScript.playerDirectional.CurrentDirection != initialDirection) &&
-		       !playerScript.PlayerSync.IsMoving &&
+		       playerScript.PlayerSync.IsMoving == false &&
 		       //make sure we're still in range
 		       Validations.IsInReachDistanceByPositions(playerScript.registerTile.WorldPositionServer,
 			       startProgressInfo.Target.TargetWorldPosition);

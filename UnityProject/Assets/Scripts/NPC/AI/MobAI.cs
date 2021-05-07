@@ -13,11 +13,9 @@ namespace Systems.MobAIs
 	public class MobAI : MonoBehaviour, IServerLifecycle
 	{
 		public string mobName;
-		[Tooltip("When the mob is unconscious, how much should the sprite obj " +
-				"be rotated to indicate a knocked down or dead NPC")]
-		public float knockedDownRotation = 90f;
 
 		public event Action PettedEvent;
+		protected SimpleAnimal simpleAnimal;
 		protected MobFollow mobFollow;
 		protected MobExplore mobExplore;
 		protected MobFlee mobFlee;
@@ -61,8 +59,11 @@ namespace Systems.MobAIs
 
 		private bool isKnockedDown = false;
 
+		#region Lifecycle
+
 		protected virtual void Awake()
 		{
+			simpleAnimal = GetComponent<SimpleAnimal>();
 			mobFollow = GetComponent<MobFollow>();
 			mobExplore = GetComponent<MobExplore>();
 			mobFlee = GetComponent<MobFlee>();
@@ -76,25 +77,47 @@ namespace Systems.MobAIs
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			mobSprite.SetToNPCLayer();
+			registerObject.RestoreAllToDefault();
+			if (simpleAnimal != null)
+			{
+				simpleAnimal.SetDeadState(false);
+			}
+
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Add(PeriodicUpdate, 1f);
 			health.applyDamageEvent += AttackReceivedCoolDown;
 			isServer = true;
-			AIStartServer();
+
+			OnSpawnMob();
+			OnAIStart();
 		}
 
 		public virtual void OnDespawnServer(DespawnInfo info)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			health.applyDamageEvent += AttackReceivedCoolDown;
 			ResetBehaviours();
 		}
 
+		public void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+		}
+
+		/// <summary>
+		/// Called after the mob is spawned, before the AI comes online
+		/// (at tne end of <see cref="OnSpawnServer(SpawnInfo)"/> and before <see cref="OnSpawnMob"/>)
+		/// </summary>
+		protected virtual void OnSpawnMob() { }
+
 		/// <summary>
 		/// Called when the AI has come online on the server
+		/// (at the end of <see cref="OnSpawnServer(SpawnInfo)"/> and after <see cref="OnSpawnMob"/>)
 		/// </summary>
-		protected virtual void AIStartServer() { }
+		protected virtual void OnAIStart() { }
+
+		#endregion
 
 		/// <summary>
 		/// Server only update loop. Make sure to call base.UpdateMe() if overriding
@@ -150,7 +173,7 @@ namespace Systems.MobAIs
 				mobSprite.SetToBodyLayer();
 
 				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
-				mobSprite.SetRotationServer(knockedDownRotation);
+				mobSprite.SetToKnockedDown(true);
 			}
 		}
 
@@ -170,7 +193,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		void MonitorFollowingTime()
+		private void MonitorFollowingTime()
 		{
 			if (mobFollow.activated && followTimeMax != -1f)
 			{
@@ -182,7 +205,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		void MonitorExploreTime()
+		private void MonitorExploreTime()
 		{
 			if (mobExplore.activated && exploreTimeMax != -1f)
 			{
@@ -194,7 +217,7 @@ namespace Systems.MobAIs
 			}
 		}
 
-		void MonitorFleeingTime()
+		private void MonitorFleeingTime()
 		{
 			if (mobFlee.activated && fleeTimeMax != -1f)
 			{
@@ -293,7 +316,7 @@ namespace Systems.MobAIs
 			fleeingTime = 0f;
 		}
 
-		//Stop fleeing
+		///<summary>Stop fleeing</summary>
 		protected void StopFleeing()
 		{
 			mobFlee.Deactivate();
@@ -459,6 +482,5 @@ namespace Systems.MobAIs
 		/// <param name="dir"></param>
 		/// <param name="doLerpAnimation"></param>
 		public virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) { }
-
 	}
 }

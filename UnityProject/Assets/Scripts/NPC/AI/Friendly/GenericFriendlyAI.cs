@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
-using WebSocketSharp;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 
 namespace Systems.MobAIs
 {
-	public class GenericFriendlyAI : MobAI, IServerSpawn
+	public class GenericFriendlyAI : MobAI
 	{
 		protected float timeForNextRandomAction;
 		protected float timeWaiting;
@@ -16,29 +15,30 @@ namespace Systems.MobAIs
 		protected float maxTimeBetweenRandomActions = 30f;
 		[SerializeField]
 		protected bool doRandomActionWhenInTask = false;
-		protected SimpleAnimal simpleAnimal;
 		public string MobName => mobName.Capitalize();
 
-		protected override void Awake()
-		{
-			base.Awake();
-			simpleAnimal = GetComponent<SimpleAnimal>();
-		}
+		#region Lifecycle
 
-		protected override void UpdateMe()
-		{
-			if (!MatrixManager.IsInitialized || health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
-
-			base.UpdateMe();
-			MonitorExtras();
-		}
-
-
-		protected override void AIStartServer()
+		protected override void OnSpawnMob()
 		{
 			exploringStopped.AddListener(OnExploringStopped);
 			fleeingStopped.AddListener(OnFleeingStopped);
 			followingStopped.AddListener(OnFollowStopped);
+		}
+
+		protected override void OnAIStart()
+		{
+			BeginExploring();
+		}
+
+		#endregion Lifecycle
+
+		protected override void UpdateMe()
+		{
+			if (MatrixManager.IsInitialized == false || health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
+
+			base.UpdateMe();
+			MonitorExtras();
 		}
 
 		protected virtual void MonitorExtras()
@@ -74,32 +74,14 @@ namespace Systems.MobAIs
 			yield return WaitFor.EndOfFrame;
 		}
 
-		protected virtual void DoRandomAction() {}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			OnSpawnMob();
-		}
-
-		protected virtual void OnSpawnMob()
-		{
-			mobSprite.SetToNPCLayer();
-			registerObject.RestoreAllToDefault();
-			if (simpleAnimal != null)
-			{
-				simpleAnimal.SetDeadState(false);
-			}
-			BeginExploring();
-		}
-
 		protected override void OnAttackReceived(GameObject damagedBy = null)
 		{
 			StartFleeing(damagedBy, 5f);
 		}
 
-		protected virtual void OnExploringStopped(){}
-		protected virtual void OnFleeingStopped(){}
-		protected virtual void OnFollowStopped(){}
-
+		protected virtual void OnExploringStopped() {}
+		protected virtual void OnFleeingStopped() {}
+		protected virtual void OnFollowStopped() {}
+		protected virtual void DoRandomAction() { }
 	}
 }

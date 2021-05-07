@@ -20,7 +20,7 @@ namespace Systems.MobAIs
 	/// </summary>
 	[RequireComponent(typeof(MobMeleeAction))]
 	[RequireComponent(typeof(ConeOfSight))]
-	public class GenericHostileAI : MobAI, IServerSpawn
+	public class GenericHostileAI : MobAI
 	{
 		[SerializeField]
 		[Tooltip("Sounds played when this mob dies")]
@@ -50,9 +50,10 @@ namespace Systems.MobAIs
 		protected int playersLayer;
 		protected MobMeleeAction mobMeleeAction;
 		protected ConeOfSight coneOfSight;
-		protected SimpleAnimal simpleAnimal;
 		protected int fleeChance = 30;
 		protected int attackLastAttackerChance = 80;
+
+		#region Lifecycle
 
 		protected override void Awake()
 		{
@@ -60,14 +61,52 @@ namespace Systems.MobAIs
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
-			simpleAnimal = GetComponent<SimpleAnimal>();
 			base.Awake();
 		}
 
-		protected override void AIStartServer()
+		protected override void OnSpawnMob()
 		{
 			movementTickRate = Random.Range(1f, 3f);
+		}
+
+		protected override void OnAIStart()
+		{
+			_ = PlayRandomSound();
 			BeginSearch();
+		}
+
+		#endregion
+
+		protected override void UpdateMe()
+		{
+			base.UpdateMe();
+
+			if (!isServer || !MatrixManager.IsInitialized)
+			{
+				return;
+			}
+
+			if (IsDead || IsUnconscious)
+			{
+				HandleDeathOrUnconscious();
+				return;
+			}
+
+			switch (currentStatus)
+			{
+				case MobStatus.Searching:
+					HandleSearch();
+					break;
+				case MobStatus.Attacking:
+					MonitorIdleness();
+					break;
+				case MobStatus.None:
+					MonitorIdleness();
+					break;
+				default:
+					HandleSearch();
+					break;
+			}
 		}
 
 		/// <summary>
@@ -227,38 +266,6 @@ namespace Systems.MobAIs
 			}
 		}
 
-		protected override void UpdateMe()
-		{
-			base.UpdateMe();
-
-			if (!isServer || !MatrixManager.IsInitialized)
-			{
-				return;
-			}
-
-			if (IsDead || IsUnconscious)
-			{
-				HandleDeathOrUnconscious();
-				return;
-			}
-
-			switch (currentStatus)
-			{
-				case MobStatus.Searching:
-					HandleSearch();
-					break;
-				case MobStatus.Attacking:
-					MonitorIdleness();
-					break;
-				case MobStatus.None:
-					MonitorIdleness();
-					break;
-				default:
-					HandleSearch();
-					break;
-			}
-		}
-
 		protected override void OnAttackReceived(GameObject damagedBy = null)
 		{
 			if (damagedBy == null)
@@ -308,36 +315,6 @@ namespace Systems.MobAIs
 			{
 				BeginAttack(findTarget);
 			}
-		}
-
-		public virtual void OnSpawnServer(SpawnInfo info)
-		{
-			//FIXME This shouldn't be called by client yet it seems it is
-			if (!isServer)
-			{
-				return;
-			}
-
-			OnSpawnMob();
-		}
-
-		protected virtual void OnSpawnMob()
-		{
-			mobSprite.SetToNPCLayer();
-			registerObject.RestoreAllToDefault();
-			if (simpleAnimal != null)
-			{
-				simpleAnimal.SetDeadState(false);
-			}
-			_ = PlayRandomSound();
-		}
-
-		public override void OnDespawnServer(DespawnInfo info)
-		{
-			base.OnDespawnServer(info);
-			mobSprite.SetToBodyLayer();
-			deathSoundPlayed = false;
-			registerObject.SetPassable(false, true);
 		}
 
 		public enum MobStatus

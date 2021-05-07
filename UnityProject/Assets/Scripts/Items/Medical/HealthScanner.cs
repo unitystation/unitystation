@@ -36,6 +36,7 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 		float[] fullDamage = new float[7];
 		TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 		StringBuilder toShow = new StringBuilder();
+		StringBuilder bodyParts = new StringBuilder();
 		foreach (var BodyPart in health.ImplantList)
 		{
 			if (AdvancedHealthScanner == false && BodyPart.DamageContributesToOverallHealth == false) continue;
@@ -53,28 +54,31 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				partName = partName.Substring(partName.IndexOf(" ") + 1);
 			}
-			toShow.Append(textInfo.ToTitleCase(partName));
-			if (partName.Length < 6)
-				toShow.Append("\t");
-			if (partName.Length < 9)
-				toShow.Append("\t");
+			bodyParts.Append($"{textInfo.ToTitleCase(partName)}:");
 
-			toShow.Append(	$"\t\t\t<color=brown>{Mathf.Round(BodyPart.Brute)}</color>\t\t   " +
-							$"<color=orange>{Mathf.Round(BodyPart.Burn)}</color>\t\t   " +
-							$"<color=lime>{Mathf.Round(BodyPart.Toxin)}</color>\t\t  " +
-							$"<color=cyan>{Mathf.Round(BodyPart.Oxy)}</color>\n");
+			bodyParts.Append(	$"\t<color=red>{Mathf.Round(BodyPart.Brute)}</color>" +
+			                    $"\t<color=orange>{Mathf.Round(BodyPart.Burn)}</color>" +
+			                    $"\t<color=green>{Mathf.Round(BodyPart.Toxin)}</color>" +
+			                    $"\t<color=blue>{Mathf.Round(BodyPart.Oxy)}</color>\n");
 		}
 
-		toShow.Insert(0, "----------------------------------------\n" +
-					targetName + " is " + health.ConsciousState.ToString() + "\n" +
-					"<b>Overall status: " + totalPercent + "% healthy</b>\n" +
-					"Blood level = " + bloodPercent + "%, " + bloodTotal + "cc\n" + 
-					"General Status:\n<b>Damage:\t\t<color=brown>Brute</color>\t<color=orange>Burn</color>" +
-					"\t<color=lime>Toxin</color>\t<color=cyan>Oxy</color>\n" +
-					$"Overall:\t\t\t   <color=brown>{Mathf.Round(fullDamage[(int)DamageType.Brute])}</color>\t\t" +
-					$"    <color=orange>{Mathf.Round(fullDamage[(int)DamageType.Burn])}</color>\t\t" +
-					$"    <color=lime>{Mathf.Round(fullDamage[(int)DamageType.Tox])}</color>\t\t" +
-					$"  <color=cyan>{Mathf.Round(fullDamage[(int)DamageType.Oxy])}</color></b>\n");
+		toShow.Append("----------------------------------------\n" +
+		                 targetName + " is " + health.ConsciousState + "\n" +
+		                 "<b>Overall status: " + totalPercent + "% healthy</b>\n" +
+		                 "Blood level = " + bloodPercent + "%, " + bloodTotal + "cc\n");
+
+		if ((int)totalPercent != 100)
+		{
+			toShow.Append($"<color=red><b>Brute</color>\t<color=orange>Burn</color>\t" +
+			              $"<color=green>Toxin</color>\t<color=blue>Oxy</color></b>\n" +
+			              $"<color=red>{Mathf.Round(fullDamage[(int)DamageType.Brute])}</color>\t\t" +
+			              $"<color=orange>{Mathf.Round(fullDamage[(int)DamageType.Burn])}</color>\t\t" +
+			              $"<color=green>{Mathf.Round(fullDamage[(int)DamageType.Tox])}</color>\t\t" +
+			              $"<color=blue>{Mathf.Round(fullDamage[(int)DamageType.Oxy])}</color>\n"
+			);
+		}
+
+		toShow.Append(bodyParts);
 		toShow.Append("----------------------------------------");
 
 		Chat.AddExamineMsgFromServer(interaction.Performer, toShow.ToString());
