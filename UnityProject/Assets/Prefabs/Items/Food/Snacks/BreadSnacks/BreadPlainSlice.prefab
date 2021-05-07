@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2437909254421394844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236678276434975051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &3121187576504814881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11,14 +26,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: d3994d116c55f81458323db25790b73f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: d3994d116c55f81458323db25790b73f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -124,3 +137,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2991f5505400ab479c5262137eed380, type: 3}
+--- !u!1 &2236678276434975051 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3772583389644969066, guid: d2991f5505400ab479c5262137eed380,
+    type: 3}
+  m_PrefabInstance: {fileID: 3121187576504814881}
+  m_PrefabAsset: {fileID: 0}

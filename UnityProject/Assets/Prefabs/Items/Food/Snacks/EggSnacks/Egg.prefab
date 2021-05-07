@@ -53,6 +53,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meatSteakPrefab: {fileID: 2897339443933191501, guid: e1d91ada62d0cf34e9b5e3f10e835d6b,
     type: 3}
+--- !u!114 &-4971718268996083037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897339443933191501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &4237391950619250826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,6 +233,11 @@ PrefabInstance:
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 38
       objectReference: {fileID: 0}
     m_RemovedComponents:

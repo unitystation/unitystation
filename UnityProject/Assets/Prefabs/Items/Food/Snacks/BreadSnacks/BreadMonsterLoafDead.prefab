@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2071093124214187588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880608385977929837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &6116363712245043726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8289939799799316247, guid: f297c5f7ec90e204fa5a9991c56a8388,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289939799799316247, guid: f297c5f7ec90e204fa5a9991c56a8388,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -47,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8289939799799316247, guid: f297c5f7ec90e204fa5a9991c56a8388,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289939799799316247, guid: f297c5f7ec90e204fa5a9991c56a8388,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8289939799799316247, guid: f297c5f7ec90e204fa5a9991c56a8388,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8289939799799316247, guid: f297c5f7ec90e204fa5a9991c56a8388,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8289939799799316247, guid: f297c5f7ec90e204fa5a9991c56a8388,
         type: 3}
@@ -103,3 +118,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f297c5f7ec90e204fa5a9991c56a8388, type: 3}
+--- !u!1 &2880608385977929837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8293460573435019875, guid: f297c5f7ec90e204fa5a9991c56a8388,
+    type: 3}
+  m_PrefabInstance: {fileID: 6116363712245043726}
+  m_PrefabAsset: {fileID: 0}

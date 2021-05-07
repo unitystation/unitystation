@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6220133966929242824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353349776252711342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &809210516656264601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11,6 +26,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1138917242854660419, guid: 71c90208ddf5d59489b9273c371733d7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1138917242854660419, guid: 71c90208ddf5d59489b9273c371733d7,
         type: 3}
@@ -29,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1138917242854660419, guid: 71c90208ddf5d59489b9273c371733d7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1138917242854660419, guid: 71c90208ddf5d59489b9273c371733d7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1138917242854660419, guid: 71c90208ddf5d59489b9273c371733d7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1138917242854660419, guid: 71c90208ddf5d59489b9273c371733d7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1138917242854660419, guid: 71c90208ddf5d59489b9273c371733d7,
         type: 3}
@@ -90,26 +105,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2231453201363004575, guid: 71c90208ddf5d59489b9273c371733d7,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2231453201363004575, guid: 71c90208ddf5d59489b9273c371733d7,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
         type: 2}
     - target: {fileID: 2231453201363004575, guid: 71c90208ddf5d59489b9273c371733d7,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2231453201363004575, guid: 71c90208ddf5d59489b9273c371733d7,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
         type: 2}
+    - target: {fileID: 2231453201363004575, guid: 71c90208ddf5d59489b9273c371733d7,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2231453201363004575, guid: 71c90208ddf5d59489b9273c371733d7,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2231453201363004575, guid: 71c90208ddf5d59489b9273c371733d7,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -120,5 +135,16 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 9082338983469098567, guid: 71c90208ddf5d59489b9273c371733d7,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71c90208ddf5d59489b9273c371733d7, type: 3}
+--- !u!1 &353349776252711342 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1143277768227628087, guid: 71c90208ddf5d59489b9273c371733d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 809210516656264601}
+  m_PrefabAsset: {fileID: 0}

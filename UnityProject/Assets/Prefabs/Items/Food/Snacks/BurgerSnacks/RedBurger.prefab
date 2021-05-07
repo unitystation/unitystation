@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &211500162122033613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4413684972170182855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &1536896105953480294
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7,6 +22,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2884322351024092117, guid: 3277c24106492ec45b5d4e08cdb06ad4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2884322351024092117, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2884322351024092117, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2884322351024092117, guid: 3277c24106492ec45b5d4e08cdb06ad4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2884322351024092117, guid: 3277c24106492ec45b5d4e08cdb06ad4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2884322351024092117, guid: 3277c24106492ec45b5d4e08cdb06ad4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2884322351024092117, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
@@ -85,8 +100,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3090978259551387133, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
-      propertyPath: m_Color.r
-      value: 0.85490197
+      propertyPath: m_Color.b
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3090978259551387133, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
@@ -95,18 +110,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3090978259551387133, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3384793156987593155, guid: 3277c24106492ec45b5d4e08cdb06ad4,
-        type: 3}
-      propertyPath: initialDescription
-      value: Perfect for hiding the fact it's burnt to a crisp.
+      propertyPath: m_Color.r
+      value: 0.85490197
       objectReference: {fileID: 0}
     - target: {fileID: 3384793156987593155, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
       propertyPath: initialName
       value: red burger
+      objectReference: {fileID: 0}
+    - target: {fileID: 3384793156987593155, guid: 3277c24106492ec45b5d4e08cdb06ad4,
+        type: 3}
+      propertyPath: initialDescription
+      value: Perfect for hiding the fact it's burnt to a crisp.
       objectReference: {fileID: 0}
     - target: {fileID: 9030481356605650214, guid: 3277c24106492ec45b5d4e08cdb06ad4,
         type: 3}
@@ -116,3 +131,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3277c24106492ec45b5d4e08cdb06ad4, type: 3}
+--- !u!1 &4413684972170182855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2888119926246526625, guid: 3277c24106492ec45b5d4e08cdb06ad4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1536896105953480294}
+  m_PrefabAsset: {fileID: 0}

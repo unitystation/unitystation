@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7891038335486897631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023057386425646189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &3752393240347179554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12,6 +27,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 188
       objectReference: {fileID: 0}
+    - target: {fileID: 1608437286450332735, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 188
+      objectReference: {fileID: 0}
     - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: initialName
@@ -19,8 +39,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: m_Color.r
-      value: 0.3764706
+      propertyPath: m_Color.b
+      value: 0.5176471
       objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -29,8 +49,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: m_Color.b
-      value: 0.5176471
+      propertyPath: m_Color.r
+      value: 0.3764706
       objectReference: {fileID: 0}
     - target: {fileID: 7354706488053939195, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -41,6 +61,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NicotineGum
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -59,6 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -71,16 +101,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -115,15 +135,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 4f35c3b79d1187213bc2c025391e96e9,
         type: 2}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
@@ -131,3 +151,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bda3a92c3bab16e4cb40374111199080, type: 3}
+--- !u!1 &6023057386425646189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7459402500379575887, guid: bda3a92c3bab16e4cb40374111199080,
+    type: 3}
+  m_PrefabInstance: {fileID: 3752393240347179554}
+  m_PrefabAsset: {fileID: 0}

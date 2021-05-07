@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6358913771964183695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222397779083850046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &4835986844078208607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30,13 +45,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
-      propertyPath: initialDescription
-      value: A favorite desert of a certain wascally wabbit. Not a lie.
+      propertyPath: initialName
+      value: carrot cake
       objectReference: {fileID: 0}
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
-      propertyPath: initialName
-      value: carrot cake
+      propertyPath: initialDescription
+      value: A favorite desert of a certain wascally wabbit. Not a lie.
       objectReference: {fileID: 0}
     - target: {fileID: 1500455408126966485, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -47,6 +62,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CarrotCake
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -65,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -109,6 +124,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 74b9f308bb107b949b536ddd0bafb5e7,
         type: 3}
+    - target: {fileID: 1708957981030462525, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4611855969228700902, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -117,3 +137,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d3192a7eebeb004c8bd3d53172d6ce9, type: 3}
+--- !u!1 &6222397779083850046 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1533059672834475873, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4835986844078208607}
+  m_PrefabAsset: {fileID: 0}

@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7926928006872687135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9147990811224727949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &6154445628390491790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -80,13 +95,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialDescription
-      value: The classic snack food, now maybe a bit too spicy.
+      propertyPath: initialName
+      value: warm Spicy-pocket
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialName
-      value: warm Spicy-pocket
+      propertyPath: initialDescription
+      value: The classic snack food, now maybe a bit too spicy.
       objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -106,17 +121,22 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 3
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 1
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6506439916034532723, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: NutritionLevel
+      value: 154
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506439916034532723, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 154
       objectReference: {fileID: 0}
     - target: {fileID: 9140853328041680004, guid: 76e58cccbbfd2ab40b893f51eddd9094,
@@ -127,3 +147,9 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2243081511552140860, guid: 76e58cccbbfd2ab40b893f51eddd9094, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 76e58cccbbfd2ab40b893f51eddd9094, type: 3}
+--- !u!1 &9147990811224727949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3142609412607026947, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+    type: 3}
+  m_PrefabInstance: {fileID: 6154445628390491790}
+  m_PrefabAsset: {fileID: 0}

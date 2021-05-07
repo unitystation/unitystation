@@ -24,6 +24,21 @@ MonoBehaviour:
   Nutriment: {fileID: 0}
   healBruteDamage: 5
   healableJobs: 1700000021000000110000002a00000029000000
+--- !u!114 &4889808445286326709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162704264883279580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 10
+  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+    type: 3}
 --- !u!1001 &1205097671078976283
 PrefabInstance:
   m_ObjectHideFlags: 0
