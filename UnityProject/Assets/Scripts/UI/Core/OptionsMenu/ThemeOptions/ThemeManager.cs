@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AddressableReferences;
 using Initialisation;
 using UnityEngine;
 using YamlDotNet.RepresentationModel;
@@ -28,6 +29,11 @@ namespace Unitystation.Options
             }
         }
 
+        [SerializeField]
+        private List<AddressableAudioSource> mentionSounds = new List<AddressableAudioSource>();
+
+        public List<AddressableAudioSource> MentionSounds => mentionSounds;
+
         //Add the root folder paths for each config type here:
         private static string[] folderPaths = new string[] { "ChatBubbleThemes" };
         //Directory info list of each folder path
@@ -44,6 +50,9 @@ namespace Unitystation.Options
 
         public static bool ChatHighlight;
         public static bool MentionSound;
+        public static int MentionSoundIndex;
+
+        public static AddressableAudioSource CurrentMentionSound;
 
         public InitialisationSystems Subsystem => InitialisationSystems.ThemeManager;
 
@@ -68,8 +77,21 @@ namespace Unitystation.Options
 		        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSound, 1);
 	        }
 
+	        if (PlayerPrefs.HasKey(PlayerPrefKeys.MentionSoundIndex) == false)
+	        {
+		        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSoundIndex, 0);
+	        }
+
 	        ChatHighlight = PlayerPrefs.GetInt(PlayerPrefKeys.HighlightChat) == 1;
 	        MentionSound = PlayerPrefs.GetInt(PlayerPrefKeys.MentionSound) == 1;
+
+	        foreach (var sound in mentionSounds)
+	        {
+		        sound.Preload();
+	        }
+
+	        MentionSoundIndex = PlayerPrefs.GetInt(PlayerPrefKeys.MentionSoundIndex);
+	        CurrentMentionSound = MentionSounds[MentionSoundIndex];
         }
 
         public void ChatHighlightToggle(bool toggle)
@@ -83,6 +105,14 @@ namespace Unitystation.Options
         {
 	        MentionSound = toggle;
 	        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSound, toggle ? 1 : 0);
+	        PlayerPrefs.Save();
+        }
+
+        public void MentionSoundIndexChange(int newValue)
+        {
+	        MentionSoundIndex = newValue;
+	        CurrentMentionSound = MentionSounds[MentionSoundIndex];
+	        PlayerPrefs.SetInt(PlayerPrefKeys.MentionSoundIndex, newValue);
 	        PlayerPrefs.Save();
         }
 

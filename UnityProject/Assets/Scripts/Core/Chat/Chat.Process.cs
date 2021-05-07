@@ -360,7 +360,7 @@ public partial class Chat
 
 				if (ThemeManager.MentionSound && playedSound == false)
 				{
-					_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+					_ = SoundManager.Play(ThemeManager.CurrentMentionSound);
 					playedSound = true;
 
 					if (ThemeManager.ChatHighlight == false)
