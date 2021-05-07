@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8164534917193776668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5218511481997709313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &3397350840627513657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24,19 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 2edf71610797874499295731ec672c6f,
-        type: 2}
-    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: SetSpriteOnStartUp
+      propertyPath: Sprites.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: Sprites.Array.size
-      value: 1
+      propertyPath: Sprites.Array.data[0].Sprites.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -45,25 +24,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 2edf71610797874499295731ec672c6f,
-        type: 2}
+      propertyPath: SetSpriteOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: Sprites.Array.data[0].Texture
       value: 
       objectReference: {fileID: 2800000, guid: bad077c66750a074793fe255233f42f7, type: 3}
-    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: bd7f15def7974bf49a721d4973b6fbd0, type: 3}
-    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
@@ -76,15 +44,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300002, guid: bad077c66750a074793fe255233f42f7,
         type: 3}
-    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: initialName
-      value: empowered burger
-      objectReference: {fileID: 0}
+      propertyPath: Sprites.Array.data[0].EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: bd7f15def7974bf49a721d4973b6fbd0, type: 3}
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2edf71610797874499295731ec672c6f,
+        type: 2}
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2edf71610797874499295731ec672c6f,
+        type: 2}
     - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: initialDescription
       value: It's shockingly good, if you live off of electricity that is.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: initialName
+      value: empowered burger
       objectReference: {fileID: 0}
     - target: {fileID: 7331795877928512100, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -104,11 +89,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -121,11 +101,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -144,6 +119,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -159,9 +144,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf8c38cb85116e4babedf03228412de, type: 3}
---- !u!1 &5218511481997709313 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7443940138226227512, guid: 4bf8c38cb85116e4babedf03228412de,
-    type: 3}
-  m_PrefabInstance: {fileID: 3397350840627513657}
-  m_PrefabAsset: {fileID: 0}

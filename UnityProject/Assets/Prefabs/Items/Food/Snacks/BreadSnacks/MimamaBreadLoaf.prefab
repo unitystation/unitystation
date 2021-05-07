@@ -12,21 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d1a7f835ef036e43a6a56f5f25de6a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mutatedFood: {fileID: 0}
---- !u!114 &5979042338125723876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5376177816146244158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+  MutatedBread: {fileID: 7211410574268338187, guid: 55dca02dfb005cf4e8bc3686c0229b90,
     type: 3}
 --- !u!1001 &3137910839137242386
 PrefabInstance:
@@ -38,11 +24,6 @@ PrefabInstance:
     - target: {fileID: 1209025498235043164, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: NutritionLevel
-      value: 950
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209025498235043164, guid: 1c2bdc503ea85964dbb86ef10991bef8,
-        type: 3}
-      propertyPath: StartingNutrients
       value: 950
       objectReference: {fileID: 0}
     - target: {fileID: 3771205322401006763, guid: 1c2bdc503ea85964dbb86ef10991bef8,
@@ -122,11 +103,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 23adec2aa544774488f321bb4bf6636c,
         type: 3}
-    - target: {fileID: 7197290870251572336, guid: 1c2bdc503ea85964dbb86ef10991bef8,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7493293519372095566, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: initialName

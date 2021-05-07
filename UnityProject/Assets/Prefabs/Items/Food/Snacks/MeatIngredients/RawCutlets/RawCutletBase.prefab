@@ -46,21 +46,6 @@ MonoBehaviour:
   processedProduct: {fileID: 7326701838922847653, guid: 23027896267338d4988f39d2814d8b94,
     type: 3}
   productAmount: 1
---- !u!114 &-5213217354679902291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7537345380150340854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &4055005699755776652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77,11 +62,6 @@ PrefabInstance:
     - target: {fileID: 2381014139213378570, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: NutritionLevel
-      value: 38
-      objectReference: {fileID: 0}
-    - target: {fileID: 2381014139213378570, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
-        type: 3}
-      propertyPath: StartingNutrients
       value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,

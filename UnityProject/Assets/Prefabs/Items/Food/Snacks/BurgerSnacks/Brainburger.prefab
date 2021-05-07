@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3017491766085250452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5878830202875765014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &3953031212733331502
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30,13 +15,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: initialName
-      value: brainburger
+      propertyPath: initialDescription
+      value: A strange looking burger. It looks almost sentient.
       objectReference: {fileID: 0}
     - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: initialDescription
-      value: A strange looking burger. It looks almost sentient.
+      propertyPath: initialName
+      value: brainburger
       objectReference: {fileID: 0}
     - target: {fileID: 7331795877928512100, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -56,11 +41,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -76,11 +56,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -93,6 +68,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -132,9 +117,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf8c38cb85116e4babedf03228412de, type: 3}
---- !u!1 &5878830202875765014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7443940138226227512, guid: 4bf8c38cb85116e4babedf03228412de,
-    type: 3}
-  m_PrefabInstance: {fileID: 3953031212733331502}
-  m_PrefabAsset: {fileID: 0}

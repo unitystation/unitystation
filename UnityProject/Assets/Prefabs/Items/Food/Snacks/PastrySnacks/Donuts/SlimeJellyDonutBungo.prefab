@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2095392121896391492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8631095300417536066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &353503095170777680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,11 +31,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -63,11 +43,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
@@ -86,6 +61,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -101,19 +86,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8488635447927663984, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
-      propertyPath: initialName
-      value: bungo jelly donut
-      objectReference: {fileID: 0}
-    - target: {fileID: 8488635447927663984, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
       propertyPath: initialDescription
       value: Goes great with a mason jar of hippie's delight.
       objectReference: {fileID: 0}
+    - target: {fileID: 8488635447927663984, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: initialName
+      value: bungo jelly donut
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76d59c6190d1ae34897c499233364f53, type: 3}
---- !u!1 &8631095300417536066 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8295676981224768018, guid: 76d59c6190d1ae34897c499233364f53,
-    type: 3}
-  m_PrefabInstance: {fileID: 353503095170777680}
-  m_PrefabAsset: {fileID: 0}

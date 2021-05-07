@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2870596867788183039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8633383601700811796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &3246518212174253896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,11 +18,6 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 350
       objectReference: {fileID: 0}
-    - target: {fileID: 3104472755490273580, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: StartingNutrients
-      value: 350
-      objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -47,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
@@ -62,20 +47,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
         type: 2}
-    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -94,11 +74,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -114,11 +89,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -131,6 +101,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
@@ -154,19 +134,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
-      propertyPath: initialName
-      value: canned peaches
-      objectReference: {fileID: 0}
-    - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
       propertyPath: initialDescription
       value: Just a nice can of ripe peaches swimming in their own juices.
       objectReference: {fileID: 0}
+    - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: initialName
+      value: canned peaches
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e291198bb131d49469d0b57ae983bd32, type: 3}
---- !u!1 &8633383601700811796 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6539793698181659484, guid: e291198bb131d49469d0b57ae983bd32,
-    type: 3}
-  m_PrefabInstance: {fileID: 3246518212174253896}
-  m_PrefabAsset: {fileID: 0}

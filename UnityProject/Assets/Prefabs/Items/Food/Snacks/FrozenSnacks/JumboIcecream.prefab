@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1178873935396864951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 518708270638934352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &6536432885580273742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,9 +118,3 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6912188aeedf08e4597674ede9f0c62d, type: 3}
---- !u!1 &518708270638934352 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6738723695642816798, guid: 6912188aeedf08e4597674ede9f0c62d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6536432885580273742}
-  m_PrefabAsset: {fileID: 0}

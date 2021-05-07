@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6940333820324694357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7108371951607723009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &2078381888547548794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30,13 +15,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8690959112136766745, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
-      propertyPath: initialName
-      value: pumpkin spice cake slice
+      propertyPath: initialDescription
+      value: A spicy slice of pumpkin goodness.
       objectReference: {fileID: 0}
     - target: {fileID: 8690959112136766745, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
-      propertyPath: initialDescription
-      value: A spicy slice of pumpkin goodness.
+      propertyPath: initialName
+      value: pumpkin spice cake slice
       objectReference: {fileID: 0}
     - target: {fileID: 8971190716498962727, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
@@ -44,16 +29,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 781fd6f339f488340a1a532ddf46e051,
         type: 3}
-    - target: {fileID: 8971190716498962727, guid: 7f29641ac1b06c74a932d09fff95856c,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -71,11 +46,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -88,6 +58,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
@@ -116,9 +96,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f29641ac1b06c74a932d09fff95856c, type: 3}
---- !u!1 &7108371951607723009 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9111318539336604283, guid: 7f29641ac1b06c74a932d09fff95856c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2078381888547548794}
-  m_PrefabAsset: {fileID: 0}

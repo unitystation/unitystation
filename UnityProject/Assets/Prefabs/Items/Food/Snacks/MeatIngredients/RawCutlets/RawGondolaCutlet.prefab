@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8281912141426825649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7066456697121020845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &759735448210700123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,11 +13,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8958004920499030660, guid: 9e40688b38fc1fb48b6a94c8e62fb914,
         type: 3}
-    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -50,11 +30,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,6 +42,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
@@ -100,9 +85,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eae3273562cc275408dc688bd15d2c87, type: 3}
---- !u!1 &7066456697121020845 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7537345380150340854, guid: eae3273562cc275408dc688bd15d2c87,
-    type: 3}
-  m_PrefabInstance: {fileID: 759735448210700123}
-  m_PrefabAsset: {fileID: 0}

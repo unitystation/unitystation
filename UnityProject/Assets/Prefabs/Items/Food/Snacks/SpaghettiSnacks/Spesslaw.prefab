@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-988274378401755755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5504343432507252679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 10
-  CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
-    type: 3}
 --- !u!1001 &3786614889505365426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24,20 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: leavings
-      value: 
-      objectReference: {fileID: 2717702614898470369, guid: b7f9ffc5f19a51546bc9474d372c12c4,
-        type: 3}
-    - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
       propertyPath: NutritionLevel
       value: 525
       objectReference: {fileID: 0}
     - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: StartingNutrients
-      value: 525
-      objectReference: {fileID: 0}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 2717702614898470369, guid: b7f9ffc5f19a51546bc9474d372c12c4,
+        type: 3}
     - target: {fileID: 3290308518079887858, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -61,11 +41,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -81,11 +56,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -98,6 +68,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -127,20 +107,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialName
-      value: spesslaw
+      propertyPath: initialDescription
+      value: A lawyers favourite.
       objectReference: {fileID: 0}
     - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialDescription
-      value: A lawyers favourite.
+      propertyPath: initialName
+      value: spesslaw
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 921317910642135246, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}
---- !u!1 &5504343432507252679 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8714352156879438453, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 3786614889505365426}
-  m_PrefabAsset: {fileID: 0}
