@@ -234,11 +234,9 @@ namespace UI.CharacterCreator
 			CharacterSettings character = new CharacterSettings();
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
-			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			currentCharacter.Species = Race.Human.ToString();
-			OnRaceChange();
 			ShowCharacterCreator();
-			DoInitChecks();
 			RefreshAll();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
@@ -392,6 +390,7 @@ namespace UI.CharacterCreator
 
 		private void LoadSettings(CharacterSettings inCharacterSettings)
 		{
+			Cleanup();
 			currentCharacter = inCharacterSettings;
 			//If we are playing locally offline, init character settings if they're null
 			if (currentCharacter == null)
