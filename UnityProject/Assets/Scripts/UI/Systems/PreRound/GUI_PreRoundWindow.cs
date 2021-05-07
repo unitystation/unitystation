@@ -198,6 +198,10 @@ namespace UI
 				warnText.SetActive(true);
 				return;
 			}
+			else
+			{
+				customizerScript.ValidateCurrentCharacter();
+			}
 			SetReady(!isReady);
 			TryShowAdminPanel();
 		}

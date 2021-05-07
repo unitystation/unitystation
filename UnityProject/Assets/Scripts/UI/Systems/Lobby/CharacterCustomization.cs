@@ -282,12 +282,13 @@ namespace UI.CharacterCreator
 		/// <summary>
 		/// Whenever the player changes his character via the dropdown menu we make sure that currentCharacterIndex is set accordingly
 		/// And then we make sure that the currentCharacter is also loaded in.
+		/// Note : to unify the way loading character data is; we mainly use ItemChange now for everything to make bug trackign less and code better.
 		/// </summary>
 		/// <param name="newValue"></param>
 		private void ItemChange(int newValue)
 		{
 			currentCharacterIndex = newValue;
-			currentCharacter = PlayerCharacters[currentCharacterIndex];
+			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			SaveLastCharacterIndex();
 			RefreshSelectorData();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
@@ -362,7 +363,7 @@ namespace UI.CharacterCreator
 			}
 			else
 			{
-				currentCharacterIndex = PlayerCharacters.Count() - 1;
+				currentCharacterIndex = PlayerCharacters.Count();
 				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
 			RefreshSelectorData();
@@ -373,7 +374,7 @@ namespace UI.CharacterCreator
 
 		public void ScrollSelectorRight()
 		{
-			if (currentCharacterIndex < PlayerCharacters.Count() - 1)
+			if (currentCharacterIndex <= PlayerCharacters.Count())
 			{
 				currentCharacterIndex++;
 				CharacterPreviewDropdown.value = currentCharacterIndex;
@@ -1070,6 +1071,16 @@ namespace UI.CharacterCreator
 			{
 				ShowNoCharacterError();
 			}
+		}
+
+		/// <summary>
+		/// Makes sure that the player spawns with the correct character.
+		/// This is mainly meant for spawning and ensuring that the player doesn't get the wrong character index.
+		/// </summary>
+		public void ValidateCurrentCharacter()
+		{
+			PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
+			currentCharacter = PlayerCharacters[currentCharacterIndex];
 		}
 
 		private void DeleteCharacterFromCharactersList(int index)
