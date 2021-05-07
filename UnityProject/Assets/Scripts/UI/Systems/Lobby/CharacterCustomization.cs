@@ -1063,6 +1063,7 @@ namespace UI.CharacterCreator
 				}
 				currentCharacterIndex = PlayerPrefs.GetInt("lastCharacter", currentCharacterIndex);
 				UpdateCharactersDropDown();
+				CharacterPreviewDropdown.value = currentCharacterIndex;
 				RefreshSelectorData();
 			}
 			else
