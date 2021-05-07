@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// An objective to steal items from the station
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Steal")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Steal")]
 	public class Steal : Objective
 	{
 		/// <summary>

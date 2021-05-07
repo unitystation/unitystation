@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// An escape objective to escape on the shuttle alive
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Escape")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Escape")]
 	public class Escape : Objective
 	{
 		/// <summary>

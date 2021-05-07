@@ -5,7 +5,7 @@ namespace Antagonists
 	/// <summary>
 	/// Gimmick objective, always completed
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Gimmick")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Gimmick")]
 	public class Gimmick : Objective
 	{
 		protected override void Setup(){ }

@@ -5,7 +5,7 @@ namespace Antagonists
 	/// <summary>
 	/// Try to be alive and not under arrest at the end of the round.
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/NotCuffed")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/NotCuffed")]
 	public class NotCuffed: Objective
 	{
 		protected override void Setup() {}

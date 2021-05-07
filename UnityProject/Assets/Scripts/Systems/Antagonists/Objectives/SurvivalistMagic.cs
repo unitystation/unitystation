@@ -7,7 +7,7 @@ namespace Antagonists
 	/// <summary>
 	/// Acquire x amount of spells.
 	/// </summary>
-	[CreateAssetMenu(menuName = "ScriptableObjects/Objectives/SurvivalistMagic")]
+	[CreateAssetMenu(menuName = "ScriptableObjects/AntagObjectives/SurvivalistMagic")]
 	public class SurvivalistMagic : Objective
 	{
 		[SerializeField]

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Antagonists
 {
-    [CreateAssetMenu(menuName="ScriptableObjects/Objectives/CaptureCapsHat")]
+    [CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/CaptureCapsHat")]
     public class CaptureCapsHat : Objective
     {
         [SerializeField]

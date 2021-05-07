@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// An objective to assassinate someone on the station
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Assassinate")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Assassinate")]
 	public class Assassinate : Objective
 	{
 
