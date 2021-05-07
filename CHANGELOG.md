@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/7: Newlines and return characters are removed from chat messages so chat isn't spammed vertically by [nBova](https://github.com/nBova) in PR #[6472](https://github.com/unitystation/unitystation/pull/6472)
+* 2021/5/7: Users can no longer set all caps character names by [nBova](https://github.com/nBova) in PR #[6472](https://github.com/unitystation/unitystation/pull/6472)
 * 2021/5/2: Plasma fire damage tweaks by [Semuca](https://github.com/Semuca) in PR #[6441](https://github.com/unitystation/unitystation/pull/6441)
 * 2021/5/2: Stop, drop, and roll is now better by [Semuca](https://github.com/Semuca) in PR #[6441](https://github.com/unitystation/unitystation/pull/6441)
 * 2021/5/1: Fixes PKA not working due to projectile not being set by [ThatDan123](https://github.com/ThatDan123) in PR #[6448](https://github.com/unitystation/unitystation/pull/6448)
