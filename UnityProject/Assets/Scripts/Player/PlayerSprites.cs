@@ -91,6 +91,8 @@ public class PlayerSprites : MonoBehaviour
 
 	public bool RootBodyPartsLoaded = false;
 
+	public GameObject OverlaySprites;
+
 	protected void Awake()
 	{
 		directional = GetComponent<Directional>();
@@ -127,7 +129,7 @@ public class PlayerSprites : MonoBehaviour
 		if (engulfedBurningOverlay == null)
 		{
 			engulfedBurningOverlay =
-				Instantiate(engulfedBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+				Instantiate(engulfedBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			engulfedBurningOverlay.enabled = true;
 			engulfedBurningOverlay.StopOverlay();
 		}
@@ -135,14 +137,14 @@ public class PlayerSprites : MonoBehaviour
 		if (partialBurningOverlay == null)
 		{
 			partialBurningOverlay =
-				Instantiate(partialBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+				Instantiate(partialBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			partialBurningOverlay.enabled = true;
 			partialBurningOverlay.StopOverlay();
 		}
 
 		if (electrocutedOverlay == null)
 		{
-			electrocutedOverlay = Instantiate(electrocutedPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+			electrocutedOverlay = Instantiate(electrocutedPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			electrocutedOverlay.enabled = true;
 			electrocutedOverlay.StopOverlay();
 		}

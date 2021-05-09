@@ -42,6 +42,8 @@ namespace TileManagement
 		public Layer[] LayersValues { get; private set; }
 		public ObjectLayer ObjectLayer { get; private set; }
 
+		//Determines the maximum amount of overlays allowed on a tile
+		private const int OVERLAY_LIMIT = 20;
 
 		public List<Layer> ffLayersValues;
 
@@ -905,15 +907,15 @@ namespace TileManagement
 			}
 
 			TileLocation tileLocation = null;
-			position.z = 1;
+			position.z = 0;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
+					position.z++;
 
 					lock (PresentTiles)
 					{
@@ -954,15 +956,15 @@ namespace TileManagement
 
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
-			position.z = 1;
+			position.z = 0;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
+					position.z++;
 
 					lock (PresentTiles)
 					{
@@ -1008,15 +1010,15 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<Vector3Int> pos = new List<Vector3Int>();
-			position.z = 1;
+			position.z = 0;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
+					position.z++;
 
 					lock (PresentTiles)
 					{
@@ -1062,15 +1064,15 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<Vector3Int> pos = new List<Vector3Int>();
-			position.z = 1;
+			position.z = 0;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
+					position.z++;
 
 					lock (PresentTiles)
 					{
@@ -1116,15 +1118,15 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<OverlayTile> overlayTiles = new List<OverlayTile>();
-			position.z = 1;
+			position.z = 0;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
+					position.z++;
 
 					lock (PresentTiles)
 					{
@@ -1165,15 +1167,15 @@ namespace TileManagement
 
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
-			position.z = 1;
+			position.z = 0;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
+					position.z++;
 
 					lock (PresentTiles)
 					{
@@ -1184,7 +1186,7 @@ namespace TileManagement
 					{
 						overlayTile = tileLocation.Tile as OverlayTile;
 
-						if (overlayTile != null && overlayTile == overlayTileWanted)
+						if (overlayTile != null && overlayTile.Equals(overlayTileWanted))
 						{
 							return true;
 						}
