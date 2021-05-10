@@ -907,7 +907,7 @@ namespace TileManagement
 			}
 
 			TileLocation tileLocation = null;
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -915,8 +915,6 @@ namespace TileManagement
 				var count = 0;
 				while (count < OVERLAY_LIMIT)
 				{
-					position.z++;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -928,6 +926,7 @@ namespace TileManagement
 						return position;
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -956,7 +955,7 @@ namespace TileManagement
 
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -964,8 +963,6 @@ namespace TileManagement
 				var count = 0;
 				while (count < OVERLAY_LIMIT)
 				{
-					position.z++;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -981,6 +978,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1010,7 +1008,7 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<Vector3Int> pos = new List<Vector3Int>();
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -1018,8 +1016,6 @@ namespace TileManagement
 				var count = 0;
 				while (count < OVERLAY_LIMIT)
 				{
-					position.z++;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1035,6 +1031,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1064,7 +1061,7 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<Vector3Int> pos = new List<Vector3Int>();
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -1072,8 +1069,6 @@ namespace TileManagement
 				var count = 0;
 				while (count < OVERLAY_LIMIT)
 				{
-					position.z++;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1089,6 +1084,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1118,7 +1114,7 @@ namespace TileManagement
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
 			List<OverlayTile> overlayTiles = new List<OverlayTile>();
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -1126,8 +1122,6 @@ namespace TileManagement
 				var count = 0;
 				while (count < OVERLAY_LIMIT)
 				{
-					position.z++;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1143,6 +1137,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1167,7 +1162,7 @@ namespace TileManagement
 
 			TileLocation tileLocation = null;
 			OverlayTile overlayTile = null;
-			position.z = 0;
+			position.z = 1;
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
@@ -1175,8 +1170,6 @@ namespace TileManagement
 				var count = 0;
 				while (count < OVERLAY_LIMIT)
 				{
-					position.z++;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1192,6 +1185,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}

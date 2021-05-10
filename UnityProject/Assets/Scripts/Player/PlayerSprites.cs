@@ -91,7 +91,8 @@ public class PlayerSprites : MonoBehaviour
 
 	public bool RootBodyPartsLoaded = false;
 
-	public GameObject OverlaySprites;
+	[SerializeField]
+	private GameObject OverlaySprites;
 
 	protected void Awake()
 	{
