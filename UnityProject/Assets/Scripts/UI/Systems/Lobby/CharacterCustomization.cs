@@ -244,6 +244,7 @@ namespace UI.CharacterCreator
 		public void EditCharacter()
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			ShowCharacterCreator();
 			RefreshAll();
 		}
