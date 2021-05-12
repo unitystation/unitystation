@@ -238,6 +238,7 @@ namespace UI.CharacterCreator
 
 		public void CreateCharacter()
 		{
+			lastSettings = currentCharacter;
 			CharacterSettings character = new CharacterSettings();
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
@@ -1167,6 +1168,7 @@ namespace UI.CharacterCreator
 		public void OnCancelBtn()
 		{
 			PlayerManager.CurrentCharacterSettings = lastSettings;
+			LoadSettings(lastSettings);
 			RefreshAll();
 			ShowCharacterSelectorPage();
 		}
