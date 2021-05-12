@@ -238,7 +238,10 @@ namespace UI.CharacterCreator
 
 		public void CreateCharacter()
 		{
-			lastSettings = currentCharacter;
+			if(currentCharacter != null)
+			{
+				lastSettings = currentCharacter;
+			}
 			CharacterSettings character = new CharacterSettings();
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
