@@ -1133,13 +1133,11 @@ namespace UI.CharacterCreator
 
 		public void OnApplyBtn()
 		{
-			_ = OnApplyBtnLogic();
+			OnApplyBtnLogic();
 		}
 
-		private async Task OnApplyBtnLogic()
+		private void OnApplyBtnLogic()
 		{
-			DisplayErrorText("Saving..");
-			await Task.Delay(250);
 
 			DisplayErrorText("");
 			try
