@@ -168,13 +168,9 @@ namespace Objects.Electrical
 					isA = false;
 				}
 
-				List<IntrinsicElectronicData> Econns = new List<IntrinsicElectronicData>();
-				var IEnumerableEconns = interaction.Performer.GetComponentInParent<Matrix>()
-					.GetElectricalConnections(position.RoundToInt());
-				foreach (var T in IEnumerableEconns)
-				{
-					Econns.Add(T);
-				}
+				List<IntrinsicElectronicData> IEnumerableEconns =
+					interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(position.RoundToInt());
+				List<IntrinsicElectronicData> Econns = new List<IntrinsicElectronicData>(IEnumerableEconns);
 
 				IEnumerableEconns.Clear();
 				ElectricalPool.PooledFPCList.Add(IEnumerableEconns);
