@@ -95,6 +95,9 @@ namespace UI.CharacterCreator
 		public InputField SerialiseData;
 
 		[SerializeField] private GameObject snapCapturer;
+		[SerializeField] private GameObject CharacterCustomizationContent;
+		[SerializeField] private GameObject CharacterSelectorPreviewContent;
+		private Vector3 SpritesContainerOriginalPosition;
 
 		[Header("Character Selector")]
 		[SerializeField] private Text WindowName;
@@ -102,7 +105,6 @@ namespace UI.CharacterCreator
 		[SerializeField] private TMPro.TMP_Dropdown CharacterPreviewDropdown;
 		[SerializeField] private Text CharacterPreviewRace;
 		[SerializeField] private Text CharacterPreviewBodyType;
-		[SerializeField] private RawImage CharacterPreviewImg;
 
 		[SerializeField] private TMPro.TextMeshProUGUI GoBackButtonText;
 		[SerializeField] private GameObject CharacterPreviews;
@@ -130,6 +132,8 @@ namespace UI.CharacterCreator
 
 		void OnEnable()
 		{
+			GetOriginalLocalPositionForCharacterPreview();
+			ShowCharacterPreviewOnCharacterSelector();
 			GetSavedCharacters();
 			CheckIfCharacterListIsEmpty();
 			WindowName.text = "Select your character";
@@ -188,6 +192,7 @@ namespace UI.CharacterCreator
 
 		private void ShowNoCharacterError()
 		{
+			ReturnCharacterPreviewFromTheCharacterSelector();
 			CharacterPreviews.SetActive(false);
 			NoCharactersError.SetActive(true);
 			EditCharacterButton.SetActive(false);
@@ -201,6 +206,7 @@ namespace UI.CharacterCreator
 			CharacterSelectorPage.SetActive(false);
 			CharacterCreatorPage.SetActive(true);
 			GoBackButton.SetActive(false);
+			ReturnCharacterPreviewFromTheCharacterSelector();
 			Cleanup();
 			LoadSettings(currentCharacter);
 			RefreshAll();
@@ -210,6 +216,7 @@ namespace UI.CharacterCreator
 		private void ShowCharacterSelectorPage()
 		{
 			WindowName.text = "Select your character";
+			ShowCharacterPreviewOnCharacterSelector();
 			GoBackButton.SetActive(true);
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
@@ -237,6 +244,7 @@ namespace UI.CharacterCreator
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			currentCharacter.Species = Race.Human.ToString();
 			ShowCharacterCreator();
+			ReturnCharacterPreviewFromTheCharacterSelector();
 			RefreshAll();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
@@ -267,7 +275,6 @@ namespace UI.CharacterCreator
 		{
 			CharacterPreviewRace.text = PlayerCharacters[currentCharacterIndex].Species;
 			CharacterPreviewBodyType.text = PlayerCharacters[currentCharacterIndex].BodyType.ToString();
-			CheckPreviewImage();
 		}
 
 		private void UpdateCharactersDropDown()
@@ -293,28 +300,6 @@ namespace UI.CharacterCreator
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
-		/// <summary>
-		/// If there is no sprite, show an error.
-		/// If there is a sprite, display it.
-		/// </summary>
-		private void CheckPreviewImage()
-		{
-			string path = Application.persistentDataPath + "/" +
-				$"{PlayerCharacters[currentCharacterIndex].Username}/" + PlayerCharacters[currentCharacterIndex].Name;
-			if (Directory.Exists(path))
-			{
-				CharacterPreviewImg.SetActive(true);
-				NoPreviewError.SetActive(false);
-				Debug.Log(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG");
-				if(this.gameObject.activeSelf) { StartCoroutine(GetPreviewImage(path + $"/down_{PlayerCharacters[currentCharacterIndex].Name}.PNG")); }
-			}
-			else
-			{
-				CharacterPreviewImg.SetActive(false);
-				NoPreviewError.SetActive(true);
-			}
-		}
-
 		private void CheckIfCharacterListIsEmpty()
 		{
 			if(PlayerCharacters.Count == 0)
@@ -326,30 +311,6 @@ namespace UI.CharacterCreator
 			{
 				EditCharacterButton.SetActive(true);
 				HideCharacterDeletionConfirmation();
-			}
-		}
-
-		/// <summary>
-		/// Loads an image from a localpath or from a server.
-		/// </summary>
-		/// <param name="path">The path to the image that will be used as a texture.</param>
-		/// <returns></returns>
-		private IEnumerator<UnityWebRequestAsyncOperation> GetPreviewImage(string path)
-		{
-			using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(path))
-			{
-				yield return uwr.SendWebRequest();
-
-				if (uwr.result != UnityWebRequest.Result.Success)
-				{
-					Debug.Log(uwr.error);
-					CharacterPreviewImg.SetActive(false);
-					NoPreviewError.SetActive(true);
-				}
-				else
-				{
-					CharacterPreviewImg.texture = DownloadHandlerTexture.GetContent(uwr);
-				}
 			}
 		}
 
@@ -385,6 +346,21 @@ namespace UI.CharacterCreator
 			RefreshAll();
 			SaveLastCharacterIndex();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		}
+
+		private void GetOriginalLocalPositionForCharacterPreview()
+		{
+			SpritesContainerOriginalPosition = SpriteContainer.transform.localPosition;
+		}
+		private void ShowCharacterPreviewOnCharacterSelector()
+		{
+			SpriteContainer.transform.SetParent(CharacterSelectorPreviewContent.transform);
+		}
+
+		private void ReturnCharacterPreviewFromTheCharacterSelector()
+		{
+			SpriteContainer.transform.SetParent(CharacterCustomizationContent.transform);
+			SpriteContainer.transform.localPosition = SpritesContainerOriginalPosition;
 		}
 
 		private void LoadSettings(CharacterSettings inCharacterSettings)
@@ -432,6 +408,7 @@ namespace UI.CharacterCreator
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
 			DoInitChecks();
+			RefreshAll();
 		}
 
 		#region BodyPartsSprites
@@ -976,26 +953,6 @@ namespace UI.CharacterCreator
 			SaveCharacters();
 		}
 
-		/// <summary>
-		/// Takes 4 pictures of the character from all sides and stores them in %AppData%/Locallow/unitystation
-		/// </summary>
-		private IEnumerator<WaitForEndOfFrame> SaveCurrentCharacterSnaps()
-		{
-			Util.CaptureUI capture = snapCapturer.GetComponent<Util.CaptureUI>();
-			int dir = 0;
-			capture.Path = $"/{currentCharacter.Username}/{currentCharacter.Name}"; //Note, we need to add IDs for currentCharacters later to avoid characters who have the same name overriding themselves.
-			while(dir < 4)
-			{
-				RightRotate();
-				capture.FileName = $"{currentDir}_{currentCharacter.Name}.PNG";
-				//Wait for 3 frames to make sure that all sprites have been loaded and layered correctly when rotating.
-				yield return WaitFor.EndOfFrame;
-				yield return WaitFor.EndOfFrame;
-				yield return WaitFor.EndOfFrame;
-				capture.TakeScreenShot();
-				dir++;
-			}
-		}
 
 		/// <summary>
 		/// Remembers what was the last character the player chose in the character selector screen.
@@ -1181,11 +1138,8 @@ namespace UI.CharacterCreator
 
 		private async Task OnApplyBtnLogic()
 		{
-			StartCoroutine(SaveCurrentCharacterSnaps());
-
 			DisplayErrorText("Saving..");
-			//A hacky solution to be able to get character snaps before the UI shuts itself and hides/deletes the player. 
-			await Task.Delay(500);
+			await Task.Delay(250);
 
 			DisplayErrorText("");
 			try
