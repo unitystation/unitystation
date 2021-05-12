@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -178,10 +178,11 @@ namespace Objects.Electrical
 
 				IEnumerableEconns.Clear();
 				ElectricalPool.PooledFPCList.Add(IEnumerableEconns);
-				int i = 0;
+
 				if (Econns != null)
 				{
-					while (!(i >= Econns.Count))
+					// Now, we loop through each electrical connection.
+					for (int i = 0; i < Econns.Count; i++)
 					{
 						if (powerTypeCategory == Econns[i].Categorytype)
 						{
@@ -220,8 +221,6 @@ namespace Objects.Electrical
 								return;
 							}
 						}
-
-						i++;
 					}
 				}
 			}
