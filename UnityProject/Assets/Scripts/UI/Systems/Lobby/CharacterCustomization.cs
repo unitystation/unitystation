@@ -358,13 +358,12 @@ namespace UI.CharacterCreator
 			if (currentCharacterIndex != 0)
 			{
 				currentCharacterIndex--;
-				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
 			else
 			{
 				currentCharacterIndex = PlayerCharacters.Count();
-				CharacterPreviewDropdown.value = currentCharacterIndex;
 			}
+			CharacterPreviewDropdown.value = currentCharacterIndex;
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
@@ -373,16 +372,15 @@ namespace UI.CharacterCreator
 
 		public void ScrollSelectorRight()
 		{
-			if (currentCharacterIndex <= PlayerCharacters.Count())
+			if (currentCharacterIndex == PlayerCharacters.Count() || currentCharacterIndex == PlayerCharacters.Count() - 1)
 			{
-				currentCharacterIndex++;
-				CharacterPreviewDropdown.value = currentCharacterIndex;
+				currentCharacterIndex = 0;
 			}
 			else
 			{
-				currentCharacterIndex = 0;
-				CharacterPreviewDropdown.value = currentCharacterIndex;
+				currentCharacterIndex++;
 			}
+			CharacterPreviewDropdown.value = currentCharacterIndex;
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
