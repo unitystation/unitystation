@@ -130,8 +130,8 @@ namespace UI.CharacterCreator
 		void OnEnable()
 		{
 			GetOriginalLocalPositionForCharacterPreview();
-			ShowCharacterPreviewOnCharacterSelector();
 			GetSavedCharacters();
+			ShowCharacterPreviewOnCharacterSelector();
 			CheckIfCharacterListIsEmpty();
 			WindowName.text = "Select your character";
 			LoadSettings(PlayerManager.CurrentCharacterSettings);
@@ -361,7 +361,7 @@ namespace UI.CharacterCreator
 
 		private void ReturnCharacterPreviewFromTheCharacterSelector()
 		{
-			SpriteContainer.transform.SetParent(CharacterCustomizationContent.transform);
+			SpriteContainer.transform.SetParent(CharacterCustomizationContent.transform , true);
 			SpriteContainer.transform.localPosition = SpritesContainerOriginalPosition;
 		}
 

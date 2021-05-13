@@ -2140,6 +2140,42 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2473473407428917117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3551752251666988077}
+  m_Layer: 5
+  m_Name: PreviewContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3551752251666988077
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473473407428917117}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4616484289348060919}
+  m_Father: {fileID: 4616484291191486528}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -253.7, y: -47.8}
+  m_SizeDelta: {x: 382.57455, y: 258.65622}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2489470318918438102
 GameObject:
   m_ObjectHideFlags: 0
@@ -3835,17 +3871,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4616484289348060918}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4616484291191486528}
-  m_RootOrder: 3
+  m_Father: {fileID: 3551752251666988077}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -253, y: -45}
-  m_SizeDelta: {x: -610, y: -548.8}
+  m_AnchoredPosition: {x: 0.70002747, y: 2.8000488}
+  m_SizeDelta: {x: 53.52539, y: 65.16864}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4616484289348060916
 MonoBehaviour:
@@ -4879,17 +4915,14 @@ MonoBehaviour:
   SurfaceSprite: []
   SelectedSpecies: 0
   SerialiseData: {fileID: 5117563973470917019}
-  snapCapturer: {fileID: 4616484289348060918}
-  CharacterCustomizationContent: {fileID: 4616484291191486531}
+  CharacterCustomizationContent: {fileID: 2473473407428917117}
   CharacterSelectorPreviewContent: {fileID: 8711880553816606046}
   WindowName: {fileID: 4616484289738564357}
   CharacterPreviewDropdown: {fileID: 1236112222356076848}
   CharacterPreviewRace: {fileID: 369449508620937038}
   CharacterPreviewBodyType: {fileID: 2486416645686578486}
-  GoBackButtonText: {fileID: 5973844894484729735}
   CharacterPreviews: {fileID: 8988093448107136569}
   NoCharactersError: {fileID: 9048310144479258054}
-  NoPreviewError: {fileID: 0}
   ConfirmDeleteCharacterObject: {fileID: 921955107782506785}
   DeleteCharacterButton: {fileID: 334149808010377622}
   GoBackButton: {fileID: 328033210676926905}
@@ -6805,7 +6838,7 @@ RectTransform:
   - {fileID: 4537142523768127709}
   - {fileID: 4616484289841217794}
   - {fileID: 8015274195709189771}
-  - {fileID: 4616484289348060919}
+  - {fileID: 3551752251666988077}
   - {fileID: 4616484290491659460}
   - {fileID: 532022409019164951}
   - {fileID: 9011797635498828644}
