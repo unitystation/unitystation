@@ -94,7 +94,6 @@ namespace UI.CharacterCreator
 
 		public InputField SerialiseData;
 
-		[SerializeField] private GameObject snapCapturer;
 		[SerializeField] private GameObject CharacterCustomizationContent;
 		[SerializeField] private GameObject CharacterSelectorPreviewContent;
 		private Vector3 SpritesContainerOriginalPosition;
@@ -106,10 +105,8 @@ namespace UI.CharacterCreator
 		[SerializeField] private Text CharacterPreviewRace;
 		[SerializeField] private Text CharacterPreviewBodyType;
 
-		[SerializeField] private TMPro.TextMeshProUGUI GoBackButtonText;
 		[SerializeField] private GameObject CharacterPreviews;
 		[SerializeField] private GameObject NoCharactersError;
-		[SerializeField] private GameObject NoPreviewError;
 		[SerializeField] private GameObject ConfirmDeleteCharacterObject;
 		[SerializeField] private GameObject DeleteCharacterButton;
 		[SerializeField] private GameObject GoBackButton;
