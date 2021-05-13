@@ -257,6 +257,7 @@ namespace UI.CharacterCreator
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
+			lastSettings = PlayerCharacters[currentCharacterIndex];
 			ShowCharacterCreator();
 			RefreshAll();
 		}
