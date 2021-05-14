@@ -297,6 +297,7 @@ namespace UI.CharacterCreator
 		{
 			currentCharacterIndex = newValue;
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
+			PlayerManager.CurrentCharacterSettings = PlayerCharacters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			RefreshSelectorData();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
