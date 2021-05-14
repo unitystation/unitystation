@@ -254,7 +254,11 @@ namespace Blob
 		{
 			var playerScript = gameObject.GetComponent<PlayerScript>();
 
-			if (playerScript.IsDeadOrGhost) return;
+			if (playerScript.IsDeadOrGhost)
+			{
+				Destroy(this);
+				return;
+			}
 
 			var bound = MatrixManager.MainStationMatrix.Bounds;
 
@@ -276,6 +280,7 @@ namespace Blob
 			if (!spawnResult.Successful)
 			{
 				Logger.LogError("Failed to spawn blob!", Category.Blob);
+				Destroy(this);
 				return;
 			}
 
