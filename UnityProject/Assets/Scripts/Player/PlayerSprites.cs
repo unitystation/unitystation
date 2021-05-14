@@ -294,6 +294,7 @@ public class PlayerSprites : MonoBehaviour
 					SpriteHandlerNorder.SetSpriteOrder(new SpriteOrder(Customisation.CustomisationGroup.SpriteOrder));
 					Color setColor = Color.black;
 					ColorUtility.TryParseHtmlString(externalCustomisation.SerialisedValue.Colour, out setColor);
+					setColor.a = 1;
 					SpriteHandlerNorder.SpriteHandler.SetColor(setColor);
 				}
 			}
