@@ -449,4 +449,14 @@ public static class SweetExtensions
 	{
 		return Mathf.Approximately(thisValue, value);
 	}
+
+	/// <summary>
+	/// See if two colours are approximately the same
+	/// </summary>
+	public static bool ColorApprox(this Color a, Color b)
+	{
+		return Mathf.Approximately(a.b, b.b) &&
+			    Mathf.Approximately(a.r, b.r) &&
+					Mathf.Approximately(a.g, b.g);
+	}
 }

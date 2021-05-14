@@ -373,7 +373,18 @@ public class PlayerSprites : MonoBehaviour
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
 
-			if (RaceBodyparts.Base.SkinColours.Contains(CurrentSurfaceColour) == false)
+			var hasColour = false;
+
+			foreach (var color in RaceBodyparts.Base.SkinColours)
+			{
+				if (color.ColorApprox(CurrentSurfaceColour))
+				{
+					hasColour = true;
+					break;
+				}
+			}
+
+			if (hasColour == false)
 			{
 				CurrentSurfaceColour = RaceBodyparts.Base.SkinColours[0];
 			}
