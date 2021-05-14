@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/14: Fixes space sound playing when going to hidden pos by [ThatDan123](https://github.com/ThatDan123) in PR #[6508](https://github.com/unitystation/unitystation/pull/6508)
+* 2021/5/14: Resizes the shield and moves the SM sprites to better fix the tile by [ThatDan123](https://github.com/ThatDan123) in PR #[6508](https://github.com/unitystation/unitystation/pull/6508)
 * 2021/5/7: Newlines and return characters are removed from chat messages so chat isn't spammed vertically by [nBova](https://github.com/nBova) in PR #[6472](https://github.com/unitystation/unitystation/pull/6472)
 * 2021/5/7: Users can no longer set all caps character names by [nBova](https://github.com/nBova) in PR #[6472](https://github.com/unitystation/unitystation/pull/6472)
 * 2021/5/2: Plasma fire damage tweaks by [Semuca](https://github.com/Semuca) in PR #[6441](https://github.com/unitystation/unitystation/pull/6441)
