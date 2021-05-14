@@ -210,6 +210,11 @@ public static class ConnectionMap
 
 }
 
+/// <summary>
+/// Enum that describes the type of connection a tile is currently taking on.
+/// This is especially useful for things such as electrical cables that has
+/// lots of different kinds of connection.
+/// </summary>
 public enum Connection
 {
 	NA,
