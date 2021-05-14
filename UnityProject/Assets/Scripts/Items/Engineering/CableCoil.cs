@@ -16,6 +16,12 @@ namespace Objects.Electrical
 		public GameObject CablePrefab;
 		public PowerTypeCategory powerTypeCategory;
 
+		/// <summary>
+		/// Message that is send to the client when attempting to build a cable
+		/// that already exists at a given position.
+		/// </summary>
+		private const string MSG_BUILD_CONFLICT = "There is already a cable at that position.";
+
 		public Connection GetDirectionFromFaceDirection(GameObject originator)
 		{
 			var playerScript = originator.GetComponent<PlayerScript>();
@@ -86,18 +92,15 @@ namespace Objects.Electrical
 				Connection wireEndB = interaction.WireEndB;
 
 				// Make sure that the ending connection actually exists.
-				if (wireEndB != Connection.NA)
+				if (IsLegalConnection(wireEndA, wireEndB))
 				{
-					// Check if the connection is legal.
-					if (!IsLegalConnection(wireEndA, wireEndB))
-					{
-						return;
-					}
-
+					// Grab a list of electrical connections from the matrix at
+					// the given location.
 					List<IntrinsicElectronicData> eConnList =
 						interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 
-					// TODO: There is a LOT of repeat code here.
+					// Find any cables on the matrix that conflicts with our
+					// proposed connections.
 					// TODO: What's the point of the nested for loop?
 					foreach (IntrinsicElectronicData eConnI in eConnList)
 					{
@@ -105,9 +108,7 @@ namespace Objects.Electrical
 						{
 							if (eConnI.WireEndA == wireEndB || eConnI.WireEndB == wireEndB)
 							{
-								Chat.AddExamineMsgToClient("There is already a cable at that position");
-								eConnList.Clear();
-								ElectricalPool.PooledFPCList.Add(eConnList);
+								MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
 								return;
 							}
 
@@ -117,16 +118,12 @@ namespace Objects.Electrical
 								{
 									if (eConnI.WireEndA == eConnJ.WireEndA || eConnI.WireEndB == eConnJ.WireEndA)
 									{
-										Chat.AddExamineMsgToClient("There is already a cable at that position");
-										eConnList.Clear();
-										ElectricalPool.PooledFPCList.Add(eConnList);
+										MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
 										return;
 									}
 									else if (eConnI.WireEndA == eConnJ.WireEndB || eConnI.WireEndB == eConnJ.WireEndB)
 									{
-										Chat.AddExamineMsgToClient("There is already a cable at that position");
-										eConnList.Clear();
-										ElectricalPool.PooledFPCList.Add(eConnList);
+										MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
 										return;
 									}
 								}
@@ -134,24 +131,48 @@ namespace Objects.Electrical
 						}
 					}
 
-					eConnList.Clear();
-					ElectricalPool.PooledFPCList.Add(eConnList);
-					// Builds the cable using the position and connections.
+					MsgAndAddToPool(ref eConnList, null);
 					BuildCable(localPosInt, wireEndA, wireEndB, interaction);
 				}
 			}
 		}
 
 		/// <summary>
+		/// Adds examine message to the client (if provided), clears the
+		/// electrical connections list, and adds it to the electrical pool.
+		/// </summary>
+		/// <param name="eConnList">List of electrical connections. Will not add to electrical pool if null.</param>
+		/// <param name="addMsg">Message to show as an examine message. Will not show anything if null.</param>
+		private void MsgAndAddToPool(ref List<IntrinsicElectronicData> eConnList, string msg)
+		{
+			if (msg != null)
+			{
+				Chat.AddExamineMsgToClient(msg);
+			}
+
+			if (eConnList != null)
+			{
+				eConnList.Clear();
+				ElectricalPool.PooledFPCList.Add(eConnList);
+			}
+		}
+
+		/// <summary>
 		/// Checks if the connection ends are legal. In this case, high-voltage
-		/// cables cannot cannot diagonally. All other connections are legal.
+		/// cables cannot cannot diagonally and no connections are illegal. All
+		/// other connections are legal.
 		/// </summary>
 		/// <param name="wireEndA">The first connection we're building from.</param>
 		/// <param name="wireEndB">The second connection we're building to.</param>
 		/// <returns>false if attempting to connect high voltage cables
-		/// diagonally, true otherwise.</returns>
+		/// diagonally or no connection, true otherwise.</returns>
 		private bool IsLegalConnection(Connection wireEndA, Connection wireEndB)
 		{
+			if (wireEndA == Connection.NA && wireEndB == Connection.NA)
+			{
+				return false;
+			}
+
 			if (CableType == WiringColor.high)
 			{
 				switch (wireEndA)
