@@ -69,7 +69,6 @@ namespace Objects.Electrical
 		/// this proceeds to add the new cable to the electrical pool and
 		/// builds the cable.
 		/// </summary>
-		/// <param name="interaction"></param>
 		public void ServerPerformInteraction(ConnectionApply interaction)
 		{
 			CableCoil cableCoil = interaction.HandObject.GetComponent<CableCoil>();
@@ -159,7 +158,7 @@ namespace Objects.Electrical
 
 		/// <summary>
 		/// Checks if the connection ends are legal. In this case, high-voltage
-		/// cables cannot cannot diagonally and no connections are illegal. All
+		/// cables cannot connect diagonally and no connections are illegal. All
 		/// other connections are legal.
 		/// </summary>
 		/// <param name="wireEndA">The first connection we're building from.</param>
@@ -207,7 +206,7 @@ namespace Objects.Electrical
 		/// Finds overlapping wires and combines them to create a new
 		/// connection.
 		/// </summary>
-		/// <param name="position">Position of the cell we're building thecable at.</param>
+		/// <param name="position">Position of the cell we're building the cable at.</param>
 		/// <param name="wireEndA">The first connection we're building from.</param>
 		/// <param name="wireEndB">The second connection we're building to.</param>
 		/// <param name="interaction">Object to allow us to interact with the server.</param>
@@ -215,7 +214,7 @@ namespace Objects.Electrical
 			ConnectionApply interaction)
 		{
 			// If the wire ends are overlapping...
-			if (wireEndA == Connection.Overlap | wireEndB == Connection.Overlap)
+			if (wireEndA == Connection.Overlap || wireEndB == Connection.Overlap)
 			{
 				// Stores boolean representing whether or not wireEndA is an
 				// overlap.
@@ -301,7 +300,6 @@ namespace Objects.Electrical
 		/// <param name="eConn">Electrical connection we're replacing.</param>
 		/// <param name="wireEndA">Connection direction of one end.</param>
 		/// <param name="wireEndB">Connection direction of the other end.</param>
-		/// <param name="interaction"></param>
 		private void ReplaceEConn(Vector3 position, IntrinsicElectronicData eConn, Connection wireEndA,
 			Connection wireEndB, ConnectionApply interaction)
 		{

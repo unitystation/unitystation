@@ -195,7 +195,6 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	/// tile is encountered, we open the cable cutting window.
 	/// </summary>
 	/// <param name="interaction">Position of interaction with a hand</param>
-	/// <returns></returns>
 	public bool Interact(PositionalHandApply interaction)
 	{
 		// translate to the tile interaction system
