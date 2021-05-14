@@ -235,7 +235,7 @@ namespace UI.CharacterCreator
 
 		public void CreateCharacter()
 		{
-			if(currentCharacter != null)
+			if (currentCharacter != null)
 			{
 				lastSettings = currentCharacter;
 			}
@@ -292,7 +292,6 @@ namespace UI.CharacterCreator
 		/// And then we make sure that the currentCharacter is also loaded in.
 		/// Note : to unify the way loading character data is; we mainly use ItemChange now for everything to make bug trackign less and code better.
 		/// </summary>
-		/// <param name="newValue"></param>
 		private void ItemChange(int newValue)
 		{
 			currentCharacterIndex = newValue;
@@ -305,7 +304,7 @@ namespace UI.CharacterCreator
 
 		private void CheckIfCharacterListIsEmpty()
 		{
-			if(PlayerCharacters.Count == 0)
+			if (PlayerCharacters.Count == 0)
 			{
 				EditCharacterButton.SetActive(false);
 				ShowNoCharacterError();
@@ -988,7 +987,7 @@ namespace UI.CharacterCreator
 			{
 				json = JsonConvert.SerializeObject(PlayerCharacters, settings);
 			}
-			if(File.Exists(path))
+			if (File.Exists(path))
 			{
 				File.Delete(path);
 			}
