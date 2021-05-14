@@ -310,7 +310,7 @@ namespace Objects.Electrical
 			// connection.
 			int oldTileCost = 0;
 
-			// Get the cost of the old tile. Thend estroy the current
+			// Get the cost of the old tile. Then destroy the current
 			// electrical connection only if we were given a connection.
 			if (eConn != null)
 			{
