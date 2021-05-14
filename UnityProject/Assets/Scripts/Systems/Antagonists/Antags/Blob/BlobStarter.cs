@@ -280,9 +280,9 @@ namespace Blob
 
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
-			playerScript.mind = null;
+			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
 
-			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, gameObject, Event.BlobSpawned, playerScript.characterSettings);
+			playerScript.mind = null;
 
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();
