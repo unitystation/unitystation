@@ -2,6 +2,18 @@
 ---
 
 
+* 2021/5/14: [Fix] - Fixed a bug where creating a new character caused the game to not register the last character sheet correctly. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Fix] - When editing a character the game will load in your current character index. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Fix] - If you're savefile is corrupted the game won't freeze you on the Pre-round screen and will now try correcting your savefile to continue playing. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Fix] - Fixed a collection of bugs when loading/editing characters that caused a bunch of silent issues. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Fix] - You no longer have the ability to join the round if you have no characters. Previously people had this ability using deleted characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Fix] - You no longer can create one-time character sheets by pressing the Finish button on the top. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Fix] - The game will no longer try to spawn in ghost character sheets who have been deleted. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Fix] - Players will no longer be able to edit characters when the PlayerList is empty. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [New] - Added confirmation dialogue for when you click on the Delete Character Button. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [New] - You can now see and select your characters via a drop menu. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Improvement] - The exit button is now a cancel button, returning you to the character selector when you don't want to save your changes. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
+* 2021/5/14: [Improvement] - The character selector has had some UI changes. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
 * 2021/5/14: Fixes space sound playing when going to hidden pos by [ThatDan123](https://github.com/ThatDan123) in PR #[6508](https://github.com/unitystation/unitystation/pull/6508)
 * 2021/5/14: Resizes the shield and moves the SM sprites to better fix the tile by [ThatDan123](https://github.com/ThatDan123) in PR #[6508](https://github.com/unitystation/unitystation/pull/6508)
 * 2021/5/7: Newlines and return characters are removed from chat messages so chat isn't spammed vertically by [nBova](https://github.com/nBova) in PR #[6472](https://github.com/unitystation/unitystation/pull/6472)
