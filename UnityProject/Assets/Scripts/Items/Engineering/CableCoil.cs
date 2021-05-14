@@ -55,15 +55,25 @@ namespace Objects.Electrical
 			return true;
 		}
 
+		/// <summary>
+		/// <para>Facilitates the interaction of the cable coil in hand.</para>
+		/// First checks if the connection we're trying to make is legal, then
+		/// checks against all electrical connections on the cell in the matrix
+		/// to see if the connection already exists. If everything is good,
+		/// this proceeds to add the new cable to the electrical pool and
+		/// builds the cable.
+		/// </summary>
+		/// <param name="interaction"></param>
 		public void ServerPerformInteraction(ConnectionApply interaction)
 		{
 			CableCoil cableCoil = interaction.HandObject.GetComponent<CableCoil>();
+
 			if (cableCoil != null)
 			{
 				Vector3Int worldPosInt = Vector3Int.RoundToInt(interaction.WorldPositionTarget);
-				var matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
-				var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixInfo);
-				var matrix = matrixInfo?.Matrix;
+				MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
+				Vector3Int localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixInfo);
+				Matrix matrix = matrixInfo?.Matrix;
 
 				// if there is no matrix or IsClearUnderfloor == false - return
 				if (matrix == null || matrix.IsClearUnderfloorConstruction(localPosInt, true) == false)
@@ -71,9 +81,11 @@ namespace Objects.Electrical
 					return;
 				}
 
-				Connection wireEndB = interaction.WireEndB;
+				// Get the starting and ending connections.
 				Connection wireEndA = interaction.WireEndA;
+				Connection wireEndB = interaction.WireEndB;
 
+				// Make sure that the ending connection actually exists.
 				if (wireEndB != Connection.NA)
 				{
 					// Check if the connection is legal.
@@ -87,11 +99,11 @@ namespace Objects.Electrical
 
 					// TODO: There is a LOT of repeat code here.
 					// TODO: What's the point of the nested for loop?
-					foreach (IntrinsicElectronicData conn in eConnList)
+					foreach (IntrinsicElectronicData eConnI in eConnList)
 					{
-						if (conn.WireEndA == Connection.Overlap || conn.WireEndB == Connection.Overlap)
+						if (eConnI.WireEndA == Connection.Overlap || eConnI.WireEndB == Connection.Overlap)
 						{
-							if (conn.WireEndA == wireEndB || conn.WireEndB == wireEndB)
+							if (eConnI.WireEndA == wireEndB || eConnI.WireEndB == wireEndB)
 							{
 								Chat.AddExamineMsgToClient("There is already a cable at that position");
 								eConnList.Clear();
@@ -99,18 +111,18 @@ namespace Objects.Electrical
 								return;
 							}
 
-							foreach (IntrinsicElectronicData Econ in eConnList)
+							foreach (IntrinsicElectronicData eConnJ in eConnList)
 							{
-								if (Econ.WireEndA == wireEndB || Econ.WireEndB == wireEndB)
+								if (eConnJ.WireEndA == wireEndB || eConnJ.WireEndB == wireEndB)
 								{
-									if (conn.WireEndA == Econ.WireEndA || conn.WireEndB == Econ.WireEndA)
+									if (eConnI.WireEndA == eConnJ.WireEndA || eConnI.WireEndB == eConnJ.WireEndA)
 									{
 										Chat.AddExamineMsgToClient("There is already a cable at that position");
 										eConnList.Clear();
 										ElectricalPool.PooledFPCList.Add(eConnList);
 										return;
 									}
-									else if (conn.WireEndA == Econ.WireEndB || conn.WireEndB == Econ.WireEndB)
+									else if (eConnI.WireEndA == eConnJ.WireEndB || eConnI.WireEndB == eConnJ.WireEndB)
 									{
 										Chat.AddExamineMsgToClient("There is already a cable at that position");
 										eConnList.Clear();
