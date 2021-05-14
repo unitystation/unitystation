@@ -254,12 +254,6 @@ namespace Blob
 		{
 			var playerScript = gameObject.GetComponent<PlayerScript>();
 
-			if (playerScript.IsDeadOrGhost)
-			{
-				Destroy(this);
-				return;
-			}
-
 			var bound = MatrixManager.MainStationMatrix.Bounds;
 
 			//Teleport user to random location on station if outside radius of 600 or on a space tile
