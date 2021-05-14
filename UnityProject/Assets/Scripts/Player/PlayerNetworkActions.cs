@@ -24,14 +24,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
+	[NonSerialized] public GameObject activeHand;
+	[NonSerialized] public NamedSlot CurrentActiveHand = NamedSlot.rightHand;
+	//synchronise uint of arm for hand slot
+
 
 	private Equipment equipment = null;
 
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private ItemStorage itemStorage;
-
+	public DynamicItemStorage itemStorage => playerScript.ItemStorage;
 	public Transform chatBubbleTarget;
 
 	public bool IsRolling { get; private set; } = false;
@@ -40,17 +42,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
-		itemStorage = GetComponent<ItemStorage>();
-	}
-
-	/// <summary>
-	/// Get the item in the player's slot
-	/// </summary>
-	/// <returns>the gameobject item in the player's slot, null if nothing </returns>
-	public GameObject GetActiveItemInSlot(NamedSlot slot)
-	{
-		var pu = itemStorage.GetNamedItemSlot(slot).Item;
-		return pu?.gameObject;
 	}
 
 	/// <summary>
@@ -59,33 +50,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// <returns>the gameobject item in the player's active hand, null if nothing in active hand</returns>
 	public GameObject GetActiveHandItem()
 	{
-		var pu = itemStorage.GetNamedItemSlot(activeHand).Item;
-		return pu?.gameObject;
-	}
-
-	/// <summary>
-	/// Get the item in the player's off hand
-	/// </summary>
-	/// <returns>the gameobject item in the player's off hand, null if nothing in off hand</returns>
-	public GameObject GetOffHandItem()
-	{
-		// Get the hand which isn't active
-		NamedSlot offHand;
-		switch (activeHand)
-		{
-			case NamedSlot.leftHand:
-				offHand = NamedSlot.rightHand;
-				break;
-			case NamedSlot.rightHand:
-				offHand = NamedSlot.leftHand;
-				break;
-			default:
-				Logger.LogError($"{playerScript.playerName} has an invalid activeHand! Found: {activeHand}",
-					Category.PlayerInventory);
-				return null;
-		}
-
-		var pu = itemStorage.GetNamedItemSlot(offHand).Item;
+		var pu = itemStorage.GetActiveHandSlot().ItemObject;
 		return pu?.gameObject;
 	}
 
@@ -244,7 +209,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to drop an item from a client
 	/// </summary>
 	[Command]
-	public void CmdDropItem(NamedSlot equipSlot)
+	public void CmdDropItem(uint NetID, NamedSlot equipSlot)
 	{
 		//only allowed to drop from hands
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
@@ -252,18 +217,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//allowed to drop from hands while cuffed
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+		if (NetworkIdentity.spawned.ContainsKey(NetID) == false) return;
+		var Object = NetworkIdentity.spawned[NetID].gameObject;
 
-		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		Inventory.ServerDrop(slot);
-	}
 
-	/// <summary>
-	/// Server handling of the request to drop an item from a client (any slot)
-	/// </summary>
-	[Command]
-	public void CmdDropItemWithoutValidations(NamedSlot equipSlot)
-	{
-		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+
+		var slot = itemStorage.GetNamedItemSlot(Object,equipSlot);
+		if (slot == null) return;
 		Inventory.ServerDrop(slot);
 	}
 
@@ -350,16 +310,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetVector, int aim)
+	public void CmdThrow( Vector3 worldTargetVector, int aim)
 	{
 		//only allowed to throw from hands
-		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		var slot = itemStorage.GetActiveHandSlot();
 		Inventory.ServerThrow(slot, worldTargetVector,
-			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+			slot.NamedSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
 	}
 
 	[Command]
@@ -412,9 +371,31 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSwitchPickupMode()
 	{
 		// Switch the pickup mode of the storage in the active hand
-		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
-		              GetOffHandItem()?.GetComponent<InteractableStorage>();
-		storage.ServerSwitchPickupMode(gameObject);
+
+		InteractableStorage storage = null;
+		foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+		{
+			if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent<InteractableStorage>(out storage))
+			{
+				break;
+			}
+		}
+
+		if (storage == null)
+		{
+			foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+			{
+				if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent<InteractableStorage>(out storage))
+				{
+					break;
+				}
+			}
+		}
+
+		if (storage != null)
+		{
+			storage.ServerSwitchPickupMode(gameObject);
+		}
 	}
 
 	/// <summary>
@@ -472,8 +453,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop hand items when unconscious
-				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+				foreach (var itemSlot in itemStorage.GetHandSlots())
+				{
+					Inventory.ServerDrop(itemSlot);
+				}
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
 				if (oldState == ConsciousState.CONSCIOUS)
@@ -485,8 +468,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			case ConsciousState.UNCONSCIOUS:
 				//Drop items when unconscious
-				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+				foreach (var itemSlot in itemStorage.GetHandSlots())
+				{
+					Inventory.ServerDrop(itemSlot);
+				}
 				playerMove.allowInput = false;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
@@ -684,9 +669,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSetActiveHand(NamedSlot hand)
+	public void CmdSetActiveHand(uint handID, NamedSlot NamedSlot)
 	{
-		activeHand = hand;
+		if (handID != 0) if (NetworkIdentity.spawned.ContainsKey(handID) == false) return;
+		if (NamedSlot != NamedSlot.leftHand && NamedSlot != NamedSlot.rightHand && NamedSlot != NamedSlot.none) return;
+
+		if (handID != 0)
+		{
+			var slot = playerScript.ItemStorage.GetNamedItemSlot(NetworkIdentity.spawned[handID].gameObject, NamedSlot);
+			if (slot == null) return;
+			activeHand = NetworkIdentity.spawned[handID].gameObject;
+		}
+		else
+		{
+			activeHand = null;
+		}
+		CurrentActiveHand = NamedSlot;
+
 	}
 
 	[Command]
@@ -721,28 +720,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		//Validate paper edit request
 		//TODO Check for Pen
-		var leftHand = itemStorage.GetNamedItemSlot(NamedSlot.leftHand);
-		var rightHand = itemStorage.GetNamedItemSlot(NamedSlot.rightHand);
-		if (leftHand.Item?.gameObject == paper || rightHand.Item?.gameObject == paper)
+		foreach (var itemSlot in  itemStorage.GetHandSlots())
 		{
-			var paperComponent = paper.GetComponent<Paper>();
-			var pen = leftHand.Item?.GetComponent<Pen>();
-			if (pen == null)
+			if (itemSlot.ItemObject == paper)
 			{
-				pen = rightHand.Item?.GetComponent<Pen>();
+				var paperComponent = paper.GetComponent<Paper>();
+				Pen pen = null;
+				foreach (var PenitemSlot in itemStorage.GetHandSlots())
+				{
+					pen = PenitemSlot.ItemObject?.GetComponent<Pen>();
+					if (pen != null)
+					{
+						break;
+					}
+				}
+
 				if (pen == null)
 				{
 					//no pen
 					paperComponent.UpdatePlayer(gameObject); //force server string to player
 					return;
 				}
-			}
-
-			if (paperComponent != null)
-			{
-				if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-				paperComponent.SetServerString(newMsg);
-				paperComponent.UpdatePlayer(gameObject);
+				if (paperComponent != null)
+				{
+					if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+					paperComponent.SetServerString(newMsg);
+					paperComponent.UpdatePlayer(gameObject);
+				}
 			}
 		}
 	}
@@ -783,8 +787,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestItemLabel(GameObject handLabeler, string label)
 	{
-		ItemStorage itemStorage = gameObject.GetComponent<ItemStorage>();
-		Pickupable handItem = itemStorage.GetActiveHandSlot().Item;
+		DynamicItemStorage itemStorage = gameObject.GetComponent<DynamicItemStorage>();
+		Pickupable handItem = itemStorage.GetActiveHandSlot()?.Item;
 		if (handItem == null) return;
 		if (handItem.gameObject != handLabeler) return;
 

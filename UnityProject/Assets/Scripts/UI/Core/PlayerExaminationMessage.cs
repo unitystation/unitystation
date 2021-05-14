@@ -21,6 +21,8 @@ public class PlayerExaminationMessage : ServerMessage<PlayerExaminationMessage.N
 		public uint ItemStorage;
 
 		public bool Observed;
+
+		public string slotInformation;
 	}
 
 	public override void Process(NetMessage msg)
@@ -34,36 +36,21 @@ public class PlayerExaminationMessage : ServerMessage<PlayerExaminationMessage.N
 			return;
 		}
 
-		var itemStorage = storageObject.GetComponent<ItemStorage>();
-		if(msg.Observed)
+		var itemStorage = storageObject.GetComponent<DynamicItemStorage>();
+		if (msg.Observed)
+		{
+			itemStorage.UpdateSlots(msg.slotInformation, msg.slotInformation);
 			UIManager.PlayerExaminationWindow.ExaminePlayer(itemStorage, msg.VisibleName, msg.Species, msg.Job, msg.Status, msg.AdditionalInformation);
+		}
 		else
 			UIManager.PlayerExaminationWindow.CloseWindow();
 	}
-
-	/// <summary>
-	/// Informs the recipient that they can now show/hide the player examination UI
-	/// </summary>
-	public static void Send(GameObject recipient, ItemStorage itemStorage, string visibleName, string species, string job, string status, string additionalInformations, bool observed)
-	{
-		var msg = new NetMessage()
-		{
-			ItemStorage = itemStorage.gameObject.NetId(),
-			VisibleName = visibleName,
-			Species = species,
-			Job = job,
-			Status = status,
-			AdditionalInformation = additionalInformations,
-			Observed = observed
-		};
-
-		SendTo(recipient, msg);
-	}
-
 	public static void Send(GameObject recipient, ExaminablePlayer examinablePlayer, bool observed)
 	{
+
 		var msg = new NetMessage()
 		{
+			slotInformation = examinablePlayer.GetComponent<DynamicItemStorage>().GetSetData,
 			ItemStorage = examinablePlayer.gameObject.NetId(),
 			VisibleName = examinablePlayer.GetPlayerNameString(),
 			Species = examinablePlayer.GetPlayerSpeciesString(),

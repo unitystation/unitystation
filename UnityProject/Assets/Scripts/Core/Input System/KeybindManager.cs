@@ -642,7 +642,7 @@ public class KeybindManager : MonoBehaviour {
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
-		
+
 		}
 		else
 		{

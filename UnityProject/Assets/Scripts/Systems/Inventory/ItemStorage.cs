@@ -22,7 +22,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	[SerializeField]
 	[FormerlySerializedAs("ItemStorageStructure")]
 	[Tooltip("Configuration describing the structure of the slots - i.e. what" +
-			 " the slots are / how many there are.")]
+	         " the slots are / how many there are.")]
 	private ItemStorageStructure itemStorageStructure = null;
 
 	/// <summary>
@@ -64,12 +64,19 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//It can be null, or it can be a pickupable.(Health V2)
 	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
 
-	[SerializeField]
-	private bool dropItemsOnDespawn;
+	[SerializeField] private bool dropItemsOnDespawn;
 
 	public bool UesAddlistPopulater = false;
 
 	[ShowIf(nameof(UesAddlistPopulater))] public PrefabListPopulater Populater;
+
+	public RegisterPlayer Player => player;
+	private RegisterPlayer player;
+
+	public void SetRegisterPlayer(RegisterPlayer registerPlayer)
+	{
+		player = registerPlayer;
+	}
 
 	private void Awake()
 	{
@@ -99,7 +106,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			ServerRemoveObserverPlayer(gameObject);
 		}
-		if(dropItemsOnDespawn)
+
+		if (dropItemsOnDespawn)
 			ServerDropAll();
 
 		//reclaim the space in the slot pool.
@@ -151,9 +159,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 				else
 				{
 					return Inventory.ServerDrop(slot);
-
 				}
-
 			}
 		}
 
@@ -239,8 +245,9 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (itemStorageStructure == null)
 		{
-			Logger.LogErrorFormat("{0} has ItemStorage but no defined ItemStorageStructure. Item storage will not work." +
-			                      " Please define an ItemStorageStructure for this prefab.", Category.Inventory, name);
+			Logger.LogErrorFormat(
+				"{0} has ItemStorage but no defined ItemStorageStructure. Item storage will not work." +
+				" Please define an ItemStorageStructure for this prefab.", Category.Inventory, name);
 			return;
 		}
 
@@ -310,10 +317,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		return ItemSlot.Get(this, named);
 	}
+
 	public ItemSlot GetNamedItemSlot(NamedSlot named)
 	{
 		return ItemSlot.GetNamed(this, named);
 	}
+
 	public ItemSlot GetIndexedItemSlot(int slotIndex)
 	{
 		return ItemSlot.GetIndexed(this, slotIndex);
@@ -408,70 +417,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		if (toCheck == null) return null;
 		return GetBestSlotFor(toCheck.GetComponent<Pickupable>());
 	}
-
-	/// <summary>
-	/// Returns the active hand slot if not occupied, else the hand that is free.
-	/// Returns null if no hands were available.
-	/// </summary>
-	public ItemSlot GetBestHand()
-	{
-		if (playerNetworkActions == null)
-		{
-			return default;
-		}
-
-		var activeHand = GetNamedItemSlot(playerNetworkActions.activeHand);
-		if (activeHand.IsEmpty)
-		{
-			return activeHand;
-		}
-
-		var leftHand = GetNamedItemSlot(NamedSlot.leftHand);
-		if (leftHand != activeHand && leftHand.IsEmpty)
-		{
-			return leftHand;
-		}
-
-		var rightHand = GetNamedItemSlot(NamedSlot.rightHand);
-		if (rightHand != activeHand && rightHand.IsEmpty)
-		{
-			return rightHand;
-		}
-
-		return default;
-	}
-
-	/// <summary>
-	/// Returns the active hand slot if not occupied, else the hand that is free.
-	/// If no hand is free, defaults to <see cref="GetBestSlotFor(GameObject)"/> behaviour.
-	/// </summary>
-	public ItemSlot GetBestHandOrSlotFor(GameObject item)
-	{
-		ItemSlot bestHand = GetBestHand();
-
-		if (bestHand != null)
-		{
-			return bestHand;
-		}
-
-		return GetBestSlotFor(item);
-	}
-
-	/// <summary>
-	/// Gets all slots in which a gas container can be stored and used
-	/// </summary>
-	/// <returns></returns>
-	public IEnumerable<ItemSlot> GetGasSlots()
-	{
-		return GetItemSlots().Where(its =>
-			GasUseSlots.Contains(its.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none)));
-	}
-
-	/// <summary>
-	/// Slots gas containers can be used from.
-	/// </summary>
-	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02,
-		NamedSlot.suitStorage, NamedSlot.back, NamedSlot.belt};
 
 	/// <summary>
 	/// Gets the highest indexed slot that is currently occupied. Null if none are occupied

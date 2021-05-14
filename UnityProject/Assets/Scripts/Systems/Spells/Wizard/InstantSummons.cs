@@ -31,7 +31,7 @@ namespace Systems.Spells.Wizard
 		}
 
 		private bool TrySummon()
-        {
+		{
 			// backpack, box, player etc, or the item itself if not in storage
 			GameObject objectToSummon = GetItemOrRootStorage(markedItem.gameObject);
 
@@ -57,8 +57,8 @@ namespace Systems.Spells.Wizard
 		{
 			string summonedName = summonedObject.ExpensiveName();
 			Chat.AddActionMsgToChat(summonedObject,
-					"<color='red'>You feel a magical force transposing you!</color>",
-					$"<color='red'>The {summonedName} suddenly disappears!</color>");
+				"<color='red'>You feel a magical force transposing you!</color>",
+				$"<color='red'>The {summonedName} suddenly disappears!</color>");
 
 			TeleportObjectToPosition(summonedObject, caster.Script.WorldPos);
 
@@ -78,24 +78,32 @@ namespace Systems.Spells.Wizard
 		}
 
 		private void TryAddMark()
-        {
-			ItemStorage playerStorage = caster.Script.ItemStorage;
+		{
+			DynamicItemStorage playerStorage = caster.Script.ItemStorage;
 
 			ItemSlot activeHand = playerStorage.GetActiveHandSlot();
 			if (activeHand.IsOccupied)
 			{
 				AddMark(activeHand.Item);
+				return;
 			}
 
-			ItemSlot leftHand = playerStorage.GetNamedItemSlot(NamedSlot.leftHand);
-			if (leftHand != activeHand && leftHand.IsOccupied)
+			foreach (var leftHand in playerStorage.GetNamedItemSlots(NamedSlot.leftHand))
 			{
-				AddMark(leftHand.Item);
+				if (leftHand != activeHand && leftHand.IsOccupied)
+				{
+					AddMark(leftHand.Item);
+					return;
+				}
 			}
-			ItemSlot rightHand = playerStorage.GetNamedItemSlot(NamedSlot.rightHand);
-			if (rightHand != activeHand && rightHand.IsOccupied)
+
+			foreach (var rightHand in playerStorage.GetNamedItemSlots(NamedSlot.rightHand))
 			{
-				AddMark(rightHand.Item);
+				if (rightHand != activeHand && rightHand.IsOccupied)
+				{
+					AddMark(rightHand.Item);
+					return;
+				}
 			}
 
 			Chat.AddExamineMsgFromServer(caster, "You aren't holding anything that can be marked for recall!");
@@ -112,7 +120,8 @@ namespace Systems.Spells.Wizard
 		{
 			markedItem = null;
 			isSet = false;
-			Chat.AddExamineMsgFromServer(caster, $"You remove the mark on the {item.ExpensiveName()} to use elsewhere.");
+			Chat.AddExamineMsgFromServer(caster,
+				$"You remove the mark on the {item.ExpensiveName()} to use elsewhere.");
 		}
 
 		#region Generic Helpers

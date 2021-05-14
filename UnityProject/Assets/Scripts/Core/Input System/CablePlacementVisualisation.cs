@@ -263,7 +263,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 	public void OnHover()
 	{
-		if (!UIManager.IsMouseInteractionDisabled && UIManager.Hands.CurrentSlot != null)
+		if (!UIManager.IsMouseInteractionDisabled && PlayerManager.LocalPlayerScript?.ItemStorage?.GetActiveHandSlot() != null)
 		{
 			// get mouse position
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
@@ -279,7 +279,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 			// if position has changed and player has cable in hand
 			if (roundedMousePosition != lastMouseWordlPositionInt
-				&& Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Cable))
+				&& Validations.HasItemTrait(PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Cable))
 			{
 				lastMouseWordlPositionInt = roundedMousePosition;
 

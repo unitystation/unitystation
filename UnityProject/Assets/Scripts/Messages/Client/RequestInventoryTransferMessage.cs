@@ -1,4 +1,5 @@
-﻿using Messages.Server;
+﻿using System.Linq;
+using Messages.Server;
 using Mirror;
 
 namespace Messages.Client
@@ -26,8 +27,8 @@ namespace Messages.Client
 			LoadMultipleObjects(new uint[]{msg.FromStorage, msg.ToStorage});
 			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), msg.FromNamedSlot, msg.FromSlotIndex);
-			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), msg.ToNamedSlot, msg.ToSlotIndex);
+			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponents<ItemStorage>().Last(), msg.FromNamedSlot, msg.FromSlotIndex);
+			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponents<ItemStorage>().Last(), msg.ToNamedSlot, msg.ToSlotIndex);
 
 			if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 			{
@@ -51,7 +52,7 @@ namespace Messages.Client
 			if (holder == SentByPlayer.GameObject) return true;
 
 			//it's not in their inventory but they may be observing this in an interactable storage
-			var interactableStorage = toCheck.ItemStorage != null ? toCheck.ItemStorage.GetComponent<InteractableStorage>() : null;
+			var interactableStorage = toCheck.ItemStorage != null ? toCheck.ItemStorage.GetComponents<ItemStorage>() : null;
 			if (interactableStorage != null)
 			{
 				return toCheck.ServerIsObservedBy(SentByPlayer.GameObject);

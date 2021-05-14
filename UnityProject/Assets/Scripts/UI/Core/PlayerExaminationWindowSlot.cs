@@ -1,58 +1,68 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UI.Core;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace UI
+public class PlayerExaminationWindowSlot : MonoBehaviour
 {
-	public class PlayerExaminationWindowSlot : MonoBehaviour
+	/// <summary>
+	/// Object that will be enabled if slot is obscured
+	/// </summary>
+	[SerializeField]
+	private GameObject obstructedOverlay = default;
+	/// <summary>
+	/// Object that will be enabled when player interacts and slot is obscured
+	/// </summary>
+	[SerializeField]
+	private GameObject questionMark = default;
+
+	[NonSerialized]
+	public PlayerExaminationWindowUI parent;
+
+	[SerializeField] private UI_ItemSlot itemSlot = default;
+	public UI_ItemSlot UI_ItemSlot => itemSlot;
+
+	public bool IsObscured => obstructedOverlay.activeSelf;
+	public bool IsPocket => DynamicItemStorage.PocketSlots.Contains(itemSlot.NamedSlot)
+			|| itemSlot.NamedSlot == NamedSlot.suitStorage;
+
+	public bool IsQuestionMarkActive => questionMark.activeSelf;
+
+	public void Reset()
 	{
-		/// <summary>
-		/// Object that will be enabled if slot is obscured
-		/// </summary>
-		[SerializeField]
-		private GameObject obstructedOverlay = default;
-		/// <summary>
-		/// Object that will be enabled when player interacts and slot is obscured
-		/// </summary>
-		[SerializeField]
-		private GameObject questionMark = default;
+		itemSlot.LinkSlot(null);
+		itemSlot.Reset();
+		obstructedOverlay.SetActive(false);
+		questionMark.SetActive(false);
+	}
 
-		[NonSerialized]
-		public PlayerExaminationWindowUI parent;
+	public void SetObscuredOverlayActive(bool active)
+	{
+		obstructedOverlay.SetActive(active);
+	}
 
-		[SerializeField] private UI_ItemSlot itemSlot = default;
-		public UI_ItemSlot UI_ItemSlot => itemSlot;
+	public void SetQuestionMarkActive(bool active)
+	{
+		questionMark.SetActive(active);
+	}
 
-		public bool IsObscured => obstructedOverlay.activeSelf;
-		public bool IsPocket => itemSlot.NamedSlot == NamedSlot.storage01
-				|| itemSlot.NamedSlot == NamedSlot.storage02
-				|| itemSlot.NamedSlot == NamedSlot.suitStorage;
+	public void OnClick()
+	{
+		parent.TryInteract(this);
+	}
 
-		public bool IsQuestionMarkActive => questionMark.activeSelf;
+	public void SetUp(BodyPartUISlots.StorageCharacteristics StorageCharacteristics, ItemSlot ItemSlot,PlayerExaminationWindowUI toset )
+	{
+		UI_ItemSlot.LinkSlot(ItemSlot);
+		UI_ItemSlot.SetUp(StorageCharacteristics);
+		parent = toset;
+	}
 
-		public void Reset()
-		{
-			itemSlot.LinkSlot(null);
-			itemSlot.Reset();
-			obstructedOverlay.SetActive(false);
-			questionMark.SetActive(false);
-		}
-
-		public void SetObscuredOverlayActive(bool active)
-		{
-			obstructedOverlay.SetActive(active);
-		}
-
-		public void SetQuestionMarkActive(bool active)
-		{
-			questionMark.SetActive(active);
-		}
-
-		public void OnClick()
-		{
-			parent.TryInteract(this);
-		}
+	public void RefreshImage()
+	{
+		UI_ItemSlot.RefreshImage();
 	}
 }

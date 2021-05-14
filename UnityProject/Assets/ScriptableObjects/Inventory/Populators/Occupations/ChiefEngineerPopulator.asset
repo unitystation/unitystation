@@ -13,33 +13,78 @@ MonoBehaviour:
   m_Name: ChiefEngineerPopulator
   m_EditorClassIdentifier: 
   Entries:
-  - NamedSlot: 3
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 3
     Prefab: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15,
       type: 3}
-  - NamedSlot: 6
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 6
     Prefab: {fileID: 3011710637427380133, guid: 10db9e28e42d145e9bbb1b151ee172de,
       type: 3}
-  - NamedSlot: 2
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 2
     Prefab: {fileID: 1052293997073687485, guid: 4d1d96d4187b0497a91fd915d358d354,
       type: 3}
-  - NamedSlot: 12
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 12
     Prefab: {fileID: 7253867937762778278, guid: bca0e835431cd114e816a5fda1861e64,
       type: 3}
-  - NamedSlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 1
     Prefab: {fileID: 3100066779771276116, guid: 4ae38729defe9be4891f9728a34594d5,
       type: 3}
-  - NamedSlot: 10
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 10
     Prefab: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739,
       type: 3}
-  - NamedSlot: 11
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 11
     Prefab: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
       type: 3}
-  - NamedSlot: 16
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 16
     Prefab: {fileID: 4463295679081316493, guid: cd2db81916b607f41a71c10db848e281,
       type: 3}
-  - NamedSlot: 15
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 15
     Prefab: {fileID: 3208390474611170935, guid: 7e37d93965c2ed84b8b552ce1f8676ee,
       type: 3}
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 596723499395547786, guid: 452d86fa8caf75b49bd132d9f7c9243e,
     type: 3}
   duffelVariant: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff,

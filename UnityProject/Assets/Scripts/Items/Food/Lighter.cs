@@ -138,7 +138,7 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		if (player && player.ItemStorage)
 		{
 			var playerEquipment = player.ItemStorage;
-			var gloves = playerEquipment.GetNamedItemSlot(NamedSlot.hands);
+			var gloves = playerEquipment.GetActiveHandSlot();
 
 			if (gloves != null && gloves.IsOccupied)
 			{

@@ -621,12 +621,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		if (activeState)
 		{
-			leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
-			rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
+			// leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
+			// rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
 		}
 
-		UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
-		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
+		// UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
+		// UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
 	}
 
 	/// <summary>
@@ -638,7 +638,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		SyncCuffed(cuffed, false);
 
-		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
 		TargetPlayerUIHandCuffToggle(connectionToClient, false);
 	}
 

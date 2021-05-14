@@ -123,7 +123,37 @@ public class GenerateSpriteSO : EditorWindow
 		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
 		AssetDatabase.StartAssetEditing();
-		DirSearch_ex3(Application.dataPath + "/Textures");
+
+		var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
+
+		foreach (var PSSP in stuff)
+		{
+			bool NOID = true;
+			foreach (var Entry in PSSP.Entries)
+			{
+				if (Entry.NamedSlot == NamedSlot.id)
+				{
+					NOID = false;
+				}
+
+				if (Entry.NamedSlot == NamedSlot.uniform)
+				{
+					Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+				}
+			}
+
+			if (NOID)
+			{
+				var ID = Spawn.GetPrefabByName("IDCardAutoInit");
+				var all = new SlotPopulatorEntry();
+				all.Prefab = ID;
+				all.NamedSlot = NamedSlot.id;
+				PSSP.Entries.Add(all);
+			}
+			EditorUtility.SetDirty( PSSP);
+		}
+
+		// DirSearch_ex3(Application.dataPath + "/Textures");
 		AssetDatabase.StopAssetEditing();
 		AssetDatabase.SaveAssets();
 		return;

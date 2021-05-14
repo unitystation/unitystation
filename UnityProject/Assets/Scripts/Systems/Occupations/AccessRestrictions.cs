@@ -16,15 +16,19 @@ public class AccessRestrictions : MonoBehaviour
 		if (Player == null) return false;
 
 
-		var playerStorage = Player.GetComponent<ItemStorage>();
+		var playerStorage = Player.GetComponent<DynamicItemStorage>();
 		//this isn't a player. It could be an npc. No NPC access logic at the moment
 		if (playerStorage == null) return false;
 
 
 		//check if active hand or equipped id cards have access
-		if (CheckAccessCard(playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject)) return true;
+		foreach (var itemSlot in playerStorage.GetNamedItemSlots(NamedSlot.id))
+		{
+			if (CheckAccessCard(itemSlot.ItemObject)) return true;
+		}
 
-		return CheckAccessCard(playerStorage.GetActiveHandSlot().ItemObject);
+
+		return CheckAccessCard(playerStorage.GetActiveHandSlot()?.ItemObject);
 	}
 
 	public bool CheckAccessCard(GameObject idCardObj)

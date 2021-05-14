@@ -13,7 +13,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 0
-  bodyPartsCovered: 0
+  armoredBodyParts: []
+--- !u!114 &4247485008670982582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525490832341156112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2e4d3e84f428247b94afb857959b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NamedSlotFlagged: 1
+  relatedStorage: {fileID: 4279701593722495436}
+  storage:
+  - ClientIntractable: 0
+    SlotArea: 1
+    namedSlot: 18
+    hoverName: Suit storage
+    placeholderSprite: {fileID: 21300000, guid: 2ba9a53337b06f24ab3a8ad4a3fc5727,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+--- !u!114 &4279701593722495436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525490832341156112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: d6c27b47b1d7a2944a0ed1a73c479b58,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 60b73ef2a9834403c89f86ac544d1117,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!1001 &1802146127837016882
 PrefabInstance:
   m_ObjectHideFlags: 0

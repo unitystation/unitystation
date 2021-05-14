@@ -100,6 +100,8 @@ namespace HealthV2
 			}
 
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
+			//TODO Make generic version for mobs \/
+			Storage.SetRegisterPlayer(healthMaster.GetComponent<RegisterPlayer>());
 		}
 
 		public void UpdateChildren(List<uint> NewInternalNetIDs)

@@ -85,8 +85,8 @@ public class AimApply : Interaction
 				go => go == PlayerManager.LocalPlayer).Any();
 		}
 
-		return new AimApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
-			UIManager.Hands.CurrentSlot.ItemSlot,
+		return new AimApply(PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject,
+			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot(),
 			buttonState,
 			selfAim ? Vector2.zero : targetVector, UIManager.CurrentIntent);
 	}

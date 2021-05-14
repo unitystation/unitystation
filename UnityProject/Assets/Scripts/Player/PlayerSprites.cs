@@ -220,6 +220,11 @@ public class PlayerSprites : MonoBehaviour
 	public IEnumerator WaitForPlayerinitialisation()
 	{
 		yield return null;
+		yield return null;
+		yield return null;
+		SetUpCharacter(ThisCharacter);
+		livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
+		yield return null;
 		SetupsSprites();
 	}
 
@@ -512,9 +517,6 @@ public class PlayerSprites : MonoBehaviour
 					RaceBodyparts = Race;
 				}
 			}
-
-			SetUpCharacter(characterSettings);
-			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 			SetupCharacterData(characterSettings);
 		}
 	}

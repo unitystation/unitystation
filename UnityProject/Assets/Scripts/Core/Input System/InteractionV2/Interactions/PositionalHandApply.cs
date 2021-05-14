@@ -65,10 +65,10 @@ public class PositionalHandApply : BodyPartTargetedInteraction
 		var targetVec = targetVector ?? Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
 		                PlayerManager.LocalPlayer.transform.position;
 		return new PositionalHandApply(PlayerManager.LocalPlayer,
-			UIManager.Hands.CurrentSlot.ItemObject,
+			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot()?.ItemObject,
 			targetObject,
 			targetVec,
-			UIManager.Instance.hands.CurrentSlot.ItemSlot, UIManager.CurrentIntent, UIManager.DamageZone);
+			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot(), UIManager.CurrentIntent, UIManager.DamageZone);
 	}
 
 	/// <summary>

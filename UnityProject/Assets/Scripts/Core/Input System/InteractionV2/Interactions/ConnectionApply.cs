@@ -42,7 +42,7 @@ public class ConnectionApply : TargetedInteraction
 	public Connection WireEndB => connectionPointB;
 
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
@@ -78,12 +78,12 @@ public class ConnectionApply : TargetedInteraction
 
 		return new ConnectionApply(
 			PlayerManager.LocalPlayer,
-			UIManager.Hands.CurrentSlot.ItemObject,
+			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject,
 			targetObject,
 			wireEndA,
 			wireEndB,
-			targetVec,
-			UIManager.Instance.hands.CurrentSlot.ItemSlot,
+			targetVec,PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot(),
+
 			UIManager.CurrentIntent
 		);
 	}

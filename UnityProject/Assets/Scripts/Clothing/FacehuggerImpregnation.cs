@@ -157,12 +157,12 @@ namespace Clothing
 			}
 
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
-				&& gameObject == playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject)
+				&& playerScript.ItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
 			{
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.crit);
 			}
 			else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
-				&& gameObject != playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject)
+				&& playerScript.ItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask) == false)
 			{
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
 			}

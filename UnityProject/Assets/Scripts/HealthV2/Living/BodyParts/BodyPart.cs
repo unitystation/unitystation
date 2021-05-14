@@ -165,6 +165,8 @@ namespace HealthV2
 			{
 				bodyPartModification.HealthMasterSet();
 			}
+			//TODO Make this generic \/ for mobs
+			Storage.SetRegisterPlayer(healthMaster?.GetComponent<RegisterPlayer>());
 		}
 
 		/// <summary>

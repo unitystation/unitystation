@@ -2,99 +2,96 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
-namespace UI.Items
+public class GUI_Paper : NetTab
 {
-	public class GUI_Paper : NetTab
+	[SerializeField]
+	private TMP_InputField textField = default;
+
+	public override void OnEnable()
 	{
-		[SerializeField]
-		private TMP_InputField textField = default;
+		base.OnEnable();
+		StartCoroutine(WaitForProvider());
+		textField.readOnly = true;
+	}
 
-		public override void OnEnable()
+	IEnumerator WaitForProvider()
+	{
+		while (Provider == null)
 		{
-			base.OnEnable();
-			StartCoroutine(WaitForProvider());
+			yield return WaitFor.EndOfFrame;
+		}
+		RefreshText();
+	}
+
+	public override void RefreshTab()
+	{
+		RefreshText();
+		base.RefreshTab();
+	}
+
+	public void RefreshText()
+	{
+		if (Provider != null)
+		{
+			textField.text = Provider.GetComponent<Paper>().PaperString;
+		}
+	}
+
+	public void ClosePaper()
+	{
+		ControlTabs.CloseTab(Type, Provider);
+	}
+
+	public void OnEditStart()
+	{
+		if (!IsPenInHand())
+		{
 			textField.readOnly = true;
+			return;
 		}
-
-		IEnumerator WaitForProvider()
+		else
 		{
-			while (Provider == null)
+			textField.readOnly = false;
+			textField.ActivateInputField();
+		}
+		UIManager.IsInputFocus = true;
+		UIManager.PreventChatInput = true;
+		CheckForInput();
+	}
+
+	private bool IsPenInHand()
+	{
+		Pen pen = null;
+		foreach (var itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
+		{
+			if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent<Pen>(out pen))
 			{
-				yield return WaitFor.EndOfFrame;
-			}
-			RefreshText();
-		}
 
-		public override void RefreshTab()
-		{
-			RefreshText();
-			base.RefreshTab();
-		}
-
-		public void RefreshText()
-		{
-			if (Provider != null)
-			{
-				textField.text = Provider.GetComponent<Paper>().PaperString;
 			}
 		}
 
-		public void ClosePaper()
-		{
-			ControlTabs.CloseTab(Type, Provider);
-		}
+		return pen != null;
+	}
 
-		public void OnEditStart()
+	//Safety measure:
+	private async void CheckForInput()
+	{
+		await Task.Delay(500);
+		if (!textField.isFocused)
 		{
-			if (!IsPenInHand())
-			{
-				textField.readOnly = true;
-				return;
-			}
-			else
-			{
-				textField.readOnly = false;
-				textField.ActivateInputField();
-			}
-			UIManager.IsInputFocus = true;
-			UIManager.PreventChatInput = true;
-			CheckForInput();
-		}
-
-		private bool IsPenInHand()
-		{
-			var pen = UIManager.Hands.CurrentSlot.Item?.GetComponent<Pen>();
-			if (pen == null)
-			{
-				pen = UIManager.Hands.OtherSlot.Item?.GetComponent<Pen>();
-				if (pen == null)
-				{
-					//no pen
-					return false;
-				}
-			}
-			return true;
-		}
-
-		// Safety measure:
-		private async void CheckForInput()
-		{
-			await Task.Delay(500);
-			if (!textField.isFocused)
-			{
-				UIManager.IsInputFocus = false;
-				UIManager.PreventChatInput = false;
-			}
-		}
-
-		// Request an edit from server:
-		public void OnTextEditEnd()
-		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
 			UIManager.IsInputFocus = false;
 			UIManager.PreventChatInput = false;
 		}
+	}
+
+	//Request an edit from server:
+	public void OnTextEditEnd()
+	{
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
+		UIManager.IsInputFocus = false;
+		UIManager.PreventChatInput = false;
 	}
 }

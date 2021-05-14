@@ -543,9 +543,16 @@ namespace UI
 				}
 				else if (Validations.CanApply(PlayerManager.LocalPlayerScript, tab.Provider, NetworkSide.Client) == false)
 				{
-					// Make sure the item is not in the players hands first:
-					if (UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
-						UIManager.Hands.OtherSlot.Item != tab.Provider.gameObject)
+					//Make sure the item is not in the players hands first:
+					bool hasitem = false;
+					foreach (var itemSlot in playerScript.ItemStorage.GetHandSlots())
+					{
+						if (itemSlot.ItemObject == tab.Provider.gameObject)
+						{
+							hasitem = true;
+						}
+					}
+					if (hasitem == false)
 					{
 						toClose.Add(tab);
 					}
@@ -554,14 +561,9 @@ namespace UI
 
 			foreach (NetTab tab in toClose)
 			{
-				Instance.HideTab(tab);
+				Instance.DestroyTab(tab);;
 			}
-
-			foreach (NetTab tab in toDestroy)
-			{
-				Instance.DestroyTab(tab);
-			}
-
+		
 			CheckItemListTab();
 		}
 

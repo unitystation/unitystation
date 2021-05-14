@@ -87,7 +87,7 @@ public class Camera2DFollow : MonoBehaviour
 	public void SetCameraXOffset()
 	{
 		float xOffSet =
-			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.38f;
+			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Instance.transform.position).x) * 1.38f;
 
 		followControl.SetXOffset(xOffSet);
 	}

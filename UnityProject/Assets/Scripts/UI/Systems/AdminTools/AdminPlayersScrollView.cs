@@ -47,7 +47,7 @@ namespace AdminTools
 
 		void RefreshPlayerList()
 		{
-			if (ServerData.UserID == null || (PlayerList.Instance.AdminToken == null && PlayerList.Instance.MentorToken == null)) return;
+			if (PlayerList.Instance == null || ServerData.UserID == null || (PlayerList.Instance.AdminToken == null && PlayerList.Instance.MentorToken == null)) return;
 			string MentorOrAdminToken = PlayerList.Instance.MentorToken;
 			if(MentorOrAdminToken == null)
 				MentorOrAdminToken = PlayerList.Instance.AdminToken;
@@ -142,8 +142,8 @@ namespace AdminTools
 
 			//Grabs fresh list of all the possible buttons
 			// TODO: encapsulate this adminPlayerList search more generic so that it can better be used across different admin systems
-			var buttons = playerEntries.Count > 0 
-				? playerEntries 
+			var buttons = playerEntries.Count > 0
+				? playerEntries
 				: gameObject.transform.parent.parent.parent.GetComponent<GUI_AdminTools>().GetPlayerEntries();
 			var Searchtext = searchBar.SearchText();
 
