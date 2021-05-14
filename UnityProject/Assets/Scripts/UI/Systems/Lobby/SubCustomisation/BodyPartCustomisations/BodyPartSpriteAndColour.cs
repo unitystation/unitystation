@@ -45,6 +45,7 @@ namespace UI.CharacterCreator
 			var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
+			BodyPartColour.a = 1;
 			if (ColourAnd_Selected.Chosen >= OptionalSprites.Count)
 			{
 				Dropdown.value = 0;
@@ -60,6 +61,7 @@ namespace UI.CharacterCreator
 
 		public override string Serialise()
 		{
+			BodyPartColour.a = 1;
 			var Toreturn = new ColourAndSelected(BodyPartColour, Dropdown.value);
 			return JsonConvert.SerializeObject(Toreturn);
 		}
@@ -99,6 +101,7 @@ namespace UI.CharacterCreator
 		{
 			var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
+			BodyPartColour.a = 1;
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
 			OptionalSprites = OptionalSprites.OrderBy(x => x?.name).ToList();
 			if (ColourAnd_Selected.Chosen != 0)
