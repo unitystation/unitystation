@@ -312,10 +312,27 @@ public partial class Chat
 			+ "\"" + message + "\""); // "This text will be spoken by TTS!"
 	}
 
+	private static string StripAll(string input)
+	{
+		string output = StripTags(input);
+		output = StripSquareBrackets(output);
+
+		return output;
+	}
+
 	private static string StripTags(string input)
 	{
 		//Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
 		Regex rx = new Regex("[<][^>]+[>]");
+		string output = rx.Replace(input, "");
+
+		return output;
+	}
+
+	private static string StripSquareBrackets(string input)
+	{
+		//Regex - find "[" followed by any number of not "]" and ending in "]". Matches any HTML tags.
+		Regex rx = new Regex("[[][^]]+[]]");
 		string output = rx.Replace(input, "");
 
 		return output;
