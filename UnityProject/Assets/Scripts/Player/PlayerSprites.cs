@@ -383,6 +383,8 @@ public class PlayerSprites : MonoBehaviour
 			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
 		}
 
+		CurrentSurfaceColour.a = 1;
+
 		foreach (var sp in SurfaceSprite)
 		{
 			sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
