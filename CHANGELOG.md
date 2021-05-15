@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/5/15: [Fix] - Character previews now refresh after deleting a character. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
+* 2021/5/15: [Change] - The "Select this character" button will be disabled when there's no characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
+* 2021/5/15: [Change] -  Loading a character now immediately assigns it to the PlayerManager's current settings. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
+* 2021/5/15: [Improvement] - The Finish button has been renamed to "Select this character" by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
+* 2021/5/15: [Improvement] - The Finish button is now much more visible by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
 * 2021/5/15: Readds player status and soul status by [ThatDan123](https://github.com/ThatDan123) in PR #[6519](https://github.com/unitystation/unitystation/pull/6519)
 * 2021/5/15: Readds mob examine by [ThatDan123](https://github.com/ThatDan123) in PR #[6519](https://github.com/unitystation/unitystation/pull/6519)
 * 2021/5/15: Fixed tiles having too many overlays by [Semuca](https://github.com/Semuca) in PR #[6476](https://github.com/unitystation/unitystation/pull/6476)
