@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/15: Fixed tiles having too many overlays by [Semuca](https://github.com/Semuca) in PR #[6476](https://github.com/unitystation/unitystation/pull/6476)
+* 2021/5/15: Fixed fire and electrocution overlay not matching the player's rotation by [Semuca](https://github.com/Semuca) in PR #[6476](https://github.com/unitystation/unitystation/pull/6476)
 * 2021/5/14: [Fix] - Fixed a bug where creating a new character caused the game to not register the last character sheet correctly. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
 * 2021/5/14: [Fix] - When editing a character the game will load in your current character index. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
 * 2021/5/14: [Fix] - If you're savefile is corrupted the game won't freeze you on the Pre-round screen and will now try correcting your savefile to continue playing. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
