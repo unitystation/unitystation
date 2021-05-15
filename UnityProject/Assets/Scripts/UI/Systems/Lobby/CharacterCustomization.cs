@@ -258,6 +258,7 @@ namespace UI.CharacterCreator
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			lastSettings = PlayerCharacters[currentCharacterIndex];
+			ReturnCharacterPreviewFromTheCharacterSelector();
 			ShowCharacterCreator();
 			RefreshAll();
 		}
@@ -364,7 +365,7 @@ namespace UI.CharacterCreator
 
 		private void ReturnCharacterPreviewFromTheCharacterSelector()
 		{
-			SpriteContainer.transform.SetParent(CharacterCustomizationContent.transform , true);
+			SpriteContainer.transform.SetParent(CharacterCustomizationContent.transform , false);
 			SpriteContainer.transform.localPosition = SpritesContainerOriginalPosition;
 		}
 
@@ -1175,6 +1176,7 @@ namespace UI.CharacterCreator
 			PlayerManager.CurrentCharacterSettings = lastSettings;
 			LoadSettings(lastSettings);
 			RefreshAll();
+			ReturnCharacterPreviewFromTheCharacterSelector();
 			ShowCharacterSelectorPage();
 		}
 
