@@ -103,6 +103,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	private void TrySpawnContents()
 	{
 		if(contentsSpawned || spawnInfo == null) return;
+		contentsSpawned = true;
 
 		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo));
 		if (UesAddlistPopulater)
