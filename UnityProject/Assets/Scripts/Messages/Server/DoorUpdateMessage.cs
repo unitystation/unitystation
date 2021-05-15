@@ -30,6 +30,8 @@ namespace Messages.Server
 				var doorAnimator = NetworkObject.GetComponent<DoorAnimator>();
 				if (doorAnimator != null)
 				{
+					if (doorAnimator.isActiveAndEnabled == false) return;
+
 					doorAnimator.PlayAnimation(msg.Type, msg.SkipAnimation);
 					return;
 				}
