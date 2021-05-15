@@ -199,8 +199,6 @@ namespace Player
 
 		public string GetPlayerStatusString()
 		{
-			var theirPronoun = script.characterSettings.TheirPronoun(script);
-			var theyPronoun = script.characterSettings.TheyPronoun(script);
 			var healthString = new StringBuilder($"<color={LILAC_COLOR}>");
 
 			if (script.IsDeadOrGhost)
