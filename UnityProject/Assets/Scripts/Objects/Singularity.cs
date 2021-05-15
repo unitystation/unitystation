@@ -313,9 +313,9 @@ namespace Objects
 				return;
 			}
 
-			//Push Twice
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
+			//Force Push Twice
+			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
+			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
 		}
 
 		private SpinMode RandomSpin()
