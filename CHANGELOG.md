@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/15: Readds player status and soul status by [ThatDan123](https://github.com/ThatDan123) in PR #[6519](https://github.com/unitystation/unitystation/pull/6519)
+* 2021/5/15: Readds mob examine by [ThatDan123](https://github.com/ThatDan123) in PR #[6519](https://github.com/unitystation/unitystation/pull/6519)
 * 2021/5/15: Fixed tiles having too many overlays by [Semuca](https://github.com/Semuca) in PR #[6476](https://github.com/unitystation/unitystation/pull/6476)
 * 2021/5/15: Fixed fire and electrocution overlay not matching the player's rotation by [Semuca](https://github.com/Semuca) in PR #[6476](https://github.com/unitystation/unitystation/pull/6476)
 * 2021/5/14: [Fix] - Fixed a bug where creating a new character caused the game to not register the last character sheet correctly. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6440](https://github.com/unitystation/unitystation/pull/6440)
