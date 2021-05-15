@@ -211,6 +211,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	private void PickupAnim(GameObject interactor)
 	{
+		if (interactor == null) return;
+
 		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
