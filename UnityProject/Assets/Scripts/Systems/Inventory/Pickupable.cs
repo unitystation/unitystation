@@ -211,8 +211,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	private void PickupAnim(GameObject interactor)
 	{
-		if (interactor == null) return;
-
 		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
@@ -220,6 +218,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	[ClientRpc]
 	private void RpcPickupAnimation(GameObject interactor)
 	{
+		//Can happen if object isnt loaded on client yet, e.g during join
+		if (interactor == null) return;
+
 		PickupAnim(interactor);
 	}
 
