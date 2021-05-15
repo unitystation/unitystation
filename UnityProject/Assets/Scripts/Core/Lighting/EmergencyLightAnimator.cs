@@ -53,7 +53,7 @@ namespace Objects.Lighting
 
 				if (this != null && gameObject != null)
 				{
-					Debug.LogError($"{gameObject.name} had something null");
+					Logger.LogError($"{gameObject.name} had something null");
 				}
 				
 				return;
