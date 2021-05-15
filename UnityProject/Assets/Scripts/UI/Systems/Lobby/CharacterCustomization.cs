@@ -193,6 +193,7 @@ namespace UI.CharacterCreator
 		private void ShowNoCharacterError()
 		{
 			ReturnCharacterPreviewFromTheCharacterSelector();
+			GoBackButton.SetActive(false);
 			CharacterPreviews.SetActive(false);
 			NoCharactersError.SetActive(true);
 			EditCharacterButton.SetActive(false);
@@ -316,6 +317,7 @@ namespace UI.CharacterCreator
 			else
 			{
 				EditCharacterButton.SetActive(true);
+				GoBackButton.SetActive(true);
 				HideCharacterDeletionConfirmation();
 			}
 		}
@@ -411,6 +413,7 @@ namespace UI.CharacterCreator
 
 			availableSkinColors = SetRace.Base.SkinColours;
 			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
+			PlayerManager.CurrentCharacterSettings = currentCharacter;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
 			DoInitChecks();
@@ -1062,6 +1065,7 @@ namespace UI.CharacterCreator
 				SaveCharacters();
 				SaveLastCharacterIndex();
 				RefreshSelectorData();
+				RefreshAll();
 			}
 		}
 
