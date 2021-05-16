@@ -147,8 +147,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.playerMove.allowInput = false;
 
 		// Drop player items
-		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+
+		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+
+		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+
 
 		//Remove fire and do part of a roll every .2 seconds
 		while (playerScript.playerHealth.FireStacks > 0)

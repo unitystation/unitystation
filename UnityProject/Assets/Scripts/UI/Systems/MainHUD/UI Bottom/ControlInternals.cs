@@ -81,14 +81,14 @@ public class ControlInternals : TooltipMonoBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.EnableInternals, OnEnableInternals);
-		EventManager.AddHandler(EVENT.DisableInternals, OnDisableInternals);
+		EventManager.AddHandler(Event.EnableInternals, OnEnableInternals);
+		EventManager.AddHandler(Event.DisableInternals, OnDisableInternals);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.EnableInternals, OnEnableInternals);
-		EventManager.RemoveHandler(EVENT.DisableInternals, OnDisableInternals);
+		EventManager.RemoveHandler(Event.EnableInternals, OnEnableInternals);
+		EventManager.RemoveHandler(Event.DisableInternals, OnDisableInternals);
 	}
 
 	/// <summary>
@@ -108,9 +108,9 @@ public class ControlInternals : TooltipMonoBehaviour
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 		if (isAirflowEnabled)
-			EventManager.Broadcast(EVENT.DisableInternals);
+			EventManager.Broadcast(Event.DisableInternals);
 		else
-			EventManager.Broadcast(EVENT.EnableInternals);
+			EventManager.Broadcast(Event.EnableInternals);
 
 		UpdateState();
 	}
@@ -206,21 +206,21 @@ public class ControlInternals : TooltipMonoBehaviour
 		{
 			CurrentState = 1;
 			if(isAirflowEnabled)
-				EventManager.Broadcast(EVENT.DisableInternals);
+				EventManager.Broadcast(Event.DisableInternals);
 		}
 		// Player is wearing a tank, but no mask.
 		else if (!isWearingMask && gasContainer != null)
 		{
 			CurrentState = 2;
 			if(isAirflowEnabled)
-				EventManager.Broadcast(EVENT.DisableInternals);
+				EventManager.Broadcast(Event.DisableInternals);
 		}
 		// Player is wearing a mask, but no tank
 		else if (isWearingMask && gasContainer == null)
 		{
 			CurrentState = 3;
 			if(isAirflowEnabled)
-				EventManager.Broadcast(EVENT.DisableInternals);
+				EventManager.Broadcast(Event.DisableInternals);
 		}
 		// Player is wearing a mask and a tank, but airflow is off
 		else if (isWearingMask && gasContainer != null && !isAirflowEnabled)

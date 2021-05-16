@@ -106,7 +106,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
-		ItemStorage = GetComponent<ItemStorage>();
+		ItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
@@ -161,6 +161,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		EventManager.RemoveHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnPlayerReturnedToBody);
 	}
+
 
 	public void Init()
 	{
@@ -277,92 +278,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		Logger.Log("Local player returned to the body", Category.Ghosts);
 		EnableLighting(false);
-	}
-
-	protected override void OnDisable()
-	{
-		base.OnDisable();
-
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, Init);
-		EventManager.RemoveHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
-	}
-
-	private void Awake()
-	{
-		playerSprites = GetComponent<PlayerSprites>();
-		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		registerTile = GetComponent<RegisterPlayer>();
-		playerHealth = GetComponent<PlayerHealthV2>();
-		pushPull = GetComponent<ObjectBehaviour>();
-		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
-		mouseInputController = GetComponent<MouseInputController>();
-		hitIcon = GetComponentInChildren<HitIcon>(true);
-		chatIcon = GetComponentInChildren<ChatIcon>(true);
-		playerMove = GetComponent<PlayerMove>();
-		playerDirectional = GetComponent<Directional>();
-		ItemStorage = GetComponent<DynamicItemStorage>();
-		Equipment = GetComponent<Equipment>();
-		Cooldowns = GetComponent<HasCooldowns>();
-		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
-
-		if (GetComponent<BlobPlayer>() != null)
-		{
-			IsPlayerSemiGhost = true;
-		}
-	}
-
-	public void Init()
-	{
-		if (isLocalPlayer)
-		{
-			EnableLighting(true);
-			UIManager.ResetAllUI();
-			GetComponent<MouseInputController>().enabled = true;
-
-			if (!UIManager.Instance.statsTab.window.activeInHierarchy)
-			{
-				UIManager.Instance.statsTab.window.SetActive(true);
-			}
-
-			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
-
-			if (IsGhost && !IsPlayerSemiGhost)
-			{
-				if (PlayerList.Instance.IsClientAdmin)
-				{
-					UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
-				}
-				//stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-				//show ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
-				mask |= 1 << LayerMask.NameToLayer("Ghosts");
-				Camera2DFollow.followControl.cam.cullingMask = mask;
-
-			}
-			else if(!IsPlayerSemiGhost)
-			{
-				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
-				//Hide ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
-				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-				Camera2DFollow.followControl.cam.cullingMask = mask;
-			}
-			else
-			{
-				//stop the crit notification and change overlay to ghost mode
-				SoundManager.Stop("Critstate");
-				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-				//show ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
-				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-				Camera2DFollow.followControl.cam.cullingMask = mask;
-			}
-
-			EventManager.Broadcast(EVENT.UpdateChatChannels);
-		}
 	}
 
 	public void SyncPlayerName(string oldValue, string value)

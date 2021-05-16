@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using AdminCommands;
+using UI;
 
 /// <summary>
 /// Represents an item slot rendered in the UI.

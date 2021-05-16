@@ -317,6 +317,8 @@ public class DynamicItemStorage : NetworkBehaviour
 		return GetNamedItemSlot(playerNetworkActions.activeHand, playerNetworkActions.CurrentActiveHand);
 	}
 
+
+
 	public ItemSlot GetBestHand()
 	{
 		if (playerNetworkActions == null)

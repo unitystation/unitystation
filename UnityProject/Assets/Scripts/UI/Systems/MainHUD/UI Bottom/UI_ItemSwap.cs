@@ -39,20 +39,7 @@ namespace UI
 
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			// if there is an item in this slot, try interacting.
-			if (itemSlot.Item != null )
-			{
-				if ( PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot()?.Item != null)
-				{
-					itemSlot.TryItemInteract();
-				}
-				else
-				{
-					itemSlot.TryItemInteract();
-				}
-			}
-			
 			itemSlot.TryItemInteract();
-			
 		}
 
 
@@ -84,7 +71,7 @@ namespace UI
 			itemSlot.UpdateImage(item.gameObject,
 				Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item, NetworkSide.Client)
 				? successOverlayColor : failOverlayColor);
-				
+
 
 		}
 

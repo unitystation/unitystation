@@ -545,7 +545,7 @@ namespace UI
 				{
 					//Make sure the item is not in the players hands first:
 					bool hasitem = false;
-					foreach (var itemSlot in playerScript.ItemStorage.GetHandSlots())
+					foreach (var itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
 					{
 						if (itemSlot.ItemObject == tab.Provider.gameObject)
 						{
@@ -563,7 +563,7 @@ namespace UI
 			{
 				Instance.DestroyTab(tab);;
 			}
-		
+
 			CheckItemListTab();
 		}
 

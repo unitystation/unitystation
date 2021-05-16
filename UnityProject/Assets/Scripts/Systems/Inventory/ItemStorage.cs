@@ -113,7 +113,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		//reclaim the space in the slot pool.
 		ItemSlot.Free(this);
 	}
-	
+
 
 	public bool ServerTrySpawnAndAdd(GameObject inGameObject)
 	{
@@ -427,56 +427,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return GetIndexedSlots().LastOrDefault(ids => ids.Item != null);
 	}
 
-	/// <summary>
-	/// The item slot representing the active hand. Null if this is not a player.
-	/// </summary>
-	/// <returns></returns>
-	public ItemSlot GetActiveHandSlot()
-	{
-		if (playerNetworkActions == null) return null;
-		return GetNamedItemSlot(playerNetworkActions.activeHand);
-	}
-
-	/// <summary>
-	/// The item slot representing an empty hand. Null if this is not a player or both are full.
-	/// Checks active hand first
-	/// </summary>
-	/// <returns></returns>
-	public ItemSlot GetEmptyHandSlot()
-	{
-		if (playerNetworkActions == null) return null;
-
-		var active = GetNamedItemSlot(playerNetworkActions.activeHand);
-
-		if (active.IsEmpty)
-		{
-			return active;
-		}
-
-		if (playerNetworkActions.activeHand == NamedSlot.leftHand)
-		{
-			var rightHand = GetNamedItemSlot(NamedSlot.rightHand);
-
-			if (rightHand.IsEmpty)
-			{
-				return rightHand;
-			}
-
-			return null;
-		}
-
-		if (playerNetworkActions.activeHand == NamedSlot.rightHand)
-		{
-			var leftHand = GetNamedItemSlot(NamedSlot.leftHand);
-
-			if (leftHand.IsEmpty)
-			{
-				return leftHand;
-			}
-		}
-
-		return null;
-	}
 
 	/// <summary>
 	/// Server only (can be called client side but has no effect).

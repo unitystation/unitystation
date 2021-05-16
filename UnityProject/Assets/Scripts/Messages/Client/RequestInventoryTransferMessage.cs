@@ -17,9 +17,11 @@ namespace Messages.Client
 			public uint FromStorage;
 			public int FromSlotIndex;
 			public NamedSlot FromNamedSlot;
+			public int StorageIndexOnGameObjectFrom;
 			public uint ToStorage;
 			public int ToSlotIndex;
 			public NamedSlot ToNamedSlot;
+			public int StorageIndexOnGameObjectTo;
 		}
 
 		public override void Process(NetMessage msg)
@@ -27,8 +29,8 @@ namespace Messages.Client
 			LoadMultipleObjects(new uint[]{msg.FromStorage, msg.ToStorage});
 			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponents<ItemStorage>().Last(), msg.FromNamedSlot, msg.FromSlotIndex);
-			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponents<ItemStorage>().Last(), msg.ToNamedSlot, msg.ToSlotIndex);
+			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObjectFrom], msg.FromNamedSlot, msg.FromSlotIndex);
+			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObjectTo], msg.ToNamedSlot, msg.ToSlotIndex);
 
 			if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 			{
@@ -95,6 +97,28 @@ namespace Messages.Client
 				ToSlotIndex = toSlot.SlotIdentifier.SlotIndex,
 				ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 			};
+
+			msg.StorageIndexOnGameObjectFrom = 0;
+			foreach (var itemStorage in NetworkIdentity.spawned[fromSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == fromSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnGameObjectFrom++;
+			}
+
+			msg.StorageIndexOnGameObjectTo = 0;
+			foreach (var itemStorage in NetworkIdentity.spawned[toSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == toSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnGameObjectTo++;
+			}
 
 			Send(msg);
 		}
