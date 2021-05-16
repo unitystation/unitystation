@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
@@ -87,6 +88,8 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public EarthquakeEvent OnEarthquake = new EarthquakeEvent();
 
+	private NetworkedMatrix networkedMatrix;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponent<MetaTileMap>();
@@ -95,6 +98,7 @@ public class Matrix : MonoBehaviour
 			Logger.LogError($"MetaTileMap was null on {gameObject.name}");
 		}
 
+		networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
@@ -148,8 +152,18 @@ public class Matrix : MonoBehaviour
 	public void ConfigureMatrixInfo(MatrixInfo matrixInfo)
 	{
 		MatrixInfo = matrixInfo;
+		StartCoroutine(nameof(WaitForNetId));
+	}
+
+	private IEnumerable WaitForNetId()
+	{
+		while (networkedMatrix.MatrixSync != null && networkedMatrix.MatrixSync.netId == NetId.Empty)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
 		MatrixInfoConfigured = true;
-		OnConfigLoaded?.Invoke(matrixInfo);
+		OnConfigLoaded?.Invoke(MatrixInfo);
 	}
 
 	/// <inheritdoc cref="IsPassableAtOneMatrix(Vector3Int, Vector3Int, bool, CollisionType, bool, GameObject, List{LayerType}, List{TileType}, bool, bool, bool)"/>
