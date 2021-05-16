@@ -140,16 +140,19 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 			return netId;
 		}
 
-		NetworkIdentity component = matrix.gameObject.GetComponent<NetworkedMatrix>().OrNull()?.MatrixSync.OrNull()?.GetComponent<NetworkIdentity>();
-		NetworkIdentity componentInParent = matrix.gameObject.GetComponentInParent<NetworkedMatrix>().OrNull()?.MatrixSync.OrNull()?.GetComponent<NetworkIdentity>();
+		NetworkedMatrix networkedMatrix = matrix.gameObject.GetComponentInParent<NetworkedMatrix>();
+
+		if (networkedMatrix.OrNull()?.MatrixSync == null)
+		{
+			//Try to find if null
+			networkedMatrix.BackUpSetMatrixSync();
+		}
+
+		NetworkIdentity component = networkedMatrix.OrNull()?.MatrixSync.OrNull()?.GetComponent<NetworkIdentity>();
+
 		if (component && component.netId != NetId.Invalid && component.netId != NetId.Empty)
 		{
 			netId = component.netId;
-		}
-
-		if (componentInParent && componentInParent.netId != NetId.Invalid && componentInParent.netId != NetId.Empty)
-		{
-			netId = componentInParent.netId;
 		}
 
 		if (netId == NetId.Invalid)

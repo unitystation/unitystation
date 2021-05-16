@@ -103,11 +103,6 @@ public class NetworkedMatrix : MonoBehaviour
 
 	private void Start()
 	{
-		if (CustomNetworkManager.IsServer)
-		{
-			OnStartServer();
-		}
-
 		//Matrixes cannot be networked as a message to spawn an object beneath it can happen before the matrix has activated
 		if (GetComponent<NetworkIdentity>() != null)
 		{
@@ -115,19 +110,8 @@ public class NetworkedMatrix : MonoBehaviour
 		}
 	}
 
-	private void OnStartServer()
+	public void OnStartServer()
 	{
-		if (MatrixSync == null)
-		{
-			var result = Spawn.ServerPrefab(MatrixManager.Instance.MatrixSyncPrefab, transform.position, transform);
-
-			if (result.Successful == false)
-			{
-				Logger.LogError($"Failed to spawn matrix sync for {gameObject.name}");
-				return;
-			}
-		}
-
 		if (!InitializedMatrices.ContainsKey(MatrixSync.netId))
 		{
 			InitializedMatrices.Add(MatrixSync.netId, this);
@@ -148,6 +132,7 @@ public class NetworkedMatrix : MonoBehaviour
 		{
 			InitializedMatrices.Add(MatrixSync.netId, this);
 		}
+
 		//make sure layer orientations are refreshed now that this matrix is initialized
 		foreach (var layer in GetComponentsInChildren<Layer>())
 		{
@@ -155,6 +140,22 @@ public class NetworkedMatrix : MonoBehaviour
 		}
 
 		FireInitEvents();
+	}
+
+	public void BackUpSetMatrixSync()
+	{
+		if(MatrixSync != null) return;
+
+		foreach (Transform child in transform)
+		{
+			if (child.TryGetComponent<MatrixSync>(out var matrixSync) && matrixSync != null)
+			{
+				MatrixSync = matrixSync;
+				return;
+			}
+		}
+
+		Logger.LogError($"Failed to find matrix sync for {gameObject.name}");
 	}
 }
 
