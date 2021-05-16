@@ -54,10 +54,6 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
-	[SerializeField]
-	private GameObject matrixSyncPrefab = null;
-	public GameObject MatrixSyncPrefab => matrixSyncPrefab;
-
 	private IEnumerator WaitForLoad()
 	{
 		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
