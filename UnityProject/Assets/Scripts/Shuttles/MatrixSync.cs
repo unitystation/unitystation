@@ -12,6 +12,9 @@ namespace Shuttles
 		private MatrixMove matrixMove;
 		public MatrixMove MatrixMove => matrixMove;
 
+		[SyncVar(hook = nameof(SyncMatrixId))]
+		private ulong matrixId = 0;
+
 		#region MatrixMove SyncVars
 
 			[SyncVar(hook = nameof(SyncInitialPosition))]
@@ -26,9 +29,19 @@ namespace Shuttles
 
 		#endregion
 
-		private void Awake()
+		[Server]
+		public void SetMatrixId(ulong newId)
 		{
-			networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
+			matrixId = newId;
+		}
+
+		private void SyncMatrixId(ulong oldId, ulong newId)
+		{
+			matrixId = newId;
+
+			if(matrixId == 0) return;
+
+			networkedMatrix = NetworkedMatrix.GetNetworkedMatrixForId(matrixId);
 			networkedMatrix.MatrixSync = this;
 
 			matrixMove = networkedMatrix.GetComponent<MatrixMove>();
@@ -61,18 +74,24 @@ namespace Shuttles
 
 			public void SyncInitialPosition(Vector3 oldPos, Vector3 newPos)
 			{
+				if(matrixMove == null) return;
+
 				initialPosition = newPos;
 				matrixMove.initialPosition = newPos.RoundToInt();
 			}
 
 			public void SyncPivot(Vector3 oldPivot, Vector3 newPivot)
 			{
+				if(matrixMove == null) return;
+
 				pivot = newPivot;
 				matrixMove.pivot = pivot.RoundToInt();
 			}
 
 			public void OnRcsActivated(bool oldState, bool newState)
 			{
+				if(matrixMove == null) return;
+
 				rcsModeActive = newState;
 				matrixMove.OnRcsActivated(oldState, newState);
 			}

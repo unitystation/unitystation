@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Mirror;
 using Shuttles;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -18,6 +19,14 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class NetworkedMatrix : MonoBehaviour
 {
+	[HideInInspector]
+	public ulong networkedMatrixSceneId;
+
+	/// <summary>
+	/// Keep track of all networkedMatrixSceneIds to detect scene duplicates
+	/// </summary>
+	private static readonly Dictionary<ulong, NetworkedMatrix> networkedMatrixSceneIds = new Dictionary<ulong, NetworkedMatrix>();
+
 	/// <summary>
 	/// Mapping from networked matrix net ID to the events that should be invoked for that net ID when
 	/// networking is initialized for that matrix. Events will be cleared after firing once.
@@ -31,6 +40,114 @@ public class NetworkedMatrix : MonoBehaviour
 
 	[HideInInspector]
 	public MatrixSync MatrixSync;
+
+	#region Networked Matrix SceneIds
+	//A copy of how mirror creates scene ids for network identities but this is for network matrixes instead
+		private void OnValidate()
+		{
+			if(Application.isPlaying) return;
+
+			AssignSceneID();
+		}
+
+		void AssignSceneID()
+        {
+            // we only ever assign sceneIds at edit time, never at runtime.
+            // by definition, only the original scene objects should get one.
+            // -> if we assign at runtime then server and client would generate
+            //    different random numbers!
+            if (Application.isPlaying)
+                return;
+
+            // no valid sceneId yet, or duplicate?
+            bool duplicate = networkedMatrixSceneIds.TryGetValue(networkedMatrixSceneId, out NetworkedMatrix networkedMatrix) && networkedMatrix != null && networkedMatrix != this;
+            if (networkedMatrixSceneId == 0 || duplicate)
+            {
+                // clear in any case, because it might have been a duplicate
+                networkedMatrixSceneId = 0;
+
+                // if a scene was never opened and we are building it, then a
+                // sceneId would be assigned to build but not saved in editor,
+                // resulting in them getting out of sync.
+                // => don't ever assign temporary ids. they always need to be
+                //    permanent
+                // => throw an exception to cancel the build and let the user
+                //    know how to fix it!
+                if (BuildPipeline.isBuildingPlayer)
+                    throw new InvalidOperationException("Scene " + gameObject.scene.path + " needs to be opened and resaved before building, because the scene object " + name + " has no valid networkedMatrix sceneId yet.");
+
+                // if we generate the sceneId then we MUST be sure to set dirty
+                // in order to save the scene object properly. otherwise it
+                // would be regenerated every time we reopen the scene, and
+                // upgrading would be very difficult.
+                // -> Undo.RecordObject is the new EditorUtility.SetDirty!
+                // -> we need to call it before changing.
+                Undo.RecordObject(this, "Generated Networked Matrix SceneId");
+
+                // generate random sceneId part (0x00000000FFFFFFFF)
+                uint randomId = Utils.GetTrueRandomUInt();
+
+                // only assign if not a duplicate of an existing scene id
+                // (small chance, but possible)
+                duplicate = networkedMatrixSceneIds.TryGetValue(randomId, out networkedMatrix) && networkedMatrix != null && networkedMatrix != this;
+                if (!duplicate)
+                {
+	                networkedMatrixSceneId = randomId;
+                    //Debug.Log(name + " in scene=" + gameObject.scene.name + " sceneId assigned to: " + m_SceneId.ToString("X"));
+                }
+            }
+
+            // add to sceneIds dict no matter what
+            // -> even if we didn't generate anything new, because we still need
+            //    existing sceneIds in there to check duplicates
+            networkedMatrixSceneIds[networkedMatrixSceneId] = this;
+        }
+
+		// copy scene path hash into sceneId for scene objects.
+		// this is the only way for scene file duplication to not contain
+		// duplicate sceneIds as it seems.
+		// -> sceneId before: 0x00000000AABBCCDD
+		// -> then we clear the left 4 bytes, so that our 'OR' uses 0x00000000
+		// -> then we OR the hash into the 0x00000000 part
+		// -> buildIndex is not enough, because Editor and Build have different
+		//    build indices if there are disabled scenes in build settings, and
+		//    if no scene is in build settings then Editor and Build have
+		//    different indices too (Editor=0, Build=-1)
+		// => ONLY USE THIS FROM POSTPROCESSSCENE!
+		public void SetSceneIdSceneHashPartInternal()
+		{
+			// Use `ToLower` to that because BuildPipeline.BuildPlayer is case insensitive but hash is case sensitive
+			// If the scene in the project is `forest.unity` but `Forest.unity` is given to BuildPipeline then the
+			// BuildPipeline will use `Forest.unity` for the build and create a different hash than the editor will.
+			// Using ToLower will mean the hash will be the same for these 2 paths
+			// Assets/Scenes/Forest.unity
+			// Assets/Scenes/forest.unity
+			string scenePath = gameObject.scene.path.ToLower();
+
+			// get deterministic scene hash
+			uint pathHash = (uint)scenePath.GetStableHashCode();
+
+			// shift hash from 0x000000FFFFFFFF to 0xFFFFFFFF00000000
+			ulong shiftedHash = (ulong)pathHash << 32;
+
+			// OR into scene id
+			networkedMatrixSceneId = (networkedMatrixSceneId & 0xFFFFFFFF) | shiftedHash;
+
+			// log it. this is incredibly useful to debug sceneId issues.
+			// Debug.Log(name + " in scene=" + gameObject.scene.name + " scene index hash(" + pathHash.ToString("X") + ") copied into sceneId: " + sceneId.ToString("X"));
+		}
+
+		public static NetworkedMatrix GetNetworkedMatrixForId(ulong id)
+		{
+			if (networkedMatrixSceneIds.TryGetValue(id, out var networkedMatrix))
+			{
+				return networkedMatrix;
+			}
+
+			return null;
+		}
+
+	#endregion
 
 	/// <summary>
 	/// Gets a unity event that the caller can subscribe to which will be fired once
@@ -126,6 +243,8 @@ public class NetworkedMatrix : MonoBehaviour
 				Logger.LogError($"Failed to spawn matrix sync for {gameObject.name}");
 				return;
 			}
+
+			result.GameObject.GetComponent<MatrixSync>().SetMatrixId(networkedMatrixSceneId);
 		}
 
 		if (!InitializedMatrices.ContainsKey(MatrixSync.netId))
