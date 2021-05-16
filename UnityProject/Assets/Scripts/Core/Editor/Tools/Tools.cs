@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects.Wallmounts;
+using UnityEditor.SceneManagement;
 using Object = UnityEngine.Object;
 
 public class Tools : Editor
@@ -141,6 +142,24 @@ public class Tools : Editor
 		}
 
 		Debug.Log($"{allNets.Length} net ids found in the scene");
+	}
+
+	[MenuItem("Networking/Save all scenes")]
+	private static void SaveAllScenes()
+	{
+		var scenesGUIDs = AssetDatabase.FindAssets("t:Scene",new string[] {"Assets/Scenes"});
+		var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+
+		foreach (var scene in scenesPaths)
+		{
+			if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
+
+			var openScene = EditorSceneManager.OpenScene(scene);
+
+			EditorSceneManager.MarkSceneDirty(openScene);
+			EditorSceneManager.SaveScene(openScene);
+			EditorSceneManager.CloseScene(openScene, true);
+		}
 	}
 
 	//this is just for migrating from old way of setting wallmount directions to the new way
