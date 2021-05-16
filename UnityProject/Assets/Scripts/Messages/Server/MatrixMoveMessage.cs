@@ -48,7 +48,7 @@ namespace Messages.Server
 		{
 			var msg = new NetMessage
 			{
-				Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				Matrix = matrix != null ? matrix.GetComponent<NetworkedMatrix>().MatrixSync.netId : NetId.Invalid,
 				State = state,
 			};
 

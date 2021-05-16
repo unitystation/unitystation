@@ -119,7 +119,12 @@ public class NetworkedMatrix : MonoBehaviour
 	{
 		if (MatrixSync == null)
 		{
-			Spawn.ServerPrefab(MatrixManager.Instance.MatrixSyncPrefab, transform.position, transform);
+			var result = Spawn.ServerPrefab(MatrixManager.Instance.MatrixSyncPrefab, transform.position, transform);
+
+			if (result.Successful == false)
+			{
+				Debug.LogError("Failed to spawn");
+			}
 		}
 
 		if (!InitializedMatrices.ContainsKey(MatrixSync.netId))

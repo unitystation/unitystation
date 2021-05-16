@@ -282,7 +282,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			networkedMatrixNetId = Matrix.transform.parent.gameObject.NetId();
+			networkedMatrixNetId = Matrix.transform.parent.gameObject.GetComponent<NetworkedMatrix>().MatrixSync.netId;
 		}
 	}
 

@@ -22,7 +22,7 @@ namespace Messages.Server
 			if (CustomNetworkManager.IsServer) return;
 			LoadNetworkObject(msg.ManagerSubject);
 
-			TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
+			TileChangeManager tm = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
 			tm.InitServerSync(msg.data);
 		}
 
@@ -40,11 +40,11 @@ namespace Messages.Server
 
 				string jsondata = JsonUtility.ToJson (changeChunk);
 
-				NetMessage msg =
-					new NetMessage
-					{ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
-						data = jsondata
-					};
+				NetMessage msg = new NetMessage
+				{
+					ManagerSubject = managerSubject.GetComponent<NetworkedMatrix>().MatrixSync.netId,
+					data = jsondata
+				};
 
 				SendTo(recipient, msg);
 			}
