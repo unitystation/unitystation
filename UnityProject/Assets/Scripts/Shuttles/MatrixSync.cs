@@ -28,7 +28,18 @@ namespace Shuttles
 
 		private void Awake()
 		{
+			if (transform.parent == null)
+			{
+				Logger.LogError($"{gameObject.name} had null transform parent", Category.Matrix);
+			}
+
 			networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
+
+			if (networkedMatrix == null)
+			{
+				Logger.LogError($"{gameObject.name} had null networkedMatrix", Category.Matrix);
+			}
+
 			networkedMatrix.MatrixSync = this;
 
 			matrixMove = networkedMatrix.GetComponent<MatrixMove>();
@@ -50,6 +61,8 @@ namespace Shuttles
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+
+			networkedMatrix.OnStartServer();
 
 			if (matrixMove != null)
 			{

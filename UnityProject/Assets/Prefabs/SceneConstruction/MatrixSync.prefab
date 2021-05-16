@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5826037586392917993}
   - component: {fileID: 3194600400839006163}
   - component: {fileID: 792027007906254727}
+  - component: {fileID: 5805040026845563395}
   m_Layer: 0
   m_Name: MatrixSync
   m_TagString: Untagged
@@ -60,6 +61,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73c44b751597f2845b45d6a9b983018c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  rcsModeActive: 0
+--- !u!114 &5805040026845563395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131909417713665038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
