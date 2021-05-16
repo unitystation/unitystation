@@ -4684,24 +4684,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 415076003563517871}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &461885081932122687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3946368546908237557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDirty: 0
-  sceneId: 1153724288
-  serverOnly: 0
-  visible: 2
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!1001 &548707995649042590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6486,8 +6468,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ce68dd13aa41cc94841314b4c66a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &2341305326623488007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7876,8 +7856,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!1001 &3449456587198003085
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8754,10 +8732,8 @@ GameObject:
   - component: {fileID: 3439796075557531893}
   - component: {fileID: 8143898583014610040}
   - component: {fileID: 9030217161454296635}
-  - component: {fileID: 461885081932122687}
   - component: {fileID: 4731832869218013810}
   - component: {fileID: 169014851365516172}
-  - component: {fileID: 3946368546908237558}
   m_Layer: 0
   m_Name: Caverna
   m_TagString: Untagged
@@ -8765,20 +8741,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3946368546908237558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3946368546908237557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1001 &3946896314324854459
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9946,8 +9908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afc5c9322044160b00462b567287636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  MatrixSync: {fileID: 0}
 --- !u!1001 &4830386218019856735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145541,8 +145502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905a243a2c1a4fd79fd17a43b3c6f208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   performerStartActionMessage: 
   othersStartActionMessage: 
 --- !u!1001 &8232860268328153050
@@ -146344,8 +146303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974152dca9d54d57a8f2e4283fb52093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1001 &9034556265396314757
 PrefabInstance:
   m_ObjectHideFlags: 0
