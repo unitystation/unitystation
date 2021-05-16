@@ -42,6 +42,8 @@ namespace TileManagement
 		public Layer[] LayersValues { get; private set; }
 		public ObjectLayer ObjectLayer { get; private set; }
 
+		//Determines the maximum amount of overlays allowed on a tile
+		private const int OVERLAY_LIMIT = 20;
 
 		public List<Layer> ffLayersValues;
 
@@ -909,12 +911,10 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -926,6 +926,7 @@ namespace TileManagement
 						return position;
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -958,12 +959,10 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -979,6 +978,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1012,12 +1012,10 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1033,6 +1031,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1066,12 +1065,10 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1087,6 +1084,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1120,12 +1118,10 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1141,6 +1137,7 @@ namespace TileManagement
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}
@@ -1169,12 +1166,10 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				//Only check 20 as its unlikely to ever have more than 20 overlays
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
 				var count = 0;
-				while (count < 20)
+				while (count < OVERLAY_LIMIT)
 				{
-					position.z += count;
-
 					lock (PresentTiles)
 					{
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
@@ -1184,12 +1179,13 @@ namespace TileManagement
 					{
 						overlayTile = tileLocation.Tile as OverlayTile;
 
-						if (overlayTile != null && overlayTile == overlayTileWanted)
+						if (overlayTile != null && overlayTile.Equals(overlayTileWanted))
 						{
 							return true;
 						}
 					}
 
+					position.z++;
 					count++;
 				}
 			}

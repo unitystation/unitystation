@@ -218,6 +218,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	[ClientRpc]
 	private void RpcPickupAnimation(GameObject interactor)
 	{
+		//Can happen if object isnt loaded on client yet, e.g during join
+		if (interactor == null) return;
+
 		PickupAnim(interactor);
 	}
 
