@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Mirror;
+using Shuttles;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -15,9 +16,8 @@ using UnityEngine.Tilemaps;
 /// other dependent objects are informed
 /// of the correct parent matrix net ID as soon as it becomes available.
 /// </summary>
-public class NetworkedMatrix : NetworkBehaviour
+public class NetworkedMatrix : MonoBehaviour
 {
-
 	/// <summary>
 	/// Mapping from networked matrix net ID to the events that should be invoked for that net ID when
 	/// networking is initialized for that matrix. Events will be cleared after firing once.
@@ -28,6 +28,9 @@ public class NetworkedMatrix : NetworkBehaviour
 	/// Contains the IDs of all networked matrices which have already initialized.
 	/// </summary>
 	private static readonly Dictionary<uint, NetworkedMatrix> InitializedMatrices = new Dictionary<uint, NetworkedMatrix>();
+
+	[HideInInspector]
+	public MatrixSync MatrixSync;
 
 	/// <summary>
 	/// Gets a unity event that the caller can subscribe to which will be fired once
@@ -91,34 +94,47 @@ public class NetworkedMatrix : NetworkBehaviour
 	private void FireInitEvents()
 	{
 		//fire once and remove all hooks / the event
-		NetInitActions.TryGetValue(netId, out var unityEvent);
+		NetInitActions.TryGetValue(MatrixSync.netId, out var unityEvent);
 		if (unityEvent == null) return;
 		unityEvent.Invoke(this);
 		unityEvent.RemoveAllListeners();
-		NetInitActions.Remove(netId);
+		NetInitActions.Remove(MatrixSync.netId);
 	}
 
-	public override void OnStartServer()
+	private void Start()
 	{
-		if (!InitializedMatrices.ContainsKey(netId))
+		if (CustomNetworkManager.IsServer)
 		{
-			InitializedMatrices.Add(netId, this);
+			OnStartServer();
+		}
+	}
+
+	private void OnStartServer()
+	{
+		if (MatrixSync == null)
+		{
+			Spawn.ServerPrefab(MatrixManager.Instance.MatrixSyncPrefab, transform.position, transform);
+		}
+
+		if (!InitializedMatrices.ContainsKey(MatrixSync.netId))
+		{
+			InitializedMatrices.Add(MatrixSync.netId, this);
 		}
 
 		//ensure all register tiles in this matrix have the correct net id
 		foreach (var rt in GetComponentsInChildren<RegisterTile>())
 		{
-			rt.ServerSetNetworkedMatrixNetID(netId);
+			rt.ServerSetNetworkedMatrixNetID(MatrixSync.netId);
 		}
 
 		FireInitEvents();
 	}
 
-	public override void OnStartClient()
+	public void OnStartClient()
 	{
-		if (!InitializedMatrices.ContainsKey(netId))
+		if (!InitializedMatrices.ContainsKey(MatrixSync.netId))
 		{
-			InitializedMatrices.Add(netId, this);
+			InitializedMatrices.Add(MatrixSync.netId, this);
 		}
 		//make sure layer orientations are refreshed now that this matrix is initialized
 		foreach (var layer in GetComponentsInChildren<Layer>())

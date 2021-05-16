@@ -7,7 +7,7 @@ using Initialisation;
 using UnityEngine;
 using Mirror;
 
-public class SubsystemManager : NetworkBehaviour
+public class SubsystemManager : MonoBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
 	private bool initialized;

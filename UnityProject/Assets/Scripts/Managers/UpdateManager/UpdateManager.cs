@@ -111,6 +111,13 @@ public class UpdateManager : MonoBehaviour
 		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
 	}
 
+	public static void Add(ManagedBehaviour managedBehaviour)
+	{
+		instance.AddCallbackInternal(CallbackType.UPDATE, managedBehaviour.UpdateMe);
+		instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, managedBehaviour.FixedUpdateMe);
+		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, managedBehaviour.LateUpdateMe);
+	}
+
 	public static void Remove(CallbackType type, Action action)
 	{
 		if (action == null || Instance == null) return;
@@ -159,6 +166,13 @@ public class UpdateManager : MonoBehaviour
 		Remove(CallbackType.UPDATE, networkBehaviour.UpdateMe);
 		Remove(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
 		Remove(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
+	}
+
+	public static void Remove(ManagedBehaviour managedBehaviour)
+	{
+		Remove(CallbackType.UPDATE, managedBehaviour.UpdateMe);
+		Remove(CallbackType.FIXED_UPDATE, managedBehaviour.FixedUpdateMe);
+		Remove(CallbackType.LATE_UPDATE, managedBehaviour.LateUpdateMe);
 	}
 
 	private void ProcessCallbacks(CallbackCollection collection)
