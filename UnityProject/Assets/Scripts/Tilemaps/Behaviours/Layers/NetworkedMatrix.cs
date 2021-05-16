@@ -107,6 +107,12 @@ public class NetworkedMatrix : MonoBehaviour
 		{
 			OnStartServer();
 		}
+
+		//Matrixes cannot be networked as a message to spawn an object beneath it can happen before the matrix has activated
+		if (GetComponent<NetworkIdentity>() != null)
+		{
+			Debug.LogError($"{gameObject.name} has a network identity please remove it, matrixes cannot be networked objects");
+		}
 	}
 
 	private void OnStartServer()

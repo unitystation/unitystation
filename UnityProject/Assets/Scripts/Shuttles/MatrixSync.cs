@@ -8,6 +8,7 @@ namespace Shuttles
 	public class MatrixSync : NetworkBehaviour
 	{
 		private NetworkedMatrix networkedMatrix;
+
 		private MatrixMove matrixMove;
 		public MatrixMove MatrixMove => matrixMove;
 
@@ -58,23 +59,33 @@ namespace Shuttles
 
 		#region MatrixMove Hooks
 
-		public void SyncInitialPosition(Vector3 oldPos, Vector3 newPos)
-		{
-			initialPosition = newPos;
-			matrixMove.SyncInitialPosition(oldPos, newPos);
-		}
+			public void SyncInitialPosition(Vector3 oldPos, Vector3 newPos)
+			{
+				initialPosition = newPos;
+				matrixMove.initialPosition = newPos.RoundToInt();
+			}
 
-		public void SyncPivot(Vector3 oldPivot, Vector3 newPivot)
-		{
-			pivot = newPivot;
-			matrixMove.SyncPivot(oldPivot, newPivot);
-		}
+			public void SyncPivot(Vector3 oldPivot, Vector3 newPivot)
+			{
+				pivot = newPivot;
+				matrixMove.pivot = pivot.RoundToInt();
+			}
 
-		public void OnRcsActivated(bool oldState, bool newState)
-		{
-			rcsModeActive = newState;
-			matrixMove.OnRcsActivated(oldState, newState);
-		}
+			public void OnRcsActivated(bool oldState, bool newState)
+			{
+				rcsModeActive = newState;
+				matrixMove.OnRcsActivated(oldState, newState);
+			}
+
+		#endregion
+
+		#region EscapeShuttle RPC
+
+			[ClientRpc]
+			public void RpcStrandedEnd()
+			{
+				UIManager.Instance.PlayStrandedAnimation();
+			}
 
 		#endregion
 	}

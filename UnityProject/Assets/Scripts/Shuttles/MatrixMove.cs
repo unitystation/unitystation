@@ -46,7 +46,8 @@ public class MatrixMove : ManagedBehaviour
 
 	//[SyncVar(hook = nameof(SyncInitialPosition))]
 	//This is sync'd by the MatrixSync component
-	private Vector3 initialPosition;
+	[HideInInspector]
+	public Vector3 initialPosition;
 	/// <summary>
 	/// Initial position for offset calculation, set on start and never changed afterwards
 	/// </summary>
@@ -54,7 +55,8 @@ public class MatrixMove : ManagedBehaviour
 
 	//[SyncVar(hook = nameof(SyncPivot))]
 	//This is sync'd by the MatrixSync component
-	private Vector3 pivot;
+	[HideInInspector]
+	public Vector3 pivot;
 	/// <summary>
 	/// local pivot point, set on start and never changed afterwards
 	/// </summary>
@@ -345,14 +347,14 @@ public class MatrixMove : ManagedBehaviour
 		this.coordReadoutScript = coordReadout;
 	}
 
-	public void SyncInitialPosition(Vector3 oldPos, Vector3 initialPos)
+	private void SyncInitialPosition(Vector3 oldPos, Vector3 initialPos)
 	{
-		this.initialPosition = initialPos.RoundToInt();
+		networkedMatrix.MatrixSync.SyncInitialPosition(oldPos, initialPos);
 	}
 
 	public void SyncPivot(Vector3 oldPivot, Vector3 pivot)
 	{
-		this.pivot = pivot.RoundToInt();
+
 	}
 
 	/// <summary>
@@ -431,12 +433,8 @@ public class MatrixMove : ManagedBehaviour
 	[Server]
 	public void ToggleRcs(bool on)
 	{
+		networkedMatrix.MatrixSync.OnRcsActivated(rcsModeActive, on);
 		rcsModeActive = on;
-		if (on)
-		{
-			//Refresh Rcs
-			CacheRcs();
-		}
 	}
 
 	/// Start moving. If speed was zero, it'll be set to 1
@@ -494,7 +492,6 @@ public class MatrixMove : ManagedBehaviour
 		MatrixMoveEvents.OnStartMovementClient.Invoke();
 	}
 
-	[Client]
 	public void OnRcsActivated(bool oldValue, bool newValue)
 	{
 		if (newValue)
