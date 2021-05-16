@@ -68,12 +68,12 @@ public class MetaDataSystem : SubsystemBehaviour
 			Dsw.Start();
 			matrix.UnderFloorLayer.InitialiseUnderFloorUtilities();
 			Dsw.Stop();
-			Logger.Log("Initialise Station Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
+			Logger.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}
 
 		sw.Stop();
 
-		Logger.Log("MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
+		Logger.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
 	}
 
 	public override void UpdateAt(Vector3Int localPosition)
