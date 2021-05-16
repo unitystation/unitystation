@@ -42,6 +42,7 @@ public class NetworkedMatrix : MonoBehaviour
 	public MatrixSync MatrixSync;
 
 	#region Networked Matrix SceneIds
+#if UNITY_EDITOR
 	//A copy of how mirror creates scene ids for network identities but this is for network matrixes instead
 		private void OnValidate()
 		{
@@ -102,6 +103,7 @@ public class NetworkedMatrix : MonoBehaviour
             //    existing sceneIds in there to check duplicates
             networkedMatrixSceneIds[networkedMatrixSceneId] = this;
         }
+#endif
 
 		// copy scene path hash into sceneId for scene objects.
 		// this is the only way for scene file duplication to not contain
