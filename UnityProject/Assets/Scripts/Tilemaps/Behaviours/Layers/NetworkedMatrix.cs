@@ -111,7 +111,7 @@ public class NetworkedMatrix : MonoBehaviour
 		//Matrixes cannot be networked as a message to spawn an object beneath it can happen before the matrix has activated
 		if (GetComponent<NetworkIdentity>() != null)
 		{
-			Debug.LogError($"{gameObject.name} has a network identity please remove it, matrixes cannot be networked objects");
+			Logger.LogError($"{gameObject.name} has a network identity please remove it, matrixes cannot be networked objects");
 		}
 	}
 
@@ -123,7 +123,8 @@ public class NetworkedMatrix : MonoBehaviour
 
 			if (result.Successful == false)
 			{
-				Debug.LogError("Failed to spawn");
+				Logger.LogError($"Failed to spawn matrix sync for {gameObject.name}");
+				return;
 			}
 		}
 
