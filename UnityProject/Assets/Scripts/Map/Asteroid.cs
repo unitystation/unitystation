@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Random = UnityEngine.Random;
 
-public class Asteroid : NetworkBehaviour
+public class Asteroid : MonoBehaviour
 {
 	private MatrixMove mm;
 
@@ -21,10 +23,13 @@ public class Asteroid : NetworkBehaviour
 			mm = GetComponent<MatrixMove>();
 		}
 	}
-	public override void OnStartServer()
+
+	private void Start()
 	{
-		StartCoroutine(Init());
-		base.OnStartServer();
+		if (CustomNetworkManager.IsServer)
+		{
+			StartCoroutine(Init());
+		}
 	}
 
 	[Server]
