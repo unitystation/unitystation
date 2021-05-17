@@ -32,7 +32,7 @@ namespace Effects
 		public void StopFloating()
 		{
 			WillAnimate = false;
-			tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
+			tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
 			StopAllCoroutines();
 		}
 
@@ -40,11 +40,11 @@ namespace Effects
 		{
 			while(WillAnimate)
 			{
-				tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, POS, 0), SPEED);
+				tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, POS, 0), SPEED);
 				yield return WaitFor.Seconds(SPEED);
-				tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -POS, 0), SPEED);
+				tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -POS, 0), SPEED);
 				yield return WaitFor.Seconds(SPEED);
-				tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), SPEED / 2);
+				tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), SPEED / 2);
 				yield return WaitFor.Seconds(SPEED / 2);
 			}
 		}

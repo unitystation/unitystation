@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using Effects;
 using UnityEngine.Serialization;
@@ -9,34 +10,46 @@ using Util;
 /// </summary>
 public class PlayerEffectsManager : MonoBehaviour
 {
-    private FloatingEffect floatingEffect;
-    private RotateEffect rotateEffect;
-    private Shake shakeEffect;
+	private FloatingEffect floatingEffect;
+	private RotateEffect rotateEffect;
+	private Shake shakeEffect;
+	private PlayerSync playerSync;
 
-    private void Awake()
-    {
+	private void Awake()
+	{
+	    playerSync = GetComponent<PlayerSync>();
 	    floatingEffect = GetComponent<FloatingEffect>();
 	    rotateEffect = GetComponent<RotateEffect>();
 	    shakeEffect = GetComponent<Shake>();
-    }
+	}
 
-    private void Update()
-    {
-	    if (PlayerManager.PlayerScript.OrNull()?.PlayerSync == null ) return;
+	private void OnEnable()
+	{
+	    UpdateManager.Add(CallbackType.UPDATE, UpdateLoop);
+	}
+
+	private void OnDisable()
+	{
+	    UpdateManager.Remove(CallbackType.UPDATE, UpdateLoop);
+	}
+
+	private void UpdateLoop()
+	{
 	    //Checks if the player is floating and animates them up in down if they are.
-	    if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient && floatingEffect.WillAnimate == false)
+	    if(playerSync.isFloatingClient && floatingEffect.WillAnimate == false)
 	    {
 		    AnimateFloating();
 		    return;
 	    }
-	    if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == false && floatingEffect.WillAnimate)
+
+	    if(playerSync.isFloatingClient == false && floatingEffect.WillAnimate)
 	    {
 		    AnimateFloating();
 	    }
-    }
+	}
 
-    private void AnimateFloating()
-    {
+	private void AnimateFloating()
+	{
 	    if (floatingEffect.WillAnimate)
 	    {
 		    floatingEffect.StopFloating();
@@ -45,16 +58,16 @@ public class PlayerEffectsManager : MonoBehaviour
 	    {
 		    floatingEffect.StartFloating();
 	    }
-    }
+	}
 
-    public void RotatePlayer(int times, float speed, float degree, bool random)
-    {
+	public void RotatePlayer(int times, float speed, float degree, bool random)
+	{
 	    rotateEffect.SetupEffectvars(times, speed, degree, random);
 	    rotateEffect.StartAnimation();
-    }
+	}
 
-    public void ShakePlayer(float duration, float distance, float delay)
-    {
+	public void ShakePlayer(float duration, float distance, float delay)
+	{
 	    shakeEffect.StartShake(duration, distance, delay);
-    }
+	}
 }
