@@ -16,6 +16,7 @@ using Initialisation;
 using AddressableReferences;
 using Managers;
 using Messages.Server;
+using Tilemaps.Behaviours.Layers;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {

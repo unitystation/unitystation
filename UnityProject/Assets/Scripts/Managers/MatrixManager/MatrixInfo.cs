@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using TileManagement;
+using Tilemaps.Behaviours.Layers;
 
 /// Class that helps identify matrices
 public class MatrixInfo : IEquatable<MatrixInfo>
