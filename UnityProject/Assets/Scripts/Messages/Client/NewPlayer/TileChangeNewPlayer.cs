@@ -6,21 +6,21 @@ namespace Messages.Client.NewPlayer
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint TileChangeManager;
+			public uint MatrixSyncNetId;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			LoadNetworkObject(msg.TileChangeManager);
-			NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
+			LoadNetworkObject(msg.MatrixSyncNetId);
+			NetworkObject.transform.parent.GetComponent<TileChangeManager>().UpdateNewPlayer(
 				SentByPlayer.Connection);
 		}
 
-		public static NetMessage Send(uint tileChangeNetId)
+		public static NetMessage Send(uint matrixSyncNetId)
 		{
 			NetMessage msg = new NetMessage
 			{
-				TileChangeManager = tileChangeNetId
+				MatrixSyncNetId = matrixSyncNetId
 			};
 
 			Send(msg);

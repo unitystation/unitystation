@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using Mirror;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class EscapeShuttle : NetworkBehaviour
+public class EscapeShuttle : MonoBehaviour
 {
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
@@ -149,6 +150,8 @@ public class EscapeShuttle : NetworkBehaviour
 
 	private int hostileEnvironmentCounter = 0;
 
+	private NetworkedMatrix networkedMatrix;
+
 	private void Start()
 	{
 		switch (orientationForDocking)
@@ -206,6 +209,7 @@ public class EscapeShuttle : NetworkBehaviour
 	private void Awake()
 	{
 		mm = GetComponent<MatrixMove>();
+		networkedMatrix = GetComponent<NetworkedMatrix>();
 
 		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
 		foreach (var thruster in thrusters)
@@ -231,7 +235,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
 		currentDestination = Destination.Invalid;
-		RpcStrandedEnd();
+		networkedMatrix.MatrixSync.RpcStrandedEnd();
 		StartCoroutine(WaitForGameOver());
 		GameManager.Instance.RespawnCurrentlyAllowed = false;
 	}
@@ -243,12 +247,6 @@ public class EscapeShuttle : NetworkBehaviour
 		yield return WaitFor.Seconds(15f);
 		// Trigger end of round
 		GameManager.Instance.EndRound();
-	}
-
-	[ClientRpc]
-	private void RpcStrandedEnd()
-	{
-		UIManager.Instance.PlayStrandedAnimation();
 	}
 
 	private void Update()
