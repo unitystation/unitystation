@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: cat
-  knockedDownRotation: 90
   minTimeBetweenRandomActions: 15
   maxTimeBetweenRandomActions: 30
   doRandomActionWhenInTask: 0
@@ -218,7 +217,8 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3329383262291247399, guid: f74cbb9054020dd4f8c9dcdedd7398eb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f74cbb9054020dd4f8c9dcdedd7398eb, type: 3}
 --- !u!1 &2144788095502372098 stripped
 GameObject:
