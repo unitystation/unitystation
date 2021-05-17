@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
 using Systems.Electricity;
+using Tilemaps.Behaviours.Layers;
 
 public enum ObjectType
 {
@@ -282,7 +283,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			networkedMatrixNetId = Matrix.transform.parent.gameObject.NetId();
+			networkedMatrixNetId = Matrix.transform.parent.gameObject.GetComponent<NetworkedMatrix>().MatrixSync.netId;
 		}
 	}
 

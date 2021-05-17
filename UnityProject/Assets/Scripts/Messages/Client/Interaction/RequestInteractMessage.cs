@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mirror;
+using Shuttles;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 
 namespace Messages.Client.Interaction
@@ -235,7 +237,7 @@ namespace Messages.Client.Interaction
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadNetworkObject(ProcessorObject);
 				var processorObj = NetworkObject;
-				processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
+				processorObj.transform.parent.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
 					TargetVector, processorObj, usedSlot, usedObject, Intent,
 					TileApply.ApplyType.HandApply);
 			}
@@ -247,7 +249,7 @@ namespace Messages.Client.Interaction
 
 				var usedObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
-				processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
+				processorObj.transform.parent.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
 					TargetVector, processorObj, null, usedObj, Intent,
 					TileApply.ApplyType.MouseDrop);
 			}
@@ -262,6 +264,12 @@ namespace Messages.Client.Interaction
 				});
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
+
+				if (targetObj != null)
+				{
+					targetObj = targetObj.transform.parent.gameObject;
+				}
+
 				var interaction = ConnectionApply.ByClient(performer, usedObject, targetObj, connectionPointA, connectionPointB, TargetVector, usedSlot, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
@@ -481,7 +489,7 @@ namespace Messages.Client.Interaction
 			else if (typeof(T) == typeof(ConnectionApply))
 			{
 				var casted = interaction as ConnectionApply;
-				msg.TargetObject = casted.TargetObject.NetId();
+				msg.TargetObject = casted.TargetObject.GetComponent<NetworkedMatrix>().MatrixSync.netId;
 				msg.TargetVector = casted.TargetVector;
 				msg.connectionPointA = casted.WireEndA;
 				msg.connectionPointB = casted.WireEndB;
@@ -518,7 +526,7 @@ namespace Messages.Client.Interaction
 			{
 				ComponentType = typeof(InteractableTiles),
 				InteractionType = typeof(TileApply),
-				ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+				ProcessorObject = interactableTiles.GetComponent<NetworkedMatrix>().MatrixSync.netId,
 				Intent = tileApply.Intent,
 				TargetVector = tileApply.TargetVector
 			};
@@ -539,7 +547,7 @@ namespace Messages.Client.Interaction
 			{
 				ComponentType = typeof(InteractableTiles),
 				InteractionType = typeof(TileMouseDrop),
-				ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+				ProcessorObject = interactableTiles.GetComponent<NetworkedMatrix>().MatrixSync.netId,
 				Intent = mouseDrop.Intent,
 				UsedObject = mouseDrop.UsedObject.NetId(),
 				TargetVector = mouseDrop.TargetVector

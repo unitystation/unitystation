@@ -14,7 +14,7 @@ using Systems.Electricity;
 ///
 /// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>, IExaminable, IClientInteractable<MouseDrop>
+public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>, IExaminable, IClientInteractable<MouseDrop>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
