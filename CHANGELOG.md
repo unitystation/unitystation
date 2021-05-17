@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/17: Adds max drunk time of 2 mins by [ThatDan123](https://github.com/ThatDan123) in PR #[6544](https://github.com/unitystation/unitystation/pull/6544)
+* 2021/5/17: Removes drunk and night vision when you turn into a ghost by [ThatDan123](https://github.com/ThatDan123) in PR #[6544](https://github.com/unitystation/unitystation/pull/6544)
 * 2021/5/17: Fixes floating effect by [ThatDan123](https://github.com/ThatDan123) in PR #[6542](https://github.com/unitystation/unitystation/pull/6542)
 * 2021/5/17: Adds scene checker to the net identity by [ThatDan123](https://github.com/ThatDan123) in PR #[6532](https://github.com/unitystation/unitystation/pull/6532)
 * 2021/5/17: Possible fix for eternal fires by [Semuca](https://github.com/Semuca) in PR #[6527](https://github.com/unitystation/unitystation/pull/6527)
