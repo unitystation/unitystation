@@ -828,7 +828,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	//Server fields
 	private bool isBeingPushed;
 	private Vector3Int pushTarget = TransformState.HiddenPos;
-	private Queue<Tuple<Vector2Int, float>> pushRequestQueue = new Queue<Tuple<Vector2Int, float>>();
+	private Queue<Tuple<Vector2Int, float, bool>> pushRequestQueue = new Queue<Tuple<Vector2Int, float, bool>>();
 
 	//Client fields
 	private PushState pushPrediction = PushState.None;
@@ -842,10 +842,10 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	#region Push
 
 	[Server]
-	public void QueuePush(Vector2Int dir, float speed = Single.NaN, bool allowDiagonals = false)
+	public void QueuePush(Vector2Int dir, float speed = Single.NaN, bool forcePush = false)
 	{
 		//		Logger.LogTraceFormat( "{0}: queued push {1} {2}", Category.PushPull, gameObject.name, dir, speed );
-		pushRequestQueue.Enqueue(new Tuple<Vector2Int, float>(dir, speed));
+		pushRequestQueue.Enqueue(new Tuple<Vector2Int, float, bool>(dir, speed, forcePush));
 		CheckQueue();
 	}
 
@@ -854,7 +854,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		if (pushRequestQueue.Count > 0 && isBeingPushed == false)
 		{
 			var tuple = pushRequestQueue.Dequeue();
-			if (TryPush(tuple.Item1, tuple.Item2) == false)
+			if (TryPush(tuple.Item1, tuple.Item2, tuple.Item3) == false)
 			{
 				pushRequestQueue.Clear();
 			}
@@ -869,8 +869,35 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	}
 
 
+	/// <summary>
+	/// Try pushing an object
+	/// </summary>
+	/// <param name="dir"></param>
+	/// <param name="speed"></param>
+	/// <param name="forcePush">Sets object to pushable for one push only</param>
+	/// <returns></returns>
 	[Server]
-	public bool TryPush(Vector2Int dir, float speed = Single.NaN)
+	public bool TryPush(Vector2Int dir, float speed = Single.NaN, bool forcePush = false)
+	{
+		var originalPushableValue = IsPushable;
+		if (forcePush && originalPushableValue == false)
+		{
+			ServerSetPushable(true);
+		}
+
+		var result = TryPushInternal(dir, speed);
+
+		//Reset state if needed
+		if (forcePush && originalPushableValue == false)
+		{
+			ServerSetPushable(false);
+		}
+
+		return result;
+	}
+
+	[Server]
+	private bool TryPushInternal(Vector2Int dir, float speed = Single.NaN)
 	{
 		Vector3Int from = Pushable.ServerPosition;
 		if (CanPushServer(from, dir, speed) == false)
@@ -883,12 +910,12 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		if (success)
 		{
 			if (IsBeingPulled && //Break pull only if pushable will end up far enough
-					(pushRequestQueue.Count > 0 || Validations.IsReachableByPositions(PulledBy.registerTile.WorldPositionServer, target, true, context: gameObject) == false))
+			    (pushRequestQueue.Count > 0 || Validations.IsReachableByPositions(PulledBy.registerTile.WorldPositionServer, target, true, context: gameObject) == false))
 			{
 				StopFollowing();
 			}
 			if (IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-					(pushRequestQueue.Count > 0 || Validations.IsReachableByPositions(PulledObjectServer.registerTile.WorldPositionServer, target, true, context: gameObject) == false))
+			    (pushRequestQueue.Count > 0 || Validations.IsReachableByPositions(PulledObjectServer.registerTile.WorldPositionServer, target, true, context: gameObject) == false))
 			{
 				ReleaseControl();
 			}

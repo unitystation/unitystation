@@ -175,7 +175,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	{
 		EnsureInit();
 		this.isLayingDown = isDown;
-		HandleGetupAnimation(isDown == false);
+
+		if (CustomNetworkManager.IsServer)
+		{
+			HandleGetupAnimation(isDown == false);
+		}
+
 		if (isDown)
 		{
 			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);

@@ -110,7 +110,7 @@ public partial class Chat : MonoBehaviour
 
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
-			chatEvent.speaker = StripTags(sentByPlayer.Username);
+			chatEvent.speaker = StripAll(sentByPlayer.Username);
 
 			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
 

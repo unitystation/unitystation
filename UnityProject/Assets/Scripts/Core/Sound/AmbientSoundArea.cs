@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
 using Audio.Containers;
@@ -29,6 +30,16 @@ public class AmbientSoundArea : MonoBehaviour
 	{
 		if (player == null) return;
 		if (player != PlayerManager.LocalPlayer) return;
+
+		// Dont change sound when sent to hidden pos, e.g in locker
+		// TODO entering sound still plays when exiting locker, but this at least stops space sound
+		if (player.TryGetComponent<PlayerSync>(out var playerSync))
+		{
+			if (playerSync.TrustedPosition == TransformState.HiddenPos)
+			{
+				return;
+			}
+		}
 
 		if (isEntering)
 		{

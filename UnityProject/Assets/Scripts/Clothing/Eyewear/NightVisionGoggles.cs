@@ -11,7 +11,7 @@ public class NightVisionGoggles : NetworkBehaviour, IServerInventoryMove, ICheck
 	[SerializeField, Tooltip("How fast will the player gain visibility?")]
 	private float visibilityAnimationSpeed = 1.50f;
 
-	private bool isOn = true;
+	private bool isOn;
 	private ItemActionButton actionButton;
 
 	private RegisterPlayer currentPlayer;

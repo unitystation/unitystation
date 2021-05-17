@@ -16,7 +16,9 @@ namespace Systems.Electricity
 		//WrapCurrent
 		public static List<WrapCurrent> PooledWrapCurrent = new List<WrapCurrent>();
 
-		//Find possible connections
+		/// <summary>
+		/// Find possible connections (FPC). List of electrical connections.
+		/// </summary>
 		public static List<List<IntrinsicElectronicData>> PooledFPCList = new List<List<IntrinsicElectronicData>>();
 
 		//ElectronicSupplyData

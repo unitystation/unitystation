@@ -91,6 +91,9 @@ public class PlayerSprites : MonoBehaviour
 
 	public bool RootBodyPartsLoaded = false;
 
+	[SerializeField]
+	private GameObject OverlaySprites;
+
 	protected void Awake()
 	{
 		directional = GetComponent<Directional>();
@@ -127,7 +130,7 @@ public class PlayerSprites : MonoBehaviour
 		if (engulfedBurningOverlay == null)
 		{
 			engulfedBurningOverlay =
-				Instantiate(engulfedBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+				Instantiate(engulfedBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			engulfedBurningOverlay.enabled = true;
 			engulfedBurningOverlay.StopOverlay();
 		}
@@ -135,14 +138,14 @@ public class PlayerSprites : MonoBehaviour
 		if (partialBurningOverlay == null)
 		{
 			partialBurningOverlay =
-				Instantiate(partialBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+				Instantiate(partialBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			partialBurningOverlay.enabled = true;
 			partialBurningOverlay.StopOverlay();
 		}
 
 		if (electrocutedOverlay == null)
 		{
-			electrocutedOverlay = Instantiate(electrocutedPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+			electrocutedOverlay = Instantiate(electrocutedPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			electrocutedOverlay.enabled = true;
 			electrocutedOverlay.StopOverlay();
 		}
@@ -294,6 +297,7 @@ public class PlayerSprites : MonoBehaviour
 					SpriteHandlerNorder.SetSpriteOrder(new SpriteOrder(Customisation.CustomisationGroup.SpriteOrder));
 					Color setColor = Color.black;
 					ColorUtility.TryParseHtmlString(externalCustomisation.SerialisedValue.Colour, out setColor);
+					setColor.a = 1;
 					SpriteHandlerNorder.SpriteHandler.SetColor(setColor);
 				}
 			}
@@ -372,7 +376,18 @@ public class PlayerSprites : MonoBehaviour
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
 
-			if (RaceBodyparts.Base.SkinColours.Contains(CurrentSurfaceColour) == false)
+			var hasColour = false;
+
+			foreach (var color in RaceBodyparts.Base.SkinColours)
+			{
+				if (color.ColorApprox(CurrentSurfaceColour))
+				{
+					hasColour = true;
+					break;
+				}
+			}
+
+			if (hasColour == false)
 			{
 				CurrentSurfaceColour = RaceBodyparts.Base.SkinColours[0];
 			}
@@ -381,6 +396,8 @@ public class PlayerSprites : MonoBehaviour
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
 		}
+
+		CurrentSurfaceColour.a = 1;
 
 		foreach (var sp in SurfaceSprite)
 		{
