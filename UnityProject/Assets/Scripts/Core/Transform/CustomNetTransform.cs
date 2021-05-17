@@ -823,7 +823,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 		WaitForMatrixId = false;
 
-		NotifyPlayers();
+		SyncMatrix();
+
+		UpdateClientState(clientState, serverState);
 	}
 
 	/// <summary>
