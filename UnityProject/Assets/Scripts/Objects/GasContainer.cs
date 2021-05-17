@@ -7,7 +7,7 @@ using Systems.Explosions;
 namespace Objects.Atmospherics
 {
 	[RequireComponent(typeof(Integrity))]
-	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn
+	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
@@ -41,7 +41,7 @@ namespace Objects.Atmospherics
 		private Pickupable pickupable;
 
 		[SyncVar]
-		//Only valid if the gas container can be picked up
+		//Only updated and valid for canisters inside the players inventory!!!
 		private float oxygenRatio = 0;
 		public float OxygenRatio => oxygenRatio;
 
@@ -63,14 +63,6 @@ namespace Objects.Atmospherics
 			integrity.OnApplyDamage.AddListener(OnServerDamage);
 		}
 
-		private void OnEnable()
-		{
-			if(pickupable == null || CustomNetworkManager.IsServer == false) return;
-
-			//TODO add event in pickupable to activate the loop when picked up instead
-			UpdateManager.Add(UpdateLoop, 1f);
-		}
-
 		private void OnDisable()
 		{
 			integrity.OnApplyDamage.RemoveListener(OnServerDamage);
@@ -88,10 +80,21 @@ namespace Objects.Atmospherics
 
 		#endregion Lifecycle
 
-		//Serverside only update loop, runs every second
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			//If going to a player start loop
+			if (info.ToPlayer != null && info.ToSlot != null)
+			{
+				UpdateManager.Add(UpdateLoop, 1f);
+				return;
+			}
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
+		}
+
+		//Serverside only update loop, runs every second, started when canister goes into players inventory
 		private void UpdateLoop()
 		{
-			//Null if not in inventory no point updating it then
 			if(pickupable.ItemSlot == null) return;
 
 			oxygenRatio = GasMix.GetMoles(Gas.Oxygen) / MaximumMoles;
