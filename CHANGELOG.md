@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/5/17: The energy bows now fire their correct bullets by [ThatDan123](https://github.com/ThatDan123) in PR #[6533](https://github.com/unitystation/unitystation/pull/6533)
 * 2021/5/15: [Fix] - Character previews now refresh after deleting a character. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
 * 2021/5/15: [Change] - The "Select this character" button will be disabled when there's no characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
 * 2021/5/15: [Change] -  Loading a character now immediately assigns it to the PlayerManager's current settings. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6518](https://github.com/unitystation/unitystation/pull/6518)
