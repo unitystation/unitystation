@@ -9,6 +9,9 @@ using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
 
+/// <summary>
+/// Used for random ass editor scripts, Has all the functions you need in a pinch
+/// </summary>
 public class GenerateSpriteSO : EditorWindow
 {
 	public static List<string> ToDel = new List<string>();

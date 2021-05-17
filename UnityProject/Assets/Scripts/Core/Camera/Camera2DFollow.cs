@@ -84,6 +84,7 @@ public class Camera2DFollow : MonoBehaviour
 		starsBackground.parent = null;
 	}
 
+	//idk I don't know probably should look into the sometime TODO look into this
 	public void SetCameraXOffset()
 	{
 		float xOffSet =
