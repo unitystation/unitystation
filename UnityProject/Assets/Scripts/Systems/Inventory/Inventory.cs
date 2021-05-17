@@ -571,6 +571,12 @@ public static class Inventory
 
 	}
 
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in namedSlotPopulatorEntrys
+	/// </summary>
+	/// <param name="gameObject"></param>
+	/// <param name="namedSlotPopulatorEntrys"></param>
 	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
 	{
 		if (namedSlotPopulatorEntrys.Count == 0)  return;

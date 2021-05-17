@@ -183,12 +183,7 @@ namespace HealthV2
 				//drop items in hand
 				if (itemStorage != null)
 				{
-					foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.leftHand))
-					{
-						Inventory.ServerDrop(itemSlot);
-					}
-
-					foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+					foreach (var itemSlot in itemStorage.GetHandSlots())
 					{
 						Inventory.ServerDrop(itemSlot);
 					}

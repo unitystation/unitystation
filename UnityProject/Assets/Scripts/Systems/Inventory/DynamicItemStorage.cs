@@ -14,6 +14,7 @@ public class DynamicItemStorage : NetworkBehaviour
 	public PlayerNetworkActions playerNetworkActions;
 	public RegisterPlayer registerPlayer;
 
+	//Think of it as basically item storage but It's handy to have the extra data For slots
 	public List<IDynamicItemSlotS> ContainedInventorys = new List<IDynamicItemSlotS>();
 
 	public Dictionary<ItemSlot, BodyPartUISlots.StorageCharacteristics> ClientSlotCharacteristic =
@@ -24,16 +25,23 @@ public class DynamicItemStorage : NetworkBehaviour
 	public List<ItemSlot> ClientTotal = new List<ItemSlot>();
 
 
+	//ItemSlot to BodyPartUISlots.StorageCharacteristics for How it should act and look
 	public Dictionary<ItemSlot, BodyPartUISlots.StorageCharacteristics> ServerSlotCharacteristic =
 		new Dictionary<ItemSlot, BodyPartUISlots.StorageCharacteristics>();
 
+	//Good for looking up if you know what the object The slot is on
 	public Dictionary<GameObject, List<ItemSlot>> ServerObjectToSlots = new Dictionary<GameObject, List<ItemSlot>>();
+	//The main storage method for slots
 	public Dictionary<NamedSlot, List<ItemSlot>> ServerContents = new Dictionary<NamedSlot, List<ItemSlot>>();
+	//If you would like all of them ItemSlots
 	public List<ItemSlot> ServerTotal = new List<ItemSlot>();
 
+	//the nedIDs of the Objects the Dynamic storage contains
 	public List<uint> UIBodyPartsToSerialise = new List<uint>();
+	//Client snapshot so it can tell what changed
 	public List<uint> ClientUIBodyPartsToSerialise = new List<uint>();
 
+	//For conditional stuff so only allow one or require n Slots show stuff
 	public Dictionary<string, List<Conditional>> ServerConditionals = new Dictionary<string, List<Conditional>>();
 	public Dictionary<string, List<Conditional>> ClientConditionals = new Dictionary<string, List<Conditional>>();
 
@@ -51,6 +59,7 @@ public class DynamicItemStorage : NetworkBehaviour
 
 	private List<ItemSlot> EmptyList = new List<ItemSlot>(0);
 
+	//Because the old system used standard populated
 	public PlayerSlotStoragePopulator StandardPopulator;
 
 	/// <summary>
@@ -69,6 +78,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		registerPlayer = GetComponent<RegisterPlayer>();
 	}
 
+	//Returns the correct content depending on server or client
 	public Dictionary<NamedSlot, List<ItemSlot>> GetCorrectContents()
 	{
 		if (isServer)
@@ -81,6 +91,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 	}
 
+	//Returns all slots depending if server or client
 	public IEnumerable<ItemSlot> GetItemSlotTree()
 	{
 		if (isServer)
@@ -141,7 +152,12 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 	}
 
-
+	/// <summary>
+	/// Use this if you know the game object that the slot is on
+	/// </summary>
+	/// <param name="RelatedPart"></param>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
 	public ItemSlot GetNamedItemSlot(GameObject RelatedPart, NamedSlot namedSlot)
 	{
 		if (isServer)
@@ -170,6 +186,10 @@ public class DynamicItemStorage : NetworkBehaviour
 		return null;
 	}
 
+	/// <summary>
+	/// Used for getting all the pocket slots on player
+	/// </summary>
+	/// <returns></returns>
 	public List<ItemSlot> GetPocketsSlots()
 	{
 		if (isServer)
@@ -197,6 +217,11 @@ public class DynamicItemStorage : NetworkBehaviour
 	}
 
 
+	/// <summary>
+	/// Getting the list of all Specified named slots On Storage
+	/// </summary>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
 	public List<ItemSlot> GetNamedItemSlots(NamedSlot namedSlot)
 	{
 		if (isServer)
@@ -211,6 +236,10 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Gets all the hand slots on player though does generate GC
+	/// </summary>
+	/// <returns></returns>
 	public List<ItemSlot> GetHandSlots()
 	{
 		List<ItemSlot> HandSlots = new List<ItemSlot>();
@@ -254,6 +283,11 @@ public class DynamicItemStorage : NetworkBehaviour
 		return HandSlots;
 	}
 
+	/// <summary>
+	/// Use this if you want to bung something into someone's inventory anywhere possible
+	/// </summary>
+	/// <param name="item"></param>
+	/// <returns></returns>
 	public ItemSlot GetBestHandOrSlotFor(GameObject item)
 	{
 		ItemSlot bestHand = GetBestHand();
@@ -303,7 +337,9 @@ public class DynamicItemStorage : NetworkBehaviour
 	/// </summary>
 	public static readonly NamedSlot[] GasUseSlots =
 	{
-		NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02,
+		NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03, NamedSlot.storage04,
+		NamedSlot.storage05, NamedSlot.storage06, NamedSlot.storage07, NamedSlot.storage08,
+		NamedSlot.storage09, NamedSlot.storage10,
 		NamedSlot.suitStorage, NamedSlot.back, NamedSlot.belt
 	};
 
@@ -321,6 +357,10 @@ public class DynamicItemStorage : NetworkBehaviour
 
 
 
+	/// <summary>
+	/// Find the most appropriate Empty hand slot
+	/// </summary>
+	/// <returns></returns>
 	public ItemSlot GetBestHand()
 	{
 		if (playerNetworkActions == null)
@@ -355,6 +395,10 @@ public class DynamicItemStorage : NetworkBehaviour
 		return default;
 	}
 
+	/// <summary>
+	/// Removes inventory from dynamic storage
+	/// </summary>
+	/// <param name="bodyPartUISlots"></param>
 	[Server]
 	public void Remove(IDynamicItemSlotS bodyPartUISlots)
 	{
@@ -420,6 +464,10 @@ public class DynamicItemStorage : NetworkBehaviour
 		OnContentsChangeServer.Invoke();
 	}
 
+	/// <summary>
+	/// Adds item storage to dynamic storage
+	/// </summary>
+	/// <param name="bodyPartUISlots"></param>
 	[Server]
 	public void Add(IDynamicItemSlotS bodyPartUISlots)
 	{
@@ -543,6 +591,11 @@ public class DynamicItemStorage : NetworkBehaviour
 		OnContentsChangeClient.Invoke();
 	}
 
+	/// <summary>
+	/// Takes the serialised string and deserialises it and works out what's changed on the storage since last updated
+	/// </summary>
+	/// <param name="oldST"></param>
+	/// <param name="NewST"></param>
 	public void UpdateSlots(string oldST, string NewST)
 	{
 		added.Clear();
@@ -578,6 +631,11 @@ public class DynamicItemStorage : NetworkBehaviour
 	}
 
 
+	/// <summary>
+	/// Checks if this game object is present in this storage
+	/// </summary>
+	/// <param name="TargetObject"></param>
+	/// <returns></returns>
 	public bool InventoryHasObject(GameObject TargetObject)
 	{
 		foreach (var itemSlot in GetCorrectTotalSlots())
@@ -591,6 +649,12 @@ public class DynamicItemStorage : NetworkBehaviour
 		return false;
 	}
 
+	/// <summary>
+	/// Checks if object is in any of the Specified name slot category
+	/// </summary>
+	/// <param name="TargetObject"></param>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
 	public bool InventoryHasObjectInCategory(GameObject TargetObject, NamedSlot namedSlot)
 	{
 		var Contents = GetCorrectContents();
@@ -608,6 +672,14 @@ public class DynamicItemStorage : NetworkBehaviour
 	}
 
 
+	/// <summary>
+	/// Does checks for conditional slots Such as require n or only allow one
+	/// </summary>
+	/// <param name="IDynamicItemSlotS"></param>
+	/// <param name="storageCharacteristicse"></param>
+	/// <param name="Slot"></param>
+	/// <param name="client"></param>
+	/// <returns></returns>
 	public bool CheckConditionalAdd(IDynamicItemSlotS IDynamicItemSlotS,
 		BodyPartUISlots.StorageCharacteristics storageCharacteristicse, ItemSlot Slot, bool client = false)
 	{
@@ -812,6 +884,10 @@ public class DynamicItemStorage : NetworkBehaviour
 
 	#endregion
 
+	/// <summary>
+	/// Ensure players can see inventory changes/Interact with storage
+	/// </summary>
+	/// <param name="newBody"></param>
 	public void ServerAddObserverPlayer(GameObject newBody)
 	{
 		foreach (var objt in ServerObjectToSlots.Keys)
@@ -820,6 +896,10 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Used to ensure that players can no longer see inventory changes/Interact with storage
+	/// </summary>
+	/// <param name="newBody"></param>
 	public void ServerRemoveObserverPlayer(GameObject newBody)
 	{
 		foreach (var objt in ServerObjectToSlots.Keys)

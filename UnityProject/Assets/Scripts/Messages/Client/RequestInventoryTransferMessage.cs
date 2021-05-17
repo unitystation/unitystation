@@ -98,6 +98,8 @@ namespace Messages.Client
 				ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 			};
 
+
+			//If there's multiple ItemStorage On one game object it can find the correct one by index
 			msg.StorageIndexOnGameObjectFrom = 0;
 			foreach (var itemStorage in NetworkIdentity.spawned[fromSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{

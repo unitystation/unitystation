@@ -7,6 +7,7 @@ public class UI_DynamicItemSlot : UI_ItemSlot
 {
 	public IDynamicItemSlotS RelatedBodyPartUISlots;
 
+	//Used to set up sprites and properties of the Item slot
 	public void SetupSlot(IDynamicItemSlotS bodyPartUISlots,
 		BodyPartUISlots.StorageCharacteristics storageCharacteristics)
 	{
@@ -21,6 +22,7 @@ public class UI_DynamicItemSlot : UI_ItemSlot
 		}
 	}
 
+	//Used to resit contents and visuals
 	public void ReSetSlot()
 	{
 		RelatedBodyPartUISlots = null;

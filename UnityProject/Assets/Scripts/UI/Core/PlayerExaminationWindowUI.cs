@@ -145,7 +145,7 @@ namespace UI.Core
 		/// <summary>
 		/// Enable window and start listening for inventory updates
 		/// </summary>
-		/// <param name="itemStorage">reference to player item storage</param>
+		/// <param name="itemStorage">reference to player's DynamicItemStorage</param>
 		/// <param name="visibleName">player's visible name</param>
 		/// <param name="species">player's species</param>
 		/// <param name="job">player's job</param>

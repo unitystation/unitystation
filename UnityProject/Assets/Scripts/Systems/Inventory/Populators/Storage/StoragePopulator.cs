@@ -9,7 +9,6 @@ using UnityEngine.Serialization;
 	menuName = "Inventory/Populators/Storage/IndexedStoragePopulator")]
 public class StoragePopulator : ItemStoragePopulator
 {
-
 	[SerializeField]
 	[Tooltip("Prefabs to spawn in each storage slot")]
 	private List<SlotPopulatorEntry> SlotContents = new List<SlotPopulatorEntry>();
@@ -20,10 +19,9 @@ public class StoragePopulator : ItemStoragePopulator
 	         " to slot index that it will populate). **Deprecated**")]
 	private List<GameObject> DeprecatedContents = new List<GameObject>();
 
-
-
 	public override void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context)
 	{
+		//Uses the old contents for now
 		foreach (var gameObject in DeprecatedContents)
 		{
 			var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
@@ -33,6 +31,8 @@ public class StoragePopulator : ItemStoragePopulator
 
 		if (SlotContents.Count == 0)  return;
 
+		//Look through the specified slots, and tries to find it on the storage and populates if so,
+		//and then attempts recursion
 		foreach (var namedSlotPopulatorEntry in SlotContents)
 		{
 			ItemSlot ItemSlot;

@@ -206,8 +206,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
-				var maskItemAttrs = itemSlot.ItemAttributes;
-				if (maskItemAttrs != null && maskItemAttrs.HasTrait(CommonTraits.Instance.GasMask))
+				var currentItemAtt  = itemSlot.ItemAttributes;
+				if (currentItemAtt  != null && currentItemAtt.HasTrait(CommonTraits.Instance.GasMask))
 				{
 					return true;
 				}

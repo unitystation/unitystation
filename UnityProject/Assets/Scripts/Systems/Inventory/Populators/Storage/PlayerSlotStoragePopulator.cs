@@ -131,6 +131,9 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 	}
 }
 
+/// <summary>
+/// Used for populating a specified index lot or inventory slot, then can specify what should be populated in the inventory of what was populated in the inventory Slot that was specified
+/// </summary>
 [System.Serializable]
 public class SlotPopulatorEntry
 {

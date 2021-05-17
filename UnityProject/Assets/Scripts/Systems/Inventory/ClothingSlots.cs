@@ -13,7 +13,10 @@ namespace Clothing
 		public GameObject GameObject => gameObject;
 		public ItemStorage RelatedStorage => relatedStorage;
 
-		[SerializeField] private ItemStorage relatedStorage;
+
+		[Tooltip("Specify which item storage this uses since, there can be multiple on one game object")]
+		[SerializeField]
+		private ItemStorage relatedStorage;
 
 		public List<BodyPartUISlots.StorageCharacteristics> Storage => storage;
 
@@ -52,12 +55,19 @@ namespace Clothing
 			}
 		}
 
-
+		/// <summary>
+		/// Removes itself from dynamic storage
+		/// </summary>
+		/// <param name="dynamicItemStorage"></param>
 		public void RemoveSelf(DynamicItemStorage dynamicItemStorage)
 		{
 			dynamicItemStorage.Remove(this);
 		}
 
+		/// <summary>
+		/// Adds itself to dynamic storage
+		/// </summary>
+		/// <param name="dynamicItemStorage"></param>
 		public void AddSelf(DynamicItemStorage dynamicItemStorage)
 		{
 			dynamicItemStorage.Add(this);
