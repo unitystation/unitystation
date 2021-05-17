@@ -130,7 +130,7 @@ public partial class PlayerSync
 
 				}
 				//can only move freely if we are grounded or adjacent to another player
-				else if (CanMoveFreely(isGrounded, clientBump))
+				else if (CanMoveFreely(isGrounded, clientBump) && playerScript.playerMove.IsBuckled == false)
 				{
 					//move freely
 					pendingActions.Enqueue(action);

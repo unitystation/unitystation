@@ -16,17 +16,21 @@ MonoBehaviour:
   LayerType: 0
   TileType: 1
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 0
   isSealed: 0
   SpawnWithNoAir: 1
   passable: 0
   mineable: 1
+  miningTime: 5
+  RadiationPassability: 1
   doesReflectBullet: 0
+  indestructible: 0
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 0
+  maxHealth: 100
   damageDeflection: 0
   armor:
     Melee: 90
@@ -44,5 +48,15 @@ MonoBehaviour:
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 0}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: a9d8f27a5eb052c4a88ae45d1bbc2acf, type: 3}

@@ -21,3 +21,4 @@ services:
     volumes:
       - /root/staging/admin:/server/Unitystation_Data/StreamingAssets/admin
       - /root/staging/gameConfig.json:/server/Unitystation_Data/StreamingAssets/config/gameConfig.json
+      - /root/staging/serverDesc.txt:/server/Unitystation_Data/StreamingAssets/config/serverDesc.txt

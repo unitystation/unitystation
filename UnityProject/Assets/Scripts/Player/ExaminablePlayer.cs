@@ -118,7 +118,7 @@ namespace Player
 					Chat.AddExamineMsg(sentByPlayer,
 						$"This is <b>{VisibleName}</b>.\n" +
 						$"{Equipment.Examine()}" +
-						$"<color={LILAC_COLOR}>{Health.GetExamineText()}</color>");
+						$"<color={LILAC_COLOR}>{Health.GetExamineText(script)}</color>");
 					return;
 				}
 			}
@@ -199,8 +199,31 @@ namespace Player
 
 		public string GetPlayerStatusString()
 		{
-			return "";
-			//return Health.GetShortStatus();
+			var healthString = new StringBuilder($"<color={LILAC_COLOR}>");
+
+			if (script.IsDeadOrGhost)
+			{
+				healthString.Append("Dead");
+
+				if (script.HasSoul == false)
+				{
+					healthString.Append(" and no soul");
+				}
+			}
+			else
+			{
+				healthString.Append("Alive");
+
+				//Alive but not in body
+				if (script.HasSoul == false)
+				{
+					healthString.Append(" but vacant");
+				}
+			}
+
+			healthString.Append("</color>");
+
+			return healthString.ToString();
 		}
 
 		/// <summary>
@@ -208,7 +231,6 @@ namespace Player
 		/// </summary>
 		public string GetAdditionalInformation()
 		{
-
 			var result = new StringBuilder();
 
 			if (IsFaceVisible)
@@ -221,6 +243,7 @@ namespace Player
 			return result.ToString();
 		}
 
+		//Needed so thr examine system knows this script exists
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			return string.Empty;
