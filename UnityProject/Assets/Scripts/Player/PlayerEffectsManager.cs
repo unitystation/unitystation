@@ -10,31 +10,31 @@ using Util;
 /// </summary>
 public class PlayerEffectsManager : MonoBehaviour
 {
-    private FloatingEffect floatingEffect;
-    private RotateEffect rotateEffect;
-    private Shake shakeEffect;
-    private PlayerSync playerSync;
+	private FloatingEffect floatingEffect;
+	private RotateEffect rotateEffect;
+	private Shake shakeEffect;
+	private PlayerSync playerSync;
 
-    private void Awake()
-    {
+	private void Awake()
+	{
 	    playerSync = GetComponent<PlayerSync>();
 	    floatingEffect = GetComponent<FloatingEffect>();
 	    rotateEffect = GetComponent<RotateEffect>();
 	    shakeEffect = GetComponent<Shake>();
-    }
+	}
 
-    private void OnEnable()
-    {
-	    UpdateManager.Add(CallbackType.UPDATE, UpdateLoop);
-    }
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateLoop);
+	}
 
-    private void OnDisable()
-    {
+	private void OnDisable()
+	{
 	    UpdateManager.Remove(CallbackType.UPDATE, UpdateLoop);
-    }
+	}
 
-    private void UpdateLoop()
-    {
+	private void UpdateLoop()
+	{
 	    //Checks if the player is floating and animates them up in down if they are.
 	    if(playerSync.isFloatingClient && floatingEffect.IsAnimating == false)
 	    {
@@ -46,16 +46,16 @@ public class PlayerEffectsManager : MonoBehaviour
 	    {
 		    floatingEffect.ServerToggleFloating(false);
 	    }
-    }
+	}
 
-    public void RotatePlayer(int times, float speed, float degree, bool random)
-    {
+	public void RotatePlayer(int times, float speed, float degree, bool random)
+	{
 	    rotateEffect.SetupEffectvars(times, speed, degree, random);
 	    rotateEffect.StartAnimation();
-    }
+	}
 
-    public void ShakePlayer(float duration, float distance, float delay)
-    {
-	    shakeEffect.StartShake(duration, distance, delay);
-    }
+	public void ShakePlayer(float duration, float distance, float delay)
+	{
+		shakeEffect.StartShake(duration, distance, delay);
+	}
 }
