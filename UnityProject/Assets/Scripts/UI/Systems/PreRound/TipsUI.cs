@@ -27,7 +27,7 @@ public class TipsUI : MonoBehaviour
         System.Random randomValue = new System.Random();
         string TipToDisplay = SO.Tips[randomValue.Next(SO.Tips.Count)];
 
-        UI_Text.text = "Tip : " + TipToDisplay;
+        UI_Text.text = TipToDisplay;
     }
 
     public void DisplayCustomTip(string tip)
