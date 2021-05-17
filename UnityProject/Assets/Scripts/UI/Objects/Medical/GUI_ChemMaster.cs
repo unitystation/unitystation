@@ -92,7 +92,6 @@ namespace UI.Objects.Chemistry
 			productAmountToDispense.SetValueServer($"{productDispenseAmount}");
 			productTypeChoice.SetValueServer($"Please select product Type");
 			productMaxAmount.SetValueServer("");
-			Debug.Log($"Character limit:{customProductNameCharacterLimit}");
 			productNameInputField.characterLimit = customProductNameCharacterLimit;
 			UpdateProductOptions();
 		}
