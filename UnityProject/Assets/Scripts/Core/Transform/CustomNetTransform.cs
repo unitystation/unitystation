@@ -738,11 +738,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		if (this == null || gameObject == null) return; //sometimes between round restarts a call might be made on an object being destroyed
 
 		//	Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
-		SyncMatrix();
 
-		if (TryGetComponent<NetworkIdentity>(out var networkIdentity))
+		//Wait for this components id and the matrix id to init
+		if (TryGetComponent<NetworkIdentity>(out var networkIdentity) || serverState.IsUninitialized)
 		{
-			if (networkIdentity.netId == 0)
+			if (networkIdentity.netId == 0 || serverState.IsUninitialized)
 			{
 				//netIds default to 0 when spawned, a new Id is assigned but this happens a bit later
 				//this is just to catch multiple 0's
@@ -753,12 +753,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			}
 		}
 
+		SyncMatrix();
+
 		UpdateClientState(clientState, serverState);
 	}
 
 	private IEnumerator IdWait()
 	{
 		yield return WaitFor.EndOfFrame;
+
+		SyncMatrix();
 
 		UpdateClientState(clientState, serverState);
 	}
