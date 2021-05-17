@@ -89,6 +89,7 @@ public class Matrix : MonoBehaviour
 	public EarthquakeEvent OnEarthquake = new EarthquakeEvent();
 
 	private NetworkedMatrix networkedMatrix;
+	public NetworkedMatrix NetworkedMatrix => networkedMatrix;
 
 	private void Awake()
 	{
