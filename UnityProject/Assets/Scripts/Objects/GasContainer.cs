@@ -80,6 +80,7 @@ namespace Objects.Atmospherics
 
 		#endregion Lifecycle
 
+		// Needed for the internals tank on the player UI, to know oxygen gas percentage
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			//If going to a player start loop
@@ -97,7 +98,7 @@ namespace Objects.Atmospherics
 		{
 			if(pickupable.ItemSlot == null) return;
 
-			oxygenRatio = GasMix.GetMoles(Gas.Oxygen) / MaximumMoles;
+			oxygenRatio = GasMix.Moles / MaximumMoles;
 		}
 
 		[Server]
