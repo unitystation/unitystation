@@ -38,10 +38,17 @@ namespace Objects.Atmospherics
 
 		private bool gasIsInitialised = false;
 
+		private Pickupable pickupable;
+
+		[SyncVar]
+		private float oxygenRatio = 0;
+		public float OxygenRatio => oxygenRatio;
+
 		#region Lifecycle
 
 		private void Awake()
 		{
+			pickupable = GetComponent<Pickupable>();
 			integrity = GetComponent<Integrity>();
 		}
 
@@ -55,9 +62,18 @@ namespace Objects.Atmospherics
 			integrity.OnApplyDamage.AddListener(OnServerDamage);
 		}
 
+		private void OnEnable()
+		{
+			if(pickupable == null || CustomNetworkManager.IsServer == false) return;
+
+			//TODO add event in pickupable to activate the loop when picked up instead
+			UpdateManager.Add(UpdateLoop, 1f);
+		}
+
 		private void OnDisable()
 		{
 			integrity.OnApplyDamage.RemoveListener(OnServerDamage);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
 		}
 
 		private void OnServerDamage(DamageInfo info)
@@ -70,6 +86,15 @@ namespace Objects.Atmospherics
 		}
 
 		#endregion Lifecycle
+
+		//Serverside only update loop, runs every second
+		private void UpdateLoop()
+		{
+			//Null if not in inventory no point updating it then
+			if(pickupable.ItemSlot == null) return;
+
+			oxygenRatio = GasMix.GetMoles(Gas.Oxygen) / MaximumMoles;
+		}
 
 		[Server]
 		private void ExplodeContainer()
