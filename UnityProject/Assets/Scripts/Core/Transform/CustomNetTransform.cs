@@ -742,7 +742,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 		//	Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
 
-		//Wait for this components id and the matrix id to init
+		//Wait for this components id
 		if (TryGetComponent<NetworkIdentity>(out var networkIdentity))
 		{
 			if (networkIdentity.netId == 0)
@@ -762,7 +762,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			}
 		}
 
-		if (serverState.IsUninitialized || matrix.NetworkedMatrix.OrNull()?.MatrixSync.netId != 0)
+		//Wait for networked matrix id to init
+		if (serverState.IsUninitialized || matrix.NetworkedMatrix.OrNull()?.MatrixSync.netId == 0)
 		{
 			if (WaitForMatrixId)
 			{
