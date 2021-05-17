@@ -159,7 +159,14 @@ public class TileList
 		}
 
 		lockedPosition = localPosition;
+		List<RegisterTile> registerTiles = new List<RegisterTile>();
 		foreach (var registerTile in Get((Vector3Int)lockedPosition))
+		{
+			registerTiles.Add(registerTile);
+		}
+
+		//To prevent modifying collection while in the loop
+		foreach (RegisterTile registerTile in registerTiles)
 		{
 			action.Invoke(registerTile);
 		}
