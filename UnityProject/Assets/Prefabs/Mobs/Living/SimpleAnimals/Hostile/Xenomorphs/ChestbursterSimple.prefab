@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: chestburster
-  knockedDownRotation: 0
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 10
   doRandomActionWhenInTask: 0
@@ -150,6 +149,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: canBreatheAnywhere
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: butcherResults.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -182,6 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
+      propertyPath: mobAI
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
       propertyPath: hitDamage
       value: 5
       objectReference: {fileID: 0}
@@ -195,7 +204,8 @@ PrefabInstance:
       propertyPath: attackSound.AssetAddress
       value: Assets/Prefabs/NPC/bite.prefab
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
 --- !u!1 &7455546943915704510 stripped
 GameObject:
