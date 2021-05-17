@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using TileManagement;
+using Tilemaps.Behaviours.Layers;
 
 /// Class that helps identify matrices
 public class MatrixInfo : IEquatable<MatrixInfo>
@@ -140,16 +141,19 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 			return netId;
 		}
 
-		NetworkIdentity component = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
-		NetworkIdentity componentInParent = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
+		NetworkedMatrix networkedMatrix = matrix.gameObject.GetComponentInParent<NetworkedMatrix>();
+
+		if (networkedMatrix.OrNull()?.MatrixSync == null)
+		{
+			//Try to find if null
+			networkedMatrix.BackUpSetMatrixSync();
+		}
+
+		NetworkIdentity component = networkedMatrix.OrNull()?.MatrixSync.OrNull()?.GetComponent<NetworkIdentity>();
+
 		if (component && component.netId != NetId.Invalid && component.netId != NetId.Empty)
 		{
 			netId = component.netId;
-		}
-
-		if (componentInParent && componentInParent.netId != NetId.Invalid && component.netId != NetId.Empty)
-		{
-			netId = componentInParent.netId;
 		}
 
 		if (netId == NetId.Invalid)
