@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Mirror;
 using UnityEngine;
 using Util;
 
@@ -21,6 +22,22 @@ namespace Effects
 			{
 				StartFloating();
 			}
+		}
+
+		/// <summary>
+		/// Use for short duration floating effects as this will not sync to late joining clients
+		/// </summary>
+		/// <param name="newState"></param>
+		[ClientRpc]
+		public void RpcServerToggleFloat(bool newState)
+		{
+			if (newState)
+			{
+				StartFloating();
+				return;
+			}
+
+			StopFloating();
 		}
 
 		public void StartFloating()
