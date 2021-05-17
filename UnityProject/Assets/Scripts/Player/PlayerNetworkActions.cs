@@ -680,7 +680,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSetActiveHand(uint handID, NamedSlot NamedSlot)
 	{
-		if (handID != 0) if (NetworkIdentity.spawned.ContainsKey(handID) == false) return;
+		if (handID != 0 && NetworkIdentity.spawned.ContainsKey(handID) == false) return;
 		if (NamedSlot != NamedSlot.leftHand && NamedSlot != NamedSlot.rightHand && NamedSlot != NamedSlot.none) return;
 
 		if (handID != 0)

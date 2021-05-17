@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Clothing;
+using HealthV2;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -487,7 +489,7 @@ public class DynamicItemStorage : NetworkBehaviour
 			ClientSlotCharacteristic[Slot] = storageCharacteristicse;
 			ClientTotal.Add(Slot);
 
-			if (PlayerManager.LocalPlayer == this.gameObject)
+			if (PlayerManager.LocalPlayer == this.gameObject && storageCharacteristicse.NotPresentOnUI == false)
 			{
 				UIManager.Instance.UI_SlotManager.AddIndividual(bodyPartUISlots, storageCharacteristicse);
 			}

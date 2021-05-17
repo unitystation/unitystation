@@ -600,33 +600,34 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		SyncCuffed(cuffed, true);
 
-		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
+		var targetStorage = interaction.TargetObject.GetComponent<DynamicItemStorage>();
 
 		//transfer cuffs to the special cuff slot
-		ItemSlot handcuffSlot = targetStorage.GetNamedItemSlot(NamedSlot.handcuffs);
-		Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+
+		foreach (var handcuffSlot in targetStorage.GetNamedItemSlots(NamedSlot.handcuffs))
+		{
+			Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+			break;
+		}
 
 		//drop hand items
-		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
-		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
+		foreach (var itemSlot in targetStorage.GetNamedItemSlots(NamedSlot.leftHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+
+		foreach (var itemSlot in targetStorage.GetNamedItemSlots(NamedSlot.rightHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
 
 		if (connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
 	}
 
 	[TargetRpc]
-	private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool activeState)
+	private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool HideState)
 	{
-		Sprite leftSprite = null;
-		Sprite rightSprite = null;
-
-		if (activeState)
-		{
-			// leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
-			// rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
-		}
-
-		// UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
-		// UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
+		HandsController.Instance.HideHands(HideState);
 	}
 
 	/// <summary>

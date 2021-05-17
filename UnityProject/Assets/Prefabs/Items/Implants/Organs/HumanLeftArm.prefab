@@ -125,7 +125,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: storage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: Storage.Array.data[1].SlotArea
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].SlotArea
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
@@ -150,7 +160,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: storage.Array.data[2].hoverName
+      value: Handcuffs
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].namedSlot
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: Storage.Array.data[1].Conditional
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].Conditional
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].NotPresentOnUI
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
@@ -161,8 +191,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: storage.Array.data[2].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0ee395497afd79428fc1704fe4463b8,
+        type: 3}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: Storage.Array.data[1].Condition.CategoryID
       value: hands1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].Condition.CategoryID
+      value: Handcuffs1
       objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -171,7 +212,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: storage.Array.data[2].Condition.XAmountConditional
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: Storage.Array.data[1].Condition.ConditionalParameter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: storage.Array.data[2].Condition.ConditionalParameter
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,

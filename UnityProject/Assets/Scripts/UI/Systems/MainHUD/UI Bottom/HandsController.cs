@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 public class HandsController : MonoBehaviour
@@ -28,6 +29,15 @@ public class HandsController : MonoBehaviour
 	public void Start()
 	{
 		Instance = this;
+	}
+
+
+	public void HideHands(bool HideState)
+	{
+		foreach (var doubleHand in DoubleHandControllers)
+		{
+			doubleHand.HideHands(HideState);
+		}
 	}
 
 	public void AddHand(IDynamicItemSlotS bodyPartUISlots,

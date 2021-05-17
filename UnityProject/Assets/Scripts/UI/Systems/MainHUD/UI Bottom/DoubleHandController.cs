@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 public class DoubleHandController : MonoBehaviour
 {
+
+	public bool LeftHandActive;
 	public GameObject LeftHand;
 	public GameObject LeftHandOverlay;
 
+	public bool RightHandActive;
 	public GameObject RightHand;
 	public GameObject RightHandOverlay;
 
@@ -19,21 +23,46 @@ public class DoubleHandController : MonoBehaviour
 
 	public HandsController RelatedHandsController;
 
+
+	public void HideHands(bool HideState)
+	{
+		if (HideState)
+		{
+			LeftHand.SetActive(false);
+			RightHand.SetActive(false);
+		}
+		else
+		{
+			if (RightHandActive)
+			{
+				RightHand.SetActive(true);
+			}
+
+			if (LeftHandActive)
+			{
+				LeftHand.SetActive(true);
+			}
+		}
+	}
+
+
 	public void AddHand(IDynamicItemSlotS bodyPartUISlots, BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
 		switch (StorageCharacteristics.namedSlot)
 		{
 			case NamedSlot.leftHand:
 				LeftHand.SetActive(true);
+				LeftHandActive = true;
 				UI_LeftHand.SetUpHand(bodyPartUISlots, StorageCharacteristics);
 				break;
 			case NamedSlot.rightHand:
 				RightHand.SetActive(true);
+				RightHandActive = true;
 				UI_RightHand.SetUpHand(bodyPartUISlots, StorageCharacteristics);
 				break;
 		}
 
-		if (LeftHand.activeSelf && RightHand.activeSelf)
+		if (LeftHandActive && RightHandActive)
 		{
 			Overly.SetActive(true);
 		}
@@ -54,35 +83,37 @@ public class DoubleHandController : MonoBehaviour
 			case NamedSlot.leftHand:
 				if (RelatedHandsController.activeDoubleHandController == this
 				    && RelatedHandsController.ActiveHand == NamedSlot.leftHand
-				    && RightHand.activeSelf)
+				    && RightHandActive)
 				{
 					ActivateRightHand();
 				}
 
 				LeftHand.SetActive(false);
+				LeftHandActive = false;
 				UI_LeftHand.ReSetSlot();
 				break;
 			case NamedSlot.rightHand:
 
 				if (RelatedHandsController.activeDoubleHandController == this
 				    && RelatedHandsController.ActiveHand == NamedSlot.rightHand
-				    && LeftHand.activeSelf)
+				    && LeftHandActive)
 				{
 					ActivateLeftHand();
 				}
 
 				RightHand.SetActive(false);
+				RightHandActive = false;
 				UI_RightHand.ReSetSlot();
 				break;
 		}
 
 
-		if (LeftHand.activeSelf == false && RightHand.activeSelf == false)
+		if (LeftHandActive == false && RightHandActive == false)
 		{
 			return true;
 		}
 
-		if ((LeftHand.activeSelf && RightHand.activeSelf) == false)
+		if ((LeftHandActive && RightHandActive) == false)
 		{
 			Overly.SetActive(false);
 		}
@@ -95,9 +126,9 @@ public class DoubleHandController : MonoBehaviour
 		switch (namedSlot)
 		{
 			case NamedSlot.leftHand:
-				return LeftHand.activeSelf ? UI_LeftHand : null;
+				return LeftHandActive ? UI_LeftHand : null;
 			case NamedSlot.rightHand:
-				return RightHand.activeSelf ? UI_RightHand : null;
+				return RightHandActive ? UI_RightHand : null;
 			default:
 				return null;
 		}
@@ -125,12 +156,12 @@ public class DoubleHandController : MonoBehaviour
 
 	public void PickActiveHand()
 	{
-		if (RightHand.activeSelf)
+		if (RightHandActive)
 		{
 			RightHandOverlay.SetActive(true);
 			RelatedHandsController.SetActiveHand(this, NamedSlot.rightHand);
 		}
-		else if (LeftHand.activeSelf)
+		else if (LeftHandActive)
 		{
 			LeftHandOverlay.SetActive(true);
 			RelatedHandsController.SetActiveHand(this, NamedSlot.leftHand);
@@ -156,5 +187,7 @@ public class DoubleHandController : MonoBehaviour
 		LeftHand.SetActive(false);
 		RightHandOverlay.SetActive(false);
 		LeftHandOverlay.SetActive(false);
+		RightHandActive = false;
+		LeftHandActive = false;
 	}
 }

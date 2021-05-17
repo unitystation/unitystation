@@ -32,16 +32,9 @@ using UnityEngine.EventSystems;
 
 		public void RolloutEquipmentMenu()
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
-			if (isOpen)
-			{
-				ToggleEquipMenu(false);
-			}
-			else
-			{
-				ToggleEquipMenu(true);
-			}
+			ToggleEquipMenu(isOpen == false);
 		}
 
 		private void ToggleEquipMenu(bool isOn)

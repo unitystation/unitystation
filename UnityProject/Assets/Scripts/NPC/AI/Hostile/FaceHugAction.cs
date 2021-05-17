@@ -82,7 +82,7 @@ namespace Systems.MobAIs
 			}
 
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		/// <summary>

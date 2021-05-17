@@ -561,7 +561,12 @@ namespace UI
 
 			foreach (NetTab tab in toClose)
 			{
-				Instance.DestroyTab(tab);;
+				Instance.HideTab(tab);
+			}
+
+			foreach (NetTab tab in toDestroy)
+			{
+				Instance.DestroyTab(tab);
 			}
 
 			CheckItemListTab();
