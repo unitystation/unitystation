@@ -41,6 +41,7 @@ namespace Objects.Atmospherics
 		private Pickupable pickupable;
 
 		[SyncVar]
+		//Only valid if the gas container can be picked up
 		private float oxygenRatio = 0;
 		public float OxygenRatio => oxygenRatio;
 
