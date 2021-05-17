@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/5/17: Reflective blob can now reflect lasers, however is still damaged by them so will still eventually die to continuous lasers by [ThatDan123](https://github.com/ThatDan123) in PR #[6543](https://github.com/unitystation/unitystation/pull/6543)
 * 2021/5/17: Fixes Corgis, cats and the chestburster mob having more than one mob AI causing them to break by [ThatDan123](https://github.com/ThatDan123) in PR #[6545](https://github.com/unitystation/unitystation/pull/6545)
 * 2021/5/17: Adds max drunk time of 2 mins by [ThatDan123](https://github.com/ThatDan123) in PR #[6544](https://github.com/unitystation/unitystation/pull/6544)
 * 2021/5/17: Removes drunk and night vision when you turn into a ghost by [ThatDan123](https://github.com/ThatDan123) in PR #[6544](https://github.com/unitystation/unitystation/pull/6544)
