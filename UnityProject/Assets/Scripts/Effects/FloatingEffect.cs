@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Mirror;
 using UnityEngine;
 using Util;
 
@@ -7,44 +8,50 @@ namespace Effects
 {
 	public class FloatingEffect : LTEffect
 	{
-		public bool animateOnStartup = false;
-
-		[NonSerialized] public bool WillAnimate = false;
+		[SyncVar(hook = nameof(SyncAnimating))]
+		private bool isAnimating;
+		public bool IsAnimating => isAnimating;
 
 		private const float SPEED = 0.95f;
 		private const float POS = 0.08f;
 
-
-		private void Awake()
+		private void SyncAnimating(bool oldState, bool newState)
 		{
-			if (animateOnStartup)
+			if (newState)
 			{
 				StartFloating();
+				return;
 			}
+
+			StopFloating();
 		}
 
-		public void StartFloating()
+		[Server]
+		public void ServerToggleFloating(bool state)
 		{
-			WillAnimate = true;
+			isAnimating = state;
+		}
+
+		private void StartFloating()
+		{
 			StartCoroutine(Animate());
 		}
 
-		public void StopFloating()
+		private void StopFloating()
 		{
-			WillAnimate = false;
-			tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
+			tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
 			StopAllCoroutines();
 		}
 
 		private IEnumerator Animate()
 		{
-			while(WillAnimate)
+			while(isAnimating)
 			{
-				tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, POS, 0), SPEED);
+				tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, POS, 0), SPEED);
 				yield return WaitFor.Seconds(SPEED);
-				tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -POS, 0), SPEED);
+				tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, -POS, 0), SPEED);
 				yield return WaitFor.Seconds(SPEED);
-				tween.RpcLocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), SPEED / 2);
+				tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), SPEED / 2);
 				yield return WaitFor.Seconds(SPEED / 2);
 			}
 		}
