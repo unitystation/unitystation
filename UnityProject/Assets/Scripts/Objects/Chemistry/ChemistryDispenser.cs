@@ -32,7 +32,7 @@ namespace Chemistry
 
 		private void UpdateGUI()
 		{
-			// Change event runs updateAll in ChemistryGUI
+			// Change event runs updateAll in GUI_ChemistryDispenser
 			if (changeEvent != null)
 			{
 				changeEvent();
