@@ -185,7 +185,7 @@ namespace UI
 		{
 			if (gasContainer != null && airTankFillImage != null)
 			{
-				airTankFillImage.fillAmount = gasContainer.OxygenRatio;
+				airTankFillImage.fillAmount = gasContainer.FullPercentageClient;
 			}
 		}
 

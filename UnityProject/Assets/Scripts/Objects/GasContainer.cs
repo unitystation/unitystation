@@ -42,8 +42,12 @@ namespace Objects.Atmospherics
 
 		[SyncVar]
 		//Only updated and valid for canisters inside the players inventory!!!
-		private float oxygenRatio = 0;
-		public float OxygenRatio => oxygenRatio;
+		//How full the tank is
+		private float fullPercentageClient = 0;
+		public float FullPercentageClient => fullPercentageClient;
+		
+		//Valid serverside only
+		public float FullPercentage => GasMix.Moles / MaximumMoles;
 
 		#region Lifecycle
 
@@ -98,7 +102,7 @@ namespace Objects.Atmospherics
 		{
 			if(pickupable.ItemSlot == null) return;
 
-			oxygenRatio = GasMix.Moles / MaximumMoles;
+			fullPercentageClient = FullPercentage;
 		}
 
 		[Server]
