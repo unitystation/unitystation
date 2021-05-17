@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/5/17: Fixes floating effect by [ThatDan123](https://github.com/ThatDan123) in PR #[6542](https://github.com/unitystation/unitystation/pull/6542)
 * 2021/5/17: Adds scene checker to the net identity by [ThatDan123](https://github.com/ThatDan123) in PR #[6532](https://github.com/unitystation/unitystation/pull/6532)
 * 2021/5/17: Possible fix for eternal fires by [Semuca](https://github.com/Semuca) in PR #[6527](https://github.com/unitystation/unitystation/pull/6527)
 * 2021/5/17: [Improvement] Improved the scroll speed of admin panels. by [Korywon](https://github.com/Korywon) in PR #[6537](https://github.com/unitystation/unitystation/pull/6537)
