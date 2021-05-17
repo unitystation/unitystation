@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using Effects;
 using UnityEngine.Serialization;
@@ -12,38 +13,38 @@ public class PlayerEffectsManager : MonoBehaviour
     private FloatingEffect floatingEffect;
     private RotateEffect rotateEffect;
     private Shake shakeEffect;
+    private PlayerSync playerSync;
 
     private void Awake()
     {
+	    playerSync = GetComponent<PlayerSync>();
 	    floatingEffect = GetComponent<FloatingEffect>();
 	    rotateEffect = GetComponent<RotateEffect>();
 	    shakeEffect = GetComponent<Shake>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-	    if (PlayerManager.PlayerScript.OrNull()?.PlayerSync == null ) return;
-	    //Checks if the player is floating and animates them up in down if they are.
-	    if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient && floatingEffect.WillAnimate == false)
-	    {
-		    AnimateFloating();
-		    return;
-	    }
-	    if(PlayerManager.PlayerScript.PlayerSync.isFloatingClient == false && floatingEffect.WillAnimate)
-	    {
-		    AnimateFloating();
-	    }
+	    UpdateManager.Add(CallbackType.UPDATE, UpdateLoop);
     }
 
-    private void AnimateFloating()
+    private void OnDisable()
     {
-	    if (floatingEffect.WillAnimate)
+	    UpdateManager.Remove(CallbackType.UPDATE, UpdateLoop);
+    }
+
+    private void UpdateLoop()
+    {
+	    //Checks if the player is floating and animates them up in down if they are.
+	    if(playerSync.isFloatingClient && floatingEffect.IsAnimating == false)
 	    {
-		    floatingEffect.StopFloating();
+		    floatingEffect.ServerToggleFloating(true);
+		    return;
 	    }
-	    else
+
+	    if(playerSync.isFloatingClient == false && floatingEffect.IsAnimating)
 	    {
-		    floatingEffect.StartFloating();
+		    floatingEffect.ServerToggleFloating(false);
 	    }
     }
 
