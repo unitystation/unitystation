@@ -152,10 +152,10 @@ public class Matrix : MonoBehaviour
 	public void ConfigureMatrixInfo(MatrixInfo matrixInfo)
 	{
 		MatrixInfo = matrixInfo;
-		StartCoroutine(nameof(WaitForNetId));
+		StartCoroutine(WaitForNetId());
 	}
 
-	private IEnumerable WaitForNetId()
+	private IEnumerator WaitForNetId()
 	{
 		while (networkedMatrix.MatrixSync != null && networkedMatrix.MatrixSync.netId == NetId.Empty)
 		{
