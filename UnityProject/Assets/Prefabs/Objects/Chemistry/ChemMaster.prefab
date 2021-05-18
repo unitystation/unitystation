@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 5361372307032807698}
   - component: {fileID: 1001587985980181984}
   m_Layer: 11
-  m_Name: ChemMaster 3000
+  m_Name: ChemMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
   expectedRunningVoltage: 240
   maximumWorkingVoltage: 300
   deviceType: 0
-  isSelfPowered: 0
+  isSelfPowered: 1
   wattusage: 0.01
   resistance: 100000000
   RelatedAPC: {fileID: 0}
