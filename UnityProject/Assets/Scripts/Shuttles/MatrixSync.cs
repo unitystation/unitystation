@@ -9,6 +9,7 @@ namespace Shuttles
 	public class MatrixSync : NetworkBehaviour
 	{
 		private NetworkedMatrix networkedMatrix;
+		public NetworkedMatrix NetworkedMatrix => networkedMatrix;
 
 		private MatrixMove matrixMove;
 		public MatrixMove MatrixMove => matrixMove;

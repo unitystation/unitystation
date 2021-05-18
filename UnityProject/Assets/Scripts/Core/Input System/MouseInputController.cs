@@ -525,6 +525,12 @@ public class MouseInputController : MonoBehaviour
 		if (PlayerManager.PlayerScript.IsGhost ||
 		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+
+		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
+		{
+			clickedObject = networkedMatrix.MatrixSync.gameObject;
+		}
+
 		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 
