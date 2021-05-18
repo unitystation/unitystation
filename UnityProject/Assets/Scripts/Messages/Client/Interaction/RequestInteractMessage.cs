@@ -306,6 +306,7 @@ namespace Messages.Client.Interaction
 
 		private void CheckMatrixSync(ref GameObject toCheck)
 		{
+			//If it is a matrix sync, then grab the top level matrix instead as that is what we want
 			if (toCheck != null && toCheck.GetComponent<MatrixSync>() != null)
 			{
 				toCheck = toCheck.transform.parent.gameObject;
@@ -583,11 +584,14 @@ namespace Messages.Client.Interaction
 
 		private static uint GetNetId(GameObject objectNetIdWanted)
 		{
+			//If this gameobject has a net id we want that one
 			if (objectNetIdWanted.TryGetComponent<NetworkIdentity>(out var net))
 			{
 				return net.netId;
 			}
 
+			//However if it doesnt check to see if its a matrix asking for one, but the net id is on the matrix sync child
+			//So grab that one instead
 			if (objectNetIdWanted.TryGetComponent<NetworkedMatrix>(out var netMatrix))
 			{
 				if (netMatrix.MatrixSync == null)
