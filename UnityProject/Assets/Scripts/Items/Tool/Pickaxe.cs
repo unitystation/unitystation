@@ -23,7 +23,7 @@ namespace Items
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (!Validations.HasTarget(interaction)) return false;
-			var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
+			var interactableTiles = interaction.TargetObject.transform.parent.GetComponent<InteractableTiles>();
 			if (interactableTiles == null) return false;
 
 			return Validations.IsMineableAt(interaction.WorldPositionTarget, interactableTiles.MetaTileMap);
@@ -31,8 +31,7 @@ namespace Items
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-
-			var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
+			var interactableTiles = interaction.TargetObject.transform.parent.GetComponent<InteractableTiles>();
 			var wallTile = interactableTiles.MetaTileMap.GetTileAtWorldPos(interaction.WorldPositionTarget, LayerType.Walls) as BasicTile;
 			var calculatedMineTime = wallTile.MiningTime * timeMultiplier;
 
