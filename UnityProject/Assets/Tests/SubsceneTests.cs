@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Shuttles;
+using Tilemaps.Behaviours.Layers;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 
 namespace Tests
 {
@@ -151,6 +154,52 @@ namespace Tests
 							report.AppendLine(
 								$"{scene}: {ChildObject} is at 0,0 Please update the prefab/update the map/revert ");
 						}
+					}
+				}
+			}
+
+			if (isok == false)
+			{
+				Assert.Fail(report.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Checks to make sure all matrixes have a matrix sync
+		/// </summary>
+		[Test]
+		public void CheckMatrixSync()
+		{
+			bool isok = true;
+			var report = new StringBuilder();
+			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene", new string[] {"Assets/Scenes"});
+			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+			foreach (var scene in scenesPaths)
+			{
+				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
+
+				var openScene = EditorSceneManager.OpenScene(scene);
+				var gameObjects = openScene.GetRootGameObjects();
+
+				foreach (var gameObject in gameObjects)
+				{
+					if(gameObject.GetComponent<NetworkedMatrix>() == null) continue;
+
+					var hadMatrixSync = false;
+
+					foreach (Transform child in gameObject.transform)
+					{
+						if (child.GetComponent<MatrixSync>() != null)
+						{
+							hadMatrixSync = true;
+							break;
+						}
+					}
+
+					if (hadMatrixSync == false)
+					{
+						report.AppendLine($"{scene}: {gameObject.name} is missing a Matrix Sync, please add one");
+						isok = false;
 					}
 				}
 			}
