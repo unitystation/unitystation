@@ -27,7 +27,7 @@ namespace Clothing
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			//Wearing
-			if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+			if (info.ToSlot?.NamedSlot != null)
 			{
 				ItemStorage = info.ToRootPlayer?.PlayerScript.ItemStorage;
 
@@ -41,7 +41,7 @@ namespace Clothing
 			}
 
 			//taking off
-			if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+			if (info.FromSlot?.NamedSlot != null)
 			{
 				ItemStorage = info.FromRootPlayer?.PlayerScript.ItemStorage;
 
