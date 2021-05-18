@@ -115,6 +115,11 @@ namespace Util
 			LeanTween.rotate(Target.gameObject, vector, time);
 		}
 
+		public void RotateGameObject(Vector3 vector, float time)
+		{
+			LeanTween.rotate(Target.gameObject, vector, time);
+		}
+
 		[ClientRpc]
 		public void RpcScaleGameObject(Vector3 vector, float time)
 		{
