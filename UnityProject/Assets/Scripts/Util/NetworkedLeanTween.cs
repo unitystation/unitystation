@@ -87,6 +87,11 @@ namespace Util
 		[ClientRpc]
 		public void RpcLocalMove(Axis axis, Vector3 vector, float time)
 		{
+			LocalMove(axis, vector, time);
+		}
+
+		public void LocalMove(Axis axis, Vector3 vector, float time)
+		{
 			switch (axis)
 			{
 				case (Axis.X):
@@ -106,6 +111,11 @@ namespace Util
 
 		[ClientRpc]
 		public void RpcRotateGameObject(Vector3 vector, float time)
+		{
+			LeanTween.rotate(Target.gameObject, vector, time);
+		}
+
+		public void RotateGameObject(Vector3 vector, float time)
 		{
 			LeanTween.rotate(Target.gameObject, vector, time);
 		}

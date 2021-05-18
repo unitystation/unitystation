@@ -491,22 +491,22 @@ public partial class PlayerSync
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
-		//movement not allowed when buckled
-		if (playerMove.IsBuckled)
-		{
-			Logger.LogWarning($"Ignored {action}: player is bucked, rolling back!", Category.Movement);
-			RollbackPosition();
-			return state;
-		}
-
 		// if player is in RCS mode and MatrixMove is not null
-		if(playerScript.RcsMode && playerScript.RcsMatrixMove)
+		if (playerScript.RcsMode && playerScript.RcsMatrixMove)
 		{
 			Vector2Int dir = action.Direction();
 			// try to move shuttle on server side
 			playerScript.RcsMatrixMove.RcsMoveServer(Orientation.From(dir));
 
 			// don't move player while in RCS mode so return state without any changes
+			return state;
+		}
+
+		//movement not allowed when buckled
+		if (playerMove.IsBuckled)
+		{
+			Logger.LogWarning($"Ignored {action}: player is bucked, rolling back!", Category.Movement);
+			RollbackPosition();
 			return state;
 		}
 

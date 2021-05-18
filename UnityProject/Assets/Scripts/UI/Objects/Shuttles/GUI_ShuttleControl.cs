@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Objects.Shuttles;
 using Objects.Command;
 using Systems.MobAIs;
+using Map;
 
 namespace UI.Objects.Shuttles
 {

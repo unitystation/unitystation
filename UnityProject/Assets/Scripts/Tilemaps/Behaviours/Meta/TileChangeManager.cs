@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using System.Collections.Generic;
 using System.Linq;
 using Messages.Client.NewPlayer;
@@ -7,11 +8,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using Objects;
 using TileManagement;
+using Tilemaps.Behaviours.Layers;
 
-public class TileChangeManager : NetworkBehaviour
+public class TileChangeManager : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
-	private NetworkIdentity networkIdentity;
+	private NetworkedMatrix networkMatrix;
 
 	private TileChangeList changeList = new TileChangeList();
 
@@ -38,13 +40,7 @@ public class TileChangeManager : NetworkBehaviour
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		subsystemManager = GetComponent<SubsystemManager>();
 		interactableTiles = GetComponent<InteractableTiles>();
-		networkIdentity = GetComponent<NetworkIdentity>();
-	}
-
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		TileChangeNewPlayer.Send(netId);
+		networkMatrix = GetComponent<NetworkedMatrix>();
 	}
 
 	public void InitServerSync(string data)
@@ -148,7 +144,7 @@ public class TileChangeManager : NetworkBehaviour
 		{
 			InternalRemoveTile(cellPosition, layerType, removeAll);
 
-			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
+			RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
 
@@ -226,7 +222,7 @@ public class TileChangeManager : NetworkBehaviour
 
 		InternalRemoveTile(cellPosition, layerType, false);
 
-		RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
+		RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
 
 		AddToChangeList(cellPosition, layerType);
 	}
@@ -254,7 +250,7 @@ public class TileChangeManager : NetworkBehaviour
 
 			InternalRemoveTile(cellPosition, layerType, false);
 
-			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
+			RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
 		}
@@ -282,7 +278,7 @@ public class TileChangeManager : NetworkBehaviour
 
 			InternalRemoveTile(cellPosition, layerType, false);
 
-			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
+			RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
 		}
@@ -345,7 +341,7 @@ public class TileChangeManager : NetworkBehaviour
 			transformMatrix = transformMatrix.GetValueOrDefault(Matrix4x4.identity);
 		}
 
-		SpawnSafeThread.UpdateTileMessageSend(networkIdentity.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
+		SpawnSafeThread.UpdateTileMessageSend(networkMatrix.MatrixSync.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
 	}
 
 	public void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,

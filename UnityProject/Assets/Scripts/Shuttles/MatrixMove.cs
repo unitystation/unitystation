@@ -10,12 +10,13 @@ using UI.Objects.Shuttles;
 using Systems.Shuttles;
 using Messages.Client.NewPlayer;
 using Messages.Server;
+using Tilemaps.Behaviours.Layers;
 
 /// <summary>
 /// Behavior which allows an entire matrix to move and rotate (and be synced over the network).
 /// This behavior must go on a gameobject that is the parent of the gameobject that has the actual Matrix component.
 /// </summary>
-public class MatrixMove : ManagedNetworkBehaviour
+public class MatrixMove : ManagedBehaviour
 {
 
 	/// <summary>
@@ -44,16 +45,19 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Tooltip("Whether safety is currently on, preventing collisions when sensors detect them.")]
 	public bool SafetyProtocolsOn = true;
 
-
-	[SyncVar(hook = nameof(SyncInitialPosition))]
-	private Vector3 initialPosition;
+	//[SyncVar(hook = nameof(SyncInitialPosition))]
+	//This is sync'd by the MatrixSync component
+	[HideInInspector]
+	public Vector3 initialPosition;
 	/// <summary>
 	/// Initial position for offset calculation, set on start and never changed afterwards
 	/// </summary>
 	public Vector3Int InitialPosition => initialPosition.RoundToInt();
 
-	[SyncVar(hook = nameof(SyncPivot))]
-	private Vector3 pivot;
+	//[SyncVar(hook = nameof(SyncPivot))]
+	//This is sync'd by the MatrixSync component
+	[HideInInspector]
+	public Vector3 pivot;
 	/// <summary>
 	/// local pivot point, set on start and never changed afterwards
 	/// </summary>
@@ -90,7 +94,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
 
-	[SyncVar(hook = nameof(OnRcsActivated))]
+	//[SyncVar(hook = nameof(OnRcsActivated))]
+	//This is sync'd by the MatrixSync component
 	[HideInInspector]
 	public bool rcsModeActive;
 
@@ -182,15 +187,21 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[FormerlySerializedAs("NoConsole"),Tooltip("Disable the ability for players to use a shuttleconsole to control this matrix")]
 	public bool IsNotPilotable = false;
 
-	public override void OnStartClient()
+	private NetworkedMatrix networkedMatrix;
+
+	private void Awake()
+	{
+		networkedMatrix = GetComponent<NetworkedMatrix>();
+	}
+
+	public void OnStartClient()
 	{
 		StartCoroutine(WaitForMatrixManager());
 	}
 
-	public override void OnStartServer()
+	public void OnStartServer()
 	{
 		StartCoroutine(WaitForMatrixManager());
-		base.OnStartServer();
 	}
 
 	IEnumerator WaitForMatrixManager()
@@ -201,7 +212,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 
 		yield return WaitFor.EndOfFrame;
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			InitServerState();
 
@@ -220,7 +231,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			SyncPivot(pivot, pivot);
 			SyncInitialPosition(initialPosition, initialPosition);
-			MatrixMoveNewPlayer.Send(netId);
+			MatrixMoveNewPlayer.Send(networkedMatrix.MatrixSync.netId);
 			clientStarted = true;
 
 			var child = transform.GetChild(0);
@@ -339,12 +350,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	private void SyncInitialPosition(Vector3 oldPos, Vector3 initialPos)
 	{
-		this.initialPosition = initialPos.RoundToInt();
+		networkedMatrix.MatrixSync.SyncInitialPosition(oldPos, initialPos);
 	}
 
-	private void SyncPivot(Vector3 oldPivot, Vector3 pivot)
+	public void SyncPivot(Vector3 oldPivot, Vector3 pivot)
 	{
-		this.pivot = pivot.RoundToInt();
+
 	}
 
 	/// <summary>
@@ -361,7 +372,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	///managed by UpdateManager
 	public override void FixedUpdateMe()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			CheckMovementServer();
 		}
@@ -380,7 +391,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			//client and server logic happens here because server also must wait for the rotation to finish lerping.
 			Logger.LogTraceFormat("{0} ending rotation progress to {1}", Category.Shuttles, this, inProgressRotation.Value);
-			if (isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Server, RotationEvent.End));
 			}
@@ -393,7 +404,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 		}
 
-		if (isClient)
+		if (CustomNetworkManager.IsServer == false)
 		{
 			if (coordReadoutScript != null) coordReadoutScript.SetCoords(clientState.Position);
 			if (shuttleControlGUI != null && rcsModeActive != shuttleControlGUI.RcsMode)
@@ -423,12 +434,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	public void ToggleRcs(bool on)
 	{
+		networkedMatrix.MatrixSync.OnRcsActivated(rcsModeActive, on);
 		rcsModeActive = on;
-		if (on)
-		{
-			//Refresh Rcs
-			CacheRcs();
-		}
 	}
 
 	/// Start moving. If speed was zero, it'll be set to 1
@@ -486,7 +493,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 		MatrixMoveEvents.OnStartMovementClient.Invoke();
 	}
 
-	[Client]
 	public void OnRcsActivated(bool oldValue, bool newValue)
 	{
 		if (newValue)

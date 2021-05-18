@@ -40,19 +40,11 @@ namespace Messages.Server
 					slot = ItemSlot.GetIndexed(NetworkObjects[0].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], msg.SlotIndex);
 				}
 
-				var previouslyInSlot = slot.ItemObject;
-				var pickupable = msg.Item == NetId.Invalid ? null : NetworkObjects[1].GetComponent<Pickupable>();
-				slot.ClientUpdate(pickupable);
-
-
-				if (previouslyInSlot != null)
+				if (slot.ItemObject)
 				{
-					if (pickupable != null)
-					{
-						//was removed from slot
-						pickupable._SetItemSlot(null);
-					}
-
+					var previouslyInSlot = slot.ItemObject.GetComponent<Pickupable>();
+					//was removed from slot
+					previouslyInSlot._SetItemSlot(null);
 					var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
 					var hooks = previouslyInSlot.GetComponents<IClientInventoryMove>();
 					foreach (var hook in hooks)
@@ -61,6 +53,8 @@ namespace Messages.Server
 					}
 				}
 
+				var pickupable = msg.Item == NetId.Invalid ? null : NetworkObjects[1].GetComponent<Pickupable>();
+				slot.ClientUpdate(pickupable);
 				if (pickupable != null)
 				{
 					//was added to slot
