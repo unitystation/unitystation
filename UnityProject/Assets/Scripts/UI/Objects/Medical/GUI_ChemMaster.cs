@@ -4,7 +4,7 @@ using UnityEngine;
 using Chemistry;
 using Chemistry.Components;
 using UnityEngine.UI;
-using System;
+using System.Text;
 using Items;
 using TMPro;
 
@@ -355,15 +355,15 @@ namespace UI.Objects.Chemistry
 			if (ChemMaster.GetBufferMix() != null)
 			{
 				ReagentMix tempMix = ChemMaster.GetBufferMix();
-				string reagentListStr = "";
-				string amountsListStr = "";
+				StringBuilder reagentListStr = new StringBuilder();
+				StringBuilder amountsListStr = new StringBuilder();
 				foreach (Reagent reagent in tempMix.reagents.Keys)
 				{
-					reagentListStr += $"{reagent.Name}\n";
-					amountsListStr += $"{tempMix.reagents[reagent]}u\n";
+					reagentListStr.Append($"{reagent.Name}\n");
+					amountsListStr.Append($"{tempMix.reagents[reagent]}u\n");
 				}
-				productReagentList.SetValueServer(reagentListStr);
-				productAmountsList.SetValueServer(amountsListStr);
+				productReagentList.SetValueServer(reagentListStr.ToString());
+				productAmountsList.SetValueServer(amountsListStr.ToString());
 			}
 			else
 			{

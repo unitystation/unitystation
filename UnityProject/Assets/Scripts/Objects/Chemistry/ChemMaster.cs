@@ -30,7 +30,7 @@ namespace Chemistry
 
 		public static event ChangeEvent changeEvent;
 
-		private void UpdateGUI()
+		private void UpdateGui()
 		{
 			// Change event runs updateAll in GUI_ChemMaster
 			if (changeEvent != null)
@@ -60,7 +60,7 @@ namespace Chemistry
 			Logger.LogTrace($"Buffer| capacity:{capacity} total:{currentTotal} space:{space}", Category.Chemistry);
 
 			//part one of transfer: isolate reagents, add to tempTransfer Mix
-			if (space != 0)
+			if (space > 0)
 			{
 				Logger.LogTrace($"BEFORE| Mix:{Container.CurrentReagentMix}",Category.Chemistry);
 				if (amount<space)
@@ -81,9 +81,9 @@ namespace Chemistry
 			}
 
 			//part two of transfer: fill Buffer from tempTransfer Mix
-			transferMixToBuffer(tempTransfer);
+			TransferMixToBuffer(tempTransfer);
 
-			UpdateGUI();
+			UpdateGui();
 		}
 
 		public void TransferBufferToContainer(Reagent reagent, float amount)
@@ -100,9 +100,9 @@ namespace Chemistry
 				tempTransfer.reagents.m_dict.Remove(reagent);
 			}
 
-			transferMixToBuffer(tempTransfer);
+			TransferMixToBuffer(tempTransfer);
 
-			UpdateGUI();
+			UpdateGui();
 		}
 
 		public void RemoveFromBuffer(Reagent reagent, float amount)
@@ -118,9 +118,9 @@ namespace Chemistry
 			}
 
 			//part two of transfer: fill Buffer from tempTransfer Mix
-			transferMixToBuffer(tempTransfer);
+			TransferMixToBuffer(tempTransfer);
 
-			UpdateGUI();
+			UpdateGui();
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace Chemistry
 		/// Used with GetBufferMix() to return reagents from temporary ReagentMix
 		/// </summary>
 		/// <param name="overridingMix">ReagentMix to override Buffer with</param>
-		private void transferMixToBuffer(ReagentMix overridingMix)
+		private void TransferMixToBuffer(ReagentMix overridingMix)
 		{
 			//seperate back to slots
 			if (BufferslotOne)
@@ -202,8 +202,8 @@ namespace Chemistry
 				product.GetComponent<ItemAttributesV2>().ServerSetArticleName(newName);
 			}
 			ClearBuffer();
-			transferMixToBuffer(temp);
-			UpdateGUI();
+			TransferMixToBuffer(temp);
+			UpdateGui();
 		}
 		#endregion
 
@@ -270,7 +270,7 @@ namespace Chemistry
 
 		#region Interactions
 
-		private ItemSlot getBestSlot(GameObject item, ConnectedPlayer subject)
+		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
 		{
 			if (subject == null)
 			{
@@ -287,13 +287,13 @@ namespace Chemistry
 		/// <param name="subject"></param>
 		public void EjectContainer(ConnectedPlayer subject)
 		{
-			var bestSlot = getBestSlot(containerSlot.ItemObject, subject);
+			var bestSlot = GetBestSlot(containerSlot.ItemObject, subject);
 			if (!Inventory.ServerTransfer(containerSlot, bestSlot))
 			{
 				Inventory.ServerDrop(containerSlot);
 			}
 			ClearBuffer();
-			UpdateGUI();
+			UpdateGui();
 		}
 		
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -310,7 +310,7 @@ namespace Chemistry
 		{
 			//Inserts reagent container
 			Inventory.ServerTransfer(interaction.HandSlot, containerSlot);
-			UpdateGUI();
+			UpdateGui();
 		}
 		#endregion
 

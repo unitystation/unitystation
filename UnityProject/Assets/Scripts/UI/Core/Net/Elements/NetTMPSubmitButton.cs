@@ -10,7 +10,7 @@ using TMPro;
 /// </summary>
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetSubmitButtonTMP : NetUIStringElement
+public class NetTMPSubmitButton : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ClientWrite;
 
