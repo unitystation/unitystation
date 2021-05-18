@@ -53,7 +53,7 @@ public class OreGenerator : MonoBehaviour
 		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 		tileChangeManager = GetComponent<TileChangeManager>();
 
-		if (CustomNetworkManager.IsServer) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		if (TryGetComponent<NetworkedMatrix>(out var net) && net.MatrixSync == null)
 		{
