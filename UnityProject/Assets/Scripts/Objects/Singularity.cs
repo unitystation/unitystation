@@ -313,9 +313,9 @@ namespace Objects
 				return;
 			}
 
-			//Push Twice
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int());
+			//Force Push Twice
+			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
+			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
 		}
 
 		private SpinMode RandomSpin()
@@ -420,11 +420,13 @@ namespace Objects
 						}
 
 						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
-						    && fieldGenerator != null
-						    && CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5)
+						    && fieldGenerator != null)
 						{
-							//Only stage 4 and 5 can damage field generators
-							return;
+							if (CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5 && fieldGenerator.Energy != 0)
+							{
+								//Stages below 4 can only damage field generators if they have no energy
+								return;
+							}
 						}
 
 						integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);

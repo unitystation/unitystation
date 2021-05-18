@@ -14,11 +14,13 @@ namespace UI.CharacterCreator
 		public override void Deserialise(string InData)
 		{
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
+			BodyPartColour.a = 1;
 			Refresh();
 		}
 
 		public override string Serialise()
 		{
+			BodyPartColour.a = 1;
 			return "#" + ColorUtility.ToHtmlStringRGB(BodyPartColour);
 		}
 
@@ -30,6 +32,7 @@ namespace UI.CharacterCreator
 		public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
 		{
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
+			BodyPartColour.a = 1;
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
 		}
 

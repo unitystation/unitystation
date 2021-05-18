@@ -35,4 +35,18 @@ public class OverlayTile : LayerTile
 	private TileChangeManager.OverlayType overlayType = TileChangeManager.OverlayType.None;
 
 	public TileChangeManager.OverlayType OverlayType => overlayType;
+
+	public override bool Equals(object other)
+	{
+		if (other != null && this.GetType().Equals(other.GetType()))
+		{
+			OverlayTile comparedOverlay = (OverlayTile)other;
+			return (overlayName == comparedOverlay.overlayName)
+				&& (PreviewSprite == comparedOverlay.PreviewSprite)
+				&& (overlayType == comparedOverlay.OverlayType)
+				&& (isCleanable == comparedOverlay.isCleanable)
+				&& (isGraffiti == comparedOverlay.isGraffiti);
+		}
+		return false;
+	}
 }

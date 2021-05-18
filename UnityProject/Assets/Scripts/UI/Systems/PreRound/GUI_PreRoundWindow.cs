@@ -191,6 +191,17 @@ namespace UI
 		public void OnReadyButton()
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			CharacterCreator.CharacterCustomization customizerScript = characterCustomization.GetComponentInChildren<CharacterCreator.CharacterCustomization>();
+			customizerScript.GetSavedCharacters();
+			if (customizerScript.PlayerCharacters.Count == 0)
+			{
+				warnText.SetActive(true);
+				return;
+			}
+			else
+			{
+				customizerScript.ValidateCurrentCharacter();
+			}
 			SetReady(!isReady);
 			TryShowAdminPanel();
 		}

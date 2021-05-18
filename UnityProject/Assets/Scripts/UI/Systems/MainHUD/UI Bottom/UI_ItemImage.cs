@@ -201,7 +201,7 @@ public class UI_ItemImage
 		rt.localScale = Vector3.one;
 
 		var img = go.AddComponent<Image>();
-		var imgMat = Resources.Load<Material>("Materials/Palettable UI");
+		var imgMat = Resources.Load<Material>("Materials/Maskable Palettable UI");
 		img.material = Object.Instantiate(imgMat);
 		img.alphaHitTestMinimumThreshold = 0.5f;
 

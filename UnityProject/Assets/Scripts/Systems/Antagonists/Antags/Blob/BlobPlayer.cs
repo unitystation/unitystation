@@ -255,7 +255,7 @@ namespace Blob
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
-		private void Start()
+		private void Awake()
 		{
 			playerSync = GetComponent<PlayerSync>();
 			registerPlayer = GetComponent<RegisterPlayer>();
@@ -438,13 +438,12 @@ namespace Blob
 		[Client]
 		private void SyncTurnOnClientLight(bool oldVar, bool newVar)
 		{
-			if (newVar == false)return;
+			clientLight = newVar;
+			if (newVar == false) return;
 
+			SetBlobUI();
 			TurnOnClientLight();
 			playerScript.IsPlayerSemiGhost = true;
-			uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
-			uiBlob.blobPlayer = this;
-			uiBlob.controller = GetComponent<BlobMouseInputController>();
 		}
 
 		[Client]
@@ -467,34 +466,58 @@ namespace Blob
 		[Client]
 		private void SyncResources(float oldVar, float newVar)
 		{
+			SetBlobUI();
+
+			resources = newVar;
 			uiBlob.resourceText.text = Mathf.FloorToInt(newVar).ToString();
 		}
 
 		[Client]
 		private void SyncHealth(float oldVar, float newVar)
 		{
+			SetBlobUI();
+
+			health = newVar;
 			uiBlob.healthText.text = newVar.ToString();
 		}
 
 		[Client]
 		private void SyncNumOfBlobTiles(int oldVar, int newVar)
 		{
+			SetBlobUI();
+
+			numOfBlobTiles = newVar;
 			uiBlob.numOfBlobTilesText.text = newVar.ToString();
 		}
 
 		[Client]
 		private void SyncStrainRerolls(int oldVar, int newVar)
 		{
+			SetBlobUI();
+
+			strainRerolls = newVar;
 			uiBlob.strainRerollsText.text = newVar.ToString();
 		}
 
 		[Client]
 		private void SyncStrainIndex(int oldVar, int newVar)
 		{
+			SetBlobUI();
+
 			strainIndex = newVar;
 			clientCurrentStrain = blobStrains[newVar];
 			uiBlob.UpdateStrainInfo();
 			TurnOnClientLight();
+		}
+
+		private void SetBlobUI()
+		{
+			if (uiBlob == null)
+			{
+				uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
+				uiBlob.blobPlayer = this;
+				uiBlob.controller = GetComponent<BlobMouseInputController>();
+			}
 		}
 
 		#endregion

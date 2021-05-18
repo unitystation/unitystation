@@ -159,7 +159,7 @@ public class TileList
 		}
 
 		lockedPosition = localPosition;
-		foreach (var registerTile in Get(localPosition))
+		foreach (var registerTile in Get((Vector3Int)lockedPosition))
 		{
 			action.Invoke(registerTile);
 		}

@@ -112,6 +112,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (Layer.LayerType == LayerType.Walls)
 			{
 				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Walls, TileChangeManager.OverlayType.Cleanable);
+				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, TileChangeManager.OverlayType.Mining);
 			}
 
 			//Add new tile if needed

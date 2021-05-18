@@ -1,31 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using Messages.Client.SpriteMessages;
 using Messages.Server.SpritesMessages;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpriteHandlerManager : NetworkBehaviour
 {
-	//public static int AvailableID = 1;
-
 	private static SpriteHandlerManager spriteHandlerManager;
-	public static SpriteHandlerManager Instance
-	{
-		get
-		{
-			if (!spriteHandlerManager)
-			{
-				spriteHandlerManager = FindObjectOfType<SpriteHandlerManager>();
-			}
-
-			return spriteHandlerManager;
-		}
-	}
-
-
+	public static SpriteHandlerManager Instance => spriteHandlerManager;
 
 	public Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>> PresentSprites =
 		new Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>>();
@@ -34,8 +19,34 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public Dictionary<SpriteHandler, SpriteChange> NewClientChanges = new Dictionary<SpriteHandler, SpriteChange>();
 
+	private void Awake()
+	{
+		if (spriteHandlerManager == null)
+		{
+			spriteHandlerManager = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnRoundRestart;
+	}
 
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnRoundRestart;
+	}
+
+	void OnRoundRestart(Scene oldScene, Scene newScene)
+	{
+		QueueChanges.Clear();
+		NewClientChanges.Clear();
+		PresentSprites.Clear();
+	}
 
 	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
 	{
@@ -83,18 +94,6 @@ public class SpriteHandlerManager : NetworkBehaviour
 		}
 
 		Instance.PresentSprites[networkIdentity][spriteHandler.name] = spriteHandler;
-	}
-
-
-	// Start is called before the first frame update
-	void Start()
-	{
-		//AvailableID = 1;
-		//foreach (var Product in SpriteCatalogue.Instance.Catalogue)
-		//{
-			//Product.ID = AvailableID;
-			//AvailableID++;
-		//}
 	}
 
 	public void UpdateNewPlayer(NetworkConnection requestedBy)

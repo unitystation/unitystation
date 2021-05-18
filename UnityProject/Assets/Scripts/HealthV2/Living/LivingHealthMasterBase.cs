@@ -20,7 +20,7 @@ namespace HealthV2
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
-	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable
+	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -63,11 +63,6 @@ namespace HealthV2
 					if (isServer)
 					{
 						OnConsciousStateChangeServer.Invoke(oldState, value);
-					}
-
-					if (value == ConsciousState.DEAD)
-					{
-						Death();
 					}
 				}
 			}
@@ -552,7 +547,7 @@ namespace HealthV2
 
 			if (hasAllHeartAttack)
 			{
-				SetConsciousState(ConsciousState.DEAD);
+				Death();
 			}
 		}
 
@@ -905,6 +900,7 @@ namespace HealthV2
 		///</Summary>
 		public virtual void Death()
 		{
+			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
@@ -976,24 +972,39 @@ namespace HealthV2
 
 		#region Examine
 
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			// This is for mobs, player uses ExaminablePlayer
+			// Which can call GetExamineText if the player is too far away
+			if (this is PlayerHealthV2)
+			{
+				return default;
+			}
+
+			return GetExamineText();
+		}
+
 		/// <summary>
 		/// Gets the appropriate examine text based on the creature's health state
 		/// </summary>
 		/// <returns>String describing the creature</returns>
-		public string GetExamineText()
+		public string GetExamineText(PlayerScript script = null)
 		{
-			if (this is PlayerHealthV2)
-			{
-				// Let ExaminablePlayer take care of this.
-				return default;
-			}
-
-			// Assume animal
-			var healthString = new StringBuilder("It is ");
+			var theyPronoun = script == null ? "It" : script.characterSettings.TheyPronoun(script);
+			var healthString = new StringBuilder($"{theyPronoun} is ");
 
 			if (IsDead)
 			{
-				healthString.Append("limp and unresponsive; there are no signs of life...");
+				healthString.Insert(0, "<color=#b495bf>");
+				healthString.Append("limp and unresponsive; there are no signs of life");
+
+				if (script != null && script.HasSoul == false)
+				{
+					healthString.Append($" and {script.characterSettings.TheirPronoun(script)} soul has departed");
+				}
+
+				healthString.Append("...</color>");
 
 				return healthString.ToString();
 			}
@@ -1016,13 +1027,19 @@ namespace HealthV2
 
 			if (RespiratorySystem != null && RespiratorySystem.IsSuffocating)
 			{
-				healthString.Append(" It's having trouble breathing.");
+				healthString.Append($" {theyPronoun}'s having trouble breathing.");
 			}
 
 			// On fire?
 			if (FireStacks > 0)
 			{
-				healthString.Append(" And it's on fire!");
+				healthString.Append($" And {theyPronoun}'s on fire!");
+			}
+
+			//Alive but not in body
+			if (script != null && script.HasSoul == false)
+			{
+				healthString.Append($"<color=#b495bf>\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. {theyPronoun} may snap out of it soon.</color>");
 			}
 
 			return healthString.ToString();

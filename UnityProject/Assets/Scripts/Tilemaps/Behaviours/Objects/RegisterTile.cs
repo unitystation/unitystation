@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
 using Systems.Electricity;
+using Tilemaps.Behaviours.Layers;
 
 public enum ObjectType
 {
@@ -89,6 +90,18 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 					OnRotate(new MatrixRotationInfo(matrix.MatrixMove, matrix.MatrixMove.FacingOffsetFromInitial,
 						NetworkSide.Client, RotationEvent.Register));
+				}
+
+				if (isServer && TryGetComponent<ItemStorage>(out var itemStorage))
+				{
+					foreach (var itemSlot in itemStorage.GetItemSlots())
+					{
+						if (itemSlot.Item)
+						{
+							var itemSlotRegisterItem = itemSlot.Item.GetComponent<RegisterItem>();
+							itemSlotRegisterItem.matrix = matrix;
+						}
+					}
 				}
 			}
 		}
@@ -270,7 +283,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			networkedMatrixNetId = Matrix.transform.parent.gameObject.NetId();
+			networkedMatrixNetId = Matrix.transform.parent.gameObject.GetComponent<NetworkedMatrix>().MatrixSync.netId;
 		}
 	}
 

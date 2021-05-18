@@ -53,11 +53,7 @@ namespace Objects.Engineering
 		/// </summary>
 		[SerializeField]
 		private int energy;
-
-		/// <summary>
-		/// energy increases health, if health 0 then field fails
-		/// </summary>
-		private int health;
+		public int Energy => energy;
 
 		/// <summary>
 		/// Gameobject = connectedgenerator, then bool = slave/master

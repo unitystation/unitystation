@@ -135,8 +135,37 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
 	private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
 
-	[SyncVar(hook = nameof(UpdateClientState))]
 	private TransformState clientState = TransformState.Uninitialized; //last reliable state from server
+
+	#region ClientStateSyncVars
+	// ClientState SyncVars, separated out of clientState TransformState
+	// So we only send the relevant data not all values each time, to reduce network usage
+
+	[SyncVar(hook = nameof(SyncClientStateSpeed))]
+	private float clientStateSpeed;
+
+	[SyncVar(hook = nameof(SyncClientStateWorldImpulse))]
+	private Vector2 clientStateWorldImpulse;
+
+	[SyncVar(hook = nameof(SyncClientStateMatrixId))]
+	private int clientStateMatrixId = -1;
+
+	[SyncVar(hook = nameof(SyncClientStateLocalPosition))]
+	private Vector3 clientStateLocalPosition = TransformState.HiddenPos;
+
+	[SyncVar(hook = nameof(SyncClientStateIsFollowUpdate))]
+	private bool clientStateIsFollowUpdate;
+
+	[SyncVar(hook = nameof(SyncClientStateSpinRotation))]
+	private float clientStateSpinRotation;
+
+	[SyncVar(hook = nameof(SyncClientStateSpinFactor))]
+	private sbyte clientStateSpinFactor;
+
+	private bool clientValueChanged;
+
+	#endregion
+
 	private TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
@@ -145,6 +174,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public TransformState ServerLerpState => serverLerpState;
 	public TransformState PredictedState => predictedState;
 	public TransformState ClientState => clientState;
+
+	private bool waitForId;
+	private bool WaitForMatrixId;
 
 	private void Awake()
 	{
@@ -198,8 +230,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		{
 			registerTile = GetComponent<RegisterTile>();
 		}
-
-		UpdateClientState(clientState, clientState);
 	}
 
 	public override void OnStartServer()
@@ -312,13 +342,22 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// <returns>true if transform changed</returns>
 	private bool Synchronize()
 	{
+		//Isn't run on server as clientValueChanged is always false for server
+		//Pokes the client to do changes if values have changed from syncvars
+		if (clientValueChanged)
+		{
+			clientValueChanged = false;
+			PerformClientStateUpdate(clientState, clientState);
+		}
+
 		if (!predictedState.Active)
 		{
 			return false;
 		}
 
 		bool server = isServer;
-		if ( server && !serverState.Active ) {
+		if ( server && !serverState.Active )
+		{
 			return false;
 		}
 
@@ -560,11 +599,95 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 		#endregion
 
-	/// Called from TransformStateMessage, applies state received from server to client
-	public void UpdateClientState(TransformState oldState, TransformState newState)
-	{
-		clientState = newState;
+	#region ClientState SyncMethods
 
+	[Client]
+	public void SyncClientStateSpeed(float oldSpeed, float newSpeed)
+	{
+		clientStateSpeed = newSpeed;
+		clientState.Speed = newSpeed;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateWorldImpulse(Vector2 oldWorldImpulse, Vector2 newWorldImpulse)
+	{
+		clientStateWorldImpulse = newWorldImpulse;
+		clientState.WorldImpulse = newWorldImpulse;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateMatrixId(int oldMatrixId, int newMatrixId)
+	{
+		clientStateMatrixId = newMatrixId;
+		clientState.MatrixId = newMatrixId;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateLocalPosition(Vector3 oldLocalPosition, Vector3 newLocalPosition)
+	{
+		clientStateLocalPosition = newLocalPosition;
+		clientState.Position = newLocalPosition;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateIsFollowUpdate(bool oldIsFollowUpdate, bool newIsFollowUpdate)
+	{
+		clientStateIsFollowUpdate = newIsFollowUpdate;
+		clientState.IsFollowUpdate = newIsFollowUpdate;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateSpinRotation(float oldSpinRotation, float newSpinRotation)
+	{
+		clientStateSpinRotation = newSpinRotation;
+		clientState.SpinRotation = newSpinRotation;
+		ClientValueChanged();
+	}
+
+	[Client]
+	public void SyncClientStateSpinFactor(sbyte oldSpinFactor, sbyte newSpinFactor)
+	{
+		clientStateSpinFactor = newSpinFactor;
+		clientState.SpinFactor = newSpinFactor;
+		ClientValueChanged();
+	}
+
+	[Client]
+	private void ClientValueChanged()
+	{
+		if (clientValueChanged == false)
+		{
+			Poke();
+		}
+
+		clientValueChanged = true;
+	}
+
+	#endregion
+
+	[Server]
+	private void UpdateClientState(TransformState oldState, TransformState newState)
+	{
+		clientStateSpeed = newState.speed;
+		clientStateWorldImpulse = newState.WorldImpulse;
+		clientStateMatrixId = newState.MatrixId;
+		clientStateLocalPosition = newState.Position;
+		clientStateIsFollowUpdate = newState.IsFollowUpdate;
+		clientStateSpinRotation = newState.SpinRotation;
+		clientStateSpinFactor = newState.SpinFactor;
+
+		clientState = newState;
+		PerformClientStateUpdate(oldState, newState);
+	}
+
+	/// Called from TransformStateMessage, applies state received from server to client
+	private void PerformClientStateUpdate(TransformState oldState, TransformState newState)
+	{
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
 		//Ignore "Follow Updates" if you're pulling it
@@ -618,8 +741,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		if (this == null || gameObject == null) return; //sometimes between round restarts a call might be made on an object being destroyed
 
 		//	Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
-		SyncMatrix();
 
+		//Wait for this components id
 		if (TryGetComponent<NetworkIdentity>(out var networkIdentity))
 		{
 			if (networkIdentity.netId == 0)
@@ -628,17 +751,80 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				//this is just to catch multiple 0's
 				//An identity could have a valid id of 0, but since this message is only for net transforms and since the
 				//identities on the managers will get set first, this shouldn't cause any issues.
-				StartCoroutine(IdWait());
+
+				if (waitForId)
+				{
+					waitForId = true;
+					StartCoroutine(IdWait(networkIdentity));
+				}
+
 				return;
 			}
 		}
 
+		//Wait for networked matrix id to init
+		if (serverState.IsUninitialized || matrix.NetworkedMatrix.OrNull()?.MatrixSync.netId == 0)
+		{
+			if (WaitForMatrixId)
+			{
+				WaitForMatrixId = true;
+				StartCoroutine(NetworkedMatrixIdWait());
+			}
+
+			return;
+		}
+
+		SyncMatrix();
+
 		UpdateClientState(clientState, serverState);
 	}
 
-	private IEnumerator IdWait()
+	private IEnumerator IdWait(NetworkIdentity net)
 	{
-		yield return WaitFor.EndOfFrame;
+		while (net.netId == 0)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		waitForId = false;
+
+		NotifyPlayers();
+	}
+
+	private IEnumerator NetworkedMatrixIdWait()
+	{
+		var networkMatrix = matrix.NetworkedMatrix;
+
+		if (networkMatrix == null)
+		{
+			Logger.LogError($"networkMatrix was null on {matrix.gameObject.name}", Category.Matrix);
+			WaitForMatrixId = false;
+			yield break;
+		}
+
+		var matrixSync = networkMatrix.MatrixSync;
+
+		if(matrixSync == null)
+		{
+			networkMatrix.BackUpSetMatrixSync();
+			matrixSync = networkMatrix.MatrixSync;
+
+			if (matrixSync == null)
+			{
+				//Theres a log in BackUpSetMatrixSync which will trigger on fail
+				WaitForMatrixId = false;
+				yield break;
+			}
+		}
+
+		while (matrixSync.netId == 0)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		WaitForMatrixId = false;
+
+		SyncMatrix();
 
 		UpdateClientState(clientState, serverState);
 	}

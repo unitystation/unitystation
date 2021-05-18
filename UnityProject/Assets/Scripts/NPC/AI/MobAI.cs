@@ -95,10 +95,14 @@ namespace Systems.MobAIs
 
 		public virtual void OnDespawnServer(DespawnInfo info)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			health.applyDamageEvent += AttackReceivedCoolDown;
 			ResetBehaviours();
+		}
+
+		public void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
 		/// <summary>

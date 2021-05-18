@@ -16,6 +16,7 @@ using Initialisation;
 using AddressableReferences;
 using Managers;
 using Messages.Server;
+using Tilemaps.Behaviours.Layers;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -166,7 +167,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		Physics.autoSimulation = false;
-		Physics2D.simulationMode = SimulationMode2D.Script;
+		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
 
 	private void OnEnable()
@@ -403,7 +404,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e.Message);
+				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e);
 			}
 		}
 	}

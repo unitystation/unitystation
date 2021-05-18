@@ -52,6 +52,9 @@ namespace AdminCommands
 			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 			if (admin == null)
 			{
+				var player = PlayerList.Instance.GetByUserID(adminId);
+				Logger.LogError($"Failed Admin check with id: {adminId}, associated player with that id (null if not valid id): {player?.Username}," +
+				                $"Possible hacked client", Category.Exploits);
 				return false;
 			}
 

@@ -47,10 +47,15 @@ namespace Objects.Lighting
 		private void AnimateLight()
 		{
 			if (lightSource == null || lightSource.mLightRendererObject == null ||
-				lightSource.mLightRendererObject.transform == null)
+			    lightSource.mLightRendererObject.transform == null)
 			{
-				Debug.LogError($"{gameObject.name} had something null");
 				StopAnimation();
+
+				if (this != null && gameObject != null)
+				{
+					Logger.LogError($"{gameObject.name} had something null");
+				}
+				
 				return;
 			}
 

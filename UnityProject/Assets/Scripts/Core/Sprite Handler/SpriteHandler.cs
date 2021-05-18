@@ -576,6 +576,15 @@ public class SpriteHandler : MonoBehaviour
 		TryInit();
 	}
 
+	private void OnDestroy()
+	{
+		if (SpriteHandlerManager.Instance)
+		{
+			SpriteHandlerManager.Instance.QueueChanges.Remove(this);
+			SpriteHandlerManager.Instance.NewClientChanges.Remove(this);
+		}
+	}
+
 	private void SetImageColor(Color value)
 	{
 		if (spriteRenderer != null)

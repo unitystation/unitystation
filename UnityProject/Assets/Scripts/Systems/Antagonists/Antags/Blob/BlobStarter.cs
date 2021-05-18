@@ -254,8 +254,6 @@ namespace Blob
 		{
 			var playerScript = gameObject.GetComponent<PlayerScript>();
 
-			if (playerScript.IsDeadOrGhost) return;
-
 			var bound = MatrixManager.MainStationMatrix.Bounds;
 
 			//Teleport user to random location on station if outside radius of 600 or on a space tile
@@ -276,14 +274,15 @@ namespace Blob
 			if (!spawnResult.Successful)
 			{
 				Logger.LogError("Failed to spawn blob!", Category.Blob);
+				Destroy(this);
 				return;
 			}
 
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
-			playerScript.mind = null;
+			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
 
-			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, gameObject, Event.BlobSpawned, playerScript.characterSettings);
+			playerScript.mind = null;
 
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();

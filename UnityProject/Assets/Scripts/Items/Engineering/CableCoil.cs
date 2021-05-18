@@ -16,6 +16,12 @@ namespace Objects.Electrical
 		public GameObject CablePrefab;
 		public PowerTypeCategory powerTypeCategory;
 
+		/// <summary>
+		/// Message that is send to the client when attempting to build a cable
+		/// that already exists at a given position.
+		/// </summary>
+		private const string MSG_BUILD_CONFLICT = "There is already a cable at that position.";
+
 		public Connection GetDirectionFromFaceDirection(GameObject originator)
 		{
 			var playerScript = originator.GetComponent<PlayerScript>();
@@ -55,15 +61,24 @@ namespace Objects.Electrical
 			return true;
 		}
 
+		/// <summary>
+		/// <para>Facilitates the interaction of the cable coil in hand.</para>
+		/// First checks if the connection we're trying to make is legal, then
+		/// checks against all electrical connections on the cell in the matrix
+		/// to see if the connection already exists. If everything is good,
+		/// this proceeds to add the new cable to the electrical pool and
+		/// builds the cable.
+		/// </summary>
 		public void ServerPerformInteraction(ConnectionApply interaction)
 		{
-			var cableCoil = interaction.HandObject.GetComponent<CableCoil>();
+			CableCoil cableCoil = interaction.HandObject.GetComponent<CableCoil>();
+
 			if (cableCoil != null)
 			{
 				Vector3Int worldPosInt = Vector3Int.RoundToInt(interaction.WorldPositionTarget);
-				var matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
-				var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixInfo);
-				var matrix = matrixInfo?.Matrix;
+				MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
+				Vector3Int localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixInfo);
+				Matrix matrix = matrixInfo?.Matrix;
 
 				// if there is no matrix or IsClearUnderfloor == false - return
 				if (matrix == null || matrix.IsClearUnderfloorConstruction(localPosInt, true) == false)
@@ -71,67 +86,43 @@ namespace Objects.Electrical
 					return;
 				}
 
-				Connection WireEndB = interaction.WireEndB;
-				Connection WireEndA = interaction.WireEndA;
+				// Get the starting and ending connections.
+				Connection wireEndA = interaction.WireEndA;
+				Connection wireEndB = interaction.WireEndB;
 
-				if (WireEndB != Connection.NA)
+				// Make sure that the ending connection actually exists.
+				if (IsLegalConnection(wireEndA, wireEndB))
 				{
-					// high voltage cables can't connect diagonally
-					if (CableType == WiringColor.high)
-					{
-						switch (WireEndB)
-						{
-							case Connection.NorthEast:
-								return;
-							case Connection.NorthWest:
-								return;
-							case Connection.SouthWest:
-								return;
-							case Connection.SouthEast:
-								return;
-						}
-						switch (WireEndA)
-						{
-							case Connection.NorthEast:
-								return;
-							case Connection.NorthWest:
-								return;
-							case Connection.SouthWest:
-								return;
-							case Connection.SouthEast:
-								return;
-						}
-					}
+					// Grab a list of electrical connections from the matrix at
+					// the given location.
+					List<IntrinsicElectronicData> eConnList =
+						interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 
-					var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
-					foreach (var con in econs)
+					// Find any cables on the matrix that conflicts with our
+					// proposed connections.
+					// TODO: What's the point of the nested for loop?
+					foreach (IntrinsicElectronicData eConnI in eConnList)
 					{
-						if (con.WireEndA == Connection.Overlap || con.WireEndB == Connection.Overlap)
+						if (eConnI.WireEndA == Connection.Overlap || eConnI.WireEndB == Connection.Overlap)
 						{
-							if (con.WireEndA == WireEndB || con.WireEndB == WireEndB)
+							if (eConnI.WireEndA == wireEndB || eConnI.WireEndB == wireEndB)
 							{
-								Chat.AddExamineMsgToClient("There is already a cable at that position");
-								econs.Clear();
-								ElectricalPool.PooledFPCList.Add(econs);
+								MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
 								return;
 							}
 
-							foreach (var Econ in econs)
+							foreach (IntrinsicElectronicData eConnJ in eConnList)
 							{
-								if (Econ.WireEndA == WireEndB || Econ.WireEndB == WireEndB)
+								if (eConnJ.WireEndA == wireEndB || eConnJ.WireEndB == wireEndB)
 								{
-									if (con.WireEndA == Econ.WireEndA || con.WireEndB == Econ.WireEndA)
+									if (eConnI.WireEndA == eConnJ.WireEndA || eConnI.WireEndB == eConnJ.WireEndA)
 									{
-										Chat.AddExamineMsgToClient("There is already a cable at that position");
-										econs.Clear();
-										ElectricalPool.PooledFPCList.Add(econs);
+										MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
 										return;
 									}
-									else if (con.WireEndA == Econ.WireEndB || con.WireEndB == Econ.WireEndB)
+									else if (eConnI.WireEndA == eConnJ.WireEndB || eConnI.WireEndB == eConnJ.WireEndB)
 									{
-										Chat.AddExamineMsgToClient("There is already a cable at that position");
-										econs.Clear();
-										ElectricalPool.PooledFPCList.Add(econs);
+										MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
 										return;
 									}
 								}
@@ -139,96 +130,206 @@ namespace Objects.Electrical
 						}
 					}
 
-					econs.Clear();
-					ElectricalPool.PooledFPCList.Add(econs);
-					BuildCable(localPosInt, interaction.Performer.transform.parent, WireEndA, WireEndB, interaction);
-					Inventory.ServerConsume(interaction.HandSlot, 1);
+					MsgAndAddToPool(ref eConnList, null);
+					BuildCable(localPosInt, wireEndA, wireEndB, interaction);
 				}
 			}
 		}
 
-		private void BuildCable(Vector3 position, Transform parent, Connection WireEndA, Connection WireEndB, ConnectionApply interaction)
+		/// <summary>
+		/// Adds examine message to the client (if provided), clears the
+		/// electrical connections list, and adds it to the electrical pool.
+		/// </summary>
+		/// <param name="eConnList">List of electrical connections. Will not add to electrical pool if null.</param>
+		/// <param name="addMsg">Message to show as an examine message. Will not show anything if null.</param>
+		private void MsgAndAddToPool(ref List<IntrinsicElectronicData> eConnList, string msg)
 		{
-			ElectricalManager.Instance.electricalSync.StructureChange = true;
-			FindOverlapsAndCombine(position, WireEndA, WireEndB, interaction);
+			if (msg != null)
+			{
+				Chat.AddExamineMsgToClient(msg);
+			}
+
+			if (eConnList != null)
+			{
+				eConnList.Clear();
+				ElectricalPool.PooledFPCList.Add(eConnList);
+			}
 		}
 
-		public void FindOverlapsAndCombine(Vector3 position, Connection WireEndA, Connection WireEndB,
+		/// <summary>
+		/// Checks if the connection ends are legal. In this case, high-voltage
+		/// cables cannot connect diagonally and no connections are illegal. All
+		/// other connections are legal.
+		/// </summary>
+		/// <param name="wireEndA">The first connection we're building from.</param>
+		/// <param name="wireEndB">The second connection we're building to.</param>
+		/// <returns>false if attempting to connect high voltage cables
+		/// diagonally or no connection, true otherwise.</returns>
+		private bool IsLegalConnection(Connection wireEndA, Connection wireEndB)
+		{
+			if (wireEndA == Connection.NA && wireEndB == Connection.NA)
+			{
+				return false;
+			}
+
+			if (CableType == WiringColor.high)
+			{
+				switch (wireEndA)
+				{
+					case Connection.NorthEast:
+					case Connection.NorthWest:
+					case Connection.SouthWest:
+					case Connection.SouthEast:
+						return false;
+				}
+				switch (wireEndB)
+				{
+					case Connection.NorthEast:
+					case Connection.NorthWest:
+					case Connection.SouthWest:
+					case Connection.SouthEast:
+						return false;
+				}
+			}
+
+			return true;
+		}
+
+		private void BuildCable(Vector3 position, Connection wireEndA, Connection wireEndB,
 			ConnectionApply interaction)
 		{
-			if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
+			FindOverlapsAndCombine(position, wireEndA, wireEndB, interaction);
+		}
+
+		/// <summary>
+		/// Finds overlapping wires and combines them to create a new
+		/// connection.
+		/// </summary>
+		/// <param name="position">Position of the cell we're building the cable at.</param>
+		/// <param name="wireEndA">The first connection we're building from.</param>
+		/// <param name="wireEndB">The second connection we're building to.</param>
+		/// <param name="interaction">Object to allow us to interact with the server.</param>
+		public void FindOverlapsAndCombine(Vector3 position, Connection wireEndA, Connection wireEndB,
+			ConnectionApply interaction)
+		{
+			// If the wire ends are overlapping...
+			if (wireEndA == Connection.Overlap || wireEndB == Connection.Overlap)
 			{
-				bool isA;
-				if (WireEndA == Connection.Overlap)
-				{
-					isA = true;
-				}
-				else
-				{
-					isA = false;
-				}
-
-				List<IntrinsicElectronicData> Econns = new List<IntrinsicElectronicData>();
-				var IEnumerableEconns = interaction.Performer.GetComponentInParent<Matrix>()
+				// Stores boolean representing whether or not wireEndA is an
+				// overlap.
+				bool isWireEndAOverlap = wireEndA == Connection.Overlap;
+				List<IntrinsicElectronicData> IEnumerableEconns = interaction.Performer.GetComponentInParent<Matrix>()
 					.GetElectricalConnections(position.RoundToInt());
-				foreach (var T in IEnumerableEconns)
-				{
-					Econns.Add(T);
-				}
+				List<IntrinsicElectronicData> eConns = new List<IntrinsicElectronicData>(IEnumerableEconns);
 
+				// TODO: What does this do? By this, we're removing all
+				//       elements from the list, but then adding this empty,
+				//       but with-capacity list to this. Document this.
 				IEnumerableEconns.Clear();
 				ElectricalPool.PooledFPCList.Add(IEnumerableEconns);
-				int i = 0;
-				if (Econns != null)
+
+				// First, make sure we actually found electrical connections.
+				if (eConns != null)
 				{
-					while (!(i >= Econns.Count))
+					// Now, we loop through each electrical connection.
+					for (int i = 0; i < eConns.Count; i++)
 					{
-						if (powerTypeCategory == Econns[i].Categorytype)
+						// We only want to combine the cables if the type of
+						// cables we're looking at is the same category type
+						// (i.e. low, medium, or high).
+						if (powerTypeCategory == eConns[i].Categorytype)
 						{
-							if (Econns[i].WireEndA == Connection.Overlap)
+							// If the first connection we found is an overlap
+							// and our starting connection is an overlap, then
+							// we want to set the first end as the overlapping
+							// cable's second end. Else, we set our ending
+							// connection as the overlapping cable's second
+							// end.
+							if (eConns[i].WireEndA == Connection.Overlap)
 							{
-								if (isA)
+								if (isWireEndAOverlap)
 								{
-									WireEndA = Econns[i].WireEndB;
+									wireEndA = eConns[i].WireEndB;
 								}
 								else
 								{
-									WireEndB = Econns[i].WireEndB;
+									wireEndB = eConns[i].WireEndB;
 								}
-								Econns[i].DestroyThisPlease();
-								var tile = ElectricityFunctions.RetrieveElectricalTile(WireEndA, WireEndB,
-									powerTypeCategory);
-								interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), tile, true);
 
+								ReplaceEConn(position, eConns[i], wireEndA, wireEndB, interaction);
 								return;
 							}
-							else if (Econns[i].WireEndB == Connection.Overlap)
+							// Else, if the second connection we found is an
+							// overlap and our starting connection is an
+							// overlap, then we want to set the first end as
+							// the overlapping cable's first end. Else, we set
+							// our ending connection as the overlapping cable's
+							// first end.
+							else if (eConns[i].WireEndB == Connection.Overlap)
 							{
-								if (isA)
+								if (isWireEndAOverlap)
 								{
-									WireEndA = Econns[i].WireEndA;
+									wireEndA = eConns[i].WireEndA;
 								}
 								else
 								{
-									WireEndB = Econns[i].WireEndA;
+									wireEndB = eConns[i].WireEndA;
 								}
-								Econns[i].DestroyThisPlease();
-								var tile = ElectricityFunctions.RetrieveElectricalTile(WireEndA, WireEndB,
-									powerTypeCategory);
-								interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), tile, true);
 
+								ReplaceEConn(position, eConns[i], wireEndA, wireEndB, interaction);
 								return;
 							}
 						}
-
-						i++;
 					}
 				}
 			}
 
-			var _tile = ElectricityFunctions.RetrieveElectricalTile(WireEndA, WireEndB,
-				powerTypeCategory);
-			interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), _tile, true);
+			ReplaceEConn(position, null, wireEndA, wireEndB, interaction);
+		}
+
+		/// <summary>
+		/// <para>Replaces, builds a new electrical connection, and consumes
+		/// cables from the hand.</para>
+		/// <para>Destroys the electrical connection (if we're given one) and
+		/// then adds a new electrical connection by adding an electrical
+		/// node. We then calculate and consume a number of cables from the
+		/// hand.</para>
+		/// </summary>
+		/// <param name="position">Position of the electrical connection.</param>
+		/// <param name="eConn">Electrical connection we're replacing.</param>
+		/// <param name="wireEndA">Connection direction of one end.</param>
+		/// <param name="wireEndB">Connection direction of the other end.</param>
+		private void ReplaceEConn(Vector3 position, IntrinsicElectronicData eConn, Connection wireEndA,
+			Connection wireEndB, ConnectionApply interaction)
+		{
+			// Cost of cable coils to construct the original cable tile. Assume
+			// 0 until we verify whether or not we are given an electrical
+			// connection.
+			int oldTileCost = 0;
+
+			// Get the cost of the old tile. Then destroy the current
+			// electrical connection only if we were given a connection.
+			if (eConn != null)
+			{
+				oldTileCost = eConn.MetaDataPresent.RelatedTile.SpawnAmountOnDeconstruct;
+				eConn.DestroyThisPlease();
+			}
+
+			// Get the electrical cable tile with the wire connection direction.
+			ElectricalCableTile tile =
+				ElectricityFunctions.RetrieveElectricalTile(wireEndA, wireEndB, powerTypeCategory);
+			// Then, add an electrical node at the tile.
+			interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), tile, true);
+
+			// We only want to consume the difference needed to build the new
+			// cable.
+			int newTileCost = tile.SpawnAmountOnDeconstruct;
+			int finalCost = newTileCost - oldTileCost;
+
+			// Finally, consume the cables in the hands using the final cost
+			// we found.
+			Inventory.ServerConsume(interaction.HandSlot, finalCost);
 		}
 	}
 }

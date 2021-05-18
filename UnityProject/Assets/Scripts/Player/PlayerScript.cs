@@ -91,6 +91,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	private bool isUpdateRTT;
 	private float waitTimeForRTTUpdate = 0f;
 
+	/// <summary>
+	/// Whether a player is connected in the game object this script is on, valid serverside only
+	/// </summary>
+	public bool HasSoul => connectionToClient != null;
+
 	#region Lifecycle
 
 	private void Awake()

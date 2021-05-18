@@ -87,6 +87,11 @@ namespace Util
 		[ClientRpc]
 		public void RpcLocalMove(Axis axis, Vector3 vector, float time)
 		{
+			LocalMove(axis, vector, time);
+		}
+
+		public void LocalMove(Axis axis, Vector3 vector, float time)
+		{
 			switch (axis)
 			{
 				case (Axis.X):
