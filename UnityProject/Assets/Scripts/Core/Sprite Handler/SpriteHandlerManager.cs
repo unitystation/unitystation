@@ -12,7 +12,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 	private static SpriteHandlerManager spriteHandlerManager;
 	public static SpriteHandlerManager Instance => spriteHandlerManager;
 
-	public Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>> PresentSprites =
+	public static Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>> PresentSprites =
 		new Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>>();
 
 	public Dictionary<SpriteHandler, SpriteChange> QueueChanges = new Dictionary<SpriteHandler, SpriteChange>();
@@ -53,16 +53,25 @@ public class SpriteHandlerManager : NetworkBehaviour
 		if (spriteHandler == null) return;
 		if (networkIdentity == null)
 		{
-			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
-				Category.Sprites);
-			return;
+			if (spriteHandler?.transform?.parent != null)
+			{
+				Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+					Category.Sprites);
+				return;
+			}
+			else
+			{
+				Logger.LogError(" RegisterHandler networkIdentity is null on  ? ",
+					Category.Sprites);
+			}
+
 		}
 
-		if (Instance.PresentSprites.ContainsKey(networkIdentity))
+		if (PresentSprites.ContainsKey(networkIdentity))
 		{
-			if (Instance.PresentSprites[networkIdentity].ContainsKey(spriteHandler.name))
+			if (PresentSprites[networkIdentity].ContainsKey(spriteHandler.name))
 			{
-				Instance.PresentSprites[networkIdentity].Remove(spriteHandler.name);
+				PresentSprites[networkIdentity].Remove(spriteHandler.name);
 			}
 		}
 	}
@@ -72,20 +81,28 @@ public class SpriteHandlerManager : NetworkBehaviour
 	{
 		if (networkIdentity == null)
 		{
-			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
-				Category.Sprites);
-			return;
+			if (spriteHandler?.transform?.parent != null)
+			{
+				Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+					Category.Sprites);
+				return;
+			}
+			else
+			{
+				Logger.LogError(" RegisterHandler networkIdentity is null on  ? ",
+					Category.Sprites);
+			}
 		}
 
 
-		if (Instance.PresentSprites.ContainsKey(networkIdentity) == false)
+		if (PresentSprites.ContainsKey(networkIdentity) == false)
 		{
-			Instance.PresentSprites[networkIdentity] = new Dictionary<string, SpriteHandler>();
+			PresentSprites[networkIdentity] = new Dictionary<string, SpriteHandler>();
 		}
 
-		if (Instance.PresentSprites[networkIdentity].ContainsKey(spriteHandler.name))
+		if (PresentSprites[networkIdentity].ContainsKey(spriteHandler.name))
 		{
-			if (Instance.PresentSprites[networkIdentity][spriteHandler.name] != spriteHandler)
+			if (PresentSprites[networkIdentity][spriteHandler.name] != spriteHandler)
 			{
 				Logger.LogError(
 					"SpriteHandler has the same name as another SpriteHandler on the game object > " + spriteHandler.name + " On parent > " +
@@ -93,7 +110,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			}
 		}
 
-		Instance.PresentSprites[networkIdentity][spriteHandler.name] = spriteHandler;
+		PresentSprites[networkIdentity][spriteHandler.name] = spriteHandler;
 	}
 
 	public void UpdateNewPlayer(NetworkConnection requestedBy)

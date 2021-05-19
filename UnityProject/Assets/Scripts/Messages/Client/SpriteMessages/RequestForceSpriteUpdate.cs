@@ -46,11 +46,11 @@ public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.N
 				if (NetworkIdentity.spawned.ContainsKey(TOC.ID))
 				{
 					var NETID = NetworkIdentity.spawned[TOC.ID];
-					if (spriteHandlerManager.PresentSprites.ContainsKey(NETID))
+					if (SpriteHandlerManager.PresentSprites.ContainsKey(NETID))
 					{
-						if (spriteHandlerManager.PresentSprites[NETID].ContainsKey(TOC.Name))
+						if (SpriteHandlerManager.PresentSprites[NETID].ContainsKey(TOC.Name))
 						{
-							ToRequestSH.Add(spriteHandlerManager.PresentSprites[NETID][TOC.Name]);
+							ToRequestSH.Add(SpriteHandlerManager.PresentSprites[NETID][TOC.Name]);
 						}
 					}
 				}
