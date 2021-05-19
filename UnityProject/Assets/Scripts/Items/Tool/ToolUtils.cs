@@ -160,7 +160,7 @@ public static class ToolUtils
 	/// <param name="playSound">Whether to play default tool sound</param>
 	/// <returns>progress bar spawned, null if progress did not start or this was instant</returns>
 	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, ActionTarget actionTarget,
-		float seconds, Action progressCompleteAction, bool playSound)
+		float seconds, Action progressCompleteAction, bool playSound = true)
 	{
 		//check tool stats
 		var toolStats = tool.GetComponent<Tool>();
