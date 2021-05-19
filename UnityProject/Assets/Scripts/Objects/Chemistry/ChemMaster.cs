@@ -12,7 +12,7 @@ namespace Chemistry
 	/// <summary>
 	/// Main component for ChemMaster, or Chemical Master™.
 	/// </summary>
-	public class ChemMaster : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
+	public class ChemMaster : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
 	{
 
 		[SerializeField]
