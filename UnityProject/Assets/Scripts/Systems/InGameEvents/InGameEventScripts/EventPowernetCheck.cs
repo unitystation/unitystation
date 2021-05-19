@@ -15,8 +15,10 @@ namespace InGameEvents
 				var text = "Abnormal activity detected in the station's powernet." +
 					"As a precautionary measure, the station's power will be shut off for an indeterminate duration.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
 				// TODO: Play specific announcement message sound instead of generic alert.
+
+				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOffAnnouncement);
 			}
 
 			if (FakeEvent) return;
@@ -37,6 +39,7 @@ namespace InGameEvents
 		{
 			yield return WaitFor.Seconds(Random.Range(30, 120));
 			node.TurnOnSupply();
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOnAnnouncement);
 		}
 	}
 }
