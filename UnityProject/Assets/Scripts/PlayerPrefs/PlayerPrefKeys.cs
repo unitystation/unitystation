@@ -90,4 +90,9 @@
 	/// Play sound when character name mentioned in chat
 	/// <summary>
 	public static string MentionSound = "MentionSound";
+
+	/// <summary>
+	/// Index of the selected mention sound
+	/// <summary>
+	public static string MentionSoundIndex = "MentionSoundIndex";
 }
