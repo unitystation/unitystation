@@ -176,7 +176,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		EnsureInit();
 		this.isLayingDown = isDown;
 
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.IsHeadless == false)
 		{
 			HandleGetupAnimation(isDown == false);
 		}
@@ -210,11 +210,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	{
 		if (getUp == false && networkedLean.Target.rotation.z > -90)
 		{
-			networkedLean.RpcRotateGameObject(new Vector3(0, 0, -90), 0.15f);
+			networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f);
 		}
 		else if (getUp == true && networkedLean.Target.rotation.z < 90)
 		{
-			networkedLean.RpcRotateGameObject(new Vector3(0, 0, 0), 0.19f);
+			networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f);
 		}
 	}
 

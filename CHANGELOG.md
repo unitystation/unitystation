@@ -2,6 +2,12 @@
 ---
 
 
+* 2021/5/19: Adds Science Department Circuit Imprinter into Science Circuits Room by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)
+* 2021/5/19: Access overrides that old doors had in UnrealStation have been set for DoorsV2, plus a few on the side by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)
+* 2021/5/19: DoorsV2 in UnrealStation have been linked to APCs by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)
+* 2021/5/19: Sets default access on old AccessRestrictions components of New Doors V2 airlocks by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)
+* 2021/5/19: Exchanged old xxxDoor objects in UnrealStation with DoorV2 Prefabs by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)
+* 2021/5/19: [Improvement] Oxygen tank in UI will now show oxygen amount by [ThatDan123](https://github.com/ThatDan123) in PR #[6541](https://github.com/unitystation/unitystation/pull/6541)
 * 2021/5/17: Reflective blob can now reflect lasers, however is still damaged by them so will still eventually die to continuous lasers by [ThatDan123](https://github.com/ThatDan123) in PR #[6543](https://github.com/unitystation/unitystation/pull/6543)
 * 2021/5/17: Fixes Corgis, cats and the chestburster mob having more than one mob AI causing them to break by [ThatDan123](https://github.com/ThatDan123) in PR #[6545](https://github.com/unitystation/unitystation/pull/6545)
 * 2021/5/17: Adds max drunk time of 2 mins by [ThatDan123](https://github.com/ThatDan123) in PR #[6544](https://github.com/unitystation/unitystation/pull/6544)

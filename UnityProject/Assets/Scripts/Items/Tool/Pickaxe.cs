@@ -31,7 +31,6 @@ namespace Items
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-
 			var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 			var wallTile = interactableTiles.MetaTileMap.GetTileAtWorldPos(interaction.WorldPositionTarget, LayerType.Walls) as BasicTile;
 			var calculatedMineTime = wallTile.MiningTime * timeMultiplier;
