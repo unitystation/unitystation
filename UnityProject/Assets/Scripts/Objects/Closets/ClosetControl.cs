@@ -262,7 +262,7 @@ namespace Objects
 		/// <summary>
 		/// Spawns the initial contents when needed, not always on game start so that theres less game objects
 		/// </summary>
-		private void TrySpawnContents(bool hideContents = false)
+		public void TrySpawnContents(bool hideContents = false)
 		{
 			if(contentsSpawned) return;
 			contentsSpawned = true;

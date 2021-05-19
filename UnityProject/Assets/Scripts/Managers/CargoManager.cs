@@ -237,39 +237,17 @@ namespace Systems.Cargo
 			var storage = item.GetComponent<InteractableStorage>();
 			if (storage)
 			{
+				//Check to spawn initial contents, cant just use prefab data due to recursion
+				if (storage.ItemStorage.ContentsSpawned == false)
+				{
+					storage.ItemStorage.TrySpawnContents();
+				}
+
 				foreach (var slot in storage.ItemStorage.GetItemSlots())
 				{
 					if (slot.Item)
 					{
 						ProcessCargo(slot.Item.GetComponent<PushPull>(), alreadySold);
-					}
-				}
-
-				//Check unspawned items just in case
-				//We dont spawn them to check just go through their data
-				if (storage.ItemStorage.ContentsSpawned == false)
-				{
-					if (storage.ItemStorage.ItemStoragePopulator != null)
-					{
-						if (storage.ItemStorage.ItemStoragePopulator is IndexedStoragePopulator storagePopulator)
-						{
-							foreach (var unspawnedItem in storagePopulator.Content)
-							{
-								if(unspawnedItem.TryGetComponent<PushPull>(out var pushPull) == false) continue;
-
-								ProcessCargo(pushPull, alreadySold);
-							}
-						}
-					}
-
-					if (storage.ItemStorage.Populater != null)
-					{
-						foreach (var unspawnedItem in storage.ItemStorage.Populater.Contents)
-						{
-							if(unspawnedItem.TryGetComponent<PushPull>(out var pushPull) == false) continue;
-
-							ProcessCargo(pushPull, alreadySold);
-						}
 					}
 				}
 			}
@@ -282,21 +260,15 @@ namespace Systems.Cargo
 			var closet = item.GetComponent<ClosetControl>();
 			if (closet)
 			{
+				//Check to spawn initial contents, cant just use prefab data due to recursion
+				if (closet.ContentsSpawned == false && closet.InitialContents != null)
+				{
+					closet.TrySpawnContents(true);
+				}
+
 				foreach (var closetItem in closet.ServerHeldItems)
 				{
 					ProcessCargo(closetItem, alreadySold);
-				}
-
-				//Check unspawned items just in case
-				//We dont spawn them to check just go through their data
-				if (closet.ContentsSpawned == false && closet.InitialContents != null)
-				{
-					foreach (var unspawnedItem in closet.InitialContents.Contents)
-					{
-						if(unspawnedItem.TryGetComponent<PushPull>(out var pushPull) == false) continue;
-
-						ProcessCargo(pushPull, alreadySold);
-					}
 				}
 			}
 
@@ -371,9 +343,9 @@ namespace Systems.Cargo
 
 		private void DespawnItem(PushPull item, HashSet<GameObject> alreadySold)
 		{
+			alreadySold.Add(item.gameObject);
 			item.registerTile.UnregisterClient();
 			item.registerTile.UnregisterServer();
-			alreadySold.Add(item.gameObject);
 			_ = Despawn.ServerSingle(item.gameObject);
 		}
 

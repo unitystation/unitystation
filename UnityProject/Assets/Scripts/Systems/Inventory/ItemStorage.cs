@@ -101,7 +101,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 	}
 
-	private void TrySpawnContents()
+	public void TrySpawnContents()
 	{
 		if(contentsSpawned || spawnInfo == null) return;
 		contentsSpawned = true;
