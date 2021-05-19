@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Electricity;
 using AddressableReferences;
+using Audio.Containers;
 using Items;
 using Machines;
 using Messages.Server.SoundMessages;
@@ -24,7 +25,7 @@ namespace Objects.Kitchen
 		private const float DIRTY_CHANCE_PER_FINISH = 10; // Percent
 
 		[SerializeField]
-		private AddressableAudioSource doorSFX = null; // SFX the microwave door should make when opening/closing.
+		private AudioClipsArray doorSFX = null; // SFX the microwave door should make when opening/closing.
 
 		[SerializeField]
 		private AddressableAudioSource timerBeepSFX = null; // Beep to play when timer time is added/removed.
@@ -41,7 +42,9 @@ namespace Objects.Kitchen
 
 		[SerializeField]
 		[Tooltip("The looped audio source to play while the microwave is running.")]
-		private AudioSource RunningAudio = default;
+		private AddressableAudioSource RunningAudio = default;
+
+		private string runLoopGUID = "";
 
 		[SerializeField]
 		[Tooltip("Child GameObject that is responsible for the screen glow.")]
@@ -215,13 +218,11 @@ namespace Objects.Kitchen
 			{
 				storedCookable = cookable;
 			}
-
-			SoundManager.PlayNetworkedAtPos(doorSFX, WorldPosition, sourceObj: gameObject);
 		}
 
 		private void OpenMicrowaveAndEjectContents()
 		{
-			SoundManager.PlayNetworkedAtPos(doorSFX, WorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(doorSFX.GetRandomClip(), WorldPosition, sourceObj: gameObject);
 
 			Vector2 spritePosWorld = spriteHandler.transform.position;
 			Vector2 microwaveInteriorCenterAbs = spritePosWorld + new Vector2(-0.075f, -0.075f);
@@ -343,7 +344,7 @@ namespace Objects.Kitchen
 			}
 			else
 			{
-				RunningAudio.Stop();
+				SoundManager.Stop(runLoopGUID);
 			}
 		}
 
@@ -353,7 +354,11 @@ namespace Objects.Kitchen
 			yield return WaitFor.Seconds(0.25f);
 
 			// Check to make sure the state hasn't changed in the meantime.
-			if (playAudioLoop) RunningAudio.Play();
+			if (playAudioLoop)
+			{
+				runLoopGUID = Guid.NewGuid().ToString();
+				SoundManager.PlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, runLoopGUID);
+			}
 		}
 
 		#region LegacyCode
@@ -500,6 +505,8 @@ namespace Objects.Kitchen
 
 			public override void DoorInteraction(ItemSlot fromSlot)
 			{
+				SoundManager.PlayNetworkedAtPos(microwave.doorSFX.GetRandomClip(), microwave.WorldPosition, sourceObj: microwave.gameObject);
+
 				// Close if nothing's in hand.
 				if (fromSlot == null || fromSlot.Item == null)
 				{

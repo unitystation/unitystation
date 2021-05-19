@@ -61,6 +61,28 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 70b5962f5e3ee5040b09428420050f19, type: 2}
   - {fileID: 11400000, guid: 32f7d89934e37324497a5fc40ea23abb, type: 2}
   - {fileID: 11400000, guid: 2c89deeb0117b0f429dc2b0bcec9c770, type: 2}
+  AdminGhostSpriteSOs:
+  - {fileID: 11400000, guid: 0b606fd8ea319b845883c7809260ffee, type: 2}
+  - {fileID: 11400000, guid: 886e8d1ce21e3b946bf409a585f1fa93, type: 2}
+  - {fileID: 11400000, guid: a5224bb14a0887b49b1ff3709e32157d, type: 2}
+  - {fileID: 11400000, guid: 359f45db0a4dbc54dbedb9e5831ebb86, type: 2}
+  - {fileID: 11400000, guid: d077e9ada63554e49ab096846f2e37aa, type: 2}
+  - {fileID: 11400000, guid: 4ae88ade952b2fb478d2532a77447598, type: 2}
+  - {fileID: 11400000, guid: ed7dd70943d433146ae624719c58066a, type: 2}
+  - {fileID: 11400000, guid: 58018852d88a07d4ca0319d72e66eaae, type: 2}
+  - {fileID: 11400000, guid: 87308eee93a1a0244bbc319608ad09e8, type: 2}
+  - {fileID: 11400000, guid: 49aa670c4a38a0d4f917eff7e0a82731, type: 2}
+  - {fileID: 11400000, guid: fa6cfa7b93b1e7c419803d2ca3c54128, type: 2}
+  - {fileID: 11400000, guid: f540a775bfc283048881bfd5cb5eb769, type: 2}
+  - {fileID: 11400000, guid: 6e49e1857b0014d4192f3fb51015be47, type: 2}
+  - {fileID: 11400000, guid: 88c375a79e3d5ed439a1fa919bdea846, type: 2}
+  - {fileID: 11400000, guid: 3948457dd1a13d240b4a6f7937f6f6e7, type: 2}
+  - {fileID: 11400000, guid: e566801ed5f94c844af8f8bacd77aac6, type: 2}
+  - {fileID: 11400000, guid: 856373f5c2b367b4e8358cd4706ff011, type: 2}
+  - {fileID: 11400000, guid: 921d88f4de76a944da149400edb28f99, type: 2}
+  - {fileID: 11400000, guid: 6da12c611a9603342a0bc08610922d0a, type: 2}
+  - {fileID: 11400000, guid: 34b0ec96724860849978e507b3908535, type: 2}
+  - {fileID: 11400000, guid: e959dcdd4da6a7d448d387c304a4c253, type: 2}
 --- !u!114 &5316147545403001103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,8 +153,6 @@ MonoBehaviour:
   IsTrapped: 0
   actionData: {fileID: 0}
   moveList: 05000000060000000700000008000000
-  PlayerDirectional: {fileID: 0}
-  pna: {fileID: 0}
   RunSpeed: 10
   WalkSpeed: 10
   CrawlSpeed: 0.8
@@ -152,6 +172,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerMove: {fileID: 3920682320074774566}
+  playerScript: {fileID: 0}
+  Step: 0
 --- !u!114 &843330595842111116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +190,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  networkedLean: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +241,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &8224268276445300722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &6663514336625432320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,7 +355,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1066465801
-  m_SortingLayer: 29
+  m_SortingLayer: 30
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8e3c8ab1b638f444a23fdb839a9dc00, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

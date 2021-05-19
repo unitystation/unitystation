@@ -525,6 +525,12 @@ public class MouseInputController : MonoBehaviour
 		if (PlayerManager.PlayerScript.IsGhost ||
 		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+
+		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
+		{
+			clickedObject = networkedMatrix.MatrixSync.gameObject;
+		}
+
 		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 
@@ -542,6 +548,11 @@ public class MouseInputController : MonoBehaviour
 
 		//Shift clicking on space created NRE
 		if (!clickedObject) return;
+
+		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
+		{
+			clickedObject = networkedMatrix.MatrixSync.gameObject;
+		}
 
 		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId, MouseWorldPosition);
 	}

@@ -1,5 +1,6 @@
 using Mirror;
 using Player;
+using Shuttles;
 using UnityEngine;
 
 namespace Messages.Client.Interaction
@@ -28,6 +29,13 @@ namespace Messages.Client.Interaction
 			LoadNetworkObject(netMsg.examineTarget);
 
 			if (NetworkObject == null) return;
+
+			//If we are looking for matrix we use the matrix sync Id so we need to point back to the matrix
+			if (NetworkObject.TryGetComponent<MatrixSync>(out var matrixSync))
+			{
+				NetworkObject = matrixSync.NetworkedMatrix.gameObject;
+			}
+
 			// Here we build the message to send, by looking at the target's components.
 			// anyone extending IExaminable gets a say in it.
 			// Look for examinables.
