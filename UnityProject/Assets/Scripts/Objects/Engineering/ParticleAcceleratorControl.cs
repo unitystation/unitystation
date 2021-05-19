@@ -129,7 +129,7 @@ namespace Objects.Engineering
 		private void ShootParticleAccelerator()
 		{
 			var damageIntegrity = particleAcceleratorBulletPrefab.GetComponent<ProjectileDamageIntegrity>();
-			damageData.SetDamage(10 * ((int)CurrentState - 3));
+			damageData.SetDamage(10 * ((int)CurrentState - 2));
 			damageIntegrity.damageData = damageData;
 
 			foreach (var connectedPart in connectedParts)
