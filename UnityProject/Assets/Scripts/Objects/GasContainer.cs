@@ -7,7 +7,7 @@ using Systems.Explosions;
 namespace Objects.Atmospherics
 {
 	[RequireComponent(typeof(Integrity))]
-	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn
+	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
@@ -38,10 +38,22 @@ namespace Objects.Atmospherics
 
 		private bool gasIsInitialised = false;
 
+		private Pickupable pickupable;
+
+		[SyncVar]
+		//Only updated and valid for canisters inside the players inventory!!!
+		//How full the tank is
+		private float fullPercentageClient = 0;
+		public float FullPercentageClient => fullPercentageClient;
+		
+		//Valid serverside only
+		public float FullPercentage => GasMix.Moles / MaximumMoles;
+
 		#region Lifecycle
 
 		private void Awake()
 		{
+			pickupable = GetComponent<Pickupable>();
 			integrity = GetComponent<Integrity>();
 		}
 
@@ -58,6 +70,7 @@ namespace Objects.Atmospherics
 		private void OnDisable()
 		{
 			integrity.OnApplyDamage.RemoveListener(OnServerDamage);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
 		}
 
 		private void OnServerDamage(DamageInfo info)
@@ -70,6 +83,27 @@ namespace Objects.Atmospherics
 		}
 
 		#endregion Lifecycle
+
+		// Needed for the internals tank on the player UI, to know oxygen gas percentage
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			//If going to a player start loop
+			if (info.ToPlayer != null && info.ToSlot != null)
+			{
+				UpdateManager.Add(UpdateLoop, 1f);
+				return;
+			}
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
+		}
+
+		//Serverside only update loop, runs every second, started when canister goes into players inventory
+		private void UpdateLoop()
+		{
+			if(pickupable.ItemSlot == null) return;
+
+			fullPercentageClient = FullPercentage;
+		}
 
 		[Server]
 		private void ExplodeContainer()
