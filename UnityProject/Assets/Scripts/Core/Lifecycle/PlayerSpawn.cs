@@ -316,6 +316,11 @@ public static class PlayerSpawn
 		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab,
 			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
+
+		if (PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer))
+		{
+			ghost.GetComponent<GhostSprites>().SetAdminGhost();
+		}
 	}
 
 	/// <summary>
