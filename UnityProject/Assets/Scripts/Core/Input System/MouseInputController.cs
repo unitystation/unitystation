@@ -549,6 +549,11 @@ public class MouseInputController : MonoBehaviour
 		//Shift clicking on space created NRE
 		if (!clickedObject) return;
 
+		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
+		{
+			clickedObject = networkedMatrix.MatrixSync.gameObject;
+		}
+
 		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId, MouseWorldPosition);
 	}
 
