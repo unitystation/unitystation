@@ -13,18 +13,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMaster: {fileID: 0}
-  RelatedPresentSprites: []
   Storage: {fileID: 2719098251223779414}
   BodyPartType: 0
   containBodyParts: []
-  efficiency: 1
   isDimorphic: 0
+  Root: {fileID: 0}
+  ContainedIn: {fileID: 0}
   BodyTypesSprites:
     SpriteOrder:
       Orders: 00000000000000000000000000000000
     BodyTypes: []
-  Root: {fileID: 0}
-  ContainedIn: {fileID: 0}
+  RelatedPresentSprites: []
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   BodySpriteSet: 0
@@ -32,17 +31,23 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 0
-  SurgeryProcedureBase: []
-  isBloodReagentConsumed: 1
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  bloodReagentConsumed: 0.000020
-  bloodThroughput: 0.015
-  NutrimentConsumption: 0.02
-  NutrimentPassiveConsumption: 0.001
-  BloodContainer: {fileID: 0}
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  ClothingHide: 0
+  efficiency: 1
   TotalModified: 1
-  BodyPartArmour:
+  SurgeryProcedureBase: []
+  isBloodCirculated: 1
+  isBloodReagentConsumed: 1
+  bloodType: {fileID: 0}
+  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  wasteReagent: {fileID: 0}
+  BloodContainer: {fileID: 0}
+  bloodReagentConsumed: 0.00002
+  bloodThroughput: 0.015
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+  PassiveConsumptionNutriment: 0.0005
+  ConsumptionNutriment: 0.002
+  ReagentMetabolism: 0.2
+  SelfArmor:
     Melee: 0
     Bullet: 0
     Laser: 0
@@ -68,6 +73,7 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 1
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
+  Severity: 50
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +91,8 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
+  dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     MergeMode: 0
@@ -111,11 +119,13 @@ MonoBehaviour:
   transferAmount: 20
   maxCapacity: 0.5
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
+  AdditionalReactions: []
   initialReagentMix:
     temperature: 273.15
     reagents:
       m_keys: []
       m_values: []
+    reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
 --- !u!1001 &1164032867585741730

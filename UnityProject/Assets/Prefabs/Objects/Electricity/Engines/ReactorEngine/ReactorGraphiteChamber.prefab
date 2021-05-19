@@ -18,6 +18,12 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: 572919feded9e5a4c8717df84f50a1f9,
     type: 2}
+  forceSpawnContents: 1
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &3033393858997830747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,6 +46,7 @@ MonoBehaviour:
   transferAmount: 20
   maxCapacity: 100
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  AdditionalReactions: []
   initialReagentMix:
     temperature: 293.15
     reagents:
@@ -47,7 +54,9 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
       m_values:
       - 100
+    reagentKeys: []
   destroyOnEmpty: 0
+  ContentsSet: 0
 --- !u!114 &4059444369323570419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +92,12 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 69ef7b1db5d33c745ba16111eab46404,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &5478961262237790931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +141,7 @@ MonoBehaviour:
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
         Gases:
         - 0
@@ -293,6 +309,11 @@ PrefabInstance:
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: Passable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialPassable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,

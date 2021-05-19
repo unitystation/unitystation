@@ -24,6 +24,7 @@ namespace Objects
 				 " locker spawns.")]
 		[SerializeField]
 		private SpawnableList initialContents = null;
+		public SpawnableList InitialContents => initialContents;
 
 		[Tooltip("If this has initial contents, should it spawn on round start rather than first open?")]
 		[SerializeField]
@@ -178,6 +179,7 @@ namespace Objects
 
 		//This is used so that contents are only spawned when first opened to reduce the amount of gameobjects
 		private bool contentsSpawned;
+		public bool ContentsSpawned => contentsSpawned;
 
 		private Matrix Matrix => registerTile.Matrix;
 		private PushPull PushPull {
@@ -260,7 +262,7 @@ namespace Objects
 		/// <summary>
 		/// Spawns the initial contents when needed, not always on game start so that theres less game objects
 		/// </summary>
-		private void TrySpawnContents(bool hideContents = false)
+		public void TrySpawnContents(bool hideContents = false)
 		{
 			if(contentsSpawned) return;
 			contentsSpawned = true;

@@ -46,7 +46,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	         " invoke Populate to manually / dynamically populate this storage using a supplied populator." +
 	         " This will only run server side.")]
 	private ItemStoragePopulator itemStoragePopulator = null;
+	public ItemStoragePopulator ItemStoragePopulator => itemStoragePopulator;
 
+	[Tooltip("Force spawn contents at round start rather than first open")]
+	public bool forceSpawnContents;
+
+	private bool contentsSpawned;
+	public bool ContentsSpawned => contentsSpawned;
 	/// <summary>
 	/// Cached for quick lookup of what slots are actually available in this storage.
 	/// </summary>
@@ -71,6 +77,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	[ShowIf(nameof(UesAddlistPopulater))] public PrefabListPopulater Populater;
 
+	private SpawnInfo spawnInfo;
+
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -79,16 +87,29 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(info));
-		if (UesAddlistPopulater)
+		spawnInfo = info;
+
+		if (forceSpawnContents)
 		{
-			ServerPopulate(Populater, PopulationContext.AfterSpawn(info));
+			TrySpawnContents();
 		}
 
 		//if this is a player's inventory, make them an observer of all slots
 		if (GetComponent<PlayerScript>() != null)
 		{
 			ServerAddObserverPlayer(gameObject);
+		}
+	}
+
+	public void TrySpawnContents()
+	{
+		if(contentsSpawned || spawnInfo == null) return;
+		contentsSpawned = true;
+
+		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo));
+		if (UesAddlistPopulater)
+		{
+			ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo));
 		}
 	}
 
@@ -105,7 +126,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		//reclaim the space in the slot pool.
 		ItemSlot.Free(this);
 	}
-	
+
 
 	public bool ServerTrySpawnAndAdd(GameObject inGameObject)
 	{
@@ -544,6 +565,9 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerAddObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+
+		TrySpawnContents();
+
 		serverObserverPlayers.Add(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{

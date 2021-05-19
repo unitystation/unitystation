@@ -809,7 +809,6 @@ MonoBehaviour:
   syncInterval: 0.1
   playerName: ' '
   visibleName: ' '
-  PlayerEffectsManager: {fileID: 3630805124815489162}
   RTT: 0
   RcsMode: 0
   IsPlayerSemiGhost: 0
@@ -825,7 +824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b405755a3db467098b2349af2167119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RaceTexture: {fileID: 11400000, guid: 246903de1c8e6a5458d029144461c26e, type: 2}
+  RaceBodyparts: {fileID: 0}
   partialBurningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
     type: 3}
   engulfedBurningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
@@ -833,6 +832,8 @@ MonoBehaviour:
   electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
     type: 3}
   muzzleFlash: {fileID: 114824170203619628}
+  BodyParts: {fileID: 0}
+  livingHealthMasterBase: {fileID: 0}
   characterSprites:
   - {fileID: 114119110819432540}
   - {fileID: 114780271975595452}
@@ -847,6 +848,11 @@ MonoBehaviour:
   - {fileID: 114341362304352952}
   - {fileID: 6015914302054547211}
   - {fileID: 5499776427588436788}
+  ToInstantiateSpriteCustomisation: {fileID: 0}
+  CustomisationSprites: {fileID: 0}
+  InternalNetIDs: 
+  RootBodyPartsLoaded: 0
+  OverlaySprites: {fileID: 0}
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,8 +919,6 @@ MonoBehaviour:
   IsTrapped: 0
   actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   moveList: 05000000060000000700000008000000
-  PlayerDirectional: {fileID: 0}
-  pna: {fileID: 0}
   RunSpeed: 6
   WalkSpeed: 3
   CrawlSpeed: 0.8
@@ -951,8 +955,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
-  canBreathAnywhere: 0
-  cloningDamage: 0
+  canBreatheAnywhere: 0
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
@@ -974,8 +977,6 @@ MonoBehaviour:
   - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
   - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
   - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  RTT: 0
-  RadiationStacks: 0
   SmallElectricShock:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/wiring/SmallElectricShock2.prefab
@@ -1016,7 +1017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  KnifeTrait: {fileID: 0}
+  meleeSounds: []
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1033,6 +1034,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  networkedLean: {fileID: 0}
 --- !u!114 &114803877374308862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1133,14 +1135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &6017414943583453005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,6 +1197,7 @@ MonoBehaviour:
   ignoreExtraRotation:
   - {fileID: 6181912184805047133}
   - {fileID: 7738600164250170309}
+  RotateParent: {fileID: 0}
 --- !u!114 &4111832278435019773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1254,7 +1249,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &441872716838640463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,6 +1270,12 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: 4c48a40375c1b43718c78eee5582051a,
     type: 2}
+  forceSpawnContents: 1
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &4171332437423579703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1328,6 +1331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &4174611152458090807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,7 +1389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d675f20bb354d4b8d5e20051f2f2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
   sicknessAfflictions: []
 --- !u!114 &8325930460559460490
 MonoBehaviour:
@@ -9316,7 +9320,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9611,13 +9614,6 @@ MonoBehaviour:
   - {fileID: 7057434370678830746, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   - {fileID: 6543762784068199679, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   spriteRend: {fileID: 6479668554434910921}
-  restraintRemovalSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Handcuffs.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   actionData: {fileID: 11400000, guid: 82e905f8f9e96df499feb90ee421b2ee, type: 2}
 --- !u!1 &5415306199211915668
 GameObject:
@@ -9907,8 +9903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94d325b8fa17d3b43a314cb8add77f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effects:
-  - {fileID: 8193364895669422671}
 --- !u!114 &5041796478201218459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9924,7 +9918,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &1246368822881062335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9939,8 +9935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isAnim: 0
-  target: {fileID: 4962232741225816}
+  Target: {fileID: 0}
 --- !u!114 &8193364895669422671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9955,7 +9950,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  originalPosition: {x: 0, y: 0, z: 0}
   axisMode: 0
   animType: 0
   spriteReference: {fileID: 4962232741225816}
