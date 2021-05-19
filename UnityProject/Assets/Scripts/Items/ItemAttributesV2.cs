@@ -20,6 +20,7 @@ namespace Items
 		[SerializeField]
 		[Tooltip("Initial traits of this item on spawn.")]
 		private List<ItemTrait> initialTraits = null;
+		public List<ItemTrait> InitialTraits => initialTraits;
 
 		/// <summary>
         /// Sizes:
