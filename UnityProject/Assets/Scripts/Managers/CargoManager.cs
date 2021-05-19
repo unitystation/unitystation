@@ -244,6 +244,34 @@ namespace Systems.Cargo
 						ProcessCargo(slot.Item.GetComponent<PushPull>(), alreadySold);
 					}
 				}
+
+				//Check unspawned items just in case
+				//We dont spawn them to check just go through their data
+				if (storage.ItemStorage.ContentsSpawned == false)
+				{
+					if (storage.ItemStorage.ItemStoragePopulator != null)
+					{
+						if (storage.ItemStorage.ItemStoragePopulator is IndexedStoragePopulator storagePopulator)
+						{
+							foreach (var unspawnedItem in storagePopulator.Content)
+							{
+								if(unspawnedItem.TryGetComponent<PushPull>(out var pushPull) == false) continue;
+
+								ProcessCargo(pushPull, alreadySold);
+							}
+						}
+					}
+
+					if (storage.ItemStorage.Populater != null)
+					{
+						foreach (var unspawnedItem in storage.ItemStorage.Populater.Contents)
+						{
+							if(unspawnedItem.TryGetComponent<PushPull>(out var pushPull) == false) continue;
+
+							ProcessCargo(pushPull, alreadySold);
+						}
+					}
+				}
 			}
 
 			// note: it seems the held items are also detected in UnloadCargo as being on the matrix but only
@@ -257,6 +285,18 @@ namespace Systems.Cargo
 				foreach (var closetItem in closet.ServerHeldItems)
 				{
 					ProcessCargo(closetItem, alreadySold);
+				}
+
+				//Check unspawned items just in case
+				//We dont spawn them to check just go through their data
+				if (closet.ContentsSpawned == false && closet.InitialContents != null)
+				{
+					foreach (var unspawnedItem in closet.InitialContents.Contents)
+					{
+						if(unspawnedItem.TryGetComponent<PushPull>(out var pushPull) == false) continue;
+
+						ProcessCargo(pushPull, alreadySold);
+					}
 				}
 			}
 

@@ -46,12 +46,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	         " invoke Populate to manually / dynamically populate this storage using a supplied populator." +
 	         " This will only run server side.")]
 	private ItemStoragePopulator itemStoragePopulator = null;
+	public ItemStoragePopulator ItemStoragePopulator => itemStoragePopulator;
 
 	[Tooltip("Force spawn contents at round start rather than first open")]
 	public bool forceSpawnContents;
 
 	private bool contentsSpawned;
-
+	public bool ContentsSpawned => contentsSpawned;
 	/// <summary>
 	/// Cached for quick lookup of what slots are actually available in this storage.
 	/// </summary>

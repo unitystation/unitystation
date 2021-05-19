@@ -28,6 +28,7 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 	[Tooltip("Prefabs to spawn in each indexed storage slot (index in list corresponds" +
 	         " to slot index that it will populate).")]
 	private GameObject[] Contents = null;
+	public GameObject[] Content => Contents;
 
 
 	[SerializeField] [Tooltip("What to do if the storage already has an item in a particular slot.")]
@@ -55,7 +56,7 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 			if (slot == null)
 			{
 				Logger.LogErrorFormat("Storage {0} does not have a slot with index {1}. Please ensure" +
-				                      " the Contents don't exceed the number of slots in the ItemStorage.", 
+				                      " the Contents don't exceed the number of slots in the ItemStorage.",
 									  Category.EntitySpawn, toPopulate, i);
 				return;
 			}
