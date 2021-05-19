@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 25
+  m_SortingLayer: 24
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -104,6 +104,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef6303a1b3b0ec4489e8f87ef315efd5, type: 2}
   - {fileID: 11400000, guid: bc54afa99f62d904c99dbc6717cebd88, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -184,7 +185,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 25
+  m_SortingLayer: 24
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -217,6 +218,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6ccaabd067e953b4bb15d6ef7d52bfb4, type: 2}
   - {fileID: 11400000, guid: b6d6f712350769a4d95a3f16a0bfff85, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -303,7 +305,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 25
+  m_SortingLayer: 24
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7ed6c63d31819bb40865c4b3375f1562, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -335,6 +337,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed2bceb5885409445b9a3003e6ca5974, type: 2}
   - {fileID: 11400000, guid: 86765f96f3bed7040b551fd59e73639a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -409,7 +412,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 25
+  m_SortingLayer: 24
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -442,6 +445,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 419fe08d5f0fb3645a4a462a81d1790f, type: 2}
   - {fileID: 11400000, guid: 73deda64c14a4434b83b7c7fa7174574, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -516,7 +520,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 25
+  m_SortingLayer: 24
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -546,6 +550,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: c3c73697d5b82ab489b6fc447e168c0a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -626,7 +631,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 25
+  m_SortingLayer: 24
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -658,6 +663,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 33d529e39f8f7104ebbfc376e4cc7622, type: 2}
   - {fileID: 11400000, guid: 12139cf587da66641bc1724a279fff4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -736,6 +742,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pryTime: 4.5
+  prySound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/DoorPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &934849774931252631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,6 +871,7 @@ MonoBehaviour:
   ignorePassableChecks: 0
   maxTimeOpen: 5
   blockAutoClose: 0
+  isWindowedDoor: 0
 --- !u!1001 &3511082394880060143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -872,15 +886,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d4876cebf57c42f4d925346f7a7005d5,
         type: 2}
+    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]

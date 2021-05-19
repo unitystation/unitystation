@@ -355,7 +355,7 @@ MonoBehaviour:
   syncInterval: 0.1
   RunningAudio:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Machines/Juicer.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -390,7 +390,6 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
     type: 2}
   itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
