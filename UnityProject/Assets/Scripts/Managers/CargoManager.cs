@@ -324,6 +324,12 @@ namespace Systems.Cargo
 			{
 				foreach (var itemTrait in itemAttributes.GetTraits())
 				{
+					if (itemTrait == null)
+					{
+						Logger.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
+						continue;
+					}
+
 					count = TryCompleteBounty(itemTrait, count);
 					if (count == 0)
 					{
