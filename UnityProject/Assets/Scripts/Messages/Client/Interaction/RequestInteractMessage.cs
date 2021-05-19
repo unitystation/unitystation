@@ -584,6 +584,12 @@ namespace Messages.Client.Interaction
 
 		private static uint GetNetId(GameObject objectNetIdWanted)
 		{
+			//If object null, which is allowed, send invalid
+			if (objectNetIdWanted == null)
+			{
+				return NetId.Invalid;
+			}
+
 			//If this gameobject has a net id we want that one
 			if (objectNetIdWanted.TryGetComponent<NetworkIdentity>(out var net))
 			{
@@ -601,7 +607,7 @@ namespace Messages.Client.Interaction
 
 				return netMatrix.MatrixSync.netId;
 			}
-
+			
 			Logger.LogError($"Failed to find netId for {objectNetIdWanted.name}");
 
 			return NetId.Invalid;
