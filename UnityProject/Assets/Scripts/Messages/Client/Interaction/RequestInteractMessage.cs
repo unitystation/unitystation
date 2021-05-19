@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mirror;
+using Shuttles;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 
 namespace Messages.Client.Interaction
@@ -146,6 +148,9 @@ namespace Messages.Client.Interaction
 				});
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
+				CheckMatrixSync(ref targetObj);
+				CheckMatrixSync(ref processorObj);
+
 				var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot, Intent, TargetBodyPart);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
@@ -159,6 +164,9 @@ namespace Messages.Client.Interaction
 				});
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
+				CheckMatrixSync(ref targetObj);
+				CheckMatrixSync(ref processorObj);
+
 				var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent, IsAltUsed);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
@@ -169,6 +177,8 @@ namespace Messages.Client.Interaction
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadNetworkObject(ProcessorObject);
 				var processorObj = NetworkObject;
+				CheckMatrixSync(ref processorObj);
+
 				var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
@@ -177,9 +187,13 @@ namespace Messages.Client.Interaction
 				LoadMultipleObjects(new uint[]{UsedObject,
 					TargetObject, ProcessorObject
 				});
+
 				var usedObj = NetworkObjects[0];
 				var targetObj = NetworkObjects[1];
 				var processorObj = NetworkObjects[2];
+				CheckMatrixSync(ref targetObj);
+				CheckMatrixSync(ref processorObj);
+
 				var interaction = MouseDrop.ByClient(performer, usedObj, targetObj, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
@@ -188,6 +202,8 @@ namespace Messages.Client.Interaction
 				LoadNetworkObject(ProcessorObject);
 
 				var processorObj = NetworkObject;
+				CheckMatrixSync(ref processorObj);
+
 				var performerObj = SentByPlayer.GameObject;
 				//look up item in active hand slot
 				var clientStorage = SentByPlayer.Script.ItemStorage;
@@ -204,6 +220,7 @@ namespace Messages.Client.Interaction
 				var processorObj = NetworkObjects[0];
 				var usedObj = NetworkObjects[1];
 				var storageObj = NetworkObjects[2];
+				CheckMatrixSync(ref processorObj);
 
 				ItemSlot targetSlot = null;
 				if (SlotIndex == -1)
@@ -235,6 +252,8 @@ namespace Messages.Client.Interaction
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadNetworkObject(ProcessorObject);
 				var processorObj = NetworkObject;
+				CheckMatrixSync(ref processorObj);
+
 				processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
 					TargetVector, processorObj, usedSlot, usedObject, Intent,
 					TileApply.ApplyType.HandApply);
@@ -247,6 +266,8 @@ namespace Messages.Client.Interaction
 
 				var usedObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
+				CheckMatrixSync(ref processorObj);
+
 				processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
 					TargetVector, processorObj, null, usedObj, Intent,
 					TileApply.ApplyType.MouseDrop);
@@ -262,6 +283,9 @@ namespace Messages.Client.Interaction
 				});
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
+				CheckMatrixSync(ref targetObj);
+				CheckMatrixSync(ref processorObj);
+
 				var interaction = ConnectionApply.ByClient(performer, usedObject, targetObj, connectionPointA, connectionPointB, TargetVector, usedSlot, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
@@ -272,9 +296,20 @@ namespace Messages.Client.Interaction
 				var usedObj = clientStorage.GetActiveHandSlot().ItemObject;
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
+				CheckMatrixSync(ref targetObj);
+				CheckMatrixSync(ref processorObj);
 
 				var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
+			}
+		}
+
+		private void CheckMatrixSync(ref GameObject toCheck)
+		{
+			//If it is a matrix sync, then grab the top level matrix instead as that is what we want
+			if (toCheck != null && toCheck.GetComponent<MatrixSync>() != null)
+			{
+				toCheck = toCheck.transform.parent.gameObject;
 			}
 		}
 
@@ -440,20 +475,20 @@ namespace Messages.Client.Interaction
 			{
 				ComponentType = interactableComponent == null ? null : interactableComponent.GetType(),
 				InteractionType = typeof(T),
-				ProcessorObject = comp == null ? NetId.Invalid : comp.GetComponent<NetworkIdentity>().netId,
+				ProcessorObject = comp == null ? NetId.Invalid : GetNetId(comp.gameObject),
 				Intent = interaction.Intent
 			};
 			if (typeof(T) == typeof(PositionalHandApply))
 			{
 				var casted = interaction as PositionalHandApply;
-				msg.TargetObject = casted.TargetObject.NetId();
+				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.TargetVector = casted.TargetVector;
 				msg.TargetBodyPart = casted.TargetBodyPart;
 			}
 			else if (typeof(T) == typeof(HandApply))
 			{
 				var casted = interaction as HandApply;
-				msg.TargetObject = casted.TargetObject.NetId();
+				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.TargetBodyPart = casted.TargetBodyPart;
 				msg.IsAltUsed = casted.IsAltClick;
 			}
@@ -466,8 +501,8 @@ namespace Messages.Client.Interaction
 			else if (typeof(T) == typeof(MouseDrop))
 			{
 				var casted = interaction as MouseDrop;
-				msg.TargetObject = casted.TargetObject.NetId();
-				msg.UsedObject = casted.UsedObject.NetId();
+				msg.TargetObject = GetNetId(casted.TargetObject);
+				msg.UsedObject = GetNetId(casted.UsedObject);
 			}
 			else if (typeof(T) == typeof(InventoryApply))
 			{
@@ -475,13 +510,13 @@ namespace Messages.Client.Interaction
 				msg.Storage = casted.TargetSlot.ItemStorageNetID;
 				msg.SlotIndex = casted.TargetSlot.SlotIdentifier.SlotIndex;
 				msg.NamedSlot = casted.TargetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none);
-				msg.UsedObject = casted.UsedObject.NetId();
+				msg.UsedObject = GetNetId(casted.UsedObject);
 				msg.IsAltUsed = casted.IsAltClick;
 			}
 			else if (typeof(T) == typeof(ConnectionApply))
 			{
 				var casted = interaction as ConnectionApply;
-				msg.TargetObject = casted.TargetObject.NetId();
+				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.TargetVector = casted.TargetVector;
 				msg.connectionPointA = casted.WireEndA;
 				msg.connectionPointB = casted.WireEndB;
@@ -489,7 +524,7 @@ namespace Messages.Client.Interaction
 			else if (typeof(T) == typeof(ContextMenuApply))
 			{
 				var casted = interaction as ContextMenuApply;
-				msg.TargetObject = casted.TargetObject.NetId();
+				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.RequestedOption = casted.RequestedOption;
 			}
 
@@ -518,7 +553,7 @@ namespace Messages.Client.Interaction
 			{
 				ComponentType = typeof(InteractableTiles),
 				InteractionType = typeof(TileApply),
-				ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+				ProcessorObject = GetNetId(interactableTiles.gameObject),
 				Intent = tileApply.Intent,
 				TargetVector = tileApply.TargetVector
 			};
@@ -539,12 +574,43 @@ namespace Messages.Client.Interaction
 			{
 				ComponentType = typeof(InteractableTiles),
 				InteractionType = typeof(TileMouseDrop),
-				ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+				ProcessorObject = GetNetId(interactableTiles.gameObject),
 				Intent = mouseDrop.Intent,
-				UsedObject = mouseDrop.UsedObject.NetId(),
+				UsedObject = GetNetId(mouseDrop.UsedObject),
 				TargetVector = mouseDrop.TargetVector
 			};
 			Send(msg);
+		}
+
+		private static uint GetNetId(GameObject objectNetIdWanted)
+		{
+			//If object null, which is allowed, send invalid
+			if (objectNetIdWanted == null)
+			{
+				return NetId.Invalid;
+			}
+
+			//If this gameobject has a net id we want that one
+			if (objectNetIdWanted.TryGetComponent<NetworkIdentity>(out var net))
+			{
+				return net.netId;
+			}
+
+			//However if it doesnt check to see if its a matrix asking for one, but the net id is on the matrix sync child
+			//So grab that one instead
+			if (objectNetIdWanted.TryGetComponent<NetworkedMatrix>(out var netMatrix))
+			{
+				if (netMatrix.MatrixSync == null)
+				{
+					netMatrix.BackUpSetMatrixSync();
+				}
+
+				return netMatrix.MatrixSync.netId;
+			}
+			
+			Logger.LogError($"Failed to find netId for {objectNetIdWanted.name}");
+
+			return NetId.Invalid;
 		}
 	}
 

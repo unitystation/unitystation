@@ -175,6 +175,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public TransformState PredictedState => predictedState;
 	public TransformState ClientState => clientState;
 
+	private bool waitForId;
+	private bool WaitForMatrixId;
+
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -738,8 +741,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		if (this == null || gameObject == null) return; //sometimes between round restarts a call might be made on an object being destroyed
 
 		//	Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
-		SyncMatrix();
 
+		//Wait for this components id
 		if (TryGetComponent<NetworkIdentity>(out var networkIdentity))
 		{
 			if (networkIdentity.netId == 0)
@@ -748,17 +751,80 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				//this is just to catch multiple 0's
 				//An identity could have a valid id of 0, but since this message is only for net transforms and since the
 				//identities on the managers will get set first, this shouldn't cause any issues.
-				StartCoroutine(IdWait());
+
+				if (waitForId)
+				{
+					waitForId = true;
+					StartCoroutine(IdWait(networkIdentity));
+				}
+
 				return;
 			}
 		}
 
+		//Wait for networked matrix id to init
+		if (serverState.IsUninitialized || matrix.NetworkedMatrix.OrNull()?.MatrixSync.netId == 0)
+		{
+			if (WaitForMatrixId)
+			{
+				WaitForMatrixId = true;
+				StartCoroutine(NetworkedMatrixIdWait());
+			}
+
+			return;
+		}
+
+		SyncMatrix();
+
 		UpdateClientState(clientState, serverState);
 	}
 
-	private IEnumerator IdWait()
+	private IEnumerator IdWait(NetworkIdentity net)
 	{
-		yield return WaitFor.EndOfFrame;
+		while (net.netId == 0)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		waitForId = false;
+
+		NotifyPlayers();
+	}
+
+	private IEnumerator NetworkedMatrixIdWait()
+	{
+		var networkMatrix = matrix.NetworkedMatrix;
+
+		if (networkMatrix == null)
+		{
+			Logger.LogError($"networkMatrix was null on {matrix.gameObject.name}", Category.Matrix);
+			WaitForMatrixId = false;
+			yield break;
+		}
+
+		var matrixSync = networkMatrix.MatrixSync;
+
+		if(matrixSync == null)
+		{
+			networkMatrix.BackUpSetMatrixSync();
+			matrixSync = networkMatrix.MatrixSync;
+
+			if (matrixSync == null)
+			{
+				//Theres a log in BackUpSetMatrixSync which will trigger on fail
+				WaitForMatrixId = false;
+				yield break;
+			}
+		}
+
+		while (matrixSync.netId == 0)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		WaitForMatrixId = false;
+
+		SyncMatrix();
 
 		UpdateClientState(clientState, serverState);
 	}

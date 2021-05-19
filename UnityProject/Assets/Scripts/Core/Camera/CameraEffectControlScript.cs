@@ -15,17 +15,35 @@ namespace CameraEffects
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
 
+		[SerializeField]
+		private int maxDrunkTime = 120;
+
 		private const float TIMER_INTERVAL = 1f;
 		private int drunkCameraTime = 0;
+
+		private void OnEnable()
+		{
+			EventManager.AddHandler(Event.GhostSpawned, OnGhostSpawn);
+		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
+			EventManager.RemoveHandler(Event.GhostSpawned, OnGhostSpawn);
+		}
+
+		private void OnGhostSpawn()
+		{
+			drunkCameraTime = 0;
+			ToggleNightVisionEffectState(false);
+			ToggleGlitchEffectState(false);
 		}
 
 		public void AddDrunkTime(int time)
 		{
 			drunkCameraTime += time;
+
+			drunkCameraTime = Mathf.Min(drunkCameraTime, maxDrunkTime);
 
 			if (drunkCamera.enabled == false)
 			{
@@ -33,14 +51,14 @@ namespace CameraEffects
 			}
 		}
 
-		public void ToggleDrunkEffectState()
+		public void ToggleDrunkEffectState(bool state)
 		{
-			drunkCamera.enabled = !drunkCamera.enabled;
+			drunkCamera.enabled = state;
 		}
 
-		public void ToggleGlitchEffectState()
+		public void ToggleGlitchEffectState(bool state)
 		{
-			glitchEffect.enabled = !glitchEffect.enabled;
+			glitchEffect.enabled = state;
 		}
 
 		public void ToggleNightVisionEffectState(bool state)

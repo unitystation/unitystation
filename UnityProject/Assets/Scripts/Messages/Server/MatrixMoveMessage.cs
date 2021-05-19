@@ -1,4 +1,6 @@
 using Mirror;
+using Shuttles;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 
 namespace Messages.Server
@@ -26,8 +28,9 @@ namespace Messages.Server
 			LoadNetworkObject(msg.Matrix);
 
 			//Sometimes NetworkObject is gone because of game ending or just before exit
-			if (NetworkObject != null) {
-				var matrixMove = NetworkObject.GetComponent<MatrixMove>();
+			if (NetworkObject != null)
+			{
+				var matrixMove = NetworkObject.GetComponent<MatrixSync>().MatrixMove;
 				matrixMove.UpdateClientState(msg.State);
 			}
 		}
@@ -36,7 +39,7 @@ namespace Messages.Server
 		{
 			var msg = new NetMessage
 			{
-				Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				Matrix = matrix != null ? matrix.GetComponent<NetworkedMatrix>().MatrixSync.netId : NetId.Invalid,
 				State = state,
 			};
 
@@ -48,7 +51,7 @@ namespace Messages.Server
 		{
 			var msg = new NetMessage
 			{
-				Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+				Matrix = matrix != null ? matrix.GetComponent<NetworkedMatrix>().MatrixSync.netId : NetId.Invalid,
 				State = state,
 			};
 

@@ -45,12 +45,12 @@ public static class SpawnSafeThread
 		prefabsToSpawn.Enqueue(new SpawnSafeThreadData(tilePos, prefabObject, parentTransform, amount, amountIfStackable));
 	}
 
-	public static void UpdateTileMessageSend(uint tileChangeManagerNetID, Vector3Int position, TileType tileType,
+	public static void UpdateTileMessageSend(uint matrixSyncNetID, Vector3Int position, TileType tileType,
 		string tileName, Matrix4x4 transformMatrix, Color colour)
 	{
 		tilesToUpdate.Enqueue(
 			new Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color>
-				(tileChangeManagerNetID, position, tileType, tileName, transformMatrix, colour));
+				(matrixSyncNetID, position, tileType, tileName, transformMatrix, colour));
 	}
 }
 
