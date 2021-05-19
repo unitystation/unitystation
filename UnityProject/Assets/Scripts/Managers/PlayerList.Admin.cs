@@ -229,7 +229,7 @@ public partial class PlayerList
 	[Server]
 	public bool IsAdmin(ConnectedPlayer player)
 	{
-		return IsAdmin(player.ClientId);
+		return IsAdmin(player.UserId);
 	}
 
 	[Server]
