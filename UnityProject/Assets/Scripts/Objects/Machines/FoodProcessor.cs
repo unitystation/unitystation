@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity;
+using AddressableReferences;
 using Effects;
 using Items;
 using Machines;
@@ -25,8 +26,9 @@ namespace Objects.Kitchen
 
 		[SerializeField]
 		[Tooltip("The looped audio source to play while the processor is running.")]
-		private AudioSource RunningAudio = default;
+		private AddressableAudioSource RunningAudio = null;
 
+		private string runLoopGUID = "";
 
 		/// <summary>
 		/// How much time remains on the processor's timer.
@@ -262,11 +264,12 @@ namespace Objects.Kitchen
 		{
 			if (newState)
 			{
-				RunningAudio.Play();
+				runLoopGUID = Guid.NewGuid().ToString();
+				SoundManager.PlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, runLoopGUID);
 			}
 			else
 			{
-				RunningAudio.Stop();
+				SoundManager.Stop(runLoopGUID);
 			}
 		}
 
