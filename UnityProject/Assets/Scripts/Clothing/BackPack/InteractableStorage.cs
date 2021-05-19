@@ -121,7 +121,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
-		if (interaction.TargetSlot.ItemStorage.gameObject != PlayerManager.LocalPlayer && !interaction.IsAltClick) return false;
+		if (interaction.TargetSlot.ItemStorage.Player.gameObject != PlayerManager.LocalPlayer && !interaction.IsAltClick) return false;
 
 		if (interaction.UsedObject == null)
 		{
