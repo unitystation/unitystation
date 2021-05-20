@@ -354,11 +354,11 @@ public partial class PlayerList : NetworkBehaviour
 	/// <returns></returns>
 	private ConnectedPlayer GetInternalLoggedOff(Func<ConnectedPlayer, bool> condition)
 	{
-		for (var i = 0; i < loggedIn.Count; i++)
+		for (var i = 0; i < loggedOff.Count; i++)
 		{
-			if (condition(loggedIn[i]))
+			if (condition(loggedOff[i]))
 			{
-				return loggedIn[i];
+				return loggedOff[i];
 			}
 		}
 
