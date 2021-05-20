@@ -263,7 +263,7 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		if (includeOffline)
 		{
-			return GetInternalAll(player => player.Name == byName);;
+			return GetInternalAll(player => player.Name == byName);
 		}
 
 		return GetInternalLoggedIn(player => player.Name == byName);
