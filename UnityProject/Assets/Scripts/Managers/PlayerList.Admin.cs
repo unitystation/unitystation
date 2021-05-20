@@ -393,8 +393,7 @@ public partial class PlayerList
 		}
 		var Userid = unverifiedUserid;
 		var Token = unverifiedToken;
-		//whitelist checking:
-		var lines = File.ReadAllLines(whiteListPath);
+
 
 		//Adds server to admin list if not already in it.
 		if (Userid == ServerData.UserID && !adminUsers.Contains(Userid))
@@ -416,6 +415,9 @@ public partial class PlayerList
 				AdminEnableMessage.SendMessage(user, newToken);
 			}
 		}
+
+		//whitelist checking:
+		var lines = File.ReadAllLines(whiteListPath);
 
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.

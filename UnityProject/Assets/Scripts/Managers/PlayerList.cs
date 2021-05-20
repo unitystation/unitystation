@@ -174,9 +174,9 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId}.", Category.Connections);
+		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
 
-		var loggedOffClient = GetLoggedOffClient(player.ClientId);
+		var loggedOffClient = GetLoggedOffClient(player.ClientId, player.UserId);
 		if (loggedOffClient != null)
 		{
 			Logger.Log(
@@ -191,7 +191,7 @@ public partial class PlayerList : NetworkBehaviour
 				return player;
 			}
 
-			// Switching over to the old player's character is handled by JoinedViewer.
+			// Switching over to the old player's character is handled by JoinedViewer so dont need any extra logic.
 		}
 
 		loggedIn.Add(player);
@@ -226,9 +226,9 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public ConnectedPlayer GetLoggedOffClient(string clientID)
+	public ConnectedPlayer GetLoggedOffClient(string clientID, string userId)
 	{
-		var index = loggedOff.FindIndex(x => x.ClientId == clientID);
+		var index = loggedOff.FindIndex(x => x.ClientId == clientID || x.UserId == userId);
 		if (index != -1)
 		{
 			return loggedOff[index];
@@ -398,14 +398,14 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayerbyClientId(string ClientId)
+	public GameObject TakeLoggedOffPlayerbyClientId(string clientId, string userId)
 	{
-		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, ClientId);
+		Logger.LogTraceFormat("Searching for logged off players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
 		foreach (var player in loggedOff)
 		{
-			if (player.ClientId == ClientId)
+			if (player.ClientId == clientId || player.UserId == userId)
 			{
-				Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.ClientId);
+				Logger.LogTraceFormat("Found logged off player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
 				loggedOff.Remove(player);
 				return player.GameObject;
 			}
