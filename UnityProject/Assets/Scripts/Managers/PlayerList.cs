@@ -238,12 +238,12 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public bool ContainsName(string name, string _UserId)
+	public bool ContainsName(string name, string userId, bool includeOffline = false)
 	{
-		var Character = Get(name);
-		if (Character.Equals(ConnectedPlayer.Invalid)) return false;
+		var character = Get(name, includeOffline);
+		if (character.Equals(ConnectedPlayer.Invalid)) return false;
 
-		return Character.UserId != _UserId;
+		return character.UserId != userId;
 	}
 
 	[Server]
@@ -259,8 +259,13 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public ConnectedPlayer Get(string byName)
+	public ConnectedPlayer Get(string byName, bool includeOffline = false)
 	{
+		if (includeOffline)
+		{
+			return GetInternalAll(player => player.Name == byName);;
+		}
+
 		return GetInternalLoggedIn(player => player.Name == byName);
 	}
 
@@ -278,7 +283,7 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public bool IsAntag(GameObject playerObj)
 	{
-		var conn = Get(playerObj);
+		var conn = Get(playerObj, true);
 		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
 		return conn.Script.mind.IsAntag;
 	}
