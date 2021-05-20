@@ -325,8 +325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a807d1dc4d0cb4fac286ef39f01a94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   ChemMasterProducts:
   - {fileID: 8791843565850868338, guid: 41b8ba286ee48d147b5b90a4535e27c8, type: 3}
   - {fileID: 3319486117027293288, guid: e29b1fbcef2694d41b261271fecf09dc, type: 3}
@@ -363,6 +361,7 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: 8ad04c0d21dfe0c4dbb18109c267def0,
     type: 2}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
