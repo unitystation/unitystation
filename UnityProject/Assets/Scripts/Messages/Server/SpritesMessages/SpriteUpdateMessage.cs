@@ -43,13 +43,13 @@ namespace Messages.Server.SpritesMessages
 			if (networkIdentity == null)
 				return false;
 
-			if (SpriteHandlerManager.Instance.PresentSprites.ContainsKey(networkIdentity) == false ||
-			    SpriteHandlerManager.Instance.PresentSprites[networkIdentity].ContainsKey(spriteUpdateEntry.name) == false)
+			if (SpriteHandlerManager.PresentSprites.ContainsKey(networkIdentity) == false ||
+			    SpriteHandlerManager.PresentSprites[networkIdentity].ContainsKey(spriteUpdateEntry.name) == false)
 			{
 				return false;
 			}
 
-			var spriteHandler = SpriteHandlerManager.Instance.PresentSprites[networkIdentity][spriteUpdateEntry.name];
+			var spriteHandler = SpriteHandlerManager.PresentSprites[networkIdentity][spriteUpdateEntry.name];
 			var argumentIndex = 0;
 			foreach (var spriteOperation in spriteUpdateEntry.call)
 			{

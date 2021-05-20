@@ -924,6 +924,30 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &441872716838640463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 480930b0b1e554bbc889b5c68bf4cfb2,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: 4c48a40375c1b43718c78eee5582051a,
+    type: 2}
+  forceSpawnContents: 1
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!114 &4171332437423579703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7942,6 +7966,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
@@ -8053,6 +8078,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
@@ -8195,6 +8221,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
@@ -8304,7 +8331,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8539,6 +8566,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
@@ -8757,6 +8785,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
@@ -8868,6 +8897,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
