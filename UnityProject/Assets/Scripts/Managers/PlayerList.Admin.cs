@@ -1043,7 +1043,7 @@ public partial class PlayerList
 		if (!adminUsers.Contains(adminId)) return;
 
 		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
-		List<ConnectedPlayer> players = GetAllByUserID(userToJobBan);
+		List<ConnectedPlayer> players = GetAllByUserID(userToJobBan, true);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)

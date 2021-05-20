@@ -255,19 +255,24 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public ConnectedPlayer Get(NetworkConnection byConnection)
 	{
-		return getInternal(player => player.Connection == byConnection);
+		return GetInternalLoggedIn(player => player.Connection == byConnection);
 	}
 
 	[Server]
 	public ConnectedPlayer Get(string byName)
 	{
-		return getInternal(player => player.Name == byName);
+		return GetInternalLoggedIn(player => player.Name == byName);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(GameObject byGameObject)
+	public ConnectedPlayer Get(GameObject byGameObject, bool includeOffline = false)
 	{
-		return getInternal(player => player.GameObject == byGameObject);
+		if (includeOffline)
+		{
+			return GetInternalAll(player => player.GameObject == byGameObject);
+		}
+
+		return GetInternalLoggedIn(player => player.GameObject == byGameObject);
 	}
 
 	[Server]
@@ -281,17 +286,17 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public ConnectedPlayer GetByUserID(string byUserID)
 	{
-		return getInternal(player => player.UserId == byUserID);
+		return GetInternalLoggedIn(player => player.UserId == byUserID);
 	}
 
 	[Server]
 	public ConnectedPlayer GetByConnection(NetworkConnection connection)
 	{
-		return getInternal(player => player.Connection == connection);
+		return GetInternalLoggedIn(player => player.Connection == connection);
 	}
 
 	[Server]
-	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline  = false)
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline = false)
 	{
 		var newone = loggedIn.ToList();
 		if (includeOffline)
@@ -302,7 +307,47 @@ public partial class PlayerList : NetworkBehaviour
  		return newone.FindAll(player => player.UserId == byUserID);
 	}
 
-	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition)
+	/// <summary>
+	/// Check logged in and logged off players
+	/// </summary>
+	/// <param name="condition"></param>
+	/// <returns></returns>
+	private ConnectedPlayer GetInternalAll(Func<ConnectedPlayer, bool> condition)
+	{
+		var connectedPlayer = GetInternalLoggedIn(condition);
+
+		if(connectedPlayer.Equals(ConnectedPlayer.Invalid))
+		{
+			connectedPlayer = GetInternalLoggedOff(condition);
+		}
+
+		return connectedPlayer;
+	}
+
+	/// <summary>
+	/// Check logged in players
+	/// </summary>
+	/// <param name="condition"></param>
+	/// <returns></returns>
+	private ConnectedPlayer GetInternalLoggedIn(Func<ConnectedPlayer, bool> condition)
+	{
+		for (var i = 0; i < loggedIn.Count; i++)
+		{
+			if (condition(loggedIn[i]))
+			{
+				return loggedIn[i];
+			}
+		}
+
+		return ConnectedPlayer.Invalid;
+	}
+
+	/// <summary>
+	/// Check logged off players
+	/// </summary>
+	/// <param name="condition"></param>
+	/// <returns></returns>
+	private ConnectedPlayer GetInternalLoggedOff(Func<ConnectedPlayer, bool> condition)
 	{
 		for (var i = 0; i < loggedIn.Count; i++)
 		{
