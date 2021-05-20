@@ -53,8 +53,6 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			// TODO: play Portal Storm sound.
-
 			for (int i = 0; i < Random.Range(mobCount.x, mobCount.y); i++)
 			{
 				StartCoroutine(SpawnMob());
