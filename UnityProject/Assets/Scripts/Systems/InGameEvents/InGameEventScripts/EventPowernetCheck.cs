@@ -16,8 +16,6 @@ namespace InGameEvents
 					"As a precautionary measure, the station's power will be shut off for an indeterminate duration.";
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
-				// TODO: Play specific announcement message sound instead of generic alert.
-
 				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOffAnnouncement);
 			}
 
