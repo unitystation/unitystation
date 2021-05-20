@@ -20,7 +20,7 @@ namespace Chemistry
 
 		private void Start()
 		{
-			itemStorage = GetComponent<ItemStorage>();
+			ItemStorage itemStorage = GetComponent<ItemStorage>();
 			containerSlot = itemStorage.GetIndexedItemSlot(0);
 			bufferItemOne = itemStorage.GetIndexedItemSlot(1);
 			bufferItemTwo = itemStorage.GetIndexedItemSlot(2);
@@ -221,8 +221,6 @@ namespace Chemistry
 			? bufferItemTwo.ItemObject.GetComponent<ReagentContainer>()
 			: null;
 
-
-		private ItemStorage itemStorage;
 		public ItemSlot ItemSlot { get; }
 		private ItemSlot containerSlot;
 		private ItemSlot bufferItemOne;
