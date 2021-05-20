@@ -1164,13 +1164,21 @@ namespace Objects.Engineering
 			//Kill player if they touched with empty hand
 			if (interaction.HandObject == null)
 			{
+				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
+
+				if (isHugBox && DMMath.Prob(95))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "You're lucky, that could have gone very badly");
+					interaction.Performer.GetComponent<RegisterPlayer>().ServerStun();
+					return;
+				}
+
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
 				interaction.Performer.GetComponent<PlayerHealthV2>().ServerGibPlayer();
 				matterPower += 200;
-				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, 200, GetInstanceID());
 				return;
 			}
 

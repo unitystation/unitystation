@@ -46,6 +46,7 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource BreakStone = null;
    public AddressableAudioSource GlassBreak01 = null;
 
+   //Ai announcements
    public AddressableAudioSource AnnouncementNotice = null;
    public AddressableAudioSource AnnouncementAnnounce = null;
    public AddressableAudioSource AnnouncementAlert = null;
@@ -54,11 +55,25 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource AnnouncementCommandReport = null;
 
    public AddressableAudioSource ShuttleDocked = null;
-
    public AddressableAudioSource ShuttleCalled = null;
    public AddressableAudioSource ShuttleRecalled = null;
 
+   public AddressableAudioSource AiMalfAnnouncement = null;
+   public AddressableAudioSource AliensAnnouncement = null;
+   public AddressableAudioSource Animesnnouncement = null;
+   public AddressableAudioSource DisembarkAnnouncement = null;
+   public AddressableAudioSource GravomaliesAnnouncement = null;
+   public AddressableAudioSource HarmAlarmAnnouncement = null;
+   public AddressableAudioSource IonstormAnnouncement = null;
    public AddressableAudioSource MeteorsAnnouncement = null;
+   public AddressableAudioSource NewAiAnnouncement = null;
+   public AddressableAudioSource Outbreak5Announcement = null;
+   public AddressableAudioSource Outbreak7Announcement = null;
+   public AddressableAudioSource PowerOffAnnouncement = null;
+   public AddressableAudioSource PowerOnAnnouncement = null;
+   public AddressableAudioSource RadiationAnnouncement = null;
+   public AddressableAudioSource SpanomaliesAnnouncement = null;
+   public AddressableAudioSource WelcomeAnnouncement = null;
 
    public AddressableAudioSource Deconstruct = null;
    public AddressableAudioSource GlassHit = null;
