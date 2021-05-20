@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/5/19: Item Storage will only spawn stuff on first open not round start anymore by [ThatDan123](https://github.com/ThatDan123) in PR #[6516](https://github.com/unitystation/unitystation/pull/6516)
+* 2021/5/19: Fixes scroll in ID console by [DTraitor](https://github.com/DTraitor) in PR #[6584](https://github.com/unitystation/unitystation/pull/6584)
+* 2021/5/19: Exchanged old airlock prefabs in all away sites (that had airlocks) with DoorV2 Prefabs by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6560](https://github.com/unitystation/unitystation/pull/6560)
 * 2021/5/19: Adds Science Department Circuit Imprinter into Science Circuits Room by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)
 * 2021/5/19: Access overrides that old doors had in UnrealStation have been set for DoorsV2, plus a few on the side by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)
 * 2021/5/19: DoorsV2 in UnrealStation have been linked to APCs by [pyrosshade](https://github.com/pyrosshade) in PR #[6556](https://github.com/unitystation/unitystation/pull/6556)

@@ -56,6 +56,13 @@ namespace AdminTools
 			adminTools.ShowRespawnPage();
 		}
 
+
+		public void OnHealUpButton()
+		{
+			AdminCommandsManager.Instance.CmdHealUpPlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
+			RefreshPage();
+		}
+
 		/// <summary>
 		/// Sends the command to smite a player
 		/// </summary>

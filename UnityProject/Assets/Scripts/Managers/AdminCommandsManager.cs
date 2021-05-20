@@ -291,6 +291,38 @@ namespace AdminCommands
 			}
 		}
 
+
+		/// <summary>
+		/// Heals a player up
+		/// </summary>
+		/// <param name="adminId"></param>
+		/// <param name="adminToken"></param>
+		/// <param name="userToSmite"></param>
+		[Command(requiresAuthority = false)]
+		public void CmdHealUpPlayer(string adminId, string adminToken, string userToHeal)
+		{
+			GameObject admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+			if (admin == null) return;
+
+			var players = PlayerList.Instance.GetAllByUserID(userToHeal);
+			if (players.Count != 0)
+			{
+				foreach (ConnectedPlayer player in players)
+				{
+					string message =
+						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Healed up Username: {player.Username} ({player.Name})";
+					Logger.Log(message, Category.Admin);
+
+					LogAdminAction(message);
+
+					var playerScript = player.Script;
+					var health = playerScript.playerHealth;
+					health.ResetDamageAll();
+					playerScript.registerTile.ServerStandUp();
+				}
+			}
+		}
+
 		#endregion
 
 		#region Sound
