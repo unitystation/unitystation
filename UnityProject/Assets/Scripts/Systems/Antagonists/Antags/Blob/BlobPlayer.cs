@@ -21,8 +21,6 @@ namespace Blob
 	/// </summary>
 	public class BlobPlayer : NetworkBehaviour
 	{
-		[SerializeField] private AddressableAudioSource Outbreak5 = null;
-
 		[SerializeField] private GameObject blobCorePrefab = null;
 		[SerializeField] private GameObject blobNodePrefab = null;
 		[SerializeField] private GameObject blobResourcePrefab = null;
@@ -336,7 +334,7 @@ namespace Blob
 					string.Format(ReportTemplates.BioHazard,
 						"Confirmed outbreak of level 5 biohazard aboard the station. All personnel must contain the outbreak."),
 					MatrixManager.MainStationMatrix);
-				_ = SoundManager.PlayNetworked(Outbreak5);
+				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.Outbreak5Announcement);
 			}
 
 			if (rerollTimer > 300f)
