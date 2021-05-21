@@ -23,10 +23,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 	private string performerName;
 	private string targetName;
 	private Vector2 interactionWorldPosition;
-
-	private Dictionary<GameObject, DateTime> InteractionTime = new Dictionary<GameObject, DateTime>();
-	private List<GameObject> ToRemove = new List<GameObject>();
-
+	
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
