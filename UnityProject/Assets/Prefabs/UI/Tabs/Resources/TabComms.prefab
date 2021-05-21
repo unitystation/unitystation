@@ -158,15 +158,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
+  Type: 11
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 11
   mainSwitcher: {fileID: 7735421939598056928}
   menuPage: {fileID: 4104289832274430474}
   captainOnlySwitcher: {fileID: 5735801867584152811}
@@ -2489,7 +2487,7 @@ GameObject:
   - component: {fileID: 2670578197182401176}
   - component: {fileID: 7625302138197836613}
   - component: {fileID: 151012039338179158}
-  - component: {fileID: 1804216285279682718}
+  - component: {fileID: 2223669093641771464}
   m_Layer: 5
   m_Name: EjectButton
   m_TagString: Untagged
@@ -2598,8 +2596,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1804216285279682718}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 2223669093641771464}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -2610,7 +2608,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1804216285279682718
+--- !u!114 &2223669093641771464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2619,16 +2617,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3082971521774134879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5503594006269639926}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UI.Objects.Command.GUI_Comms, Assets
         m_MethodName: RemoveId
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

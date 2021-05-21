@@ -54,11 +54,11 @@ namespace UI.Objects.Security
 			}
 		}
 
-		public void RemoveId()
+		public void RemoveId(ConnectedPlayer player)
 		{
 			if (console.IdCard)
 			{
-				console.ServerRemoveIDCard();
+				console.ServerRemoveIDCard(player);
 				UpdateScreen();
 			}
 		}

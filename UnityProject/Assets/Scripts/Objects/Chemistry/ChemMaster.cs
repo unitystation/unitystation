@@ -199,7 +199,8 @@ namespace Chemistry
 				productContainer.OnReagentMixChanged?.Invoke();
 
 				//Give it some love
-				product.GetComponent<ItemAttributesV2>().ServerSetArticleName(newName);
+				product.GetComponent<ItemAttributesV2>().ServerSetArticleName($"{newName}" +
+					$" {product.GetComponent<ItemAttributesV2>().InitialName}");
 			}
 			ClearBuffer();
 			TransferMixToBuffer(temp);
@@ -285,6 +286,7 @@ namespace Chemistry
 		/// <param name="subject"></param>
 		public void EjectContainer(ConnectedPlayer subject)
 		{
+			containerSlot.Item.GetComponent<ReagentContainer>().OnReagentMixChanged.Invoke();
 			var bestSlot = GetBestSlot(containerSlot.ItemObject, subject);
 			if (!Inventory.ServerTransfer(containerSlot, bestSlot))
 			{
@@ -293,7 +295,7 @@ namespace Chemistry
 			ClearBuffer();
 			UpdateGui();
 		}
-		
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;

@@ -1666,6 +1666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -2028,6 +2029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -2452,7 +2454,7 @@ GameObject:
   - component: {fileID: 222486309099682398}
   - component: {fileID: 114221381775039984}
   - component: {fileID: 114901271167927676}
-  - component: {fileID: 114305671017891178}
+  - component: {fileID: 5228286967996259561}
   m_Layer: 5
   m_Name: Eject
   m_TagString: Untagged
@@ -2561,8 +2563,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114305671017891178}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 5228286967996259561}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -2573,7 +2575,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &114305671017891178
+--- !u!114 &5228286967996259561
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2582,16 +2584,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1273123023817948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114901558362318458}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UI.Objects.Chemistry.GUI_ChemistryDispenser, Assets
         m_MethodName: EjectContainer
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5132,6 +5134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -6691,6 +6694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -7008,6 +7012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -7105,15 +7110,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
+  Type: 5
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 5
   HeaterTemperatureCelsius: 0
   DispensedTemperatureCelsius: 30
   DispensedNumber: 20
@@ -7329,6 +7332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -10088,6 +10092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -10370,6 +10375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -12006,6 +12012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
