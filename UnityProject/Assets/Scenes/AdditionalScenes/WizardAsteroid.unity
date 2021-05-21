@@ -788,6 +788,11 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: isWithoutSwitch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Sprite
@@ -2208,6 +2213,11 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: isWithoutSwitch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Sprite
@@ -3292,11 +3302,16 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: isWithoutSwitch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -3659,11 +3674,16 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: isWithoutSwitch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -7197,7 +7217,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 21
+      m_TileSpriteIndex: 26
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -8582,8 +8602,8 @@ Tilemap:
     m_Data: {fileID: 21300010, guid: 7c3a7336be2637043a7f39cec5350bba, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300044, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 8
     m_Data: {fileID: 21300038, guid: 7c3a7336be2637043a7f39cec5350bba, type: 3}
   - m_RefCount: 10
@@ -8592,8 +8612,8 @@ Tilemap:
     m_Data: {fileID: 21300036, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300044, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
   - m_RefCount: 8
     m_Data: {fileID: 21300076, guid: 7c3a7336be2637043a7f39cec5350bba, type: 3}
   - m_RefCount: 1
