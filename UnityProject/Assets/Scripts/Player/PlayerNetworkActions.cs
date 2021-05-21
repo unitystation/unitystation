@@ -560,6 +560,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
+		//Can be null if respawning spectator ghost as they didnt have an occupation set before so give assistant just in case
+		if (playerScript.mind.occupation == null)
+		{
+			playerScript.mind.occupation = OccupationList.Instance.Get(JobType.ASSISTANT);
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
