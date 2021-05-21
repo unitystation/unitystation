@@ -38,7 +38,7 @@ namespace Chemistry
 			}
 		}
 
-		private ItemSlot getBestSlot(GameObject item, ConnectedPlayer subject)
+		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
 		{
 			if (subject == null)
 			{
@@ -55,7 +55,7 @@ namespace Chemistry
 		/// <param name="subject"></param>
 		public void EjectContainer(ConnectedPlayer subject)
 		{
-			var bestSlot = getBestSlot(itemSlot.ItemObject, subject);
+			var bestSlot = GetBestSlot(itemSlot.ItemObject, subject);
 			if (!Inventory.ServerTransfer(itemSlot, bestSlot))
 			{
 				Inventory.ServerDrop(itemSlot);
