@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +10,8 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 	// This is based off the alien/humanoid/attack_hand disarm code of TGStation's codebase.
 	// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
 
+	public float TimeBetweenDisarms = 0.5f;
+
 	const float KNOCKDOWN_CHANCE = 5; // Percent
 	const float DISARM_CHANCE = 50; // Percent
 	const float KNOCKDOWN_STUN_TIME = 6; // Seconds
@@ -17,6 +21,9 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 	private string performerName;
 	private string targetName;
 	private Vector2 interactionWorldPosition;
+
+	private Dictionary<GameObject, DateTime> InteractionTime = new Dictionary<GameObject, DateTime>();
+	private List<GameObject> ToRemove = new List<GameObject>();
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -38,6 +45,22 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		targetName = interaction.TargetObject.ExpensiveName();
 		interactionWorldPosition = interaction.WorldPositionTarget;
 
+		foreach (var Interaction in InteractionTime)
+		{
+			if (DateTime.Now.Subtract(Interaction.Value).Seconds > TimeBetweenDisarms)
+			{
+				ToRemove.Add(Interaction.Key);
+			}
+		}
+
+		foreach (var gamobjt in ToRemove)
+		{
+			InteractionTime.Remove(gamobjt);
+		}
+		ToRemove.Clear();
+
+		if (InteractionTime.ContainsKey(interaction.Performer)) return;
+
 		var rng = new System.Random();
 		if (rng.Next(1, 100) <= KNOCKDOWN_CHANCE)
 		{
@@ -58,6 +81,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 					$"{performerName} attempts to disarm {targetName}!");
 			Chat.AddExamineMsgFromServer(target, $"{performerName} attempts to disarm you!");
 		}
+		InteractionTime[interaction.Performer] = DateTime.Now;
 	}
 
 	private void KnockDown()
