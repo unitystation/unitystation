@@ -149,11 +149,11 @@ namespace UI.Objects.Booze
 			UpdateAll();
 		}
 
-		public void EjectContainer()
+		public void EjectContainer(ConnectedPlayer player)
 		{
 			if (BoozeDispenser.Container != null)
 			{
-				BoozeDispenser.EjectContainer();
+				BoozeDispenser.EjectContainer(player);
 			}
 
 			UpdateAll();
