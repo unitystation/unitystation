@@ -35,7 +35,7 @@ namespace Util
 			projectPath = Directory.GetCurrentDirectory();
 			gameManager = AssetDatabase.LoadAssetAtPath<GameManager>("Assets/Prefabs/SceneConstruction/NestedManagers/GameManager.prefab");
 
-			obj = new SerializedObject(this);
+			var obj = new SerializedObject(this);
 			mainStationProperty = obj.FindProperty(nameof(mainStationScene));
 			mainStationProperty.stringValue = mainStationScene;
 
@@ -71,12 +71,11 @@ namespace Util
 
 		[SerializeField, Scene] private string mainStationScene = "TestStation";
 		[SerializeField] private bool isQuickLoad = true;
-		[SerializeField] private BuildTarget target = BuildTarget.StandaloneWindows;
+		[SerializeField] private BuildTarget target = BuildTarget.StandaloneWindows64;
 		[SerializeField] private string buildPath;
 		[SerializeField] private bool isDevelopmentBuild = true;
 		[SerializeField] private bool isScriptsOnly = false;
 
-		private SerializedObject obj;
 		private SerializedProperty mainStationProperty;
 		private string projectPath;
 		private string pathForDisplay;
@@ -94,7 +93,10 @@ namespace Util
 			ValidateMainStationScene(mainStationScene);
 
 			EditorGUI.BeginChangeCheck();
-			isQuickLoad = EditorGUILayout.Toggle("Quick Load", isQuickLoad);
+			var quickLoadLabel = new GUIContent(
+				"QuickLoad",
+				"At runtime, skips the lobby scene and boots you straight into the map.");
+			isQuickLoad = EditorGUILayout.Toggle(quickLoadLabel, isQuickLoad);
 			if (EditorGUI.EndChangeCheck())
 			{
 				UpdateGameManager(isQuickLoad);
@@ -103,6 +105,10 @@ namespace Util
 			EditorGUILayout.Space();
 
 			target = (BuildTarget)EditorGUILayout.EnumPopup("Target Platform", target);
+			if (BuildPipeline.IsBuildTargetSupported(default, target) == false)
+			{
+				EditorGUILayout.HelpBox("The editor is not configured to target this platform.", MessageType.Warning);
+			}
 
 			isDevelopmentBuild = EditorGUILayout.Toggle("Development Build", isDevelopmentBuild);
 			if (isDevelopmentBuild)
@@ -173,6 +179,12 @@ namespace Util
 
 			// Unity returns linux separator; instead use platform-specific separator
 			buildPath = userInput.Replace('/', Path.DirectorySeparatorChar);
+
+			if (target == BuildTarget.StandaloneWindows || target == BuildTarget.StandaloneWindows64)
+			{
+				buildPath = Path.Combine(buildPath, Application.productName + ".exe"); // sigh
+			}
+
 			SetPathForDisplay(buildPath);
 		}
 
@@ -219,12 +231,12 @@ namespace Util
 				scenes = scenePaths.ToArray(),
 				locationPathName = buildPath,
 				target = target,
-				options = BuildOptions.None
+				options = BuildOptions.ShowBuiltPlayer
 			};
 
 			if (isDevelopmentBuild)
 			{
-				buildPlayerOptions.options = BuildOptions.Development;
+				buildPlayerOptions.options |= BuildOptions.Development;
 				if (isScriptsOnly)
 				{
 					buildPlayerOptions.options |= BuildOptions.Development;
