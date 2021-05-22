@@ -45,22 +45,13 @@ namespace Messages.Server
 
 				if (string.IsNullOrEmpty(c.Name))
 				{
-					if (c.GameObject != null)
-					{
-						var joinedViewer = c.GameObject.GetComponent<JoinedViewer>();
-						if (joinedViewer != null)
-						{
-							pendingSpawn = true;
-						}
-						else
-						{
-							continue;
-						}
-					}
-					else
-					{
-						continue;
-					}
+					if (c.GameObject == null) continue;
+
+					var joinedViewer = c.GameObject.GetComponent<JoinedViewer>();
+
+					if (joinedViewer == null) continue;
+
+					pendingSpawn = true;
 				}
 
 				var tag = "";

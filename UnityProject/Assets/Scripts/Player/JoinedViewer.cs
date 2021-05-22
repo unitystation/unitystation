@@ -61,14 +61,15 @@ public class JoinedViewer : NetworkBehaviour
 		// this validates Userid and Token
 		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(unverifiedClientId, unverifiedUsername,
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
+
 		if (isValidPlayer == false)
 		{
-			Logger.LogWarning("Set up new player: invalid player.", Category.Connections);
+			Logger.LogWarning($"Set up new player: invalid player. For {unverifiedUsername}", Category.Connections);
 			return;
 		}
 
-		// Check if they have a player to rejoin. If not, assign them a new client ID.
-		GameObject loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
+		// Check if they have a player to rejoin.
+		GameObject loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId, unverifiedUserid);
 
 		// If the player does not yet have an in-game object to control, they'll probably have a
 		// JoinedViewer assigned as they were only in the lobby. If so, destroy it and use the new one.
