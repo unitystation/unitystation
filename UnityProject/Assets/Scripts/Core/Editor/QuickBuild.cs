@@ -221,7 +221,9 @@ namespace Util
 			UpdateGameManager(isQuickLoad);
 
 			string[] sceneNames = new string[requiredScenes.Length + 1];
+			requiredScenes.CopyTo(sceneNames, 0);
 			sceneNames[sceneNames.Length - 1] = mainStationScene;
+
 			var scenePaths = EditorBuildSettings.scenes
 					.Where(s => sceneNames.Contains(Path.GetFileNameWithoutExtension(s.path)))
 					.Select(s => s.path);
