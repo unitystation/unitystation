@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using AddressableReferences;
+using UnityEngine;
 
 namespace Doors.Modules
 {
@@ -6,6 +8,11 @@ namespace Doors.Modules
 	{
 		[SerializeField][Tooltip("Base time it takes to pry this door.")]
 		private float pryTime = 4.5f; //TODO calculate time with a multiplier from the tool itself
+
+		[SerializeField]
+		private AddressableAudioSource prySound = null;
+
+		private string soundGuid = "";
 
 		public override ModuleSignal OpenInteraction(HandApply interaction)
 		{
@@ -39,13 +46,21 @@ namespace Doors.Modules
 				return ModuleSignal.Continue;
 			}
 
+			if (soundGuid != "")
+			{
+				SoundManager.StopNetworked(soundGuid);
+			}
+
+			soundGuid = Guid.NewGuid().ToString();
+			SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
+
 			//allows the jaws of life to pry open doors
 			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 				"You start prying open the door...",
 				$"{interaction.Performer.ExpensiveName()} starts prying open the door...",
 				$"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
 				$"{interaction.Performer.ExpensiveName()} forces the door open!",
-				TryPry);
+				TryPry, onFailComplete: OnFailPry, playSound: false);
 
 			return ModuleSignal.Break;
 		}
@@ -60,7 +75,7 @@ namespace Doors.Modules
 			return true;
 		}
 
-		public void TryPry()
+		private void TryPry()
 		{
 			if (master.IsClosed && !master.IsPerformingAction)
 			{
@@ -70,6 +85,12 @@ namespace Doors.Modules
 			{
 				master.TryClose(force: true);
 			}
+		}
+
+		private void OnFailPry()
+		{
+			SoundManager.StopNetworked(soundGuid);
+			soundGuid = "";
 		}
 	}
 }

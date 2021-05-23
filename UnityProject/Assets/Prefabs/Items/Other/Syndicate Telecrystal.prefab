@@ -121,6 +121,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It seems to be pulsing with suspiciously enticing energies
       objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9,
+        type: 2}
     - target: {fileID: 5592108624515032788, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: PresentSpriteSet

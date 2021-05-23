@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Shuttles;
+using Tilemaps.Behaviours.Layers;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 
 namespace Tests
 {
@@ -152,6 +155,146 @@ namespace Tests
 								$"{scene}: {ChildObject} is at 0,0 Please update the prefab/update the map/revert ");
 						}
 					}
+				}
+			}
+
+			if (isok == false)
+			{
+				Assert.Fail(report.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Checks to make sure all matrixes have a matrix sync
+		/// </summary>
+		[Test]
+		public void CheckMatrixSync()
+		{
+			bool isok = true;
+			var report = new StringBuilder();
+			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene", new string[] {"Assets/Scenes"});
+			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+			foreach (var scene in scenesPaths)
+			{
+				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
+
+				var openScene = EditorSceneManager.OpenScene(scene);
+				var gameObjects = openScene.GetRootGameObjects();
+
+				foreach (var gameObject in gameObjects)
+				{
+					if(gameObject.GetComponent<NetworkedMatrix>() == null) continue;
+
+					var matrixSyncs = gameObject.GetComponentsInChildren<MatrixSync>();
+
+					//Make sure matrix has matrix sync
+					if (matrixSyncs.Length == 0)
+					{
+						report.AppendLine($"{scene}: {gameObject.name} is missing a Matrix Sync, please add one");
+						isok = false;
+					}
+
+					//Make matrix has only one matrix sync
+					if (matrixSyncs.Length > 1)
+					{
+						report.AppendLine($"{scene}: {gameObject.name} has more than on matrix sync, only one is allowed");
+						isok = false;
+					}
+
+					//Make sure matrix sync has correct parent
+					foreach (var matrixSync in matrixSyncs)
+					{
+						if (matrixSync.transform.parent == gameObject.transform) continue;
+
+						report.AppendLine($"{scene}: {matrixSync.gameObject.name} is parented to {matrixSync.transform.parent.gameObject.name}" +
+						                  $", when it should be parented to {gameObject.name}");
+						isok = false;
+					}
+				}
+			}
+
+			if (isok == false)
+			{
+				Assert.Fail(report.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Checks to make sure all objects in the scenes with item storage have the force spawn set to true
+		/// </summary>
+		[Test]
+		public void CheckItemStorageScene()
+		{
+			bool isok = true;
+			var report = new StringBuilder();
+			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene", new string[] {"Assets/Scenes"});
+			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+			foreach (var scene in scenesPaths)
+			{
+				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
+
+				var openScene = EditorSceneManager.OpenScene(scene);
+				var gameObjects = openScene.GetRootGameObjects();
+
+				foreach (var gameObject in gameObjects)
+				{
+					if(gameObject.GetComponent<NetworkedMatrix>() == null) continue;
+
+					foreach (ItemStorage child in gameObject.GetComponentsInChildren<ItemStorage>())
+					{
+						//Pickupable is fine to not check
+						if (child.GetComponent<Pickupable>() != null) continue;
+
+						//Only check stuff which has populator
+						if (child.ItemStoragePopulator == null) continue;
+
+						//Object should always force spawn
+						if (child.forceSpawnContents) continue;
+
+						//Currently objects should always force spawn as it can cause issues otherwise
+						report.AppendLine($"{scene}: {child.name} is an object with a item storage with forceSpawnContents off, turn it on");
+						isok = false;
+					}
+				}
+			}
+
+			if (isok == false)
+			{
+				Assert.Fail(report.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Checks to make sure all objects in the prefabs with item storage have the force spawn set to true
+		/// </summary>
+		[Test]
+		public void CheckItemStoragePrefab()
+		{
+			bool isok = true;
+			var report = new StringBuilder();
+			var prefabGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
+			var prefabPaths = prefabGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+
+			foreach (var prefab in prefabPaths)
+			{
+				var gameObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefab);
+
+				if(gameObject == null) continue;
+
+				//Pickupable is fine to not check
+				if (gameObject.GetComponent<Pickupable>() != null) continue;
+
+				foreach (var child in gameObject.GetComponents<ItemStorage>())
+				{
+					//Only check stuff which has populator
+					if(child.ItemStoragePopulator == null) continue;
+
+					//Object should always force spawn
+					if (child.forceSpawnContents) continue;
+
+					//Currently objects should always force spawn as it can cause issues otherwise
+					report.AppendLine($"{prefab}: {gameObject.name} is an object with a item storage with forceSpawnContents off, turn it on");
+					isok = false;
 				}
 			}
 

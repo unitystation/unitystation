@@ -24,7 +24,7 @@ namespace Antagonists
 				var player = t.GetComponent<PlayerScript>();
 				if (player != null)
 				{
-					var playerDetails = PlayerList.Instance.Get(player.gameObject);
+					var playerDetails = PlayerList.Instance.Get(player.gameObject, true);
 					if (playerDetails.Job == JobType.SECURITY_OFFICER || playerDetails.Job == JobType.HOS
 					                                           || playerDetails.Job == JobType.DETECTIVE
 					                                           || playerDetails.Job == JobType.WARDEN)

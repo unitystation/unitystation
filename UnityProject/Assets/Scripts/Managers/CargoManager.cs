@@ -237,6 +237,12 @@ namespace Systems.Cargo
 			var storage = item.GetComponent<InteractableStorage>();
 			if (storage)
 			{
+				//Check to spawn initial contents, cant just use prefab data due to recursion
+				if (storage.ItemStorage.ContentsSpawned == false)
+				{
+					storage.ItemStorage.TrySpawnContents();
+				}
+
 				foreach (var slot in storage.ItemStorage.GetItemSlots())
 				{
 					if (slot.Item)
@@ -254,6 +260,12 @@ namespace Systems.Cargo
 			var closet = item.GetComponent<ClosetControl>();
 			if (closet)
 			{
+				//Check to spawn initial contents, cant just use prefab data due to recursion
+				if (closet.ContentsSpawned == false && closet.InitialContents != null)
+				{
+					closet.TrySpawnContents(true);
+				}
+
 				foreach (var closetItem in closet.ServerHeldItems)
 				{
 					ProcessCargo(closetItem, alreadySold);
@@ -312,6 +324,12 @@ namespace Systems.Cargo
 			{
 				foreach (var itemTrait in itemAttributes.GetTraits())
 				{
+					if (itemTrait == null)
+					{
+						Logger.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
+						continue;
+					}
+
 					count = TryCompleteBounty(itemTrait, count);
 					if (count == 0)
 					{
@@ -331,9 +349,9 @@ namespace Systems.Cargo
 
 		private void DespawnItem(PushPull item, HashSet<GameObject> alreadySold)
 		{
+			alreadySold.Add(item.gameObject);
 			item.registerTile.UnregisterClient();
 			item.registerTile.UnregisterServer();
-			alreadySold.Add(item.gameObject);
 			_ = Despawn.ServerSingle(item.gameObject);
 		}
 

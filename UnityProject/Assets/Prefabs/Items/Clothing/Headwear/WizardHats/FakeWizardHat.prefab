@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 46f8c48d2d3f7da41b60d83614f8fee0,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 46f8c48d2d3f7da41b60d83614f8fee0,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -171,6 +169,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: It has WIZZARD written across it in sequins. Comes with a cool beard.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}

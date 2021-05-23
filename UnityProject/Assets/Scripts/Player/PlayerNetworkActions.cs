@@ -15,6 +15,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using Shuttles;
 using UI.Items;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -559,6 +560,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
+		//Can be null if respawning spectator ghost as they dont have an occupation
+		if (playerScript.mind.occupation == null)
+		{
+			return;
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
@@ -694,6 +701,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+
+		//If we are trying to find matrix get matrix instead
+		if (pointTarget.TryGetComponent<MatrixSync>(out var matrixSync))
+		{
+			pointTarget = matrixSync.NetworkedMatrix.gameObject;
+		}
+
 		string pointedName = pointTarget.ExpensiveName();
 		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
 		if (interactableTiles)
@@ -704,6 +718,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				pointedName = tile.DisplayName;
 			}
 		}
+
 		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthMasterBase>();
 		var preposition = "";
 		if (livinghealthbehavior == null)

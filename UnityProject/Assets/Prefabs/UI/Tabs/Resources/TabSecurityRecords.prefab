@@ -158,15 +158,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
+  Type: 9
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 9
   nestedSwitcher: {fileID: 7735421939598056928}
   entriesPage: {fileID: 5962031703089890598}
   entryPage: {fileID: 4786938670563674746}
@@ -896,7 +894,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1919824395629887883}
   - component: {fileID: 8975485076278416373}
-  - component: {fileID: 8181142687656994093}
+  - component: {fileID: 1774232206335639221}
   m_Layer: 5
   m_Name: IdNameButton
   m_TagString: Untagged
@@ -967,8 +965,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8181142687656994093}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1774232206335639221}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -979,7 +977,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8181142687656994093
+--- !u!114 &1774232206335639221
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -988,16 +986,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 552497269633285978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3918310462802982663}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UI.Objects.Security.GUI_SecurityRecords, Assets
         m_MethodName: RemoveId
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1451,7 +1449,7 @@ GameObject:
   - component: {fileID: 8983037966581253914}
   - component: {fileID: 3141085603443665636}
   - component: {fileID: 3317100977136930833}
-  - component: {fileID: 8332346460852456590}
+  - component: {fileID: 3105180763489487358}
   m_Layer: 5
   m_Name: IdEntryButton
   m_TagString: Untagged
@@ -1560,8 +1558,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8332346460852456590}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 3105180763489487358}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -1572,7 +1570,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8332346460852456590
+--- !u!114 &3105180763489487358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1581,16 +1579,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 948567632189321730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4786938670563674746}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UI.Objects.Security.GUI_SecurityRecordsEntryPage,
+          Assets
         m_MethodName: RemoveID
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3131,7 +3130,7 @@ GameObject:
   - component: {fileID: 6154715392509151484}
   - component: {fileID: 4905979163656821541}
   - component: {fileID: 8593103563681711317}
-  - component: {fileID: 288173244760979087}
+  - component: {fileID: 8455673376437338331}
   m_Layer: 5
   m_Name: Head
   m_TagString: Untagged
@@ -3196,7 +3195,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &288173244760979087
+--- !u!114 &8455673376437338331
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3205,7 +3204,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2049150293311137463}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fa73aefd27ad947b0f5ee69c632eef, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: []
@@ -4308,10 +4307,10 @@ MonoBehaviour:
   idNameText: {fileID: 1456026322941474363}
   popupWindow: {fileID: 5722305191263892391}
   popupWindowEditField: {fileID: 395016312651254621}
-  head: {fileID: 288173244760979087}
-  torso: {fileID: 5365771819983124133}
-  beard: {fileID: 4745996481075276260}
-  hair: {fileID: 383832105397910357}
+  head: {fileID: 8455673376437338331}
+  torso: {fileID: 3163631695181696920}
+  beard: {fileID: 6044903352091725433}
+  hair: {fileID: 8873965394437717861}
   rightLeg: {fileID: 1251424628977683103}
   leftLeg: {fileID: 488670240825545716}
   rightArm: {fileID: 7131492369706597976}
@@ -8688,7 +8687,7 @@ GameObject:
   - component: {fileID: 1264350748006694500}
   - component: {fileID: 5456252704899492496}
   - component: {fileID: 8542048968710809580}
-  - component: {fileID: 4745996481075276260}
+  - component: {fileID: 6044903352091725433}
   m_Layer: 5
   m_Name: Beard
   m_TagString: Untagged
@@ -8753,7 +8752,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4745996481075276260
+--- !u!114 &6044903352091725433
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8762,7 +8761,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6295281322606990446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fa73aefd27ad947b0f5ee69c632eef, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: []
@@ -10237,7 +10236,7 @@ GameObject:
   - component: {fileID: 758641181480565370}
   - component: {fileID: 1161512432459277920}
   - component: {fileID: 8918942904872630051}
-  - component: {fileID: 5789088783099295520}
+  - component: {fileID: 3871408836795199111}
   m_Layer: 5
   m_Name: IdEntriesButton
   m_TagString: Untagged
@@ -10346,8 +10345,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5789088783099295520}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 3871408836795199111}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -10358,7 +10357,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5789088783099295520
+--- !u!114 &3871408836795199111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10367,16 +10366,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7378761451593733557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5962031703089890598}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UI.Objects.Security.GUI_SecurityRecordsEntriesPage,
+          Assets
         m_MethodName: RemoveID
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11775,7 +11775,7 @@ GameObject:
   - component: {fileID: 4627972392588437597}
   - component: {fileID: 7287099001974033664}
   - component: {fileID: 8183574382682482021}
-  - component: {fileID: 5365771819983124133}
+  - component: {fileID: 3163631695181696920}
   m_Layer: 5
   m_Name: Torso
   m_TagString: Untagged
@@ -11840,7 +11840,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5365771819983124133
+--- !u!114 &3163631695181696920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11849,7 +11849,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8186917261300004444}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fa73aefd27ad947b0f5ee69c632eef, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: []
@@ -13053,7 +13053,7 @@ GameObject:
   - component: {fileID: 8470335993196334986}
   - component: {fileID: 8933854496834792770}
   - component: {fileID: 6786027617328563321}
-  - component: {fileID: 383832105397910357}
+  - component: {fileID: 8873965394437717861}
   m_Layer: 5
   m_Name: Hair
   m_TagString: Untagged
@@ -13118,7 +13118,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &383832105397910357
+--- !u!114 &8873965394437717861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13127,7 +13127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8685258741244130485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fa73aefd27ad947b0f5ee69c632eef, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: []
