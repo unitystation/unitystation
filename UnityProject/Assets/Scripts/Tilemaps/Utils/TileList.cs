@@ -150,7 +150,7 @@ public class TileList
 	/// <returns></returns>
 	public void ForEachSafe(IRegisterTileAction action, Vector3Int localPosition)
 	{
-		if (lockedPosition != null && lockedPosition != localPosition)
+		if (lockedPosition != null)
 		{
 			Logger.LogErrorFormat("Tried to lock tile at position {0} while position {1} is currently locked." +
 			                      " TileList only supports locking one position at a time. Please add this locking capability" +
