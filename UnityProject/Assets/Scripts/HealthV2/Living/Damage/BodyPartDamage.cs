@@ -278,7 +278,7 @@ namespace HealthV2
 			{
 				if(damageToLimb >= DamageThreshold)
 				{
-					GibBodyPartWithChance();
+					DismemberBodyPartWithChance();
 				}
 			}
 		}
@@ -399,14 +399,14 @@ namespace HealthV2
 		{
 			if(Severity >= GibsOnSeverityLevel)
 			{
-				GibBodyPartWithChance();
+				DismemberBodyPartWithChance();
 			}
 		}
 
 		/// <summary>
 		/// Checks if the player is lucky enough and is wearing enough protective armor to avoid getting his bodypart removed.
 		/// </summary>
-		public void GibBodyPartWithChance()
+		public void DismemberBodyPartWithChance()
 		{
 			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
 			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
