@@ -860,7 +860,6 @@ namespace HealthV2
 			Extinguish(); //Remove any fire on them.
 			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
 			healthStateController.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
-			healthStateController.SetConsciousState(ConsciousState.CONSCIOUS); //They're allliiivveee!
 			foreach (var BodyPart in ImplantList) //Restart their heart.
 			{
 				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
@@ -874,6 +873,7 @@ namespace HealthV2
 					}
 				}
 			}
+			CalculateOverallHealth(); //This makes the player alive and concision.
 			player.playerMove.allowInput = true; //Let them interact with the world again.
 		}
 
