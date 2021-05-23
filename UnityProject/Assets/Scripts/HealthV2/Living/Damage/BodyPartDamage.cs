@@ -267,12 +267,18 @@ namespace HealthV2
 				}
 			}
 
-			if(attackType == AttackType.Melee || attackType == AttackType.Laser 
-			|| attackType == AttackType.Bomb || attackType == AttackType.Energy)
+			if(attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{
 				if(damageToLimb >= DamageThreshold)
 				{
 					CheckBodyPartIntigrity();
+				}
+			}
+			if(attackType == AttackType.Bomb)
+			{
+				if(damageToLimb >= DamageThreshold)
+				{
+					GibBodyPartWithChance();
 				}
 			}
 		}
@@ -389,7 +395,7 @@ namespace HealthV2
 		/// <summary>
 		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
 		/// </summary>
-		public void CheckBodyPartIntigrity()
+		protected void CheckBodyPartIntigrity()
 		{
 			if(Severity >= GibsOnSeverityLevel)
 			{
