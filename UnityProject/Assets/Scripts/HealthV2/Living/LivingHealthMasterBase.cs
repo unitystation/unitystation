@@ -900,6 +900,7 @@ namespace HealthV2
 		///</Summary>
 		public virtual void Death()
 		{
+			PlayerManager.PlayerScript.playerMove.allowInput = false;
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
