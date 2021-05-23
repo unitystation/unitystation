@@ -74,7 +74,7 @@ namespace HealthV2
 		/// <summary>
 		public float DamageThreshold = 18f;
 		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
-		public float GibChance = 0.25f;
+		public float GibChance = 0.15f;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -404,8 +404,10 @@ namespace HealthV2
 		{
 			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
 			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
+			if(Severity == DamageSeverity.Max){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
 			{
+				Chat.AddActionMsgToChat(PlayerManager.PlayerScript.gameObject, $"Your {this.name} flies off from your body.", $"{PlayerManager.PlayerScript.gameObject}'s {this.name} has been cut off from their body!");
 				RemoveFromBodyThis();
 			}
 		}
