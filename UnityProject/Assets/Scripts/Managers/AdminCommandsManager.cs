@@ -320,16 +320,45 @@ namespace AdminCommands
 			{
 				foreach (ConnectedPlayer player in players)
 				{
-					string message =
-						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Healed up Username: {player.Username} ({player.Name})";
+					//get player stuff.
+					PlayerScript playerScript = player.Script;
+					Mind playerMind = playerScript.mind;
+					var playerBody = playerMind.body;
+					HealthV2.PlayerHealthV2 health = playerBody.playerHealth;
+					string message = "";
+
+					//Does this player have a body that can be healed?
+					if(playerBody != null)
+					{
+						if(health.IsDead == false) //If player is not dead; simply heal all his damage and that's all.
+						{
+							health.ResetDamageAll();
+							playerScript.registerTile.ServerStandUp();
+						}
+						else //If not, start reviving the player.
+						{
+							//(Max): Because Mirror authority does not allow us to call functions from PlayerSpawn in [Command(requiresAuthority = false)]
+							//(Max): We have to avoid forcing the player ghost back into his body for now until we find a work around.
+							//If the player is a ghost --force them into their body-- tell admins to tell the player to return back to their body to revive them.
+							if(playerScript.IsGhost)
+							{
+								message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Attempted healing {player.Username} but their ghost is outside of their body!";
+								Logger.Log(message, Category.Admin);
+								LogAdminAction(message);
+								return;
+							}
+							health.RevivePlayerToFullHealth(playerScript);
+							playerScript.registerTile.ServerStandUp();
+						}
+						message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Healed up Username: {player.Username} ({player.Name})";
+					}
+					else
+					{
+						message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Attempted healing {player.Username} but they had no body!";
+					}
+					//Log what we did.
 					Logger.Log(message, Category.Admin);
-
 					LogAdminAction(message);
-
-					var playerScript = player.Script;
-					var health = playerScript.playerHealth;
-					health.ResetDamageAll();
-					playerScript.registerTile.ServerStandUp();
 				}
 			}
 		}
