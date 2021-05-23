@@ -407,7 +407,6 @@ namespace HealthV2
 			if(Severity == DamageSeverity.Max){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
 			{
-				Chat.AddActionMsgToChat(PlayerManager.PlayerScript.gameObject, $"Your {this.name} flies off from your body.", $"{PlayerManager.PlayerScript.gameObject}'s {this.name} has been cut off from their body!");
 				RemoveFromBodyThis();
 			}
 		}
