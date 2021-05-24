@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/5/23: Fixes a possible cause of neverending plasma fires by [Semuca](https://github.com/Semuca) in PR #[6606](https://github.com/unitystation/unitystation/pull/6606)
+* 2021/5/23: [Fix] - Admins no longer can heal dead bodies. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6597](https://github.com/unitystation/unitystation/pull/6597)
+* 2021/5/23: [Improvement] - Admins now can now revive dead players instead of forcing their character to respawn. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6597](https://github.com/unitystation/unitystation/pull/6597)
 * 2021/5/20: [Improvement] Changes sprite filtering of SquareButtonvs16x16.png to POINT filtering for more crisp and/or faithful rendering of the given buttons by [pyrosshade](https://github.com/pyrosshade) in PR #[6547](https://github.com/unitystation/unitystation/pull/6547)
 * 2021/5/20: [New] Condimaster Neo creates condiment bottles and condiment packets instead of what ChemMaster creates by [pyrosshade](https://github.com/pyrosshade) in PR #[6547](https://github.com/unitystation/unitystation/pull/6547)
 * 2021/5/20: [New] Adds Condimaster Neo, effectively a service department reskin of the ChemMaster by [pyrosshade](https://github.com/pyrosshade) in PR #[6547](https://github.com/unitystation/unitystation/pull/6547)
