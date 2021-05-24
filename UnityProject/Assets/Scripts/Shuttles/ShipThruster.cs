@@ -6,9 +6,9 @@ using UnityEngine;
 public class ShipThruster : MonoBehaviour
 {
 
-	public MatrixMove shipMatrixMove; // ship matrix move
-	public ParticleSystem particleFX;
-	public LightSprite lightSprite;
+	private MatrixMove shipMatrixMove; // ship matrix move
+	private ParticleSystem particleFX;
+	private LightSprite lightSprite;
 
 
 	public float particleRateMultiplier = 4f;
