@@ -779,9 +779,26 @@ public static class Validations
 	/// </summary>
 	/// <param name="characterName">CharacterSettings.Name</param>
 	/// <returns>True if illegal.</returns>
-	public static bool CharacterNameIsIllegal(String characterName)
+	public static bool HasIllegalCharacterName(String characterName)
 	{
 		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol) || characterName.Count() > GameManager.Instance.CharacterNameLimit)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Validates that the player's character age.
+	/// </summary>
+	/// <param name="characterName">CharacterSettings.Age</param>
+	/// <returns>True if illegal.</returns>
+	public static bool HasIllegalCharacterAge(int characterAge)
+	{
+		if(characterAge > 78 || characterAge <= 17)
 		{
 			return true;
 		}
