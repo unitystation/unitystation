@@ -80,7 +80,7 @@ public class TileList
 		int i = 0;
 		foreach (var register in _objects[position])
 		{
-			if (register?.CurrentsortingGroup == null) continue;
+			if (register.OrNull()?.CurrentsortingGroup == null) continue;
 			register.CurrentsortingGroup.sortingOrder = (i * 4) + offset;
 			i++;
 		}
