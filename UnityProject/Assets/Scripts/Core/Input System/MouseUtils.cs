@@ -95,7 +95,7 @@ public static class MouseUtils
 			.Where(r => r != null)
 			//order by sort layer
 			.OrderByDescending(r =>
-				SortingLayer.GetLayerValueFromID(r.GetComponentInParent<SortingGroup>()?.sortingLayerID == null
+				SortingLayer.GetLayerValueFromID(r.GetComponentInParent<SortingGroup>().OrNull()?.sortingLayerID == null
 					? r.sortingLayerID
 					: r.GetComponentInParent<SortingGroup>().sortingLayerID))
 			//then by sort order
