@@ -28,6 +28,16 @@ public static class PlayerSpawn
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
+		if(Validations.HasIllegalSkinTone(characterSettings) || Validations.CharacterNameIsIllegal(characterSettings.Name))
+		{
+			joinedViewer.connectionToClient.Disconnect();
+			joinedViewer.connectionToServer.Disconnect();
+			if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
+			{
+				joinedViewer.Spectate();
+			}
+			return null;
+		}
 		NetworkConnection conn = joinedViewer.connectionToClient;
 
 		// TODO: add a nice cutscene/animation for the respawn transition
