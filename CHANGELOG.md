@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/5/25: [Fix] Most if not all current NetTabs should now pop up again by [pyrosshade](https://github.com/pyrosshade) in PR #[6611](https://github.com/unitystation/unitystation/pull/6611)
 * 2021/5/23: Fixes a possible cause of neverending plasma fires by [Semuca](https://github.com/Semuca) in PR #[6606](https://github.com/unitystation/unitystation/pull/6606)
 * 2021/5/23: [Fix] - Admins no longer can heal dead bodies. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6597](https://github.com/unitystation/unitystation/pull/6597)
 * 2021/5/23: [Improvement] - Admins now can now revive dead players instead of forcing their character to respawn. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6597](https://github.com/unitystation/unitystation/pull/6597)
