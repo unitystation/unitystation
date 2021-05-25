@@ -30,8 +30,7 @@ public static class PlayerSpawn
 	{
 		if(Validations.HasIllegalSkinTone(characterSettings) || Validations.CharacterNameIsIllegal(characterSettings.Name))
 		{
-			joinedViewer.connectionToClient.Disconnect();
-			joinedViewer.connectionToServer.Disconnect();
+			Messages.Client.Admin.RequestKickMessage.Send("", "", joinedViewer.name, "corrupt or illegal character sheet.", false, 1, false);
 			if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
 			{
 				joinedViewer.Spectate();
