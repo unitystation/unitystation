@@ -781,7 +781,7 @@ public static class Validations
 	/// <returns>True if illegal.</returns>
 	public static bool CharacterNameIsIllegal(String characterName)
 	{
-		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol) || characterName.Count() > 48)
+		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol) || characterName.Count() > GameManager.Instance.CharacterNameLimit)
 		{
 			return true;
 		}
