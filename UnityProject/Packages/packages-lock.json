@@ -14,31 +14,6 @@
       "dependencies": {},
       "hash": "fc456992b4d08ba8460567f7f5b629df76dbe059"
     },
-    "com.google.external-dependency-manager": {
-      "version": "1.2.165",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://unityregistry-pa.googleapis.com"
-    },
-    "com.google.firebase.app": {
-      "version": "7.2.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.google.external-dependency-manager": "1.2.165"
-      },
-      "url": "https://unityregistry-pa.googleapis.com"
-    },
-    "com.google.firebase.auth": {
-      "version": "7.2.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.google.firebase.app": "7.2.0"
-      },
-      "url": "https://unityregistry-pa.googleapis.com"
-    },
     "com.unity.2d.pixel-perfect": {
       "version": "3.0.2",
       "depth": 0,
