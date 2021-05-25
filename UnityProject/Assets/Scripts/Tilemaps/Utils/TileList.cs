@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 /// <summary>
@@ -41,6 +42,8 @@ public class TileList
 
 	public void Add(Vector3Int position, RegisterTile obj)
 	{
+
+
 		//queue for later if it's locked
 		if (lockedPosition == position)
 		{
@@ -48,16 +51,42 @@ public class TileList
 			return;
 		}
 
+
 		if (!_objects.ContainsKey(position))
 		{
 			_objects[position] = new List<RegisterTile>();
 		}
 
+
+
 		if (!_objects[position].Contains(obj))
 		{
 			_objects[position].Add(obj);
+			ReorderObjects(position);
 		}
 	}
+
+	private void ReorderObjects(Vector3Int position)
+	{
+		int offset = 0;
+		if (position.x % 2 != 0)
+		{
+			offset = position.y % 2 != 0 ? 1 : 0;
+		}
+		else
+		{
+			offset = position.y % 2 != 0 ? 3 : 2;
+		}
+		int i = 0;
+		foreach (var register in _objects[position])
+		{
+			if (register?.CurrentsortingGroup == null) continue;
+			register.CurrentsortingGroup.sortingOrder = (i * 4) + offset;
+			i++;
+		}
+
+	}
+
 	public bool HasObjects(Vector3Int position)
 	{
 		return _objects.ContainsKey(position) && _objects[position].Count > 0;
