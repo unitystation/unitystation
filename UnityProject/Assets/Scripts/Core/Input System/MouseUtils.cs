@@ -100,7 +100,7 @@ public static class MouseUtils
 					: r.GetComponentInParent<SortingGroup>().sortingLayerID))
 			//then by sort order
 			.ThenByDescending(renderer =>
-				renderer.GetComponentInParent<SortingGroup>()?.sortingOrder == null
+				renderer.GetComponentInParent<SortingGroup>().OrNull()?.sortingOrder == null
 					? renderer.sortingOrder
 					: renderer.GetComponentInParent<SortingGroup>().sortingOrder)
 			//get the "parent" game object of each of the hit renderers
