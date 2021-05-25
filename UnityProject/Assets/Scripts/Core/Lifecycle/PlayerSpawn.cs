@@ -28,8 +28,8 @@ public static class PlayerSpawn
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
-		if(Validations.HasIllegalSkinTone(characterSettings) || Validations.HasIllegalCharacterName(characterSettings.Name)
-		|| Validations.HasIllegalCharacterAge(characterSettings.Age))
+		if(ServerValidations.HasIllegalSkinTone(characterSettings) || ServerValidations.HasIllegalCharacterName(characterSettings.Name)
+		|| ServerValidations.HasIllegalCharacterAge(characterSettings.Age))
 		{
 			Messages.Client.Admin.RequestKickMessage.Send("", "", joinedViewer.name, "corrupt or illegal character sheet.", false, 1, false);
 			if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
