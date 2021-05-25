@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/5/25: [Fix] - Players can no longer walk around headless or without a brain or torso and stay alive. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6610](https://github.com/unitystation/unitystation/pull/6610)
+* 2021/5/25: [New] - Players can now be dismembered by other players and explosives. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6610](https://github.com/unitystation/unitystation/pull/6610)
 * 2021/5/25: [Fix] Most if not all current NetTabs should now pop up again by [pyrosshade](https://github.com/pyrosshade) in PR #[6611](https://github.com/unitystation/unitystation/pull/6611)
 * 2021/5/23: Fixes a possible cause of neverending plasma fires by [Semuca](https://github.com/Semuca) in PR #[6606](https://github.com/unitystation/unitystation/pull/6606)
 * 2021/5/23: [Fix] - Admins no longer can heal dead bodies. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6597](https://github.com/unitystation/unitystation/pull/6597)
