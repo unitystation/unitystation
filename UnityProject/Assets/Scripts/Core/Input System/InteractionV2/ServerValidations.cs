@@ -151,6 +151,14 @@ public static class ServerValidations
 		{
 			return false;
 		}
+		if(skinToneIsIllegal == false)
+		{
+			if(currentSkinColor.a <= 0.99f)
+			{
+				skinToneIsIllegal = true;
+			}
+		}
+
 		return skinToneIsIllegal;
 	}
 
