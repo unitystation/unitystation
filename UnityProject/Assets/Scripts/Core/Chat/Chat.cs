@@ -204,6 +204,7 @@ public partial class Chat : MonoBehaviour
 			{
 				//Set originator to core
 				chatEvent.originator = aiPlayer.CoreObject;
+				chatEvent.position = aiPlayer.CoreObject.AssumedWorldPosServer();
 
 				//TODO here make it so we dont send local with binary
 				//TODO maybe also make it so we only speak local when only wanting local, all other channels dont have local with them?
