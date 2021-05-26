@@ -134,8 +134,23 @@ namespace Messages.Client.Interaction
 
 			var performer = SentByPlayer.GameObject;
 
-			if (SentByPlayer == null || SentByPlayer.Script == null || SentByPlayer.Script.ItemStorage == null)
+			if (SentByPlayer == null || SentByPlayer.Script == null)
 			{
+				return;
+			}
+
+			if (SentByPlayer.Script.ItemStorage == null)
+			{
+				if (InteractionType == typeof(AiActivate))
+				{
+					LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
+					var targetObj = NetworkObjects[0];
+					var processorObj = NetworkObjects[1];
+
+					var interaction = new AiActivate(performer, null, targetObj, Intent, msg.ClickTypes);
+					ProcessInteraction(interaction, processorObj, ComponentType);
+				}
+
 				return;
 			}
 
@@ -302,15 +317,6 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref processorObj);
 
 				var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent);
-				ProcessInteraction(interaction, processorObj, ComponentType);
-			}
-			else if (InteractionType == typeof(AiActivate))
-			{
-				LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
-				var targetObj = NetworkObjects[0];
-				var processorObj = NetworkObjects[1];
-
-				var interaction = new AiActivate(performer, null, targetObj, Intent, msg.ClickTypes);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 		}
