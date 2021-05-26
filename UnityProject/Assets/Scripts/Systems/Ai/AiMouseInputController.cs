@@ -74,7 +74,7 @@ namespace Systems.Ai
 		{
 			var handApplyTargets = MouseUtils.GetOrderedObjectsUnderMouse();
 
-			//go through the stack of objects and call any interaction components we find
+			//go through the stack of objects and call AiActivate interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
 				var behaviours = applyTarget.GetComponents<IBaseInteractable<AiActivate>>()
