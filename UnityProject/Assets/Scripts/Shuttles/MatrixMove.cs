@@ -353,9 +353,9 @@ public class MatrixMove : ManagedBehaviour
 		networkedMatrix.MatrixSync.SyncInitialPosition(oldPos, initialPos);
 	}
 
-	public void SyncPivot(Vector3 oldPivot, Vector3 pivot)
+	private void SyncPivot(Vector3 oldPivot, Vector3 pivot)
 	{
-
+		networkedMatrix.MatrixSync.SyncPivot(oldPivot, pivot);
 	}
 
 	/// <summary>

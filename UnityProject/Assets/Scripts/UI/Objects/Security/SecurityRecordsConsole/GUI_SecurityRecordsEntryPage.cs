@@ -70,9 +70,9 @@ namespace UI.Objects.Security
 			ClosePopup();
 		}
 
-		public void RemoveID()
+		public void RemoveID(ConnectedPlayer player)
 		{
-			securityRecordsTab.RemoveId();
+			securityRecordsTab.RemoveId(player);
 			securityRecordsTab.UpdateIdText(idNameText);
 		}
 
