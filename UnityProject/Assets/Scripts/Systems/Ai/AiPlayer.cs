@@ -31,6 +31,7 @@ namespace Systems.Ai
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
+			playerScript.SetState(PlayerScript.PlayerStates.Ai);
 		}
 
 		private void Start()

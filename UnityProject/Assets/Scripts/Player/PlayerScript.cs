@@ -1,3 +1,4 @@
+using Systems.Ai;
 using UnityEngine;
 using Mirror;
 using Blob;
@@ -96,6 +97,17 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
 
+	private PlayerStates playerState = PlayerStates.Normal;
+	public PlayerStates PlayerState => playerState;
+
+	public enum PlayerStates
+	{
+		Normal,
+		Ghost,
+		Blob,
+		Ai
+	}
+
 	#region Lifecycle
 
 	private void Awake()
@@ -119,6 +131,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		if (GetComponent<BlobPlayer>() != null)
 		{
 			IsPlayerSemiGhost = true;
+			playerState = PlayerStates.Blob;
 		}
 	}
 
@@ -199,7 +212,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			}
 			else if (IsPlayerSemiGhost == false)
 			{
-				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
+				if (playerState != PlayerStates.Ai)
+				{
+					UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
+				}
+
 				// Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
@@ -221,6 +238,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	}
 
 	#endregion
+
+	public void SetState(PlayerStates newState)
+	{
+		playerState = newState;
+	}
 
 	public override void UpdateMe()
 	{

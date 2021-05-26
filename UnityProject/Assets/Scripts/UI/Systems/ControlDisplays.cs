@@ -26,9 +26,13 @@ namespace UI
 			TeamSelect,
 			JobSelect
 		}
+
 		public GameObject hudBottomHuman;
 		public UI_GhostOptions hudBottomGhost;
 		public GameObject hudBottomBlob;
+		public GameObject hudBottomAi;
+		public GameObject currentHud;
+
 		public GameObject jobSelectWindow;
 		public GameObject teamSelectionWindow;
 		[CanBeNull] public GameObject disclaimer;
@@ -44,16 +48,16 @@ namespace UI
 
 		void OnEnable()
 		{
-			EventManager.AddHandler(Event.PlayerSpawned, HumanUI);
-			EventManager.AddHandler(Event.GhostSpawned, GhostUI);
-			EventManager.AddHandler(Event.BlobSpawned, BlobUI);
+			EventManager.AddHandler(Event.PlayerSpawned, DetermineUI);
+			EventManager.AddHandler(Event.GhostSpawned, DetermineUI);
+			EventManager.AddHandler(Event.BlobSpawned, DetermineUI);
 		}
 
 		void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.PlayerSpawned, HumanUI);
-			EventManager.RemoveHandler(Event.GhostSpawned, GhostUI);
-			EventManager.RemoveHandler(Event.BlobSpawned, BlobUI);
+			EventManager.RemoveHandler(Event.PlayerSpawned, DetermineUI);
+			EventManager.RemoveHandler(Event.GhostSpawned, DetermineUI);
+			EventManager.RemoveHandler(Event.BlobSpawned, DetermineUI);
 		}
 
 		public void RejoinedEvent()
@@ -64,7 +68,7 @@ namespace UI
 			StartCoroutine(DetermineRejoinUI());
 		}
 
-		IEnumerator DetermineRejoinUI()
+		private IEnumerator DetermineRejoinUI()
 		{
 			// Wait for the assigning
 			while (PlayerManager.LocalPlayerScript == null)
@@ -72,62 +76,52 @@ namespace UI
 				yield return WaitFor.EndOfFrame;
 			}
 
+			DetermineUI();
+		}
+
+		private void DetermineUI()
+		{
 			// TODO: make better system for handling lots of different UIs
-			if (PlayerManager.LocalPlayerScript.IsPlayerSemiGhost)
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Blob)
 			{
-				BlobUI();
+				SetUi(hudBottomBlob);
 				PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();
+			}
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			{
+				SetUi(hudBottomAi);
 			}
 			else if (PlayerManager.LocalPlayerScript.playerHealth == null)
 			{
-				GhostUI();
+				SetUi(hudBottomGhost.gameObject);
 			}
 			else
 			{
-				HumanUI();
+				SetUi(hudBottomHuman);
 			}
 		}
 
-		void HumanUI()
+		private void SetUi(GameObject newUi)
 		{
-			if (hudBottomHuman != null && hudBottomGhost != null)
+			if (currentHud == null)
 			{
-				hudBottomBlob.SetActive(false);
-				hudBottomHuman.SetActive(true);
-				hudBottomGhost.SetActive(false);
+				currentHud = hudBottomHuman;
 			}
-			UIManager.PlayerHealthUI.gameObject.SetActive(true);
-			panelRight.gameObject.SetActive(true);
-			rightClickManager.SetActive(true);
-			preRoundWindow.gameObject.SetActive(false);
-			MusicManager.SongTracker.Stop();
-		}
 
-		void GhostUI()
-		{
-			if (hudBottomHuman != null && hudBottomGhost != null)
+			if (newUi == hudBottomGhost.gameObject)
 			{
-				hudBottomBlob.SetActive(false);
-				hudBottomHuman.SetActive(false);
-				hudBottomGhost.SetActive(true);
 				hudBottomGhost.AdminGhostInventory.SetActive(PlayerList.Instance.IsClientAdmin);
 			}
-			UIManager.PlayerHealthUI.gameObject.SetActive(true);
-			panelRight.gameObject.SetActive(true);
-			rightClickManager.SetActive(true);
-			preRoundWindow.gameObject.SetActive(false);
-			MusicManager.SongTracker.Stop();
-		}
 
-		void BlobUI()
-		{
-			if (hudBottomBlob != null && hudBottomHuman != null && hudBottomGhost != null)
-			{
-				hudBottomHuman.SetActive(false);
-				hudBottomGhost.SetActive(false);
-				hudBottomBlob.SetActive(true);
-			}
-			UIManager.PlayerHealthUI.gameObject.SetActive(false);
+			//Turn off old UI
+			ToggleCurrentHud(false);
+
+			currentHud = newUi;
+
+			//Turn on new UI
+			ToggleCurrentHud(true);
+
+			UIManager.PlayerHealthUI.gameObject.SetActive(true);
 			panelRight.gameObject.SetActive(true);
 			rightClickManager.SetActive(true);
 			preRoundWindow.gameObject.SetActive(false);
@@ -185,9 +179,7 @@ namespace UI
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
 			UIActionManager.Instance.OnRoundEnd();
-			hudBottomHuman.SetActive(false);
-			hudBottomBlob.SetActive(false);
-			hudBottomGhost.SetActive(false);
+			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
 			jobSelectWindow.SetActive(false);
@@ -200,9 +192,7 @@ namespace UI
 
 		public void SetScreenForGame()
 		{
-			hudBottomHuman.SetActive(false);
-			hudBottomBlob.SetActive(false);
-			hudBottomGhost.SetActive(false);
+			ToggleCurrentHud(false);
 			UIManager.PlayerHealthUI.gameObject.SetActive(true);
 			panelRight.gameObject.SetActive(true);
 			rightClickManager.SetActive(false);
@@ -216,9 +206,7 @@ namespace UI
 		{
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
-			hudBottomHuman.SetActive(false);
-			hudBottomBlob.SetActive(false);
-			hudBottomGhost.SetActive(false);
+			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
 			jobSelectWindow.SetActive(false);
@@ -233,15 +221,20 @@ namespace UI
 		{
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
-			hudBottomHuman.SetActive(false);
-			hudBottomBlob.SetActive(false);
-			hudBottomGhost.SetActive(false);
+			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
 			preRoundWindow.SetUIForJoining();
+		}
+
+		private void ToggleCurrentHud(bool toggle)
+		{
+			if (currentHud == null) return;
+
+			currentHud.SetActive(toggle);
 		}
 
 		public void SetScreenForTeamSelect()
