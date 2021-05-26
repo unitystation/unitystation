@@ -536,7 +536,7 @@ public static class Validations
 		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
 
 	//AiActivate Validation
-	public static bool CanApply(AiActivate toValidate, NetworkSide side)
+	public static bool CanApply(AiActivate toValidate, NetworkSide side, bool lineCast = true)
 	{
 		//Performer and target cant be null
 		if (toValidate.Performer == null || toValidate.TargetObject == null) return false;
@@ -549,6 +549,19 @@ public static class Validations
 
 		//Distance check to make sure its in range, this wont be called for "saved" cameras
 		if (Vector2.Distance(aiPlayer.CameraLocation.position, toValidate.TargetObject.transform.position) > aiPlayer.InteractionDistance) return false;
+
+		if (lineCast == false)
+		{
+			return true;
+		}
+
+		var endPos = toValidate.TargetObject.transform.position;
+
+		//raycast to make sure not hidden
+		var linecast = MatrixManager.Linecast(aiPlayer.CameraLocation.position, LayerTypeSelection.Walls, null,
+			endPos);
+
+		if (linecast.ItHit && Vector3.Distance(endPos, linecast.HitWorld) > 0.5f) return false;
 
 		return true;
 	}

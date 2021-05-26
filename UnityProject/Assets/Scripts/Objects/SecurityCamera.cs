@@ -74,8 +74,8 @@ namespace Objects
 			//Only if you click normally do you switch cameras
 			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
 
-			//Validate distance check and target checks
-			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+			//Validate distance check and target checks, dont linecast validate as we allow it through walls
+			if (DefaultWillInteract.AiActivate(interaction, side, false) == false) return false;
 
 			return true;
 		}

@@ -18,7 +18,7 @@ namespace Systems.Ai
 		public GameObject CoreObject => coreObject;
 
 		[SerializeField]
-		private int interactionDistance = 25;
+		private int interactionDistance = 29;
 		public int InteractionDistance => interactionDistance;
 
 		[SerializeField]
@@ -34,6 +34,7 @@ namespace Systems.Ai
 		public Transform CameraLocation => cameraLocation;
 
 		private PlayerScript playerScript;
+		public PlayerScript PlayerScript => playerScript;
 
 		//Clientside only
 		private UI_Ai aiUi;

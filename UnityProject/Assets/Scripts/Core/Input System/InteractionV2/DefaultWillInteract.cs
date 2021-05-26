@@ -152,8 +152,8 @@ public static class DefaultWillInteract
 	/// <summary>
 	/// Default WillInteract logic for ContextMenuApply interactions
 	/// </summary>
-	public static bool AiActivate(AiActivate interaction, NetworkSide side)
+	public static bool AiActivate(AiActivate interaction, NetworkSide side, bool lineCast = true)
 	{
-		return Validations.CanApply(interaction, side);
+		return Validations.CanApply(interaction, side, lineCast);
 	}
 }

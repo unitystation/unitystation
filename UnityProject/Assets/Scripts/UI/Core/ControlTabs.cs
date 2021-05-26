@@ -537,11 +537,6 @@ namespace UI
 			var reach = ReachRange.Standard;
 			var playerScript = PlayerManager.LocalPlayerScript;
 
-			if (playerScript != null && playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
-			{
-				reach = ReachRange.Unlimited;
-			}
-
 			foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 			{
 				if (tab.Provider == null)
@@ -550,6 +545,18 @@ namespace UI
 				}
 				else if (Validations.CanApply(playerScript, tab.Provider, NetworkSide.Client, reachRange: reach) == false)
 				{
+					//Validate for AI reach
+					if (playerScript != null && playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+					{
+						if (Validations.CanApply(new AiActivate(playerScript.gameObject, null,
+							tab.Provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Client))
+						{
+							continue;
+						}
+
+						toClose.Add(tab);
+					}
+
 					if(UIManager.Hands.CurrentSlot == null) continue;
 
 					// Make sure the item is not in the players hands first:

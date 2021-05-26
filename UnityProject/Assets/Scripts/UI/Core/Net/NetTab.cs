@@ -254,8 +254,18 @@ public class NetTab : Tab
 		{
 			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
 
-			if (peeper.Script == false || (canApply == false && peeper.Script.PlayerState != PlayerScript.PlayerStates.Ai))
+			if (peeper.Script == false || canApply == false)
 			{
+				//Validate for AI
+				if (peeper.Script.PlayerState == PlayerScript.PlayerStates.Ai)
+				{
+					if (Validations.CanApply(new AiActivate(peeper.GameObject, null,
+						Provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server))
+					{
+						continue;
+					}
+				}
+
 				TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
 			}
 		}

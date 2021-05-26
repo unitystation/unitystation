@@ -45,7 +45,8 @@ namespace Messages.Client
 			bool validate;
 			if (playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
 			{
-				validate = true;
+				validate = Validations.CanApply(new AiActivate(player.GameObject, null,
+					tabProvider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
 			}
 			else
 			{
