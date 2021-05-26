@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Systems.Electricity;
 using Messages.Server;
 using Mirror;
 using Objects;
+using Objects.Research;
 using UnityEngine;
 
 namespace Systems.Ai
@@ -21,7 +23,6 @@ namespace Systems.Ai
 		private int interactionDistance = 29;
 		public int InteractionDistance => interactionDistance;
 
-		[SerializeField]
 		private SecurityCamera coreCamera = null;
 		public SecurityCamera CoreCamera => coreCamera;
 
@@ -83,6 +84,8 @@ namespace Systems.Ai
 
 			ServerSetCameraLocation(coreObject);
 			coreObject.GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnCoreDestroy);
+			coreObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
+			coreObject.GetComponent<AiCore>().SetLinkedPlayer(this);
 		}
 
 		private void OnDisable()
@@ -105,6 +108,7 @@ namespace Systems.Ai
 
 			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
 			aiUi.OrNull()?.SetUp(this);
+			coreCamera = newCore.GetComponent<SecurityCamera>();
 			ClientSetCameraLocation(newCore.transform);
 			SetCameras(true);
 		}
@@ -123,19 +127,37 @@ namespace Systems.Ai
 				return;
 			}
 
-			//Remove old integrity listener if possible, ignore if current location is core
-			if (cameraLocation != null && cameraLocation.gameObject != gameObject && newObject.TryGetComponent<Integrity>(out var oldCameraIntegrity))
+			if (cameraLocation != null && cameraLocation.gameObject != gameObject)
 			{
-				oldCameraIntegrity.OnWillDestroyServer.RemoveListener(OnCameraDestroy);
+				//Remove old integrity listener if possible, ignore if current location is core
+				if (cameraLocation.TryGetComponent<Integrity>(out var oldCameraIntegrity))
+				{
+					oldCameraIntegrity.OnWillDestroyServer.RemoveListener(OnCameraDestroy);
+				}
+
+				//Remove old power listener
+				if (cameraLocation.TryGetComponent<SecurityCamera>(out var oldCamera))
+				{
+					oldCamera.ApcPoweredDevice.OnStateChangeEvent.RemoveListener(CameraPowerStateChanged);
+				}
 			}
 
 			cameraLocation = newObject ? newObject.transform : null;
 			FollowCameraAiMessage.Send(gameObject, newObject);
 
-			//Add integrity listener to camera if possible, so we can move camera back to core if camera destroyed
-			if (newObject != null && newObject != gameObject && newObject.TryGetComponent<Integrity>(out var cameraIntegrity))
+			if (newObject != null && newObject != gameObject)
 			{
-				cameraIntegrity.OnWillDestroyServer.AddListener(OnCameraDestroy);
+				//Add integrity listener to camera if possible, so we can move camera back to core if camera destroyed
+				if (newObject.TryGetComponent<Integrity>(out var cameraIntegrity))
+				{
+					cameraIntegrity.OnWillDestroyServer.AddListener(OnCameraDestroy);
+				}
+
+				//Add power listener
+				if (newObject.TryGetComponent<SecurityCamera>(out var securityCamera))
+				{
+					securityCamera.ApcPoweredDevice.OnStateChangeEvent.AddListener(CameraPowerStateChanged);
+				}
 			}
 
 			if (newObject != null)
@@ -166,7 +188,7 @@ namespace Systems.Ai
 
 				foreach (var camera in pairs.Value)
 				{
-					camera.ToggleAiSprite(newState);
+					camera.OrNull()?.ToggleAiSprite(newState);
 				}
 			}
 		}
@@ -188,11 +210,19 @@ namespace Systems.Ai
 
 				foreach (var camera in pairs.Value)
 				{
-					camera.ToggleLight(newState);
+					camera.OrNull()?.ToggleLight(newState);
 				}
 			}
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You turn the camera lights {(newState ? "on" : "off")}");
+		}
+
+		private void CameraPowerStateChanged(Tuple<PowerState, PowerState> oldAndNewStates)
+		{
+			if(oldAndNewStates.Item2 != PowerState.Off) return;
+
+			//Lost power so move back to core
+			ServerSetCameraLocation(coreObject);
 		}
 
 		#endregion

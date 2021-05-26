@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
 using Objects.Engineering;
+using UnityEngine.Events;
 
 namespace Systems.Electricity
 {
@@ -63,6 +65,10 @@ namespace Systems.Electricity
 		private PowerState state = PowerState.Off;
 		public PowerState State => state;
 
+		/// <summary>
+		/// 1 PowerState is the old state, 2 PowerState is the new state
+		/// </summary>
+		public UnityEvent<Tuple<PowerState, PowerState>> OnStateChangeEvent = new UnityEvent<Tuple<PowerState, PowerState>>();
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
@@ -184,6 +190,9 @@ namespace Systems.Electricity
 				}
 
 				if (newState == state) return;
+
+				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(state, newState));
+
 				state = newState;
 				Powered?.StateUpdate(state);
 			}

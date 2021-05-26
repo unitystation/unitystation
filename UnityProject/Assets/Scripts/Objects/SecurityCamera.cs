@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Systems.Ai;
+using Systems.Electricity;
 using Mirror;
 using UnityEngine;
 
 namespace Objects
 {
-	public class SecurityCamera : NetworkBehaviour, ICheckedInteractable<AiActivate>, ICheckedInteractable<HandApply>
+	public class SecurityCamera : NetworkBehaviour, ICheckedInteractable<AiActivate>, ICheckedInteractable<HandApply>, IExaminable
 	{
 		private static Dictionary<string, List<SecurityCamera>> cameras = new Dictionary<string, List<SecurityCamera>>();
 		public static Dictionary<string, List<SecurityCamera>> Cameras => cameras;
@@ -25,6 +26,7 @@ namespace Objects
 
 		[SerializeField]
 		private GameObject cameraLight = null;
+		public GameObject CameraLight => cameraLight;
 
 		[SerializeField]
 		private SpriteHandler spriteHandler = null;
@@ -43,20 +45,35 @@ namespace Objects
 		private bool panelOpen;
 		private bool wiresCut;
 
+		private APCPoweredDevice apcPoweredDevice;
+		public APCPoweredDevice ApcPoweredDevice => apcPoweredDevice;
+
+		private void Awake()
+		{
+			apcPoweredDevice = GetComponent<APCPoweredDevice>();
+		}
+
 		private void OnEnable()
 		{
 			if (cameras.ContainsKey(securityCameraChannel) == false)
 			{
-				cameras.Add(securityCameraChannel, new List<SecurityCamera>{this});
+				cameras.Add(securityCameraChannel, new List<SecurityCamera> {this});
 				return;
 			}
 
 			cameras[securityCameraChannel].Add(this);
 
-			//Make sure new lights are set correctly for newly built cameras
-			if (CustomNetworkManager.IsServer && lightOn != GlobalLightStatus)
+			cameraActive = !wiresCut;
+
+
+			if (CustomNetworkManager.IsServer)
 			{
-				ToggleLight(GlobalLightStatus);
+				//Make sure new lights are set correctly for newly built cameras
+				if (lightOn != GlobalLightStatus)
+				{
+					ToggleLight(GlobalLightStatus);
+				}
+				apcPoweredDevice.OnStateChangeEvent.AddListener(PowerStateChanged);
 			}
 		}
 
@@ -64,7 +81,7 @@ namespace Objects
 		{
 			cameras[securityCameraChannel].Remove(this);
 
-			cameraActive = false;
+			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChanged);
 		}
 
 		#region Ai Camera Switching
@@ -84,6 +101,12 @@ namespace Objects
 		{
 			//TODO check camera network is valid??
 			if(interaction.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return;
+
+			if (cameraActive == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Cannot move to camera, it is deactivated");
+				return;
+			}
 
 			//Switch the players camera to this object
 			aiPlayer.ServerSetCameraLocation(gameObject);
@@ -108,7 +131,7 @@ namespace Objects
 		[Client]
 		private void SyncStatus(bool oldState, bool newState)
 		{
-			if(PlayerManager.LocalPlayer.GetComponent<AiPlayer>() == null) return;
+			if(PlayerManager.LocalPlayer.OrNull()?.GetComponent<AiPlayer>() == null) return;
 
 			ToggleAiSprite(newState);
 
@@ -174,7 +197,18 @@ namespace Objects
 			}
 
 			wiresCut = !wiresCut;
-			cameraActive = wiresCut;
+
+			//Always off if no power
+			if (apcPoweredDevice.State == PowerState.Off)
+			{
+				cameraActive = false;
+			}
+			//Switch to wire state otherwise
+			else if (wiresCut)
+			{
+				cameraActive = wiresCut;
+			}
+
 			spriteHandler.OrNull()?.ChangeSpriteVariant(wiresCut ? 0 : 1);
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You {(wiresCut ? "cut" : "repair")} the cameras wiring",
@@ -182,5 +216,30 @@ namespace Objects
 		}
 
 		#endregion
+
+		#region Power
+
+		private void PowerStateChanged(Tuple<PowerState, PowerState> oldAndNewStates)
+		{
+			//If now off turn off
+			if (oldAndNewStates.Item2 == PowerState.Off)
+			{
+				cameraActive = false;
+				return;
+			}
+
+			//If was off turn on if wires not cut
+			if (oldAndNewStates.Item1 == PowerState.Off && wiresCut == false)
+			{
+				cameraActive = true;
+			}
+		}
+
+		#endregion
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			return $"The cameras back panel is {(panelOpen ? "open" : "closed")} and the camera is {(cameraActive ? "active" : "deactivated")}";
+		}
 	}
 }

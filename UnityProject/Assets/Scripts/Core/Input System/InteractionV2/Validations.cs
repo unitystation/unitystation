@@ -5,6 +5,7 @@ using System.Linq;
 using Systems.Ai;
 using HealthV2;
 using Items;
+using Objects.Wallmounts;
 using TileManagement;
 using UnityEngine;
 
@@ -556,6 +557,12 @@ public static class Validations
 		}
 
 		var endPos = toValidate.TargetObject.transform.position;
+
+		//If wall mount calculate to the tile in front of it instead of the wall it is on
+		if (toValidate.TargetObject.TryGetComponent<WallmountBehavior>(out var wall))
+		{
+			endPos = wall.CalculateTileInFrontPos();
+		}
 
 		//raycast to make sure not hidden
 		var linecast = MatrixManager.Linecast(aiPlayer.CameraLocation.position, LayerTypeSelection.Walls, null,
