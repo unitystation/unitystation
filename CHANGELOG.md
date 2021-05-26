@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/5/26: highlighting should be consistent now by [Bod9001](https://github.com/Bod9001) in PR #[6614](https://github.com/unitystation/unitystation/pull/6614)
 * 2021/5/25: [Fix] - Players can no longer walk around headless or without a brain or torso and stay alive. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6610](https://github.com/unitystation/unitystation/pull/6610)
 * 2021/5/25: [New] - Players can now be dismembered by other players and explosives. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6610](https://github.com/unitystation/unitystation/pull/6610)
 * 2021/5/25: [Fix] Most if not all current NetTabs should now pop up again by [pyrosshade](https://github.com/pyrosshade) in PR #[6611](https://github.com/unitystation/unitystation/pull/6611)
