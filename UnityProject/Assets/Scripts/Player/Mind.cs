@@ -102,7 +102,12 @@ public class Mind
 		Spells.Clear();
 		playerScript.mind = this;
 		body = playerScript;
-		bodyMobID = playerScript.GetComponent<LivingHealthMasterBase>().mobID;
+
+		if (playerScript.TryGetComponent<LivingHealthMasterBase>(out var health))
+		{
+			bodyMobID = health.mobID;
+		}
+
 		if (occupation != null)
 		{
 			foreach (var spellData in occupation.Spells)

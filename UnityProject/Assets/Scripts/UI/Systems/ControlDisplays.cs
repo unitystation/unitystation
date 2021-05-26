@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Audio.Managers;
 using Audio.Containers;
@@ -232,6 +233,11 @@ namespace UI
 
 		private void ToggleCurrentHud(bool toggle)
 		{
+			hudBottomHuman.SetActive(false);
+			hudBottomGhost.SetActive(false);
+			hudBottomBlob.SetActive(false);
+			hudBottomAi.SetActive(false);
+
 			if (currentHud == null) return;
 
 			currentHud.SetActive(toggle);

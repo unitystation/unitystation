@@ -26,11 +26,15 @@ namespace Systems.Ai
 
 		private PlayerScript playerScript;
 
+		//Clientside only
+		private UI_Ai aiUi;
+
 		#region LifeCycle
 
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
+			playerScript.IsPlayerSemiGhost = true;
 			playerScript.SetState(PlayerScript.PlayerStates.Ai);
 		}
 
@@ -40,7 +44,7 @@ namespace Systems.Ai
 
 			//TODO beam new AI message
 
-			coreObject = Spawn.ServerPrefab(corePrefab, parent: transform.parent).GameObject;
+			coreObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
 
 			if (coreObject == null)
 			{
@@ -70,6 +74,9 @@ namespace Systems.Ai
 			coreObject = newCore;
 			if(newCore == null) return;
 
+			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
+			aiUi.OrNull()?.SetUp(this);
+			playerScript.SetState(PlayerScript.PlayerStates.Ai);
 			ClientSetCameraLocation(newCore.transform);
 			SetCameras(true);
 		}
@@ -124,6 +131,12 @@ namespace Systems.Ai
 			}
 		}
 
+		[Command]
+		public void CmdTeleportToCore()
+		{
+			ServerSetCameraLocation(coreObject);
+		}
+
 		#endregion
 
 		#region AiCore
@@ -137,6 +150,7 @@ namespace Systems.Ai
 				TargetRpcTurnOffCameras(connectionToClient);
 			}
 
+			playerScript.SetState(PlayerScript.PlayerStates.Ghost);
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
 
