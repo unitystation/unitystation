@@ -175,25 +175,25 @@ public class GUI_IDConsole : NetTab
 		}
 	}
 
-	public void ServerRemoveTargetCard(ConnectedPlayer player)
+	public void ServerRemoveTargetCard()
 	{
 		if (console.TargetCard == null)
 		{
 			return;
 		}
-		console.EjectCard(console.TargetCard, player);
+		console.EjectCard(console.TargetCard);
 		pageSwitcher.SetActivePage(usercardPage);
 	}
 
-	public void ServerRemoveAccessCard(ConnectedPlayer player)
+	public void ServerRemoveAccessCard()
 	{
 		if (console.AccessCard == null)
 		{
 			return;
 		}
-		console.EjectCard(console.AccessCard, player);
+		console.EjectCard(console.AccessCard);
 		ServerRefreshCardNames();
-		ServerLogOut(player);
+		ServerLogOut();
 	}
 
 	public void ServerLogin()
@@ -207,12 +207,12 @@ public class GUI_IDConsole : NetTab
 		}
 	}
 
-	public void ServerLogOut(ConnectedPlayer player)
+	public void ServerLogOut()
 	{
-		ServerRemoveTargetCard(player);
+		ServerRemoveTargetCard();
 		console.LoggedIn = false;
 		pageSwitcher.SetActivePage(loginPage);
 		ServerUpdateLoginCardName();
-		ServerRemoveAccessCard(player);
+		ServerRemoveAccessCard();
 	}
 }

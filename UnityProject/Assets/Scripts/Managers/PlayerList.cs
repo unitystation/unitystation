@@ -174,9 +174,9 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
+		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId}.", Category.Connections);
 
-		var loggedOffClient = GetLoggedOffClient(player.ClientId, player.UserId);
+		var loggedOffClient = GetLoggedOffClient(player.ClientId);
 		if (loggedOffClient != null)
 		{
 			Logger.Log(
@@ -191,7 +191,7 @@ public partial class PlayerList : NetworkBehaviour
 				return player;
 			}
 
-			// Switching over to the old player's character is handled by JoinedViewer so dont need any extra logic.
+			// Switching over to the old player's character is handled by JoinedViewer.
 		}
 
 		loggedIn.Add(player);
@@ -226,9 +226,9 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public ConnectedPlayer GetLoggedOffClient(string clientID, string userId)
+	public ConnectedPlayer GetLoggedOffClient(string clientID)
 	{
-		var index = loggedOff.FindIndex(x => x.ClientId == clientID || x.UserId == userId);
+		var index = loggedOff.FindIndex(x => x.ClientId == clientID);
 		if (index != -1)
 		{
 			return loggedOff[index];
@@ -238,12 +238,12 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public bool ContainsName(string name, string userId, bool includeOffline = false)
+	public bool ContainsName(string name, string _UserId)
 	{
-		var character = Get(name, includeOffline);
-		if (character.Equals(ConnectedPlayer.Invalid)) return false;
+		var Character = Get(name);
+		if (Character.Equals(ConnectedPlayer.Invalid)) return false;
 
-		return character.UserId != userId;
+		return Character.UserId != _UserId;
 	}
 
 	[Server]
@@ -255,35 +255,25 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public ConnectedPlayer Get(NetworkConnection byConnection)
 	{
-		return GetInternalLoggedIn(player => player.Connection == byConnection);
+		return getInternal(player => player.Connection == byConnection);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(string byName, bool includeOffline = false)
+	public ConnectedPlayer Get(string byName)
 	{
-		if (includeOffline)
-		{
-			return GetInternalAll(player => player.Name == byName);
-		}
-
-		return GetInternalLoggedIn(player => player.Name == byName);
+		return getInternal(player => player.Name == byName);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(GameObject byGameObject, bool includeOffline = false)
+	public ConnectedPlayer Get(GameObject byGameObject)
 	{
-		if (includeOffline)
-		{
-			return GetInternalAll(player => player.GameObject == byGameObject);
-		}
-
-		return GetInternalLoggedIn(player => player.GameObject == byGameObject);
+		return getInternal(player => player.GameObject == byGameObject);
 	}
 
 	[Server]
 	public bool IsAntag(GameObject playerObj)
 	{
-		var conn = Get(playerObj, true);
+		var conn = Get(playerObj);
 		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
 		return conn.Script.mind.IsAntag;
 	}
@@ -291,17 +281,17 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public ConnectedPlayer GetByUserID(string byUserID)
 	{
-		return GetInternalLoggedIn(player => player.UserId == byUserID);
+		return getInternal(player => player.UserId == byUserID);
 	}
 
 	[Server]
 	public ConnectedPlayer GetByConnection(NetworkConnection connection)
 	{
-		return GetInternalLoggedIn(player => player.Connection == connection);
+		return getInternal(player => player.Connection == connection);
 	}
 
 	[Server]
-	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline = false)
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline  = false)
 	{
 		var newone = loggedIn.ToList();
 		if (includeOffline)
@@ -312,53 +302,13 @@ public partial class PlayerList : NetworkBehaviour
  		return newone.FindAll(player => player.UserId == byUserID);
 	}
 
-	/// <summary>
-	/// Check logged in and logged off players
-	/// </summary>
-	/// <param name="condition"></param>
-	/// <returns></returns>
-	private ConnectedPlayer GetInternalAll(Func<ConnectedPlayer, bool> condition)
-	{
-		var connectedPlayer = GetInternalLoggedIn(condition);
-
-		if(connectedPlayer.Equals(ConnectedPlayer.Invalid))
-		{
-			connectedPlayer = GetInternalLoggedOff(condition);
-		}
-
-		return connectedPlayer;
-	}
-
-	/// <summary>
-	/// Check logged in players
-	/// </summary>
-	/// <param name="condition"></param>
-	/// <returns></returns>
-	private ConnectedPlayer GetInternalLoggedIn(Func<ConnectedPlayer, bool> condition)
+	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition)
 	{
 		for (var i = 0; i < loggedIn.Count; i++)
 		{
 			if (condition(loggedIn[i]))
 			{
 				return loggedIn[i];
-			}
-		}
-
-		return ConnectedPlayer.Invalid;
-	}
-
-	/// <summary>
-	/// Check logged off players
-	/// </summary>
-	/// <param name="condition"></param>
-	/// <returns></returns>
-	private ConnectedPlayer GetInternalLoggedOff(Func<ConnectedPlayer, bool> condition)
-	{
-		for (var i = 0; i < loggedOff.Count; i++)
-		{
-			if (condition(loggedOff[i]))
-			{
-				return loggedOff[i];
 			}
 		}
 
@@ -448,14 +398,14 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayerbyClientId(string clientId, string userId)
+	public GameObject TakeLoggedOffPlayerbyClientId(string ClientId)
 	{
-		Logger.LogTraceFormat("Searching for logged off players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
+		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, ClientId);
 		foreach (var player in loggedOff)
 		{
-			if (player.ClientId == clientId || player.UserId == userId)
+			if (player.ClientId == ClientId)
 			{
-				Logger.LogTraceFormat("Found logged off player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.ClientId);
 				loggedOff.Remove(player);
 				return player.GameObject;
 			}

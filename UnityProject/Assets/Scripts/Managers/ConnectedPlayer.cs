@@ -137,7 +137,7 @@ public class ConnectedPlayer
 				Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
 			}
 
-			if (!PlayerList.Instance.ContainsName(proposedName, _UserId, true))
+			if (!PlayerList.Instance.ContainsName(proposedName,_UserId))
 			{
 				return proposedName;
 			}

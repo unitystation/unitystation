@@ -1,24 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Light2D;
 using UnityEngine;
 
 public class ShipThruster : MonoBehaviour
 {
 
-	private MatrixMove shipMatrixMove; // ship matrix move
-	private ParticleSystem particleFX;
-	private LightSprite lightSprite;
-
+	public MatrixMove shipMatrixMove; // ship matrix move
+	public ParticleSystem particleFX;
 
 	public float particleRateMultiplier = 4f;
-	public float engineLightIntensityMultiplier = 0.04f;
+
 	void Awake()
 	{
 		//Gets ship matrix move by getting root (top parent) of current gameobject
 		shipMatrixMove = transform.root.gameObject.GetComponent<MatrixMove>();
 		particleFX = GetComponentInChildren<ParticleSystem>();
-		lightSprite = GetComponentInChildren<LightSprite>();
 	}
 
 	private void OnEnable()
@@ -64,11 +60,8 @@ public class ShipThruster : MonoBehaviour
 		var emissionFX = particleFX.emission;
 
 		// don't enable FX if movement is caused by RCS
-		if(shipMatrixMove.rcsModeActive)
+		if(shipMatrixMove.rcsModeActive) 
 		{
-			var colour = lightSprite.Color;
-			colour.a = 0;
-			lightSprite.Color = colour;
 			emissionFX.enabled = false;
 		}
 		else if (EngineStatus())
@@ -78,9 +71,6 @@ public class ShipThruster : MonoBehaviour
 		}
 		else
 		{
-			var colour = lightSprite.Color;
-			colour.a = 0;
-			lightSprite.Color = colour;
 			emissionFX.enabled = false;
 		}
 	}
@@ -98,11 +88,6 @@ public class ShipThruster : MonoBehaviour
 		var emission = particleFX.emission;
 
 		emission.rateOverTime = Mathf.Clamp(newSpeed * particleRateMultiplier, 30f, 70f);
-
-		var colour = lightSprite.Color;
-		colour.a = Mathf.Clamp(newSpeed * engineLightIntensityMultiplier, 0, 1);
-		lightSprite.Color = colour;
-
 	}
 
 	bool EngineStatus() // Returns if engines are "on" (if ship is moving)

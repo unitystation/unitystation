@@ -11,12 +11,14 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 4d797a041601d264aa974a54e67cd2d7,
+        type: 2}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 4d797a041601d264aa974a54e67cd2d7,
+        type: 2}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -127,16 +129,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A helmet worn by those who deal with paranormal threats for a living.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
-      value: 0.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 6972565221476718296, guid: 4870238ed625c0e45839e280fab63823,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
-      value: 0.67
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823, type: 3}

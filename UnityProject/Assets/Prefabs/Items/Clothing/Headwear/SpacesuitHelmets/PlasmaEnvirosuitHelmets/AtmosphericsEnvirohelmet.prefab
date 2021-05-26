@@ -7,11 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 346633510809408503, guid: fb326cff61a55704ca244f0116325115,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
-      value: 0.23
-      objectReference: {fileID: 0}
     - target: {fileID: 4159236212715709040, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: initialName
@@ -98,12 +93,14 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: c8e0a7d44222b4b49b3231007f1ddb1d,
+        type: 2}
     - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: c8e0a7d44222b4b49b3231007f1ddb1d,
+        type: 2}
     - target: {fileID: 7433247755527118487, guid: fb326cff61a55704ca244f0116325115,
         type: 3}
       propertyPath: allClothingData.Array.size

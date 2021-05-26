@@ -24,8 +24,6 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 	private EscapeKeyTarget escapeKeyTarget;
 
 	private LightingSystem lightingSystem;
-	private bool cachedLightingState;
-
 	public LightingSystem LightingSystem
 	{
 		get
@@ -61,14 +59,14 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 		{
 			statusText.text = "Click to select object to view (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = true;
-			cachedLightingState = LightingSystem.enabled;
 			LightingSystem.enabled = false;
+
 		}
 		else if (newState == State.INACTIVE)
 		{
 			statusText.text = "Click to select object to view (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = false;
-			LightingSystem.enabled = cachedLightingState;
+			LightingSystem.enabled = true;
 			gameObject.SetActive(false);
 		}
 		state = newState;

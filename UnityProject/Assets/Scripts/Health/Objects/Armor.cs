@@ -25,8 +25,6 @@ public class Armor
 	[Range(-100,100)] public float Magic;
 	[Range(-100,100)] public float Bio;
 
-	[Range(0f,1f)] public float DismembermentProtectionChance;
-
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance and armor penetration.
 	/// </summary>

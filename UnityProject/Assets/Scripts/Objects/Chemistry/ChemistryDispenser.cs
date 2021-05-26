@@ -39,24 +39,9 @@ namespace Chemistry
 			}
 		}
 
-
-		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
+		public void EjectContainer()
 		{
-			if (subject == null)
-			{
-				return default;
-			}
-
-			var playerStorage = subject.Script.ItemStorage;
-			return playerStorage.GetBestHandOrSlotFor(item);
-		}
-
-		public void EjectContainer(ConnectedPlayer player)
-		{
-			if (!Inventory.ServerTransfer(itemSlot, GetBestSlot(itemSlot.ItemObject, player)))
-			{
-				Inventory.ServerDrop(itemSlot);
-			}
+			Inventory.ServerDrop(itemSlot);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

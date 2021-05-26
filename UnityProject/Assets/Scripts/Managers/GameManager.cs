@@ -73,11 +73,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public bool ShuttleGibbingAllowed { get; set; }
 
 	/// <summary>
-	/// How long are character names are allowed to be?
-	/// </summary>
-	public int CharacterNameLimit { get; set; }
-
-	/// <summary>
 	/// If true, only admins who put http/https links in OOC will be allowed
 	/// </summary>
 	public bool AdminOnlyHtml { get; set; }
@@ -170,7 +165,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
-		CharacterNameLimit = GameConfigManager.GameConfig.CharacterNameLimit;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;

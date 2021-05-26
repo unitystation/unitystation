@@ -240,11 +240,11 @@ namespace UI.Objects.Command
 			Logger.Log(nameof(RequestNukeCodes), Category.Shuttles);
 		}
 
-		public void RemoveId(ConnectedPlayer player)
+		public void RemoveId()
 		{
 			if (console.IdCard)
 			{
-				console.ServerRemoveIDCard(player);
+				console.ServerRemoveIDCard();
 			}
 			CloseTab();
 		}

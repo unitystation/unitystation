@@ -67,9 +67,9 @@ namespace UI.Objects.Security
 			UpdateTab();
 		}
 
-		public void RemoveID(ConnectedPlayer player)
+		public void RemoveID()
 		{
-			securityRecordsTab.RemoveId(player);
+			securityRecordsTab.RemoveId();
 			securityRecordsTab.UpdateIdText(idNameText);
 		}
 

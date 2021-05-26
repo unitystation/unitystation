@@ -560,12 +560,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
-		//Can be null if respawning spectator ghost as they dont have an occupation
-		if (playerScript.mind.occupation == null)
-		{
-			return;
-		}
-
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 

@@ -28,16 +28,6 @@ public static class PlayerSpawn
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
-		if(ServerValidations.HasIllegalSkinTone(characterSettings) || ServerValidations.HasIllegalCharacterName(characterSettings.Name)
-		|| ServerValidations.HasIllegalCharacterAge(characterSettings.Age))
-		{
-			Messages.Client.Admin.RequestKickMessage.Send("", "", joinedViewer.name, "corrupt or illegal character sheet.", false, 1, false);
-			if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
-			{
-				joinedViewer.Spectate();
-			}
-			return null;
-		}
 		NetworkConnection conn = joinedViewer.connectionToClient;
 
 		// TODO: add a nice cutscene/animation for the respawn transition

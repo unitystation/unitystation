@@ -183,7 +183,7 @@ public class Lungs : BodyPartModification
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (Random.value < 0.2)
 			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps");
+				Chat.AddActionMsgToChat(gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps");
 			}
 		}
 

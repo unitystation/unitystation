@@ -224,7 +224,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public override void UpdateMe()
 	{
-		if (isUpdateRTT && !isServer && hasAuthority)
+		if (isUpdateRTT && !isServer)
 		{
 			RTTUpdate();
 		}

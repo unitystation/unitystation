@@ -1186,7 +1186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -1391,7 +1390,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -3257,7 +3255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -4407,7 +4404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -4505,13 +4501,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
-  Type: 20
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
+  Provider: {fileID: 0}
+  ProviderRegisterTile: {fileID: 0}
+  Type: 20
   dispensableReagents:
   - {fileID: 11400000, guid: 8f0919186512e2b00840bdfc242942ff, type: 2}
   - {fileID: 11400000, guid: 9fa17b961e8142ebc9fbd42036448d21, type: 2}
@@ -4716,7 +4714,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -6297,7 +6294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -6580,7 +6576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -7892,7 +7887,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -10212,7 +10206,7 @@ GameObject:
   - component: {fileID: 5266833122110392490}
   - component: {fileID: 4755092235806479509}
   - component: {fileID: 1221317651657229506}
-  - component: {fileID: 248286744087656296}
+  - component: {fileID: 6557044376059295976}
   m_Layer: 5
   m_Name: Eject
   m_TagString: Untagged
@@ -10321,8 +10315,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 248286744087656296}
-        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+      - m_Target: {fileID: 6557044376059295976}
+        m_TargetAssemblyTypeName: 
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -10333,7 +10327,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &248286744087656296
+--- !u!114 &6557044376059295976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10342,7 +10336,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5376630135492948794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
@@ -10351,7 +10345,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1324649309092547259}
         m_TargetAssemblyTypeName: UI.Objects.Booze.GUI_BoozeDispenser, Assets
         m_MethodName: EjectContainer
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

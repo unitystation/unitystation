@@ -112,25 +112,21 @@ namespace Items.Command
 				{
 					return true;
 				}
-
 				RegisterPlayer player = slot.Player;
 				if (player == null)
 				{
 					return true;
 				}
-
 				if (player.GetComponent<PlayerHealthV2>().IsDead)
 				{
 					return true;
 				}
-
-				var checkPlayer = PlayerList.Instance.Get(player.gameObject, true);
-				if (checkPlayer.Equals(ConnectedPlayer.Invalid))
+				var checkPlayer = PlayerList.Instance.Get(player.gameObject);
+				if (checkPlayer == null)
 				{
 					return true;
 				}
-
-				if (PlayerList.Instance.AntagPlayers.Contains(checkPlayer) == false)
+				if (!PlayerList.Instance.AntagPlayers.Contains(checkPlayer))
 				{
 					return true;
 				}

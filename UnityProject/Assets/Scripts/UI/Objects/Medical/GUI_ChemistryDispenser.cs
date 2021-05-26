@@ -140,11 +140,11 @@ namespace UI.Objects.Chemistry
 			UpdateAll();
 		}
 
-		public void EjectContainer(ConnectedPlayer player)
+		public void EjectContainer()
 		{
 			if (ChemistryDispenser.Container != null)
 			{
-				ChemistryDispenser.EjectContainer(player);
+				ChemistryDispenser.EjectContainer();
 			}
 
 			UpdateAll();
