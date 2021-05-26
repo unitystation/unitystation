@@ -69,16 +69,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2.0.0
 
-      # # Cache the library directory to speed up builds
-       - name: Cache library directory
-         uses: actions/cache@v2.1.5
-         with:
-           path: ${{ matrix.projectPath }}/Library
-           key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-           restore-keys: |
-             Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-             Library2-${{ matrix.projectPath }}-
-             Library2-
+      # Cache the library directory to speed up builds
+      - name: Cache library directory
+        uses: actions/cache@v2.1.5
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+            Library2-${{ matrix.projectPath }}-
+            Library2-
 
       # Set the UNITY_LICENSE environment variable with contents of $LICENSE_FILE_PATH
       - name: Setup license
