@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Systems.Ai;
+using Messages.Client;
+using TMPro;
 using UnityEngine;
 
 public class UI_Ai : MonoBehaviour
@@ -10,6 +12,15 @@ public class UI_Ai : MonoBehaviour
 
 	[HideInInspector]
 	public AiMouseInputController controller = null;
+
+	[SerializeField]
+	private GameObject aiLawsTab = null;
+
+	[SerializeField]
+	private Transform aiLawsTabContents = null;
+
+	[SerializeField]
+	private GameObject aiLawsTabDummyLaw = null;
 
 	public void SetUp(AiPlayer player)
 	{
@@ -23,4 +34,49 @@ public class UI_Ai : MonoBehaviour
 
 		aiPlayer.CmdTeleportToCore();
 	}
+
+	#region Laws
+
+	public void OpenLaws()
+	{
+		aiLawsTab.SetActive(true);
+
+		//Clear old laws
+		foreach (Transform child in aiLawsTabContents)
+		{
+			//Dont destroy dummy
+			if(child.gameObject.activeSelf == false) continue;
+
+			GameObject.Destroy(child.gameObject);
+		}
+
+		foreach (var law in aiPlayer.AiLaws)
+		{
+			var newChild = Instantiate(aiLawsTabDummyLaw, aiLawsTabContents);
+			newChild.GetComponent<TMP_Text>().text = law;
+		}
+	}
+
+	public void StateLaws()
+	{
+		StartCoroutine(StateLawsRoutine());
+	}
+
+	private IEnumerator StateLawsRoutine()
+	{
+		foreach (Transform child in aiLawsTabContents)
+		{
+			if(child.gameObject.activeSelf == false) continue;
+
+			if(child.TryGetComponent<TMP_Text>(out var text) == false) continue;
+
+			PostToChatMessage.Send(text.text, ChatChannel.Local | ChatChannel.Common);
+
+			yield return WaitFor.Seconds(0.5f);
+		}
+	}
+
+	#endregion
+
+
 }

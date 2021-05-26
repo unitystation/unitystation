@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Messages.Server;
 using Mirror;
 using Objects;
@@ -12,12 +13,16 @@ namespace Systems.Ai
 		private GameObject corePrefab = null;
 
 		[SyncVar(hook = nameof(SyncCore))]
+		//Ai core or card
 		private GameObject coreObject;
 		public GameObject CoreObject => coreObject;
 
 		[SerializeField]
 		private int interactionDistance = 25;
 		public int InteractionDistance => interactionDistance;
+
+		//Follow card only
+		private bool isCarded;
 
 		//Valid client side and serverside for validations
 		//Client sends message to where it wants to go, server keeps track to do validations
@@ -28,6 +33,25 @@ namespace Systems.Ai
 
 		//Clientside only
 		private UI_Ai aiUi;
+
+		// 	Law priority order is this:
+		//	0: Traitor/Malf/Onehuman-board Law
+		//  ##?$-##: HACKED LAW ##!£//#
+		//  ##!£//#: Ion Storm Law ##?$-##
+		//	Law 1: First Law
+		//	Law 2: Second Law
+		//	Law 3: Third Law
+		//	Law 4: Freeform
+		//	Higher laws (the law above each one) override all lower ones. Whether numbered or not, how they appear (in order) is the order of priority.
+
+		//TODO currently hard coded, when upload console implemented need to sync when changed
+		private List<string> aiLaws = new List<string>()
+		{
+			"1. A robot may not injure a human being or, through inaction, allow a human being to come to harm.",
+			"2. A robot must obey orders given to it by human beings, except where such orders would conflict with the First Law.",
+			"3. A robot must protect its own existence as long as such protection does not conflict with the First or Second Law."
+		};
+		public List<string> AiLaws => aiLaws;
 
 		#region LifeCycle
 
@@ -85,6 +109,9 @@ namespace Systems.Ai
 		[Server]
 		public void ServerSetCameraLocation(GameObject newObject)
 		{
+			//Cant switch cameras when carded
+			if(isCarded) return;
+
 			//Remove old integrity listener if possible, ignore if current location is core
 			if (cameraLocation != null && cameraLocation.gameObject != gameObject && newObject.TryGetComponent<Integrity>(out var oldCameraIntegrity))
 			{
