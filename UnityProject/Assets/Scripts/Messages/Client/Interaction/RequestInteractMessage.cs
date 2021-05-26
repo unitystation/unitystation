@@ -60,6 +60,8 @@ namespace Messages.Client.Interaction
 			public Connection connectionPointA, connectionPointB;
 			// Requested option of a right-click context menu interaction
 			public string RequestedOption;
+			// Click Type for AI interaction
+			public AiActivate.ClickTypes ClickTypes;
 		}
 
 		public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
@@ -302,6 +304,15 @@ namespace Messages.Client.Interaction
 				var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
+			else if (InteractionType == typeof(AiActivate))
+			{
+				LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
+				var targetObj = NetworkObjects[0];
+				var processorObj = NetworkObjects[1];
+
+				var interaction = new AiActivate(performer, null, targetObj, Intent, msg.ClickTypes);
+				ProcessInteraction(interaction, processorObj, ComponentType);
+			}
 		}
 
 		private void CheckMatrixSync(ref GameObject toCheck)
@@ -527,6 +538,12 @@ namespace Messages.Client.Interaction
 				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.RequestedOption = casted.RequestedOption;
 			}
+			else if (typeof(T) == typeof(AiActivate))
+			{
+				var casted = interaction as AiActivate;
+				msg.TargetObject = GetNetId(casted.TargetObject);
+				msg.ClickTypes = casted.ClickType;
+			}
 
 			Send(msg);
 		}
@@ -607,7 +624,7 @@ namespace Messages.Client.Interaction
 
 				return netMatrix.MatrixSync.netId;
 			}
-			
+
 			Logger.LogError($"Failed to find netId for {objectNetIdWanted.name}");
 
 			return NetId.Invalid;
@@ -696,6 +713,11 @@ namespace Messages.Client.Interaction
 				message.TargetObject = reader.ReadUInt32();
 				message.RequestedOption = reader.ReadString();
 			}
+			else if (message.InteractionType == typeof(AiActivate))
+			{
+				message.TargetObject = reader.ReadUInt32();
+				message.ClickTypes = (AiActivate.ClickTypes)reader.ReadByte();
+			}
 
 			return message;
 		}
@@ -769,6 +791,11 @@ namespace Messages.Client.Interaction
 			{
 				writer.WriteUInt32(message.TargetObject);
 				writer.WriteString(message.RequestedOption);
+			}
+			else if (message.InteractionType == typeof(AiActivate))
+			{
+				writer.WriteUInt32(message.TargetObject);
+				writer.WriteByte((byte)message.ClickTypes);
 			}
 		}
 	}
