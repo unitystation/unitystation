@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5262053233861054308, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
@@ -79,45 +79,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5762506483007905138, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
-      propertyPath: initialDescription
-      value: Made in Space South America.
+      propertyPath: initialName
+      value: Dutch hot coco
       objectReference: {fileID: 0}
     - target: {fileID: 5762506483007905138, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
-      propertyPath: initialName
-      value: Dutch hot coco
+      propertyPath: initialDescription
+      value: Made in Space South America.
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: f7d2e4cdb6fe85456b9ac4626bd0baea,
-        type: 2}
-    - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
-      value: 
       objectReference: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103,
         type: 2}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f7d2e4cdb6fe85456b9ac4626bd0baea,
+        type: 2}
+    - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b5f8bbc79979ff58b9cbaa4a2a95eaf,
+        type: 2}
+    - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3c2eebd1ee083c4f873a4e8475bae26, type: 3}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.Atmospherics;
 using Chemistry;
+using Chemistry.Components;
 using HealthV2;
 using UnityEngine;
 using Objects.Construction;
@@ -103,10 +104,31 @@ public class MetaDataLayer : MonoBehaviour
 	/// </summary>
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
-		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
+		//if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
 
 		bool didSplat = false;
 
+		//Find all reagents on this tile (including current reagent) 
+		var reagentContainersList = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
+
+		bool landedOnReagents = false;
+
+		if(reagentContainersList.Count > 0)
+		{
+			//If there is more than one Reagent Container, loop through them
+			foreach (ReagentContainer chem in reagentContainersList)
+			{
+				//If the reagent tile is a pool/puddle/splat
+				if(chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
+				{
+					reagents.Add(chem.CurrentReagentMix);
+				}
+				//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
+				
+			}
+			landedOnReagents = true;
+		}
+	
 		foreach (var reagent in reagents.reagents.m_dict)
 		{
 			if (reagent.Value < 1)
@@ -144,13 +166,38 @@ public class MetaDataLayer : MonoBehaviour
 				}
 				default:
 				{
-					//for all other things leave a chem splat
-					if (didSplat == false)
+					var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
+					
+					if (didSplat == false && landedOnReagents == false)
 					{
-						EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor);
-						didSplat = true;
-					}
 
+						if(stateDesc == "powder")
+						{
+							EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+						}
+						else
+						{
+							MakeSlipperyAt(localPosInt, false);
+							EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
+						}
+					}
+					else
+					{
+						//There is already a reagent here, clear its tile like you washed it and place a new effect over it (already has new reagents added)
+
+						if (stateDesc == "powder")
+						{
+							Clean(worldPosInt, localPosInt, Get(localPosInt).IsSlippery);
+							//TODO: Power should not clean but overlap... Clean because we want to move the existing reagent
+							EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+						}
+						else
+						{
+							Clean(worldPosInt, localPosInt, true);
+							EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
+						}
+					}
+					didSplat = true;
 					break;
 				}
 			}
@@ -167,7 +214,7 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			floorDecals[i].TryClean();
 		}
-
+		
 		//check for any moppable overlays
 		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, TileChangeManager.OverlayType.Cleanable);
 

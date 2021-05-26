@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using UnityEngine;
 using Objects.Construction;
+using Chemistry;
+using Chemistry.Components;
 
 public static class EffectsFactory
 {
@@ -9,10 +11,12 @@ public static class EffectsFactory
 	private static GameObject largeBloodTile;
 	private static GameObject waterTile;
 	private static GameObject chemTile;
+	private static GameObject powderTile;
 
 	private static GameObject smallXenoBloodTile;
 	private static GameObject medXenoBloodTile;
 	private static GameObject largeXenoBloodTile;
+
 
 	private static void EnsureInit()
 	{
@@ -24,6 +28,7 @@ public static class EffectsFactory
 			largeBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeBloodSplat");
 			waterTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("WaterSplat");
 			chemTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("ChemSplat");
+			powderTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("PowderSplat");
 			smallXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallXenoBloodSplat");
 			medXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MedXenoBloodSplat");
 			largeXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeXenoBloodSplat");
@@ -82,8 +87,15 @@ public static class EffectsFactory
 			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
 			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
 			{
-				Spawn.ServerPrefab(chosenTile, worldPos,
-								   matrix.Objects);
+
+				var bloodTileInst = Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
+				var bloodTileGO = bloodTileInst.GameObject;
+				var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
+				/*if (reagents != null)
+				{
+					tileReagents.Add(reagents);
+				}*/
+
 			}
 		}
 	}
@@ -103,19 +115,47 @@ public static class EffectsFactory
 		Spawn.ServerPrefab(waterTile, worldPos,	MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
 	}
 
-	public static void ChemSplat(Vector3Int worldPos, Color color)
+	public static void ChemSplat(Vector3Int worldPos, Color color, ReagentMix reagents)
 	{
 		EnsureInit();
 		var chemTileInst = Spawn.ServerPrefab(chemTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
 		if (chemTileInst.Successful)
 		{
 			var chemTileGO = chemTileInst.GameObject;
+			var tileReagents = chemTileGO.GetComponent<ReagentContainer>();
 			if (chemTileGO)
 			{
 				var decal = chemTileGO.GetComponent<FloorDecal>();
 				if (decal)
 				{
 					decal.color = color;
+				}
+				if (reagents != null)
+				{
+					tileReagents.Add(reagents);
+				}
+			}
+		}
+	}
+
+	public static void PowderSplat(Vector3Int worldPos, Color color, ReagentMix reagents)
+	{
+		EnsureInit();
+		var powderTileInst = Spawn.ServerPrefab(powderTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+		if (powderTileInst.Successful)
+		{
+			var powderTileGO = powderTileInst.GameObject;
+			var tileReagents = powderTileGO.GetComponent<ReagentContainer>();
+			if (powderTileGO)
+			{
+				var decal = powderTileGO.GetComponent<FloorDecal>();
+				if (decal)
+				{
+					decal.color = color;
+				}
+				if (reagents != null)
+				{
+					tileReagents.Add(reagents);
 				}
 			}
 		}
