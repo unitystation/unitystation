@@ -70,7 +70,7 @@ public class ChatRelay : NetworkBehaviour
 					continue;
 				}
 
-				if (players[i].Script.IsGhost)
+				if (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false)
 				{
 					//send all to ghosts
 					continue;
@@ -126,7 +126,8 @@ public class ChatRelay : NetworkBehaviour
 				channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
 				channels.HasFlag(ChatChannel.Action))
 			{
-				if (!channels.HasFlag(ChatChannel.Binary) || players[i].Script.IsGhost)
+				//Binary check here to avoid speaking in local when speaking on binary
+				if (!channels.HasFlag(ChatChannel.Binary) || (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false))
 				{
 					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);

@@ -62,7 +62,7 @@ MonoBehaviour:
   visibleName: ' '
   RTT: 0
   RcsMode: 0
-  IsPlayerSemiGhost: 0
+  playerState: 2
 --- !u!114 &4504212478988223552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,8 +97,6 @@ MonoBehaviour:
   IsTrapped: 0
   actionData: {fileID: 0}
   moveList: 05000000060000000700000008000000
-  PlayerDirectional: {fileID: 0}
-  pna: {fileID: 0}
   RunSpeed: 10
   WalkSpeed: 10
   CrawlSpeed: 0.8
@@ -136,6 +134,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  networkedLean: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,13 +228,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0
-  Outbreak5:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AI/Outbreak5.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   blobCorePrefab: {fileID: 2295760805495773599, guid: 6900836707b2b9b44b1d402b18158c31,
     type: 3}
   blobNodePrefab: {fileID: 8328666627165077003, guid: 78595bed3a93a2c459820c745204ed51,

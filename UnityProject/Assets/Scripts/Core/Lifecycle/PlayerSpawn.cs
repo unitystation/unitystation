@@ -165,7 +165,6 @@ public static class PlayerSpawn
 		//transfer control to the player object
 		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, characterSettings, willDestroyOldBody);
 
-
 		if (existingMind == null)
 		{
 			//create the mind of the player

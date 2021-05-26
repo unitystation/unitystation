@@ -34,8 +34,6 @@ namespace Systems.Ai
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
-			playerScript.IsPlayerSemiGhost = true;
-			playerScript.SetState(PlayerScript.PlayerStates.Ai);
 		}
 
 		private void Start()
@@ -76,7 +74,6 @@ namespace Systems.Ai
 
 			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
 			aiUi.OrNull()?.SetUp(this);
-			playerScript.SetState(PlayerScript.PlayerStates.Ai);
 			ClientSetCameraLocation(newCore.transform);
 			SetCameras(true);
 		}
@@ -150,7 +147,6 @@ namespace Systems.Ai
 				TargetRpcTurnOffCameras(connectionToClient);
 			}
 
-			playerScript.SetState(PlayerScript.PlayerStates.Ghost);
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
 

@@ -97,6 +97,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
 
+	[SerializeField]
 	private PlayerStates playerState = PlayerStates.Normal;
 	public PlayerStates PlayerState => playerState;
 
@@ -127,12 +128,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
-
-		if (GetComponent<BlobPlayer>() != null)
-		{
-			IsPlayerSemiGhost = true;
-			playerState = PlayerStates.Blob;
-		}
 	}
 
 	public override void OnStartClient()
@@ -239,11 +234,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	#endregion
 
-	public void SetState(PlayerStates newState)
-	{
-		playerState = newState;
-	}
-
 	public override void UpdateMe()
 	{
 		if (isUpdateRTT && !isServer && hasAuthority)
@@ -336,9 +326,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 	}
 
-	[HideInInspector]
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
-	public bool IsPlayerSemiGhost;
+	public bool IsPlayerSemiGhost => playerState == PlayerStates.Blob || playerState == PlayerStates.Ai;
 
 	public object Chat { get; internal set; }
 
@@ -390,6 +379,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
 				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
 				| ChatChannel.Supply | ChatChannel.Syndicate;
+
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;
@@ -397,7 +387,24 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
-		if (IsPlayerSemiGhost)
+		if (playerState == PlayerStates.Ai)
+		{
+			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary | ChatChannel.Command
+			                                 | ChatChannel.Common | ChatChannel.Engineering |
+			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+			                                 | ChatChannel.Supply;
+			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+			                                   | ChatChannel.Supply;
+			if (transmitOnly)
+			{
+				return aiTransmitChannels;
+			}
+			return aiTransmitChannels | aiReceiveChannels;
+		}
+
+		if (playerState == PlayerStates.Blob)
 		{
 			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
 			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;

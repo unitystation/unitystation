@@ -98,6 +98,12 @@ public partial class Chat
 			playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
 		}
 
+		//Semi should be able to speak as health shouldnt affect them
+		if (sentByPlayer.Script.IsPlayerSemiGhost)
+		{
+			playerConsciousState = ConsciousState.CONSCIOUS;
+		}
+
 		if (playerConsciousState == ConsciousState.UNCONSCIOUS || playerConsciousState == ConsciousState.DEAD)
 		{
 			// Only the Mute modifier matters if the player cannot speak. We can skip everything else.
