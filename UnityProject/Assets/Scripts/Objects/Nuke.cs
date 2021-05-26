@@ -1,17 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Audio.Managers;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using AddressableReferences;
+using Antagonists;
+using HealthV2;
 using Managers;
+using Messages.Server;
+using Random = UnityEngine.Random;
 
 namespace Objects.Command
 {
 	/// <summary>
 	/// Main component for nuke.
 	/// </summary>
-	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo
+	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo, IServerSpawn
 	{
 		public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
 
@@ -23,9 +28,8 @@ namespace Objects.Command
 		private CentComm.AlertLevel CurrentAlertLevel;
 		private ItemSlot nukeSlot;
 
-		public ItemSlot NukeSlot {
-			get { return nukeSlot; }
-		}
+		public ItemSlot NukeSlot => nukeSlot;
+
 		[SerializeField]
 		private bool isAncharable = true;
 
@@ -33,22 +37,19 @@ namespace Objects.Command
 
 		private bool isSafetyOn = true;
 
-		public bool IsSafetyOn => isSafetyOn;
 
-		private bool isCodeRight = false;
+		private bool isCodeRight;
 
 		public bool IsCodeRight => isCodeRight;
 
 		public float explosionRadius = 1500;
 		[SerializeField]
 		private int minTimer = 270;
-		private bool isTimer = false;
+		private bool isTimer;
 
 		public bool IsTimer => isTimer;
 
-		private bool isTimerTicking = false;
-
-		public bool IsTimerTicking => isTimerTicking;
+		private bool isTimerTicking;
 
 		private int currentTimerSeconds;
 		public int CurrentTimerSeconds {
@@ -59,8 +60,7 @@ namespace Objects.Command
 			}
 		}
 
-		private bool detonated = false;
-		public bool IsDetonated => detonated;
+		public static bool Detonated;
 
 		private string currentCode = "";
 		public string CurrentCode => currentCode;
@@ -75,19 +75,24 @@ namespace Objects.Command
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			itemNuke = GetComponent<ItemStorage>();
 			nukeSlot = itemNuke.GetIndexedItemSlot(0);
-		}
-		public override void OnStartServer()
-		{
-			//calling the code generator and setting up a 10 second timer to post the code in syndicate chat
-			CodeGenerator();
-			base.OnStartServer();
+			Detonated = false;
 		}
 
-		[Server]
-		public void CodeGenerator()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			nukeCode = Random.Range(1000, 9999);
-			//Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
+			if (SubSceneManager.Instance.SyndicateScene == gameObject.scene)
+			{
+				nukeCode = AntagManager.SyndiNukeCode;
+			}
+			else
+			{
+				nukeCode = CodeGenerator();
+			}
+		}
+
+		public static int CodeGenerator()
+		{
+			return Random.Range(1000, 9999);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -113,31 +118,30 @@ namespace Objects.Command
 		{
 			if ((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer()).magnitude < explosionRadius)
 			{
-				detonated = true;
+				Detonated = true;
 				//if yes, blow up the nuke
 				RpcDetonate();
 				//Kill Everyone in the universe
 				//FIXME kill only people on the station matrix that the nuke was detonated on
 				StartCoroutine(WaitForDeath());
 				GameManager.Instance.RespawnCurrentlyAllowed = false;
+				DetonateVideo();
 			}
 			else
 			{
 				GameManager.Instance.EndRound();
 			}
-
 		}
 
 		//Server telling the nukes to explode
 		[ClientRpc]
 		void RpcDetonate()
 		{
-			if (detonated)
-			{
-				return;
-			}
-			detonated = true;
+			DetonateVideo();
+		}
 
+		void DetonateVideo()
+		{
 			SoundAmbientManager.StopAllAudio();
 			//turning off all the UI except for the right panel
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
@@ -251,7 +255,7 @@ namespace Objects.Command
 			}
 			if (!isCodeRight)
 			{
-				isCodeRight = CurrentCode == NukeCode.ToString() ? true : false;
+				isCodeRight = CurrentCode == NukeCode.ToString();
 				return isCodeRight;
 			}
 			return null;
@@ -277,7 +281,15 @@ namespace Objects.Command
 		IEnumerator WaitForDeath()
 		{
 			yield return WaitFor.Seconds(5f);
-			GibMessage.Send();
+			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
+			foreach (LivingHealthMasterBase living in FindObjectsOfType<LivingHealthMasterBase>())
+			{
+				var dist = Vector3.Distance(worldPos, living.GetComponent<RegisterTile>().WorldPosition);
+				if (dist < explosionRadius)
+				{
+					living.Death();
+				}
+			}
 			yield return WaitFor.Seconds(15f);
 			// Trigger end of round
 			GameManager.Instance.EndRound();

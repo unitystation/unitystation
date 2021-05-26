@@ -589,6 +589,38 @@ namespace IngameDebugConsole
 		}
 
 		/// <summary>
+		/// Creates a local profile
+		/// </summary>
+		public void LocalProfileButtonPressed()
+		{
+			if (Debug.isDebugBuild)
+			{
+				ProfileManager.Instance.StartProfile(30);
+				Logger.Log("Running a local profile, saving on installation folder", Category.DebugConsole);
+			}
+			else
+			{
+				Logger.Log("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
+			}
+		}
+
+		/// <summary>
+		/// Creates a local memory profile
+		/// </summary>
+		public void LocalMemoryProfileButtonPressed()
+		{
+			if (Debug.isDebugBuild)
+			{
+				ProfileManager.Instance.RunMemoryProfile();
+				Logger.Log("Running a local memory profile, saving on installation folder", Category.DebugConsole);
+			}
+			else
+			{
+				Logger.Log("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
+			}
+		}
+
+		/// <summary>
 		/// Debug window is being resized,
 		/// Set the sizeDelta property of the window accordingly while
 		/// preventing window dimensions from going below the minimum dimensions

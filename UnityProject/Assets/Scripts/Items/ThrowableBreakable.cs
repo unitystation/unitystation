@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace Items
 {
 	/// <summary>
@@ -47,9 +46,8 @@ namespace Items
 			{
 				Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
 				SoundManager.PlayNetworkedAtPos(useCustomSound ? customSound : SingletonSOSounds.Instance.GlassBreak01, gameObject.AssumedWorldPosServer());
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
-
 	}
 }

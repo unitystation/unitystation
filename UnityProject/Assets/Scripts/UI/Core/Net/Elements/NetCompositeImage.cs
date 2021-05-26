@@ -81,7 +81,7 @@ public class NetCompositeImage : NetUIStringElement
 	{
 		if (id == NetId.Empty)
 		{
-			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.NetMessage, this.GetType().Name );
+			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.Server, this.GetType().Name );
 			yield break;
 		}
 
@@ -90,7 +90,7 @@ public class NetCompositeImage : NetUIStringElement
 		{
 			if (tries++ > 10)
 			{
-				Logger.LogWarningFormat( "{0} could not find object with id {1}", Category.NetMessage, this.GetType().Name, id );
+				Logger.LogWarningFormat( "{0} could not find object with id {1}", Category.Server, this.GetType().Name, id );
 				yield break;
 			}
 

@@ -98,7 +98,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 		bool requiresChange = false;
 		if (width % 2 != 0)
 		{
-			Logger.Log($"Odd width {width}->{width - 1}", Category.Camera);
+			Logger.Log($"Odd width {width}->{width - 1}", Category.UI);
 			width--;
 			requiresChange = true;
 		}
@@ -106,7 +106,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 		int height = Screen.height;
 		if (height % 2 != 0)
 		{
-			Logger.Log($"Odd height {height}->{height - 1}", Category.Camera);
+			Logger.Log($"Odd height {height}->{height - 1}", Category.UI);
 			height--;
 			requiresChange = true;
 		}

@@ -1,9 +1,11 @@
 ﻿using System;
 using Mirror;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using ScriptableObjects;
 using Random = UnityEngine.Random;
+
 
 namespace Objects.Construction
 {
@@ -69,7 +71,7 @@ namespace Objects.Construction
 					$"{interaction.Performer.ExpensiveName()} starts deconstructing the table frame...",
 					"You finish deconstructing the table frame.",
 					$"{interaction.Performer.ExpensiveName()} deconstructs the table frame.",
-					() => Disassemble(interaction));
+					Disassemble);
 				ToolUtils.ServerPlayToolSound(interaction);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
@@ -98,13 +100,14 @@ namespace Objects.Construction
 				$"You finish assembling the {tableType} table.",
 				$"{interaction.Performer.ExpensiveName()} assembles a {tableType} table.",
 				() => SpawnTable(interaction, layerTile));
-			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 		}
 
-		private void Disassemble(HandApply interaction)
+		private void Disassemble()
 		{
 			Spawn.ServerPrefab(CommonPrefabs.Instance.MetalRods, gameObject.WorldPosServer(), count: 2);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void SpawnTable(HandApply interaction, LayerTile tableToSpawn)
@@ -114,7 +117,7 @@ namespace Objects.Construction
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 			interactableTiles.TileChangeManager.UpdateTile(cellPos, tableToSpawn);
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

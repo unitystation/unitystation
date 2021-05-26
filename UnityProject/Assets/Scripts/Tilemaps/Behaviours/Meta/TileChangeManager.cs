@@ -1,15 +1,19 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using System.Collections.Generic;
 using System.Linq;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
 using TileManagement;
+using Tilemaps.Behaviours.Layers;
 
-public class TileChangeManager : NetworkBehaviour
+public class TileChangeManager : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
-	private NetworkIdentity networkIdentity;
+	private NetworkedMatrix networkMatrix;
 
 	private TileChangeList changeList = new TileChangeList();
 
@@ -36,13 +40,7 @@ public class TileChangeManager : NetworkBehaviour
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		subsystemManager = GetComponent<SubsystemManager>();
 		interactableTiles = GetComponent<InteractableTiles>();
-		networkIdentity = GetComponent<NetworkIdentity>();
-	}
-
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		TileChangeNewPlayer.Send(netId);
+		networkMatrix = GetComponent<NetworkedMatrix>();
 	}
 
 	public void InitServerSync(string data)
@@ -120,31 +118,6 @@ public class TileChangeManager : NetworkBehaviour
 		AddToChangeList(cellPosition, layerTile, transformMatrix: transformMatrix, color : color);
 	}
 
-	/// <summary>
-	/// Like UpdateTile, but operates on z=-1 of the affected layer.
-	/// Adds overlay tile as an overlay at z=-1 of the layer that overlayTile is configured for.
-	/// No effect if there is no tile at z=0 of the indicated position (there is nothing
-	/// to overlay on top of).
-	/// </summary>
-	/// <param name="cellPosition"></param>
-	/// <param name="tileName"></param>
-	[Server]
-	public void UpdateOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
-		Color? color = null)
-	{
-		cellPosition.z = 0;
-		if (!metaTileMap.HasTile(cellPosition, overlayTile.LayerType)) return;
-		cellPosition.z = -1;
-		if (IsDifferent(cellPosition, overlayTile))
-		{
-			InternalUpdateTile(cellPosition, overlayTile, transformMatrix, color);
-
-			AlertClients(cellPosition, overlayTile.TileType, overlayTile.name, transformMatrix, color);
-
-			AddToChangeList(cellPosition, overlayTile, transformMatrix : transformMatrix,color : color );
-		}
-	}
-
 	[Server]
 	public void RemoveTile(Vector3Int cellPosition)
 	{
@@ -171,7 +144,7 @@ public class TileChangeManager : NetworkBehaviour
 		{
 			InternalRemoveTile(cellPosition, layerType, removeAll);
 
-			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
+			RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
 
@@ -179,10 +152,8 @@ public class TileChangeManager : NetworkBehaviour
 			{
 				OnFloorOrPlatingRemoved.Invoke(cellPosition);
 			}
-			else if (layerType == LayerType.Windows)
-			{
-				RemoveTile(cellPosition, LayerType.Effects);
-			}
+
+			RemoveOverlaysOfType(cellPosition, LayerType.Effects, OverlayType.Damage);
 
 			return layerTile;
 		}
@@ -190,28 +161,159 @@ public class TileChangeManager : NetworkBehaviour
 		return layerTile;
 	}
 
-	[Server]
-	public void RemoveOverlay(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
-	{
-		cellPosition.z = -1;
+	#region Overlays
 
-		if (metaTileMap.HasTile(cellPosition, layerType))
+	/// <summary>
+	/// Dynamically adds overlays to tile position
+	/// </summary>
+	[Server]
+	public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
+	{
+		//use remove methods to remove overlay instead
+		if(overlayTile == null) return;
+
+		cellPosition.z = 0;
+
+		//Dont add the same overlay twice
+		if(HasOverlay(cellPosition, overlayTile)) return;
+
+		var overlayPos = metaTileMap.GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
+		if (overlayPos == null) return;
+
+		cellPosition = overlayPos.Value;
+
+		InternalUpdateTile(cellPosition, overlayTile, transformMatrix, color);
+
+		AlertClients(cellPosition, overlayTile.TileType, overlayTile.OverlayName, transformMatrix, color);
+
+		AddToChangeList(cellPosition, overlayTile.LayerType,  overlayTile.TileType, overlayTile.OverlayName, transformMatrix : transformMatrix,color : color);
+	}
+
+	/// <summary>
+	/// Dynamically adds overlays to tile position, from tile name, remember that OverlayName must be the same as the tile name
+	/// </summary>
+	[Server]
+	public void AddOverlay(Vector3Int cellPosition, TileType tileType, string tileName,
+		Matrix4x4? transformMatrix = null, Color? color = null)
+	{
+		var overlayTile = TileManager.GetTile(tileType, tileName) as OverlayTile;
+		AddOverlay(cellPosition, overlayTile, transformMatrix, color);
+	}
+
+	[Server]
+	public void RemoveOverlaysOfName(Vector3Int cellPosition, LayerType layerType,
+		string overlayName, bool onlyIfCleanable = false, TileType tileType = TileType.Effects)
+	{
+		cellPosition.z = 0;
+
+		var overlayPos = metaTileMap.GetOverlayPos(cellPosition, layerType, overlayName);
+		if(overlayPos == null) return;
+
+		cellPosition = overlayPos.Value;
+
+		if (onlyIfCleanable)
 		{
+			//only remove it if it's a cleanable tile
+			var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
+			//it's not an overlay tile or it's not cleanable so don't remove it
+			if (tile == null || !tile.IsCleanable) return;
+		}
+
+		InternalRemoveTile(cellPosition, layerType, false);
+
+		RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
+
+		AddToChangeList(cellPosition, layerType);
+	}
+
+	[Server]
+	public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType,
+		OverlayType overlayType, bool onlyIfCleanable = false)
+	{
+		cellPosition.z = 0;
+
+		var overlayPos = metaTileMap.GetOverlayPosByType(cellPosition, layerType, overlayType);
+		if(overlayPos == null || overlayPos.Count == 0) return;
+
+		foreach (var overlay in overlayPos)
+		{
+			cellPosition = overlay;
+
 			if (onlyIfCleanable)
 			{
 				//only remove it if it's a cleanable tile
 				var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
 				//it's not an overlay tile or it's not cleanable so don't remove it
-				if (tile == null || !tile.IsCleanable) return;
+				if (tile == null || !tile.IsCleanable) continue;
 			}
 
 			InternalRemoveTile(cellPosition, layerType, false);
 
-			RemoveTileMessage.Send(networkIdentity.netId, cellPosition, layerType, false);
+			RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
 
-			AddToChangeList(cellPosition, layerType, removeAll: true);
+			AddToChangeList(cellPosition, layerType);
 		}
 	}
+
+	[Server]
+	public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
+	{
+		cellPosition.z = 0;
+
+		var overlayPos = metaTileMap.GetAllOverlayPos(cellPosition, layerType);
+		if(overlayPos == null || overlayPos.Count == 0) return;
+
+		foreach (var overlay in overlayPos)
+		{
+			cellPosition = overlay;
+
+			if (onlyIfCleanable)
+			{
+				//only remove it if it's a cleanable tile
+				var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
+				//it's not an overlay tile or it's not cleanable so don't remove it
+				if (tile == null || !tile.IsCleanable) continue;
+			}
+
+			InternalRemoveTile(cellPosition, layerType, false);
+
+			RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
+
+			AddToChangeList(cellPosition, layerType);
+		}
+	}
+
+	[Server]
+	public void RemoveFloorWallOverlaysOfType(Vector3Int cellPosition, OverlayType overlayType, bool onlyIfCleanable = false)
+	{
+		RemoveOverlaysOfType(cellPosition, LayerType.Floors, overlayType, onlyIfCleanable);
+		RemoveOverlaysOfType(cellPosition, LayerType.Walls, overlayType, onlyIfCleanable);
+	}
+
+	[Server]
+	public List<OverlayTile> GetAllOverlayTiles(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType)
+	{
+		return metaTileMap.GetOverlayTilesByType(cellPosition, layerType, overlayType);
+	}
+
+	[Server]
+	public bool HasOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
+	{
+		return metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
+	}
+
+	[Server]
+	public bool HasOverlay(Vector3Int cellPosition, TileType tileType, string overlayName)
+	{
+		var overlayTile = TileManager.GetTile(tileType, overlayName) as OverlayTile;
+		if (overlayTile == null) return false;
+
+		return metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
+	}
+
+	#endregion
+
 
 	[Server]
 	public LayerTile GetLayerTile(Vector3Int cellPosition, LayerType layerType)
@@ -239,7 +341,7 @@ public class TileChangeManager : NetworkBehaviour
 			transformMatrix = transformMatrix.GetValueOrDefault(Matrix4x4.identity);
 		}
 
-		UpdateTileMessage.Send(networkIdentity.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
+		SpawnSafeThread.UpdateTileMessageSend(networkMatrix.MatrixSync.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
 	}
 
 	public void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,
@@ -247,35 +349,14 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 		metaTileMap.SetTile(position, layerTile, transformMatrix, color);
-		//if we are changing a tile at z=0, make sure to remove any overlays it has as well
-
-		//TODO: OVERLAYS - right now it only removes at z = -1, but we will eventually need
-		//to allow multiple overlays on a given location which would require multiple z levels.
-		if (layerTile.TileType != TileType.UnderFloor)
-		{
-			if (position.z == 0)
-			{
-				position.z = -1;
-				if (metaTileMap.HasTile(position, layerTile.LayerType))
-				{
-					metaTileMap.RemoveTileWithlayer(position, layerTile.LayerType);
-				}
-			}
-		}
 	}
 
 	public void InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
-		if (layerTile.TileType == TileType.WindowDamaged)
-		{
-			position.z -= 1;
-		}
-
 		Vector3Int p = position.RoundToInt();
 
 		metaTileMap.SetTile(p, layerTile, transformMatrix, color);
-
 	}
 
 	private void AddToChangeList(Vector3Int position, LayerType layerType = LayerType.None,
@@ -323,6 +404,17 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		return metaTileMap.IsDifferent(position, layerTile, layerTile.LayerType, transformMatrix, color);
 	}
+
+	public enum OverlayType
+	{
+		//none is used to say there is no overlay, add new category if you need a new type
+		None,
+		Gas,
+		Damage,
+		Cleanable,
+		Fire,
+		Mining
+	}
 }
 
 [System.Serializable]
@@ -355,6 +447,8 @@ public class TileChangeEntry
 	public Matrix4x4? transformMatrix;
 
 	public Color? color;
+
+	public TileChangeManager.OverlayType overlayType;
 
 }
 

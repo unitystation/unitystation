@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,12 @@ using Audio.Containers;
 using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
+using HealthV2;
+using Items;
+using Items.Tool;
+using Messages.Server;
+using Shuttles;
+using UI.Items;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -28,6 +34,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private ItemStorage itemStorage;
 
 	public Transform chatBubbleTarget;
+
+	public bool IsRolling { get; private set; } = false;
 
 	private void Awake()
 	{
@@ -74,7 +82,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			default:
 				Logger.LogError($"{playerScript.playerName} has an invalid activeHand! Found: {activeHand}",
-					Category.Inventory);
+					Category.PlayerInventory);
 				return null;
 		}
 
@@ -129,45 +137,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else if (playerScript.playerHealth.FireStacks > 0
 		) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
 		{
-			if (!playerScript.registerTile.IsLayingDown)
-			{
-				// Throw the player down to the floor for 15 seconds.
-				playerScript.registerTile.ServerStun(15);
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
-			}
-			else
-			{
-				// Remove 5 stacks(?) per roll action.
-				playerScript.playerHealth.ChangeFireStacks(-5.0f);
-				// Find the next in the roll sequence. Also unlock the facing direction temporarily since ServerStun locks it.
-				playerScript.playerDirectional.LockDirection = false;
-				Orientation faceDir = playerScript.playerDirectional.CurrentDirection;
-				OrientationEnum currentDir = faceDir.AsEnum();
-
-				switch (currentDir)
-				{
-					case OrientationEnum.Up:
-						faceDir = Orientation.Right;
-						break;
-					case OrientationEnum.Right:
-						faceDir = Orientation.Down;
-						break;
-					case OrientationEnum.Down:
-						faceDir = Orientation.Left;
-						break;
-					case OrientationEnum.Left:
-						faceDir = Orientation.Up;
-						break;
-				}
-
-				playerScript.playerDirectional.FaceDirection(faceDir);
-				playerScript.playerDirectional.LockDirection = true;
-			}
-
-			if (playerScript.playerHealth.FireStacks <= 0)
-			{
-				playerScript.playerHealth.Extinguish();
-			}
+			Chat.AddActionMsgToChat(
+				playerScript.gameObject,
+				"You drop to the ground and frantically try to put yourself out!",
+				$"{playerScript.playerName} is trying to extinguish themself!");
+			StartCoroutine(Roll());
 		}
 		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
 		{
@@ -183,8 +157,72 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
 		{
-			playerScript.PlayerSync.TryEscapeContainer();
+			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
+	}
+
+	/// <summary>
+	/// Handles the verification and execution of the stop, drop, and roll process
+	/// </summary>
+	IEnumerator Roll()
+	{
+		//Can't roll if you're already rolling or have slipped
+		if (IsRolling || playerScript.registerTile.IsSlippingServer)
+		{
+			yield return null;
+		}
+
+		IsRolling = true;
+
+		// Drop the player if they aren't already, prevent them from moving until the action is complete
+		if (playerScript.registerTile.IsLayingDown == false)
+		{
+			playerScript.registerTile.ServerSetIsStanding(false);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+		}
+		playerScript.playerMove.allowInput = false;
+
+		// Drop player items
+		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+
+		//Remove fire and do part of a roll every .2 seconds
+		while (playerScript.playerHealth.FireStacks > 0)
+		{
+			//Can only roll if you're conscious and not stunned
+			if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
+				playerScript.registerTile.IsSlippingServer)
+			{
+				break;
+			}
+
+			// Remove 1/2 a stack per roll action.
+			playerScript.playerHealth.ChangeFireStacks(-0.5f);
+
+			// Find the next in the roll sequence. Also unlock the facing direction temporarily since laying down locks it.
+			playerScript.playerDirectional.LockDirection = false;
+			playerScript.playerDirectional.FaceDirection(playerScript.playerDirectional.CurrentDirection.Rotate(RotationOffset.Right));
+			playerScript.playerDirectional.LockDirection = true;
+
+			yield return WaitFor.Seconds(0.2f);
+		}
+
+		//If rolling is interrupted with a stun or unconsciousness, don't finalise the action
+		if (playerScript.playerHealth.FireStacks == 0)
+		{
+			playerScript.playerHealth.Extinguish();
+			playerScript.registerTile.ServerStandUp(true);
+			playerScript.playerMove.allowInput = true;
+		}
+
+		//Allow barely conscious players to move again if they are not stunned
+		if (playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS
+			&& playerScript.registerTile.IsSlippingServer == false) {
+			playerScript.playerMove.allowInput = true;
+		}
+
+		IsRolling = false;
+		yield return null;
 	}
 
 	[Command]
@@ -229,7 +267,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot);
 	}
-
 
 	/// <summary>
 	/// Request to drop alls item from ItemStorage, send an item slot net id of
@@ -294,7 +331,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		void ProgressComplete()
 		{
-			var victimsHealth = toDisrobe.GetComponent<PlayerHealth>();
+			var victimsHealth = toDisrobe.GetComponent<PlayerHealthV2>();
 			foreach (var itemSlot in itemStorage.GetItemSlots())
 			{
 				//skip slots which have special uses
@@ -467,9 +504,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
-		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-		                                        || playerScript.playerHealth.IsCardiacArrest)
+		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
+		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -488,19 +524,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
+		GetComponent<LivingHealthMasterBase>().ApplyDamageAll(gameObject, 1000, AttackType.Internal, DamageType.Brute);
 	}
 
-	//Respawn action for Deathmatch v 0.1.3
+	// Respawn action for Deathmatch v 0.1.3
 
 	[Command]
-	public void CmdRespawnPlayer()
+	public void CmdRespawnPlayer(string adminID, string adminToken)
 	{
-		if (CustomNetworkManager.IsServer
-				|| PlayerList.Instance.IsAdmin(gameObject.Player())
-				|| GameManager.Instance.RespawnCurrentlyAllowed)
+		if (GameManager.Instance.RespawnCurrentlyAllowed ||
+		    PlayerList.Instance.GetAdmin(adminID, adminToken))
 		{
 			ServerRespawnPlayer();
+		}
+		else
+		{
+			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.", Category.Exploits);
 		}
 	}
 
@@ -519,6 +558,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.mind.occupation = job;
 				break;
 			}
+		}
+
+		//Can be null if respawning spectator ghost as they dont have an occupation
+		if (playerScript.mind.occupation == null)
+		{
+			return;
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
@@ -558,9 +603,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!");
+		Logger.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
-
 
 	[Command]
 	public void CmdToggleAllowCloning()
@@ -590,8 +634,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerSpawnPlayerGhost()
 	{
 		//Only force to ghost if the mind belongs in to that body
-		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
+		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
+		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
 		    playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
@@ -603,7 +647,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	///
 	[Command]
-	public void CmdGhostCheck() //specific check for if you want value returned
+	public void CmdGhostCheck() // specific check for if you want value returned
 	{
 		GhostEnterBody();
 	}
@@ -620,14 +664,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!playerScript.IsGhost)
 		{
 			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody",
-				Category.Health, body);
+				Category.Ghosts, body);
 			return;
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
 		if (body.pushPull != null && body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
-			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
+			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Ghosts, body);
 			return;
 		}
 
@@ -657,6 +701,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+
+		//If we are trying to find matrix get matrix instead
+		if (pointTarget.TryGetComponent<MatrixSync>(out var matrixSync))
+		{
+			pointTarget = matrixSync.NetworkedMatrix.gameObject;
+		}
+
 		string pointedName = pointTarget.ExpensiveName();
 		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
 		if (interactableTiles)
@@ -667,7 +718,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				pointedName = tile.DisplayName;
 			}
 		}
-		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthBehaviour>();
+
+		var livinghealthbehavior = pointTarget.GetComponent<LivingHealthMasterBase>();
 		var preposition = "";
 		if (livinghealthbehavior == null)
 			preposition = "the ";
@@ -771,9 +823,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	//admin only commands
-
-	#region Admin
+	#region Admin-only
 
 	[Command]
 	public void CmdAGhost(string adminId, string adminToken)
@@ -856,5 +906,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return;
 			}
 		}
+	}
+
+	[Command]
+	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
+	{
+		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;
+
+		crayonScript.SetTileFromClient(category, index, colourIndex, direction);
 	}
 }

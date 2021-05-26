@@ -1,34 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
+using Systems.Electricity;
 
-//TODO We need electrical stats to be sent to the PDA Power-ON Cartridge for engineering pdas only
-//atm its just being sent to examine channel
-public class ElectricalStatsMessage : ServerMessage
+namespace Messages.Server
 {
-	public string JsonData;
-	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
-
-	public override void Process()
+	// TODO We need electrical stats to be sent to the PDA Power-ON Cartridge for engineering pdas only
+	// atm its just being sent to examine channel
+	public class ElectricalStatsMessage : ServerMessage<ElectricalStatsMessage.NetMessage>
 	{
-		LoadNetworkObject(Recipient);
-		ElectronicData data = JsonUtility.FromJson<ElectronicData>(JsonData);
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+			public uint Recipient; // TODO FIXME: Recipient is redundant! Can be safely removed
+		}
 
-		string newChatText = "";
-		newChatText += $"Current: {data.CurrentInWire} \n";
-		newChatText += $"Voltage: {data.ActualVoltage} \n";
-		newChatText += $"Resistance: {data.EstimatedResistance}";
-		Chat.AddExamineMsgToClient(newChatText);
-	}
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.Recipient);
+			ElectronicData data = JsonUtility.FromJson<ElectronicData>(msg.JsonData);
 
-	public static ElectricalStatsMessage  Send(GameObject recipient, string data)
-	{
-		ElectricalStatsMessage  msg =
-			new ElectricalStatsMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+			string newChatText = "";
+			newChatText += $"Current: {data.CurrentInWire} \n";
+			newChatText += $"Voltage: {data.ActualVoltage} \n";
+			newChatText += $"Resistance: {data.EstimatedResistance}";
+			Chat.AddExamineMsgToClient(newChatText);
+		}
 
-		msg.SendTo(recipient);
-		return msg;
+		public static NetMessage  Send(GameObject recipient, string data)
+		{
+			NetMessage  msg =
+				new NetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

@@ -1,5 +1,5 @@
+using Messages.Server;
 using UnityEngine;
-using Objects.Command;
 
 namespace Antagonists
 {
@@ -8,22 +8,15 @@ namespace Antagonists
 	{
 		[Tooltip("For use in Syndicate Uplinks")]
 		[SerializeField]
-		private int initialTC = 20;
+		private int initialTC = 25;
 
 		public override void AfterSpawn(ConnectedPlayer player)
 		{
-			// add any NuclearOperative specific logic here
+			player.Job = JobType.SYNDICATE;
+			UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
+				$"We have intercepted the code for the nuclear weapon: <b>{AntagManager.SyndiNukeCode}</b>.");
 
-			//send the code:
-			//Check to see if there is a nuke and communicate the nuke code:
-			Nuke nuke = FindObjectOfType<Nuke>();
-			if (nuke != null)
-			{
-				UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
-					$"We have intercepted the code for the nuclear weapon: <b>{nuke.NukeCode}</b>.");
-			}
-
-			AntagManager.TryInstallPDAUplink(player, initialTC);
+			AntagManager.TryInstallPDAUplink(player, initialTC, true);
 		}
 	}
 }

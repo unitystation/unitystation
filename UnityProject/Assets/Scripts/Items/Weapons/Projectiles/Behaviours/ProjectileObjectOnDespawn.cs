@@ -27,7 +27,7 @@ namespace Weapons.Projectiles.Behaviours
 		private void OnBeamEnd(Vector2 position)
         {
             Quaternion? rot = Quaternion.Euler(0.0f, 0.0f, Random.Range(0, 360f));
-            var newObject = Spawn.ServerPrefab(droppedObject.name,
+            var newObject = Spawn.ServerPrefab(droppedObject,
             position, localRotation: rot );
         }
 	}

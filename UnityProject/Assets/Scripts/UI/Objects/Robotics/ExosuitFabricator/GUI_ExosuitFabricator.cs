@@ -112,14 +112,14 @@ namespace UI.Objects.Robotics
 			//Subscribes to the MaterialsManipulated event
 			ExosuitFabricator.MaterialsManipulated += UpdateMaterialsDisplay;
 
-			materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator.materialStorage);
+			materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator.materialStorageLink.usedStorage);
 			materialsAndCategoryDisplay.InitCategories(exosuitFabricator.exoFabProducts);
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
 		}
 
 		public void UpdateMaterialsDisplay()
 		{
-			materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
+			materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorageLink.usedStorage);
 		}
 
 		//Everytime someone new looks at the tab, update the tab for the client
@@ -135,7 +135,7 @@ namespace UI.Objects.Robotics
 		private IEnumerator WaitForClient()
 		{
 			yield return new WaitForSeconds(0.2f);
-			materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
+			materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorageLink.usedStorage);
 			queueDisplay.UpdateQueue();
 			isUpdating = false;
 		}

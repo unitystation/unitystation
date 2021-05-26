@@ -1,3 +1,6 @@
+using System;
+using Light2D;
+using TMPro;
 using UI.Core.Radial;
 using UnityEditor;
 using UnityEngine;
@@ -7,6 +10,12 @@ namespace UI.Core.RightClick
 {
 	public class RadialBranch : MonoBehaviour
 	{
+		private const float RightAngle = Mathf.Deg2Rad * 90;
+
+		private static readonly Quaternion ForwardRotation = Quaternion.Euler(0, 0, 90);
+
+		private static readonly float SineRightAngle = Mathf.Sin(RightAngle);
+
 		[Tooltip("The size of the lines from the origin point to the radial.")]
 		[SerializeField]
 		private Vector2 lineSize = Vector2.zero;
@@ -15,17 +24,33 @@ namespace UI.Core.RightClick
 		[Range(90, 180)]
 		[SerializeField]
 		private float angle = default;
-		
+
+		[SerializeField]
+		private RectTransform origin = default;
+
+		private Canvas canvas;
+
+		private Canvas managerCanvas;
+
 		private Camera mainCamera;
 
-		private Vector3 menuPosition;
+		private RectTransform Origin => origin;
 
-		public Vector3 MenuPosition
+		private Canvas Canvas => this.GetComponentByRef(ref canvas);
+
+		private Canvas ManagerCanvas
 		{
-			get => Origin.localPosition - Vector3.Scale(-CurrentQuadrant, menuPosition);
-			private set => menuPosition = value;
+			get
+			{
+				if (managerCanvas == null)
+				{
+					managerCanvas = UIManager.Instance.GetComponent<Canvas>();
+				}
+
+				return managerCanvas;
+			}
 		}
-		
+
 		private Camera Camera
 		{
 			get
@@ -39,11 +64,9 @@ namespace UI.Core.RightClick
 			}
 		}
 
-		public bool FollowWorldPosition { get; private set; }
+		private IBranchPosition BranchPosition { get; set; }
 
-		public Vector3 WorldPosition { get; private set; }
-
-		private RectTransform Origin { get; set; }
+		private RectTransform Target { get; set; }
 
 		private RectTransform LineFromOrigin { get; set; }
 
@@ -51,82 +74,160 @@ namespace UI.Core.RightClick
 
 		private Vector3 CurrentQuadrant { get; set; }
 
-		public void Awake()
-		{
-			Origin = GetComponent<RectTransform>();
-		}
-
 		/// <summary>
-		/// Converts the given position to the branch angle.
+		/// Gets the angle of the branch leading to the target radial.
 		/// </summary>
-		/// <param name="position"></param>
 		/// <returns></returns>
-		public float PositionToBranchAngle(Vector3 position)
+		public float GetBranchToTargetAngle()
 		{
-			var relativePosition = position - LineToRadial.position;
+			var relativePosition = Target.anchoredPosition - LineToRadial.anchoredPosition;
 			return Mathf.Rad2Deg * Mathf.Atan2(relativePosition.y, relativePosition.x);
 		}
 
 		/// <summary>
 		/// Updates the direction of the branch based on the quadrant the origin is currently located in.
 		/// </summary>
-		public void UpdateDirection()
+		private void UpdateDirection()
 		{
-			if (FollowWorldPosition)
+			if (BranchPosition.IsWorldPosition)
 			{
-				Origin.position = Camera.WorldToScreenPoint(WorldPosition);
+				BranchPosition.BoundsOffset = Origin.rect.size / 2;
+				Origin.position = BranchPosition.GetPositionIn(Camera, Canvas);
 			}
-			var localPosition = Origin.localPosition;
-			var dir = new Vector3(Mathf.Sign(localPosition.x), Mathf.Sign(localPosition.y), 1f);
+
+			var relativePos = Origin.anchoredPosition - Target.anchoredPosition;
+			var dir = new Vector3(Mathf.Sign(relativePos.x), Mathf.Sign(relativePos.y), 1f);
 			if (dir.Equals(CurrentQuadrant))
 			{
 				return;
 			}
 			CurrentQuadrant = dir;
-			SetScale();
+			SetOriginScale();
 		}
 
-		/// <summary>
-		/// Adjusts the size of the angled branch line towards the radial.
-		/// </summary>
-		/// <param name="radial"></param>
-		/// <param name="position"></param>
-		public void UpdateLineSize(IRadial radial, Vector2 position)
+		private static void SetLineSize(RectTransform line, float size)
 		{
-			var linePosition = Vector3.MoveTowards(LineToRadial.position, position, lineSize.x / 2);
-			if (radial.IsPositionWithinRadial(linePosition, false))
-			{
-				var radialSize = radial.OuterRadius - radial.InnerRadius;
-				var size = lineSize;
-				size.x -= radialSize;
-				LineToRadial.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
-			}
-			else
-			{
-				LineToRadial.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, lineSize.x);
-			}
-			LineToRadial.ForceUpdateRectTransforms();
+			line.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size);
 		}
 
-		public void Setup(Vector3 worldPosition, int radius, float scale, bool followWorldPosition)
+		private void SetLinesActive(bool active)
 		{
-			FollowWorldPosition = followWorldPosition;
-			WorldPosition = worldPosition;
-			Origin.position = Camera.WorldToScreenPoint(WorldPosition);
+			if (LineFromOrigin.gameObject.activeSelf == active) return;
+
+			LineFromOrigin.SetActive(active);
+			LineToRadial.SetActive(active);
+		}
+
+		public void UpdateLines(IRadial outerRadial, int radius)
+		{
+			if (BranchPosition.IsWorldPosition == false)
+			{
+				return;
+			}
+
+			UpdateDirection();
+
+			var originPos = Origin.anchoredPosition;
+			var targetPos = Target.anchoredPosition;
+			var distanceToRadial = lineSize.x + radius;
+			var relativePos = originPos - targetPos;
+
+			if (distanceToRadial * distanceToRadial > relativePos.sqrMagnitude)
+			{
+				SetLinesActive(false);
+				return;
+			}
+
+			SetLinesActive(true);
+
+			var absDeltaY = Mathf.Abs(relativePos.y);
+			float length = 0;
+
+			if (absDeltaY < distanceToRadial)
+			{
+				var lineAngle = RightAngle - Mathf.Asin(absDeltaY * SineRightAngle / distanceToRadial);
+				length = distanceToRadial * Mathf.Sin(lineAngle) / SineRightAngle;
+			}
+
+			var xPos = targetPos.x + (length * CurrentQuadrant.x);
+			var yPos = originPos.y + (LineToRadial.rect.height / 2) * CurrentQuadrant.y;
+
+			RepositionLineToRadial(new Vector2(xPos, yPos));
+			SetLineSize(LineFromOrigin, Math.Abs(originPos.x - (Origin.rect.width / 2 * CurrentQuadrant.x) - LineToRadial.anchoredPosition.x));
+
+			var lineToRadialLength = length <= 0 ? absDeltaY : distanceToRadial;
+			lineToRadialLength -= radius + OuterRadialLength(outerRadial, radius);
+
+			SetLineSize(LineToRadial, lineToRadialLength);
+		}
+
+		private float OuterRadialLength(IRadial outerRadial, float radius)
+		{
+			if (outerRadial.IsActive == false)
+			{
+				return 0;
+			}
+
+			var annulusSize = outerRadial.OuterRadius - outerRadial.InnerRadius;
+			var linePosition = Vector3.MoveTowards(Target.position, LineToRadial.position, (radius + annulusSize / 2f) * Canvas.scaleFactor);
+			return outerRadial.IsPositionWithinRadial(linePosition, false) ? annulusSize : 0;
+		}
+
+		public void SetupAndEnable(RectTransform target, int radius, float scale, IBranchPosition branchPosition)
+		{
+			Target = target;
+			BranchPosition = branchPosition;
+			Origin.position = branchPosition.GetPositionIn(Camera, Canvas);
+			var originPos = Origin.anchoredPosition;
+			CurrentQuadrant = new Vector3(Mathf.Sign(originPos.x), Mathf.Sign(originPos.y), 1f);
 			if (LineFromOrigin == null)
 			{
-				BuildBranch(radius, scale);
+				BuildBranch();
 			}
 			else
 			{
-				UpdateDirection();
+				SetLineSize(LineFromOrigin, lineSize.x);
+				SetLineSize(LineToRadial, lineSize.x);
 			}
 
-			LineToRadial.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, lineSize.x);
-			LineToRadial.ForceUpdateRectTransforms();
+			// Flip the branch as needed based on the clicked quadrant.
+			SetOriginScale();
+			CalculateTargetPosition(radius, scale);
+
+			var xPos = originPos.x - (lineSize.x + Origin.rect.width / 2) * CurrentQuadrant.x;
+			var yPos = originPos.y + (LineToRadial.rect.height / 2) * CurrentQuadrant.y;
+
+			RepositionLineToRadial(new Vector2(xPos, yPos));
+			this.SetActive(true);
 		}
 
-		private void BuildBranch(int radius, float scale)
+		private void OnEnable()
+		{
+			// Canvas Screen Space - Overlay sort order is based on object hierarchy. It can be changed with an overridden
+			// canvas sorting order but it needs to be set at some point after an object is enabled, each time, to work properly.
+			var sortingOrder = ManagerCanvas.sortingOrder;
+			Canvas.sortingOrder = BranchPosition.IsWorldPosition ? sortingOrder - 1 : sortingOrder + 1;
+		}
+
+		private void CalculateTargetPosition(float radius, float scale)
+		{
+			var originWidth = Origin.rect.width / 2;
+			var length = (lineSize.x + radius) * Mathf.Sin(Mathf.Deg2Rad * angle) / SineRightAngle * scale;
+			var localPosition = Vector2.Scale(CurrentQuadrant, new Vector2(originWidth + lineSize.x + length, length));
+			var targetPosition = Origin.anchoredPosition - localPosition;
+			Target.anchoredPosition = targetPosition;
+		}
+
+		private void RepositionLineToRadial(Vector2 anchoredPosition)
+		{
+			LineToRadial.pivot = new Vector2(0, CurrentQuadrant.x * CurrentQuadrant.y > 0 ? 0 : 1);
+			LineToRadial.anchoredPosition = anchoredPosition;
+			var toTarget = Target.position - LineToRadial.position;
+			var overlayUpward= ForwardRotation * toTarget;
+			LineToRadial.rotation = Quaternion.LookRotation(Vector3.forward, overlayUpward);
+		}
+
+		private void BuildBranch()
 		{
 			var fromOriginObj = new GameObject("BranchLine", typeof(Image));
 			var fromOriginImage = fromOriginObj.GetComponent<Image>();
@@ -134,29 +235,20 @@ namespace UI.Core.RightClick
 
 			// Build the line that comes from the origin point.
 			LineFromOrigin = fromOriginObj.GetComponent<RectTransform>();
+			LineFromOrigin.name = nameof(LineFromOrigin);
 			LineFromOrigin.SetParent(Origin);
 			LineFromOrigin.localScale = Vector3.one;
 			LineFromOrigin.sizeDelta = lineSize;
 			LineFromOrigin.pivot = new Vector2(1f, 0.5f);
 			var originWidth = Origin.rect.width / 2;
-			LineFromOrigin.localPosition = new Vector3(-originWidth, 0, 0);
+			LineFromOrigin.anchoredPosition = new Vector2(-originWidth, 0);
 
 			// Copy the previous line and use it as the angled branch.
-			LineToRadial = Instantiate(LineFromOrigin, Origin);
-			LineToRadial.pivot = Vector2.zero;
-			LineToRadial.localPosition = new Vector3(-(originWidth + lineSize.x), lineSize.y / 2, 0);
-			LineToRadial.Rotate(Vector3.back, angle);
-
-			var position = Origin.localPosition;
-			CurrentQuadrant = new Vector3(Mathf.Sign(position.x), Mathf.Sign(position.y), 1f);
-
-			// Flip the branch as needed based on the clicked quadrant.
-			SetScale();
-			var pos = new Vector3(-(lineSize.x * 2 + originWidth + radius * scale), lineSize.y / 2, 0f);
-			MenuPosition = pos.RotateAroundZ(LineToRadial.localPosition, 180 - angle);
+			LineToRadial = Instantiate(LineFromOrigin, transform);
+			LineToRadial.name = nameof(LineToRadial);
 		}
 
-		private void SetScale()
+		private void SetOriginScale()
 		{
 			var scale = Origin.localScale;
 			Origin.localScale =

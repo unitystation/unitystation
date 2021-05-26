@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Objects;
 
 namespace Items.Cargo.Wrapping
 {
@@ -57,7 +58,7 @@ namespace Items.Cargo.Wrapping
 					result = festivePackagePrefab;
 					break;
 				default:
-					Logger.LogError($"Tried to wrap {gameObject} with unknown type of paper", Category.Interaction);
+					Logger.LogError($"Tried to wrap {gameObject} with unknown type of paper", Category.Cargo);
 					result = normalPackagePrefab;
 					break;
 			}
@@ -77,7 +78,7 @@ namespace Items.Cargo.Wrapping
 					break;
 				default:
 					Logger.LogWarning($"{gameObject} is not a locker nor crate but it an attempt to wrap mas done." +
-					                  "We set the crate sprite and go on.");
+					                  "We set the crate sprite and go on.", Category.Cargo);
 					spriteType = ContainerTypeSprite.Crate;
 					break;
 			}

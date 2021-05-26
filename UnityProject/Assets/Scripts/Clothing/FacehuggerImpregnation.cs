@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Items;
 using Mirror;
 using UnityEngine;
+using Systems.Clothing;
+using HealthV2;
 
 namespace Clothing
 {
@@ -47,7 +49,7 @@ namespace Clothing
 		public void KillHugger()
 		{
 			isAlive = false;
-			clothingV2.ServerChangeVariant(ClothingV2.ClothingVariantType.Tucked);
+			clothingV2.ChangeSprite(1);
 			itemAttributesV2.ServerSetArticleDescription("It is not moving anymore.");
 		}
 
@@ -83,19 +85,19 @@ namespace Clothing
 			StartCoroutine(Release());
 		}
 
-		private IEnumerator Coitus(PlayerHealth player)
+		private IEnumerator Coitus(PlayerHealthV2 player)
 		{
 			yield return WaitFor.Seconds(coitusTime);
-			Pregnancy(player);
+			_ = Pregnancy(player);
 			yield return WaitFor.EndOfFrame;
 		}
 
-		private async void Pregnancy(PlayerHealth player)
+		private async Task Pregnancy(PlayerHealthV2 player)
 		{
 			KillHugger();
 			await Task.Delay(TimeSpan.FromSeconds(pregnancyTime));
 			//TODO check if the larvae was removed from stomach
-			player.ApplyDamageToBodypart(
+			player.ApplyDamageToBodyPart(
 				gameObject,
 				200,
 				AttackType.Internal,
@@ -110,7 +112,7 @@ namespace Clothing
 			//TODO wait until the object's velocity is 0 instead of a fixed amount of time!
 			yield return WaitFor.Seconds(0.6f);
 			Spawn.ServerPrefab(facehugger, gameObject.transform.position);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 			yield return WaitFor.EndOfFrame;
 		}
 

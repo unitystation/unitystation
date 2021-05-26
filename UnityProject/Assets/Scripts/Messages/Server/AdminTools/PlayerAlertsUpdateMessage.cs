@@ -1,48 +1,53 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class PlayerAlertsUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public string JsonData;
-	public bool IsSingleEntry;
-
-	public override void Process()
+	public class PlayerAlertsUpdateMessage : ServerMessage<PlayerAlertsUpdateMessage.NetMessage>
 	{
-		if (IsSingleEntry)
+		public struct NetMessage : NetworkMessage
 		{
-			UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(JsonData));
+			public string JsonData;
+			public bool IsSingleEntry;
 		}
-		else
+
+		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.playerAlerts.ClientUpdateAlertLog(JsonData);
+			if (msg.IsSingleEntry)
+			{
+				UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(msg.JsonData));
+			}
+			else
+			{
+				UIManager.Instance.playerAlerts.ClientUpdateAlertLog(msg.JsonData);
+			}
 		}
-	}
 
-	public static PlayerAlertsUpdateMessage SendSingleEntryToAdmins(PlayerAlertData alertMessage)
-	{
-		PlayerAlertsUpdateMessage  msg =
-			new PlayerAlertsUpdateMessage
-			{
-				JsonData = JsonUtility.ToJson(alertMessage),
-				IsSingleEntry = true
-			};
+		public static NetMessage SendSingleEntryToAdmins(PlayerAlertData alertMessage)
+		{
+			NetMessage  msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(alertMessage),
+					IsSingleEntry = true
+				};
 
-		msg.SendToAdmins();
-		return msg;
-	}
+			SendToAdmins(msg);
+			return msg;
+		}
 
-	public static PlayerAlertsUpdateMessage SendLogUpdateToAdmin(NetworkConnection requestee, PlayerAlertsUpdate update)
-	{
-		PlayerAlertsUpdateMessage msg =
-			new PlayerAlertsUpdateMessage
-			{
-				JsonData = JsonUtility.ToJson(update),
-				IsSingleEntry = false
-			};
+		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, PlayerAlertsUpdate update)
+		{
+			NetMessage msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(update),
+					IsSingleEntry = false
+				};
 
-		msg.SendTo(requestee);
-		return msg;
+			SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

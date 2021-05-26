@@ -1,37 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
-/// <summary>
-/// Used to update the ends, and colour of  A cable
-/// </summary>
-public class ElectricalCableMessage : ServerMessage
+using Objects.Electrical;
+
+namespace Messages.Server
 {
-	public Connection REWireEndA;
-	public Connection REWireEndB;
-	public WiringColor RECableType;
-	public uint Cable;
-
-	public override void Process()
+	/// <summary>
+	/// Used to update the ends, and colour of  A cable
+	/// </summary>
+	public class ElectricalCableMessage : ServerMessage<ElectricalCableMessage.NetMessage>
 	{
-		LoadNetworkObject(Cable);
-
-		if ( NetworkObject != null)
+		public struct NetMessage : NetworkMessage
 		{
-			NetworkObject.GetComponent<CableInheritance>()?.SetDirection(REWireEndA,REWireEndB,RECableType);
+			public Connection REWireEndA;
+			public Connection REWireEndB;
+			public WiringColor RECableType;
+			public uint Cable;
 		}
-	}
 
-	public static ElectricalCableMessage  Send(GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType = WiringColor.unknown)
-	{
-		ElectricalCableMessage msg = new ElectricalCableMessage
+		public override void Process(NetMessage msg)
 		{
-			REWireEndA = WireEndA,
-			REWireEndB = WireEndB,
-			RECableType = CableType,
-			Cable = cable.NetId()
-		};
-		msg.SendToAll();
-		return msg;
+			LoadNetworkObject(msg.Cable);
+
+			if ( NetworkObject != null)
+			{
+				NetworkObject.GetComponent<CableInheritance>()?.SetDirection(msg.REWireEndA, msg.REWireEndB, msg.RECableType);
+			}
+		}
+
+		public static NetMessage  Send(GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType = WiringColor.unknown)
+		{
+			NetMessage msg = new NetMessage
+			{
+				REWireEndA = WireEndA,
+				REWireEndB = WireEndB,
+				RECableType = CableType,
+				Cable = cable.NetId()
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

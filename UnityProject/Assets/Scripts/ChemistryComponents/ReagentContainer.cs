@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using Items;
+using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -19,8 +21,8 @@ namespace Chemistry.Components
 		[Header("Container Parameters")]
 
 		[Tooltip("Max container capacity in units")]
-		[SerializeField] private int maxCapacity = 100;
-		public int MaxCapacity
+		[SerializeField] private float maxCapacity = 100;
+		public float MaxCapacity
 		{
 			get => maxCapacity;
 			private set { maxCapacity = value; }
@@ -34,6 +36,9 @@ namespace Chemistry.Components
 			private set { reactionSet = value; }
 		}
 
+		[Tooltip("If its unique container and can't be bothered to make SO")]
+		public List<Reaction> AdditionalReactions = new List<Reaction>();
+
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
 		[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
@@ -45,6 +50,8 @@ namespace Chemistry.Components
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;
 
+		public bool ContentsSet = false;
+
 		/// <summary>
 		/// Invoked server side when regent container spills all of its contents
 		/// </summary>
@@ -54,6 +61,7 @@ namespace Chemistry.Components
 		/// Invoked server side when the mix of reagents inside container changes
 		/// </summary>
 		[NonSerialized] public UnityEvent OnReagentMixChanged = new UnityEvent();
+
 
 		private ReagentMix currentReagentMix;
 		/// <summary>
@@ -93,6 +101,7 @@ namespace Chemistry.Components
 			{
 				CurrentReagentMix.Temperature = value;
 				OnReagentMixChanged?.Invoke();
+				ReagentsChanged();
 			}
 		}
 
@@ -141,6 +150,15 @@ namespace Chemistry.Components
 			{
 				integrity.OnWillDestroyServer.AddListener(info => SpillAll());
 			}
+			//OnReagentMixChanged.AddListener(ReagentsChanged);
+		}
+
+		public void ReagentsChanged()
+		{
+			if (ReactionSet != null)
+			{
+				ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
+			}
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -154,7 +172,12 @@ namespace Chemistry.Components
 		/// </summary>
 		protected void ResetContent()
 		{
-			currentReagentMix = initialReagentMix.Clone();
+			if (ContentsSet == false)
+			{
+				currentReagentMix = initialReagentMix.Clone();
+			}
+
+			ContentsSet = false;
 			OnReagentMixChanged?.Invoke();
 		}
 
@@ -168,7 +191,7 @@ namespace Chemistry.Components
 			// check whitelist reagents
 			if (ReagentWhitelistOn)
 			{
-				if (!addition.All(r => reagentWhitelist.Contains(r.Key)))
+				if (!addition.reagents.m_dict.All(r => reagentWhitelist.Contains(r.Key)))
 				{
 					return new TransferResult
 					{
@@ -204,13 +227,9 @@ namespace Chemistry.Components
 
 			// add addition to reagent mix
 			CurrentReagentMix.Add(addition);
-			//Reactions happen here
-			if (ReactionSet != null)
-			{
-				ReactionSet.Apply(this, CurrentReagentMix);
-			}
+			ReagentsChanged();
 
-			// get mix total after all reactions
+			// get mix total after all reactions,
 			var afterReactionTotal = CurrentReagentMix.Total;
 
 			var message = string.Empty;
@@ -222,6 +241,7 @@ namespace Chemistry.Components
 			}
 
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged();
 			return new TransferResult { Success = true, TransferAmount = transferAmount, Message = message };
 		}
 
@@ -234,6 +254,7 @@ namespace Chemistry.Components
 		{
 			CurrentReagentMix.Subtract(reagents);
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged();
 		}
 
 		/// <summary>
@@ -243,6 +264,7 @@ namespace Chemistry.Components
 		{
 			var takeMix = CurrentReagentMix.Take(amount);
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged(); //Maybe not needed?
 			return takeMix;
 		}
 
@@ -260,10 +282,20 @@ namespace Chemistry.Components
 		/// <summary>
 		/// Server side only.
 		/// </summary>
+		public void Divide(float Divider)
+		{
+			CurrentReagentMix.Multiply(Divider);
+			OnReagentMixChanged?.Invoke();
+		}
+
+		/// <summary>
+		/// Server side only.
+		/// </summary>
 		public void Multiply(float multiplier)
 		{
 			CurrentReagentMix.Multiply(multiplier);
 			OnReagentMixChanged?.Invoke();
+			ReagentsChanged();
 		}
 
 		/// <summary>
@@ -292,7 +324,7 @@ namespace Chemistry.Components
 
 		public IEnumerator<KeyValuePair<Chemistry.Reagent, float>> GetEnumerator()
 		{
-			return CurrentReagentMix.GetEnumerator();
+			return CurrentReagentMix.reagents.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -336,7 +368,7 @@ namespace Chemistry.Components
 
 		private void NotifyPlayersOfSpill(Vector3Int worldPos)
 		{
-			var mobs = MatrixManager.GetAt<LivingHealthBehaviour>(worldPos, true);
+			var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPos, true);
 			if (mobs.Count > 0)
 			{
 				foreach (var mob in mobs)
@@ -420,7 +452,7 @@ namespace Chemistry.Components
 				return;
 			}
 
-			foreach (var reagent in CurrentReagentMix)
+			foreach (var reagent in CurrentReagentMix.reagents.m_dict)
 			{
 				Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
 			}

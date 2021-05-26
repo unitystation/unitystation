@@ -113,7 +113,7 @@ namespace Chemistry.Editor
 			{
 				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key))
 					.Replace("Reagents", "");
-				Debug.Log(prefix);
+				Logger.Log(prefix, Category.Editor);
 				var prefixPath = Path.Combine(reagentExportPath, prefix);
 				if (!Directory.Exists(prefixPath))
 				{
@@ -173,7 +173,7 @@ namespace Chemistry.Editor
 			{
 				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key));
 				var prefixPath = Path.Combine(reactionExportPath, prefix);
-				Debug.Log(prefix);
+				Logger.Log(prefix, Category.Editor);
 				foreach (var reaction in reactionsGroup)
 				{
 					var path = Path.Combine(
@@ -283,7 +283,7 @@ namespace Chemistry.Editor
 
 				foreach (var result in results)
 				{
-					reaction.results.Add(result);
+					reaction.results.m_dict.Add(result.Key, result.Value);
 				}
 			}
 
@@ -296,7 +296,7 @@ namespace Chemistry.Editor
 
 				foreach (var ingredient in ingredients)
 				{
-					reaction.ingredients.Add(ingredient);
+					reaction.ingredients.m_dict.Add(ingredient.Key, ingredient.Value);
 				}
 			}
 
@@ -309,7 +309,7 @@ namespace Chemistry.Editor
 
 				foreach (var catalyst in catalysts)
 				{
-					reaction.catalysts.Add(catalyst);
+					reaction.catalysts.m_dict.Add(catalyst.Key, catalyst.Value);
 				}
 			}
 

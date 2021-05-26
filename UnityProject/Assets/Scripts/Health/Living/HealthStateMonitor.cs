@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Messages.Server.HealthMessages;
 using UnityEngine;
 using Mirror;
 
@@ -55,7 +56,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning($"No {nameof(livingHealthBehaviour.respiratorySystem)} found on {this}. Is this intended?");
+			Logger.LogWarning($"No {nameof(livingHealthBehaviour.respiratorySystem)} found on {this}. Is this intended?", Category.Health);
 		}
 
 		UpdateBloodCaches();
@@ -198,12 +199,12 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	void SendConsciousUpdate()
 	{
-		HealthConsciousMessage.SendToAll(gameObject, livingHealthBehaviour.ConsciousState);
+		//HealthConsciousMessage.SendToAll(gameObject, livingHealthBehaviour.ConsciousState);
 	}
 
 	void SendOverallUpdate()
 	{
-		HealthOverallMessage.Send(gameObject, gameObject, livingHealthBehaviour.OverallHealth);
+		//HealthOverallMessage.Send(gameObject, gameObject, livingHealthBehaviour.OverallHealth);
 	}
 
 	void SendBloodUpdate()
@@ -227,12 +228,12 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	void SendOverallUpdate(GameObject requestor)
 	{
-		HealthOverallMessage.Send(requestor, gameObject, livingHealthBehaviour.OverallHealth);
+		//HealthOverallMessage.Send(requestor, gameObject, livingHealthBehaviour.OverallHealth);
 	}
 
 	void SendConsciousUpdate(GameObject requestor)
 	{
-		HealthConsciousMessage.Send(requestor, gameObject, livingHealthBehaviour.ConsciousState);
+		//HealthConsciousMessage.Send(requestor, gameObject, livingHealthBehaviour.ConsciousState);
 	}
 
 	void SendBloodUpdate(GameObject requestor)
@@ -243,17 +244,18 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	void SendRespiratoryUpdate()
 	{
-		HealthRespiratoryMessage.Send(gameObject, isSuffocatingCache);
+		//Done
+		//HealthRespiratoryMessage.Send(gameObject, isSuffocatingCache);
 	}
 
 	void SendTemperatureUpdate()
 	{
-		HealthTemperatureMessage.Send(gameObject, temperatureCache);
+		//HealthTemperatureMessage.Send(gameObject, temperatureCache);
 	}
 
 	void SendPressureUpdate()
 	{
-		HealthPressureMessage.Send(gameObject, pressureCache);
+		//HealthPressureMessage.Send(gameObject, pressureCache);
 	}
 
 	void SendBrainUpdate(GameObject requestor)

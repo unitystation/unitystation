@@ -53,19 +53,6 @@ namespace Doors
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
 		}
 
-		public void Start()
-		{
-			//Call doorController after awake so it has a chance to init
-			if (doorController.IsClosed)
-			{
-				doorbase.sprite = sprites[closeFrame + (int)direction];
-			}
-			else
-			{
-				doorbase.sprite = sprites[openFrame + (int)direction];
-			}
-		}
-
 		public override void OpenDoor(bool skipAnimation)
 		{
 			if (skipAnimation == false)
@@ -97,7 +84,7 @@ namespace Doors
 			}
 
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition(SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
+			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
 			StartCoroutine(PlayDeniedAnim());
 		}
 

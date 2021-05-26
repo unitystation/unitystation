@@ -3,6 +3,8 @@ using UnityEngine;
 using Items;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
+
 
 /// <summary>
 /// Utilities for working with tools / materials. Respects the Tool component settings when performing actions.
@@ -11,6 +13,8 @@ public static class ToolUtils
 {
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
+
+	private static readonly System.Random RNG = new System.Random();
 
 	/// <summary>
 	/// Performs common tool usage logic and also sends start / end action messages, and invokes a callback on success.
@@ -24,19 +28,41 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	public static void ServerUseToolWithActionMessages(GameObject performer, GameObject tool, ActionTarget actionTarget,
-		float seconds, string performerStartActionMessage, string othersStartActionMessage, string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		float seconds, string performerStartActionMessage, string othersStartActionMessage,
+		string performerFinishActionMessage,
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null, bool playSound = true)
 	{
 		void ProgressComplete()
 		{
+			var Tooltool = tool.GetComponent<Tool>();
+			if (Tooltool != null)
+			{
+				if (Tooltool.PercentageChance < 100)
+				{
+					int NOWRNG = RNG.Next(0, 100);
+					if (NOWRNG > Tooltool.PercentageChance)
+					{
+						Chat.AddActionMsgToChat(performer, performerFailMessage,
+							othersFailMessage);
+						onFailComplete?.Invoke();
+						return;
+					}
+				}
+			}
+
 			Chat.AddActionMsgToChat(performer, performerFinishActionMessage,
 				othersFinishActionMessage);
 			onSuccessfulCompletion.Invoke();
 		}
 
 		//only play the start action message if progress actually started
-		if (ServerUseTool(performer, tool, actionTarget, seconds, ProgressComplete))
+		if (ServerUseTool(performer, tool, actionTarget, seconds, ProgressComplete, playSound))
 		{
 			Chat.AddActionMsgToChat(performer, performerStartActionMessage,
 				othersStartActionMessage);
@@ -53,14 +79,21 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	public static void ServerUseToolWithActionMessages(HandApply handApply,
 		float seconds, string performerStartActionMessage, string othersStartActionMessage,
 		string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null, bool playSound = true)
 	{
 		ServerUseToolWithActionMessages(handApply.Performer, handApply.HandObject,
-			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, performerStartActionMessage, othersStartActionMessage,
-			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
+			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, performerStartActionMessage,
+			othersStartActionMessage,
+			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage,
+			othersFailMessage, onFailComplete, playSound);
 	}
 
 	/// <summary>
@@ -73,14 +106,20 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	public static void ServerUseToolWithActionMessages(TileApply tileApply,
 		float seconds, string performerStartActionMessage, string othersStartActionMessage,
 		string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null, bool playSound = true)
 	{
 		ServerUseToolWithActionMessages(tileApply.Performer, tileApply.HandObject,
-			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, performerStartActionMessage, othersStartActionMessage,
-			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
+			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, performerStartActionMessage,
+			othersStartActionMessage,
+			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage, othersFailMessage, onFailComplete, playSound);
 	}
 
 	/// <summary>
@@ -93,14 +132,20 @@ public static class ToolUtils
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	public static void ServerUseToolWithActionMessages(PositionalHandApply handApply,
 		float seconds, string performerStartActionMessage, string othersStartActionMessage,
 		string performerFinishActionMessage,
-		string othersFinishActionMessage, Action onSuccessfulCompletion)
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null, bool playSound = true)
 	{
 		ServerUseToolWithActionMessages(handApply.Performer, handApply.HandObject,
-			ActionTarget.Tile(handApply.WorldPositionTarget), seconds, performerStartActionMessage, othersStartActionMessage,
-			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
+			ActionTarget.Tile(handApply.WorldPositionTarget), seconds, performerStartActionMessage,
+			othersStartActionMessage,
+			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage, othersFailMessage, onFailComplete, playSound);
 	}
 
 	/// <summary>
@@ -112,8 +157,10 @@ public static class ToolUtils
 	/// <param name="actionTarget">target of the action</param>
 	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
 	/// <param name="progressCompleteAction">completion callback (will also be called instantly if completion is instant)</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	/// <returns>progress bar spawned, null if progress did not start or this was instant</returns>
-	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, ActionTarget actionTarget, float seconds, Action progressCompleteAction)
+	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, ActionTarget actionTarget,
+		float seconds, Action progressCompleteAction, bool playSound = true)
 	{
 		//check tool stats
 		var toolStats = tool.GetComponent<Tool>();
@@ -124,7 +171,11 @@ public static class ToolUtils
 
 		if (seconds <= 0f)
 		{
-			ServerPlayToolSound(tool, actionTarget.TargetWorldPosition, performer);
+			if (playSound)
+			{
+				ServerPlayToolSound(tool, actionTarget.TargetWorldPosition, performer);
+			}
+
 			// Check for null as ServerUseTool(interaction) accepts null Action
 			if (progressCompleteAction != null) progressCompleteAction.Invoke();
 			return null;
@@ -144,7 +195,7 @@ public static class ToolUtils
 					.ServerStartProgress(actionTarget, seconds, performer);
 			}
 
-			if (bar != null)
+			if (bar != null && playSound)
 			{
 				ServerPlayToolSound(tool, actionTarget.TargetWorldPosition, performer);
 			}
@@ -199,7 +250,8 @@ public static class ToolUtils
 
 		if (soundName != null)
 		{
-			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: owner);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, audioSourceParameters, sourceObj: owner);
 		}
 	}
 
@@ -236,7 +288,8 @@ public static class ToolUtils
 	/// <param name="inventoryApply"></param>
 	public static void ServerPlayToolSound(InventoryApply inventoryApply)
 	{
-		ServerPlayToolSound(inventoryApply.UsedObject, inventoryApply.Performer.TileWorldPosition(), inventoryApply.Performer);
+		ServerPlayToolSound(inventoryApply.UsedObject, inventoryApply.Performer.TileWorldPosition(),
+			inventoryApply.Performer);
 	}
 
 	/// <summary>
@@ -246,12 +299,13 @@ public static class ToolUtils
 	/// <param name="positionalHandApply">positional hand apply causing the tool usage</param>
 	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar ServerUseTool(PositionalHandApply positionalHandApply, float seconds=0,
-		Action progressCompleteAction=null)
+	public static ProgressBar ServerUseTool(PositionalHandApply positionalHandApply, float seconds = 0,
+		Action progressCompleteAction = null, bool playSound = true)
 	{
 		return ServerUseTool(positionalHandApply.Performer, positionalHandApply.HandObject,
-			ActionTarget.Tile(positionalHandApply.WorldPositionTarget), seconds, progressCompleteAction);
+			ActionTarget.Tile(positionalHandApply.WorldPositionTarget), seconds, progressCompleteAction, playSound);
 	}
 
 	/// <summary>
@@ -261,12 +315,13 @@ public static class ToolUtils
 	/// <param name="handApply">hand apply causing the tool usage</param>
 	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar ServerUseTool(HandApply handApply, float seconds=0,
-		Action progressCompleteAction=null)
+	public static ProgressBar ServerUseTool(HandApply handApply, float seconds = 0,
+		Action progressCompleteAction = null, bool playSound = true)
 	{
 		return ServerUseTool(handApply.Performer, handApply.HandObject,
-			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, progressCompleteAction);
+			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, progressCompleteAction, playSound);
 	}
 
 	/// <summary>
@@ -276,11 +331,12 @@ public static class ToolUtils
 	/// <param name="tileApply">tile apply causing the tool usage</param>
 	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar ServerUseTool(TileApply tileApply, float seconds=0,
-		Action progressCompleteAction=null)
+	public static ProgressBar ServerUseTool(TileApply tileApply, float seconds = 0,
+		Action progressCompleteAction = null, bool playSound = true)
 	{
 		return ServerUseTool(tileApply.Performer, tileApply.HandObject,
-			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, progressCompleteAction);
+			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, progressCompleteAction, playSound);
 	}
 }

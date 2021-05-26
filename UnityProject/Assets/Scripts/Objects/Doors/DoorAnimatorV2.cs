@@ -3,6 +3,7 @@ using System.Collections;
 using AddressableReferences;
 using NaughtyAttributes;
 using UnityEngine;
+using Messages.Server;
 
 namespace Doors
 {
@@ -77,6 +78,27 @@ namespace Doors
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
 		}
 
+		public void PlayAnimation(DoorUpdateType type, bool skipAnimation)
+		{
+			if (type == DoorUpdateType.Open)
+			{
+				StartCoroutine(PlayOpeningAnimation(skipAnimation));
+			}
+			else if (type == DoorUpdateType.Close)
+			{
+				StartCoroutine(PlayClosingAnimation(skipAnimation));
+			}
+			else if (type == DoorUpdateType.AccessDenied)
+			{
+				StartCoroutine(PlayDeniedAnimation());
+			}
+
+			else if (type == DoorUpdateType.PressureWarn)
+			{
+				StartCoroutine(PlayPressureWarningAnimation());
+			}
+		}
+
 		public IEnumerator PlayOpeningAnimation(bool panelExposed = false, bool lights = true)
 		{
 			if (panelExposed)
@@ -90,10 +112,10 @@ namespace Doors
 			}
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Opening);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Opening);
-			SoundManager.PlayAtPosition(openingSFX, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayAtPosition(openingSFX, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(openingAnimationTime);
 
-			//Change to open sprite after done opening
+			// Change to open sprite after done opening
 			overlayHackingHandler.ChangeSprite((int) Panel.Open);
 			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Open);

@@ -1,57 +1,59 @@
-﻿using System.Threading;
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ElectricalManager))]
-public class ElectricalManagerEditor : Editor
+namespace Systems.Electricity
 {
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(ElectricalManager))]
+	public class ElectricalManagerEditor : Editor
 	{
-		ElectricalManager electricalManager = (ElectricalManager)target;
-
-		GUIContent speedContent = new GUIContent("Speed", "frequency of Atmos simulation updates (Millieseconds between each update)");
-
-		electricalManager.MSSpeed = EditorGUILayout.Slider(speedContent, electricalManager.MSSpeed, 0, 5000);
-
-		AddButtonGroup(electricalManager);
-
-		DrawDefaultInspector();
-	}
-
-	private static void AddButtonGroup(ElectricalManager electricalManager)
-	{
-		EditorGUILayout.BeginHorizontal();
-
-		GUI.enabled = Application.isPlaying && electricalManager.Mode != ElectricalMode.Manual;
-
-		if (GUILayout.Button("SetSpeed"))
+		public override void OnInspectorGUI()
 		{
-			ElectricalManager.SetInternalSpeed();
+			ElectricalManager electricalManager = (ElectricalManager)target;
+
+			GUIContent speedContent = new GUIContent("Speed", "frequency of Atmos simulation updates (Millieseconds between each update)");
+
+			electricalManager.MSSpeed = EditorGUILayout.Slider(speedContent, electricalManager.MSSpeed, 0, 5000);
+
+			AddButtonGroup(electricalManager);
+
+			DrawDefaultInspector();
 		}
 
-		if (!electricalManager.Running)
+		private static void AddButtonGroup(ElectricalManager electricalManager)
 		{
-			if (GUILayout.Button("Start"))
+			EditorGUILayout.BeginHorizontal();
+
+			GUI.enabled = Application.isPlaying && electricalManager.Mode != ElectricalMode.Manual;
+
+			if (GUILayout.Button("SetSpeed"))
 			{
-				electricalManager.StartSim();
+				ElectricalManager.SetInternalSpeed();
 			}
+
+			if (!electricalManager.Running)
+			{
+				if (GUILayout.Button("Start"))
+				{
+					electricalManager.StartSim();
+				}
+			}
+			else if (GUILayout.Button("Stop"))
+			{
+				electricalManager.StopSim();
+			}
+
+			GUI.enabled = Application.isPlaying && !electricalManager.Running;
+
+			if (GUILayout.Button("Step"))
+			{
+				ElectricalManager.Instance.electricalSync.RunStep(false);
+			}
+
+			GUI.enabled = true;
+
+			EditorGUILayout.EndHorizontal();
 		}
-		else if (GUILayout.Button("Stop"))
-		{
-			electricalManager.StopSim();
-		}
-
-		GUI.enabled = Application.isPlaying && !electricalManager.Running;
-
-		if (GUILayout.Button("Step"))
-		{
-			ElectricalManager.Instance.electricalSync.RunStep(false);
-		}
-
-		GUI.enabled = true;
-
-		EditorGUILayout.EndHorizontal();
 	}
 }
 #endif

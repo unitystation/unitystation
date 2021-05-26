@@ -49,7 +49,7 @@ static class SceneAutoLoader
 				}
 				catch
 				{
-					Debug.LogError(string.Format("error: scene not found: {0}", MasterScene));
+					Logger.LogError($"Tried to autoload scene, but scene not found: {MasterScene}", Category.Editor);
 					EditorApplication.isPlaying = false;
 
 				}
@@ -75,7 +75,7 @@ static class SceneAutoLoader
 			}
 			catch
 			{
-				Debug.LogError(string.Format("error: scene not found: {0}", PreviousScene));
+				Logger.LogError($"Tried to autoload scene, but scene not found: {PreviousScene}", Category.Editor);
 			}
 		}
 	}

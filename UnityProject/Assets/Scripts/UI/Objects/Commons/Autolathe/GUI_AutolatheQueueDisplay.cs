@@ -68,7 +68,7 @@ namespace UI.Objects
 				currentProducts.Add(product);
 				UpdateQueue();
 			}
-			else Logger.Log("Queue is full!!!");
+			else Logger.Log("Tried to add to Autolathe queue, but queue was full", Category.Machines);
 		}
 
 		public void UpdateQueue()

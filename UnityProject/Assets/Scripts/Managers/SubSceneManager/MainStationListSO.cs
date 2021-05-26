@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using NaughtyAttributes;
 using UnityEngine;
@@ -10,6 +9,7 @@ public class MainStationListSO : ScriptableObject
 	[Header("Provide the exact name of the scene in the fields below:")]
 	[InfoBox("Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
+	[Scene]
 	public List<string> MainStations = new List<string>();
 
 	public string GetRandomMainStation()

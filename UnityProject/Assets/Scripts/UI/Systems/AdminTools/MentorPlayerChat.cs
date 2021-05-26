@@ -7,6 +7,8 @@ using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using DiscordWebhook;
+using Messages.Client.Admin;
+using Messages.Server.AdminTools;
 
 namespace AdminTools
 {

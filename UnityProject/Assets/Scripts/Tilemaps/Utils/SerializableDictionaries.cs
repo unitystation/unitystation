@@ -19,11 +19,6 @@ public class EventDictionary : GridDictionary<UnityEvent>
 }
 
 [Serializable]
-public class MetaDataDictionary : SerializableDictionary<Vector3Int, MetaDataNode>
-{
-}
-
-[Serializable]
 public class PassableDictionary : SerializableDictionary<CollisionType, bool>
 {
 }

@@ -88,12 +88,12 @@ namespace DatabaseAPI
 
 		void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.LoggedOut, OnLogOut);
+			EventManager.AddHandler(Event.LoggedOut, OnLogOut);
 		}
 
 		void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.LoggedOut, OnLogOut);
+			EventManager.RemoveHandler(Event.LoggedOut, OnLogOut);
 		}
 
 		void Update()
@@ -116,7 +116,7 @@ namespace DatabaseAPI
 			{
 				if (task.IsFaulted)
 				{
-					Debug.LogError("Error with profile reload");
+					Logger.LogError("Error with profile reload", Category.DatabaseAPI);
 					return;
 				}
 			});

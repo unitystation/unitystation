@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Messages.Server;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// For server.
@@ -9,14 +13,16 @@ using UnityEngine.SceneManagement;
 public class NetworkTabManager : MonoBehaviour {
 
 	private static NetworkTabManager networkTabManager;
-	public static NetworkTabManager Instance{
-		get {
-			if(networkTabManager == null){
-				networkTabManager = FindObjectOfType<NetworkTabManager>();
-			}
-			return networkTabManager;
-		}
-	}
+	public static NetworkTabManager Instance => networkTabManager;
+
+	[SerializeField]
+	private GameObjectList netTabs = null;
+	public GameObjectList NetTabs => netTabs;
+
+	[SerializeField]
+	private GameObjectList netEntries = null;
+	public GameObjectList NetEntries => netEntries;
+
 	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = new Dictionary<NetTabDescriptor, NetTab>();
 
 	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type)
@@ -30,6 +36,18 @@ public class NetworkTabManager : MonoBehaviour {
 			return new List<ConnectedPlayer>();
 		}
 		return info.Peepers.ToList();
+	}
+
+	private void Awake()
+	{
+		if (networkTabManager == null)
+		{
+			networkTabManager = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
 	}
 
 	private void OnEnable()
@@ -47,18 +65,21 @@ public class NetworkTabManager : MonoBehaviour {
 		Instance.ResetManager();
 	}
 
-	void ResetManager(){
+	void ResetManager()
+	{
 		//Reset manager on round start:
-		foreach ( var tab in Instance.openTabs ) {
+		foreach ( var tab in Instance.openTabs )
+		{
 				Destroy(tab.Value.gameObject);
-			}
-			Instance.openTabs.Clear();
+		}
+
+		Instance.openTabs.Clear();
 	}
 
 	/// Used when a new dynamic element is added/removed
-	public void Rescan( NetTabDescriptor tabDescriptor )
+	public void Rescan(NetTabDescriptor tabDescriptor)
 	{
-		var netTab = Get( tabDescriptor );
+		var netTab = Get(tabDescriptor);
 		if (netTab != null)
 		{
 			netTab.RescanElements();
@@ -66,12 +87,15 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	///Create new NetworkTabInfo if it doesn't exist, otherwise add player to it
-	public void Add( NetTabDescriptor tabDescriptor, GameObject player )
+	public void Add(NetTabDescriptor tabDescriptor, GameObject player)
 	{
-		if ( tabDescriptor.Equals( NetTabDescriptor.Invalid ) ) {
+		if (tabDescriptor.Equals( NetTabDescriptor.Invalid ))
+		{
 			return;
 		}
-		if (!openTabs.TryGetValue(tabDescriptor, out var tab)) {
+
+		if (!openTabs.TryGetValue(tabDescriptor, out var tab))
+		{
 			//Spawning new one
 			tab = tabDescriptor.Spawn(transform);
 			if (tab == null)
@@ -82,20 +106,23 @@ public class NetworkTabManager : MonoBehaviour {
 		}
 		tab.AddPlayer( player );
 	}
-	public void Add( GameObject provider, NetTabType type, GameObject player ) {
+	public void Add(GameObject provider, NetTabType type, GameObject player)
+	{
 		Add( Tab(provider, type), player );
 	}
 
-	public void Remove( GameObject provider, NetTabType type, GameObject player ) {
+	public void Remove(GameObject provider, NetTabType type, GameObject player)
+	{
 		Remove( Tab( provider, type ), player );
 	}
 
 	/// remove player from NetworkTabInfo, keeping the tab
-	public void Remove( NetTabDescriptor tabDescriptor, GameObject player )
+	public void Remove(NetTabDescriptor tabDescriptor, GameObject player)
 	{
 		if (!openTabs.ContainsKey(tabDescriptor)) return;
+
 		NetTab t = openTabs[tabDescriptor];
-		t.RemovePlayer( player );
+		t.RemovePlayer(player);
 //		if ( t.Peepers.Count == 0 ) {
 //			t.gameObject.SetActive( false );
 //		}
@@ -106,7 +133,7 @@ public class NetworkTabManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="provider"></param>
 	/// <param name="type"></param>
-	public void RemoveTab( GameObject provider, NetTabType type)
+	public void RemoveTab(GameObject provider, NetTabType type)
 	{
 		var ntd = Tab(provider, type);
 		openTabs.TryGetValue(ntd, out var netTab);
@@ -126,48 +153,55 @@ public class NetworkTabManager : MonoBehaviour {
 		}
 	}
 
-	public NetTab Get( GameObject provider, NetTabType type ) {
-		return Get( Tab(provider, type) );
+	public NetTab Get(GameObject provider, NetTabType type)
+	{
+		return Get(Tab(provider, type));
 	}
 
-	public NetTab Get( NetTabDescriptor tabDescriptor ) {
-		return openTabs.ContainsKey( tabDescriptor ) ? openTabs[tabDescriptor] : null; //NetworkTabInfo.Invalid;
+	public NetTab Get(NetTabDescriptor tabDescriptor)
+	{
+		return openTabs.ContainsKey(tabDescriptor) ? openTabs[tabDescriptor] : null; //NetworkTabInfo.Invalid;
 	}
 
-	private static NetTabDescriptor Tab( GameObject provider, NetTabType type ) {
-		return provider == null ? NetTabDescriptor.Invalid : new NetTabDescriptor( provider, type );
+	private static NetTabDescriptor Tab( GameObject provider, NetTabType type )
+	{
+		return provider == null ? NetTabDescriptor.Invalid : new NetTabDescriptor(provider, type);
 	}
 }
 
-public struct NetTabDescriptor {
+public struct NetTabDescriptor
+{
 	public static readonly NetTabDescriptor Invalid = new NetTabDescriptor(null, NetTabType.None);
 	private readonly GameObject provider;
 	private readonly NetTabType type;
 
-	public NetTabDescriptor( GameObject provider, NetTabType type )
+	public NetTabDescriptor(GameObject provider, NetTabType type)
 	{
 		this.provider = provider;
 		this.type = type;
-		if ( type == NetTabType.None && this.provider != null ) {
+		if (type == NetTabType.None && this.provider != null)
+		{
 			Logger.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +
 				"Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None",Category.NetUI);
 		}
 	}
 
-	public NetTab Spawn(Transform parent) {
-		if ( provider == null ) {
+	public NetTab Spawn(Transform parent)
+	{
+		if (provider == null)
+		{
 			return null;
 		}
 
-		GameObject toInstantiate = Resources.Load($"Tab{type}") as GameObject;
+		GameObject toInstantiate = NetworkTabManager.Instance.NetTabs.GetFromName($"Tab{type}");
 
 		if(toInstantiate == null)
 		{
-			Logger.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from resources", Category.NetUI);
+			Logger.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from the netTab SO", Category.NetUI);
 			return null;
 		}
 
-		var tabObject = Object.Instantiate(toInstantiate, parent );
+		var tabObject = Object.Instantiate(toInstantiate, parent);
 		NetTab netTab = tabObject.GetComponent<NetTab>();
 		netTab.Provider = provider.gameObject;
 		netTab.ProviderRegisterTile = provider.RegisterTile();

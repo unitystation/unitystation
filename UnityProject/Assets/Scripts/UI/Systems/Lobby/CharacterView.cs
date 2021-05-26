@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Lobby
+namespace UI.CharacterCreator
 {
 	public class CharacterView : MonoBehaviour
 	{
 		private Dictionary<string, CharacterSprites> sprites = new Dictionary<string, CharacterSprites>();
 
 		public UnityEvent dirChangeEvent = new UnityEvent();
-		public CharacterDir currentDir = CharacterDir.down;
+		public CharacterCustomization.CharacterDir currentDir = CharacterCustomization.CharacterDir.down;
 
 		private void Awake()
 		{
@@ -27,9 +27,10 @@ namespace Lobby
 			{
 				nextDir = 0;
 			}
-			currentDir = (CharacterDir) nextDir;
+			currentDir = (CharacterCustomization.CharacterDir) nextDir;
 			dirChangeEvent.Invoke();
 		}
+
 		public void RightRotate()
 		{
 			int nextDir = (int) currentDir - 1;
@@ -37,16 +38,8 @@ namespace Lobby
 			{
 				nextDir = 3;
 			}
-			currentDir = (CharacterDir) nextDir;
+			currentDir = (CharacterCustomization.CharacterDir) nextDir;
 			dirChangeEvent.Invoke();
 		}
-	}
-
-	public enum CharacterDir
-	{
-		down,
-		left,
-		up,
-		right
 	}
 }

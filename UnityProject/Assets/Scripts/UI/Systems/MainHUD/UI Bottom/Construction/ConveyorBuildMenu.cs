@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Client;
 using UnityEngine;
 
 namespace Construction.Conveyors
@@ -18,7 +19,7 @@ namespace Construction.Conveyors
 
 		public void TryBuildBelt(int direction)
 		{
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			CloseWindow();
 			RequestConveyorBuildMessage.Send(entry, materials, (ConveyorBelt.ConveyorDirection)direction);
 		}

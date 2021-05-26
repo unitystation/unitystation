@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
+
 
 namespace Systems.MobAIs
 {
@@ -23,34 +26,31 @@ namespace Systems.MobAIs
 		private LayerMask mobMask;
 		private string dogName;
 
+		[SerializeField]
+		private AddressableAudioSource barkSound = null;
+
 		protected override void Awake()
 		{
+			mobMask = LayerMask.GetMask( "NPC");
+			coneOfSight = GetComponent<ConeOfSight>();
 			base.Awake();
 			dogName = mobName.ToLower();
 			ResetBehaviours();
 		}
 
-		public override void OnEnable()
-		{
-			base.OnEnable();
-			mobMask = LayerMask.GetMask( "NPC");
-			coneOfSight = GetComponent<ConeOfSight>();
-		}
-
 		private void SingleBark(GameObject barked = null)
 		{
-			SoundManager.PlayNetworkedAtPos("Bark",
-				gameObject.transform.position,
-				Random.Range(.8F, 1.3F));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8F, 1.3F));
+			SoundManager.PlayNetworkedAtPos(barkSound, gameObject.transform.position, audioSourceParameters);
 
 			if (barked != null)
 			{
-				Chat.AddActionMsgToChat(barked, $"{mobNameCap} barks at you!",
-					$"{mobNameCap} barks at {barked.ExpensiveName()}");
+				Chat.AddActionMsgToChat(barked, $"{MobName} barks at you!",
+					$"{MobName} barks at {barked.ExpensiveName()}");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} barks!", $"{mobNameCap} barks!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} barks!", $"{MobName} barks!");
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace Systems.MobAIs
 					SingleBark();
 				}
 
-				FollowTarget(speaker.GameObject.transform);
+				FollowTarget(speaker.GameObject);
 				yield break;
 			}
 
@@ -166,19 +166,19 @@ namespace Systems.MobAIs
 					RandomBarks();
 					break;
 				case 3:
-					Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} wags its tail!", $"{mobNameCap} wags its tail!");
+					Chat.AddActionMsgToChat(gameObject, $"{MobName} wags its tail!", $"{MobName} wags its tail!");
 					break;
 				case 4:
 					Chat.AddActionMsgToChat(
 						performer,
-						$"{mobNameCap} licks your hand!",
-						$"{mobNameCap} licks {performer.ExpensiveName()}'s hand!");
+						$"{MobName} licks your hand!",
+						$"{MobName} licks {performer.ExpensiveName()}'s hand!");
 					break;
 				case 5:
 					Chat.AddActionMsgToChat(
 						performer,
-						$"{mobNameCap} gives you its paw!",
-						$"{mobNameCap} gives his paw to {performer.ExpensiveName()}");
+						$"{MobName} gives you its paw!",
+						$"{MobName} gives his paw to {performer.ExpensiveName()}");
 					break;
 			}
 		}
@@ -213,7 +213,7 @@ namespace Systems.MobAIs
 
 			//Make the cat flee!
 			cat.RunFromDog(gameObject.transform);
-			FollowTarget(cat.gameObject.transform, 5f);
+			FollowTarget(cat.gameObject, 5f);
 			StartCoroutine(RandomBarks());
 		}
 
@@ -243,8 +243,8 @@ namespace Systems.MobAIs
 				case 4:
 					Chat.AddActionMsgToChat(
 						gameObject,
-						$"{mobNameCap} wags its tail!",
-						$"{mobNameCap} wags its tail!");
+						$"{MobName} wags its tail!",
+						$"{MobName} wags its tail!");
 					break;
 			}
 		}

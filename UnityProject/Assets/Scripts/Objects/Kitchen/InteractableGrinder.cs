@@ -44,7 +44,7 @@ namespace Objects.Kitchen
 				{
 					grinder.SetServerStackAmount(count);
 					grinder.ServerSetOutputMeal(meal.name);
-					Despawn.ServerSingle(interaction.HandObject);
+					_ = Despawn.ServerSingle(interaction.HandObject);
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You grind the {attr.ArticleName}.");
 					GetComponent<AIOGrinder>().GrindFood();
 				}

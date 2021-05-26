@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using UI.Action;
+using AddressableReferences;
 
 namespace Items.PDA
 {
@@ -23,7 +25,15 @@ namespace Items.PDA
 
 		[Tooltip("The default ringtone to play")]
 		[SerializeField, BoxGroup("Settings")]
-		private string defaultRingtone = "TwoBeep";
+		private AddressableAudioSource defaultRingtone;
+
+		[Tooltip("A list of all available ringtones")]
+		[SerializeField, BoxGroup("Settings")]
+		private List<AddressableAudioSource> ringtones;
+
+		[Tooltip("The denial sound")]
+		[SerializeField, BoxGroup("Settings")]
+		private AddressableAudioSource denialSound;
 
 		[Tooltip("Reset registered name on FactoryReset?")]
 		[SerializeField, BoxGroup("Settings")]
@@ -46,6 +56,12 @@ namespace Items.PDA
 		[SerializeField, BoxGroup("Uplink"), Range(0, 60)]
 		private float informUplinkCodeDelay = 10;
 
+		private bool isNukeOps = false;
+		public bool IsNukeOps => isNukeOps;
+
+		[SerializeField]
+		private ItemTrait telecrystalTrait;
+
 		[SerializeField, BoxGroup("Uplink")]
 		private bool debugUplink = false;
 
@@ -61,13 +77,13 @@ namespace Items.PDA
 		public IDCard IDCard { get; private set; }
 		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
 		public string RegisteredPlayerName { get; private set; }
-		public string Ringtone { get; private set; }
+		public AddressableAudioSource Ringtone { get; private set; }
 		/// <summary> The string that must be entered into the ringtone slot for the uplink </summary>
 		public string UplinkUnlockCode { get; private set; }
 		public bool IsUplinkCapable { get; private set; } = false;
 		public bool IsUplinkLocked { get; private set; } = true;
 		/// <summary> The count of how many telecrystals this PDA has </summary>
-		public int UplinkTC { get; private set; }
+		public int UplinkTC { get; set; }
 
 		public bool FlashlightOn => flashlight.IsOn;
 
@@ -79,7 +95,7 @@ namespace Items.PDA
 		private ItemSlot CartridgeSlot = default;
 
 		//The actual list of access allowed set via the server and synced to all clients
-		private readonly SyncListInt accessSyncList = new SyncListInt();
+		private readonly SyncList<int> accessSyncList = new SyncList<int>();
 
 		#region Lifecycle
 
@@ -132,7 +148,7 @@ namespace Items.PDA
 
 			if (debugUplink)
 			{
-				InstallUplink(pickedUpBy, 80);
+				InstallUplink(pickedUpBy, 80, true);
 			}
 		}
 
@@ -190,9 +206,17 @@ namespace Items.PDA
 
 		#region Sounds
 
-		public void SetRingtone(string newRingtone)
+		public void SetRingtone(AddressableAudioSource newRingtone)
 		{
 			Ringtone = newRingtone;
+		}
+
+		public void SetRingtone(string newRingtone)
+		{
+			AddressableAudioSource toSend = ringtones.Find(x => x.AssetAddress.Contains("/" + newRingtone + ".prefab"));
+
+			if(toSend != default(AddressableAudioSource))
+				SetRingtone(toSend);
 		}
 
 		public void PlayRingtone()
@@ -202,10 +226,10 @@ namespace Items.PDA
 
 		public void PlayDenyTone()
 		{
-			PlaySound("BuzzDeny");
+			PlaySound(denialSound);
 		}
 
-		public void PlaySound(string soundName)
+		public void PlaySound(AddressableAudioSource soundName)
 		{
 			GameObject sourceObject = gameObject;
 
@@ -218,12 +242,12 @@ namespace Items.PDA
 			SoundManager.PlayNetworkedAtPos(soundName, sourceObject.AssumedWorldPosServer(), sourceObj: sourceObject);
 		}
 
-		public void PlaySoundPrivate(string soundName)
+		public void PlaySoundPrivate(AddressableAudioSource soundName)
 		{
 			var player = GetPlayerByParentInventory();
 			if (player == null) return;
 
-			SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject, player.Script.WorldPos, soundName, sourceObj: player.GameObject);
+			_ = SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject, player.Script.WorldPos, soundName, sourceObj: player.GameObject);
 		}
 
 		#endregion Sounds
@@ -248,7 +272,7 @@ namespace Items.PDA
 				return;
 			}
 
-			ServerInsertItem(interaction.UsedObject, interaction.HandSlot);
+			ServerInsertItem(interaction.UsedObject, interaction.HandSlot, interaction.Performer);
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -267,7 +291,7 @@ namespace Items.PDA
 				return;
 			}
 
-			ServerInsertItem(interaction.UsedObject, interaction.FromSlot);
+			ServerInsertItem(interaction.UsedObject, interaction.FromSlot , interaction.Performer);
 		}
 
 		private bool WillInsert(GameObject item, NetworkSide side)
@@ -284,10 +308,15 @@ namespace Items.PDA
 				return true;
 			}
 
+			if (Validations.HasItemTrait(item, telecrystalTrait))
+			{
+				return true;
+			}
+
 			return false;
 		}
 
-		private void ServerInsertItem(GameObject item, ItemSlot fromSlot)
+		private void ServerInsertItem(GameObject item, ItemSlot fromSlot, GameObject player)
 		{
 			if (item.TryGetComponent(out IDCard card))
 			{
@@ -309,6 +338,21 @@ namespace Items.PDA
 
 				Inventory.ServerTransfer(fromSlot, CartridgeSlot);
 			}
+			else if (Validations.HasItemTrait(item, telecrystalTrait))
+			{
+				if (IsUplinkLocked == false)
+				{
+					var quantity = item.GetComponent<Stackable>().Amount;
+					UplinkTC +=  quantity;
+					_ = Despawn.ServerSingle(item);
+
+					var uplinkMessage =
+						$"You press the Telecrystal{(quantity == 1 ? "" : "s")} into the screen of your {this.gameObject.ExpensiveName()}\n" +
+						$"After a moment it disappears, your Telecrystal counter ticks up a second later";
+
+					Chat.AddExamineMsgFromServer(player, uplinkMessage);
+				}
+			}
 		}
 
 		#endregion Interaction
@@ -320,11 +364,13 @@ namespace Items.PDA
 		/// </summary>
 		/// <param name="informPlayer">The player that will be informed the code to the PDA uplink</param>
 		/// <param name="tcCount">The amount of telecrystals to add to the uplink.</param>
-		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount)
+		/// <param name="isNukie">Determines if the uplink can purchase nukeop exclusive items</param>
+		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount, bool isNukie)
 		{
-			UplinkTC += tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
+			UplinkTC = tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
 			UplinkUnlockCode = GenerateUplinkUnlockCode();
 			IsUplinkCapable = true;
+			isNukeOps = isNukie;
 
 			StartCoroutine(DelayInformUplinkCode(informPlayer));
 		}
@@ -462,7 +508,7 @@ namespace Items.PDA
 		}
 
 		[Server]
-		public SyncListInt AccessList()
+		public SyncList<int> AccessList()
 		{
 			return accessSyncList;
 		}

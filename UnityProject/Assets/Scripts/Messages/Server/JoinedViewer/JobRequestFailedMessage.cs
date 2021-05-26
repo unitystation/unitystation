@@ -1,30 +1,37 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using UI;
 
 namespace Messages.Server
 {
-	public class JobRequestFailedMessage : ServerMessage
+	public class JobRequestFailedMessage : ServerMessage<JobRequestFailedMessage.NetMessage>
 	{
-		public JobRequestError FailReason;
-
-		public override void Process()
+		public struct NetMessage : NetworkMessage
 		{
-			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(FailReason);
+			public JobRequestError FailReason;
 		}
 
-		public static JobRequestFailedMessage SendTo(ConnectedPlayer recipient, JobRequestError failReason)
+		public override void Process(NetMessage msg)
 		{
-			var msg = new JobRequestFailedMessage
+			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(msg.FailReason);
+		}
+
+		public static NetMessage SendTo(ConnectedPlayer recipient, JobRequestError failReason)
+		{
+			var msg = new NetMessage
 			{
 				FailReason = failReason,
 			};
 
-			msg.SendTo(recipient);
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}
+}
 
+namespace Messages.Server
+{
 	public enum JobRequestError
 	{
 		None = 0,

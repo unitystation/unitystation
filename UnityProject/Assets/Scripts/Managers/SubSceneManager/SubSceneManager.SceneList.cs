@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using WebSocketSharp;
 using UnityEngine;
 using System.Linq;
+using Messages.Server.SubScenes;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -12,10 +13,7 @@ public partial class SubSceneManager
 	private string serverChosenAwaySite = "loading";
 	private string serverChosenMainStation = "loading";
 
-	public static string ServerChosenMainStation
-	{
-		get { return Instance.serverChosenMainStation; }
-	}
+	public static string ServerChosenMainStation => Instance.serverChosenMainStation;
 
 	public static string AdminForcedMainStation = "Random";
 	public static string AdminForcedAwaySite = "Random";
@@ -46,7 +44,6 @@ public partial class SubSceneManager
 			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
 			//Load Additional Scenes:
 			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
-
 		}
 
 		netIdentity.isDirty = true;
@@ -54,7 +51,7 @@ public partial class SubSceneManager
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 
-		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.SubScenes);
+		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 	}
 
 	//Choose and load a main station on the server
@@ -245,6 +242,7 @@ public partial class SubSceneManager
 		});
 
 		PokeClientSubScene.SendToAll( pickedMap);
+		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		yield return StartCoroutine(RunOnSpawnServer(pickedMap));
 		SyndicateLoaded = true;
 	}

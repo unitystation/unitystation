@@ -14,12 +14,17 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			foreach (Transform t in GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo.Objects.transform)
+			var transform = GameManager.Instance.PrimaryEscapeShuttle.OrNull()?.MatrixInfo?.Objects.OrNull()?.transform;
+
+			// If the primary shuttle doesn't exist in some form, should this return true?
+			if (transform == null) return true;
+
+			foreach (Transform t in transform)
 			{
 				var player = t.GetComponent<PlayerScript>();
 				if (player != null)
 				{
-					var playerDetails = PlayerList.Instance.Get(player.gameObject);
+					var playerDetails = PlayerList.Instance.Get(player.gameObject, true);
 					if (playerDetails.Job == JobType.SECURITY_OFFICER || playerDetails.Job == JobType.HOS
 					                                           || playerDetails.Job == JobType.DETECTIVE
 					                                           || playerDetails.Job == JobType.WARDEN)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 namespace Systems.MobAIs
@@ -8,7 +9,7 @@ namespace Systems.MobAIs
 	/// Enemy Statue NPC's
 	/// Will attack any human that they see
 	/// </summary>
-	[RequireComponent(typeof(MobMeleeAttack))]
+	[RequireComponent(typeof(MobMeleeAction))]
 	[RequireComponent(typeof(ConeOfSight))]
 	public class StatueAI : GenericHostileAI
 	{
@@ -69,7 +70,7 @@ namespace Systems.MobAIs
 				var dir = (transform.position - coll.GameObject.transform.position).normalized;
 
 				if (coll.GameObject.layer == playersLayer
-				    && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead
+				    && !coll.GameObject.GetComponent<LivingHealthMasterBase>().IsDead
 				    && coll.GameObject.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
 				{
 					Freeze();
@@ -83,33 +84,33 @@ namespace Systems.MobAIs
 		protected override void MonitorIdleness()
 		{
 
-			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.followTarget == null && !IsSomeoneLookingAtMe())
+			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
 			{
 				BeginSearch();
 			}
 		}
 
-		void Freeze()
+		private void Freeze()
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.None;
-			mobMeleeAttack.followTarget = null;
+			mobMeleeAction.FollowTarget = null;
 		}
 
 		protected override void BeginAttack(GameObject target)
 		{
 			ResetBehaviours();
 			currentStatus = MobStatus.Attacking;
-			StartCoroutine(StatueStalk(target.transform));
+			StartCoroutine(StatueStalk(target));
 		}
 
-		IEnumerator StatueStalk(Transform stalked)
+		private IEnumerator StatueStalk(GameObject stalked)
 		{
 			while (!IsSomeoneLookingAtMe())
 			{
-				if(mobMeleeAttack.followTarget == null)
+				if(mobMeleeAction.FollowTarget == null)
 				{
-					mobMeleeAttack.StartFollowing(stalked);
+					mobMeleeAction.StartFollowing(stalked);
 				}
 				yield return WaitFor.Seconds(.2f);
 			}
@@ -118,7 +119,7 @@ namespace Systems.MobAIs
 			yield break;
 		}
 
-		int DirToInt(Vector3 direction)
+		private int DirToInt(Vector3 direction)
 		{
 			var angleOfDir = Vector3.Angle((Vector2) direction, transform.up);
 			if (direction.x < 0f)
@@ -149,12 +150,6 @@ namespace Systems.MobAIs
 					return 2;
 
 			}
-		}
-
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			BeginSearch();
 		}
 
 		private readonly Dictionary<int, Orientation> orientations = new Dictionary<int, Orientation>()

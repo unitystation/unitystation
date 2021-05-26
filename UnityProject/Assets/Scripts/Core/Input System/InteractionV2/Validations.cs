@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using Items;
 using TileManagement;
 using UnityEngine;
@@ -185,7 +186,7 @@ public static class Validations
 		return true;
 	}
 
-	private static bool CanInteractByConsciousState(PlayerHealth playerHealth, bool allowSoftCrit, NetworkSide side)
+	private static bool CanInteractByConsciousState(PlayerHealthV2 playerHealth, bool allowSoftCrit, NetworkSide side)
 	{
 		if (side == NetworkSide.Client)
 		{
@@ -317,7 +318,7 @@ public static class Validations
 
 			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
 				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.registerTile.WorldPositionServer} " +
-								  $"(floating={isFloating})", Category.Security);
+								  $"(floating={isFloating})", Category.Exploits);
 		}
 
 		return result;
@@ -404,12 +405,12 @@ public static class Validations
 		if (IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context))
 		{
 			Vector3Int toWorldPosInt = toWorldPos.RoundToInt();
-	
+
 			return IsInReachDistanceByPositions(fromWorldPos, toWorldPos, interactDist: interactDist);
 		}
 
 		return false;
-		
+
 	}
 
 	private static bool IsNotBlocked(Vector3 worldPosA, Vector3 worldPosB, bool isServer, GameObject context = null)
@@ -444,11 +445,11 @@ public static class Validations
 	{
 		if ( isServer )
 		{
-			return from.Matrix == to.Matrix && IsReachableByPositions(from.WorldPositionServer, to.WorldPositionServer, isServer, interactDist, context: context);
+			return IsReachableByPositions(from.WorldPositionServer, to.WorldPositionServer, isServer, interactDist, context: context);
 		}
 		else
 		{
-			return from.Matrix == to.Matrix && IsReachableByPositions(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
+			return IsReachableByPositions(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
 		}
 	}
 
@@ -740,5 +741,35 @@ public static class Validations
 	public static bool HasTarget(TargetedInteraction interaction)
 	{
 		return interaction.TargetObject != null;
+	}
+
+	/// <summary>
+	/// Validates that the player has at least a hand.
+	/// </summary>
+	/// <param name="player"></param>
+	/// <returns></returns>
+	public static bool HasHand(GameObject player)
+	{
+		if (player.TryGetComponent<LivingHealthMasterBase>(out var health) == false)
+		{
+			return false;
+		}
+
+		return health.HasBodyPart(BodyPartType.LeftArm, true) || health.HasBodyPart(BodyPartType.RightArm, true);
+	}
+
+	/// <summary>
+	/// Validates that the player has both hands.
+	/// </summary>
+	/// <param name="player"></param>
+	/// <returns></returns>
+	public static bool HasBothHands(GameObject player)
+	{
+		if (player.TryGetComponent<LivingHealthMasterBase>(out var health) == false)
+		{
+			return false;
+		}
+
+		return health.HasBodyPart(BodyPartType.LeftArm, true) && health.HasBodyPart(BodyPartType.RightArm, true);
 	}
 }

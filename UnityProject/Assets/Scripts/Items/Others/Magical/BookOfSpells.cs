@@ -6,6 +6,7 @@ using ScriptableObjects.Systems.Spells;
 using ScriptableObjects.Items.SpellBook;
 using InGameEvents;
 using AddressableReferences;
+using Objects;
 
 namespace Items.Magical
 {

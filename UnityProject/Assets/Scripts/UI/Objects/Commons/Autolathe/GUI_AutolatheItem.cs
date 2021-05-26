@@ -31,7 +31,7 @@ namespace UI.Objects
 		{
 			if (product == null)
 			{
-				Logger.Log("ExoFab Product not found");
+				Logger.Log("ExoFab Product not found", Category.Machines);
 				return;
 			}
 

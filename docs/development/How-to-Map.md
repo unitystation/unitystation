@@ -79,6 +79,9 @@ Not necessary for mapping purposes.
 
 ### Part 1 - Populating Underfloor And Electrical Items
 
+!!! Tip
+    Before you hook up your lights and light switches, be sure to read the Map Tips at the bottom to familiarise and it make it easier for yourself.
+
 #### Electrical
 
 1.	Copy and paste the TestStation Scene inside Asset/Scenes Folder, do not have Unity open when you do this. Be sure to relabel the TestStation Matrix!!!
@@ -134,6 +137,51 @@ To help with completing Part 3, click and drag all prefabs onto the scene, selec
 1.	As you progress placing the objects down onto the matrix, make sure you modify the relevant fields on the prefabs so that they can be referred to by the other relevant prefabs. The best way to see what prefabs relate to what is to open an existing map and turn on gizmos. Make sure all of the gizmos are turned on and if a line exists between the prefab and another, then a relationship exists. As there are a multitude of components that can exist on a prefab, it is best to read through them to understand what they are doing and what they need, some have tooltips to help. Always remember you can look at existing maps to see how the prefabs are connected.
 1.	All the shuttles need the Retro Control System (RCS) Thrusters to be added onto the outside of the shuttle matrixes. Follow instructions detailed [here](https://github.com/unitystation/unitystation/pull/5111).
 
+## Asteroids and Ruins
+
+Asteroids and ruins are different obstacles Shaft Miners, Curators or Assistants can stumble upon on their travels. Asteroids primarily serve as Ore Deposits for Shaft Miners, sometimes they also have exotic plants or mobs to fight as well. Ruins are derelict stations or shuttles for the players to explore. Copy an existing asteroid or ruin scene inside the **AsteroidScenes** Scene Folder to get started, **make sure you define the location of your scene to somewhere well away from (0,0) otherwise it will spawn inside the station.**
+
+### Asteroid Tips
+
+- If you want your asteroid to have exotic plant life, put in the **random dirt pile** prefab. The Potential Wild Plants list can be adjusted so whatever plant you want can spawn there.
+- If you want your asteroid to have mobs for players to encounter, use the **RandomItemPool** prefab and in the Random Item Spot component increase the Pool List and select either CarpSpawner, Alien egg etc. from the list. 2%XenoEgg or the NPCs can also survive on an Asteroid too. **If you don't want your mobs to fly off your asteroid, make sure to enclose them in rock.**
+
+### Ruin Tips
+
+- You can wire up your ruin electrically as much as you want, make sure to use the damaged tiles and cracked windows in the Tile Palette to give it a really rundown feel.
+- You may want to include some lore about why this ruin exists, if you put in a **Paper** prefab into the scene and select its Paper Component you can fill out its text field to your heart's content. A list of all available tags to stylise it can be found here ([Rich Text | Unity UI | 1.0.0 (unity3d.com)](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html).
+
+## Shuttles
+
+!!! warning
+    Shuttle movement is not the best currently and an attempt is being made to rework it so that you can direct the movements in an component in the editor.
+
+![](../assets/images/HowToMap/matrix_move_shuttle.png)
+
+Currently the only way to make a shuttle is through the editor, no capabilities exist to build one using the in-game construction system. This is in part due to how the matrix bounds are set as shown in this section. A shuttle matrix's **red square** position is very important, much sure it is **in the middle of the shuttle** as this is the pivot used as the reference when the shuttle is being rotated to turn left/right. **UI Type** should be usually set to Nanotrasen, but should be set to Syndicate if it is a Nuke Operative shuttle. **Initial Facing** is also very important as this is how Unity will perceive the initial orientation of your shuttle.
+
+![](../assets/images/HowToMap/matrix_move_sub_menu.png)
+
+To extend the shuttle matrix out select the correct matrix in the Tile Palette Window and paint some tiles, as long as you have gizmos turned on, you should see the bounds snap to accommodate the new tiles. When you are happy with the shape click "Compress All Bounds". Again, the shuttle matrix does not have a directional component, so you will need to make sure you orientate your shuttle correctly and select the correct drop down menu option to reflect this orientation.
+
+A shuttle should have the following prefabs to make it function:
+
+- **Shuttle Console**, usually located at the front of the shuttle to pilot the matrix
+- **CanisterPlasma** and a **Wrench** to provide the fuel and means to secure it
+- **Shuttle fuel connector** which the canister will need to be wrenched down onto to power the shuttle
+- **Shuttle Chairs** for pilot and passengers, as well as **Lighttubes** and **Doors**
+
+There are two special shuttles which will need to have their co-ordinate set in these components located with the first layer of the hierarchy under the same name as their parent - the Escape shuttle and the Cargo Shuttle. *(Escape pods can be mapped in, but they will not function)*
+
+![](../assets/images/HowToMap/shuttle_specialities.png)
+
+The Cargo shuttle must not have any live animals on board and have shutters which link to a **door button** in the Cargo Loading Bay.
+
+The Escape Shuttle must always have the following extra prefabs:
+
+- An **EscapeShuttleConsole** for the antag objectives involving hijacking it
+- At least three different areas, general access, command access and security access for prisoners
+
 ## Mapping Guidelines and Pointers
 Objects should never be rotated using the Transform. Their local rotation should always be 0, 0, 0. If you change it, it will either not have any effect or may have unexpected consequences. If there is any need to rotate an object, define its facing, etc...it should be done via Directional or other components.
 
@@ -161,8 +209,9 @@ Here are some general tips to help you get when mapping in UnityStation:
 ![](../assets/images/HowToMap/hireachy_hide.gif)
 
 - Make sure you have put tiny fans on all the airlock exits into space on stations and shuttles to help stop space wind problems.
+- Walk around as an assistant in Play Mode to see what you can and can't access. This is important as a large majority of first time players will be this and will go wherever they can.
 
-If you are ever stuck mapping in UnityStation first try looking at how the current maps work, what components make up an object. If all else fails, please message the mapper channel on discord.
+If you are ever stuck mapping in UnityStation first try looking at how the current maps work, what components make up an object. If all else fails, please message the mapper channel on Discord.
 
 ### Wallmounts
 Wallmounts always appear upright, but you need to indicate which side of the wall they are on (they should only be visible from one side of a wall). To do this, simply set the Directional component's Initial Direction to the direction it should be facing.

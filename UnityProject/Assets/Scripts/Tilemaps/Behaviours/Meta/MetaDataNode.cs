@@ -6,6 +6,7 @@ using Systems.Explosions;
 using Systems.Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using Systems.Electricity;
 
 /// <summary>
 /// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
@@ -39,7 +40,6 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public List<Pipes.PipeNode> PipeData = new List<Pipes.PipeNode>();
 
-
 	/// <summary>
 	/// Local position of this tile in its parent matrix.
 	/// </summary>
@@ -67,6 +67,20 @@ public class MetaDataNode : IGasMixContainer
 	public Hotspot Hotspot;
 
 	private Dictionary<LayerType, float> damageInfo  = new Dictionary<LayerType, float>();
+
+	//Which overlays this node has on
+	private HashSet<Gas> gasOverlayData = new HashSet<Gas>();
+	public HashSet<Gas> GasOverlayData => gasOverlayData;
+
+	public void AddGasOverlay(Gas gas)
+	{
+		gasOverlayData.Add(gas);
+	}
+
+	public void RemoveGasOverlay(Gas gas)
+	{
+		gasOverlayData.Remove(gas);
+	}
 
 	public float GetTileDamage(LayerType layerType)
 	{
@@ -122,7 +136,6 @@ public class MetaDataNode : IGasMixContainer
 
 	public ReactionManager ReactionManager => reactionManager;
 	private ReactionManager reactionManager;
-
 
 	/// <summary>
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
@@ -234,7 +247,7 @@ public class MetaDataNode : IGasMixContainer
 					SyncNeighbors();
 					return;
 				}
-				Logger.LogErrorFormat("Failed adding neighbor {0} to node {1} at direction {2}", Category.Atmos, neighbor, this, direction);
+				Logger.LogErrorFormat("Failed adding neighbor {0} to node {1} at direction {2}", Category.Matrix, neighbor, this, direction);
 			}
 		}
 	}

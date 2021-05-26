@@ -7,79 +7,28 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageSupplies : GUI_CargoPage
 	{
-		[SerializeField]
-		private EmptyItemList orderList = null;
-		private bool inited = false;
-		[SerializeField]
-		private NetLabel categoryText = null;
+		public EmptyItemList orderList;
+		public NetLabel categoryText;
 
-		public override void Init()
-		{
-			if (inited || !gameObject.activeInHierarchy)
-			{
-				return;
-			}
-			if (!CustomNetworkManager.Instance._isServer)
-			{
-				return;
-			}
-			CargoManager.Instance.OnCategoryUpdate.AddListener(UpdateTab);
-			CargoManager.Instance.CurrentCategory = null;
-		}
+		public CargoCategory cargoCategory;
 
-		public override void OpenTab()
+		public override void UpdateTab()
 		{
-			if (!inited)
-			{
-				Init();
-				inited = true;
-			}
-			UpdateTab();
-		}
-
-		private void UpdateTab()
-		{
-			if (CargoManager.Instance.CurrentCategory == null)
-			{
-				DisplayCategoriesCatalog();
-			}
-			else
-			{
-				DisplayCurrentSupplies();
-			}
-		}
-
-		private void DisplayCategoriesCatalog()
-		{
-			List<CargoOrderCategory> categories = CargoManager.Instance.Supplies;
+			var supplies = cargoCategory.Orders;
 
 			orderList.Clear();
-			orderList.AddItems(categories.Count);
-			for (int i = 0; i < categories.Count; i++)
+
+			foreach (var cargoOrder in supplies)
 			{
-				GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
-				item.ReInit(categories[i]);
+				if (cargoOrder.EmagOnly == false || cargoGUI.cargoConsole.Emagged)
+				{
+					orderList.AddItem();
+					var item = (GUI_CargoItem)orderList.Entries[orderList.Entries.Length-1];
+					item.SetValues(cargoOrder);
+				}
 			}
-			categoryText.SetValueServer("Categories");
-		}
 
-		private void DisplayCurrentSupplies()
-		{
-			List<CargoOrder> supplies = CargoManager.Instance.CurrentCategory.Supplies;
-
-			orderList.Clear();
-			orderList.AddItems(supplies.Count);
-			for (int i = 0; i < supplies.Count; i++)
-			{
-				GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
-				item.Order = supplies[i];
-			}
-			categoryText.SetValueServer(CargoManager.Instance.CurrentCategory.CategoryName);
-		}
-
-		public void CloseCategory()
-		{
-			CargoManager.Instance.OpenCategory(null);
+			categoryText.SetValueServer(cargoCategory.CategoryName);
 		}
 	}
 }

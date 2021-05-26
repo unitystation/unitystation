@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Messages.Client;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	public bool MainStationLoaded { get; private set; }
 
 	public bool SyndicateLoaded { get; private set; }
+	public Scene SyndicateScene { get; private set; }
 	public bool WizardLoaded { get; private set; }
 
 	void Awake()

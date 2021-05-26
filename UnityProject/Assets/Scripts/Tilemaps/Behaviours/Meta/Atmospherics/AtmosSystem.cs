@@ -8,6 +8,9 @@ namespace Systems.Atmospherics
 
 		public override void Initialize()
 		{
+			if (!CustomNetworkManager.IsServer)
+				return;
+
 			BoundsInt bounds = metaTileMap.GetBounds();
 
 			foreach (Vector3Int position in bounds.allPositionsWithin)

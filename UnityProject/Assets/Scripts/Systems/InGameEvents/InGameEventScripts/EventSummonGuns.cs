@@ -8,7 +8,6 @@ namespace InGameEvents
 {
 	public class EventSummonGuns : EventGiveGuns
 	{
-
 		[SerializeField] private AddressableAudioSource globalSound = null;
 
 		[Tooltip("Set the percent chance a player will become an antagonist with a survival/steal guns objective.")]
@@ -27,7 +26,7 @@ namespace InGameEvents
 
 		public override void OnEventStart()
 		{
-			SoundManager.PlayNetworked(globalSound);
+			_ = SoundManager.PlayNetworked(globalSound);
 
 			survivorAntag.AddObjective(objective);
 			SpawnGuns();

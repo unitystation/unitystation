@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Messages.Server;
 using Messages.Client;
+using Messages.Client.NewPlayer;
+using UI;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -45,7 +47,7 @@ public class JoinedViewer : NetworkBehaviour
 			Category.Connections,
 			unverifiedClientId, unverifiedUsername);
 
-		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
+		// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
 		var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
 		{
 			Connection = connectionToClient,
@@ -56,17 +58,18 @@ public class JoinedViewer : NetworkBehaviour
 			UserId = unverifiedUserid
 		});
 
-		//this validates Userid and Token
+		// this validates Userid and Token
 		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(unverifiedClientId, unverifiedUsername,
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
+
 		if (isValidPlayer == false)
 		{
-			Logger.LogWarning("Set up new player: invalid player.");
+			Logger.LogWarning($"Set up new player: invalid player. For {unverifiedUsername}", Category.Connections);
 			return;
 		}
 
-		// Check if they have a player to rejoin. If not, assign them a new client ID.
-		GameObject loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
+		// Check if they have a player to rejoin.
+		GameObject loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId, unverifiedUserid);
 
 		// If the player does not yet have an in-game object to control, they'll probably have a
 		// JoinedViewer assigned as they were only in the lobby. If so, destroy it and use the new one.
@@ -115,12 +118,20 @@ public class JoinedViewer : NetworkBehaviour
 	/// <summary>
 	/// Waits for the client to be an observer of the player before continuing
 	/// </summary>
-	IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
+	private IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
 	{
 		TargetLocalPlayerRejoinUI(connectionToClient);
-		//TODO When we have scene network culling we will need to allow observers
+		// TODO: When we have scene network culling we will need to allow observers
 		// for the whole specific scene and the body before doing the logic below:
 		var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
+		if (netIdentity == null)
+		{
+			Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
+					"Cannot rejoin that player. Was original player object improperly created? "+
+					"Did we get runtime error while creating it?", Category.Connections);
+			// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
+			yield break;
+		}
 		while (!netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
 		{
 			yield return WaitFor.EndOfFrame;
@@ -141,12 +152,10 @@ public class JoinedViewer : NetworkBehaviour
 	/// and tells them what round state the game is on
 	/// </summary>
 	/// <param name="target">this connection</param>
-	/// <param name="serverClientID">client ID server</param>
-	/// <param name="roundState"></param>
 	[TargetRpc]
 	private void TargetLocalPlayerSetupNewPlayer(NetworkConnection target, RoundState roundState)
 	{
-		//clear our UI because we're about to change it based on the round state
+		// clear our UI because we're about to change it based on the round state
 		UIManager.ResetAllUI();
 
 		// Determine what to do depending on the state of the round
@@ -169,7 +178,7 @@ public class JoinedViewer : NetworkBehaviour
 
 		if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 		{
-			Logger.LogWarning($"Client failed local job-ban check for {job}.");
+			Logger.LogWarning($"Client failed local job-ban check for {job}.", Category.Jobs);
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(JobRequestError.JobBanned);
 			return;
 		}
@@ -208,7 +217,7 @@ public class JoinedViewer : NetworkBehaviour
 		var nics = NetworkInterface.GetAllNetworkInterfaces();
 		foreach (var n in nics)
 		{
-			if (!string.IsNullOrEmpty(n.GetPhysicalAddress().ToString()))
+			if (string.IsNullOrEmpty(n.GetPhysicalAddress().ToString()) == false)
 			{
 				return n.GetPhysicalAddress().ToString();
 			}

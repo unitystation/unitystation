@@ -64,16 +64,18 @@ public class TileList
 	}
 	public List<RegisterTile> Get(Vector3Int position)
 	{
-		return _objects.ContainsKey(position) ? _objects[position] : emptyList;
+		return _objects.TryGetValue(position, out var objectsOut) ? objectsOut : emptyList;
 	}
 
-	public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type) {
-		if ( !HasObjects( position ) )
+	public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type)
+	{
+		if (_objects.TryGetValue(position, out var objectsOut) == false)
 		{
 			return emptyList;
 		}
+
 		var list = new List<RegisterTile>();
-		foreach ( RegisterTile x in Get( position ) )
+		foreach ( RegisterTile x in objectsOut )
 		{
 			if ( x.ObjectType == type ) {
 				list.Add( x );
@@ -83,13 +85,15 @@ public class TileList
 		return list;
 	}
 
-	public IEnumerable<T> Get<T>(Vector3Int position) where T : RegisterTile {
-		if ( !HasObjects( position ) )
+	public IEnumerable<T> Get<T>(Vector3Int position) where T : RegisterTile
+	{
+		if (_objects.TryGetValue(position, out var objectsOut) == false)
 		{
 			return Enumerable.Empty<T>();
 		}
+
 		var list = new List<T>();
-		foreach ( RegisterTile t in Get( position ) )
+		foreach ( RegisterTile t in objectsOut )
 		{
 			T unknown = t as T;
 			if ( t != null ) {
@@ -119,15 +123,15 @@ public class TileList
 			return;
 		}
 
-		if (_objects.ContainsKey(position))
+		if (_objects.TryGetValue(position, out var objectsOut))
 		{
 			if (obj == null)
 			{
-				_objects[position].Clear();
+				objectsOut.Clear();
 			}
 			else
 			{
-				_objects[position].Remove(obj);
+				objectsOut.Remove(obj);
 			}
 		}
 	}
@@ -146,7 +150,7 @@ public class TileList
 	/// <returns></returns>
 	public void ForEachSafe(IRegisterTileAction action, Vector3Int localPosition)
 	{
-		if (lockedPosition != null && lockedPosition != localPosition)
+		if (lockedPosition != null)
 		{
 			Logger.LogErrorFormat("Tried to lock tile at position {0} while position {1} is currently locked." +
 			                      " TileList only supports locking one position at a time. Please add this locking capability" +
@@ -155,7 +159,7 @@ public class TileList
 		}
 
 		lockedPosition = localPosition;
-		foreach (var registerTile in Get(localPosition))
+		foreach (var registerTile in Get((Vector3Int)lockedPosition))
 		{
 			action.Invoke(registerTile);
 		}

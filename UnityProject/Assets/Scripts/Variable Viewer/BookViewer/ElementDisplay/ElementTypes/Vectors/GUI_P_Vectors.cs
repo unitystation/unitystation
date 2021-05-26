@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 
 /// <summary>
 /// Used to display vectors in the Variable viewer and to do all the Serialisation and deserialisation of vectors

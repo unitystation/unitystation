@@ -11,7 +11,7 @@ namespace Systems.MobAIs
 	/// </summary>
 	[RequireComponent(typeof(CustomNetTransform))]
 	[RequireComponent(typeof(RegisterObject))]
-	public class MobAgent : Agent
+	public class MobAgent : Agent, IServerLifecycle
 	{
 		protected CustomNetTransform cnt;
 		protected RegisterObject registerObj;
@@ -32,6 +32,7 @@ namespace Systems.MobAIs
 		private float decisionTimeOut;
 
 		public bool Pause { get; set; }
+		protected RegisterTile OriginTile;
 
 		void Awake()
 		{
@@ -40,6 +41,7 @@ namespace Systems.MobAIs
 			directional = GetComponent<Directional>();
 			health = GetComponent<LivingHealthBehaviour>();
 			integrity = GetComponent<Integrity>();
+			OriginTile = GetComponent<RegisterTile>();
 			agentParameters.onDemandDecision = true;
 		}
 
@@ -67,20 +69,13 @@ namespace Systems.MobAIs
 			tickWait = 0f;
 		}
 
-		public virtual void Start()
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
-			//only needed for starting via a map scene through the editor:
-			if (CustomNetworkManager.Instance == null) return;
-
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
-				cnt.OnTileReached().AddListener(OnTileReached);
-				startPos = transform.position;
-				isServer = true;
-				registerObj = GetComponent<RegisterObject>();
-				registerObj.WaitForMatrixInit(StartServerAgent);
-			}
+			UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
+			cnt.OnTileReached().AddListener(OnTileReached);
+			startPos = OriginTile.WorldPositionServer;
+			isServer = true;
+			registerObj.WaitForMatrixInit(StartServerAgent);
 		}
 
 		void StartServerAgent(MatrixInfo info)
@@ -88,14 +83,10 @@ namespace Systems.MobAIs
 			AgentServerStart();
 		}
 
-		public override void OnDisable()
+		public void OnDespawnServer(DespawnInfo info)
 		{
-			base.OnDisable();
-			if (isServer)
-			{
-				cnt.OnTileReached().RemoveListener(OnTileReached);
-				UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
-			}
+			cnt.OnTileReached().RemoveListener(OnTileReached);
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
 		}
 
 		protected virtual void OnTileReached(Vector3Int tilePos)
@@ -273,13 +264,13 @@ namespace Systems.MobAIs
 		/// This observation method uses 8 observation vectors. So remember to
 		/// add them to your brain
 		/// </summary>
-		protected void ObserveAdjacentTiles(bool allowTargetPush = false, Transform target = null)
+		protected void ObserveAdjacentTiles(bool allowTargetPush = false, RegisterTile target = null)
 		{
 			var curPos = registerObj.LocalPositionServer;
 
 			if (registerObj == null)
 			{
-				Logger.LogError($"RegisterObject is null for: {gameObject.name}. Pausing this MobAI", Category.MLAgents);
+				Logger.LogError($"RegisterObject is null for: {gameObject.name}. Pausing this MobAI", Category.Mobs);
 				Pause = true;
 				return;
 			}
@@ -307,7 +298,7 @@ namespace Systems.MobAIs
 							{
 								if (target != null)
 								{
-									if (checkPos == Vector3Int.RoundToInt(target.localPosition))
+									if (checkPos == target.LocalPositionServer)
 									{
 										//it is our target! Allow mob to attempt to walk into it (can be used for attacking)
 										AddVectorObs(true);

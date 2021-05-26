@@ -1,61 +1,76 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using Systems.GhostRoles;
 using Mirror;
-using Systems.GhostRoles;
 
-namespace Messages.Server
+namespace Messages.Server.GhostRoles
 {
 	/// <summary>
 	/// Sends a message to clients, informing them about a new ghost role that has become available.
 	/// </summary>
-	public class GhostRoleUpdateMessage : ServerMessage
+	public class GhostRoleUpdateMessage : ServerMessage<GhostRoleUpdateMessage.NetMessage>
 	{
-		public uint roleID;
-		public int roleType;
-		public int minPlayers;
-		public int maxPlayers;
-		public int playerCount;
-		public float timeRemaining;
+		public struct NetMessage : NetworkMessage
+		{
+			public uint roleID;
+			public int roleType;
+			public int minPlayers;
+			public int maxPlayers;
+			public int playerCount;
+			public float timeRemaining;
+		}
 
 		// To be run on client
-		public override void Process()
+		public override void Process(NetMessage msg)
 		{
 			if (PlayerManager.LocalPlayer == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
-			GhostRoleManager.Instance.ClientAddOrUpdateRole(roleID, roleType, minPlayers, maxPlayers, playerCount, timeRemaining);
+			GhostRoleManager.Instance.ClientAddOrUpdateRole(msg.roleID, msg.roleType, msg.minPlayers, msg.maxPlayers, msg.playerCount, msg.timeRemaining);
 		}
 
 		/// <summary>
 		/// Sends a message to all dead, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static GhostRoleUpdateMessage SendToDead(uint key)
+		public static NetMessage SendToDead(uint key)
 		{
-			GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
-
-			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+			if (GhostRoleManager.Instance != null)
 			{
-				if (player.Script.IsDeadOrGhost == false) continue;
-				SendTo(player, key, role);
+				GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
+
+				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+				{
+					if (player?.Script == null) 
+					{ 
+						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts); 
+						continue;
+					}
+					if (player.Script.IsDeadOrGhost == false) continue;
+					SendTo(player, key, role);
+				}
+				return GetMessage(key, role);
+			}
+			else
+			{
+				Logger.LogError("SendToDead, GhostRoleManager.Instance == null", Category.Ghosts);
 			}
 
-			return GetMessage(key, role);
+			return new NetMessage();
 		}
 
 		/// <summary>
 		/// Sends a message to the specific player, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static GhostRoleUpdateMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
+		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
 		{
-			GhostRoleUpdateMessage msg = GetMessage(key, role);
-			msg.SendTo(player);
+			NetMessage msg = GetMessage(key, role);
+
+			SendTo(player, msg);
 			return msg;
 		}
 
-		private static GhostRoleUpdateMessage GetMessage(uint key, GhostRoleServer role)
+		private static NetMessage GetMessage(uint key, GhostRoleServer role)
 		{
-			return new GhostRoleUpdateMessage
+			return new NetMessage
 			{
 				roleID = key,
 				roleType = role.RoleListIndex,

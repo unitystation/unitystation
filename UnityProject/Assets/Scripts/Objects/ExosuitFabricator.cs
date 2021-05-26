@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -14,15 +15,15 @@ namespace Objects.Robotics
 		[SyncVar(hook = nameof(SyncSprite))]
 		private ExosuitFabricatorState stateSync;
 
-		[SerializeField] private SpriteHandler spriteHandler = null;
-		[SerializeField] private SpriteDataSO idleSprite = null;
-		[SerializeField] private SpriteDataSO acceptingMaterialsSprite = null;
-		[SerializeField] private SpriteDataSO productionSprite = null;
-		private RegisterObject registerObject = null;
-		public MaterialStorage materialStorage = null;
-		public MachineProductsCollection exoFabProducts = null;
-		private ItemTrait InsertedMaterialType = null;
-		private IEnumerator currentProduction = null;
+		private SpriteHandler spriteHandler;
+		[SerializeField] private SpriteDataSO idleSprite;
+		[SerializeField] private SpriteDataSO acceptingMaterialsSprite;
+		[SerializeField] private SpriteDataSO productionSprite;
+		private RegisterObject registerObject;
+		public MaterialStorageLink materialStorageLink;
+		public MachineProductsCollection exoFabProducts;
+		private ItemTrait InsertedMaterialType;
+		private IEnumerator currentProduction;
 
 		public delegate void MaterialsManipulating();
 
@@ -44,50 +45,28 @@ namespace Objects.Robotics
 			Production,
 		};
 
-		public override void OnStartClient()
-		{
-			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
-			base.OnStartClient();
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			EnsureInit();
+			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
 		}
 
 		private void Awake()
 		{
-			EnsureInit();
-		}
-
-		public void EnsureInit()
-		{
-			SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
-			materialStorage = this.GetComponent<MaterialStorage>();
-		}
-
-		public void OnEnable()
-		{
 			registerObject = GetComponent<RegisterObject>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			materialStorageLink = GetComponent<MaterialStorageLink>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (interaction.HandSlot.IsEmpty) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			if (!interaction.HandSlot.IsEmpty)
+			InsertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
+			if (InsertedMaterialType != null)
 			{
-				//Checks if materialStorage has the materialRecord
-				foreach (ItemTrait material in materialStorage.ItemTraitToMaterialRecord.Keys)
-				{
-					if (Validations.HasItemTrait(interaction.HandObject, material))
-					{
-						InsertedMaterialType = material;
-						return true;
-					};
-				}
+				return true;
 			}
-
 			return false;
 		}
 
@@ -101,7 +80,7 @@ namespace Objects.Robotics
 			if (stateSync != ExosuitFabricatorState.Production)
 			{
 				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-				if (materialStorage.TryAddMaterialSheet(InsertedMaterialType, materialSheetAmount))
+				if (materialStorageLink.usedStorage.TryAddSheet(InsertedMaterialType, materialSheetAmount))
 				{
 					Inventory.ServerDespawn(interaction.HandObject);
 					if (stateSync == ExosuitFabricatorState.Idle)
@@ -134,33 +113,8 @@ namespace Objects.Robotics
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))
-			{
-				Spawn.ServerPrefab(materialStorage.ItemTraitToMaterialRecord[materialType].materialPrefab,
-				registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: amountOfSheets);
-
-				UpdateGUI();
-			}
-			else
-			{
-				//Not enough materials to dispense
-			}
-		}
-
-		[Server]
-		public void DropAllMaterials()
-		{
-			foreach (MaterialRecord materialRecord in materialStorage.ItemTraitToMaterialRecord.Values)
-			{
-				GameObject materialToSpawn = materialRecord.materialPrefab;
-				int sheetsPerCM3 = materialStorage.CM3PerSheet;
-				int amountToSpawn = materialRecord.CurrentAmount / sheetsPerCM3;
-
-				if (amountToSpawn > 0)
-				{
-					Spawn.ServerPrefab(materialToSpawn, registerObject.WorldPositionServer, transform.parent, count: amountToSpawn);
-				}
-			}
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType, gameObject.WorldPosServer());
+			UpdateGUI();
 		}
 
 		/// <summary>
@@ -168,7 +122,7 @@ namespace Objects.Robotics
 		/// </summary>
 		public bool CanProcessProduct(MachineProduct product)
 		{
-			if (materialStorage.TryRemoveCM3Materials(product.materialToAmounts))
+			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts))
 			{
 				currentProduction = ProcessProduction(product.Product, product.ProductionTime);
 				StartCoroutine(currentProduction);
@@ -216,7 +170,7 @@ namespace Objects.Robotics
 				currentProduction = null;
 			}
 
-			DropAllMaterials();
+			materialStorageLink.usedStorage.DropAllMaterials();
 		}
 	}
 }

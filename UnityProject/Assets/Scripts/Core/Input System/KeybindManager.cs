@@ -58,20 +58,25 @@ public enum KeyAction
 	TargetRightArm,
 	TargetLeftLeg,
 	TargetRightLeg,
+	InteractionModifier,
 
 	//Right click stuff
 	ShowAdminOptions,
 
 	Point,
-
 	// UI
+	ResetWindowPosition,
 	OpenBackpack,
 	OpenPDA,
 	OpenBelt,
 
 	PocketOne,
 	PocketTwo,
-	PocketThree
+	PocketThree,
+	ToggleMHelp,
+	//Interactions that only happen when this key is pressed
+	RadialScrollBackward,
+	RadialScrollForward,
 }
 
 /// <summary>
@@ -327,38 +332,43 @@ public class KeybindManager : MonoBehaviour {
 
 		// Intents
 		{ KeyAction.IntentLeft,		new KeybindMetadata("Cycle Intent Left", ActionType.Intent)},
-		{ KeyAction.IntentRight, 	new KeybindMetadata("Cycle Intent Right", ActionType.Intent)},
-		{ KeyAction.IntentHelp, 	new KeybindMetadata("Help Intent", ActionType.Intent)},
+		{ KeyAction.IntentRight,	new KeybindMetadata("Cycle Intent Right", ActionType.Intent)},
+		{ KeyAction.IntentHelp,		new KeybindMetadata("Help Intent", ActionType.Intent)},
 		{ KeyAction.IntentDisarm,	new KeybindMetadata("Disarm Intent", ActionType.Intent)},
-		{ KeyAction.IntentGrab, 	new KeybindMetadata("Grab Intent", ActionType.Intent)},
-		{ KeyAction.IntentHarm, 	new KeybindMetadata("Harm Intent", ActionType.Intent)},
+		{ KeyAction.IntentGrab,		new KeybindMetadata("Grab Intent", ActionType.Intent)},
+		{ KeyAction.IntentHarm,		new KeybindMetadata("Harm Intent", ActionType.Intent)},
 
 		// Chat
-		{ KeyAction.ChatLocal,   new KeybindMetadata("Chat", ActionType.Chat)},
-		{ KeyAction.ChatRadio,   new KeybindMetadata("Radio Chat", ActionType.Chat)},
-		{ KeyAction.ChatOOC,     new KeybindMetadata("OOC Chat", ActionType.Chat)},
-		{ KeyAction.ToggleAHelp, new KeybindMetadata("Toggle AHelp", ActionType.Chat)},
+		{ KeyAction.ChatLocal,	new KeybindMetadata("Chat", ActionType.Chat)},
+		{ KeyAction.ChatRadio,	new KeybindMetadata("Radio Chat", ActionType.Chat)},
+		{ KeyAction.ChatOOC,	new KeybindMetadata("OOC Chat", ActionType.Chat)},
+		{ KeyAction.ToggleAHelp,	new KeybindMetadata("Toggle AHelp", ActionType.Chat)},
 
 		// Body part selection
-		{ KeyAction.TargetHead, 	new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
+		{ KeyAction.TargetHead,		new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
 		{ KeyAction.TargetChest,	new KeybindMetadata("Target Chest", ActionType.Targeting)},
-		{ KeyAction.TargetLeftArm,  new KeybindMetadata("Target Left Arm", ActionType.Targeting)},
-		{ KeyAction.TargetRightArm, new KeybindMetadata("Target Right Arm", ActionType.Targeting)},
-		{ KeyAction.TargetLeftLeg,  new KeybindMetadata("Target Left Leg", ActionType.Targeting)},
+		{ KeyAction.TargetLeftArm,	new KeybindMetadata("Target Left Arm", ActionType.Targeting)},
+		{ KeyAction.TargetRightArm,	new KeybindMetadata("Target Right Arm", ActionType.Targeting)},
+		{ KeyAction.TargetLeftLeg,	new KeybindMetadata("Target Left Leg", ActionType.Targeting)},
 		{ KeyAction.TargetRightLeg, new KeybindMetadata("Target Right Leg", ActionType.Targeting)},
+		{ KeyAction.InteractionModifier,	new KeybindMetadata("Interaction Modifer", ActionType.Targeting)},
 
 		//Right click stuff
 		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)},
-		
+
 		// UI
 		// TODO: change ActionType
+		{ KeyAction.ResetWindowPosition,  new KeybindMetadata("Reset window position", ActionType.UI)},
 		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.UI)},
 		{ KeyAction.OpenPDA, 		new KeybindMetadata("Open PDA", ActionType.UI)},
 		{ KeyAction.OpenBelt, 		new KeybindMetadata("Open Belt", ActionType.UI)},
 
 		{ KeyAction.PocketOne, 		new KeybindMetadata("Open Pocket 1", ActionType.UI)},
 		{ KeyAction.PocketTwo, 		new KeybindMetadata("Open Pocket 2", ActionType.UI)},
-		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)}
+		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)},
+
+		{ KeyAction.RadialScrollForward, new KeybindMetadata("Radial Scroll Forward", ActionType.UI)},
+		{ KeyAction.RadialScrollBackward, new KeybindMetadata("Radial Scroll Backward", ActionType.UI)},
 
 	};
 
@@ -403,18 +413,24 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetRightArm, new DualKeyCombo(new KeyCombo(KeyCode.Keypad4), null)},
 		{ KeyAction.TargetLeftLeg,  new DualKeyCombo(new KeyCombo(KeyCode.Keypad3), null)},
 		{ KeyAction.TargetRightLeg, new DualKeyCombo(new KeyCombo(KeyCode.Keypad1), null)},
+		{ KeyAction.InteractionModifier,	new DualKeyCombo(new KeyCombo(KeyCode.LeftAlt), null)},
 
 		//Right click stuff
 		{ KeyAction.ShowAdminOptions, new DualKeyCombo(new KeyCombo(KeyCode.LeftControl), null)},
 
 		// UI
-		{KeyAction.OpenBackpack, 	new DualKeyCombo(new KeyCombo(KeyCode.I), null)},
-		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
-		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
+		{ KeyAction.ResetWindowPosition,  new DualKeyCombo(new KeyCombo(KeyCode.BackQuote), null)},
+		{ KeyAction.OpenBackpack, 	new DualKeyCombo(new KeyCombo(KeyCode.I), null)},
+		{ KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
+		{ KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
 
-		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
-		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
-		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)}
+		{ KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1 ,KeyCode.LeftShift), null)},
+		{ KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2 ,KeyCode.LeftShift), null)},
+		{ KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3 ,KeyCode.LeftShift), null)},
+
+		{ KeyAction.RadialScrollForward,	new DualKeyCombo(new KeyCombo(KeyCode.E, KeyCode.LeftShift), null)},
+		{ KeyAction.RadialScrollBackward,	new DualKeyCombo(new KeyCombo(KeyCode.Q, KeyCode.LeftShift), null)},
+
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 
@@ -606,8 +622,27 @@ public class KeybindManager : MonoBehaviour {
 			var newHotkeys        = defaultKeybinds.Keys.Except(userKeybinds.Keys);
 			var deprecatedHotKeys = userKeybinds.Keys.Except(defaultKeybinds.Keys);
 
-			foreach (KeyAction entry in newHotkeys) userKeybinds.Add(entry, defaultKeybinds[entry]);
-			foreach (KeyAction entry in deprecatedHotKeys) userKeybinds.Remove(entry);
+			try
+			{
+				foreach (KeyAction entry in newHotkeys) userKeybinds.Add(entry, defaultKeybinds[entry]);
+			}
+			catch (Exception e)
+			{
+				Logger.LogWarning("Unable to add new keybind entries" + e, Category.Keybindings);
+				ResetKeybinds();
+				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
+			}
+			try
+			{
+				foreach (KeyAction entry in deprecatedHotKeys) userKeybinds.Remove(entry);
+			}
+			catch (Exception e)
+			{
+				Logger.LogWarning("Unable to remove old keybind entries" + e, Category.Keybindings);
+				ResetKeybinds();
+				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
+			}
+		
 		}
 		else
 		{

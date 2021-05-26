@@ -1,110 +1,117 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
+﻿using Mirror;
 using UnityEngine;
-public class OtherPlayerSlotTransferMessage : ClientMessage
+
+namespace Messages.Client
 {
-	public uint PlayerStorage;
-	public int PlayerSlotIndex;
-	public NamedSlot PlayerNamedSlot;
-	public uint TargetStorage;
-	public int TargetSlotIndex;
-	public NamedSlot TargetNamedSlot;
-	public bool IsGhost;
-
-	public override void Process()
+	public class OtherPlayerSlotTransferMessage : ClientMessage<OtherPlayerSlotTransferMessage.NetMessage>
 	{
-		LoadMultipleObjects(new uint[]{PlayerStorage, TargetStorage});
-		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
-
-		var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), PlayerNamedSlot, PlayerSlotIndex);
-		var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), TargetNamedSlot, TargetSlotIndex);
-
-		var playerScript = SentByPlayer.Script;
-		var playerObject = playerScript.gameObject;
-		var targetObject = targetSlot.Player.gameObject;
-
-		if (IsGhost)
+		public struct NetMessage : NetworkMessage
 		{
-			if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
+			public uint PlayerStorage;
+			public int PlayerSlotIndex;
+			public NamedSlot PlayerNamedSlot;
+			public uint TargetStorage;
+			public int TargetSlotIndex;
+			public NamedSlot TargetNamedSlot;
+			public bool IsGhost;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadMultipleObjects(new uint[]{msg.PlayerStorage, msg.TargetStorage});
+			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
+
+			var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), msg.PlayerNamedSlot, msg.PlayerSlotIndex);
+			var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), msg.TargetNamedSlot, msg.TargetSlotIndex);
+
+			var playerScript = SentByPlayer.Script;
+			var playerObject = playerScript.gameObject;
+			var targetObject = targetSlot.Player.gameObject;
+
+			if (msg.IsGhost)
 			{
-				FinishTransfer();
+				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
+				{
+					FinishTransfer();
+				}
+				return;
 			}
-			return;
-		}
 
-		if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, IsGhost))
-			return;
+			if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, msg.IsGhost))
+				return;
 
-		int speed;
-		if (!targetSlot.IsEmpty)
-		{
-			Chat.AddActionMsgToChat(playerObject, $"You try to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}...",
-				$"{playerObject.ExpensiveName()} tries to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}.");
-			speed = 3;
-		}
-		else
-		{
-			Chat.AddActionMsgToChat(playerObject, $"You try to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}...",
-				$"{playerObject.ExpensiveName()} tries to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}.");
-			speed = 1;
-		}
-
-		var progressAction = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer), FinishTransfer);
-		progressAction.ServerStartProgress(targetObject.RegisterTile(), speed, playerObject);
-
-
-		void FinishTransfer()
-		{
+			int speed;
 			if (!targetSlot.IsEmpty)
 			{
-				if (playerSlot.IsEmpty)
+				Chat.AddActionMsgToChat(playerObject, $"You try to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}...",
+					$"{playerObject.ExpensiveName()} tries to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}.");
+				speed = 3;
+			}
+			else if (playerSlot.IsOccupied)
+			{
+				Chat.AddActionMsgToChat(playerObject, $"You try to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}...",
+					$"{playerObject.ExpensiveName()} tries to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}.");
+				speed = 1;
+			}
+			else return;
+
+			var progressAction = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer), FinishTransfer);
+			progressAction.ServerStartProgress(targetObject.RegisterTile(), speed, playerObject);
+
+
+			void FinishTransfer()
+			{
+				if (!targetSlot.IsEmpty)
 				{
-					Inventory.ServerTransfer(targetSlot, playerSlot);
+					if (playerSlot.IsEmpty)
+					{
+						Inventory.ServerTransfer(targetSlot, playerSlot);
+					}
+					else
+					{
+						Inventory.ServerDrop(targetSlot);
+					}
 				}
 				else
 				{
-					Inventory.ServerDrop(targetSlot);
+					Inventory.ServerTransfer(playerSlot, targetSlot);
 				}
 			}
-			else
-			{
-				Inventory.ServerTransfer(playerSlot, targetSlot);
-			}
 		}
-	}
 
-	private static bool Validation(ItemSlot playerSlot, ItemSlot targetSlot, PlayerScript playerScript, GameObject target, NetworkSide networkSide, bool isGhost)
-	{
-		if (!playerSlot.IsEmpty && targetSlot.IsEmpty)
+		private static bool Validation(ItemSlot playerSlot, ItemSlot targetSlot, PlayerScript playerScript, GameObject target, NetworkSide networkSide, bool isGhost)
 		{
-			if(!Validations.CanFit(targetSlot, playerSlot.Item, NetworkSide.Client, examineRecipient: PlayerManager.LocalPlayerScript.gameObject))
+			if (!playerSlot.IsEmpty && targetSlot.IsEmpty)
+			{
+				if(!Validations.CanFit(targetSlot, playerSlot.Item, NetworkSide.Client, examineRecipient: playerScript.gameObject))
+				{
+					return false;
+				}
+			}
+			if (!isGhost && !Validations.CanApply(playerScript, target, networkSide))
 			{
 				return false;
 			}
+			return true;
 		}
-		if (!isGhost && !Validations.CanApply(playerScript, target, networkSide))
+
+		public static void Send(ItemSlot playerSlot, ItemSlot targetSlot, bool isGhost)
 		{
-			return false;
+			if (!Validation(playerSlot, targetSlot, PlayerManager.LocalPlayerScript, targetSlot.Player.gameObject, NetworkSide.Client, isGhost))
+				return;
+
+			NetMessage msg = new NetMessage
+			{
+				PlayerStorage = playerSlot.ItemStorageNetID,
+				PlayerSlotIndex = playerSlot.SlotIdentifier.SlotIndex,
+				PlayerNamedSlot = playerSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
+				TargetStorage = targetSlot.ItemStorageNetID,
+				TargetSlotIndex = targetSlot.SlotIdentifier.SlotIndex,
+				TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
+				IsGhost = isGhost
+			};
+
+			Send(msg);
 		}
-		return true;
-	}
-
-	public static void Send(ItemSlot playerSlot, ItemSlot targetSlot, bool isGhost)
-	{
-		if (!Validation(playerSlot, targetSlot, PlayerManager.LocalPlayerScript, targetSlot.Player.gameObject, NetworkSide.Client, isGhost))
-			return;
-
-		OtherPlayerSlotTransferMessage msg = new OtherPlayerSlotTransferMessage
-		{
-			PlayerStorage = playerSlot.ItemStorageNetID,
-			PlayerSlotIndex = playerSlot.SlotIdentifier.SlotIndex,
-			PlayerNamedSlot = playerSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
-			TargetStorage = targetSlot.ItemStorageNetID,
-			TargetSlotIndex = targetSlot.SlotIdentifier.SlotIndex,
-			TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
-			IsGhost = isGhost
-		};
-		msg.Send();
 	}
 }

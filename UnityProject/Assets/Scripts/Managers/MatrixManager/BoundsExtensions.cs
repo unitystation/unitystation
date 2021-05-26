@@ -7,7 +7,7 @@ public static class BoundsExtensions
 {
 	public static bool BoundsIntersect( this MatrixInfo matrix, MatrixInfo otherMatrix )
 	{
-		if ( matrix == otherMatrix )
+		if ( matrix == null || otherMatrix == null || matrix == otherMatrix )
 		{
 			return false;
 		}
@@ -20,7 +20,7 @@ public static class BoundsExtensions
 	public static bool BoundsIntersect( this MatrixInfo matrix, MatrixInfo otherMatrix, out Rect intersection )
 	{
 		intersection = Rect.zero;
-		if ( matrix == otherMatrix )
+		if ( matrix == null || otherMatrix == null || matrix == otherMatrix )
 		{
 			return false;
 		}

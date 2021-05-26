@@ -9,38 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
   m_Name: CentCom commander's jumpskirt
   m_EditorClassIdentifier: 
-  Base:
-    SpriteEquipped: {fileID: 11400000, guid: 48de64af927763c43aaf11112037d6b4, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: 4e11a3226cdf15e49a015646a93f914f,
-      type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: d3a9d065d609f8546910ddf26dde315a,
-      type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: 4f5d73254af69234489bbba04633220f, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  Base_Adjusted:
-    SpriteEquipped: {fileID: 11400000, guid: 7e4aa7c0e1e24a84486ab7129dbcc1ed, type: 2}
-    SpriteInHandsLeft: {fileID: 0}
-    SpriteInHandsRight: {fileID: 0}
-    SpriteItemIcon: {fileID: 0}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
+  SpriteEquipped: {fileID: 11400000, guid: 48de64af927763c43aaf11112037d6b4, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: 4e11a3226cdf15e49a015646a93f914f, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: d3a9d065d609f8546910ddf26dde315a, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: 4f5d73254af69234489bbba04633220f, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

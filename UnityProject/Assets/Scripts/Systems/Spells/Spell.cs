@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
+using UI.Action;
 
 namespace Systems.Spells
 {
@@ -151,7 +152,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							Despawn.ServerSingle(spawnResult.GameObject);
+							_ = Despawn.ServerSingle(spawnResult.GameObject);
 						}
 					}
 				}
@@ -207,7 +208,7 @@ namespace Systems.Spells
 			if (!caster.Script.mind.Spells.Contains(this))
 			{
 				Logger.LogWarningFormat("Illegal spell access: {0} tried to call spell they don't possess ({1})",
-					Category.Security, caster, this);
+					Category.Exploits, caster, this);
 				return false;
 			}
 
@@ -265,6 +266,7 @@ namespace Systems.Spells
 		{
 			return SpellData.InvocationMessageSelf;
 		}
+
 		protected virtual string FormatStillRechargingMessage(ConnectedPlayer caster)
 		{
 			return SpellData.StillRechargingMessage;

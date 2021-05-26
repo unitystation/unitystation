@@ -26,9 +26,19 @@ namespace InGameEvents
 
 		private const int DISTANCE_BETWEEN_EXPLOSIONS = 2;
 
+		private bool IsMatrixInvalid()
+		{
+			if (stationMatrix != null) return false;
+
+			Logger.LogError($"Unable to start \"{nameof(EventImmovableRod)}\". Main station may not be initialized yet.", Category.Event);
+			return true;
+		}
+
 		public override void OnEventStart()
 		{
 			stationMatrix = MatrixManager.MainStationMatrix;
+
+			if (IsMatrixInvalid()) return;
 
 			if (AnnounceEvent)
 			{
@@ -44,6 +54,8 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
+			if (IsMatrixInvalid()) return;
+
 			var MaxCoord = new Vector2() { x = stationMatrix.WorldBounds.xMax , y = stationMatrix.WorldBounds.yMax };
 
 			var MinCoord = new Vector2() { x = stationMatrix.WorldBounds.xMin, y = stationMatrix.WorldBounds.yMin };
@@ -114,6 +126,8 @@ namespace InGameEvents
 
 		private IEnumerator SpawnMeteorsWithDelay(float immovableRodPathCoords, Queue<Vector3> impactCoords)
 		{
+			if (IsMatrixInvalid()) yield break;
+
 			var rod = Instantiate(immovableRodPrefab, position: impactCoords.Peek(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent);
 
 			for (var i = 1; i <= immovableRodPathCoords; i++)

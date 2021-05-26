@@ -54,7 +54,7 @@ namespace Pipes
 					return (MonoPipe.MatrixPos);
 				}
 
-				Logger.Log("Vector3Int null!!");
+				Logger.Log("Vector3Int null!!", Category.Pipes);
 				return (Vector3Int.zero);
 			}
 		}
@@ -72,7 +72,7 @@ namespace Pipes
 					return (MonoPipe.Matrix);
 				}
 
-				Logger.Log("Matrix null!!");
+				Logger.Log("Matrix null!!", Category.Pipes);
 				return (null);
 			}
 		}
@@ -167,7 +167,7 @@ namespace Pipes
 
 						// this one probably require more work than just null check
 						if(Pipe.OnNet == null)
-							Logger.LogWarning("Pipe.OnNet == null", Category.Atmos);
+							Logger.LogWarning("Pipe.OnNet == null", Category.Pipes);
 						else
 							Pipe.OnNet.RemoveEqualiseWith(this);
 					}
@@ -204,9 +204,13 @@ namespace Pipes
 			}
 
 			ZeroedLocation.z = 0;
+
 			var tileWorldPosition = MatrixManager.LocalToWorld(ZeroedLocation, matrix).RoundToInt();
-			MatrixManager.ReagentReact(ToSpill.Item1, tileWorldPosition);
-			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(tileWorldPosition, true).MetaDataLayer;
+			var matrixInfo = MatrixManager.AtPoint(tileWorldPosition, true);
+
+			MatrixManager.ReagentReact(ToSpill.Item1, tileWorldPosition, matrixInfo);
+
+			MetaDataLayer metaDataLayer = matrixInfo.MetaDataLayer;
 			if (pipeNode != null)
 			{
 				GasMix.TransferGas(pipeNode.IsOn.GasMix, ToSpill.Item2, ToSpill.Item2.Moles);

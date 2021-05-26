@@ -3,46 +3,49 @@ using Mirror;
 
 namespace Messages.Client.Admin
 {
-	public class RequestRespawnPlayer : ClientMessage
+	public class RequestRespawnPlayer : ClientMessage<RequestRespawnPlayer.NetMessage>
 	{
-		public string Userid;
-		public string AdminToken;
-		public string UserToRespawn;
-		public string OccupationToRespawn;
-		public int Type;
-
-		public override void Process()
+		public struct NetMessage : NetworkMessage
 		{
-			VerifyAdminStatus();
+			public string Userid;
+			public string AdminToken;
+			public string UserToRespawn;
+			public string OccupationToRespawn;
+			public int Type;
 		}
 
-		void VerifyAdminStatus()
+		public override void Process(NetMessage msg)
 		{
-			var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+			VerifyAdminStatus(msg);
+		}
+
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
 			if (player == null) return;
-			var deadPlayer = PlayerList.Instance.GetByUserID(UserToRespawn);
+			var deadPlayer = PlayerList.Instance.GetByUserID(msg.UserToRespawn);
 			if (deadPlayer == null || deadPlayer.Script == null) return;
 
 			//Wasn't so dead, let's kill them
 			if (deadPlayer.Script.playerHealth != null &&
 			    deadPlayer.Script.playerHealth.IsDead == false)
 			{
-				deadPlayer.Script.playerHealth.ApplyDamage(
+				deadPlayer.Script.playerHealth.ApplyDamageAll(
 					player,
 					200,
 					AttackType.Internal,
 					DamageType.Brute);
 			}
 
-			TryRespawn(deadPlayer, OccupationToRespawn);
+			TryRespawn(deadPlayer, msg, msg.OccupationToRespawn);
 		}
 
-		void TryRespawn(ConnectedPlayer deadPlayer, string occupation = null)
+		void TryRespawn(ConnectedPlayer deadPlayer, NetMessage msg, string occupation = null)
 		{
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{PlayerList.Instance.GetByUserID(Userid).Name} respawned dead player {deadPlayer.Name} as {occupation}", Userid);
+				$"{PlayerList.Instance.GetByUserID(msg.Userid).Name} respawned dead player {deadPlayer.Name} as {occupation}", msg.Userid);
 
-			var respawnType = (RespawnType) Type;
+			var respawnType = (RespawnType) msg.Type;
 
 			switch (respawnType)
 			{
@@ -58,10 +61,10 @@ namespace Messages.Client.Admin
 			}
 		}
 
-		public static RequestRespawnPlayer SendNormalRespawn(string userId, string adminToken, string userIDToRespawn,
+		public static NetMessage SendNormalRespawn(string userId, string adminToken, string userIDToRespawn,
 			Occupation occupation)
 		{
-			var msg = new RequestRespawnPlayer
+			var msg = new NetMessage
 			{
 				Userid = userId,
 				AdminToken = adminToken,
@@ -70,15 +73,15 @@ namespace Messages.Client.Admin
 				Type = 0
 			};
 
-			msg.Send();
+			Send(msg);
 			return msg;
 		}
 
-		public static RequestRespawnPlayer SendSpecialRespawn(string userID, string adminToken,
+		public static NetMessage SendSpecialRespawn(string userID, string adminToken,
 			string userIDToRespawn,
 			Occupation occupation)
 		{
-			var msg = new RequestRespawnPlayer()
+			var msg = new NetMessage()
 			{
 				Userid = userID,
 				AdminToken = adminToken,
@@ -87,14 +90,14 @@ namespace Messages.Client.Admin
 				Type = 1
 			};
 
-			msg.Send();
+			Send(msg);
 			return msg;
 		}
 
-		public static RequestRespawnPlayer SendAntagRespawn(string userID, string adminToken, string userIdTorespawn,
+		public static NetMessage SendAntagRespawn(string userID, string adminToken, string userIdTorespawn,
 			Antagonist antagonist)
 		{
-			var msg = new RequestRespawnPlayer()
+			var msg = new NetMessage()
 			{
 				Userid = userID,
 				AdminToken = adminToken,
@@ -103,7 +106,7 @@ namespace Messages.Client.Admin
 				Type = 2
 			};
 
-			msg.Send();
+			Send(msg);
 			return msg;
 		}
 

@@ -174,7 +174,7 @@ namespace Objects.Atmospherics
 		{
 			if (newState)
 			{
-				registerObject.Passable = true;
+				registerObject.SetPassable(false, true);
 				// After the canister bursts, we switch appropriate scripts.
 				GetComponent<BurstCanister>().enabled = true;
 				networkTab.enabled = false;
@@ -340,7 +340,8 @@ namespace Objects.Atmospherics
 				Logger.LogError(
 						$"{interaction.Performer} tried inserting {interaction.UsedObject} into {gameObject}, " +
 						$"but the tank didn't have a {nameof(GasContainer)} component associated with it. " +
-						$"Something terrible has happened, or an item that should not has the CanisterFillable ItemTrait."
+						$"Something terrible has happened, or an item that should not has the CanisterFillable ItemTrait.",
+						Category.Atmos
 				);
 			}
 		}

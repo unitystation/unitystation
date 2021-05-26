@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Messages.Server;
+using UnityEngine;
 
 namespace Doors
 {

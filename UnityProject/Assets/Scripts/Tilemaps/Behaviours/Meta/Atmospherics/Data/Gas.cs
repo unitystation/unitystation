@@ -9,7 +9,7 @@ namespace Systems.Atmospherics
 		// Gas constant
 		public const float R = 8.3144598f;
 
-		public static readonly Gas Plasma = new Gas("Plasma", 200, 40f, true, 0.4f, "PlasmaAir", -4, 0);
+		public static readonly Gas Plasma = new Gas("Plasma", 200, 40f, true, 0.4f, "Plasma", -4, 0);
 		public static readonly Gas Oxygen = new Gas("Oxygen", 20, 31.9988f, false, 0.4f, "NONE", -3, 0);
 		public static readonly Gas Nitrogen = new Gas("Nitrogen", 20, 28.0134f, false, 0.4f, "NONE", -3, 0);
 		public static readonly Gas CarbonDioxide = new Gas("Carbon Dioxide", 30, 44.01f, false, 0.4f, "NONE", -3, 0);

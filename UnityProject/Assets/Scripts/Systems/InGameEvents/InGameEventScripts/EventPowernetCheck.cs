@@ -2,6 +2,7 @@
 using UnityEngine;
 using Managers;
 using Strings;
+using Systems.Electricity.NodeModules;
 
 namespace InGameEvents
 {
@@ -14,8 +15,8 @@ namespace InGameEvents
 				var text = "Abnormal activity detected in the station's powernet." +
 					"As a precautionary measure, the station's power will be shut off for an indeterminate duration.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
-				// TODO: Play specific announcement message sound instead of generic alert.
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
+				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOffAnnouncement);
 			}
 
 			if (FakeEvent) return;
@@ -27,7 +28,7 @@ namespace InGameEvents
 		{
 			foreach (var node in FindObjectsOfType<ElectricalNodeControl>())
 			{
-				node.UpTurnOffSupply();
+				node.TurnOffSupply();
 				StartCoroutine(RestartPowerSupply(node));
 			}
 		}
@@ -35,7 +36,8 @@ namespace InGameEvents
 		private IEnumerator RestartPowerSupply(ElectricalNodeControl node)
 		{
 			yield return WaitFor.Seconds(Random.Range(30, 120));
-			node.UpTurnOnSupply();
+			node.TurnOnSupply();
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOnAnnouncement);
 		}
 	}
 }

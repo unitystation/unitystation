@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 
 public class FootstepSounds : MonoBehaviour
 {
@@ -19,12 +21,20 @@ public class FootstepSounds : MonoBehaviour
 	public static void PlayerFootstepAtPosition(Vector3 worldPos,
 		PlayerSync PlayerSync)
 	{
-		StepType stepType = GetFootSteptype(PlayerSync);
-		PlayerSync.Step = !PlayerSync.Step;
-		if (PlayerSync.Step)
+		if (PlayerSync.playerScript.registerTile.IsLayingDown == false)
 		{
-			FootstepAtPosition(worldPos, stepType, PlayerSync.playerScript.mind.StepSound);
+			StepType stepType = GetFootSteptype(PlayerSync);
+			PlayerSync.Step = !PlayerSync.Step;
+			if (PlayerSync.Step)
+			{
+				FootstepAtPosition(worldPos, stepType, PlayerSync.playerScript.mind.StepSound);
+			}
 		}
+		else
+		{
+			ShuffleAtPosition(worldPos);
+		}
+
 	}
 
 	public static StepType GetFootSteptype(PlayerSync PlayerSync)
@@ -41,6 +51,12 @@ public class FootstepSounds : MonoBehaviour
 	}
 
 
+	public static void ShuffleAtPosition(Vector3 worldPos)
+	{
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.7f, 1.2f));
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Crawl1, worldPos, audioSourceParameters, polyphonic: true);
+	}
+
 	/// <summary>
 	/// Play footsteps at given position. It will handle all the logic to determine
 	/// the proper sound to use.
@@ -50,7 +66,10 @@ public class FootstepSounds : MonoBehaviour
 	/// <param name="performer">The creature making the sound</param>
 	public static void FootstepAtPosition(Vector3 worldPos, StepType stepType,FloorSounds Override = null )
 	{
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
+		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.RoundToInt(), false);
+
+		if (matrix == null) return;
+
 		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
 		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
 
@@ -95,7 +114,8 @@ public class FootstepSounds : MonoBehaviour
 			{
 				return;
 			}
-			SoundManager.PlayNetworkedAtPos(AddressableAudioSource.PickRandom(), worldPos,pitch : Random.Range(0.7f, 1.2f), polyphonic: true);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.7f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(AddressableAudioSource.PickRandom(), worldPos, audioSourceParameters, polyphonic: true);
 
 		}
 	}

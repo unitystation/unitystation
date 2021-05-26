@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Chemistry.Components;
 using ScriptableObjects;
 
@@ -11,11 +10,11 @@ namespace Pipes
 		public Chemistry.Reagent Water;
 		public ReagentContainer Container;
 
-		public override void Start()
+		public override void OnSpawnServer(SpawnInfo info)
 		{
 			pipeData.PipeAction = new ReservoirAction();
 			pipeData.GetMixAndVolume.GetReagentMix().Add(Water, 1000);
-			base.Start();
+			base.OnSpawnServer(info);
 		}
 
 		public override bool WillInteract(HandApply interaction, NetworkSide side )
@@ -37,7 +36,7 @@ namespace Pipes
 					$"{interaction.Performer.ExpensiveName()} deconstruct the ReservoirTank.",
 					() =>
 					{
-						Despawn.ServerSingle(gameObject);
+						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
 		}
@@ -48,7 +47,7 @@ namespace Pipes
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			base.OnDespawnServer(info);
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 10 );
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 20 );
 		}
 	}
 }

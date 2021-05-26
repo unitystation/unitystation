@@ -24,7 +24,7 @@ namespace UI.Objects.Chemistry
 
 		private List<string> DispenseAmounts = new List<string>()
 	{
-		//Some security bizz
+		// Some security bizz
 		"5",
 		"10",
 		"15",
@@ -48,7 +48,7 @@ namespace UI.Objects.Chemistry
 			}
 		}
 
-		//The thing that says 100U @ 10c
+		// The thing that says 100U @ 10c
 		private NetUIElement<string> totalAndTemperature;
 
 		private NetUIElement<string> TotalAndTemperature {
@@ -62,38 +62,29 @@ namespace UI.Objects.Chemistry
 			}
 		}
 
-		void Start()
+		private void Start()
 		{
 			((NetUIElement<string>)this["20"]).SetValueServer("1");
 			if (Provider != null)
 			{
-				//Makes sure it connects with the dispenser properly
+				// Makes sure it connects with the dispenser properly
 				ChemistryDispenser = Provider.GetComponentInChildren<ChemistryDispenser>();
-				//Subscribe to change event from ChemistryDispenser.cs
+				// Subscribe to change event from ChemistryDispenser.cs
 				ChemistryDispenser.changeEvent += UpdateAll;
 				UpdateAll();
 			}
 		}
 
-		//set how much it should dispense
+		// set how much it should dispense
 		public void SetAddAmount(int Number)
 		{
 			DispensedNumber = Number;
 
 			for (int i = 0; i < DispenseAmounts.Count; i++)
 			{
-				if (DispenseAmounts[i] == Number.ToString()
-				) //Checks what button has been pressed  And sets the correct position appropriate
-				{
-					((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("1");
-				}
-				else
-				{
-					((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("0");
-				}
+				((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer(DispenseAmounts[i] == Number.ToString() ? "1": "0");
 			}
 
-			//Logger.Log (DispensedNumber.ToString ());
 			UpdateAll();
 		}
 
@@ -101,7 +92,6 @@ namespace UI.Objects.Chemistry
 		{
 			if (ChemistryDispenser.Container != null)
 			{
-				//Logger.Log (Number.ToString ());
 				ChemistryDispenser.Container.TakeReagents(Number);
 			}
 
@@ -112,20 +102,19 @@ namespace UI.Objects.Chemistry
 		{
 			if (ChemistryDispenser.Container != null)
 			{
-				if (ChemistryDispenser.ThisState == PowerStates.On
-					|| ChemistryDispenser.ThisState == PowerStates.LowVoltage
-					|| ChemistryDispenser.ThisState == PowerStates.OverVoltage)
+				if (ChemistryDispenser.ThisState == PowerState.On
+					|| ChemistryDispenser.ThisState == PowerState.LowVoltage
+					|| ChemistryDispenser.ThisState == PowerState.OverVoltage)
 				{
-					//Logger.Log (Chemical);
-					if (dispensableReagents.Contains(reagent)) //Checks if the the dispenser can dispense this chemical
+					if (dispensableReagents.Contains(reagent)) // Checks if the the dispenser can dispense this chemical
 					{
-						float OutDispensedNumber = 0;
+						float OutDispensedNumber = 0; // TODO: is always 0? Hmm?
 						switch (ChemistryDispenser.ThisState)
 						{
-							case (PowerStates.OverVoltage):
+							case PowerState.OverVoltage:
 								OutDispensedNumber = DispensedNumber * 2;
 								break;
-							case (PowerStates.LowVoltage):
+							case PowerState.LowVoltage:
 								OutDispensedNumber = DispensedNumber * 0.5f;
 								break;
 
@@ -143,7 +132,7 @@ namespace UI.Objects.Chemistry
 			UpdateAll();
 		}
 
-		//Turns off and on the heater
+		// Turns off and on the heater
 		public void ToggleHeater()
 		{
 			HeaterOn = !HeaterOn;
@@ -151,11 +140,11 @@ namespace UI.Objects.Chemistry
 			UpdateAll();
 		}
 
-		public void EjectContainer()
+		public void EjectContainer(ConnectedPlayer player)
 		{
 			if (ChemistryDispenser.Container != null)
 			{
-				ChemistryDispenser.EjectContainer();
+				ChemistryDispenser.EjectContainer(player);
 			}
 
 			UpdateAll();
@@ -175,13 +164,13 @@ namespace UI.Objects.Chemistry
 		{
 			if (ChemistryDispenser.Container != null)
 			{
-				if (ChemistryDispenser.ThisState == PowerStates.On
-					|| ChemistryDispenser.ThisState == PowerStates.LowVoltage
-					|| ChemistryDispenser.ThisState == PowerStates.OverVoltage)
+				if (ChemistryDispenser.ThisState == PowerState.On
+					|| ChemistryDispenser.ThisState == PowerState.LowVoltage
+					|| ChemistryDispenser.ThisState == PowerState.OverVoltage)
 				{
 					if (HeaterOn)
 					{
-						//Sets the temperature of the liquid. Could be more smooth/gradual change
+						// Sets the temperature of the liquid. Could be more smooth/gradual change
 						ChemistryDispenser.Container.Temperature = HeaterTemperatureCelsius;
 					}
 				}
@@ -220,7 +209,7 @@ namespace UI.Objects.Chemistry
 
 		public void OnDestroy()
 		{
-			//Unsubscribe container update event
+			// Unsubscribe container update event
 			ChemistryDispenser.changeEvent -= UpdateAll;
 		}
 	}

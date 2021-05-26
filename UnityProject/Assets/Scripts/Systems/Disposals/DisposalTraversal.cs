@@ -210,7 +210,7 @@ namespace Systems.Disposals
 		/// </summary>
 		private void DespawnContainerAndFinish()
 		{
-			Despawn.ServerSingle(virtualContainer.gameObject);
+			_ = Despawn.ServerSingle(virtualContainer.gameObject);
 			TraversalFinished = true;
 		}
 	}

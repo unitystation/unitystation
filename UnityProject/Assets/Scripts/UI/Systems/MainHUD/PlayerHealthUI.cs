@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,6 +22,8 @@ public class PlayerHealthUI : MonoBehaviour
 	public Color destroyedBodyPartColor;
 	public GameObject baseBody;
 	public GameObject alertsBox;
+
+	public Button oxygenButton;
 
 	public bool humanUI;
 
@@ -86,8 +89,8 @@ public class PlayerHealthUI : MonoBehaviour
 			EnableAlwaysVisible();
 		}
 
-		float temperature = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.temperature;
-		float pressure = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.pressure;
+		float temperature = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.temperature;
+		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.pressure;
 
 		if (temperature < 110)
 		{
@@ -128,21 +131,39 @@ public class PlayerHealthUI : MonoBehaviour
 			pressureAlert.SetPressureSprite(pressure);
 		}
 
-		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.IsSuffocating, oxygenAlert);
+		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
 
 		SetSpecificVisibility(false, toxinAlert);
-		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
+		// if (PlayerManager.LocalPlayerScript?.playerHealth?.Metabolism?.IsHungry != null)
+		// {
+			// SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
+		// }
+
+
+		//TODO: Reimplement metabolism stuff.
+		//SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
+
+		// if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
+		// {
+			// oxygenButton.interactable = true;
+		// }
+
+		// if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
+		// {
+			// EventManager.Broadcast(EVENT.DisableInternals);
+			// oxygenButton.interactable = false;
+		// }
 	}
 
 	/// <summary>
 	/// Update the PlayerHealth body part hud icon
 	/// </summary>
 	/// <param name="bodyPart"> Body part that requires updating </param>
-	public void SetBodyTypeOverlay(BodyPartBehaviour bodyPart)
+	public void SetBodyTypeOverlay(BodyPart bodyPart)
 	{
 		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
-			if (bodyPartListeners[i].bodyPartType != bodyPart.Type)
+			if (bodyPartListeners[i].BodyPartType != bodyPart.BodyPartType)
 			{
 				continue;
 			}
@@ -172,15 +193,33 @@ public class PlayerHealthUI : MonoBehaviour
 						damageColor = disabledBodyPartColor;
 						break;
 					case DamageSeverity.Max:
+						bodyPartColor = damageMonitorColors[6];
+						damageColor = destroyedBodyPartColor;
+						break;
 					default:
 						bodyPartColor = damageMonitorColors[6];
 						damageColor = destroyedBodyPartColor;
 						break;
 				}
-
-				bodyPartListeners[i].SetDamageColor(damageColor);
-				bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
+				if (IsLocalPlayer(bodyPart))
+				{
+					bodyPartListeners[i].SetDamageColor(damageColor);
+					bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
+				}
+				else
+				{
+					if (bodyPart.HealthMaster != null)
+					{
+						bodyPart.HealthMaster.HealthStateController.ServerUpdateDoll(i, damageColor,bodyPartColor);
+					}
+				}
 			}
+		}
+		bool IsLocalPlayer(BodyPart BbodyPart)
+		{
+			var Player = BbodyPart.HealthMaster as PlayerHealthV2;
+			if (Player == null) return false;
+			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
 		}
 	}
 }

@@ -68,12 +68,12 @@ namespace Systems.Scenes
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, SpawnLavaLand);
+			EventManager.AddHandler(Event.RoundStarted, SpawnLavaLand);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, SpawnLavaLand);
+			EventManager.RemoveHandler(Event.RoundStarted, SpawnLavaLand);
 		}
 
 		public void SpawnLavaLand()
@@ -103,7 +103,7 @@ namespace Systems.Scenes
 
 			SetQuantumPads();
 
-			Debug.Log("Finished generating LavaLand");
+			Logger.Log("Finished generating LavaLand", Category.Round);
 
 			yield break;
 		}

@@ -31,7 +31,7 @@ public enum LayerType
 	[Order(6)] Objects = 2,
 	[Order(7)] Floors = 3,
 	[Order(8)] Underfloor = 8,
-	[Order(9)] Base = 4,
+	[Order(9)] Base = 4
 }
 
 [Flags]
@@ -59,7 +59,8 @@ public static class LTSUtil
 	public static bool IsLayerIn(LayerTypeSelection SpecifyLayers, LayerType Layer)
 	{
 		LayerTypeSelection LayerCon = LayerType2LayerTypeSelection(Layer);
-		return (SpecifyLayers.HasFlag(LayerCon));
+		//Bits are set in SpecifyLayers, doing a logical AND with the layer will return either 0 if it doesn't contain it or the layer bit itself.
+		return (SpecifyLayers & LayerCon) > 0;
 	}
 
 	public static LayerTypeSelection LayerType2LayerTypeSelection(LayerType Layer)

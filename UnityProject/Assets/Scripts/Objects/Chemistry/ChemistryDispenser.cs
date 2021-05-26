@@ -11,7 +11,7 @@ namespace Chemistry
 	/// <summary>
 	/// Main component for chemistry dispenser.
 	/// </summary>
-	public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
+	public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
 	{
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
 			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
@@ -32,16 +32,31 @@ namespace Chemistry
 
 		private void UpdateGUI()
 		{
-			// Change event runs updateAll in ChemistryGUI
+			// Change event runs updateAll in GUI_ChemistryDispenser
 			if (changeEvent != null)
 			{
 				changeEvent();
 			}
 		}
 
-		public void EjectContainer()
+
+		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
 		{
-			Inventory.ServerDrop(itemSlot);
+			if (subject == null)
+			{
+				return default;
+			}
+
+			var playerStorage = subject.Script.ItemStorage;
+			return playerStorage.GetBestHandOrSlotFor(item);
+		}
+
+		public void EjectContainer(ConnectedPlayer player)
+		{
+			if (!Inventory.ServerTransfer(itemSlot, GetBestSlot(itemSlot.ItemObject, player)))
+			{
+				Inventory.ServerDrop(itemSlot);
+			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -61,14 +76,17 @@ namespace Chemistry
 			UpdateGUI();
 		}
 
-		//############################## power stuff ########################################
-		public PowerStates ThisState;
+		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float Voltage) { }
+		public PowerState ThisState;
 
-		public void StateUpdate(PowerStates State)
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
-			ThisState = State;
+			ThisState = state;
 		}
+
+		#endregion
 	}
 }

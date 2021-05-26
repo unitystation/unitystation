@@ -1,4 +1,8 @@
+using AddressableReferences;
+using Messages.Server.SoundMessages;
+using NPC.Mood;
 using UnityEngine;
+using Systems.Electricity;
 
 namespace Systems.MobAIs
 {
@@ -6,13 +10,15 @@ namespace Systems.MobAIs
 	/// AI brain for mice
 	/// used to get hunted by Runtime and squeak also annoy engis by chewing cables
 	/// </summary>
-
 	public class MouseAI : GenericFriendlyAI
 	{
 		[SerializeField, Tooltip("If this mouse get to this mood level, it will start chewing cables")]
-		private int angryMouseLevel = -30;
+		private int angryMouseLevel = 10;
 
 		private MobMood mood;
+
+		[SerializeField]
+		private AddressableAudioSource squeekSound = null;
 
 		protected override void Awake()
 		{
@@ -48,15 +54,13 @@ namespace Systems.MobAIs
 
 		private void Squeak()
 		{
-			SoundManager.PlayNetworkedAtPos(
-				"MouseSqueek",
-				gameObject.transform.position,
-				Random.Range(.6f, 1.2f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.6f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(squeekSound, gameObject.transform.position, audioSourceParameters);
 
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} squeaks!",
-				$"{mobNameCap} squeaks!");
+				$"{MobName} squeaks!",
+				$"{MobName} squeaks!");
 		}
 
 		private void DoRandomWireChew()
@@ -111,11 +115,6 @@ namespace Systems.MobAIs
 			Squeak();
 		}
 
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			BeginExploring();
-		}
 
 	}
 }

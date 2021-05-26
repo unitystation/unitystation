@@ -58,7 +58,7 @@ namespace Doors.Modules
 
 			//If the door is in low voltage, there's a very low chance the access check fails and opens anyway.
 			//Meant to represent the kind of weird flux state bits are when in low voltage systems.
-			if (master.Apc.State == PowerStates.LowVoltage)
+			if (master.Apc.State == PowerState.LowVoltage)
 			{
 				if (Random.value < lowVoltageOpenChance)
 				{

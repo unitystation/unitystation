@@ -1,4 +1,7 @@
+using HealthV2;
+using Messages.Server.SoundMessages;
 using UnityEngine;
+
 
 /// <summary>
 /// Allows an object to be hugged by a player.
@@ -16,7 +19,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject != null) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 
-		if (interaction.TargetObject.TryGetComponent(out PlayerHealth targetPlayerHealth))
+		if (interaction.TargetObject.TryGetComponent(out PlayerHealthV2 targetPlayerHealth))
 		{
 			if (targetPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS) return false;
 		}
@@ -42,8 +45,9 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 			Hug();
 		}
 
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
 		SoundManager.PlayNetworkedAtPos(
-				SingletonSOSounds.Instance.ThudSwoosh, interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
+				SingletonSOSounds.Instance.ThudSwoosh, interaction.TargetObject.WorldPosServer(), audioSourceParameters, sourceObj: interaction.TargetObject);
 	}
 
 	// TODO Consider moving this into its own component, or merging Huggable, this and CPRable into
@@ -60,13 +64,13 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private bool TryFieryHug()
 	{
-		var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
-		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
+		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 
 		if (performerLHB != null && targetLHB != null && (performerLHB.FireStacks > 0 || targetLHB.FireStacks > 0))
 		{
-			performerLHB.ApplyDamage(interaction.TargetObject, 1, AttackType.Fire, DamageType.Burn);
-			targetLHB.ApplyDamage(interaction.Performer, 1, AttackType.Fire, DamageType.Burn);
+			performerLHB.ApplyDamageAll(interaction.TargetObject, 1, AttackType.Fire, DamageType.Burn);
+			targetLHB.ApplyDamageAll(interaction.Performer, 1, AttackType.Fire, DamageType.Burn);
 
 			Chat.AddCombatMsgToChat(
 					interaction.Performer, $"You hug {targetName} with fire!", $"{performerName} hugs {targetName} with fire!");

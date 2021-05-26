@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7500419754487195636}
   - component: {fileID: 8571891466691003663}
   m_Layer: 0
-  m_Name: ShootPulse
+  m_Name: Pulse
   m_TagString: SoundFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,8 +40,7 @@ AudioSource:
   m_GameObject: {fileID: 5243397713591840123}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6a97b205821df1d44ba61618da6301a1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
@@ -53,7 +52,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 90
+  MaxDistance: 20
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0

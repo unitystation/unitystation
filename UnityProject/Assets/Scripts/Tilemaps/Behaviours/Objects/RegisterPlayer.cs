@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
+using Messages.Server.SoundMessages;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(UprightSprites))]
 [ExecuteInEditMode]
-public class RegisterPlayer : RegisterTile, IServerSpawn
+public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IControlPlayerState
 {
+
+	public interface IControlPlayerState
+	{
+		bool AllowChange(bool rest);
+	}
+
 	const int HELP_CHANCE = 33; // Percent.
 
 	// tracks whether player is down or upright.
@@ -27,6 +35,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	/// </summary>
 	public bool IsSlippingServer { get; private set; }
 
+	private HashSet<IControlPlayerState> CheckableStatuses = new HashSet<IControlPlayerState>();
+
 	/// <summary>
 	/// Invoked on server when slip state is change. Provides old and new value as 1st and 2nd args
 	/// </summary>
@@ -37,6 +47,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	public PlayerScript PlayerScript => playerScript;
 	private Directional playerDirectional;
 	private UprightSprites uprightSprites;
+	[SerializeField] private Util.NetworkedLeanTween networkedLean;
 
 	/// <summary>
 	/// Returns whether this player is blocking other players from occupying the space, using the
@@ -52,7 +63,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	protected override void Awake()
 	{
 		base.Awake();
+		AddStatus(this);
 		EnsureInit();
+	}
+
+	public void AddStatus(IControlPlayerState iThisControlPlayerState)
+	{
+		CheckableStatuses.Add(iThisControlPlayerState);
 	}
 
 	private void EnsureInit()
@@ -70,12 +87,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		base.OnStartClient();
 		EnsureInit();
-		SyncIsLayingDown(isLayingDown, isLayingDown);
+		ServerCheckStandingChange( isLayingDown);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncIsLayingDown(isLayingDown, false);
+		ServerCheckStandingChange(false);
 	}
 
 	public override bool IsPassable(bool isServer, GameObject context = null)
@@ -95,7 +112,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerLayDown()
 	{
-		SyncIsLayingDown(isLayingDown, true);
+		ServerCheckStandingChange(true);
 	}
 
 	/// <summary>
@@ -105,7 +122,17 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerStandUp()
 	{
-		SyncIsLayingDown(isLayingDown, false);
+		ServerCheckStandingChange(false);
+	}
+
+	/// <summary>
+	/// Make the player appear standing up.
+	/// When up, they become impassable.
+	/// </summary>
+	[Server]
+	public void ServerStandUp(bool DoBar = false, float Time = 0.5f)
+	{
+		ServerCheckStandingChange(false,DoBar, Time);
 	}
 
 	/// <summary>
@@ -115,37 +142,79 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerSetIsStanding(bool isStanding)
 	{
-		SyncIsLayingDown(isLayingDown, !isStanding);
+		ServerCheckStandingChange(!isStanding);
+	}
+
+
+	public void ServerCheckStandingChange(bool LayingDown, bool DoBar = false, float Time = 0.5f)
+	{
+		if (this.isLayingDown != LayingDown)
+		{
+			foreach (var Status in CheckableStatuses)
+			{
+				if (Status.AllowChange(LayingDown) == false)
+				{
+					return;
+				}
+			}
+
+			if (DoBar)
+			{
+				var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true), ServerStandUp);
+				bar.ServerStartProgress(this, 1.5f,gameObject);
+			}
+			else
+			{
+				SyncIsLayingDown(isLayingDown, LayingDown);
+			}
+
+		}
 	}
 
 	private void SyncIsLayingDown(bool wasDown, bool isDown)
 	{
 		EnsureInit();
 		this.isLayingDown = isDown;
+
+		if (CustomNetworkManager.IsHeadless == false)
+		{
+			HandleGetupAnimation(isDown == false);
+		}
+
 		if (isDown)
 		{
-			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
+			//uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
-			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
-
+			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.CrawlSpeed;
 			//lock current direction
 			playerDirectional.LockDirection = true;
 		}
 		else
 		{
-			uprightSprites.ExtraRotation = Quaternion.identity;
+			//uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
-			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+			foreach (SpriteRenderer spriteRenderer in this.GetComponentsInChildren<SpriteRenderer>())
 			{
-				if (playerScript.IsGhost)
-					spriteRenderer.sortingLayerName = "Ghosts";
-				else
-					spriteRenderer.sortingLayerName = "Players";
+				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirection = false;
+			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.RunSpeed;
+		}
+	}
+
+	public void HandleGetupAnimation(bool getUp)
+	{
+		if (getUp == false && networkedLean.Target.rotation.z > -90)
+		{
+			networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f);
+		}
+		else if (getUp == true && networkedLean.Target.rotation.z < 90)
+		{
+			networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f);
 		}
 	}
 
@@ -157,11 +226,28 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		if (!IsLayingDown) return;
 
+		// Can't help a player up if they're rolling
+		if (playerScript.playerNetworkActions.IsRolling) return;
+
 		// Check if lying down because of stun. If stunned, there is a chance helping can fail.
 		if (IsSlippingServer && Random.Range(0, 100) > HELP_CHANCE) return;
 
 		ServerRemoveStun();
 	}
+
+	bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
+	{
+		if (rest)
+		{
+			return true;
+		}
+		else
+		{
+			return !IsSlippingServer;
+		}
+
+	}
+
 
 	/// <summary>
 	/// Slips and stuns the player.
@@ -177,18 +263,20 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
 		// Don't slip while the players hunger state is Strarving
+		// Don't slip if you got no legs (HealthV2)
 		if (IsSlippingServer
 			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
 			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.Metabolism.HungerState == HungerState.Starving)
+			|| playerScript.playerHealth.HungerState == HungerState.Starving)
 		{
 			return;
 		}
 
 		ServerStun();
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
 		playerScript.pushPull.ServerStopPulling();
 	}
@@ -204,7 +292,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
-		SyncIsLayingDown(isLayingDown, true);
+		ServerCheckStandingChange( true);
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
@@ -235,7 +323,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		// Do not raise up a dead body
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
 		{
-			SyncIsLayingDown(isLayingDown, false);
+			ServerCheckStandingChange( false);
 		}
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);

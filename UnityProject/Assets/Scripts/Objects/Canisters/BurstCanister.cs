@@ -26,7 +26,7 @@ namespace Objects.Atmospherics
 			enabled = false;
 		}
 
-		#endregion Lifecycle
+		#endregion
 
 		#region Interaction
 
@@ -58,15 +58,15 @@ namespace Objects.Atmospherics
 		private void SalvageMetal()
 		{
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, gameObject.RegisterTile().WorldPositionServer, count: spawnCount);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			if (!enabled) return default;
+			if (enabled == false) return default;
 			return "This canister has burst and is now useless. Perhaps you could salvage it?";
 		}
 
-		#endregion Interaction
+		#endregion
 	}
 }

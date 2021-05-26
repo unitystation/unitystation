@@ -364,11 +364,9 @@ namespace MLAgents
             }
             else
             {
-                Debug.Log(
-                    string.Format(
-                        "The Agent component attached to the " +
-                        "GameObject {0} was initialized without a brain.",
-                        gameObject.name));
+                Logger.Log("The Agent component attached to the GameObject " +
+                    $"{gameObject.name} was initialized without a brain.", 
+                    Category.Mobs);
             }
 
             InitializeAgent();

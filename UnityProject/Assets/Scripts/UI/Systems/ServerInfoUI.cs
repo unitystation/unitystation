@@ -7,7 +7,8 @@ using Mirror;
 using System.IO;
 using Initialisation;
 using Messages.Client;
-using UnityEngine.UI;
+using Messages.Server;
+using UI;
 
 namespace ServerInfo
 {
@@ -51,45 +52,52 @@ namespace ServerInfo
         }
     }
 
-	public class ServerInfoMessageServer : ServerMessage
+	public class ServerInfoMessageServer : ServerMessage<ServerInfoMessageServer.NetMessage>
 	{
-		public string ServerName;
-
-		public string ServerDesc;
-
-		public override void Process()
+		public struct NetMessage : NetworkMessage
 		{
-			GUI_IngameMenu.Instance.GetComponent<ServerInfoUI>().ClientSetValues(ServerName, ServerDesc);
+			public string ServerName;
+			public string ServerDesc;
 		}
 
-		public static ServerInfoMessageServer Send(NetworkConnection clientConn,string serverName, string serverDesc)
+		public override void Process(NetMessage msg)
 		{
-			ServerInfoMessageServer msg = new ServerInfoMessageServer
+			GUI_IngameMenu.Instance.GetComponent<ServerInfoUI>().ClientSetValues(msg.ServerName, msg.ServerDesc);
+		}
+
+		public static NetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc)
+		{
+			NetMessage msg = new NetMessage
 			{
 				ServerName = serverName,
 				ServerDesc = serverDesc
 			};
-			msg.SendTo(clientConn);
+
+			SendTo(clientConn, msg);
 			return msg;
 		}
 	}
 
-	public class ServerInfoMessageClient : ClientMessage
+	public class ServerInfoMessageClient : ClientMessage<ServerInfoMessageClient.NetMessage>
 	{
-		public string PlayerId;
+		public struct NetMessage : NetworkMessage
+		{
+			public string PlayerId;
+		}
 
-		public override void Process()
+		public override void Process(NetMessage msg)
 		{
 			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUI.serverDesc);
 		}
 
-		public static ServerInfoMessageClient Send(string playerId)
+		public static NetMessage Send(string playerId)
 		{
-			ServerInfoMessageClient msg = new ServerInfoMessageClient
+			NetMessage msg = new NetMessage
 			{
 				PlayerId = playerId,
 			};
-			msg.Send();
+
+			Send(msg);
 			return msg;
 		}
 	}

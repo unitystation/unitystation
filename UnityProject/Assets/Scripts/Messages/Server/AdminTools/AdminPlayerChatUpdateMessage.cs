@@ -1,39 +1,44 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using AdminTools;
 using Mirror;
-using AdminTools;
+using UnityEngine;
 
-public class AdminPlayerChatUpdateMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public string JsonData;
-	public string PlayerId;
-
-	public override void Process()
+	public class AdminPlayerChatUpdateMessage : ServerMessage<AdminPlayerChatUpdateMessage.NetMessage>
 	{
-		UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(JsonData, PlayerId);
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+			public string PlayerId;
+		}
 
-	public static AdminPlayerChatUpdateMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
-	{
-		AdminChatUpdate update = new AdminChatUpdate();
-		update.messages.Add(chatMessage);
-		AdminPlayerChatUpdateMessage  msg =
-			new AdminPlayerChatUpdateMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(msg.JsonData, msg.PlayerId);
+		}
 
-		msg.SendToAdmins();
-		return msg;
-	}
+		public static NetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
+		{
+			AdminChatUpdate update = new AdminChatUpdate();
+			update.messages.Add(chatMessage);
+			NetMessage  msg =
+				new NetMessage  {JsonData = JsonUtility.ToJson(update), PlayerId = playerId};
 
-	public static AdminPlayerChatUpdateMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
-	{
-		AdminPlayerChatUpdateMessage msg =
-			new AdminPlayerChatUpdateMessage
-			{
-				JsonData = JsonUtility.ToJson(update),
-				PlayerId = playerId
-			};
+			SendToAdmins(msg);
+			return msg;
+		}
 
-		msg.SendTo(requestee);
-		return msg;
+		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
+		{
+			NetMessage msg =
+				new NetMessage
+				{
+					JsonData = JsonUtility.ToJson(update),
+					PlayerId = playerId
+				};
+
+			SendTo(requestee, msg);
+			return msg;
+		}
 	}
 }

@@ -49,9 +49,6 @@ namespace Objects.Engineering
 		private bool hasInit;
 
 
-		[SyncVar]
-		public int currentCharge; // 0 - 100
-
 		private void Start()
 		{
 			EnsureInit();

@@ -6,6 +6,7 @@ using Managers;
 using Pipes;
 using Strings;
 using NaughtyAttributes;
+using ScriptableObjects;
 
 namespace InGameEvents
 {
@@ -29,8 +30,7 @@ namespace InGameEvents
 		{
 			if (allReagents != null && allReagents.Length > 0) return;
 
-			// TODO: avoid Resources.LoadAll()
-			allReagents = Resources.LoadAll<Reagent>("ScriptableObjects/Chemistry/Reagents");
+			allReagents = ChemistryReagentsSO.Instance.AllChemistryReagents;
 		}
 
 		public override void OnEventStart()
@@ -66,11 +66,9 @@ namespace InGameEvents
 			// Check that the scrubber is still fine to reference after this delay.
 			if (scrubber == null || scrubber.registerTile == null) yield break;
 
-			var reagentMix = new ReagentMix()
-			{
-				{ allReagents.PickRandom(), 75f },
-				{ dispersionAgents.PickRandom(), 25f },
-			};
+			var reagentMix = new ReagentMix();
+			reagentMix.reagents.m_dict.Add(allReagents.PickRandom(), 75f);
+			reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
 
 			container.Add(reagentMix);
 			container.Spill(scrubber.registerTile.WorldPositionServer, 50f);

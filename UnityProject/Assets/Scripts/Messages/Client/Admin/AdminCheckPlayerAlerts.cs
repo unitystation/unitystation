@@ -1,26 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Messages.Client;
+﻿using Messages.Client;
+using Mirror;
 
-public class AdminCheckPlayerAlerts : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string PlayerId;
-	public int CurrentCount;
-
-	public override void Process()
+	public class AdminCheckPlayerAlerts : ClientMessage<AdminCheckPlayerAlerts.NetMessage>
 	{
-		UIManager.Instance.playerAlerts.ServerRequestEntries(PlayerId, CurrentCount, SentByPlayer.Connection);
-	}
-
-	public static AdminCheckPlayerAlerts Send(string playerId, int currentCount)
-	{
-		AdminCheckPlayerAlerts msg = new AdminCheckPlayerAlerts
+		public struct NetMessage : NetworkMessage
 		{
-			PlayerId = playerId,
-			CurrentCount = currentCount
-		};
-		msg.Send();
-		return msg;
+			public string PlayerId;
+			public int CurrentCount;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.playerAlerts.ServerRequestEntries(msg.PlayerId, msg.CurrentCount, SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(string playerId, int currentCount)
+		{
+			NetMessage msg = new NetMessage
+			{
+				PlayerId = playerId,
+				CurrentCount = currentCount
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

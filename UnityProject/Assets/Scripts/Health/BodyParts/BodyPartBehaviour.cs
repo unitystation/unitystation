@@ -18,10 +18,11 @@ public class BodyPartBehaviour : MonoBehaviour
 		private set => burnDamage = Mathf.Clamp(value, 0, MaxDamage);
 	}
 
-	public int MaxDamage = 200;
+	public LivingHealthBehaviour livingHealthBehaviour;
 	public BodyPartType Type;
 	public bool isBleeding = false;
-	public LivingHealthBehaviour livingHealthBehaviour;
+
+	private int MaxDamage;
 
 	public DamageSeverity Severity; //{ get; private set; }
 	public float OverallDamage => BruteDamage + BurnDamage;
@@ -35,11 +36,18 @@ public class BodyPartBehaviour : MonoBehaviour
 		UpdateIcons();
 	}
 
+	private void Awake()
+	{
+		//FIXME this is a bad patch for a bad problem. I don't know what's going on with the calculation behind curtains
+		// but if bodyparts have less maxDmg than maxHealth, then mobs never die.
+		MaxDamage = (int) (livingHealthBehaviour is null ? 99999 : livingHealthBehaviour.maxHealth * 2);
+	}
+
 	//Apply damages from here.
 	public virtual void ReceiveDamage(DamageType damageType, float damage)
 	{
 		UpdateDamage(damage, damageType);
-		Logger.LogTraceFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}", Category.Health, Type, damage, damageType, damage, MaxDamage, Severity);
+		Logger.LogTraceFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}", Category.Damage, Type, damage, damageType, damage, MaxDamage, Severity);
 	}
 
 	private void UpdateDamage(float damage, DamageType type)
@@ -94,7 +102,7 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			return;
 		}
-		UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
+		//UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
 	}
 
 	protected bool IsLocalPlayer()

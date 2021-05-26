@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
 
 namespace Antagonists

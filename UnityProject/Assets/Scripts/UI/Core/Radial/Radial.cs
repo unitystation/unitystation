@@ -70,6 +70,8 @@ namespace UI.Core.Radial
 
 		public PointerEventsListener<T> RadialEvents { get; } = new PointerEventsListener<T>();
 
+		public bool IsActive => gameObject.activeSelf;
+
 		public int OuterRadius => outerRadius;
 
 		public int InnerRadius => innerRadius;

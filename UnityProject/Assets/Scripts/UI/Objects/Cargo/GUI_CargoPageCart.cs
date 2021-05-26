@@ -1,60 +1,25 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageCart : GUI_CargoPage
 	{
-		[SerializeField]
-		private NetLabel confirmButtonText = null;
-		[SerializeField]
-		private NetLabel totalPriceText = null;
-
-		[SerializeField]
-		private EmptyItemList orderList = null;
-		private bool inited = false;
-
-		[SerializeField]
-		private GUI_Cargo cargoController = null;
-
-		public override void Init()
-		{
-			if (inited || !gameObject.activeInHierarchy)
-				return;
-			if (!CustomNetworkManager.Instance._isServer)
-				return;
-			CargoManager.Instance.OnCartUpdate.AddListener(UpdateTab);
-		}
+		public NetLabel confirmButtonText;
+		public NetLabel totalPriceText;
+		public EmptyItemList orderList;
 
 		public override void OpenTab()
 		{
-			if (!inited)
-			{
-				Init();
-				inited = true;
-			}
-			UpdateTab();
+			CargoManager.Instance.OnCartUpdate.AddListener(UpdateTab);
 		}
 
-		private void Start()
+		public override void UpdateTab()
 		{
-			CheckTotalPrice();
 			DisplayCurrentCart();
-		}
-
-		public void UpdateTab()
-		{
-			if (!CustomNetworkManager.Instance._isServer)
-				return;
-
-
-			DisplayCurrentCart();
-			if (cargoController.CurrentId())
+			if (cargoGUI.cargoConsole.CorrectID)
 			{
 				if (CanAffordCart())
 				{
@@ -80,41 +45,38 @@ namespace UI.Objects.Cargo
 
 		private void CheckTotalPrice()
 		{
-			totalPriceText.SetValueServer("TOTAL: " + CargoManager.Instance.TotalCartPrice().ToString() + " CREDITS");
+			totalPriceText.SetValueServer($"TOTAL: {CargoManager.Instance.TotalCartPrice()} CREDITS");
 		}
 
 		public void ConfirmCart()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
-				return;
-
-			if (!CanAffordCart() || !cargoController.CurrentId())
+			if (!CanAffordCart() || !cargoGUI.cargoConsole.CorrectID)
 			{
 				return;
 			}
 			CargoManager.Instance.ConfirmCart();
-			cargoController.ResetId();
+			cargoGUI.ResetId();
 		}
 
 		private bool CanAffordCart()
 		{
-			return (CargoManager.Instance.TotalCartPrice() <= CargoManager.Instance.Credits);
+			return CargoManager.Instance.TotalCartPrice() <= CargoManager.Instance.Credits;
 		}
 
 		private void DisplayCurrentCart()
 		{
-			List<CargoOrder> currentCart = CargoManager.Instance.CurrentCart;
+			var currentCart = CargoManager.Instance.CurrentCart;
 
 			orderList.Clear();
 			orderList.AddItems(currentCart.Count);
 
-			for (int i = 0; i < currentCart.Count; i++)
+			for (var i = 0; i < currentCart.Count; i++)
 			{
-				GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
-				item.Order = currentCart[i];
+				var item = (GUI_CargoCartItem)orderList.Entries[i];
+				item.SetValues(currentCart[i]);
 				item.gameObject.SetActive(true);
 			}
-			if (cargoController.CurrentId())
+			if (cargoGUI.cargoConsole.CorrectID)
 			{
 				confirmButtonText.SetValueServer("InvalidID");
 			}

@@ -94,10 +94,10 @@ public static class MouseUtils
 			//get the "parent" game object of each of the hit renderers
 			//for a sprite renderer, the parent is the object that has a RegisterTile.
 			//for a tilemap renderer, the parent is the oject that has a Matrix
-			.Select(r => r is TilemapRenderer ? r.GetComponentInParent<InteractableTiles>().gameObject :
-				r.GetComponentInParent<RegisterTile>().gameObject)
+			.Select(r => r is TilemapRenderer ? r.GetComponentInParent<InteractableTiles>().OrNull()?.gameObject :
+				r.GetComponentInParent<RegisterTile>().OrNull()?.gameObject)
 			//each gameobject should only show up once
-			.Distinct().Append(IInteractableTiles);
+			.Append(IInteractableTiles).Distinct();
 	}
 
 	/// <summary>
@@ -203,7 +203,7 @@ public static class MouseUtils
 		if (sprite.packed && sprite.packingMode == SpritePackingMode.Tight)
 		{
 			// Cannot use textureRect on tightly packed sprites
-			Logger.LogError("SpritePackingMode.Tight atlas packing is not supported!", Category.Graphics);
+			Logger.LogError("SpritePackingMode.Tight atlas packing is not supported!", Category.Sprites);
 			// TODO: support tightly packed sprites
 			return false;
 		}

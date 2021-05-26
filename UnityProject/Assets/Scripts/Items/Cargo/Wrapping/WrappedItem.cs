@@ -29,7 +29,7 @@ namespace Items.Cargo.Wrapping
 
 			if (pickupable.ItemSlot == null)
 			{
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
 			{

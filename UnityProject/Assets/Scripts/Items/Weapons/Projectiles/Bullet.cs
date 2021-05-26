@@ -134,7 +134,7 @@ namespace Weapons.Projectiles
 
 			if (CustomNetworkManager.IsServer)
 			{
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
 			{

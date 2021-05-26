@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using AddressableReferences;
+using Messages.Server.SoundMessages;
 
 /// <summary>
 /// Utilities for working with players
@@ -19,6 +19,7 @@ public static class PlayerUtils
 	{
 		return playerObject.layer == 31;
 	}
+
 	public static bool IsOk(GameObject playerObject = null)
 	{
 		var now = DateTime.Now;
@@ -32,30 +33,21 @@ public static class PlayerUtils
 
 	public static void DoReport()
 	{
-		if (!CustomNetworkManager.IsServer)
-		{
-			return;
-		}
+		if (CustomNetworkManager.IsServer == false) return;
 
 		foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 		{
 			var ps = player.Script;
-			if (ps.IsDeadOrGhost)
-			{
-				continue;
-			}
+			if (ps.IsDeadOrGhost) continue;
 
 			if (ps.mind != null &&
 			    ps.mind.occupation != null &&
 			    ps.mind.occupation.JobType == JobType.CLOWN)
 			{
-				//love clown
+				// love clown
 				ps.playerMove.Uncuff();
-				foreach (var bodyPart in ps.playerHealth.BodyParts)
-				{
-					bodyPart.HealDamage(200, DamageType.Brute);
-					bodyPart.HealDamage(200, DamageType.Burn);
-				}
+
+				ps.playerHealth.ResetDamageAll();
 				ps.registerTile.ServerStandUp();
 				var left = Spawn.ServerPrefab("Bike Horn").GameObject;
 				var right = Spawn.ServerPrefab("Bike Horn").GameObject;
@@ -79,6 +71,8 @@ public static class PlayerUtils
 				}
 			}
 		}
-		SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, Random.Range(0.2f,0.5f),true,true);
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.2f,0.5f));
+		ShakeParameters shakeParameters = new ShakeParameters(true, 64, 30);
+		_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);
 	}
 }

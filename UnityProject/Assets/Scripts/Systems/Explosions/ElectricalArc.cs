@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DigitalRuby.LightningBolt;
 using Core.Lighting;
+using Messages.Server;
 
 namespace Systems.ElectricalArcs
 {
@@ -20,7 +23,7 @@ namespace Systems.ElectricalArcs
 
 		public ElectricalArcSettings Settings { get; private set; }
 
-		private LightningBoltScript[] arcs;
+		private List<LightningBoltScript> arcs = new List<LightningBoltScript>();
 
 		/// <summary>
 		/// Informs all clients and the server to create arcs with the given settings.
@@ -40,13 +43,14 @@ namespace Systems.ElectricalArcs
 		{
 			Settings = settings;
 
-			if (CanReach() == false) return;
+			if (settings.reachCheck && CanReach() == false) return;
 
-			arcs = new LightningBoltScript[settings.arcCount];
+			var newArcs = new LightningBoltScript[settings.arcCount];
 			for (int i = 0; i < settings.arcCount; i++)
 			{
-				arcs[i] = CreateSingleArc(settings);
+				newArcs[i] = CreateSingleArc(settings);
 			}
+			arcs = newArcs.ToList();
 
 			UpdateManager.Add(TriggerArc, arcs[0].Duration);
 			UpdateManager.Add(DoPulse, PULSE_INTERVAL);
@@ -66,15 +70,20 @@ namespace Systems.ElectricalArcs
 			foreach (var arc in arcs)
 			{
 				// Add some random end position variation for flavour.
-				arc.EndPosition = Settings.endPosition +
-						new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.3f, 0.3f), 1);
+				arc.EndPosition = Settings.endPosition;
+
+				if (Settings.addRandomness)
+				{
+					arc.EndPosition += new Vector3(UnityEngine.Random.Range(-0.3f, 0.3f), UnityEngine.Random.Range(-0.3f, 0.3f), 1);
+				}
+
 				arc.Trigger();
 			}
 		}
 
 		private void DoPulse()
 		{
-			if (CanReach() == false)
+			if (Settings.reachCheck && CanReach() == false)
 			{
 				EndArcs();
 			}
@@ -122,6 +131,8 @@ namespace Systems.ElectricalArcs
 
 		private void DespawnArcs()
 		{
+			arcs.RemoveAll(arc => arc == null);
+
 			foreach (LightningBoltScript arc in arcs)
 			{
 				GameObject.Destroy(arc.gameObject);
@@ -149,9 +160,12 @@ namespace Systems.ElectricalArcs
 		public readonly Vector3 endPosition;
 		public readonly int arcCount;
 		public readonly float duration;
+		public readonly bool reachCheck;
+		public readonly bool addRandomness;
 
 		public ElectricalArcSettings(GameObject arcEffectPrefab, GameObject startObject, GameObject endObject,
-				Vector3 startWorldPos, Vector3 endWorldPos, int arcCount = 1, float duration = 2)
+				Vector3 startWorldPos, Vector3 endWorldPos, int arcCount = 1, float duration = 2, bool reachCheck = true,
+				bool addRandomness = true)
 		{
 			this.arcEffectPrefab = arcEffectPrefab;
 			this.startObject = startObject;
@@ -160,6 +174,8 @@ namespace Systems.ElectricalArcs
 			endPosition = endWorldPos;
 			this.arcCount = arcCount;
 			this.duration = duration;
+			this.reachCheck = reachCheck;
+			this.addRandomness = addRandomness;
 		}
 	}
 }

@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServerInventoryMove
 {
-	private Dictionary<GeigerCounter.Level, List<string>> Noise = new Dictionary<Level, List<string>>()
-	{
-		{ Level.Low, new List<string>(){ "low1", "low2", "low3", "low4" } },
-		{ Level.Mid, new List<string>(){ "med1", "med2", "med3", "med4" } },
-		{ Level.High, new List<string>(){ "high1", "high2", "high3", "high4" } },
-		{ Level.Extreme, new List<string>(){ "ext1", "ext2", "ext3", "ext4" } },
+	[SerializeField]
+	private List<AddressableAudioSource> lowSounds = new List<AddressableAudioSource>();
+	[SerializeField]
+	private List<AddressableAudioSource> medSounds = new List<AddressableAudioSource>();
+	[SerializeField]
+	private List<AddressableAudioSource> highSounds = new List<AddressableAudioSource>();
+	[SerializeField]
+	private List<AddressableAudioSource> extremeSounds = new List<AddressableAudioSource>();
 
-	};
 	System.Random RNG = new System.Random();
 	private RegisterPlayer registerPlayer;
-	private enum Level
-	{
-		Low,
-		Mid,
-		High,
-		Extreme
-	}
-
 	private RegisterItem registerItem = null;
 
 	private void OnEnable()
@@ -62,23 +56,23 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 		if (node  == null) return;
 		if (node.RadiationNode.RadiationLevel > 1000)
 		{
-			PlaySound(Noise[Level.Extreme][RNG.Next(0,3)]);
+			PlaySound(extremeSounds.GetRandom());
 		}
 		else if (node.RadiationNode.RadiationLevel > 500)
 		{
-			PlaySound(Noise[Level.High][RNG.Next(0,3)]);
+			PlaySound(highSounds.GetRandom());
 		}
 		else if (node.RadiationNode.RadiationLevel > 100)
 		{
-			PlaySound(Noise[Level.Mid][RNG.Next(0,3)]);
+			PlaySound(medSounds.GetRandom());
 		}
 		else if (node.RadiationNode.RadiationLevel > 20)
 		{
-			PlaySound(Noise[Level.Low][RNG.Next(0,3)]);
+			PlaySound(lowSounds.GetRandom());
 		}
 	}
 
-	private void PlaySound(string sound)
+	private void PlaySound(AddressableAudioSource sound)
 	{
 		SoundManager.PlayNetworkedAtPos(sound, registerItem.WorldPositionServer, sourceObj: gameObject);
 	}

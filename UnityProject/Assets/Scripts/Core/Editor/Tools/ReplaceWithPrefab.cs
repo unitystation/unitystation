@@ -54,7 +54,7 @@ public class ReplaceWithPrefab : EditorWindow
 				// -- if for some reason Unity couldn't perform your request, print an error
 				if (newObject == null)
 				{
-					Debug.LogError("Error instantiating prefab");
+					Logger.LogError("Error instantiating prefab", Category.Editor);
 					break;
 				}
 

@@ -1,6 +1,4 @@
-
 using System;
-using Construction;
 using ScriptableObjects;
 using UnityEngine;
 using Items.Construction;
@@ -12,7 +10,6 @@ namespace Objects.Construction
 	/// </summary>
 	public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
-
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
 		[SerializeField] private StatefulState circuitScrewedState = null;
@@ -112,7 +109,7 @@ namespace Objects.Construction
 							() =>
 							{
 								Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-								Despawn.ServerSingle(gameObject);
+								_ = Despawn.ServerSingle(gameObject);
 							});
 					}
 				}
@@ -220,11 +217,11 @@ namespace Objects.Construction
 					if (circuitBoard == null)
 					{
 						Logger.LogWarningFormat("Cannot complete computer, circuit board not in frame {0}. Probably a coding error.",
-							Category.Interaction, name);
+							Category.Construction, name);
 						return;
 					}
 					Spawn.ServerPrefab(circuitBoard.ComputerToSpawn, SpawnDestination.At(gameObject));
-					Despawn.ServerSingle(gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{

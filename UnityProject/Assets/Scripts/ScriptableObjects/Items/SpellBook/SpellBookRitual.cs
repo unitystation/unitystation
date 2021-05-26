@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AddressableReferences;
 using UnityEngine;
 using NaughtyAttributes;
 using InGameEvents;
@@ -23,13 +24,13 @@ namespace ScriptableObjects.Items.SpellBook
 		[SerializeField]
 		private string invocationMessage = default;
 		[SerializeField]
-		private string castSound = default;
+		private AddressableAudioSource castSound = default;
 
 		public string Name => name;
 		public InGameEventType EventType => eventType;
 		public int EventIndex => eventIndex;
 		public string InvocationMessage => invocationMessage;
-		public string CastSound => castSound;
+		public AddressableAudioSource CastSound => castSound;
 
 		public enum RitualType
 		{

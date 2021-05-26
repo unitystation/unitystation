@@ -49,11 +49,17 @@ namespace UI.Core.RightClick
 
 		private System.Action SelectionDelegate { get; set; }
 
+		private System.Action<Color> UpdateColorDelegate { get; set; }
+
 		private PointerEventData LastPointerEnterData { get; set; }
+
+		private float IconScale { get; set; }
 
 		private void Awake()
 		{
+			icon.material = Instantiate(icon.material);
 			SelectionDelegate = Select;
+			UpdateColorDelegate = UpdateColor;
 		}
 
 		public override void Setup(Radial<RightClickRadialButton> parent, int index)
@@ -66,11 +72,12 @@ namespace UI.Core.RightClick
 			var altLabelTransform = altLabel.transform;
 			altLabelTransform.localPosition = Radial.ItemCenter;
 			altLabelTransform.localScale = Vector3.one;
+			SetInteractable(true);
 		}
 
 		public void SetInteractable(bool value)
 		{
-			if (mask.raycastTarget)
+			if (mask.raycastTarget && Button.interactable != value)
 			{
 				Button.interactable = value;
 				Mask.canvasRenderer.SetColor(colors.normalColor * colors.colorMultiplier);
@@ -125,6 +132,9 @@ namespace UI.Core.RightClick
 			{
 				icon.material.SetInt(IsPaletted, 0);
 			}
+
+			var spriteMetadata = icon.ApplySpriteScaling(itemInfo.IconSprite);
+			IconScale = spriteMetadata.Scale;
 		}
 
 		public void DisableItem()
@@ -138,7 +148,22 @@ namespace UI.Core.RightClick
 
 		private void SetColor(Color color, bool instant = false)
 		{
-			Mask.CrossFadeColor(color * colors.colorMultiplier, instant ? 0 : colors.fadeDuration, false, true);
+			var maskRenderer = Mask.canvasRenderer;
+			LeanTween.cancel(gameObject);
+			if (instant)
+			{
+				maskRenderer.SetColor(color);
+				return;
+			}
+			var duration = colors.fadeDuration;
+			var fromColor = maskRenderer.GetColor();
+			var toColor = color * colors.colorMultiplier;
+			LeanTween.value(gameObject, UpdateColorDelegate, fromColor, toColor, instant ? 0 : duration);
+		}
+
+		private void UpdateColor(Color color)
+		{
+			Mask.canvasRenderer.SetColor(color);
 		}
 
 		private Color CalculateHighlight(Color original)
@@ -162,9 +187,26 @@ namespace UI.Core.RightClick
 			SetColor(colors.normalColor);
 		}
 
-		public void ScaleIcon(float scale)
+		public void ScaleIcon(float scale, bool shrink)
 		{
-			icon.rectTransform.localScale = new Vector2(scale, scale);
+			var iconTransform = icon.transform;
+			float scaleMultiplier;
+			if (shrink)
+			{
+				if (Mathf.Round(scale * 100) / 100 < 1)
+				{
+					scaleMultiplier = LeanTween.easeOutCirc(1, 0, scale);
+				}
+				else
+				{
+					scaleMultiplier = 1;
+				}
+			}
+			else
+			{
+				scaleMultiplier = LeanTween.easeInCirc(0, 1, scale);
+			}
+			iconTransform.localScale = new Vector3(scaleMultiplier * IconScale, scaleMultiplier * IconScale, 1);
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)

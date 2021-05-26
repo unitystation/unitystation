@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public static class VectorExtensions
@@ -23,4 +24,19 @@ public static class VectorExtensions
 
 	public static Vector2 RotateAroundZ(this Vector2 position, Vector2 pivot, float angle) =>
 		position.RotateAround(pivot, Vector3.forward, angle);
+
+	public static Vector3 Clamp(this Vector3 v, Vector3 min, Vector3 max) =>
+		new Vector3(
+			Mathf.Clamp(v.x, min.x, max.x),
+			Mathf.Clamp(v.y, min.y, max.y),
+			Mathf.Clamp(v.z, min.z, max.z));
+
+	public static Vector2 RadianToVector2(float radian)
+	{
+		return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
+	}
+	public static Vector2 DegreeToVector2(float degree)
+	{
+		return RadianToVector2(degree * Mathf.Deg2Rad);
+	}
 }

@@ -49,7 +49,6 @@ public class PlayerManager : MonoBehaviour
 		// Load CharacterSettings from PlayerPrefs or create a new one
 		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
 		var deserialized = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
-		PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref deserialized);
 		CurrentCharacterSettings = deserialized ?? new CharacterSettings();
 	}
 #endif
@@ -57,15 +56,15 @@ public class PlayerManager : MonoBehaviour
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
-		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDeath);
-		EventManager.AddHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
+		EventManager.AddHandler(Event.PlayerDied, OnPlayerDeath);
+		EventManager.AddHandler(Event.PlayerRejoined, OnRejoinPlayer);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
-		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDeath);
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
+		EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDeath);
+		EventManager.RemoveHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
 	}
 
@@ -102,7 +101,7 @@ public class PlayerManager : MonoBehaviour
 	public static void Reset()
 	{
 		HasSpawned = false;
-		EventManager.Broadcast(EVENT.DisableInternals);
+		EventManager.Broadcast(Event.DisableInternals);
 	}
 
 	public static void SetViewerForControl(JoinedViewer viewer)
@@ -189,7 +188,7 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnPlayerDeath()
 	{
-		EventManager.Broadcast(EVENT.DisableInternals);
+		EventManager.Broadcast(Event.DisableInternals);
 	}
 
 	public int GetMobID()

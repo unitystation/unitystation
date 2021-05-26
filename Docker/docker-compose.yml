@@ -4,13 +4,21 @@ services:
   unitystation:
     image: unitystation/unitystation:develop
     ports:
-      - 7777:7777
+      - 7777:7777/udp
+      - 7777:7777/tcp
     environment:
       HUB_USERNAME: $HUB_USERNAME
       HUB_PASSWORD: $HUB_PASSWORD
       SERVER_NAME: Unitystation - EU02 Staging
       ERROR_WEBHOOK: $ERROR_WEBHOOK
+      OOC_WEBHOOK: $OOC_WEBHOOK
+      ANNOUN_WEBHOOK: $ANNOUN_WEBHOOK
+      ADMIN_WEBHOOK: $ADMIN_WEBHOOK
+      ADMINLOG_WEBHOOK: $ADMINLOG_WEBHOOK
+      ALLCHAT_WEBHOOK: $ALLCHAT_WEBHOOK
     labels:
       - io.portainer.accesscontrol.public
     volumes:
-      - /etc/UnityStation/admin:/server/Unitystation_Data/StreamingAssets/admin
+      - /root/staging/admin:/server/Unitystation_Data/StreamingAssets/admin
+      - /root/staging/gameConfig.json:/server/Unitystation_Data/StreamingAssets/config/gameConfig.json
+      - /root/staging/serverDesc.txt:/server/Unitystation_Data/StreamingAssets/config/serverDesc.txt

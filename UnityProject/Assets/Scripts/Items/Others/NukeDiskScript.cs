@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -98,7 +99,8 @@ namespace Items.Command
 
 			if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
 			{
-				if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
+				var matrixInfo = escapeShuttle.MatrixInfo;
+				if (matrixInfo == null || matrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
 				{
 					return false;
 				}
@@ -110,21 +112,25 @@ namespace Items.Command
 				{
 					return true;
 				}
+
 				RegisterPlayer player = slot.Player;
 				if (player == null)
 				{
 					return true;
 				}
-				if (player.GetComponent<PlayerHealth>().IsDead)
+
+				if (player.GetComponent<PlayerHealthV2>().IsDead)
 				{
 					return true;
 				}
-				var checkPlayer = PlayerList.Instance.Get(player.gameObject);
-				if (checkPlayer == null)
+
+				var checkPlayer = PlayerList.Instance.Get(player.gameObject, true);
+				if (checkPlayer.Equals(ConnectedPlayer.Invalid))
 				{
 					return true;
 				}
-				if (!PlayerList.Instance.AntagPlayers.Contains(checkPlayer))
+
+				if (PlayerList.Instance.AntagPlayers.Contains(checkPlayer) == false)
 				{
 					return true;
 				}

@@ -2,20 +2,22 @@
 {
 	// These were found in combat.dm under damage defines
 	/*public const string*/
-	Brute, /*= "brute";*/
+	Brute = 0, /*= "brute";*/
 
 	/*public const string*/
-	Burn, /*= "fire";*/
+	Burn = 1, /*= "fire";*/
 
 	/*public const string*/
-	Tox, /*= "tox";*/
+	Tox  = 2, /*= "tox";*/
 
 	/*public const string*/
-	Oxy, /*= "oxy";*/
+	Oxy = 3, /*= "oxy";*/
 
 	/*public const string*/
-	Clone, /*= "clone";*/
+	Clone = 4, /*= "clone";*/
 
 	/*public const string*/
-	Stamina /*= "stamina";*/
+	Stamina = 5, /*= "stamina";*/
+
+	Radiation = 6
 }

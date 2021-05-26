@@ -37,7 +37,7 @@ public class ActionData : ScriptableObject
 
 	public List<ActionController> PreventBeingControlledBy = new List<ActionController>();
 
-	public List<EVENT> DisableOnEvent = new List<EVENT>();
+	public List<Event> DisableOnEvent = new List<Event>();
 
 	[Tooltip("Whether the toggle allows for cursor aiming.")]
 	[SerializeField, BoxGroup("Custom Cursor Settings"), ShowIf(nameof(IsToggle))]

@@ -245,7 +245,7 @@ namespace Light2D
 				if (i != 0) sb.Append(", ");
 				sb.Append(vals[i]);
 			}
-			Logger.Log(sb.ToString(), Category.Light2D);
+			Logger.Log(sb.ToString(), Category.Lighting);
 		}
 
 		public static void Log(UnityEngine.Object context, params object[] vals)
@@ -256,7 +256,7 @@ namespace Light2D
 				if (i != 0) sb.Append(", ");
 				sb.Append(vals[i]);
 			}
-			Logger.Log(sb.ToString(), Category.Light2D);
+			Logger.Log(sb.ToString(), Category.Lighting);
 		}
 
 		public static void LogArray<T>(IEnumerable<T> enumerable)
@@ -270,7 +270,7 @@ namespace Light2D
 				sb.Append(vals[i]);
 				sb.AppendLine(";");
 			}
-			Logger.Log(sb.ToString(), Category.Light2D);
+			Logger.Log(sb.ToString(), Category.Lighting);
 		}
 
 		public static Color Set(this Color color, int channel, float value)
@@ -362,7 +362,7 @@ namespace Light2D
 			}
 			catch (Exception ex)
 			{
-				Logger.LogErrorFormat("Deserialize: {0}", Category.Light2D, ex);
+				Logger.LogErrorFormat("Deserialize: {0}", Category.Lighting, ex);
 				return default(T);
 			}
 		}

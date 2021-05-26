@@ -23,6 +23,8 @@ namespace UI.Objects
 		private NetPrefabImage itemIcon = null;
 		[SerializeField]
 		private NetColorChanger itemBackground = null;
+		[SerializeField]
+		private NetLabel priceTag;
 
 		public void SetItem(VendorItem item, GUI_Vendor correspondingWindow)
 		{
@@ -39,7 +41,7 @@ namespace UI.Objects
 			}
 			else
 			{
-				Logger.LogError($"{this} variable {nameof(itemGO)} was null!");
+				Logger.LogError($"{this} variable {nameof(itemGO)} was null!", Category.Machines);
 			}
 
 			// try get human-readable item name
@@ -56,6 +58,23 @@ namespace UI.Objects
 			else
 			{
 				itemBackground.SetValueServer(regularColor);
+			}
+
+			if (vendorItem.Price == 0)
+			{
+				priceTag.SetValueServer("Free");
+			}
+			else
+			{
+				if (vendorItem.Currency == CurrencyType.Credits)
+				{
+					priceTag.SetValueServer($"{vendorItem.Price} cr");
+				}
+				else
+				{
+					priceTag.SetValueServer($"{vendorItem.Price} Points");
+				}
+
 			}
 		}
 

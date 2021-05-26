@@ -212,11 +212,12 @@ namespace Objects.Disposals
 				Color pipeColor = GetComponentInChildren<SpriteRenderer>().color;
 				registerTile.Matrix.AddUnderFloorTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
 				tileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
 			{
-				Logger.LogError($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?");
+				Logger.LogError($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?",
+					Category.Pipes);
 			}
 		}
 

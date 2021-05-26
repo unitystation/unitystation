@@ -1,8 +1,9 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Items;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,7 +14,8 @@ using UnityEngine.Serialization;
 ///
 /// The ways in which the storage can be interacted with is handled by other components.
 ///
-/// Note that items stored in an ItemStorage can themselveOnDespawnServer
+/// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
+/// in a player's inventory)!
 /// </summary>
 public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove
 {
@@ -44,7 +46,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	         " invoke Populate to manually / dynamically populate this storage using a supplied populator." +
 	         " This will only run server side.")]
 	private ItemStoragePopulator itemStoragePopulator = null;
+	public ItemStoragePopulator ItemStoragePopulator => itemStoragePopulator;
 
+	[Tooltip("Force spawn contents at round start rather than first open")]
+	public bool forceSpawnContents;
+
+	private bool contentsSpawned;
+	public bool ContentsSpawned => contentsSpawned;
 	/// <summary>
 	/// Cached for quick lookup of what slots are actually available in this storage.
 	/// </summary>
@@ -58,6 +66,19 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	private readonly HashSet<GameObject> serverObserverPlayers = new HashSet<GameObject>();
 
+	//This is called when an itemslot in the item storage has its item set.
+	//It can be null, or it can be a pickupable.(Health V2)
+	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
+
+	[SerializeField]
+	private bool dropItemsOnDespawn;
+
+	public bool UesAddlistPopulater = false;
+
+	[ShowIf(nameof(UesAddlistPopulater))] public PrefabListPopulater Populater;
+
+	private SpawnInfo spawnInfo;
+
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -66,11 +87,29 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(info));
+		spawnInfo = info;
+
+		if (forceSpawnContents)
+		{
+			TrySpawnContents();
+		}
+
 		//if this is a player's inventory, make them an observer of all slots
 		if (GetComponent<PlayerScript>() != null)
 		{
 			ServerAddObserverPlayer(gameObject);
+		}
+	}
+
+	public void TrySpawnContents()
+	{
+		if(contentsSpawned || spawnInfo == null) return;
+		contentsSpawned = true;
+
+		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo));
+		if (UesAddlistPopulater)
+		{
+			ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo));
 		}
 	}
 
@@ -81,16 +120,66 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			ServerRemoveObserverPlayer(gameObject);
 		}
+		if(dropItemsOnDespawn)
+			ServerDropAll();
+
 		//reclaim the space in the slot pool.
 		ItemSlot.Free(this);
 	}
 
-	private void OnDestroy()
+
+	public bool ServerTrySpawnAndAdd(GameObject inGameObject)
 	{
-		//free the slots
-		ItemSlot.Free(this);
+		var spawned = Spawn.ServerPrefab(inGameObject);
+		if (spawned.Successful == false) return false;
+		return ServerTryAdd(spawned.GameObject);
 	}
 
+	//True equals successful false equals unsuccessful
+	public bool ServerTryAdd(GameObject inGameObject)
+	{
+		var item = inGameObject.GetComponent<ItemAttributesV2>();
+		if (item == null) return false;
+		var slot = GetBestSlotFor(inGameObject);
+		if (slot == null) return false;
+
+		return Inventory.ServerAdd(inGameObject, slot);
+	}
+
+	public bool ServerTryTransferFrom(ItemSlot inSlot)
+	{
+		var Item = inSlot.Item.GetComponent<ItemAttributesV2>();
+		if (Item == null) return false;
+		var slot = GetBestSlotFor(inSlot.Item);
+		if (slot == null) return false;
+
+		return Inventory.ServerTransfer(inSlot, slot, ReplacementStrategy.Cancel);
+	}
+
+	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
+	{
+		var Item = InGameObject.GetComponent<ItemAttributesV2>();
+		if (Item == null) return false;
+		var slots = GetItemSlots();
+		foreach (var slot in slots)
+		{
+			if (slot.Item.gameObject == InGameObject)
+			{
+				if (Destroy)
+				{
+					return Inventory.ServerDespawn(slot);
+				}
+				else
+				{
+					return Inventory.ServerDrop(slot);
+
+				}
+
+			}
+		}
+
+		return false;
+	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
@@ -113,10 +202,23 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 	}
 
+	/// <summary>
+	/// Return the size of the storage.
+	/// </summary>
+	public int StorageSize()
+	{
+		return definedSlots.Count;
+	}
+
+	public void OnInventorySlotSet(Pickupable prevItem, Pickupable newItem)
+	{
+		//If we have any actions stored, invoke em. (Health V2)
+		ServerInventoryItemSlotSet?.Invoke(prevItem, newItem);
+	}
 
 	/// <summary>
 	/// Gets the top-level ItemStorage containing this storage. I.e. if this
-	/// is a crate inside a backpack will return the backpack ItemStorage. If this is not in anything
+	/// is a crate inside a backpack will return the crate ItemStorage. If this is not in anything
 	/// will simply return this
 	/// </summary>
 	/// <returns></returns>
@@ -131,6 +233,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 
 		return storage;
+	}
+
+	/// <summary>
+	/// Change the number of available slots in the storage.
+	/// </summary>
+	public void AcceptNewStructure(ItemStorageStructure newStructure)
+	{
+		itemStorageStructure = newStructure;
+		definedSlots = null;
+		CacheDefinedSlots();
 	}
 
 	public void OnInventoryMoveClient(ClientInventoryMove info)
@@ -158,24 +270,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			definedSlots.Add(slot);
 		}
-	}
-
-	/// <summary>
-	/// Change the number of available slots in the storage.
-	/// </summary>
-	public void AcceptNewStructure(ItemStorageStructure newStructure)
-	{
-		itemStorageStructure = newStructure;
-		definedSlots = null;
-		CacheDefinedSlots();
-	}
-
-	/// <summary>
-	/// Return the size of the storage.
-	/// </summary>
-	public int StorageSize()
-	{
-		return definedSlots.Count;
 	}
 
 	/// <summary>
@@ -255,7 +349,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			if (slot.Item != null)
 			{
-				Despawn.ServerSingle(slot.Item.gameObject);
+				_ = Despawn.ServerSingle(slot.Item.gameObject);
 			}
 		}
 	}
@@ -397,8 +491,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Slots gas containers can be used from.
 	/// </summary>
-	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02, NamedSlot.suitStorage,
-		NamedSlot.back, NamedSlot.belt};
+	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02,
+		NamedSlot.suitStorage, NamedSlot.back, NamedSlot.belt};
 
 	/// <summary>
 	/// Gets the highest indexed slot that is currently occupied. Null if none are occupied
@@ -420,6 +514,47 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
+	/// The item slot representing an empty hand. Null if this is not a player or both are full.
+	/// Checks active hand first
+	/// </summary>
+	/// <returns></returns>
+	public ItemSlot GetEmptyHandSlot()
+	{
+		if (playerNetworkActions == null) return null;
+
+		var active = GetNamedItemSlot(playerNetworkActions.activeHand);
+
+		if (active.IsEmpty)
+		{
+			return active;
+		}
+
+		if (playerNetworkActions.activeHand == NamedSlot.leftHand)
+		{
+			var rightHand = GetNamedItemSlot(NamedSlot.rightHand);
+
+			if (rightHand.IsEmpty)
+			{
+				return rightHand;
+			}
+
+			return null;
+		}
+
+		if (playerNetworkActions.activeHand == NamedSlot.rightHand)
+		{
+			var leftHand = GetNamedItemSlot(NamedSlot.leftHand);
+
+			if (leftHand.IsEmpty)
+			{
+				return leftHand;
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
 	/// Server only (can be called client side but has no effect).
 	/// Add this player to the list of players currently observing all slots in the slot tree
 	/// This observer will receive updates as they happen to this slot and will
@@ -430,6 +565,9 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerAddObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+
+		TrySpawnContents();
+
 		serverObserverPlayers.Add(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{
@@ -470,7 +608,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			ServerRemoveObserverPlayer(observerPlayer);
 		}
 	}
-
 
 	/// <summary>
 	/// Checks if the indicated player is an observer of this storage

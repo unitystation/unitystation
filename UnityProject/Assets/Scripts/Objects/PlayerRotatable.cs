@@ -1,4 +1,5 @@
 ﻿using System;
+using Messages.Client.Interaction;
 using UnityEngine;
 using Mirror;
 

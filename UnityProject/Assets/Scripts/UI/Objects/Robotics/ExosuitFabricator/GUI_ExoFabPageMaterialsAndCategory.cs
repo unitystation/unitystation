@@ -12,14 +12,16 @@ namespace UI.Objects.Robotics
 
 		public void InitMaterialList(MaterialStorage materialStorage)
 		{
-			List<MaterialRecord> materialRecords = materialStorage.MaterialRecordList;
+			var materialRecords = materialStorage.MaterialList;
 
 			materialList.Clear();
 			materialList.AddItems(materialRecords.Count);
-			for (int i = 0; i < materialRecords.Count; i++)
+			var i = 0;
+			foreach (var material in materialRecords.Keys)
 			{
 				GUI_ExoFabMaterialEntry item = materialList.Entries[i] as GUI_ExoFabMaterialEntry;
-				item.ReInit(materialRecords[i]);
+				item.ReInit(material, materialRecords[material]);
+				i++;
 			}
 		}
 

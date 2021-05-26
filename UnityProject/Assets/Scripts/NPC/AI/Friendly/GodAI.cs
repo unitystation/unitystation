@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
+
 
 namespace Systems.MobAIs
 {
 	public class GodAI : GenericFriendlyAI
 	{
-		public List<string> GenericSounds = new List<string>();
+		public List<AddressableAudioSource> GenericSounds = new List<AddressableAudioSource>();
 
 		/// <summary>
 		/// Changes Time that a sound has the chance to play
@@ -13,8 +16,9 @@ namespace Systems.MobAIs
 		/// </summary>
 		public int PlaySoundTime = 3;
 
-		private void Start()
+		protected override void OnAIStart()
 		{
+			base.OnAIStart();
 			PlaySound();
 		}
 
@@ -29,11 +33,9 @@ namespace Systems.MobAIs
 				return;
 			}
 			{
-				SoundManager.PlayNetworkedAtPos(
-					GenericSounds.PickRandom(),
-					transform.position,
-					Random.Range(0.9f, 1.1f),
-					sourceObj: gameObject);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+				SoundManager.PlayNetworkedAtPos(GenericSounds.PickRandom(),	transform.position,
+					audioSourceParameters, sourceObj: gameObject);
 			}
 			Invoke(nameof(PlaySound), PlaySoundTime);
 		}

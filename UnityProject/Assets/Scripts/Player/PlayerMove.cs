@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using HealthV2;
+using Messages.Client.Interaction;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using Objects;
+using UI;
+using UI.Action;
 
 /// <summary>
 ///     ** Now all movement input keys are sent to PlayerSync.Client
@@ -12,8 +16,7 @@ using Objects;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI,
-	ICheckedInteractable<ContextMenuApply>
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>, RegisterPlayer.IControlPlayerState
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -21,7 +24,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[SyncVar] public bool allowInput = true;
 
-	//netid of the game object we are buckled to, NetId.Empty if not buckled
+	// netid of the game object we are buckled to, NetId.Empty if not buckled
 	[SyncVar(hook = nameof(SyncBuckledObjectNetId))]
 	private uint buckledObjectNetId = NetId.Empty;
 
@@ -29,11 +32,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Object this player is buckled to (if buckled). Null if not buckled.
 	/// </summary>
 	public GameObject BuckledObject => buckledObject;
-
-	//cached for fast access
+	// cached for fast access
 	private GameObject buckledObject;
 
-	//callback invoked when we are unbuckled.
+	// callback invoked when we are unbuckled.
 	private Action onUnbuckled;
 
 	/// <summary>
@@ -56,7 +58,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
 	/// </summary>
-	[NonSerialized] public CuffEvent OnCuffChangeServer = new CuffEvent();
+	[NonSerialized]
+	public CuffEvent OnCuffChangeServer = new CuffEvent();
 
 	/// <summary>
 	/// Whether this player meets all the conditions for being swapped with, but only
@@ -65,19 +68,20 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Doesn't incorporate any other conditions into this
 	/// flag, but IsSwappable does.
 	/// </summary>
-	[SyncVar] private bool isSwappable;
+	[SyncVar]
+	private bool isSwappable;
 
 	/// <summary>
 	/// server side only, tracks whether this player has indicated they are on help intent. Used
 	/// for checking for swaps.
 	/// </summary>
 	public bool IsHelpIntentServer => isHelpIntentServer;
-
-	//starts true because all players spawn with help intent.
+	// starts true because all players spawn with help intent.
 	private bool isHelpIntentServer = true;
 
 
-	[SerializeField] private ActionData actionData = null;
+	[SerializeField]
+	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	/// <summary>
@@ -92,29 +96,28 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 			{
 				if (playerScript.pushPull == null)
 				{
-					//Is a ghost
+					// Is a ghost
 					canSwap = false;
 				}
 				else
 				{
-					//locally predict
+					// locally predict
 					canSwap = UIManager.CurrentIntent == Intent.Help
 					          && !PlayerScript.pushPull.IsPullingSomething;
 				}
 			}
 			else
 			{
-				//rely on server synced value
+				// rely on server synced value
 				canSwap = isSwappable;
 			}
-
 			return canSwap
-			       //don't swap with ghosts
-			       && !PlayerScript.IsGhost
-			       //pass through players if we can
-			       && !registerPlayer.IsPassable(isServer)
-			       //can't swap with buckled players, they're strapped down
-			       && !IsBuckled;
+			       // don't swap with ghosts
+			       && PlayerScript.IsGhost == false
+			       // pass through players if we can
+			       && registerPlayer.IsPassable(isServer) == false
+			       // can't swap with buckled players, they're strapped down
+			       && IsBuckled == false;
 		}
 	}
 
@@ -125,17 +128,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		MoveAction.MoveUp, MoveAction.MoveLeft, MoveAction.MoveDown, MoveAction.MoveRight
 	};
 
-	public Directional PlayerDirectional;
+	[NonSerialized]
+	public PlayerNetworkActions pna;
 
-	[HideInInspector] public PlayerNetworkActions pna;
-
-	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))]
-	public float RunSpeed;
-
-	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))]
-	public float WalkSpeed;
-
-	[HideInInspector] public float CrawlSpeed;
+	[SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
+	[SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
+	[SyncVar(hook = nameof(SyncCrawlingSpeed))] public float CrawlSpeed;
 
 	/// <summary>
 	/// Player will fall when pushed with such speed
@@ -145,17 +143,25 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
 	private PlayerScript playerScript;
+	private Directional PlayerDirectional;
 
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
+
 		PlayerDirectional = gameObject.GetComponent<Directional>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-		RunSpeed = 6;
-		WalkSpeed = 3;
-		CrawlSpeed = 0.8f;
+		playerScript.registerTile.AddStatus(this);
+		// Aren't these set up with sync vars? Why are they set like this?
+		// They don't appear to ever get synced either.
+		if (PlayerScript.IsGhost == false)
+		{
+			RunSpeed = 1;
+			WalkSpeed = 1;
+			CrawlSpeed = 0f;
+		}
 	}
 
 	public override void OnStartClient()
@@ -167,8 +173,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		//when pulling status changes, re-check whether client needs to be told if
-		//this is swappable.
+		// when pulling status changes, re-check whether client needs to be told if
+		// this is swappable.
 		if (playerScript.pushPull != null)
 		{
 			playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
@@ -180,7 +186,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay,
 		Matrix curMatrix = null)
 	{
-		if (!curMatrix)
+		if (curMatrix == false)
 		{
 			curMatrix = matrix;
 		}
@@ -213,11 +219,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		for (int i = 0; i < moveList.Length; i++)
 		{
-			if (actionKeys.Contains((int) moveList[i]) && !moveActionList.Contains(moveList[i]))
+			if (actionKeys.Contains((int)moveList[i]) && !moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Add(moveList[i]);
 			}
-			else if (!actionKeys.Contains((int) moveList[i]) && moveActionList.Contains(moveList[i]))
+			else if (!actionKeys.Contains((int)moveList[i]) && moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Remove(moveList[i]);
 			}
@@ -235,9 +241,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		direction.x = Mathf.Clamp(direction.x, -1, 1);
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
-		//			Logger.LogTrace(direction.ToString(), Category.Movement);
 
-		if (matrixInfo.MatrixMove)
+		if (matrixInfo?.MatrixMove)
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
@@ -270,6 +275,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		return Vector3Int.zero;
 	}
 
+	bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
+	{
+		return BuckledObject == null;
+	}
+
 	/// <summary>
 	/// Buckle the player at their current position.
 	/// </summary>
@@ -282,8 +292,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (netid == NetId.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
-			                " can only be used on objects with a Net ID. Ensure this object has one.",
-				Category.Movement);
+			    " can only be used on objects with a Net ID. Ensure this object has one.", Category.Movement);
 			return;
 		}
 
@@ -299,8 +308,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		}
 
 		SyncBuckledObjectNetId(0, netid);
-		//can't push/pull when buckled in, break if we are pulled / pulling
-		//inform the puller
+		// can't push/pull when buckled in, break if we are pulled / pulling
+		// sinform the puller
 		if (PlayerScript.pushPull.PulledBy != null)
 		{
 			PlayerScript.pushPull.PulledBy.ServerStopPulling();
@@ -311,10 +320,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		PlayerScript.pushPull.ServerSetPushable(false);
 		onUnbuckled = unbuckledAction;
 
-		//sync position to ensure they buckle to the correct spot
+		// sync position to ensure they buckle to the correct spot
 		playerScript.PlayerSync.SetPosition(toObject.TileWorldPosition().To3Int());
 
-		//set direction if toObject has a direction
+		// set direction if toObject has a direction
 		var directionalObject = toObject.GetComponent<Directional>();
 		if (directionalObject != null)
 		{
@@ -325,7 +334,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 			PlayerDirectional.FaceDirection(PlayerDirectional.CurrentDirection);
 		}
 
-		//force sync direction to current direction (If it is a real player and not a NPC)
+		// force sync direction to current direction (If it is a real player and not a NPC)
 		if (PlayerScript.connectionToClient != null)
 			PlayerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 	}
@@ -364,18 +373,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		var previouslyBuckledTo = BuckledObject;
 		SyncBuckledObjectNetId(0, NetId.Empty);
-		//we can be pushed / pulled again
+		// we can be pushed / pulled again
 		PlayerScript.pushPull.ServerSetPushable(true);
-		//decide if we should fall back down when unbuckled
+		// decide if we should fall back down when unbuckled
 		registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
 		onUnbuckled?.Invoke();
 
 		if (previouslyBuckledTo == null) return;
 
 		var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
-		if (integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
+		if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
 
-		//we are unbuckled but still will drift with the object.
+		// we are unbuckled but still will drift with the object.
 		var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
 		if (buckledCNT.IsFloatingServer)
 		{
@@ -383,26 +392,25 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		}
 		else
 		{
-			//stop in place because our object wasn't moving either.
+			// stop in place because our object wasn't moving either.
 			playerScript.PlayerSync.Stop();
 		}
 	}
 
-	//invoked when buckledTo changes direction, so we can update our direction
+	// invoked when buckledTo changes direction, so we can update our direction
 	private void OnBuckledObjectDirectionChange(Orientation newDir)
 	{
 		if (PlayerDirectional == null)
 		{
 			PlayerDirectional = gameObject.GetComponent<Directional>();
 		}
-
 		PlayerDirectional.FaceDirection(newDir);
 	}
 
-	//syncvar hook invoked client side when the buckledTo changes
+	// syncvar hook invoked client side when the buckledTo changes
 	private void SyncBuckledObjectNetId(uint oldBuckledTo, uint newBuckledTo)
 	{
-		//unsub if we are subbed
+		// unsub if we are subbed
 		if (IsBuckled)
 		{
 			var directionalObject = BuckledObject.GetComponent<Directional>();
@@ -420,7 +428,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		buckledObjectNetId = newBuckledTo;
 		buckledObject = NetworkUtils.FindObjectOrNull(buckledObjectNetId);
 
-		//sub
+		// sub
 		if (buckledObject != null)
 		{
 			var directionalObject = buckledObject.GetComponent<Directional>();
@@ -430,30 +438,64 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 			}
 		}
 
-		//ensure we are in sync with server
+		// ensure we are in sync with server
 		playerScript?.PlayerSync?.RollbackPrediction();
 	}
 
-	/// <summary>
-	/// Changes the player speed from Server. Values inputted as arguments will OVERRIDE the current speed!
-	/// </summary>
-	/// <param name="run">At what speed should the player run</param>
-	/// <param name="walk">At what speed should the player walk</param>
-	[Server]
-	public void ServerChangeSpeed(float run = 0f, float walk = 0f)
+	private readonly HashSet<IMovementEffect> MovementAffects = new HashSet<IMovementEffect>();
+
+
+	public interface IMovementEffect
 	{
-		RunSpeed = run < CrawlSpeed ? CrawlSpeed : run;
-		WalkSpeed = walk < CrawlSpeed ? CrawlSpeed : walk;
+		float RunningAdd { get; set; }
+		float WalkingAdd { get; set; }
+		float CrawlAdd { get; set; }
+	}
+
+	[Server]
+	public void AddModifier( IMovementEffect Modifier)
+	{
+		MovementAffects.Add(Modifier);
+		UpdateSpeeds();
+	}
+
+	[Server]
+	public void RemoveModifier( IMovementEffect Modifier)
+	{
+		MovementAffects.Remove(Modifier);
+		UpdateSpeeds();
+	}
+
+	public void UpdateSpeeds()
+	{
+		RunSpeed = 0;
+		WalkSpeed = 0;
+		CrawlSpeed = 0;
+		foreach (var MovementAffect in MovementAffects)
+		{
+			RunSpeed += MovementAffect.RunningAdd;
+			WalkSpeed += MovementAffect.WalkingAdd;
+			CrawlSpeed+= MovementAffect.CrawlAdd;
+		}
+
+		if (RunSpeed < 0) RunSpeed = 0;
+		if (WalkSpeed < 0) WalkSpeed = 0;
+		if (CrawlSpeed < 0) CrawlSpeed = 0;
 	}
 
 	private void SyncRunSpeed(float oldSpeed, float newSpeed)
 	{
-		this.RunSpeed = newSpeed;
+		RunSpeed = newSpeed;
 	}
 
 	private void SyncWalkSpeed(float oldSpeed, float newSpeed)
 	{
-		this.WalkSpeed = newSpeed;
+		WalkSpeed = newSpeed;
+	}
+
+	private void SyncCrawlingSpeed(float oldSpeed, float newSpeed)
+	{
+		CrawlSpeed = newSpeed;
 	}
 
 	public void CallActionClient()
@@ -466,7 +508,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	private bool CanUnBuckleSelf()
 	{
-		PlayerHealth playerHealth = playerScript.playerHealth;
+		PlayerHealthV2 playerHealth = playerScript.playerHealth;
 
 		return !(playerHealth == null ||
 		         playerHealth.ConsciousState == ConsciousState.DEAD ||
@@ -532,7 +574,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// </summary>
 	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		return cuffed;
 	}
@@ -542,8 +584,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// </summary>
 	public void ServerPerformInteraction(ContextMenuApply interaction)
 	{
-		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs)
-			.ItemObject;
+		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs).ItemObject;
 		if (handcuffs == null) return;
 
 		var restraint = handcuffs.GetComponent<Restraint>();
@@ -618,6 +659,4 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 /// <summary>
 /// Cuff state changed, provides old state and new state as 1st and 2nd args
 /// </summary>
-public class CuffEvent : UnityEvent<bool, bool>
-{
-}
+public class CuffEvent : UnityEvent<bool, bool> { }

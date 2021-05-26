@@ -35,12 +35,12 @@ namespace Systems.Spells.Wizard
 			var rockPortalSpawn = new SpawnByPortal(mainRockPrefab, portalPrefab, clickPosition, settings);
 			rockPortalSpawn.OnObjectSpawned += (GameObject mainRock) =>
 			{
-				mainRock.GetComponent<RegisterObject>().Passable = true; // Passable until it lands.
+				mainRock.GetComponent<RegisterObject>().SetPassable(false, true); // Passable until it lands.
 			};
 			rockPortalSpawn.OnObjectLanded += (GameObject mainRock) =>
 			{
 				OnRockLanded(mainRock, 120);
-				mainRock.GetComponent<RegisterObject>().Passable = false;
+				mainRock.GetComponent<RegisterObject>().SetPassable(false, false);
 			};
 
 			StartCoroutine(SpawnSmallRocks(clickPosition));

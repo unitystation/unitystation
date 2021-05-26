@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Systems.ElectricalArcs;
+using Systems.Explosions;
 using Systems.Mob;
+using HealthV2;
 
 namespace Systems.Spells.Wizard
 {
@@ -52,7 +54,7 @@ namespace Systems.Spells.Wizard
 		private GameObject ZapPrimaryTarget(ConnectedPlayer caster, Vector3 targetPosition)
 		{
 			GameObject targetObject = default;
-			
+
 			var raycast = RaycastToTarget(caster.Script.WorldPos, targetPosition);
 			if (raycast.ItHit)
 			{
@@ -84,7 +86,7 @@ namespace Systems.Spells.Wizard
 			}
 
 			// Not enough mobs around, try zapping nearby machines.
-			var machines = GetNearbyEntities(centrepoint, LayerMask.GetMask("Machines", "Wallmounts", "Objects"), ignored);
+			var machines = GetNearbyEntities(centrepoint, LayerMask.GetMask("Machines", "WallMounts", "Objects"), ignored);
 			foreach (Collider2D entity in machines)
 			{
 				if (i >= arcCount) return;
@@ -100,13 +102,14 @@ namespace Systems.Spells.Wizard
 			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
 					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration);
 
-			if (targetObject != null && targetObject.TryGetComponent<PlayerSprites>(out var playerSprites))
+			if (targetObject != null)
 			{
-				playerSprites.EnableElectrocutedOverlay(duration + 1);
-			}
-			else if (targetObject != null && targetObject.TryGetComponent<MobSprite>(out var mobSprites))
-			{
-				mobSprites.EnableElectrocutedOverlay(duration + 1);
+				var interfaces = targetObject.GetComponents<IOnLightningHit>();
+
+				foreach (var lightningHit in interfaces)
+				{
+					lightningHit.OnLightningHit(duration + 1, damage * arcSettings.arcCount);
+				}
 			}
 
 			ElectricalArc.ServerCreateNetworkedArcs(arcSettings).OnArcPulse += OnPulse;
@@ -116,9 +119,9 @@ namespace Systems.Spells.Wizard
 		{
 			if (arc.Settings.endObject == null) return;
 
-			if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var health))
+			if (arc.Settings.endObject.TryGetComponent<LivingHealthMasterBase>(out var health))
 			{
-				health.ApplyDamage(caster.GameObject, damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
+				health.ApplyDamageAll(caster.GameObject, damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
 			}
 			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity))
 			{
@@ -135,7 +138,7 @@ namespace Systems.Spells.Wizard
 
 		private GameObject TryGetGameObjectAt(Vector3 targetPosition)
 		{
-			var mob = GetFirstAt<LivingHealthBehaviour>(targetPosition.CutToInt());
+			var mob = GetFirstAt<LivingHealthMasterBase>(targetPosition.CutToInt());
 			if (mob != null)
 			{
 				return mob.gameObject;

@@ -39,12 +39,12 @@ namespace DatabaseAPI
 			catch (AggregateException ex)
 			{
 				var innerEx = ex.Flatten().InnerExceptions[0];
-				Logger.LogError($"Failed to sign up {innerEx.Message}");
+				Logger.LogError($"Failed to sign up {innerEx.Message}", Category.DatabaseAPI);
 				errorCallBack.Invoke(innerEx.Message);
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError($"Failed to sign up {ex.Message}");
+				Logger.LogError($"Failed to sign up {ex.Message}", Category.DatabaseAPI);
 				errorCallBack.Invoke(ex.Message);
 			}
 		}

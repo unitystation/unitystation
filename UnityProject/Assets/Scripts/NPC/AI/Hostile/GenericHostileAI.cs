@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Doors;
 using Systems.Mob;
 using Random = UnityEngine.Random;
 using AddressableReferences;
+using HealthV2;
+using Messages.Server.SoundMessages;
+using System.Threading.Tasks;
+
 
 namespace Systems.MobAIs
 {
@@ -13,14 +18,18 @@ namespace Systems.MobAIs
 	/// in its sight. Hostile AI's should inherit this one and
 	/// override its methods!
 	/// </summary>
-	[RequireComponent(typeof(MobMeleeAttack))]
+	[RequireComponent(typeof(MobMeleeAction))]
 	[RequireComponent(typeof(ConeOfSight))]
-	public class GenericHostileAI : MobAI, IServerSpawn
+	public class GenericHostileAI : MobAI
 	{
 		[SerializeField]
-		protected List<string> deathSounds = new List<string>();
+		[Tooltip("Sounds played when this mob dies")]
+		protected List<AddressableAudioSource> deathSounds = default;
+
 		[SerializeField]
-		protected List<string> randomSound = new List<string>();
+		[Tooltip("Sounds played randomly while this mob is alive")]
+		protected List<AddressableAudioSource> randomSounds = default;
+
 		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
 		[SerializeField]
 		protected int playRandomSoundTimer = 3;
@@ -39,188 +48,34 @@ namespace Systems.MobAIs
 
 		protected LayerMask hitMask;
 		protected int playersLayer;
-		protected MobMeleeAttack mobMeleeAttack;
+		protected MobMeleeAction mobMeleeAction;
 		protected ConeOfSight coneOfSight;
-		protected SimpleAnimal simpleAnimal;
+		protected int fleeChance = 30;
+		protected int attackLastAttackerChance = 80;
 
-		public override void OnEnable()
+		#region Lifecycle
+
+		protected override void Awake()
 		{
-			base.OnEnable();
 			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
-			mobMeleeAttack = GetComponent<MobMeleeAttack>();
+			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
-			simpleAnimal = GetComponent<SimpleAnimal>();
-			PlayRandomSound();
+			base.Awake();
 		}
 
-
-		protected override void AIStartServer()
+		protected override void OnSpawnMob()
 		{
 			movementTickRate = Random.Range(1f, 3f);
+		}
+
+		protected override void OnAIStart()
+		{
+			_ = PlayRandomSound();
 			BeginSearch();
 		}
 
-		/// <summary>
-		/// Declare the current state of the mob as Searching.
-		/// </summary>
-		protected virtual void BeginSearch()
-		{
-			searchWaitTime = 0f;
-			currentStatus = MobStatus.Searching;
-		}
-
-		/// <summary>
-		/// Declare the current state of the mob as attacking.
-		/// </summary>
-		/// <param name="target">Gameobject that this mob will target to attack</param>
-		protected virtual void BeginAttack(GameObject target)
-		{
-			currentStatus = MobStatus.Attacking;
-			FollowTarget(target.transform);
-		}
-
-		protected override void ResetBehaviours()
-		{
-			base.ResetBehaviours();
-			mobFollow.followTarget = null;
-			currentStatus = MobStatus.None;
-			searchWaitTime = 0f;
-		}
-
-		protected virtual void MonitorIdleness()
-		{
-			if (!mobMeleeAttack.performingDecision && mobMeleeAttack.followTarget == null)
-			{
-				BeginSearch();
-			}
-		}
-
-		/// <summary>
-		/// Looks around and tries to find players to target
-		/// </summary>
-		/// <returns>Gameobject of the first player it found</returns>
-		protected virtual GameObject SearchForTarget()
-		{
-			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
-			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
-			if (player.Length == 0)
-			{
-				return null;
-			}
-
-			foreach (var coll in player)
-			{
-				if (MatrixManager.Linecast(this.gameObject.WorldPosServer(), LayerTypeSelection.Walls, LayerMask.NameToLayer(""),
-					coll.gameObject.WorldPosServer()).ItHit)
-				{
-					return coll.gameObject;
-				}
-			}
-
-			return null;
-		}
-
-		/// <summary>
-		/// Makes the mob move to a random direction
-		/// </summary>
-		protected virtual void DoRandomMove()
-		{
-			if (!MatrixManager.IsInitialized) return;
-
-			var nudgeDir = GetNudgeDirFromInt(Random.Range(0, 8));
-			if (registerObject.Matrix.IsSpaceAt(registerObject.LocalPosition + nudgeDir.To3Int(), true))
-			{
-				for (int i = 0; i < 8; i++)
-				{
-					var testDir = GetNudgeDirFromInt(i);
-					var checkTile = registerObject.LocalPosition + testDir.To3Int();
-					if (registerObject.Matrix.IsSpaceAt(checkTile, true))
-					{
-						continue;
-					}
-					if (registerObject.Matrix.IsPassableAtOneMatrixOneTile(checkTile, true, context: gameObject))
-					{
-						nudgeDir = testDir;
-						break;
-					}
-					else
-					{
-						if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
-						{
-							continue;
-						}
-						nudgeDir = testDir;
-						break;
-					}
-				}
-			}
-
-			NudgeInDirection(nudgeDir);
-			movementTickRate = Random.Range(1f, 3f);
-		}
-
-		protected virtual void PlayRandomSound(bool force = false)
-		{
-			if (IsDead || IsUnconscious || randomSound.Count <= 0)
-			{
-				return;
-			}
-
-			if (!force && !DMMath.Prob(randomSoundProbability))
-			{
-				return;
-			}
-
-			SoundManager.PlayNetworkedAtPos(
-				randomSound.PickRandom(),
-				transform.position,
-				Random.Range(0.9f, 1.1f),
-				sourceObj: gameObject);
-
-			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
-		}
-
-		/// <summary>
-		/// What happens when the mob dies or is unconscious
-		/// </summary>
-		protected virtual void HandleDeathOrUnconscious()
-		{
-			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
-			ResetBehaviours();
-			deathSoundPlayed = true;
-			SoundManager.PlayNetworkedAtPos(
-				deathSounds.PickRandom(),
-				transform.position,
-				Random.Range(0.9f, 1.1f),
-				sourceObj: gameObject);
-		}
-
-		/// <summary>
-		/// What happens if the mob is searching
-		/// </summary>
-		protected virtual void HandleSearch()
-		{
-			moveWaitTime += Time.deltaTime;
-			if (moveWaitTime >= movementTickRate)
-			{
-				moveWaitTime = 0f;
-				DoRandomMove();
-			}
-
-			searchWaitTime += Time.deltaTime;
-			if (!(searchWaitTime >= searchTickRate)) return;
-			searchWaitTime = 0f;
-			var findTarget = SearchForTarget();
-			if (findTarget != null)
-			{
-				BeginAttack(findTarget);
-			}
-			else
-			{
-				BeginSearch();
-			}
-		}
+		#endregion
 
 		protected override void UpdateMe()
 		{
@@ -254,6 +109,163 @@ namespace Systems.MobAIs
 			}
 		}
 
+		/// <summary>
+		/// Declare the current state of the mob as Searching.
+		/// </summary>
+		protected virtual void BeginSearch()
+		{
+			searchWaitTime = 0f;
+			currentStatus = MobStatus.Searching;
+		}
+
+		/// <summary>
+		/// Declare the current state of the mob as attacking.
+		/// </summary>
+		/// <param name="target">Gameobject that this mob will target to attack</param>
+		protected virtual void BeginAttack(GameObject target)
+		{
+			currentStatus = MobStatus.Attacking;
+			FollowTarget(target);
+		}
+
+		protected override void ResetBehaviours()
+		{
+			base.ResetBehaviours();
+			mobMeleeAction.FollowTarget = null;
+			currentStatus = MobStatus.None;
+			searchWaitTime = 0f;
+		}
+
+		protected virtual void MonitorIdleness()
+		{
+			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null)
+			{
+				BeginSearch();
+			}
+		}
+
+		/// <summary>
+		/// Looks around and tries to find players to target
+		/// </summary>
+		/// <returns>Gameobject of the first player it found</returns>
+		protected virtual GameObject SearchForTarget()
+		{
+			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
+			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
+			if (player.Length == 0)
+			{
+				return null;
+			}
+
+			foreach (var coll in player)
+			{
+				if (MatrixManager.Linecast(
+					gameObject.WorldPosServer(),
+					LayerTypeSelection.Walls,
+					null,
+					coll.gameObject.WorldPosServer()).ItHit == false)
+				{
+					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health.IsDead) continue;
+
+					return coll.gameObject;
+				}
+
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Makes the mob move to a random direction
+		/// </summary>
+		protected virtual void DoRandomMove()
+		{
+			if (!MatrixManager.IsInitialized) return;
+
+			var nudgeDir = GetNudgeDirFromInt(Random.Range(0, 8));
+			if (registerObject.Matrix.IsSpaceAt(registerObject.LocalPosition + nudgeDir.To3Int(), true))
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					var testDir = GetNudgeDirFromInt(i);
+					var checkTile = registerObject.LocalPosition + testDir.To3Int();
+					if (registerObject.Matrix.IsSpaceAt(checkTile, true))
+					{
+						continue;
+					}
+					if (registerObject.Matrix.IsPassableAtOneMatrixOneTile(checkTile, true, context: gameObject))
+					{
+						nudgeDir = testDir;
+						break;
+					}
+
+					if (!registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
+					{
+						continue;
+					}
+					nudgeDir = testDir;
+					break;
+				}
+			}
+
+			NudgeInDirection(nudgeDir);
+			movementTickRate = Random.Range(1f, 3f);
+		}
+
+		protected virtual async Task PlayRandomSound(bool force = false)
+		{
+			while(!IsDead && !IsUnconscious && randomSounds.Count > 0)
+			{
+				await Task.Delay(playRandomSoundTimer * 1000); //Converted from seconds to milliseconds
+				if (force || DMMath.Prob(randomSoundProbability))
+				{
+					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+					SoundManager.PlayNetworkedAtPos(randomSounds, transform.position,
+					audioSourceParameters, sourceObj: gameObject);
+				}
+			}
+		}
+
+		/// <summary>
+		/// What happens when the mob dies or is unconscious
+		/// </summary>
+		protected virtual void HandleDeathOrUnconscious()
+		{
+			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
+			ResetBehaviours();
+			deathSoundPlayed = true;
+
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+			SoundManager.PlayNetworkedAtPos(deathSounds, transform.position,
+				audioSourceParameters, sourceObj: gameObject);
+		}
+
+		/// <summary>
+		/// What happens if the mob is searching
+		/// </summary>
+		protected virtual void HandleSearch()
+		{
+			moveWaitTime += Time.deltaTime;
+			if (moveWaitTime >= movementTickRate)
+			{
+				moveWaitTime = 0f;
+				DoRandomMove();
+			}
+
+			searchWaitTime += Time.deltaTime;
+			if (!(searchWaitTime >= searchTickRate)) return;
+			searchWaitTime = 0f;
+			var findTarget = SearchForTarget();
+			if (findTarget != null)
+			{
+				BeginAttack(findTarget);
+			}
+			else
+			{
+				BeginSearch();
+			}
+		}
+
 		protected override void OnAttackReceived(GameObject damagedBy = null)
 		{
 			if (damagedBy == null)
@@ -264,25 +276,26 @@ namespace Systems.MobAIs
 			if (health.OverallHealth < -20f)
 			{
 				//30% chance the mob decides to flee:
-				if (Random.value < 0.3f)
+				if (DMMath.Prob(fleeChance))
 				{
 					StartFleeing(damagedBy, 5f);
 					return;
 				}
 			}
 
-			if (damagedBy != mobMeleeAttack.followTarget)
+			if ((damagedBy is null) != false || damagedBy == mobMeleeAction.FollowTarget)
 			{
-				//80% chance the mob decides to attack the new attacker
-				if (Random.value < 0.8f)
-				{
-					var playerScript = damagedBy.GetComponent<PlayerScript>();
-					if (playerScript != null)
-					{
-						BeginAttack(damagedBy);
-						return;
-					}
-				}
+				return;
+			}
+			//80% chance the mob decides to attack the new attacker
+			if (DMMath.Prob(attackLastAttackerChance) == false)
+			{
+				return;
+			}
+			var playerScript = damagedBy.GetComponent<PlayerScript>();
+			if (playerScript != null)
+			{
+				BeginAttack(damagedBy);
 			}
 		}
 
@@ -302,35 +315,6 @@ namespace Systems.MobAIs
 			{
 				BeginAttack(findTarget);
 			}
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			//FIXME This shouldn't be called by client yet it seems it is
-			if (!isServer)
-			{
-				return;
-			}
-
-			OnSpawnMob();
-		}
-
-		protected virtual void OnSpawnMob()
-		{
-			mobSprite.SetToNPCLayer();
-			registerObject.RestoreAllToDefault();
-			if (simpleAnimal != null)
-			{
-				simpleAnimal.SetDeadState(false);
-			}
-		}
-
-		public override void OnDespawnServer(DespawnInfo info)
-		{
-			base.OnDespawnServer(info);
-			mobSprite.SetToBodyLayer();
-			deathSoundPlayed = false;
-			registerObject.Passable = true;
 		}
 
 		public enum MobStatus

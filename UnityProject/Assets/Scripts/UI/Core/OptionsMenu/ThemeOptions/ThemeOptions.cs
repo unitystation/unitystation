@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,15 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Toggle HighlightToggle = null;
 
+		[SerializeField]
+		private Toggle chatHighlightToggle = null;
+
+		[SerializeField]
+		private Toggle mentionSoundToggle = null;
+
+		[SerializeField]
+		private TMP_Dropdown mentionSoundDropdown = null;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -29,6 +39,19 @@ namespace Unitystation.Options
 			//updates
 			ThemeManager.Instance.LoadAllThemes();
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
+			chatHighlightToggle.isOn = ThemeManager.ChatHighlight;
+			mentionSoundToggle.isOn = ThemeManager.MentionSound;
+
+			var newOptions = new List<TMP_Dropdown.OptionData>();
+
+			foreach (var sound in ThemeManager.Instance.MentionSounds)
+			{
+				newOptions.Add(new TMP_Dropdown.OptionData(sound.AudioSource.name));
+			}
+
+			mentionSoundDropdown.options = newOptions;
+
+			mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
 		}
 
 		void ConstructChatBubbleOptions()
@@ -59,6 +82,24 @@ namespace Unitystation.Options
 		public void HighlightSetPreference()
 		{
 			Highlight.SetPreference(HighlightToggle.isOn);
+			Refresh();
+		}
+
+		public void ChatHighlightSetPreference()
+		{
+			ThemeManager.Instance.ChatHighlightToggle(chatHighlightToggle.isOn);
+			Refresh();
+		}
+
+		public void MentionSoundSetPreference()
+		{
+			ThemeManager.Instance.MentionSoundToggle(mentionSoundToggle.isOn);
+			Refresh();
+		}
+
+		public void OnMentionSoundIndexChange()
+		{
+			ThemeManager.Instance.MentionSoundIndexChange(mentionSoundDropdown.value);
 			Refresh();
 		}
 

@@ -3,9 +3,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Items.Food;
 using NaughtyAttributes;
 using Objects.Construction;
 using AddressableReferences;
+using Chemistry;
 
 namespace Systems.MobAIs
 {
@@ -15,8 +17,7 @@ namespace Systems.MobAIs
 	/// </summary>
 	public class MobExplore : MobAgent
 	{
-
-		[SerializeField] private AddressableAudioSource EatFoodA = null;
+		private AddressableAudioSource eatFoodSound;
 
 		//Add your targets as needed
 		public enum Target
@@ -27,6 +28,9 @@ namespace Systems.MobAIs
 			injuredPeople,
 			players
 		}
+
+		[Tooltip("The reagent used by emagged cleanbots")]
+		[SerializeField] private Reagent CB_REAGENT;
 
 		public event Action FoodEatenEvent;
 
@@ -43,9 +47,7 @@ namespace Systems.MobAIs
 		[Tooltip("Objects in this list are considered food by this creature (even non edible stuff!)")]
 		[SerializeField]
 		[ShowIf(nameof(hasFoodPrefereces))]
-		private List<GameObject> foodPreferences = null;
-
-		private List<string> foodInitialNames = new List<string>();
+		private List<ItemTrait> foodPreferences = null;
 
 		// Timer that indicates if the action perform time is reached and the action can be performed.
 		private float actionPerformTimer = 0.0f;
@@ -54,6 +56,7 @@ namespace Systems.MobAIs
 		// Position at which an action is performed
 		protected Vector3Int actionPosition;
 
+		public bool IsEmagged = false;
 		private InteractableTiles interactableTiles {
 			get {
 				if (_interactableTiles == null)
@@ -65,22 +68,10 @@ namespace Systems.MobAIs
 			}
 		}
 
-		public override void Start()
+		public override void OnSpawnServer(SpawnInfo info)
 		{
-			base.Start();
-			if (!hasFoodPrefereces || foodInitialNames.Any())
-			{
-				return;
-			}
-
-			foreach (GameObject food in foodPreferences)
-			{
-				var initName = food.GetComponent<ItemAttributesV2>()?.InitialName;
-				if (initName != null)
-				{
-					foodInitialNames.Add(initName);
-				}
-			}
+			base.OnSpawnServer(info);
+			eatFoodSound = SingletonSOSounds.Instance.EatFood;
 		}
 
 		/// <summary>
@@ -139,18 +130,25 @@ namespace Systems.MobAIs
 					if (hasFoodPrefereces)
 						return registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
 					return registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null;
+
 				case Target.dirtyFloor:
-					return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
+					if (IsEmagged == false) return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
+					else return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
+
 				case Target.missingFloor:
-					// Checks the topmost tile if its the base layer (below the floor)
-					return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base;
+					if (IsEmagged == false) return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Underfloor); // Checks the topmost tile if its the base or underfloor layer (below the floor)
+					else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
+
 				case Target.injuredPeople:
 					return false;
+
 				// this includes ghosts!
 				case Target.players:
 					return registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
+
+				default:
+					return false;
 			}
-			return false;
 		}
 
 		/// <summary>
@@ -161,12 +159,12 @@ namespace Systems.MobAIs
 		/// <returns></returns>
 		public bool IsInFoodPreferences(ItemAttributesV2 food)
 		{
-			if (!hasFoodPrefereces)
+			if (hasFoodPrefereces == false)
 			{
 				return food.gameObject.GetComponent<Edible>() != null;
 			}
 
-			return foodInitialNames.Contains(food.InitialName);
+			return foodPreferences.Any(food.HasTrait);
 		}
 
 		/// <summary>
@@ -189,15 +187,15 @@ namespace Systems.MobAIs
 			{
 				var food = registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).FirstOrDefault(IsInFoodPreferences);
 
-				if (food == null)
+				if (food is null)
 				{
 					return;
 				}
 
 				// Send the sound to all nearby clients
-				SoundManager.PlayNetworkedAtPos(EatFoodA, transform.position, null, false, false, gameObject);
+				SoundManager.PlayNetworkedAtPos(eatFoodSound, transform.position, sourceObj: gameObject);
 
-				Despawn.ServerSingle(food.gameObject);
+				_ = Despawn.ServerSingle(food.gameObject);
 				FoodEatenEvent?.Invoke();
 			}
 			else
@@ -229,10 +227,13 @@ namespace Systems.MobAIs
 				case Target.dirtyFloor:
 					var matrixInfo = MatrixManager.AtPoint(checkPos, true);
 					var worldPos = MatrixManager.LocalToWorldInt(checkPos, matrixInfo);
-					matrixInfo.MetaDataLayer.Clean(worldPos, checkPos, false);
+					if (IsEmagged) matrixInfo.MetaDataLayer.ReagentReact(new ReagentMix(CB_REAGENT,5,283.15f),worldPos,checkPos);
+					else matrixInfo.MetaDataLayer.Clean(worldPos, checkPos, false);
 					break;
 				case Target.missingFloor:
-					interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
+					if (IsEmagged == false) interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
+					else interactableTiles.TileChangeManager.RemoveTile(checkPos, LayerType.Floors, true);
+
 					break;
 				case Target.injuredPeople:
 					break;

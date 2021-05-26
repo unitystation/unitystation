@@ -2,7 +2,7 @@
 using UnityEngine;
 using Systems.Explosions;
 
-namespace Items.Others.Magical
+namespace Items.Magical
 {
 	/// <summary>
 	/// Creates an explosion centered on the player.
@@ -21,7 +21,7 @@ namespace Items.Others.Magical
 			}
 			else
 			{
-				Logger.LogError($"No explosion component found on {explosionObject}! Was the right prefab assigned?");
+				Logger.LogError($"No explosion component found on {explosionObject}! Was the right prefab assigned?", Category.Spells);
 			}
 		}
 	}

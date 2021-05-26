@@ -1,9 +1,16 @@
 ﻿using System;
+using Messages.Server;
 using UnityEngine;
 using Mirror;
+using WebSocketSharp;
 
-public class Paper : NetworkBehaviour
+public class Paper : NetworkBehaviour, IServerSpawn
 {
+	[SerializeField]
+	[TextArea]
+	[Tooltip("Text that this paper will have on spawn, useful for mapping in little bits of " +
+	         "lore.")]
+	private string initialText;
 	public string ServerString { get; private set; }
 
 	///<Summary>
@@ -56,5 +63,13 @@ public class Paper : NetworkBehaviour
 	{
 		EnsureInit();
 		spriteHandler.ChangeSprite((int) state);
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		if (initialText.IsNullOrEmpty() == false)
+		{
+			SetServerString(initialText);
+		}
 	}
 }

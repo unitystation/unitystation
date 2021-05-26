@@ -58,7 +58,7 @@ namespace Systems.Spells.Wizard
 			}
 			if (spriteObject == null)
 			{
-				Logger.LogError($"No Sprite object found on {entity}! Cannot animate with {nameof(SpawnByPortal)}.");
+				Logger.LogError($"No Sprite object found on {entity}! Cannot animate with {nameof(SpawnByPortal)}.", Category.Spells);
 			}
 			float fallingTime = GetFallingTime(settings.PortalHeight);
 
@@ -109,7 +109,7 @@ namespace Systems.Spells.Wizard
 			yield return WaitFor.Seconds(settings.PortalOpenTime + (settings.PortalSuspenseTime / 2));
 			OnPortalReady?.Invoke(portal);
 			yield return WaitFor.Seconds(settings.PortalCloseTime + (settings.PortalSuspenseTime / 2));
-			Despawn.ServerSingle(portal);
+			_ = Despawn.ServerSingle(portal);
 		}
 
 		private IEnumerator ServerRunObjectSequence(GameObject entity, PortalSpawnInfo settings)

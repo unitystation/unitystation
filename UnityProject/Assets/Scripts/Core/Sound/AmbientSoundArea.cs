@@ -1,5 +1,8 @@
-﻿using Audio.Containers;
-using Audio.Managers;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using AddressableReferences;
+using Audio.Containers;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +14,7 @@ public class AmbientSoundArea : MonoBehaviour
 {
 	[SerializeField] private AudioClipsArray enteringSoundTrack = null;
 	[SerializeField] private AudioClipsArray leavingSoundTrack = null;
-	private AudioClip currentTrack = null;
+	private string guid = "";
 
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
@@ -28,22 +31,32 @@ public class AmbientSoundArea : MonoBehaviour
 		if (player == null) return;
 		if (player != PlayerManager.LocalPlayer) return;
 
+		// Dont change sound when sent to hidden pos, e.g in locker
+		// TODO entering sound still plays when exiting locker, but this at least stops space sound
+		if (player.TryGetComponent<PlayerSync>(out var playerSync))
+		{
+			if (playerSync.TrustedPosition == TransformState.HiddenPos)
+			{
+				return;
+			}
+		}
+
 		if (isEntering)
 		{
-			PlayAudio(enteringSoundTrack.GetRandomClip());
+			PlayAudio(enteringSoundTrack.AddressableAudioSource.GetRandom());
 		}
 		else
 		{
-			PlayAudio(leavingSoundTrack.GetRandomClip());
+			PlayAudio(leavingSoundTrack.AddressableAudioSource.GetRandom());
 		}
 	}
 
-	private void PlayAudio(AudioClip clipToPlay)
+	private void PlayAudio(AddressableAudioSource clipToPlay)
 	{
 		if (clipToPlay == null) return;
 
-		SoundAmbientManager.StopAudio(currentTrack);
-		currentTrack = clipToPlay;
-		SoundAmbientManager.PlayAudio(currentTrack, isLooped: true);
+		SoundManager.Stop(guid);
+		guid = Guid.NewGuid().ToString();
+		_ = SoundManager.Play(clipToPlay, guid);
 	}
 }

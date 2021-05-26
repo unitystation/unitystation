@@ -48,14 +48,14 @@ public class GUI_DevSpawner : MonoBehaviour
 
     private void InputFocus()
     {
-	    //disable keyboard commands while input is focused
+	    // disable keyboard commands while input is focused
 	    isFocused = true;
 	    UIManager.IsInputFocus = true;
     }
 
     private void InputUnfocus()
     {
-	    //disable keyboard commands while input is focused
+	    // disable keyboard commands while input is focused
 	    isFocused = false;
 	    UIManager.IsInputFocus = false;
     }
@@ -64,16 +64,15 @@ public class GUI_DevSpawner : MonoBehaviour
     {
 	    if (searchWhileTyping)
 	    {
-		    if (searchBox.text.Length >= minCharactersForSearch)
-		    {
-			    Search();
-		    }
+		    Search();
 	    }
     }
 
     public void Search()
     {
-	    //delete previous results
+	    if (searchBox.text.Length < minCharactersForSearch) return;
+	    
+		// delete previous results
 	    foreach (Transform child in contentPanel.transform)
 	    {
 		    Destroy(child.gameObject);
@@ -81,14 +80,14 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	    var docs = spawnerSearch.Search(searchBox.text);
 
-	    //display new results
+	    // display new results
 	    foreach (var doc in docs)
 	    {
 		    CreateListItem(doc);
 	    }
     }
 
-    //add a list item to the content panel for spawning the specified result
+    // add a list item to the content panel for spawning the specified result
     private void CreateListItem(DevSpawnerDocument doc)
     {
 	    GameObject listItem = Instantiate(listItemPrefab);
@@ -99,16 +98,16 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	public void Open()
 	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		Logger.Log("Opening dev spawner menu", Category.UI);
+		_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		Logger.Log("Opening dev spawner menu", Category.NetUI);
 		transform.GetChild(0).gameObject.SetActive(true);
 		transform.SetAsLastSibling();
 	}
 
 	public void Close()
 	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		Logger.Log("Closing dev spawner menu", Category.UI);
+		_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		Logger.Log("Closing dev spawner menu", Category.NetUI);
 		transform.GetChild(0).gameObject.SetActive(false);
 	}
 }

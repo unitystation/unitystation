@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Items.Cargo.Wrapping
 {
@@ -8,9 +10,8 @@ namespace Items.Cargo.Wrapping
 		[SerializeField][Tooltip("When unwrapped, if no content was defined, we will spawn one of these")]
 		private List<GameObject> randomContentList;
 
-		// TODO implement the new way to play sounds when addressables are in
-		[SerializeField] [Tooltip("Sound when unwrapped")]
-		private string unwrapSound = "PosterRipped";
+		[FormerlySerializedAs("unwrapSound")] [SerializeField] [Tooltip("Alternative sound to use when unwrapped")]
+		private AddressableAudioSource alternativeUnwrapSound = null;
 
 		[SerializeField][Tooltip("Message you read when you start unwrapping the package. " +
 		                         "{0} = this object's name.")]
@@ -51,7 +52,7 @@ namespace Items.Cargo.Wrapping
 
 		protected void PlayUnwrappingSound()
 		{
-			SoundManager.PlayNetworkedAtPos(unwrapSound, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(alternativeUnwrapSound != null ? alternativeUnwrapSound : SingletonSOSounds.Instance.PosterRipped, gameObject.AssumedWorldPosServer());
 		}
 
 		protected void StartUnwrapAction(GameObject performer)
@@ -75,7 +76,7 @@ namespace Items.Cargo.Wrapping
 		/// random content. Useful for mapping!
 		/// </summary>
 		/// <returns>The game object related to the content of this package</returns>
-		protected GameObject GetOrGenerateContent()
+		public GameObject GetOrGenerateContent()
 		{
 			if (content == null && randomContentList.Count > 0)
 			{

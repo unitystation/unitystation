@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 using Objects;
 using Objects.Disposals;
 using Random = UnityEngine.Random;
+using Messages.Server.SoundMessages;
 
 public enum SpinMode
 {
@@ -70,7 +72,7 @@ public partial class CustomNetTransform
 	/// Push this thing in provided direction
 	/// </summary>
 	/// <param name="direction"></param>
-	/// <param name="speed"></param>
+	/// <param name="speed">tiles per second</param>
 	/// <param name="followMode">flag used when object is following its puller
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
@@ -184,7 +186,7 @@ public partial class CustomNetTransform
 
 	private void Stop( bool notify )
 	{
-		Logger.LogTraceFormat(STOPPED_FLOATING, Category.Transform, gameObject.name);
+		Logger.LogTraceFormat(STOPPED_FLOATING, Category.Movement, gameObject.name);
         if (IsTileSnap)
         {
         	serverState.Position = Vector3Int.RoundToInt(serverState.Position);
@@ -201,6 +203,7 @@ public partial class CustomNetTransform
         {
 			OnThrowEnd.Invoke(serverState.ActiveThrow);
         }
+
         serverState.ActiveThrow = ThrowInfo.NoThrow;
         if ( notify )
         {
@@ -270,7 +273,7 @@ public partial class CustomNetTransform
 		else
 		{
 			//stop
-			Logger.LogTraceFormat(PREDICTIVE_STOP_TO, Category.Transform, gameObject.name, worldPos, intGoal);
+			Logger.LogTraceFormat(PREDICTIVE_STOP_TO, Category.Movement, gameObject.name, worldPos, intGoal);
 			//			clientState.Speed = 0f;
 			predictedState.WorldImpulse = Vector2.zero;
 			predictedState.SpinFactor = 0;
@@ -405,7 +408,7 @@ public partial class CustomNetTransform
 			serverState.SpinFactor = (sbyte)(Mathf.Clamp(info.InitialSpeed * info.SpinMultiplier, sbyte.MinValue, sbyte.MaxValue) *
 				(info.SpinMode == SpinMode.Clockwise ? 1 : -1));
 		}
-		Logger.LogTraceFormat(NUDGE, Category.Transform, info, serverState);
+		Logger.LogTraceFormat(NUDGE, Category.Movement, info, serverState);
 		NotifyPlayers();
 	}
 
@@ -521,6 +524,15 @@ public partial class CustomNetTransform
 			{
 				Stop();
 			}
+
+			//Process any objects that we might have bumped into
+			foreach (var objectBehaviour in MatrixManager.GetAt<ObjectBehaviour>(intGoal, true))
+			{
+				foreach (var bump in objectBehaviour.GetComponents<IBumpableObject>())
+				{
+					bump.OnBump(gameObject);
+				}
+			}
 		}
 
 		if (distance > 1)
@@ -614,7 +626,7 @@ public partial class CustomNetTransform
 		var targetPosition = Vector3Int.RoundToInt(goal);
 
 		var info = serverState.ActiveThrow;
-		IReadOnlyCollection<LivingHealthBehaviour> creaturesToHit =
+		IReadOnlyCollection<LivingHealthMasterBase> creaturesToHit =
 			Vector3Int.RoundToInt(serverState.ActiveThrow.OriginWorldPos) == targetPosition ?
 				null : LivingCreaturesInPosition(targetPosition);
 
@@ -642,9 +654,9 @@ public partial class CustomNetTransform
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
-	private IReadOnlyCollection<LivingHealthBehaviour> LivingCreaturesInPosition(Vector3Int position)
+	private IReadOnlyCollection<LivingHealthMasterBase> LivingCreaturesInPosition(Vector3Int position)
 	{
-		return MatrixManager.GetAt<LivingHealthBehaviour>(position, isServer: true)?
+		return MatrixManager.GetAt<LivingHealthMasterBase>(position, isServer: true)?
 				.Where(creature =>
 					creature.IsDead == false &&
 					CanHitObject(creature))
@@ -668,7 +680,7 @@ public partial class CustomNetTransform
 	/// <summary>
 	/// Hit for thrown (non-tile-snapped) items
 	/// </summary>
-	private void OnHit(Vector3Int pos, ThrowInfo info, IReadOnlyCollection<LivingHealthBehaviour> hitCreatures)
+	private void OnHit(Vector3Int pos, ThrowInfo info, IReadOnlyCollection<LivingHealthMasterBase> hitCreatures)
 	{
 		if (ItemAttributes == null) return;
 		if (hitCreatures == null || hitCreatures.Count <= 0) return;
@@ -679,9 +691,10 @@ public partial class CustomNetTransform
 			//Remove cast to int when moving health values to float
 			var damage = (int)(ItemAttributes.ServerThrowDamage);
 			var hitZone = info.Aim.Randomize();
-			creature.ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
+			creature.ApplyDamageToBodyPart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 			Chat.AddThrowHitMsgToChat(gameObject,creature.gameObject, hitZone);
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, 1f, sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, audioSourceParameters, sourceObj: gameObject);
 		}
 	}
 

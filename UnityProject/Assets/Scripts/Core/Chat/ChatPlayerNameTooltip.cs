@@ -15,7 +15,7 @@ public class ChatPlayerNameTooltip : TooltipMonoBehaviour
 		{
 			if (playeNameText == null)
 			{
-				Logger.LogWarning("playeNameText is null");
+				Logger.LogWarning("playeNameText is null", Category.Chat);
 				return string.Empty;
 			}
 

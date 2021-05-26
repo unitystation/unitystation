@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Systems.Clothing;
 using UI.Action;
 
 namespace Items.Others
@@ -79,6 +80,11 @@ namespace Items.Others
 		{
 			lightControl.Toggle(!lightControl.IsOn);
 			spriteHandler.ChangeSprite(SpriteIndex);
+
+			if (TryGetComponent<ClothingV2>(out var clothing))
+			{
+				clothing.ChangeSprite(lightControl.IsOn ? 1 : 0);
+			}
 		}
 	}
 }

@@ -96,7 +96,7 @@ namespace Doors
 			}
 
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition( SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
+			_ = SoundManager.PlayAtPosition( SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
 			StartCoroutine(PlayDeniedAnim());
 		}
 
@@ -222,7 +222,6 @@ namespace Doors
 			doorbase.sprite = sprites[WopenFrame];
 			doorController.OnAnimationFinished();
 		}
-
 
 		private IEnumerator PlayDeniedAnim()
 		{

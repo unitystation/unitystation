@@ -12,7 +12,7 @@ namespace Chemistry
 		public ReactionSet[] parents = new ReactionSet[0];
 		public Reaction[] reactions = new Reaction[0];
 
-		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
+		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix, List<Reaction> AdditionalReactions = null)
 		{
 			bool changing;
 			var changed = false;
@@ -34,6 +34,18 @@ namespace Chemistry
 					{
 						changing = true;
 						changed = true;
+					}
+				}
+
+				if (AdditionalReactions != null)
+				{
+					foreach (var reaction in AdditionalReactions)
+					{
+						if (reaction.Apply(sender, reagentMix))
+						{
+							changing = true;
+							changed = true;
+						}
 					}
 				}
 			} while (changing);

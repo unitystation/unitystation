@@ -5,178 +5,180 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace UI.Action
 {
-	public SpriteDataSO DefaultIconBackground;
-	public SpriteHandler IconBackground;
-	public SpriteHandler IconFront;
-	public Transform CooldownOpacity;
-	public Text CooldownNumber;
-
-	public IActionGUI iActionGUI;
-	private ActionData actionData;
-	private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
-	private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
-	private bool isMine = false;
-	public ActionData ActionData => actionData;
-	private Vector3 lastClickPosition = default;
-	public Vector3 LastClickPosition => lastClickPosition;
-
-	#region Lifecycle
-
-	public void SetUp(IActionGUI action)
+	public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
-		this.gameObject.SetActive(true);
-		iActionGUI = action;
+		public SpriteDataSO DefaultIconBackground;
+		public SpriteHandler IconBackground;
+		public SpriteHandler IconFront;
+		public Transform CooldownOpacity;
+		public Text CooldownNumber;
 
-		actionData = iActionGUI.ActionData;
-		if (actionData == null)
+		public IActionGUI iActionGUI;
+		private ActionData actionData;
+		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
+		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
+		private bool isMine = false;
+		public ActionData ActionData => actionData;
+		private Vector3 lastClickPosition = default;
+		public Vector3 LastClickPosition => lastClickPosition;
+
+		#region Lifecycle
+
+		public void SetUp(IActionGUI action)
 		{
-			Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UIAction, iActionGUI );
-			return;
+			gameObject.SetActive(true);
+			iActionGUI = action;
+
+			actionData = iActionGUI.ActionData;
+			if (actionData == null)
+			{
+				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iActionGUI);
+				return;
+			}
+
+			if (actionData.Sprites.Count > 0)
+			{
+				IconFront.SetCatalogue(actionData.Sprites, 0, NetWork: false);
+			}
+			if (actionData.Backgrounds.Count > 0)
+			{
+				IconBackground.SetCatalogue(actionData.Backgrounds, 0, NetWork: false);
+			}
 		}
 
-		if (actionData.Sprites.Count > 0)
+		public void Pool()
 		{
-			IconFront.SetCatalogue(actionData.Sprites, 0, NetWork: false);
+			IconBackground.Empty(true, false);
+			IconFront.Empty(true, false);
+			IconBackground.SetSpriteSO(DefaultIconBackground, Network: false);
+			gameObject.SetActive(false);
 		}
-		if (actionData.Backgrounds.Count > 0)
+
+		private void OnDisable()
 		{
-			IconBackground.SetCatalogue(actionData.Backgrounds,0 ,NetWork: false);
+			if (isMine)
+			{
+				Tooltip.gameObject.SetActive(false);
+				isMine = false;
+			}
 		}
-	}
 
-	public void Pool()
-	{
-		IconBackground.Empty(true, false);
-		IconFront.Empty(true, false);
-		IconBackground.SetSpriteSO(DefaultIconBackground, Network : false);
-		this.gameObject.SetActive(false);
-	}
+		#endregion Lifecycle
 
-	private void OnDisable()
-	{
-		if (isMine)
+		public void ButtonPress()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+
+			if (actionData.IsToggle)
+			{
+				Toggle();
+				return;
+			}
+
+			UseAction();
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			Tooltip.gameObject.SetActive(true);
+			Tooltip.transform.position = transform.position + tooltipOffset;
+			Tooltip.ApplyActionData(actionData);
+			isMine = true;
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
 		{
 			Tooltip.gameObject.SetActive(false);
 			isMine = false;
 		}
-	}
 
-	#endregion Lifecycle
-
-	public void ButtonPress()
-	{
-
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-
-		if (actionData.IsToggle)
+		public void RunActionWithClick(Vector3 clickPosition)
 		{
-			Toggle();
-			return;
+			Toggle(); // Toggle button off after it is used. Could be removed if this is not desired.
+			lastClickPosition = clickPosition;
+			UseAction();
 		}
 
-		UseAction();
-	}
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		Tooltip.gameObject.SetActive(true);
-		Tooltip.transform.position = transform.position + tooltipOffset;
-		Tooltip.ApplyActionData(actionData);
-		isMine = true;
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		Tooltip.gameObject.SetActive(false);
-		isMine = false;
-	}
-
-	public void RunActionWithClick(Vector3 clickPosition)
-	{
-		Toggle(); // Toggle button off after it is used. Could be removed if this is not desired.
-		lastClickPosition = clickPosition;
-		UseAction();
-	}
-
-	private void UseAction()
-	{
-		// Calling clientside code. If this is a spell,
-		// then the spell will call the server to run on the server itself.
-		// Not sure why we don't call the spell serverside from here, too...
-		// The spell's server request can provide a click position.
-		if (iActionGUI.ActionData.CallOnClient)
+		private void UseAction()
 		{
-			iActionGUI.CallActionClient();
-		}
-
-		// Sending a message to server asking to run serverside code.
-		// TODO: Doesn't support click positions yet.
-		// Once it does, consider moving the spell's server request to rely on this here instead, if possible.
-		if (iActionGUI.ActionData.CallOnServer == false) return;
-		if (iActionGUI is IServerActionGUI)
-		{
-			if (iActionGUI is UIActionScriptableObject actionSO)
+			// Calling clientside code. If this is a spell,
+			// then the spell will call the server to run on the server itself.
+			// Not sure why we don't call the spell serverside from here, too...
+			// The spell's server request can provide a click position.
+			if (iActionGUI.ActionData.CallOnClient)
 			{
-				RequestGameActionSO.Send(actionSO);
+				iActionGUI.CallActionClient();
+			}
+
+			// Sending a message to server asking to run serverside code.
+			// TODO: Doesn't support click positions yet.
+			// Once it does, consider moving the spell's server request to rely on this here instead, if possible.
+			if (iActionGUI.ActionData.CallOnServer == false) return;
+			if (iActionGUI is IServerActionGUI)
+			{
+				if (iActionGUI is UIActionScriptableObject actionSO)
+				{
+					RequestGameActionSO.Send(actionSO);
+				}
+				else
+				{
+					RequestGameAction.Send(iActionGUI as IServerActionGUI);
+				}
+			}
+		}
+
+		private void Toggle()
+		{
+			if (UIActionManager.Instance.HasActiveAction && UIActionManager.Instance.ActiveAction != this)
+			{
+				UIActionManager.Instance.ActiveAction.Toggle(); // Toggle off whatever other action was active.
+			}
+
+			// The currently active action is this, so toggle it off.
+			if (UIActionManager.Instance.HasActiveAction)
+			{
+				ToggleOff();
 			}
 			else
 			{
-				RequestGameAction.Send(iActionGUI as IServerActionGUI);
+				ToggleOn();
 			}
 		}
-	}
 
-	private void Toggle()
-	{
-		if (UIActionManager.Instance.HasActiveAction && UIActionManager.Instance.ActiveAction != this)
+		private void ToggleOff()
 		{
-			UIActionManager.Instance.ActiveAction.Toggle(); // Toggle off whatever other action was active.
+			IconFront.SetSpriteSO(actionData.Sprites[0], Network: false);
+			UIActionManager.Instance.ActiveAction = null;
+
+			if (actionData.HasCustomCursor)
+			{
+				MouseInputController.ResetCursorTexture();
+			}
 		}
 
-		// The currently active action is this, so toggle it off.
-		if (UIActionManager.Instance.HasActiveAction)
+		private void ToggleOn()
 		{
-			ToggleOff();
+			IconFront.SetSpriteSO(actionData.ActiveSprite, Network: false);
+			UIActionManager.Instance.ActiveAction = this;
+
+			TrySetCustomCursor();
 		}
-		else
+
+		private void TrySetCustomCursor()
 		{
-			ToggleOn();
-		}
-	}
+			if (actionData.HasCustomCursor == false) return;
 
-	private void ToggleOff()
-	{
-		IconFront.SetSpriteSO(actionData.Sprites[0], Network: false);
-		UIActionManager.Instance.ActiveAction = null;
-
-		if (actionData.HasCustomCursor)
-		{
-			MouseInputController.ResetCursorTexture();
-		}
-	}
-
-	private void ToggleOn()
-	{
-		IconFront.SetSpriteSO(actionData.ActiveSprite, Network: false);
-		UIActionManager.Instance.ActiveAction = this;
-
-		TrySetCustomCursor();
-	}
-
-	private void TrySetCustomCursor()
-	{
-		if (actionData.HasCustomCursor == false) return;
-
-		if (actionData.HasCustomCursorOffset)
-		{
-			MouseInputController.SetCursorTexture(actionData.CursorTexture, actionData.CursorOffset);
-		}
-		else
-		{
-			bool isCentered = actionData.OffsetType == CursorOffsetType.Centered;
-			MouseInputController.SetCursorTexture(actionData.CursorTexture, isCentered);
+			if (actionData.HasCustomCursorOffset)
+			{
+				MouseInputController.SetCursorTexture(actionData.CursorTexture, actionData.CursorOffset);
+			}
+			else
+			{
+				bool isCentered = actionData.OffsetType == CursorOffsetType.Centered;
+				MouseInputController.SetCursorTexture(actionData.CursorTexture, isCentered);
+			}
 		}
 	}
 }

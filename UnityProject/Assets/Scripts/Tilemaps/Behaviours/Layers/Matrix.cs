@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
@@ -7,7 +8,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using Systems.Atmospherics;
+using HealthV2;
 using TileManagement;
+using Systems.Electricity;
+using Tilemaps.Behaviours.Layers;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -21,7 +25,7 @@ public class Matrix : MonoBehaviour
 	public List<TilemapDamage> TilemapsDamage => tilemapsDamage;
 
 	private MetaTileMap metaTileMap;
-	public MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
+	public MetaTileMap MetaTileMap => metaTileMap;
 
 	private TileList serverObjects;
 
@@ -85,8 +89,18 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public EarthquakeEvent OnEarthquake = new EarthquakeEvent();
 
+	private NetworkedMatrix networkedMatrix;
+	public NetworkedMatrix NetworkedMatrix => networkedMatrix;
+
 	private void Awake()
 	{
+		metaTileMap = GetComponent<MetaTileMap>();
+		if (metaTileMap == null)
+		{
+			Logger.LogError($"MetaTileMap was null on {gameObject.name}");
+		}
+
+		networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
@@ -140,8 +154,18 @@ public class Matrix : MonoBehaviour
 	public void ConfigureMatrixInfo(MatrixInfo matrixInfo)
 	{
 		MatrixInfo = matrixInfo;
+		StartCoroutine(WaitForNetId());
+	}
+
+	private IEnumerator WaitForNetId()
+	{
+		while (networkedMatrix.MatrixSync != null && networkedMatrix.MatrixSync.netId == NetId.Empty)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
 		MatrixInfoConfigured = true;
-		OnConfigLoaded?.Invoke(matrixInfo);
+		OnConfigLoaded?.Invoke(MatrixInfo);
 	}
 
 	/// <inheritdoc cref="IsPassableAtOneMatrix(Vector3Int, Vector3Int, bool, CollisionType, bool, GameObject, List{LayerType}, List{TileType}, bool, bool, bool)"/>
@@ -162,7 +186,7 @@ public class Matrix : MonoBehaviour
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
 		return IsPassableAtOneMatrix(position, position, isServer) &&
-		       GetFirst<LivingHealthBehaviour>(position, isServer) == null;
+		       GetFirst<LivingHealthMasterBase>(position, isServer) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?
@@ -411,7 +435,7 @@ public class Matrix : MonoBehaviour
 		return (list);
 	}
 
-	public List<Pipes.PipeData> GetPipeConnections(Vector3Int position)
+	public List<PipeData> GetPipeConnections(Vector3Int position)
 	{
 		var list = new List<PipeData>();
 
@@ -494,7 +518,6 @@ public class Matrix : MonoBehaviour
 		return (metaDataLayer.Get(new Vector3Int(localPosition.x, localPosition.y, 0), createIfNotExists));
 	}
 
-
 	public float GetRadiationLevel(Vector3Int localPosition)
 	{
 		var Node = metaDataLayer.Get(localPosition);
@@ -510,7 +533,6 @@ public class Matrix : MonoBehaviour
 		return (GetRadiationLevel(new Vector3Int(localPosition.x, localPosition.y, 0)));
 	}
 
-
 	public void AddUnderFloorTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		if (UnderFloorLayer == null)
@@ -520,7 +542,6 @@ public class Matrix : MonoBehaviour
 
 		UnderFloorLayer.SetTile(position, tile, transformMatrix, color);
 	}
-
 
 	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile, bool UseSpecifiedLocation = false)
 	{
@@ -532,31 +553,37 @@ public class Matrix : MonoBehaviour
 		UnderFloorLayer.RemoveSpecifiedTile(position, tile,UseSpecifiedLocation);
 	}
 
-	//Visual debug
+	// Visual debug
 	private static Color[] colors = new[]
 	{
-		DebugTools.HexToColor("a6caf0"), //winterblue
-		DebugTools.HexToColor("e3949e"), //brick
-		DebugTools.HexToColor("a8e4a0"), //cyanish
-		DebugTools.HexToColor("ffff99"), //canary yellow
-		DebugTools.HexToColor("cbbac5"), //purplish
-		DebugTools.HexToColor("ffcfab"), //peach
-		DebugTools.HexToColor("ccccff"), //bluish
-		DebugTools.HexToColor("caf28d"), //avocado
-		DebugTools.HexToColor("ffb28b"), //pinkorange
-		DebugTools.HexToColor("98ff98"), //mintygreen
-		DebugTools.HexToColor("fcdd76"), //sand
-		DebugTools.HexToColor("afc797"), //swamp green
-		DebugTools.HexToColor("ffca86"), //orange
-		DebugTools.HexToColor("b0e0e6"), //blue-cyanish
-		DebugTools.HexToColor("d1ba73"), //khaki
-		DebugTools.HexToColor("c7fcec"), //also greenish
-		DebugTools.HexToColor("cdb891"), //brownish
+		DebugTools.HexToColor("a6caf0"), // winterblue
+		DebugTools.HexToColor("e3949e"), // brick
+		DebugTools.HexToColor("a8e4a0"), // cyanish
+		DebugTools.HexToColor("ffff99"), // canary yellow
+		DebugTools.HexToColor("cbbac5"), // purplish
+		DebugTools.HexToColor("ffcfab"), // peach
+		DebugTools.HexToColor("ccccff"), // bluish
+		DebugTools.HexToColor("caf28d"), // avocado
+		DebugTools.HexToColor("ffb28b"), // pinkorange
+		DebugTools.HexToColor("98ff98"), // mintygreen
+		DebugTools.HexToColor("fcdd76"), // sand
+		DebugTools.HexToColor("afc797"), // swamp green
+		DebugTools.HexToColor("ffca86"), // orange
+		DebugTools.HexToColor("b0e0e6"), // blue-cyanish
+		DebugTools.HexToColor("d1ba73"), // khaki
+		DebugTools.HexToColor("c7fcec"), // also greenish
+		DebugTools.HexToColor("cdb891"), // brownish
 	};
 #if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color;
+
+		if (metaTileMap == null)
+		{
+			metaTileMap = GetComponent<MetaTileMap>();
+		}
+
 		BoundsInt bounds = MetaTileMap.GetWorldBounds();
 		DebugGizmoUtils.DrawText(gameObject.name, bounds.max, 11, 5);
 		DebugGizmoUtils.DrawRect(bounds);
@@ -564,6 +591,4 @@ public class Matrix : MonoBehaviour
 #endif
 }
 
-public class EarthquakeEvent : UnityEvent<Vector3Int, byte>
-{
-}
+public class EarthquakeEvent : UnityEvent<Vector3Int, byte> { }

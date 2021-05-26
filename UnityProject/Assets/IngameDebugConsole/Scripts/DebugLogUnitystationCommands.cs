@@ -8,6 +8,9 @@ using Systems.Cargo;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
 using Items;
+using Messages.Client;
+using Messages.Server;
+using Messages.Server.HealthMessages;
 using ScriptableObjects;
 
 namespace IngameDebugConsole
@@ -23,7 +26,7 @@ namespace IngameDebugConsole
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (!playerSpawned)
 			{
-				Logger.Log("Cannot commit suicide. Player has not spawned.");
+				Logger.Log("Cannot commit suicide. Player has not spawned.", Category.DebugConsole);
 
 			}
 			else
@@ -35,14 +38,14 @@ namespace IngameDebugConsole
 		[ConsoleMethod("myid", "Prints your uuid for your player account")]
 		public static void RunPrintUID()
 		{
-			Logger.Log($"{ServerData.UserID}");
+			Logger.Log($"{ServerData.UserID}", Category.DebugConsole);
 		}
 
 		[ConsoleMethod("copyid", "Copies your uuid to your clipboard.")]
 		public static void CopyUserID()
 		{
 			TextUtils.CopyTextToClipboard($"{ServerData.UserID}");
-			Logger.Log($"UUID Copied to clipboard.");
+			Logger.Log($"UUID Copied to clipboard.", Category.DebugConsole);
 		}
 
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
@@ -50,25 +53,25 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
 			bool success = BodyPartType.TryParse(bodyPartString, true, out BodyPartType bodyPart);
 			if (success == false)
 			{
-				Logger.Log("Invalid body part '" + bodyPartString + "'");
+				Logger.Log("Invalid body part '" + bodyPartString + "'", Category.DebugConsole);
 				return;
 			}
 
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (playerSpawned == false)
 			{
-				Logger.Log("Cannot damage player. Player has not spawned.");
+				Logger.Log("Cannot damage player. Player has not spawned.", Category.DebugConsole);
 				return;
 			}
 
-			Logger.Log("Debugger inflicting " + burnDamage + " burn damage and " + bruteDamage + " brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name);
+			Logger.Log($"Debugger inflicting {burnDamage} burn damage and {bruteDamage} brute damage on {bodyPart} of {PlayerManager.LocalPlayer.name}", Category.DebugConsole);
 			HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
 		}
 
@@ -80,12 +83,13 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
-			Logger.Log("Triggered round restart from DebugConsole.");
+			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
+			GameManager.Instance.RoundEndTime = 5f;
 			GameManager.Instance.EndRound();
 		}
 
@@ -97,11 +101,11 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
-			Logger.Log("Triggered round end from DebugConsole.");
+			Logger.Log("Triggered round end from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.EndRound();
 		}
@@ -114,18 +118,18 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
-				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.");
+				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.", Category.DebugConsole);
 				GameManager.Instance.StartRound();
 			}
 			else
 			{
-				Logger.Log("Can only execute during pre-round / countdown.");
+				Logger.Log("Can only execute during pre-round / countdown.", Category.DebugConsole);
 				return;
 			}
 
@@ -139,18 +143,18 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
 			if (GameManager.Instance.PrimaryEscapeShuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
 				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
-				Logger.Log("Called Escape shuttle from DebugConsole: "+result);
+				Logger.Log("Called Escape shuttle from DebugConsole: "+result, Category.DebugConsole);
 			}
 			else
 			{
-				Logger.Log("Escape shuttle isn't docked at centcom to be called.");
+				Logger.Log("Escape shuttle isn't docked at centcom to be called.", Category.DebugConsole);
 			}
 		}
 
@@ -170,7 +174,7 @@ namespace IngameDebugConsole
 
 			if (!catFound)
 			{
-				Logger.Log("Category not found");
+				Logger.Log("Category not found", Category.DebugConsole);
 				return;
 			}
 
@@ -225,7 +229,7 @@ namespace IngameDebugConsole
 			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
 				//Printing this the pretty way, example:
 				//Bob (CAPTAIN) is located at (77,0, 52,0, 0,0)
-				Logger.LogFormat( "{0} ({1)} is located at {2}.", Category.Server, player.Name, player.Job, player.Script.WorldPos );
+				Logger.LogFormat( "{0} ({1)} is located at {2}.", Category.DebugConsole, player.Name, player.Job, player.Script.WorldPos );
 			}
 
 		}
@@ -269,7 +273,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamage(null, 99999f, AttackType.Internal, DamageType.Brute);
+				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamageToRandom(null, 99999f, AttackType.Internal, DamageType.Brute);
 			}
 		}
 #if UNITY_EDITOR
@@ -423,11 +427,7 @@ namespace IngameDebugConsole
 			{
 				var playerScript = PlayerManager.LocalPlayerScript;
 				var health = playerScript.playerHealth;
-				foreach (var bodyPart in health.BodyParts)
-				{
-					bodyPart.HealDamage(200, DamageType.Brute);
-					bodyPart.HealDamage(200, DamageType.Burn);
-				}
+				health.ResetDamageAll();
 				playerScript.registerTile.ServerStandUp();
 			}
 		}
@@ -471,7 +471,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
@@ -483,7 +483,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
@@ -560,66 +560,11 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.Log("Can only execute command from server.");
+				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
 			}
 
 			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
 		}
-#if UNITY_EDITOR
-		[MenuItem("Networking/Calculate Cargo Export Costs")]
-		private static void SetCargoExportValues()
-		{
-			foreach (var cargoDataList in CargoManager.Instance.CargoData.Supplies)
-			{
-				foreach (var items in cargoDataList.Supplies)
-				{
-					int value = 0;
-					foreach (var item in items.Items)
-					{
-						if(item == null) continue;
-
-						var itemAttribute = item.GetComponent<ItemAttributesV2>();
-
-						if (itemAttribute != null)
-						{
-							value += itemAttribute.ExportCost;
-						}
-
-						var objectAttribute = item.GetComponent<ObjectAttributes>();
-
-						if (objectAttribute != null)
-						{
-							value += objectAttribute.ExportCost;
-						}
-					}
-
-					var itemAttributeCrate = items.Crate.GetComponent<ItemAttributesV2>();
-
-					if (items.Crate != null && itemAttributeCrate != null)
-					{
-						value += itemAttributeCrate.ExportCost;
-					}
-
-					var objectAttributesCrate = items.Crate.GetComponent<ObjectAttributes>();
-
-					if (items.Crate != null && objectAttributesCrate != null)
-					{
-						value += objectAttributesCrate.ExportCost;
-					}
-
-					items.TotalCreditExport = value;
-
-					if (value > items.CreditsCost)
-					{
-						Debug.LogError($"{items.OrderName}'s credit cost: {items.CreditsCost} is less than its export value: {value}, exploit possible!");
-					}
-
-					Debug.Log($"value: {value}, cost: {items.CreditsCost}, {items.OrderName}");
-				}
-			}
-			Debug.Log("Cost Calculation Complete");
-		}
-#endif
 	}
 }

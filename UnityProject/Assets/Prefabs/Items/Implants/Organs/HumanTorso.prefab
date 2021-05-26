@@ -1,0 +1,356 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6676634485609286451
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: UesAddlistPopulater
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[0]
+      value: 
+      objectReference: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[1]
+      value: 
+      objectReference: {fileID: 3169642092305287280, guid: a05828ab8602a63449e9b422078fd217,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[2]
+      value: 
+      objectReference: {fileID: 2556953724642564633, guid: 69104df12837d1e48bb456dce5301bfa,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[3]
+      value: 
+      objectReference: {fileID: 3177982829949495349, guid: 760dc1119d22a8c4ab6fbbf78f8705b0,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[4]
+      value: 
+      objectReference: {fileID: 3419287765834980474, guid: e842d7513d34ec442af969504d96dfd9,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: Populater.Contents.Array.data[5]
+      value: 
+      objectReference: {fileID: 7638872791175960119, guid: 445373074652a00409300b4b8a70dcb7,
+        type: 3}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: IsSurface
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: isSurface
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: isDimorphic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyPartType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: DeathOnRemoval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: maleSprite.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: femaleSprite.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: maleSprite.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: limbSpriteData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: femaleSprite.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: limbSpriteData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].Time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].FailSelf
+      value: you FUCKed THE CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].FailOther
+      value: FUCKed THE CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].SuccessSelf
+      value: you CUT!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].SuccessOther
+      value: CUTS
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: OpenSurgerySteps.Array.data[0].RequiredTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: de703c1f006061390b50d3b16bb8eda7,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
+        type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7,
+        type: 2}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: initialName
+      value: chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's impolite to stare at a person's chest.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2733873253844105974, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a1f850ea1c5e4a4689f29055a52d7f6,
+        type: 3}
+    - target: {fileID: 2733873253844105974, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810631690420259242, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_Name
+      value: HumanTorso
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5166433732684877445, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234622556944347693, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e635393f59b294438bd7d20c37e884c,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}

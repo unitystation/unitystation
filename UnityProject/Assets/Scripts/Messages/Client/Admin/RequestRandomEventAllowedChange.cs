@@ -1,41 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DiscordWebhook;
 using InGameEvents;
-using UnityEngine;
-using DiscordWebhook;
 using Messages.Client;
+using Mirror;
 
-public class RequestRandomEventAllowedChange : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-	public bool RandomEventsAllowed = true;
-
-	public override void Process()
+	public class RequestRandomEventAllowedChange : ClientMessage<RequestRandomEventAllowedChange.NetMessage>
 	{
-		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (admin == null) return;
-
-		if(InGameEventsManager.Instance.RandomEventsAllowed == RandomEventsAllowed) return;
-
-		InGameEventsManager.Instance.RandomEventsAllowed = RandomEventsAllowed;
-
-		var state = RandomEventsAllowed ? "ON" : "OFF";
-		var msg = $"Admin: {PlayerList.Instance.GetByUserID(Userid).Username}, Turned random events {state}";
-
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
-	}
-
-	public static RequestRandomEventAllowedChange Send(string userId, string adminToken, bool randomEventsAllowed)
-	{
-		RequestRandomEventAllowedChange msg = new RequestRandomEventAllowedChange
+		public struct NetMessage : NetworkMessage
 		{
-			Userid = userId,
-			AdminToken = adminToken,
-			RandomEventsAllowed = randomEventsAllowed
-		};
-		msg.Send();
-		return msg;
+			public string Userid;
+			public string AdminToken;
+			public bool RandomEventsAllowed;
+		}
+
+		public override void Process(NetMessage netMsg)
+		{
+			var admin = PlayerList.Instance.GetAdmin(netMsg.Userid, netMsg.AdminToken);
+			if (admin == null) return;
+
+			if(InGameEventsManager.Instance.RandomEventsAllowed == netMsg.RandomEventsAllowed) return;
+
+			InGameEventsManager.Instance.RandomEventsAllowed = netMsg.RandomEventsAllowed;
+
+			var state = netMsg.RandomEventsAllowed ? "ON" : "OFF";
+			var msg = $"Admin: {PlayerList.Instance.GetByUserID(netMsg.Userid).Username}, Turned random events {state}";
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+		}
+
+		public static NetMessage Send(string userId, string adminToken, bool randomEventsAllowed = true)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				RandomEventsAllowed = randomEventsAllowed
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

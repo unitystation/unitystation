@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using AddressableReferences;
+using HealthV2;
 
 namespace Objects.Drawers
 {
@@ -21,7 +22,7 @@ namespace Objects.Drawers
 			/// <summary> Red morgue lights. </summary>
 			ShutWithPlayer = 2
 		}
-		
+
 		[SerializeField] private AddressableAudioSource emaggedSound;
 
 		[SerializeField] private AddressableAudioSource buzzerToggleSound;
@@ -99,7 +100,7 @@ namespace Objects.Drawers
 		private bool Conscious(ObjectBehaviour playerMob)
 		{
 			var playerMind = playerMob.GetComponent<PlayerScript>().mind;
-			var playerMobID = playerMob.GetComponent<LivingHealthBehaviour>().mobID;
+			var playerMobID = playerMob.GetComponent<LivingHealthMasterBase>().mobID;
 
 			// If the mob IDs do not match, player is controlling a new mob, so we don't care about this old mob.
 			if (playerMind.bodyMobID == playerMobID && playerMind.IsOnline()) return true;
@@ -140,7 +141,7 @@ namespace Objects.Drawers
 		private void ToggleBuzzer()
 		{
 			buzzerEnabled = !buzzerEnabled;
-			SoundManager.PlayNetworkedAtPos("Pop", DrawerWorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(buzzerToggleSound, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayAlarm());
 		}
 

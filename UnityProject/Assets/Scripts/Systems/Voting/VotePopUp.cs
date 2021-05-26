@@ -4,90 +4,93 @@ using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VotePopUp : MonoBehaviour
+namespace UI
 {
-	[SerializeField] private Text voteTitle = null;
-	[SerializeField] private Text voteInstigator = null;
-	[SerializeField] private Text voteCount = null;
-	[SerializeField] private Text voteTimer = null;
-	[SerializeField] private Button yesBtn = null;
-	[SerializeField] private Button noBtn = null;
-	[SerializeField] private Button vetoBtn = null;
-
-	private int buttonPresses = 0;
-
-	public void ShowVotePopUp(string title, string instigator, string currentCount, string timer)
+	public class VotePopUp : MonoBehaviour
 	{
-		buttonPresses = 0;
-		gameObject.SetActive(true);
-		yesBtn.interactable = true;
-		noBtn.interactable = true;
-		voteTitle.text = title;
-		voteInstigator.text = instigator;
-		voteCount.text = currentCount;
-		voteTimer.text = timer;
+		[SerializeField] private Text voteTitle = null;
+		[SerializeField] private Text voteInstigator = null;
+		[SerializeField] private Text voteCount = null;
+		[SerializeField] private Text voteTimer = null;
+		[SerializeField] private Button yesBtn = null;
+		[SerializeField] private Button noBtn = null;
+		[SerializeField] private Button vetoBtn = null;
 
-		if (PlayerList.Instance.AdminToken == null) return;
+		private int buttonPresses = 0;
 
-		vetoBtn.gameObject.SetActive(true);
-	}
-
-	public void UpdateVoteWindow(string currentCount, string timer)
-	{
-		if (!gameObject.activeInHierarchy) return;
-		voteCount.text = currentCount;
-		voteTimer.text = timer;
-	}
-
-	public void CloseVoteWindow()
-	{
-		vetoBtn.gameObject.SetActive(false);
-		gameObject.SetActive(false);
-	}
-
-	public void VoteYes()
-	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		if (PlayerManager.PlayerScript != null)
+		public void ShowVotePopUp(string title, string instigator, string currentCount, string timer)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
+			buttonPresses = 0;
+			gameObject.SetActive(true);
+			yesBtn.interactable = true;
+			noBtn.interactable = true;
+			voteTitle.text = title;
+			voteInstigator.text = instigator;
+			voteCount.text = currentCount;
+			voteTimer.text = timer;
+
+			if (PlayerList.Instance.AdminToken == null) return;
+
+			vetoBtn.gameObject.SetActive(true);
 		}
 
-		buttonPresses ++;
-		yesBtn.interactable = false;
-		noBtn.interactable = true;
-		ToggleButtons(false);
-	}
-
-	public void VoteNo()
-	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		if (PlayerManager.PlayerScript != null)
+		public void UpdateVoteWindow(string currentCount, string timer)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
+			if (!gameObject.activeInHierarchy) return;
+			voteCount.text = currentCount;
+			voteTimer.text = timer;
 		}
-		buttonPresses++;
-		yesBtn.interactable = true;
-		noBtn.interactable = false;
-		ToggleButtons(false);
-	}
 
-	public void AdminVeto()
-	{
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
-		if (PlayerManager.PlayerScript != null)
+		public void CloseVoteWindow()
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);
+			vetoBtn.gameObject.SetActive(false);
+			gameObject.SetActive(false);
 		}
-		buttonPresses++;
-		ToggleButtons(false);
-	}
 
-	void ToggleButtons(bool isOn)
-	{
-		if (buttonPresses < 10) return;
+		public void VoteYes()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			if (PlayerManager.PlayerScript != null)
+			{
+				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
+			}
 
-		yesBtn.interactable = isOn;
-		noBtn.interactable = isOn;
+			buttonPresses++;
+			yesBtn.interactable = false;
+			noBtn.interactable = true;
+			ToggleButtons(false);
+		}
+
+		public void VoteNo()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			if (PlayerManager.PlayerScript != null)
+			{
+				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
+			}
+			buttonPresses++;
+			yesBtn.interactable = true;
+			noBtn.interactable = false;
+			ToggleButtons(false);
+		}
+
+		public void AdminVeto()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			if (PlayerManager.PlayerScript != null)
+			{
+				PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);
+			}
+			buttonPresses++;
+			ToggleButtons(false);
+		}
+
+		private void ToggleButtons(bool isOn)
+		{
+			if (buttonPresses < 10) return;
+
+			yesBtn.interactable = isOn;
+			noBtn.interactable = isOn;
+		}
 	}
 }

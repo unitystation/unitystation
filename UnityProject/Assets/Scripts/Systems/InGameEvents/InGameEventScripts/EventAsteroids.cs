@@ -36,9 +36,19 @@ namespace InGameEvents
 		[SerializeField]
 		private int maxTimeBetweenMeteors = 10;
 
+		private bool IsMatrixInvalid()
+		{
+			if (stationMatrix != null) return false;
+
+			Logger.LogError($"Unable to start \"{nameof(EventAsteroids)}\". Main station may not be initialized yet.", Category.Event);
+			return true;
+		}
+
 		public override void OnEventStart()
 		{
 			stationMatrix = MatrixManager.MainStationMatrix;
+
+			if (IsMatrixInvalid()) return;
 
 			if (AnnounceEvent)
 			{
@@ -56,6 +66,8 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
+			if (IsMatrixInvalid()) return;
+
 			int asteroidAmount = UnityEngine.Random.Range(minMeteorAmount, maxMeteorAmount);
 
 			for (var i = 1; i <= asteroidAmount; i++)
@@ -79,6 +91,8 @@ namespace InGameEvents
 
 		private IEnumerator SpawnMeteorsWithDelay(float asteroidAmount)
 		{
+			if (IsMatrixInvalid()) yield break;
+
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
 				int multiplier = 1;

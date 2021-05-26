@@ -7,13 +7,13 @@ using UnityEngine;
 namespace Chemistry
 {
 	[Serializable]
-	public class ReagentMix : IEnumerable<KeyValuePair<Reagent, float>>
+	public class ReagentMix
 	{
 		[Temperature]
-		[SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
+		[SerializeField] private float temperature = TemperatureUtils.ToKelvin(20f, TemeratureUnits.C);
 
 		[SerializeField]
-		private DictionaryReagentFloat reagents;
+		public DictionaryReagentFloat reagents;
 
 		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
@@ -33,7 +33,7 @@ namespace Chemistry
 			reagents = new DictionaryReagentFloat();
 		}
 
-		public float this[Reagent reagent] => reagents.TryGetValue(reagent, out var amount) ? amount : 0;
+		public float this[Reagent reagent] => reagents.m_dict.TryGetValue(reagent, out var amount) ? amount : 0;
 
 		/// <summary>
 		/// Returns current temperature mix in Kelvin
@@ -46,7 +46,7 @@ namespace Chemistry
 				temperature = value;
 				if (float.IsNaN(Temperature))
 				{
-					Debug.LogError("Temperature is NAN");
+					Logger.LogError("Temperature is NAN", Category.Chemistry);
 				}
 			}
 		}
@@ -56,10 +56,14 @@ namespace Chemistry
 			get
 			{
 				float capacity = 0f;
-				foreach (var reagent in reagents)
+				lock (reagents)
 				{
-					capacity += reagent.Key.heatDensity * reagent.Value;
+					foreach (var reagent in reagents.m_dict)
+					{
+						capacity += reagent.Key.heatDensity * reagent.Value;
+					}
 				}
+
 				return capacity;
 			}
 		}
@@ -86,7 +90,7 @@ namespace Chemistry
 					Temperature =(value / WholeHeatCapacity);
 					if (float.IsNaN(Temperature))
 					{
-						Debug.LogError($"Temperature is NAN");
+						Logger.LogError($"Temperature is NAN", Category.Chemistry);
 					}
 				}
 
@@ -100,7 +104,7 @@ namespace Chemistry
 		{
 			get
 			{
-				var reagent = reagents.OrderByDescending(p => p.Value)
+				var reagent = reagents.m_dict.OrderByDescending(p => p.Value)
 					.FirstOrDefault();
 
 				return reagent.Value > 0 ? reagent.Key : null;
@@ -117,7 +121,7 @@ namespace Chemistry
 				var avgColor = new Color();
 				var totalAmount = Total;
 
-				foreach (var reagent in reagents)
+				foreach (var reagent in reagents.m_dict)
 				{
 					var percent = reagent.Value / totalAmount;
 					var colorStep = percent * reagent.Key.color;
@@ -150,15 +154,15 @@ namespace Chemistry
 			get
 			{
 				// Fallback for empty mix
-				if (reagents.Count == 0)
+				if (reagents.m_dict.Count == 0)
 					return ReagentState.Solid;
 
 				// Just shortcut to avoid all calculations bellow
-				if (reagents.Count == 1)
-					return reagents.First().Key.state;
+				if (reagents.m_dict.Count == 1)
+					return reagents.m_dict.First().Key.state;
 
 				// First group all reagents by their state
-				var groupedByState = reagents.GroupBy(x => x.Key.state);
+				var groupedByState = reagents.m_dict.GroupBy(x => x.Key.state);
 
 				// Next - get sum for each state
 				var volumeByState = groupedByState.Select((group) =>
@@ -175,9 +179,12 @@ namespace Chemistry
 
 		public void Add(ReagentMix b)
 		{
-			if (Total == 0)
+			if (Total == 0 || b.Total == 0)
 			{
-				Temperature = b.Temperature;
+				if (float.IsNaN(b.Temperature) == false)
+				{
+					Temperature = b.Temperature;
+				}
 			}
 			else
 			{
@@ -185,7 +192,7 @@ namespace Chemistry
 			}
 
 
-			foreach (var reagent in b.reagents)
+			foreach (var reagent in b.reagents.m_dict)
 			{
 				Add(reagent.Key, reagent.Value);
 			}
@@ -195,23 +202,48 @@ namespace Chemistry
 		{
 			if (amount < 0f)
 			{
-				Debug.LogError($"Trying to add negative {amount} amount of {reagent}");
+				Logger.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 
-			if (!reagents.ContainsKey(reagent))
+			if (!reagents.m_dict.ContainsKey(reagent))
 			{
-				reagents.Add(reagent, amount);
+				lock (reagents)
+				{
+					reagents.m_dict.Add(reagent, amount);
+				}
 			}
 			else
 			{
-				reagents[reagent] += amount;
+				reagents.m_dict[reagent] += amount;
+			}
+		}
+
+
+		public float Remove(Reagent reagent, float amount)
+		{
+			if (amount < 0f)
+			{
+				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");
+				return 0;
+			}
+
+			if (!reagents.m_dict.ContainsKey(reagent))
+			{
+				//Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
+				return 0;
+			}
+			else
+			{
+				amount = Math.Min(reagents.m_dict[reagent], amount);
+				reagents.m_dict[reagent] -= amount;
+				return amount;
 			}
 		}
 
 		public void Subtract(ReagentMix b)
 		{
-			foreach (var reagent in b.reagents)
+			foreach (var reagent in b.reagents.m_dict)
 			{
 				Subtract(reagent.Key, reagent.Value);
 			}
@@ -221,11 +253,12 @@ namespace Chemistry
 		{
 			if (subAmount < 0)
 			{
-				Debug.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", subAmount, reagent);
+				Logger.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
+					subAmount, reagent);
 				return 0;
 			}
 
-			if (reagents.TryGetValue(reagent, out var amount))
+			if (reagents.m_dict.TryGetValue(reagent, out var amount))
 			{
 				var newAmount = amount - subAmount;
 
@@ -233,13 +266,17 @@ namespace Chemistry
 				{
 					// nothing left, remove reagent - it became zero
 					// remove amount that was before
-					reagents.Remove(reagent);
+					lock (reagents)
+					{
+						reagents.m_dict.Remove(reagent);
+					}
+
 					return amount;
 				}
 
 				// change amount to subtraction result
-				reagents[reagent] = newAmount;
-				return amount;
+				reagents.m_dict[reagent] = newAmount;
+				return subAmount;
 			}
 
 			// have nothing to remove, just return zero
@@ -253,7 +290,7 @@ namespace Chemistry
 		{
 			if (multiplier < 0f)
 			{
-				Debug.LogError($"Trying to multiply reagentmix by {multiplier}");
+				Logger.LogError($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
 				return;
 			}
 
@@ -264,20 +301,20 @@ namespace Chemistry
 				return;
 			}
 
-			foreach (var key in reagents.Keys.ToArray())
+			foreach (var key in reagents.m_dict.Keys.ToArray())
 			{
-				reagents[key] *= multiplier;
+				reagents.m_dict[key] *= multiplier;
 			}
 		}
 
 		/// <summary>
-		/// Multiply each reagent amount by multiplier
+		/// Divide each reagent amount by Divider
 		/// </summary>
 		public void Divide(float Divider)
 		{
 			if (Divider < 0f)
 			{
-				Debug.LogError($"Trying to Divide reagentmix by {Divider}");
+				Logger.LogError($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
 				return;
 			}
 
@@ -287,29 +324,53 @@ namespace Chemistry
 				return;
 			}
 
-			foreach (var key in reagents.Keys.ToArray())
+			foreach (var key in reagents.m_dict.Keys.ToArray())
 			{
-				reagents[key] /= Divider;
+				reagents.m_dict[key] /= Divider;
 			}
 		}
 
-
-
-		/// <summary>
-		/// Transfer part of reagent mix
-		/// </summary>
-		/// <returns>Transfered reagent mix</returns>
-		public ReagentMix TransferTo(ReagentMix toTransfer, float amount)
+		[HideInInspector]
+		public List<Reagent> reagentKeys = new List<Reagent>();
+		public void TransferTo(ReagentMix target, float amount)
 		{
-			var toTransferMix = this.Clone();
+			var total = Total;
 
-			// can't allow to transfer more than Total
-			var toTransferAmount = Math.Min(amount, Total);
-			toTransferMix.Max(toTransferAmount, out _);
+			//temperature change
+			var targetTotal = target.Total;
+			if (targetTotal == 0)
+			{
+				target.temperature = temperature;
+			}
+			else
+			{
+				target.temperature = (target.temperature * targetTotal + temperature * amount) / (targetTotal + amount);
+			}
 
-			Subtract(toTransferMix);
-			toTransfer.Add(toTransferMix);
-			return toTransferMix;
+			//reagent transfer
+			if (amount < total)
+			{
+				var multiplier = amount / total;
+				reagentKeys.Clear();
+				foreach (var key in reagents.m_dict.Keys)
+				{
+					reagentKeys.Add(key);
+				}
+				foreach (var reagent in reagentKeys)
+				{
+					var reagentAmount = reagents.m_dict[reagent] * multiplier;
+					reagents.m_dict[reagent] -= reagentAmount;
+					target.Add(reagent, reagentAmount);
+				}
+			}
+			else
+			{
+				foreach (var reagent in reagents.m_dict)
+				{
+					target.Add(reagent.Key, reagent.Value);
+				}
+				reagents.m_dict.Clear();
+			}
 		}
 
 		public ReagentMix Take(float amount)
@@ -347,31 +408,39 @@ namespace Chemistry
 			RemoveVolume(removed);
 		}
 
+		/// <summary>
+		/// Get the what fraction of the total a specific reagent is
+		/// </summary>
+		public float GetPercent(Reagent reagent)
+		{
+			return reagents.m_dict[reagent] / Total;
+		}
+
+
 		public void Clear()
 		{
-			reagents.Clear();
+			reagents.m_dict.Clear();
 		}
 
 		// Inefficient for now, can replace with a caching solution later.
 
 		public float Total
 		{
-			get { return Mathf.Clamp( reagents.Sum(kvp => kvp.Value), 0, float.MaxValue); }
+			get
+			{
+				float total = 0;
+				foreach (var reagent in reagents.m_dict)
+				{
+					total += reagent.Value;
+				}
+				total = Mathf.Clamp(total, 0, float.MaxValue);
+				return total;
+			}
 		}
 
 		public ReagentMix Clone()
 		{
-			return new ReagentMix(new DictionaryReagentFloat(reagents), Temperature);
-		}
-
-		public IEnumerator<KeyValuePair<Reagent, float>> GetEnumerator()
-		{
-			return reagents.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
+			return new ReagentMix(new DictionaryReagentFloat(reagents.m_dict), Temperature);
 		}
 
 		public bool ContentEquals (ReagentMix b)
@@ -386,7 +455,7 @@ namespace Chemistry
 				return false;
 			}
 
-			foreach (var reagent in this.Concat(b))
+			foreach (var reagent in reagents.m_dict)
 			{
 				if (b[reagent.Key] != this[reagent.Key])
 				{
@@ -399,7 +468,7 @@ namespace Chemistry
 
 		public override string ToString()
 		{
-			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";;
+			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.m_dict.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";
 		}
 	}
 

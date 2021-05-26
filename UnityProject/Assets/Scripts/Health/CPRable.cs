@@ -1,3 +1,4 @@
+using HealthV2;
 using UnityEngine;
 
 /// <summary>
@@ -6,10 +7,9 @@ using UnityEngine;
 public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	const float CPR_TIME = 5;
-	const float OXYLOSS_HEAL_AMOUNT = 7;
 
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
-			new StandardProgressActionConfig(StandardProgressActionType.CPR);
+		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
 	private string performerName;
 	private string targetName;
@@ -21,10 +21,9 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject != null) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 
-		if (interaction.TargetObject.TryGetComponent(out PlayerHealth targetPlayerHealth))
+		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase targetPlayerHealth))
 		{
-			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
-				targetPlayerHealth.ConsciousState == ConsciousState.DEAD) return false;
+			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
 		}
 
 		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
@@ -39,30 +38,63 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		targetName = interaction.TargetObject.ExpensiveName();
 
 		var cardiacArrestPlayerRegister = interaction.TargetObject.GetComponent<RegisterPlayer>();
+
 		void ProgressComplete()
 		{
-			ServerDoCPR(interaction.Performer, interaction.TargetObject);
+			ServerDoCPR(interaction.Performer, interaction.TargetObject, interaction.TargetBodyPart);
 		}
 
 		var cpr = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
-				.ServerStartProgress(cardiacArrestPlayerRegister, CPR_TIME, interaction.Performer);
+			.ServerStartProgress(cardiacArrestPlayerRegister, CPR_TIME, interaction.Performer);
 		if (cpr != null)
 		{
 			Chat.AddActionMsgToChat(
-					interaction.Performer,
-					$"You begin performing CPR on {targetName}.",
-					$"{performerName} is trying to perform CPR on {targetName}.");
+				interaction.Performer,
+				$"You begin performing CPR on {targetName}'s " + interaction.TargetBodyPart,
+				$"{performerName} is trying to perform CPR on {targetName}'s " + interaction.TargetBodyPart);
 		}
 	}
 
-	private void ServerDoCPR(GameObject performer, GameObject target)
+	private void ServerDoCPR(GameObject performer, GameObject target, BodyPartType TargetBodyPart)
 	{
-		target.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= OXYLOSS_HEAL_AMOUNT;
+		var health = target.GetComponent<LivingHealthMasterBase>();
+		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
+		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-		Chat.AddActionMsgToChat(
+		bool hasLung = false;
+		bool hasHeart = false;
+		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart, false))
+		{
+			foreach (var bodyPartModification in BodyPart.BodyPartModifications)
+			{
+				if (bodyPartModification is Lungs lung)
+				{
+					lung.TryBreathing(node, 1);
+					hasLung = true;
+				}
+
+				if (bodyPartModification is Heart heart)
+				{
+					heart.Heartbeat(1);
+					hasHeart = true;
+				}
+			}
+		}
+
+		if (hasHeart && hasLung)
+		{
+			Chat.AddActionMsgToChat(
 				performer,
 				$"You perform CPR on {targetName}.",
 				$"{performerName} performs CPR on {targetName}.");
-		Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+			Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(
+				performer,
+				$"You perform CPR on {targetName}. It doesn't seem to work, maybe they're missing something.",
+				$"{performerName} performs CPR on {targetName} In vain.");
+		}
 	}
 }

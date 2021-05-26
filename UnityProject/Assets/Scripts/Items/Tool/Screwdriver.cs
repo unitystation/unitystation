@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Messages.Client;
+using UnityEngine;
 
 /// <summary>
 /// Allows object to function as a screwdriver.

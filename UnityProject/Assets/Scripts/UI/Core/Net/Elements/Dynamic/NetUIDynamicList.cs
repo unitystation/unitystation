@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Messages.Server;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using UnityEngine.UI;
@@ -89,7 +90,12 @@ public class NetUIDynamicList : NetUIElement<string[]>
 			var elementType = $"{MasterTab.Type}Entry";
 			Logger.LogFormat("{0} dynamic list: EntryPrefab not assigned, trying to find it as '{1}'", Category.NetUI,
 				gameObject.name, elementType);
-			EntryPrefab = Resources.Load<GameObject>(elementType);
+			EntryPrefab = NetworkTabManager.Instance.NetEntries.GetFromName(elementType);
+
+			if (EntryPrefab == null)
+			{
+				Logger.LogError($"Failed to find net entry {elementType} for {gameObject.name}", Category.NetUI);
+			}
 		}
 
 		foreach (var value in Entries)

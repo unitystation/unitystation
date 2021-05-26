@@ -10,7 +10,7 @@ namespace Systems.Shuttles
 	/// <summary>
 	/// Used to monitor the fuel level and to remove fuel from the canister and also stop the shuttle if the fuel has run out
 	/// </summary>
-	public class ShuttleFuelSystem : ManagedNetworkBehaviour
+	public class ShuttleFuelSystem : ManagedBehaviour
 	{
 		public float FuelLevel;
 		public ShuttleFuelConnector Connector;
@@ -37,7 +37,7 @@ namespace Systems.Shuttles
 		{
 			if (Connector == null)
 			{
-				Logger.LogError($"{nameof(Connector)} was null on {this}!");
+				//Logger.LogError($"{nameof(Connector)} was null on {this}!");
 				return;
 			}
 

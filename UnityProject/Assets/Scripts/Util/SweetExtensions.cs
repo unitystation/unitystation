@@ -55,6 +55,11 @@ public static class SweetExtensions
 		var entityObject = go.Object();
 		if (entityObject != null)
 		{
+			if (!string.IsNullOrWhiteSpace(entityObject.ArticleName))
+			{
+				return entityObject.ArticleName;
+			}
+
 			if (!string.IsNullOrWhiteSpace(entityObject.InitialName))
 			{
 				return entityObject.InitialName;
@@ -174,7 +179,7 @@ public static class SweetExtensions
 		float boost = (distance - NO_BOOST_THRESHOLD) * 2;
 		if (boost > 0)
 		{
-			Logger.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Lerp, boost);
+			Logger.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
 		}
 		return 1 + boost;
 	}
@@ -228,7 +233,7 @@ public static class SweetExtensions
 		{
 			return new Vector2(x, y);
 		}
-		Logger.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.NetUI);
+		Logger.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
 		return TransformState.HiddenPos;
 	}
 
@@ -435,5 +440,31 @@ public static class SweetExtensions
 			  && Comparer<T>.Default.Compare(value, max) <= 0
 			: Comparer<T>.Default.Compare(value, min) > 0
 			  && Comparer<T>.Default.Compare(value, max) < 0;
+	}
+
+	/// <summary>
+	/// See <see cref="Mathf.Approximately(float, float)"/>
+	/// </summary>
+	public static bool Approx(this float thisValue, float value)
+	{
+		return Mathf.Approximately(thisValue, value);
+	}
+
+	/// <summary>
+	/// See if two colours are approximately the same
+	/// </summary>
+	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true)
+	{
+		if (checkAlpha)
+		{
+			return Mathf.Approximately(a.b, b.b) &&
+			       Mathf.Approximately(a.r, b.r) &&
+			       Mathf.Approximately(a.g, b.g) &&
+			       Mathf.Approximately(a.a, b.a);
+		}
+
+		return Mathf.Approximately(a.b, b.b) &&
+			   Mathf.Approximately(a.r, b.r) &&
+		       Mathf.Approximately(a.g, b.g);
 	}
 }

@@ -1,84 +1,90 @@
-using System.Collections;
-using UnityEngine;
 using Mirror;
+using UnityEngine;
+using UI;
 
-///   Tells client to apply PlayerState (update his position, flight direction etc) to the given player
-public class PlayerMoveMessage : ServerMessage
+namespace Messages.Server
 {
-	public PlayerState State;
-	/// Player to be moved
-	public uint SubjectPlayer;
-
-	///To be run on client
-	public override void Process()
+	/// <summary>
+	///Tells client to apply PlayerState (update his position, flight direction etc) to the given player
+	/// </summary>
+	public class PlayerMoveMessage : ServerMessage<PlayerMoveMessage.NetMessage>
 	{
-		LoadNetworkObject(SubjectPlayer);
-
-		if ( NetworkObject == null )
+		public struct NetMessage : NetworkMessage
 		{
-			return;
+			public PlayerState State;
+			/// Player to be moved
+			public uint SubjectPlayer;
+
+			public override string ToString()
+			{
+				return $"[PlayerMoveMessage State={State} Subject={SubjectPlayer}]";
+			}
 		}
 
-		Logger.LogTraceFormat("Processed {1}'s state: {0}", Category.Movement, this, NetworkObject.name);
-		var playerSync = NetworkObject.GetComponent<PlayerSync>();
-		playerSync.UpdateClientState(State);
+		/// To be run on client
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.SubjectPlayer);
 
-		if ( NetworkObject == PlayerManager.LocalPlayer ) {
-			if (State.ResetClientQueue)
+			if ( NetworkObject == null )
 			{
-				playerSync.ClearQueueClient();
-				playerSync.RollbackPrediction();
-			}
-			if ( State.MoveNumber == 0 ) {
-	//			Logger.Log( "Zero step rollback" );
-				playerSync.ClearQueueClient();
-				playerSync.RollbackPrediction();
+				return;
 			}
 
-			ControlTabs.CheckTabClose();
-		}
-	}
+			Logger.LogTraceFormat("Processed {1}'s state: {0}", Category.Movement, this, NetworkObject.name);
+			var playerSync = NetworkObject.GetComponent<PlayerSync>();
+			playerSync.UpdateClientState(msg.State);
 
-	public static PlayerMoveMessage Send(NetworkConnection recipient, GameObject subjectPlayer, PlayerState state)
-	{
-		var msg = new PlayerMoveMessage
-		{
-			SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-			State = state,
-		};
-		msg.SendTo(recipient);
-		return msg;
-	}
-
-	public static void SendToAll(GameObject subjectPlayer, PlayerState state)
-	{
-
-
-		if (PlayerUtils.IsGhost(subjectPlayer))
-		{
-			//Send ghost positions only to ghosts
-			foreach (var connectedPlayer in PlayerList.Instance.InGamePlayers)
-			{
-				if (PlayerUtils.IsGhost(connectedPlayer.GameObject))
+			if ( NetworkObject == PlayerManager.LocalPlayer ) {
+				if (msg.State.ResetClientQueue)
 				{
-					Send(connectedPlayer.Connection, subjectPlayer, state);
+					playerSync.ClearQueueClient();
+					playerSync.RollbackPrediction();
 				}
+				if (msg.State.MoveNumber == 0 ) {
+					playerSync.ClearQueueClient();
+					playerSync.RollbackPrediction();
+				}
+
+				ControlTabs.CheckTabClose();
 			}
 		}
-		else
+
+		public static NetMessage Send(NetworkConnection recipient, GameObject subjectPlayer, PlayerState state)
 		{
-			var msg = new PlayerMoveMessage
+			var msg = new NetMessage
 			{
 				SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				State = state,
 			};
-			msg.SendToAll();
+
+			SendTo(recipient, msg);
+			return msg;
 		}
 
-	}
+		public static void SendToAll(GameObject subjectPlayer, PlayerState state)
+		{
+			if (PlayerUtils.IsGhost(subjectPlayer))
+			{
+				// Send ghost positions only to ghosts
+				foreach (var connectedPlayer in PlayerList.Instance.InGamePlayers)
+				{
+					if (PlayerUtils.IsGhost(connectedPlayer.GameObject))
+					{
+						Send(connectedPlayer.Connection, subjectPlayer, state);
+					}
+				}
+			}
+			else
+			{
+				var msg = new NetMessage
+				{
+					SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+					State = state,
+				};
 
-	public override string ToString()
-	{
-		return $"[PlayerMoveMessage State={State} Subject={SubjectPlayer}]";
+				SendToAll(msg);
+			}
+		}
 	}
 }

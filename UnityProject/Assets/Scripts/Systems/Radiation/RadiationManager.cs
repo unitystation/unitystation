@@ -26,14 +26,14 @@ namespace Systems.Radiation
 		void OnEnable()
 		{
 			Instance = this;
-			EventManager.AddHandler(EVENT.RoundStarted, StartSim);
-			EventManager.AddHandler(EVENT.RoundEnded, StopSim);
+			EventManager.AddHandler(Event.RoundStarted, StartSim);
+			EventManager.AddHandler(Event.RoundEnded, StopSim);
 		}
 
 		void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, StartSim);
-			EventManager.RemoveHandler(EVENT.RoundEnded, StopSim);
+			EventManager.RemoveHandler(Event.RoundStarted, StartSim);
+			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
 		}
 
 		public void StopSim()
@@ -159,7 +159,7 @@ namespace Systems.Radiation
 			CircleArea.Clear();
 
 			StopWatchlog.Stop();
-			Logger.Log("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds);
+			Logger.Log("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds, Category.Radiation);
 		}
 
 		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
@@ -220,11 +220,15 @@ namespace Systems.Radiation
 				var RadiationNode = NodePoint?.RadiationNode;
 				if (RadiationNode != null)
 				{
-					if (NodePoint.IsOccupied)
+					foreach (var Layer in Pulse.Matrix.MetaTileMap.Layers)
 					{
-						RadiationOnStep *= 0.15f;
+						if (Layer.Key == LayerType.Underfloor) continue;
+						var BasicTile_ = Pulse.Matrix.MetaTileMap.GetTile(new Vector2Int(x0, y0).To3Int(), Layer.Key ) as BasicTile;
+						if (BasicTile_ != null)
+						{
+							RadiationOnStep *= BasicTile_.RadiationPassability;
+						}
 					}
-					//RadiationOnStep *= RadiationNode.RadiationPassability;
 
 					CircleArea.Add(RadiationNode);
 					RadiationNode.MidCalculationNumbers += RadiationOnStep;
@@ -244,7 +248,6 @@ namespace Systems.Radiation
 				}
 			}
 		}
-
 		public void RequestPulse(Matrix Matrix, Vector3Int Location, float Strength, int InSourceID)
 		{
 			lock (PulseQueue)

@@ -54,12 +54,11 @@ public static class Spawn
 	{
 		if (objectPool == null)
 		{
-			//Search through our resources and find each prefab that has a CNT component
-			var spawnablePrefabs = Resources.FindObjectsOfTypeAll<GameObject>()
+			CustomNetworkManager.Instance.SetSpawnableList();
+			//only can spawn objects that are networked
+			var spawnablePrefabs = CustomNetworkManager.Instance.spawnPrefabs
 				.Where(IsPrefab)
-				.OrderBy(go => go.name)
-				//check if they have CNTs (thus are spawnable)
-				.Where(go => go.GetComponent<CustomNetTransform>() != null);
+				.OrderBy(go => go.name);
 
 			foreach (var spawnablePrefab in spawnablePrefabs)
 			{
@@ -85,7 +84,7 @@ public static class Spawn
 		if (!nameToSpawnablePrefab.ContainsKey(prefabName))
 		{
 			//try to load it ourselves
-			var prefab = Resources.Load<GameObject>(prefabName);
+			var prefab = CustomNetworkManager.Instance.GetSpawnablePrefabFromName(prefabName);
 			if (prefab == null)
 			{
 				Logger.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.", Category.ItemSpawn,
@@ -128,13 +127,13 @@ public static class Spawn
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool spawnItems = true)
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool spawnItems = true, bool AutoOnSpawnServerHook = true)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab),
 				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable),
-				count, scatterRadius, spawnItems: spawnItems));
+				count, scatterRadius, spawnItems: spawnItems), AutoOnSpawnServerHook);
 	}
 
 	/// <summary>
@@ -261,7 +260,7 @@ public static class Spawn
 	/// Server-side only. Performs the spawn and syncs it to all clients.
 	/// </summary>
 	/// <returns></returns>
-	private static SpawnResult Server(SpawnInfo info)
+	private static SpawnResult Server(SpawnInfo info, bool AutoOnSpawnServerHook = true)
 	{
 		if (info == null)
 		{
@@ -312,7 +311,11 @@ public static class Spawn
 			spawnResult = SpawnResult.Multiple(info, spawnedObjects);
 		}
 
-		_ServerFireClientServerSpawnHooks(spawnResult);
+		if (AutoOnSpawnServerHook)
+		{
+			_ServerFireClientServerSpawnHooks(spawnResult);
+		}
+
 
 		return spawnResult;
 
@@ -370,7 +373,7 @@ public static class Spawn
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
 		{
-			var comps = spawnedObject.GetComponents<IServerSpawn>();
+			var comps = spawnedObject.GetComponentsInChildren<IServerSpawn>();
 			if (comps != null)
 			{
 				foreach (var comp in comps)

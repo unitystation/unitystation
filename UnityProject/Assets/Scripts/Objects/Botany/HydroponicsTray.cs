@@ -59,6 +59,8 @@ namespace Objects.Botany
 		private float tickCount;
 		private float weedLevel;
 
+		#region Lifecycle
+
 		public void Start()
 		{
 			waterNotifier.PushClear();
@@ -97,7 +99,6 @@ namespace Objects.Botany
 			UpdateNutrimentFlag(showNutrimenetFlag, false);
 		}
 
-
 		private void EnsureInit()
 		{
 			if (registerTile != null) return;
@@ -108,6 +109,8 @@ namespace Objects.Botany
 			nutrimentNotifier.PushClear();
 			harvestNotifier.PushClear();
 		}
+
+		#endregion Lifecycle
 
 		/// <summary>
 		/// Server updates plant status and updates clients as needed
@@ -330,7 +333,6 @@ namespace Objects.Botany
 			}
 		}
 
-
 		private void UpdatePlant(string oldPlantSyncString, string newPlantSyncString)
 		{
 			UpdateSprite();
@@ -375,7 +377,7 @@ namespace Objects.Botany
 					if (growingPlantStage >= plantData.GrowthSpritesSOs.Count)
 					{
 						Logger.Log(
-							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.PlantName}");
+							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.PlantName}", Category.Botany);
 						return;
 					}
 
@@ -383,7 +385,6 @@ namespace Objects.Botany
 					break;
 			}
 		}
-
 
 		private void CropDeath()
 		{
@@ -438,7 +439,6 @@ namespace Objects.Botany
 				readyProduce.Add(produceObject);
 			}
 		}
-
 
 		/// <summary>
 		/// Server handles hand interaction with tray
@@ -525,7 +525,7 @@ namespace Objects.Botany
 						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
 						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
 					reagentContainer.Add(new ReagentMix(nutriment, foodObject.GetPlantData().Potency));
-					Despawn.ServerSingle(interaction.HandObject);
+					_ = Despawn.ServerSingle(interaction.HandObject);
 					return;
 				}
 				else
@@ -534,6 +534,7 @@ namespace Objects.Botany
 					plantData = PlantData.CreateNewPlant(_plantData);
 					UpdatePlantGrowthStage(0, 0);
 					UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
+					UpdateHarvestFlag(showHarvestFlag, false);
 					Inventory.ServerVanish(slot);
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You plant the {foodObject.name} in the {gameObject.ExpensiveName()}.",
@@ -548,6 +549,7 @@ namespace Objects.Botany
 				plantData = PlantData.CreateNewPlant(slot.Item.GetComponent<SeedPacket>().plantData);
 				UpdatePlantGrowthStage(0, 0);
 				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
+				UpdateHarvestFlag(showHarvestFlag, false);
 				Inventory.ServerVanish(slot);
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You plant the {Object.name} in the {gameObject.ExpensiveName()}.",

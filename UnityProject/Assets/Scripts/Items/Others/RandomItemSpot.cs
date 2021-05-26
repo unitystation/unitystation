@@ -17,12 +17,6 @@ namespace Items
 
 		private const int MaxAmountRolls = 5;
 
-		public override void OnStartServer()
-		{
-			var registerTile = GetComponent<RegisterTile>();
-			registerTile.WaitForMatrixInit(RollRandomPool);
-		}
-
 		private void RollRandomPool(MatrixInfo matrixInfo)
 		{
 			for (int i = 0; i < lootCount; i++)
@@ -54,14 +48,14 @@ namespace Items
 				if (pool == null)
 				{
 					// didn't spawned anything - just destroy spawner
-					Despawn.ServerSingle(gameObject);
+					_ = Despawn.ServerSingle(gameObject);
 					return;
 				}
 
 				SpawnItems(pool);
 			}
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void SpawnItems(PoolData poolData)
@@ -72,7 +66,7 @@ namespace Items
 
             if (itemPool == null)
 			{
-				Debug.LogError($"Item pool was null in {gameObject.name}");
+				Logger.LogError($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
 				return;
 			}
 
@@ -96,10 +90,8 @@ namespace Items
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (info.SpawnType != SpawnType.Mapped)
-			{
-				OnStartServer();
-			}
+			var registerTile = GetComponent<RegisterTile>();
+			registerTile.WaitForMatrixInit(RollRandomPool);
 		}
 	}
 

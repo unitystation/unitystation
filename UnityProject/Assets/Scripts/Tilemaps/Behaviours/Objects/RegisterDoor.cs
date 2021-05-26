@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using Systems.Interaction;
 
 	[RequireComponent(typeof(Integrity))]
 	[RequireComponent(typeof(Meleeable))]

@@ -1,10 +1,12 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Systems.Electricity;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
+using Items;
+
 
 namespace Objects
 {
@@ -13,7 +15,7 @@ namespace Objects
 	/// when clicking on vendor with a VendingRestock item in hand.
 	/// </summary>
 	[RequireComponent(typeof(HasNetworkTab))]
-	public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowered, IServerSpawn
+	public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, IServerSpawn
 	{
 		/// <summary>
 		/// Scatter spawned items a bit to not allow stacking in one position
@@ -32,7 +34,7 @@ namespace Objects
 		[ConditionalField("EjectObjects")]
 		[Tooltip("In which direction object should be thrown?")]
 		public EjectDirection EjectDirection = EjectDirection.None;
-		
+
 		[SerializeField] private AddressableAudioSource VendingSound = null;
 
 		[Header("Text messages")]
@@ -40,6 +42,8 @@ namespace Objects
 		private string restockMessage = "Items restocked."; // TODO This is never displayed anywhere.
 		[SerializeField]
 		private string noAccessMessage = "Access denied!";
+
+		private string tooExpensiveMessage = "This is too expensive!";
 
 		public bool isEmagged;
 
@@ -50,8 +54,9 @@ namespace Objects
 
 		public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
 		public VendorItemUpdateEvent OnItemVended = new VendorItemUpdateEvent();
-		public PowerStates ActualCurrentPowerState = PowerStates.On;
+		public PowerState ActualCurrentPowerState = PowerState.On;
 		public bool DoesntRequirePower = false;
+
 		private void Awake()
 		{
 			// ensure we have a net tab set up with the correct type
@@ -73,7 +78,7 @@ namespace Objects
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			//Checking if avaliable for restock
+			// Checking if avaliable for restock
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)) return true;
 			if (!Validations.HasComponent<VendingRestock>(interaction.HandObject)) return false;
@@ -82,7 +87,7 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			//Checking restock
+			// Checking restock
 			var handObj = interaction.HandObject;
 			if (handObj == null) return;
 			var restock = handObj.GetComponentInChildren<VendingRestock>();
@@ -106,15 +111,12 @@ namespace Objects
 		/// </summary>
 		public void ResetContentList()
 		{
-			if (!CustomNetworkManager.IsServer)
-			{
-				return;
-			}
+			if (CustomNetworkManager.IsServer == false) return;
 
 			VendorContent = new List<VendorItem>();
 			for (int i = 0; i < InitialVendorContent.Count; i++)
 			{
-				//protects against missing references
+				// protects against missing references
 				if (InitialVendorContent[i] != null && InitialVendorContent[i].Item != null)
 				{
 					VendorContent.Add(new VendorItem(InitialVendorContent[i]));
@@ -127,7 +129,7 @@ namespace Objects
 		/// </summary>
 		protected Cooldown VendingCooldown {
 			get {
-				if (!CommonCooldowns.Instance)
+				if (CommonCooldowns.Instance == false)
 				{
 					return null;
 				}
@@ -139,8 +141,8 @@ namespace Objects
 		private bool CanSell(VendorItem itemToSpawn, ConnectedPlayer player)
 		{
 			// check if selected item is valid
-			var isSelectionValid = (itemToSpawn != null && itemToSpawn.Stock > 0);
-			if (!isSelectionValid)
+			var isSelectionValid = itemToSpawn != null && itemToSpawn.Stock > 0;
+			if (isSelectionValid == false)
 			{
 				return false;
 			}
@@ -162,9 +164,25 @@ namespace Objects
 			if (player != null && accessRestrictions && !isEmagged)
 			{
 				var hasAccess = accessRestrictions.CheckAccess(player.GameObject);
-				if (!hasAccess)
+				if (hasAccess == false)
 				{
 					Chat.AddWarningMsgFromServer(player.GameObject, noAccessMessage);
+					return false;
+				}
+			}
+
+			if (itemToSpawn.Price > 0)
+			{
+				var playerStorage = player.GameObject.GetComponent<ItemStorage>();
+				var idCardObj = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
+				var idCard = AccessRestrictions.GetIDCard(idCardObj);
+				if (idCard.currencies[(int) itemToSpawn.Currency] >= itemToSpawn.Price)
+				{
+					idCard.currencies[(int) itemToSpawn.Currency] -= itemToSpawn.Price;
+				}
+				else
+				{
+					Chat.AddWarningMsgFromServer(player.GameObject, tooExpensiveMessage);
 					return false;
 				}
 			}
@@ -182,7 +200,7 @@ namespace Objects
 				return;
 			}
 
-			if (!CanSell(vendorItem, player))
+			if (CanSell(vendorItem, player) == false)
 			{
 				return;
 			}
@@ -192,7 +210,7 @@ namespace Objects
 			var spawnedItem = Spawn.ServerPrefab(vendorItem.Item, spawnPos, transform.parent,
 				scatterRadius: DispenseScatterRadius).GameObject;
 
-			//something went wrong trying to spawn the item
+			// something went wrong trying to spawn the item
 			if (spawnedItem == null)
 			{
 				return;
@@ -203,9 +221,10 @@ namespace Objects
 			Chat.AddLocalMsgToChat($"The {spawnedItem.ExpensiveName()} was dispensed from the vending machine", gameObject);
 
 			// Play vending sound
-			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));
+			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 
-			//Ejecting in direction
+			// Ejecting in direction
 			if (EjectObjects && EjectDirection != EjectDirection.None &&
 				spawnedItem.TryGetComponent<CustomNetTransform>(out var cnt))
 			{
@@ -236,14 +255,16 @@ namespace Objects
 
 		}
 
-		public void PowerNetworkUpdate(float Voltage)
+		#region IAPCPowerable
+
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
+			ActualCurrentPowerState = state;
 		}
 
-		public void StateUpdate(PowerStates State)
-		{
-			ActualCurrentPowerState = State;
-		}
+		#endregion
 	}
 
 	public enum EjectDirection { None, Up, Down, Random }
@@ -252,20 +273,24 @@ namespace Objects
 
 	public class VendorItemUpdateEvent : UnityEvent<VendorItem> { }
 
-	//Adding this as a separate class so we can easily extend it in future -
-	//add price or required access, stock amount and etc.
+	// Adding this as a separate class so we can easily extend it in future -
+	// add price or required access, stock amount and etc.
 	[System.Serializable]
 	public class VendorItem
 	{
 		public string ItemName;
 		public GameObject Item;
 		public int Stock = 5;
+		public CurrencyType Currency = CurrencyType.Credits;
+		public int Price = 0;
 
 		public VendorItem(VendorItem item)
 		{
-			this.Item = item.Item;
-			this.Stock = item.Stock;
-			this.ItemName = Item.name;
+			Item = item.Item;
+			Stock = item.Stock;
+			ItemName = item.ItemName;
+			Currency = item.Currency;
+			Price = item.Price;
 		}
 	}
 }

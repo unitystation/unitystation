@@ -1,21 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using ScriptableObjects;
 using UnityEngine;
+using Systems.Electricity.NodeModules;
 
 namespace Objects.Engineering
 {
-	public class ReactorTurbine : MonoBehaviour, INodeControl, ISetMultitoolSlave, ISetMultitoolMaster, IServerDespawn, ICheckedInteractable<HandApply>
+	public class ReactorTurbine : MonoBehaviour, INodeControl, ISetMultitoolSlave, ISetMultitoolMaster, ICheckedInteractable<HandApply>
 	{
-		private float tickCount;
-
 		public ModuleSupplyingDevice moduleSupplyingDevice;
-
+		public GameObject ConstructMaterial;
+		[SerializeField] private int droppedMaterialAmount = 25;
 		public ReactorBoiler Boiler;
-		// Start is called before the first frame update
-		void Start()
+
+		#region Lifecycle
+
+		private void Start()
 		{
-			moduleSupplyingDevice = this.GetComponent<ModuleSupplyingDevice>();
+			moduleSupplyingDevice = GetComponent<ModuleSupplyingDevice>();
 		}
 
 		private void OnEnable()
@@ -35,7 +37,8 @@ namespace Objects.Engineering
 			moduleSupplyingDevice?.TurnOffSupply();
 		}
 
-		// Update is called once per frame
+		#endregion
+
 		public void CycleUpdate()
 		{
 			if (Boiler != null)
@@ -75,25 +78,32 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} deconstruct the ReactorTurbine.",
 					() =>
 					{
-						Despawn.ServerSingle(gameObject);
+						Spawn.ServerPrefab(ConstructMaterial, gameObject.AssumedWorldPosServer(), count: droppedMaterialAmount); //Spawning plates here as OnDespawnServer gets derailed by the electricity code
+						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
 		}
 
-
 		/// <summary>
 		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 		/// </summary>
-		void IServerDespawn.OnDespawnServer(DespawnInfo info)
-		{
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, this.GetComponent<RegisterObject>().WorldPositionServer, count: 25);
-		}
+		/// 
+		//public void OnDespawnServer(DespawnInfo info)
+		//{
+		//	Spawn.ServerPrefab(ConstructMaterial, gameObject.AssumedWorldPosServer(), count: droppedMaterialAmount);
+		//}
+		/* OnDespawnServer was non-functional.
+		 * It still fires, however the electrical code resets the position so it's spawned in the shadow realm.
+		 * If you get it to work you're better than I am.
+		 */
 
-
-		//######################################## Multitool interaction ##################################
+		#region Multitool Interaction
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
 		public MultitoolConnectionType ConType => conType;
+
+		private bool multiMaster = false;
+		public bool MultiMaster => multiMaster;
 
 		public void SetMaster(ISetMultitoolMaster Imaster)
 		{
@@ -104,8 +114,8 @@ namespace Objects.Engineering
 			}
 		}
 
-		private bool multiMaster = false;
-		public bool MultiMaster => multiMaster;
 		public void AddSlave(object SlaveObjectThis) { }
+
+		#endregion
 	}
 }

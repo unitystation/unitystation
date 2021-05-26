@@ -13,23 +13,27 @@ namespace Systems.Atmospherics
 
 		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
 		{
-			if (gasMix.Temperature <= AtmosDefines.WATER_VAPOR_FREEZE)
+			if (gasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE) return;
+
+			if (gasMix.GetMoles(Gas.WaterVapor) < 2f)
 			{
-				if (gasMix.GetMoles(Gas.WaterVapor) < 2f)
-				{
-					//Not enough moles to freeze
-					return;
-				}
-
-				var numberOfIceToSpawn = Mathf.Floor(gasMix.GetMoles(Gas.WaterVapor) / 2f);
-
-				for (var i = 0; i < numberOfIceToSpawn; i++)
-				{
-					SpawnSafeThread.SpawnPrefab(tilePos, AtmosManager.Instance.iceShard);
-				}
-
-				gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);
+				//Not enough moles to freeze
+				return;
 			}
+
+			var numberOfIceToSpawn = (int)Mathf.Floor(gasMix.GetMoles(Gas.WaterVapor) / 2f);
+
+			//Stack size of ice is 50
+			if (numberOfIceToSpawn > 50)
+			{
+				numberOfIceToSpawn = 50;
+			}
+
+			if (numberOfIceToSpawn < 1) return;
+
+			SpawnSafeThread.SpawnPrefab(tilePos, AtmosManager.Instance.iceShard, amountIfStackable: numberOfIceToSpawn);
+
+			gasMix.RemoveGas(Gas.WaterVapor, numberOfIceToSpawn * 2f);
 		}
 	}
 }

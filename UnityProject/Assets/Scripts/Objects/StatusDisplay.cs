@@ -106,6 +106,11 @@ namespace Objects.Wallmounts
 			centComm.OnStatusDisplayUpdate.AddListener(OnTextBroadcastReceived);
 		}
 
+		private void Start()
+		{
+			centComm = GameManager.Instance.CentComm;
+		}
+
 		/// <summary>
 		/// cleaning up for reuse
 		/// </summary>
@@ -128,7 +133,7 @@ namespace Objects.Wallmounts
 
 			if (!textField)
 			{
-				Logger.LogErrorFormat("text field not found for status display {0}", Category.Telecoms, this);
+				Logger.LogErrorFormat("text field not found for status display {0}", Category.Chat, this);
 				return;
 			}
 			if (stateSync == MountedMonitorState.StatusText)

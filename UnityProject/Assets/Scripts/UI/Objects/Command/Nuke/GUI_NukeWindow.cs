@@ -132,7 +132,7 @@ namespace UI.Objects.Command
 			InfoTimerDisplay.SetValueServer(FormatTime(nuke.CurrentTimerSeconds));
 			nuke.OnTimerUpdate.AddListener(timerSeconds => { InfoTimerDisplay.SetValueServer(FormatTime(timerSeconds)); });
 
-			Logger.Log(nameof(WaitForProvider), Category.NetUI);
+			Logger.Log(nameof(WaitForProvider), Category.Machines);
 		}
 
 		private void Start()

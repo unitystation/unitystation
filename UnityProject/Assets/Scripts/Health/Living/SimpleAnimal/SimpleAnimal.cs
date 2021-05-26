@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
@@ -10,6 +11,7 @@ namespace Systems.Mob
 		private MobSprite mobSprite;
 
 		//Syncvar hook so that new players can sync state on start
+		[NonSerialized]
 		[SyncVar(hook = nameof(SyncAliveState))]
 		public bool deadState;
 
@@ -49,7 +51,7 @@ namespace Systems.Mob
 
 			if (mobSprite == null)
 			{
-				Logger.LogError($"No {nameof(MobSprite)} component on {this}!");
+				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
 				return;
 			}
 
@@ -57,7 +59,7 @@ namespace Systems.Mob
 			{
 				mobSprite.SetToDead();
 				mobSprite.SetToBodyLayer();
-				registerObject.Passable = state;
+				registerObject.SetPassable(true,state);
 			}
 			else
 			{
@@ -75,7 +77,7 @@ namespace Systems.Mob
 		{
 			if (mobSprite == null)
 			{
-				Logger.LogError($"No {nameof(MobSprite)} component on {this}!");
+				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
 				return;
 			}
 

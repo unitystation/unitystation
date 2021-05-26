@@ -62,7 +62,7 @@ namespace Systems.Spells.Wizard
 
 			if (playerSprite == null)
 			{
-				Logger.LogError($"Couldn't find child GameObject 'Sprites' on {teleportingPlayer}. Has the hierarchy changed?");
+				Logger.LogError($"Couldn't find child GameObject 'Sprites' on {teleportingPlayer}. Has the hierarchy changed?", Category.Spells);
 			}
 		}
 

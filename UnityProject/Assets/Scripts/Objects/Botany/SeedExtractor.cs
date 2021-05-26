@@ -10,14 +10,13 @@ using Items.Botany;
 namespace Objects.Botany
 {
 	[RequireComponent(typeof(HasNetworkTab))]
-	public class SeedExtractor : ManagedNetworkBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle, IAPCPowered
+	public class SeedExtractor : ManagedNetworkBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle, IAPCPowerable
 	{
 		private Queue<GrownFood> foodToBeProcessed;
 		private float processingProgress;
-		private PowerStates currentState = PowerStates.Off;
+		private PowerState currentState = PowerState.Off;
 
-		//Time it takes to process a single piece of produce
-		[SerializeField]
+		[SerializeField, Tooltip("Time it takes to process a single piece of produce.")]
 		private float processingTime = 3f;
 
 		[Tooltip("Inventory to store food waiting to be processed")]
@@ -28,63 +27,14 @@ namespace Objects.Botany
 		public bool IsProcessing => foodToBeProcessed.Count != 0;
 		public List<SeedPacket> seedPackets;
 		public SeedExtractorUpdateEvent UpdateEvent { get; } = new SeedExtractorUpdateEvent();
+
+		#region Lifecycle
+
 		private void Awake()
 		{
 			networkTab = GetComponent<HasNetworkTab>();
 			foodToBeProcessed = new Queue<GrownFood>();
 			seedPackets = new List<SeedPacket>();
-		}
-
-		/// <summary>
-		/// Handles processing produce into seed packets at rate defined by processingTime
-		/// </summary>
-		public override void UpdateMe()
-		{
-			//Only run on server and if there is something to process and the device has power
-			if (!isServer || !IsProcessing || currentState == PowerStates.Off) { return; }
-			//If processing isn't done keep waiting
-			if (processingProgress < processingTime)
-			{
-				processingProgress += Time.deltaTime;
-				return;
-			}
-
-			//Handle completed processing
-			processingProgress = 0;
-			var grownFood = foodToBeProcessed.Dequeue();
-			var seedPacket = Spawn.ServerPrefab(grownFood.SeedPacket).GameObject.GetComponent<SeedPacket>();
-			seedPacket.plantData = PlantData.CreateNewPlant(grownFood.GetPlantData());
-
-			//Add seed packet to dispenser
-			seedPackets.Add(seedPacket);
-			UpdateEvent.Invoke();
-
-			//De-spawn processed food
-			Inventory.ServerDespawn(grownFood.gameObject);
-			if (foodToBeProcessed.Count == 0)
-			{
-				Chat.AddLocalMsgToChat("The seed extractor finishes processing", gameObject);
-			}
-		}
-
-		/// <summary>
-		/// Spawns seed packet in world and removes it from internal list
-		/// </summary>
-		/// <param name="seedPacket">Seed packet to spawn</param>
-		public void DispenseSeedPacket(SeedPacket seedPacket)
-		{
-			//Spawn packet
-			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
-			CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
-			netTransform.AppearAtPosition(spawnPos);
-			netTransform.AppearAtPositionServer(spawnPos);
-
-			//Notify chat
-			Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject);
-
-			//Remove spawned entry from list
-			seedPackets.Remove(seedPacket);
-			UpdateEvent.Invoke();
 		}
 
 		/// <summary>
@@ -111,7 +61,60 @@ namespace Objects.Botany
 				netTransform.AppearAtPosition(spawnPos);
 				netTransform.AppearAtPositionServer(spawnPos);
 			}
+		}
 
+		#endregion
+
+		/// <summary>
+		/// Handles processing produce into seed packets at rate defined by processingTime
+		/// </summary>
+		public override void UpdateMe()
+		{
+			// Only run on server and if there is something to process and the device has power
+			if (isServer == false || IsProcessing == false || currentState == PowerState.Off) return;
+			// If processing isn't done keep waiting
+			if (processingProgress < processingTime)
+			{
+				processingProgress += Time.deltaTime;
+				return;
+			}
+
+			// Handle completed processing
+			processingProgress = 0;
+			var grownFood = foodToBeProcessed.Dequeue();
+			var seedPacket = Spawn.ServerPrefab(grownFood.SeedPacket).GameObject.GetComponent<SeedPacket>();
+			seedPacket.plantData = PlantData.CreateNewPlant(grownFood.GetPlantData());
+
+			// Add seed packet to dispenser
+			seedPackets.Add(seedPacket);
+			UpdateEvent.Invoke();
+
+			// De-spawn processed food
+			Inventory.ServerDespawn(grownFood.gameObject);
+			if (foodToBeProcessed.Count == 0)
+			{
+				Chat.AddLocalMsgToChat("The seed extractor finishes processing", gameObject);
+			}
+		}
+
+		/// <summary>
+		/// Spawns seed packet in world and removes it from internal list
+		/// </summary>
+		/// <param name="seedPacket">Seed packet to spawn</param>
+		public void DispenseSeedPacket(SeedPacket seedPacket)
+		{
+			// Spawn packet
+			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
+			CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
+			netTransform.AppearAtPosition(spawnPos);
+			netTransform.AppearAtPositionServer(spawnPos);
+
+			// Notify chat
+			Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject);
+
+			// Remove spawned entry from list
+			seedPackets.Remove(seedPacket);
+			UpdateEvent.Invoke();
 		}
 
 		/// <summary>
@@ -137,14 +140,14 @@ namespace Objects.Botany
 				Chat.AddActionMsgToChat(interaction.Performer,
 				$"You place the {foodAtributes.ArticleName} into the seed extractor",
 				$"{interaction.Performer.name} places the {foodAtributes.name} into the seed extractor");
-				if (foodToBeProcessed.Count == 0 && currentState != PowerStates.Off)
+				if (foodToBeProcessed.Count == 0 && currentState != PowerState.Off)
 				{
 					Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
 				}
 				foodToBeProcessed.Enqueue(grownFood);
 				return;
 			}
-			//If no interaction happens
+			// If no interaction happens
 			networkTab.ServerPerformInteraction(interaction);
 		}
 
@@ -156,10 +159,12 @@ namespace Objects.Botany
 			   interaction.HandObject.TryGetComponent<GrownFood>(out _);
 		}
 
+		#region IAPCPowerable
+
 		/// <summary>
-		/// IS NOT USED BUT REQUIRED BY IAPCPowered
+		/// IS NOT USED BUT REQUIRED BY IAPCPowerable
 		/// </summary>
-		void IAPCPowered.PowerNetworkUpdate(float Voltage)
+		void IAPCPowerable.PowerNetworkUpdate(float voltage)
 		{
 			throw new System.NotImplementedException();
 		}
@@ -168,7 +173,7 @@ namespace Objects.Botany
 		/// Triggers on device power state change
 		/// </summary>
 		/// <param name="newState">New state</param>
-		void IAPCPowered.StateUpdate(PowerStates newState)
+		void IAPCPowerable.StateUpdate(PowerState newState)
 		{
 			//Ignore if state hasn't changed
 			if (newState == currentState) { return; }
@@ -177,18 +182,20 @@ namespace Objects.Botany
 			if (foodToBeProcessed?.Count > 0)
 			{
 				//Any state other than off
-				if (currentState == PowerStates.Off)
+				if (currentState == PowerState.Off)
 				{
 					Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
 				}
 				//Off state
-				else if (newState == PowerStates.Off)
+				else if (newState == PowerState.Off)
 				{
 					Chat.AddLocalMsgToChat("The seed extractor shuts down!", gameObject);
 				}
 			}
 			currentState = newState;
 		}
+
+		#endregion
 	}
 
 	public class SeedExtractorUpdateEvent : UnityEvent { }

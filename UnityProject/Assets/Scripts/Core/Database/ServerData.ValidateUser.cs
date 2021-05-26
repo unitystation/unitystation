@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
-using Lobby;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,7 +15,6 @@ namespace DatabaseAPI
 		public static async Task<bool> ValidateUser(FirebaseUser user, Action<string> successAction,
 			Action<string> errorAction)
 		{
-
 			if (GameData.IsHeadlessServer) return false;
 
 			await user.ReloadAsync();
@@ -63,10 +61,18 @@ namespace DatabaseAPI
 			else
 			{
 				string unescapedJson = Regex.Unescape(fireStoreChar.stringValue);
-				characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
+				Logger.Log(unescapedJson);
+				try
+				{
+					characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
+				}
+				catch
+				{
+					characterSettings = new CharacterSettings();
+				}
 
 				// Validate and correct settings in case the customization options change
-				settingsValid = PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref characterSettings);
+				settingsValid = true;
 			}
 
 			if (!settingsValid)
@@ -93,7 +99,8 @@ namespace DatabaseAPI
 			return true;
 		}
 
-		public static async Task<ApiResponse> ValidateToken(RefreshToken refreshToken, bool doNotGenerateAccessToken = false)
+		public static async Task<ApiResponse> ValidateToken(RefreshToken refreshToken,
+			bool doNotGenerateAccessToken = false)
 		{
 			var url = "https://api.unitystation.org/validatetoken?data=";
 
@@ -101,7 +108,9 @@ namespace DatabaseAPI
 			{
 				url = "https://api.unitystation.org/validateuser?data=";
 			}
-			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, url + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
+
+			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
+				url + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
 
 			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
@@ -110,12 +119,12 @@ namespace DatabaseAPI
 			{
 				res = await HttpClient.SendAsync(r, cancellationToken);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				//fail silently for local offline testing
 				if (!GameData.Instance.OfflineMode)
 				{
-					Logger.Log($"Something went wrong with token validation {e.Message}");
+					Logger.Log($"Something went wrong with token validation {e.Message}", Category.DatabaseAPI);
 				}
 
 				return null;

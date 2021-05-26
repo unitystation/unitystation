@@ -1,220 +1,126 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+using UnityEngine.Events;
 
 namespace Objects.Machines
 {
-	public class MaterialStorage : NetworkBehaviour, IServerSpawn
+	public class MaterialStorage : MonoBehaviour
 	{
-		public MaterialsInMachineStorage materialsInMachines;
-		private int cm3PerSheet;
-		public int CM3PerSheet { get => cm3PerSheet; }
+		public Dictionary<ItemTrait, int> MaterialList = new Dictionary<ItemTrait, int>();
+		private int currentResources;
 
-		[SerializeField]
-		private int maximumTotalResourceStorage = 0;
+		public bool infiniteStorage;
+		//wont appear to be edited if the storage is infinite
+		[ConditionalField(nameof(infiniteStorage), false)]
+		public int maximumResources = 1000000;
 
-		[SyncVar(hook = nameof(SyncCurrentTotalResourceAmount))]
-		private int currentTotalResourceAmount = 0;
+		//2000cm per sheet is standard for SS13
+		public static readonly int Cm3PerSheet = 2000;
 
-		public int CurrentTotalResourceAmount { get => currentTotalResourceAmount; }
-
-		private List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
-
-		public List<MaterialRecord> MaterialRecordList { get => materialRecordList; }
-		private Dictionary<string, MaterialRecord> nameToMaterialRecord = new Dictionary<string, MaterialRecord>();
-
-		public Dictionary<string, MaterialRecord> NameToMaterialRecord { get => nameToMaterialRecord; }
-
-		private static Dictionary<ItemTrait, string> materialToNameRecord = new Dictionary<ItemTrait, string>();
-		public static Dictionary<ItemTrait, string> MaterialToNameRecord { get => materialToNameRecord; }
-
-		private Dictionary<ItemTrait, MaterialRecord> itemTraitToMaterialRecord = new Dictionary<ItemTrait, MaterialRecord>();
-		public Dictionary<ItemTrait, MaterialRecord> ItemTraitToMaterialRecord { get => itemTraitToMaterialRecord; }
-
-		public override void OnStartClient()
-		{
-			//foreach (MaterialRecord materialRecord in materialRecordList)
-			//{
-			//	materialRecord.SyncCurrentAmount(materialRecord.CurrentAmount, materialRecord.CurrentAmount);
-			//}
-			//base.OnStartClient();
-		}
-
+		public UnityEvent UpdateGUIs;
 		private void Awake()
 		{
-			EnsureInit();
-		}
-
-		public void EnsureInit()
-		{
-			//2000cm3 per sheet is standard for ss13
-			cm3PerSheet = materialsInMachines.cm3PerSheet;
-			//Initializes the record of materials in the material storage.
-			materialRecordList.Clear();
-			nameToMaterialRecord.Clear();
-			ItemTraitToMaterialRecord.Clear();
-			materialToNameRecord.Clear();
-			foreach (MaterialSheet material in materialsInMachines.materials)
+			foreach (var material in CraftingManager.MaterialSheetData.Keys)
 			{
-				MaterialRecord materialRecord = new MaterialRecord();
-				materialRecord.materialName = material.displayName;
-				materialRecord.materialPrefab = material.RefinedPrefab;
-				materialRecord.materialType = material.materialTrait;
-				materialRecordList.Add(materialRecord);
-			}
-
-			//Optimizes retrieval of record
-			foreach (MaterialRecord materialRecord in materialRecordList)
-			{
-				if (!MaterialToNameRecord.ContainsKey(materialRecord.materialType))
-					MaterialToNameRecord.Add(materialRecord.materialType, materialRecord.materialName);
-			}
-
-			foreach (MaterialRecord materialRecord in materialRecordList)
-			{
-				if (!NameToMaterialRecord.ContainsKey(materialRecord.materialName))
-				{
-					NameToMaterialRecord.Add(materialRecord.materialName.ToLower(), materialRecord);
-				}
-				if (!ItemTraitToMaterialRecord.ContainsKey(materialRecord.materialType))
-				{
-					ItemTraitToMaterialRecord.Add(materialRecord.materialType, materialRecord);
-				}
+				MaterialList.Add(material, 0);
 			}
 		}
 
-		/// <summary>
-		/// Attempt to add material sheets to the storage, these are converted into cm3. Returns true on success and false on failure.
-		/// </summary>
-		[Server]
-		public bool TryAddMaterialSheet(ItemTrait itemTrait, int quantity)
+		private void AddMaterial(ItemTrait material, int quantity)
 		{
-			int valueInCM3 = quantity * cm3PerSheet;
-			int totalSum = valueInCM3 + currentTotalResourceAmount;
+			MaterialList[material] += quantity;
+			currentResources += quantity;
+		}
 
-			if (totalSum <= maximumTotalResourceStorage)
+		private void ConsumeMaterial(ItemTrait material, int quantity)
+		{
+			MaterialList[material] -= quantity;
+			currentResources -= quantity;
+		}
+
+		public bool TryAddSheet(ItemTrait material, int quantity)
+		{
+			quantity *= Cm3PerSheet;
+			var totalSum = currentResources + quantity;
+
+			if (infiniteStorage || totalSum <= maximumResources)
 			{
-				//Sets the current amount of a certain material
-				int newAmount = ItemTraitToMaterialRecord[itemTrait].CurrentAmount + valueInCM3;
-				ItemTraitToMaterialRecord[itemTrait].SetCurrentAmount(newAmount);
-				//Sets the total amount of all materials
-				int newTotalAmount = CurrentTotalResourceAmount + valueInCM3;
-				ServerSetCurrentTotalResourceAmount(newTotalAmount);
+				AddMaterial(material, quantity);
+				UpdateGUIs.Invoke();
 				return true;
 			}
-			else return false;
+			return false;
 		}
 
-		/// <summary>
-		/// Attempt to remove a cm3 amount of materials from the storage. Returns true on success and false on failure.
-		/// </summary>
-		[Server]
-		public bool TryRemoveCM3Material(ItemTrait materialType, int quantity)
+		public bool TryRemoveSheet(ItemTrait material, int quantity)
 		{
-			int valueInCM3Removed = quantity;
-			if (ItemTraitToMaterialRecord[materialType].CurrentAmount >= valueInCM3Removed)
+			quantity *= Cm3PerSheet;
+			if (MaterialList[material] >= quantity)
 			{
-				int newAmount = ItemTraitToMaterialRecord[materialType].CurrentAmount - valueInCM3Removed;
-				ItemTraitToMaterialRecord[materialType].SetCurrentAmount(newAmount);
+				ConsumeMaterial(material, quantity);
+				UpdateGUIs.Invoke();
 				return true;
 			}
-			else return false;
+			return false;
 		}
 
 		/// <summary>
-		/// Attempt to remove an amount of material sheets from the storage. Returns true on success and false on failure.
+		/// Attempt to remove an amount of materials from a Dictionary of materials
 		/// </summary>
-		[Server]
-		public bool TryRemoveMaterialSheet(ItemTrait materialType, int quantity)
+		public bool TryConsumeList(DictionaryMaterialToIntAmount consume)
 		{
-			int valueInCM3Removed = quantity * cm3PerSheet;
-			if (ItemTraitToMaterialRecord[materialType].CurrentAmount >= valueInCM3Removed)
+			foreach (var materialSheet in consume.Keys)
 			{
-				//Sets the new current amount of material
-				int newAmount = ItemTraitToMaterialRecord[materialType].CurrentAmount - valueInCM3Removed;
-				ItemTraitToMaterialRecord[materialType].SetCurrentAmount(newAmount);
-
-				//Sets the total amount of all materials
-				int newTotalAmount = CurrentTotalResourceAmount - valueInCM3Removed;
-				ServerSetCurrentTotalResourceAmount(newTotalAmount);
-				return true;
-			}
-			else return false;
-		}
-
-		/// <summary>
-		/// Attempt to remove an amount of materials from a Dictionary of materials. Returns true on success and false on failure.
-		/// </summary>
-		[Server]
-		public bool TryRemoveCM3Materials(DictionaryMaterialToIntAmount materialsAndAmount)
-		{
-			//Checks if the materials from a list of materials and amount can be removed from the storage without going below 0
-			foreach (MaterialSheet material in materialsAndAmount.Keys)
-			{
-				int amountInStorage = ItemTraitToMaterialRecord[material.materialTrait].CurrentAmount;
-				int productAmountCost = materialsAndAmount[material];
-				if (amountInStorage < productAmountCost)
+				if (MaterialList[materialSheet.materialTrait] < consume[materialSheet])
 				{
 					return false;
 				}
 			}
 
-			int newTotalResourceAmount = CurrentTotalResourceAmount;
 			//Removes all the materials and their amount from the storage.
-			foreach (MaterialSheet material in materialsAndAmount.Keys)
+			foreach (var materialSheet in consume.Keys)
 			{
-				int amountInStorage = ItemTraitToMaterialRecord[material.materialTrait].CurrentAmount;
-				int productAmountCost = materialsAndAmount[material];
-				int newAmount = amountInStorage - productAmountCost;
-				newTotalResourceAmount -= productAmountCost;
-				ItemTraitToMaterialRecord[material.materialTrait].SetCurrentAmount(newAmount);
+				ConsumeMaterial(materialSheet.materialTrait, consume[materialSheet]);
 			}
-			ServerSetCurrentTotalResourceAmount(newTotalResourceAmount);
+
+			UpdateGUIs.Invoke();
 			return true;
 		}
 
-		[Server]
-		public void ServerSetCurrentTotalResourceAmount(int newValue)
+		public void DispenseSheet(int amountOfSheets, ItemTrait material, Vector3 worldPos)
 		{
-			int oldTotalAmount = currentTotalResourceAmount;
-			currentTotalResourceAmount = newValue;
-			SyncCurrentTotalResourceAmount(oldTotalAmount, currentTotalResourceAmount);
-		}
-
-		public void SyncCurrentTotalResourceAmount(int oldValue, int newValue)
-		{
-			currentTotalResourceAmount = newValue;
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			EnsureInit();
-			ResetMaterialStorage();
-		}
-
-		public void ResetMaterialStorage()
-		{
-			ServerSetCurrentTotalResourceAmount(0);
-			foreach (MaterialRecord materialRecord in ItemTraitToMaterialRecord.Values)
+			if (TryRemoveSheet(material, amountOfSheets))
 			{
-				materialRecord.SetCurrentAmount(0);
+				var materialToSpawn = CraftingManager.MaterialSheetData[material].RefinedPrefab;
+				Spawn.ServerPrefab(materialToSpawn, worldPos, transform.parent, count: amountOfSheets);
 			}
 		}
-	}
 
-	public class MaterialRecord
-	{
-		private int currentAmount;
-
-		public int CurrentAmount { get => currentAmount; }
-		public string materialName { get; set; }
-		public ItemTrait materialType { get; set; }
-		public GameObject materialPrefab { get; set; }
-
-		public void SetCurrentAmount(int newValue)
+		public void DropAllMaterials()
 		{
-			currentAmount = newValue;
+			foreach (var material in MaterialList.Keys)
+			{
+				var materialToSpawn = CraftingManager.MaterialSheetData[material].RefinedPrefab;
+				var amountToSpawn = MaterialList[material] / Cm3PerSheet;
+				if (amountToSpawn > 0)
+				{
+					Spawn.ServerPrefab(materialToSpawn, gameObject.WorldPosServer(), transform.parent, count: amountToSpawn);
+				}
+			}
+		}
+
+		public ItemTrait FindMaterial(GameObject handObject)
+		{
+			foreach (var material in MaterialList.Keys)
+			{
+				if (Validations.HasItemTrait(handObject, material))
+				{
+					return material;
+				}
+			}
+			return null;
 		}
 	}
 }

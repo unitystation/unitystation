@@ -14,15 +14,14 @@ namespace Objects.Construction
 	{
 		private RegisterObject registerObject;
 		private ObjectBehaviour objectBehaviour;
-
 		private HandApply currentInteraction;
 		private string objectName;
 
 		/// <summary>
 		/// Invoked after the anchored state is changed.
 		/// </summary>
-		[NonSerialized]
-		public UnityEvent OnAnchoredChange = new UnityEvent();
+		[NonSerialized] public UnityEvent OnAnchoredChange = new UnityEvent();
+
 		public bool IsAnchored => objectBehaviour != null && !objectBehaviour.IsPushable;
 
 		[SerializeField, FormerlySerializedAs("stateSecuredStatus")]
@@ -34,13 +33,18 @@ namespace Objects.Construction
 		private bool isExposedFloorPlatingRequired = false;
 
 		//The two float values below will likely be identical most of the time, but can't hurt to keep them separate just in case.
-		[Tooltip("Time taken to secure this.")]
-		[SerializeField]
+		[Tooltip("Time taken to secure this.")] [SerializeField]
 		private float secondsToSecure = 0;
 
-		[Tooltip("Time taken to unsecure this.")]
-		[SerializeField]
+		[Tooltip("Time taken to unsecure this.")] [SerializeField]
 		private float secondsToUnsecure = 0;
+
+		[Tooltip("Whether the object sprite direction shouldn't be allowed to change, needs directional component")]
+		public bool lockSpriteDirection = false;
+
+		[HideInInspector] public bool blockAnchorChange;
+		public string blockMessage;
+
 
 		private void Awake()
 		{
@@ -52,7 +56,7 @@ namespace Objects.Construction
 		{
 			// Try get the best name for the object, else default to object's prefab name.
 			if (TryGetComponent<ObjectAttributes>(out var attributes)
-					&& string.IsNullOrWhiteSpace(attributes.InitialName) == false)
+			    && string.IsNullOrWhiteSpace(attributes.InitialName) == false)
 			{
 				objectName = attributes.InitialName;
 			}
@@ -63,7 +67,7 @@ namespace Objects.Construction
 
 			if (objectBehaviour == null)
 			{
-				Logger.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!");
+				Logger.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!", Category.Construction);
 			}
 		}
 
@@ -82,6 +86,12 @@ namespace Objects.Construction
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (blockAnchorChange)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, blockMessage);
+				return;
+			}
+
 			currentInteraction = interaction;
 			TryWrench();
 		}
@@ -125,36 +135,41 @@ namespace Objects.Construction
 
 		private bool VerbosePlatingExposed()
 		{
-			if (!registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer, LayerType.Floors))
+			if (!registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer,
+				LayerType.Floors))
 			{
 				return true;
 			}
 
 			Chat.AddExamineMsg(
-					currentInteraction.Performer,
-					$"The floor plating must be exposed before you can secure the {objectName} to the floor!");
+				currentInteraction.Performer,
+				$"The floor plating must be exposed before you can secure the {objectName} to the floor!");
 			return false;
 		}
 
 		private void Anchor()
 		{
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, secondsToSecure,
-					secondsToSecure == 0 ? "" : $"You start securing the {objectName}...",
-					secondsToSecure == 0 ? "" : $"{currentInteraction.Performer.ExpensiveName()} starts securing the {objectName}...",
-					$"You secure the {objectName}.",
-					$"{currentInteraction.Performer.ExpensiveName()} secures the {objectName}.",
-					() => SetAnchored(true)
+				secondsToSecure == 0 ? "" : $"You start securing the {objectName}...",
+				secondsToSecure == 0
+					? ""
+					: $"{currentInteraction.Performer.ExpensiveName()} starts securing the {objectName}...",
+				$"You secure the {objectName}.",
+				$"{currentInteraction.Performer.ExpensiveName()} secures the {objectName}.",
+				() => SetAnchored(true)
 			);
 		}
 
 		private void Unanchor()
 		{
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, secondsToUnsecure,
-					secondsToSecure == 0 ? "" : $"You start unsecuring the {objectName}...",
-					secondsToSecure == 0 ? "" : $"{currentInteraction.Performer.ExpensiveName()} starts unsecuring the {objectName}...",
-					$"You unsecure the {objectName}.",
-					$"{currentInteraction.Performer.ExpensiveName()} unsecures the {objectName}.",
-					() => SetAnchored(false)
+				secondsToSecure == 0 ? "" : $"You start unsecuring the {objectName}...",
+				secondsToSecure == 0
+					? ""
+					: $"{currentInteraction.Performer.ExpensiveName()} starts unsecuring the {objectName}...",
+				$"You unsecure the {objectName}.",
+				$"{currentInteraction.Performer.ExpensiveName()} unsecures the {objectName}.",
+				() => SetAnchored(false)
 			);
 		}
 
@@ -162,6 +177,11 @@ namespace Objects.Construction
 		{
 			objectBehaviour.ServerSetAnchored(isAnchored, currentInteraction.Performer);
 			OnAnchoredChange?.Invoke();
+		}
+
+		public void ServerSetPushable(bool isPushable)
+		{
+			objectBehaviour.ServerSetPushable(isPushable);
 		}
 	}
 }

@@ -51,7 +51,7 @@ public static class DefaultWillInteract
 		{
 			return ContextMenuApply(interaction as ContextMenuApply, side);
 		}
-		Logger.LogError("Unable to recognize interaction type.");
+		Logger.LogError("Unable to recognize interaction type.", Category.Interaction);
 		return false;
 	}
 

@@ -1,34 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Messages.Client;
-using UnityEngine;
+﻿using Mirror;
 
-public class OpenBookIDNetMessage : ClientMessage
+namespace Messages.Client.VariableViewer
 {
-	public ulong BookID;
-	public string AdminId;
-	public string AdminToken;
-
-	public override void Process()
+	public class OpenBookIDNetMessage : ClientMessage<OpenBookIDNetMessage.NetMessage>
 	{
-		ValidateAdmin();
-	}
+		public struct NetMessage : NetworkMessage
+		{
+			public ulong BookID;
+			public string AdminId;
+			public string AdminToken;
+		}
 
-	void ValidateAdmin()
-	{
-		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
-		if (admin == null) return;
-		VariableViewer.RequestSendBook(BookID, SentByPlayer.GameObject);
-	}
+		public override void Process(NetMessage msg)
+		{
+			ValidateAdmin(msg);
+		}
+
+		void ValidateAdmin(NetMessage msg)
+		{
+			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
+			if (admin == null) return;
+			global::VariableViewer.RequestSendBook(msg.BookID, SentByPlayer.GameObject);
+		}
 
 
-	public static OpenBookIDNetMessage Send(ulong BookID, string adminId, string adminToken)
-	{
-		OpenBookIDNetMessage msg = new OpenBookIDNetMessage();
-		msg.BookID = BookID;
-		msg.AdminId = adminId;
-		msg.AdminToken = adminToken;
-		msg.Send();
-		return msg;
+		public static NetMessage Send(ulong BookID, string adminId, string adminToken)
+		{
+			NetMessage msg = new NetMessage();
+			msg.BookID = BookID;
+			msg.AdminId = adminId;
+			msg.AdminToken = adminToken;
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

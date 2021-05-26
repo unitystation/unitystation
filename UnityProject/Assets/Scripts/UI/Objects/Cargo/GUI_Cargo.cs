@@ -7,57 +7,48 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_Cargo : NetTab
 	{
-		private NetLabel creditsText;
-		private NetLabel СreditsText => creditsText ? creditsText : creditsText = this["HeaderCredits"] as NetLabel;
-		private NetLabel directoryText;
-		private NetLabel DirectoryText => directoryText ? directoryText : directoryText = this["HeaderDirectory"] as NetLabel;
-		private NetPageSwitcher nestedSwitcher;
-		private NetPageSwitcher NestedSwitcher => nestedSwitcher ? nestedSwitcher : nestedSwitcher = this["ScreenBounds"] as NetPageSwitcher;
-		private GameObject providerGameObject;
-		private CargoConsole cargoConsole;
+		public NetLabel СreditsText;
+		public NetLabel DirectoryText;
+		public NetPageSwitcher NestedSwitcher;
 
-		[SerializeField]
-		private GUI_CargoPageCart pageCart = null;
+		public CargoConsole cargoConsole;
+
+		public GUI_CargoPageCart pageCart;
+		public GUI_CargoPageSupplies pageSupplies;
 
 		protected override void InitServer()
 		{
-			CargoManager.Instance.LoadData();
-			NestedSwitcher.OnPageChange.AddListener(RefreshSubpage);
 			CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateCreditsText);
-			foreach (NetPage page in NestedSwitcher.Pages)
+			foreach (var page in NestedSwitcher.Pages)
 			{
-				page.GetComponent<GUI_CargoPage>().Init();
+				page.GetComponent<GUI_CargoPage>().cargoGUI = this;
 			}
 			UpdateCreditsText();
-
-		}
-
-		public override void OnEnable()
-		{
-			base.OnEnable();
 			StartCoroutine(WaitForProvider());
 		}
 
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{
 				yield return WaitFor.EndOfFrame;
 			}
-			providerGameObject = Provider;
-			cargoConsole = providerGameObject.GetComponent<CargoConsole>();
-			cargoConsole.NetTabRef(gameObject);
+			cargoConsole = Provider.GetComponent<CargoConsole>();
+			cargoConsole.cargoGUI = this;
 		}
 
-		public void RefreshSubpage(NetPage oldPage, NetPage newPage)
+		public void OpenTab(NetPage pageToOpen)
 		{
-			DirectoryText.SetValueServer(newPage.GetComponent<GUI_CargoPage>().DirectoryName);
+			NestedSwitcher.SetActivePage(pageToOpen);
+			var cargopage = pageToOpen.GetComponent<GUI_CargoPage>();
+			cargopage.OpenTab();
+			cargopage.UpdateTab();
+			DirectoryText.SetValueServer(cargopage.DirectoryName);
 		}
 
 		private void UpdateCreditsText()
 		{
-			СreditsText.SetValueServer("Budget: " + CargoManager.Instance.Credits.ToString());
-			СreditsText.ExecuteServer(null);
+			СreditsText.SetValueServer($"Budget: {CargoManager.Instance.Credits}");
 		}
 
 		public void CallShuttle()
@@ -65,26 +56,9 @@ namespace UI.Objects.Cargo
 			CargoManager.Instance.CallShuttle();
 		}
 
-		public void OpenTab(NetPage pageToOpen)
-		{
-			NestedSwitcher.SetActivePage(pageToOpen);
-			pageToOpen.GetComponent<GUI_CargoPage>().OpenTab();
-		}
-
 		public void ResetId()
 		{
 			cargoConsole.ResetID();
-		}
-
-		public bool CurrentId()
-		{
-			if (cargoConsole == null) return false;
-			return cargoConsole.CorrectID;
-		}
-
-		public void UpdateId()
-		{
-			pageCart.UpdateTab();
 		}
 	}
 }

@@ -52,15 +52,14 @@ public class SoundSpawn: MonoBehaviour
 		monitor = true;
 	}
 
-	// JESTER
 	private void OnEnable()
 	{
 		UpdateManager.Add(UpdateMe, 0.2f);
 	}
 
-	// JESTER
 	private void OnDisable()
 	{
+		SoundManager.Instance.SoundSpawns.Remove(Token);
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 

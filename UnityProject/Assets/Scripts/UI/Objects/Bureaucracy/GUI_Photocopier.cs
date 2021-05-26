@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections;
-using Assets.Scripts.Items.Bureaucracy;
 using UnityEngine;
 using AddressableReferences;
+using Items.Bureaucracy;
 
-namespace Assets.Scripts.UI.Bureaucracy
+namespace UI.Bureaucracy
 {
-	
-
-
-	
 	public class GUI_Photocopier : NetTab
 	{
 		[SerializeField] private AddressableAudioSource Beep = null;
 
-		
 		private Photocopier Photocopier { get; set; }
 		private RegisterObject registerObject;
 

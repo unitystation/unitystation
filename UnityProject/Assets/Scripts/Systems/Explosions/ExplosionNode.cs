@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -36,6 +37,10 @@ namespace Systems.Explosions
 			EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb) * 0.375f;
 
+			// Prevents a perpetual motion explosion
+			if(EnergyExpended <= 0.375f)
+				EnergyExpended = 0.375f;
+
 			if (Damagedealt > 100)
 			{
 				var Node = matrix.GetMetaDataNode(v3int);
@@ -67,7 +72,7 @@ namespace Systems.Explosions
 			{
 
 				// do damage
-				player.GetComponent<PlayerHealth>().ApplyDamage(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
+				player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
 
 			}
 

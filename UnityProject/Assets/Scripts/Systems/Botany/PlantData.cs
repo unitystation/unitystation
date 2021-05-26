@@ -187,7 +187,15 @@ namespace Systems.Botany
 			}
 
 			//var oldPlantData = plantData;
-			MutateTo(newPlantData.GetComponent<SeedPacket>().plantData);
+			if (newPlantData.TryGetComponent<SeedPacket>(out var packet))
+			{
+				MutateTo(packet.plantData);
+			}
+			else
+			{
+				Logger.LogError($"{nameof(SeedPacket)} component missing on {newPlantData}! Cannot mutate.", Category.Botany);
+			}
+						
 			//UpdatePlant(oldPlantData.Name, Name);
 		}
 

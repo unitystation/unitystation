@@ -47,6 +47,11 @@ public class MyProjectViewExtentions
 			if (Dictionaryguid.ContainsKey(guid))
 			{
 				mainTex = GetCorrectTexture(Dictionaryguid[guid]);
+
+				if (mainTex == null)
+				{
+					Logger.LogError($"Sprite SO {sTing} has null value");
+				}
 			}
 			else
 			{
@@ -62,7 +67,7 @@ public class MyProjectViewExtentions
 				{
 					Logger.Log("hey, Texture read and write is not enabled for this Sprite " +
 					           spriteDataSO.Variance[0].Frames[0].sprite +
-					           "Please update the values on the import settings to make it Read and write");
+					           "Please update the values on the import settings to make it Read and write", Category.Editor);
 					return;
 				}
 
@@ -118,7 +123,7 @@ public class MyProjectViewExtentions
 			}
 		}
 
-		return Db?.Textdict[Db?.PresentFrame];
+		return Db.Textdict.TryGetValue(Db.PresentFrame, out var frame) ? frame : null;
 	}
 
 	public static Texture2D GetSpriteRenderer(GameObject GameO)
@@ -135,7 +140,7 @@ public class MyProjectViewExtentions
 				if (importer.isReadable == false)
 				{
 					Logger.Log("hey, Texture read and write is not enabled for this Sprite " + SR.sprite +
-					           "Please update the values on the import settings to make it Read and write");
+					           "Please update the values on the import settings to make it Read and write", Category.Editor);
 					return T2D;
 				}
 

@@ -88,7 +88,7 @@ namespace Systems
 			record.Age = script.characterSettings.Age.ToString();
 			record.Rank = script.mind.occupation.JobType.JobString();
 			record.Occupation = OccupationList.Instance.Get(jobType);
-			record.Sex = script.characterSettings.Gender.ToString();
+			record.Sex = script.characterSettings.BodyType.ToString();
 			//We don't have races yet. Or I didn't find them.
 			record.Species = "Human";
 			//I don't know what to put in ID and Fingerprints

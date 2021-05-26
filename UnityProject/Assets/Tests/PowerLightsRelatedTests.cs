@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Text;
 using Systems.Electricity;
-using Lighting;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Objects.Engineering;
+using Objects.Lighting;
 
 namespace Tests
 {
@@ -45,7 +45,6 @@ namespace Tests
 		    }
 		    Assert.That(count, Is.EqualTo(0),$"APCs count in the scene: {listOfDevices.Count}");
 	    }
-
 
 	    /// <summary>
 	    /// Checks only scenes selected for build
@@ -122,7 +121,7 @@ namespace Tests
 		    Logger.Log("Powered Devices without APC", Category.Tests);
 		    foreach (var objectDevice in listOfDevices)
 		    {
-			    var device = objectDevice as APCPoweredDevice;
+			    var device = objectDevice;
 			    if(device.IsSelfPowered) continue;
 			    if (device.RelatedAPC == null)
 			    {

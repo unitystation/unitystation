@@ -123,21 +123,7 @@ public static class Logger
 	{
 		if (category == Category.Unknown)
 		{
-			switch (messageLevel)
-			{
-				case LogLevel.Trace:
-					Debug.Log(message);
-					break;
-				case LogLevel.Warning:
-					Debug.LogWarning(message);
-					break;
-				case LogLevel.Error:
-					Debug.LogError(message);
-					break;
-				case LogLevel.Info:
-					Debug.Log(message);
-					break;
-			}
+			SendLog(message, messageLevel, args);
 			return;
 		}
 
@@ -155,6 +141,11 @@ public static class Logger
 		string categoryPrefix = category == Category.Unknown ? "" : "[" + category + "] ";
 
 		string msg = categoryPrefix + message;
+		SendLog(message, messageLevel, args);
+	}
+
+	private static void SendLog(string msg, LogLevel messageLevel, params object[] args)
+	{
 		if (args.Length > 0)
 		{
 			switch (messageLevel)
@@ -207,80 +198,296 @@ public enum LogLevel
 	Trace = 3
 }
 
+/// <summary>
+/// Categories for sorting and filtering logs
+/// </summary>
 public enum Category
 {
+	/// <summary>
+	/// Category for the log isn't known or doesn't exist
+	/// </summary>
 	Unknown,
-	Security,
-	Connections,
-	Threading,
-	Matrix,
-	Transform,
-	Movement,
-	NetMessage,
-	UI,
-	ItemSpawn,
-	Inventory,
-	Equipment,
-	Steam,
-	DmMetadata,
-	Light2D,
-	NetUI,
-	Health,
-	Atmos,
-	Telecoms,
-	Shutters,
-	Doors,
-	Jobs,
-	PushPull,
-	Lighting,
-	Firearms,
-	Power,
-	Throwing,
-	Containers,
-	Chemistry,
-	SunVox,
-	Rcon,
-	Audio,
-	Research,
-	TileMaps,
-	Construction,
-	DatabaseAPI,
-	PlayerSprites,
-	Electrical,
-	RightClick,
-	Lerp,
-	Keybindings,
-	Round,
-	DebugConsole,
-	Camera,
-	Exploits, //Used when (potentially illegal/invalid) actions occur that are likely caused due to exploits, cheats or hacking
-	Graphics,
-	Server,
-	Tests,
-	Editor,
-	VariableViewer,
-	Themes,
-	SpriteHandler,
-	GameMode,
-	Chat,
-	Interaction,
-	Antags,
-	Hub,
-	SpatialRelationship,
-	MLAgents,
-	Direction,
-	Admin,
-	Mentor,
-	BuckledMovement,
-	ProgressAction,
-	Botany,
-	SoundFX,
-	Character,
-	SubScenes,
-	Spells,
-	UIAction,
-	Cooldowns,
-	Addressables
+
+	//Core Functionality
+		/// <summary>
+		/// Logs relating to the programs threading behavior
+		/// </summary>
+		Threading,
+		/// <summary>
+		/// Logs relating to the Addressables System
+		/// </summary>
+		Addressables,
+		/// <summary>
+		/// Logs relating to the DatabaseAPI, logging in to, creating, and verifying user accounts
+		/// </summary>
+		DatabaseAPI,
+		/// <summary>
+		/// Logs relating to Steam integration
+		/// </summary>
+		Steam,
+
+	//Servers and Admin
+		/// <summary>
+		/// Logs relating to general server functionality
+		/// </summary>
+		Server,
+		/// <summary>
+		/// Logs relating to client-server connections
+		/// </summary>
+		Connections,
+		/// <summary>
+		/// Logs relating to the Remote Console
+		/// </summary>
+		Rcon,
+		/// <summary>
+		/// Logs relating to admins, admin commands and verification
+		/// </summary>
+		Admin,
+		/// <summary>
+		/// Logs relating the client attempting illegal/invalid actions that could be caused by cheating, hacking, or exploits
+		/// </summary>
+		Exploits,
+
+	//Sound and Audio
+		/// <summary>
+		/// Logs relating to Sound Effects and Music
+		/// </summary>
+		Audio,
+		/// <summary>
+		/// Logs relating to the SunVox music studio integration
+		/// </summary>
+		SunVox,
+
+	//Sprites and Particles
+		/// <summary>
+		/// Logs relating to Sprites and the SpriteHandler
+		/// </summary>
+		Sprites,
+		/// <summary>
+		/// Logs relating to Particles and the Particle System
+		/// </summary>
+		Particles,
+
+	//Tiles and Location
+		/// <summary>
+		/// Logs relating to Matrices and Tile Metadata
+		/// </summary>
+		Matrix,
+		/// <summary>
+		/// Logs relating to the generating and altering tilemaps
+		/// </summary>
+		TileMaps,
+		/// <summary>
+		/// Logs relating to the spatial relationships of Register Tiles
+		/// </summary>		
+		SpatialRelationship,
+
+	//In-Game Systems
+		/// <summary>
+		/// Logs relating to the damage System
+		/// </summary>
+		Damage,
+		/// <summary>
+		/// Logs relating to the lighting system
+		/// </summary>
+		Lighting,
+		/// <summary>
+		/// Logs relating to the electricity system
+		/// </summary>
+		Electrical,
+		/// <summary>
+		/// Logs relating to the radiation system
+		/// </summary>
+		Radiation,
+		/// <summary>
+		/// Logs relating to the shuttle system
+		/// </summary>
+		Shuttles,
+
+	//Interface and Controls
+		/// <summary>
+		/// Logs relating to displaying the general user interface
+		/// </summary>
+		UI,
+		/// <summary>
+		/// Logs relating to the NetUI (in-game tabs and windows)
+		/// </summary>
+		NetUI,
+		/// <summary>
+		/// Logs relating registering keystrokes and mouse clicks
+		/// </summary>
+		UserInput,
+		/// <summary>
+		/// Logs relating to the keybinding settings
+		/// </summary>
+		Keybindings,
+		/// <summary>
+		/// Logs relating to UI Themes
+		/// </summary>
+		Themes,
+		/// <summary>
+		/// Logs related to the progress bar
+		/// </summary>
+		ProgressAction,
+		/// <summary>
+		/// Logs related to in-game chat and headsets
+		/// </summary>
+		Chat,
+
+	//Player and Mob Features
+		/// <summary>
+		/// Logs relating to Player Character settings and appearance
+		/// </summary>
+		Character,
+		/// <summary>
+		/// Logs relating to spawning players, mobs, and objects with inventories into the game
+		/// </summary>
+		EntitySpawn,
+		/// <summary>
+		/// Logs relating to the autonomous actions of non-player characters
+		/// </summary>
+		Mobs,
+		/// <summary>
+		/// Logs relating to player and mob conditions and health
+		/// </summary>
+		Health,
+		/// <summary>
+		/// Logs relating to Player Ghosts and AGhosts
+		/// </summary>
+		Ghosts,
+
+	//Interaction and Movement
+		/// <summary>
+		/// Logs relating to players and mobs interacting with the in-game environment
+		/// </summary>
+		Interaction,
+		/// <summary>
+		/// Logs relating to player, mob and object movement
+		/// </summary>
+		Movement,
+		/// <summary>
+		/// Logs relating to the Push/Pull interaction and movement
+		/// </summary>
+		PushPull,
+		/// <summary>
+		/// Logs relating to construction and crafting in game
+		/// </summary>
+		Construction,
+
+	//Items and Inventory
+		/// <summary>
+		/// Logs relating to spawning items into the game
+		/// </summary>
+		ItemSpawn,
+		/// <summary>
+		/// Logs relating to item storage and item slots
+		/// </summary>
+		Inventory,
+		/// <summary>
+		/// Logs relating specifically to player inventory
+		/// </summary>
+		PlayerInventory,
+		/// <summary>
+		/// Logs relating to projectile weapons
+		/// </summary>
+		Firearms,
+
+	//Roles and Jobs
+		/// <summary>
+		/// Logs relating to job selection and assignment
+		/// </summary>
+		Jobs,
+		/// <summary>
+		/// Logs relating to general antagonist roles and objectives
+		/// </summary>
+		Antags,
+		/// <summary>
+		/// Logs relating to Wizard spells
+		/// </summary>
+		Spells,
+		/// <summary>
+		/// Logs relating to the Blob Antag role
+		/// </summary>
+		Blob,
+
+	//Role Related Systems
+		/// <summary>
+		/// Logs relating to the Botany system
+		/// </summary>
+		Botany,
+		/// <summary>
+		/// Logs relating to the chemistry system
+		/// </summary>
+		Chemistry,
+		/// <summary>
+		/// Logs relating to the research system
+		/// </summary>
+		Research,
+		/// <summary>
+		/// Logs relating to the cargo system
+		/// </summary>
+		Cargo,
+		/// <summary>
+		/// Logs relating to the atmospheric system, gases, and gas containers
+		/// </summary>
+		Atmos,
+		/// <summary>
+		/// Logs related to the mentor system
+		/// </summary>
+		Mentor,
+
+	//Object Specific Logs
+		/// <summary>
+		/// Logs relating to metadata for objects and the object pool
+		/// </summary>
+		Objects,
+		/// <summary>
+		/// Logs relating to machines and interactable structures
+		/// </summary>
+		Machines,
+		/// <summary>
+		/// Logs relating to Doors
+		/// </summary>
+		Doors,
+		/// <summary>
+		/// Logs relating to Pipes
+		/// </summary>
+		Pipes,
+		/// <summary>
+		/// Logs relating to directional objects such as Windoors
+		/// </summary>
+		Directionals,
+		/// <summary>
+		/// Logs relating to VariableViewer.cs, books, pages, bookshelves
+		/// </summary>
+		VariableViewer,
+
+	//Game Rounds
+		/// <summary>
+		/// Logs relating to setting up, progressing, and ending game rounds
+		Round,
+		/// <summary>
+		/// Logs relating to the round's game mode
+		/// </summary>
+		GameMode,
+		/// <summary>
+		/// Logs relating to random events that take place during a round
+		/// </summary>
+		Event,
+
+	//General Debugging and Editor logs
+		/// <summary>
+		/// Logs relating to the Debug Console itself
+		/// </summary>
+		DebugConsole,
+		/// <summary>
+		/// Logs relating to debugging and tests
+		/// </summary>
+		Tests,
+		/// <summary>
+		/// Logs for use in the editor
+		/// </summary>
+		Editor,
 }
 
 [Serializable]
@@ -294,5 +501,4 @@ public class LogOverridePref
 {
 	public Category category;
 	public LogLevel logLevel = LogLevel.Info;
-
 }

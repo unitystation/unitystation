@@ -1,4 +1,5 @@
 ﻿using System;
+using Messages.Client.Interaction;
 using UnityEngine;
 
 namespace Objects
@@ -53,13 +54,13 @@ namespace Objects
 					directional.FaceDirection(initialOrientation);
 				}
 
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
 			{
 				Logger.LogError(
 						$"Failed to spawn {name}'s flipped version! " +
-						$"Is {name} missing reference to {nameof(flippedObject)} prefab?");
+						$"Is {name} missing reference to {nameof(flippedObject)} prefab?", Category.Interaction);
 			}
 		}
 	}

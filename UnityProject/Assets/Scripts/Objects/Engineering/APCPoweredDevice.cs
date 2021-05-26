@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Mirror;
-using UnityEditor;
 using UnityEngine.Serialization;
 using Objects.Engineering;
 
@@ -22,8 +21,8 @@ namespace Systems.Electricity
 		private float maximumWorkingVoltage = 300;
 
 		[SerializeField]
-		[Tooltip("Category of this powered device. Different categories work like a set of breakers, so you" +
-								 " can turn off lights and keep machines working.")]
+		[Tooltip("Category of this powered device. " +
+				"Different categories work like a set of breakers, so you can turn off lights and keep machines working.")]
 		private DeviceType deviceType = DeviceType.None;
 
 		[SerializeField]
@@ -54,15 +53,15 @@ namespace Systems.Electricity
 		}
 
 		[HideInInspector] public APC RelatedAPC;
-		public IAPCPowered Powered;
+		public IAPCPowerable Powered;
 		public bool AdvancedControlToScript;
 
 		public bool StateUpdateOnClient = true;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedState))]
 		[FormerlySerializedAs("State")]
-		private PowerStates state = PowerStates.Off;
-		public PowerStates State => state;
+		private PowerState state = PowerState.Off;
+		public PowerState State => state;
 
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
@@ -74,25 +73,7 @@ namespace Systems.Electricity
 
 		private Texture disconnectedImg;
 
-		public void SetMaster(ISetMultitoolMaster imaster)
-		{
-			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
-			if (RelatedAPC != null)
-			{
-				RemoveFromAPC();
-			}
-			RelatedAPC = inApc;
-			RelatedAPC.AddDevice(this);
-		}
-
-		/// <summary>
-		/// In case is a bit more tidy up needed when removing APC so not doing it it from APC end
-		/// </summary>
-		public void RemoveFromAPC()
-		{
-			if (RelatedAPC == null) return;
-			RelatedAPC.RemoveDevice(this);
-		}
+		#region Lifecycle
 
 		private void Awake()
 		{
@@ -103,11 +84,10 @@ namespace Systems.Electricity
 			EnsureInit();
 		}
 
-		void Start()
+		private void Start()
 		{
-			if (!Application.isPlaying) return;
+			if (Application.isPlaying == false) return;
 
-			//Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
 			if (Wattusage > 0)
 			{
 				resistance = 240 / (Wattusage / 240);
@@ -117,7 +97,7 @@ namespace Systems.Electricity
 		private void EnsureInit()
 		{
 			if (Powered != null) return;
-			Powered = GetComponent<IAPCPowered>();
+			Powered = GetComponent<IAPCPowerable>();
 			if (isSelfPowered)
 			{
 				if (AdvancedControlToScript)
@@ -127,9 +107,8 @@ namespace Systems.Electricity
 				}
 				else
 				{
-					Powered?.StateUpdate(PowerStates.On);
+					Powered?.StateUpdate(PowerState.On);
 				}
-
 			}
 		}
 
@@ -159,7 +138,29 @@ namespace Systems.Electricity
 			}
 		}
 
-		public void PowerNetworkUpdate(float voltage) //Could be optimised to not update when voltage is same as previous voltage
+		#endregion
+
+		public void SetMaster(ISetMultitoolMaster imaster)
+		{
+			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
+			if (RelatedAPC != null)
+			{
+				RemoveFromAPC();
+			}
+			RelatedAPC = inApc;
+			RelatedAPC.AddDevice(this);
+		}
+
+		/// <summary>
+		/// In case is a bit more tidy up needed when removing APC so not doing it it from APC end
+		/// </summary>
+		public void RemoveFromAPC()
+		{
+			if (RelatedAPC == null) return;
+			RelatedAPC.RemoveDevice(this);
+		}
+
+		public void PowerNetworkUpdate(float voltage) // Could be optimised to not update when voltage is same as previous voltage
 		{
 			if (AdvancedControlToScript)
 			{
@@ -168,22 +169,18 @@ namespace Systems.Electricity
 			}
 			else
 			{
-				var newState = PowerStates.Off;
+				var newState = PowerState.On;
 				if (voltage <= 1)
 				{
-					newState = PowerStates.Off;
+					newState = PowerState.Off;
 				}
 				else if (voltage > maximumWorkingVoltage)
 				{
-					newState = PowerStates.OverVoltage;
+					newState = PowerState.OverVoltage;
 				}
 				else if (voltage < minimumWorkingVoltage)
 				{
-					newState = PowerStates.LowVoltage;
-				}
-				else
-				{
-					newState = PowerStates.On;
+					newState = PowerState.LowVoltage;
 				}
 
 				if (newState == state) return;
@@ -219,7 +216,7 @@ namespace Systems.Electricity
 			}
 		}
 
-		private void UpdateSynchronisedState(PowerStates oldState, PowerStates newState)
+		private void UpdateSynchronisedState(PowerState oldState, PowerState newState)
 		{
 			EnsureInit();
 			if (newState != state)
@@ -231,14 +228,14 @@ namespace Systems.Electricity
 
 			if (isSelfPowered)
 			{
-				state = PowerStates.On;
+				state = PowerState.On;
 			}
 
 			if (Powered != null && StateUpdateOnClient)
 			{
 				if (isSelfPowered)
 				{
-					Powered?.StateUpdate(PowerStates.On);
+					Powered?.StateUpdate(PowerState.On);
 				}
 				else
 				{
@@ -275,9 +272,9 @@ namespace Systems.Electricity
 			RemoveFromAPC();
 		}
 
-		public static bool IsOn(PowerStates states)
+		public static bool IsOn(PowerState states)
 		{
-			return (states == PowerStates.On || states == PowerStates.LowVoltage || states == PowerStates.OverVoltage);
+			return (states == PowerState.On || states == PowerState.LowVoltage || states == PowerState.OverVoltage);
 		}
 	}
 
@@ -289,7 +286,7 @@ namespace Systems.Electricity
 		Equipment
 	}
 
-	public enum PowerStates
+	public enum PowerState
 	{
 		Off,
 		LowVoltage,

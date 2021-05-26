@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Mirror;
-using Random = UnityEngine.Random;
 
 namespace Objects.Construction
 {
@@ -111,7 +110,7 @@ namespace Objects.Construction
 		{
 			Spawn.ServerPrefab(transformToPrefab, registerObject.WorldPositionServer, count: spawnAmount);
 			ToolUtils.ServerPlayToolSound(interaction);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		[Server]
@@ -121,7 +120,7 @@ namespace Objects.Construction
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
 			interactableTiles.TileChangeManager.UpdateTile(cellPos, layerTile);
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

@@ -17,6 +17,8 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 	[Tooltip("Ignore additional rotation (for example, when object is knocked down)")]
 	public SpriteRenderer[] ignoreExtraRotation = new SpriteRenderer[0];
 
+	public GameObject RotateParent = null;
+
 	/// <summary>
 	/// Client side only! additional rotation to apply to the sprites. Can be used to give the object an appearance
 	/// of being knocked down by, for example, setting this to Quaternion.Euler(0,0,-90).
@@ -41,7 +43,11 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		spriteRenderers = GetComponentsInChildren<SpriteRenderer>().Except(ignoreExtraRotation).ToArray();
+		if (RotateParent == null)
+		{
+			spriteRenderers = GetComponentsInChildren<SpriteRenderer>().Except(ignoreExtraRotation).ToArray();
+		}
+
 		cnt = GetComponent<CustomNetTransform>();
 		registerTile.OnParentChangeComplete.AddListener(OnAppearOrChangeMatrix);
 		registerTile.OnAppearClient.AddListener(OnAppearOrChangeMatrix);
@@ -56,6 +62,7 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	private void OnEnable()
 	{
+		if (Application.isPlaying == false) return;
 		SetSpritesUpright();
 	}
 
@@ -77,11 +84,22 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	private void SetSpritesUpright()
 	{
-		if (spriteRenderers == null) return;
+		if (RotateParent == null)
+		{
+			if (spriteRenderers == null) return;
+		}
+
 		//if the object has rotation (due to spinning), don't set sprites upright, this
 		//avoids it suddenly flicking upright when it crosses a matrix or matrix rotates
 		//note only CNTs can have spin rotation
 		if (cnt != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
+
+		if (RotateParent != null)
+		{
+			RotateParent.transform.rotation = ExtraRotation;
+			return;
+		}
+
 		foreach (var rend in spriteRenderers)
 		{
 			if (rend == null) continue;
@@ -137,7 +155,8 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 			foreach (var spriteRenderer in spriteRenderers)
 			{
 				if (spriteRenderer == null) continue;
-				spriteRenderer.transform.rotation = Quaternion.identity;
+				//reeeeee
+				//spriteRenderer.transform.rotation = Quaternion.identity;
 			}
 		}
 	}

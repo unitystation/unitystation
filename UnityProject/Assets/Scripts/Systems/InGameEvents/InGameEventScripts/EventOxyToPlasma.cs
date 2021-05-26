@@ -9,8 +9,13 @@ namespace InGameEvents
 {
 	public class EventOxyToPlasma : EventScriptBase
 	{
+		private GasReactions? currentReaction;
+
 		public override void OnEventStart()
 		{
+			//Dont add another reaction if one is already going on
+			if(currentReaction != null) return;
+
 			if (AnnounceEvent)
 			{
 				var text = "It appears the chemistry of the universe has been broken, damn those science nerds.";
@@ -20,7 +25,7 @@ namespace InGameEvents
 
 			if (FakeEvent) return;
 
-			new GasReactions(
+			currentReaction = new GasReactions(
 
 				reaction: new OxyToPlasma(),
 
@@ -46,6 +51,15 @@ namespace InGameEvents
 
 			base.OnEventStart();
 		}
+
+		public override void OnEventEnd()
+		{
+			if (currentReaction != null)
+			{
+				GasReactions.RemoveReaction(currentReaction.Value);
+				currentReaction = null;
+			}
+		}
 	}
 
 	public class OxyToPlasma : Reaction
@@ -57,9 +71,10 @@ namespace InGameEvents
 
 		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
 		{
-			gasMix.AddGas(Gas.Plasma, 1f);
+			var oxyMoles = gasMix.GetMoles(Gas.Oxygen);
 
-			gasMix.RemoveGas(Gas.Oxygen, 1f);
+			gasMix.AddGas(Gas.Plasma, oxyMoles);
+			gasMix.RemoveGas(Gas.Oxygen, oxyMoles);
 		}
 	}
 }

@@ -42,11 +42,13 @@ namespace Objects.Disposals
 		private const float ANIMATION_TIME = 1.3f; // As per sprite sheet JSON file.
 
 		[SerializeField]
-		private AudioSource rechargeSFX = null;
+		private AddressableAudioSource rechargeSFX = null;
 		[SerializeField]
 		private AddressableAudioSource AirFlapSound = null;
 		[SerializeField]
 		private AddressableAudioSource FlushSound = null;
+
+		private string runLoopGUID = "";
 
 		private HasNetworkTab netTab;
 		private SpriteHandler overlaysSpriteHandler;
@@ -115,7 +117,7 @@ namespace Objects.Disposals
 		{
 			if (virtualContainer != null)
 			{
-				Despawn.ServerSingle(virtualContainer.gameObject);
+				_ = Despawn.ServerSingle(virtualContainer.gameObject);
 			}
 		}
 
@@ -129,11 +131,12 @@ namespace Objects.Disposals
 
 			if (BinCharging)
 			{
-				rechargeSFX.Play();
+				runLoopGUID = Guid.NewGuid().ToString();
+				SoundManager.PlayAtPositionAttached(rechargeSFX, registerObject.WorldPosition, gameObject, runLoopGUID);
 			}
 			else
 			{
-				rechargeSFX.Stop();
+				SoundManager.Stop(runLoopGUID);
 			}
 		}
 
@@ -399,7 +402,7 @@ namespace Objects.Disposals
 			if (BinFlushing) return;
 			if (virtualContainer == null) return;
 
-			Despawn.ServerSingle(virtualContainer.gameObject);
+			_ = Despawn.ServerSingle(virtualContainer.gameObject);
 			virtualContainer = null;
 		}
 

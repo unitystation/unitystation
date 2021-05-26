@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Audio.Containers
@@ -26,6 +27,8 @@ namespace Audio.Containers
 		/// another in a random order
 		/// </summary>
 		public bool PlayingRandomPlayList { get; private set; }
+
+		#region Lifecycle
 
 		private void Awake()
 		{
@@ -61,18 +64,18 @@ namespace Audio.Containers
 			if (currentWaitTime >= timeBetweenSongs)
 			{
 				currentWaitTime = 0f;
-				PlayRandomTrack();
+				_ = PlayRandomTrack();
 			}
 
 			DetermineMuteState();
 		}
 
+		#endregion
+
 		public void StartPlayingRandomPlaylist()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
-
 			PlayingRandomPlayList = true;
-			PlayRandomTrack();
 			ToggleUI(true);
 		}
 
@@ -128,20 +131,23 @@ namespace Audio.Containers
 			}
 		}
 
-		private void PlayRandomTrack()
+		private async Task PlayRandomTrack()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
 
-			var songInfo = MusicManager.Instance.PlayRandomTrack();
-			trackName.text = songInfo[0];
-			// If the name of the artist is included, add it as well
-			if (songInfo.Length == 2)
-			{
-				artist.text = songInfo[1];
-			}
-			else
-			{
-				artist.text = "";
+			var songInfo = await MusicManager.Instance.PlayRandomTrack();
+
+			if(songInfo != null){
+				trackName.text = songInfo[0];
+				// If the name of the artist is included, add it as well
+				if (songInfo.Length == 2)
+				{
+					artist.text = songInfo[1];
+				}
+				else
+				{
+					artist.text = "";
+				}
 			}
 		}
 
@@ -152,7 +158,7 @@ namespace Audio.Containers
 
 		public void OnTrackButtonClick()
 		{
-			PlayRandomTrack();
+			_ = PlayRandomTrack();
 		}
 	}
 }

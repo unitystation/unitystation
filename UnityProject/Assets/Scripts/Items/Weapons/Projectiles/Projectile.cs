@@ -6,8 +6,14 @@ namespace Weapons.Projectiles
 	public abstract class Projectile : MonoBehaviour
 	{
 		public string visibleName = "bullet";
+
+		//The original prefab name as it is changed when spawned
+		private string prefabName;
+		public string PrefabName => prefabName;
+
 		public void Start()
 		{
+			prefabName = gameObject.name;
 			gameObject.name = visibleName;
 		}
 

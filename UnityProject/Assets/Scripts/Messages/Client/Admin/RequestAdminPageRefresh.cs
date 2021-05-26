@@ -1,37 +1,44 @@
-﻿using System.Collections;
-using Messages.Client;
-using UnityEngine;
+﻿using Messages.Client;
+using Messages.Server.AdminTools;
+using Mirror;
 
-/// <summary>
-///     Request admin page data from the server
-/// </summary>
-public class RequestAdminPageRefresh : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-
-	public override void Process()
+	/// <summary>
+	///     Request admin page data from the server
+	/// </summary>
+	public class RequestAdminPageRefresh : ClientMessage<RequestAdminPageRefresh.NetMessage>
 	{
-		VerifyAdminStatus();
-	}
-
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			AdminToolRefreshMessage.Send(player, Userid);
+			public string Userid;
+			public string AdminToken;
 		}
-	}
 
-	public static RequestAdminPageRefresh Send(string userId, string adminToken)
-	{
-		RequestAdminPageRefresh msg = new RequestAdminPageRefresh
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken
-		};
-		msg.Send();
-		return msg;
+			VerifyAdminStatus(msg);
+		}
+
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player != null)
+			{
+				AdminToolRefreshMessage.Send(player, msg.Userid);
+			}
+		}
+
+		public static NetMessage Send(string userId, string adminToken)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

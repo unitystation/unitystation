@@ -3,6 +3,7 @@ using System;
 using AddressableReferences;
 using UnityEngine;
 using Mirror;
+using Systems.Botany;
 using Systems.Explosions;
 
 namespace Items.Weapons
@@ -176,7 +177,7 @@ namespace Items.Weapons
 			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
 			// Despawn grenade
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 
 			// Explosion here
 			var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);

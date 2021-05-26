@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using AddressableReferences;
 using NaughtyAttributes;
 
 namespace Antagonists
@@ -30,8 +31,9 @@ namespace Antagonists
 		[ShowIf(nameof(playSound))]
 		[Tooltip("The sound a player hears when they spawn as this antag.")]
 		[SerializeField]
-		private string spawnSound = "Notice1";
-		public string SpawnSound => spawnSound;
+		private AddressableAudioSource spawnSound = null;
+
+		public AddressableAudioSource SpawnSound => spawnSound;
 
 		[BoxGroup("Spawn Banner")]
 		[Tooltip("What color should the text in the spawn banner be for this antag.")]
@@ -74,6 +76,15 @@ namespace Antagonists
 		/// </summary>
 		public bool NeedsEscapeObjective => needsEscapeObjective;
 
+		[Tooltip("The chance to add one gimmick objective in addition to the other objectives")]
+		[SerializeField]
+		[Range(0,100)]
+		protected float chanceForGimmickObjective = 0;
+		/// <summary>
+		/// The chance to add one gimmick objective in addition to the other objectives
+		/// </summary>
+		public float ChanceForGimmickObjective => chanceForGimmickObjective;
+
 		[Tooltip("The core objectives only this type of antagonist can get")]
 		[SerializeField]
 		protected List<Objective> coreObjectives = new List<Objective>();
@@ -107,7 +118,7 @@ namespace Antagonists
 		public virtual GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally but override the player-requested occupation with the antagonist occupation
-			return PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation, spawnRequest.CharacterSettings);
+			return PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation, spawnRequest.CharacterSettings, false);
 		}
 
 		/// <summary>

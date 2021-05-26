@@ -1,1 +1,7 @@
-{"lowPopMaps":["FallStation", "SquareStation"], "medPopMaps":["OutpostStation", "BoxStationV1"], "highPopMaps":["OutpostStation", "BoxStationV1"], "medPopMinLimit":15, "highPopMinLimit":30}
+{
+    "lowPopMaps":["FallStation", "SquareStation", "UnRealStation"],
+    "medPopMaps":["FallStation", "SquareStation", "UnRealStation", "OutpostStation", "PogStation"],
+    "highPopMaps":["OutpostStation", "BoxStationV1", "PogStation"],
+    "medPopMinLimit":15,
+    "highPopMinLimit":30
+}

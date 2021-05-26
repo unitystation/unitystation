@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Objects;
 using Items;
+using Items.Cargo.Wrapping;
 
 namespace Systems.Cargo
 {
@@ -139,11 +140,11 @@ namespace Systems.Cargo
 			HashSet<GameObject> alreadySold = new HashSet<GameObject>();
 			for (int i = 0; i < objectHolder.childCount; i++)
 			{
-				ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
+				PushPull item = objectHolder.GetChild(i).GetComponent<PushPull>();
 				//need VisibleState check because despawned objects still stick around on their matrix transform
 				if (item != null && item.VisibleState)
 				{
-					CargoManager.Instance.DestroyItem(item, alreadySold);
+					CargoManager.Instance.ProcessCargo(item, alreadySold);
 				}
 			}
 		}
@@ -162,7 +163,7 @@ namespace Systems.Cargo
 		/// Server only.
 		/// </summary>
 		/// <param name="order">Order to spawn.</param>
-		public bool SpawnOrder(CargoOrder order)
+		public bool SpawnOrder(CargoOrderSO order)
 		{
 			Vector3 pos = GetRandomFreePos();
 			if (pos == TransformState.HiddenPos)
@@ -179,7 +180,7 @@ namespace Systems.Cargo
 					var entryPrefab = order.Items[i];
 					if (entryPrefab == null)
 					{
-						Logger.Log($"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..");
+						Logger.Log($"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..", Category.Cargo);
 						continue;
 					}
 
@@ -189,7 +190,7 @@ namespace Systems.Cargo
 						if (orderedItem == null)
 						{
 							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 							continue;
 						}
 
@@ -214,7 +215,7 @@ namespace Systems.Cargo
 							if (orderedItem == null)
 							{
 								//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-								Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+								Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.Cargo);
 								continue;
 							}
 
@@ -230,7 +231,7 @@ namespace Systems.Cargo
 			{
 				Logger.LogWarning($"{crate.ExpensiveName()} does not have ClosetControl. Please fix CargoData" +
 								  $" to ensure that the crate prefab is actually a crate (with ClosetControl component)." +
-								  $" This order will be ignored.");
+								  $" This order will be ignored.", Category.Cargo);
 				return true;
 			}
 
@@ -248,7 +249,7 @@ namespace Systems.Cargo
 			else
 			{
 				Logger.LogWarning($"Can't add ordered item {obj.ExpensiveName()} to create because" +
-								  $" it doesn't have an ObjectBehavior component.");
+								  $" it doesn't have an ObjectBehavior component.", Category.Cargo);
 			}
 		}
 

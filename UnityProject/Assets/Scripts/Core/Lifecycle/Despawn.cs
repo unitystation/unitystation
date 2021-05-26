@@ -1,13 +1,12 @@
-
-using Mirror;
+using System.Threading.Tasks;
 using UnityEngine;
+using Systems.Electricity;
 
 /// <summary>
 /// Main API for despawning objects. If you ever need to despawn something, look here
 /// </summary>
 public static class Despawn
 {
-
 	/// <summary>
 	/// Despawn the specified game object, syncing to all clients. Should only be called
 	/// on networked objects (i.e. ones which have NetworkIdentity component). Despawning removes an
@@ -20,9 +19,9 @@ public static class Despawn
 	/// intended to be set to true for particular internal use cases in the lifecycle system, so should
 	/// almost always be left at the default</param>
 	/// <returns></returns>
-	public static DespawnResult ServerSingle(GameObject toDespawn, bool skipInventoryDespawn = false)
+	public static async Task<DespawnResult> ServerSingle(GameObject toDespawn, bool skipInventoryDespawn = false)
 	{
-		return Server(DespawnInfo.Single(toDespawn));
+		return await Server(DespawnInfo.Single(toDespawn), skipInventoryDespawn);
 	}
 
 	/// <summary>
@@ -37,7 +36,7 @@ public static class Despawn
 	/// intended to be set to true for particular internal use cases in the lifecycle system, so should
 	/// almost always be left at the default</param>
 	/// <returns></returns>
-	private static DespawnResult Server(DespawnInfo info, bool skipInventoryDespawn = false)
+	private static async Task<DespawnResult> Server(DespawnInfo info, bool skipInventoryDespawn = false)
 	{
 		if (info == null)
 		{
@@ -62,7 +61,7 @@ public static class Despawn
 		}
 
 		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
-		//TODO: What's the purpose of this?
+		// TODO: What's the purpose of this?
 		if (Electrical != null)
 		{
 			if (!Electrical.InData.DestroyAuthorised)
@@ -73,6 +72,14 @@ public static class Despawn
 		}
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
+
+		var cnt = info.GameObject.GetComponent<CustomNetTransform>();
+		if (cnt != null)
+		{
+			cnt.DisappearFromWorldServer();
+		}
+
+		await Task.Delay(10);
 
 		if (Spawn._ObjectPool.TryDespawnToPool(info.GameObject, false))
 		{

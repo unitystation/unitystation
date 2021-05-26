@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Items.Others.Magical
+namespace Items.Magical
 {
 	// TODO: make the player a statue when petrification is added. 
 
@@ -17,7 +17,7 @@ namespace Items.Others.Magical
 		{
 			Chat.AddCombatMsgToChat(player.GameObject,
 					"You suddenly feel very solid!",
-					$"{player.GameObject.ExpensiveName()} goes very still! {player.Script.characterSettings.TheyPronoun()}'s been petrified!");
+					$"{player.GameObject.ExpensiveName()} goes very still! {player.Script.characterSettings.TheyPronoun(player.Script)}'s been petrified!");
 
 			player.Script.playerMove.allowInput = false;
 			// Piggy-back off IsMiming property to prevent the player from speaking.

@@ -10,10 +10,7 @@ namespace Antagonists
 	{
 		protected override void Setup()
 		{
-			if (Owner.body.gameObject.GetComponent<BlobStarter>() == null)
-			{
-				Owner.body.gameObject.AddComponent<BlobStarter>();
-			}
+
 		}
 
 		protected override bool CheckCompletion()

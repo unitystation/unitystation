@@ -18,7 +18,7 @@ namespace Chemistry
 		public DictionaryReagentInt results;
 		public Effect[] effects;
 
-		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
+		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
 			if (tempMin != null && reagentMix.Temperature <= tempMin ||
 			    tempMax != null && reagentMix.Temperature >= tempMax)
@@ -26,17 +26,17 @@ namespace Chemistry
 				return false;
 			}
 
-			if (!ingredients.All(reagent => reagentMix[reagent.Key] > 0))
+			if (!ingredients.m_dict.All(reagent => reagentMix[reagent.Key] > 0))
 			{
 				return false;
 			}
 
-			if (!ingredients.Any())
+			if (!ingredients.m_dict.Any())
 			{
 				return false;
 			}
 
-			var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+			var reactionAmount = ingredients.m_dict.Min(i => reagentMix[i.Key] / i.Value);
 
 			if (useExactAmounts == true)
 			{
@@ -47,27 +47,27 @@ namespace Chemistry
 				}
 			}
 
-			if (!catalysts.All(catalyst =>
+			if (!catalysts.m_dict.All(catalyst =>
 				reagentMix[catalyst.Key] >= catalyst.Value * reactionAmount))
 			{
 				return false;
 			}
 
-			if (inhibitors.Count > 0)
+			if (inhibitors.m_dict.Count > 0)
 			{
-				if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
+				if (inhibitors.m_dict.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
 				{
 					return false;
 				}
 			}
 
 
-			foreach (var ingredient in ingredients)
+			foreach (var ingredient in ingredients.m_dict)
 			{
 				reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
 			}
 
-			foreach (var result in results)
+			foreach (var result in results.m_dict)
 			{
 				var reactionResult = reactionAmount * result.Value;
 				reagentMix.Add(result.Key, reactionResult);

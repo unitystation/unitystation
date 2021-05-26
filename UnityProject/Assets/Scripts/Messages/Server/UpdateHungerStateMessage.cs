@@ -1,26 +1,33 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
 
-/// <summary>
-///     Message that tells client which UI action to perform
-/// </summary>
-public class UpdateHungerStateMessage : ServerMessage
+namespace Messages.Server
 {
-	public HungerState State;
-
-	public override void Process()
+	/// <summary>
+	///     Message that tells client which UI action to perform
+	/// </summary>
+	public class UpdateHungerStateMessage : ServerMessage<UpdateHungerStateMessage.NetMessage>
 	{
-		MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
-		metabolismSystem.SetHungerState(State);
-	}
-
-	public static UpdateHungerStateMessage Send(GameObject recipient, HungerState state)
-	{
-		UpdateHungerStateMessage msg = new UpdateHungerStateMessage
+		public struct NetMessage : NetworkMessage
 		{
-			State = state
-		};
-		msg.SendTo(recipient);
-		return msg;
+			public HungerState State;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
+			metabolismSystem.SetHungerState(msg.State);
+		}
+
+		public static NetMessage Send(GameObject recipient, HungerState state)
+		{
+			NetMessage msg = new NetMessage
+			{
+				State = state
+			};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

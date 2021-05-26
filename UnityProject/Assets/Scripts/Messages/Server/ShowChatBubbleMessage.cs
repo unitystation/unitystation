@@ -1,44 +1,51 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-/// Sends a message to ChatBubbleManager on the client to show a chat bubble
-/// </summary>
-public class ShowChatBubbleMessage : ServerMessage
+namespace Messages.Server
 {
-	public ChatModifier ChatModifiers;
-	public string Message;
-	public uint FollowTransform;
-	public bool IsPlayerChatBubble; //Special flag for finding the correct transform target on players
-									//You may have to do something like this if your target does not
-									//have a NetworkIdentity on it
-
-	public override void Process()
+	/// <summary>
+	/// Sends a message to ChatBubbleManager on the client to show a chat bubble
+	/// </summary>
+	public class ShowChatBubbleMessage : ServerMessage<ShowChatBubbleMessage.NetMessage>
 	{
-		LoadNetworkObject(FollowTransform);
-		var target = NetworkObject.transform;
-
-		if (IsPlayerChatBubble)
+		public struct NetMessage : NetworkMessage
 		{
-			target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
+			public ChatModifier ChatModifiers;
+			public string Message;
+			public uint FollowTransform;
+			public bool IsPlayerChatBubble;
+
+			//Special flag for finding the correct transform target on players
+			//You may have to do something like this if your target does not
+			//have a NetworkIdentity on it
 		}
 
-		ChatBubbleManager.ShowAChatBubble(target, Message, ChatModifiers);
-	}
-
-	public static ShowChatBubbleMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,
-		ChatModifier chatModifier = ChatModifier.None)
-	{
-		ShowChatBubbleMessage msg = new ShowChatBubbleMessage
+		public override void Process(NetMessage msg)
 		{
-			ChatModifiers = chatModifier,
-			Message = message,
-			FollowTransform = followTransform.GetComponent<NetworkIdentity>().netId,
-			IsPlayerChatBubble = isPlayerChatBubble
-		};
+			LoadNetworkObject(msg.FollowTransform);
+			var target = NetworkObject.transform;
 
-		msg.SendToVisiblePlayers(followTransform.transform.position);
-		return msg;
+			if (msg.IsPlayerChatBubble)
+			{
+				target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
+			}
+
+			ChatBubbleManager.ShowAChatBubble(target, msg.Message, msg.ChatModifiers);
+		}
+
+		public static NetMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,
+			ChatModifier chatModifier = ChatModifier.None)
+		{
+			NetMessage msg = new NetMessage
+			{
+				ChatModifiers = chatModifier,
+				Message = message,
+				FollowTransform = followTransform.GetComponent<NetworkIdentity>().netId,
+				IsPlayerChatBubble = isPlayerChatBubble
+			};
+
+			SendToVisiblePlayers(followTransform.transform.position, msg);
+			return msg;
+		}
 	}
 }

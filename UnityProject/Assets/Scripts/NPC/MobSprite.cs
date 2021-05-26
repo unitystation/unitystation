@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using Systems.Explosions;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 using Core.Directionals;
 using Effects.Overlays;
 
@@ -10,8 +12,15 @@ namespace Systems.Mob
 	/// Easy to use Directional sprite handler for mobs
 	/// </summary>
 	[RequireComponent(typeof(DirectionalSpriteV2))]
-	public class MobSprite : NetworkBehaviour
+	public class MobSprite : NetworkBehaviour, IOnLightningHit
 	{
+		private enum MobStateRepType
+		{
+			None = 0,
+			UseSprite = 1,
+			UseRotation = 2
+		}
+
 		[Header("References")]
 		[SerializeField]
 		private SpriteHandler spriteHandler = default;
@@ -19,10 +28,29 @@ namespace Systems.Mob
 		private SpriteRenderer spriteRend = default;
 
 		[Header("Settings")]
-		[SerializeField]
+		[SerializeField, BoxGroup("Sprites")]
 		private int aliveSpriteIndex = 0;
-		[SerializeField]
+
+		[Tooltip("How to represent a dead sprite: via sprite, rotation or do nothing.")]
+		[SerializeField, BoxGroup("Sprites")]
+		private MobStateRepType deadStateRep = MobStateRepType.UseSprite;
+		private bool UsesDeadSprite => deadStateRep == MobStateRepType.UseSprite;
+		private bool UsesDeadRotation => deadStateRep == MobStateRepType.UseRotation;
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesDeadSprite))]
 		private int deadSpriteIndex = 1;
+		[Tooltip("0 upright, 90 is prone with head to the left.")]
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesDeadRotation))]
+		private float deadOrientation = 90;
+
+		[SerializeField, BoxGroup("Sprites")]
+		private MobStateRepType knockedDownStateRep = MobStateRepType.UseSprite;
+		private bool UsesKnockedDownSprite => knockedDownStateRep == MobStateRepType.UseSprite;
+		private bool UsesKnockedDownRotation => knockedDownStateRep == MobStateRepType.UseRotation;
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesKnockedDownSprite))]
+		private int knockedDownSpriteIndex = 1;
+		[Tooltip("0 upright, 90 is prone with head to the left.")]
+		[SerializeField, BoxGroup("Sprites"), ShowIf(nameof(UsesKnockedDownRotation))]
+		private float knockedDownOrientation = 90;
 
 		[Tooltip("Assign the prefab responsible for the burning overlay.")]
 		[SerializeField]
@@ -109,18 +137,31 @@ namespace Systems.Mob
 			spriteRot = newRot;
 		}
 
+		public void SetSprite(int index, bool network = false)
+		{
+			if (spriteHandler == null)
+			{
+				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
+				return;
+			}
+
+			spriteHandler.ChangeSprite(index, network);
+		}
+
 		/// <summary>
 		/// Set the mob sprite to the first alive sprite.
 		/// </summary>
 		public void SetToAlive(bool network = false)
 		{
-			if (spriteHandler == null)
+			switch (deadStateRep)
 			{
-				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!");
-				return;
+				case MobStateRepType.UseSprite:
+					SetSprite(aliveSpriteIndex, network);
+					break;
+				case MobStateRepType.UseRotation:
+					SetRotationServer(0);
+					break;
 			}
-
-			spriteHandler.ChangeSprite(aliveSpriteIndex, network);
 		}
 
 		/// <summary>
@@ -128,13 +169,28 @@ namespace Systems.Mob
 		/// </summary>
 		public void SetToDead(bool network = false)
 		{
-			if (spriteHandler == null)
+			switch (deadStateRep)
 			{
-				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!");
-				return;
+				case MobStateRepType.UseSprite:
+					SetSprite(deadSpriteIndex, network);
+					break;
+				case MobStateRepType.UseRotation:
+					SetRotationServer(deadOrientation);
+					break;
 			}
+		}
 
-			spriteHandler.ChangeSprite(deadSpriteIndex, network);
+		public void SetToKnockedDown(bool network = false)
+		{
+			switch (knockedDownStateRep)
+			{
+				case MobStateRepType.UseSprite:
+					SetSprite(knockedDownSpriteIndex, network);
+					break;
+				case MobStateRepType.UseRotation:
+					SetRotationServer(knockedDownOrientation);
+					break;
+			}
 		}
 
 		/// <summary>
@@ -217,6 +273,11 @@ namespace Systems.Mob
 		{
 			yield return WaitFor.Seconds(seconds);
 			DisableElectrocutedOverlay();
+		}
+
+		public void OnLightningHit(float duration, float damage)
+		{
+			EnableElectrocutedOverlay(duration);
 		}
 	}
 }

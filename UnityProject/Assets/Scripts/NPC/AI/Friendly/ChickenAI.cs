@@ -1,24 +1,17 @@
 ﻿using System.Collections.Generic;
-using Items;
 using Items.Others;
+using NPC.Mood;
 using UnityEngine;
-using AddressableReferences;
 
 namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Generic AI for Chickens. Keep them happy and they will lay eggs!
 	/// </summary>
-	public class ChickenAI: GenericFriendlyAI, ICheckedInteractable<HandApply>
+	public class ChickenAI: GenericFriendlyAI
 	{
-
-		[SerializeField] private AddressableAudioSource EatFoodA = null;
-
 		[SerializeField, Tooltip("Check this if this chicken is a grown up chicken in age of laying eggs")]
 		private bool grownChicken = true;
-
-		[SerializeField, Tooltip("If this chicken's mood is at least this level, she will lay eggs")]
-		private int happyChicken = 50;
 
 		[SerializeField, Tooltip("The maximum amount of eggs this chicken can lay in her lifetime")]
 		private int maxEggsAmount = 4;
@@ -42,19 +35,18 @@ namespace Systems.MobAIs
 		{
 			base.OnSpawnMob();
 			currentLaidEggs = 0;
-			BeginExploring();
 		}
 
 		protected override void DoRandomAction()
 		{
-			// Check if we're a happy chiken/chick or we alreday laid all possible egs
-			if (mood.Level < happyChicken || currentLaidEggs == maxEggsAmount)
+			// Check if we alreday laid all possible egs
+			if (currentLaidEggs >= maxEggsAmount)
 			{
 				return;
 			}
 
 			// roll current mood level
-			if (!DMMath.Prob(mood.Level/2))
+			if (DMMath.Prob(mood.LevelPercent) == false)
 			{
 				return;
 			}
@@ -67,49 +59,21 @@ namespace Systems.MobAIs
 					gameObject.RegisterTile().WorldPosition,
 					scatterRadius: 1f);
 
-				if (eggGo.Successful)
-
+				if (!eggGo.Successful)
 				{
-					// chances of fertilized egg are equal to mommy's happiness
-					eggGo.GameObject.GetComponent<ChickenEgg>().SetFertilizedChance(mood.Level);
-					currentLaidEggs++;
+					return;
 				}
+
+				// chances of fertilized egg are equal to mommy's happiness
+				eggGo.GameObject.GetComponent<ChickenEgg>().SetFertilizedChance(mood.LevelPercent);
+				currentLaidEggs++;
 			}
 			else
 			{
 				// grow to become a cute chicken
 				Spawn.ServerPrefab(possibleGrownForms.PickRandom(), gameObject.RegisterTile().WorldPosition);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
-		}
-
-		// Manually feeding
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			return DefaultWillInteract.Default(interaction, side) &&
-			       !health.IsDead &&
-			       !health.IsCrit &&
-			       !health.IsSoftCrit &&
-			       !health.IsCardiacArrest &&
-			       interaction.Intent == Intent.Help &&
-			       mobExplore.IsInFoodPreferences(interaction.HandObject.GetComponent<ItemAttributesV2>());
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			Inventory.ServerConsume(interaction.HandSlot, 1);
-			mood.OnFoodEaten();
-			SoundManager.PlayNetworkedAtPos(
-				EatFoodA,
-				gameObject.RegisterTile().WorldPosition,
-				1f,
-				sourceObj: gameObject);
-
-			Chat.AddActionMsgToChat(
-				interaction.Performer,
-				$"You feed {mobNameCap} with {interaction.HandObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()}" +
-				$" feeds some {interaction.HandObject.ExpensiveName()} to {mobNameCap}");
 		}
 	}
 }

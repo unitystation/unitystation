@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Doors;
 using Items;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
@@ -414,6 +415,7 @@ public partial class PlayerSync
 			pushPull.InformHead(pushPull.PulledBy);
 			//			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, pushPull.PulledBy );
 		}
+		UpdateClientState(serverState);
 	}
 
 	/// Clears server pending actions queue
@@ -444,6 +446,7 @@ public partial class PlayerSync
 
 	/// Tries to assign next target from queue to serverTargetState if there are any
 	/// (In order to start lerping towards it)
+	/// do not loop
 	[Server]
 	private void TryUpdateServerTarget()
 	{
@@ -481,7 +484,6 @@ public partial class PlayerSync
 			SyncMatrix();
 		}
 
-		TryUpdateServerTarget();
 		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 	}
 
@@ -489,16 +491,8 @@ public partial class PlayerSync
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
-		//movement not allowed when buckled
-		if (playerMove.IsBuckled)
-		{
-			Logger.LogWarning($"Ignored {action}: player is bucked, rolling back!", Category.Movement);
-			RollbackPosition();
-			return state;
-		}
-
 		// if player is in RCS mode and MatrixMove is not null
-		if(playerScript.RcsMode && playerScript.RcsMatrixMove)
+		if (playerScript.RcsMode && playerScript.RcsMatrixMove)
 		{
 			Vector2Int dir = action.Direction();
 			// try to move shuttle on server side
@@ -508,13 +502,21 @@ public partial class PlayerSync
 			return state;
 		}
 
+		//movement not allowed when buckled
+		if (playerMove.IsBuckled)
+		{
+			Logger.LogWarning($"Ignored {action}: player is bucked, rolling back!", Category.Movement);
+			RollbackPosition();
+			return state;
+		}
+
 		//Check if there is a bump interaction according to the server
 		BumpType serverBump = CheckSlideAndBump(state, isServer: true, ref action);
 
 		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
 
-		if (!playerScript.playerHealth || !playerScript.playerHealth.IsSoftCrit)
+		if (!playerScript.playerHealth || !playerScript.registerTile.IsLayingDown)
 		{
 			SpeedServer = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}
@@ -648,6 +650,16 @@ public partial class PlayerSync
 
 		//		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
 		InteractPushable(worldPos, direction);
+
+		//Bump all objects with IBumpObject interface
+		foreach (var objectOnTile in MatrixManager.GetAt<ObjectBehaviour>(worldTarget, true))
+		{
+			var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
+			foreach (var bump in bumpAbles)
+			{
+				bump.OnBump(gameObject);
+			}
+		}
 
 		yield return WaitFor.Seconds(.1f);
 	}

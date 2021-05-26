@@ -41,7 +41,7 @@ namespace MLAgents
             {
                 if (ContainsKey(m_ResetParameters[i].key))
                 {
-                    Debug.LogError("The ResetParameters contains the same key twice");
+                    Logger.LogError("The ResetParameters contains the same key twice", Category.Mobs);
                 }
                 else
                 {

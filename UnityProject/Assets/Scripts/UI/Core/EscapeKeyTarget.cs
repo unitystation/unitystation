@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UI;
 
 /// <summary>
 /// This component allows the game object to be disabled with the escape key automatically
@@ -45,13 +46,13 @@ public class EscapeKeyTarget : MonoBehaviour {
 	void OnEnable()
 	{
 		// Add this object to the top of the stack so Esc will close it next
-		Logger.Log("Adding escape key target: " + this.name, Category.UI);
+		Logger.Log("Adding escape key target: " + this.name, Category.UserInput);
 		Targets.AddLast(this);
 	}
 	void OnDisable()
 	{
 		// Remove the escape key target
-		Logger.Log("Removing escape key target: " + this.name, Category.UI);
+		Logger.Log("Removing escape key target: " + this.name, Category.UserInput);
 		Targets.Remove(this);
 	}
 }

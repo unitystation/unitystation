@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
+
 
 namespace Systems.MobAIs
 {
@@ -23,16 +25,11 @@ namespace Systems.MobAIs
 
 		protected override void Awake()
 		{
-			base.Awake();
-			ResetBehaviours();
-		}
-
-		public override void OnEnable()
-		{
-			base.OnEnable();
 			mobMask = LayerMask.GetMask( "NPC");
 			coneOfSight = GetComponent<ConeOfSight>();
 			mobAttack = GetComponent<MobMeleeAttack>();
+			base.Awake();
+			ResetBehaviours();
 		}
 
 		protected override void ResetBehaviours()
@@ -99,60 +96,63 @@ namespace Systems.MobAIs
 		private void HuntMouse(MouseAI mouse)
 		{
 			//Random chance of going nuts and destroying whatever is in the way
-			mobAttack.onlyHitTarget = Random.value != 0.1f;
+			mobAttack.onlyActOnTarget = Random.value != 0.1f;
 
 			Hiss(mouse.gameObject);
-			mobAttack.StartFollowing(mouse.transform);
+			mobAttack.StartFollowing(mouse.gameObject);
 		}
 
 		private void Purr(GameObject purred = null)
 		{
-			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.WorldPosServer(), audioSourceParameters);
 
 			if (purred != null)
 			{
 				Chat.AddActionMsgToChat(
 					purred,
-					$"{mobNameCap} purrs at you!",
-					$"{mobNameCap} purrs at {purred.ExpensiveName()}");
+					$"{MobName} purrs at you!",
+					$"{MobName} purrs at {purred.ExpensiveName()}");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} purrs!", $"{mobNameCap} purrs!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} purrs!", $"{MobName} purrs!");
 			}
 		}
 
 		private void Meow(GameObject meowed = null)
 		{
-			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.WorldPosServer(), audioSourceParameters);
 
 			if (meowed != null)
 			{
 				Chat.AddActionMsgToChat(
 					meowed,
-					$"{mobNameCap} meows at you!",
-					$"{mobNameCap} meows at {meowed.ExpensiveName()}");
+					$"{MobName} meows at you!",
+					$"{MobName} meows at {meowed.ExpensiveName()}");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} meows!", $"{mobNameCap} meows!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} meows!", $"{MobName} meows!");
 			}
 		}
 
 		private void Hiss(GameObject hissed = null)
 		{
-			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.WorldPosServer(), Random.Range(.9f, 1f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.9f, 1f));
+			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.WorldPosServer(), audioSourceParameters);
 
 			if (hissed != null)
 			{
 				Chat.AddActionMsgToChat(
 					hissed,
-					$"{mobNameCap} hisses at you!",
-					$"{mobNameCap} hisses at {hissed.ExpensiveName()}");
+					$"{MobName} hisses at you!",
+					$"{MobName} hisses at {hissed.ExpensiveName()}");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} hisses!", $"{mobNameCap} hisses!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} hisses!", $"{MobName} hisses!");
 			}
 		}
 
@@ -160,8 +160,8 @@ namespace Systems.MobAIs
 		{
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} starts licking its paws!",
-				$"{mobNameCap} starts licking its paws!");
+				$"{MobName} starts licking its paws!",
+				$"{MobName} starts licking its paws!");
 		}
 
 		// Public method so it can be called from CorgiAI

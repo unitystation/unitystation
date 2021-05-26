@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
 
 /// <summary>

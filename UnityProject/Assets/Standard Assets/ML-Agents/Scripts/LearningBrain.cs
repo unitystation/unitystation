@@ -140,7 +140,7 @@ namespace MLAgents
             Profiler.BeginSample("LearningBrain.DecideAction");
             if (m_Engine == null)
             {
-                Debug.LogError($"No model was present for the Brain {name}.");
+                Logger.LogError($"No model was present for the Brain {name}.", Category.Mobs);
                 return;
             }
 

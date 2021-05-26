@@ -93,7 +93,7 @@ namespace Objects
 
 			// Initialise drop pod sprite to the start of falling animation.
 			baseSpriteHandler.ChangeSprite((int)BaseSprite.Falling, false);
-			registerObject.Passable = true;
+			registerObject.SetPassable(false, true);
 
 			// ClosetControl initialises, redisplaying the door, so wait a frame...
 			yield return WaitFor.EndOfFrame;
@@ -118,7 +118,7 @@ namespace Objects
 			baseSpriteHandler.ChangeSprite((int)BaseSprite.Stationary, false);
 			doorSpriteHandler.PushTexture(false);
 			landingSpriteHandler.PushClear(false);
-			registerObject.Passable = false;
+			registerObject.SetPassable(false, false);
 
 			// Create a small explosion to apply damage to objects underneath.
 			var matrixInfo = MatrixManager.AtPoint(WorldPosition, IsServer);
@@ -130,7 +130,7 @@ namespace Objects
 		private IEnumerator DelayLandingSFX()
 		{
 			yield return WaitFor.Seconds(TRAVEL_TIME - 1);
-			SoundManager.PlayAtPosition(RocketLand, WorldPosition, gameObject);
+			_ = SoundManager.PlayAtPosition(RocketLand, WorldPosition, gameObject);
 		}
 	}
 }

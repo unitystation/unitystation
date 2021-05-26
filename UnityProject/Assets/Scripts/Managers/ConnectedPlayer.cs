@@ -1,3 +1,4 @@
+using Messages.Server;
 using UnityEngine;
 using Mirror;
 
@@ -136,7 +137,7 @@ public class ConnectedPlayer
 				Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
 			}
 
-			if (!PlayerList.Instance.ContainsName(proposedName,_UserId))
+			if (!PlayerList.Instance.ContainsName(proposedName, _UserId, true))
 			{
 				return proposedName;
 			}

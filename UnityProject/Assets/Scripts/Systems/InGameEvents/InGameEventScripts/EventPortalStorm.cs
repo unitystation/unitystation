@@ -17,9 +17,17 @@ namespace InGameEvents
 		[SerializeField, BoxGroup("References")]
 		private GameObject[] mobsToSpawn = default;
 
+		[Tooltip("If the chance for a rare mob succeeds, a random rare mob from this list will be spawned .")]
+		[SerializeField, BoxGroup("References")]
+		private GameObject[] rareMobsToSpawn = default;
+
 		[Tooltip("The amount of mobs to spawn will be within this range.")]
 		[SerializeField, BoxGroup("Settings"), MinMaxSlider(0, 100)]
 		private Vector2 mobCount = new Vector2(5, 15);
+
+		[Tooltip("The chance (in percent) for a rare mob to spawn instead of a normal one.")]
+		[SerializeField, BoxGroup("Settings"), Range(0, 100)]
+		private int rareMobChance = 5;
 
 		private readonly static PortalSpawnInfo portalSettings = new PortalSpawnInfo
 		{
@@ -33,7 +41,9 @@ namespace InGameEvents
 			{
 				var text = "Massive bluespace anomaly detected en route to your station. Brace for impact.";
 
-				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
+
+				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.SpanomaliesAnnouncement);
 			}
 
 			if (FakeEvent) return;
@@ -43,8 +53,6 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			// TODO: play Portal Storm sound.
-
 			for (int i = 0; i < Random.Range(mobCount.x, mobCount.y); i++)
 			{
 				StartCoroutine(SpawnMob());
@@ -54,7 +62,14 @@ namespace InGameEvents
 		private IEnumerator SpawnMob()
 		{
 			yield return WaitFor.Seconds(Random.Range(0, 5));
-			new SpawnByPortal(mobsToSpawn.PickRandom(), portalPrefab, RandomUtils.GetRandomPointOnStation(true, true), portalSettings);
+			if (rareMobsToSpawn.Length >= 1 && DMMath.Prob(rareMobChance))
+			{
+				new SpawnByPortal(rareMobsToSpawn.PickRandom(), portalPrefab, RandomUtils.GetRandomPointOnStation(true, true), portalSettings);
+			}
+			else
+			{
+				new SpawnByPortal(mobsToSpawn.PickRandom(), portalPrefab, RandomUtils.GetRandomPointOnStation(true, true), portalSettings);
+			}
 		}
 	}
 }

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Systems.Electricity;
+using Objects.Electrical;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

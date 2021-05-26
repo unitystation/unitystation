@@ -54,7 +54,7 @@ namespace Assets.Scripts.Editor.Tools
 
 			GameObject gameObject = new GameObject(objectName);
 			gameObject.transform.parent = parentObject.transform;
-			Debug.Log($"Adding gameobject {objectName}");
+			Logger.Log($"Adding gameobject {objectName} to tree", Category.Editor);
 
 			// List of all prefabs exactly at path (without their file name)
 			//List<string> prefabsAtPath = assetsPaths.Where(p => string.Join("/", p.Split('/').Reverse().Skip(1).Reverse()).Equals(path) && p.Contains(".prefab")).ToList();

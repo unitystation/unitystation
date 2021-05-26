@@ -20,13 +20,13 @@ public class AutoOccupationStoragePopulator : ItemStoragePopulator
 		if (context.SpawnInfo.SpawnItems == false) return;
 
 		Logger.LogTraceFormat("Populating item storage using configured populator for occupation {0}",
-			Category.Inventory, occupation.JobType);
+			Category.EntitySpawn, occupation.JobType);
 
 		occupation.InventoryPopulator.PopulateItemStorage(toPopulate, context);
 		if (StandardPopulator != null)
 		{
 			Logger.LogTraceFormat("Populating item storage using standard populator",
-				Category.Inventory);
+				Category.EntitySpawn);
 			StandardPopulator.PopulateItemStorage(toPopulate, context);
 		}
 	}

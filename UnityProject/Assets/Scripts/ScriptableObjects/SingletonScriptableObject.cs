@@ -23,7 +23,7 @@ namespace ScriptableObjects
 				}
 				if (!_instance)
 				{
-					_instance = Resources.LoadAll<T>("ScriptableObjects/SOs singletons").FirstOrDefault();
+					_instance = Resources.LoadAll<T>("ScriptableObjectsSingletons").FirstOrDefault();
 				}
 				if (!_instance)
 				{

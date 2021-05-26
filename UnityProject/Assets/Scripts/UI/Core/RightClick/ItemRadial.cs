@@ -28,7 +28,7 @@ namespace UI.Core.RightClick
 
 		private float raycastableArcMeasure;
 
-		private RadialMouseWheelScroll mouseWheelScroll;
+		private RadialScroll scroll;
 
 		private RadialDrag drag;
 
@@ -36,9 +36,11 @@ namespace UI.Core.RightClick
 
 		protected override float RaycastableArcMeasure => raycastableArcMeasure;
 
-		public RadialMouseWheelScroll MouseWheelScroll => this.GetComponentByRef(ref mouseWheelScroll);
+		public RadialScroll Scroll => this.GetComponentByRef(ref scroll);
 
 		public RadialDrag Drag => this.GetComponentByRef(ref drag);
+
+		private PointerEventData PointerEvent { get; } = new PointerEventData(EventSystem.current);
 
 		private AnimatedRadialRotation RotationAnimator
 		{
@@ -60,7 +62,7 @@ namespace UI.Core.RightClick
 			set
 			{
 				maxShownItems = value;
-				MouseWheelScroll.ScrollCount = value;
+				Scroll.ScrollCount = value;
 			}
 		}
 
@@ -96,7 +98,7 @@ namespace UI.Core.RightClick
 		private void SetRadialScrollable(bool value)
 		{
 			Drag.enabled = value;
-			MouseWheelScroll.enabled = value;
+			Scroll.enabled = value;
 			itemRing.raycastTarget = value;
 			itemLabel.raycastTarget = value;
 		}
@@ -170,13 +172,16 @@ namespace UI.Core.RightClick
 			}
 		}
 
+		public void CenterItemsTowardsAngle(int count, float angle)
+		{
+			angle -= Math.Min(count, MaxShownItems) * ItemArcMeasure / 2;
+			transform.localEulerAngles = new Vector3(0, 0, angle);
+		}
+
 		private void OnCompleteRotation()
 		{
-			var pointerEvent = new PointerEventData(EventSystem.current)
-			{
-				position = CommonInput.mousePosition
-			};
-			OnCompleteRotation(pointerEvent);
+			PointerEvent.position = CommonInput.mousePosition;
+			OnCompleteRotation(PointerEvent);
 		}
 
 		private void OnCompleteRotation(PointerEventData pointerEvent)
@@ -199,16 +204,8 @@ namespace UI.Core.RightClick
 		{
 			var scale = TotalRotation % ItemArcMeasure / ItemArcMeasure;
 
-			if (Mathf.Round(scale * 10) / 10 < 1)
-			{
-				LowerMaskItem.ScaleIcon(LeanTween.easeOutCirc(1, 0, scale));
-			}
-			else
-			{
-				LowerMaskItem.ScaleIcon(1);
-			}
-
-			UpperMaskItem.ScaleIcon(LeanTween.easeInCirc(0, 1, scale));
+			LowerMaskItem.ScaleIcon(scale, true);
+			UpperMaskItem.ScaleIcon(scale, false);
 		}
 
 		private void TweenArrows(bool forward)

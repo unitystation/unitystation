@@ -17,13 +17,16 @@ MonoBehaviour:
   TileType: 1
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 0
   isSealed: 0
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  RadiationPassability: 0.35
   doesReflectBullet: 1
+  indestructible: 0
   passableException:
     m_keys: 
     m_values: 
@@ -44,7 +47,16 @@ MonoBehaviour:
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   connectCategory: 0
   connectType: 1
   spriteSheet:

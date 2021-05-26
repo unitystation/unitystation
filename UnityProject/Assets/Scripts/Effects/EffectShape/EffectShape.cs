@@ -7,7 +7,8 @@ public enum EffectShapeType
 	Square, // radius is equal in all directions from center []
 	Diamond, // classic SS13 diagonals are reduced and angled <>
 	Bomberman, // plus +
-	Circle // Diamond without tip
+	Circle, // Diamond without tip
+	OutlineSquare
 }
 
 /// <summary>
@@ -31,7 +32,7 @@ public abstract class EffectShape : IEnumerable<Vector3Int>
 	/// <param name="center"></param>
 	/// <param name="radius"></param>
 	/// <returns></returns>
-	public static EffectShape CreateEffectShape(EffectShapeType type, Vector3Int center, int radius)
+	public static EffectShape CreateEffectShape(EffectShapeType type, Vector3Int center, int radius, bool withCorners = true)
 	{
 		switch (type)
 		{
@@ -43,6 +44,8 @@ public abstract class EffectShape : IEnumerable<Vector3Int>
 				return new DiamondEffectShape(center, radius);
 			case EffectShapeType.Circle:
 				return new CircleEffectShape(center, radius);
+			case EffectShapeType.OutlineSquare:
+				return new OutlineSquareEffectShape(center, radius, withCorners);
 		}
 
 		throw new System.NotImplementedException("Unknown type " + type);

@@ -7,7 +7,9 @@ namespace Objects.Construction
 {
 	public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
-		public GameObject rackParts;
+		[SerializeField]
+		[Tooltip("The item that spawns when the rack is deconstructed")]
+		private GameObject rackParts;
 
 		private Integrity integrity;
 
@@ -51,14 +53,14 @@ namespace Objects.Construction
 				ToolUtils.ServerPlayToolSound(interaction);
 				Spawn.ServerPrefab(rackParts, interaction.WorldPositionTarget.RoundToInt(),
 					interaction.TargetObject.transform.parent);
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 
 				return;
 			}
 
-			//drop it right in the middle of the rack. IN order to do that we have to calculate
-			//that position as an offset from the performer
-			//TODO: Make it less awkward by adding a serverdrop method that accepts absolute position instead of vector.
+			// drop it right in the middle of the rack. IN order to do that we have to calculate
+			// that position as an offset from the performer
+			// TODO: Make it less awkward by adding a serverdrop method that accepts absolute position instead of vector.
 			var targetTileWorldPosition = gameObject.TileWorldPosition();
 			var targetTileVector =
 				(Vector3Int)targetTileWorldPosition - interaction.PerformerPlayerScript.registerTile.WorldPositionServer;

@@ -1,10 +1,12 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using Items;
+ using Messages.Server.HealthMessages;
 
-/// <summary>
+ /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
 [RequireComponent(typeof(Stackable))]
@@ -25,27 +27,22 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
-		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
+		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
 		return true;
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var LHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
-		if (LHB.IsDead)
-		{
-			return;
-		}
-		var targetBodyPart = LHB.FindBodyPart(interaction.TargetBodyPart);
-		if (targetBodyPart.GetDamageValue(healType) > 0)
+		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		if (LHB.ZoneHasDamageOf(interaction.TargetBodyPart,healType))
 		{
 			if (interaction.TargetObject != interaction.Performer)
 			{
-				ServerApplyHeal(targetBodyPart);
+				ServerApplyHeal(LHB,interaction);
 			}
 			else
 			{
-				ServerSelfHeal(interaction.Performer, targetBodyPart);
+				ServerSelfHeal(interaction.Performer,LHB, interaction);
 			}
 		}
 		else
@@ -54,21 +51,17 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	private void ServerApplyHeal(BodyPartBehaviour targetBodyPart)
+	private void ServerApplyHeal(LivingHealthMasterBase targetBodyPart, HandApply interaction)
 	{
-		targetBodyPart.HealDamage(40, healType);
+		targetBodyPart.HealDamage(null, 40, healType, interaction.TargetBodyPart);
 		stackable.ServerConsume(1);
-
-		HealthBodyPartMessage.Send(targetBodyPart.livingHealthBehaviour.gameObject, targetBodyPart.livingHealthBehaviour.gameObject,
-			targetBodyPart.Type, targetBodyPart.livingHealthBehaviour.GetTotalBruteDamage(),
-			targetBodyPart.livingHealthBehaviour.GetTotalBurnDamage());
 	}
 
-	private void ServerSelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
+	private void ServerSelfHeal(GameObject originator, LivingHealthMasterBase livingHealthMasterBase, HandApply interaction)
 	{
 		void ProgressComplete()
 		{
-			ServerApplyHeal(targetBodyPart);
+			ServerApplyHeal(livingHealthMasterBase, interaction);
 		}
 
 		StandardProgressAction.Create(ProgressConfig, ProgressComplete)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Messages.Client.NewPlayer;
 using UnityEngine;
 using Mirror;
 using Objects;
@@ -323,7 +324,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		if (isServer)
 		{
-			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2) serverState.WorldPosition,
+			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Movement, name, (Vector2) serverState.WorldPosition,
 				toWorldPosition.To2Int());
 			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition, true);
 			ServerState = nextStateServer;
@@ -385,13 +386,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	private void OnEnable()
 	{
 		onTileReached.AddListener(Cross);
-		EventManager.AddHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		EventManager.AddHandler(Event.PlayerRejoined, setLocalPlayer);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	private void OnDisable()
 	{
 		onTileReached.RemoveListener(Cross);
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		EventManager.RemoveHandler(Event.PlayerRejoined, setLocalPlayer);
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
@@ -413,37 +414,23 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
-	[Client]
-	public void TryEscapeContainer()
+	[Command]
+	public void CmdTryEscapeContainer()
 	{
-		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
-		{
-			CmdTryEscapeCloset();
-		}
-		else if (Camera2DFollow.followControl.target.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
-		{
-			CmdTryEscapeDisposals();
-		}
+		ServerTryEscapeContainer();
 	}
 
-	[Command]
-	private void CmdTryEscapeCloset()
+	[Server]
+	public void ServerTryEscapeContainer()
 	{
-		if (pushPull?.parentContainer == null) return;
+		if (pushPull == null || pushPull.parentContainer == null) return;
 		GameObject parentContainer = pushPull.parentContainer.gameObject;
 
 		if (parentContainer.TryGetComponent(out ClosetControl closet))
 		{
 			closet.PlayerTryEscaping(gameObject);
 		}
-	}
-	[Command]
-	private void CmdTryEscapeDisposals()
-	{
-		if (pushPull?.parentContainer == null) return;
-		GameObject parentContainer = pushPull.parentContainer.gameObject;
-
-		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+		else if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			disposalContainer.PlayerTryEscaping(gameObject);
 		}
@@ -468,7 +455,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 					// Player inside something
 					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
 					{
-						TryEscapeContainer();
+						CmdTryEscapeContainer();
 						didWiggle = true;
 					}
 				}
@@ -658,7 +645,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient;
 
-			if (playerMove.allowInput && !playerMove.IsBuckled && !beingDraggedWithCuffs && !UIManager.IsInputFocus)
+			if (playerMove.allowInput && !beingDraggedWithCuffs && !UIManager.IsInputFocus)
 			{
 				StartCoroutine(DoProcess(moveActions));
 			}

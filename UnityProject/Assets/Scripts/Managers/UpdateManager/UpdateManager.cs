@@ -111,17 +111,21 @@ public class UpdateManager : MonoBehaviour
 		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
 	}
 
+	public static void Add(ManagedBehaviour managedBehaviour)
+	{
+		instance.AddCallbackInternal(CallbackType.UPDATE, managedBehaviour.UpdateMe);
+		instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, managedBehaviour.FixedUpdateMe);
+		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, managedBehaviour.LateUpdateMe);
+	}
+
 	public static void Remove(CallbackType type, Action action)
 	{
 		if (action == null || Instance == null) return;
 
 		if (type == CallbackType.UPDATE)
 		{
-			if (Instance.updateActions.Contains(action))
-			{
-				Instance.updateActions.Remove(action);
-				return;
-			}
+			Instance.updateActions.Remove(action);
+			return;
 		}
 
 		if (type == CallbackType.FIXED_UPDATE)
@@ -162,6 +166,13 @@ public class UpdateManager : MonoBehaviour
 		Remove(CallbackType.UPDATE, networkBehaviour.UpdateMe);
 		Remove(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
 		Remove(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
+	}
+
+	public static void Remove(ManagedBehaviour managedBehaviour)
+	{
+		Remove(CallbackType.UPDATE, managedBehaviour.UpdateMe);
+		Remove(CallbackType.FIXED_UPDATE, managedBehaviour.FixedUpdateMe);
+		Remove(CallbackType.LATE_UPDATE, managedBehaviour.LateUpdateMe);
 	}
 
 	private void ProcessCallbacks(CallbackCollection collection)
@@ -210,29 +221,20 @@ public class UpdateManager : MonoBehaviour
 	{
 		if (type == CallbackType.UPDATE)
 		{
-			if (!Instance.updateActions.Contains(action))
-			{
-				Instance.updateActions.Add(action);
-				return;
-			}
+			Instance.updateActions.Add(action);
+			return;
 		}
 
 		if (type == CallbackType.FIXED_UPDATE)
 		{
-			if (!Instance.fixedUpdateActions.Contains(action))
-			{
-				Instance.fixedUpdateActions.Add(action);
-				return;
-			}
+			Instance.fixedUpdateActions.Add(action);
+			return;
 		}
 
 		if (type == CallbackType.LATE_UPDATE)
 		{
-			if (!Instance.lateUpdateActions.Contains(action))
-			{
-				Instance.lateUpdateActions.Add(action);
-				return;
-			}
+			Instance.lateUpdateActions.Add(action);
+			return;
 		}
 	}
 

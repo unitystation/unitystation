@@ -1,6 +1,9 @@
 using System.Collections;
+using HealthV2;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
+
 
 /// <summary>
 ///     Indicates an object that emits sound upon activation (bike horn/air horn...)
@@ -30,11 +33,13 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		allowUse = true;
 	}
 
-	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
+	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthMasterBase targetHealth )
 	{
 		yield return WaitFor.Seconds( 0.02f );
-		SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: GetHonkSoundObject());
-		targetHealth.ApplyDamageToBodypart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: -1f); //This plays it backwards, is that what you wanted?
+		ShakeParameters shakeParameters = new ShakeParameters(true, 20, 5);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), audioSourceParameters, true, sourceObj: GetHonkSoundObject(), shakeParameters: shakeParameters);
+		targetHealth.ApplyDamageToBodyPart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
 	/// <summary>
@@ -54,7 +59,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		Vector3 performerWorldPos = interaction.PerformerPlayerScript.WorldPos;
 		bool inCloseRange = Validations.IsReachableByPositions( performerWorldPos, performerWorldPos + (Vector3)interaction.TargetVector, true, context: interaction.TargetObject);
 		var targetObject = interaction.TargetObject;
-		var targetHealth = targetObject != null ? targetObject.GetComponent<LivingHealthBehaviour>() : null;
+		var targetHealth = targetObject != null ? targetObject.GetComponent<LivingHealthMasterBase>() : null;
 		bool isCrit = Random.Range( 0f, 1f ) <= CritChance;
 
 		// honking in someone's face
@@ -80,7 +85,8 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 
 	public void ClassicHonk()
 	{
-		SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
+		AudioSourceParameters hornParameters = new AudioSourceParameters(pitch: randomPitch);
+		SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), hornParameters, true, sourceObj: GetHonkSoundObject());
 	}
 
 	/// <summary>

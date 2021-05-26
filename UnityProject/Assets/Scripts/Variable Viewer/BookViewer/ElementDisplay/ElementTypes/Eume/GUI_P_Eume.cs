@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using TMPro;
 
 public class GUI_P_Eume : PageElement

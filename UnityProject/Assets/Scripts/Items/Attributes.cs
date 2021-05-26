@@ -1,4 +1,5 @@
 using System.Linq;
+using Messages.Client.Interaction;
 using UnityEngine;
 using Mirror;
 
@@ -34,20 +35,19 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
 	[SerializeField]
 	private int exportCost = 0;
+
 	public int ExportCost
 	{
 		get
 		{
-			var stackable = GetComponent<Stackable>();
-
-			if (stackable != null)
+			if (TryGetComponent<Stackable>(out var stackable))
 			{
-				return exportCost * stackable.Amount;
+				int amount = Application.isEditor ? stackable.InitialAmount : stackable.Amount;
+				return exportCost * amount;
 			}
 
 			return exportCost;
 		}
-
 	}
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]

@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Explosions;
 using AddressableReferences;
+using Objects;
 
 namespace Items.Weapons
 {
@@ -151,7 +152,7 @@ namespace Items.Weapons
 				}
 
 				// Despawn grenade
-				Despawn.ServerSingle(gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 
 				// Explosion here
 				var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);

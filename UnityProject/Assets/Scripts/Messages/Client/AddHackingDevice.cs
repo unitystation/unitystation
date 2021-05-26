@@ -1,39 +1,45 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using Messages.Server;
 using Mirror;
-using Messages.Client;
+using UnityEngine;
 
-public class AddHackingDevice: ClientMessage
+namespace Messages.Client
 {
-	public uint Player;
-	public uint HackableObject;
-	public uint HackingDevice;
-
-	public override void Process()
+	public class AddHackingDevice : ClientMessage<AddHackingDevice.NetMessage>
 	{
-		LoadMultipleObjects(new uint[] { Player, HackableObject, HackingDevice });
-
-		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-		var hackObject = NetworkObjects[1];
-		HackingDevice hackDevice = NetworkObjects[2].GetComponent<HackingDevice>();
-		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
-		if (hackingProcess.ServerPlayerCanAddDevice(playerScript, hackDevice))
+		public struct NetMessage : NetworkMessage
 		{
-			hackingProcess.AddHackingDevice(hackDevice);
-			hackingProcess.ServerStoreHackingDevice(hackDevice);
-			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
+			public uint Player;
+			public uint HackableObject;
+			public uint HackingDevice;
 		}
-	}
 
-	public static AddHackingDevice Send(GameObject player, GameObject hackObject, GameObject hackingDevice)
-	{
-		AddHackingDevice msg = new AddHackingDevice
+		public override void Process(NetMessage msg)
 		{
-			Player = player.GetComponent<NetworkIdentity>().netId,
-			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
-			HackingDevice = hackingDevice.GetComponent<NetworkIdentity>().netId
-		};
-		msg.Send();
-		return msg;
+			LoadMultipleObjects(new uint[] { msg.Player, msg.HackableObject, msg.HackingDevice });
+
+			var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
+			var hackObject = NetworkObjects[1];
+			HackingDevice hackDevice = NetworkObjects[2].GetComponent<HackingDevice>();
+			HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
+			if (hackingProcess.ServerPlayerCanAddDevice(playerScript, hackDevice))
+			{
+				hackingProcess.AddHackingDevice(hackDevice);
+				hackingProcess.ServerStoreHackingDevice(hackDevice);
+				HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
+			}
+		}
+
+		public static NetMessage Send(GameObject player, GameObject hackObject, GameObject hackingDevice)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Player = player.GetComponent<NetworkIdentity>().netId,
+				HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
+				HackingDevice = hackingDevice.GetComponent<NetworkIdentity>().netId
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

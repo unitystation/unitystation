@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using DatabaseAPI;
+using IgnoranceTransport;
 using Initialisation;
+using Messages.Server;
+using UnityEditor;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
@@ -24,6 +28,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
+
+	/// <summary>
+	/// List of ALL prefabs in the game which can be spawned, networked or not.
+	/// use spawnPrefabs to get only networked prefabs
+	/// </summary>
+	[HideInInspector]
+	public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
 
 	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
 	private const double minCoolDown = 1f;
@@ -60,28 +71,28 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	void CheckTransport()
 	{
-		var booster = GetComponent<BoosterTransport>();
-		if (booster != null)
-		{
-			if (transport == booster)
-			{
-				var beamPath = Path.Combine(Application.streamingAssetsPath, "booster.bytes");
-				if (File.Exists(beamPath))
-				{
-					booster.beamData = File.ReadAllBytes(beamPath);
-					Logger.Log("Beam data found, loading booster transport..");
-				}
-				else
-				{
-					var telepathy = GetComponent<TelepathyTransport>();
-					if (telepathy != null)
-					{
-						Logger.Log("No beam data found. Falling back to Telepathy");
-						transport = telepathy;
-					}
-				}
-			}
-		}
+		// var booster = GetComponent<BoosterTransport>();
+		// if (booster != null)
+		// {
+		// 	if (transport == booster)
+		// 	{
+		// 		var beamPath = Path.Combine(Application.streamingAssetsPath, "booster.bytes");
+		// 		if (File.Exists(beamPath))
+		// 		{
+		// 			booster.beamData = File.ReadAllBytes(beamPath);
+		// 			Logger.Log("Beam data found, loading booster transport..");
+		// 		}
+		// 		else
+		// 		{
+		// 			var telepathy = GetComponent<TelepathyTransport>();
+		// 			if (telepathy != null)
+		// 			{
+		// 				Logger.Log("No beam data found. Falling back to Telepathy");
+		// 				transport = telepathy;
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 
 	void ApplyConfig()
@@ -90,31 +101,71 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		if (config.ServerPort != 0 && config.ServerPort <= 65535)
 		{
 			Logger.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
-			var booster = GetComponent<BoosterTransport>();
-			if (booster != null)
+			// var booster = GetComponent<BoosterTransport>();
+			// if (booster != null)
+			// {
+			// 	booster.port = (ushort)config.ServerPort;
+			// }
+			// else
+			// {
+			//
+			// }
+
+			var telepathy = GetComponent<TelepathyTransport>();
+			if (telepathy != null)
 			{
-				booster.port = (ushort)config.ServerPort;
+				telepathy.port = (ushort)config.ServerPort;
 			}
-			else
+
+			var ignorance = GetComponent<Ignorance>();
+			if (ignorance != null)
 			{
-				var telepathy = GetComponent<TelepathyTransport>();
-				if (telepathy != null)
-				{
-					telepathy.port = (ushort)config.ServerPort;
-				}
+				ignorance.port = (ushort)config.ServerPort;
 			}
 		}
 	}
 
 	public void SetSpawnableList()
 	{
+#if UNITY_EDITOR
 		spawnPrefabs.Clear();
+		allSpawnablePrefabs.Clear();
 
-		NetworkIdentity[] networkObjects = Resources.LoadAll<NetworkIdentity>("Prefabs");
-		foreach (NetworkIdentity netObj in networkObjects)
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
+		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+		foreach (var objectsPath in objectsPaths)
 		{
-			spawnPrefabs.Add(netObj.gameObject);
+			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
+			if(asset == null) continue;
+
+			if (asset.TryGetComponent<NetworkIdentity>(out _))
+			{
+				spawnPrefabs.Add(asset);
+			}
+
+			allSpawnablePrefabs.Add(asset);
 		}
+#endif
+	}
+
+	public GameObject GetSpawnablePrefabFromName(string prefabName)
+	{
+		var prefab = allSpawnablePrefabs.Where(o => o.name == prefabName).ToList();
+
+		if (prefab.Any())
+		{
+			if (prefab.Count > 1)
+			{
+				Logger.LogError($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
+			}
+
+			return prefab[0];
+		}
+
+		Logger.LogError($"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
+		                " all prefabs must be in this list if they need to be spawnable");
+
+		return null;
 	}
 
 	private void OnEnable()
@@ -154,6 +205,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
+		if(AddressableCatalogueManager.Instance == null) return;
+
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
 	}
 
@@ -202,7 +255,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
 			if (totalSeconds < minCoolDown)
 			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections");
+				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections", Category.Connections);
 				conn.Disconnect();
 				return;
 			}

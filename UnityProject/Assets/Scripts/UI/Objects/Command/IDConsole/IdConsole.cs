@@ -47,7 +47,7 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			if (TargetCard)
 			{
-				EjectCard(TargetCard);
+				EjectCard(TargetCard, interaction.PerformerPlayerScript.connectedPlayer);
 			}
 
 			Inventory.ServerTransfer(interaction.HandSlot, TargetSlot);
@@ -56,20 +56,42 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			if (AccessCard)
 			{
-				EjectCard(AccessCard);
+				EjectCard(AccessCard, interaction.PerformerPlayerScript.connectedPlayer);
 			}
 
 			Inventory.ServerTransfer(interaction.HandSlot, AccessSlot);
 		}
+	}
+	
+	/// <summary>
+	/// Return an empty hand slot if available
+	/// </summary>
+	/// <param name="item"></param>
+	/// <param name="subject"></param>
+	/// <returns></returns>
+	private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
+	{
+		if (subject == null)
+		{
+			return default;
+		}
+
+		var playerStorage = subject.Script.ItemStorage;
+		return playerStorage.GetBestHandOrSlotFor(item);
 	}
 
 	/// <summary>
 	/// Spits out ID card from console and updates login details.
 	/// </summary>
 	/// <param name="cardToEject">Card you want to eject</param>
-	public void EjectCard(IDCard cardToEject)
+	public void EjectCard(IDCard cardToEject, ConnectedPlayer subject)
 	{
 		var slot = cardToEject.GetComponent<Pickupable>().ItemSlot;
+		var bestSlot = GetBestSlot(slot.Item.gameObject, subject);
+		if (!Inventory.ServerTransfer(slot, bestSlot))
+		{
+			Inventory.ServerDrop(slot);
+		}
 		Inventory.ServerDrop(slot);
 	}
 }

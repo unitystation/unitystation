@@ -2,56 +2,60 @@
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
+using Messages.Client.DevSpawner;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-/// <summary>
-/// Main logic for the UI for destroying objects
-/// </summary>
-public class GUI_DevDestroyer : MonoBehaviour
+namespace UI.AdminTools
 {
-
-	// destroyable objects
-	private LayerMask layerMask;
-	private LightingSystem lightingSystem;
-
-	void Awake()
+	/// <summary>
+	/// Main logic for the UI for destroying objects
+	/// </summary>
+	public class GUI_DevDestroyer : MonoBehaviour
 	{
-		layerMask = LayerMask.GetMask("Furniture", "Machines", "Unshootable Machines", "Items",
-			"Objects");
-		lightingSystem = Camera.main.GetComponent<LightingSystem>();
-	}
+		// destroyable objects
+		private LayerMask layerMask;
+		private LightingSystem lightingSystem;
 
-	private void OnEnable()
-	{
-		lightingSystem.enabled = false;
-		UIManager.IsMouseInteractionDisabled = true;
-	}
+		private bool cachedLightingState;
 
-	private void OnDisable()
-	{
-		lightingSystem.enabled = true;
-		UIManager.IsMouseInteractionDisabled = false;
-	}
-
-	private void Update()
-	{
-		//check which objects we are over, pick the top one to delete
-		if (CommonInput.GetMouseButtonDown(0))
+		void Awake()
 		{
-			var hits = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
-				go => go.GetComponent<CustomNetTransform>() != null);
-			if (hits.Any())
+			layerMask = LayerMask.GetMask("Furniture", "Machines", "Unshootable Machines", "Items",
+				"Objects");
+			lightingSystem = Camera.main.GetComponent<LightingSystem>();
+		}
+
+		private void OnEnable()
+		{
+			cachedLightingState = lightingSystem.enabled;
+			lightingSystem.enabled = false;
+			UIManager.IsMouseInteractionDisabled = true;
+		}
+
+		private void OnDisable()
+		{
+			lightingSystem.enabled = cachedLightingState;
+			UIManager.IsMouseInteractionDisabled = false;
+		}
+
+		private void Update()
+		{
+			// check which objects we are over, pick the top one to delete
+			if (CommonInput.GetMouseButtonDown(0))
 			{
-				if (CustomNetworkManager.IsServer)
+				var hits = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
+					go => go.GetComponent<CustomNetTransform>() != null);
+				if (hits.Any())
 				{
-					Despawn.ServerSingle(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
-				}
-				else
-				{
-					DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject,
-						ServerData.UserID, PlayerList.Instance.AdminToken);
+					if (CustomNetworkManager.IsServer)
+					{
+						_ = Despawn.ServerSingle(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
+					}
+					else
+					{
+						DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject,
+							ServerData.UserID, PlayerList.Instance.AdminToken);
+					}
 				}
 			}
 		}

@@ -1,29 +1,32 @@
-﻿using System.Collections;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
-
-public class MentorBwoinkMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public string MentorUID;
-	public string Message;
-
-	public override void Process()
+	public class MentorBwoinkMessage : ServerMessage<MentorBwoinkMessage.NetMessage>
 	{
-		SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
-		Chat.AddMentorPrivMsg(Message);
-	}
-
-	public static MentorBwoinkMessage  Send(GameObject recipient, string mentorUid, string message)
-	{
-		MentorBwoinkMessage  msg = new MentorBwoinkMessage
+		public struct NetMessage : NetworkMessage
 		{
-			MentorUID = mentorUid,
-			Message = message
-		};
+			public string MentorUID;
+			public string Message;
+		}
 
-		msg.SendTo(recipient);
+		public override void Process(NetMessage msg)
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
+			Chat.AddMentorPrivMsg(msg.Message);
+		}
 
-		return msg;
+		public static NetMessage  Send(GameObject recipient, string mentorUid, string message)
+		{
+			NetMessage  msg = new NetMessage
+			{
+				MentorUID = mentorUid,
+				Message = message
+			};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

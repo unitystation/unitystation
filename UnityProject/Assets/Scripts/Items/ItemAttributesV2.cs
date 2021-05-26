@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using AddressableReferences;
+using UnityEngine;
 using Mirror;
 using AddressableReferences;
-using UnityEngine;
+using Systems.Clothing;
 
 namespace Items
 {
@@ -20,10 +20,19 @@ namespace Items
 		[SerializeField]
 		[Tooltip("Initial traits of this item on spawn.")]
 		private List<ItemTrait> initialTraits = null;
+		public List<ItemTrait> InitialTraits => initialTraits;
 
-		[Tooltip("Size of this item when spawned. Is none by default, which you should probably change.")]
+		/// <summary>
+        /// Sizes:
+        /// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
+        /// Small - Pocket-sized items. You could hold a couple in one hand, but ten would be a hassle without a bag. Apple, phone, drinking glass etc.
+        /// Medium - default size. Fairly bulky but stuff you could carry in one hand and stuff into a backpack. Most tools would fit this size.
+        /// Large - particularly long or bulky items that would need a specialised bag to carry them. A shovel, a snowboard etc.
+        /// Huge - Think, like, a fridge. Absolute unit. You aren't stuffing this into anything less than a shipping crate.
+        /// </summary>
+		[Tooltip("Size of this item when spawned. Is medium by default, which you should change if needed.")]
 		[SerializeField]
-		private ItemSize initialSize = ItemSize.None;
+		private ItemSize initialSize = ItemSize.Medium;
 
 		/// <summary>
 		/// Current size.

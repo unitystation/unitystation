@@ -1,5 +1,6 @@
-
+using Messages.Client;
 using UnityEngine;
+using Objects;
 
 /// <summary>
 /// Main API for modifying inventory. If you need to do something with inventory, check here first.
@@ -84,7 +85,10 @@ public static class Inventory
 	public static bool ServerDespawn(GameObject objectInSlot)
 	{
 		var pu = objectInSlot.GetComponent<Pickupable>();
-		if (pu == null || pu.ItemSlot == null) Despawn.ServerSingle(objectInSlot);
+		if (pu == null || pu.ItemSlot == null)
+		{
+			_ = Despawn.ServerSingle(objectInSlot);
+		}
 		return ServerDespawn(pu.ItemSlot);
 	}
 
@@ -327,19 +331,18 @@ public static class Inventory
 			removeType = InventoryRemoveType.Drop;
 		}
 
-
 		if (removeType == InventoryRemoveType.Despawn)
 		{
-			//destroy (safe to skip invnetory despawn check because we already performed necessary inventory logic)
-			Despawn.ServerSingle(pickupable.gameObject, true);
+			// destroy (safe to skip invnetory despawn check because we already performed necessary inventory logic)
+			_ = Despawn.ServerSingle(pickupable.gameObject, true);
 		}
 		else if (removeType == InventoryRemoveType.Drop)
 		{
-			//drop where it is
-			//determine where it will appear
+			// drop where it is
+			// determine where it will appear
 			if (parentContainer != null)
 			{
-				//TODO: Not a big fan of this bespoke logic for dealing with dropping in closet control. Try to refactor this
+				// TODO: Not a big fan of this bespoke logic for dealing with dropping in closet control. Try to refactor this
 				Logger.LogTraceFormat("Dropping from slot {0} while in container {1}", Category.Inventory,
 					fromSlot,
 					parentContainer.name);
@@ -374,21 +377,21 @@ public static class Inventory
 			Vector3 targetWorldPos = holderPosition + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
 			if (holderPlayer != null)
 			{
-				//dropping from player
-				//Inertia drop works only if player has external impulse (space floating etc.)
+				// dropping from player
+				// Inertia drop works only if player has external impulse (space floating etc.)
 				cnt.InertiaDrop(targetWorldPos, holderPlayer.SpeedServer,
 					holderPlayer.ServerImpulse);
 			}
 			else
 			{
-				//dropping from not-held storage
+				// dropping from not-held storage
 				cnt.AppearAtPositionServer(targetWorldPos);
 			}
 		}
 		else if (removeType == InventoryRemoveType.Throw)
 		{
-			//throw / eject
-			//determine where it will be thrown from
+			// throw / eject
+			// determine where it will be thrown from
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
 			var assumedWorldPosServer = holder.gameObject.AssumedWorldPosServer();
 			var throwInfo = new ThrowInfo
@@ -399,15 +402,15 @@ public static class Inventory
 				WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero),
 				SpinMode = toPerform.ThrowSpinMode.GetValueOrDefault(SpinMode.Clockwise)
 			};
-			//dropping from player
-			//Inertia drop works only if player has external impulse (space floating etc.)
+			// dropping from player
+			// Inertia drop works only if player has external impulse (space floating etc.)
 			cnt.Throw(throwInfo);
 
-			//Counter-impulse for players in space
+			// Counter-impulse for players in space
 			holderPushPull.Pushable.NewtonianMove((-throwInfo.WorldTrajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
 		}
-		//NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
-		//already been removed from the inventory system.
+		// NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
+		// already been removed from the inventory system.
 
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
@@ -419,8 +422,8 @@ public static class Inventory
 
 	private static bool ServerPerformAdd(InventoryMove toPerform, Pickupable pickupable)
 	{
-		//item is not currently in inventory, it should be moved into inventory system into
-		//the indicated slot.
+		// item is not currently in inventory, it should be moved into inventory system into
+		// the indicated slot.
 
 		if (pickupable.ItemSlot != null)
 		{
@@ -468,21 +471,21 @@ public static class Inventory
 			}
 		}
 
-		if (!Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true))
+		if (Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true) == false)
 		{
 			Logger.LogTraceFormat("Attempted to add {0} to slot {1} but slot cannot fit this item." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name, toSlot);
 			return false;
 		}
 
-		//go poof, it's in inventory now.
+		// go poof, it's in inventory now.
 		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
 
-		//no longer inside any PushPull
+		// no longer inside any PushPull
 		pickupable.GetComponent<ObjectBehaviour>().parentContainer = null;
 		pickupable.GetComponent<RegisterTile>().UpdatePositionServer();
 
-		//update pickupable's item and slot's item
+		// update pickupable's item and slot's item
 		pickupable._SetItemSlot(toSlot);
 		toSlot._ServerSetItem(pickupable);
 

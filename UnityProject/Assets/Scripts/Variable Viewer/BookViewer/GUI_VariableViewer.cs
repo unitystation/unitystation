@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -270,12 +271,12 @@ public class GUI_VariableViewer : MonoBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundEnded, Reset);
+		EventManager.AddHandler(Event.RoundEnded, Reset);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundEnded, Reset);
+		EventManager.RemoveHandler(Event.RoundEnded, Reset);
 	}
 
 	public void Pool()

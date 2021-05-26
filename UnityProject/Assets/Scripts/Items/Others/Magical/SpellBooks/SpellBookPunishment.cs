@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Items.Others.Magical
+namespace Items.Magical
 {
 	/// <summary>
 	/// Allows punishment to be inflicted upon the reader of a depleted spell book.

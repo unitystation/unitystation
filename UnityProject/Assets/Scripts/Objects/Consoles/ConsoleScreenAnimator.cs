@@ -4,63 +4,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity;
 
-public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
+namespace Objects
 {
-	public SpriteHandler SpriteHandlerHere
+	public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowerable
 	{
-		get
-		{
-			if (spriteHandler == null)
-			{
-				spriteHandler = this.GetComponentInChildren<SpriteHandler>();
+		public SpriteHandler SpriteHandlerHere {
+			get {
+				if (spriteHandler == null)
+				{
+					spriteHandler = GetComponentInChildren<SpriteHandler>();
+				}
+				return spriteHandler;
 			}
-			return spriteHandler;
-		}
-		set
-		{
-			spriteHandler = value;
-		}
-	}
-
-	[SerializeField]
-	private SpriteHandler spriteHandler;
-	public GameObject ScreenGlow;
-
-	private void ToggleOn(bool turnOn)
-	{
-		if (turnOn)
-		{
-			if (SpriteHandlerHere == null)
-			{
-				Logger.Log("Sprite handler is missing on" + this.gameObject);
-				return;
-			}
-			SpriteHandlerHere.PushTexture();
-		}
-		else
-		{
-			SpriteHandlerHere.PushClear();
-			if (ScreenGlow != null)
-			{
-				ScreenGlow.SetActive(false);
+			set {
+				spriteHandler = value;
 			}
 		}
-	}
 
-	public void PowerNetworkUpdate(float Voltage)
-	{
-	}
+		[SerializeField]
+		private SpriteHandler spriteHandler;
+		public GameObject ScreenGlow;
 
-
-	public void StateUpdate(PowerStates State)
-	{
-		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
+		private void ToggleOn(bool turnOn)
 		{
-			ToggleOn(false);
+			if (turnOn)
+			{
+				if (SpriteHandlerHere == null)
+				{
+					Logger.Log($"{nameof(SpriteHandler)} is missing on {gameObject}.", Category.Sprites);
+					return;
+				}
+				SpriteHandlerHere.PushTexture();
+			}
+			else
+			{
+				SpriteHandlerHere.PushClear();
+				if (ScreenGlow != null)
+				{
+					ScreenGlow.SetActive(false);
+				}
+			}
 		}
-		else
+
+		#region IAPCPowerable
+
+		public void PowerNetworkUpdate(float voltage) { }
+
+		public void StateUpdate(PowerState state)
 		{
-			ToggleOn(true);
+			if (state == PowerState.Off || state == PowerState.LowVoltage)
+			{
+				ToggleOn(false);
+			}
+			else
+			{
+				ToggleOn(true);
+			}
 		}
+
+		#endregion
 	}
 }

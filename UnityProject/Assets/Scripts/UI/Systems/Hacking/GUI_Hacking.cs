@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using AddressableReferences;
+using Messages.Client;
 
 public class GUI_Hacking : NetTab
 {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
+using Messages.Server;
 using UnityEngine;
 
 namespace Pipes
@@ -62,11 +63,9 @@ namespace Pipes
 		public Gas GasIndex = Gas.Oxygen;
 		public Chemistry.Reagent FilterReagent;
 
-		public override void Start()
+		public override void OnSpawnServer(SpawnInfo info)
 		{
 			GasIndex = CapableFiltering[initalFilterValue.ToString()];
-			pipeData.PipeAction = new MonoActions();
-			base.Start();
 
 			if (IsOn)
 			{
@@ -76,6 +75,7 @@ namespace Pipes
 			{
 				spriteHandlerOverlay.PushClear();
 			}
+			base.OnSpawnServer(info);
 		}
 
 		public void TogglePower()

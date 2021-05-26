@@ -7,7 +7,7 @@ namespace Clothing
 	/// <summary>
 	/// when wore, this item will apply a debuff on player speed
 	/// </summary>
-	public class WearableSpeedDebuff : MonoBehaviour, IServerInventoryMove
+	public class WearableSpeedDebuff : MonoBehaviour, IServerInventoryMove, PlayerMove.IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("This will be the speed to substract from running speed")]
@@ -16,6 +16,23 @@ namespace Clothing
 		[SerializeField]
 		[Tooltip("This will be speed to substract from walking speed")]
 		private float walkingSpeedDebuff = 0.5f;
+
+
+		public float RunningAdd {
+			get => -runningSpeedDebuff;
+			set { }
+		}
+		public float WalkingAdd {
+			get => -walkingSpeedDebuff;
+			set { }
+		}
+		public float CrawlAdd
+		{
+			get => 0;
+			set{ }
+		}
+
+
 
 		[SerializeField]
 		[Tooltip("In what slot should this debuff take place")]
@@ -68,16 +85,12 @@ namespace Clothing
 
 		void ApplyDebuff()
 		{
-			player.playerMove.ServerChangeSpeed(
-				run: player.playerMove.RunSpeed -= runningSpeedDebuff,
-				walk: player.playerMove.WalkSpeed -= walkingSpeedDebuff);
+			player.playerMove.AddModifier(this);
 		}
 
 		void RemoveDebuff()
 		{
-			player.playerMove.ServerChangeSpeed(
-				run: player.playerMove.RunSpeed += runningSpeedDebuff,
-				walk: player.playerMove.WalkSpeed += walkingSpeedDebuff);
+			player.playerMove.RemoveModifier(this);
 		}
 	}
 }

@@ -16,23 +16,38 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 		//Wearing
 		if (info.ToSlot != null && info.ToRootPlayer)
 		{
-			var mind = info.ToPlayer.PlayerScript.mind;
-			if (mind.StepSound == SoundChange)
+			var toPlayer = info.ToPlayer;
+
+			if (toPlayer == null)
+			{
+				return;
+			}
+
+			var mind = toPlayer.PlayerScript.mind;
+
+			if (mind != null && mind.StepSound == SoundChange)
 			{
 				mind.StepSound = null;
 			}
 		}
+
 		//taking off
 		if (info.FromSlot != null && info.FromPlayer)
 		{
-			var mind = info.FromPlayer.PlayerScript.mind;
+			var fromPlayer = info.FromPlayer;
 
-			if (mind.StepSound == null)
+			if (fromPlayer == null)
+			{
+				return;
+			}
+
+			var mind = fromPlayer.PlayerScript.mind;
+
+			if (mind != null && mind.StepSound == null)
 			{
 				Player = info.ToPlayer;
 				mind.StepSound = SoundChange;
 			}
-
 		}
 
 

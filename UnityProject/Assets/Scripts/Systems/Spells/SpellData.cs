@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Systems.Spells;
+using AddressableReferences;
 using Object = UnityEngine.Object;
 using NaughtyAttributes;
 
@@ -37,7 +38,7 @@ namespace ScriptableObjects.Systems.Spells
 		[SerializeField, BoxGroup("Replenishment"), HideIf(nameof(IsRechargeable)), Range(0, 30)]
 		private int startingCharges = 10;
 
-		[SerializeField] private string castSound = null;
+		[SerializeField] private AddressableAudioSource castSound = null;
 		[SerializeField] private int range = 0;
 
 		[SerializeField, BoxGroup("Chat")]
@@ -70,14 +71,14 @@ namespace ScriptableObjects.Systems.Spells
 		private float summonLifespan = 10f;
 		[Tooltip("Whether to replace existing tile")]
 		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonThing))]
-		private bool replaceExisting = false;		
+		private bool replaceExisting = false;
 
 		public string StillRechargingMessage => stillRechargingMessage;
 		public SpellChargeType ChargeType => chargeType;
 		public float CooldownTime => cooldownTime;
 		public int StartingCharges => startingCharges;
 		public string AffectedMessage => affectedMessage;
-		public string CastSound => castSound;
+		public AddressableAudioSource CastSound => castSound;
 		public SpellInvocationType InvocationType => invocationType;
 		public string InvocationMessage => invocationMessage;
 		public int Range => range;
@@ -134,7 +135,7 @@ namespace ScriptableObjects.Systems.Spells
 			var spellComponent = spellObject.GetComponent<Spell>();
 			if (spellComponent == null)
 			{
-				Logger.LogError($"No spell component found on {spellObject} for {this}!");
+				Logger.LogError($"No spell component found on {spellObject} for {this}!", Category.Spells);
 				return default;
 			}
 			spellComponent.SpellData = this;

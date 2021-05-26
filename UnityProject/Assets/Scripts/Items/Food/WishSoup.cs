@@ -1,39 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WishSoup : Edible
+namespace Items.Food
 {
-	public override void Eat(PlayerScript eater, PlayerScript feeder)
+	public class WishSoup : Edible
 	{
-		float wishChance = Random.value;
-		if (wishChance <= 0.25)
+		public override void Eat(PlayerScript eater, PlayerScript feeder)
 		{
-			Eat(eater, feeder, NutritionLevel);
-		}
-		else
-		{
-			Eat(eater, feeder, 0);
-		}
-	}
-
-	private void Eat(PlayerScript eater, PlayerScript feeder, int nutrition)
-	{
-		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
-
-		eater.playerHealth.Metabolism.AddEffect(new MetabolismEffect(nutrition, 0, MetabolismDuration.Food));
-
-		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
-		Inventory.ServerDespawn(gameObject);
-
-		if (leavings != null)
-		{
-			var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-			var pickupable = leavingsInstance.GetComponent<Pickupable>();
-			bool added = Inventory.ServerAdd(pickupable, feederSlot);
-			if (!added)
+			float wishChance = Random.value;
+			if (wishChance <= 0.25)
 			{
-				//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-				pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
+				Eat(eater, feeder, true);
+			}
+			else
+			{
+				Eat(eater, feeder, false);
+			}
+		}
+
+		private void Eat(PlayerScript eater, PlayerScript feeder, bool FeedNutrients)
+		{
+			// TODO: sound missing?
+			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+
+			if (FeedNutrients)
+			{
+				var Stomachs = eater.playerHealth.GetStomachs();
+				if (Stomachs.Count == 0)
+				{
+					//No stomachs?!
+					return;
+				}
+				FoodContents.Divide(Stomachs.Count);
+				foreach (var Stomach in Stomachs)
+				{
+					Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				}
+			}
+
+			var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
+			Inventory.ServerDespawn(gameObject);
+
+			if (leavings != null)
+			{
+				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+				var pickupable = leavingsInstance.GetComponent<Pickupable>();
+				bool added = Inventory.ServerAdd(pickupable, feederSlot);
+				if (!added)
+				{
+					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
+					pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
+				}
 			}
 		}
 	}

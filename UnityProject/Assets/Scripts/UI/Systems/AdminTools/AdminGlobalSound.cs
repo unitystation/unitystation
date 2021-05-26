@@ -49,7 +49,7 @@ namespace AdminTools
 
 		public void PlaySound(string index) //send sound to sound manager
 		{
-			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, "CmdPlaySound");
+			AdminCommandsManager.Instance.CmdPlaySound(ServerData.UserID, PlayerList.Instance.AdminToken, index);
 		}
 	}
 }

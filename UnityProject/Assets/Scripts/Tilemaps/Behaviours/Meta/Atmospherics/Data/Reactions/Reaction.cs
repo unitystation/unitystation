@@ -15,6 +15,9 @@ namespace Systems.Atmospherics
 	{
 		private static List<GasReactions> gasReactions = new List<GasReactions>();
 
+		//List of reactions which will be used to reset the gasReactions list so that custom reactions will be removed
+		private static List<GasReactions> baseGasReactions = new List<GasReactions>();
+
 		//list of gas reactions:
 
 		#region TritiumFire
@@ -48,7 +51,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -84,7 +88,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -128,7 +133,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -172,7 +178,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		public static readonly GasReactions NO2Decomp = new GasReactions(
@@ -196,7 +203,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -240,7 +248,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -276,7 +285,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -320,7 +330,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles:0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -348,7 +359,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles:0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -400,7 +412,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		public static readonly GasReactions StimBallReaction = new GasReactions(
@@ -448,7 +461,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -484,7 +498,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -512,7 +527,8 @@ namespace Systems.Atmospherics
 			maximumPressure: 10000000000f,
 			minimumMoles: 0.01f,
 			maximumMoles:10000000000f,
-			energyChange: 0f
+			energyChange: 0f,
+			addToBaseReactions: true
 		);
 
 		#endregion
@@ -535,7 +551,7 @@ namespace Systems.Atmospherics
 
 		public readonly int Index;
 
-		public GasReactions(Dictionary<Gas, GasReactionData> gasReactionData, Reaction reaction, float minimumTemperature, float maximumTemperature, float minimumPressure, float maximumPressure, float minimumMoles, float maximumMoles, float energyChange)
+		public GasReactions(Dictionary<Gas, GasReactionData> gasReactionData, Reaction reaction, float minimumTemperature, float maximumTemperature, float minimumPressure, float maximumPressure, float minimumMoles, float maximumMoles, float energyChange, bool addToBaseReactions = false)
 		{
 			GasReactionData = gasReactionData;
 
@@ -553,7 +569,12 @@ namespace Systems.Atmospherics
 
 			gasReactions.Add(this);
 
-			all = null;
+			if (addToBaseReactions)
+			{
+				baseGasReactions.Add(this);
+			}
+
+			SetAllToNull();
 			numberOfGasReactions = 0;
 		}
 
@@ -595,6 +616,31 @@ namespace Systems.Atmospherics
 		public static implicit operator int(GasReactions gasReaction)
 		{
 			return gasReaction.Index;
+		}
+
+		public static void RemoveReaction(GasReactions gasReaction)
+		{
+			gasReactions.Remove(gasReaction);
+			SetAllToNull();
+		}
+
+		/// <summary>
+		/// Removes all custom reactions which are added at runtime, only the reactions in this class will stay
+		/// </summary>
+		public static void ResetReactionList()
+		{
+			gasReactions = baseGasReactions;
+			SetAllToNull();
+		}
+
+		private static void SetAllToNull()
+		{
+			if(all == null) return;
+
+			lock (all)
+			{
+				all = null;
+			}
 		}
 	}
 

@@ -3,6 +3,7 @@ using GameConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdminCommands;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -99,7 +100,7 @@ namespace InGameEvents
 
 			if (list == null)
 			{
-				Debug.LogError("An event has been set to random type, random is a dummy type and cant be accessed.");
+				Logger.LogError("An event has been set to random type, random is a dummy type and cant be accessed.", Category.Event);
 				return;
 			}
 
@@ -123,7 +124,7 @@ namespace InGameEvents
 
 			if (list == null)
 			{
-				Debug.LogError("Event List was null shouldn't happen unless new type wasn't added to switch");
+				Logger.LogError("Event List was null shouldn't happen unless new type wasn't added to switch", Category.Event);
 				return;
 			}
 
@@ -138,10 +139,7 @@ namespace InGameEvents
 				eventChosen.AnnounceEvent = announceEvent;
 				eventChosen.TriggerEvent(serializedEventParameters);
 
-				var msg = $"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}";
-
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+				AdminCommandsManager.LogAdminAction($"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}");
 			}
 		}
 
@@ -162,21 +160,13 @@ namespace InGameEvents
 					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
 
-					string msg;
-
 					if (serverTriggered)
 					{
-						msg = $"A random event, {eventInList.EventName} has been triggered by the server. Is fake: {isFake}. Announce: {announceEvent}";
-
-						UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-						DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[Server]");
+						AdminCommandsManager.LogAdminAction($"A random event, {eventInList.EventName} has been triggered by the server. Is fake: {isFake}. Announce: {announceEvent}", "[Server]");
 						return;
 					}
 
-					msg = $"{adminName}: triggered a random event, {eventInList.EventName} was chosen. Is fake: {isFake}. Announce: {announceEvent}";
-
-					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-					DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+					AdminCommandsManager.LogAdminAction($"{adminName}: triggered a random event, {eventInList.EventName} was chosen. Is fake: {isFake}. Announce: {announceEvent}");
 
 					return;
 				}
@@ -186,10 +176,7 @@ namespace InGameEvents
 
 			if (stackOverFlowProtection > 100)
 			{
-				var msg = "A random event has failed to be triggered by the server due to overflow protection.";
-
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[Server]");
+				AdminCommandsManager.LogAdminAction("A random event has failed to be triggered by the server due to overflow protection.", "[Server]");
 				return;
 			}
 

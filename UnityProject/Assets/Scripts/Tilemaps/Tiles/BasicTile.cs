@@ -33,16 +33,25 @@ public abstract class BasicTile : LayerTile
 
 	[Tooltip("Can this tile be mined?")] [FormerlySerializedAs("Mineable")] [SerializeField]
 	private bool mineable = false;
+	[Tooltip("How long does it take to mine this tile?")] [SerializeField] [ShowIf(nameof(mineable))]
+	private float miningTime = 5f;
+
+	[Range(0.0f, 1f)] [Tooltip("RadiationPassability 0 = 100% Resistant")] [SerializeField]
+	public float RadiationPassability = 1;
 
 	/// <summary>
 	/// Can this tile be mined?
 	/// </summary>
 	public bool Mineable => mineable;
+	public float MiningTime => miningTime;
 
 	[Tooltip("Will bullets bounce from this tile?")] [SerializeField]
 	private bool doesReflectBullet = false;
 
 	public bool DoesReflectBullet => doesReflectBullet;
+
+	[Tooltip("Can this tile be damaged at all?")]
+	public bool indestructible;
 
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
 	[FormerlySerializedAs("PassableException")]
@@ -108,9 +117,30 @@ public abstract class BasicTile : LayerTile
 
 	public LootOnDespawn LootOnDespawn => lootOnDespawn;
 
-	[SerializeField] private AddressableAudioSource soundOnHit = null;
+	[SerializeField]
+	[Tooltip("The tile that will spawn when this tile is destroyed")]
+	private LayerTile toTileWhenDestroyed = null;
+
+	public LayerTile ToTileWhenDestroyed => toTileWhenDestroyed;
+
+	[Tooltip("What object to spawn when it's destroyed.")] [SerializeField]
+	private SpawnableList spawnOnDestroy = null;
+
+	public SpawnableList SpawnOnDestroy => spawnOnDestroy;
+
+	[SerializeField]
+	private DamageOverlaySO damageOverlayList = null;
+
+	public DamageOverlaySO DamageOverlayList => damageOverlayList;
+
+	[SerializeField]
+	[Foldout("SoundOnHit")]
+	private AddressableAudioSource soundOnHit = null;
 
 	public AddressableAudioSource SoundOnHit => soundOnHit;
+
+	[SerializeField]
+	public List<AddressableAudioSource> SoundOnDestroy = new List<AddressableAudioSource>();
 
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{

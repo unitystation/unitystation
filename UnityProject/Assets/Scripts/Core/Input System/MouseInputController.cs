@@ -2,10 +2,14 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Weapons;
 using Objects.Wallmounts;
+using Tilemaps.Behaviours.Layers;
+using UI;
+using UI.Action;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -14,32 +18,38 @@ public class MouseInputController : MonoBehaviour
 {
 	private const float MAX_AGE = 2f;
 
-
 	[Tooltip("When mouse button is pressed down and held for longer than this duration, we will" +
-			 " not perform a click on mouse up.")]
+	         " not perform a click on mouse up.")]
 	public float MaxClickDuration = 1f;
+
 	//tracks how long we've had the button down
 	private float clickDuration;
 
 	[Tooltip("Distance to travel from initial click position before a drag (of a MouseDraggable) is initiated.")]
 	public float MouseDragDeadzone = 0.2f;
+
 	//tracks the start position (vector which points from the center of currentDraggable) to compare with above
 	private Vector2 dragStartOffset;
+
 	//when we click down on a draggable, stores it so we can check if we should click interact or drag interact
 	private MouseDraggable potentialDraggable;
 
 	[Tooltip("Seconds to wait before trying to trigger an aim apply while mouse is being held. There is" +
-			 " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
-			 " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
-			 " triggers frequently enough (for example, based on the fastest-firing gun).")]
+	         " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
+	         " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
+	         " triggers frequently enough (for example, based on the fastest-firing gun).")]
 	public float AimApplyInterval = 0.01f;
+
 	//value used to check against the above while mouse is being held down.
 	private float secondsSinceLastAimApplyTrigger;
 
-	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
+	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches =
+		new Dictionary<Vector2, Tuple<Color, float>>();
+
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
 	private PlayerMove playerMove;
 	private Directional playerDirectional;
+
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
 
@@ -56,13 +66,13 @@ public class MouseInputController : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-
 		if (touchesToDitch.Count > 0)
 		{
 			foreach (var touch in touchesToDitch)
 			{
 				RecentTouches.Remove(touch);
 			}
+
 			touchesToDitch.Clear();
 		}
 
@@ -84,7 +94,6 @@ public class MouseInputController : MonoBehaviour
 				touchesToDitch.Add(info.Key);
 			}
 		}
-
 	}
 
 	public virtual void Start()
@@ -121,7 +130,6 @@ public class MouseInputController : MonoBehaviour
 
 		if (CommonInput.GetMouseButtonDown(0))
 		{
-
 			//check ctrl+click for dragging
 			if (KeyboardInputManager.IsControlPressed())
 			{
@@ -173,7 +181,6 @@ public class MouseInputController : MonoBehaviour
 					//no possibility of dragging something, proceed to normal click logic
 					CheckClickInteractions(true);
 				}
-
 			}
 		}
 		else if (CommonInput.GetMouseButton(0))
@@ -188,7 +195,7 @@ public class MouseInputController : MonoBehaviour
 				if (!(UIManager.CurrentIntent == Intent.Harm) && !(UIManager.CurrentIntent == Intent.Disarm))
 				{
 					var currentOffset = MouseWorldPosition - potentialDraggable.transform.position;
-					if (((Vector2)currentOffset - dragStartOffset).magnitude > MouseDragDeadzone)
+					if (((Vector2) currentOffset - dragStartOffset).magnitude > MouseDragDeadzone)
 					{
 						potentialDraggable.BeginDrag();
 						potentialDraggable = null;
@@ -198,7 +205,6 @@ public class MouseInputController : MonoBehaviour
 
 			//continue to trigger the aim apply if it was initially triggered
 			CheckAimApply(MouseButtonState.HOLD);
-
 		}
 		else if (CommonInput.GetMouseButtonUp(0))
 		{
@@ -262,7 +268,7 @@ public class MouseInputController : MonoBehaviour
 		if (includeAimApply) CheckAimApply(MouseButtonState.PRESS);
 	}
 
-	//return the Gun component if there is a loaded gun in active hand, otherwise null.
+	// return the Gun component if there is a loaded gun in active hand, otherwise null.
 	private Gun GetLoadedGunInActiveHand()
 	{
 		if (UIManager.Instance == null || UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return null;
@@ -305,6 +311,7 @@ public class MouseInputController : MonoBehaviour
 				{
 					lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
 				}
+
 				hit.transform.SendMessageUpwards("OnHoverStart", SendMessageOptions.DontRequireReceiver);
 				transform.SendMessage("OnHoverStart", SendMessageOptions.DontRequireReceiver);
 				lastHoveredThing = hit;
@@ -317,7 +324,8 @@ public class MouseInputController : MonoBehaviour
 
 	private void TrySlide()
 	{
-		if (PlayerManager.PlayerScript.IsGhost || PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		if (PlayerManager.PlayerScript.IsGhost ||
+		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
 		PlayerManager.PlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
 	}
@@ -325,7 +333,7 @@ public class MouseInputController : MonoBehaviour
 	private bool CheckClick()
 	{
 		ChangeDirection();
-		//currently there is nothing for ghosts to interact with, they only can change facing
+		// currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return false;
@@ -343,13 +351,17 @@ public class MouseInputController : MonoBehaviour
 			var handApplyTargets =
 				MouseUtils.GetOrderedObjectsUnderMouse();
 
-			//go through the stack of objects and call any interaction components we find
+			// go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
 				if (CheckHandApply(applyTarget)) return true;
 			}
-			//check empty space positional hand apply
-			var posHandApply = PositionalHandApply.ByLocalPlayer(null);
+
+			// check empty space positional hand apply
+			var posHandApply = PositionalHandApply.ByLocalPlayer(MatrixManager
+				.AtPoint(
+					(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
+					 PlayerManager.LocalPlayer.transform.position).RoundToInt(), false).GameObject.transform.parent.gameObject);
 			if (posHandApply.HandObject != null)
 			{
 				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()
@@ -379,7 +391,8 @@ public class MouseInputController : MonoBehaviour
 		{
 			//get all components that can handapply or PositionalHandApply
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
-				.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+				.Where(c => c != null && c.enabled &&
+				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
 			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
@@ -400,7 +413,8 @@ public class MouseInputController : MonoBehaviour
 
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
-			.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+			.Where(c => c != null && c.enabled &&
+			            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables.Reverse())
 		{
 			if (targetHandAppliable is IBaseInteractable<HandApply>)
@@ -508,8 +522,15 @@ public class MouseInputController : MonoBehaviour
 	{
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
 		if (!clickedObject) return;
-		if (PlayerManager.PlayerScript.IsGhost || PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		if (PlayerManager.PlayerScript.IsGhost ||
+		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+
+		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
+		{
+			clickedObject = networkedMatrix.MatrixSync.gameObject;
+		}
+
 		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 
@@ -527,6 +548,11 @@ public class MouseInputController : MonoBehaviour
 
 		//Shift clicking on space created NRE
 		if (!clickedObject) return;
+
+		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
+		{
+			clickedObject = networkedMatrix.MatrixSync.gameObject;
+		}
 
 		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId, MouseWorldPosition);
 	}
@@ -547,7 +573,8 @@ public class MouseInputController : MonoBehaviour
 					objects.RemoveAll(obj =>
 						obj.GetComponent<WallmountBehavior>() != null &&
 						obj.GetComponent<WallmountBehavior>().IsHiddenFromLocalPlayer() ||
-						obj.TryGetComponent(out NetworkedMatrix netMatrix)); // Test to see if station (or shuttle) itself.
+						obj.TryGetComponent(
+							out NetworkedMatrix netMatrix)); // Test to see if station (or shuttle) itself.
 					LayerTile tile = UITileList.GetTileAtPosition(position);
 					ControlTabs.ShowItemListTab(objects, tile, position);
 				}
@@ -559,13 +586,16 @@ public class MouseInputController : MonoBehaviour
 				MatrixManager.ForMatrixAt(position, true, (matrix, localPos) =>
 				{
 					matrix.SubsystemManager.UpdateAt(localPos);
-					Logger.LogFormat($"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
+					Logger.LogFormat(
+						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
 				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayer);
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -578,6 +608,7 @@ public class MouseInputController : MonoBehaviour
 			{
 				return false;
 			}
+
 			Vector3 targetPosition = MouseWorldPosition;
 			targetPosition.z = 0f;
 
@@ -586,12 +617,13 @@ public class MouseInputController : MonoBehaviour
 			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.NamedSlot,
-				targetVector, (int)UIManager.DamageZone);
+				targetVector, (int) UIManager.DamageZone);
 
 			//Disabling throw button
 			UIManager.Action.Throw();
 			return true;
 		}
+
 		return false;
 	}
 
@@ -611,11 +643,10 @@ public class MouseInputController : MonoBehaviour
 
 	#region Cursor Textures
 
-	[Header("Examine Cursor Settings")]
-	[SerializeField]
+	[Header("Examine Cursor Settings")] [SerializeField]
 	private Texture2D examineCursor = default;
-	[SerializeField]
-	private Vector2 cursorOffset = Vector2.zero;
+
+	[SerializeField] private Vector2 cursorOffset = Vector2.zero;
 
 	private bool isShowingExamineCursor = false;
 	private static Texture2D currentCursorTexture = null;

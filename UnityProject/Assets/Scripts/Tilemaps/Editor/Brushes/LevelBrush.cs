@@ -94,7 +94,7 @@ public class LevelBrush : GridBrush
 
 	public override void Flip(FlipAxis flip, GridLayout.CellLayout layout)
 	{
-		if (Event.current.character == '>')
+		if (UnityEngine.Event.current.character == '>')
 		{
 			// TODO flip?
 		}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -114,29 +115,25 @@ namespace Systems.Explosions
 
 		public IEnumerator TimedFireEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
 		{
-			// Store the old effect for restoring after fire is gone
-			LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(position, LayerType.Effects);
+			//Dont do fire if already fire
+			if(tileChangeManager.HasOverlay(position, TileType.Effects, "Fire")) yield break;
 
-			tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
+			tileChangeManager.AddOverlay(position, TileType.Effects, "Fire");
 			yield return WaitFor.Seconds(time);
-			tileChangeManager.RemoveTile(position, LayerType.Effects);
-
-			// Restore the old effect if any (ex: cracked glass)
-			if (oldEffectLayerTile)
-				tileChangeManager.UpdateTile(position, oldEffectLayerTile);
+			tileChangeManager.RemoveOverlaysOfName(position, LayerType.Effects, "Fire");
 		}
 
 
 
 		private void DamageLivingThings(Vector3Int worldPosition, int damage)
 		{
-			var damagedLivingThings = (MatrixManager.GetAt<LivingHealthBehaviour>(worldPosition, true)
+			var damagedLivingThings = (MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true)
 				//only damage each thing once
 				.Distinct());
 
 			foreach (var damagedLiving in damagedLivingThings)
 			{
-				damagedLiving.ApplyDamage(gameObject, damage, AttackType.Bomb, DamageType.Burn);
+				damagedLiving.ApplyDamageAll(gameObject, damage, AttackType.Bomb, DamageType.Burn);
 			}
 		}
 

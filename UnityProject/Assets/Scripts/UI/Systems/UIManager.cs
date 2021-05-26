@@ -13,6 +13,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UI.Core.Windows;
 using UI.Windows;
+using UI;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -51,10 +52,14 @@ public class UIManager : MonoBehaviour, IInitialise
 	public AdminChatWindows adminChatWindows;
 	public ProfileScrollView profileScrollView;
 	public PlayerAlerts playerAlerts;
-	public GUIAntagBanner antagBanner;
+	[FormerlySerializedAs("antagBanner")] public GUIAntagBanner spawnBanner;
 	private bool preventChatInput;
 	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
+
+	public SurgeryDialogue SurgeryDialogue;
+
+	public CrayonUI CrayonUI;
 
 	public static bool PreventChatInput
 	{
@@ -136,7 +141,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			float screenHeight = Screen.height / Screen.dpi;
 			float diagonalInches = Mathf.Sqrt (Mathf.Pow (screenWidth, 2) + Mathf.Pow (screenHeight, 2));
 
-			Debug.Log ("Getting device inches: " + diagonalInches);
+			Logger.Log("Getting mobile device screen size in inches: " + diagonalInches, Category.UI);
 
 			return diagonalInches;
 		}
@@ -235,7 +240,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	void IInitialise.Initialise()
 	{
 		DetermineInitialTargetFrameRate();
-		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI);
+		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.Sprites);
 		InitMobile();
 
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
@@ -358,7 +363,7 @@ public class UIManager : MonoBehaviour, IInitialise
 				);
 				break;
 			default:
-				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}");
+				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
 				break;
 		}
 	}
@@ -511,7 +516,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public static void LinkUISlots(ItemStorageLinkOrigin itemStorageLinkOrigin)
 	{
-		//link the UI slots to this player
+		// link the UI slots to this player
 		foreach (var uiSlot in Instance.GetComponentsInChildren<UI_ItemSlot>(true))
 		{
 			if (uiSlot.ItemStorageLinkOrigin == itemStorageLinkOrigin)

@@ -9,8 +9,20 @@ using UnityEngine.Events;
 /// </summary>
 public class Processable : MonoBehaviour
 {
-
+	[SerializeField]
 	[Tooltip("What this GameObject becomes when processed. If not set, this GameObject will not change GameObject when cooked.")]
-	public GameObject CookedProduct;
+	private GameObject processedProduct;
+	/// <summary>
+	/// Get the processed product of this object.
+	/// </summary>
+	public GameObject ProcessedProduct => processedProduct;
 
+	[SerializeField]
+	[Tooltip("How many items are produced per gameObject (assuming a tier 1 matter bin is used.)")]
+	private int productAmount = 1;
+
+	/// <summary>
+	/// How many items are produced per gameObject (assuming a tier 1 matter bin is used.)
+	/// </summary>
+	public int ProductAmount => productAmount;
 }

@@ -55,11 +55,11 @@ public class StringManager : MonoBehaviour, IInitialise
 	}
 
 	/// <summary>
-	/// Combines a random first and last name depending on gender, uses both male and female names if gender is Nueter
+	/// Combines a random first and last name depending on gender, uses both male and female names if gender is NonBinary
 	/// </summary>
 	public static string GetRandomName(Gender gender)
 	{
-		if (gender == Gender.Neuter) gender = Random.value > 0.5f ? Gender.Male : Gender.Female; //Uses random gendered name if Nueter
+		if (gender == Gender.NonBinary) gender = Random.value > 0.5f ? Gender.Male : Gender.Female; //Uses random gendered name if NonBinary
 		var genderKey = gender.ToString().ToLowerInvariant(); //ToLowerInvariant because ToLower has different behaviour based on culture
 		var firstName = Instance.textObjects[$"first_{genderKey}"][Random.Range(0, Instance.textObjects[$"first_{genderKey}"].Count)]; //Random.Range is max exclusive and as such .Count can be used directly
 		var lastName = Instance.textObjects["last"][Random.Range(0, Instance.textObjects["last"].Count)];

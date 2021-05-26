@@ -1,55 +1,59 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 using Mirror;
+using Tilemaps.Behaviours.Layers;
+using UnityEngine;
 
 //long name I know. This is for syncing new clients when they join to all of the tile changes
-public class TileChangesNewClientSync : ServerMessage
+namespace Messages.Server
 {
-	//just a best guess, try increasing it until the message exceeds mirror's limit
-	private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
-
-	public string data;
-	public uint ManagerSubject;
-
-	public override void Process()
+	public class TileChangesNewClientSync : ServerMessage<TileChangesNewClientSync.NetMessage>
 	{
-		//server doesn't need this message, it messes with its own tiles.
-		if (CustomNetworkManager.IsServer) return;
-		LoadNetworkObject(ManagerSubject);
-
-		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
-		tm.InitServerSync(data);
-	}
-
-	public static void Send(GameObject managerSubject, NetworkConnection recipient, TileChangeList changeList)
-	{
-		if (changeList == null || changeList.List.Count == 0) return;
-
-		foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
+		public struct NetMessage : NetworkMessage
 		{
-			foreach (var entry in changeChunk.List)
+			public string data;
+			public uint ManagerSubject;
+		}
+
+		//just a best guess, try increasing it until the message exceeds mirror's limit
+		private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
+
+		public override void Process(NetMessage msg)
+		{
+			//server doesn't need this message, it messes with its own tiles.
+			if (CustomNetworkManager.IsServer) return;
+			LoadNetworkObject(msg.ManagerSubject);
+
+			TileChangeManager tm = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
+			tm.InitServerSync(msg.data);
+		}
+
+		public static void Send(GameObject managerSubject, NetworkConnection recipient, TileChangeList changeList)
+		{
+			if (changeList == null || changeList.List.Count == 0) return;
+
+			foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
 			{
-				Logger.LogTraceFormat("Sending update for {0} layer {1}", Category.TileMaps, entry.Position,
-					entry.LayerType);
-			}
+				foreach (var entry in changeChunk.List)
+				{
+					Logger.LogTraceFormat("Sending update for {0} layer {1}", Category.TileMaps, entry.Position,
+						entry.LayerType);
+				}
 
-			string jsondata = JsonUtility.ToJson (changeChunk);
+				string jsondata = JsonUtility.ToJson (changeChunk);
 
-			TileChangesNewClientSync msg =
-				new TileChangesNewClientSync
-				{ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
+				NetMessage msg = new NetMessage
+				{
+					ManagerSubject = managerSubject.GetComponent<NetworkedMatrix>().MatrixSync.netId,
 					data = jsondata
 				};
 
-			msg.SendTo(recipient);
-
+				SendTo(recipient, msg);
+			}
 		}
-	}
 
-	public override string ToString()
-	{
-		return string.Format("[Sync Tile ChangeData]");
+		public override string ToString()
+		{
+			return string.Format("[Sync Tile ChangeData]");
+		}
 	}
 }

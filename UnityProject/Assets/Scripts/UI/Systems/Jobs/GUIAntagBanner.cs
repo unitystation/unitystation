@@ -12,7 +12,7 @@ namespace UI.Jobs
 			antagName.text = textContent;
 			antagName.color = textColor;
 			background.color = backgroundColor;
-			UIManager.Instance.antagBanner.gameObject.SetActive(true);
+			UIManager.Instance.spawnBanner.gameObject.SetActive(true);
 		}
 	}
 }

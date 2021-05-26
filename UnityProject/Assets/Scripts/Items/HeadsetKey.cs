@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Messages.Client;
+using UnityEngine;
 
 /// <summary>
 /// Allows the object to function as a headset key - to be inserted into a headset to set its encryption key.

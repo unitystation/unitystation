@@ -1,16 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Reflection;
-using Systems.Botany;
+using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 public class GenerateSpriteSO : EditorWindow
 {
@@ -24,12 +21,12 @@ public class GenerateSpriteSO : EditorWindow
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 		path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
-		Logger.Log(path);
+		Logger.Log(path, Category.Editor);
 		var Files = System.IO.Directory.GetFiles(path);
 		string FoundFile = "";
 		foreach (var File in Files)
 		{
-			Logger.Log(File);
+			Logger.Log(File, Category.Editor);
 			if (File.EndsWith(".json"))
 			{
 				FoundFile = File;
@@ -38,7 +35,7 @@ public class GenerateSpriteSO : EditorWindow
 
 		if (FoundFile == "")
 		{
-			Logger.LogWarning("missing json file");
+			Logger.LogWarning("missing json file", Category.Editor);
 			return;
 		}
 
@@ -47,7 +44,7 @@ public class GenerateSpriteSO : EditorWindow
 		var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
 		foreach (var ListID in ListIDs)
 		{
-			Logger.Log(ListID);
+			Logger.Log(ListID, Category.Editor);
 		}
 
 	}
@@ -59,13 +56,20 @@ public class GenerateSpriteSO : EditorWindow
 		return;
 	}
 
+	[MenuItem("Tools/StartAssetEditing")]
+	public static void StartAssetEditing()
+	{
+		AssetDatabase.StartAssetEditing();
+		return;
+	}
+
 
 	[MenuItem("Tools/Convert Json Sprites")]
 	public static void ConvertJsonSprites()
 	{
 		spriteCatalogue =
 			AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
-				"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+				"Assets/Resources/ScriptableObjectsSingletons/SpriteCatalogueSingleton.asset");
 		ToSeve.Clear();
 		ToDel.Clear();
 		DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
@@ -114,7 +118,7 @@ public class GenerateSpriteSO : EditorWindow
 	{
 		//AssetDatabase.StopAssetEditing();
 		//spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
-		//	"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+		//	"Assets/Resources/ScriptableObjectsSingletons/SpriteCatalogueSingleton.asset");
 		//
 		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
@@ -153,7 +157,7 @@ public class GenerateSpriteSO : EditorWindow
 			}
 			catch
 			{
-				Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently");
+				Logger.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
 			}
 		}
 
@@ -368,6 +372,7 @@ public class GenerateSpriteSO : EditorWindow
 		}
 	 */
 
+	/*
 	public static EquippedData PullOutEquippedData(EquippedData ToProcess)
 	{
 		//ToProcess.SpriteEquipped = PullOutSO(ToProcess.Equipped.Texture);
@@ -376,6 +381,7 @@ public class GenerateSpriteSO : EditorWindow
 		//ToProcess.SpriteInHandsRight = PullOutSO(ToProcess.InHandsRight.Texture);
 		return ToProcess;
 	}
+	*/
 
 	public static SpriteDataSO PullOutSO(Texture2D In2D)
 	{

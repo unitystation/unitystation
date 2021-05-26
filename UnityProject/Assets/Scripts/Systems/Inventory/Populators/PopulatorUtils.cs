@@ -16,7 +16,7 @@ public static class PopulatorUtils
 		if (context.SpawnInfo == null)
 		{
 			Logger.LogError("PopulationContext does not have any SpawnInfo, ID cannot be auto populated. Please" +
-			                " ensure this is only being used for populating a Player during spawn.", Category.Inventory);
+			                " ensure this is only being used for populating a Player during spawn.", Category.EntitySpawn);
 			return null;
 		}
 
@@ -24,7 +24,7 @@ public static class PopulatorUtils
 		{
 			Logger.LogErrorFormat("PopulationContext SpawnInfo does not have a SpawnType of Player. Auto ID population" +
 			                      " can only be performed when SpawnType is player, otherwise we can't look up their" +
-			                      " occupation. SpawnInfo was {0}", Category.Inventory, context.SpawnInfo);
+			                      " occupation. SpawnInfo was {0}", Category.EntitySpawn, context.SpawnInfo);
 			return null;
 		}
 
@@ -32,7 +32,7 @@ public static class PopulatorUtils
 		if (occupation == null)
 		{
 			Logger.LogErrorFormat("Unable to get occupation from spawn info, this is likely a bug because" +
-			                " it's supposed to be present if SpawnType is Player. SpawnInfo was {0}", Category.Inventory, context.SpawnInfo);
+			                " it's supposed to be present if SpawnType is Player. SpawnInfo was {0}", Category.EntitySpawn, context.SpawnInfo);
 			return null;
 		}
 

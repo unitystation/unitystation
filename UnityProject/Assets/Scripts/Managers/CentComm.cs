@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using AddressableReferences;
 using Initialisation;
+using Map;
+using Messages.Server.SoundMessages;
 using Objects.Command;
 using Objects.Wallmounts;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 
 namespace Managers
 {
@@ -64,12 +67,12 @@ namespace Managers
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
 		}
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
+			EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
 		}
 
 		private void OnRoundStart()
@@ -170,7 +173,7 @@ namespace Managers
 		{
 			if (CurrentAlertLevel == toLevel) return;
 
-			if (CurrentAlertLevel > toLevel && toLevel == AlertLevel.Green)
+			if (CurrentAlertLevel > toLevel && toLevel == AlertLevel.Green && announce)
 			{
 				MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.DownToGreen),
@@ -220,7 +223,8 @@ namespace Managers
 
 			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
 
-			_ = SoundManager.PlayNetworked(updateTypes[type], 1f);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+			_ = SoundManager.PlayNetworked(updateTypes[type], audioSourceParameters);
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
 		}
 

@@ -1,23 +1,25 @@
-
-using System.Collections;
 using System.Linq;
 using Construction;
-using Messages.Client;
+using Construction.Conveyors;
+using Mirror;
 using UnityEngine;
 
-namespace Construction.Conveyors
+namespace Messages.Client
 {
 	/// <summary>
 	/// Client requests to construct a conveyor belt using the material in their active hand.
 	/// Yes its a big old cut and paste from RequestBuildMessage
 	/// </summary>
-	public class RequestConveyorBuildMessage : ClientMessage
+	public class RequestConveyorBuildMessage : ClientMessage<RequestConveyorBuildMessage.NetMessage>
 	{
-		//index of the entry in the ConstructionList.
-		public byte EntryIndex;
-		public ConveyorBelt.ConveyorDirection Direction;
+		public struct NetMessage : NetworkMessage
+		{
+			//index of the entry in the ConstructionList.
+			public byte EntryIndex;
+			public ConveyorBelt.ConveyorDirection Direction;
+		}
 
-		public override void Process()
+		public override void Process(NetMessage msg)
 		{
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
@@ -26,7 +28,7 @@ namespace Construction.Conveyors
 			var hasConstructionMenu = usedSlot.ItemObject.GetComponent<BuildingMaterial>();
 			if (hasConstructionMenu == null) return;
 
-			var entry = hasConstructionMenu.BuildList.Entries.ToArray()[EntryIndex];
+			var entry = hasConstructionMenu.BuildList.Entries.ToArray()[msg.EntryIndex];
 
 			if (!entry.CanBuildWith(hasConstructionMenu)) return;
 
@@ -44,7 +46,7 @@ namespace Construction.Conveyors
 			if (entry.Prefab == null)
 			{
 				//requires immediate attention, show it regardless of log filter:
-				Logger.Log($"Construction entry is missing prefab for {entry.Name}");
+				Logger.Log($"Construction entry is missing prefab for {entry.Name}", Category.Construction);
 				return;
 			}
 
@@ -82,7 +84,7 @@ namespace Construction.Conveyors
 				if (spawnedObj)
 				{
 					var conveyorBelt = spawnedObj.GetComponent<ConveyorBelt>();
-					if (conveyorBelt != null) conveyorBelt.SetBeltFromBuildMenu(Direction);
+					if (conveyorBelt != null) conveyorBelt.SetBeltFromBuildMenu(msg.Direction);
 
 					Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You finish building the {entry.Name}.",
 						$"{SentByPlayer.GameObject.ExpensiveName()} finishes building the {entry.Name}.");
@@ -96,18 +98,19 @@ namespace Construction.Conveyors
 				ProgressComplete);
 		}
 
-		public static RequestConveyorBuildMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu,
+		public static NetMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu,
 			ConveyorBelt.ConveyorDirection direction)
 		{
 			var entryIndex = hasMenu.BuildList.Entries.ToList().IndexOf(entry);
-			if (entryIndex == -1) return null;
+			if (entryIndex == -1) return new NetMessage();
 
-			var msg = new RequestConveyorBuildMessage
+			var msg = new NetMessage
 			{
 				EntryIndex = (byte)entryIndex,
 				Direction = direction
 			};
-			msg.Send();
+
+			Send(msg);
 			return msg;
 		}
 	}

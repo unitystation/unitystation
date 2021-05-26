@@ -10,7 +10,7 @@ namespace Objects.Construction
 	/// <summary>
 	/// The main girder component
 	/// </summary>
-	public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IExaminable
+	public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		private TileChangeManager tileChangeManager;
 		private MetaTileMap metaTileMap;
@@ -32,6 +32,8 @@ namespace Objects.Construction
 		[SerializeField]
 		private BasicTile falseTile = null;
 
+		#region Lifecycle
+
 		private void Start()
 		{
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
@@ -40,22 +42,18 @@ namespace Objects.Construction
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			// This used to set the variable plasteelSheetCount to zero.
-			// That variable has been removed because it was unused.
-		}
-
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
 				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
 
+		#endregion
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			//start with the default HandApply WillInteract logic.
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//only care about interactions targeting us
 			if (interaction.TargetObject != gameObject) return false;
@@ -75,7 +73,7 @@ namespace Objects.Construction
 			{
 				if (objectBehaviour.IsPushable)
 				{
-					if (!Validations.HasAtLeast(interaction.HandObject, 2))
+					if (Validations.HasAtLeast(interaction.HandObject, 2) == false)
 					{
 						Chat.AddExamineMsg(interaction.Performer, "You need two sheets of metal to finish a false wall!");
 						return;
@@ -89,7 +87,7 @@ namespace Objects.Construction
 				}
 				else
 				{
-					if (!Validations.HasAtLeast(interaction.HandObject, 2))
+					if (Validations.HasAtLeast(interaction.HandObject, 2) == false)
 					{
 						Chat.AddExamineMsg(interaction.Performer, "You need two sheets of metal to finish a wall!");
 						return;
@@ -106,7 +104,7 @@ namespace Objects.Construction
 			{
 				if (objectBehaviour.IsPushable)
 				{
-					if (!Validations.HasAtLeast(interaction.HandObject, 2))
+					if (Validations.HasAtLeast(interaction.HandObject, 2) == false)
 					{
 						Chat.AddExamineMsg(interaction.Performer, "You need at least two sheets to create a reinforced false wall!");
 						return;
@@ -120,7 +118,7 @@ namespace Objects.Construction
 				}
 				else
 				{
-					//add plasteel for constructing reinforced girder
+					// add plasteel for constructing reinforced girder
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 6f,
 						"You start reinforcing the girder...",
 						$"{interaction.Performer.ExpensiveName()} starts reinforcing the girder...",
@@ -133,7 +131,7 @@ namespace Objects.Construction
 			{
 				if (objectBehaviour.IsPushable)
 				{
-					//secure it if there's floor
+					// secure it if there's floor
 					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true))
 					{
 						Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the girder!");
@@ -152,7 +150,7 @@ namespace Objects.Construction
 				}
 				else
 				{
-					//unsecure it
+					// unsecure it
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start unsecuring the girder...",
 						$"{interaction.Performer.ExpensiveName()} starts unsecuring the girder...",
@@ -164,7 +162,7 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
-				//disassemble if it's unanchored
+				// disassemble if it's unanchored
 				if (objectBehaviour.IsPushable)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
@@ -199,7 +197,7 @@ namespace Objects.Construction
 		{
 			tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), wallTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		[Server]
@@ -207,7 +205,7 @@ namespace Objects.Construction
 		{
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
 			Spawn.ServerPrefab(reinforcedGirder, SpawnDestination.At(gameObject));
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		[Server]
@@ -217,7 +215,7 @@ namespace Objects.Construction
 			DoorController doorController = theWall.GetComponent<DoorController>();
 			tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 			doorController.TryClose();
 		}
 
@@ -228,7 +226,7 @@ namespace Objects.Construction
 			DoorController doorController = theWall.GetComponent<DoorController>();
 			tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 			doorController.TryClose();
 		}
 	}

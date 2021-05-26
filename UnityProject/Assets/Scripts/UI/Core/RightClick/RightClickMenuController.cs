@@ -43,8 +43,9 @@ namespace UI.Core.RightClick
 
 				itemRadial = Instantiate(itemRadialPrefab, transform);
 				itemRadial.Drag.OnBeginDragEvent = OnBeginDragEvent;
-				itemRadial.Drag.OnEndDragEvent = _ => ItemRadial.TweenRotation(ItemRadial.NearestItemAngle);
-				itemRadial.MouseWheelScroll.OnScrollEvent = OnScrollEvent;
+				itemRadial.Drag.OnEndDragEvent = OnEndDragEvent;
+				itemRadial.Scroll.OnScrollEvent = OnScrollEvent;
+				itemRadial.Scroll.OnKeyEvent = OnScrollEvent;
 				itemRadial.OnIndexChanged = OnIndexChanged;
 				itemRadial.RadialEvents.AddListener(PointerEventType.PointerEnter, OnHoverItem);
 				itemRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickItem);
@@ -69,13 +70,12 @@ namespace UI.Core.RightClick
 			}
 		}
 
-		public void SetupMenu(List<RightClickMenuItem> items, Vector3 worldPosition, bool followWorldPosition)
+		public void SetupMenu(List<RightClickMenuItem> items, IBranchPosition branchPosition)
 		{
 			Items = items;
-			radialBranch.Setup(worldPosition, itemRadialPrefab.OuterRadius, itemRadialPrefab.Scale, followWorldPosition);
+			radialBranch.SetupAndEnable((RectTransform)ItemRadial.transform, ItemRadial.OuterRadius, ItemRadial.Scale, branchPosition);
 			ItemRadial.SetupWithItems(items);
-			ItemRadial.transform.localPosition = radialBranch.MenuPosition;
-			UpdateItemRadialRotation();
+			ItemRadial.CenterItemsTowardsAngle(Items.Count, radialBranch.GetBranchToTargetAngle());
 
 			this.SetActive(true);
 			ItemRadial.SetActive(true);
@@ -89,6 +89,13 @@ namespace UI.Core.RightClick
 			ItemRadial.Selected.OrNull()?.FadeOut(pointerEvent);
 			ItemRadial.SetItemsInteractable(false);
 			ActionRadial.SetActive(false);
+			ItemRadial.Scroll.enabled = false;
+		}
+
+		private void OnEndDragEvent(PointerEventData pointerEvent)
+		{
+			ItemRadial.TweenRotation(ItemRadial.NearestItemAngle);
+			ItemRadial.Scroll.enabled = true;
 		}
 
 		private void OnScrollEvent(PointerEventData pointerEvent)
@@ -120,18 +127,15 @@ namespace UI.Core.RightClick
 
 			var item = Items[index];
 			ItemRadial.ChangeLabel(item.Label);
-			var itemRadialPosition = ItemRadial.transform.position;
 			var actions = item.SubMenus;
 			if (actions == null)
 			{
 				ActionRadial.SetActive(false);
-				radialBranch.UpdateLineSize(ActionRadial, itemRadialPosition);
 				return;
 			}
 
 			ActionRadial.SetupWithActions(actions);
 			ActionRadial.UpdateRotation(index, ItemRadial.ItemArcMeasure);
-			radialBranch.UpdateLineSize(ActionRadial, itemRadialPosition);
 		}
 
 		private void OnClickItem(PointerEventData eventData, RightClickRadialButton button)
@@ -193,11 +197,8 @@ namespace UI.Core.RightClick
 
 		public void Update()
 		{
-			radialBranch.UpdateDirection();
-			ItemRadial.transform.localPosition = radialBranch.MenuPosition;
+			radialBranch.UpdateLines(ActionRadial, ItemRadial.OuterRadius);
 			ItemRadial.UpdateArrows();
-			radialBranch.UpdateLineSize(ActionRadial, ItemRadial.transform.position);
-			UpdateItemRadialRotation();
 
 			if (IsAnyPointerDown() == false)
 			{
@@ -210,13 +211,6 @@ namespace UI.Core.RightClick
 			{
 				this.SetActive(false);
 			}
-		}
-
-		private void UpdateItemRadialRotation()
-		{
-			var angle = radialBranch.PositionToBranchAngle(ItemRadial.transform.position);
-			angle -= Math.Min(Items.Count, ItemRadial.MaxShownItems) * ItemRadial.ItemArcMeasure / 2;
-			ItemRadial.transform.localEulerAngles = new Vector3(0, 0, angle);
 		}
 
 		private bool IsAnyPointerDown()
@@ -237,6 +231,7 @@ namespace UI.Core.RightClick
 			// These need to be disabled for the next time the controller is reactivated
 			ItemRadial.SetActive(false);
 			ActionRadial.SetActive(false);
+			radialBranch.SetActive(false);
 		}
 	}
 }

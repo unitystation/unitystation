@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using UnityEngine;
 
 public class BookshelfViewer : MonoBehaviour
@@ -140,12 +141,12 @@ public class BookshelfViewer : MonoBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundEnded, Reset);
+		EventManager.AddHandler(Event.RoundEnded, Reset);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundEnded, Reset);
+		EventManager.RemoveHandler(Event.RoundEnded, Reset);
 	}
 
 	public void Reset()

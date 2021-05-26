@@ -16,12 +16,12 @@ public class VariableViewerManager : MonoBehaviour, IInitialise
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundEnded, Librarian.Reset);
+		EventManager.AddHandler(Event.RoundEnded, Librarian.Reset);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundEnded, Librarian.Reset);
+		EventManager.RemoveHandler(Event.RoundEnded, Librarian.Reset);
 	}
 
 }

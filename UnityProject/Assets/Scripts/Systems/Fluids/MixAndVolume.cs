@@ -116,7 +116,7 @@ namespace Pipes
 		{
 			if (CodeUtilities.IsEqual(Volume, 0))
 			{
-				Logger.LogError(" divide by 0 in Take ");
+				Logger.LogError("Tried to take from pipe but its volume was 0!", Category.Pipes);
 			}
 
 			var percentage = inMixAndVolume.Volume / Volume;
@@ -148,7 +148,7 @@ namespace Pipes
 		{
 			if (CodeUtilities.IsEqual(divideAmount, 0))
 			{
-				Logger.LogError(" divide by 0 in Divide");
+				Logger.LogError("Tried to divide pipe contents, but the amount to divide by was 0!", Category.Pipes);
 			}
 
 			float gasVolume = gasMix.Volume;
@@ -286,7 +286,7 @@ namespace Pipes
 				float totalReagents = mix.Total + PipeFunctions.PipeOrNet(another).mix.Total;
 				if (CodeUtilities.IsEqual(totalVolume, 0))
 				{
-					Logger.LogError(" divide by 0 in EqualiseWith TotalVolume ");
+					Logger.LogError("Tried to equalise two pipes, but their total volume was 0!", Category.Pipes);
 				}
 
 				float targetDensity = totalReagents / totalVolume;
@@ -330,7 +330,7 @@ namespace Pipes
 
 				if (CodeUtilities.IsEqual(totalVolume, 0))
 				{
-					Logger.LogError(" divide by 0 in EqualiseWithMultiple TotalVolume ");
+					Logger.LogError("Tried to equalise multiple pipes, but their total volume was 0!", Category.Pipes);
 				}
 
 				var targetDensity = totalReagents / totalVolume;

@@ -16,18 +16,21 @@ MonoBehaviour:
   LayerType: 0
   TileType: 1
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 0
   isSealed: 1
   SpawnWithNoAir: 0
-  oreCategory: 0
-  HealthStates: []
   passable: 0
   mineable: 0
+  RadiationPassability: 0.35
+  doesReflectBullet: 0
+  indestructible: 0
   passableException:
     m_keys: 
     m_values: 
   maxHealth: 500
+  damageDeflection: 0
   armor:
     Melee: 100
     Bullet: 100
@@ -39,20 +42,20 @@ MonoBehaviour:
     Acid: 100
     Magic: 100
     Bio: 100
-  hitSounds: []
-  tileDestroyedRemains: []
-  healthStates: []
-  resistances:
-    LavaProof: 1
-    FireProof: 1
-    Flammable: 0
-    UnAcidable: 1
-    AcidProof: 1
-    Indestructable: 1
-    FreezeProof: 1
   tileInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   connectCategory: 4
   connectType: 2
   spriteSheet:

@@ -96,7 +96,7 @@ namespace UI.Objects.Command
 
 			RefreshCallButtonText();
 
-			Logger.Log(nameof(WaitForProvider), Category.NetUI);
+			Logger.Log(nameof(WaitForProvider), Category.Shuttles);
 		}
 
 		private void ProcessIdChange(IDCard newId = null)
@@ -114,7 +114,7 @@ namespace UI.Objects.Command
 
 		public void CallOrRecallShuttle(string text)
 		{
-			Logger.Log(nameof(CallOrRecallShuttle), Category.NetUI);
+			Logger.Log(nameof(CallOrRecallShuttle), Category.Shuttles);
 
 			bool isRecall = shuttle.Status == EscapeShuttleStatus.OnRouteStation;
 
@@ -174,13 +174,13 @@ namespace UI.Objects.Command
 
 		public void SetStatusDisplay(string text)
 		{
-			Logger.Log(nameof(SetStatusDisplay), Category.NetUI);
+			Logger.Log(nameof(SetStatusDisplay), Category.Shuttles);
 			GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
 			OpenMenu();
 		}
 		public void MakeAnAnnouncement(string text)
 		{
-			Logger.Log(nameof(MakeAnAnnouncement), Category.NetUI);
+			Logger.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
 			if (text.Length > 200)
 			{
 				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce);
@@ -206,7 +206,7 @@ namespace UI.Objects.Command
 				return;
 			}
 
-			Logger.Log(nameof(ChangeAlertLevel), Category.NetUI);
+			Logger.Log(nameof(ChangeAlertLevel), Category.Shuttles);
 			GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
 			GameManager.Instance.CentComm.ChangeAlertLevel(LocalAlertLevel);
 
@@ -237,14 +237,14 @@ namespace UI.Objects.Command
 		public void RequestNukeCodes()
 		{
 			//todo
-			Logger.Log(nameof(RequestNukeCodes), Category.NetUI);
+			Logger.Log(nameof(RequestNukeCodes), Category.Shuttles);
 		}
 
-		public void RemoveId()
+		public void RemoveId(ConnectedPlayer player)
 		{
 			if (console.IdCard)
 			{
-				console.ServerRemoveIDCard();
+				console.ServerRemoveIDCard(player);
 			}
 			CloseTab();
 		}

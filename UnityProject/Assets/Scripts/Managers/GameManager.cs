@@ -15,6 +15,8 @@ using GameConfig;
 using Initialisation;
 using AddressableReferences;
 using Managers;
+using Messages.Server;
+using Tilemaps.Behaviours.Layers;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -165,19 +167,19 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		Physics.autoSimulation = false;
-		Physics2D.simulationMode = SimulationMode2D.Script;
+		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
 
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
-		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
+		EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
-		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
+		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
 	}
 
 	///<summary>
@@ -373,7 +375,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			PendingSpaceBodies = new Queue<MatrixMove>();
 
 			CurrentRoundState = RoundState.PreRound;
-			EventManager.Broadcast(EVENT.PreRoundStarted, true);
+			EventManager.Broadcast(Event.PreRoundStarted, true);
 
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
@@ -388,6 +390,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
 			MappedOnSpawnServer(iServerSpawns);
 		}
+
+		EventManager.Broadcast(Event.PostRoundStarted);
 	}
 
 	public void MappedOnSpawnServer(IEnumerable<IServerSpawn> iServerSpawns)
@@ -400,7 +404,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.ItemSpawn, e.Message);
+				Logger.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e);
 			}
 		}
 	}
@@ -464,7 +468,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 
 			CurrentRoundState = RoundState.Ended;
-			EventManager.Broadcast(EVENT.RoundEnded, true);
+			EventManager.Broadcast(Event.RoundEnded, true);
 			counting = false;
 
 			GameMode.EndRound();
@@ -472,6 +476,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
 			{
+				// TODO: this
 				//Jester
 				//SoundManager.Instance.PlayRandomRoundEndSound();
 			}
@@ -693,8 +698,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		Logger.Log("Server restarting round now.", Category.Round);
 		Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
 
-		//Notify all clients that the round has ended
-		TriggerEventMessage.SendToAll(EVENT.RoundEnded);
+		// Notify all clients that the round has ended
+		EventManager.Broadcast(Event.RoundEnded, true);
 
 		yield return WaitFor.Seconds(0.2f);
 

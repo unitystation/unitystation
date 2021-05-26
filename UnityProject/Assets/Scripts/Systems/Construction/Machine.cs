@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Objects.Construction;
 using Machines;
+using ScriptableObjects;
 
 namespace Objects.Machines
 {
@@ -20,10 +21,6 @@ namespace Objects.Machines
 		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
 		private IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
 
-		[Tooltip("Frame prefab this computer should deconstruct into.")]
-		[SerializeField]
-		private GameObject framePrefab = null;
-
 		[Tooltip("Prefab of the circuit board that lives inside this computer.")]
 		[SerializeField]
 		private GameObject machineBoardPrefab = null;
@@ -40,6 +37,13 @@ namespace Objects.Machines
 		/// Can this machine not be deconstructed?
 		/// </summary>
 		public bool canNotBeDeconstructed;
+
+		/// <summary>
+		/// Does this machine need to be able to move before allowing deconstruction?
+		/// </summary>
+		[Tooltip("Does this machine need to be able to move before allowing deconstruction?")]
+		[SerializeField]
+		private bool mustBeUnanchored;
 
 		[Tooltip("Time taken to screwdrive to deconstruct this.")]
 		[SerializeField]
@@ -66,12 +70,18 @@ namespace Objects.Machines
 				return;
 			}
 
+			if (mustBeUnanchored && gameObject.GetComponent<PushPull>()?.IsPushable == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} needs to be unanchored first.");
+				return;
+			}
+
 			//unscrew
 			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
-				"You start to deconstruct the machine...",
-				$"{interaction.Performer.ExpensiveName()} starts to deconstruct the machine...",
-				"You deconstruct the machine.",
-				$"{interaction.Performer.ExpensiveName()} deconstructs the machine.",
+				$"You start to deconstruct the {gameObject.ExpensiveName()}...",
+				$"{interaction.Performer.ExpensiveName()} starts to deconstruct the {gameObject.ExpensiveName()}...",
+				$"You deconstruct the {gameObject.ExpensiveName()}.",
+				$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}.",
 				() =>
 				{
 					WhenDestroyed(null);
@@ -102,17 +112,17 @@ namespace Objects.Machines
 				itemStorage.ServerDropAll();
 			}
 
-			SpawnResult frameSpawn = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject));
+			SpawnResult frameSpawn = Spawn.ServerPrefab(CommonPrefabs.Instance.MachineFrame, SpawnDestination.At(gameObject));
 			if (!frameSpawn.Successful)
 			{
-				Logger.LogError($"Failed to spawn frame! Is {this} missing reference to {nameof(framePrefab)} in the inspector?");
+				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
 				return;
 			}
 
 			GameObject frame = frameSpawn.GameObject;
 			frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}

@@ -9,12 +9,6 @@ namespace Pipes
 	{
 		private Canister canister;
 
-		public override void Start()
-		{
-			pipeData.PipeAction = new MonoActions();
-			base.Start();
-		}
-
 		public override void TickUpdate()
 		{
 			// TODO: the connector now considers if the valve is open, but it should also take into

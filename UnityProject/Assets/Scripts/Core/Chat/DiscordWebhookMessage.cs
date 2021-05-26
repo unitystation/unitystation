@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Net;
@@ -35,6 +36,8 @@ namespace DiscordWebhook
 		private bool messageSendingInProgress = false;
 
 		IList<string> RoleList = new List<string>();
+
+		private bool loggedWebKookError = false;
 
 		private void Awake()
 		{
@@ -84,13 +87,13 @@ namespace DiscordWebhook
 		void OnEnable()
 		{
 			Application.logMessageReceived += HandleLog;
-			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
+			EventManager.AddHandler(Event.PreRoundStarted, ResetHashSet);
 		}
 
 		void OnDisable()
 		{
 			Application.logMessageReceived -= HandleLog;
-			EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
+			EventManager.RemoveHandler(Event.PreRoundStarted, ResetHashSet);
 		}
 
 		void ResetHashSet()
@@ -100,10 +103,22 @@ namespace DiscordWebhook
 
 		private IEnumerator SendQueuedMessagesToWebhooks()
 		{
-			foreach (var entry in discordWebhookURLQueueDict)
+			try
 			{
-				FormatAndSendMessage(entry.Value, entry.Key);
+				foreach (var entry in discordWebhookURLQueueDict)
+				{
+					FormatAndSendMessage(entry.Value, entry.Key);
+				}
 			}
+			catch (Exception e)
+			{
+				if (loggedWebKookError == false)
+				{
+					loggedWebKookError = true;
+					Logger.LogError(e.ToString());
+				}
+			}
+
 
 			messageSendingInProgress = false;
 
@@ -133,7 +148,8 @@ namespace DiscordWebhook
 			}
 		}
 
-		public void AddWebHookMessageToQueue(DiscordWebhookURLs urlToUse, string msg, string username, string mentionID = null)
+		public void AddWebHookMessageToQueue(DiscordWebhookURLs urlToUse, string msg, string username,
+			string mentionID = null)
 		{
 			var urlAndQueue = GetUrl(urlToUse);
 
@@ -227,7 +243,7 @@ namespace DiscordWebhook
 
 		private (string, Queue<string>) GetUrl(DiscordWebhookURLs url)
 		{
-			switch(url)
+			switch (url)
 			{
 				case DiscordWebhookURLs.DiscordWebhookOOCURL:
 					return (ServerData.ServerConfig?.DiscordWebhookOOCURL, OOCMessageQueue);
@@ -252,7 +268,7 @@ namespace DiscordWebhook
 			{
 				ErrorMessageHashSet.Add(stackTrace);
 
-				if(logString.Contains("Can't get home directory!")) return;
+				if (logString.Contains("Can't get home directory!")) return;
 
 				var logToSend = $"{logString}\n{stackTrace}";
 

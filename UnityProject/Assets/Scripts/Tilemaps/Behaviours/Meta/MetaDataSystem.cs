@@ -55,6 +55,9 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	public override void Initialize()
 	{
+		if (!CustomNetworkManager.IsServer)
+			return;
+
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
@@ -65,12 +68,12 @@ public class MetaDataSystem : SubsystemBehaviour
 			Dsw.Start();
 			matrix.UnderFloorLayer.InitialiseUnderFloorUtilities();
 			Dsw.Stop();
-			Logger.Log("Initialise Station Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
+			Logger.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}
 
 		sw.Stop();
 
-		Logger.Log("MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
+		Logger.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
 	}
 
 	public override void UpdateAt(Vector3Int localPosition)
@@ -243,7 +246,7 @@ public class MetaDataSystem : SubsystemBehaviour
 						MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
 
 						// ignore tilemap of current node
-						if (matrixInfo.MetaTileMap != metaTileMap)
+						if (matrixInfo != null && matrixInfo.MetaTileMap != metaTileMap)
 						{
 							// Check if atmos can pass to the neighboring position
 							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);

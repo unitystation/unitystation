@@ -22,10 +22,13 @@ namespace Unitystation.Options
             }
         }
 
-        void Start()
+		#region Lifecycle
+
+		void Start()
         {
             DetermineActiveState(SceneManager.GetActiveScene());
         }
+
         void OnEnable()
         {
             SceneManager.activeSceneChanged += OnSceneLoaded;
@@ -36,7 +39,9 @@ namespace Unitystation.Options
             SceneManager.activeSceneChanged -= OnSceneLoaded;
         }
 
-        void OnSceneLoaded(Scene oldScene, Scene newScene)
+		#endregion Lifecycle
+
+		void OnSceneLoaded(Scene oldScene, Scene newScene)
         {
             DetermineActiveState(newScene);
         }
@@ -46,32 +51,25 @@ namespace Unitystation.Options
         /// </summary>
         void DetermineActiveState(Scene scene)
         {
-            if (scene.name.Contains("Lobby"))
-            {
-                panel.SetActive(false);
-            }
-            else
-            {
-                panel.SetActive(true);
-            }
+			panel.SetActive(scene.name.Contains("Lobby") == false);
         }
 
         public void OnZoomIn()
         {
-            SoundManager.Play(SingletonSOSounds.Instance.Click01);
+            _ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
             CamZoomHandler.IncreaseZoomLevel();
 
         }
 
         public void OnZoomOut()
         {
-            SoundManager.Play(SingletonSOSounds.Instance.Click01);
+            _ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
             CamZoomHandler.DecreaseZoomLevel();
         }
 
         public void OpenOptionsMenu()
         {
-            SoundManager.Play(SingletonSOSounds.Instance.Click01);
+            _ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
             OptionsMenu.Instance.Open();
         }
 

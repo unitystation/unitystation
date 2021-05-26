@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using Pipes;
 using Systems.Radiation;
-using ScriptableObjects;
 using Items.Engineering;
 using Systems.Explosions;
 
@@ -17,9 +16,8 @@ namespace Objects.Engineering
 		public float EditorEnergyReleased;
 		public GameObject UraniumOre;
 		public GameObject MetalOre;
-		public GameObject PlasSteel;
-
-		private float tickCount;
+		public GameObject ConstructMaterial; //Was set to PlasSteel. Changed to generic material in anticipation of changing to graphite in future.
+		[SerializeField] private int droppedMaterialAmount = 40;
 
 		[SerializeField] private ItemStorage RodStorage = default;
 		[SerializeField] private ItemStorage PipeStorage = default;
@@ -64,6 +62,79 @@ namespace Objects.Engineering
 		public decimal KFactor {
 			get { return (CalculateKFactor()); }
 		}
+
+		#region Lifecycle
+
+		private void Awake()
+		{
+			radiationProducer = this.GetComponent<RadiationProducer>();
+			registerObject = this.GetComponent<RegisterObject>();
+			ReactorPipe = this.GetComponent<ReactorPipe>();
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.Instance._isServer == false) return;
+
+			UpdateManager.Add(CycleUpdate, 1);
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.Instance._isServer == false) return;
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			UpdateManager.Add(CycleUpdate, 1);
+		}
+
+		/// <summary>
+		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+		/// </summary>
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			if (MeltedDown)
+			{
+				foreach (var Rod in ReactorRods)
+				{
+					if (Rod != null)
+					{
+						switch (Rod.GetRodType())
+						{
+							case RodType.Fuel:
+								Spawn.ServerPrefab(UraniumOre, registerObject.WorldPositionServer);
+								break;
+							case RodType.Control:
+								Spawn.ServerPrefab(MetalOre, registerObject.WorldPositionServer);
+								break;
+						}
+					}
+				}
+			}
+			else
+			{
+				foreach (var Rod in RodStorage.GetItemSlots())
+				{
+					Inventory.ServerDespawn(Rod);
+				}
+
+				Spawn.ServerPrefab(ConstructMaterial, registerObject.WorldPositionServer, count: droppedMaterialAmount);
+			}
+
+
+			MeltedDown = false;
+			PoppedPipes = false;
+			PresentNeutrons = 0;
+			Array.Clear(ReactorRods, 0, ReactorRods.Length);
+			ReactorFuelRods.Clear();
+			ReactorEngineStarters.Clear();
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+		}
+
+		#endregion
 
 		public decimal CalculateKFactor()
 		{
@@ -129,29 +200,6 @@ namespace Objects.Engineering
 			return (1.65M);
 		}*/
 
-
-		private void OnEnable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Add(CycleUpdate, 1);
-		}
-
-		private void OnDisable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
-		}
-
-		private void Awake()
-		{
-			radiationProducer = this.GetComponent<RadiationProducer>();
-			registerObject = this.GetComponent<RegisterObject>();
-			ReactorPipe = this.GetComponent<ReactorPipe>();
-		}
-
-
 		public void CycleUpdate()
 		{
 			if (GetTemperature() > RodMeltingTemperatureK && !MeltedDown)
@@ -187,15 +235,13 @@ namespace Objects.Engineering
 			PresentNeutrons += ExternalNeutronGeneration();
 			GenerateExternalRadiation();
 			PresentNeutrons *= KFactor;
-			//Logger.Log("NeutronSingularity " + (NeutronSingularity - PresentNeutrons));
 			if (NeutronSingularity < PresentNeutrons)
 			{
-				//Logger.LogError("DDFFR booommmm!!", Category.Electrical);
 				Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
 				PresentNeutrons = 0;
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 				OnDespawnServer(null);
-				Despawn.ServerSingle(this.gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 
 			EditorPresentNeutrons = (float)PresentNeutrons;
@@ -221,7 +267,6 @@ namespace Objects.Engineering
 				radiationProducer.SetLevel((float)LeakedNeutrons);
 			}
 		}
-
 
 		public float RadiationAboveCore()
 		{
@@ -293,7 +338,6 @@ namespace Objects.Engineering
 		//0.000000000032 = Wsec
 		//1 eV = 0.00000000000000000016 Wsec
 
-
 		public bool TryInsertRod(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.ReactorRod))
@@ -353,7 +397,7 @@ namespace Objects.Engineering
 						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the empty core...",
 						"You deconstruct the empty core.",
 						$"{interaction.Performer.ExpensiveName()} deconstruct the empty core.",
-						() => { Despawn.ServerSingle(gameObject); });
+						() => { _ = Despawn.ServerSingle(gameObject); });
 				}
 				else
 				{
@@ -367,7 +411,6 @@ namespace Objects.Engineering
 			return false;
 		}
 
-
 		public bool TryAxeCore(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Pickaxe) &&
@@ -378,7 +421,7 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} starts to hack away at the molten core...",
 					"You break the molten core to pieces.",
 					$"{interaction.Performer.ExpensiveName()} breaks the molten core to pieces.",
-					() => { Despawn.ServerSingle(gameObject); });
+					() => { _ = Despawn.ServerSingle(gameObject); });
 				return true;
 			}
 
@@ -430,56 +473,8 @@ namespace Objects.Engineering
 			}
 		}
 
-		/// <summary>
-		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
-		/// </summary>
-		public void OnDespawnServer(DespawnInfo info)
-		{
-			if (MeltedDown)
-			{
-				foreach (var Rod in ReactorRods)
-				{
-					if (Rod != null)
-					{
-						switch (Rod.GetRodType())
-						{
-							case RodType.Fuel:
-								Spawn.ServerPrefab(UraniumOre, registerObject.WorldPositionServer);
-								break;
-							case RodType.Control:
-								Spawn.ServerPrefab(MetalOre, registerObject.WorldPositionServer);
-								break;
-						}
-					}
-				}
-			}
-			else
-			{
-				foreach (var Rod in RodStorage.GetItemSlots())
-				{
-					Inventory.ServerDespawn(Rod);
-				}
+		#region Multitool Interaction
 
-				Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, registerObject.WorldPositionServer, count: 40);
-			}
-
-
-			MeltedDown = false;
-			PoppedPipes = false;
-			PresentNeutrons = 0;
-			Array.Clear(ReactorRods, 0, ReactorRods.Length);
-			ReactorFuelRods.Clear();
-			ReactorEngineStarters.Clear();
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			UpdateManager.Add(CycleUpdate, 1);
-		}
-
-
-		//######################################## Multitool interaction ##################################
 		private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
 		public MultitoolConnectionType ConType => conType;
 		private bool multiMaster = false;
@@ -488,5 +483,7 @@ namespace Objects.Engineering
 		public void AddSlave(object SlaveObjectThis)
 		{
 		}
+
+		#endregion
 	}
 }

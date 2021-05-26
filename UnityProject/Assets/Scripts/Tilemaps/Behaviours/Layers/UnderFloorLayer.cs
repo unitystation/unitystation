@@ -14,39 +14,58 @@ public class UnderFloorLayer : Layer
 
 	public void InitialiseUnderFloorUtilities()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		BoundsInt bounds = Tilemap.cellBounds;
+
+		for (int n = bounds.xMin; n < bounds.xMax; n++)
 		{
-			BoundsInt bounds = Tilemap.cellBounds;
-
-			for (int n = bounds.xMin; n < bounds.xMax; n++)
+			for (int p = bounds.yMin; p < bounds.yMax; p++)
 			{
-				for (int p = bounds.yMin; p < bounds.yMax; p++)
+				Vector3Int localPlace = (new Vector3Int(n, p, 0));
+				bool[] PipeDirCheck = new bool[4];
+
+				for (int i = 0; i < 50; i++)
 				{
-					Vector3Int localPlace = (new Vector3Int(n, p, 0));
-
-					for (int i = 0; i < 50; i++)
+					localPlace.z = -i + 1;
+					var getTile = tilemap.GetTile(localPlace) as LayerTile;
+					if (getTile != null)
 					{
-						localPlace.z = -i + 1;
-						var getTile = tilemap.GetTile(localPlace) as LayerTile;
-						if (getTile != null)
+						if (!TileStore.ContainsKey((Vector2Int) localPlace))
 						{
-							if (!TileStore.ContainsKey((Vector2Int) localPlace))
+							TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+						}
+
+						TileStore[(Vector2Int) localPlace].Add(getTile);
+
+						var electricalCableTile = getTile as ElectricalCableTile;
+						if (electricalCableTile != null)
+						{
+							matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
+						}
+
+						var PipeTile = getTile as PipeTile;
+						if (PipeTile != null)
+						{
+							var matrixStruct = matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(localPlace);
+							var connection = PipeTile.GetRotatedConnection(PipeTile, matrixStruct);
+							var pipeDir = connection.Directions;
+							var canInitializePipe = true;
+							for (var d = 0; d < pipeDir.Length; d++)
 							{
-								TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+								if (pipeDir[d].Bool)
+								{
+									if (PipeDirCheck[d])
+									{
+										canInitializePipe = false;
+										Logger.LogError($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Pipes);
+										tilemap.SetTile(localPlace, null);
+										break;
+									}
+									PipeDirCheck[d] = true;
+								}
 							}
-
-							TileStore[(Vector2Int) localPlace].Add(getTile);
-
-							var electricalCableTile = getTile as ElectricalCableTile;
-							if (electricalCableTile != null)
+							if (canInitializePipe)
 							{
-								matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
-							}
-
-							var PipeTile = getTile as PipeTile;
-							if (PipeTile != null)
-							{
-								PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+								PipeTile.InitialiseNode(localPlace, matrix);
 							}
 						}
 					}
@@ -355,7 +374,7 @@ public class UnderFloorLayer : Layer
 		}
 		else
 		{
-			Logger.LogWarning(position + "Was not present in the underfloor layer Trying to remove" + tile);
+			Logger.LogWarning($"{position} was not present in the underfloor layer, trying to remove {tile}", Category.Matrix);
 		}
 	}
 }

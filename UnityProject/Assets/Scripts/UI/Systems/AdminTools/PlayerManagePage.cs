@@ -1,5 +1,6 @@
 ﻿using AdminCommands;
 using DatabaseAPI;
+using Messages.Client.Admin;
 using UI.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,12 +56,19 @@ namespace AdminTools
 			adminTools.ShowRespawnPage();
 		}
 
+
+		public void OnHealUpButton()
+		{
+			AdminCommandsManager.Instance.CmdHealUpPlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
+			RefreshPage();
+		}
+
 		/// <summary>
 		/// Sends the command to smite a player
 		/// </summary>
 		void SendSmitePlayerRequest()
 		{
-			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid, "CmdSmitePlayer");
+			AdminCommandsManager.Instance.CmdSmitePlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 

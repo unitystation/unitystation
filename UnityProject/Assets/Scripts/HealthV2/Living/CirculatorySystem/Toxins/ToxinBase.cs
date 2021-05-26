@@ -1,0 +1,5 @@
+﻿
+public abstract class ToxinBase
+{
+
+}

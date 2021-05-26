@@ -18,9 +18,9 @@ public partial class SubSceneManager
 
 			Instance.gatewayLinks.Remove(requestee);
 		}
-
-		Instance.gatewayLinks.Add(requestee,
-			Instance.worldGatewayCache[Random.Range(0, Instance.worldGatewayCache.Count)]);
+		var destination = Instance.worldGatewayCache.PickRandom();
+		if (destination == null) return null; // Additional scenes were likely disabled on this build - logged in caller
+		Instance.gatewayLinks.Add(requestee, destination);
 
 		return Instance.gatewayLinks[requestee];
 	}
@@ -35,4 +35,3 @@ public partial class SubSceneManager
 		Instance.worldGatewayCache.Add(gateway);
 	}
 }
-

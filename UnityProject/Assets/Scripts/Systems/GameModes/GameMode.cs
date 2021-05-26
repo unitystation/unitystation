@@ -241,7 +241,7 @@ namespace GameModes
 			if (PossibleAntags.Count <= 0)
 			{
 				Logger.LogError("PossibleAntags is empty! Game mode must have some if spawning antags.",
-					Category.GameMode);
+					Category.Antags);
 				return;
 			}
 
@@ -251,7 +251,7 @@ namespace GameModes
 			if (antagPool.Count < 1)
 			{
 				Logger.LogErrorFormat("No possible antags! Either PossibleAntags is empty or this player hasn't enabled " +
-				                      "any antags and they were spawned as one anyways.", Category.GameMode);
+				                      "any antags and they were spawned as one anyways.", Category.Antags);
 			}
 
 			var antag = antagPool.PickRandom();
@@ -259,7 +259,7 @@ namespace GameModes
 			{
 				Logger.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
 				                      "Game mode must either set AllocateJobsToAntags or possible antags neeed an AntagOccupation.",
-					Category.GameMode, antag.AntagName);
+					Category.Antags, antag.AntagName);
 				return;
 			}
 			AntagManager.Instance.ServerSpawnAntag(antag, playerSpawnRequest);
@@ -359,7 +359,7 @@ namespace GameModes
 				SpawnAntag(spawnReq);
 			}
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
-			EventManager.Broadcast(EVENT.RoundStarted, true);
+			EventManager.Broadcast(Event.RoundStarted, true);
 		}
 
 		/// <summary>

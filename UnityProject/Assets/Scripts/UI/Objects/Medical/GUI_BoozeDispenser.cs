@@ -72,7 +72,7 @@ namespace UI.Objects.Booze
 			}
 		}
 
-		void Start()
+		private void Start()
 		{
 			((NetUIElement<string>)this["20"]).SetValueServer("1");
 			if (Provider != null)
@@ -85,7 +85,7 @@ namespace UI.Objects.Booze
 			}
 		}
 
-		//set how much it should dispense
+		// set how much it should dispense
 		public void SetAddAmount(int Number)
 		{
 			DispensedNumber = Number;
@@ -120,19 +120,19 @@ namespace UI.Objects.Booze
 		{
 			if (BoozeDispenser.Container != null)
 			{
-				if (BoozeDispenser.ThisState == PowerStates.On
-					|| BoozeDispenser.ThisState == PowerStates.LowVoltage
-					|| BoozeDispenser.ThisState == PowerStates.OverVoltage)
+				if (BoozeDispenser.ThisState == PowerState.On
+					|| BoozeDispenser.ThisState == PowerState.LowVoltage
+					|| BoozeDispenser.ThisState == PowerState.OverVoltage)
 				{
 					if (dispensableReagents.Contains(reagent)) //Checks if the the dispenser can dispense this chemical
 					{
 						float OutDispensedNumber = 0;
 						switch (BoozeDispenser.ThisState)
 						{
-							case (PowerStates.OverVoltage):
+							case (PowerState.OverVoltage):
 								OutDispensedNumber = DispensedNumber * 2;
 								break;
-							case (PowerStates.LowVoltage):
+							case (PowerState.LowVoltage):
 								OutDispensedNumber = DispensedNumber * 0.5f;
 								break;
 
@@ -149,11 +149,11 @@ namespace UI.Objects.Booze
 			UpdateAll();
 		}
 
-		public void EjectContainer()
+		public void EjectContainer(ConnectedPlayer player)
 		{
 			if (BoozeDispenser.Container != null)
 			{
-				BoozeDispenser.EjectContainer();
+				BoozeDispenser.EjectContainer(player);
 			}
 
 			UpdateAll();

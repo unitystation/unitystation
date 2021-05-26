@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using HealthV2;
+using Messages.Client.NewPlayer;
+using Messages.Server;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
@@ -11,7 +14,6 @@ namespace Doors
 {
 	public class DoorController : NetworkBehaviour, ISetMultitoolSlave
 	{
-		//public bool isWindowed = false;
 		public enum OpeningDirection
 		{
 			Horizontal,
@@ -67,25 +69,6 @@ namespace Doors
 
 		[Tooltip("Does this door open automatically when you walk into it?")]
 		public bool IsAutomatic = true;
-
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
-		public MultitoolConnectionType ConType => conType;
-
-		public void SetMaster(ISetMultitoolMaster Imaster)
-		{
-			var doorSwitch = (Imaster as DoorSwitch);
-			if (doorSwitch)
-			{
-				doorSwitch.DoorControllers.Add(this);
-				return;
-			}
-			var statusDisplay = (Imaster as StatusDisplay);
-			if (statusDisplay)
-			{
-				statusDisplay.LinkDoor(this);
-			}
-		}
 
 		/// <summary>
 		/// Makes registerTile door closed state accessible
@@ -255,7 +238,7 @@ namespace Doors
 			}
 		}
 
-		//3d sounds
+		// 3d sounds
 		public void PlayOpenSound()
 		{
 			if (openSFX != null)
@@ -272,7 +255,6 @@ namespace Doors
 				_ = SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
 			}
 		}
-
 
 		public void CloseSignal()
 		{
@@ -453,14 +435,14 @@ namespace Doors
 		{
 			tileChangeManager.RemoveTile(registerTile.LocalPositionServer, LayerType.Walls);
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void ServerDamageOnClose()
 		{
-			foreach (LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true))
+			foreach (var healthBehaviour in matrix.Get<LivingHealthMasterBase>(registerTile.LocalPositionServer, true))
 			{
-				healthBehaviour.ApplyDamage(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
+				healthBehaviour.ApplyDamageAll(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
 			}
 		}
 
@@ -580,7 +562,11 @@ namespace Doors
 		/// </summary>
 		public void UpdateNewPlayer(NetworkConnection playerConn)
 		{
-			if (IsClosed == false)
+			if (IsClosed)
+			{
+				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Close, true);
+			}
+			else
 			{
 				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Open, true);
 			}
@@ -596,7 +582,7 @@ namespace Doors
 				{
 					hackingProcess.HackingGUI.RemovePlayer(ply.gameObject);
 					TabUpdateMessage.Send(ply.gameObject, hackingProcess.HackingGUI.Provider, NetTabType.HackingPanel, TabAction.Close);
-					var playerLHB = obj.GetComponent<LivingHealthBehaviour>();
+					var playerLHB = obj.GetComponent<LivingHealthMasterBase>();
 					var electrocution = new Electrocution(9080, registerTile.WorldPositionServer, "wire"); //More magic numbers.
 					if (playerLHB != null) playerLHB.Electrocute(electrocution);
 				}
@@ -606,7 +592,7 @@ namespace Doors
 
 		public void LinkHackNodes()
 		{
-			//door opening
+			// door opening
 			HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor);
 			openDoor.AddToInputMethods(HackingTryOpen);
 
@@ -614,7 +600,7 @@ namespace Doors
 			onShouldOpen.AddWireCutCallback(ServerElectrocute);
 			onShouldOpen.AddConnectedNode(openDoor);
 
-			//door closing
+			// door closing
 			HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor);
 			closeDoor.AddToInputMethods(TryClose);
 
@@ -622,36 +608,59 @@ namespace Doors
 			onShouldClose.AddWireCutCallback(ServerElectrocute);
 			onShouldClose.AddConnectedNode(closeDoor);
 
-			//ID reject
+			// ID reject
 			HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.RejectId);
 			rejectID.AddToInputMethods(ServerAccessDenied);
 
 			HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnIdRejected);
 			onIDRejected.AddConnectedNode(rejectID);
 
-			//pressure warning
+			// pressure warning
 			HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DoPressureWarning);
 			doPressureWarning.AddToInputMethods(ServerPressureWarn);
 
 			HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.ShouldDoPressureWarning);
 			shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
 
-			//power
+			// power
 			HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerIn);
 
 			HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerOut);
 			powerOut.AddConnectedNode(powerIn);
 			powerOut.AddWireCutCallback(ServerElectrocute);
 
-			//dummy
+			// dummy
 			HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyIn);
 
 			HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyOut);
 			dummyOut.AddConnectedNode(dummyIn);
 
-			//close timer
+			// close timer
 			HackingNode cancelCloseTimer = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer);
 			cancelCloseTimer.AddToInputMethods(CancelWaiting);
 		}
+
+		#region ISsetMultitoolSlave
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+		public MultitoolConnectionType ConType => conType;
+
+		public void SetMaster(ISetMultitoolMaster Imaster)
+		{
+			var doorSwitch = (Imaster as DoorSwitch);
+			if (doorSwitch)
+			{
+				doorSwitch.DoorControllers.Add(this);
+				return;
+			}
+			var statusDisplay = (Imaster as StatusDisplay);
+			if (statusDisplay)
+			{
+				statusDisplay.LinkDoor(this);
+			}
+		}
+
+		#endregion
 	}
 }

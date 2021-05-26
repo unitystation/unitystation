@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using HealthV2;
 
 namespace Objects.Drawers
 {
@@ -66,7 +67,7 @@ namespace Objects.Drawers
 			Cremate();
 		}
 
-		#endregion Interaction-RightClick
+		#endregion
 
 		#region Interaction
 
@@ -76,7 +77,7 @@ namespace Objects.Drawers
 			base.ServerPerformInteraction(interaction);
 		}
 
-		#endregion Interaction
+		#endregion
 
 		#region Server Only
 
@@ -110,7 +111,7 @@ namespace Objects.Drawers
 		{
 			foreach (KeyValuePair<ObjectBehaviour, Vector3> item in serverHeldItems)
 			{
-				Despawn.ServerSingle(item.Key.gameObject);
+				_ = Despawn.ServerSingle(item.Key.gameObject);
 			}
 
 			serverHeldItems = new Dictionary<ObjectBehaviour, Vector3>();
@@ -122,7 +123,7 @@ namespace Objects.Drawers
 
 			foreach (ObjectBehaviour player in serverHeldPlayers)
 			{
-				LivingHealthBehaviour playerLHB = player.GetComponent<LivingHealthBehaviour>();
+				LivingHealthMasterBase playerLHB = player.GetComponent<LivingHealthMasterBase>();
 				if (playerLHB.ConsciousState == ConsciousState.CONSCIOUS ||
 					playerLHB.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 				{
@@ -143,7 +144,7 @@ namespace Objects.Drawers
 			{
 				var playerScript = player.GetComponent<PlayerScript>();
 				PlayerSpawn.ServerSpawnGhost(playerScript.mind);
-				Despawn.ServerSingle(player.gameObject);
+				_ = Despawn.ServerSingle(player.gameObject);
 			}
 
 			serverHeldPlayers = new List<ObjectBehaviour>();
@@ -157,6 +158,6 @@ namespace Objects.Drawers
 			UpdateCloseState();
 		}
 
-		#endregion Server Only
+		#endregion
 	}
 }

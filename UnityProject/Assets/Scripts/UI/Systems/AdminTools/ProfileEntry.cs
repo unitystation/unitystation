@@ -12,7 +12,7 @@ namespace AdminTools
 
 		public void DeleteButton()
 		{
-			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, fileName.text, "CmdDeleteProfile");
+			AdminCommandsManager.Instance.CmdDeleteProfile(ServerData.UserID, PlayerList.Instance.AdminToken, fileName.text);
 		}
 
 	}

@@ -226,13 +226,13 @@ namespace UI.Objects.Engineering
 		private bool RefreshDisplay = false;
 		private void StartRefresh()
 		{
-			Logger.Log("Starting APC screen refresh", Category.NetUI);
+			Logger.Log("Starting APC screen refresh", Category.Machines);
 			RefreshDisplay = true;
 			StartCoroutine(Refresh());
 		}
 		private void StopRefresh()
 		{
-			Logger.Log("Stopping APC screen refresh", Category.NetUI);
+			Logger.Log("Stopping APC screen refresh", Category.Machines);
 			RefreshDisplay = false;
 		}
 
@@ -250,7 +250,7 @@ namespace UI.Objects.Engineering
 			if (LocalAPC.State != APC.APCState.Dead)
 			{
 				OffOverlayColor.SetValueServer(Color.clear);
-				Logger.LogTrace("Updating APC display", Category.NetUI);
+				Logger.LogTrace("Updating APC display", Category.Machines);
 				// Display the electrical values using engineering notation
 				string voltage = LocalAPC.Voltage.ToEngineering("V");
 				string current = LocalAPC.Current.ToEngineering("A");

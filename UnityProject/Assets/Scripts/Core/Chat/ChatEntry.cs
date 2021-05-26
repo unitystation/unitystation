@@ -7,11 +7,10 @@ using TMPro;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text visibleText = null;
+	[SerializeField] private TMP_Text visibleText = null;
 	[SerializeField] private GameObject adminOverlay = null;
-	[SerializeField] private Shadow shadow = null;
-	[SerializeField] private RectTransform rectTransform = null;
-	[SerializeField] private ContentSizeFitter contentFitter = null;
+	[SerializeField] private RectTransform messageRectTransform = null;
+	[SerializeField] private ContentSizeFitter messageContentFitter = null;
 	[SerializeField] private LayoutElement layoutElement = null;
 	[SerializeField] private List<Text> allText = new List<Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
@@ -46,8 +45,8 @@ public class ChatEntry : MonoBehaviour
 	void OnEnable()
 	{
 		stackCircle = stackTimesObj.GetComponent<Image>();
-		EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
-		EventManager.AddHandler(EVENT.ChatUnfocused, OnChatUnfocused);
+		EventManager.AddHandler(Event.ChatFocused, OnChatFocused);
+		EventManager.AddHandler(Event.ChatUnfocused, OnChatUnfocused);
 		ChatUI.Instance.scrollBarEvent += OnScrollInteract;
 		ChatUI.Instance.checkPositionEvent += CheckPosition;
 		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
@@ -61,8 +60,8 @@ public class ChatEntry : MonoBehaviour
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.ChatFocused, OnChatFocused);
-		EventManager.RemoveHandler(EVENT.ChatUnfocused, OnChatUnfocused);
+		EventManager.RemoveHandler(Event.ChatFocused, OnChatFocused);
+		EventManager.RemoveHandler(Event.ChatUnfocused, OnChatUnfocused);
 		if (ChatUI.Instance != null)
 		{
 			ChatUI.Instance.scrollBarEvent -= OnScrollInteract;
@@ -90,12 +89,12 @@ public class ChatEntry : MonoBehaviour
 		isAdminMsg = false;
 		visibleText.text = "";
 		adminOverlay.SetActive(false);
-		shadow.enabled = true;
 		stackPosSet = false;
 		stackTimes = 0;
 		stackTimesText.text = "";
 		stackTimesObj.SetActive(false);
 		layoutElement.minHeight = 20f;
+		visibleText.raycastTarget = false;
 	}
 
 	public void SetText(string msg)
@@ -103,15 +102,20 @@ public class ChatEntry : MonoBehaviour
 		visibleText.text = msg;
 		ToggleUIElements(true);
 		StartCoroutine(UpdateMinHeight());
+
+		if (msg.Contains("</link>"))
+		{
+			visibleText.raycastTarget = true;
+		}
 	}
 
 	IEnumerator UpdateMinHeight()
 	{
-		contentFitter.enabled = true;
+		messageContentFitter.enabled = true;
 		yield return WaitFor.EndOfFrame;
-		layoutElement.minHeight = rectTransform.rect.height / 2;
+		layoutElement.minHeight = messageRectTransform.rect.height / 2;
 		yield return WaitFor.EndOfFrame;
-		contentFitter.enabled = false;
+		messageContentFitter.enabled = false;
 	}
 
 	public void OnChatFocused()
@@ -171,26 +175,27 @@ public class ChatEntry : MonoBehaviour
 
 	void ToggleUIElements(bool enabled)
 	{
-		shadow.enabled = enabled;
-
 		foreach (var t in allText)
 		{
+			if(t == null) continue;
+
 			t.enabled = enabled;
 		}
 
+		visibleText.enabled = enabled;
+
 		foreach (var i in allImages)
 		{
+			if(i == null) continue;
+
 			i.enabled = enabled;
 		}
 
 		foreach (var b in allButtons)
 		{
-			b.enabled = enabled;
-		}
+			if(b == null) continue;
 
-		if (enabled && isAdminMsg)
-		{
-			shadow.enabled = false;
+			b.enabled = enabled;
 		}
 	}
 

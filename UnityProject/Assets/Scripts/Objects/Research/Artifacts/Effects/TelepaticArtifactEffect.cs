@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// This artifact sends telepatic messages
@@ -34,22 +36,17 @@ public class TelepaticArtifactEffect : ArtifactEffect
 
 	private void IndocrinateMessageArea()
 	{
-		// get effect shape around artifact
 		var objCenter = gameObject.AssumedWorldPosServer().RoundToInt();
-		var shape = EffectShape.CreateEffectShape(EffectShapeType.Square, objCenter, auraRadius);
+		var hitMask = LayerMask.GetMask("Players");
+		var playerColliders = Physics2D.OverlapCircleAll(new Vector2(objCenter.x, objCenter.y), auraRadius, hitMask);
 
-		foreach (var pos in shape)
+		foreach (var playerColl in playerColliders)
 		{
-			// check if tile has any alive player
-			var players = MatrixManager.GetAt<PlayerScript>(pos, true).Distinct();
-			foreach (var player in players)
-			{
-				if (!player.IsDeadOrGhost)
-				{
-					// send them message
-					Indocrinate(player.gameObject);
-				}
-			}
+			playerColl.TryGetComponent<PlayerScript>(out var player);
+
+			if (player == null || player.IsDeadOrGhost) continue;
+
+			Indocrinate(player.gameObject);
 		}
 	}
 

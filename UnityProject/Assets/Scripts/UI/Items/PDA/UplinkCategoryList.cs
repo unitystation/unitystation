@@ -43,6 +43,10 @@ using UnityEngine;
 		[SerializeField] [Tooltip("Item Name")]
 		private string name = "";
 
+		[SerializeField] [Tooltip("Determins if this item is displayed to nuke ops")]
+		private bool isNukeOps = false;
+		public bool IsNukeOps => isNukeOps;
+
 		public string Name => name;
 
 		public GameObject Item => item;

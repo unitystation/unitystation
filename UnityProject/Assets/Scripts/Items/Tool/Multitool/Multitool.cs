@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Electricity;
+using System.Text;
 
-
+// TODO: namespace me
 public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IInteractable<HandActivate>
 {
 	public List<ISetMultitoolMaster> ListBuffer = new List<ISetMultitoolMaster>();
@@ -55,7 +57,6 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		return false;
 	}
 
-
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		if (Validations.IsTarget(gameObject, interaction))
@@ -75,8 +76,7 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 					MultiMaster = master.MultiMaster;
 					Chat.AddExamineMsgFromServer(
 						interaction.Performer,
-						$"You add the master component {interaction.TargetObject.ExpensiveName()} " +
-						$"to the Multi-Tools buffer.");
+						$"You add the <b>{interaction.TargetObject.ExpensiveName()}</b> to the multitool's master buffer.");
 					return;
 				}
 			}
@@ -96,18 +96,17 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 				case ISetMultitoolSlave slave:
 					slave.SetMaster(Buffer);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
-						$"You set the {interaction.TargetObject.ExpensiveName()} to use the " +
-						$"{(Buffer as Component)?.gameObject.ExpensiveName()} in the buffer.");
+						$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
+						$"to the master device <b>{(Buffer as Component)?.gameObject.ExpensiveName()}</b>.");
 					return;
 				case ISetMultitoolSlaveMultiMaster slaveMultiMaster:
 					slaveMultiMaster.SetMasters(ListBuffer);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You set the" + interaction.TargetObject.ExpensiveName() +
-						" to use the devices in the buffer");
+						$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> to the master devices in the buffer.");
 					return;
 				default:
 					Chat.AddExamineMsgFromServer(interaction.Performer,
-						"This only seems to have the capability of accepting Writing to buffer");
+						"This only seems to have the capability of <b>writing</b> to the buffer.");
 					return;
 			}
 		}
@@ -121,23 +120,28 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
-		var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
-		string ToReturn = "The Multitool Display lights up with \n"
-		                  + "Number of electrical objects present : " + MetaDataNode.Count + "\n";
-		foreach (var D in MetaDataNode)
+		var electricalNodes = matrix.GetElectricalConnections(localPosInt);
+
+		string message = "The multitool couldn't find anything electrical here.";
+		if (electricalNodes.Count > 0)
 		{
-			ToReturn = ToReturn + D.ShowInGameDetails() + "\n";
+			message = "The multitool's display lights up:\n";
 		}
 
-		MetaDataNode.Clear();
-		ElectricalPool.PooledFPCList.Add(MetaDataNode);
-		Chat.AddExamineMsgFromServer(interaction.Performer, ToReturn);
-	}
+		StringBuilder sb = new StringBuilder(message);
+		foreach (var node in electricalNodes)
+		{
+			sb.AppendLine(node.ShowInGameDetails());
+		}
 
+		electricalNodes.Clear();
+		ElectricalPool.PooledFPCList.Add(electricalNodes);
+		Chat.AddExamineMsgFromServer(interaction.Performer, sb.ToString());
+	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		Chat.AddExamineMsgFromServer(interaction.Performer, "You Clear internal buffer");
+		Chat.AddExamineMsgFromServer(interaction.Performer, "You clear the multitool's internal buffer.");
 		ListBuffer.Clear();
 		MultiMaster = false;
 		ConfigurationBuffer = MultitoolConnectionType.Empty;

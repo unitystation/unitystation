@@ -49,7 +49,7 @@ public class SubscriptionControllerEditor : Editor
 		if (!isSelecting || controller == null)
 			return;
 
-		Event e = Event.current;
+		UnityEngine.Event e = UnityEngine.Event.current;
 		if (e == null)
 			return;
 
@@ -88,12 +88,12 @@ public class SubscriptionControllerEditor : Editor
 		Selection.activeGameObject = controller.gameObject;
 	}
 
-	private bool HasPressedEscapeKey(Event e)
+	private bool HasPressedEscapeKey(UnityEngine.Event e)
 	{
 		return e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape;
 	}
 
-	private bool HasPressedLeftClick(Event e)
+	private bool HasPressedLeftClick(UnityEngine.Event e)
 	{
 		return e.type == EventType.MouseDown && e.button == 0;
 	}

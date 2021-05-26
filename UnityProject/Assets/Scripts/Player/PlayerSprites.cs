@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Systems.Clothing;
 using Light2D;
 using Mirror;
 using UnityEngine;
 using Effects.Overlays;
+using HealthV2;
+using Messages.Server;
+using Newtonsoft.Json;
+using UI.CharacterCreator;
 
 /// <summary>
 /// Handle displaying the sprites related to player, which includes underwear and the body.
@@ -17,27 +23,27 @@ public class PlayerSprites : MonoBehaviour
 {
 	#region Inspector fields
 
-	[Tooltip("The texture for this race.")]
-	[SerializeField]
-	private PlayerTextureData RaceTexture;
+	public PlayerHealthData RaceBodyparts;
 
-	[Tooltip("Assign the prefab responsible for the partial burning overlay.")]
-	[SerializeField]
+	[Tooltip("Assign the prefab responsible for the partial burning overlay.")] [SerializeField]
 	private GameObject partialBurningPrefab = default;
 
-	[Tooltip("Assign the prefab responsible for the engulfed burning overlay.")]
-	[SerializeField]
+	[Tooltip("Assign the prefab responsible for the engulfed burning overlay.")] [SerializeField]
 	private GameObject engulfedBurningPrefab = default;
 
-	[Tooltip("Assign the prefab responsible for the electrocuted overlay.")]
-	[SerializeField]
+	[Tooltip("Assign the prefab responsible for the electrocuted overlay.")] [SerializeField]
 	private GameObject electrocutedPrefab = default;
 
-	[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
-	[SerializeField]
+	[Tooltip("Muzzle flash, should be on a child of the player gameobject")] [SerializeField]
 	private LightSprite muzzleFlash = default;
 
+
+	[Tooltip("The place that all sprites and body part components go")] [SerializeField]
+	private GameObject BodyParts = default;
+
 	#endregion Inspector fields
+
+	public LivingHealthMasterBase livingHealthMasterBase;
 
 	/// <summary>
 	/// Threshold value where we switch from partial burning to fully engulfed sprite.
@@ -53,23 +59,45 @@ public class PlayerSprites : MonoBehaviour
 	//TODO: don't use string as the dictionary key
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
+	public readonly List<BodyPartSprites> Addedbodypart = new List<BodyPartSprites>();
+
+	public readonly List<SpriteHandlerNorder> OpenSprites = new List<SpriteHandlerNorder>();
+
+	public readonly List<BodyPartSprites> SurfaceSprite = new List<BodyPartSprites>();
+
+	public readonly Dictionary<string, GameObject> bodyParts = new Dictionary<string, GameObject>();
+
 	private Directional directional;
 	private PlayerDirectionalOverlay engulfedBurningOverlay;
 	private PlayerDirectionalOverlay partialBurningOverlay;
 	private PlayerDirectionalOverlay electrocutedOverlay;
-	private LivingHealthBehaviour livingHealthBehaviour;
+	private PlayerScript playerScript;
+	private PlayerHealthV2 playerHealth;
+	private PlayerSync playerSync;
 
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
-	private	ulong overflow = 0UL;
+	private ulong overflow = 0;
+
 	/// <summary>
 	/// Define which piece of clothing are hidden (not rendering) right now
 	/// </summary>
 	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
 
+	public SpriteHandlerNorder ToInstantiateSpriteCustomisation;
+
+	public GameObject CustomisationSprites;
+
+	public List<uint> InternalNetIDs;
+
+	public bool RootBodyPartsLoaded = false;
+
+	[SerializeField]
+	private GameObject OverlaySprites;
+
 	protected void Awake()
 	{
 		directional = GetComponent<Directional>();
-		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+		playerHealth = GetComponent<PlayerHealthV2>();
 
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
@@ -78,11 +106,20 @@ public class PlayerSprites : MonoBehaviour
 			c.OnClothingEquipped += OnClothingEquipped;
 		}
 
+		for (int i = 0; i < BodyParts.transform.childCount; i++)
+		{
+			//TODO: Do we need to add listeners for implant removalv
+			bodyParts[BodyParts.transform.GetChild(i).name] = BodyParts.transform.GetChild(i).gameObject;
+		}
+
+
 		AddOverlayGameObjects();
 
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
-		livingHealthBehaviour.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
-		OnClientFireStacksChange(livingHealthBehaviour.FireStacks);
+		//TODO: Need to reimplement fire stacks on players.
+		playerHealth.EnsureInit();
+		playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
+		OnClientFireStacksChange(playerHealth.FireStacks);
 	}
 
 	/// <summary>
@@ -92,121 +129,279 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (engulfedBurningOverlay == null)
 		{
-			engulfedBurningOverlay = Instantiate(engulfedBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+			engulfedBurningOverlay =
+				Instantiate(engulfedBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			engulfedBurningOverlay.enabled = true;
 			engulfedBurningOverlay.StopOverlay();
 		}
+
 		if (partialBurningOverlay == null)
 		{
-			partialBurningOverlay = Instantiate(partialBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+			partialBurningOverlay =
+				Instantiate(partialBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			partialBurningOverlay.enabled = true;
 			partialBurningOverlay.StopOverlay();
 		}
+
 		if (electrocutedOverlay == null)
 		{
-			electrocutedOverlay = Instantiate(electrocutedPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
+			electrocutedOverlay = Instantiate(electrocutedPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 			electrocutedOverlay.enabled = true;
 			electrocutedOverlay.StopOverlay();
 		}
 	}
 
+	public void SetUpCharacter(CharacterSettings Character)
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyParts["Head"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.Torso, bodyParts["Chest"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft, bodyParts["LeftArm"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmRight, bodyParts["RightArm"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegLeft, bodyParts["LeftLeg"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyParts["RightLeg"].transform);
+		}
+	}
+
+	public void SubSetBodyPart(BodyPart Body_Part, string path)
+	{
+		path = path + "/" + Body_Part.name;
+
+
+		CustomisationStorage customisationStorage = null;
+		foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
+		{
+			if (path == Custom.path)
+			{
+				customisationStorage = Custom;
+				break;
+			}
+		}
+
+		if (customisationStorage != null)
+		{
+			bool pass = true;
+			if (Body_Part.OptionalOrgans.Count > 0)
+			{
+				pass = false;
+				BodyPartDropDownOrgans.OnPlayerBodyDeserialise(Body_Part, null,
+					customisationStorage.Data.Replace("@£", "\""),
+					livingHealthMasterBase);
+			}
+
+			if (Body_Part.OptionalReplacementOrgan.Count > 0 && pass)
+			{
+				pass = false;
+				BodyPartDropDownReplaceOrgan.OnPlayerBodyDeserialise(Body_Part,
+					customisationStorage.Data.Replace("@£", "\""),
+					livingHealthMasterBase);
+			}
+
+			if (pass)
+			{
+				if(Body_Part.LobbyCustomisation != null)
+				{
+					Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
+						customisationStorage.Data.Replace("@£", "\""),
+						livingHealthMasterBase);
+				}
+				else
+				{
+					Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.LobbyCustomisation.characterCustomization}", Category.Character);
+				}
+			}
+		}
+
+
+		foreach (var Limb in Body_Part.ContainBodyParts)
+		{
+			SubSetBodyPart(Limb, path);
+		}
+	}
+
+	public IEnumerator WaitForPlayerinitialisation()
+	{
+		yield return null;
+		SetupsSprites();
+	}
+
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
-		RaceTexture = Spawn.RaceData["human"];
-		SetupBodySpritesByGender();
-		SetupAllCustomisationSprites();
+		StartCoroutine(WaitForPlayerinitialisation());
+
+	}
+
+	public void SetupsSprites()
+	{
+		foreach (var Root in livingHealthMasterBase.RootBodyPartContainers)
+		{
+			CustomisationStorage customisationStorage = null;
+			foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
+			{
+				if (Root.name == Custom.path)
+				{
+					customisationStorage = Custom;
+					break;
+				}
+			}
+
+			if (customisationStorage != null)
+			{
+				BodyPartDropDownOrgans.OnPlayerBodyDeserialise(null, Root, customisationStorage.Data,
+					livingHealthMasterBase);
+			}
+
+			foreach (var Limb in Root.ContainsLimbs)
+			{
+				SubSetBodyPart(Limb, "");
+			}
+		}
+
+		PlayerHealthData SetRace = null;
+		foreach (var Race in RaceSOSingleton.Instance.Races)
+		{
+			if (Race.name == ThisCharacter.Species)
+			{
+				SetRace = Race;
+			}
+		}
+
+		List<uint> ToClient = new List<uint>();
+		foreach (var Customisation in SetRace.Base.CustomisationSettings)
+		{
+			ExternalCustomisation externalCustomisation = null;
+			foreach (var EC in ThisCharacter.SerialisedExternalCustom)
+			{
+				if (EC.Key == Customisation.CustomisationGroup.name)
+				{
+					externalCustomisation = EC;
+				}
+			}
+
+			if (externalCustomisation == null) continue;
+
+			var SpriteHandlerNorder =
+				Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
+					.GameObject.GetComponent<SpriteHandlerNorder>();
+			SpriteHandlerNorder.transform.localPosition = Vector3.zero;
+			ToClient.Add(SpriteHandlerNorder.GetComponent<NetworkIdentity>().netId);
+			OpenSprites.Add(SpriteHandlerNorder);
+			//SubSetBodyPart
+			foreach (var Sprite_s in Customisation.CustomisationGroup.PlayerCustomisations)
+			{
+				if (Sprite_s.Name == externalCustomisation.SerialisedValue.SelectedName)
+				{
+					SpriteHandlerNorder.SpriteHandler.SetSpriteSO(Sprite_s.SpriteEquipped);
+					SpriteHandlerNorder.SetSpriteOrder(new SpriteOrder(Customisation.CustomisationGroup.SpriteOrder));
+					Color setColor = Color.black;
+					ColorUtility.TryParseHtmlString(externalCustomisation.SerialisedValue.Colour, out setColor);
+					setColor.a = 1;
+					SpriteHandlerNorder.SpriteHandler.SetColor(setColor);
+				}
+			}
+		}
+
+		this.GetComponent<RootBodyPartController>().UpdateCustomisations("", JsonConvert.SerializeObject(ToClient));
+
+		//TODOH
+
+		//Fetch Race Health Pack
+		// if(Character.Race == Race.Human)
+		// {
+		//
+		// }
+
+		//this is Target zone
+
+		//Instantiates Sprites
+		//TODOH
+		//Race data contain sprites order
+		//healing/Damage splits across body parts
+		//needs a generate sprites dynamically
+
+
+		//RaceBodyparts.Base.LegLeft.GetComponent<ItemStorage>()
+
+
+		//RaceTexture = Spawn.RaceData["human"];
+
+		//Loop through dimrphic body parts
+		//SetupBodySpritesByGender();
+		SetSurfaceColour();
 		OnDirectionChange(directional.CurrentDirection);
 	}
 
-	/// <summary>
-	/// Sets up the sprites for all customisations (Hair and underclothes)
-	/// </summary>
-	public void SetupAllCustomisationSprites()
+	public void InstantiateAndSetUp(ObjectList ListToSpawn, Transform InWhere)
 	{
-		SetupCustomisationSprite(CustomisationType.Underwear, "underwear", ThisCharacter.UnderwearName);
-		SetupCustomisationSprite(CustomisationType.Socks, "socks", ThisCharacter.SocksName);
-		SetupCustomisationSprite(CustomisationType.FacialHair, "beard", ThisCharacter.FacialHairName, ThisCharacter.FacialHairColor);
-		SetupCustomisationSprite(CustomisationType.HairStyle, "Hair", ThisCharacter.HairStyleName, ThisCharacter.HairColor);
+		if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
+		{
+			// var Set = ToSpawn.GetComponent<RootBodyPartContainer>();
+			// Set.PlayerSprites = this;
+			// Set.healthMaster = playerHealth;
+			// var InSpawnResult = Spawn.ServerPrefab(ToSpawn, Vector3.zero, InWhere, AutoOnSpawnServerHook: false);
+			// InSpawnResult.GameObject.transform.localPosition = Vector3.zero;
+
+			var rootBodyPartContainer = InWhere.GetComponent<RootBodyPartContainer>();
+			//rootBodyPartContainer.ItemStorage
+
+			//rootBodyPartContainer.ItemStorage.ServerTryAdd()
+			livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
+			rootBodyPartContainer.PlayerSprites = this;
+
+			foreach (var ToSpawn in ListToSpawn.Elements)
+			{
+				var InSpawnResult = Spawn.ServerPrefab(ToSpawn).GameObject;
+				rootBodyPartContainer.ItemStorage.ServerTryAdd(InSpawnResult);
+			}
+
+			//Spawn._ServerFireClientServerSpawnHooks(InSpawnResult);
+		}
+
+		// var rootBodyPartContainer = Spawn.ServerPrefab(ToSpawn, null ,InWhere).GameObject.GetComponent<RootBodyPartContainer>();
+		// if (rootBodyPartContainer != null)
+		// {
+		// rootBodyPartContainer.name = ToSpawn.name;
+		// livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
+		// rootBodyPartContainer.PlayerSprites = this;
+		// rootBodyPartContainer.healthMaster = playerHealth;
+		// }
 	}
 
-	/// <summary>
-	/// Sets up the sprite for a specific customisation
-	/// </summary>
-	private void SetupCustomisationSprite(CustomisationType customisationType, string customisationKey, string customisationName, string htmlColor)
+	public void SetSurfaceColour()
 	{
-		if (ColorUtility.TryParseHtmlString(htmlColor, out var newColor))
+		Color CurrentSurfaceColour = Color.white;
+		if (RaceBodyparts.Base.SkinColours.Count > 0)
 		{
-			SetupCustomisationSprite(customisationType, customisationKey, customisationName, newColor);
+			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
+
+			var hasColour = false;
+
+			foreach (var color in RaceBodyparts.Base.SkinColours)
+			{
+				if (color.ColorApprox(CurrentSurfaceColour))
+				{
+					hasColour = true;
+					break;
+				}
+			}
+
+			if (hasColour == false)
+			{
+				CurrentSurfaceColour = RaceBodyparts.Base.SkinColours[0];
+			}
 		}
 		else
 		{
-			SetupCustomisationSprite(customisationType, customisationKey, customisationName);
-		}
-	}
-
-	/// <summary>
-	/// Sets up the sprite for a specific customisation
-	/// </summary>
-	private void SetupCustomisationSprite(CustomisationType customisationType, string customisationKey, string customisationName, Color? color = null)
-	{
-		if (customisationName != "None")
-		{
-			SpriteDataSO spriteDataSO = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).SpriteEquipped;
-			SetupSprite(spriteDataSO, customisationKey, color);
-		}
-	}
-
-	public void SetupBodySpritesByGender()
-	{
-		SetupAllBodySprites(RaceTexture.Base);
-		if (ThisCharacter.Gender == Gender.Female)
-		{
-			SetupAllBodySprites(RaceTexture.Female);
-		}
-		else
-		{
-			SetupAllBodySprites(RaceTexture.Male);
-		}
-	}
-
-	/// <summary>
-	/// Sets up the sprites for all body parts using the given RaceVariantTextureData
-	/// </summary>
-	public void SetupAllBodySprites(RaceVariantTextureData Variant)
-	{
-		Color? newSkinColor = null;
-		if (ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out var tempSkinColor))
-		{
-			newSkinColor = tempSkinColor;
+			ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
 		}
 
-		SetupBodySprite(Variant.Torso, "body_torso", newSkinColor);
-		SetupBodySprite(Variant.LegRight, "body_rightleg", newSkinColor);
-		SetupBodySprite(Variant.LegLeft, "body_leftleg", newSkinColor);
-		SetupBodySprite(Variant.ArmRight, "body_rightarm", newSkinColor);
-		SetupBodySprite(Variant.ArmLeft, "body_leftarm", newSkinColor);
-		SetupBodySprite(Variant.Head, "body_head", newSkinColor);
-		SetupBodySprite(Variant.HandRight, "body_right_hand", newSkinColor);
-		SetupBodySprite(Variant.HandLeft, "body_left_hand", newSkinColor);
+		CurrentSurfaceColour.a = 1;
 
-		Color? newEyeColor = null;
-		if (ColorUtility.TryParseHtmlString(ThisCharacter.EyeColor, out var tempEyeColor))
+		foreach (var sp in SurfaceSprite)
 		{
-			newEyeColor = tempEyeColor;
-		}
-
-		SetupBodySprite(Variant.Eyes, "eyes", newEyeColor);
-	}
-
-	/// <summary>
-	/// Sets up the sprite for a specific body part
-	/// </summary>
-	private void SetupBodySprite(SpriteDataSO variantBodypart, string bodypartKey, Color? color = null)
-	{
-		if (variantBodypart != null && variantBodypart.Variance.Count > 0)
-		{
-			SetupSprite(variantBodypart, bodypartKey, color);
+			sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
 		}
 	}
 
@@ -228,7 +423,19 @@ public class PlayerSprites : MonoBehaviour
 			c.Direction = direction;
 		}
 
-		UpdateBurningOverlays(livingHealthBehaviour.FireStacks, direction);
+		foreach (var Sprite in OpenSprites)
+		{
+			Sprite.OnDirectionChange(direction);
+		}
+
+		foreach (var bodypart in Addedbodypart)
+		{
+			bodypart.OnDirectionChange(direction);
+		}
+
+
+		//TODO: Reimplement player fire sprites.
+		UpdateBurningOverlays(playerHealth.FireStacks, direction);
 		UpdateElectrocutionOverlay(direction);
 	}
 
@@ -305,23 +512,33 @@ public class PlayerSprites : MonoBehaviour
 
 	public void OnCharacterSettingsChange(CharacterSettings characterSettings)
 	{
-		if (characterSettings == null)
+		if (RootBodyPartsLoaded == false)
 		{
-			characterSettings = new CharacterSettings();
-		}
+			RootBodyPartsLoaded = true;
+			if (characterSettings == null)
+			{
+				characterSettings = new CharacterSettings();
+			}
 
-		SetupCharacterData(characterSettings);
-		// FIXME: this probably shouldn't send ALL of the character settings to everyone
-		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
+			ThisCharacter = characterSettings;
+
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == ThisCharacter.Species)
+				{
+					RaceBodyparts = Race;
+				}
+			}
+
+			SetUpCharacter(characterSettings);
+			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
+			SetupCharacterData(characterSettings);
+		}
 	}
 
 	public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
 	{
-		if (!clothItems)
-		{
-			PlayerCustomisationMessage.SendTo(gameObject, recipient, ThisCharacter);
-		}
-		else
+		if (clothItems)
 		{
 			for (int i = 0; i < characterSprites.Length; i++)
 			{
@@ -364,15 +581,15 @@ public class PlayerSprites : MonoBehaviour
 			for (int n = 0; n < 11; n++)
 			{
 				//if both bits are enabled set the n'th bit in the overflow string
-				if (IsBitSet((ulong)clothing.HideClothingFlags,n) && (IsBitSet((ulong)hideClothingFlags,n)))
+				if (IsBitSet((ulong) clothing.HideClothingFlags, n) && (IsBitSet((ulong) hideClothingFlags, n)))
 				{
 					overflow |= 1UL << n;
 				}
-				else if (IsBitSet((ulong)clothing.HideClothingFlags,n)) //check if n'th bit is set to 1
+				else if (IsBitSet((ulong) clothing.HideClothingFlags, n)) //check if n'th bit is set to 1
 				{
-					ulong bytechange = (ulong)hideClothingFlags;
+					ulong bytechange = (ulong) hideClothingFlags;
 					bytechange |= 1UL << n; //set n'th bit to 1
-					hideClothingFlags = (ClothingHideFlags)bytechange;
+					hideClothingFlags = (ClothingHideFlags) bytechange;
 				}
 			}
 		}
@@ -381,28 +598,39 @@ public class PlayerSprites : MonoBehaviour
 		{
 			for (int n = 0; n < 11; n++) //repeat 11 times, once for each hide flag
 			{
-				if (IsBitSet(overflow,n)) //check if n'th bit in overflow is set to 1
+				if (IsBitSet(overflow, n)) //check if n'th bit in overflow is set to 1
 				{
 					overflow &= ~(1UL << n); //set n'th bit to 0
 				}
-				else if (IsBitSet((ulong)clothing.HideClothingFlags,n)) //check if n'th bit is set to 1
+				else if (IsBitSet((ulong) clothing.HideClothingFlags, n)) //check if n'th bit is set to 1
 				{
-					ulong bytechange = (ulong)hideClothingFlags;
+					ulong bytechange = (ulong) hideClothingFlags;
 					bytechange &= ~(1UL << n); //set n'th bit to 0
-					hideClothingFlags = (ClothingHideFlags)bytechange;
+					hideClothingFlags = (ClothingHideFlags) bytechange;
 				}
 			}
 		}
+
 		// Update hide flags
 		ValidateHideFlags();
 	}
 
 	private bool IsBitSet(ulong b, int pos)
 	{
-   		return ((b >> pos) & 1) != 0;
+		return ((b >> pos) & 1) != 0;
 	}
+
 	private void ValidateHideFlags()
 	{
+		foreach (var Norder in Addedbodypart)
+		{
+			if (Norder.ClothingHide != ClothingHideFlags.HIDE_NONE)
+			{
+				var isVisible = !hideClothingFlags.HasFlag(Norder.ClothingHide);
+				Norder.gameObject.SetActive(isVisible);
+			}
+		}
+
 		// Need to check all flags with their gameobject names...
 		// TODO: it should be done much easier
 		ValidateHideFlag(ClothingHideFlags.HIDE_GLOVES, "hands");
@@ -411,9 +639,6 @@ public class PlayerSprites : MonoBehaviour
 		ValidateHideFlag(ClothingHideFlags.HIDE_MASK, "mask");
 		ValidateHideFlag(ClothingHideFlags.HIDE_EARS, "ear");
 		ValidateHideFlag(ClothingHideFlags.HIDE_EYES, "eyes");
-		ValidateHideFlag(ClothingHideFlags.HIDE_FACE, "face");
-		ValidateHideFlag(ClothingHideFlags.HIDE_HAIR, "Hair");
-		ValidateHideFlag(ClothingHideFlags.HIDE_FACIALHAIR, "beard");
 		ValidateHideFlag(ClothingHideFlags.HIDE_NECK, "neck");
 
 		// TODO: Not implemented yet?
@@ -425,7 +650,7 @@ public class PlayerSprites : MonoBehaviour
 		// Check if dictionary has entry about such clothing item name
 		if (!clothes.ContainsKey(name))
 		{
-			Logger.LogError($"Can't find {name} clothingItem linked to {hideFlag}");
+			Logger.LogError($"Can't find {name} clothingItem linked to {hideFlag}", Category.PlayerInventory);
 			return;
 		}
 
@@ -438,5 +663,40 @@ public class PlayerSprites : MonoBehaviour
 	{
 		yield return WaitFor.Seconds(seconds);
 		DisableElectrocutedOverlay();
+	}
+
+	public void UpdateChildren(List<uint> NewInternalNetIDs)
+	{
+		OpenSprites.Clear();
+		List<SpriteHandler> SHS = new List<SpriteHandler>();
+		InternalNetIDs = NewInternalNetIDs;
+		foreach (var ID in InternalNetIDs)
+		{
+			if (NetworkIdentity.spawned.ContainsKey(ID) && NetworkIdentity.spawned[ID] != null)
+			{
+				var OB = NetworkIdentity.spawned[ID].gameObject.transform;
+
+				var SH = OB.GetComponent<SpriteHandler>();
+
+				var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
+				SpriteHandlerManager.UnRegisterHandler(Net, SH);
+				SHS.Add(SH);
+				SH.name = Regex.Replace(SH.name, @"\(.*\)", "").Trim();
+				OB.parent = CustomisationSprites.transform;
+				OB.localScale = Vector3.one;
+				OB.localPosition = Vector3.zero;
+				OB.localRotation = Quaternion.identity;
+
+				SpriteHandlerManager.RegisterHandler(Net, SH);
+				var SNO = OB.GetComponent<SpriteHandlerNorder>();
+
+				if (OpenSprites.Contains(SNO) == false)
+				{
+					OpenSprites.Add(SNO);
+				}
+			}
+		}
+
+		RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -64,16 +65,18 @@ public partial class SubSceneManager
 			var matrix = MatrixManager.Instance.ActiveMatrices[i].Matrix;
 			if (matrix.gameObject.scene == sceneContext)
 			{
-				matrix.GetComponentInParent<NetworkIdentity>().AddPlayerObserver(connToAdd);
+				matrix.GetComponentInParent<NetworkedMatrix>().MatrixSync.netIdentity.AddPlayerObserver(connToAdd);
 			}
 		}
+		
+		yield return WaitFor.EndOfFrame;
 
 		var objCount = 0;
 		var netIds = NetworkIdentity.spawned.Values.ToList();
 		foreach (var n in netIds)
 		{
 			if (n == null || n.gameObject == null ||
-			n.gameObject.scene != sceneContext) continue;
+			    n.gameObject.scene != sceneContext) continue;
 
 			n.AddPlayerObserver(connToAdd);
 			objCount++;

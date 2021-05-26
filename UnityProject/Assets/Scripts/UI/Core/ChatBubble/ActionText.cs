@@ -8,99 +8,110 @@ using UnityEngine.UI;
 
 public class ActionText : MonoBehaviour
 {
-	public Vector3 DefaultPosition;
-
 	public RectTransform rectTransform;
 	public TMP_Text Text;
 	public TMP_Text BackText;
-	public float Distancey = 500;
-	public float Distancex = 500;
+	public TMP_Text Multiplier;
+	public TMP_Text backMultiplier;
+	public GameObject MultiplierGameObject;
+	public Image image;
+
+	private float Distancey = 1;
+	private float Distancex = 1;
 	public float Timey = 5;
 	public float Timex = 5;
 
-
-	public float Decay = 0.95f;
-
+	private float timeToFade;
 	public bool DoFade = false;
-
-
-	public GameObject MultiplierGameObject;
-	public TMP_Text Multiplier;
-	public TMP_Text backMultiplier;
-
-	public Image image;
-
 	public int CountInstance = 1;
-	public void SetUp(string InString)
+
+	public void SetUp(string InString, GameObject recipient)
 	{
-		CountInstance = 1;
+		transform.SetParent(recipient.transform);
+		var canvas = GetComponent<Canvas>();
+		transform.localScale = new Vector3(0.014f, 0.014f, 0);
+		//canvas.sortingLayerID = SortingLayer.NameToID("UI");
+		canvas.sortingLayerName = "UI";
 		MultiplierGameObject.SetActive(false);
-		LeanTween.cancel(this.gameObject);
-		this.rectTransform.localPosition = DefaultPosition;
 		Text.text = InString;
 		BackText.text = InString;
-		LeanTween.moveY(rectTransform, Distancey, Timey).setEaseInOutQuad();
-		LeanTween.moveX(rectTransform, Distancex, Timex).setEaseInOutQuad();
+		rectTransform.localPosition = Vector3.zero;
+		StartMoving();
 		DoFade = true;
-		this.gameObject.SetActive(true);
+		gameObject.SetActive(true);
 	}
 
-	public void AddCopy()
+	private void StartMoving()
 	{
+		LeanTween.moveY(rectTransform, Distancey, Timey).setEaseInOutQuad();
+		LeanTween.moveX(rectTransform, Distancex, Timex).setEaseInOutQuad();
+	}
+
+	public void AddMultiplier()
+	{
+		LeanTween.cancel(rectTransform);
+		rectTransform.localPosition = Vector3.zero;
+		RestoreAlpha();
+
 		MultiplierGameObject.SetActive(true);
 		CountInstance++;
 		var intxt = "X"+CountInstance;
 		Multiplier.text = intxt;
 		backMultiplier.text = intxt;
-		var flot = Text.alpha;
-		flot += 0.3f;
-		if (flot > 1)
-		{
-			Text.alpha = 1;
-		}
 
-		Text.alpha = flot;
-
-
+		StartMoving();
 	}
+
+
 
 	public void Update()
 	{
 		if (DoFade)
 		{
-			float CurrentAlpha = Text.alpha * Decay;
-			Text.alpha = CurrentAlpha;
-			BackText.alpha = CurrentAlpha;
-
-			var colo = image.color;
-			colo.a = CurrentAlpha + 0.2f;
-			image.color = colo;
-			Multiplier.alpha = CurrentAlpha + 0.2f;
-			backMultiplier.alpha = CurrentAlpha + 0.2f;
-
-			if (CurrentAlpha < 0.01)
+			timeToFade += Time.deltaTime;
+			if (timeToFade > 2)
 			{
-				LeanTween.cancel(this.gameObject);
-				DoFade = false;
-				Reset();
+				float CurrentAlpha = Text.alpha - 0.03f;
+				Text.alpha = CurrentAlpha;
+				BackText.alpha = CurrentAlpha;
+
+				var colo = image.color;
+				colo.a = CurrentAlpha + 0.2f;
+				image.color = colo;
+				Multiplier.alpha = CurrentAlpha + 0.2f;
+				backMultiplier.alpha = CurrentAlpha + 0.2f;
+
+				if (CurrentAlpha < 0.01)
+				{
+					Reset();
+				}
 			}
 		}
 	}
 
-	[NaughtyAttributes.Button()]
-	public void Reset()
+	private void RestoreAlpha()
 	{
+		timeToFade = 0;
 		Text.alpha = 1;
 		BackText.alpha = 1;
-		DoFade = false;
-		this.gameObject.SetActive(false);
-		this.rectTransform.SetPositionAndRotation(DefaultPosition, this.rectTransform.rotation);
-
 		var colo = image.color;
 		colo.a = 1;
 		image.color = colo;
 		Multiplier.alpha = 1;
 		backMultiplier.alpha = 1;
+	}
 
+	[NaughtyAttributes.Button()]
+	public void Reset()
+	{
+		CountInstance = 1;
+		LeanTween.cancel(rectTransform);
+		transform.SetParent(ChatBubbleManager.Instance.transform);
+		Text.text = "";
+		DoFade = false;
+		MultiplierGameObject.SetActive(false);
+		gameObject.SetActive(false);
+		rectTransform.SetPositionAndRotation(Vector3.zero, rectTransform.rotation);
+		RestoreAlpha();
 	}
 }

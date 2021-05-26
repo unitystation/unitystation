@@ -32,14 +32,13 @@ namespace Items.Others
 		private IEnumerator HatchChick()
 		{
 			yield return WaitFor.Seconds(Random.Range(hatchingTime.x, hatchingTime.y));
-			// yield return WaitFor.EndOfFrame;
-			if (!forceFertilized && !DMMath.Prob(fertilizedChance))
+			if (forceFertilized == false && DMMath.Prob(fertilizedChance) == false)
 			{
 				yield break;
 			}
 
 			Spawn.ServerPrefab(chick, gameObject.RegisterTile().WorldPosition);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

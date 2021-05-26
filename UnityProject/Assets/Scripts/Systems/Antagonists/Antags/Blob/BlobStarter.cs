@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Antagonists;
+using HealthV2;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -129,7 +130,7 @@ namespace Blob
 					EndState();
 					break;
 				default:
-					Debug.LogError("Unused state");
+					Logger.LogError("Unused state", Category.Blob);
 					break;
 			}
 		}
@@ -253,8 +254,6 @@ namespace Blob
 		{
 			var playerScript = gameObject.GetComponent<PlayerScript>();
 
-			if (playerScript.IsDeadOrGhost) return;
-
 			var bound = MatrixManager.MainStationMatrix.Bounds;
 
 			//Teleport user to random location on station if outside radius of 600 or on a space tile
@@ -274,21 +273,23 @@ namespace Blob
 
 			if (!spawnResult.Successful)
 			{
-				Debug.LogError("Failed to spawn blob!");
+				Logger.LogError("Failed to spawn blob!", Category.Blob);
+				Destroy(this);
 				return;
 			}
 
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
-			playerScript.mind = null;
+			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
 
-			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, gameObject, EVENT.BlobSpawned, playerScript.characterSettings);
+			playerScript.mind = null;
 
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();
 
-			gameObject.GetComponent<LivingHealthBehaviour>().Harvest();
+			gameObject.GetComponent<LivingHealthMasterBase>().Harvest();
 
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			Destroy(this);
 		}
 

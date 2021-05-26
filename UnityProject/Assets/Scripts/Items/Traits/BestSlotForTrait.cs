@@ -56,7 +56,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 	{
 		if (toCheck == null || storage == null)
 		{
-			Logger.LogTrace("Cannot get best slot, toCheck or storage was null", Category.Inventory);
+			Logger.LogTrace("Cannot get best slot, toCheck or storage was null", Category.PlayerInventory);
 			return null;
 		}
 
@@ -65,7 +65,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		if (itemAttrs == null)
 		{
 			Logger.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +
-			                      " first available slot.", Category.Inventory, toCheck);
+			                      " first available slot.", Category.PlayerInventory, toCheck);
 		}
 		else
 		{
@@ -78,7 +78,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		}
 
 		Logger.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
-		                      " be placed in first available slot.", Category.Inventory, toCheck);
+		                      " be placed in first available slot.", Category.PlayerInventory, toCheck);
 
 		// Get all slots
 		var allSlots = storage.GetItemSlots();
