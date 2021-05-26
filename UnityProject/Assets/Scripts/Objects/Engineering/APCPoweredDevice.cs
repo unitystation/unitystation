@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
@@ -78,6 +79,7 @@ namespace Systems.Electricity
 		public MultitoolConnectionType ConType => conType;
 
 		private Texture disconnectedImg;
+		private RegisterTile registerTile;
 
 		#region Lifecycle
 
@@ -104,6 +106,7 @@ namespace Systems.Electricity
 		{
 			if (Powered != null) return;
 			Powered = GetComponent<IAPCPowerable>();
+			registerTile = GetComponent<RegisterTile>();
 			if (isSelfPowered)
 			{
 				if (AdvancedControlToScript)
@@ -141,6 +144,7 @@ namespace Systems.Electricity
 			else
 			{
 				UpdateSynchronisedState(state, state);
+				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(PowerState.Off, state));
 			}
 		}
 
@@ -284,6 +288,39 @@ namespace Systems.Electricity
 		public static bool IsOn(PowerState states)
 		{
 			return (states == PowerState.On || states == PowerState.LowVoltage || states == PowerState.OverVoltage);
+		}
+
+		public bool ConnectToClosestAPC()
+		{
+			var apcs = Physics2D.OverlapCircleAll(registerTile.WorldPositionServer.To2Int(), 30);
+
+			apcs = apcs.Where(a => a.gameObject.GetComponent<APC>() != null).ToArray();
+
+			if (apcs.Length == 0)
+			{
+				return false;
+			}
+
+			APC bestTarget = null;
+			float closestDistance = Mathf.Infinity;
+			var devicePosition = gameObject.transform.position;
+
+			foreach (var potentialTarget in apcs)
+			{
+				var directionToTarget = potentialTarget.gameObject.transform.position - devicePosition;
+				float dSqrToTarget = directionToTarget.sqrMagnitude;
+
+				if (dSqrToTarget >= closestDistance) continue;
+				closestDistance = dSqrToTarget;
+				bestTarget = potentialTarget.gameObject.GetComponent<APC>();
+			}
+
+			if (bestTarget == null || bestTarget == RelatedAPC) return false;
+			RelatedAPC = bestTarget;
+
+			bestTarget.AddDevice(this);
+
+			return true;
 		}
 	}
 

@@ -91,11 +91,13 @@ namespace Systems.Ai
 			ServerSetCameraLocation(coreObject);
 
 			coreObject.GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnCoreDestroy);
+			hasPower = true;
 
 			//Power set up
 			var apc = coreObject.GetComponent<APCPoweredDevice>();
 			if (apc != null)
 			{
+				apc.ConnectToClosestAPC();
 				apc.OnStateChangeEvent.AddListener(OnCorePowerLost);
 				hasPower = apc.State != PowerState.Off;
 			}
@@ -161,7 +163,7 @@ namespace Systems.Ai
 			//Cant switch cameras when carded
 			if (isCarded)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"You are carded, you have no core to go to");
+				Chat.AddExamineMsgFromServer(gameObject, $"You are carded, you cannot move anywhere");
 				return;
 			}
 

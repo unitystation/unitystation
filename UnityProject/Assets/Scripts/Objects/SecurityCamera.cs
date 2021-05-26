@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Systems.Ai;
 using Systems.Electricity;
 using Mirror;
+using Objects.Research;
 using UnityEngine;
 
 namespace Objects
@@ -105,7 +106,7 @@ namespace Objects
 
 			if (cameraActive == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "Cannot move to camera, it is deactivated");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Cannot move to {gameObject.ExpensiveName()}, as it is deactivated");
 				return;
 			}
 
@@ -160,6 +161,8 @@ namespace Objects
 		{
 			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
 
+			if (interaction.TargetObject.GetComponent<AiCore>() != null) return false;
+
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return true;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter)) return true;
@@ -202,15 +205,13 @@ namespace Objects
 			//Always off if no power
 			if (apcPoweredDevice.State == PowerState.Off)
 			{
-				cameraActive = false;
+				ServerSetCameraState(false);
 			}
 			//Switch to wire state otherwise
 			else if (wiresCut)
 			{
-				cameraActive = wiresCut;
+				ServerSetCameraState(wiresCut);
 			}
-
-			spriteHandler.OrNull()?.ChangeSpriteVariant(wiresCut ? 0 : 1);
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You {(wiresCut ? "cut" : "repair")} the cameras wiring",
 				$"{interaction.Performer.ExpensiveName()} {(panelOpen ? "cuts" : "repairs")} the cameras wiring");
@@ -225,21 +226,30 @@ namespace Objects
 			//If now off turn off
 			if (oldAndNewStates.Item2 == PowerState.Off)
 			{
-				cameraActive = false;
+				ServerSetCameraState(false);
 				return;
 			}
 
 			//If was off turn on if wires not cut
 			if (oldAndNewStates.Item1 == PowerState.Off && wiresCut == false)
 			{
-				cameraActive = true;
+				ServerSetCameraState(true);
 			}
 		}
 
 		#endregion
 
+		[Server]
+		private void ServerSetCameraState(bool newState)
+		{
+			cameraActive = newState;
+			spriteHandler.OrNull()?.ChangeSpriteVariant(cameraActive ? 1 : 0);
+		}
+
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
+			if (GetComponent<AiCore>() != null) return "";
+
 			return $"The cameras back panel is {(panelOpen ? "open" : "closed")} and the camera is {(cameraActive ? "active" : "deactivated")}";
 		}
 	}
