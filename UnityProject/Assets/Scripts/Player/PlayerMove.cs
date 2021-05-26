@@ -349,8 +349,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			Chat.AddActionMsgToChat(
 				playerScript.gameObject,
-				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
-				playerScript.name + " is trying to ubuckle themself from the chair!"
+				"You're trying to unbuckle yourself from the chair! (this will take some time...)",
+				playerScript.name + " is trying to unbuckle themself from the chair!"
 			);
 			StandardProgressAction.Create(
 				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),

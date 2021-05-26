@@ -77,7 +77,7 @@ public class NetTab : Tab
 
 	[NonSerialized]
 	public RegisterTile ProviderRegisterTile;
-	
+
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor(Provider, Type);
 
 	/// Is current tab a server tab?
@@ -254,7 +254,7 @@ public class NetTab : Tab
 		{
 			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
 
-			if (peeper.Script == false || canApply == false)
+			if (peeper.Script == false || (canApply == false && peeper.Script.PlayerState != PlayerScript.PlayerStates.Ai))
 			{
 				TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
 			}

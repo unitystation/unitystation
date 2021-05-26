@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Systems.Ai;
 using HealthV2;
 using Items;
 using TileManagement;
@@ -533,6 +534,25 @@ public static class Validations
 
 	public static bool CanApply(ContextMenuApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
 		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
+
+	//AiActivate Validation
+	public static bool CanApply(AiActivate toValidate, NetworkSide side)
+	{
+		//Performer and target cant be null
+		if (toValidate.Performer == null || toValidate.TargetObject == null) return false;
+
+		//Has to be Ai to do this interaction
+		if(toValidate.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return false;
+
+		//We should always have a camera location, either core or camera
+		if (aiPlayer.CameraLocation == null) return false;
+
+		//Distance check to make sure its in range, this wont be called for "saved" cameras
+		if (Vector2.Distance(aiPlayer.CameraLocation.position, toValidate.TargetObject.transform.position) > aiPlayer.InteractionDistance) return false;
+
+		return true;
+	}
+
 	#endregion
 
 

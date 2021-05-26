@@ -534,6 +534,13 @@ namespace UI
 		{
 			var toClose = new List<NetTab>();
 			var toDestroy = new List<NetTab>();
+			var reach = ReachRange.Standard;
+			var playerScript = PlayerManager.LocalPlayerScript;
+
+			if (playerScript != null && playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			{
+				reach = ReachRange.Unlimited;
+			}
 
 			foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 			{
@@ -541,11 +548,13 @@ namespace UI
 				{
 					toDestroy.Add(tab);
 				}
-				else if (Validations.CanApply(PlayerManager.LocalPlayerScript, tab.Provider, NetworkSide.Client) == false)
+				else if (Validations.CanApply(playerScript, tab.Provider, NetworkSide.Client, reachRange: reach) == false)
 				{
+					if(UIManager.Hands.CurrentSlot == null) continue;
+
 					// Make sure the item is not in the players hands first:
-					if (UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
-						UIManager.Hands.OtherSlot.Item != tab.Provider.gameObject)
+					if (UIManager.Hands.CurrentSlot.Item.gameObject != tab.Provider.gameObject &&
+						UIManager.Hands.OtherSlot.Item.gameObject != tab.Provider.gameObject)
 					{
 						toClose.Add(tab);
 					}

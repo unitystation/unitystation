@@ -518,8 +518,8 @@ public partial class Chat
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
 	{
 		if (PlayerManager.PlayerScript == null) return false;
-		if (!PlayerManager.PlayerScript.IsGhost) return false;
-		if (Instance.GhostHearAll && !PlayerManager.PlayerScript.IsPlayerSemiGhost) return false;
+		if (PlayerManager.PlayerScript.IsGhost == false) return false;
+		if (Instance.GhostHearAll && PlayerManager.PlayerScript.IsPlayerSemiGhost == false) return false;
 
 		if (NetworkIdentity.spawned.ContainsKey(originator))
 		{

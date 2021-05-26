@@ -205,24 +205,22 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
 			}
+			//Normal players
 			else if (IsPlayerSemiGhost == false)
 			{
-				if (playerState != PlayerStates.Ai)
-				{
-					UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
-				}
-
+				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
 				// Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 			}
+			//Players like blob or Ai
 			else
 			{
 				// stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-				// show ghosts
+				// hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;

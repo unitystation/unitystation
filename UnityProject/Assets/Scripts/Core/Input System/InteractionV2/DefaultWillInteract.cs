@@ -51,6 +51,11 @@ public static class DefaultWillInteract
 		{
 			return ContextMenuApply(interaction as ContextMenuApply, side);
 		}
+		else if (typeof(T) == typeof(AiActivate))
+		{
+			return AiActivate(interaction as AiActivate, side);
+		}
+
 		Logger.LogError("Unable to recognize interaction type.", Category.Interaction);
 		return false;
 	}
@@ -140,6 +145,14 @@ public static class DefaultWillInteract
 	/// Default WillInteract logic for ContextMenuApply interactions
 	/// </summary>
 	public static bool ContextMenuApply(ContextMenuApply interaction, NetworkSide side)
+	{
+		return Validations.CanApply(interaction, side);
+	}
+
+	/// <summary>
+	/// Default WillInteract logic for ContextMenuApply interactions
+	/// </summary>
+	public static bool AiActivate(AiActivate interaction, NetworkSide side)
 	{
 		return Validations.CanApply(interaction, side);
 	}

@@ -15,7 +15,7 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
 		#region inspector
 		[SerializeField]
@@ -259,6 +259,25 @@ namespace Doors
 			Open();
 		}
 
+		/// <summary>
+		/// Try to force the door closed regardless of access/internal fuckery.
+		/// Purely check to see if there is something physically restraining the door from being closed such as a weld or door bolts.
+		/// </summary>
+		public void TryForceClose()
+		{
+			if (IsClosed) return; //Can't close if we are close. Figures.
+
+			foreach (DoorModuleBase module in modulesList)
+			{
+				if (!module.CanDoorStateChange())
+				{
+					return;
+				}
+			}
+
+			Close();
+		}
+
 		public void TryClose(GameObject originator = null, bool force = false)
 		{
 			// Sliding door is not passable according to matrix
@@ -469,5 +488,49 @@ namespace Doors
 				TryClose();
 			}
 		}
+
+		#region Ai interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			//Try open/close
+			if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
+			{
+				if (IsClosed)
+				{
+					TryForceOpen();
+				}
+				else
+				{
+					TryForceClose();
+				}
+
+				return;
+			}
+
+			//Toggle bolts
+			if (interaction.ClickType == AiActivate.ClickTypes.CtrlClick)
+			{
+				foreach (var module in modulesList)
+				{
+					if(module is BoltsModule bolts)
+					{
+						//Toggle bolts
+						bolts.SetBoltsState(!bolts.BoltsDown);
+						return;
+					}
+				}
+			}
+		}
+
+		#endregion
+
 	}
 }

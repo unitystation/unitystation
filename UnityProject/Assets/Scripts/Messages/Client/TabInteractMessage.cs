@@ -40,9 +40,19 @@ namespace Messages.Client
 			}
 
 			var playerScript = player.Script;
+
 			//First Validations is for objects in the world (computers, etc), second check is for items in active hand (null rod, PADs).
-			bool validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
-			                || playerScript.ItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
+			bool validate;
+			if (playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			{
+				validate = true;
+			}
+			else
+			{
+				validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
+				           || playerScript.ItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
+			}
+
 			if (!validate)
 			{
 				FailValidation(player, tabProvider, msg,"Can't interact/reach");

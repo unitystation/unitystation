@@ -20,7 +20,13 @@ public class ChatInputContext : IChatInputContext
 			}
 
 			// Player is blob?
-			if (PlayerManager.LocalPlayerScript.IsPlayerSemiGhost)
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			{
+				return ChatChannel.Binary;
+			}
+
+			// Player is blob?
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Blob)
 			{
 				return ChatChannel.Blob;
 			}

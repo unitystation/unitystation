@@ -45,15 +45,8 @@ namespace Objects
 			//Only if you click normally do you switch cameras
 			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
 
-			if (interaction.Performer == null) return false;
-
-			if(interaction.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return false;
-
-			//We should always have a camera location, either core or camera
-			if (aiPlayer.CameraLocation == null) return false;
-
-			//Distance check to make sure its in range, this wont be called for "saved" cameras
-			if (Vector2.Distance(aiPlayer.CameraLocation.position, gameObject.transform.position) > aiPlayer.InteractionDistance) return false;
+			//Validate distance check and target checks
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
 
 			return true;
 		}
