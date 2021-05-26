@@ -21,6 +21,10 @@ namespace Systems.Ai
 		private int interactionDistance = 25;
 		public int InteractionDistance => interactionDistance;
 
+		[SerializeField]
+		private SecurityCamera coreCamera = null;
+		public SecurityCamera CoreCamera => coreCamera;
+
 		//Follow card only
 		private bool isCarded;
 
@@ -45,6 +49,8 @@ namespace Systems.Ai
 		//	Higher laws (the law above each one) override all lower ones. Whether numbered or not, how they appear (in order) is the order of priority.
 
 		//TODO currently hard coded, when upload console implemented need to sync when changed
+
+		//TODO on law change force the players law tab to open so they dont miss new laws
 		private List<string> aiLaws = new List<string>()
 		{
 			"1. A robot may not injure a human being or, through inaction, allow a human being to come to harm.",
@@ -110,7 +116,11 @@ namespace Systems.Ai
 		public void ServerSetCameraLocation(GameObject newObject)
 		{
 			//Cant switch cameras when carded
-			if(isCarded) return;
+			if (isCarded)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"You are carded, you have no core to go to");
+				return;
+			}
 
 			//Remove old integrity listener if possible, ignore if current location is core
 			if (cameraLocation != null && cameraLocation.gameObject != gameObject && newObject.TryGetComponent<Integrity>(out var oldCameraIntegrity))
@@ -125,6 +135,11 @@ namespace Systems.Ai
 			if (newObject != null && newObject != gameObject && newObject.TryGetComponent<Integrity>(out var cameraIntegrity))
 			{
 				cameraIntegrity.OnWillDestroyServer.AddListener(OnCameraDestroy);
+			}
+
+			if (newObject != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"You move to the {newObject.ExpensiveName()}");
 			}
 		}
 
@@ -161,6 +176,24 @@ namespace Systems.Ai
 			ServerSetCameraLocation(coreObject);
 		}
 
+		[Command]
+		public void CmdToggleCameraLights(bool newState)
+		{
+			SecurityCamera.GlobalLightStatus = newState;
+
+			foreach (var pairs in SecurityCamera.Cameras)
+			{
+				if (SecurityCamera.OpenNetworks.Contains(pairs.Key) == false) continue;
+
+				foreach (var camera in pairs.Value)
+				{
+					camera.ToggleLight(newState);
+				}
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You turn the camera lights {(newState ? "on" : "off")}");
+		}
+
 		#endregion
 
 		#region AiCore
@@ -173,6 +206,8 @@ namespace Systems.Ai
 			{
 				TargetRpcTurnOffCameras(connectionToClient);
 			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You have been destroyed");
 
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}

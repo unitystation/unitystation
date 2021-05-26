@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.Ai;
 using Messages.Client;
+using Objects;
 using TMPro;
 using UnityEngine;
 
@@ -35,11 +36,17 @@ public class UI_Ai : MonoBehaviour
 		aiPlayer.CmdTeleportToCore();
 	}
 
+	public void ToggleLights()
+	{
+		aiPlayer.CmdToggleCameraLights(!aiPlayer.CoreCamera.LightOn);
+	}
+
 	#region Laws
 
 	public void OpenLaws()
 	{
 		aiLawsTab.SetActive(true);
+		aiLawsTabDummyLaw.SetActive(false);
 
 		//Clear old laws
 		foreach (Transform child in aiLawsTabContents)
@@ -54,6 +61,7 @@ public class UI_Ai : MonoBehaviour
 		{
 			var newChild = Instantiate(aiLawsTabDummyLaw, aiLawsTabContents);
 			newChild.GetComponent<TMP_Text>().text = law;
+			newChild.SetActive(true);
 		}
 	}
 
@@ -72,11 +80,9 @@ public class UI_Ai : MonoBehaviour
 
 			PostToChatMessage.Send(text.text, ChatChannel.Local | ChatChannel.Common);
 
-			yield return WaitFor.Seconds(0.5f);
+			yield return WaitFor.Seconds(1.5f);
 		}
 	}
 
 	#endregion
-
-
 }
