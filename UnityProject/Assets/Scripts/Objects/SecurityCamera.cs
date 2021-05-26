@@ -73,7 +73,8 @@ namespace Objects
 				{
 					ToggleLight(GlobalLightStatus);
 				}
-				apcPoweredDevice.OnStateChangeEvent.AddListener(PowerStateChanged);
+
+				apcPoweredDevice.OrNull()?.OnStateChangeEvent.AddListener(PowerStateChanged);
 			}
 		}
 
@@ -81,7 +82,7 @@ namespace Objects
 		{
 			cameras[securityCameraChannel].Remove(this);
 
-			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChanged);
+			apcPoweredDevice.OrNull()?.OnStateChangeEvent.RemoveListener(PowerStateChanged);
 		}
 
 		#region Ai Camera Switching

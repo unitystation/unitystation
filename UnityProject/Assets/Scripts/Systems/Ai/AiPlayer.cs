@@ -37,8 +37,13 @@ namespace Systems.Ai
 		private PlayerScript playerScript;
 		public PlayerScript PlayerScript => playerScript;
 
+		private LightingSystem lightingSystem;
+
 		//Clientside only
 		private UI_Ai aiUi;
+
+		[SyncVar(hook = nameof(SyncPower))]
+		private bool hasPower;
 
 		// 	Law priority order is this:
 		//	0: Traitor/Malf/Onehuman-board Law
@@ -72,7 +77,7 @@ namespace Systems.Ai
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			//TODO beam new AI message
+			//TODO beam new AI message, play sound too?
 
 			coreObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
 
@@ -82,8 +87,19 @@ namespace Systems.Ai
 				return;
 			}
 
+			//Force camera to core
 			ServerSetCameraLocation(coreObject);
+
 			coreObject.GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnCoreDestroy);
+
+			//Power set up
+			var apc = coreObject.GetComponent<APCPoweredDevice>();
+			if (apc != null)
+			{
+				apc.OnStateChangeEvent.AddListener(OnCorePowerLost);
+				hasPower = apc.State != PowerState.Off;
+			}
+
 			coreObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
 			coreObject.GetComponent<AiCore>().SetLinkedPlayer(this);
 		}
@@ -93,6 +109,7 @@ namespace Systems.Ai
 			if (coreObject != null)
 			{
 				coreObject.GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnCoreDestroy);
+				coreObject.GetComponent<APCPoweredDevice>().OrNull()?.OnStateChangeEvent.RemoveListener(OnCorePowerLost);
 			}
 		}
 
@@ -100,6 +117,10 @@ namespace Systems.Ai
 
 		#region Sync Stuff
 
+		/// <summary>
+		/// Sync is used to set up client and to reset stuff for rejoining client
+		/// This is only sync'd to the client which owns this object, due to setting on script
+		/// </summary>
 		[Client]
 		private void SyncCore(GameObject oldCore, GameObject newCore)
 		{
@@ -109,8 +130,25 @@ namespace Systems.Ai
 			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
 			aiUi.OrNull()?.SetUp(this);
 			coreCamera = newCore.GetComponent<SecurityCamera>();
+
+			lightingSystem = Camera.main.GetComponent<LightingSystem>();
+
+			//Reset location to core
+			CmdTeleportToCore();
 			ClientSetCameraLocation(newCore.transform);
+
+			//Enable security camera overlay
 			SetCameras(true);
+		}
+
+		[Client]
+		private void SyncPower(bool oldState, bool newState)
+		{
+			hasPower = newState;
+
+			//If we lose power we cant see much
+			lightingSystem.fovDistance = newState ? 13 : 2;
+			interactionDistance = newState ? 29 : 2;
 		}
 
 		#endregion
@@ -138,7 +176,7 @@ namespace Systems.Ai
 				//Remove old power listener
 				if (cameraLocation.TryGetComponent<SecurityCamera>(out var oldCamera))
 				{
-					oldCamera.ApcPoweredDevice.OnStateChangeEvent.RemoveListener(CameraPowerStateChanged);
+					oldCamera.ApcPoweredDevice.OrNull()?.OnStateChangeEvent.RemoveListener(CameraPowerStateChanged);
 				}
 			}
 
@@ -156,7 +194,7 @@ namespace Systems.Ai
 				//Add power listener
 				if (newObject.TryGetComponent<SecurityCamera>(out var securityCamera))
 				{
-					securityCamera.ApcPoweredDevice.OnStateChangeEvent.AddListener(CameraPowerStateChanged);
+					securityCamera.ApcPoweredDevice.OrNull()?.OnStateChangeEvent.AddListener(CameraPowerStateChanged);
 				}
 			}
 
@@ -225,6 +263,12 @@ namespace Systems.Ai
 			ServerSetCameraLocation(coreObject);
 		}
 
+		[TargetRpc]
+		private void TargetRpcTurnOffCameras(NetworkConnection conn)
+		{
+			SetCameras(false);
+		}
+
 		#endregion
 
 		#region AiCore
@@ -243,12 +287,26 @@ namespace Systems.Ai
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
 
-		[TargetRpc]
-		private void TargetRpcTurnOffCameras(NetworkConnection conn)
+		private void OnCorePowerLost(Tuple<PowerState, PowerState> oldAndNewStates)
 		{
-			SetCameras(false);
+			if (oldAndNewStates.Item2 == PowerState.Off)
+			{
+				hasPower = false;
+				interactionDistance = 2;
+				return;
+			}
+
+			hasPower = true;
+			interactionDistance = 29;
+
+			if (oldAndNewStates.Item2 == PowerState.LowVoltage && oldAndNewStates.Item1 == PowerState.Off)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Your core power is failing");
+			}
 		}
 
 		#endregion
+
+		//TODO when moving to card, remove power and integrity listeners from old core.
 	}
 }
