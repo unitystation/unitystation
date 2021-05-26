@@ -87,15 +87,8 @@ public static class EffectsFactory
 			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
 			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
 			{
-
-				var bloodTileInst = Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
-				var bloodTileGO = bloodTileInst.GameObject;
-				var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
-				/*if (reagents != null)
-				{
-					tileReagents.Add(reagents);
-				}*/
-
+				Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
+				//TODO: Need to add blood reagents
 			}
 		}
 	}

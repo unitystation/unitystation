@@ -363,7 +363,7 @@ namespace UI
 				if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, combine) != null) return true;
 			}
 
-			return true;
+			return false;
 		}
 
 		[ContextMenu("Debug Slot")]

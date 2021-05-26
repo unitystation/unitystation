@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Chemistry;
-using Chemistry.Components;
 using Doors;
 using TileManagement;
 using UnityEngine;

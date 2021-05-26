@@ -104,7 +104,7 @@ public class MetaDataLayer : MonoBehaviour
 	/// </summary>
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
-		//if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
+		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
 
 		bool didSplat = false;
 
