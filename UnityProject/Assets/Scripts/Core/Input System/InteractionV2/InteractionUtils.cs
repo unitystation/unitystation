@@ -94,7 +94,7 @@ public static class InteractionUtils
 		wasClientInteractable = false;
 		//interactions targeting an object at hiddenpos are NEVER allowed (except for inventory actions,
 		//since they can target an object in inventory which means its at hiddenpos)
-		if (!(interaction is InventoryApply) && interaction is TargetedInteraction targetedInteraction)
+		if (!(interaction is InventoryApply) && interaction is TargetedInteraction targetedInteraction && !(interaction is ContextMenuApply))
 		{
 			if (targetedInteraction.TargetObject != null &&
 			    targetedInteraction.TargetObject.IsAtHiddenPos())
