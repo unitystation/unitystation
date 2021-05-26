@@ -97,7 +97,11 @@ namespace Systems.Ai
 			var apc = coreObject.GetComponent<APCPoweredDevice>();
 			if (apc != null)
 			{
-				apc.ConnectToClosestAPC();
+				if (apc.ConnectToClosestAPC() == false)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, "Core was unable to connect to APC");
+				}
+
 				apc.OnStateChangeEvent.AddListener(OnCorePowerLost);
 				hasPower = apc.State != PowerState.Off;
 			}
@@ -295,6 +299,7 @@ namespace Systems.Ai
 			{
 				hasPower = false;
 				interactionDistance = 2;
+				Chat.AddExamineMsgFromServer(gameObject, "Core power has failed");
 				return;
 			}
 
