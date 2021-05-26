@@ -468,8 +468,6 @@ namespace Chemistry.Components
 					Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
 				}
 			}
-
-			
 		}
 
 		/// <summary>
