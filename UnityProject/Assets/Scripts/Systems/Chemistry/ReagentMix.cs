@@ -60,6 +60,7 @@ namespace Chemistry
 				{
 					foreach (var reagent in reagents.m_dict)
 					{
+						if (reagent.Key == null) continue;
 						capacity += reagent.Key.heatDensity * reagent.Value;
 					}
 				}
@@ -237,6 +238,16 @@ namespace Chemistry
 			{
 				amount = Math.Min(reagents.m_dict[reagent], amount);
 				reagents.m_dict[reagent] -= amount;
+
+				lock (reagents)
+				{
+					if (reagents.m_dict[reagent] <= 0)
+					{
+						reagents.m_dict.Remove(reagent);
+					}
+				}
+
+
 				return amount;
 			}
 		}

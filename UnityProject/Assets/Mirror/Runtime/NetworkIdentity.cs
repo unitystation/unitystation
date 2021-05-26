@@ -351,11 +351,11 @@ namespace Mirror
                 }
 
                 // old not empty
-                if (!string.IsNullOrEmpty(oldAssetIdSrting))
-                {
-                    Debug.LogError($"Can not Set AssetId on NetworkIdentity '{name}' because it already had an assetId, current assetId '{oldAssetIdSrting}', attempted new assetId '{newAssetIdString}'");
-                    return;
-                }
+                // if (!string.IsNullOrEmpty(oldAssetIdSrting))
+                // {
+                    // Debug.LogError($"Can not Set AssetId on NetworkIdentity '{name}' because it already had an assetId, current assetId '{oldAssetIdSrting}', attempted new assetId '{newAssetIdString}'");
+                    // return;
+                // }
 
                 // old is empty
                 m_AssetId = newAssetIdString;
