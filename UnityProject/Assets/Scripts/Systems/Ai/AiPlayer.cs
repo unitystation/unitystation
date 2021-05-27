@@ -134,6 +134,7 @@ namespace Systems.Ai
 				apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.AddListener(OnPowerNetworkUpdate);
 			}
 
+			playerScript.SetPermanentName(playerScript.characterSettings.AiName);
 			coreObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
 			coreObject.GetComponent<AiCore>().SetLinkedPlayer(this);
 		}
