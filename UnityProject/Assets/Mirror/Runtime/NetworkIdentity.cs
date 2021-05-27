@@ -350,6 +350,15 @@ namespace Mirror
                     return;
                 }
 
+                // old not empty
+                if (!string.IsNullOrEmpty(oldAssetIdSrting))
+                {
+	                return;
+	                //Would be nice to have the reason why it complains if it's set wrong
+	                //Debug.LogError($"Can not Set AssetId on NetworkIdentity '{name}' because it already had an assetId, current assetId '{oldAssetIdSrting}', attempted new assetId '{newAssetIdString}'");
+                }
+
+
                 // old is empty
                 m_AssetId = newAssetIdString;
 
