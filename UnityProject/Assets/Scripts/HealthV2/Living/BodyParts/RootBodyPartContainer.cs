@@ -327,11 +327,6 @@ namespace HealthV2
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
 			SetupSpritesNID(implant);
-			if(ContainsLimbs.Count != 0)
-			{
-				Logger.Log($"[BodyPartContainer/{name} - Limbs detected! No longer bleeding..]");
-				IsBleeding = false;
-			}
 		}
 
 		/// <summary>
