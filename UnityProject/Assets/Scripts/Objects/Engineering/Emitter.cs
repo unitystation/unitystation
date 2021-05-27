@@ -7,7 +7,7 @@ using Systems.Electricity.NodeModules;
 
 namespace Objects.Engineering
 {
-	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
+	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable, ICheckedInteractable<AiActivate>
 	{
 		private Directional directional;
 		private PushPull pushPull;
@@ -313,5 +313,42 @@ namespace Objects.Engineering
 		{
 			return $"Status: {isOn} and {isLocked}{(voltage < minVoltage && !alwaysShoot? $", voltage needs to be {minVoltage} to fire" : "")}";
 		}
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			if (isLocked)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The emitter has been locked");
+				return;
+			}
+
+			if (isOn)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You turn the emitter off");
+
+				TogglePower(false);
+			}
+			else if (isWelded)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You turn the emitter on");
+
+				TogglePower(true);
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The emitter has not been set up");
+			}
+		}
+
+		#endregion
 	}
 }
