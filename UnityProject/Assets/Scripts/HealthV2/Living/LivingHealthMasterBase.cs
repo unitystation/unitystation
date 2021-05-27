@@ -343,11 +343,6 @@ namespace HealthV2
 			CalculateOverallHealth();
 		}
 
-		protected void BleedDueToBodyPartLoss()
-		{
-			
-		}
-
 		/// <summary>
 		/// Calculates and applies radiation damage
 		/// </summary>
