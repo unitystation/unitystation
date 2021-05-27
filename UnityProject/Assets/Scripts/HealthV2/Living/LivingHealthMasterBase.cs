@@ -576,7 +576,7 @@ namespace HealthV2
 				damage /= bodyParts;
 			}
 
-			foreach (var Container in RootBodyPartContainers)
+			foreach (var Container in RootBodyPartContainers.ToList())
 			{
 				if (damageSplit)
 				{
