@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Ai;
 using UnityEngine;
 using Systems.Spawns;
+using Objects;
 
 namespace Systems.Teleport
 {
@@ -92,6 +94,33 @@ namespace Systems.Teleport
 				var placePosition = place.transform.position;// Only way to get position of this object.
 
 				var teleportInfo = new TeleportInfo(nameOfPlace, placePosition.CutToInt(), place.gameObject);
+
+				yield return teleportInfo;
+			}
+		}
+
+		/// <summary>
+		/// Gets teleport destinations via all spawn points.
+		/// </summary>
+		/// <returns>TeleportInfo, with name, position and object</returns>
+		public static IEnumerable<TeleportInfo> GetCameraDestinations()
+		{
+			var securityCameras = UnityEngine.Object.FindObjectsOfType<SecurityCamera>();
+
+			if (securityCameras == null)
+			{
+				yield break;
+			}
+
+			if (PlayerManager.LocalPlayer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
+
+			foreach (var camera in securityCameras)
+			{
+				if(aiPlayer.OpenNetworks.Contains(camera.SecurityCameraChannel) == false) continue;
+
+				var placePosition = camera.transform.position;// Only way to get position of this object.
+
+				var teleportInfo = new TeleportInfo(camera.gameObject.ExpensiveName(), placePosition.CutToInt(), camera.gameObject);
 
 				yield return teleportInfo;
 			}

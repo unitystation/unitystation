@@ -55,6 +55,13 @@ namespace Systems.Ai
 		[SyncVar(hook = nameof(SyncIntegrity))]
 		private float integrity = 100;
 
+		//TODO make into sync list
+		private List<string> openNetworks = new List<string>()
+		{
+			"Station"
+		};
+		public List<string> OpenNetworks => openNetworks;
+
 		// 	Law priority order is this:
 		//	0: Traitor/Malf/Onehuman-board Law
 		//  ##?$-##: HACKED LAW ##!£//#
@@ -270,7 +277,7 @@ namespace Systems.Ai
 		{
 			foreach (var pairs in SecurityCamera.Cameras)
 			{
-				if (SecurityCamera.OpenNetworks.Contains(pairs.Key) == false && newState) continue;
+				if (OpenNetworks.Contains(pairs.Key) == false && newState) continue;
 
 				foreach (var camera in pairs.Value)
 				{
@@ -295,7 +302,7 @@ namespace Systems.Ai
 
 			foreach (var pairs in SecurityCamera.Cameras)
 			{
-				if (SecurityCamera.OpenNetworks.Contains(pairs.Key) == false) continue;
+				if (OpenNetworks.Contains(pairs.Key) == false) continue;
 
 				foreach (var camera in pairs.Value)
 				{
@@ -322,6 +329,22 @@ namespace Systems.Ai
 		private void TargetRpcTurnOffCameras(NetworkConnection conn)
 		{
 			SetCameras(false);
+		}
+
+		[Command]
+		public void CmdTeleportToCamera(GameObject newCamera)
+		{
+			if(newCamera == null || newCamera.TryGetComponent<SecurityCamera>(out var securityCamera) == false) return;
+
+			if(OpenNetworks.Contains(securityCamera.SecurityCameraChannel) == false) return;
+
+			if (securityCamera.CameraActive == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"{securityCamera.gameObject.ExpensiveName()} is inactive, cannot move to it");
+				return;
+			}
+
+			ServerSetCameraLocation(newCamera);
 		}
 
 		#endregion

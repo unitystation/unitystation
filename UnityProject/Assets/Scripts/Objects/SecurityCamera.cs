@@ -14,14 +14,9 @@ namespace Objects
 		private static Dictionary<string, List<SecurityCamera>> cameras = new Dictionary<string, List<SecurityCamera>>();
 		public static Dictionary<string, List<SecurityCamera>> Cameras => cameras;
 
-		private static List<string> openNetworks = new List<string>()
-		{
-			"Station"
-		};
-		public static List<string> OpenNetworks => openNetworks;
-
 		[SerializeField]
 		private string securityCameraChannel = "Station";
+		public string SecurityCameraChannel => securityCameraChannel;
 
 		[SerializeField]
 		private GameObject aiSprite = null;
@@ -105,9 +100,9 @@ namespace Objects
 
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
-			if(openNetworks.Contains(securityCameraChannel) == false) return;
-
 			if (interaction.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return;
+
+			if(aiPlayer.OpenNetworks.Contains(securityCameraChannel) == false) return;
 
 			if (cameraActive == false)
 			{

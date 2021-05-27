@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Systems.Ai;
+using Systems.Teleport;
 using Messages.Client;
 using Objects;
 using TMPro;
+using UI.Core.Windows;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +42,20 @@ public class UI_Ai : MonoBehaviour
 	[SerializeField]
 	private TMP_InputField callReasonInputField = null;
 
+	//Camera Teleport Screen
+	[SerializeField]
+	private TeleportWindow teleportWindow = null;
+
+	private void OnEnable()
+	{
+		teleportWindow.onTeleportRequested += OnTeleportButtonPress;
+	}
+
+	private void OnDisable()
+	{
+		teleportWindow.onTeleportRequested += OnTeleportButtonPress;
+	}
+
 	public void SetUp(AiPlayer player)
 	{
 		aiPlayer = player;
@@ -62,7 +79,17 @@ public class UI_Ai : MonoBehaviour
 		aiPlayer.CmdToggleFloorBolts();
 	}
 
+	public void OpenCameraTeleportScreen()
+	{
+		teleportWindow.SetWindowTitle("Jump to Place");
+		teleportWindow.gameObject.SetActive(true);
+		teleportWindow.GenerateButtons(TeleportUtils.GetCameraDestinations());
+	}
 
+	private void OnTeleportButtonPress(TeleportInfo info)
+	{
+		aiPlayer.CmdTeleportToCamera(info.gameObject);
+	}
 
 	#region Laws
 
