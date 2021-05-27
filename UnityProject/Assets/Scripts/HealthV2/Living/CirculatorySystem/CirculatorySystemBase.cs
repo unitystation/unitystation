@@ -51,9 +51,7 @@ namespace HealthV2
 
 		public void Bleed(float amount)
 		{
-			var bloodToRemove = new ReagentMix(BloodType, amount);
-			bloodToRemove.Remove(CirculatedReagent, bloodType.GetGasCapacity(bloodToRemove));
-			ReadyBloodPool.Subtract(bloodToRemove);
+			ReadyBloodPool.Take(amount);
 			if(amount > 12)
 			{
 				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
