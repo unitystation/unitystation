@@ -15,6 +15,11 @@ namespace Objects
 		public static Dictionary<string, List<SecurityCamera>> Cameras => cameras;
 
 		[SerializeField]
+		[Tooltip("The name of the camera, has // - SecCam// added on to the back automatically")]
+		private string cameraName = "";
+		public string CameraName => cameraName;
+
+		[SerializeField]
 		private string securityCameraChannel = "Station";
 		public string SecurityCameraChannel => securityCameraChannel;
 
@@ -45,12 +50,16 @@ namespace Objects
 		private APCPoweredDevice apcPoweredDevice;
 		public APCPoweredDevice ApcPoweredDevice => apcPoweredDevice;
 
+		private RegisterObject registerObject;
+		public RegisterObject RegisterObject => registerObject;
+
 		[NonSerialized]
 		public UnityEvent<bool> OnStateChange = new UnityEvent<bool>();
 
 		private void Awake()
 		{
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
+			registerObject = GetComponent<RegisterObject>();
 		}
 
 		private void OnEnable()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Systems.Electricity;
+using Systems.MobAIs;
 using Managers;
 using Messages.Server;
 using Mirror;
@@ -42,6 +43,8 @@ namespace Systems.Ai
 		private PlayerScript playerScript;
 		public PlayerScript PlayerScript => playerScript;
 
+		private HasCooldowns cooldowns;
+
 		private LightingSystem lightingSystem;
 
 		//Clientside only
@@ -58,7 +61,7 @@ namespace Systems.Ai
 		[SyncVar(hook = nameof(SyncIntegrity))]
 		private float integrity = 100;
 
-		//TODO make into sync list
+		//TODO make into sync list, will need to be sync as it is used in some validations client and serverside
 		private List<string> openNetworks = new List<string>()
 		{
 			"Station"
@@ -91,6 +94,7 @@ namespace Systems.Ai
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
+			cooldowns = GetComponent<HasCooldowns>();
 		}
 
 		private void Start()
@@ -315,12 +319,18 @@ namespace Systems.Ai
 		[Command]
 		public void CmdTeleportToCore()
 		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
 			ServerSetCameraLocation(coreObject);
 		}
 
 		[Command]
 		public void CmdToggleCameraLights(bool newState)
 		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
 			SecurityCamera.GlobalLightStatus = newState;
 
 			foreach (var pairs in SecurityCamera.Cameras)
@@ -358,11 +368,27 @@ namespace Systems.Ai
 		}
 
 		[Command]
+		//Used by the Ai teleport tab to move camera
 		public void CmdTeleportToCamera(GameObject newCamera)
 		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
 			if(newCamera == null || newCamera.TryGetComponent<SecurityCamera>(out var securityCamera) == false) return;
 
 			if(OpenNetworks.Contains(securityCamera.SecurityCameraChannel) == false) return;
+
+			if (hasPower == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot move to {securityCamera.gameObject.ExpensiveName()}");
+
+				//Sanity check to make sure if we have no power we are at core
+				if (cameraLocation != coreObject.transform)
+				{
+					ServerSetCameraLocation(coreObject);
+				}
+				return;
+			}
 
 			if (securityCamera.CameraActive == false)
 			{
@@ -371,6 +397,103 @@ namespace Systems.Ai
 			}
 
 			ServerSetCameraLocation(newCamera);
+		}
+
+		[Command]
+		//Sends camera to player or mob, validated client and serverside
+		//TODO do mobs too?
+		public void CmdTrackObject(GameObject objectToTrack)
+		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
+			if(objectToTrack == null) return;
+
+			if (hasPower == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot track {objectToTrack.ExpensiveName()}");
+
+				//Sanity check to make sure if we have no power we are at core
+				if (cameraLocation != coreObject.transform)
+				{
+					ServerSetCameraLocation(coreObject);
+				}
+				return;
+			}
+
+			var cameraThatCanSee = CanSeeObject(objectToTrack);
+
+			if (cameraThatCanSee == null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Failed to track {objectToTrack.ExpensiveName()}");
+				return;
+			}
+
+			ServerSetCameraLocation(cameraThatCanSee.gameObject);
+		}
+
+		//Client and serverside can use this to validate
+		public SecurityCamera CanSeeObject(GameObject objectToCheck)
+		{
+			Vector3Int objectPos;
+
+			//Check to see if player
+			if (objectToCheck.TryGetComponent<PlayerScript>(out var checkPlayerScript))
+			{
+				//Dont check ghosts
+				if (checkPlayerScript.PlayerState == PlayerScript.PlayerStates.Ghost) return null;;
+
+				//Dont check yourself
+				if(checkPlayerScript.gameObject == gameObject) return null;;
+
+				//If we are player get position
+				objectPos = CustomNetworkManager.IsServer
+					? checkPlayerScript.PlayerSync.ServerPosition
+					: checkPlayerScript.PlayerSync.ClientPosition;
+			}
+			else
+			{
+				//If not player check to see if mob
+				if (objectToCheck.TryGetComponent<MobAI>(out var mobAI))
+				{
+					//Get mob position
+					objectPos = CustomNetworkManager.IsServer
+						? mobAI.Cnt.ServerPosition
+						: mobAI.Cnt.ClientPosition;
+				}
+				else
+				{
+					//Not player or mob
+					return null;
+				}
+			}
+
+			//FOV distance is 13, 19 is wall mount layer for sec cameras
+			var overlap = Physics2D.OverlapCircleAll(objectPos.To2Int(),
+				13); //, LayerMask.NameToLayer("WallMounts")
+
+			foreach (var wallMount in overlap)
+			{
+				if(wallMount.gameObject.TryGetComponent<SecurityCamera>(out var securityCamera) == false) continue;
+
+				if(securityCamera.CameraActive == false) continue;
+
+				if(OpenNetworks.Contains(securityCamera.SecurityCameraChannel) == false) continue;
+
+				//Do linecast and raycast to see if we can see player
+				var check = MatrixManager.Linecast(securityCamera.RegisterObject.WorldPosition,
+					LayerTypeSelection.Walls, LayerMask.NameToLayer("Door Closed"),
+					objectPos);
+
+				//If hit wall or closed door, and above tolerance skip
+				if(check.ItHit && Vector3.Distance(objectPos, check.HitWorld) > 0.5f) continue;
+
+				//Else we must have reached player, therefore we can see and track them
+				//Only need to find first camera that finds them
+				return securityCamera;
+			}
+
+			return null;
 		}
 
 		#endregion
@@ -450,6 +573,9 @@ namespace Systems.Ai
 		[Command]
 		public void CmdToggleFloorBolts()
 		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
 			if(coreObject == null || coreObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour) == false) return;
 
 			var newState = objectBehaviour.IsNotPushable;
@@ -466,6 +592,9 @@ namespace Systems.Ai
 		[Command]
 		public void CmdCallShuttle(string reason)
 		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
 			if (string.IsNullOrEmpty(reason))
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "You must specify a reason to call the shuttle");
@@ -511,6 +640,16 @@ namespace Systems.Ai
 		}
 
 		#endregion
+
+		public bool OnCoolDown(NetworkSide side)
+		{
+			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Melee, side));
+		}
+
+		public void StartCoolDown(NetworkSide side)
+		{
+			cooldowns.TryStart(CommonCooldowns.Instance.Interaction, side);
+		}
 
 		//TODO when moving to card, remove power and integrity listeners from old core.
 		//TODO keep track of our integrity

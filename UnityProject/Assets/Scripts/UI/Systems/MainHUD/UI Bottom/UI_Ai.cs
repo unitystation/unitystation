@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Ai;
+using Systems.MobAIs;
 using Systems.Teleport;
 using Messages.Client;
 using Objects;
@@ -46,6 +47,33 @@ public class UI_Ai : MonoBehaviour
 	[SerializeField]
 	private TeleportWindow teleportWindow = null;
 
+	#region focus Check
+
+	void Update()
+	{
+		if (callReasonInputField.isFocused)
+		{
+			InputFocus();
+		}
+		else if (!callReasonInputField.isFocused)
+		{
+			InputUnfocus();
+		}
+	}
+
+	private void InputFocus()
+	{
+		//disable keyboard commands while input is focused
+		UIManager.IsInputFocus = true;
+	}
+	private void InputUnfocus()
+	{
+		//disable keyboard commands while input is focused
+		UIManager.IsInputFocus = false;
+	}
+
+	#endregion
+
 	private void OnEnable()
 	{
 		teleportWindow.onTeleportRequested += OnTeleportButtonPress;
@@ -66,27 +94,53 @@ public class UI_Ai : MonoBehaviour
 	{
 		if (aiPlayer == null) return;
 
+		if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+		aiPlayer.StartCoolDown(NetworkSide.Client);
+
 		aiPlayer.CmdTeleportToCore();
 	}
 
 	public void ToggleLights()
 	{
+		if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+		aiPlayer.StartCoolDown(NetworkSide.Client);
+
 		aiPlayer.CmdToggleCameraLights(!aiPlayer.CoreCamera.LightOn);
 	}
 
 	public void ToggleFloorBolts()
 	{
+		if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+		aiPlayer.StartCoolDown(NetworkSide.Client);
+
 		aiPlayer.CmdToggleFloorBolts();
 	}
 
 	public void OpenCameraTeleportScreen()
 	{
+		teleportWindow.SetWindowTitle("Move Cameras");
 		teleportWindow.gameObject.SetActive(true);
 		teleportWindow.GenerateButtons(TeleportUtils.GetCameraDestinations());
 	}
 
+	public void OpenTrackPlayerScreen()
+	{
+		teleportWindow.SetWindowTitle("Track Players");
+		teleportWindow.gameObject.SetActive(true);
+		teleportWindow.GenerateButtons(TeleportUtils.GetCameraTrackPlayerDestinations());
+	}
+
 	private void OnTeleportButtonPress(TeleportInfo info)
 	{
+		if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+		aiPlayer.StartCoolDown(NetworkSide.Client);
+
+		if (info.gameObject.GetComponent<PlayerScript>() != null || info.gameObject.GetComponent<MobAI>() != null)
+		{
+			aiPlayer.CmdTrackObject(info.gameObject);
+			return;
+		}
+
 		aiPlayer.CmdTeleportToCamera(info.gameObject);
 	}
 
@@ -116,6 +170,9 @@ public class UI_Ai : MonoBehaviour
 
 	public void StateLaws()
 	{
+		if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+		aiPlayer.StartCoolDown(NetworkSide.Client);
+
 		StartCoroutine(StateLawsRoutine());
 	}
 
@@ -178,6 +235,9 @@ public class UI_Ai : MonoBehaviour
 
 	public void CallShuttleButton()
 	{
+		if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+		aiPlayer.StartCoolDown(NetworkSide.Client);
+
 		aiPlayer.CmdCallShuttle(callReasonInputField.text);
 		callShuttleTab.SetActive(false);
 	}
