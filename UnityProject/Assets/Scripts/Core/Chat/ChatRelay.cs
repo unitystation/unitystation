@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
+using Systems.Ai;
 using Messages.Server;
 
 /// <summary>
@@ -82,7 +83,10 @@ public class ChatRelay : NetworkBehaviour
 					continue;
 				}
 
-				var playerPosition = players[i].GameObject.AssumedWorldPosServer();
+				//Send chat to player pos, unless AI then send to core pos
+				var playerPosition = players[i].Script.PlayerState != PlayerScript.PlayerStates.Ai ?
+					players[i].GameObject.AssumedWorldPosServer() : players[i].GameObject.GetComponent<AiPlayer>().CoreObject.AssumedWorldPosServer();
+
 				if (Vector2.Distance(chatEvent.position, playerPosition) > 14f)
 				{
 					//Player in the list is too far away for local chat, remove them:
