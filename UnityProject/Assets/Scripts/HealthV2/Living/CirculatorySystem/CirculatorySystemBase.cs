@@ -48,5 +48,20 @@ namespace HealthV2
 			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd));
 			bloodPool.Add(bloodToAdd);
 		}
+
+		public void Bleed(float amount)
+		{
+			var bloodToRemove = new ReagentMix(BloodType, amount);
+			bloodToRemove.Remove(CirculatedReagent, bloodType.GetGasCapacity(bloodToRemove));
+			ReadyBloodPool.Subtract(bloodToRemove);
+			if(amount > 12)
+			{
+				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
+			}
+			else
+			{
+				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
+			}
+		}
 	}
 }

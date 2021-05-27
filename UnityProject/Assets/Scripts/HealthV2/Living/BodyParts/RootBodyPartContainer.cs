@@ -67,6 +67,14 @@ namespace HealthV2
 		[Tooltip("Individual limbs contained within this")]
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
 
+		[HideInInspector] public bool IsBleeding = false;
+		
+		/// <summary>
+		/// How much blood does the body lose when there is lost limbs in this container?
+		/// </summary>
+		[Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
+		public float LimbLossBleedingValue = 35f;
+
 		public RootBodyPartController RootBodyPartController;
 
 		/// <summary>
@@ -304,6 +312,11 @@ namespace HealthV2
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			RemoveSpritesNID(implant);
+			if(ContainsLimbs.Count == 0)
+			{
+				Logger.Log($"[BodyPartContainer/{name} - No Limbs detected! Bleeding..]");
+				IsBleeding = true;
+			}
 		}
 
 		/// <summary>
@@ -314,6 +327,11 @@ namespace HealthV2
 		public virtual void SubBodyPartAdded(BodyPart implant)
 		{
 			SetupSpritesNID(implant);
+			if(ContainsLimbs.Count != 0)
+			{
+				Logger.Log($"[BodyPartContainer/{name} - Limbs detected! No longer bleeding..]");
+				IsBleeding = false;
+			}
 		}
 
 		/// <summary>

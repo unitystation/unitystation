@@ -96,12 +96,27 @@ public class Heart : BodyPartModification
 	public void Heartbeat(float efficiency)
 	{
 		CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
+		LivingHealthMasterBase HealthBase = RelatedPart.HealthMaster;
 		if (circulatorySystem)
 		{
 			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
 			//TODOH Balance all this stuff, Currently takes an eternity to suffocate
 			// Logger.Log("heart Available  " + ReadyBloodPool);
 			// Logger.Log("heart pumpedReagent " + pumpedReagent);
+
+			//Find out if we have lost limbs and how much blood we'll lose.
+			float TotalBloodLossFromLostLimbs = 0f;
+			foreach(RootBodyPartContainer container in HealthBase.RootBodyPartContainers)
+			{
+				if(container.IsBleeding)
+				{
+					TotalBloodLossFromLostLimbs += container.LimbLossBleedingValue;
+				}
+			}
+			if(TotalBloodLossFromLostLimbs != 0)
+			{
+				circulatorySystem.Bleed(TotalBloodLossFromLostLimbs);
+			}
 
 			float totalWantedBlood = 0;
 			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
