@@ -1,155 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9167103284037124715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933576176691117832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialContents: {fileID: 0}
-  lockLight: {fileID: 0}
-  IsLockable: 0
-  hideLockWhenOpened: 1
-  playerLimit: 3
-  breakoutTime: 120
-  matsOnDestroy: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
-    type: 3}
-  matsDroppedOnDestroy: 8
-  soundOnOpen:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Closet/closet_open.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundOnClose:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Closet/closet_close.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundOnEmag:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/SnapCracklePop2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundOnEscape:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Rustle01.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  doorSpriteHandler: {fileID: 5666735912054379986}
-  lockOverlay: {fileID: 0}
-  isEmagged: 0
-  weldOverlay: {fileID: 877469643864734438}
-  weldSprite: {fileID: 21300000, guid: d44b675064889f34bb7dbeff3f5e9655, type: 3}
-  isUnLockable: 1
-  isWeldable: 1
---- !u!114 &-6909192434074767838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933576176691117832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 1
-  AtmosPassable: 1
-  Passable: 0
-  ReachableThrough: 1
-  passableExclusionsToThis: []
-  closetType: 0
---- !u!114 &-3721001473523075953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933576176691117832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 383c1cad778d4da5bae4c4424e7b4e56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionTextOriginator: You start wrapping {0} with {1}.
-  actionTextOthers: '{0} starts wrapping {1} with {2}.'
-  normalPackagePrefab: {fileID: 1641656296300560335, guid: 32f0cc57303af3246a9a9a38acc8f3b5,
-    type: 3}
-  festivePackagePrefab: {fileID: 989532514442120172, guid: bba003073444ea344a3c1f58fba1edc5,
-    type: 3}
-  wrapTime: 5
-  neededPaperAmount: 8
---- !u!114 &6872015153723498109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933576176691117832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isSecuredStateExaminable: 1
-  isExposedFloorPlatingRequired: 0
-  secondsToSecure: 3
-  secondsToUnsecure: 3
-  lockSpriteDirection: 0
-  blockAnchorChange: 0
-  blockMessage: 
---- !u!114 &8586370090287786103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933576176691117832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 0
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &995757621677257747
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +298,159 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &-9167103284037124715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933576176691117832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialContents: {fileID: 0}
+  alwaysSpawnContents: 0
+  lockLight: {fileID: 0}
+  IsLockable: 0
+  hideLockWhenOpened: 1
+  playerLimit: 3
+  breakoutTime: 120
+  matsOnDestroy: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+    type: 3}
+  matsDroppedOnDestroy: 8
+  soundOnOpen:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Closet/closet_open.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnClose:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Closet/closet_close.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEmag:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SnapCracklePop2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEscape:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Rustle01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  doorSpriteHandler: {fileID: 5666735912054379986}
+  lockOverlay: {fileID: 0}
+  isEmagged: 0
+  weldOverlay: {fileID: 877469643864734438}
+  weldSprite: {fileID: 21300000, guid: d44b675064889f34bb7dbeff3f5e9655, type: 3}
+  isUnLockable: 1
+  isWeldable: 1
+--- !u!114 &-6909192434074767838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933576176691117832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixDebugLogging: 0
+  objectType: 1
+  CurrentsortingGroup: {fileID: 0}
+  AtmosPassable: 1
+  ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
+  passableExclusionsToThis: []
+  closetType: 0
+--- !u!114 &-3721001473523075953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933576176691117832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383c1cad778d4da5bae4c4424e7b4e56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionTextOriginator: You start wrapping {0} with {1}.
+  actionTextOthers: '{0} starts wrapping {1} with {2}.'
+  normalPackagePrefab: {fileID: 1641656296300560335, guid: 32f0cc57303af3246a9a9a38acc8f3b5,
+    type: 3}
+  festivePackagePrefab: {fileID: 989532514442120172, guid: bba003073444ea344a3c1f58fba1edc5,
+    type: 3}
+  wrapTime: 5
+  neededPaperAmount: 8
+--- !u!114 &6872015153723498109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933576176691117832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 3
+  secondsToUnsecure: 3
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
+--- !u!114 &8586370090287786103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933576176691117832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &8704332902418867922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -651,6 +654,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
+    - {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
 --- !u!1 &933576176691117832 stripped
 GameObject:

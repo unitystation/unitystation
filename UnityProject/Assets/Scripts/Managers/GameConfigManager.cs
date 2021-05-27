@@ -66,5 +66,6 @@ namespace GameConfig
 		public bool GibbingAllowed;
 		public bool ShuttleGibbingAllowed;
 		public bool AdminOnlyHtml;
+		public int CharacterNameLimit;
 	}
 }
