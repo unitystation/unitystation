@@ -76,18 +76,14 @@ namespace Chemistry.Components
 			}
 			else if (ExamineAmount == ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
-				var output = $"";
+				var output = $"It's a pool of {colorDesc} {stateDesc}";
 
-				if(stateDesc == "powder")
+				if (stateDesc == "powder")
 				{
 					output = $"It's a pile of {colorDesc} {stateDesc}";
-				} else
-				{
-					output = $"It's a pool of {colorDesc} {stateDesc}";
 				}
 				return output;
 			}
-
 			return null;
 		}
 	}
