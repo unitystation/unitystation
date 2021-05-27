@@ -72,8 +72,8 @@ namespace HealthV2
 		/// <summary>
 		/// How much blood does the body lose when there is lost limbs in this container?
 		/// </summary>
-		[Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
-		public float LimbLossBleedingValue = 35f;
+		[SerializeField, Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
+		private float LimbLossBleedingValue = 35f;
 
 		public RootBodyPartController RootBodyPartController;
 
