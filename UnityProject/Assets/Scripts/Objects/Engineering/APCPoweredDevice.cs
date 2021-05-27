@@ -317,6 +317,13 @@ namespace Systems.Electricity
 			}
 
 			if (bestTarget == null || bestTarget == RelatedAPC) return false;
+
+			//If connected to apc before remove us
+			if(RelatedAPC != null)
+			{
+				RelatedAPC.RemoveDevice(this);
+			}
+
 			RelatedAPC = bestTarget;
 
 			bestTarget.AddDevice(this);
