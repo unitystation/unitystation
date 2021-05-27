@@ -367,6 +367,7 @@ namespace Systems.Ai
 		}
 
 		[Server]
+		//Called when the connected apc does a power network update
 		private void OnPowerNetworkUpdate(APC apc)
 		{
 			power = Mathf.Clamp(apc.CalculateChargePercentage() * 100, 0, 100);
@@ -402,10 +403,10 @@ namespace Systems.Ai
 		{
 			if(coreObject == null || coreObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour) == false) return;
 
-			var newState = !objectBehaviour.IsNotPushable;
+			var newState = objectBehaviour.IsNotPushable;
 
-			Chat.AddActionMsgToChat(coreObject, $"You {(newState ? "engage" : "disengage")} your core floor bolts",
-				$"{coreObject.ExpensiveName()} {(newState ? "engages" : "disengages")} its floor bolts");
+			Chat.AddActionMsgToChat(gameObject, $"You {(newState ? "disengage" : "engage")} your core floor bolts",
+				$"{coreObject.ExpensiveName()} {(newState ? "disengages" : "engages")} its floor bolts");
 			objectBehaviour.ServerSetPushable(newState);
 		}
 
