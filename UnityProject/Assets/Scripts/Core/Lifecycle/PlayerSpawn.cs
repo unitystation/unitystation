@@ -59,24 +59,25 @@ public static class PlayerSpawn
 
 		if(ServerValidations.HasIllegalSkinTone(request.CharacterSettings))
 		{
-			message += "Invalid player skin tone, please change and resave character.";
+			message += " Invalid player skin tone.";
 			isOk = false;
 		}
 
 		if(ServerValidations.HasIllegalCharacterName(request.CharacterSettings.Name))
 		{
-			message += "Invalid player character name, please change and resave character.";
+			message += " Invalid player character name.";
 			isOk = false;
 		}
 
 		if(ServerValidations.HasIllegalCharacterAge(request.CharacterSettings.Age))
 		{
-			message += "Invalid character age, please change and resave character.";
+			message += " Invalid character age.";
 			isOk = false;
 		}
 
 		if (isOk == false)
 		{
+			message += " Please change and resave character.";
 			ValidateFail(request.JoinedViewer, request.UserID, message);
 		}
 
