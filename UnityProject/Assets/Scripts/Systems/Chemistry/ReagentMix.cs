@@ -105,10 +105,12 @@ namespace Chemistry
 		{
 			get
 			{
-				var reagent = reagents.m_dict.OrderByDescending(p => p.Value)
-					.FirstOrDefault();
-
-				return reagent.Value > 0 ? reagent.Key : null;
+				lock (reagents)
+				{
+					var reagent = reagents.m_dict.OrderByDescending(p => p.Value)
+						.FirstOrDefault();
+					return reagent.Value > 0 ? reagent.Key : null;
+				}
 			}
 		}
 
@@ -121,13 +123,15 @@ namespace Chemistry
 			{
 				var avgColor = new Color();
 				var totalAmount = Total;
-
-				foreach (var reagent in reagents.m_dict)
+				lock (reagents)
 				{
-					var percent = reagent.Value / totalAmount;
-					var colorStep = percent * reagent.Key.color;
+					foreach (var reagent in reagents.m_dict)
+					{
+						var percent = reagent.Value / totalAmount;
+						var colorStep = percent * reagent.Key.color;
 
-					avgColor += colorStep;
+						avgColor += colorStep;
+					}
 				}
 
 				return avgColor;
@@ -192,10 +196,12 @@ namespace Chemistry
 				Temperature = (Temperature * Total + b.Temperature * b.Total) / (Total + b.Total); //TODO Change to use different formula Involving Heat capacity of each Reagent
 			}
 
-
-			foreach (var reagent in b.reagents.m_dict)
+			lock (reagents)
 			{
-				Add(reagent.Key, reagent.Value);
+				foreach (var reagent in b.reagents.m_dict)
+				{
+					Add(reagent.Key, reagent.Value);
+				}
 			}
 		}
 
@@ -254,9 +260,12 @@ namespace Chemistry
 
 		public void Subtract(ReagentMix b)
 		{
-			foreach (var reagent in b.reagents.m_dict)
+			lock (reagents)
 			{
-				Subtract(reagent.Key, reagent.Value);
+				foreach (var reagent in b.reagents.m_dict)
+				{
+					Subtract(reagent.Key, reagent.Value);
+				}
 			}
 		}
 
@@ -312,9 +321,12 @@ namespace Chemistry
 				return;
 			}
 
-			foreach (var key in reagents.m_dict.Keys.ToArray())
+			lock (reagents)
 			{
-				reagents.m_dict[key] *= multiplier;
+				foreach (var key in reagents.m_dict.Keys)
+				{
+					reagents.m_dict[key] *= multiplier;
+				}
 			}
 		}
 
@@ -335,9 +347,12 @@ namespace Chemistry
 				return;
 			}
 
-			foreach (var key in reagents.m_dict.Keys.ToArray())
+			lock (reagents)
 			{
-				reagents.m_dict[key] /= Divider;
+				foreach (var key in reagents.m_dict.Keys)
+				{
+					reagents.m_dict[key] /= Divider;
+				}
 			}
 		}
 
@@ -362,25 +377,33 @@ namespace Chemistry
 			if (amount < total)
 			{
 				var multiplier = amount / total;
-				reagentKeys.Clear();
-				foreach (var key in reagents.m_dict.Keys)
+				lock (reagents)
 				{
-					reagentKeys.Add(key);
-				}
-				foreach (var reagent in reagentKeys)
-				{
-					var reagentAmount = reagents.m_dict[reagent] * multiplier;
-					reagents.m_dict[reagent] -= reagentAmount;
-					target.Add(reagent, reagentAmount);
+					reagentKeys.Clear();
+					foreach (var key in reagents.m_dict.Keys)
+					{
+						reagentKeys.Add(key);
+					}
+
+					foreach (var reagent in reagentKeys)
+					{
+						var reagentAmount = reagents.m_dict[reagent] * multiplier;
+						reagents.m_dict[reagent] -= reagentAmount;
+						target.Add(reagent, reagentAmount);
+					}
 				}
 			}
 			else
 			{
-				foreach (var reagent in reagents.m_dict)
+				lock (reagents)
 				{
-					target.Add(reagent.Key, reagent.Value);
+					foreach (var reagent in reagents.m_dict)
+					{
+						target.Add(reagent.Key, reagent.Value);
+					}
+
+					reagents.m_dict.Clear();
 				}
-				reagents.m_dict.Clear();
 			}
 		}
 
@@ -430,7 +453,10 @@ namespace Chemistry
 
 		public void Clear()
 		{
-			reagents.m_dict.Clear();
+			lock (reagents)
+			{
+				reagents.m_dict.Clear();
+			}
 		}
 
 		// Inefficient for now, can replace with a caching solution later.
@@ -440,10 +466,14 @@ namespace Chemistry
 			get
 			{
 				float total = 0;
-				foreach (var reagent in reagents.m_dict)
+				lock (reagents)
 				{
-					total += reagent.Value;
+					foreach (var reagent in reagents.m_dict)
+					{
+						total += reagent.Value;
+					}
 				}
+
 				total = Mathf.Clamp(total, 0, float.MaxValue);
 				return total;
 			}
@@ -466,11 +496,14 @@ namespace Chemistry
 				return false;
 			}
 
-			foreach (var reagent in reagents.m_dict)
+			lock (reagents)
 			{
-				if (b[reagent.Key] != this[reagent.Key])
+				foreach (var reagent in reagents.m_dict)
 				{
-					return false;
+					if (b[reagent.Key] != this[reagent.Key])
+					{
+						return false;
+					}
 				}
 			}
 
