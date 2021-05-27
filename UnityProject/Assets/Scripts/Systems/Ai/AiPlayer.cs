@@ -12,6 +12,10 @@ using UnityEngine;
 
 namespace Systems.Ai
 {
+	/// <summary>
+	/// Main class controlling player job AI logic
+	/// Sync vars in this class only get sync'd to the object owner
+	/// </summary>
 	public class AiPlayer : NetworkBehaviour
 	{
 		[SerializeField]
@@ -644,7 +648,7 @@ namespace Systems.Ai
 
 		public bool OnCoolDown(NetworkSide side)
 		{
-			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Melee, side));
+			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Interaction, side));
 		}
 
 		public void StartCoolDown(NetworkSide side)
