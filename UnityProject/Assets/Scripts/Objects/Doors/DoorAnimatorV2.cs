@@ -165,6 +165,7 @@ namespace Doors
 			SoundManager.PlayNetworkedAtPos(deniedSFX, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
+			if (previousLightSprite == -1) previousLightSprite = 0;
 			overlayLightsHandler.ChangeSprite(previousLightSprite);
 
 			AnimationFinished?.Invoke();

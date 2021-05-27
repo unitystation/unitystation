@@ -166,7 +166,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private void InternalChangeSprite(int SubCataloguePage, bool Network = true, bool AnimateOnce = false)
 	{
-		if (cataloguePage > -1 && SubCataloguePage == cataloguePage) return;
+
+		if ((cataloguePage > -1 && SubCataloguePage == cataloguePage) || SubCataloguePage < 0) return;
 
 		if (SubCataloguePage >= SubCatalogue.Count)
 		{
