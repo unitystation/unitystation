@@ -304,8 +304,7 @@ namespace HealthV2
 			}
 			if(IsBleeding)
 			{
-				float TotalBloodLossFromLostLimbs = LimbLossBleedingValue;
-				healthMaster.CirculatorySystem.Bleed(TotalBloodLossFromLostLimbs);
+				healthMaster.CirculatorySystem.Bleed(LimbLossBleedingValue);
 			}
 		}
 
