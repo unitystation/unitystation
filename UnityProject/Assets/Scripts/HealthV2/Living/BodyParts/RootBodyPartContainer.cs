@@ -316,11 +316,7 @@ namespace HealthV2
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			RemoveSpritesNID(implant);
-			if(ContainsLimbs.Count == 0)
-			{
-				Logger.Log($"[BodyPartContainer/{name} - No Limbs detected! Bleeding..]");
-				IsBleeding = true;
-			}
+			IsBleeding = true;
 		}
 
 		/// <summary>
