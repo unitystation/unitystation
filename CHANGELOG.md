@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/5/27: Adds cameras to square by [ThatDan123](https://github.com/ThatDan123) in PR #[6624](https://github.com/unitystation/unitystation/pull/6624)
 * 2021/5/26: [Fix] - The server will now check for illegal character sheets and will kick players who try modifying their sheets to spawn in with settings that are not allowed by the game. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6617](https://github.com/unitystation/unitystation/pull/6617)
 * 2021/5/26: highlighting should be consistent now by [Bod9001](https://github.com/Bod9001) in PR #[6614](https://github.com/unitystation/unitystation/pull/6614)
 * 2021/5/25: [Fix] - Players can no longer walk around headless or without a brain or torso and stay alive. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6610](https://github.com/unitystation/unitystation/pull/6610)

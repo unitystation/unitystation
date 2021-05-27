@@ -22,22 +22,18 @@ public static class PlayerSpawn
 	/// is not in control of any mobs. Spawns the joined viewer as the indicated occupation and transfers control to it.
 	/// Note that this doesn't take into account game mode or antags, it just spawns whatever is requested.
 	/// </summary>
+	/// <param name="request">holds the request data</param>
 	/// <param name="joinedViewer">viewer who should control the player</param>
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
 	/// <returns>the game object of the spawned player</returns>
-	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
+	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest request, JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
 	{
-		if(ServerValidations.HasIllegalSkinTone(characterSettings) || ServerValidations.HasIllegalCharacterName(characterSettings.Name)
-		|| ServerValidations.HasIllegalCharacterAge(characterSettings.Age))
+		if(ValidateCharacter(request) == false)
 		{
-			Messages.Client.Admin.RequestKickMessage.Send("", "", joinedViewer.name, "corrupt or illegal character sheet.", false, 1, false);
-			if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
-			{
-				joinedViewer.Spectate();
-			}
 			return null;
 		}
+
 		NetworkConnection conn = joinedViewer.connectionToClient;
 
 		// TODO: add a nice cutscene/animation for the respawn transition
@@ -56,6 +52,47 @@ public static class PlayerSpawn
 		return newPlayer;
 	}
 
+	private static bool ValidateCharacter(PlayerSpawnRequest request)
+	{
+		var isOk = true;
+		var message = "";
+
+		if(ServerValidations.HasIllegalSkinTone(request.CharacterSettings))
+		{
+			message += " Invalid player skin tone.";
+			isOk = false;
+		}
+
+		if(ServerValidations.HasIllegalCharacterName(request.CharacterSettings.Name))
+		{
+			message += " Invalid player character name.";
+			isOk = false;
+		}
+
+		if(ServerValidations.HasIllegalCharacterAge(request.CharacterSettings.Age))
+		{
+			message += " Invalid character age.";
+			isOk = false;
+		}
+
+		if (isOk == false)
+		{
+			message += " Please change and resave character.";
+			ValidateFail(request.JoinedViewer, request.UserID, message);
+		}
+
+		return isOk;
+	}
+
+	private static void ValidateFail(JoinedViewer joinedViewer, string userId, string message)
+	{
+		PlayerList.Instance.ServerKickPlayer(userId, message, false, 1, false);
+		if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
+		{
+			joinedViewer.Spectate();
+		}
+	}
+
 	/// <summary>
 	/// Server-side only. For use when a player has only joined (as a JoinedViewer) and
 	/// is not in control of any mobs. Spawns the joined viewer as the indicated occupation and transfers control to it.
@@ -65,7 +102,7 @@ public static class PlayerSpawn
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest spawnRequest)
 	{
-		return ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation,
+		return ServerSpawnPlayer(spawnRequest, spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation,
 			spawnRequest.CharacterSettings);
 	}
 

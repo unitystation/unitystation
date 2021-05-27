@@ -65,6 +65,14 @@ namespace CustomInspectors
 			}
 
 			if (bestTarget == null || bestTarget == device.RelatedAPC) return;
+
+			//If connected to apc before remove us
+			if (device.RelatedAPC != null)
+			{
+				EditorUtility.SetDirty(device.RelatedAPC);
+				device.RelatedAPC.RemoveDevice(device);
+			}
+
 			device.RelatedAPC = bestTarget;
 
 			EditorUtility.SetDirty(device);
