@@ -302,6 +302,11 @@ namespace HealthV2
 			{
 				prop.ImplantPeriodicUpdate();
 			}
+			if(IsBleeding)
+			{
+				float TotalBloodLossFromLostLimbs = LimbLossBleedingValue;
+				healthMaster.CirculatorySystem.Bleed(TotalBloodLossFromLostLimbs);
+			}
 		}
 
 		/// <summary>
