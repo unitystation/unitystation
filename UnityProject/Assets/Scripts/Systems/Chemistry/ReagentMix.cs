@@ -323,7 +323,7 @@ namespace Chemistry
 
 			lock (reagents)
 			{
-				foreach (var key in reagents.m_dict.Keys)
+				foreach (var key in reagents.m_dict.Keys.ToArray())
 				{
 					reagents.m_dict[key] *= multiplier;
 				}
@@ -349,7 +349,7 @@ namespace Chemistry
 
 			lock (reagents)
 			{
-				foreach (var key in reagents.m_dict.Keys)
+				foreach (var key in reagents.m_dict.Keys.ToArray())
 				{
 					reagents.m_dict[key] /= Divider;
 				}
