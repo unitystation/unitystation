@@ -54,25 +54,33 @@ public static class PlayerSpawn
 
 	private static bool ValidateCharacter(PlayerSpawnRequest request)
 	{
+		var isOk = true;
+		var message = "";
+
 		if(ServerValidations.HasIllegalSkinTone(request.CharacterSettings))
 		{
-			ValidateFail(request.JoinedViewer, request.UserID, "Invalid player skin tone, please change and resave character");
-			return false;
+			message += "Invalid player skin tone, please change and resave character.";
+			isOk = false;
 		}
 
 		if(ServerValidations.HasIllegalCharacterName(request.CharacterSettings.Name))
 		{
-			ValidateFail(request.JoinedViewer, request.UserID, "Invalid player character name, please change and resave character");
-			return false;
+			message += "Invalid player character name, please change and resave character.";
+			isOk = false;
 		}
 
 		if(ServerValidations.HasIllegalCharacterAge(request.CharacterSettings.Age))
 		{
-			ValidateFail(request.JoinedViewer, request.UserID, "Invalid character age, please change and resave character");
-			return false;
+			message += "Invalid character age, please change and resave character.";
+			isOk = false;
 		}
 
-		return true;
+		if (isOk == false)
+		{
+			ValidateFail(request.JoinedViewer, request.UserID, message);
+		}
+
+		return isOk;
 	}
 
 	private static void ValidateFail(JoinedViewer joinedViewer, string userId, string message)
