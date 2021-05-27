@@ -73,7 +73,7 @@ namespace HealthV2
 		/// How much blood does the body lose when there is lost limbs in this container?
 		/// </summary>
 		[SerializeField, Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
-		private float LimbLossBleedingValue = 35f;
+		private float limbLossBleedingValue = 35f;
 
 		public RootBodyPartController RootBodyPartController;
 
@@ -304,7 +304,7 @@ namespace HealthV2
 			}
 			if(IsBleeding)
 			{
-				healthMaster.CirculatorySystem.Bleed(LimbLossBleedingValue);
+				healthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
 			}
 		}
 
