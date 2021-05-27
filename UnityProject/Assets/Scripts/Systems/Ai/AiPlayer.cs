@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Systems.Electricity;
+using Managers;
 using Messages.Server;
 using Mirror;
 using Objects;
@@ -42,6 +43,7 @@ namespace Systems.Ai
 
 		//Clientside only
 		private UI_Ai aiUi;
+
 		private bool hasDied;
 
 		[SyncVar(hook = nameof(SyncPowerState))]
@@ -348,6 +350,8 @@ namespace Systems.Ai
 
 				//Force move to core
 				ServerSetCameraLocation(coreObject);
+
+				power = 0;
 				return;
 			}
 
@@ -365,7 +369,7 @@ namespace Systems.Ai
 		[Server]
 		private void OnPowerNetworkUpdate(APC apc)
 		{
-
+			power = Mathf.Clamp(apc.CalculateChargePercentage() * 100, 0, 100);
 		}
 
 		//Called when the core is damaged
@@ -391,6 +395,45 @@ namespace Systems.Ai
 			{
 				Death();
 			}
+		}
+
+		[Command]
+		public void CmdToggleFloorBolts()
+		{
+			if(coreObject == null || coreObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour) == false) return;
+
+			var newState = !objectBehaviour.IsNotPushable;
+
+			Chat.AddActionMsgToChat(coreObject, $"You {(newState ? "engage" : "disengage")} your core floor bolts",
+				$"{coreObject.ExpensiveName()} {(newState ? "engages" : "disengages")} its floor bolts");
+			objectBehaviour.ServerSetPushable(newState);
+		}
+
+		#endregion
+
+		#region misc actions
+
+		[Command]
+		public void CmdCallShuttle(string reason)
+		{
+			if (string.IsNullOrEmpty(reason))
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You must specify a reason to call the shuttle");
+				return;
+			}
+
+			if (reason.Trim().Length < 10)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You must provide a longer reason when calling the shuttle");
+				return;
+			}
+
+			if (GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result))
+			{
+				CentComm.MakeShuttleCallAnnouncement(TimeSpan.FromSeconds(GameManager.Instance.PrimaryEscapeShuttle.InitialTimerSeconds).ToString(), reason);
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, result);
 		}
 
 		#endregion

@@ -157,9 +157,6 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  OnStateChangeEvent:
-    m_PersistentCalls:
-      m_Calls: []
   conType: 1
 --- !u!1 &2252006090964192169
 GameObject:
@@ -233,7 +230,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -609,6 +606,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: The Ai's body
       objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 4134314207822377094}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: isDirty
@@ -630,6 +637,12 @@ GameObject:
 --- !u!4 &1709540627035095788 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 2137021707047424438}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &4134314207822377094 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 2137021707047424438}
   m_PrefabAsset: {fileID: 0}

@@ -15,6 +15,7 @@ public class UI_Ai : MonoBehaviour
 	[HideInInspector]
 	public AiMouseInputController controller = null;
 
+	//Laws Tab Stuff
 	[SerializeField]
 	private GameObject aiLawsTab = null;
 
@@ -24,11 +25,19 @@ public class UI_Ai : MonoBehaviour
 	[SerializeField]
 	private GameObject aiLawsTabDummyLaw = null;
 
+	//Slider Stuff
 	[SerializeField]
 	private Slider powerSlider = null;
 
 	[SerializeField]
 	private Slider integritySlider = null;
+
+	//Call Shuttle Stuff
+	[SerializeField]
+	private GameObject callShuttleTab = null;
+
+	[SerializeField]
+	private TMP_InputField callReasonInputField = null;
 
 	public void SetUp(AiPlayer player)
 	{
@@ -47,6 +56,13 @@ public class UI_Ai : MonoBehaviour
 	{
 		aiPlayer.CmdToggleCameraLights(!aiPlayer.CoreCamera.LightOn);
 	}
+
+	public void ToggleFloorBolts()
+	{
+		aiPlayer.CmdToggleFloorBolts();
+	}
+
+
 
 	#region Laws
 
@@ -123,6 +139,21 @@ public class UI_Ai : MonoBehaviour
 
 		// 0 to 1
 		integritySlider.value = newLevel / 100;
+	}
+
+	#endregion
+
+	#region Shuttle
+
+	public void OpenCallShuttleTab()
+	{
+		callShuttleTab.SetActive(true);
+	}
+
+	public void CallShuttleButton()
+	{
+		aiPlayer.CmdCallShuttle(callReasonInputField.text);
+		callShuttleTab.SetActive(false);
 	}
 
 	#endregion
