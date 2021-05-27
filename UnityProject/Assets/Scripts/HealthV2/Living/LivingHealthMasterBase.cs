@@ -849,7 +849,7 @@ namespace HealthV2
 			{
 				bodyPart.ResetDamage();
 			}
-			
+
 		}
 
 		/// <summary>
@@ -926,7 +926,16 @@ namespace HealthV2
 		///</Summary>
 		public virtual void Death()
 		{
-			PlayerManager.PlayerScript.playerMove.allowInput = false;
+			var HV2 = (this as PlayerHealthV2);
+			if (HV2 != null)
+			{
+				if (HV2.PlayerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				{
+					HV2.PlayerScript.playerMove.allowInput = false;
+				}
+
+			}
+
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
