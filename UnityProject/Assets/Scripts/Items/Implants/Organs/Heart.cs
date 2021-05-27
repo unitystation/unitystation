@@ -96,7 +96,6 @@ public class Heart : BodyPartModification
 	public void Heartbeat(float efficiency)
 	{
 		CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
-		LivingHealthMasterBase HealthBase = RelatedPart.HealthMaster;
 		if (circulatorySystem)
 		{
 			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
