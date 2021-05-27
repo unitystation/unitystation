@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -69,9 +69,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -932335445
+  m_SortingLayer: 23
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: d42ae1a4e8b833d41aa73b6003015912, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -231,6 +231,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: 0}
 --- !u!114 &6528301238134470348
 MonoBehaviour:
@@ -338,7 +339,7 @@ MonoBehaviour:
   corePrefab: {fileID: 1705799857596220470, guid: 965a30360b6f44c4895003abe8ff4197,
     type: 3}
   interactionDistance: 29
-  coreCamera: {fileID: 0}
+  mainSprite: {fileID: 874499444735157473}
 --- !u!114 &8627508843856279599
 MonoBehaviour:
   m_ObjectHideFlags: 0

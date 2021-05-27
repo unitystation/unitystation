@@ -44,7 +44,7 @@ namespace Messages.Server
 				IsPlayerChatBubble = isPlayerChatBubble
 			};
 
-			SendToVisiblePlayers(followTransform.transform.position, msg);
+			SendToVisiblePlayers(followTransform.transform.position, msg, true);
 			return msg;
 		}
 	}

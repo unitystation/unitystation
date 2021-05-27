@@ -81,7 +81,6 @@ public class UI_Ai : MonoBehaviour
 
 	public void OpenCameraTeleportScreen()
 	{
-		teleportWindow.SetWindowTitle("Jump to Place");
 		teleportWindow.gameObject.SetActive(true);
 		teleportWindow.GenerateButtons(TeleportUtils.GetCameraDestinations());
 	}

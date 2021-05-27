@@ -79,9 +79,9 @@ namespace Messages.Server
 		/// Sends the network message only to players who are visible from the
 		/// worldPosition
 		/// </summary>
-		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg)
+		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg, bool excludeAiPlayer = false)
 		{
-			var players = PlayerList.Instance.AllPlayers;
+			var players = PlayerList.Instance.InGamePlayers;
 
 			LayerMask layerMask = LayerMask.GetMask( "Door Closed");
 			for (int i = players.Count - 1; i > 0; i--)
@@ -91,16 +91,22 @@ namespace Messages.Server
 				{
 					//Player in the list is too far away for this message, remove them:
 					players.Remove(players[i]);
+					continue;
 				}
-				else
+
+				//within range, but check if they are in another room or hiding behind a wall
+				if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
+					players[i].GameObject.transform.position).ItHit)
 				{
-					//within range, but check if they are in another room or hiding behind a wall
-					if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
-						players[i].GameObject.transform.position).ItHit)
-					{
-						//if it hit a wall remove that player
-						players.Remove(players[i]);
-					}
+					//if it hit a wall remove that player
+					players.Remove(players[i]);
+					continue;
+				}
+
+				//Check to see whether AI players should see this, used to stop speech bubbles
+				if (excludeAiPlayer && players[i].Script.PlayerState == PlayerScript.PlayerStates.Ai)
+				{
+					players.Remove(players[i]);
 				}
 			}
 

@@ -25,6 +25,9 @@ namespace Systems.Ai
 		private int interactionDistance = 29;
 		public int InteractionDistance => interactionDistance;
 
+		[SerializeField]
+		private GameObject mainSprite = null;
+
 		private SecurityCamera coreCamera = null;
 		public SecurityCamera CoreCamera => coreCamera;
 
@@ -174,6 +177,10 @@ namespace Systems.Ai
 
 			//Enable security camera overlay
 			SetCameras(true);
+
+			//Set sprite to player layer
+			//TODO currently other AIs cant see where each other is looking maybe sync this to only AI's?
+			mainSprite.layer = 8;
 		}
 
 		[Client]
@@ -216,6 +223,7 @@ namespace Systems.Ai
 				return;
 			}
 
+			//Remove old listeners
 			if (cameraLocation != null && cameraLocation.gameObject != gameObject)
 			{
 				//Remove old integrity listener if possible, ignore if current location is core
@@ -231,9 +239,24 @@ namespace Systems.Ai
 				}
 			}
 
-			cameraLocation = newObject ? newObject.transform : null;
+			if (newObject != null)
+			{
+				//Set location for validation checks
+				cameraLocation = newObject.transform;
+
+				//This is to move the player object so we can see the Ai Eye sprite underneath us
+				//TODO for some reason this isnt working the sprite says on the core always
+				playerScript.PlayerSync.SetPosition(cameraLocation.position);
+			}
+			else
+			{
+				cameraLocation = null;
+			}
+
+			//Tell client to move their camera to this new camera
 			FollowCameraAiMessage.Send(gameObject, newObject);
 
+			//Add new listeners
 			if (newObject != null && newObject != gameObject)
 			{
 				//Add integrity listener to camera if possible, so we can move camera back to core if camera destroyed
@@ -329,6 +352,9 @@ namespace Systems.Ai
 		private void TargetRpcTurnOffCameras(NetworkConnection conn)
 		{
 			SetCameras(false);
+
+			//Reset sprite to ghost layer
+			mainSprite.layer = 31;
 		}
 
 		[Command]
