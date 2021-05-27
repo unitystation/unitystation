@@ -47,15 +47,17 @@ public class UI_Ai : MonoBehaviour
 	[SerializeField]
 	private TeleportWindow teleportWindow = null;
 
+	public bool focusCheck;
+
 	#region focus Check
 
 	void Update()
 	{
-		if (callReasonInputField.isFocused)
+		if (callReasonInputField.isFocused && focusCheck == false)
 		{
 			InputFocus();
 		}
-		else if (!callReasonInputField.isFocused)
+		else if (callReasonInputField.isFocused == false && focusCheck)
 		{
 			InputUnfocus();
 		}
@@ -63,11 +65,13 @@ public class UI_Ai : MonoBehaviour
 
 	private void InputFocus()
 	{
+		focusCheck = true;
 		//disable keyboard commands while input is focused
 		UIManager.IsInputFocus = true;
 	}
 	private void InputUnfocus()
 	{
+		focusCheck = false;
 		//disable keyboard commands while input is focused
 		UIManager.IsInputFocus = false;
 	}
