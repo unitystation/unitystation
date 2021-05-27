@@ -122,14 +122,14 @@ public class UI_Ai : MonoBehaviour
 
 	public void OpenCameraTeleportScreen()
 	{
-		teleportWindow.SetWindowTitle("Move Cameras");
+		teleportWindow.SetWindowTitle("Move Camera");
 		teleportWindow.gameObject.SetActive(true);
 		teleportWindow.GenerateButtons(TeleportUtils.GetCameraDestinations());
 	}
 
 	public void OpenTrackPlayerScreen()
 	{
-		teleportWindow.SetWindowTitle("Track Players");
+		teleportWindow.SetWindowTitle("Track Lifeforms");
 		teleportWindow.gameObject.SetActive(true);
 		teleportWindow.GenerateButtons(TeleportUtils.GetCameraTrackPlayerDestinations());
 	}
