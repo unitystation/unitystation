@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Systems.Electricity.NodeModules;
 using Objects.Lighting;
+using UnityEngine.Events;
 
 namespace Objects.Engineering
 {
@@ -52,6 +53,10 @@ namespace Objects.Engineering
 
 		[Tooltip("Sound used when the APC loses all power.")]
 		[SerializeField] private AddressableAudioSource NoPowerSound = null;
+
+		[NonSerialized]
+		//Called every power network update
+		public UnityEvent<APC> OnPowerNetworkUpdate = new UnityEvent<APC>();
 
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
@@ -129,6 +134,8 @@ namespace Objects.Engineering
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
 			Current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
+
+			OnPowerNetworkUpdate.Invoke(this);
 		}
 
 		private void UpdateDisplay()
@@ -154,6 +161,42 @@ namespace Objects.Engineering
 				State = APCState.Dead;
 			}
 
+		}
+
+		private float CalculateMaxCapacity()
+		{
+			float newCapacity = 0;
+			foreach (DepartmentBattery battery in ConnectedDepartmentBatteries)
+			{
+				newCapacity += battery.BatterySupplyingModule.CapacityMax;
+			}
+
+			return newCapacity;
+		}
+
+		//Percentage in decimal, 0-1
+		public float CalculateChargePercentage()
+		{
+			var maxCapacity = CalculateMaxCapacity();
+
+			if (maxCapacity == 0)
+			{
+				return 0;
+			}
+
+			float newCapacity = 0;
+			foreach (DepartmentBattery battery in ConnectedDepartmentBatteries)
+			{
+				newCapacity += battery.BatterySupplyingModule.CurrentCapacity;
+			}
+
+			return (newCapacity / maxCapacity);
+		}
+
+		// Percentage as string, 0% to 100%
+		public string CalculateChargePercentageString()
+		{
+			return CalculateChargePercentage().ToString("P0");
 		}
 
 		/// <summary>

@@ -117,6 +117,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private RegisterTile registerTile;
 	private IPushable pushable;
 
+	//The current integrity divided by the initial integrity
+	public float PercentageDamaged => integrity.Approx(0) ? 0 : integrity / initialIntegrity;
+
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)
 	private bool isLarge;
 

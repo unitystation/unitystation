@@ -5,6 +5,7 @@ using Messages.Client;
 using Objects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Ai : MonoBehaviour
 {
@@ -22,6 +23,12 @@ public class UI_Ai : MonoBehaviour
 
 	[SerializeField]
 	private GameObject aiLawsTabDummyLaw = null;
+
+	[SerializeField]
+	private Slider powerSlider = null;
+
+	[SerializeField]
+	private Slider integritySlider = null;
 
 	public void SetUp(AiPlayer player)
 	{
@@ -82,6 +89,40 @@ public class UI_Ai : MonoBehaviour
 
 			yield return WaitFor.Seconds(1.5f);
 		}
+	}
+
+	#endregion
+
+	#region Sidebar
+
+	public void SetPowerLevel(float newLevel)
+	{
+		Mathf.Clamp(newLevel, 0, 100);
+
+		//0 check
+		if (newLevel.Approx(0))
+		{
+			powerSlider.value = 0;
+			return;
+		}
+
+		// 0 to 1
+		powerSlider.value = newLevel / 100;
+	}
+
+	public void SetIntegrityLevel(float newLevel)
+	{
+		Mathf.Clamp(newLevel, 0, 100);
+
+		//0 check
+		if (newLevel.Approx(0))
+		{
+			integritySlider.value = 0;
+			return;
+		}
+
+		// 0 to 1
+		integritySlider.value = newLevel / 100;
 	}
 
 	#endregion

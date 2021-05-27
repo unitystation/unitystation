@@ -69,6 +69,7 @@ namespace Systems.Electricity
 		/// <summary>
 		/// 1 PowerState is the old state, 2 PowerState is the new state
 		/// </summary>
+		[NonSerialized]
 		public UnityEvent<Tuple<PowerState, PowerState>> OnStateChangeEvent = new UnityEvent<Tuple<PowerState, PowerState>>();
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]

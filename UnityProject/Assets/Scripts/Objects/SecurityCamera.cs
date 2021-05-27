@@ -5,6 +5,7 @@ using Systems.Electricity;
 using Mirror;
 using Objects.Research;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Objects
 {
@@ -48,6 +49,9 @@ namespace Objects
 
 		private APCPoweredDevice apcPoweredDevice;
 		public APCPoweredDevice ApcPoweredDevice => apcPoweredDevice;
+
+		[NonSerialized]
+		public UnityEvent<bool> OnStateChange = new UnityEvent<bool>();
 
 		private void Awake()
 		{
@@ -101,8 +105,9 @@ namespace Objects
 
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
-			//TODO check camera network is valid??
-			if(interaction.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return;
+			if(openNetworks.Contains(securityCameraChannel) == false) return;
+
+			if (interaction.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return;
 
 			if (cameraActive == false)
 			{
@@ -208,9 +213,9 @@ namespace Objects
 				ServerSetCameraState(false);
 			}
 			//Switch to wire state otherwise
-			else if (wiresCut)
+			else
 			{
-				ServerSetCameraState(wiresCut);
+				ServerSetCameraState(wiresCut == false);
 			}
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You {(wiresCut ? "cut" : "repair")} the cameras wiring",
@@ -243,7 +248,8 @@ namespace Objects
 		private void ServerSetCameraState(bool newState)
 		{
 			cameraActive = newState;
-			spriteHandler.OrNull()?.ChangeSpriteVariant(cameraActive ? 1 : 0);
+			spriteHandler.OrNull()?.ChangeSprite(cameraActive ? 1 : 0);
+			OnStateChange.Invoke(newState);
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

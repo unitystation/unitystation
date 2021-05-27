@@ -4,6 +4,7 @@ using Systems.Electricity;
 using Messages.Server;
 using Mirror;
 using Objects;
+using Objects.Engineering;
 using Objects.Research;
 using UnityEngine;
 
@@ -41,9 +42,16 @@ namespace Systems.Ai
 
 		//Clientside only
 		private UI_Ai aiUi;
+		private bool hasDied;
+
+		[SyncVar(hook = nameof(SyncPowerState))]
+		private bool hasPower;
 
 		[SyncVar(hook = nameof(SyncPower))]
-		private bool hasPower;
+		private float power;
+
+		[SyncVar(hook = nameof(SyncIntegrity))]
+		private float integrity = 100;
 
 		// 	Law priority order is this:
 		//	0: Traitor/Malf/Onehuman-board Law
@@ -90,7 +98,9 @@ namespace Systems.Ai
 			//Force camera to core
 			ServerSetCameraLocation(coreObject);
 
-			coreObject.GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnCoreDestroy);
+			var coreIntegrity = coreObject.GetComponent<Integrity>();
+			coreIntegrity.OnWillDestroyServer.AddListener(OnCoreDestroy);
+			coreIntegrity.OnApplyDamage.AddListener(OnCoreDamage);
 			hasPower = true;
 
 			//Power set up
@@ -104,6 +114,8 @@ namespace Systems.Ai
 
 				apc.OnStateChangeEvent.AddListener(OnCorePowerLost);
 				hasPower = apc.State != PowerState.Off;
+
+				apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.AddListener(OnPowerNetworkUpdate);
 			}
 
 			coreObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
@@ -114,8 +126,16 @@ namespace Systems.Ai
 		{
 			if (coreObject != null)
 			{
-				coreObject.GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnCoreDestroy);
-				coreObject.GetComponent<APCPoweredDevice>().OrNull()?.OnStateChangeEvent.RemoveListener(OnCorePowerLost);
+				var coreIntegrity = coreObject.GetComponent<Integrity>();
+				coreIntegrity.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
+				coreIntegrity.OnApplyDamage.RemoveListener(OnCoreDamage);
+
+				var apc = coreObject.GetComponent<APCPoweredDevice>();
+				if (apc != null)
+				{
+					apc.OnStateChangeEvent.RemoveListener(OnCorePowerLost);
+					apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.RemoveListener(OnPowerNetworkUpdate);
+				}
 			}
 		}
 
@@ -148,13 +168,29 @@ namespace Systems.Ai
 		}
 
 		[Client]
-		private void SyncPower(bool oldState, bool newState)
+		private void SyncPowerState(bool oldState, bool newState)
 		{
 			hasPower = newState;
 
 			//If we lose power we cant see much
 			lightingSystem.fovDistance = newState ? 13 : 2;
 			interactionDistance = newState ? 29 : 2;
+		}
+
+		[Client]
+		private void SyncPower(float oldValue, float newValue)
+		{
+			power = newValue;
+
+			aiUi.SetPowerLevel(newValue);
+		}
+
+		[Client]
+		private void SyncIntegrity(float oldValue, float newValue)
+		{
+			integrity = newValue;
+
+			aiUi.SetIntegrityLevel(newValue);
 		}
 
 		#endregion
@@ -182,7 +218,7 @@ namespace Systems.Ai
 				//Remove old power listener
 				if (cameraLocation.TryGetComponent<SecurityCamera>(out var oldCamera))
 				{
-					oldCamera.ApcPoweredDevice.OrNull()?.OnStateChangeEvent.RemoveListener(CameraPowerStateChanged);
+					oldCamera.OnStateChange.RemoveListener(CameraStateChanged);
 				}
 			}
 
@@ -200,7 +236,7 @@ namespace Systems.Ai
 				//Add power listener
 				if (newObject.TryGetComponent<SecurityCamera>(out var securityCamera))
 				{
-					securityCamera.ApcPoweredDevice.OrNull()?.OnStateChangeEvent.AddListener(CameraPowerStateChanged);
+					securityCamera.OnStateChange.AddListener(CameraStateChanged);
 				}
 			}
 
@@ -217,13 +253,17 @@ namespace Systems.Ai
 			Camera2DFollow.followControl.target = newLocation;
 		}
 
+		[Server]
 		private void OnCameraDestroy(DestructionInfo info)
 		{
+			//TODO maybe go to nearest camera instead?
 			if (coreObject == null) return;
 
 			ServerSetCameraLocation(coreObject);
 		}
 
+		//Called when camera is destroyed clientside
+		[Client]
 		private void SetCameras(bool newState)
 		{
 			foreach (var pairs in SecurityCamera.Cameras)
@@ -232,7 +272,10 @@ namespace Systems.Ai
 
 				foreach (var camera in pairs.Value)
 				{
-					camera.OrNull()?.ToggleAiSprite(newState);
+					if (camera.CameraActive || newState == false)
+					{
+						camera.OrNull()?.ToggleAiSprite(newState);
+					}
 				}
 			}
 		}
@@ -261,9 +304,13 @@ namespace Systems.Ai
 			Chat.AddExamineMsgFromServer(gameObject, $"You turn the camera lights {(newState ? "on" : "off")}");
 		}
 
-		private void CameraPowerStateChanged(Tuple<PowerState, PowerState> oldAndNewStates)
+		//Called when camera is deactivated, e.g loss of power or wires cut
+		[Server]
+		private void CameraStateChanged(bool newState)
 		{
-			if(oldAndNewStates.Item2 != PowerState.Off) return;
+			//Only need to reset location when it turns off
+			//TODO maybe go to nearest camera instead?
+			if(newState) return;
 
 			//Lost power so move back to core
 			ServerSetCameraLocation(coreObject);
@@ -279,31 +326,34 @@ namespace Systems.Ai
 
 		#region AiCore
 
+		[Server]
 		private void OnCoreDestroy(DestructionInfo info)
 		{
 			info.Destroyed.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
 
-			if (connectionToClient != null)
-			{
-				TargetRpcTurnOffCameras(connectionToClient);
-			}
-
-			Chat.AddExamineMsgFromServer(gameObject, $"You have been destroyed");
-
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			Death();
 		}
 
+		//Called when the core has lost power
+		[Server]
 		private void OnCorePowerLost(Tuple<PowerState, PowerState> oldAndNewStates)
 		{
 			if (oldAndNewStates.Item2 == PowerState.Off)
 			{
 				hasPower = false;
+
+				//Set serverside interaction distance validation
 				interactionDistance = 2;
 				Chat.AddExamineMsgFromServer(gameObject, "Core power has failed");
+
+				//Force move to core
+				ServerSetCameraLocation(coreObject);
 				return;
 			}
 
 			hasPower = true;
+
+			//Reset distance validation value
 			interactionDistance = 29;
 
 			if (oldAndNewStates.Item2 == PowerState.LowVoltage && oldAndNewStates.Item1 == PowerState.Off)
@@ -312,8 +362,64 @@ namespace Systems.Ai
 			}
 		}
 
+		[Server]
+		private void OnPowerNetworkUpdate(APC apc)
+		{
+
+		}
+
+		//Called when the core is damaged
+		[Server]
+		private void OnCoreDamage(DamageInfo info)
+		{
+			SetIntegrity(info.AttackedIntegrity.PercentageDamaged);
+		}
+
+		[Server]
+		private void SetIntegrity(float newValue)
+		{
+			//Dont allow negative
+			newValue = Mathf.Max(0, newValue);
+
+			integrity = newValue;
+
+			//Dont allow negative
+			integrity = Mathf.Max(0, integrity);
+
+			//Check for death
+			if (integrity.Approx(0))
+			{
+				Death();
+			}
+		}
+
+		#endregion
+
+		#region Death
+
+		[Server]
+		private void Death()
+		{
+			if(hasDied) return;
+			hasDied = true;
+
+			if (connectionToClient != null)
+			{
+				TargetRpcTurnOffCameras(connectionToClient);
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You have been destroyed");
+
+			//Transfer player to ghost
+			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+
+			//Despawn this player object
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
 		#endregion
 
 		//TODO when moving to card, remove power and integrity listeners from old core.
+		//TODO keep track of our integrity
 	}
 }
