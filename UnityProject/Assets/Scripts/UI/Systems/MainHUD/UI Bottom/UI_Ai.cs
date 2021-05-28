@@ -48,7 +48,17 @@ public class UI_Ai : MonoBehaviour
 	[SerializeField]
 	private TeleportWindow teleportWindow = null;
 
-	public bool focusCheck;
+	//Camera Save
+	[SerializeField]
+	private GameObject cameraSaveDummy = null;
+
+	[SerializeField]
+	private Transform cameraSaveContents = null;
+
+	//First is the UI button, second is the associated security camera object
+	private Dictionary<GameObject, GameObject> savedCameras = new Dictionary<GameObject, GameObject>();
+
+	private bool focusCheck;
 
 	#region focus Check
 
@@ -248,6 +258,58 @@ public class UI_Ai : MonoBehaviour
 
 		aiPlayer.CmdCallShuttle(callReasonInputField.text);
 		callShuttleTab.SetActive(false);
+	}
+
+	#endregion
+
+	#region Camera Saving
+
+	public void OnCameraSave()
+	{
+		var newCamera = aiPlayer.CameraLocation.OrNull()?.gameObject;
+		var newCameraText = newCamera.OrNull()?.GetComponent<SecurityCamera>().OrNull()?.CameraName;
+
+		if (newCameraText == null)
+		{
+			return;
+		}
+
+		if (savedCameras.Any(x => x.Value == newCamera))
+		{
+			Chat.AddExamineMsg(aiPlayer.gameObject, "Camera has already been saved");
+			return;
+		}
+
+		//Add new camera button
+		var newChild = Instantiate(cameraSaveDummy, cameraSaveContents);
+		newChild.GetComponentInChildren<TMP_Text>().text = newCameraText;
+		newChild.name = newCameraText;
+
+		//Set up click interactions
+		//Left click to go to, right click delete
+		var click = newChild.GetComponent<GUI_ClickController>();
+		click.onLeft.AddListener(OnCameraClick);
+		click.onRight.AddListener(OnCameraRemove);
+
+		newChild.SetActive(true);
+
+		savedCameras.Add(newChild, aiPlayer.CameraLocation.gameObject);
+	}
+
+	private void OnCameraRemove(GameObject cameraToRemove)
+	{
+		savedCameras.Remove(cameraToRemove);
+		Destroy(cameraToRemove);
+	}
+
+	private void OnCameraClick(GameObject cameraClicked)
+	{
+		if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+		aiPlayer.StartCoolDown(NetworkSide.Client);
+
+		if (savedCameras.TryGetValue(cameraClicked, out var secCame) == false) return;
+
+		aiPlayer.CmdTeleportToCamera(secCame);
 	}
 
 	#endregion

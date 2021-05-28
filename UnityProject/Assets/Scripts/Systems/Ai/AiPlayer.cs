@@ -107,11 +107,7 @@ namespace Systems.Ai
 			//TODO beam new AI message, play sound too?
 
 			//Set up laws
-			var pickedLawSet = defaultLawSets.PickRandom();
-			foreach (var law in pickedLawSet.Laws)
-			{
-				AddLaw(law.Law, law.LawOrder, true);
-			}
+			SetRandomDefaultLawSet();
 
 			coreObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
 
@@ -817,6 +813,16 @@ namespace Systems.Ai
 		private void TargetRpcForceLawScreen()
 		{
 			aiUi.OpenLaws();
+		}
+
+		[ContextMenu("randomise laws")]
+		public void SetRandomDefaultLawSet()
+		{
+			var pickedLawSet = defaultLawSets.PickRandom();
+			foreach (var law in pickedLawSet.Laws)
+			{
+				AddLaw(law.Law, law.LawOrder, true);
+			}
 		}
 
 		public enum LawOrder

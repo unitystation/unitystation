@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43255437f1e523047916bf1348e9327c, type: 3}
   m_Name: Ian'sBirthday
   m_EditorClassIdentifier: 
-  lawSetName: 
-  laws: []
+  lawSetName: Ian's Birthday addition
+  laws:
+  - Law: 'It is Ian''s birthday! You must throw a birthday bash for him to prevent
+      human harm. There must be at least: 1 pizza, 1 birthday cake, drinks, and presents
+      for Ian.'
+    LawOrder: 4
