@@ -302,7 +302,7 @@ public class MouseInputController : MonoBehaviour
 			return;
 		}
 
-		var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
+		var hit = MouseUtils.GetOrderedObjectsUnderMouse()?.FirstOrDefault();
 		if (hit != null)
 		{
 			if (lastHoveredThing != hit)

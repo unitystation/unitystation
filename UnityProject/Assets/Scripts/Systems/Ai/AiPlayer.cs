@@ -706,6 +706,12 @@ namespace Systems.Ai
 					return;
 				}
 
+				if (aiLaws[order].Contains(newLaw))
+				{
+					//Cant add the same law with the same string more than once
+					return;
+				}
+
 				aiLaws[order].Add(newLaw);
 			}
 

@@ -106,6 +106,12 @@ namespace Antagonists
 				connectedPlayer.Script.mind.occupation = antagonist.AntagOccupation;
 			}
 
+			//Can be null if respawning spectator ghost as they dont have an occupation and their antag occupation is null too
+			if (connectedPlayer.Script.mind.occupation == null)
+			{
+				yield break;
+			}
+
 			if (antagonist.AntagJobType == JobType.SYNDICATE)
 			{
 				yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
