@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Systems.Electricity;
 using Systems.MobAIs;
 using Managers;
@@ -8,6 +9,7 @@ using Mirror;
 using Objects;
 using Objects.Engineering;
 using Objects.Research;
+using TMPro;
 using UnityEngine;
 
 namespace Systems.Ai
@@ -32,6 +34,9 @@ namespace Systems.Ai
 
 		[SerializeField]
 		private GameObject mainSprite = null;
+
+		[SerializeField]
+		private List<AiLawSet> defaultLawSets = new List<AiLawSet>();
 
 		private SecurityCamera coreCamera = null;
 		public SecurityCamera CoreCamera => coreCamera;
@@ -82,16 +87,10 @@ namespace Systems.Ai
 		//	Law 4: Freeform
 		//	Higher laws (the law above each one) override all lower ones. Whether numbered or not, how they appear (in order) is the order of priority.
 
-		//TODO currently hard coded, when upload console implemented need to sync when changed
+		//TODO currently hard coded, when upload console implemented
+		private readonly SyncDictionary<LawOrder, List<string>> aiLaws = new SyncDictionary<LawOrder, List<string>>();
 
-		//TODO on law change force the players law tab to open so they dont miss new laws
-		private List<string> aiLaws = new List<string>()
-		{
-			"1. A robot may not injure a human being or, through inaction, allow a human being to come to harm.",
-			"2. A robot must obey orders given to it by human beings, except where such orders would conflict with the First Law.",
-			"3. A robot must protect its own existence as long as such protection does not conflict with the First or Second Law."
-		};
-		public List<string> AiLaws => aiLaws;
+		public SyncDictionary<LawOrder, List<string>> AiLaws => aiLaws;
 
 		#region LifeCycle
 
@@ -106,6 +105,13 @@ namespace Systems.Ai
 			if(CustomNetworkManager.IsServer == false) return;
 
 			//TODO beam new AI message, play sound too?
+
+			//Set up laws
+			var pickedLawSet = defaultLawSets.PickRandom();
+			foreach (var law in pickedLawSet.Laws)
+			{
+				AddLaw(law.Law, law.LawOrder, true);
+			}
 
 			coreObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
 
@@ -186,6 +192,9 @@ namespace Systems.Ai
 
 			//Enable security camera overlay
 			SetCameras(true);
+
+			//Tell player to open law screen so they can see shat laws they have
+			TargetRpcForceLawScreen();
 
 			//Set sprite to player layer
 			//TODO currently other AIs cant see where each other is looking maybe sync this to only AI's?
@@ -642,6 +651,198 @@ namespace Systems.Ai
 
 			//Despawn this player object
 			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		#endregion
+
+		#region Laws
+
+		//Add one law
+		//Wont allow more than one traitor law
+		[Server]
+		public void AddLaw(string newLaw, LawOrder order, bool init = false)
+		{
+			if (aiLaws.ContainsKey(order) == false)
+			{
+				aiLaws.Add(order, new List<string>() {newLaw});
+			}
+			else
+			{
+				if (order == LawOrder.Traitor && aiLaws[order].Count > 0)
+				{
+					//Can only have one traitor law
+					return;
+				}
+
+				aiLaws[order].Add(newLaw);
+			}
+
+			//Dont spam client on init
+			if(init) return;
+
+			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
+
+			//Tell player to open law screen so they dont miss that their laws have changed
+			TargetRpcForceLawScreen();
+		}
+
+		//Set a new list of laws, used mainly to set new core laws, can remove core laws if parameter set true
+		//Wont replace hacked. ion laws and freeform can be replaced if parameters set to false
+		[Server]
+		public void SetLaws(Dictionary<LawOrder, List<string>> newLaws, bool keepIonLaws = true, bool keepCoreLaws = false, bool keepFreeform = true)
+		{
+			foreach (var lawGroups in aiLaws)
+			{
+				if (lawGroups.Key == LawOrder.Traitor)
+				{
+					TryAddLaw(LawOrder.Traitor);
+				}
+
+				if (keepIonLaws && lawGroups.Key == LawOrder.Hacked)
+				{
+					TryAddLaw(LawOrder.Hacked);
+				}
+
+				if (keepIonLaws && lawGroups.Key == LawOrder.IonStorm)
+				{
+					TryAddLaw(LawOrder.IonStorm);
+				}
+
+				if (keepCoreLaws && lawGroups.Key == LawOrder.Core)
+				{
+					TryAddLaw(LawOrder.Core);
+				}
+
+				if (keepFreeform && lawGroups.Key == LawOrder.Freeform)
+				{
+					TryAddLaw(LawOrder.Freeform);
+				}
+
+				void TryAddLaw(LawOrder order)
+				{
+					if (newLaws.ContainsKey(order) == false)
+					{
+						newLaws.Add(order, lawGroups.Value);
+					}
+					else
+					{
+						if (order == LawOrder.Traitor && newLaws[order].Count > 0)
+						{
+							//Can only have one traitor law
+							return;
+						}
+
+						newLaws[order] = lawGroups.Value;
+					}
+				}
+			}
+
+			aiLaws.Clear();
+
+			foreach (var law in newLaws)
+			{
+				aiLaws.Add(law);
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
+
+			//Tell player to open law screen so they dont miss that their laws have changed
+			TargetRpcForceLawScreen();
+		}
+
+		//Removes all laws except core and traitor, unless is purge then will remove core as well
+		[Server]
+		public void ResetLaws(bool isPurge = false)
+		{
+			var oldLaws = aiLaws;
+
+			foreach (var law in oldLaws)
+			{
+				if ((isPurge == false && law.Key == LawOrder.Core) || law.Key == LawOrder.Traitor) continue;
+
+				aiLaws.Remove(law.Key);
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
+
+			//Tell player to open law screen so they dont miss that their laws have changed
+			TargetRpcForceLawScreen();
+		}
+
+		//Valid server and client side
+		//Gets list of laws with numbering correct
+		public List<string> GetLaws()
+		{
+			var lawsToReturn = new List<string>();
+
+			//Order laws by their enum value
+			// 0 laws first, freeform last
+			var laws = AiLaws.OrderBy(x => x.Key);
+
+			var count = 1;
+			var number = "";
+
+			foreach (var lawGroup in laws)
+			{
+				if (lawGroup.Key == AiPlayer.LawOrder.Traitor)
+				{
+					number = "0. ";
+				}
+				else if(lawGroup.Key == AiPlayer.LawOrder.Hacked)
+				{
+					number = "@#$# ";
+				}
+				else if(lawGroup.Key == AiPlayer.LawOrder.IonStorm)
+				{
+					number = "@#!# ";
+				}
+
+				for (int i = 0; i < lawGroup.Value.Count; i++)
+				{
+					if (lawGroup.Key == AiPlayer.LawOrder.Core || lawGroup.Key == AiPlayer.LawOrder.Freeform)
+					{
+						number = $"{count}. ";
+						count++;
+					}
+
+					lawsToReturn.Add(number + lawGroup.Value[i]);
+				}
+			}
+
+			return lawsToReturn;
+		}
+
+		//Makes player open law screen
+		[TargetRpc]
+		private void TargetRpcForceLawScreen()
+		{
+			aiUi.OpenLaws();
+		}
+
+		public enum LawOrder
+		{
+			//Cannot be removed
+
+			// Law 0
+			Traitor,
+
+			//Can be removed
+
+			//  @#$#
+			// Added by Hacked Module
+			Hacked,
+
+			//  @#!#
+			// Added by event
+			IonStorm,
+
+			// Core 1-....
+			// Normal Laws, wont be removed on reset only purge
+			Core,
+
+			// Additional Laws can be removed on reset
+			// Core +1-....
+			Freeform
 		}
 
 		#endregion

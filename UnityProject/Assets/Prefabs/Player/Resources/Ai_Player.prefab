@@ -340,6 +340,11 @@ MonoBehaviour:
     type: 3}
   interactionDistance: 29
   mainSprite: {fileID: 874499444735157473}
+  defaultLawSets:
+  - {fileID: 11400000, guid: 930af6a3ce5305e4d81aff947e78f33d, type: 2}
+  - {fileID: 11400000, guid: b8ac22060f7c82b47a672bf2d88a297b, type: 2}
+  - {fileID: 11400000, guid: 1238bf5429855614daa1c5575902537c, type: 2}
+  - {fileID: 11400000, guid: ba8686e6bd986c04eb01291bbd58b7b5, type: 2}
 --- !u!114 &8627508843856279599
 MonoBehaviour:
   m_ObjectHideFlags: 0

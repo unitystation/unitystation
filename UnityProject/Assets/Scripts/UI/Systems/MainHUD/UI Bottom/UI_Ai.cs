@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Systems.Ai;
 using Systems.MobAIs;
 using Systems.Teleport;
@@ -164,7 +165,10 @@ public class UI_Ai : MonoBehaviour
 			GameObject.Destroy(child.gameObject);
 		}
 
-		foreach (var law in aiPlayer.AiLaws)
+		// 0 laws first, freeform last
+		var laws = aiPlayer.GetLaws();
+
+		foreach (var law in laws)
 		{
 			var newChild = Instantiate(aiLawsTabDummyLaw, aiLawsTabContents);
 			newChild.GetComponent<TMP_Text>().text = law;
