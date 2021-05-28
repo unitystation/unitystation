@@ -405,10 +405,6 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
-	private void SetupSprite(SpriteDataSO spriteSheetAndData, string clothesDictKey, Color? color = null)
-	{
-		clothes[clothesDictKey].spriteHandler.SetSpriteSO(spriteSheetAndData, color.GetValueOrDefault(Color.white));
-	}
 
 	private void OnClientFireStacksChange(float newStacks)
 	{
@@ -633,13 +629,13 @@ public class PlayerSprites : MonoBehaviour
 
 		// Need to check all flags with their gameobject names...
 		// TODO: it should be done much easier
-		ValidateHideFlag(ClothingHideFlags.HIDE_GLOVES, "hands");
-		ValidateHideFlag(ClothingHideFlags.HIDE_JUMPSUIT, "uniform");
-		ValidateHideFlag(ClothingHideFlags.HIDE_SHOES, "feet");
-		ValidateHideFlag(ClothingHideFlags.HIDE_MASK, "mask");
-		ValidateHideFlag(ClothingHideFlags.HIDE_EARS, "ear");
-		ValidateHideFlag(ClothingHideFlags.HIDE_EYES, "eyes");
-		ValidateHideFlag(ClothingHideFlags.HIDE_NECK, "neck");
+		// ValidateHideFlag(ClothingHideFlags.HIDE_GLOVES, "hands");
+		// ValidateHideFlag(ClothingHideFlags.HIDE_JUMPSUIT, "uniform");
+		// ValidateHideFlag(ClothingHideFlags.HIDE_SHOES, "feet");
+		// ValidateHideFlag(ClothingHideFlags.HIDE_MASK, "mask");
+		// ValidateHideFlag(ClothingHideFlags.HIDE_EARS, "ear");
+		// ValidateHideFlag(ClothingHideFlags.HIDE_EYES, "eyes");
+		// ValidateHideFlag(ClothingHideFlags.HIDE_NECK, "neck");
 
 		// TODO: Not implemented yet?
 		//ValidateHideFlag(ClothingHideFlags.HIDE_SUITSTORAGE, "suit_storage");

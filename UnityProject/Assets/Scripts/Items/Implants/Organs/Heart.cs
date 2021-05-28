@@ -124,8 +124,7 @@ public class Heart : BodyPartModification
 			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
-				ReagentMix transfer = bloodToGive.Take((implant.BloodThroughput * efficiency + implant.BloodContainer.MaxCapacity
-					- implant.BloodContainer.ReagentMixTotal) / totalWantedBlood * bloodToGive.Total);
+				ReagentMix transfer = bloodToGive.Take((implant.BloodThroughput * efficiency + implant.BloodContainer.MaxCapacity) / totalWantedBlood * bloodToGive.Total);
 				transfer.Add(SpareBlood);
 				SpareBlood.Clear();
 				SpareBlood.Add(implant.BloodPumpedEvent(transfer, efficiency));
