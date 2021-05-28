@@ -26,10 +26,10 @@ namespace Doors.Modules
 
 			//allows the jaws of life to pry close doors
 			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-				"You start prying open the door...",
-				$"{interaction.Performer.ExpensiveName()} starts prying close the door...",
-				$"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
-				$"{interaction.Performer.ExpensiveName()} forces the door close!",
+				"You start sealing close the door...",
+				$"{interaction.Performer.ExpensiveName()} starts sealing close the door...",
+				$"You force close the door with your {interaction.HandObject.ExpensiveName()}!",
+				$"{interaction.Performer.ExpensiveName()} force closes the door!",
 				TryPry);
 
 			return ModuleSignal.Break;
