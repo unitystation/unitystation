@@ -123,7 +123,7 @@ namespace Objects.Research
 		{
 			if (DefaultWillInteract.HandActivate(interaction, NetworkSide.Client) == false) return false;
 
-			if (aiModuleType != AiModuleType.Freeform && aiModuleType != AiModuleType.Freeform) return false;
+			if (aiModuleType != AiModuleType.Freeform && aiModuleType != AiModuleType.Hacked) return false;
 
 			UIManager.Instance.GeneralInputField.OnOpen(gameObject, OnClientInput, aiModuleType == AiModuleType.Freeform ? "Freeform Law Setting" : "Hacked Law Setting", customLaw);
 

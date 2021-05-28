@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.Electricity;
 using Systems.MobAIs;
 using Managers;
@@ -650,10 +651,11 @@ namespace Systems.Ai
 			var a = 1f;
 			var colour = lineRenderer.startColor;
 
-			while (a != 0)
+			while (a > 0.1)
 			{
 				yield return WaitFor.Seconds(0.1f);
 				a -= 0.1f;
+				a = Mathf.Clamp(a, 0f, 1f);
 				colour.a = a;
 				lineRenderer.SetColors(colour, colour);
 			}
@@ -907,14 +909,14 @@ namespace Systems.Ai
 
 		public string AdminInfoString()
 		{
-			var laws = "";
+			var laws = new StringBuilder();
 
 			foreach (var law in GetLaws())
 			{
-				laws += law + "\n";
+				laws.AppendLine(law);
 			}
 
-			return laws;
+			return laws.ToString();
 		}
 
 		//TODO when moving to card, remove power and integrity listeners from old core.
