@@ -39,6 +39,19 @@ public class Armor
 		return damage * GetRatingValue(attackType, armorPenetration);
 	}
 
+
+	/// <summary>
+	/// From the damage done, calculates how much force was put into it
+	/// </summary>
+	/// <param name="damage">Base damage</param>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
+	/// <returns>New damage after applying protection values</returns>
+	public float GetForce(float damage, AttackType attackType, float armorPenetration = 0)
+	{
+		return damage / GetRatingValue(attackType, armorPenetration);
+	}
+
 	/// <summary>
 	/// Get the proportion of damage that will be dealt through this armor
 	/// depending on the armor penetration of the attack.

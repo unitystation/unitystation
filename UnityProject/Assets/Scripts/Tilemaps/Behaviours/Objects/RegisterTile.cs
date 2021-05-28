@@ -305,6 +305,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
+		if (objectLayer)
+		{
+			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
+			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
+		}
+
 		//cancel all relationships
 		if (sameMatrixRelationships != null)
 		{
