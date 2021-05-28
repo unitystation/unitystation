@@ -179,7 +179,7 @@ namespace Objects.Engineering
 		{
 			var maxCapacity = CalculateMaxCapacity();
 
-			if (maxCapacity == 0)
+			if (maxCapacity.Approx(0))
 			{
 				return 0;
 			}

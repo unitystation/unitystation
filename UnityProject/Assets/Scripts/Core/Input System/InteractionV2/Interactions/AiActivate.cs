@@ -1,28 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-/// <summary>
-/// Encapsulates all of the info needed for handling Ai interactions.
-/// </summary>
-public class AiActivate : TargetedInteraction
+namespace Core.Input_System.InteractionV2.Interactions
 {
-	private ClickTypes clickType;
-
-	public ClickTypes ClickType => clickType;
-
-	public AiActivate(GameObject performer, GameObject usedObject, GameObject targetObject, Intent intent, ClickTypes clickType) : base(performer, usedObject, targetObject, intent)
+	/// <summary>
+	/// Encapsulates all of the info needed for handling Ai interactions.
+	/// </summary>
+	public class AiActivate : TargetedInteraction
 	{
-		this.clickType = clickType;
-	}
+		private ClickTypes clickType;
 
-	public enum ClickTypes
-	{
-		AltClick,
-		CtrlClick,
-		ShiftClick,
-		CtrlShiftClick,
-		NormalClick
+		public ClickTypes ClickType => clickType;
+
+		public AiActivate(GameObject performer, GameObject usedObject, GameObject targetObject, Intent intent, ClickTypes clickType) : base(performer, usedObject, targetObject, intent)
+		{
+			this.clickType = clickType;
+		}
+
+		public enum ClickTypes
+		{
+			AltClick,
+			CtrlClick,
+			ShiftClick,
+			CtrlShiftClick,
+			NormalClick
+		}
 	}
 }

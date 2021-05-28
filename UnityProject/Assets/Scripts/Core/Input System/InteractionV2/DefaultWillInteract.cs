@@ -1,4 +1,6 @@
 
+using Core.Input_System.InteractionV2.Interactions;
+
 /// <summary>
 /// Util class containing the default WIllinteract logic for each interaction type
 /// </summary>

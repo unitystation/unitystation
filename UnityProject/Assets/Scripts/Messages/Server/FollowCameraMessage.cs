@@ -89,7 +89,6 @@ namespace Messages.Server
 			if (aiPlayer.CoreObject != null)
 			{
 				aiPlayer.ClientSetCameraLocation(aiPlayer.CoreObject.transform);
-				return;
 			}
 
 			//Otherwise we must be dead so do nothing

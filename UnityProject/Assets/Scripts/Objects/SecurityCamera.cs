@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.Ai;
 using Systems.Electricity;
+using Core.Input_System.InteractionV2.Interactions;
 using Mirror;
 using Objects.Research;
 using UnityEngine;
@@ -190,7 +191,6 @@ namespace Objects
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter))
 			{
 				TryCut(interaction);
-				return;
 			}
 		}
 

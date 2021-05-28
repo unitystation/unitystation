@@ -10,6 +10,7 @@ using Objects;
 using Objects.Engineering;
 using Objects.Research;
 using TMPro;
+using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 
 namespace Systems.Ai
@@ -129,7 +130,7 @@ namespace Systems.Ai
 			var apc = coreObject.GetComponent<APCPoweredDevice>();
 			if (apc != null)
 			{
-				if (apc.ConnectToClosestAPC() == false)
+				if (apc.ConnectToClosestApc() == false)
 				{
 					Chat.AddExamineMsgFromServer(gameObject, "Core was unable to connect to APC");
 				}
@@ -143,6 +144,8 @@ namespace Systems.Ai
 			playerScript.SetPermanentName(playerScript.characterSettings.AiName);
 			coreObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
 			coreObject.GetComponent<AiCore>().SetLinkedPlayer(this);
+
+			isCarded = false;
 		}
 
 		private void OnDisable()
@@ -451,10 +454,10 @@ namespace Systems.Ai
 			if (objectToCheck.TryGetComponent<PlayerScript>(out var checkPlayerScript))
 			{
 				//Dont check ghosts
-				if (checkPlayerScript.PlayerState == PlayerScript.PlayerStates.Ghost) return null;;
+				if (checkPlayerScript.PlayerState == PlayerScript.PlayerStates.Ghost) return null;
 
 				//Dont check yourself
-				if(checkPlayerScript.gameObject == gameObject) return null;;
+				if(checkPlayerScript.gameObject == gameObject) return null;
 
 				//If we are player get position
 				objectPos = CustomNetworkManager.IsServer

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Core.Input_System.InteractionV2.Interactions;
 using HealthV2;
 using Messages.Client.NewPlayer;
 using Messages.Server;

@@ -291,7 +291,7 @@ namespace Systems.Electricity
 			return (states == PowerState.On || states == PowerState.LowVoltage || states == PowerState.OverVoltage);
 		}
 
-		public bool ConnectToClosestAPC()
+		public bool ConnectToClosestApc()
 		{
 			var apcs = Physics2D.OverlapCircleAll(registerTile.WorldPositionServer.To2Int(), 30);
 

@@ -4,6 +4,7 @@ using Messages.Server;
 using NaughtyAttributes;
 using UnityEngine;
 using Systems.Electricity.NodeModules;
+using Core.Input_System.InteractionV2.Interactions;
 
 namespace Objects.Engineering
 {
