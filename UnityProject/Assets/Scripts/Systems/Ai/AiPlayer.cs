@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Electricity;
@@ -57,6 +58,8 @@ namespace Systems.Ai
 
 		private LightingSystem lightingSystem;
 
+		private LineRenderer lineRenderer;
+
 		//Clientside only
 		private UI_Ai aiUi;
 
@@ -99,6 +102,7 @@ namespace Systems.Ai
 		{
 			playerScript = GetComponent<PlayerScript>();
 			cooldowns = GetComponent<HasCooldowns>();
+			lineRenderer = GetComponentInChildren<LineRenderer>();
 		}
 
 		private void Start()
@@ -626,6 +630,35 @@ namespace Systems.Ai
 			}
 
 			Chat.AddExamineMsgFromServer(gameObject, result);
+		}
+
+		[Client]
+		public void ShowInteractionLine(Vector3[] positions)
+		{
+			lineRenderer.enabled = false;
+			StopCoroutine(LineFade());
+
+			lineRenderer.positionCount = positions.Length;
+			lineRenderer.SetPositions(positions);
+			lineRenderer.enabled = true;
+
+			StartCoroutine(LineFade());
+		}
+
+		private IEnumerator LineFade()
+		{
+			var a = 1f;
+			var colour = lineRenderer.startColor;
+
+			while (a != 0)
+			{
+				yield return WaitFor.Seconds(0.1f);
+				a -= 0.1f;
+				colour.a = a;
+				lineRenderer.SetColors(colour, colour);
+			}
+
+			lineRenderer.enabled = false;
 		}
 
 		#endregion

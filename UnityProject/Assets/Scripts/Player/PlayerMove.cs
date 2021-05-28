@@ -610,7 +610,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
 
-		if (connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
+		if (connectionToClient != null)
+		{
+			TargetPlayerUIHandCuffToggle(connectionToClient, true);
+		}
 	}
 
 	[TargetRpc]
@@ -639,7 +642,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		SyncCuffed(cuffed, false);
 
 		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
-		TargetPlayerUIHandCuffToggle(connectionToClient, false);
+
+		if (connectionToClient != null)
+		{
+			TargetPlayerUIHandCuffToggle(connectionToClient, false);
+		}
 	}
 
 	private void SyncCuffed(bool wasCuffed, bool cuffed)

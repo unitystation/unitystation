@@ -198,11 +198,18 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private IEnumerator StateLawsRoutine()
 		{
+			PostToChatMessage.Send("Current active laws: ", ChatChannel.Local | ChatChannel.Common);
+
+			yield return WaitFor.Seconds(1.5f);
+
 			foreach (Transform child in aiLawsTabContents)
 			{
 				if(child.gameObject.activeSelf == false) continue;
 
 				if(child.TryGetComponent<TMP_Text>(out var text) == false) continue;
+
+				var toggle = child.GetComponentInChildren<Toggle>();
+				if(toggle == null || toggle.isOn == false) continue;
 
 				PostToChatMessage.Send(text.text, ChatChannel.Local | ChatChannel.Common);
 

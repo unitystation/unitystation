@@ -549,8 +549,10 @@ public static class Validations
 		//We should always have a camera location, either core or camera
 		if (aiPlayer.CameraLocation == null) return false;
 
+		var cameraPos = aiPlayer.CameraLocation.position;
+
 		//Distance check to make sure its in range, this wont be called for "saved" cameras
-		if (Vector2.Distance(aiPlayer.CameraLocation.position, toValidate.TargetObject.transform.position) > aiPlayer.InteractionDistance) return false;
+		if (Vector2.Distance(cameraPos, toValidate.TargetObject.transform.position) > aiPlayer.InteractionDistance) return false;
 
 		if (lineCast == false)
 		{
@@ -566,8 +568,14 @@ public static class Validations
 		}
 
 		//raycast to make sure not hidden
-		var linecast = MatrixManager.Linecast(aiPlayer.CameraLocation.position, LayerTypeSelection.Walls, null,
+		var linecast = MatrixManager.Linecast(cameraPos, LayerTypeSelection.Walls, null,
 			endPos);
+
+		//Visualise the interaction on client
+		if (side == NetworkSide.Client)
+		{
+			aiPlayer.ShowInteractionLine(new []{cameraPos, linecast.ItHit ? linecast.HitWorld : endPos});
+		}
 
 		if (linecast.ItHit && Vector3.Distance(endPos, linecast.HitWorld) > 0.5f) return false;
 
