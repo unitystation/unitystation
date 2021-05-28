@@ -15,7 +15,7 @@ namespace HealthV2
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
 		[SerializeField]
-		[Tooltip("The Heath Master associated with this part, will find from parents if not set in editor")]
+		[Tooltip("The Health Master associated with this part, will find from parents if not set in editor")]
 		protected LivingHealthMasterBase healthMaster = null;
 
 		public LivingHealthMasterBase HealthMaster
@@ -124,6 +124,9 @@ namespace HealthV2
 		/// </summary>
 		[Tooltip("Is the body part on the surface?")]
 		public bool IsSurface = false;
+
+		[Tooltip("Does the player die when this part gets removed from their body?")]
+		public bool DeathOnRemoval = false;
 
 		/// <summary>
 		/// Flag to hide clothing on this body part
@@ -285,6 +288,10 @@ namespace HealthV2
 		/// </summary>
 		public virtual void RemoveFromBodyThis()
 		{
+			if(DeathOnRemoval)
+			{
+				healthMaster.Death();
+			}
 			var parent = this.GetParent();
 			if (parent != null)
 			{

@@ -165,14 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114660013788037466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,8 +195,9 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 0
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114542493565802846
 MonoBehaviour:
@@ -236,7 +229,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipMatrixMove: {fileID: 0}
   particleFX: {fileID: 0}
+  lightSprite: {fileID: 0}
   particleRateMultiplier: 4
+  engineLightIntensityMultiplier: 0.04
 --- !u!114 &114509864500058834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +274,10 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
 --- !u!114 &114493828767894876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,10 +290,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &2380196287676553691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1875447609467830
 GameObject:
   m_ObjectHideFlags: 0
@@ -5263,7 +5265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 1, b: 1, a: 0.8}
+  Color: {r: 1, g: 1, b: 1, a: 0}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}

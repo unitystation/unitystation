@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1397050043076861577}
   - component: {fileID: -6201661749900855812}
   - component: {fileID: 1373280397285383934}
+  - component: {fileID: 6104600676241079028}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -301,6 +302,17 @@ MonoBehaviour:
   customAmountOfPaper: 5
   shapedPackage: 0
   packageType: 0
+--- !u!210 &6104600676241079028
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 13
+  m_SortingOrder: 40
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0

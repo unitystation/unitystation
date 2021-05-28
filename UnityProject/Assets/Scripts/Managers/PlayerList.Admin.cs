@@ -967,6 +967,43 @@ public partial class PlayerList
 		}
 	}
 
+	public void ServerKickPlayer(string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
+	{
+		List<ConnectedPlayer> players = GetAllByUserID(userToKick, true);
+		if (players.Count != 0)
+		{
+			foreach (var p in players)
+			{
+				string message = $"A kick/ban has been processed by the Server: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+
+				Logger.Log(message, Category.Admin);
+
+				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
+
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
+
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+
+				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
+
+				if (isBan)
+				{
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been banned for {banMinutes} minutes.";
+				}
+				else
+				{
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been kicked.";
+				}
+
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+			}
+		}
+		else
+		{
+			Logger.Log($"Server Kick/ban failed, can't find player: {userToKick}", Category.Admin);
+		}
+	}
+
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
 		bool ban = false, int banLengthInMinutes = 0, ConnectedPlayer adminPlayer = null)
 	{
