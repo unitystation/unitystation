@@ -15,6 +15,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using Objects.Research;
 using Shuttles;
 using UI.Items;
 
@@ -920,5 +921,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdAskforAntagObjectives()
 	{
 		playerScript.mind.ShowObjectives();
+	}
+
+	[Command]
+	public void CmdFilledModuleInput(GameObject module, string input)
+	{
+		if(module == null || module.TryGetComponent<AiLawModule>(out var moduleScript) == false) return;
+
+		if (playerScript.Equipment.ItemStorage.GetActiveHandSlot()?.Item.gameObject != module)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, $"{module.ExpensiveName()} must be in your hands to use");
+			return;
+		}
+
+		moduleScript.ServerSetCustomLaw(input);
+
+		Chat.AddExamineMsgFromServer(gameObject, $"Law Module Change To:\n {moduleScript.CustomLaw}");
 	}
 }

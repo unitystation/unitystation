@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Objects.Research
 {
-	public class AiLawModule : MonoBehaviour, IExaminable
+	public class AiLawModule : NetworkBehaviour, IExaminable, IClientInteractable<HandActivate>
 	{
 		[SerializeField]
 		private AiLawSet lawSet = null;
@@ -16,11 +16,17 @@ namespace Objects.Research
 		private AiModuleType aiModuleType = AiModuleType.PreSet;
 		public AiModuleType AiModuleType => aiModuleType;
 
+		[SerializeField]
+		private int maxLawLength = 500;
+
+		[SyncVar]
 		private string customLaw = "";
+		public string CustomLaw => customLaw;
 
 		[Server]
 		public void ServerSetCustomLaw(string law)
 		{
+			law.Truncate(maxLawLength);
 			customLaw = law;
 		}
 
@@ -111,6 +117,22 @@ namespace Objects.Research
 			}
 
 			return laws.ToString();
+		}
+
+		public bool Interact(HandActivate interaction)
+		{
+			if (DefaultWillInteract.HandActivate(interaction, NetworkSide.Client) == false) return false;
+
+			if (aiModuleType != AiModuleType.Freeform && aiModuleType != AiModuleType.Freeform) return false;
+
+			UIManager.Instance.GeneralInputField.OnOpen(gameObject, OnClientInput, aiModuleType == AiModuleType.Freeform ? "Freeform Law Setting" : "Hacked Law Setting", customLaw);
+
+			return true;
+		}
+
+		private void OnClientInput(string input)
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledModuleInput(gameObject, input);
 		}
 	}
 
