@@ -387,6 +387,11 @@ public static class PlayerSpawn
 		//Create the mind without a job refactor this to make it as a ghost mind
 		Mind.Create(newPlayer);
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, Event.GhostSpawned, characterSettings);
+
+		if (PlayerList.Instance.IsAdmin(PlayerList.Instance.Get(joinedViewer.connectionToClient)))
+		{
+			newPlayer.GetComponent<GhostSprites>().SetAdminGhost();
+		}
 	}
 
 	/// <summary>
