@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d951e14ff0d07e43a0978b76d611095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   lawSet: {fileID: 0}
   aiModuleType: 2
+  maxLawLength: 500
 --- !u!1001 &5027299038675590553
 PrefabInstance:
   m_ObjectHideFlags: 0

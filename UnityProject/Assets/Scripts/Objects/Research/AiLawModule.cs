@@ -26,7 +26,7 @@ namespace Objects.Research
 		[Server]
 		public void ServerSetCustomLaw(string law)
 		{
-			law.Truncate(maxLawLength);
+			law = law.Truncate(maxLawLength);
 			customLaw = law;
 		}
 

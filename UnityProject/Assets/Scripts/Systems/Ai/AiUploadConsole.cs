@@ -56,6 +56,8 @@ namespace Systems.Ai
 				selectedAiPlayer = aiPlayers[0].GameObject.GetComponent<AiPlayer>();
 
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{selectedAiPlayer.gameObject.ExpensiveName()} selected");
+
+				lastIndex++;
 				return;
 			}
 
