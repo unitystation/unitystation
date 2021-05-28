@@ -43,6 +43,8 @@ namespace Weapons.Projectiles
 
 		private void Update()
 		{
+			if(projectile.Destroyed) return;
+
 			CachePreviousPosition();
 
 			if (ProcessMovement( MoveProjectile()))
