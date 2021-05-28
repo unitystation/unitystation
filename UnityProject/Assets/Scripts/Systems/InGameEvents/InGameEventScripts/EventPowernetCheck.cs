@@ -31,13 +31,19 @@ namespace InGameEvents
 				node.TurnOffSupply();
 				StartCoroutine(RestartPowerSupply(node));
 			}
+
+			base.OnEventStartTimed();
+		}
+
+		public override void OnEventEndTimed()
+		{
+			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOnAnnouncement);
 		}
 
 		private IEnumerator RestartPowerSupply(ElectricalNodeControl node)
 		{
 			yield return WaitFor.Seconds(Random.Range(30, 120));
 			node.TurnOnSupply();
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOnAnnouncement);
 		}
 	}
 }
