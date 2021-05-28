@@ -521,7 +521,8 @@ MonoBehaviour:
   visibleName: ' '
   RTT: 0
   RcsMode: 0
-  IsPlayerSemiGhost: 0
+  playerState: 0
+  actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
 --- !u!114 &114285118255153820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,6 +708,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: -8106636780342977062}
 --- !u!114 &114803877374308862
 MonoBehaviour:
@@ -899,6 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4109701b444706740ae28471c23eb12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeBetweenDisarms: 0.5
 --- !u!114 &7786899671633797224
 MonoBehaviour:
   m_ObjectHideFlags: 0

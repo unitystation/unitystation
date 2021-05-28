@@ -5,8 +5,9 @@ using Blob;
 using HealthV2;
 using UI;
 using Player;
+using UI.Action;
 
-public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
+public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -108,6 +109,10 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		Blob,
 		Ai
 	}
+
+	[SerializeField]
+	private ActionData actionData = null;
+	public ActionData ActionData => actionData;
 
 	#region Lifecycle
 
@@ -520,5 +525,15 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		return $"Name: {characterSettings.Name}\n" +
 			   $"Acc: {characterSettings.Username}\n" +
 			   $"Antag: False";
+	}
+
+	public void CallActionClient()
+	{
+		playerNetworkActions.CmdAskforAntagObjectives();
+	}
+
+	public void ActivateAntagAction(bool state)
+	{
+		UIActionManager.ToggleLocal(this, state);
 	}
 }

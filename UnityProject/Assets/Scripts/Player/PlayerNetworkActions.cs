@@ -915,4 +915,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		crayonScript.SetTileFromClient(category, index, colourIndex, direction);
 	}
+
+	[Command]
+	public void CmdAskforAntagObjectives()
+	{
+		playerScript.mind.ShowObjectives();
+	}
 }

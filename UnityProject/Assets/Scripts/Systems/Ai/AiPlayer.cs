@@ -18,7 +18,7 @@ namespace Systems.Ai
 	/// Main class controlling player job AI logic
 	/// Sync vars in this class only get sync'd to the object owner
 	/// </summary>
-	public class AiPlayer : NetworkBehaviour
+	public class AiPlayer : NetworkBehaviour, IAdminInfo
 	{
 		[SerializeField]
 		private GameObject corePrefab = null;
@@ -597,7 +597,7 @@ namespace Systems.Ai
 
 		#endregion
 
-		#region misc actions
+		#region Misc actions
 
 		[Command]
 		public void CmdCallShuttle(string reason)
@@ -861,6 +861,18 @@ namespace Systems.Ai
 		public void StartCoolDown(NetworkSide side)
 		{
 			cooldowns.TryStart(CommonCooldowns.Instance.Interaction, side);
+		}
+
+		public string AdminInfoString()
+		{
+			var laws = "";
+
+			foreach (var law in GetLaws())
+			{
+				laws += law + "\n";
+			}
+
+			return laws;
 		}
 
 		//TODO when moving to card, remove power and integrity listeners from old core.
