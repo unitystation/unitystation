@@ -487,7 +487,6 @@ namespace HealthV2
 		{
 			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 			float armorChanceModifer = cutChance + SelfArmor.DismembermentProtectionChance; //We use dismember protection chance because it's the most logical value.
-			if(severity < 0.25){armorChanceModifer += 0.1f;}
 			if(chance > armorChanceModifer)
 			{
 				currentCutSize = currentCutSize.Next();
