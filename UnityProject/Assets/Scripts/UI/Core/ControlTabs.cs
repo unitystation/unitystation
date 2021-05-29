@@ -561,8 +561,8 @@ namespace UI
 					if(UIManager.Hands.CurrentSlot == null) continue;
 
 					// Make sure the item is not in the players hands first:
-					if (UIManager.Hands.CurrentSlot.Item.gameObject != tab.Provider.gameObject &&
-						UIManager.Hands.OtherSlot.Item.gameObject != tab.Provider.gameObject)
+					if (UIManager.Hands.CurrentSlot.Item.OrNull()?.gameObject != tab.Provider.gameObject &&
+						UIManager.Hands.OtherSlot.Item.OrNull()?.gameObject != tab.Provider.gameObject)
 					{
 						toClose.Add(tab);
 					}
