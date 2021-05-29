@@ -950,10 +950,11 @@ namespace Mirror
                 // scene object.. disable it in scene instead of destroying
                 else
                 {
-                    localObject.gameObject.SetActive(false);
-                    spawnableObjects[localObject.sceneId] = localObject;
+	                Object.Destroy(localObject.gameObject);
+                    // localObject.gameObject.SetActive(false);
+                    // spawnableObjects[localObject.sceneId] = localObject;
                     // reset for scene objects
-                    localObject.Reset();
+                    // localObject.Reset();
                 }
 
                 // remove from dictionary no matter how it is unspawned
