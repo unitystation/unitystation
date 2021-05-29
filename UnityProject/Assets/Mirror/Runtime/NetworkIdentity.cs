@@ -548,6 +548,8 @@ namespace Mirror
                 // => throw an exception to cancel the build and let the user
                 //    know how to fix it!
                  if (BuildPipeline.isBuildingPlayer)
+	                 ///UNITYSTATION CODE///
+	                 /// Replaced with warning, It used to stop build
                      Debug.LogWarning("Scene " + gameObject.scene.path + " needs to be opened and resaved before building, because the scene object " + name + " has no valid sceneId yet.");
 
                 // if we generate the sceneId then we MUST be sure to set dirty
