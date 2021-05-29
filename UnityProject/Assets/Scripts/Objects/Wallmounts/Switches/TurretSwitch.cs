@@ -97,7 +97,7 @@ namespace Objects.Wallmounts.Switches
 
 		IEnumerator CoolDown()
 		{
-			yield return WaitFor.Seconds(1.2f);
+			yield return WaitFor.Seconds(0.5f);
 			buttonCoolDown = false;
 		}
 
@@ -145,11 +145,11 @@ namespace Objects.Wallmounts.Switches
 				var offOrNoPower = turretSwitchState == TurretSwitchState.Off ||
 				                   turretSwitchState == TurretSwitchState.NoPower;
 
-				turret.SetPower(offOrNoPower ? Turret.TurretPowerState.Off : Turret.TurretPowerState.On);
+				turret.SetPower(offOrNoPower == false);
 
 				if(offOrNoPower) continue;
 
-				turret.ChangeBulletState(turretSwitchState == TurretSwitchState.Stun ? Turret.TurretBulletState.Stun : Turret.TurretBulletState.Lethal);
+				turret.ChangeBulletState(turretSwitchState == TurretSwitchState.Stun);
 			}
 		}
 
@@ -168,7 +168,7 @@ namespace Objects.Wallmounts.Switches
 		{
 			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
 
-			if (interaction.ClickType != AiActivate.ClickTypes.CtrlClick || interaction.ClickType != AiActivate.ClickTypes.AltClick) return false;
+			if (interaction.ClickType != AiActivate.ClickTypes.CtrlClick && interaction.ClickType != AiActivate.ClickTypes.AltClick) return false;
 
 			return true;
 		}

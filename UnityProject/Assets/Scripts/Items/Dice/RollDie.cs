@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -126,6 +127,8 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 	private void ThrowStart(ThrowInfo throwInfo)
 	{
+		if(throwInfo.ThrownBy.GetComponent<NetworkIdentity>() == null) return;
+
 		Chat.AddActionMsgToChat(throwInfo.ThrownBy, $"You throw the {dieName}...", $"{throwInfo.ThrownBy.ExpensiveName()} throws the {dieName}...");
 	}
 

@@ -25,7 +25,7 @@ namespace Objects.Other
 		private GameObject spawnGun = null;
 
 		[SerializeField]
-		private int range = 8;
+		private int range = 7;
 
 		[SerializeField]
 		//Used to set the lethal bullet, uses gun in construction but this for mapped
@@ -61,13 +61,17 @@ namespace Objects.Other
 
 		private Gun gun;
 
-		private TurretPowerState turretPowerState = TurretPowerState.Off;
-		private TurretCoverState turretCoverState = TurretCoverState.Closed;
-		private TurretBulletState turretBulletState = TurretBulletState.Stun;
+		//Has power
+		private bool hasPower;
+
+		//Cover open or closed
+		private bool coverOpen;
+
+		//Is stun or lethal
+		private bool isStun;
 
 		private ISetMultitoolMaster setiMaster;
-
-		private bool coverOpen;
+		private LineRenderer lineRenderer;
 
 		[SyncVar(hook = nameof(SyncRotation))]
 		private Vector2 rotationAngle;
@@ -77,6 +81,7 @@ namespace Objects.Other
 			registerTile = GetComponent<RegisterTile>();
 			itemStorage = GetComponent<ItemStorage>();
 			integrity = GetComponent<Integrity>();
+			lineRenderer = GetComponentInChildren<LineRenderer>();
 		}
 
 		private void OnEnable()
@@ -107,16 +112,16 @@ namespace Objects.Other
 
 		private void UpdateLoop()
 		{
-			if(turretPowerState == TurretPowerState.Off) return;
+			if(hasPower == false) return;
 
 			SearchForMobs();
 
 			ChangeCoverState();
 
-			if (shootingTarget || target == null) return;
+			if (shootingTarget || target == null || coverOpen == false) return;
 			shootingTarget = true;
 
-			StartCoroutine(ShootTarget());
+			ShootTarget();
 		}
 
 		#region Shooting
@@ -167,6 +172,11 @@ namespace Objects.Other
 				var linecast = MatrixManager.Linecast(turretPos,
 					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed", "Walls"), worldPos);
 
+				// TODO theres something buggy with linecast, seems like the raycast check is going through doors??
+				// lineRenderer.positionCount = 2;
+				// lineRenderer.SetPositions(new []{turretPos, linecast.ItHit ? linecast.HitWorld : worldPos});
+				// lineRenderer.enabled = true;
+
 				//Check to see if we hit a wall or closed door, allow for tolerance
 				if(linecast.ItHit) continue; // && Vector3.Distance(worldPos, linecast.HitWorld) > 0.2f
 
@@ -179,7 +189,7 @@ namespace Objects.Other
 			target = null;
 		}
 
-		private IEnumerator ShootTarget()
+		private void ShootTarget()
 		{
 			var angleToShooter = CalculateAngle(target.WorldPosServer());
 			rotationAngle = angleToShooter;
@@ -188,13 +198,12 @@ namespace Objects.Other
 			//TODO But target could be set to null during move so check before
 			//TODO also keep checking power state
 
-			if (turretPowerState != TurretPowerState.Off)
+			if (hasPower)
 			{
 				ShootAtDirection(angleToShooter);
 			}
 
-			shootingTarget = false;
-			yield break;
+			shootingTarget = false;;
 		}
 
 		private Vector2 CalculateAngle(Vector2 target)
@@ -204,12 +213,12 @@ namespace Objects.Other
 
 		private void ShootAtDirection(Vector2 rotationToShoot)
 		{
-			if (turretPowerState == TurretPowerState.Off) return;
+			if (hasPower == false) return;
 
 			String bullet;
 			AddressableAudioSource sound;
 
-			if (turretBulletState == TurretBulletState.Stun)
+			if (isStun)
 			{
 				bullet = stunBullet.name;
 				sound = taserSound;
@@ -245,14 +254,14 @@ namespace Objects.Other
 			itemStorage.ServerTryTransferFrom(fromSlot);
 		}
 
-		public void SetPower(TurretPowerState newState)
+		public void SetPower(bool newState)
 		{
-			turretPowerState = newState;
+			hasPower = newState;
 
-			if (newState == TurretPowerState.On)
+			if (newState)
 			{
 				//Change back to active bullet state
-				gunSprite.ChangeSprite((int)turretBulletState + 1);
+				gunSprite.ChangeSprite(isStun ? 1 : 2);
 				return;
 			}
 
@@ -262,39 +271,39 @@ namespace Objects.Other
 			ChangeCoverState();
 		}
 
-		public void ChangeBulletState(TurretBulletState newState)
+		public void ChangeBulletState(bool newState)
 		{
-			turretBulletState = newState;
+			isStun = newState;
 
-			if(turretPowerState == TurretPowerState.On) return;
+			if(hasPower == false) return;
 
-			gunSprite.ChangeSprite((int)newState + 1);
+			gunSprite.ChangeSprite(newState ? 1 : 2);
 		}
 
 		private void ChangeCoverState()
 		{
 			//Open if we need to
-			if (target != null && turretCoverState == TurretCoverState.Closed)
+			if (target != null && coverOpen == false)
 			{
-				StartCoroutine(WaitForAnimation(TurretCoverState.Open));
+				StartCoroutine(WaitForAnimation(true));
 				return;
 			}
 
-			//However if no targets and already closed
-			if(turretCoverState == TurretCoverState.Closed) return;
+			//Only close if no targets and we are open, and dont bother closing if we are already closed
+			if((target != null && coverOpen) || coverOpen == false) return;
 
 			//Close
-			StartCoroutine(WaitForAnimation(TurretCoverState.Closed));
+			StartCoroutine(WaitForAnimation(false));
 		}
 
 		//Wait for animation before allowing to fire
-		private IEnumerator WaitForAnimation(TurretCoverState stateAfter)
+		private IEnumerator WaitForAnimation(bool stateAfter)
 		{
-			frameSprite.AnimateOnce(stateAfter == TurretCoverState.Open ? 1 : 3);
+			frameSprite.AnimateOnce(stateAfter ? 1 : 3);
 
 			yield return new WaitForSeconds(0.55f);
 
-			turretCoverState = stateAfter;
+			coverOpen = stateAfter;
 		}
 
 		#region Hand Interaction
@@ -338,24 +347,6 @@ namespace Objects.Other
 
 			//Destroy gun
 			_ = Despawn.ServerSingle(gun != null ? gun.gameObject : spawnGun.gameObject);
-		}
-
-		public enum TurretPowerState
-		{
-			On,
-			Off
-		}
-
-		public enum TurretCoverState
-		{
-			Open,
-			Closed
-		}
-
-		public enum TurretBulletState
-		{
-			Stun,
-			Lethal
 		}
 	}
 }
