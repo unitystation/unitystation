@@ -467,7 +467,7 @@ namespace HealthV2
 		{
 			if(lastDamage >= cutDamgeThreshold)
 			{
-				applyCutSizeLogic();
+				ApplyCutSizeLogic();
 			}
 			if(currentCutSize >= BodyPartDisembowlLogicOnCutSize)
 			{
@@ -503,7 +503,7 @@ namespace HealthV2
 			BodyPart randomCustomBodyPart = OptionalOrgans.GetRandom();
 			if(currentCutSize >= BodyPartStorageContentsSpillOutOnCutSize)
 			{
-				float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
+				float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 				if(chance >= spillChanceWhenCutPresent)
 				{
 					randomBodyPart.RemoveFromBodyThis();
@@ -514,19 +514,19 @@ namespace HealthV2
 				}
 				else
 				{
-					randomBodyPart.applyInternalDamage();
+					randomBodyPart.ApplyInternalDamage();
 					if(randomCustomBodyPart != null)
 					{
-						randomCustomBodyPart.applyInternalDamage();
+						randomCustomBodyPart.ApplyInternalDamage();
 					}
 				}
 			}
 			else
 			{
-				randomBodyPart.applyInternalDamage();
+				randomBodyPart.ApplyInternalDamage();
 				if(randomCustomBodyPart != null)
 				{
-					randomCustomBodyPart.applyInternalDamage();
+					randomCustomBodyPart.ApplyInternalDamage();
 				}
 			}
 		}
@@ -534,7 +534,7 @@ namespace HealthV2
 		/// <summary>
 		/// Enables internal damage logic.
 		/// </summary>
-		private void applyInternalDamage()
+		private void ApplyInternalDamage()
 		{
 			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
 			TakeDamage(null, damageToTake / 2, AttackType.Internal, DamageType.Brute, true, true, 0);
