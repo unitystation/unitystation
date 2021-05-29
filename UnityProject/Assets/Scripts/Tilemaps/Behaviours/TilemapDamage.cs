@@ -111,7 +111,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (totalDamageTaken >= basicTile.MaxHealth)
 		{
-			float ExcessEnergy = basicTile.Armor.GetForce( totalDamageTaken - basicTile.MaxHealth, attackType);
+			float ExcessEnergy = basicTile.Armor.getForce( totalDamageTaken - basicTile.MaxHealth, attackType);
 			if (basicTile.SoundOnDestroy.Count > 0)
 			{
 				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition);
