@@ -206,11 +206,11 @@ public class Lungs : BodyPartModification
         {
 			if(RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage / 2)
 			{
-					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
-					"You gasp for air; but you drown in your own blood from the inside!", 
-					$"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps for air!");
-					RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
-					RelatedPart.InternalBleedingLogic(AttackType.Internal, DamageType.Oxy);
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
+				"You gasp for air; but you drown in your own blood from the inside!", 
+				$"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps for air!");
+				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
+				RelatedPart.InternalBleedingLogic(AttackType.Internal, DamageType.Oxy);
 			}
 			else
 			{
