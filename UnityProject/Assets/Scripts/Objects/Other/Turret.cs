@@ -223,9 +223,22 @@ namespace Objects.Other
 				bullet = stunBullet.name;
 				sound = taserSound;
 			}
-			else if (gun != null && gun.CurrentMagazine != null)
+			else if (gun != null)
 			{
-				bullet = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName;
+				if (gun is GunElectrical electrical && electrical.CurrentMagazine != null)
+				{
+					bullet = electrical.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName;
+				}
+				else if (gun.CurrentMagazine != null)
+				{
+					bullet = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName;
+				}
+				else
+				{
+					//Default to laser otherwise
+					bullet = laserBullet.name;
+				}
+
 				sound = gun.FiringSoundA;
 			}
 			else

@@ -19,6 +19,7 @@ namespace Objects.Wallmounts.Switches
 
 		private AccessRestrictions accessRestrictions;
 
+		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
 		public MultitoolConnectionType ConType => conType;
 

@@ -108,7 +108,7 @@ namespace Systems.Construction
 			}
 
 			//Finish construction or remove metal
-			if (CurrentState == screwState)
+			if (CurrentState == secondMetalAddedState)
 			{
 				return Validations.HasUsedActiveWelder(interaction) ||
 				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
@@ -267,7 +267,7 @@ namespace Systems.Construction
 					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the turret frame.",
 						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the turret frame.");
 					_ = Despawn.ServerSingle(interaction.UsedObject);
-					stateful.ServerChangeState(screwState);
+					stateful.ServerChangeState(proxAddedState);
 				}
 				else if  (interaction.HandObject == null)
 				{
@@ -425,7 +425,7 @@ namespace Systems.Construction
 
 			if (setiMaster == null)
 			{
-				newString.Append("No Turret Switch set for this turret, you need to set one before construction is finished");
+				newString.Append("No Turret Switch set for this turret, you need to set one before construction is finished\n");
 			}
 
 			//Anchor or disassemble
@@ -438,7 +438,7 @@ namespace Systems.Construction
 			//Adding metal or unanchor
 			if (CurrentState == anchoredState)
 			{
-				newString.AppendLine("Use 5 metal to continue construction, or a wrench to unanchor the frame");
+				newString.AppendLine("Use a metal sheet to continue construction, or a wrench to unanchor the frame");
 			}
 
 			//Wrench or remove metal
@@ -468,7 +468,7 @@ namespace Systems.Construction
 			//Add metal or unscrew
 			if (CurrentState == screwState)
 			{
-				newString.AppendLine("Use metal to continue construction, or use a screwdriver on the frame");
+				newString.AppendLine("Use a metal sheet to continue construction, or use a screwdriver on the frame");
 			}
 
 			if (CurrentState == secondMetalAddedState)

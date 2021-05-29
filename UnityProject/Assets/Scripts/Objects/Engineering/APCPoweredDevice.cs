@@ -159,7 +159,7 @@ namespace Systems.Electricity
 				RemoveFromAPC();
 			}
 			RelatedAPC = inApc;
-			RelatedAPC.AddDevice(this);
+			RelatedAPC.OrNull()?.AddDevice(this);
 		}
 
 		/// <summary>
