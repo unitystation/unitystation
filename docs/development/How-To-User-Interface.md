@@ -1,10 +1,29 @@
 # How To Create a User Interface
 ## Getting Started
 In order to create a User Interface for UnityStation, first open the Unity Editor. You will need to save at least one of each file types, the UI Prefab, the GUI script and the backend script. Each type file needs to be saved in a different place. If there is more then one file of the same type, please create a subfolder to group them together. Note that some of the UI Prefabs are located in UnityProject\Assets\Resources\UI\GUI, they will be moved from this location in the future, do not try to add UI Prefabs here unless you really have to.
-* UI Prefab files are stored in (UnityProject\Assets\Prefabs\UI) this file is what the player will see. There are currently three folders, **ingame** (contains all the incidental UI HUD details, inventory slots etc.), **RightClick** (contains all the assets for the right click item select menu) and **Tabs** (This is the one you will want to put your UI menu into). Make sure to **tick to disable auto save** when you open this prefab to modify the placement of elements, otherwise Unity will attempt to save the layout everytime you touch an element on this prefab.
-* GUI Scripts are stored in (UnityProject\Assets\Scripts\UI) this file is what runs the UI's code, there are four folders, **Core** (contains the scripts which makes the UI possible), **Items** (contains the UI for items that a player can interact with, such as the PDA, Scroll, SpellBook etc.), **Objects** (contains the UI which is displayed on Consoles and Vendors, divided up into the relevant department - e.g. Security folder contains the SecurityRecordsConsole subfolder, which in turn has the GUI_SecuirtyRecords.cs and other related GUI scripts) and **Systems** (contains admin panels, character character screen, lobby screen, etc.).
-* Backend Scripts are stored in (UnityProject\Assets\Scripts) this file contains any backend code that does not directly dictate what the UI does. Place these scripts inside the corresponding folder so it matches where you put the GUI Script, so *Scripts\Core* for *Scripts\UI\Core* and so on.
+<ul>
+<li> <u>UI Prefab files</u> are stored in (UnityProject\Assets\Prefabs\UI) this file is what the player will see. There are currently three folders, <b>ingame</b> (contains all the incidental UI HUD details, inventory slots etc.), <b>RightClick</b> (contains all the assets for the right click item select menu) and <b>Tabs</b> (This is the one you will want to put your UI menu into).</li>
+<li> <u>GUI Scripts</u> are stored in (UnityProject\Assets\Scripts\UI) this file is what runs the UI's code, there are four folders, <b>Core</b>  (contains the scripts which makes the UI possible), <b>Items</b> (contains the UI for items that a player can interact with, such as the PDA, Scroll, SpellBook etc.), <b>Objects</b> (contains the UI which is displayed on Consoles and Vendors, divided up into the relevant department - e.g. Security folder contains the SecurityRecordsConsole subfolder, which in turn has the GUI_SecuirtyRecords.cs and other related GUI scripts) and <b>Systems</b> (contains admin panels, character character screen, lobby screen, etc.).</li>
+<li>  <u>Backend Scripts</u> are stored in (UnityProject\Assets\Scripts) this file contains any backend code that does not directly dictate what the UI does. Place these scripts inside the corresponding folder so it matches where you put the GUI Script, so <i>Scripts\Core </i> for <i>Scripts\UI\Core </i> and so on.</li>
+
+### UI Prefab Tips
+
+Make sure to **tick to disable auto save**  when you open this prefab to modify the placement of elements, otherwise Unity will attempt to save the layout everytime you touch an element on this prefab.
+
+![](../assets/images/HowToUI/auto_save_location.png)
+
+Make sure to attach the relevant GUI Script component to the prefab itself (In this case TabCloningConsole). This component will help run the GUI when it is opened.
+
+### GUI Script Tips
+
+To be expanded. Include Netpage assignment variable declaration, ultisation of UpdateDisplay(), declartion in NetTab.cs for NetTabType enumerical  and communication to backend script.
+
+### Backend Script Tips
+
+To be expanded.
+
 ## NetUI Elements
+
 This subsection will be describing NetUI elements and how to use them.
 
 ### Important stuff
