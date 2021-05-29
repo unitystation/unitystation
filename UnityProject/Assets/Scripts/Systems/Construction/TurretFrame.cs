@@ -1,9 +1,13 @@
-﻿using ScriptableObjects;
+﻿using System.Collections.Generic;
+using System.Text;
+using Objects.Other;
+using ScriptableObjects;
 using UnityEngine;
+using Weapons;
 
 namespace Systems.Construction
 {
-	public class TurretFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class TurretFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ISetMultitoolSlave
 	{
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState anchoredState = null;
@@ -18,16 +22,22 @@ namespace Systems.Construction
 
 		[SerializeField] private GameObject turretPrefab = null;
 
-		[SerializeField]
-		[Range(1,100)]
-		[Tooltip("Chance to lose gun during deconstruction")]
-		private int gunLossChance = 30;
-
 		private ItemSlot gunSlot;
 		private Stateful stateful;
 		private StatefulState CurrentState => stateful.CurrentState;
 		private ObjectBehaviour objectBehaviour;
 		private Integrity integrity;
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
+		public MultitoolConnectionType ConType => conType;
+
+		private ISetMultitoolMaster setiMaster;
+
+		public void SetMaster(ISetMultitoolMaster iMaster)
+		{
+			setiMaster = iMaster;
+		}
 
 		private void Awake()
 		{
@@ -350,9 +360,10 @@ namespace Systems.Construction
 						{
 							var spawnedTurret = Spawn.ServerPrefab(turretPrefab, objectBehaviour.registerTile.WorldPosition, transform.parent);
 
-							//TODO tranfer gun slot to turret
-							//TODO set up turret
-							//TODO block APC changing/Attach to nearest???
+							if (spawnedTurret.Successful && spawnedTurret.GameObject.TryGetComponent<Turret>(out var turret))
+							{
+								turret.SetUpTurret(gunSlot.Item.GetComponent<Gun>(), gunSlot, setiMaster);
+							}
 
 							_ = Despawn.ServerSingle(gameObject);
 						});
@@ -399,54 +410,62 @@ namespace Systems.Construction
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
+			var newString = new StringBuilder();
+
+			if (setiMaster == null)
+			{
+				newString.Append("No Turret Switch set for this turret, you need to set one before construction is finished");
+			}
+
 			//Anchor or disassemble
 			if (CurrentState == initialState)
 			{
-				return "Use a wrench to anchor to continue construction, or crowbar to disassemble the frame";
+				newString.AppendLine(
+					"Use a wrench to anchor to continue construction, or crowbar to disassemble the frame");
 			}
 
 			//Adding metal or unanchor
 			if (CurrentState == anchoredState)
 			{
-				return "Use 5 metal to continue construction, or a wrench to unanchor the frame";
+				newString.AppendLine("Use 5 metal to continue construction, or a wrench to unanchor the frame");
 			}
 
 			//Wrench or remove metal
 			if (CurrentState == metalAddedState)
 			{
-				return "Use a wrench to continue construction, or a welder to remove the metal from the frame";
+				newString.AppendLine("Use a wrench to continue construction, or a welder to remove the metal from the frame");
 			}
 
 			//Add gun or unwrench
 			if (CurrentState == wrenchState)
 			{
-				return "Add an energy gun to continue construction, or use a wrench to remove the metal from the frame";
+				newString.AppendLine("Add an energy gun to continue construction, or use a wrench to remove the metal from the frame");
 			}
 
 			//Add prox or remove gun
 			if (CurrentState == gunAddedState)
 			{
-				return "Add an proximity sensor to continue construction, or use your hands to remove the energy gun from the frame";
+				newString.AppendLine("Add an proximity sensor to continue construction, or use your hands to remove the energy gun from the frame");
 			}
 
 			//Screw or remove prox
 			if (CurrentState == proxAddedState)
 			{
-				return "Use a screwdriver to continue construction, or use your hands to remove the proximity sensor from the frame";
+				newString.AppendLine("Use a screwdriver to continue construction, or use your hands to remove the proximity sensor from the frame");
 			}
 
 			//Add metal or unscrew
 			if (CurrentState == screwState)
 			{
-				return "Use metal to continue construction, or use a screwdriver on the frame";
+				newString.AppendLine("Use metal to continue construction, or use a screwdriver on the frame");
 			}
 
 			if (CurrentState == secondMetalAddedState)
 			{
-				return "Use welder to finish construction, or use a crowbar to remove the outer cover of the frame";
+				newString.AppendLine("Use welder to finish construction, or use a crowbar to remove the outer cover of the frame");
 			}
 
-			return "";
+			return newString.ToString();
 		}
 	}
 }
