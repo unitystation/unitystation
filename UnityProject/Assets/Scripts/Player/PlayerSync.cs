@@ -473,10 +473,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	private void Synchronize()
 	{
-		if (isLocalPlayer && GameData.IsHeadlessServer)
-		{
-			return;
-		}
 
 		if (Matrix != null)
 		{
