@@ -19,7 +19,6 @@ namespace Objects.Wallmounts.Switches
 
 		private AccessRestrictions accessRestrictions;
 
-		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
 		public MultitoolConnectionType ConType => conType;
 
@@ -30,6 +29,7 @@ namespace Objects.Wallmounts.Switches
 		{
 		}
 
+		[SerializeField]
 		private List<Turret> turrets = new List<Turret>();
 
 		private SpriteHandler spriteHandler;
@@ -48,6 +48,13 @@ namespace Objects.Wallmounts.Switches
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
+		}
+
+		private void Start()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			ChangeTurretStates();
 		}
 
 		private void OnEnable()
@@ -105,6 +112,12 @@ namespace Objects.Wallmounts.Switches
 				}
 			}
 
+			if (turretSwitchState == TurretSwitchState.NoPower)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Turret switch has no power");
+				return;
+			}
+
 			ChangeState(NextState());
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You set the turret switch to {turretSwitchState}",
@@ -122,6 +135,11 @@ namespace Objects.Wallmounts.Switches
 
 			spriteHandler.ChangeSprite((int)turretSwitchState);
 
+			ChangeTurretStates();
+		}
+
+		private void ChangeTurretStates()
+		{
 			foreach (var turret in turrets)
 			{
 				var offOrNoPower = turretSwitchState == TurretSwitchState.Off ||

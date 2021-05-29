@@ -2,8 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Systems.Construction;
+using Systems.MobAIs;
+using AddressableReferences;
 using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
+using Mirror;
 using Objects.Wallmounts;
 using Objects.Wallmounts.Switches;
 using UnityEngine;
@@ -14,16 +18,22 @@ using Random = UnityEngine.Random;
 namespace Objects.Other
 {
 	[RequireComponent(typeof(ItemStorage))]
-	public class Turret : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		[SerializeField]
-		private Gun currentGun = null;
+		//Only used when a mapped turret is destroyed
+		private GameObject spawnGun = null;
 
 		[SerializeField]
 		private int range = 8;
 
 		[SerializeField]
-		private Gun stunGun = null;
+		//Used to set the lethal bullet, uses gun in construction but this for mapped
+		private Bullet laserBullet = null;
+
+		[SerializeField]
+		//Always used as the non-lethal bullet
+		private Bullet stunBullet = null;
 
 		[SerializeField]
 		[Range(1,100)]
@@ -39,12 +49,17 @@ namespace Objects.Other
 		[SerializeField]
 		private SpriteHandler frameSprite = null;
 
+		[SerializeField]
+		private AddressableAudioSource taserSound = null;
+
 		private RegisterTile registerTile;
 		private ItemStorage itemStorage;
 		private Integrity integrity;
 
-		private PlayerScript target;
+		private GameObject target;
 		private bool shootingTarget;
+
+		private Gun gun;
 
 		private TurretPowerState turretPowerState = TurretPowerState.Off;
 		private TurretCoverState turretCoverState = TurretCoverState.Closed;
@@ -53,6 +68,9 @@ namespace Objects.Other
 		private ISetMultitoolMaster setiMaster;
 
 		private bool coverOpen;
+
+		[SyncVar(hook = nameof(SyncRotation))]
+		private Vector2 rotationAngle;
 
 		private void Awake()
 		{
@@ -65,7 +83,7 @@ namespace Objects.Other
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Add(UpdateLoop, 0.5f);
+			UpdateManager.Add(UpdateLoop, 1.5f);
 			integrity.OnWillDestroyServer.AddListener(OnTurretDestroy);
 		}
 
@@ -80,11 +98,18 @@ namespace Objects.Other
 			}
 		}
 
+		private void SyncRotation(Vector2 oldValue, Vector2 newValue)
+		{
+			//transform.localEulerAngles = new Vector3(0, 0, rotation);
+			var angle = Mathf.Atan2(newValue.y, newValue.x) * Mathf.Rad2Deg;
+			gunSprite.transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+		}
+
 		private void UpdateLoop()
 		{
 			if(turretPowerState == TurretPowerState.Off) return;
 
-			SearchForPlayers();
+			SearchForMobs();
 
 			ChangeCoverState();
 
@@ -96,38 +121,57 @@ namespace Objects.Other
 
 		#region Shooting
 
-		private void SearchForPlayers()
+		private void SearchForMobs()
 		{
 			var turretPos = registerTile.WorldPosition;
-			var playersFound = Physics2D.OverlapCircleAll(turretPos.To2Int(), range, LayerMask.NameToLayer("Players"));
+			var mobsFound = Physics2D.OverlapCircleAll(turretPos.To2Int(), range, LayerMask.GetMask("Players", "NPC"));
 
-			if (playersFound.Length == 0)
+			if (mobsFound.Length == 0)
 			{
 				//No targets
 				target = null;
 				return;
 			}
 
-			//Order players by distance
-			var orderedPlayers = playersFound.OrderBy(
+			//Order mobs by distance
+			var orderedMobs = mobsFound.OrderBy(
 				x => (turretPos - x.transform.position).sqrMagnitude).ToList();
 
-			foreach (var player in orderedPlayers)
+			foreach (var mob in orderedMobs)
 			{
-				if(player.TryGetComponent<PlayerScript>(out var script) == false) continue;
+				Vector3 worldPos;
 
-				//Only target normal players
-				if(script.PlayerState != PlayerScript.PlayerStates.Normal) continue;
+				//Testing for player
+				if (mob.TryGetComponent<PlayerScript>(out var script))
+				{
+					//Only target normal players and alive players
+					if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
 
-				//TODO maybe add bool to linecast to only do raycast if linecast is true
+					worldPos = script.WorldPos;
+				}
+				//Test for mob
+				else if (mob.TryGetComponent<MobAI>(out var mobAi))
+				{
+					//Only target alive mobs
+					if(mobAi.IsDead) continue;
+
+					worldPos = mobAi.Cnt.ServerPosition;
+				}
+				else
+				{
+					//No idea what it could be on player and Npc layer but not be a mob or player
+					continue;
+				}
+
+				//TODO maybe add bool to linecast to only do raycast if linecast reaches WorldTo
 				var linecast = MatrixManager.Linecast(turretPos,
-					LayerTypeSelection.Walls, LayerMask.NameToLayer("Door Closed"), script.WorldPos);
+					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed", "Walls"), worldPos);
 
 				//Check to see if we hit a wall or closed door, allow for tolerance
-				if(linecast.ItHit && Vector3.Distance(script.WorldPos, linecast.HitWorld) > 0.5f) continue;
+				if(linecast.ItHit) continue; // && Vector3.Distance(worldPos, linecast.HitWorld) > 0.2f
 
 				//Set our target
-				target = script;
+				target = mob.gameObject;
 				return;
 			}
 
@@ -137,7 +181,8 @@ namespace Objects.Other
 
 		private IEnumerator ShootTarget()
 		{
-			var angleToShooter = CalculateAngle(target.WorldPos);
+			var angleToShooter = CalculateAngle(target.WorldPosServer());
+			rotationAngle = angleToShooter;
 
 			//TODO make turret smoothly rotate to angle, target could move so get position every tick
 			//TODO But target could be set to null during move so check before
@@ -152,22 +197,37 @@ namespace Objects.Other
 			yield break;
 		}
 
-		private float CalculateAngle(Vector3 target)
+		private Vector2 CalculateAngle(Vector2 target)
 		{
-			return Vector3.Angle(registerTile.WorldPosition, target);
+			return (registerTile.WorldPosition.To2Int() - target).Rotate(180);
 		}
 
-		private void ShootAtDirection(float rotationToShoot)
+		private void ShootAtDirection(Vector2 rotationToShoot)
 		{
-			if(currentGun == null || currentGun.CurrentMagazine == null || turretPowerState == TurretPowerState.Off) return;
+			if (turretPowerState == TurretPowerState.Off) return;
 
-			SoundManager.PlayNetworkedAtPos(turretBulletState == TurretBulletState.Stun ? stunGun.FiringSoundA : currentGun.FiringSoundA,
-				registerTile.WorldPosition, sourceObj: gameObject);
+			String bullet;
+			AddressableAudioSource sound;
 
-			CastProjectileMessage.SendToAll(gameObject,
-				turretBulletState == TurretBulletState.Stun ? stunGun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName :
-					currentGun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName,
-				VectorExtensions.DegreeToVector2(rotationToShoot), default);
+			if (turretBulletState == TurretBulletState.Stun)
+			{
+				bullet = stunBullet.name;
+				sound = taserSound;
+			}
+			else if (gun != null)
+			{
+				bullet = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName;
+				sound = gun.FiringSoundA;
+			}
+			else
+			{
+				bullet = laserBullet.name;
+				sound = spawnGun.GetComponent<Gun>().FiringSoundA;
+			}
+
+			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPosition, sourceObj: gameObject);
+
+			CastProjectileMessage.SendToAll(gameObject, bullet, rotationToShoot, default);
 		}
 
 		#endregion
@@ -181,12 +241,14 @@ namespace Objects.Other
 				generalSwitch.AddTurretToSwitch(this);
 			}
 
-			currentGun = newGun;
+			gun = newGun;
 			itemStorage.ServerTryTransferFrom(fromSlot);
 		}
 
 		public void SetPower(TurretPowerState newState)
 		{
+			turretPowerState = newState;
+
 			if (newState == TurretPowerState.On)
 			{
 				//Change back to active bullet state
@@ -212,9 +274,10 @@ namespace Objects.Other
 		private void ChangeCoverState()
 		{
 			//Open if we need to
-			if (target != null && turretCoverState == TurretCoverState.Closed && turretCoverState != TurretCoverState.Open)
+			if (target != null && turretCoverState == TurretCoverState.Closed)
 			{
 				StartCoroutine(WaitForAnimation(TurretCoverState.Open));
+				return;
 			}
 
 			//However if no targets and already closed
@@ -227,8 +290,9 @@ namespace Objects.Other
 		//Wait for animation before allowing to fire
 		private IEnumerator WaitForAnimation(TurretCoverState stateAfter)
 		{
-			//TODo correct time
-			yield return new WaitForSeconds(1f);
+			frameSprite.AnimateOnce(stateAfter == TurretCoverState.Open ? 1 : 3);
+
+			yield return new WaitForSeconds(0.55f);
 
 			turretCoverState = stateAfter;
 		}
@@ -254,12 +318,15 @@ namespace Objects.Other
 				$"{interaction.Performer.ExpensiveName()} prys off the outer metal cover from the turret.",
 				() =>
 				{
-					Spawn.ServerPrefab(framePrefab, registerTile.WorldPosition, transform.parent);
+					var frame = Spawn.ServerPrefab(framePrefab, registerTile.WorldPosition, transform.parent);
 
-					if (DMMath.Prob(gunLossChance))
+					if (DMMath.Prob(gunLossChance) && gun != null)
 					{
-						_ = Despawn.ServerSingle(currentGun.gameObject);
+						_ = Despawn.ServerSingle(gun.gameObject);
+						return;
 					}
+
+					frame.GameObject.GetComponent<TurretFrame>().SetUp(gun != null ? gun.GetComponent<Pickupable>().ItemSlot : null, spawnGun);
 				});
 		}
 
@@ -270,7 +337,7 @@ namespace Objects.Other
 			Spawn.ServerPrefab(framePrefab, registerTile.WorldPosition, transform.parent);
 
 			//Destroy gun
-			_ = Despawn.ServerSingle(currentGun.gameObject);
+			_ = Despawn.ServerSingle(gun != null ? gun.gameObject : spawnGun.gameObject);
 		}
 
 		public enum TurretPowerState

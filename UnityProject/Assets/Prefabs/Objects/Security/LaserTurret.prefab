@@ -12,15 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8834d09d3d6759c479d22c84a45216ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGun: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+  spawnGun: {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53,
     type: 3}
   range: 8
-  stunGun: {fileID: 418388990136457528, guid: 6889368ca37503245b8aee273cc97b03, type: 3}
+  laserBullet: {fileID: 2404555472885326642, guid: 49a8364f6515be34bac52c48c9214d85,
+    type: 3}
+  stunBullet: {fileID: 6809207048716157800, guid: 00552b9802a37ba4bbe1aca46515b240,
+    type: 3}
   gunLossChance: 30
   framePrefab: {fileID: 3501500540316854380, guid: d6457d17134225b4db0c2857b5012c94,
     type: 3}
   gunSprite: {fileID: 6304648460530296254}
   frameSprite: {fileID: 8358811458960317800}
+  taserSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Taser1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1 &5035411517673045519
 GameObject:
   m_ObjectHideFlags: 0

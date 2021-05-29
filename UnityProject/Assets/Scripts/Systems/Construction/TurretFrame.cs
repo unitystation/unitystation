@@ -408,6 +408,17 @@ namespace Systems.Construction
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 1));
 		}
 
+		public void SetUp(ItemSlot fromSlot, GameObject prefab)
+		{
+			if (fromSlot != null)
+			{
+				gunSlot.ItemStorage.ServerTryTransferFrom(fromSlot);
+				return;
+			}
+
+			gunSlot.ItemStorage.ServerTrySpawnAndAdd(prefab);
+		}
+
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			var newString = new StringBuilder();
