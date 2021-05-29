@@ -950,7 +950,14 @@ namespace Mirror
                 // scene object.. disable it in scene instead of destroying
                 else
                 {
+	                ///Added
 	                Object.Destroy(localObject.gameObject);
+	                ///UNITYSTATION CODE///
+	                /// why because for some reason mirror wants to treat seen objects as special
+	                /// and it's more consistent to just destroy so don't get Inconsistent behaviour
+	                /// between something that spawned in and something that was put in the scene
+	                /// Original code below
+
                     // localObject.gameObject.SetActive(false);
                     // spawnableObjects[localObject.sceneId] = localObject;
                     // reset for scene objects
