@@ -117,10 +117,14 @@ namespace HealthV2
 
 		protected bool isBleedingInternally = false;
 
+		public bool IsBleedingInternally => isBleedingInternally;
+
 		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
 
 		[SerializeField]
 		private float maximumInternalBleedDamage = 100;
+
+		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
 		private float currentInternalBleedingDamage = 0;
 
@@ -534,27 +538,32 @@ namespace HealthV2
 		/// <summary>
 		/// Enables internal damage logic.
 		/// </summary>
+		[ContextMenu("Debug - Apply Internal Damage")]
 		private void ApplyInternalDamage()
 		{
-			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
-			TakeDamage(null, damageToTake / 2, AttackType.Internal, DamageType.Brute, true, true, 0);
 			if(CanBleedInternally)
 			{
 				isBleedingInternally = true;
 			}
 		}
 
-		public virtual void InternalBleedingLogic()
+		/// <summary>
+		/// Internal Bleeding logic, damage types can be overriden.
+		/// </summary>
+		public void InternalBleedingLogic(AttackType attackType = AttackType.Internal, DamageType damageType = DamageType.Brute)
 		{
 			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
-			currentInternalBleedingDamage += damageToTake;
-			if(currentInternalBleedingDamage > maximumInternalBleedDamage)
+			if(currentInternalBleedingDamage >= maximumInternalBleedDamage)
 			{
 				BodyPart currentParent = GetParent();
 				if(currentParent != null)
 				{
-					currentParent.TakeDamage(null, damageToTake, AttackType.Internal, DamageType.Brute, false, false, 0);
+					currentParent.TakeDamage(null, damageToTake, attackType, damageType, false, false, 0);
 				}
+			}
+			else
+			{
+				currentInternalBleedingDamage += damageToTake;
 			}
 		}
 

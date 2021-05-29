@@ -1,92 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2864567407431371450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6161261707722952892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf6cde365554614293b923da75b4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
-  Storage: {fileID: 6924831777124808690}
-  BodyPartType: 1
-  containBodyParts: []
-  isDimorphic: 0
-  Root: {fileID: 0}
-  ContainedIn: {fileID: 0}
-  BodyTypesSprites:
-    SpriteOrder:
-      Orders: 00000000000000000000000000000000
-    BodyTypes: []
-  RelatedPresentSprites: []
-  SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  BodySpriteSet: 0
-  LobbyCustomisation: {fileID: 0}
-  optionalOrgans: []
-  OptionalReplacementOrgan: []
-  IsSurface: 0
-  DeathOnRemoval: 0
-  ClothingHide: 0
-  efficiency: 1
-  TotalModified: 1
-  SurgeryProcedureBase: []
-  isBloodCirculated: 1
-  isBloodReagentConsumed: 1
-  bloodType: {fileID: 0}
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
-  BloodContainer: {fileID: 0}
-  bloodReagentConsumed: 0.00002
-  bloodThroughput: 0.015
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  PassiveConsumptionNutriment: 0.0005
-  ConsumptionNutriment: 0.002
-  ReagentMetabolism: 0.2
-  SelfArmor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-    DismembermentProtectionChance: 0
-  SubOrganBodyPartArmour:
-    Melee: 100
-    Bullet: 90
-    Laser: 100
-    Energy: 100
-    Bomb: 80
-    Rad: 30
-    Fire: 70
-    Acid: 100
-    Magic: 100
-    Bio: 0
-    DismembermentProtectionChance: 0
-  SubOrganDamageIncreasePoint: 50
-  DamageContributesToOverallHealth: 1
-  DamageEfficiencyMultiplier: 1
-  maxHealth: 100
-  Severity: 50
-  DamageThreshold: 18
-  GibsOnSeverityLevel: 150
-  GibChance: 0.15
-  BodyPartStorageContentsSpillOutOnCutSize: 4
-  BodyPartDisembowlLogicOnCutSize: 3
-  spillChanceWhenCutPresent: 0.5
-  CanBleedInternally: 1
-  MinMaxInternalBleedingValues: {x: 1, y: 3}
-  maximumInternalBleedDamage: 100
-  coughChanceWhenInternallyBleeding: 0.5
 --- !u!114 &62102685253320784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +15,8 @@ MonoBehaviour:
   breatheCooldown: 4
   pressureSafeMin: 16
   LungSize: 6
+  coughChanceWhenInternallyBleeding: 35
+  internalBleedingCooldown: 4
 --- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,11 +45,6 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 4617543864376905469, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: CurrentsortingGroup
-      value: 
-      objectReference: {fileID: 87047224666527474}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_Name
@@ -231,9 +141,13 @@ PrefabInstance:
       propertyPath: CanBleedInternally
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maximumInternalBleedDamage
+      value: 165
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
-    - {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &6161261707722952892 stripped
 GameObject:
@@ -241,21 +155,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1441624991261802461}
   m_PrefabAsset: {fileID: 0}
---- !u!210 &87047224666527474 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 1528108646680144175, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1441624991261802461}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6924831777124808690 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8365541333810563119, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1441624991261802461}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6161261707722952892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

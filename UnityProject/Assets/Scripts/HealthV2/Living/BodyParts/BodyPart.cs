@@ -254,11 +254,6 @@ namespace HealthV2
 			{
 				bodyPartModification.ImplantPeriodicUpdate();
 			}
-
-			if(isBleedingInternally)
-			{
-				InternalBleedingLogic();
-			}
 		}
 
 		#region BodyPartStorage

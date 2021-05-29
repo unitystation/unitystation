@@ -9,14 +9,23 @@ namespace HealthV2
 	{
 		[NonSerialized]
 		public BodyPart RelatedPart;
-		public virtual void ImplantPeriodicUpdate() { }
+		public virtual void ImplantPeriodicUpdate() 
+		{ 
+			if(RelatedPart.IsBleedingInternally)
+			{
+				InternalDamageLogic();
+			}
+		}
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase){}
 		public virtual void HealthMasterSet(){}
 		public virtual void SetUpSystems(){}
 
 		public virtual void Initialisation(){}
 		public virtual void BloodWasPumped(){}
-
+		public virtual void InternalDamageLogic()
+		{
+			RelatedPart.InternalBleedingLogic();
+		}
 	}
 
 }

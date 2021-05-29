@@ -46,6 +46,10 @@ public class Lungs : BodyPartModification
 	[Tooltip("The volume of the lung in litres")]
 	public float LungSize = 6;
 
+	[SerializeField, Range(0,100)] private float coughChanceWhenInternallyBleeding = 32;
+    [SerializeField] private float internalBleedingCooldown = 4f;
+    private bool onCooldown = false;
+
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
@@ -56,6 +60,11 @@ public class Lungs : BodyPartModification
 		if (TryBreathing(node, RelatedPart.TotalModified))
 		{
 			AtmosManager.Update(node);
+		}
+
+		if(RelatedPart.IsBleedingInternally)
+		{
+			InternalDamageLogic();
 		}
 	}
 
@@ -190,4 +199,38 @@ public class Lungs : BodyPartModification
 		//Debug.Log("Gas inhaled: " + toInhale.Total + " Saturation: " + saturation);
 		return toInhale.Total > 0;
 	}
+
+	public override void InternalDamageLogic()
+	{
+        if(!onCooldown)
+        {
+			if(RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage / 2)
+			{
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
+					"You gasp for air; but you drown in your own blood from the inside!", 
+					$"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps for air!");
+					RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
+					RelatedPart.InternalBleedingLogic(AttackType.Internal, DamageType.Oxy);
+			}
+			else
+			{
+				RelatedPart.InternalBleedingLogic();
+			}
+            if(DMMath.Prob(coughChanceWhenInternallyBleeding))
+            {
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
+				"You cough up blood!", $"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} coughs up blood!");
+				RelatedPart.CurrentInternalBleedingDamage -= Random.Range(RelatedPart.MinMaxInternalBleedingValues.x, RelatedPart.MinMaxInternalBleedingValues.y);
+				EffectsFactory.BloodSplat(RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
+            }
+			onCooldown = true;
+            StartCoroutine(CooldownTick());
+        }
+	}
+
+    private IEnumerator<WaitForSeconds> CooldownTick()
+    {
+        yield return new WaitForSeconds(internalBleedingCooldown);
+        onCooldown = false;
+    }
 }
