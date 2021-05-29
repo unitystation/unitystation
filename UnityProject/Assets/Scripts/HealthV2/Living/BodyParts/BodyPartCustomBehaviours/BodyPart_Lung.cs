@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyPart_Lung : HealthV2.BodyPart
+namespace BodyParts
+{
+    public class BodyPart_Lung : HealthV2.BodyPart
 {
     [SerializeField] private float coughChanceWhenInternallyBleeding = 0.5f;
     [SerializeField] private float internalBleedingCooldown = 4f;
@@ -32,3 +34,5 @@ public class BodyPart_Lung : HealthV2.BodyPart
         onCooldown = false;
     }
 }
+}
+
