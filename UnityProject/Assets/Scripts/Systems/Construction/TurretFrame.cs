@@ -1,0 +1,452 @@
+﻿using ScriptableObjects;
+using UnityEngine;
+
+namespace Systems.Construction
+{
+	public class TurretFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	{
+		[SerializeField] private StatefulState initialState = null;
+		[SerializeField] private StatefulState anchoredState = null;
+		[SerializeField] private StatefulState metalAddedState = null;
+		[SerializeField] private StatefulState wrenchState = null;
+		[SerializeField] private StatefulState gunAddedState = null;
+		[SerializeField] private StatefulState proxAddedState = null;
+		[SerializeField] private StatefulState screwState = null;
+		[SerializeField] private StatefulState secondMetalAddedState = null;
+
+		[SerializeField] private GameObject proximityPrefab = null;
+
+		[SerializeField] private GameObject turretPrefab = null;
+
+		[SerializeField]
+		[Range(1,100)]
+		[Tooltip("Chance to lose gun during deconstruction")]
+		private int gunLossChance = 30;
+
+		private ItemSlot gunSlot;
+		private Stateful stateful;
+		private StatefulState CurrentState => stateful.CurrentState;
+		private ObjectBehaviour objectBehaviour;
+		private Integrity integrity;
+
+		private void Awake()
+		{
+			gunSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
+			stateful = GetComponent<Stateful>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
+
+			if (!CustomNetworkManager.IsServer) return;
+
+			integrity = GetComponent<Integrity>();
+
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+			if (!Validations.IsTarget(gameObject, interaction)) return false;
+
+			//Anchor or disassemble
+			if (CurrentState == initialState)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+			}
+
+			//Adding metal or unanchor
+			if (CurrentState == anchoredState)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.MetalSheet) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+			}
+
+			//Wrench or remove metal
+			if (CurrentState == metalAddedState)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
+				       Validations.HasUsedActiveWelder(interaction);
+			}
+
+			//Add gun or unwrench
+			if (CurrentState == wrenchState)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.EnergyGun) ||
+					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+			}
+
+			//Add prox or remove gun
+			if (CurrentState == gunAddedState)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.ProximitySensor) ||
+				       interaction.HandObject == null;
+			}
+
+			//Screw or remove prox
+			if (CurrentState == proxAddedState)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       interaction.HandObject == null;
+			}
+
+			//Add metal or unscrew
+			if (CurrentState == screwState)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.MetalSheet) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+			}
+
+			//Finish construction or remove metal
+			if (CurrentState == screwState)
+			{
+				return Validations.HasUsedActiveWelder(interaction) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+			}
+
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			//Anchor or disassemble
+			if (CurrentState == initialState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				{
+					if (!ServerValidations.IsAnchorBlocked(interaction))
+					{
+						//wrench in place
+						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+							"You start wrenching the turret frame into place...",
+							$"{interaction.Performer.ExpensiveName()} starts wrenching the turret frame into place...",
+							"You wrench the turret frame into place.",
+							$"{interaction.Performer.ExpensiveName()} wrenches the turret frame into place.",
+							() =>
+							{
+								objectBehaviour.ServerSetAnchored(true, interaction.Performer);
+
+								stateful.ServerChangeState(anchoredState);
+							});
+
+						return;
+					}
+				}
+				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				{
+					//deconstruct
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start deconstructing the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts deconstructing the turret frame...",
+						"You deconstruct the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} deconstructs the turret frame.",
+						() =>
+						{
+							Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
+							_ = Despawn.ServerSingle(gameObject);
+						});
+				}
+
+				return;
+			}
+
+			//Adding metal or unanchor
+			if (CurrentState == anchoredState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.MetalSheet))
+				{
+					//Add metal
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start adding a metal cover to the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts adding a metal cover to the turret frame...",
+						"You add a metal cover to the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} adds a metal cover to the turret frame.",
+						() =>
+						{
+							Inventory.ServerConsume(interaction.HandSlot, 1);
+							stateful.ServerChangeState(metalAddedState);
+						});
+				}
+				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				{
+					//Unanchor
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start unwrenching the turret frame from the floor...",
+						$"{interaction.Performer.ExpensiveName()} starts unwrenching the turret frame from the floor...",
+						"You unwrench the turret frame from the floor.",
+						$"{interaction.Performer.ExpensiveName()} unwrenches the turret frame from the floor.",
+						() =>
+						{
+							objectBehaviour.ServerSetAnchored(false, interaction.Performer);
+
+							stateful.ServerChangeState(initialState);
+						});
+				}
+
+				return;
+			}
+
+			//Wrench or remove metal
+			if (CurrentState == metalAddedState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				{
+					//Wrench
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start wrenching the bolts on the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts wrenching the bolts on the turret frame...",
+						"You wrench the bolts on the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} wrenches the bolts on the turret frame.",
+						() =>
+						{
+							stateful.ServerChangeState(wrenchState);
+						});
+				}
+				else if (Validations.HasUsedActiveWelder(interaction))
+				{
+					//Remove metal
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start removing the metal cover from the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts removing the metal cover from the turret frame...",
+						"You remove the metal cover from the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the metal cover from the turret frame.",
+						() =>
+						{
+							Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 1);
+							stateful.ServerChangeState(anchoredState);
+						});
+				}
+
+				return;
+			}
+
+			//Add gun or unwrench
+			if (CurrentState == wrenchState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.EnergyGun))
+				{
+					//Add energy gun
+					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the turret frame.");
+					Inventory.ServerTransfer(interaction.HandSlot, gunSlot);
+					stateful.ServerChangeState(gunAddedState);
+				}
+				else if  (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				{
+					//Remove unwrench bolts
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start removing the bolts from the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts removing the bolts from the turret frame...",
+						"You remove the bolts from the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the bolts from the turret frame.",
+						() =>
+						{
+							stateful.ServerChangeState(metalAddedState);
+						});
+				}
+
+				return;
+			}
+
+			//Add prox or remove gun
+			if (CurrentState == gunAddedState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.ProximitySensor))
+				{
+					//Add proximity sensor
+					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the turret frame.");
+					_ = Despawn.ServerSingle(interaction.UsedObject);
+					stateful.ServerChangeState(screwState);
+				}
+				else if  (interaction.HandObject == null)
+				{
+					//Remove gun
+					Chat.AddActionMsgToChat(interaction, $"You remove the {gunSlot.ItemObject.ExpensiveName()} from the frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the {gunSlot.ItemObject.ExpensiveName()} from the frame.");
+					Inventory.ServerDrop(gunSlot);
+
+					stateful.ServerChangeState(wrenchState);
+				}
+
+				return;
+			}
+
+			//Screw or remove prox
+			if (CurrentState == proxAddedState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				{
+					//Screw
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start closing the internal hatch of the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts closing the internal hatch of the turret frame...",
+						"You close the internal hatch of the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} closes the internal hatch of the turret frame.",
+						() =>
+						{
+							stateful.ServerChangeState(screwState);
+						});
+				}
+				else if  (interaction.HandObject == null)
+				{
+					//Remove prox
+					Chat.AddActionMsgToChat(interaction, $"You remove the {gunSlot.ItemObject.ExpensiveName()} from the frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the {gunSlot.ItemObject.ExpensiveName()} from the frame.");
+					Spawn.ServerPrefab(proximityPrefab, objectBehaviour.registerTile.WorldPosition, transform.parent);
+
+					stateful.ServerChangeState(gunAddedState);
+				}
+
+				return;
+			}
+
+			//Add metal or unscrew
+			if (CurrentState == screwState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.MetalSheet))
+				{
+					//Add metal
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start adding a metal cover to the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts adding a metal cover to the turret frame...",
+						"You add a metal cover to the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} adds a metal cover to the turret frame.",
+						() =>
+						{
+							Inventory.ServerConsume(interaction.HandSlot, 1);
+							stateful.ServerChangeState(secondMetalAddedState);
+						});
+				}
+				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				{
+					//Unscrew
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start removing the bolts from the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts removing the bolts from the turret frame...",
+						"You remove the bolts from the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the bolts from the turret frame.",
+						() =>
+						{
+							stateful.ServerChangeState(proxAddedState);
+						});
+				}
+
+				return;
+			}
+
+			//Finish construction, or remove metal
+			if (CurrentState == secondMetalAddedState)
+			{
+				if (Validations.HasUsedActiveWelder(interaction))
+				{
+					//Weld to finish turret
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start welding the outer metal cover to the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts welding the outer metal cover to the turret frame...",
+						"You weld the outer metal cover to the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} welds the outer metal cover to the turret frame.",
+						() =>
+						{
+							var spawnedTurret = Spawn.ServerPrefab(turretPrefab, objectBehaviour.registerTile.WorldPosition, transform.parent);
+
+							//TODO tranfer gun slot to turret
+							//TODO set up turret
+							//TODO block APC changing/Attach to nearest???
+
+							_ = Despawn.ServerSingle(gameObject);
+						});
+				}
+				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				{
+					//remove metal
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start prying off the outer metal cover from the turret frame...",
+						$"{interaction.Performer.ExpensiveName()} starts prying off the outer metal cover from the turret frame...",
+						"You pry off the outer metal cover from the turret frame.",
+						$"{interaction.Performer.ExpensiveName()} prys off the outer metal cover from the turret frame.",
+						() =>
+						{
+							stateful.ServerChangeState(screwState);
+						});
+				}
+			}
+		}
+
+		private void WhenDestroyed(DestructionInfo info)
+		{
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+
+			if (gunSlot.IsOccupied)
+			{
+				Inventory.ServerDrop(gunSlot);
+			}
+
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+
+			if (CurrentState == initialState) return;
+
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 1));
+
+			if (CurrentState == metalAddedState) return;
+
+			Spawn.ServerPrefab(proximityPrefab, SpawnDestination.At(gameObject), 1);
+
+			if (CurrentState == proxAddedState) return;
+
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 1));
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			//Anchor or disassemble
+			if (CurrentState == initialState)
+			{
+				return "Use a wrench to anchor to continue construction, or crowbar to disassemble the frame";
+			}
+
+			//Adding metal or unanchor
+			if (CurrentState == anchoredState)
+			{
+				return "Use 5 metal to continue construction, or a wrench to unanchor the frame";
+			}
+
+			//Wrench or remove metal
+			if (CurrentState == metalAddedState)
+			{
+				return "Use a wrench to continue construction, or a welder to remove the metal from the frame";
+			}
+
+			//Add gun or unwrench
+			if (CurrentState == wrenchState)
+			{
+				return "Add an energy gun to continue construction, or use a wrench to remove the metal from the frame";
+			}
+
+			//Add prox or remove gun
+			if (CurrentState == gunAddedState)
+			{
+				return "Add an proximity sensor to continue construction, or use your hands to remove the energy gun from the frame";
+			}
+
+			//Screw or remove prox
+			if (CurrentState == proxAddedState)
+			{
+				return "Use a screwdriver to continue construction, or use your hands to remove the proximity sensor from the frame";
+			}
+
+			//Add metal or unscrew
+			if (CurrentState == screwState)
+			{
+				return "Use metal to continue construction, or use a screwdriver on the frame";
+			}
+
+			if (CurrentState == secondMetalAddedState)
+			{
+				return "Use welder to finish construction, or use a crowbar to remove the outer cover of the frame";
+			}
+
+			return "";
+		}
+	}
+}
