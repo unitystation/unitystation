@@ -816,13 +816,18 @@ namespace Systems.Ai
 		[Server]
 		public void ResetLaws(bool isPurge = false)
 		{
-			var oldLaws = aiLaws.Keys;
+			var lawsToRemove = new Dictionary<LawOrder, List<string>>();
 
-			foreach (var law in oldLaws)
+			foreach (var law in aiLaws)
 			{
-				if ((isPurge == false && law == LawOrder.Core) || law == LawOrder.Traitor) continue;
+				if ((isPurge == false && law.Key == LawOrder.Core) || law.Key == LawOrder.Traitor) continue;
 
-				aiLaws.Remove(law);
+				lawsToRemove.Add(law.Key, law.Value);
+			}
+
+			foreach (var law in lawsToRemove)
+			{
+				aiLaws.Remove(law.Key);
 			}
 
 			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
