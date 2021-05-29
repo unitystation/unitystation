@@ -305,6 +305,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
+		if (objectLayer)
+		{
+			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
+			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
+		}
+
 		//cancel all relationships
 		if (sameMatrixRelationships != null)
 		{
@@ -392,8 +398,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
 
-		LocalPositionClient = Vector3Int.zero;
-		LocalPositionServer = Vector3Int.zero;
+		LocalPositionClient = TransformState.HiddenPos;
+		LocalPositionServer = TransformState.HiddenPos;
 
 		objectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		transform.SetParent(objectLayer.transform, true);
@@ -445,6 +451,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			              transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
+			LocalPositionServer = TransformState.HiddenPos;
+			LocalPositionClient = TransformState.HiddenPos;
 
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
 			LocalPositionClient = Vector3Int.RoundToInt(transform.localPosition);

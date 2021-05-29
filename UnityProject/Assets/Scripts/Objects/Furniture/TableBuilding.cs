@@ -49,6 +49,8 @@ namespace Objects.Construction
 			//only care about interactions targeting us
 			if (interaction.TargetObject != gameObject) return false;
 
+			if (interaction.HandObject == null) return false;
+
 			if (interaction.HandObject.GetComponent<Stackable>().Amount < 2) return false;
 
 			//only try to interact if the user has a wrench, screwdriver in their hand
