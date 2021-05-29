@@ -78,6 +78,7 @@ namespace Doors
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
 		}
 
+		//Called on client and server
 		public void PlayAnimation(DoorUpdateType type, bool skipAnimation)
 		{
 			if (type == DoorUpdateType.Open)
@@ -112,7 +113,7 @@ namespace Doors
 			}
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Opening);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Opening);
-			_ = SoundManager.PlayAtPosition(openingSFX, gameObject.AssumedWorldPosServer());
+			ServerPlaySound(openingSFX);
 			yield return WaitFor.Seconds(openingAnimationTime);
 
 			// Change to open sprite after done opening
@@ -138,7 +139,7 @@ namespace Doors
 
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Closing);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Closing);
-			SoundManager.PlayNetworkedAtPos(closingSFX, gameObject.AssumedWorldPosServer());
+			ServerPlaySound(closingSFX);
 			yield return WaitFor.Seconds(openingAnimationTime);
 
 			//Change to closed sprite after it is done closing
@@ -162,7 +163,7 @@ namespace Doors
 		{
 			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
-			SoundManager.PlayNetworkedAtPos(deniedSFX, gameObject.AssumedWorldPosServer());
+			ServerPlaySound(deniedSFX);
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
@@ -173,9 +174,15 @@ namespace Doors
 
 		public IEnumerator PlayPressureWarningAnimation()
 		{
-			SoundManager.PlayNetworkedAtPos(warningSFX, gameObject.AssumedWorldPosServer());
+			ServerPlaySound(warningSFX);
 			AnimationFinished?.Invoke();
 			yield break;
+		}
+
+		private void ServerPlaySound(AddressableAudioSource sound)
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+			SoundManager.PlayNetworkedAtPos(sound, gameObject.AssumedWorldPosServer());
 		}
 
 		public void TurnOffAllLights()
