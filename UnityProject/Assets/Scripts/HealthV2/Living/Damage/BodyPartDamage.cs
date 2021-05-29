@@ -483,7 +483,7 @@ namespace HealthV2
 		}
 
 
-		private void applyCutSizeLogic()
+		private void ApplyCutSizeLogic()
 		{
 			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 			float armorChanceModifer = cutChance + SelfArmor.DismembermentProtectionChance; //We use dismember protection chance because it's the most logical value.

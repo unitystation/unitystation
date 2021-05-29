@@ -23,12 +23,12 @@ namespace BodyParts
                 Chat.AddActionMsgToChat(script, "You cough up blood!", $"{script.Player().Script.visibleName} cough up blood!");
                 EffectsFactory.BloodSplat(script.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
                 onCooldown = true;
-                StartCoroutine(cooldownTick());
+                StartCoroutine(CooldownTick());
             }
         }
 	}
 
-    private IEnumerator cooldownTick()
+    private IEnumerator CooldownTick()
     {
         yield return new WaitForSeconds(internalBleedingCooldown);
         onCooldown = false;
