@@ -77,12 +77,6 @@ namespace Systems.Ai
 
 			var lawFromModule = module.GetLawsFromModule(interaction.PerformerPlayerScript);
 
-			if (lawFromModule.Count == 0)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "No laws to upload");
-				return;
-			}
-
 			if (module.AiModuleType == AiModuleType.Purge || module.AiModuleType == AiModuleType.Reset)
 			{
 				var isPurge = module.AiModuleType == AiModuleType.Purge;
@@ -92,20 +86,29 @@ namespace Systems.Ai
 				return;
 			}
 
+			if (lawFromModule.Count == 0)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "No laws to upload");
+				return;
+			}
+
 			//If we are only adding core laws then we must mean to remove old core laws
 			//This means we are assuming that the law set must only have core laws if it is to replace the old laws fully
-			var justCoreLaws = true;
+			var notOnlyCoreLaws = false;
 
 			foreach (var law in lawFromModule)
 			{
 				if (law.Key != AiPlayer.LawOrder.Core)
 				{
-					justCoreLaws = false;
+					notOnlyCoreLaws = true;
 					break;
 				}
 			}
 
-			selectedAiPlayer.SetLaws(lawFromModule, justCoreLaws);
+			selectedAiPlayer.SetLaws(lawFromModule, true, notOnlyCoreLaws);
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You change {selectedAiPlayer.gameObject.ExpensiveName()} laws",
+				$"{interaction.Performer.ExpensiveName()} changes {selectedAiPlayer.gameObject.ExpensiveName()} laws");
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

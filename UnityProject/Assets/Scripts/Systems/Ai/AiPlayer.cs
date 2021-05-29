@@ -92,10 +92,18 @@ namespace Systems.Ai
 		//	Law 4: Freeform
 		//	Higher laws (the law above each one) override all lower ones. Whether numbered or not, how they appear (in order) is the order of priority.
 
-		//TODO currently hard coded, when upload console implemented
-		private readonly SyncDictionary<LawOrder, List<string>> aiLaws = new SyncDictionary<LawOrder, List<string>>();
+		//Is sync'd manually to client
+		//Tried to use sync dictionary from mirror but didnt work correctly, wouldnt sync the values correctly
+		private Dictionary<LawOrder, List<string>> aiLaws = new Dictionary<LawOrder, List<string>>();
 
-		public SyncDictionary<LawOrder, List<string>> AiLaws => aiLaws;
+		public Dictionary<LawOrder, List<string>> AiLaws => aiLaws;
+
+		[Serializable]
+		public struct LawSyncData
+		{
+			public LawOrder LawOrder;
+			public string[] Laws;
+		}
 
 		#region LifeCycle
 
@@ -184,6 +192,8 @@ namespace Systems.Ai
 			coreObject = newCore;
 			if(newCore == null) return;
 
+			if (CustomNetworkManager.IsHeadless) return;
+
 			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
 			aiUi.OrNull()?.SetUp(this);
 			coreCamera = newCore.GetComponent<SecurityCamera>();
@@ -197,11 +207,11 @@ namespace Systems.Ai
 			//Enable security camera overlay
 			SetCameras(true);
 
-			//Tell player to open law screen so they can see shat laws they have
-			TargetRpcForceLawScreen();
+			//Ask server to force sync laws
+			CmdAskForLawUpdate();
 
 			//Set sprite to player layer
-			//TODO currently other AIs cant see where each other is looking maybe sync this to only AI's?
+			//TODO currently other AIs cant see where each other is looking maybe try sync this to only AI's?
 			mainSprite.layer = 8;
 		}
 
@@ -209,6 +219,8 @@ namespace Systems.Ai
 		private void SyncPowerState(bool oldState, bool newState)
 		{
 			hasPower = newState;
+
+			if (CustomNetworkManager.IsHeadless) return;
 
 			//If we lose power we cant see much
 			lightingSystem.fovDistance = newState ? 13 : 2;
@@ -220,6 +232,8 @@ namespace Systems.Ai
 		{
 			power = newValue;
 
+			if (CustomNetworkManager.IsHeadless) return;
+
 			aiUi.SetPowerLevel(newValue);
 		}
 
@@ -227,6 +241,8 @@ namespace Systems.Ai
 		private void SyncIntegrity(float oldValue, float newValue)
 		{
 			integrity = newValue;
+
+			if (CustomNetworkManager.IsHeadless) return;
 
 			aiUi.SetIntegrityLevel(newValue);
 		}
@@ -723,7 +739,7 @@ namespace Systems.Ai
 			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
 
 			//Tell player to open law screen so they dont miss that their laws have changed
-			TargetRpcForceLawScreen();
+			ServerUpdateClientLaws();
 		}
 
 		//Set a new list of laws, used mainly to set new core laws, can remove core laws if parameter set true
@@ -772,41 +788,46 @@ namespace Systems.Ai
 							return;
 						}
 
-						newLaws[order] = lawGroups.Value;
+						var lawsInNewGroup = lawGroups.Value;
+
+						//Only allow unique laws, dont allow multiple of the same law
+						foreach (var lawToAdd in lawGroups.Value)
+						{
+							if (newLaws[order].Contains(lawToAdd))
+							{
+								lawsInNewGroup.Remove(lawToAdd);
+							}
+						}
+
+						newLaws[order].AddRange(lawsInNewGroup);
 					}
 				}
 			}
 
-			aiLaws.Clear();
-
-			foreach (var law in newLaws)
-			{
-				aiLaws.Add(law);
-			}
+			aiLaws = newLaws;
 
 			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
 
 			//Tell player to open law screen so they dont miss that their laws have changed
-			TargetRpcForceLawScreen();
+			ServerUpdateClientLaws();
 		}
 
 		//Removes all laws except core and traitor, unless is purge then will remove core as well
 		[Server]
 		public void ResetLaws(bool isPurge = false)
 		{
-			var oldLaws = aiLaws;
+			var oldLaws = aiLaws.Keys;
 
 			foreach (var law in oldLaws)
 			{
-				if ((isPurge == false && law.Key == LawOrder.Core) || law.Key == LawOrder.Traitor) continue;
+				if ((isPurge == false && law == LawOrder.Core) || law == LawOrder.Traitor) continue;
 
-				aiLaws.Remove(law.Key);
+				aiLaws.Remove(law);
 			}
 
 			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
 
-			//Tell player to open law screen so they dont miss that their laws have changed
-			TargetRpcForceLawScreen();
+			ServerUpdateClientLaws();
 		}
 
 		//Valid server and client side
@@ -852,11 +873,41 @@ namespace Systems.Ai
 			return lawsToReturn;
 		}
 
-		//Makes player open law screen
-		[TargetRpc]
-		private void TargetRpcForceLawScreen()
+		[Server]
+		private void ServerUpdateClientLaws()
 		{
+			var data = new List<LawSyncData>();
+
+			foreach (var lawGroup in aiLaws)
+			{
+				data.Add(new LawSyncData()
+				{
+					LawOrder = lawGroup.Key,
+					Laws = lawGroup.Value.ToArray()
+				});
+			}
+
+			TargetRpcForceLawUpdate(data);
+		}
+
+		//Force a law update on player and makes player open law screen
+		[TargetRpc]
+		private void TargetRpcForceLawUpdate(List<LawSyncData> newData)
+		{
+			aiLaws.Clear();
+
+			foreach (var lawData in newData)
+			{
+				aiLaws.Add(lawData.LawOrder, lawData.Laws.ToList());
+			}
+
 			aiUi.OpenLaws();
+		}
+
+		[Command]
+		private void CmdAskForLawUpdate()
+		{
+			ServerUpdateClientLaws();
 		}
 
 		[ContextMenu("randomise laws")]
@@ -866,6 +917,15 @@ namespace Systems.Ai
 			foreach (var law in pickedLawSet.Laws)
 			{
 				AddLaw(law.Law, law.LawOrder, true);
+			}
+		}
+
+		[ContextMenu("debug log laws")]
+		public void DebugLogLaws()
+		{
+			foreach (var law in GetLaws())
+			{
+				Debug.LogError(law);
 			}
 		}
 

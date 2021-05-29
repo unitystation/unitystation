@@ -32,6 +32,9 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		[SerializeField]
 		private GameObject aiLawsTabDummyLaw = null;
 
+		[SerializeField]
+		private TMP_Text amountOfLawsText = null;
+
 		//Slider Stuff
 		[SerializeField]
 		private Slider powerSlider = null;
@@ -179,6 +182,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 			// 0 laws first, freeform last
 			var laws = aiPlayer.GetLaws();
+
+			amountOfLawsText.text = $"You have <color=orange>{laws.Count}</color> law{(laws.Count == 1 ? "" : "s")}\nYou Must Follow Them";
 
 			foreach (var law in laws)
 			{
