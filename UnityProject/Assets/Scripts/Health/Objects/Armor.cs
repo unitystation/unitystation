@@ -47,7 +47,7 @@ public class Armor
 	/// <param name="attackType">Type of attack</param>
 	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
 	/// <returns>New damage after applying protection values</returns>
-	public float getForce(float damage, AttackType attackType, float armorPenetration = 0)
+	public float GetForce(float damage, AttackType attackType, float armorPenetration = 0)
 	{
 		return damage / GetRatingValue(attackType, armorPenetration);
 	}

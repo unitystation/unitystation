@@ -77,7 +77,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddDamage(float Energy, AttackType attackType, MetaDataNode data,
 		BasicTile basicTile, Vector3 worldPosition)
 	{
-		float EnergyAbsorbed = 0;
+		float energyAbsorbed = 0;
 		if (basicTile.indestructible || Energy < basicTile.damageDeflection)
 		{
 			if (attackType == AttackType.Bomb && basicTile.ExplosionImpassable == false)
@@ -88,11 +88,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				if (attackType == AttackType.Bomb)
 				{
-					return EnergyAbsorbed*  0.85f;
+					return energyAbsorbed * 0.85f;
 				}
 				else
 				{
-					return EnergyAbsorbed;
+					return energyAbsorbed;
 				}
 			}
 		}
@@ -111,7 +111,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (totalDamageTaken >= basicTile.MaxHealth)
 		{
-			float ExcessEnergy = basicTile.Armor.getForce( totalDamageTaken - basicTile.MaxHealth, attackType);
+			float excessEnergy = basicTile.Armor.GetForce( totalDamageTaken - basicTile.MaxHealth, attackType);
 			if (basicTile.SoundOnDestroy.Count > 0)
 			{
 				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition);
@@ -141,19 +141,19 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 				var overFlowProtection = 0;
 
-				while (ExcessEnergy > 0 && tile != null)
+				while (excessEnergy > 0 && tile != null)
 				{
 					overFlowProtection++;
 
-					if (tile.MaxHealth <= ExcessEnergy)
+					if (tile.MaxHealth <= excessEnergy)
 					{
-						ExcessEnergy -= tile.MaxHealth;
+						excessEnergy -= tile.MaxHealth;
 						tile = tile.ToTileWhenDestroyed as BasicTile;
 					}
 					else
 					{
 						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
-						ExcessEnergy = 0;
+						excessEnergy = 0;
 						tileChangeManager.UpdateTile(data.Position, tile);
 						break;
 					}
@@ -165,7 +165,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 					}
 				}
 
-				EnergyAbsorbed = Energy - ExcessEnergy;
+				energyAbsorbed = Energy - excessEnergy;
 			}
 
 			if (basicTile.SpawnOnDestroy != null)
@@ -190,7 +190,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			}
 
 			//All the damage was absorbed, none left to return for next layer
-			EnergyAbsorbed = Energy;
+			energyAbsorbed = Energy;
 		}
 
 		if (basicTile.MaxHealth < basicTile.MaxHealth - totalDamageTaken)
@@ -200,17 +200,17 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (attackType == AttackType.Bomb && basicTile.ExplosionImpassable == false)
 		{
-			return EnergyAbsorbed  * 0.375f;
+			return energyAbsorbed  * 0.375f;
 		}
 		else
 		{
 			if (attackType == AttackType.Bomb)
 			{
-				return EnergyAbsorbed*  0.85f;
+				return energyAbsorbed*  0.85f;
 			}
 			else
 			{
-				return EnergyAbsorbed;
+				return energyAbsorbed;
 			}
 		}
 	}
