@@ -70,22 +70,59 @@ namespace HealthV2
 		public DamageSeverity Severity = DamageSeverity.LightModerate;
 
 		/// <summary>
-		/// How much damage can this body part last before it breaks/gibs
+		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
-		public float DamageThreshold = 15f;
+		public float DamageThreshold = 18f;
+		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
+		public float GibChance = 0.15f;
 
 		/// <summary>
-		/// On Which DamageSeverity level do we start checking if this limb can be dismemered?
-		/// <summary>
-		[Tooltip("On Which DamageSeverity level do we start checking if this limb can be dismemered?")]
-		public DamageSeverity DismembermentOnSeverityLevel = DamageSeverity.Max;
+		/// When does this body part take before it's contents in it's storage spill out?
+		/// </summary>
+		[SerializeField, 
+		Tooltip("When does the contents of this body part's storage to spill out when a large enough cut exists?")]
+		private BodyPartCutSize BodyPartStorageContentsSpillOutOnCutSize = BodyPartCutSize.LARGE;
 
 		/// <summary>
-		/// The chance of this body part getting dismemered.
-		/// The higher the harder. (1 means it's impossible to disemember it based on chance)
+		/// When do we start applying disembowling logic?
+		/// </summary>
+		[SerializeField, 
+		Tooltip("At what cut size do we start applying disembowling logic?")]
+		private BodyPartCutSize BodyPartDisembowlLogicOnCutSize = BodyPartCutSize.MEDIUM;
+
+		[SerializeField, 
+		Tooltip("How likely is this organ going to be damaged? The higher the number the less likely."),
+		Range(0,1.0f)]
+		private float cutChance = 0.35f;
+
+		[SerializeField, 
+		Tooltip("At what damage do we start applying cutting logic to bodyParts?")]
+		private float cutDamgeThreshold = 10f;
+
 		/// <summary>
-		[Tooltip("The chance of this body part getting dismemered. The Higher, the harder. (1 = total immunaity to dismembering when using chance)")]
-		public float DismembermentChance = 0.15f;
+		/// How likely does the contents of this body part's storage to spill out?
+		/// </summary>
+		[SerializeField, 
+		Tooltip("How likely does the contents of this body part's storage to spill out when a large enough cut exists?"),
+		Range(0,1.0f)]
+		private float spillChanceWhenCutPresent = 0.5f;
+
+
+		/// <summary>
+		/// Does this body part have a cut and how big is it?
+		/// </summary>
+		private BodyPartCutSize currentCutSize = BodyPartCutSize.NONE;
+
+		public bool CanBleedInternally = false;
+
+		protected bool isBleedingInternally = false;
+
+		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
+
+		[SerializeField]
+		private float maximumInternalBleedDamage = 100;
+
+		private float currentInternalBleedingDamage = 0;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -122,6 +159,18 @@ namespace HealthV2
 		/// </summary>
 		public float RadiationStacks => Damages[(int) DamageType.Radiation];
 
+
+		[HideInInspector] public float CurrentInternalBleedingDamage 
+		{ 
+			get 
+			{
+				return currentInternalBleedingDamage;
+			}
+			set
+			{
+				currentInternalBleedingDamage = value;
+			}
+		}
 		/// <summary>
 		/// List of all damage taken
 		/// </summary>
@@ -194,6 +243,15 @@ namespace HealthV2
 
 				return TDamage;
 			}
+		}
+
+		enum BodyPartCutSize
+		{
+			NONE,
+			TINY,
+			SMALL,
+			MEDIUM,
+			LARGE
 		}
 
 		public void DamageInitialisation()
@@ -280,10 +338,7 @@ namespace HealthV2
 
 			if(attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{
-				if(damageToLimb >= DamageThreshold)
-				{
-					CheckBodyPartIntigrity();
-				}
+				CheckBodyPartIntigrity(damage);
 			}
 			if(attackType == AttackType.Bomb)
 			{
@@ -365,6 +420,7 @@ namespace HealthV2
 			if (severity <= 0)
 			{
 				Severity = DamageSeverity.None;
+				currentCutSize = BodyPartCutSize.NONE;
 			}
 			// If the limb is under 10% damage
 			else if (severity < 0.1)
@@ -395,6 +451,7 @@ namespace HealthV2
 			else if (severity >= 0.95f)
 			{
 				Severity = DamageSeverity.Max;
+				currentCutSize = BodyPartCutSize.LARGE;
 			}
 
 			if (oldSeverity != Severity && healthMaster != null)
@@ -406,26 +463,110 @@ namespace HealthV2
 		/// <summary>
 		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
 		/// </summary>
-		protected void CheckBodyPartIntigrity()
+		protected void CheckBodyPartIntigrity(float lastDamage)
 		{
-			if(Severity >= DismembermentOnSeverityLevel)
+			if(lastDamage >= cutDamgeThreshold)
+			{
+				applyCutSizeLogic();
+			}
+			if(currentCutSize >= BodyPartDisembowlLogicOnCutSize)
+			{
+				if(containBodyParts.Count != 0)
+				{
+					Disembowel();
+				}
+			}
+			if(Severity >= GibsOnSeverityLevel && lastDamage >= DamageThreshold)
 			{
 				DismemberBodyPartWithChance();
+			}
+		}
+
+
+		private void applyCutSizeLogic()
+		{
+			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
+			float armorChanceModifer = cutChance + SelfArmor.DismembermentProtectionChance; //We use dismember protection chance because it's the most logical value.
+			if(severity < 0.25){armorChanceModifer += 0.1f;}
+			if(chance > armorChanceModifer)
+			{
+				currentCutSize = currentCutSize.Next();
+			}
+		}
+
+		/// <summary>
+		/// Checks if the cut is big enough for the contained organs to escape.
+		/// If the cut isn't big enough or has failed a chance check, apply internal damage + bleeding.
+		/// </summary>
+		private void Disembowel()
+		{
+			BodyPart randomBodyPart = ContainBodyParts.GetRandom();
+			BodyPart randomCustomBodyPart = OptionalOrgans.GetRandom();
+			if(currentCutSize >= BodyPartStorageContentsSpillOutOnCutSize)
+			{
+				float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
+				if(chance >= spillChanceWhenCutPresent)
+				{
+					randomBodyPart.RemoveFromBodyThis();
+					if(randomCustomBodyPart != null)
+					{
+						randomCustomBodyPart.RemoveFromBodyThis();
+					}
+				}
+				else
+				{
+					randomBodyPart.applyInternalDamage();
+					if(randomCustomBodyPart != null)
+					{
+						randomCustomBodyPart.applyInternalDamage();
+					}
+				}
+			}
+			else
+			{
+				randomBodyPart.applyInternalDamage();
+				if(randomCustomBodyPart != null)
+				{
+					randomCustomBodyPart.applyInternalDamage();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Enables internal damage logic.
+		/// </summary>
+		private void applyInternalDamage()
+		{
+			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
+			TakeDamage(null, damageToTake / 2, AttackType.Internal, DamageType.Brute, true, true, 0);
+			if(CanBleedInternally)
+			{
+				isBleedingInternally = true;
+			}
+		}
+
+		public virtual void InternalBleedingLogic()
+		{
+			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
+			currentInternalBleedingDamage += damageToTake;
+			if(currentInternalBleedingDamage > maximumInternalBleedDamage)
+			{
+				BodyPart currentParent = GetParent();
+				if(currentParent != null)
+				{
+					currentParent.TakeDamage(null, damageToTake, AttackType.Internal, DamageType.Brute, false, false, 0);
+				}
 			}
 		}
 
 		/// <summary>
 		/// Checks if the player is lucky enough and is wearing enough protective armor to avoid getting his bodypart removed.
 		/// </summary>
-		public void DismemberBodyPartWithChance()
+		private void DismemberBodyPartWithChance()
 		{
 			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
-			float armorChanceModifer = DismembermentChance + SelfArmor.DismembermentProtectionChance;
+			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
 			if(Severity == DamageSeverity.Max){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
-			if(armorChanceModifer >= 1.0f)
-			{
-				return;
-			}
 			if(chance >= armorChanceModifer)
 			{
 				RemoveFromBodyThis();

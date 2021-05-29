@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: initialName
