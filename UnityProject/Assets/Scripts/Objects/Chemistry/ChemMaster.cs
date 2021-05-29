@@ -75,7 +75,10 @@ namespace Chemistry
 				}
 				if (Container.CurrentReagentMix.reagents[reagent] <= 0)
 				{
-					Container.CurrentReagentMix.reagents.m_dict.Remove(reagent);
+					lock (Container.CurrentReagentMix.reagents)
+					{
+						Container.CurrentReagentMix.reagents.m_dict.Remove(reagent);
+					}
 				}
 				Logger.LogTrace($"AFTER|| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
 			}
@@ -97,7 +100,10 @@ namespace Chemistry
 			//remove listing if empty
 			if (tempTransfer.reagents[reagent] <= 0)
 			{
-				tempTransfer.reagents.m_dict.Remove(reagent);
+				lock (tempTransfer.reagents)
+				{
+					tempTransfer.reagents.m_dict.Remove(reagent);
+				}
 			}
 
 			TransferMixToBuffer(tempTransfer);
