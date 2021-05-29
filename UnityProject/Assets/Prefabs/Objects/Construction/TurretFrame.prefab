@@ -12,6 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4e2bb35cd58d3499433dac605cf386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialState: {fileID: 11400000, guid: 85e2cbc94f7c6194bbfb6e7bfc4a9ec7, type: 2}
+  anchoredState: {fileID: 11400000, guid: b3abf6443712a864b91b4740c679419f, type: 2}
+  metalAddedState: {fileID: 11400000, guid: 47027d3b966a75344b139240a063833f, type: 2}
+  wrenchState: {fileID: 11400000, guid: 147cee7d27fd7b145b518b00af6b3c5b, type: 2}
+  gunAddedState: {fileID: 11400000, guid: 68f9c592f1b35244f9aa6eb1737ef884, type: 2}
+  proxAddedState: {fileID: 11400000, guid: ce45d89cc11c0204cbaec45db0104472, type: 2}
+  screwState: {fileID: 11400000, guid: 78874d69ba9c2a845a623d384a48d654, type: 2}
+  secondMetalAddedState: {fileID: 11400000, guid: 9142a25d95db6b6429f16e794a3c21c1,
+    type: 2}
+  proximityPrefab: {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77,
+    type: 3}
+  turretPrefab: {fileID: 0}
+  gunLossChance: 30
 --- !u!1 &8962499539190424830
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +140,18 @@ PrefabInstance:
       propertyPath: pushPullSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: -84533939571855719, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b1533d95791f46449f739d50d759817,
+        type: 2}
+    - target: {fileID: -84533939571855719, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+        type: 2}
     - target: {fileID: 2681812757184269972, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
       propertyPath: m_Size.x
@@ -218,6 +243,65 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: initialState
+      value: 
+      objectReference: {fileID: 11400000, guid: 85e2cbc94f7c6194bbfb6e7bfc4a9ec7,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 85e2cbc94f7c6194bbfb6e7bfc4a9ec7,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b3abf6443712a864b91b4740c679419f,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 47027d3b966a75344b139240a063833f,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 147cee7d27fd7b145b518b00af6b3c5b,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 68f9c592f1b35244f9aa6eb1737ef884,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: ce45d89cc11c0204cbaec45db0104472,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 78874d69ba9c2a845a623d384a48d654,
+        type: 2}
+    - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: states.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9142a25d95db6b6429f16e794a3c21c1,
+        type: 2}
     - target: {fileID: 6259397308681656505, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
       propertyPath: m_Name
