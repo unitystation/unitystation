@@ -11,10 +11,20 @@ namespace Systems.Spawns
 		[SerializeField, FormerlySerializedAs("Department")]
 		private SpawnPointCategory category = default;
 
+		[SerializeField]
+		private SpawnPointType type = SpawnPointType.Unlimited;
+
+		[SerializeField]
+		[Range(0, 10)]
+		[Tooltip("Higher number means higher priority")]
+		private int priority = 0;
+
+		private bool used;
+
 		public static IEnumerable<Transform> GetPointsForCategory(SpawnPointCategory category)
 		{
 			return NetworkManager.startPositions.Select(x => x.transform)
-				.Where(x => x.GetComponent<SpawnPoint>().category == category);
+				.Where(x => x.TryGetComponent<SpawnPoint>(out var spawn) && spawn.category == category && spawn.used == false);
 		}
 
 		public static Transform GetRandomPointForLateSpawn()
@@ -24,11 +34,38 @@ namespace Systems.Spawns
 
 		public static Transform GetRandomPointForJob(JobType job)
 		{
-			Transform point;
-			if (categoryByJob.ContainsKey(job) &&
-			    (point = GetPointsForCategory(categoryByJob[job]).ToList().PickRandom()) != null)
+			if (categoryByJob.ContainsKey(job))
 			{
-				return point;
+				//Get all available points and order by priority, higher numbers picked first
+				var points = GetPointsForCategory(categoryByJob[job]).OrderBy(x => x.GetComponent<SpawnPoint>().priority).ToList();
+
+				//Get last point as that should have biggest priority
+				var last = points.Last();
+				if (last != null && last.TryGetComponent<SpawnPoint>(out var spawn))
+				{
+					//If the priority isnt 0 then we use this one else choose random
+					if (spawn.priority != 0)
+					{
+						//If this point is only allowed once then set it to used
+						if (spawn.type == SpawnPointType.Once)
+						{
+							spawn.used = true;
+						}
+
+						return last;
+					}
+
+					//Pick random as all points will be 0
+					last = points.PickRandom();
+
+					//If this point is only allowed once then set it to used
+					if (spawn.type == SpawnPointType.Once)
+					{
+						spawn.used = true;
+					}
+
+					return last;
+				}
 			}
 
 			// Default to arrivals if there is no mapped spawn point for this job!
@@ -199,5 +236,11 @@ namespace Systems.Spawns
 		WizardFederation,
 		SpaceExterior,
 		AncientEngineering,
+	}
+
+	public enum SpawnPointType
+	{
+		Unlimited,
+		Once
 	}
 }

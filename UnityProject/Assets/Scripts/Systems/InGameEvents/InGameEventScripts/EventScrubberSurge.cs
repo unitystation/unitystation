@@ -67,8 +67,12 @@ namespace InGameEvents
 			if (scrubber == null || scrubber.registerTile == null) yield break;
 
 			var reagentMix = new ReagentMix();
-			reagentMix.reagents.m_dict.Add(allReagents.PickRandom(), 75f);
-			reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
+			lock (reagentMix.reagents)
+			{
+				reagentMix.reagents.m_dict.Add(allReagents.PickRandom(), 75f);
+				reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
+			}
+			
 
 			container.Add(reagentMix);
 			container.Spill(scrubber.registerTile.WorldPositionServer, 50f);

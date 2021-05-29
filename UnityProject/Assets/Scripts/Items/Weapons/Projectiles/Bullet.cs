@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects.Gun;
 using Weapons.Projectiles.Behaviours;
@@ -27,6 +28,9 @@ namespace Weapons.Projectiles
 		public LayerMaskData MaskData => maskData;
 
 		private GameObject shooter;
+
+		private bool destroyed;
+		public bool Destroyed => destroyed;
 
 		public bool WillHurtShooter { get; set; }
 
@@ -127,6 +131,8 @@ namespace Weapons.Projectiles
 		/// </summary>
 		private void DespawnThis(MatrixManager.CustomPhysicsHit  hit, Vector2 point)
 		{
+			destroyed = true;
+
 			foreach (var behaviour in behavioursOnBulletDespawn)
 			{
 				behaviour.OnDespawn(hit, point);
@@ -149,6 +155,7 @@ namespace Weapons.Projectiles
 		{
 			shooter = null;
 			WillHurtShooter = false;
+			destroyed = false;
 		}
 	}
 }

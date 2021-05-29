@@ -10,6 +10,7 @@ namespace Messages.Server
 		{
 			public Vector3Int Position;
 			public TileType TileType;
+			public LayerType LayerType;
 			public string TileName;
 			public Matrix4x4 TransformMatrix;
 			public Color Colour;
@@ -22,13 +23,14 @@ namespace Messages.Server
 		{
 			public Vector3Int Position;
 			public TileType TileType;
+			public LayerType layerType;
 			public string TileName;
 			public Matrix4x4 TransformMatrix;
 			public Color Colour;
 			public uint MatrixSyncNetID;
 
 			public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName, Matrix4x4 inTransformMatrix,
-				Color inColour, uint inMatrixSyncNetID)
+				Color inColour, uint inMatrixSyncNetID, LayerType inlayerType)
 			{
 				Position = inPosition;
 				TileType = inTileType;
@@ -36,6 +38,7 @@ namespace Messages.Server
 				TransformMatrix = inTransformMatrix;
 				Colour = inColour;
 				MatrixSyncNetID = inMatrixSyncNetID;
+				layerType = inlayerType;
 			}
 		}
 
@@ -45,12 +48,20 @@ namespace Messages.Server
 			LoadNetworkObject(msg.MatrixSyncNetID);
 			if (NetworkObject == null)
 			{
-				DelayedStuff.Add(new delayedData(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour, msg.MatrixSyncNetID));
+				DelayedStuff.Add(new delayedData(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour, msg.MatrixSyncNetID, msg.LayerType));
 			}
 			else
 			{
 				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour);
+				if (msg.TileName == "")
+				{
+					tileChangerManager.RemoveTile(msg.Position, msg.LayerType);
+				}
+				else
+				{
+					tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour);
+				}
+
 				TryDoNotDoneTiles();
 			}
 		}
@@ -74,7 +85,7 @@ namespace Messages.Server
 
 		public static NetMessage Send(uint matrixSyncNetID, Vector3Int position, TileType tileType,
 			string tileName,
-			Matrix4x4 transformMatrix, Color colour)
+			Matrix4x4 transformMatrix, Color colour, LayerType LayerType)
 		{
 			NetMessage msg = new NetMessage
 			{
@@ -83,7 +94,8 @@ namespace Messages.Server
 				TileName = tileName,
 				TransformMatrix = transformMatrix,
 				Colour = colour,
-				MatrixSyncNetID = matrixSyncNetID
+				MatrixSyncNetID = matrixSyncNetID,
+				LayerType = LayerType
 			};
 
 			SendToAll(msg);
