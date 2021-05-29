@@ -222,7 +222,7 @@ public class TileChangeManager : MonoBehaviour
 
 		InternalRemoveTile(cellPosition, layerType, false);
 
-		RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
+		SpawnSafeThread.RemoveTileMessageSend(networkMatrix.MatrixSync.netId, cellPosition, layerType , tileType);
 
 		AddToChangeList(cellPosition, layerType);
 	}
