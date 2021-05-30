@@ -7,7 +7,7 @@ using Weapons;
 
 namespace Systems.Construction
 {
-	public class TurretFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ISetMultitoolSlave
+	public class TurretFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState anchoredState = null;
@@ -28,17 +28,6 @@ namespace Systems.Construction
 		private ObjectBehaviour objectBehaviour;
 		private Integrity integrity;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
-		public MultitoolConnectionType ConType => conType;
-
-		private ISetMultitoolMaster setiMaster;
-
-		public void SetMaster(ISetMultitoolMaster iMaster)
-		{
-			setiMaster = iMaster;
-		}
-
 		private void Awake()
 		{
 			gunSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
@@ -51,6 +40,8 @@ namespace Systems.Construction
 
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}
+
+		#region Construction/Deconstruction Interactions
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -362,7 +353,7 @@ namespace Systems.Construction
 
 							if (spawnedTurret.Successful && spawnedTurret.GameObject.TryGetComponent<Turret>(out var turret))
 							{
-								turret.SetUpTurret(gunSlot.Item.GetComponent<Gun>(), gunSlot, setiMaster);
+								turret.SetUpTurret(gunSlot.Item.GetComponent<Gun>(), gunSlot);
 							}
 
 							_ = Despawn.ServerSingle(gameObject);
@@ -383,6 +374,10 @@ namespace Systems.Construction
 				}
 			}
 		}
+
+		#endregion
+
+		#region OnDestroy
 
 		private void WhenDestroyed(DestructionInfo info)
 		{
@@ -408,25 +403,26 @@ namespace Systems.Construction
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 1));
 		}
 
-		public void SetUp(ItemSlot fromSlot, GameObject prefab)
+		#endregion
+
+		//When a turret gets deconstructed or destroyed spawn and set up frame
+		public void SetUp(Pickupable gun)
 		{
-			if (fromSlot != null)
+			if (gun == null) return;
+
+			if (gun.ItemSlot != null)
 			{
-				gunSlot.ItemStorage.ServerTryTransferFrom(fromSlot);
+				gunSlot.ItemStorage.ServerTryTransferFrom(gun.ItemSlot);
 				return;
 			}
 
-			gunSlot.ItemStorage.ServerTrySpawnAndAdd(prefab);
+			gunSlot.ItemStorage.ServerTryAdd(gun.gameObject);
 		}
 
+		//Examine to help build/deconstruct
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			var newString = new StringBuilder();
-
-			if (setiMaster == null)
-			{
-				newString.Append("No Turret Switch set for this turret, you need to set one before construction is finished\n");
-			}
 
 			//Anchor or disassemble
 			if (CurrentState == initialState)

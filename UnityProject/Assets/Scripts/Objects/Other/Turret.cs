@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.Construction;
+using Systems.Electricity;
 using Systems.MobAIs;
 using AddressableReferences;
 using Core.Input_System.InteractionV2.Interactions;
@@ -18,27 +20,34 @@ using Random = UnityEngine.Random;
 namespace Objects.Other
 {
 	[RequireComponent(typeof(ItemStorage))]
-	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>
+	[RequireComponent(typeof(APCPoweredDevice))]
+	[RequireComponent(typeof(AccessRestrictions))]
+	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlave,IExaminable
 	{
 		[SerializeField]
-		//Only used when a mapped turret is destroyed
+		[Tooltip("Used to get the lethal bullet and spawn the gun when deconstructed")]
 		private GameObject spawnGun = null;
 
 		[SerializeField]
 		private int range = 7;
 
 		[SerializeField]
-		//Used to set the lethal bullet, uses gun in construction but this for mapped
+		[Tooltip("Used as back up if cant find bullet from mapped gun or gun put in")]
 		private Bullet laserBullet = null;
 
 		[SerializeField]
-		//Always used as the non-lethal bullet
+		[Tooltip("Used as the stun mode bullet")]
 		private Bullet stunBullet = null;
 
 		[SerializeField]
 		[Range(1,100)]
 		[Tooltip("Chance to lose gun during deconstruction")]
 		private int gunLossChance = 30;
+
+		[SerializeField]
+		[Range(0.1f,10f)]
+		[Tooltip("The shooting speed, ONLY IN MULTIPLES OF 0.1")]
+		private float shootSpeed = 1.5f;
 
 		[SerializeField]
 		private GameObject framePrefab = null;
@@ -53,7 +62,6 @@ namespace Objects.Other
 		private AddressableAudioSource taserSound = null;
 
 		private RegisterTile registerTile;
-		private ItemStorage itemStorage;
 		private Integrity integrity;
 
 		private GameObject target;
@@ -61,43 +69,113 @@ namespace Objects.Other
 
 		private Gun gun;
 
+		private const float UpdateTimer = 0.1f;
+		private const float DetectTime = 1.5f;
+
+		private float shootingTimer = 0;
+		private float detectTimer = 0;
+
 		//Has power
 		private bool hasPower;
 
 		//Cover open or closed
 		private bool coverOpen;
+		private bool coverStateChanging;
 
-		//Is stun or lethal
-		private bool isStun;
+		//Is off, stun or lethal
+		private TurretState turretState;
 
-		private ISetMultitoolMaster setiMaster;
+		//Unlocked
+		private bool unlocked;
+
+		private ItemStorage itemStorage;
+		private APCPoweredDevice apcPoweredDevice;
+		private AccessRestrictions accessRestrictions;
+
+		//Used to debug player searching linecast
 		private LineRenderer lineRenderer;
 
 		[SyncVar(hook = nameof(SyncRotation))]
 		private Vector2 rotationAngle;
 
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
+		public MultitoolConnectionType ConType => conType;
+
+		private TurretSwitch connectedSwitch;
+
+		public void SetMaster(ISetMultitoolMaster iMaster)
+		{
+			if (unlocked == false)
+			{
+				//TODO how do you tell player you need to unlock??
+				return;
+			}
+
+			if (iMaster is TurretSwitch turretSwitch)
+			{
+				//Already connected so disconnect
+				if (connectedSwitch != null)
+				{
+					connectedSwitch.RemoveTurretFromSwitch(this);
+				}
+
+				connectedSwitch = turretSwitch;
+				turretSwitch.AddTurretToSwitch(this);
+			}
+		}
+
+		private string bulletName;
+		private AddressableAudioSource bulletSound;
+
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			itemStorage = GetComponent<ItemStorage>();
+			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			integrity = GetComponent<Integrity>();
+			accessRestrictions = GetComponent<AccessRestrictions>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();
+		}
+
+		public override void OnStartServer()
+		{
+			if (spawnGun != null && gun == null)
+			{
+				var newGun = Spawn.ServerPrefab(spawnGun, registerTile.WorldPosition, transform.parent);
+
+				if (newGun.Successful == false) return;
+
+				gun = newGun.GameObject.GetComponent<Gun>();
+
+				SetUpBullet();
+
+				//For some reason couldnt use item storage, would just stay above the turret
+				gun.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			}
+
+			base.OnStartServer();
 		}
 
 		private void OnEnable()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Add(UpdateLoop, 1.5f);
+			UpdateManager.Add(UpdateLoop, UpdateTimer);
 			integrity.OnWillDestroyServer.AddListener(OnTurretDestroy);
+			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStateChange);
+
+			SetUpBullet();
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
 			integrity.OnWillDestroyServer.RemoveListener(OnTurretDestroy);
+			apcPoweredDevice.OnStateChangeEvent.RemoveListener(OnPowerStateChange);
+			apcPoweredDevice.LockApcLinking(unlocked == false);
 
-			if (setiMaster is TurretSwitch generalSwitch)
+			if (connectedSwitch is TurretSwitch generalSwitch)
 			{
 				generalSwitch.RemoveTurretFromSwitch(this);
 			}
@@ -112,13 +190,21 @@ namespace Objects.Other
 
 		private void UpdateLoop()
 		{
+			//Need to have power
 			if(hasPower == false) return;
 
-			SearchForMobs();
+			shootingTimer += UpdateTimer;
+			detectTimer += UpdateTimer;
+
+			if (turretState != TurretState.Off && detectTimer >= DetectTime)
+			{
+				SearchForMobs();
+			}
 
 			ChangeCoverState();
 
-			if (shootingTarget || target == null || coverOpen == false) return;
+			if (shootingTarget || coverOpen == false || turretState == TurretState.Off || target == null) return;
+			if(shootingTimer < shootSpeed) return;
 			shootingTarget = true;
 
 			ShootTarget();
@@ -138,7 +224,7 @@ namespace Objects.Other
 				return;
 			}
 
-			//Order mobs by distance
+			//Order mobs by distance, sqrMag distance cheaper to calculate
 			var orderedMobs = mobsFound.OrderBy(
 				x => (turretPos - x.transform.position).sqrMagnitude).ToList();
 
@@ -194,15 +280,7 @@ namespace Objects.Other
 			var angleToShooter = CalculateAngle(target.WorldPosServer());
 			rotationAngle = angleToShooter;
 
-			//TODO make turret smoothly rotate to angle, target could move so get position every tick
-			//TODO But target could be set to null during move so check before
-			//TODO also keep checking power state
-
-			if (hasPower)
-			{
-				ShootAtDirection(angleToShooter);
-			}
-
+			ShootAtDirection(angleToShooter);
 			shootingTarget = false;;
 		}
 
@@ -213,97 +291,112 @@ namespace Objects.Other
 
 		private void ShootAtDirection(Vector2 rotationToShoot)
 		{
-			if (hasPower == false) return;
+			if (hasPower == false || turretState == TurretState.Off) return;
 
-			String bullet;
-			AddressableAudioSource sound;
+			SoundManager.PlayNetworkedAtPos(bulletSound, registerTile.WorldPosition, sourceObj: gameObject);
 
-			if (isStun)
-			{
-				bullet = stunBullet.name;
-				sound = taserSound;
-			}
-			else if (gun != null)
-			{
-				if (gun is GunElectrical electrical && electrical.CurrentMagazine != null)
-				{
-					bullet = electrical.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName;
-				}
-				else if (gun.CurrentMagazine != null)
-				{
-					bullet = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().PrefabName;
-				}
-				else
-				{
-					//Default to laser otherwise
-					bullet = laserBullet.name;
-				}
-
-				sound = gun.FiringSoundA;
-			}
-			else
-			{
-				bullet = laserBullet.name;
-				sound = spawnGun.GetComponent<Gun>().FiringSoundA;
-			}
-
-			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPosition, sourceObj: gameObject);
-
-			CastProjectileMessage.SendToAll(gameObject, bullet, rotationToShoot, default);
+			CastProjectileMessage.SendToAll(gameObject, bulletName, rotationToShoot, default);
 		}
 
 		#endregion
 
-		public void SetUpTurret(Gun newGun, ItemSlot fromSlot, ISetMultitoolMaster iMaster)
+		public void SetUpTurret(Gun newGun, ItemSlot fromSlot)
 		{
-			setiMaster = iMaster;
-
-			if (setiMaster is TurretSwitch generalSwitch)
-			{
-				generalSwitch.AddTurretToSwitch(this);
-			}
-
 			gun = newGun;
+			SetUpBullet();
+
 			itemStorage.ServerTryTransferFrom(fromSlot);
 		}
 
-		public void SetPower(bool newState)
+		//Called when ApcPoweredDevice changes state
+		private void OnPowerStateChange(Tuple<PowerState, PowerState> newStates)
+		{
+			SetPower(newStates.Item2 != PowerState.Off);
+
+			//Allow for instant shoot
+			shootingTimer = shootSpeed;
+			detectTimer = DetectTime;
+		}
+
+		private void SetPower(bool newState)
 		{
 			hasPower = newState;
 
-			if (newState)
-			{
-				//Change back to active bullet state
-				gunSprite.ChangeSprite(isStun ? 1 : 2);
-				return;
-			}
+			//Change state to what it needs to be
+			//Will switch off if needed
+			ChangeBulletState(turretState);
 
-			//Turn to off sprite
-			gunSprite.ChangeSprite(0);
+			if(newState == false) return;
 
+			//If we have power check to see if we need to close or open
 			ChangeCoverState();
 		}
 
-		public void ChangeBulletState(bool newState)
+		public void ChangeBulletState(TurretState newState)
 		{
-			isStun = newState;
+			turretState = newState;
 
-			if(hasPower == false) return;
+			//No power or off set sprite to off state
+			if (hasPower == false || newState == TurretState.Off)
+			{
+				gunSprite.ChangeSprite(0);
+				return;
+			}
 
-			gunSprite.ChangeSprite(newState ? 1 : 2);
+			//Set up bullets
+			SetUpBullet();
+
+			//Stun or lethal
+			gunSprite.ChangeSprite(newState == TurretState.Stun ? 1 : 2);
+		}
+
+		private void SetUpBullet()
+		{
+			if (turretState == TurretState.Stun)
+			{
+				bulletName = stunBullet.name;
+				bulletSound = taserSound;
+			}
+			else if (gun != null)
+			{
+				if (gun is GunElectrical electrical && electrical.firemodeProjectiles.Count > 0 && electrical.firemodeFiringSound.Count > 0)
+				{
+					bulletName = electrical.firemodeProjectiles[0].GetComponent<Bullet>().name;
+					bulletSound = electrical.firemodeFiringSound[0];
+				}
+				else if (gun.CurrentMagazine != null)
+				{
+					bulletName = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().name;
+					bulletSound = gun.FiringSoundA;
+				}
+				else
+				{
+					//Default to laser otherwise
+					bulletName = laserBullet.name;
+					bulletSound = gun.FiringSoundA;
+				}
+			}
+			else
+			{
+				bulletName = laserBullet.name;
+				bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
+			}
 		}
 
 		private void ChangeCoverState()
 		{
+			//If changing cover state dont check
+			if (coverStateChanging) return;
+
 			//Open if we need to
-			if (target != null && coverOpen == false)
+			if (coverOpen == false && turretState != TurretState.Off && target != null)
 			{
 				StartCoroutine(WaitForAnimation(true));
 				return;
 			}
 
-			//Only close if no targets and we are open, and dont bother closing if we are already closed
-			if((target != null && coverOpen) || coverOpen == false) return;
+			//Dont bother closing if we are already closed and Only close if no targets and we are open and have power
+			if(coverOpen == false || (coverOpen && turretState != TurretState.Off && target != null)) return;
 
 			//Close
 			StartCoroutine(WaitForAnimation(false));
@@ -312,11 +405,21 @@ namespace Objects.Other
 		//Wait for animation before allowing to fire
 		private IEnumerator WaitForAnimation(bool stateAfter)
 		{
+			coverStateChanging = true;
 			frameSprite.AnimateOnce(stateAfter ? 1 : 3);
 
+			//Wait for animation to complete before allowing to fire or change cover state
 			yield return new WaitForSeconds(0.55f);
 
 			coverOpen = stateAfter;
+			coverStateChanging = false;
+		}
+
+		public enum TurretState
+		{
+			Off,
+			Stun,
+			Lethal
 		}
 
 		#region Hand Interaction
@@ -327,13 +430,39 @@ namespace Objects.Other
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id)) return true;
+
 			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			//If Id try unlock
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Id))
+			{
+				if (accessRestrictions.CheckAccessCard(interaction.HandObject) == false)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need higher authorisation to unlock this {gameObject.ExpensiveName()}");
+					return;
+				}
+
+				var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, true), Perform);
+				bar.ServerStartProgress(interaction.Performer.RegisterTile(), 15f, interaction.Performer);
+
+				void Perform()
+				{
+					unlocked = !unlocked;
+					apcPoweredDevice.LockApcLinking(unlocked == false);
+
+					Chat.AddActionMsgToChat(interaction.Performer, $"You {(unlocked ? "unlock" : "lock")} the {gameObject.ExpensiveName()}",
+						$"{interaction.Performer.ExpensiveName()} {(unlocked ? "unlocks" : "locks")} the {gameObject.ExpensiveName()}");
+				}
+
+				return;
+			}
+
 			//Try Deconstruct
-			ToolUtils.ServerUseToolWithActionMessages(interaction, 10f,
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 15f,
 				"You start prying off the outer metal cover from the turret...",
 				$"{interaction.Performer.ExpensiveName()} starts prying off the outer metal cover from the turret...",
 				"You pry off the outer metal cover from the turret.",
@@ -348,7 +477,7 @@ namespace Objects.Other
 						return;
 					}
 
-					frame.GameObject.GetComponent<TurretFrame>().SetUp(gun != null ? gun.GetComponent<Pickupable>().ItemSlot : null, spawnGun);
+					frame.GameObject.GetComponent<TurretFrame>().SetUp(gun != null ? gun.GetComponent<Pickupable>() : null);
 				});
 		}
 
@@ -359,7 +488,29 @@ namespace Objects.Other
 			Spawn.ServerPrefab(framePrefab, registerTile.WorldPosition, transform.parent);
 
 			//Destroy gun
-			_ = Despawn.ServerSingle(gun != null ? gun.gameObject : spawnGun.gameObject);
+			if (gun == null) return;
+
+			_ = Despawn.ServerSingle(gun.gameObject);
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			var message = new StringBuilder();
+
+			message.AppendLine($"The turret is {(unlocked ? "unlocked" : "locked")}, use an authorised id to {(unlocked ? "lock" : "unlock")} it");
+
+			message.AppendLine("Turret must be unlocked to change connected APC or turret switch.");
+
+			if (hasPower == false || turretState == TurretState.Off)
+			{
+				message.AppendLine("It is turned off");
+			}
+			else
+			{
+				message.AppendLine($"It is set to {(turretState == TurretState.Stun ? "stun" : "<color=red>lethal</color>")}");
+			}
+
+			return message.ToString();
 		}
 	}
 }

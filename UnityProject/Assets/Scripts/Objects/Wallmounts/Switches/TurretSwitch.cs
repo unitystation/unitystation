@@ -42,6 +42,8 @@ namespace Objects.Wallmounts.Switches
 
 		private TurretSwitchState cachedState = TurretSwitchState.Stun;
 
+		private bool hasPower;
+
 		private void Awake()
 		{
 			//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
@@ -106,35 +108,38 @@ namespace Objects.Wallmounts.Switches
 		{
 			if (accessRestrictions != null && restricted)
 			{
-				if (!accessRestrictions.CheckAccess(interaction.Performer))
+				if (accessRestrictions.CheckAccess(interaction.Performer) == false)
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "Higher Access Level Needed");
 					return;
 				}
 			}
 
-			if (turretSwitchState == TurretSwitchState.NoPower)
+			if (hasPower == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "Turret switch has no power");
 				return;
 			}
 
-			ChangeState(NextState());
+			ChangeState(turretSwitchState.Next());
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You set the turret switch to {turretSwitchState}",
 				$"{interaction.Performer.ExpensiveName()} sets the turret switch to {turretSwitchState}");
 		}
 
+		private void ChangePowerState(bool newState)
+		{
+			hasPower = newState;
+			spriteHandler.ChangeSprite(hasPower ? (int)turretSwitchState + 1 : 0);
+		}
+
 		private void ChangeState(TurretSwitchState newState)
 		{
+			if (hasPower == false) return;
+
 			turretSwitchState = newState;
 
-			if (turretSwitchState != TurretSwitchState.Off && turretSwitchState != TurretSwitchState.NoPower)
-			{
-				cachedState = turretSwitchState;
-			}
-
-			spriteHandler.ChangeSprite((int)turretSwitchState);
+			spriteHandler.ChangeSprite((int)turretSwitchState + 1);
 
 			ChangeTurretStates();
 		}
@@ -143,22 +148,10 @@ namespace Objects.Wallmounts.Switches
 		{
 			foreach (var turret in turrets)
 			{
-				var offOrNoPower = turretSwitchState == TurretSwitchState.Off ||
-				                   turretSwitchState == TurretSwitchState.NoPower;
-
-				turret.SetPower(offOrNoPower == false);
-
-				if(offOrNoPower) continue;
-
-				turret.ChangeBulletState(turretSwitchState == TurretSwitchState.Stun);
+				//We can cast to the other enum, as they are the same length and have same
+				//order of states
+				turret.ChangeBulletState((Turret.TurretState)turretSwitchState);
 			}
-		}
-
-		private TurretSwitchState NextState()
-		{
-			var nextState = turretSwitchState.Next();
-
-			return nextState != TurretSwitchState.NoPower ? nextState : TurretSwitchState.Off;
 		}
 
 		#endregion
@@ -177,7 +170,7 @@ namespace Objects.Wallmounts.Switches
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
 			//If no power dont do anything
-			if (turretSwitchState == TurretSwitchState.NoPower)
+			if (hasPower == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "Turret switch has no power");
 				return;
@@ -212,16 +205,17 @@ namespace Objects.Wallmounts.Switches
 			if (newStates.Item2 == PowerState.Off)
 			{
 
-				ChangeState(TurretSwitchState.NoPower);
+				hasPower = false;
+				ChangeState(TurretSwitchState.Off);
 				return;
 			}
 
+			hasPower = true;
 			ChangeState(cachedState);
 		}
 
 		private enum TurretSwitchState
 		{
-			NoPower,
 			Off,
 			Stun,
 			Lethal
