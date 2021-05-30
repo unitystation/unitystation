@@ -14,7 +14,7 @@ namespace Objects.Botany
 	/// <summary>
 	/// Where the magic happens in botany. This tray grows all of the plants
 	/// </summary>
-	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
+	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn
 	{
 		public bool HasPlant => plantData?.FullyGrownSpriteSO != null;
 		public bool ReadyToHarvest => plantCurrentStage == PlantSpriteStage.FullyGrown;
@@ -72,6 +72,11 @@ namespace Objects.Botany
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+			EnsureInit();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
 			EnsureInit();
 			ServerInit();
 		}

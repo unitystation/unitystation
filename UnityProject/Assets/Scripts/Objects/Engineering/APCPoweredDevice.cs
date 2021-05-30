@@ -82,6 +82,8 @@ namespace Systems.Electricity
 		private Texture disconnectedImg;
 		private RegisterTile registerTile;
 
+		private bool blockApcChange;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -153,13 +155,19 @@ namespace Systems.Electricity
 
 		public void SetMaster(ISetMultitoolMaster imaster)
 		{
+			if (blockApcChange)
+			{
+				//TODO how to tell player it is blocked?
+				return;
+			}
+
 			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
 			if (RelatedAPC != null)
 			{
 				RemoveFromAPC();
 			}
 			RelatedAPC = inApc;
-			RelatedAPC.AddDevice(this);
+			RelatedAPC.OrNull()?.AddDevice(this);
 		}
 
 		/// <summary>
@@ -256,6 +264,11 @@ namespace Systems.Electricity
 					Powered?.StateUpdate(state);
 				}
 			}
+		}
+
+		public void LockApcLinking(bool newState)
+		{
+			blockApcChange = newState;
 		}
 
 		private void OnDrawGizmosSelected()
