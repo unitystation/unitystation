@@ -22,6 +22,7 @@ MonoBehaviour:
   stunBullet: {fileID: 6809207048716157800, guid: 00552b9802a37ba4bbe1aca46515b240,
     type: 3}
   gunLossChance: 30
+  shootSpeed: 1.5
   framePrefab: {fileID: 3501500540316854380, guid: d6457d17134225b4db0c2857b5012c94,
     type: 3}
   gunSprite: {fileID: 6304648460530296254}
@@ -33,29 +34,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
---- !u!114 &7993706743923889274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526276624429649764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 3b1533d95791f46449f739d50d759817,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    MergeMode: 0
-    Contents: []
+  conType: 9
 --- !u!114 &2506153195070795302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +60,42 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
   conType: 1
+--- !u!114 &7993706743923889274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 3b1533d95791f46449f739d50d759817,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
+--- !u!114 &1586561495887623337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 68
 --- !u!1 &5035411517673045519
 GameObject:
   m_ObjectHideFlags: 0

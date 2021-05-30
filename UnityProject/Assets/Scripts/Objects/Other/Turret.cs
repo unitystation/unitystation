@@ -198,6 +198,7 @@ namespace Objects.Other
 
 			if (turretState != TurretState.Off && detectTimer >= DetectTime)
 			{
+				detectTimer = 0;
 				SearchForMobs();
 			}
 
@@ -206,6 +207,7 @@ namespace Objects.Other
 			if (shootingTarget || coverOpen == false || turretState == TurretState.Off || target == null) return;
 			if(shootingTimer < shootSpeed) return;
 			shootingTarget = true;
+			shootingTimer = 0;
 
 			ShootTarget();
 		}
