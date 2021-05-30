@@ -17,6 +17,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 {
 	[SerializeField][Tooltip("When the scene loads, snap this to the middle of the nearest tile?")]
 	private bool snapToGridOnStart = true;
+	public bool SnapToGridOnStart => snapToGridOnStart;
 
 	//I think this is valid server side only
 	public bool VisibleState {
