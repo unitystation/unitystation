@@ -195,13 +195,16 @@ namespace Chemistry.Components
 			// check whitelist reagents
 			if (ReagentWhitelistOn)
 			{
-				if (!addition.reagents.m_dict.All(r => reagentWhitelist.Contains(r.Key)))
+				lock (addition.reagents)
 				{
-					return new TransferResult
+					if (!addition.reagents.m_dict.All(r => reagentWhitelist.Contains(r.Key)))
 					{
-						Success = false,
-						Message = "You can't transfer this into " + FancyContainerName
-					};
+						return new TransferResult
+						{
+							Success = false,
+							Message = "You can't transfer this into " + FancyContainerName
+						};
+					}
 				}
 			}
 

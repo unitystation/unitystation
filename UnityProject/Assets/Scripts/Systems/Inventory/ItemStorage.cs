@@ -163,7 +163,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		var slots = GetItemSlots();
 		foreach (var slot in slots)
 		{
-			if (slot.Item.gameObject == InGameObject)
+			if (slot.Item.OrNull()?.gameObject == InGameObject)
 			{
 				if (Destroy)
 				{
