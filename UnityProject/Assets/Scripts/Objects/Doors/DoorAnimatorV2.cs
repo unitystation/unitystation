@@ -117,7 +117,15 @@ namespace Doors
 			yield return WaitFor.Seconds(openingAnimationTime);
 
 			// Change to open sprite after done opening
-			overlayHackingHandler.ChangeSprite((int) Panel.Open);
+			if (panelExposed)
+			{
+				overlayHackingHandler.ChangeSprite((int)Panel.Open);
+			}
+			else
+			{
+				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
+			}
+
 			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Open);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Open);
