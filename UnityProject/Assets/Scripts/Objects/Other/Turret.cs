@@ -280,7 +280,7 @@ namespace Objects.Other
 			rotationAngle = angleToShooter;
 
 			ShootAtDirection(angleToShooter);
-			shootingTarget = false;;
+			shootingTarget = false;
 		}
 
 		private Vector2 CalculateAngle(Vector2 target)
