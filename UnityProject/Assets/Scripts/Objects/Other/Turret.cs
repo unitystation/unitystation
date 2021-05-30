@@ -22,7 +22,7 @@ namespace Objects.Other
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(APCPoweredDevice))]
 	[RequireComponent(typeof(AccessRestrictions))]
-	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlave,IExaminable
+	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlave, IExaminable, IServerSpawn
 	{
 		[SerializeField]
 		[Tooltip("Used to get the lethal bullet and spawn the gun when deconstructed")]
@@ -138,23 +138,20 @@ namespace Objects.Other
 			lineRenderer = GetComponentInChildren<LineRenderer>();
 		}
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (spawnGun != null && gun == null)
-			{
-				var newGun = Spawn.ServerPrefab(spawnGun, registerTile.WorldPosition, transform.parent);
+			if(spawnGun == null || gun != null) return;
 
-				if (newGun.Successful == false) return;
+			var newGun = Spawn.ServerPrefab(spawnGun, registerTile.WorldPosition, transform.parent);
 
-				gun = newGun.GameObject.GetComponent<Gun>();
+			if (newGun.Successful == false) return;
 
-				SetUpBullet();
+			gun = newGun.GameObject.GetComponent<Gun>();
 
-				//For some reason couldnt use item storage, would just stay above the turret
-				gun.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
-			}
+			SetUpBullet();
 
-			base.OnStartServer();
+			//For some reason couldnt use item storage, would just stay above the turret
+			gun.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		}
 
 		private void OnEnable()
