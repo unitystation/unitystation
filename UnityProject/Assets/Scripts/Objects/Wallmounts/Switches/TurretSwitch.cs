@@ -40,6 +40,7 @@ namespace Objects.Wallmounts.Switches
 		[SerializeField]
 		private TurretSwitchState turretSwitchState = TurretSwitchState.Stun;
 
+		[SerializeField, HideInInspector]
 		private TurretSwitchState cachedState = TurretSwitchState.Stun;
 
 		private bool hasPower;
@@ -202,16 +203,7 @@ namespace Objects.Wallmounts.Switches
 
 		private void OnPowerStatusChange(Tuple<PowerState, PowerState> newStates)
 		{
-			if (newStates.Item2 == PowerState.Off)
-			{
-
-				hasPower = false;
-				ChangeState(TurretSwitchState.Off);
-				return;
-			}
-
-			hasPower = true;
-			ChangeState(cachedState);
+			ChangePowerState(newStates.Item2 != PowerState.Off);
 		}
 
 		private enum TurretSwitchState

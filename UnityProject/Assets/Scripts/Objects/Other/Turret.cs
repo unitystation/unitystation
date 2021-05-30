@@ -449,7 +449,7 @@ namespace Objects.Other
 				}
 
 				var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, true), Perform);
-				bar.ServerStartProgress(interaction.Performer.RegisterTile(), 15f, interaction.Performer);
+				bar.ServerStartProgress(interaction.Performer.RegisterTile(), unlocked ? 5f : 15f, interaction.Performer);
 
 				void Perform()
 				{
