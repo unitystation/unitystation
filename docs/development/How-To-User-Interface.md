@@ -6,6 +6,8 @@ In order to create a User Interface for UnityStation, first open the Unity Edito
 <li> <u>GUI Scripts</u> are stored in (UnityProject\Assets\Scripts\UI) this file is what runs the UI's code, there are four folders, <b>Core</b>  (contains the scripts which makes the UI possible), <b>Items</b> (contains the UI for items that a player can interact with, such as the PDA, Scroll, SpellBook etc.), <b>Objects</b> (contains the UI which is displayed on Consoles and Vendors, divided up into the relevant department - e.g. Security folder contains the SecurityRecordsConsole subfolder, which in turn has the GUI_SecuirtyRecords.cs and other related GUI scripts) and <b>Systems</b> (contains admin panels, character character screen, lobby screen, etc.).</li>
 <li>  <u>Backend Scripts</u> are stored in (UnityProject\Assets\Scripts) this file contains any backend code that does not directly dictate what the UI does. Place these scripts inside the corresponding folder so it matches where you put the GUI Script, so <i>Scripts\Core </i> for <i>Scripts\UI\Core </i> and so on.</li>
 
+## Tips
+
 ### UI Prefab Tips
 
 Make sure to **tick to disable auto save**  when you open this prefab to modify the placement of elements, otherwise Unity will attempt to save the layout everytime you touch an element on this prefab.
@@ -16,11 +18,11 @@ Make sure to attach the relevant GUI Script component to the prefab itself (In t
 
 ### GUI Script Tips
 
-To be expanded. Include Netpage assignment variable declaration, ultisation of UpdateDisplay(), declartion in NetTab.cs for NetTabType enumerical  and communication to backend script.
+To be expanded. Include Netpage assignment variable declaration, ultilisation of UpdateDisplay(), declaration in NetTab.cs for NetTabType enumerical  and communication to backend script.
 
 ### Backend Script Tips
 
-To be expanded.
+To be expanded. Include AddListener() and explain that all Server Side functions should appear here. Adding #region will help a lot in remembering what section does what.
 
 ## NetUI Elements
 
