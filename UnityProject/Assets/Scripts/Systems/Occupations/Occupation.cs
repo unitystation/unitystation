@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using AddressableReferences;
 using NaughtyAttributes;
 using ScriptableObjects.Systems.Spells;
 using Systems.Access;
