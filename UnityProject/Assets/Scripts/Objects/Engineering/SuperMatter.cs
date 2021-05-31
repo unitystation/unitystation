@@ -1019,7 +1019,7 @@ namespace Objects.Engineering
 
 		private void OnPulse(ElectricalArc arc)
 		{
-			if (arc.Settings.endObject == null) return;
+			if (arc.Settings.endObject == null || gameObject == null) return;
 
 			if (arc.Settings.endObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health != null)
 			{
