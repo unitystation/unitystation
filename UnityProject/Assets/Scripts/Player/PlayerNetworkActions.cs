@@ -415,7 +415,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		// Switch the pickup mode of the storage in the active hand
 		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
 		              GetOffHandItem()?.GetComponent<InteractableStorage>();
-		storage.ServerSwitchPickupMode(gameObject);
+		storage.OrNull()?.ServerSwitchPickupMode(gameObject);
 	}
 
 	/// <summary>
