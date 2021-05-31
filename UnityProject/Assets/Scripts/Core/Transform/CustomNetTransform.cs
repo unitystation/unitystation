@@ -753,7 +753,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				//An identity could have a valid id of 0, but since this message is only for net transforms and since the
 				//identities on the managers will get set first, this shouldn't cause any issues.
 
-				if (waitForId)
+				if (waitForId == false)
 				{
 					waitForId = true;
 					StartCoroutine(IdWait(networkIdentity));
@@ -766,7 +766,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		//Wait for networked matrix id to init
 		if (serverState.IsUninitialized || matrix.NetworkedMatrix.OrNull()?.MatrixSync.netId == 0)
 		{
-			if (WaitForMatrixId)
+			if (WaitForMatrixId == false)
 			{
 				WaitForMatrixId = true;
 				StartCoroutine(NetworkedMatrixIdWait());

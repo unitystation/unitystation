@@ -479,8 +479,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		if (matrix == null)
 		{
-			Logger.LogWarning("RegisterTile tried to wait for Matrix to init, but Matrix was null", Category.Matrix);
-			return;
+			Logger.LogWarning($"{gameObject.name} RegisterTile tried to wait for Matrix to init, but Matrix was null", Category.Matrix);
+			ForceRegister();
+			if (matrix == null)
+			{
+				Logger.LogWarning($"RegisterTile matrix still null for: {gameObject.name}", Category.Matrix);
+				return;
+			}
 		}
 
 		matrixManagerDependantActions.Add(initAction);
