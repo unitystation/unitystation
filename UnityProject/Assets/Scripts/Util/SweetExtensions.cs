@@ -82,7 +82,11 @@ public static class SweetExtensions
 
 	public static uint NetId(this GameObject go)
 	{
-		return go ? go.GetComponent<NetworkIdentity>().netId : global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		return go == null
+			? global::NetId.Invalid
+			: go.GetComponent<Matrix>()
+				? go.GetComponentInChildren<NetworkIdentity>().netId 
+				: go.GetComponent<NetworkIdentity>().netId; //maxValue is invalid (see NetId.cs)
 	}
 
 	/// Creates garbage! Use very sparsely!
