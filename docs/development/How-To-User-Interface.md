@@ -18,7 +18,7 @@ Make sure to attach the relevant GUI Script component to the prefab itself (In t
 
 ### GUI Script Tips
 
-To be expanded. Include Netpage assignment variable declaration, ultilisation of UpdateDisplay(), declaration in NetTab.cs for NetTabType enumerical  and communication to backend script.
+To be expanded. Include Netpage assignment variable declaration, utilisation of UpdateDisplay(), declaration in NetTab.cs for NetTabType enumerical  and communication to backend script.
 
 ### Backend Script Tips
 
