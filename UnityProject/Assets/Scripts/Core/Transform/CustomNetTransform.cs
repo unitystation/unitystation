@@ -820,7 +820,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 		while (matrixSync.netId == 0)
 		{
-			yield return WaitFor.EndOfFrame;
+			yield return new WaitForSeconds(0.1f);
 		}
 
 		WaitForMatrixId = false;
