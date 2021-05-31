@@ -107,15 +107,15 @@ namespace Doors
 			{
 				if (panelExposed)
 				{
-					overlayHackingHandler.ChangeSprite((int)Panel.Opening);
+					overlayHackingHandler.ChangeSprite((int)Panel.Opening, false);
 				}
 
 				if (lights)
 				{
-					overlayLightsHandler.ChangeSprite((int) Lights.Opening);
+					overlayLightsHandler.ChangeSprite((int) Lights.Opening, false);
 				}
-				overlayFillHandler.ChangeSprite((int) DoorFrame.Opening);
-				doorBaseHandler.ChangeSprite((int) DoorFrame.Opening);
+				overlayFillHandler.ChangeSprite((int) DoorFrame.Opening, false);
+				doorBaseHandler.ChangeSprite((int) DoorFrame.Opening, false);
 				ClientPlaySound(openingSFX);
 				yield return WaitFor.Seconds(openingAnimationTime);
 			}
@@ -123,16 +123,16 @@ namespace Doors
 			// Change to open sprite after done opening
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int)Panel.Open);
+				overlayHackingHandler.ChangeSprite((int)Panel.Open, false);
 			}
 			else
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
+				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
 			}
 
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Open);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Open);
+			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			overlayFillHandler.ChangeSprite((int) DoorFrame.Open, false);
+			doorBaseHandler.ChangeSprite((int) DoorFrame.Open, false);
 
 			AnimationFinished?.Invoke();
 		}
@@ -143,16 +143,16 @@ namespace Doors
 			{
 				if (panelExposed)
 				{
-					overlayHackingHandler.ChangeSprite((int)Panel.Closing);
+					overlayHackingHandler.ChangeSprite((int)Panel.Closing, false);
 				}
 
 				if (lights)
 				{
-					overlayLightsHandler.ChangeSprite((int) Lights.Closing);
+					overlayLightsHandler.ChangeSprite((int) Lights.Closing, false);
 				}
 
-				overlayFillHandler.ChangeSprite((int) DoorFrame.Closing);
-				doorBaseHandler.ChangeSprite((int) DoorFrame.Closing);
+				overlayFillHandler.ChangeSprite((int) DoorFrame.Closing, false);
+				doorBaseHandler.ChangeSprite((int) DoorFrame.Closing, false);
 				ClientPlaySound(closingSFX);
 				yield return WaitFor.Seconds(openingAnimationTime);
 			}
@@ -160,16 +160,16 @@ namespace Doors
 			//Change to closed sprite after it is done closing
 			if (panelExposed)
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.Closed);
+				overlayHackingHandler.ChangeSprite((int) Panel.Closed, false);
 			}
 			else
 			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
+				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel, false);
 			}
 
-			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
-			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed);
-			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed);
+			overlayLightsHandler.ChangeSprite((int) Lights.NoLight, false);
+			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed, false);
+			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed, false);
 
 			AnimationFinished?.Invoke();
 		}
@@ -218,7 +218,6 @@ namespace Doors
 
 		public void RemoveWeldOverlay()
 		{
-
 			overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
 		}
 
