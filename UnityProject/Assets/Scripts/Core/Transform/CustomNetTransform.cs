@@ -764,7 +764,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Wait for networked matrix id to init
-		if (serverState.IsUninitialized || matrix.NetworkedMatrix.OrNull()?.MatrixSync.netId == 0)
+		if (serverState.IsUninitialized || matrix.NetworkedMatrix == null || matrix.NetworkedMatrix.MatrixSync.netId == 0)
 		{
 			if (WaitForMatrixId == false)
 			{
