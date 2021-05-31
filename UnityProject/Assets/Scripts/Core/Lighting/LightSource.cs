@@ -428,10 +428,10 @@ namespace Objects.Lighting
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			CheckIntegrityState();
+			CheckIntegrityState(arg0);
 		}
 
-		private void CheckIntegrityState()
+		private void CheckIntegrityState(DamageInfo arg0)
 		{
 			if (integrity.integrity > integrityThreshBar || mState == LightMountState.MissingBulb) return;
 			Vector3 pos = gameObject.AssumedWorldPosServer();
@@ -446,7 +446,11 @@ namespace Objects.Lighting
 				ServerChangeLightState(LightMountState.Broken);
 				Spawn.ServerPrefab(CommonPrefabs.Instance.GlassShard, pos, count: Random.Range(0, 2),
 					scatterRadius: Random.Range(0, 2));
-				TrySpark();
+				//Because this can get destroyed by fire then it tries accessing the tile safe loop and Complaints
+				if (arg0.AttackType != AttackType.Fire)
+				{
+					TrySpark();
+				}
 			}
 		}
 

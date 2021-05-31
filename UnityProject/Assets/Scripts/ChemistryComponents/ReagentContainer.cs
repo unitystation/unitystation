@@ -291,7 +291,7 @@ namespace Chemistry.Components
 		/// </summary>
 		public void Divide(float Divider)
 		{
-			CurrentReagentMix.Multiply(Divider);
+			CurrentReagentMix.Divide(Divider);
 			OnReagentMixChanged?.Invoke();
 		}
 
