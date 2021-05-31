@@ -15,6 +15,9 @@ namespace Chemistry
 		[SerializeField]
 		public DictionaryReagentFloat reagents;
 
+		//should only be accessed when locked so should be okay
+		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
+
 		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
@@ -331,9 +334,18 @@ namespace Chemistry
 
 			lock (reagents)
 			{
-				foreach (var key in reagents.m_dict.Keys.ToArray())
+				TEMPReagents.Clear();
+				foreach (var key in reagents.m_dict.Keys)
 				{
-					reagents.m_dict[key] *= multiplier;
+					var nuber = reagents.m_dict[key];
+					nuber = nuber * multiplier;
+					TEMPReagents[key] = nuber;
+				}
+
+				//man, I wish changing the value of the key didn't modify the order
+				foreach (var key in TEMPReagents.Keys)
+				{
+					reagents.m_dict[key] = TEMPReagents[key];
 				}
 			}
 		}
@@ -357,9 +369,17 @@ namespace Chemistry
 
 			lock (reagents)
 			{
-				foreach (var key in reagents.m_dict.Keys.ToArray())
+				TEMPReagents.Clear();
+				foreach (var key in reagents.m_dict.Keys)
 				{
-					reagents.m_dict[key] /= Divider;
+					var nuber = reagents.m_dict[key];
+					nuber = nuber / Divider;
+					TEMPReagents[key] = nuber;
+				}
+				//man, I wish changing the value of the key didn't modify the order
+				foreach (var key in TEMPReagents.Keys)
+				{
+					reagents.m_dict[key] = TEMPReagents[key];
 				}
 			}
 		}
