@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e12f147c494feb4bb0f1d25f7968cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resistTime: 60
   forceLayingDown: 1
+  allowImpassable: 1
 --- !u!1001 &8098776563978056092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20,6 +22,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1200148946435538739, guid: aa86a2f1735706141b988a218138c7dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1200148946435538739, guid: aa86a2f1735706141b988a218138c7dd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -37,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1200148946435538739, guid: aa86a2f1735706141b988a218138c7dd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1200148946435538739, guid: aa86a2f1735706141b988a218138c7dd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -49,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200148946435538739, guid: aa86a2f1735706141b988a218138c7dd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200148946435538739, guid: aa86a2f1735706141b988a218138c7dd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1200148946435538739, guid: aa86a2f1735706141b988a218138c7dd,
         type: 3}
@@ -99,13 +101,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8365296839387588313, guid: aa86a2f1735706141b988a218138c7dd,
         type: 3}
-      propertyPath: initialDescription
-      value: Used for advanced medical procedures
+      propertyPath: initialName
+      value: operating table
       objectReference: {fileID: 0}
     - target: {fileID: 8365296839387588313, guid: aa86a2f1735706141b988a218138c7dd,
         type: 3}
-      propertyPath: initialName
-      value: operating table
+      propertyPath: initialDescription
+      value: Used for advanced medical procedures
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa86a2f1735706141b988a218138c7dd, type: 3}
