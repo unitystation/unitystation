@@ -21,6 +21,26 @@ MonoBehaviour:
   hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
+--- !u!114 &-6226535931577163606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6945987494597785492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe66f7941e4629b54d93e77b751815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  standardSprite: {fileID: 21300000, guid: f23c8d48c642ba64ab25750c1c8b3b9d, type: 3}
+  captainSprite: {fileID: 21300000, guid: 567726fd081a97c46a2c93edc3a99825, type: 3}
+  commandSprite: {fileID: 21300000, guid: bd80135c3a272264ebd5515cd8050ba1, type: 3}
+  initialCustomJobName: 
+  manuallyAssignCardType: 1
+  autoInitOnPickup: 0
 --- !u!114 &7463286768668721107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,10 +58,27 @@ MonoBehaviour:
   standardSprite: {fileID: 21300000, guid: f23c8d48c642ba64ab25750c1c8b3b9d, type: 3}
   captainSprite: {fileID: 21300000, guid: 567726fd081a97c46a2c93edc3a99825, type: 3}
   commandSprite: {fileID: 21300000, guid: bd80135c3a272264ebd5515cd8050ba1, type: 3}
+  initialCustomJobName: 
   manuallyAddedAccess: 
   manuallyAssignCardType: 1
   autoInitOnPickup: 0
   currencies: 0000000000000000
+--- !u!114 &-2288282728734549822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6945987494597785492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc452e994773f8144a646b74046ca6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  access: 
+  minimalAccess: 
 --- !u!1001 &1883040362603210371
 PrefabInstance:
   m_ObjectHideFlags: 0

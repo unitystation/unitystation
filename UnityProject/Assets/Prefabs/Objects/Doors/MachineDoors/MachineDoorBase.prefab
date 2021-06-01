@@ -53,7 +53,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  CurrentsortingGroup: {fileID: 0}
+  CurrentsortingGroup: {fileID: 7782817179362649248}
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &-304701645951842033
@@ -110,19 +110,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 7
---- !u!114 &720260447592516819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813822218561835024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 0
 --- !u!114 &4986678559899695466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +125,20 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   allowInput: 1
+--- !u!114 &6340947662020835977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813822218561835024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf97c497e37fec4eabdf37ddd8b81aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredAccess: 00000000
+  type: 0
 --- !u!1001 &6076651061907346860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -298,6 +299,12 @@ PrefabInstance:
 --- !u!1 &4813822218561835024 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6076651061907346860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &7782817179362649248 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 6076651061907346860}
   m_PrefabAsset: {fileID: 0}

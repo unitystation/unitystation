@@ -52,6 +52,16 @@ PrefabInstance:
       propertyPath: initialName
       value: external airlock access
       objectReference: {fileID: 0}
+    - target: {fileID: 5747146689697158925, guid: af92cf7ad231b37448e7dff02d50f457,
+        type: 3}
+      propertyPath: requiredAccess.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747146689697158925, guid: af92cf7ad231b37448e7dff02d50f457,
+        type: 3}
+      propertyPath: requiredAccess.Array.data[1]
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 6453790337095997827, guid: af92cf7ad231b37448e7dff02d50f457,
         type: 3}
       propertyPath: m_Sprite

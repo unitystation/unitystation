@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AirlockCentCom
       objectReference: {fileID: 0}
+    - target: {fileID: 1758646765679138261, guid: 1f10fce737097ce44affadeeb9bea4da,
+        type: 3}
+      propertyPath: requiredAccess.Array.data[0]
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 6305986062628331722, guid: 1f10fce737097ce44affadeeb9bea4da,
         type: 3}
       propertyPath: restriction

@@ -1,9 +1,10 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Systems.Access;
+using Items.Cards;
 
 /// <summary>
 /// Optimized, new GUI_IDConsole
@@ -27,13 +28,13 @@ public class GUI_IDConsole : NetTab
 	private NetLabel loginCardName = null;
 
 	//cached mapping from access to its corresponding entry for fast lookup
-	private Dictionary<Access,GUI_IDConsoleEntry> accessToEntry = new Dictionary<Access, GUI_IDConsoleEntry>();
+	private Dictionary<AccessDefinitions, GUI_IDConsoleEntry> accessToEntry = new Dictionary<AccessDefinitions, GUI_IDConsoleEntry>();
 	private Dictionary<Occupation,GUI_IDConsoleEntry> occupationToEntry = new Dictionary<Occupation, GUI_IDConsoleEntry>();
 
 	/// <summary>
 	/// Card currently targeted for security modifications. Null if none inserted
 	/// </summary>
-	public IDCard TargetCard => console.TargetCard;
+	public IDCardV2 TargetCard => console.TargetCard;
 
 	private void Awake()
 	{
@@ -152,16 +153,16 @@ public class GUI_IDConsole : NetTab
 	/// </summary>
 	/// <param name="accessToModify"></param>
 	/// <param name="grant">if true, grants access, otherwise removes it</param>
-	public void ServerModifyAccess(Access accessToModify, bool grant)
+	public void ServerModifyAccess(AccessDefinitions accessToModify, bool grant)
 	{
-		var alreadyHasAccess = console.TargetCard.HasAccess(accessToModify);
+		var alreadyHasAccess = console.TargetCard.AccessHolder.Access.Contains(accessToModify);
 		if (!grant && alreadyHasAccess)
 		{
-			console.TargetCard.ServerRemoveAccess(accessToModify);
+			console.TargetCard.AccessHolder.Access.Remove(accessToModify);
 		}
 		else if (grant && !alreadyHasAccess)
 		{
-			console.TargetCard.ServerAddAccess(accessToModify);
+			console.TargetCard.AccessHolder.Access.Add(accessToModify);
 		}
 	}
 
@@ -199,7 +200,7 @@ public class GUI_IDConsole : NetTab
 	public void ServerLogin()
 	{
 		if (console.AccessCard != null &&
-			console.AccessCard.HasAccess(Access.change_ids))
+			console.AccessCard.AccessHolder.Access.Contains(AccessDefinitions.CHANGE_IDS))
 		{
 			console.LoggedIn = true;
 			pageSwitcher.SetActivePage(usercardPage);

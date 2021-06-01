@@ -1,7 +1,8 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Systems.Access;
+using Items.Cards;
 
 /// <summary>
 /// New ID console entry. Manages the logic of an individual button on the ID
@@ -18,7 +19,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 	private Occupation occupation = null;
 	[Tooltip("If access, access this button will grant")]
 	[SerializeField]
-	private Access access = Access.maint_tunnels;
+	private AccessDefinitions access = default;
 
 	[Tooltip("Color settings to apply when it's on")]
 	[SerializeField]
@@ -32,7 +33,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 
 	//parent ID console tab this lives in
 	private GUI_IDConsole console;
-	private IDCard TargetCard => console.TargetCard;
+	private IDCardV2 TargetCard => console.TargetCard;
 	/// <summary>
 	/// True if this entry is for an individual Access
 	/// </summary>
@@ -45,7 +46,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 	/// <summary>
 	/// If IsAccess, access this entry controls
 	/// </summary>
-	public Access Access => access;
+	public AccessDefinitions Access => access;
 	/// <summary>
 	/// If IsOccupation, occupation this entry controls
 	/// </summary>
@@ -124,7 +125,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 		}
 		else
 		{
-			var hasAccess = TargetCard.HasAccess(access);
+			var hasAccess = TargetCard.AccessHolder.Access.Contains(access);
 			if (hasAccess && !toggle.isOn)
 			{
 				netToggle.SetValueServer("1");

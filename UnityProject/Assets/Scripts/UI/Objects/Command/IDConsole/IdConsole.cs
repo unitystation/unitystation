@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Items.Cards;
 
 public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
@@ -10,8 +11,8 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	private ItemStorage itemStorage;
 	private ItemSlot AccessSlot;
 	private ItemSlot TargetSlot;
-	public IDCard AccessCard => AccessSlot.Item != null ? AccessSlot.Item.GetComponent<IDCard>() : null;
-	public IDCard TargetCard => TargetSlot.Item != null ? TargetSlot.Item.GetComponent<IDCard>() : null;
+	public IDCardV2 AccessCard => AccessSlot.Item != null ? AccessSlot.Item.GetComponent<IDCardV2>() : null;
+	public IDCardV2 TargetCard => TargetSlot.Item != null ? TargetSlot.Item.GetComponent<IDCardV2>() : null;
 	public bool LoggedIn;
 
 	private void Awake()
@@ -84,7 +85,7 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// Spits out ID card from console and updates login details.
 	/// </summary>
 	/// <param name="cardToEject">Card you want to eject</param>
-	public void EjectCard(IDCard cardToEject, ConnectedPlayer subject)
+	public void EjectCard(IDCardV2 cardToEject, ConnectedPlayer subject)
 	{
 		var slot = cardToEject.GetComponent<Pickupable>().ItemSlot;
 		var bestSlot = GetBestSlot(slot.Item.gameObject, subject);

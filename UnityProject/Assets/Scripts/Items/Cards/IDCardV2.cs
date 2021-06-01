@@ -60,6 +60,8 @@ namespace Items.Cards
 		public JobType JobType => jobType;
 		public Occupation Occupation => OccupationList.Instance.Get(JobType);
 		public string RegisteredName => registeredName;
+		public AccessHolder AccessHolder => accessHolder;
+
 
 		//To switch the card sprites when the type changes
 		private SpriteRenderer spriteRenderer;
@@ -150,7 +152,7 @@ namespace Items.Cards
 			ServerAddAccess(access, minimalAccess.Any() ? minimalAccess : access);
 		}
 
-		private void ServerAddAccess(List<AccessDefinitions> access, List<AccessDefinitions> minimalAccess = null)
+		public void ServerAddAccess(List<AccessDefinitions> access, List<AccessDefinitions> minimalAccess = null)
 		{
 			accessHolder.ServerSetAccess(access);
 			accessHolder.ServerSetMinimalAccess(minimalAccess ?? access);

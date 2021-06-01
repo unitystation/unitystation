@@ -30,6 +30,12 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 6151cf8fb4f9c4bf890b69fad47b155b,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
 --- !u!1001 &1210071305953523191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,6 +128,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: You can use this to manage jobs and ID access.
       objectReference: {fileID: 0}
+    - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 6172393130728726846}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -135,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
-      value: 34
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -341,6 +352,12 @@ PrefabInstance:
 --- !u!1 &8891374403570406798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 1210071305953523191}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &6172393130728726846 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 5000041945832428745, guid: b46887a995abc224aab70e21b9e53697,
     type: 3}
   m_PrefabInstance: {fileID: 1210071305953523191}
   m_PrefabAsset: {fileID: 0}
