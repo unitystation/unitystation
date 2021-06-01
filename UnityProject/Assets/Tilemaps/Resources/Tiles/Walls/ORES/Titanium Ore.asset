@@ -27,6 +27,7 @@ MonoBehaviour:
   RadiationPassability: 1
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 1
   passableException:
     m_keys: 
     m_values: 
@@ -43,6 +44,7 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions: []
   spawnOnDeconstruct: {fileID: 6447095856050897818, guid: db34b9991c6517848999bc6bfe8ba25d,
     type: 3}

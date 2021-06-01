@@ -14,9 +14,7 @@ namespace Chemistry
 	/// </summary>
 	public class ChemMaster : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
 	{
-
-		[SerializeField]
-		public List<GameObject> ChemMasterProducts;
+		[SerializeField] public List<GameObject> ChemMasterProducts;
 
 		private void Start()
 		{
@@ -50,6 +48,7 @@ namespace Chemistry
 			{
 				capacity += BufferslotOne.MaxCapacity;
 			}
+
 			if (BufferslotTwo != null)
 			{
 				capacity += BufferslotTwo.MaxCapacity;
@@ -62,8 +61,8 @@ namespace Chemistry
 			//part one of transfer: isolate reagents, add to tempTransfer Mix
 			if (space > 0)
 			{
-				Logger.LogTrace($"BEFORE| Mix:{Container.CurrentReagentMix}",Category.Chemistry);
-				if (amount<space)
+				Logger.LogTrace($"BEFORE| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
+				if (amount < space)
 				{
 					Container.CurrentReagentMix.Remove(reagent, amount);
 					tempTransfer.Add(reagent, amount);
@@ -73,10 +72,7 @@ namespace Chemistry
 					Container.CurrentReagentMix.Remove(reagent, space);
 					tempTransfer.Add(reagent, space);
 				}
-				if (Container.CurrentReagentMix.reagents[reagent] <= 0)
-				{
-					Container.CurrentReagentMix.reagents.m_dict.Remove(reagent);
-				}
+
 				Logger.LogTrace($"AFTER|| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
 			}
 
@@ -92,12 +88,15 @@ namespace Chemistry
 
 			//Container never gets swapped without clearing buffer, so we can assume there's space in container
 			tempTransfer.Remove(reagent, amount);
-			Container.CurrentReagentMix.Add(reagent,amount);
+			Container.CurrentReagentMix.Add(reagent, amount);
 
 			//remove listing if empty
 			if (tempTransfer.reagents[reagent] <= 0)
 			{
-				tempTransfer.reagents.m_dict.Remove(reagent);
+				lock (tempTransfer.reagents)
+				{
+					tempTransfer.reagents.m_dict.Remove(reagent);
+				}
 			}
 
 			TransferMixToBuffer(tempTransfer);
@@ -142,9 +141,11 @@ namespace Chemistry
 				{
 					overridingMix.TransferTo(BufferslotOne.CurrentReagentMix, BufferslotOne.MaxCapacity);
 				}
+
 				Logger.LogTrace($"ChemMaster: {gameObject} " +
-					$"Reagentmix buffer one after: {BufferslotOne.CurrentReagentMix}", Category.Chemistry);
+				                $"Reagentmix buffer one after: {BufferslotOne.CurrentReagentMix}", Category.Chemistry);
 			}
+
 			if (BufferslotTwo)
 			{
 				BufferslotTwo.CurrentReagentMix.Clear();
@@ -152,13 +153,13 @@ namespace Chemistry
 				// that tempTransfer amount won't be larger than last buffer
 				overridingMix.TransferTo(BufferslotTwo.CurrentReagentMix, overridingMix.Total);
 				Logger.LogTrace($"ChemMaster: {gameObject} " +
-					$"reagentmix buffer two after: {BufferslotTwo.CurrentReagentMix}", Category.Chemistry);
+				                $"reagentmix buffer two after: {BufferslotTwo.CurrentReagentMix}", Category.Chemistry);
 			}
 		}
 
 		public void ClearBuffer()
 		{
-			if(BufferslotOne)
+			if (BufferslotOne)
 			{
 				BufferslotOne.CurrentReagentMix.Clear();
 			}
@@ -167,6 +168,7 @@ namespace Chemistry
 			{
 				BufferslotTwo.CurrentReagentMix.Clear();
 			}
+
 			Logger.LogTrace($"The buffer for ChemMaster {gameObject} is cleared.", Category.Chemistry);
 		}
 
@@ -176,8 +178,8 @@ namespace Chemistry
 			//Do Math
 			float maxProductAmount = ChemMasterProducts[productId].GetComponent<ReagentContainer>().MaxCapacity;
 			float maxTotalAllProducts = maxProductAmount * numberOfProduct;
-			float amountPerProduct = ((maxTotalAllProducts > temp.Total)? temp.Total : maxTotalAllProducts)
-				/ numberOfProduct;
+			float amountPerProduct = ((maxTotalAllProducts > temp.Total) ? temp.Total : maxTotalAllProducts)
+			                         / numberOfProduct;
 
 			for (int i = 0; i < numberOfProduct; i++)
 			{
@@ -195,17 +197,20 @@ namespace Chemistry
 				{
 					temp.TransferTo(productContainer.CurrentReagentMix, productContainer.MaxCapacity);
 				}
+
 				//Give it some color
 				productContainer.OnReagentMixChanged?.Invoke();
 
 				//Give it some love
 				product.GetComponent<ItemAttributesV2>().ServerSetArticleName($"{newName}" +
-					$" {product.GetComponent<ItemAttributesV2>().InitialName}");
+				                                                              $" {product.GetComponent<ItemAttributesV2>().InitialName}");
 			}
+
 			ClearBuffer();
 			TransferMixToBuffer(temp);
 			UpdateGui();
 		}
+
 		#endregion
 
 		#region Internal Contents
@@ -239,11 +244,13 @@ namespace Chemistry
 				ReagentMix temp = BufferslotOne.CurrentReagentMix.Clone();
 				temp.TransferTo(emptyMix, temp.Total);
 			}
+
 			if (BufferslotTwo)
 			{
 				ReagentMix temp = BufferslotTwo.CurrentReagentMix.Clone();
 				temp.TransferTo(emptyMix, temp.Total);
 			}
+
 			return emptyMix;
 		}
 
@@ -254,10 +261,12 @@ namespace Chemistry
 			{
 				returnCapacity += BufferslotOne.MaxCapacity;
 			}
+
 			if (BufferslotTwo)
 			{
 				returnCapacity += BufferslotTwo.MaxCapacity;
 			}
+
 			return returnCapacity;
 		}
 
@@ -265,6 +274,7 @@ namespace Chemistry
 		{
 			return GetBufferCapacity() - GetBufferMix().Total;
 		}
+
 		#endregion
 
 		#region Interactions
@@ -292,6 +302,7 @@ namespace Chemistry
 			{
 				Inventory.ServerDrop(containerSlot);
 			}
+
 			ClearBuffer();
 			UpdateGui();
 		}
@@ -312,18 +323,22 @@ namespace Chemistry
 			Inventory.ServerTransfer(interaction.HandSlot, containerSlot);
 			UpdateGui();
 		}
+
 		#endregion
 
 		#region IAPCPowerable
 
 		public PowerState ThisState;
 
-		public void PowerNetworkUpdate(float voltage) { }
+		public void PowerNetworkUpdate(float voltage)
+		{
+		}
 
 		public void StateUpdate(PowerState state)
 		{
 			ThisState = state;
 		}
+
 		#endregion
 	}
 }

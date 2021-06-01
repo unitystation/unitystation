@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/5/29: [Fix] - Fixed a bug where the player couldn't empty a reagent container in there hand by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/29: [Improvement] Liquid reagents will now make the floor slippery for a short time (same as water). by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/29: [Improvement] - Reagents now show if they are a Gas, Powder or Liquid using there appropriate sprites. by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/29: [New] - Reagents can be poured and mixed with other reagents on the floor. by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/28: [Fix] Fixed the syncing of the door status to new players by [ThatDan123](https://github.com/ThatDan123) in PR #[6635](https://github.com/unitystation/unitystation/pull/6635)
 * 2021/5/27: Adds cameras to square by [ThatDan123](https://github.com/ThatDan123) in PR #[6624](https://github.com/unitystation/unitystation/pull/6624)
 * 2021/5/26: [Fix] - The server will now check for illegal character sheets and will kick players who try modifying their sheets to spawn in with settings that are not allowed by the game. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6617](https://github.com/unitystation/unitystation/pull/6617)
 * 2021/5/26: highlighting should be consistent now by [Bod9001](https://github.com/Bod9001) in PR #[6614](https://github.com/unitystation/unitystation/pull/6614)

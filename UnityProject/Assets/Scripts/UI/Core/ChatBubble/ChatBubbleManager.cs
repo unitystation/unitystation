@@ -104,7 +104,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 	ActionText GetChatBubbleActionText()
 	{
-		var index = actionPool.FindIndex(x => !x.gameObject.activeInHierarchy);
+		var index = actionPool.FindIndex(x => x.OrNull()?.gameObject.activeInHierarchy == false);
 
 		if (index != -1)
 		{
@@ -129,7 +129,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 	ChatBubble GetChatBubbleFromPool()
 	{
-		var index = chatBubblePool.FindIndex(x => !x.gameObject.activeInHierarchy);
+		var index = chatBubblePool.FindIndex(x => x.gameObject.OrNull()?.activeInHierarchy == false);
 
 		if (index != -1)
 		{

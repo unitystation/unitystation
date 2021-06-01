@@ -39,6 +39,9 @@ namespace Chemistry.Components
 		[Tooltip("If its unique container and can't be bothered to make SO")]
 		public List<Reaction> AdditionalReactions = new List<Reaction>();
 
+		[Tooltip("Can you empty out its contents?")]
+		public bool canPourOut = true;
+
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
 		[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
@@ -49,6 +52,7 @@ namespace Chemistry.Components
 		private RegisterTile registerTile;
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;
+
 
 		public bool ContentsSet = false;
 
@@ -191,13 +195,16 @@ namespace Chemistry.Components
 			// check whitelist reagents
 			if (ReagentWhitelistOn)
 			{
-				if (!addition.reagents.m_dict.All(r => reagentWhitelist.Contains(r.Key)))
+				lock (addition.reagents)
 				{
-					return new TransferResult
+					if (!addition.reagents.m_dict.All(r => reagentWhitelist.Contains(r.Key)))
 					{
-						Success = false,
-						Message = "You can't transfer this into " + FancyContainerName
-					};
+						return new TransferResult
+						{
+							Success = false,
+							Message = "You can't transfer this into " + FancyContainerName
+						};
+					}
 				}
 			}
 
@@ -284,7 +291,7 @@ namespace Chemistry.Components
 		/// </summary>
 		public void Divide(float Divider)
 		{
-			CurrentReagentMix.Multiply(Divider);
+			CurrentReagentMix.Divide(Divider);
 			OnReagentMixChanged?.Invoke();
 		}
 
@@ -404,7 +411,7 @@ namespace Chemistry.Components
 			var result = RightClickableResult.Create();
 			result.AddElement("Contents", OnExamineContentsClicked);
 			//Pour / add can only be done if in reach
-			if (WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "PourOut"), NetworkSide.Client))
+			if (WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "PourOut"), NetworkSide.Client) && canPourOut)
 			{
 				result.AddElement("PourOut", OnPourOutClicked);
 			}
@@ -451,10 +458,18 @@ namespace Chemistry.Components
 				Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} is empty.");
 				return;
 			}
-
-			foreach (var reagent in CurrentReagentMix.reagents.m_dict)
+			//We cant use the container game object to manage this, do it ourselves.
+			if(this.ExamineAmount == ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
-				Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
+				//TODO: Cleanup the logic between looking at things in containters and things with no container/item attributes
+				Chat.AddExamineMsgToClient(this.Examine());
+			}
+			else
+			{
+				foreach (var reagent in CurrentReagentMix.reagents.m_dict)
+				{
+					Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
+				}
 			}
 		}
 

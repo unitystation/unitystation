@@ -20,7 +20,7 @@ public class Tools : Editor
 		public PowerTypeCategory wireType = PowerTypeCategory.Transformer;
 	}
 
-	[MenuItem("Tools/Refresh Directionals")]
+	[MenuItem("Mapping/Refresh Directionals")]
 	private static void RefreshDirectionals()
 	{
 		var allDirs = FindObjectsOfType<Directional>();
@@ -104,7 +104,7 @@ public class Tools : Editor
         Debug.Log($"{allNets.Count} net components found in prefabs");
     }
 
-    [MenuItem("Tools/Save all scenes")]
+    [MenuItem("Mapping/Save all scenes")]
     private static void SaveAllScenes()
     {
 	    var scenesGUIDs = AssetDatabase.FindAssets("t:Scene",new string[] {"Assets/Scenes"});
@@ -295,5 +295,20 @@ public class Tools : Editor
 		}
 
 		return null;
+	}
+
+	[MenuItem("Mapping/Snap to Grid All Applicable Objects")]
+	//Rounds all the scene objects with cnt if they should be
+	private static void SetAllCntToPos()
+	{
+		foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+		{
+			foreach (var cnt in gameObject.GetComponentsInChildren<CustomNetTransform>())
+			{
+				if (cnt.SnapToGridOnStart == false) continue;
+
+				cnt.transform.position = cnt.transform.position.RoundToInt();
+			}
+		}
 	}
 }

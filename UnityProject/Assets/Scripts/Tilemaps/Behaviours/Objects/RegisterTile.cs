@@ -208,6 +208,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 			clientLocalPosition = value;
 
+			if(clientLocalPosition == resetPosition) return;
+
 			if (appeared)
 			{
 				OnAppearClient.Invoke();
@@ -221,6 +223,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	}
 
 	private Vector3Int clientLocalPosition;
+
+	private Vector3Int resetPosition = new Vector3Int(0, 0, -99);
 
 	/// <summary>
 	/// Event invoked on server side when position changes. Passes the new local position in the matrix.
@@ -305,6 +309,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
+		if (objectLayer)
+		{
+			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
+			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
+		}
+
 		//cancel all relationships
 		if (sameMatrixRelationships != null)
 		{
@@ -392,8 +402,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
 
-		LocalPositionClient = Vector3Int.zero;
-		LocalPositionServer = Vector3Int.zero;
+		//Reset position
+		LocalPositionClient = resetPosition;
+		LocalPositionServer = resetPosition;
 
 		objectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		transform.SetParent(objectLayer.transform, true);
@@ -445,6 +456,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			              transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
+			LocalPositionServer = TransformState.HiddenPos;
+			LocalPositionClient = TransformState.HiddenPos;
 
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
 			LocalPositionClient = Vector3Int.RoundToInt(transform.localPosition);
@@ -466,8 +479,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		if (matrix == null)
 		{
-			Logger.LogWarning("RegisterTile tried to wait for Matrix to init, but Matrix was null", Category.Matrix);
-			return;
+			Logger.LogWarning($"{gameObject.name} RegisterTile tried to wait for Matrix to init, but Matrix was null", Category.Matrix);
+			ForceRegister();
+			if (matrix == null)
+			{
+				Logger.LogWarning($"RegisterTile matrix still null for: {gameObject.name}", Category.Matrix);
+				return;
+			}
 		}
 
 		matrixManagerDependantActions.Add(initAction);

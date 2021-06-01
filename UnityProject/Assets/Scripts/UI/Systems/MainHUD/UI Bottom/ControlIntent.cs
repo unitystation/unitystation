@@ -56,8 +56,8 @@ namespace UI
 			Logger.Log("OnClickRest", Category.UserInput);
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			clientResting = !clientResting;
-			Chat.AddExamineMsgToClient(clientResting ? startRestMessage : endRestMessage);
 			RequestRest.Send(clientResting);
+			Chat.AddExamineMsgToClient(clientResting ? startRestMessage : endRestMessage);
 			// TODO: trigger rest intent
 		}
 

@@ -15,6 +15,9 @@ namespace Chemistry
 		[SerializeField]
 		public DictionaryReagentFloat reagents;
 
+		//should only be accessed when locked so should be okay
+		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
+
 		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
@@ -222,7 +225,10 @@ namespace Chemistry
 			}
 			else
 			{
-				reagents.m_dict[reagent] += amount;
+				lock (reagents)
+				{
+					reagents.m_dict[reagent] += amount;
+				}
 			}
 		}
 
@@ -242,11 +248,12 @@ namespace Chemistry
 			}
 			else
 			{
-				amount = Math.Min(reagents.m_dict[reagent], amount);
-				reagents.m_dict[reagent] -= amount;
-
 				lock (reagents)
 				{
+					amount = Math.Min(reagents.m_dict[reagent], amount);
+					reagents.m_dict[reagent] -= amount;
+
+
 					if (reagents.m_dict[reagent] <= 0)
 					{
 						reagents.m_dict.Remove(reagent);
@@ -294,8 +301,12 @@ namespace Chemistry
 					return amount;
 				}
 
-				// change amount to subtraction result
-				reagents.m_dict[reagent] = newAmount;
+				lock (reagents)
+				{
+					// change amount to subtraction result
+					reagents.m_dict[reagent] = newAmount;
+				}
+
 				return subAmount;
 			}
 
@@ -323,9 +334,18 @@ namespace Chemistry
 
 			lock (reagents)
 			{
+				TEMPReagents.Clear();
 				foreach (var key in reagents.m_dict.Keys)
 				{
-					reagents.m_dict[key] *= multiplier;
+					var nuber = reagents.m_dict[key];
+					nuber = nuber * multiplier;
+					TEMPReagents[key] = nuber;
+				}
+
+				//man, I wish changing the value of the key didn't modify the order
+				foreach (var key in TEMPReagents.Keys)
+				{
+					reagents.m_dict[key] = TEMPReagents[key];
 				}
 			}
 		}
@@ -349,9 +369,17 @@ namespace Chemistry
 
 			lock (reagents)
 			{
+				TEMPReagents.Clear();
 				foreach (var key in reagents.m_dict.Keys)
 				{
-					reagents.m_dict[key] /= Divider;
+					var nuber = reagents.m_dict[key];
+					nuber = nuber / Divider;
+					TEMPReagents[key] = nuber;
+				}
+				//man, I wish changing the value of the key didn't modify the order
+				foreach (var key in TEMPReagents.Keys)
+				{
+					reagents.m_dict[key] = TEMPReagents[key];
 				}
 			}
 		}

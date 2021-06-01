@@ -222,7 +222,7 @@ public class TileChangeManager : MonoBehaviour
 
 		InternalRemoveTile(cellPosition, layerType, false);
 
-		RemoveTileMessage.Send(networkMatrix.MatrixSync.netId, cellPosition, layerType, false);
+		SpawnSafeThread.RemoveTileMessageSend(networkMatrix.MatrixSync.netId, cellPosition, layerType , tileType);
 
 		AddToChangeList(cellPosition, layerType);
 	}
@@ -370,8 +370,8 @@ public class TileChangeManager : MonoBehaviour
 			TileType = tileType,
 			TileName = tileName,
 			RemoveAll = removeAll,
-			transformMatrix = transformMatrix,
-			color = color
+			transformMatrix = transformMatrix.GetValueOrDefault(),
+			color = color.GetValueOrDefault()
 		});
 	}
 
@@ -386,8 +386,8 @@ public class TileChangeManager : MonoBehaviour
 			TileType = layerTile.TileType,
 			TileName = layerTile.name,
 			RemoveAll = removeAll,
-			transformMatrix = transformMatrix,
-			color = color
+			transformMatrix = transformMatrix.GetValueOrDefault(),
+			color = color.GetValueOrDefault()
 		});
 	}
 
@@ -444,9 +444,9 @@ public class TileChangeEntry
 
 	public bool RemoveAll;
 
-	public Matrix4x4? transformMatrix;
+	public Matrix4x4 transformMatrix;
 
-	public Color? color;
+	public Color color;
 
 	public TileChangeManager.OverlayType overlayType;
 
