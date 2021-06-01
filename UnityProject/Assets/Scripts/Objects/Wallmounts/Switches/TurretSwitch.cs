@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Systems.Electricity;
 using Core.Input_System.InteractionV2.Interactions;
 using Electricity.Inheritance;
+using Messages.Server;
 using Objects.Other;
 using UnityEngine;
 
@@ -11,13 +13,14 @@ namespace Objects.Wallmounts.Switches
 {
 	[RequireComponent(typeof(AccessRestrictions))]
 	[RequireComponent(typeof(APCPoweredDevice))]
-	public class TurretSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ISetMultitoolMaster
+	public class TurretSwitch : SubscriptionController, ICheckedInteractable<AiActivate>, ISetMultitoolMaster, ICanOpenNetTab
 	{
 		[Header("Access Restrictions for ID")]
 		[Tooltip("Is this door restricted?")]
 		public bool restricted;
 
 		private AccessRestrictions accessRestrictions;
+		public AccessRestrictions AccessRestrictions => accessRestrictions;
 
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
@@ -37,13 +40,14 @@ namespace Objects.Wallmounts.Switches
 		private bool buttonCoolDown = false;
 		private APCPoweredDevice apcPoweredDevice;
 
-		[SerializeField]
-		private TurretSwitchState turretSwitchState = TurretSwitchState.Stun;
-
-		[SerializeField, HideInInspector]
-		private TurretSwitchState cachedState = TurretSwitchState.Stun;
-
 		private bool hasPower;
+		public bool HasPower => hasPower;
+
+		private bool isOn = true;
+		public bool IsOn => isOn;
+
+		private bool isStun = true;
+		public bool IsStun => isStun;
 
 		private void Awake()
 		{
@@ -83,80 +87,6 @@ namespace Objects.Wallmounts.Switches
 			turrets.Remove(turret);
 		}
 
-		#region Interaction
-
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-			if (side == NetworkSide.Client)
-			{
-				if (buttonCoolDown) return false;
-				buttonCoolDown = true;
-				StartCoroutine(CoolDown());
-			}
-
-			return true;
-		}
-
-		IEnumerator CoolDown()
-		{
-			yield return WaitFor.Seconds(0.5f);
-			buttonCoolDown = false;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			if (accessRestrictions != null && restricted)
-			{
-				if (accessRestrictions.CheckAccess(interaction.Performer) == false)
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, "Higher Access Level Needed");
-					return;
-				}
-			}
-
-			if (hasPower == false)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "Turret switch has no power");
-				return;
-			}
-
-			ChangeState(turretSwitchState.Next());
-
-			Chat.AddActionMsgToChat(interaction.Performer, $"You set the turret switch to {turretSwitchState}",
-				$"{interaction.Performer.ExpensiveName()} sets the turret switch to {turretSwitchState}");
-		}
-
-		private void ChangePowerState(bool newState)
-		{
-			hasPower = newState;
-			spriteHandler.ChangeSprite(hasPower ? (int)turretSwitchState + 1 : 0);
-		}
-
-		private void ChangeState(TurretSwitchState newState)
-		{
-			if (hasPower == false) return;
-
-			turretSwitchState = newState;
-
-			spriteHandler.ChangeSprite((int)turretSwitchState + 1);
-
-			ChangeTurretStates();
-		}
-
-		private void ChangeTurretStates()
-		{
-			foreach (var turret in turrets)
-			{
-				//We can cast to the other enum, as they are the same length and have same
-				//order of states
-				turret.ChangeBulletState((Turret.TurretState)turretSwitchState);
-			}
-		}
-
-		#endregion
-
 		#region Ai Interaction
 
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
@@ -180,37 +110,130 @@ namespace Objects.Wallmounts.Switches
 			//Ctrl click switches it on or off
 			if (interaction.ClickType == AiActivate.ClickTypes.CtrlClick)
 			{
-				ChangeState(turretSwitchState == TurretSwitchState.Off ? cachedState : TurretSwitchState.Off);
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You set the turret switch to {turretSwitchState}");
+				ChangeOnState(!isOn);
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You set the turret switch to {(isOn ? "On" : "Off")}");
 				return;
 			}
 
 			//Else we must be alt clicking which is switch between stun and lethal
-			//If we are off switch cached state
-			if (turretSwitchState == TurretSwitchState.Off)
+			ChangeStunState(!isStun);
+
+			//If we are off send message saying so too
+			if (isOn == false)
 			{
-				cachedState = cachedState == TurretSwitchState.Stun ? TurretSwitchState.Lethal : TurretSwitchState.Stun;
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You set the turret switch to {cachedState}, but is turned off");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You set the turret switch to {(isStun ? "Stun" : "Lethal")}, but is turned off");
 				return;
 			}
 
-			ChangeState(turretSwitchState == TurretSwitchState.Stun ? TurretSwitchState.Lethal : TurretSwitchState.Stun);
-
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"You set the turret switch to {turretSwitchState}");
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"You set the turret switch to {(isStun ? "Stun" : "Lethal")}");
 		}
 
 		#endregion
+
+		private void ChangePowerState(bool newState)
+		{
+			hasPower = newState;
+
+			UpdateGUI();
+
+			if (newState)
+			{
+				ChangeOnState(isOn);
+				return;
+			}
+
+			spriteHandler.ChangeSprite(0);
+		}
+
+		public void ChangeOnState(bool newState)
+		{
+			isOn = newState;
+
+			UpdateGUI();
+
+			//Only change if we have power
+			if (hasPower == false) return;
+
+			if (newState)
+			{
+				ChangeStunState(isStun);
+				return;
+			}
+
+			spriteHandler.ChangeSprite(1);
+
+			ChangeTurretStates();
+		}
+
+		public void ChangeStunState(bool newState)
+		{
+			isStun = newState;
+
+			UpdateGUI();
+
+			//Only change if we have power and on
+			if (hasPower == false || isOn == false) return;
+
+			// 2 = stun, 3 = lethal
+			spriteHandler.ChangeSprite(newState ? 2 : 3);
+
+			ChangeTurretStates();
+		}
+
+		private void ChangeTurretStates()
+		{
+			foreach (var turret in turrets)
+			{
+				if (isOn == false)
+				{
+					turret.ChangeBulletState(Turret.TurretState.Off);
+					continue;
+				}
+
+				turret.ChangeBulletState(isStun ? Turret.TurretState.Stun : Turret.TurretState.Lethal);
+			}
+		}
 
 		private void OnPowerStatusChange(Tuple<PowerState, PowerState> newStates)
 		{
 			ChangePowerState(newStates.Item2 != PowerState.Off);
 		}
 
-		private enum TurretSwitchState
+		//Called when player wants to open nettab, so we can validate access
+		public bool CanOpenNetTab(GameObject playerObject)
 		{
-			Off,
-			Stun,
-			Lethal
+			if (accessRestrictions != null && restricted)
+			{
+				//Ai always allowed through, check other players access
+				if (playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai &&
+				    accessRestrictions.CheckAccess(playerObject) == false)
+				{
+					Chat.AddExamineMsgFromServer(playerObject, "Higher Access Level Needed");
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		private void UpdateGUI()
+		{
+			List<ElementValue> valuesToSend = new List<ElementValue>();
+
+			if (HasPower == false)
+			{
+				valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes("No Power") });
+			}
+			else
+			{
+				valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(IsOn ? IsStun ? "Stun" : "Lethal" : "Off") });
+			}
+
+			valuesToSend.Add(new ElementValue() { Id = "SliderPower", Value = Encoding.UTF8.GetBytes((isOn ? 1 * 100 : 0).ToString()) });
+			valuesToSend.Add(new ElementValue() { Id = "SliderStun", Value = Encoding.UTF8.GetBytes((isStun ? 0 : 1 * 100).ToString()) });
+
+			// Update all UI currently opened.
+			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.TurretController, TabAction.Update, valuesToSend.ToArray());
 		}
 
 		#region Editor

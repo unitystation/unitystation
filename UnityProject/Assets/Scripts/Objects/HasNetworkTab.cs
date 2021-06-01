@@ -40,6 +40,18 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			var allowed = true;
+
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer)) continue;
+
+				allowed = false;
+				break;
+			}
+
+			if (allowed == false) return;
+
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 		}
