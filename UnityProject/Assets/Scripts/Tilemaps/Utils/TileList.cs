@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 /// <summary>
@@ -23,6 +25,8 @@ public class TileList
 	//withing the ForEachSafe action.
 	//Also it's only possible to lock a single position at a time.
 	private Vector3Int? lockedPosition = null;
+
+	private int LockedName = 0;
 	//queued operations to dequeue once iteration is complete.
 	private readonly List<QueuedOp> queuedOps = new List<QueuedOp>();
 
@@ -41,6 +45,8 @@ public class TileList
 
 	public void Add(Vector3Int position, RegisterTile obj)
 	{
+
+
 		//queue for later if it's locked
 		if (lockedPosition == position)
 		{
@@ -48,16 +54,42 @@ public class TileList
 			return;
 		}
 
+
 		if (!_objects.ContainsKey(position))
 		{
 			_objects[position] = new List<RegisterTile>();
 		}
 
+
+
 		if (!_objects[position].Contains(obj))
 		{
 			_objects[position].Add(obj);
+			ReorderObjects(position);
 		}
 	}
+
+	private void ReorderObjects(Vector3Int position)
+	{
+		int offset = 0;
+		if (position.x % 2 != 0)
+		{
+			offset = position.y % 2 != 0 ? 1 : 0;
+		}
+		else
+		{
+			offset = position.y % 2 != 0 ? 3 : 2;
+		}
+		int i = 0;
+		foreach (var register in _objects[position])
+		{
+			if (register.OrNull()?.CurrentsortingGroup == null) continue;
+			register.CurrentsortingGroup.sortingOrder = (i * 4) + offset;
+			i++;
+		}
+
+	}
+
 	public bool HasObjects(Vector3Int position)
 	{
 		return _objects.ContainsKey(position) && _objects[position].Count > 0;
@@ -150,21 +182,23 @@ public class TileList
 	/// <returns></returns>
 	public void ForEachSafe(IRegisterTileAction action, Vector3Int localPosition)
 	{
-		if (lockedPosition != null && lockedPosition != localPosition)
+		if (lockedPosition != null)
 		{
-			Logger.LogErrorFormat("Tried to lock tile at position {0} while position {1} is currently locked." +
+
+			Logger.LogErrorFormat("{2} Tried to lock tile at position {0} while position {1} is currently locked by {3}" +
 			                      " TileList only supports locking one position at a time. Please add this locking capability" +
-			                      " to TileList if it is really necessary. Action will be skipped", Category.Matrix, localPosition, lockedPosition);
+			                      " to TileList if it is really necessary. Action will be skipped", Category.Matrix, localPosition, lockedPosition,Thread.CurrentThread.ManagedThreadId ,  LockedName);
 			return;
 		}
 
 		lockedPosition = localPosition;
+		LockedName = Thread.CurrentThread.ManagedThreadId;
 		foreach (var registerTile in Get((Vector3Int)lockedPosition))
 		{
 			action.Invoke(registerTile);
 		}
 		lockedPosition = null;
-
+		LockedName = 0;
 		foreach (var queuedOp in queuedOps)
 		{
 			if (queuedOp.Remove)

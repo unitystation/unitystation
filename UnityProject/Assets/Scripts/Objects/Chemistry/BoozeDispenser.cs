@@ -38,9 +38,28 @@ namespace Chemistry
 			}
 		}
 
-		public void EjectContainer()
+		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
 		{
-			Inventory.ServerDrop(itemSlot);
+			if (subject == null)
+			{
+				return default;
+			}
+
+			var playerStorage = subject.Script.ItemStorage;
+			return playerStorage.GetBestHandOrSlotFor(item);
+		}
+
+		/// <summary>
+		/// Ejects input container from ChemMaster into best slot available and clears the buffer
+		/// </summary>
+		/// <param name="subject"></param>
+		public void EjectContainer(ConnectedPlayer subject)
+		{
+			var bestSlot = GetBestSlot(itemSlot.ItemObject, subject);
+			if (!Inventory.ServerTransfer(itemSlot, bestSlot))
+			{
+				Inventory.ServerDrop(itemSlot);
+			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

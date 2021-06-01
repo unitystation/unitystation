@@ -107,6 +107,21 @@ namespace Doors
 		}
 
 		/// <summary>
+		/// Used when player is joining, tells player to open the door if it is opened.
+		/// </summary>
+		public void UpdateNewPlayer(NetworkConnection playerConn)
+		{
+			if (IsClosed)
+			{
+				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Close, true);
+			}
+			else
+			{
+				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Open, true);
+			}
+		}
+
+		/// <summary>
 		/// Invoke this on server when player bumps into door to try to open it.
 		/// </summary>
 		public void Bump(GameObject byPlayer)

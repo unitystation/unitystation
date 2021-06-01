@@ -103,11 +103,14 @@ namespace HealthV2
 		/// </summary>
 		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			foreach (var Reagent in toProcess.reagents.m_dict)
+			lock (toProcess.reagents)
 			{
-				blood.Add(Reagent.Key, Reagent.Value);
-				if (!canBreathAnywhere)
-					atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+				foreach (var Reagent in toProcess.reagents.m_dict)
+				{
+					blood.Add(Reagent.Key, Reagent.Value);
+					if (!canBreathAnywhere)
+						atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+				}
 			}
 		}
 

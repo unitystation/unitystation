@@ -37,13 +37,14 @@ Additional Scenes – the scenes which the antagonists start on.
 
 Here is a handy diagram which you can use if you want to add a new antagonist or job and ensure that it updates across all the scenes.
 ![](../assets/images/HowToMap/adding_role_to_maps.png)
+
 ## Important Sidebar Functions
 ![](../assets/images/HowToMap/sidebar.png)
 When you open the editor, there should be a sidebar open on the right hand side of your screen. If it is not present, go Window -> Sidebar to make it appear. This sidebar will help you through some of the processes as you map. From Top to Bottom they are:
 
 ### Test Runner
 
-![](../assets/images/HowToMap/test_runner.PNG)
+![](../assets/images/HowToMap/test_runner.png)
 
 Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request. To run these tests, click __Run All__ and then leave it for a while, it is not a quick process (use this opportunity to get something to eat/drink or some other professional/recreational activity of your choice).
 

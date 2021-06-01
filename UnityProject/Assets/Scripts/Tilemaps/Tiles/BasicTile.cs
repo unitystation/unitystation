@@ -53,6 +53,9 @@ public abstract class BasicTile : LayerTile
 	[Tooltip("Can this tile be damaged at all?")]
 	public bool indestructible;
 
+	[Tooltip("Do explosions have to completely destroy the tile before passing it, Otherwise explosion extends all its energy on the wall")]
+	public bool ExplosionImpassable;
+
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
 	[FormerlySerializedAs("PassableException")]
 	[SerializeField]

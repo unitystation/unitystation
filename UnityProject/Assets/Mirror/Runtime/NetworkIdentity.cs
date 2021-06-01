@@ -353,9 +353,11 @@ namespace Mirror
                 // old not empty
                 if (!string.IsNullOrEmpty(oldAssetIdSrting))
                 {
-                    Debug.LogError($"Can not Set AssetId on NetworkIdentity '{name}' because it already had an assetId, current assetId '{oldAssetIdSrting}', attempted new assetId '{newAssetIdString}'");
-                    return;
+	                return;
+	                //Would be nice to have the reason why it complains if it's set wrong
+	                //Debug.LogError($"Can not Set AssetId on NetworkIdentity '{name}' because it already had an assetId, current assetId '{oldAssetIdSrting}', attempted new assetId '{newAssetIdString}'");
                 }
+
 
                 // old is empty
                 m_AssetId = newAssetIdString;
@@ -545,8 +547,10 @@ namespace Mirror
                 //    permanent
                 // => throw an exception to cancel the build and let the user
                 //    know how to fix it!
-                if (BuildPipeline.isBuildingPlayer)
-                    throw new InvalidOperationException("Scene " + gameObject.scene.path + " needs to be opened and resaved before building, because the scene object " + name + " has no valid sceneId yet.");
+                 if (BuildPipeline.isBuildingPlayer)
+	                 ///UNITYSTATION CODE///
+	                 /// Replaced with warning, It used to stop build
+                     Debug.LogWarning("Scene " + gameObject.scene.path + " needs to be opened and resaved before building, because the scene object " + name + " has no valid sceneId yet.");
 
                 // if we generate the sceneId then we MUST be sure to set dirty
                 // in order to save the scene object properly. otherwise it

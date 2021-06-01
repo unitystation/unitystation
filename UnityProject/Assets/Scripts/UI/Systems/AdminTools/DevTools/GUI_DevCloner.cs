@@ -40,6 +40,7 @@ public class GUI_DevCloner : MonoBehaviour
 	private EscapeKeyTarget escapeKeyTarget;
 
 	private LightingSystem lightingSystem;
+	private bool cachedLightingState;
 
 	void Awake()
 	{
@@ -96,6 +97,7 @@ public class GUI_DevCloner : MonoBehaviour
 		{
 			statusText.text = "Click to select object to clone (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = true;
+			cachedLightingState = lightingSystem.enabled;
 			lightingSystem.enabled = false;
 
 		}
@@ -108,13 +110,14 @@ public class GUI_DevCloner : MonoBehaviour
 			SpriteRenderer cursorRenderer = cursorObject.GetComponent<SpriteRenderer>();
 			cursorRenderer.sprite = toClone.GetComponentInChildren<SpriteRenderer>().sprite;
 			CheckAndApplyPalette(ref cursorRenderer);
+			cachedLightingState = lightingSystem.enabled;
 			lightingSystem.enabled = false;
 		}
 		else if (newState == State.INACTIVE)
 		{
 			statusText.text = "Click to select object to clone (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = false;
-			lightingSystem.enabled = true;
+			lightingSystem.enabled = cachedLightingState;
 			gameObject.SetActive(false);
 		}
 

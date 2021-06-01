@@ -49,8 +49,6 @@ namespace Effects
 		public void StopFloating()
 		{
 			WillAnimate = false;
-			tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.01f);
-			StopAllCoroutines();
 		}
 
 		private IEnumerator Animate()
@@ -64,6 +62,7 @@ namespace Effects
 				tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), SPEED / 2);
 				yield return WaitFor.Seconds(SPEED / 2);
 			}
+			tween.LocalMove(NetworkedLeanTween.Axis.Y, new Vector3(0, 0, 0), 0.1f);
 		}
 	}
 }

@@ -16,6 +16,8 @@ namespace UI.AdminTools
 		private LayerMask layerMask;
 		private LightingSystem lightingSystem;
 
+		private bool cachedLightingState;
+
 		void Awake()
 		{
 			layerMask = LayerMask.GetMask("Furniture", "Machines", "Unshootable Machines", "Items",
@@ -25,13 +27,14 @@ namespace UI.AdminTools
 
 		private void OnEnable()
 		{
+			cachedLightingState = lightingSystem.enabled;
 			lightingSystem.enabled = false;
 			UIManager.IsMouseInteractionDisabled = true;
 		}
 
 		private void OnDisable()
 		{
-			lightingSystem.enabled = true;
+			lightingSystem.enabled = cachedLightingState;
 			UIManager.IsMouseInteractionDisabled = false;
 		}
 

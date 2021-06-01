@@ -25,6 +25,8 @@ public class Armor
 	[Range(-100,100)] public float Magic;
 	[Range(-100,100)] public float Bio;
 
+	[Range(0f,1f)] public float DismembermentProtectionChance;
+
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance and armor penetration.
 	/// </summary>
@@ -35,6 +37,19 @@ public class Armor
 	public float GetDamage(float damage, AttackType attackType, float armorPenetration = 0)
 	{
 		return damage * GetRatingValue(attackType, armorPenetration);
+	}
+
+
+	/// <summary>
+	/// From the damage done, calculates how much force was put into it
+	/// </summary>
+	/// <param name="damage">Base damage</param>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
+	/// <returns>New damage after applying protection values</returns>
+	public float GetForce(float damage, AttackType attackType, float armorPenetration = 0)
+	{
+		return damage / GetRatingValue(attackType, armorPenetration);
 	}
 
 	/// <summary>

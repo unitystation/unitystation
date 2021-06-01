@@ -381,7 +381,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSwitchPickupMode()
 	{
 		// Switch the pickup mode of the storage in the active hand
-
 		InteractableStorage storage = null;
 		foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.rightHand))
 		{
@@ -552,6 +551,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.mind.occupation = job;
 				break;
 			}
+		}
+
+		//Can be null if respawning spectator ghost as they dont have an occupation
+		if (playerScript.mind.occupation == null)
+		{
+			return;
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);

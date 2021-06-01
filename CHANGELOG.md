@@ -2,6 +2,20 @@
 ---
 
 
+* 2021/5/29: [Fix] - Fixed a bug where the player couldn't empty a reagent container in there hand by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/29: [Improvement] Liquid reagents will now make the floor slippery for a short time (same as water). by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/29: [Improvement] - Reagents now show if they are a Gas, Powder or Liquid using there appropriate sprites. by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/29: [New] - Reagents can be poured and mixed with other reagents on the floor. by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
+* 2021/5/28: [Fix] Fixed the syncing of the door status to new players by [ThatDan123](https://github.com/ThatDan123) in PR #[6635](https://github.com/unitystation/unitystation/pull/6635)
+* 2021/5/27: Adds cameras to square by [ThatDan123](https://github.com/ThatDan123) in PR #[6624](https://github.com/unitystation/unitystation/pull/6624)
+* 2021/5/26: [Fix] - The server will now check for illegal character sheets and will kick players who try modifying their sheets to spawn in with settings that are not allowed by the game. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6617](https://github.com/unitystation/unitystation/pull/6617)
+* 2021/5/26: highlighting should be consistent now by [Bod9001](https://github.com/Bod9001) in PR #[6614](https://github.com/unitystation/unitystation/pull/6614)
+* 2021/5/25: [Fix] - Players can no longer walk around headless or without a brain or torso and stay alive. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6610](https://github.com/unitystation/unitystation/pull/6610)
+* 2021/5/25: [New] - Players can now be dismembered by other players and explosives. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6610](https://github.com/unitystation/unitystation/pull/6610)
+* 2021/5/25: [Fix] Most if not all current NetTabs should now pop up again by [pyrosshade](https://github.com/pyrosshade) in PR #[6611](https://github.com/unitystation/unitystation/pull/6611)
+* 2021/5/23: Fixes a possible cause of neverending plasma fires by [Semuca](https://github.com/Semuca) in PR #[6606](https://github.com/unitystation/unitystation/pull/6606)
+* 2021/5/23: [Fix] - Admins no longer can heal dead bodies. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6597](https://github.com/unitystation/unitystation/pull/6597)
+* 2021/5/23: [Improvement] - Admins now can now revive dead players instead of forcing their character to respawn. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6597](https://github.com/unitystation/unitystation/pull/6597)
 * 2021/5/20: [Improvement] Changes sprite filtering of SquareButtonvs16x16.png to POINT filtering for more crisp and/or faithful rendering of the given buttons by [pyrosshade](https://github.com/pyrosshade) in PR #[6547](https://github.com/unitystation/unitystation/pull/6547)
 * 2021/5/20: [New] Condimaster Neo creates condiment bottles and condiment packets instead of what ChemMaster creates by [pyrosshade](https://github.com/pyrosshade) in PR #[6547](https://github.com/unitystation/unitystation/pull/6547)
 * 2021/5/20: [New] Adds Condimaster Neo, effectively a service department reskin of the ChemMaster by [pyrosshade](https://github.com/pyrosshade) in PR #[6547](https://github.com/unitystation/unitystation/pull/6547)

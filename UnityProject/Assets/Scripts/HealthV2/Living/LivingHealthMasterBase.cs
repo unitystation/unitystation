@@ -849,6 +849,32 @@ namespace HealthV2
 			{
 				bodyPart.ResetDamage();
 			}
+
+		}
+
+		/// <summary>
+		/// Revives a dead player to full health.
+		/// </summary>
+		public void RevivePlayerToFullHealth(PlayerScript player)
+		{
+			Extinguish(); //Remove any fire on them.
+			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
+			healthStateController.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
+			foreach (var BodyPart in ImplantList) //Restart their heart.
+			{
+				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
+				{
+					if (bodyPartModification is Heart heart)
+					{
+						heart.HeartAttack = false;
+						heart.CanTriggerHeartAttack = false;
+						heart.CurrentPulse = 100;
+						heart.DoHeartBeat(this);
+					}
+				}
+			}
+			CalculateOverallHealth(); //This makes the player alive and concision.
+			player.playerMove.allowInput = true; //Let them interact with the world again.
 		}
 
 		/// <summary>
@@ -900,6 +926,16 @@ namespace HealthV2
 		///</Summary>
 		public virtual void Death()
 		{
+			var HV2 = (this as PlayerHealthV2);
+			if (HV2 != null)
+			{
+				if (HV2.PlayerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				{
+					HV2.PlayerScript.playerMove.allowInput = false;
+				}
+
+			}
+
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);

@@ -70,6 +70,13 @@ namespace HealthV2
 		public DamageSeverity Severity = DamageSeverity.LightModerate;
 
 		/// <summary>
+		/// How much damage can this body part last before it breaks/gibs
+		/// <summary>
+		public float DamageThreshold = 18f;
+		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
+		public float GibChance = 0.15f;
+
+		/// <summary>
 		/// Toxin damage taken
 		/// </summary>
 		public float Toxin => Damages[(int) DamageType.Tox];
@@ -259,6 +266,21 @@ namespace HealthV2
 					}
 				}
 			}
+
+			if(attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
+			{
+				if(damageToLimb >= DamageThreshold)
+				{
+					CheckBodyPartIntigrity();
+				}
+			}
+			if(attackType == AttackType.Bomb)
+			{
+				if(damageToLimb >= DamageThreshold)
+				{
+					DismemberBodyPartWithChance();
+				}
+			}
 		}
 
 
@@ -368,6 +390,31 @@ namespace HealthV2
 			if (DamageContributesToOverallHealth && oldSeverity != Severity && healthMaster != null)
 			{
 				UpdateIcons();
+			}
+		}
+
+		/// <summary>
+		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
+		/// </summary>
+		protected void CheckBodyPartIntigrity()
+		{
+			if(Severity >= GibsOnSeverityLevel)
+			{
+				DismemberBodyPartWithChance();
+			}
+		}
+
+		/// <summary>
+		/// Checks if the player is lucky enough and is wearing enough protective armor to avoid getting his bodypart removed.
+		/// </summary>
+		public void DismemberBodyPartWithChance()
+		{
+			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
+			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
+			if(Severity == DamageSeverity.Max){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
+			if(chance >= armorChanceModifer)
+			{
+				RemoveFromBodyThis();
 			}
 		}
 

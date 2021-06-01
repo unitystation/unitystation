@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 using Mirror;
 using Systems.Electricity;
 using Tilemaps.Behaviours.Layers;
+using UnityEngine.Rendering;
 
 public enum ObjectType
 {
@@ -172,6 +173,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		get => serverLocalPosition;
 		private set
 		{
+			if (serverLocalPosition == value) return;
 			if (objectLayer)
 			{
 				objectLayer.ServerObjects.Remove(serverLocalPosition, this);
@@ -192,6 +194,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		get => clientLocalPosition;
 		private set
 		{
+			if (clientLocalPosition == value) return;
 			bool appeared = clientLocalPosition == TransformState.HiddenPos && value != TransformState.HiddenPos;
 			bool disappeared = clientLocalPosition != TransformState.HiddenPos && value == TransformState.HiddenPos;
 			if (objectLayer)
@@ -204,6 +207,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			}
 
 			clientLocalPosition = value;
+
+			if(clientLocalPosition == resetPosition) return;
 
 			if (appeared)
 			{
@@ -218,6 +223,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	}
 
 	private Vector3Int clientLocalPosition;
+
+	private Vector3Int resetPosition = new Vector3Int(0, 0, -99);
 
 	/// <summary>
 	/// Event invoked on server side when position changes. Passes the new local position in the matrix.
@@ -239,6 +246,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private Pipes.PipeData pipeData;
 	public Pipes.PipeData PipeData => pipeData;
 
+	public SortingGroup CurrentsortingGroup;
+
 	#region Lifecycle
 
 	protected virtual void Awake()
@@ -252,12 +261,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		cnt = GetComponent<CustomNetTransform>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
+		CurrentsortingGroup = GetComponent<SortingGroup>();
 	}
 
 	//we have lifecycle methods from lifecycle system, but lots of things currently depend on this register tile
 	//being initialized as early as possible so we still have this in place.
 	private void OnEnable()
 	{
+		if (Application.isPlaying == false) return;
 		LogMatrixDebug("OnEnable");
 		initialized = false;
 		ForceRegister();
@@ -298,6 +309,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
+		if (objectLayer)
+		{
+			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
+			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
+		}
+
 		//cancel all relationships
 		if (sameMatrixRelationships != null)
 		{
@@ -384,6 +401,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		bool hadSpinRotation = cnt && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
+
+		//Reset position
+		LocalPositionClient = resetPosition;
+		LocalPositionServer = resetPosition;
+
 		objectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		transform.SetParent(objectLayer.transform, true);
 		//preserve absolute rotation if there was spin rotation
@@ -434,6 +456,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			              transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
+			LocalPositionServer = TransformState.HiddenPos;
+			LocalPositionClient = TransformState.HiddenPos;
+
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
 			LocalPositionClient = Vector3Int.RoundToInt(transform.localPosition);
 		}
@@ -454,8 +479,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		if (matrix == null)
 		{
-			Logger.LogWarning("RegisterTile tried to wait for Matrix to init, but Matrix was null", Category.Matrix);
-			return;
+			Logger.LogWarning($"{gameObject.name} RegisterTile tried to wait for Matrix to init, but Matrix was null", Category.Matrix);
+			ForceRegister();
+			if (matrix == null)
+			{
+				Logger.LogWarning($"RegisterTile matrix still null for: {gameObject.name}", Category.Matrix);
+				return;
+			}
 		}
 
 		matrixManagerDependantActions.Add(initAction);
