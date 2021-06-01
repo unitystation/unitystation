@@ -63,6 +63,10 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		//First is the UI button, second is the associated security camera object
 		private Dictionary<GameObject, GameObject> savedCameras = new Dictionary<GameObject, GameObject>();
 
+		//Number of cameras
+		[SerializeField]
+		private TMP_Text numberOfCameras = null;
+
 		private bool focusCheck;
 
 		#region focus Check
@@ -162,6 +166,11 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			}
 
 			aiPlayer.CmdTeleportToCamera(info.gameObject);
+		}
+
+		public void SetNumberOfCameras(uint newNumber)
+		{
+			numberOfCameras.text = newNumber.ToString();
 		}
 
 		#region Laws

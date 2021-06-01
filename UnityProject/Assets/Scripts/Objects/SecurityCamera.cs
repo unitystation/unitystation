@@ -29,7 +29,6 @@ namespace Objects
 
 		[SerializeField]
 		private GameObject cameraLight = null;
-		public GameObject CameraLight => cameraLight;
 
 		[SerializeField]
 		private SpriteHandler spriteHandler = null;
@@ -48,11 +47,11 @@ namespace Objects
 		private bool panelOpen;
 		private bool wiresCut;
 
-		private APCPoweredDevice apcPoweredDevice;
-		public APCPoweredDevice ApcPoweredDevice => apcPoweredDevice;
-
 		private RegisterObject registerObject;
 		public RegisterObject RegisterObject => registerObject;
+
+		private APCPoweredDevice apcPoweredDevice;
+		private Integrity integrity;
 
 		[NonSerialized]
 		public UnityEvent<bool> OnStateChange = new UnityEvent<bool>();
@@ -61,6 +60,7 @@ namespace Objects
 		{
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			registerObject = GetComponent<RegisterObject>();
+			integrity = GetComponent<Integrity>();
 		}
 
 		private void OnEnable()
@@ -75,7 +75,6 @@ namespace Objects
 
 			cameraActive = !wiresCut;
 
-
 			if (CustomNetworkManager.IsServer)
 			{
 				//Make sure new lights are set correctly for newly built cameras
@@ -85,6 +84,7 @@ namespace Objects
 				}
 
 				apcPoweredDevice.OrNull()?.OnStateChangeEvent.AddListener(PowerStateChanged);
+				integrity.OnWillDestroyServer.AddListener(OnCameraDestruction);
 			}
 		}
 
@@ -93,9 +93,10 @@ namespace Objects
 			cameras[securityCameraChannel].Remove(this);
 
 			apcPoweredDevice.OrNull()?.OnStateChangeEvent.RemoveListener(PowerStateChanged);
+			integrity.OnWillDestroyServer.RemoveListener(OnCameraDestruction);
 		}
 
-		#region Ai Camera Switching
+		#region Ai Camera Switching Interaction
 
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
 		{
@@ -171,6 +172,7 @@ namespace Objects
 		{
 			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
 
+			//Ai core has this camera script so dont try to cut cameras on it
 			if (interaction.TargetObject.GetComponent<AiCore>() != null) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return true;
@@ -249,11 +251,49 @@ namespace Objects
 		#endregion
 
 		[Server]
+		//Called when camera is deactivated or reactivated, e.g loss of power or wires cut/repaired
+		//Or when camera is destroyed
 		private void ServerSetCameraState(bool newState)
 		{
 			cameraActive = newState;
 			spriteHandler.OrNull()?.ChangeSprite(cameraActive ? 1 : 0);
 			OnStateChange.Invoke(newState);
+
+			//On state change, resync number of active cameras
+			SyncNumberOfCameras();
+		}
+
+		[Server]
+		public static void SyncNumberOfCameras()
+		{
+			foreach (var player in PlayerList.Instance.GetAllPlayers())
+			{
+				if(player.Script.PlayerState != PlayerScript.PlayerStates.Ai) continue;
+
+				if (player.Script.TryGetComponent<AiPlayer>(out var aiPlayer) == false) continue;
+
+				var count = 0;
+				foreach (var cameraGroup in cameras)
+				{
+					//Only check camera groups Ai can see
+					if(aiPlayer.OpenNetworks.Contains(cameraGroup.Key) == false) continue;
+
+					foreach (var camera in cameraGroup.Value)
+					{
+						//Only active cameras
+						if(camera.cameraActive == false) continue;
+
+						count++;
+					}
+				}
+
+				aiPlayer.ServerSetNumberOfCameras(count);
+			}
+		}
+
+		private void OnCameraDestruction(DestructionInfo info)
+		{
+			ServerSetCameraState(false);
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

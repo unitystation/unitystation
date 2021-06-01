@@ -75,6 +75,9 @@ namespace Systems.Ai
 		[SyncVar(hook = nameof(SyncIntegrity))]
 		private float integrity = 100;
 
+		[SyncVar(hook = nameof(SyncNumberOfCameras))]
+		private uint numberOfCameras = 100;
+
 		//TODO make into sync list, will need to be sync as it is used in some validations client and serverside
 		private List<string> openNetworks = new List<string>()
 		{
@@ -247,6 +250,21 @@ namespace Systems.Ai
 			aiUi.SetIntegrityLevel(newValue);
 		}
 
+		[Client]
+		private void SyncNumberOfCameras(uint oldValue, uint newValue)
+		{
+			numberOfCameras = newValue;
+
+			if (CustomNetworkManager.IsHeadless) return;
+
+			if (aiUi == null)
+			{
+				aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
+			}
+
+			aiUi.SetNumberOfCameras(newValue);
+		}
+
 		#endregion
 
 		#region Camera Stuff
@@ -264,12 +282,6 @@ namespace Systems.Ai
 			//Remove old listeners
 			if (cameraLocation != null && cameraLocation.gameObject != gameObject)
 			{
-				//Remove old integrity listener if possible, ignore if current location is core
-				if (cameraLocation.TryGetComponent<Integrity>(out var oldCameraIntegrity))
-				{
-					oldCameraIntegrity.OnWillDestroyServer.RemoveListener(OnCameraDestroy);
-				}
-
 				//Remove old power listener
 				if (cameraLocation.TryGetComponent<SecurityCamera>(out var oldCamera))
 				{
@@ -297,12 +309,6 @@ namespace Systems.Ai
 			//Add new listeners
 			if (newObject != null && newObject != gameObject)
 			{
-				//Add integrity listener to camera if possible, so we can move camera back to core if camera destroyed
-				if (newObject.TryGetComponent<Integrity>(out var cameraIntegrity))
-				{
-					cameraIntegrity.OnWillDestroyServer.AddListener(OnCameraDestroy);
-				}
-
 				//Add power listener
 				if (newObject.TryGetComponent<SecurityCamera>(out var securityCamera))
 				{
@@ -321,15 +327,6 @@ namespace Systems.Ai
 		{
 			cameraLocation = newLocation;
 			Camera2DFollow.followControl.target = newLocation;
-		}
-
-		[Server]
-		private void OnCameraDestroy(DestructionInfo info)
-		{
-			//TODO maybe go to nearest camera instead?
-			if (coreObject == null) return;
-
-			ServerSetCameraLocation(coreObject);
 		}
 
 		//Called when camera is destroyed clientside
@@ -381,6 +378,7 @@ namespace Systems.Ai
 		}
 
 		//Called when camera is deactivated, e.g loss of power or wires cut
+		//Or when camera is destroyed
 		[Server]
 		private void CameraStateChanged(bool newState)
 		{
@@ -435,7 +433,6 @@ namespace Systems.Ai
 
 		[Command]
 		//Sends camera to player or mob, validated client and serverside
-		//TODO do mobs too?
 		public void CmdTrackObject(GameObject objectToTrack)
 		{
 			if(OnCoolDown(NetworkSide.Server)) return;
@@ -528,6 +525,18 @@ namespace Systems.Ai
 			}
 
 			return null;
+		}
+
+		[Server]
+		public void ServerSetNumberOfCameras(int number)
+		{
+			//Shouldn't ever happen but just in case
+			if (number < 0)
+			{
+				number = 0;
+			}
+
+			numberOfCameras = (uint)number;
 		}
 
 		#endregion
@@ -913,6 +922,9 @@ namespace Systems.Ai
 		private void CmdAskForLawUpdate()
 		{
 			ServerUpdateClientLaws();
+
+			//Sync number of cameras here for new player.
+			SecurityCamera.SyncNumberOfCameras();
 		}
 
 		[ContextMenu("randomise laws")]

@@ -122,7 +122,14 @@ namespace Systems.Teleport
 
 				var placePosition = camera.transform.position;// Only way to get position of this object.
 
-				var teleportInfo = new TeleportInfo(camera.CameraName + " - SecCam", placePosition.CutToInt(), camera.gameObject);
+				var name = camera.CameraName + " - SecCam";
+
+				if (camera.CameraActive == false)
+				{
+					name += " INACTIVE";
+				}
+
+				var teleportInfo = new TeleportInfo(name, placePosition.CutToInt(), camera.gameObject);
 
 				yield return teleportInfo;
 			}
