@@ -173,7 +173,7 @@ namespace Objects
 			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
 
 			//Ai core has this camera script so dont try to cut cameras on it
-			if (interaction.TargetObject.GetComponent<AiCore>() != null) return false;
+			if (interaction.TargetObject.GetComponent<AiVessel>() != null) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return true;
 
@@ -298,7 +298,7 @@ namespace Objects
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
-			if (GetComponent<AiCore>() != null) return "";
+			if (GetComponent<AiVessel>() != null) return "";
 
 			return $"The cameras back panel is {(panelOpen ? "open" : "closed")} and the camera is {(cameraActive ? "active" : "deactivated")}";
 		}

@@ -45,19 +45,6 @@ namespace Systems.Ai
 		private SecurityCamera coreCamera = null;
 		public SecurityCamera CoreCamera => coreCamera;
 
-		//Follow card only, server only
-		private bool isCarded;
-		public bool IsCarded => isCarded;
-
-		//Whether the Ai is allowed to perform actions, changed when Ai is carded
-		[SyncVar]
-		private bool allowRemoteAction = true;
-		public bool AllowRemoteAction => allowRemoteAction;
-
-		[SyncVar]
-		private bool allowRadio = true;
-		public bool AllowRadio => allowRadio;
-
 		//Valid client side and serverside for validations
 		//Client sends message to where it wants to go, server keeps track to do validations
 		private Transform cameraLocation;
@@ -85,9 +72,30 @@ namespace Systems.Ai
 
 		[SyncVar(hook = nameof(SyncIntegrity))]
 		private float integrity = 100;
+		public float Integrity => integrity;
 
 		[SyncVar(hook = nameof(SyncNumberOfCameras))]
 		private uint numberOfCameras = 100;
+
+		//Follow card only, server only
+		private bool isCarded;
+		public bool IsCarded => isCarded;
+
+		//Whether the Ai is allowed to perform actions, changed when Ai is carded
+		[SyncVar]
+		private bool allowRemoteAction = true;
+		public bool AllowRemoteAction => allowRemoteAction;
+
+		//Whether the Ai is allowed to use the radio
+		[SyncVar]
+		private bool allowRadio = true;
+		public bool AllowRadio => allowRadio;
+
+		private bool isPurging;
+		public bool IsPurging => isPurging;
+
+		//Remove one integrity every 1 second
+		private const float purgeDamageInterval = 1f;
 
 		//TODO make into sync list, will need to be sync as it is used in some validations client and serverside
 		private List<string> openNetworks = new List<string>()
@@ -153,7 +161,7 @@ namespace Systems.Ai
 
 			playerScript.SetPermanentName(playerScript.characterSettings.AiName);
 			vesselObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
-			vesselObject.GetComponent<AiCore>().SetLinkedPlayer(this);
+			vesselObject.GetComponent<AiVessel>().SetLinkedPlayer(this);
 
 			isCarded = false;
 		}
@@ -184,6 +192,7 @@ namespace Systems.Ai
 		private void OnDisable()
 		{
 			RemoveVesselListeners();
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PurgeLoop);
 		}
 
 		private void RemoveVesselListeners()
@@ -228,7 +237,7 @@ namespace Systems.Ai
 			//Reset location to core
 			CmdTeleportToCore();
 
-			var isInteliCard = newCore.GetComponent<AiCore>().IsInteliCard;
+			var isInteliCard = newCore.GetComponent<AiVessel>().IsInteliCard;
 			if (isInteliCard == false)
 			{
 				ClientSetCameraLocation(newCore.transform);
@@ -629,7 +638,7 @@ namespace Systems.Ai
 			RemoveVesselListeners();
 			vesselObject = newVessel;
 
-			isCarded = newVessel.GetComponent<AiCore>().IsInteliCard;
+			isCarded = newVessel.GetComponent<AiVessel>().IsInteliCard;
 
 			if (isCarded)
 			{
@@ -638,6 +647,13 @@ namespace Systems.Ai
 			}
 
 			AddVesselListeners();
+		}
+
+		[Server]
+		public void ServerSetPermissions(bool allowInteractions, bool allowRadio)
+		{
+			allowRemoteAction = allowInteractions;
+			this.allowRadio = allowRadio;
 		}
 
 		[Server]
@@ -689,24 +705,30 @@ namespace Systems.Ai
 		[Server]
 		private void OnCoreDamage(DamageInfo info)
 		{
-			SetIntegrity(info.AttackedIntegrity.PercentageDamaged);
+			//Do negative of damage to remove it
+			ChangeIntegrity(-info.Damage);
 		}
 
+		//Positive to heal, negative to damage
 		[Server]
-		private void SetIntegrity(float newValue)
+		private void ChangeIntegrity(float byValue)
 		{
-			//Dont allow negative
-			newValue = Mathf.Max(0, newValue);
+			var newIntegrity = integrity + byValue;
 
-			integrity = newValue;
+			//Integrity is between 0 and 100 due to the slider setting for the intelicard GUI
+			newIntegrity = Mathf.Clamp(newIntegrity, 0, 100);
 
-			//Dont allow negative
-			integrity = Mathf.Max(0, integrity);
+			integrity = newIntegrity;
 
 			//Check for death
 			if (integrity.Approx(0))
 			{
 				Death();
+			}
+
+			if (isCarded)
+			{
+				vesselObject.GetComponent<AiVessel>().UpdateGUI();
 			}
 		}
 
@@ -814,11 +836,39 @@ namespace Systems.Ai
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You have been destroyed");
 
+			var vessel = vesselObject.GetComponent<AiVessel>();
+
+			if (vessel != null)
+			{
+				//0 is empty, 1 is full, 2 is dead sprite
+				vessel.SetLinkedPlayer(null);
+				vessel.VesselSpriteHandler.ChangeSprite(2);
+			}
+
 			//Transfer player to ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 
 			//Despawn this player object
 			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		[Server]
+		public void SetPurging(bool newState)
+		{
+			isPurging = newState;
+
+			if (isPurging)
+			{
+				UpdateManager.Add(PurgeLoop, purgeDamageInterval);
+				return;
+			}
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PurgeLoop);
+		}
+
+		private void PurgeLoop()
+		{
+			ChangeIntegrity(-1);
 		}
 
 		#endregion

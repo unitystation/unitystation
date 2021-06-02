@@ -543,6 +543,9 @@ public static class Validations
 		//Performer and target cant be null
 		if (toValidate.Performer == null || toValidate.TargetObject == null) return false;
 
+		//Ai's shouldn't be able to interacte with items, only objects
+		if (toValidate.TargetObject.GetComponent<ItemAttributesV2>() != null) return false;
+
 		//Has to be Ai to do this interaction
 		if(toValidate.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return false;
 

@@ -14,6 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInteliCard: 1
   inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
+  vesselSpriteHandler: {fileID: 7597293221589594746}
+--- !u!114 &8039393862034619870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335030035501419005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 41
 --- !u!1001 &4335428489196270919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,3 +168,15 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 4335428489196270919}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7597293221589594746 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 4335428489196270919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
