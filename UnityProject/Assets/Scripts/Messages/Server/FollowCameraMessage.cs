@@ -86,9 +86,9 @@ namespace Messages.Server
 			}
 
 			//Otherwise try to follow core
-			if (aiPlayer.CoreObject != null)
+			if (aiPlayer.VesselObject != null)
 			{
-				aiPlayer.ClientSetCameraLocation(aiPlayer.CoreObject.transform);
+				aiPlayer.ClientSetCameraLocation(aiPlayer.VesselObject.transform);
 			}
 
 			//Otherwise we must be dead so do nothing

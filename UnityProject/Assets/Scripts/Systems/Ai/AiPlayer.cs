@@ -28,8 +28,8 @@ namespace Systems.Ai
 
 		[SyncVar(hook = nameof(SyncCore))]
 		//Ai core or card
-		private GameObject coreObject;
-		public GameObject CoreObject => coreObject;
+		private GameObject vesselObject;
+		public GameObject VesselObject => vesselObject;
 
 		[SerializeField]
 		private int interactionDistance = 29;
@@ -41,11 +41,22 @@ namespace Systems.Ai
 		[SerializeField]
 		private List<AiLawSet> defaultLawSets = new List<AiLawSet>();
 
+		//Only valid on core not card
 		private SecurityCamera coreCamera = null;
 		public SecurityCamera CoreCamera => coreCamera;
 
-		//Follow card only
+		//Follow card only, server only
 		private bool isCarded;
+		public bool IsCarded => isCarded;
+
+		//Whether the Ai is allowed to perform actions, changed when Ai is carded
+		[SyncVar]
+		private bool allowRemoteAction = true;
+		public bool AllowRemoteAction => allowRemoteAction;
+
+		[SyncVar]
+		private bool allowRadio = true;
+		public bool AllowRadio => allowRadio;
 
 		//Valid client side and serverside for validations
 		//Client sends message to where it wants to go, server keeps track to do validations
@@ -126,24 +137,36 @@ namespace Systems.Ai
 			//Set up laws
 			SetRandomDefaultLawSet();
 
-			coreObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
+			vesselObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
 
-			if (coreObject == null)
+			if (vesselObject == null)
 			{
 				Debug.LogError($"Failed to spawn Ai core for {gameObject}");
 				return;
 			}
 
 			//Force camera to core
-			ServerSetCameraLocation(coreObject);
+			ServerSetCameraLocation(vesselObject);
 
-			var coreIntegrity = coreObject.GetComponent<Integrity>();
+			//Set up vessel listeners, here it will be core as player can only start as core not card
+			AddVesselListeners();
+
+			playerScript.SetPermanentName(playerScript.characterSettings.AiName);
+			vesselObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
+			vesselObject.GetComponent<AiCore>().SetLinkedPlayer(this);
+
+			isCarded = false;
+		}
+
+		private void AddVesselListeners()
+		{
+			var coreIntegrity = vesselObject.GetComponent<Integrity>();
 			coreIntegrity.OnWillDestroyServer.AddListener(OnCoreDestroy);
 			coreIntegrity.OnApplyDamage.AddListener(OnCoreDamage);
 			hasPower = true;
 
 			//Power set up
-			var apc = coreObject.GetComponent<APCPoweredDevice>();
+			var apc = vesselObject.GetComponent<APCPoweredDevice>();
 			if (apc != null)
 			{
 				if (apc.ConnectToClosestApc() == false)
@@ -156,23 +179,22 @@ namespace Systems.Ai
 
 				apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.AddListener(OnPowerNetworkUpdate);
 			}
-
-			playerScript.SetPermanentName(playerScript.characterSettings.AiName);
-			coreObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
-			coreObject.GetComponent<AiCore>().SetLinkedPlayer(this);
-
-			isCarded = false;
 		}
 
 		private void OnDisable()
 		{
-			if (coreObject != null)
+			RemoveVesselListeners();
+		}
+
+		private void RemoveVesselListeners()
+		{
+			if (vesselObject != null)
 			{
-				var coreIntegrity = coreObject.GetComponent<Integrity>();
+				var coreIntegrity = vesselObject.GetComponent<Integrity>();
 				coreIntegrity.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
 				coreIntegrity.OnApplyDamage.RemoveListener(OnCoreDamage);
 
-				var apc = coreObject.GetComponent<APCPoweredDevice>();
+				var apc = vesselObject.GetComponent<APCPoweredDevice>();
 				if (apc != null)
 				{
 					apc.OnStateChangeEvent.RemoveListener(OnCorePowerLost);
@@ -192,7 +214,7 @@ namespace Systems.Ai
 		[Client]
 		private void SyncCore(GameObject oldCore, GameObject newCore)
 		{
-			coreObject = newCore;
+			vesselObject = newCore;
 			if(newCore == null) return;
 
 			if (CustomNetworkManager.IsHeadless) return;
@@ -205,10 +227,15 @@ namespace Systems.Ai
 
 			//Reset location to core
 			CmdTeleportToCore();
-			ClientSetCameraLocation(newCore.transform);
 
-			//Enable security camera overlay
-			SetCameras(true);
+			var isInteliCard = newCore.GetComponent<AiCore>().IsInteliCard;
+			if (isInteliCard == false)
+			{
+				ClientSetCameraLocation(newCore.transform);
+			}
+
+			//Enable security camera overlay if we are only a core
+			SetCameras(isInteliCard == false);
 
 			//Ask server to force sync laws
 			CmdAskForLawUpdate();
@@ -270,17 +297,17 @@ namespace Systems.Ai
 		#region Camera Stuff
 
 		[Server]
-		public void ServerSetCameraLocation(GameObject newObject)
+		public void ServerSetCameraLocation(GameObject newObject, bool ignoreCardCheck = false)
 		{
 			//Cant switch cameras when carded
-			if (isCarded)
+			if (isCarded && ignoreCardCheck == false)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"You are carded, you cannot move anywhere");
 				return;
 			}
 
 			//Remove old listeners
-			if (cameraLocation != null && cameraLocation.gameObject != gameObject)
+			if (cameraLocation != null && cameraLocation.gameObject != newObject)
 			{
 				//Remove old power listener
 				if (cameraLocation.TryGetComponent<SecurityCamera>(out var oldCamera))
@@ -295,7 +322,7 @@ namespace Systems.Ai
 				cameraLocation = newObject.transform;
 
 				//This is to move the player object so we can see the Ai Eye sprite underneath us
-				//TODO for some reason this isnt working the sprite says on the core always
+				//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
 				playerScript.PlayerSync.SetPosition(cameraLocation.position);
 			}
 			else
@@ -307,7 +334,7 @@ namespace Systems.Ai
 			FollowCameraAiMessage.Send(gameObject, newObject);
 
 			//Add new listeners
-			if (newObject != null && newObject != gameObject)
+			if (newObject != null && cameraLocation.gameObject != newObject)
 			{
 				//Add power listener
 				if (newObject.TryGetComponent<SecurityCamera>(out var securityCamera))
@@ -316,10 +343,42 @@ namespace Systems.Ai
 				}
 			}
 
-			if (newObject != null)
+			if (newObject != null && isCarded == false)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"You move to the {newObject.ExpensiveName()}");
 			}
+		}
+
+		[Server]
+		private bool ServerSetCameraLocationCard()
+		{
+			var cardLocation = ServerGetCameraLocationCard();
+
+			if (cardLocation != null)
+			{
+				ServerSetCameraLocation(cardLocation, true);
+				return true;
+			}
+
+			return false;
+		}
+
+		[Server]
+		public GameObject ServerGetCameraLocationCard()
+		{
+			var cardPickupable = vesselObject.GetComponent<Pickupable>();
+			if (cardPickupable.ItemSlot != null)
+			{
+				var rootPlayer = cardPickupable.ItemSlot.RootPlayer();
+				if (rootPlayer != null)
+				{
+					return rootPlayer.gameObject;
+				}
+
+				return cardPickupable.ItemSlot.GetRootStorage().gameObject;
+			}
+
+			return null;
 		}
 
 		[Client]
@@ -353,7 +412,10 @@ namespace Systems.Ai
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
 
-			ServerSetCameraLocation(coreObject);
+			//Set camera to card location, defined by pickupable
+			if (isCarded && ServerSetCameraLocationCard()) return;
+
+			ServerSetCameraLocation(vesselObject);
 		}
 
 		[Command]
@@ -361,6 +423,12 @@ namespace Systems.Ai
 		{
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
+
+			if (allowRemoteAction == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Remote actions have been disabled");
+				return;
+			}
 
 			SecurityCamera.GlobalLightStatus = newState;
 
@@ -387,7 +455,7 @@ namespace Systems.Ai
 			if(newState) return;
 
 			//Lost power so move back to core
-			ServerSetCameraLocation(coreObject);
+			ServerSetCameraLocation(vesselObject);
 		}
 
 		[TargetRpc]
@@ -406,6 +474,12 @@ namespace Systems.Ai
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
 
+			if (isCarded)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Can only move to different camera when in core");
+				return;
+			}
+
 			if(newCamera == null || newCamera.TryGetComponent<SecurityCamera>(out var securityCamera) == false) return;
 
 			if(OpenNetworks.Contains(securityCamera.SecurityCameraChannel) == false) return;
@@ -415,9 +489,9 @@ namespace Systems.Ai
 				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot move to {securityCamera.gameObject.ExpensiveName()}");
 
 				//Sanity check to make sure if we have no power we are at core
-				if (cameraLocation != coreObject.transform)
+				if (cameraLocation != vesselObject.transform)
 				{
-					ServerSetCameraLocation(coreObject);
+					ServerSetCameraLocation(vesselObject);
 				}
 				return;
 			}
@@ -438,6 +512,12 @@ namespace Systems.Ai
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
 
+			if (isCarded)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Can only track lifeforms when in core");
+				return;
+			}
+
 			if(objectToTrack == null) return;
 
 			if (hasPower == false)
@@ -445,9 +525,9 @@ namespace Systems.Ai
 				Chat.AddExamineMsgFromServer(gameObject, $"We have no power, cannot track {objectToTrack.ExpensiveName()}");
 
 				//Sanity check to make sure if we have no power we are at core
-				if (cameraLocation != coreObject.transform)
+				if (cameraLocation != vesselObject.transform)
 				{
-					ServerSetCameraLocation(coreObject);
+					ServerSetCameraLocation(vesselObject);
 				}
 				return;
 			}
@@ -544,6 +624,23 @@ namespace Systems.Ai
 		#region AiCore
 
 		[Server]
+		public void ServerSetNewVessel(GameObject newVessel)
+		{
+			RemoveVesselListeners();
+			vesselObject = newVessel;
+
+			isCarded = newVessel.GetComponent<AiCore>().IsInteliCard;
+
+			if (isCarded)
+			{
+				hasPower = true;
+				ServerSetCameraLocationCard();
+			}
+
+			AddVesselListeners();
+		}
+
+		[Server]
 		private void OnCoreDestroy(DestructionInfo info)
 		{
 			info.Destroyed.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
@@ -564,7 +661,7 @@ namespace Systems.Ai
 				Chat.AddExamineMsgFromServer(gameObject, "Core power has failed");
 
 				//Force move to core
-				ServerSetCameraLocation(coreObject);
+				ServerSetCameraLocation(vesselObject);
 
 				power = 0;
 				return;
@@ -619,12 +716,18 @@ namespace Systems.Ai
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
 
-			if(coreObject == null || coreObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour) == false) return;
+			if (isCarded)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Can only toggle floor bolts when in core");
+				return;
+			}
+
+			if(vesselObject == null || vesselObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour) == false) return;
 
 			var newState = objectBehaviour.IsNotPushable;
 
 			Chat.AddActionMsgToChat(gameObject, $"You {(newState ? "disengage" : "engage")} your core floor bolts",
-				$"{coreObject.ExpensiveName()} {(newState ? "disengages" : "engages")} its floor bolts");
+				$"{vesselObject.ExpensiveName()} {(newState ? "disengages" : "engages")} its floor bolts");
 			objectBehaviour.ServerSetPushable(newState);
 		}
 
@@ -637,6 +740,12 @@ namespace Systems.Ai
 		{
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
+
+			if (allowRemoteAction == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Remote actions have been disabled");
+				return;
+			}
 
 			if (string.IsNullOrEmpty(reason))
 			{
@@ -986,14 +1095,17 @@ namespace Systems.Ai
 
 		public string AdminInfoString()
 		{
-			var laws = new StringBuilder();
+			var adminInfo = new StringBuilder();
+
+			adminInfo.AppendLine($"Energy: {power}%");
+			adminInfo.AppendLine($"Integrity: {integrity}%");
 
 			foreach (var law in GetLaws())
 			{
-				laws.AppendLine(law);
+				adminInfo.AppendLine(law);
 			}
 
-			return laws.ToString();
+			return adminInfo.ToString();
 		}
 
 		//TODO when moving to card, remove power and integrity listeners from old core.

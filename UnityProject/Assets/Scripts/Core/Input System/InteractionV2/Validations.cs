@@ -546,6 +546,9 @@ public static class Validations
 		//Has to be Ai to do this interaction
 		if(toValidate.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return false;
 
+		//Only allow interactions if true
+		if (aiPlayer.AllowRemoteAction == false) return false;
+
 		//We should always have a camera location, either core or camera
 		if (aiPlayer.CameraLocation == null) return false;
 

@@ -129,6 +129,12 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
 			aiPlayer.StartCoolDown(NetworkSide.Client);
 
+			if (aiPlayer.CoreCamera == null)
+			{
+				Chat.AddExamineMsgToClient("Unable to change light state when not in core");
+				return;
+			}
+
 			aiPlayer.CmdToggleCameraLights(!aiPlayer.CoreCamera.LightOn);
 		}
 

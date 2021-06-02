@@ -400,6 +400,13 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
 			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
 			                                   | ChatChannel.Supply;
+
+			if (GetComponent<AiPlayer>().AllowRadio == false)
+			{
+				aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local;
+				aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			}
+
 			if (transmitOnly)
 			{
 				return aiTransmitChannels;

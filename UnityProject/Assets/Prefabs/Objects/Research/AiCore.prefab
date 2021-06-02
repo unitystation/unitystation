@@ -115,6 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1b889ca3e42c04ead4397346637578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteliCard: 0
+  inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
 --- !u!114 &6115472537149730407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  cameraName: 
   securityCameraChannel: Station
   aiSprite: {fileID: 1084228954753203219}
   cameraLight: {fileID: 8737062874307794873}
