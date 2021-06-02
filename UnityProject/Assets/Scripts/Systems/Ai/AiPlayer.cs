@@ -361,7 +361,7 @@ namespace Systems.Ai
 		[Server]
 		private bool ServerSetCameraLocationCard()
 		{
-			var cardLocation = ServerGetCameraLocationCard();
+			var cardLocation = ServerGetCardLocationObject();
 
 			if (cardLocation != null)
 			{
@@ -370,24 +370,6 @@ namespace Systems.Ai
 			}
 
 			return false;
-		}
-
-		[Server]
-		public GameObject ServerGetCameraLocationCard()
-		{
-			var cardPickupable = vesselObject.GetComponent<Pickupable>();
-			if (cardPickupable.ItemSlot != null)
-			{
-				var rootPlayer = cardPickupable.ItemSlot.RootPlayer();
-				if (rootPlayer != null)
-				{
-					return rootPlayer.gameObject;
-				}
-
-				return cardPickupable.ItemSlot.GetRootStorage().gameObject;
-			}
-
-			return null;
 		}
 
 		[Client]
@@ -753,6 +735,30 @@ namespace Systems.Ai
 			objectBehaviour.ServerSetPushable(newState);
 		}
 
+		[Server]
+		public GameObject GetRootVesselGameobject()
+		{
+			return isCarded ? ServerGetCardLocationObject() : VesselObject;
+		}
+
+		[Server]
+		public GameObject ServerGetCardLocationObject()
+		{
+			var cardPickupable = vesselObject.GetComponent<Pickupable>();
+			if (cardPickupable.ItemSlot != null)
+			{
+				var rootPlayer = cardPickupable.ItemSlot.RootPlayer();
+				if (rootPlayer != null)
+				{
+					return rootPlayer.gameObject;
+				}
+
+				return cardPickupable.ItemSlot.GetRootStorage().gameObject;
+			}
+
+			return null;
+		}
+
 		#endregion
 
 		#region Misc actions
@@ -1001,6 +1007,18 @@ namespace Systems.Ai
 			Chat.AddExamineMsgFromServer(gameObject, "Your Laws Have Been Updated!");
 
 			ServerUpdateClientLaws();
+		}
+
+		public string GetLawsString()
+		{
+			var lawString = new StringBuilder();
+
+			foreach (var law in GetLaws())
+			{
+				lawString.AppendLine(law);
+			}
+
+			return lawString.ToString();
 		}
 
 		//Valid server and client side

@@ -99,7 +99,7 @@ namespace Objects.Research
 				return;
 			}
 
-			linkedPlayer = cardScript.LinkedPlayer;
+			SetLinkedPlayer(cardScript.LinkedPlayer);
 			linkedPlayer.ServerSetNewVessel(gameObject);
 			linkedPlayer.ServerSetPermissions(true, true);
 			cardScript.SetLinkedPlayer(null);
@@ -165,7 +165,7 @@ namespace Objects.Research
 			if (LinkedPlayer != null)
 			{
 				lawText = LinkedPlayer.IsPurging ? "<color=red>Is Being Purged...\n</color>" : "";
-				lawText += LinkedPlayer.GetLaws().ToString();
+				lawText += LinkedPlayer.GetLawsString();
 			}
 
 			valuesToSend.Add(new ElementValue() { Id = "LawText", Value = Encoding.UTF8.GetBytes(lawText) });

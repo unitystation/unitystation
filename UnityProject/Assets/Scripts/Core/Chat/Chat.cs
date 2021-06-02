@@ -205,7 +205,7 @@ public partial class Chat : MonoBehaviour
 				//Set originator to core
 				chatEvent.originator = aiPlayer.VesselObject;
 
-				chatEvent.position = aiPlayer.IsCarded ? aiPlayer.ServerGetCameraLocationCard().AssumedWorldPosServer() : aiPlayer.VesselObject.AssumedWorldPosServer();
+				chatEvent.position = aiPlayer.IsCarded ? aiPlayer.ServerGetCardLocationObject().AssumedWorldPosServer() : aiPlayer.VesselObject.AssumedWorldPosServer();
 
 				//TODO here make it so we dont send local with binary
 				//TODO maybe also make it so we only speak local when only wanting local, all other channels dont have local with them?

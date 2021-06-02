@@ -39,7 +39,7 @@ namespace UI.Items
 				return;
 			}
 
-			labelLaws.Value = AiVessel.LinkedPlayer.GetLaws().ToString();
+			labelLaws.Value = AiVessel.LinkedPlayer.GetLawsString();
 			integritySlider.Value = AiVessel.LinkedPlayer.Integrity.ToString();
 		}
 

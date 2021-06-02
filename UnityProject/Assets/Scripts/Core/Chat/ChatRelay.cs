@@ -85,7 +85,7 @@ public class ChatRelay : NetworkBehaviour
 
 				//Send chat to player pos, unless AI then send to core pos
 				var playerPosition = players[i].Script.PlayerState != PlayerScript.PlayerStates.Ai ?
-					players[i].GameObject.AssumedWorldPosServer() : players[i].GameObject.GetComponent<AiPlayer>().VesselObject.AssumedWorldPosServer();
+					players[i].GameObject.AssumedWorldPosServer() : players[i].GameObject.GetComponent<AiPlayer>().GetRootVesselGameobject().AssumedWorldPosServer();
 
 				if (Vector2.Distance(chatEvent.position, playerPosition) > 14f)
 				{
