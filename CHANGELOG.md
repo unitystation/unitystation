@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/6/2: Fixed a sprite issue with the double-emergency tank (it was using the wrong sprite). by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6669](https://github.com/unitystation/unitystation/pull/6669)
+* 2021/6/2: Added belt and inhand sprites for all bags. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6669](https://github.com/unitystation/unitystation/pull/6669)
 * 2021/5/29: [Fix] - Fixed a bug where the player couldn't empty a reagent container in there hand by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
 * 2021/5/29: [Improvement] Liquid reagents will now make the floor slippery for a short time (same as water). by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
 * 2021/5/29: [Improvement] - Reagents now show if they are a Gas, Powder or Liquid using there appropriate sprites. by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)
