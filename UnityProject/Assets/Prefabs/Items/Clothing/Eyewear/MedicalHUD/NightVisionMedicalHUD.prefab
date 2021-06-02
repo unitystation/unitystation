@@ -33,7 +33,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   nightVisionVisibility: {x: 10.5, y: 10.5, z: 21}
-  defaultVisionVisibility: {x: 1.75, y: 1.75, z: 3.5}
   visibilityAnimationSpeed: 0.75
 --- !u!1001 &7157929891441979591
 PrefabInstance:
@@ -133,6 +132,16 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartsCovered
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183262993057210465, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4183262993057210465, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}

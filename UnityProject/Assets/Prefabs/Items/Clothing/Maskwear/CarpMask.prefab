@@ -39,6 +39,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eb3234434b428d94f80608a4d7b9151b,
         type: 2}
+    - target: {fileID: 3483897746626099850, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483897746626099850, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armoringBodyPartType
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6404652678407139925, guid: 996d62bfe3bf26c4e95c2a77cadabbd2,
         type: 3}
       propertyPath: m_Name
