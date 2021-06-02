@@ -1,6 +1,7 @@
 using System;
 using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
+using UI.Core.Net;
 using UnityEngine;
 
 namespace Objects

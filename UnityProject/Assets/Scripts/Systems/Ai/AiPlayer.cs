@@ -710,7 +710,7 @@ namespace Systems.Ai
 
 			if (isCarded)
 			{
-				vesselObject.GetComponent<AiVessel>().UpdateGUI();
+				vesselObject.GetComponent<AiVessel>().UpdateGui();
 			}
 		}
 
@@ -868,7 +868,7 @@ namespace Systems.Ai
 
 			if (isCarded)
 			{
-				vesselObject.GetComponent<AiVessel>().UpdateGUI();
+				vesselObject.GetComponent<AiVessel>().UpdateGui();
 			}
 
 			if (isPurging)

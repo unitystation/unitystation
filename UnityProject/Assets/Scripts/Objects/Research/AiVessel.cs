@@ -44,7 +44,7 @@ namespace Objects.Research
 
 			if (isInteliCard)
 			{
-				UpdateGUI();
+				UpdateGui();
 			}
 		}
 
@@ -137,7 +137,7 @@ namespace Objects.Research
 				linkedPlayer.ServerSetPermissions(allowRemoteAction, allowRadio);
 			}
 
-			UpdateGUI();
+			UpdateGui();
 		}
 
 		public void ChangeRadioState(bool newState)
@@ -149,10 +149,10 @@ namespace Objects.Research
 				linkedPlayer.ServerSetPermissions(allowRemoteAction, allowRadio);
 			}
 
-			UpdateGUI();
+			UpdateGui();
 		}
 
-		public void UpdateGUI()
+		public void UpdateGui()
 		{
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 

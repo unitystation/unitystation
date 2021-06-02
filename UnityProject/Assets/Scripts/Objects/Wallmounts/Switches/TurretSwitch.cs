@@ -7,6 +7,7 @@ using Core.Input_System.InteractionV2.Interactions;
 using Electricity.Inheritance;
 using Messages.Server;
 using Objects.Other;
+using UI.Core.Net;
 using UnityEngine;
 
 namespace Objects.Wallmounts.Switches
@@ -134,7 +135,7 @@ namespace Objects.Wallmounts.Switches
 		{
 			hasPower = newState;
 
-			UpdateGUI();
+			UpdateGui();
 
 			if (newState)
 			{
@@ -149,7 +150,7 @@ namespace Objects.Wallmounts.Switches
 		{
 			isOn = newState;
 
-			UpdateGUI();
+			UpdateGui();
 
 			//Only change if we have power
 			if (hasPower == false) return;
@@ -169,7 +170,7 @@ namespace Objects.Wallmounts.Switches
 		{
 			isStun = newState;
 
-			UpdateGUI();
+			UpdateGui();
 
 			//Only change if we have power and on
 			if (hasPower == false || isOn == false) return;
@@ -216,7 +217,7 @@ namespace Objects.Wallmounts.Switches
 			return true;
 		}
 
-		private void UpdateGUI()
+		private void UpdateGui()
 		{
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 
