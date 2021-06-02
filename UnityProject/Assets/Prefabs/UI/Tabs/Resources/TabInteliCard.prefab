@@ -292,6 +292,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   labelLaws: {fileID: 4052827372100537442}
+  labelPurgeButton: {fileID: 6060885991607955167}
   allowRemoteActionsSlider: {fileID: 2799855571194314452}
   allowRadioSlider: {fileID: 212507573502427971}
   integritySlider: {fileID: 8975374829178718591}
@@ -4281,8 +4282,9 @@ GameObject:
   - component: {fileID: 8902106452227875328}
   - component: {fileID: 3898368668054672946}
   - component: {fileID: 60894057834476971}
+  - component: {fileID: 6060885991607955167}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PurgeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4405,6 +4407,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6060885991607955167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8281052066175340982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8965285932599016169
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,7 +95,7 @@ namespace Objects.Research
 		{
 			if (linkedPlayer != null)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "There is already an Ai inside this core.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "There is already an Ai inside this intelicard.");
 				return;
 			}
 
@@ -169,6 +169,10 @@ namespace Objects.Research
 			}
 
 			valuesToSend.Add(new ElementValue() { Id = "LawText", Value = Encoding.UTF8.GetBytes(lawText) });
+
+			valuesToSend.Add(new ElementValue() { Id = "PurgeText", Value = Encoding.UTF8.GetBytes(LinkedPlayer == null ?
+				"No AI to Purge" : LinkedPlayer.IsPurging ?
+					"Stop Purging" : "Start Purging") });
 
 			// Update all UI currently opened.
 			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.InteliCard, TabAction.Update, valuesToSend.ToArray());

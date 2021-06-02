@@ -9,6 +9,9 @@ namespace UI.Items
 		private NetLabel labelLaws = null;
 
 		[SerializeField]
+		private NetLabel labelPurgeButton = null;
+
+		[SerializeField]
 		private NetSlider allowRemoteActionsSlider = null;
 
 		[SerializeField]
@@ -36,9 +39,11 @@ namespace UI.Items
 			{
 				labelLaws.Value = "This intelicard holds no Ai";
 				integritySlider.Value = "0";
+				labelPurgeButton.Value = "No Ai to Purge";
 				return;
 			}
 
+			labelPurgeButton.Value = AiVessel.LinkedPlayer.IsPurging ? "Stop Purging" : "Start Purging";
 			labelLaws.Value = AiVessel.LinkedPlayer.GetLawsString();
 			integritySlider.Value = AiVessel.LinkedPlayer.Integrity.ToString();
 		}

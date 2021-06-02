@@ -745,7 +745,7 @@ namespace Systems.Ai
 		public GameObject ServerGetCardLocationObject()
 		{
 			var cardPickupable = vesselObject.GetComponent<Pickupable>();
-			if (cardPickupable.ItemSlot != null)
+			if (cardPickupable.OrNull()?.ItemSlot != null)
 			{
 				var rootPlayer = cardPickupable.ItemSlot.RootPlayer();
 				if (rootPlayer != null)
@@ -756,7 +756,8 @@ namespace Systems.Ai
 				return cardPickupable.ItemSlot.GetRootStorage().gameObject;
 			}
 
-			return null;
+			//Else we must be on the floor so return ourselves
+			return vesselObject;
 		}
 
 		#endregion
@@ -862,6 +863,13 @@ namespace Systems.Ai
 		public void SetPurging(bool newState)
 		{
 			isPurging = newState;
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You are{(newState ? "" : " no longer")} being purged!");
+
+			if (isCarded)
+			{
+				vesselObject.GetComponent<AiVessel>().UpdateGUI();
+			}
 
 			if (isPurging)
 			{

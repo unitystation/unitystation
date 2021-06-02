@@ -203,7 +203,7 @@ public partial class Chat : MonoBehaviour
 			else if (player.TryGetComponent<AiPlayer>(out var aiPlayer))
 			{
 				//Set originator to core
-				chatEvent.originator = aiPlayer.VesselObject;
+				chatEvent.originator = aiPlayer.IsCarded ? aiPlayer.ServerGetCardLocationObject() : aiPlayer.VesselObject;
 
 				chatEvent.position = aiPlayer.IsCarded ? aiPlayer.ServerGetCardLocationObject().AssumedWorldPosServer() : aiPlayer.VesselObject.AssumedWorldPosServer();
 
