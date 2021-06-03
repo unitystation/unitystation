@@ -362,7 +362,6 @@ namespace HealthV2
 						damageSplit,
 						armorPenetration: armorPenetration
 						);
-					limbCount++;
 				}
 			}
 			else
