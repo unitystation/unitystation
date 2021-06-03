@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Objects.Other;
+using Objects.Research;
 using ScriptableObjects;
 using UnityEngine;
 using Weapons;
@@ -60,8 +61,8 @@ namespace Systems.Construction
 			//Adding Circuit board or unanchor
 			if (CurrentState == anchoredState)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.MetalSheet) ||
-				       Validations.HasUsedItemTrait(interaction, aiCoreCircuitBoardTrait);
+				return Validations.HasUsedItemTrait(interaction, aiCoreCircuitBoardTrait) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
 			}
 
 			//Screwdriver or remove Circuit board
@@ -141,7 +142,7 @@ namespace Systems.Construction
 						$"{interaction.Performer.ExpensiveName()} deconstructs the Ai core frame.",
 						() =>
 						{
-							Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject), 4);
+							Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject), 5);
 							_ = Despawn.ServerSingle(gameObject);
 						});
 				}
@@ -205,17 +206,12 @@ namespace Systems.Construction
 				else if (interaction.HandObject == null)
 				{
 					//Remove Circuit board
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-						"You start removing the circuit board from the Ai core frame...",
-						$"{interaction.Performer.ExpensiveName()} starts removing the circuit board from the Ai core frame...",
-						"You remove the circuit board from the Ai core frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the circuit board from the Ai core frame.",
-						() =>
-						{
-							Spawn.ServerPrefab(aiCoreCircuitBoardPrefab, SpawnDestination.At(gameObject), 1);
-							stateful.ServerChangeState(anchoredState);
-							spriteHandler.ChangeSprite(0);
-						});
+					Chat.AddActionMsgToChat(interaction, "You remove the circuit board from the frame",
+						$"{interaction.Performer.ExpensiveName()} removes the circuit board from the frame");
+
+					Spawn.ServerPrefab(aiCoreCircuitBoardPrefab, SpawnDestination.At(gameObject));
+					stateful.ServerChangeState(anchoredState);
+					spriteHandler.ChangeSprite(0);
 				}
 
 				return;
@@ -250,7 +246,7 @@ namespace Systems.Construction
 						() =>
 						{
 							stateful.ServerChangeState(circuitAddedState);
-							spriteHandler.ChangeSprite(2);
+							spriteHandler.ChangeSprite(1);
 						});
 				}
 
@@ -304,7 +300,7 @@ namespace Systems.Construction
 						{
 							Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 1);
 							stateful.ServerChangeState(screwState);
-							spriteHandler.ChangeSprite(3);
+							spriteHandler.ChangeSprite(2);
 						});
 				}
 
@@ -367,11 +363,12 @@ namespace Systems.Construction
 						$"{interaction.Performer.ExpensiveName()} screws in the glass to the frame.",
 						() =>
 						{
-							var newCore = Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 1);
+							var newCore = Spawn.ServerPrefab(aiCorePrefab, SpawnDestination.At(gameObject), 1);
 
 							if (newCore.Successful)
 							{
 								//TODO set up ai core when we have brain
+								newCore.GameObject.GetComponent<AiVessel>().SetLinkedPlayer(null);
 							}
 
 							_ = Despawn.ServerSingle(gameObject);
@@ -436,6 +433,12 @@ namespace Systems.Construction
 		}
 
 		#endregion
+
+		public void SetUp()
+		{
+			stateful.ServerChangeState(glassState);
+			spriteHandler.ChangeSprite(5);
+		}
 
 		//Examine to help build/deconstruct
 		public string Examine(Vector3 worldPos = default(Vector3))

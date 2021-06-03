@@ -122,6 +122,23 @@ MonoBehaviour:
   aiSprite: {fileID: 1084228954753203219}
   cameraLight: {fileID: 8737062874307794873}
   spriteHandler: {fileID: 0}
+--- !u!114 &7527627783644952830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705799857596220470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1b889ca3e42c04ead4397346637578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteliCard: 0
+  inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
+  aiCoreFramePrefab: {fileID: 856484549658838475, guid: 2f2e6aac51ae2974b9d8b337462d6611,
+    type: 3}
+  vesselSpriteHandler: {fileID: 6196046200730087148}
 --- !u!114 &8414053308888204017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,21 +164,6 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
   conType: 1
---- !u!114 &7527627783644952830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705799857596220470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca1b889ca3e42c04ead4397346637578, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInteliCard: 0
-  inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
-  vesselSpriteHandler: {fileID: 6196046200730087148}
 --- !u!1 &2252006090964192169
 GameObject:
   m_ObjectHideFlags: 0

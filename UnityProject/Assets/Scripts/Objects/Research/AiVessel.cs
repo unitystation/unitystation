@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Systems.Ai;
+using Systems.Construction;
 using Systems.Electricity;
 using Messages.Server;
 using Mirror;
@@ -21,6 +22,9 @@ namespace Objects.Research
 
 		[SerializeField]
 		private ItemTrait inteliCardTrait = null;
+
+		[SerializeField]
+		private GameObject aiCoreFramePrefab = null;
 
 		[FormerlySerializedAs("inteliCardSpriteHandler")] [SerializeField]
 		private SpriteHandler vesselSpriteHandler = null;
@@ -56,6 +60,8 @@ namespace Objects.Research
 
 			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
 
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver)) return true;
+
 			if (Validations.HasUsedItemTrait(interaction, inteliCardTrait)) return true;
 
 			return false;
@@ -63,6 +69,35 @@ namespace Objects.Research
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			{
+				//Only deconstruct if no AI inside
+				if (linkedPlayer != null)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, "Transfer the Ai to an intelicard before you deconstruct");
+					return;
+				}
+
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
+					"You start unscrewing in the glass on the Ai core...",
+					$"{interaction.Performer.ExpensiveName()} starts unscrewing the glass on the Ai core...",
+					"You unscrew the glass on the Ai core.",
+					$"{interaction.Performer.ExpensiveName()} unscrews the glass on the Ai core.",
+					() =>
+					{
+						var newCoreFrame = Spawn.ServerPrefab(aiCoreFramePrefab, SpawnDestination.At(gameObject), 1);
+
+						if (newCoreFrame.Successful)
+						{
+							newCoreFrame.GameObject.GetComponent<AiCoreFrame>().SetUp();
+						}
+
+						_ = Despawn.ServerSingle(gameObject);
+					});
+
+				return;
+			}
+
 			var cardScript = interaction.HandObject.GetComponent<AiVessel>();
 			if(cardScript == null) return;
 
@@ -104,6 +139,11 @@ namespace Objects.Research
 			linkedPlayer.ServerSetNewVessel(gameObject);
 			linkedPlayer.ServerSetPermissions(true, true);
 			cardScript.SetLinkedPlayer(null);
+		}
+
+		private void TryDeconstruct()
+		{
+
 		}
 
 		//Move camera to item position/ root container
