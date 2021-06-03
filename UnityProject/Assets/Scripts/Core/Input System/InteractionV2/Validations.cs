@@ -588,7 +588,7 @@ public static class Validations
 		//Visualise the interaction on client
 		if (side == NetworkSide.Client)
 		{
-			aiPlayer.ShowInteractionLine(new []{cameraPos, linecast.ItHit ? linecast.HitWorld : endPos});
+			aiPlayer.ShowInteractionLine(new []{cameraPos, linecast.ItHit ? linecast.HitWorld : endPos}, linecast.ItHit);
 		}
 
 		if (linecast.ItHit && Vector3.Distance(endPos, linecast.HitWorld) > 0.5f) return false;

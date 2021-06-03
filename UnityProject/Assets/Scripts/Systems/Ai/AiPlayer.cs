@@ -797,30 +797,30 @@ namespace Systems.Ai
 		}
 
 		[Client]
-		public void ShowInteractionLine(Vector3[] positions)
+		public void ShowInteractionLine(Vector3[] positions, bool hit)
 		{
 			lineRenderer.enabled = false;
-			StopCoroutine(LineFade());
+			StopCoroutine(LineFade(hit));
 
 			lineRenderer.positionCount = positions.Length;
 			lineRenderer.SetPositions(positions);
 			lineRenderer.enabled = true;
 
-			StartCoroutine(LineFade());
+			StartCoroutine(LineFade(hit));
 		}
 
-		private IEnumerator LineFade()
+		private IEnumerator LineFade(bool hit)
 		{
 			var a = 1f;
-			var colour = lineRenderer.startColor;
+			var colour = hit ? Color.red : Color.green;
 
 			while (a > 0.1)
 			{
+				lineRenderer.SetColors(colour, colour);
 				yield return WaitFor.Seconds(0.1f);
 				a -= 0.1f;
 				a = Mathf.Clamp(a, 0f, 1f);
 				colour.a = a;
-				lineRenderer.SetColors(colour, colour);
 			}
 
 			lineRenderer.enabled = false;

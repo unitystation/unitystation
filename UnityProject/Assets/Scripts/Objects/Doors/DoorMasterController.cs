@@ -509,6 +509,9 @@ namespace Doors
 
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
 		{
+			//Normal click should open door UI instead
+			if (interaction.ClickType == AiActivate.ClickTypes.NormalClick) return false;
+
 			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
 
 			return true;
@@ -547,6 +550,5 @@ namespace Doors
 		}
 
 		#endregion
-
 	}
 }
