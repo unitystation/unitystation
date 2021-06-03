@@ -12,11 +12,15 @@ namespace Systems.Explosions
 
 		private void OnEnable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(Step, 0.25f);
 		}
 
 		private void OnDisable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Step);
 		}
 

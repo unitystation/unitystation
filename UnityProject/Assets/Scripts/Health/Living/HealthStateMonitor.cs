@@ -8,7 +8,7 @@ using Mirror;
 ///		Health Monitoring component for all Living entities
 ///     Monitors the state of the entities health on the server and acts accordingly
 /// </summary>
-public class HealthStateMonitor : ManagedNetworkBehaviour
+public class HealthStateMonitor : NetworkBehaviour
 {
 	//Cached members
 	float overallHealthCache;
@@ -34,6 +34,20 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void Awake()
 	{
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+	}
+
+	private void OnEnable()
+	{
+		if(CustomNetworkManager.IsServer == false) return;
+
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		if(CustomNetworkManager.IsServer == false) return;
+
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public override void OnStartServer()
@@ -78,18 +92,18 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	/// ---------------------------
 	/// SYSTEM MONITOR
+	/// Server Side Only
 	/// ---------------------------
-	public override void UpdateMe()
+	private void UpdateMe()
 	{
-		if (isServer && init)
+		if (init == false) return;
+
+		MonitorCrucialStats();
+		tick += Time.deltaTime;
+		if (tick > tickRate)
 		{
-			MonitorCrucialStats();
-			tick += Time.deltaTime;
-			if (tick > tickRate)
-			{
-				tick = 0f;
-				MonitorNonCrucialStats();
-			}
+			tick = 0f;
+			MonitorNonCrucialStats();
 		}
 	}
 

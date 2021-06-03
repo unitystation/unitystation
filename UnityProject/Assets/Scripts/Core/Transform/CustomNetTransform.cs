@@ -13,7 +13,7 @@ using Debug = UnityEngine.Debug;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
+public partial class CustomNetTransform : NetworkBehaviour, IPushable //see UpdateManager
 {
 	[SerializeField][Tooltip("When the scene loads, snap this to the middle of the nearest tile?")]
 	private bool snapToGridOnStart = true;
@@ -104,8 +104,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				doMotionCheck = false;
 				// In the case we become Still and then Moving again in one second, we're still updating because freeze timer hasn't finished yet.
 				// Checking here if timer has passed yet (so we're no longer updating), if we are still updating we don't have to call OnEnable again.
-				if (!IsUpdating)
-					base.OnEnable();
+				if (!isUpdating)
+					OnEnable();
 			}
 			else
 			{
@@ -179,6 +179,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private bool waitForId;
 	private bool WaitForMatrixId;
 
+	private bool isUpdating;
+
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -189,6 +191,18 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private void Start()
 	{
 		LoadManager.RegisterAction(Init);
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		isUpdating = true;
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		isUpdating = false;
 	}
 
 	private void Init()
@@ -312,8 +326,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		predictedState = clientState;
 	}
 
-	//managed by UpdateManager
-	public override void UpdateMe()
+	//Server and Client Side
+	private void UpdateMe()
 	{
 		if (doMotionCheck) DoMotionCheck();
 
@@ -332,7 +346,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			doMotionCheck = false;
 			if (MotionState == MotionStateEnum.Still)
 			{
-				base.OnDisable();
+				OnDisable();
 			}
 		}
 	}

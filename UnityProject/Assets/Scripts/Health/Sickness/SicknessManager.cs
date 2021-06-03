@@ -39,19 +39,33 @@ namespace Health.Sickness
 
 		private void OnEnable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(SicknessUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
 		}
 
 		private void Start()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			sickPlayers = new List<MobSickness>();
+
+			// We can't use UnityEngine.Random because it can be called only in the main thread.
+			random = new System.Random();
+			sicknessThread = new Thread(ProcessSickness);
+			sicknessThread.Start();
+
+			blockingCollectionSymptoms = new BlockingCollection<SymptomManifestation>();
 		}
 
+		//Server side only
 		private void SicknessUpdate()
 		{
 			// Since unity can provide Time.time only in the main thread, we update for our running thread at the begining of frame.
@@ -61,16 +75,6 @@ namespace Health.Sickness
 			SymptomManifestation symptomManifestation;
 			while (blockingCollectionSymptoms.TryTake(out symptomManifestation))
 				TriggerStageSymptom(symptomManifestation);
-		}
-
-		private void Awake()
-		{
-			// We can't use UnityEngine.Random because it can be called only in the main thread.
-			random = new System.Random();
-			sicknessThread = new Thread(ProcessSickness);
-			sicknessThread.Start();
-
-			blockingCollectionSymptoms = new BlockingCollection<SymptomManifestation>();
 		}
 
 		private void ProcessSickness()

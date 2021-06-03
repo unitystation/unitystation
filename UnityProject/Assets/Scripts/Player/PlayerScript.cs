@@ -5,7 +5,8 @@ using HealthV2;
 using UI;
 using Player;
 
-public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
+
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -149,22 +150,25 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		Init();
 	}
 
-	protected override void OnEnable()
+	private void OnEnable()
 	{
-		base.OnEnable();
-
 		EventManager.AddHandler(Event.PlayerRejoined, Init);
 		EventManager.AddHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.AddHandler(Event.PlayerRejoined, OnPlayerReturnedToBody);
+
+		//Client and Local host only
+		if (CustomNetworkManager.IsHeadless) return;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
-	protected override void OnDisable()
+	private void OnDisable()
 	{
-		base.OnDisable();
-
 		EventManager.RemoveHandler(Event.PlayerRejoined, Init);
 		EventManager.RemoveHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnPlayerReturnedToBody);
+
+		if(CustomNetworkManager.IsHeadless) return;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public void Init()
@@ -222,9 +226,10 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	#endregion
 
-	public override void UpdateMe()
+	//Client Side Only
+	private void UpdateMe()
 	{
-		if (isUpdateRTT && !isServer && hasAuthority)
+		if (isUpdateRTT && hasAuthority)
 		{
 			RTTUpdate();
 		}
