@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Objects.Other;
 using ScriptableObjects;
@@ -33,10 +34,12 @@ namespace Systems.Construction
 			gunSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
-
-			if (!CustomNetworkManager.IsServer) return;
-
 			integrity = GetComponent<Integrity>();
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
 
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}
@@ -132,6 +135,8 @@ namespace Systems.Construction
 
 						return;
 					}
+
+					Chat.AddExamineMsgFromServer(interaction.Performer, "Unable to anchor turret frame here");
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
@@ -388,11 +393,13 @@ namespace Systems.Construction
 				Inventory.ServerDrop(gunSlot);
 			}
 
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+			//1-5
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
 
 			if (CurrentState == initialState) return;
 
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 1));
+			//0-1
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 2));
 
 			if (CurrentState == metalAddedState) return;
 
@@ -400,7 +407,8 @@ namespace Systems.Construction
 
 			if (CurrentState == proxAddedState) return;
 
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 1));
+			//0-1
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 2));
 		}
 
 		#endregion

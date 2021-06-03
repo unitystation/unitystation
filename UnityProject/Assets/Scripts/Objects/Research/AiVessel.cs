@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Systems.Ai;
+using Systems.Electricity;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Objects.Research
 	/// <summary>
 	/// This script controls the AI core object, for core AI job logic see AiPlayer.cs
 	/// </summary>
-	public class AiVessel : MonoBehaviour, ICheckedInteractable<HandApply>, IServerInventoryMove
+	public class AiVessel : MonoBehaviour, ICheckedInteractable<HandApply>, IServerInventoryMove, IExaminable
 	{
 		[SerializeField]
 		private bool isInteliCard;
@@ -176,6 +177,21 @@ namespace Objects.Research
 
 			// Update all UI currently opened.
 			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.InteliCard, TabAction.Update, valuesToSend.ToArray());
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			if (isInteliCard == false && TryGetComponent<APCPoweredDevice>(out var apc) && apc.RelatedAPC == null)
+			{
+				return "Ai core is not connected to APC!";
+			}
+
+			if (isInteliCard)
+			{
+				return LinkedPlayer == null ? "Contains no Ai" : $"Contains the AI: {LinkedPlayer.gameObject.ExpensiveName()}";
+			}
+
+			return "";
 		}
 	}
 }
