@@ -352,16 +352,18 @@ namespace HealthV2
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
 			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
-				foreach (var ContainsLimb in ContainsLimbs.ToArray())
+				//We don't use for loops to avoid errors when the list gets modifed.
+				int limbCount = 0;
+				while (ContainsLimbs.Count > limbCount)
 				{
-					ContainsLimb.TakeDamage(
-						damagedBy,
+					ContainsLimbs[limbCount].TakeDamage(damagedBy,
 						damage / ContainsLimbs.Count,
 						attackType,
 						damageType,
 						damageSplit,
 						armorPenetration: armorPenetration
-					);
+						);
+					limbCount++;
 				}
 			}
 			else
