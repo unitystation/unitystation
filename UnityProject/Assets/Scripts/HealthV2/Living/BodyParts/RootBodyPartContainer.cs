@@ -352,9 +352,8 @@ namespace HealthV2
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
 			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
-				//We don't use for loops to avoid errors when the list gets modifed.
-				int limbCount = 0;
-				while (ContainsLimbs.Count > limbCount)
+				//We don't use foreach to avoid errors when the list gets modifed.
+				for(int limbCount = 0; ContainsLimbs.Count > limbCount; limbCount++)
 				{
 					ContainsLimbs[limbCount].TakeDamage(damagedBy,
 						damage / ContainsLimbs.Count,
