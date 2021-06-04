@@ -6,7 +6,7 @@ using UI;
 using Player;
 
 
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
