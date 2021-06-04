@@ -131,7 +131,7 @@ namespace Systems.Explosions
 				//only damage each thing once
 				.Distinct());
 
-			foreach (var damagedLiving in damagedLivingThings.ToList())
+			foreach (var damagedLiving in damagedLivingThings)
 			{
 				damagedLiving.ApplyDamageAll(gameObject, damage, AttackType.Bomb, DamageType.Burn);
 			}
