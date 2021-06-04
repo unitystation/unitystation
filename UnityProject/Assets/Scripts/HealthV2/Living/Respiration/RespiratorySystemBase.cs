@@ -37,20 +37,23 @@ namespace HealthV2
 
 		void OnEnable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(UpdateMe, tickRate);
 		}
 
 		void OnDisable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		//Handle by UpdateManager
+		//Server Side Only
 		void UpdateMe()
 		{
-			//Server Only:
-			if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
-											  && !canBreathAnywhere)
+			if (MatrixManager.IsInitialized && !canBreathAnywhere)
 			{
 				MonitorSystem();
 			}

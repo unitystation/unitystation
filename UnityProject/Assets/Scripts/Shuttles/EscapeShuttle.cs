@@ -219,6 +219,22 @@ public class EscapeShuttle : MonoBehaviour
 		}
 	}
 
+	private void OnEnable()
+	{
+		if(CustomNetworkManager.IsServer == false) return;
+
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		StopAllCoroutines();
+
+		if(CustomNetworkManager.IsServer == false) return;
+
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	//called when each thruster is destroyed
 	private void OnWillDestroyThruster(DestructionInfo destruction)
 	{
@@ -249,12 +265,9 @@ public class EscapeShuttle : MonoBehaviour
 		GameManager.Instance.EndRound();
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
-		if ( !CustomNetworkManager.Instance._isServer || currentDestination == Destination.Invalid )
-		{
-			return;
-		}
+		if (currentDestination == Destination.Invalid ) return;
 
 		//arrived to destination
 		if ( mm.ServerState.IsMoving )
@@ -333,11 +346,6 @@ public class EscapeShuttle : MonoBehaviour
 				}
 			}
 		}
-	}
-
-	private void OnDisable()
-	{
-		StopAllCoroutines();
 	}
 
 	//sorry, not really clean, robust or universal
