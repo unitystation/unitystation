@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -12,14 +13,14 @@ namespace Systems.Explosions
 
 		private void OnEnable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if(NetworkServer.active == false) return;
 
 			UpdateManager.Add(Step, 0.25f);
 		}
 
 		private void OnDisable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if(NetworkServer.active == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Step);
 		}

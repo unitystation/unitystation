@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using HealthV2;
+using Mirror;
 using UnityEngine;
 
 namespace Health.Sickness
@@ -39,21 +40,21 @@ namespace Health.Sickness
 
 		private void OnEnable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if(NetworkServer.active == false) return;
 
 			UpdateManager.Add(SicknessUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if(NetworkServer.active == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
 		}
 
 		private void Start()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if(NetworkServer.active == false) return;
 
 			sickPlayers = new List<MobSickness>();
 
