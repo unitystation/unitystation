@@ -95,6 +95,12 @@ namespace HealthV2
 		[Tooltip("The prefab sprites for this")]
 		public BodyPartSprites SpritePrefab;
 
+		[Tooltip("The body part's pickable item's sprites.")]
+		public SpriteHandler BodyPartItemSprite;
+
+		[Tooltip("Does this body part share the same color as the player's skintone when it deattatches from his body?")]
+		public bool BodyPartItemInheritsSkinColor = false;
+
 		/// <summary>
 		/// Boolean for whether the sprites for the body part have been set, returns true when they are
 		/// </summary>
