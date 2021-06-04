@@ -183,7 +183,7 @@ public class MetaDataLayer : MonoBehaviour
 			}
 			case "liquid":
 			{
-				MakeSlipperyAt(localPosInt, true);
+				MakeSlipperyAt(localPosInt);
 				EffectsFactory.ChemSplat(worldPosInt, splatColor, reagents);
 				break;
 			}
