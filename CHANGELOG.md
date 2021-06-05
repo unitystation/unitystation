@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/6/5: **[Fix]** Added ability to climb glass tables. by [PetMudstone](https://github.com/PetMudstone) in PR #[6698](https://github.com/unitystation/unitystation/pull/6698)
 * 2021/6/5: [Fix] Fixed bombhoods showing up as tophats in inhand sprites. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
 * 2021/6/5: [Fix] Fixed seclites showing up as normal flashlights in inhand sprites. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
 * 2021/6/5: [Improvement]  Made some adjustments to the bombhoods, now they are actually transparent, instead of having a pre-made face inside of it. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
