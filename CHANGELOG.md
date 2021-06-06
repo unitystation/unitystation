@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/6/6: [Improvement] - Dropped body parts will now match their character's skin tone. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6676](https://github.com/unitystation/unitystation/pull/6676)
 * 2021/6/6: **[Fix]** Fixed bug where items in the uplink's Misc. Gadgets category weren't showing up for traitors. by [PetMudstone](https://github.com/PetMudstone) in PR #[6757](https://github.com/unitystation/unitystation/pull/6757)
 * 2021/6/5: **[Fix]** Added ability to climb glass tables. by [PetMudstone](https://github.com/PetMudstone) in PR #[6698](https://github.com/unitystation/unitystation/pull/6698)
 * 2021/6/5: [Fix] Fixed bombhoods showing up as tophats in inhand sprites. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
