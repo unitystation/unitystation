@@ -728,10 +728,35 @@ namespace HealthV2
 					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration);
 				}
 			}
+		}
 
-			if (damageType == DamageType.Brute)
+		public virtual void ApplySlashDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.TakeSlashDamage(damage);
+					}
+				}
+			}
+		}
+
+		public virtual void ApplyPierceDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
+			{
+				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.TakePierceDamage(damage);
+					}
+				}
 			}
 		}
 

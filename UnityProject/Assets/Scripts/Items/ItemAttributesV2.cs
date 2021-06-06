@@ -94,6 +94,48 @@ namespace Items
 			set => throwDamage = value;
 		}
 
+		[SerializeField]
+		[Range(0,100)]
+		[Tooltip("How liekly is it for this item to cause a slash when hit at someone?")]
+		private float slashChance = 0;
+
+		public float SlashChance 
+		{
+			get => slashChance;
+			set => slashChance = value;
+		}
+
+		[SerializeField]
+		[Range(0,100)]
+		private float slashDamage = 0;
+
+		public float SlashDamage
+		{
+			get => slashDamage;
+			set => slashDamage = value;
+		}
+		
+		[SerializeField]
+		[Range(0,100)]
+		[Tooltip("How liekly is it for this item to cause a pierce damage when hit at someone?")]
+		private float pierceChance = 0;
+
+		public float PierceChance 
+		{
+			get => pierceChance;
+			set => pierceChance = value;
+		}
+		
+		[SerializeField]
+		[Range(0,100)]
+		private float pierceDamage = 0;
+
+		public float PierceDamage
+		{
+			get => pierceDamage;
+			set => pierceDamage = value;
+		}
+
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]
 		[SerializeField]
 		private float throwSpeed = 2;

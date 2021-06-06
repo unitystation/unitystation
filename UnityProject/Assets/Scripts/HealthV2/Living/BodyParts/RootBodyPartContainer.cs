@@ -382,6 +382,22 @@ namespace HealthV2
 		}
 
 		/// <summary>
+		/// Applies slash damage to limbs inside of this container. Armor chance is handled inside of ApplyCutSizeLogic();
+		/// </summary>
+		public void TakeSlashDamage(float damage)
+		{
+			foreach (var ContainsLimb in ContainsLimbs)
+			{
+				ContainsLimb.ApplyCutSizeLogic(damage);
+			}
+		}
+
+		public void TakePierceDamage(float damage)
+		{
+
+		}
+
+		/// <summary>
 		/// Removes damage from limbs. Currently heals all limbs contained in the container by the heal amount
 		/// </summary>
 		/// <param name="healingItem">The game object performing the healing</param>

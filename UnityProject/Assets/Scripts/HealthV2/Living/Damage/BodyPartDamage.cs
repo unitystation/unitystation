@@ -84,20 +84,18 @@ namespace HealthV2
 		private BodyPartCutSize BodyPartStorageContentsSpillOutOnCutSize = BodyPartCutSize.LARGE;
 
 		/// <summary>
-		/// When do we start applying disembowling logic?
+		/// When do we start applying Slash logic?
 		/// </summary>
 		[SerializeField, 
-		Tooltip("At what cut size do we start applying disembowling logic?")]
-		private BodyPartCutSize BodyPartDisembowlLogicOnCutSize = BodyPartCutSize.MEDIUM;
+		Tooltip("At what cut size do we start applying slash logic?")]
+		private BodyPartCutSize BodyPartSlashLogicOnCutSize = BodyPartCutSize.SMALL;
 
+		/// <summary>
+		/// When do we start applying disembowel logic?
+		/// </summary>
 		[SerializeField, 
-		Tooltip("How likely is this organ going to be damaged? The higher the number the less likely."),
-		Range(0,1.0f)]
-		private float cutChance = 0.35f;
-
-		[SerializeField, 
-		Tooltip("At what damage do we start applying cutting logic to bodyParts?")]
-		private float cutDamgeThreshold = 10f;
+		Tooltip("At what cut size do we start applying disembowel logic?")]
+		private BodyPartCutSize BodyPartDisembowelLogicOnCutSize = BodyPartCutSize.MEDIUM;
 
 		/// <summary>
 		/// How likely does the contents of this body part's storage to spill out?
@@ -107,7 +105,6 @@ namespace HealthV2
 		Range(0,1.0f)]
 		private float spillChanceWhenCutPresent = 0.5f;
 
-
 		/// <summary>
 		/// Does this body part have a cut and how big is it?
 		/// </summary>
@@ -115,7 +112,11 @@ namespace HealthV2
 
 		public bool CanBleedInternally = false;
 
-		protected bool isBleedingInternally = false;
+		public bool CanBleedExternally = false;
+
+		private bool isBleedingInternally = false;
+
+		private bool isBleedingExternally = false;
 
 		public bool IsBleedingInternally => isBleedingInternally;
 
@@ -127,6 +128,9 @@ namespace HealthV2
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
 		private float currentInternalBleedingDamage = 0;
+
+		private float currentSlashCutDamage = 0;
+		private float currentPierceDamage = 0;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -252,10 +256,23 @@ namespace HealthV2
 		enum BodyPartCutSize
 		{
 			NONE,
-			TINY,
 			SMALL,
 			MEDIUM,
 			LARGE
+		}
+
+		enum BurnDamageLevels
+		{
+			NONE,
+			MINOR,
+			MAJOR,
+			CHARRED
+		}
+
+		public enum TramuticDamageTypes 
+		{
+			SLASH,
+			PIERCE
 		}
 
 		public void DamageInitialisation()
@@ -455,7 +472,6 @@ namespace HealthV2
 			else if (severity >= 0.95f)
 			{
 				Severity = DamageSeverity.Max;
-				currentCutSize = BodyPartCutSize.LARGE;
 			}
 
 			if (oldSeverity != Severity && healthMaster != null)
@@ -469,11 +485,7 @@ namespace HealthV2
 		/// </summary>
 		protected void CheckBodyPartIntigrity(float lastDamage)
 		{
-			if(lastDamage >= cutDamgeThreshold)
-			{
-				ApplyCutSizeLogic();
-			}
-			if(currentCutSize >= BodyPartDisembowlLogicOnCutSize)
+			if(currentCutSize >= BodyPartSlashLogicOnCutSize)
 			{
 				if(containBodyParts.Count != 0)
 				{
@@ -486,14 +498,58 @@ namespace HealthV2
 			}
 		}
 
-
-		private void ApplyCutSizeLogic()
+		/// <summary>
+		/// Applies slash damage to the body part, checks if it has enough protective armor to cancel the slash damage
+		/// and automatically checks how big is the body part's cut size.
+		/// </summary>
+		public void ApplyCutSizeLogic(float cutDamage, TramuticDamageTypes damageType = TramuticDamageTypes.SLASH)
 		{
-			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
-			float armorChanceModifer = cutChance + SelfArmor.DismembermentProtectionChance; //We use dismember protection chance because it's the most logical value.
-			if(chance > armorChanceModifer)
+			//We use dismember protection chance because it's the most logical value.
+			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100))
 			{
-				currentCutSize = currentCutSize.Next();
+				if(damageType == TramuticDamageTypes.SLASH){currentSlashCutDamage += cutDamage;}
+				if(damageType == TramuticDamageTypes.PIERCE){currentPierceDamage += cutDamage;}
+			}
+			CheckCutSize();
+		}
+
+		[ContextMenu("Debug - Apply 25 Slash Damage")]
+		private void DEBUG_ApplyTestSlash()
+		{
+			ApplyCutSizeLogic(25);
+		}
+
+		[ContextMenu("Debug - Apply 25 Pierce Damage")]
+		private void DEBUG_ApplyTestPierce()
+		{
+			ApplyCutSizeLogic(25, TramuticDamageTypes.PIERCE);
+		}
+
+		/// <summary>
+		/// Checks how big is the cut is right now.
+		/// </summary>
+		private void CheckCutSize()
+		{
+			if(currentSlashCutDamage <= 0)
+			{
+				currentCutSize = BodyPartCutSize.NONE;
+			}
+			else if(currentSlashCutDamage > 25)
+			{
+				currentCutSize = BodyPartCutSize.SMALL;
+			}
+			else if(currentSlashCutDamage > 50)
+			{
+				currentCutSize = BodyPartCutSize.MEDIUM;
+			}
+			else if(currentSlashCutDamage > 75)
+			{
+				currentCutSize = BodyPartCutSize.LARGE;
+			}
+
+			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
+			{
+				isBleedingExternally = true;
 			}
 		}
 
@@ -574,7 +630,7 @@ namespace HealthV2
 		{
 			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
 			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
-			if(Severity == DamageSeverity.Max){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
+			if(Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
 			{
 				RemoveFromBodyThis();
