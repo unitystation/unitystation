@@ -353,7 +353,7 @@ namespace HealthV2
 			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
 				//We don't use foreach to avoid errors when the list gets modifed.
-				for(int limbCount = 0; ContainsLimbs.Count > limbCount; limbCount++)
+				for(int limbCount = ContainsLimbs.Count - 1; limbCount >= 0; limbCount--)
 				{
 					ContainsLimbs[limbCount].TakeDamage(damagedBy,
 						damage / ContainsLimbs.Count,
