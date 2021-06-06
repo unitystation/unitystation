@@ -140,6 +140,8 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
+		[HideInInspector] public Color Tone = Color.white;
+
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
 
@@ -216,6 +218,13 @@ namespace HealthV2
 			{
 				bodyPartModification.RelatedPart = this;
 				bodyPartModification.Initialisation();
+			}
+
+			if(IsSurface && BodyPartItemInheritsSkinColor)
+			{
+				CharacterSettings settings = Storage.gameObject.Player().CharacterSettings;
+				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
+				BodyPartItemSprite.SetColor(Tone);
 			}
 		}
 

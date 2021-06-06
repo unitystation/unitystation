@@ -34,12 +34,6 @@ namespace UI.CharacterCreator
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
 			BodyPartColour.a = 1; //Force body part color to never be transparent.
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
-
-			//Check if the body part has a reference to it's item's sprite and if it shares the same color as the character's skin tone.
-			if(Body_Part.BodyPartItemInheritsSkinColor == true)
-			{
-				Body_Part.BodyPartItemSprite.SetColor(BodyPartColour);
-			}
 		}
 
 		public override void RandomizeValues()
