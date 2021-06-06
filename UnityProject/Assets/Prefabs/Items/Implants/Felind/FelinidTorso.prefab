@@ -9,9 +9,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: BodyPartItemSprite
-      value: 
-      objectReference: {fileID: 1761330035424232494}
+      propertyPath: DismembermentChance
+      value: 0.13
+      objectReference: {fileID: 0}
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: Populater.Contents.Array.size
@@ -23,11 +23,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8002264998709622030, guid: ecb05f5372736a748bb900d1a7dddce3,
         type: 3}
-    - target: {fileID: 8808238315706163973, guid: cc032f91cda505e44b066c36db32760d,
-        type: 3}
-      propertyPath: CurrentsortingGroup
-      value: 
-      objectReference: {fileID: 1838574198582622695}
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
@@ -95,21 +90,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc032f91cda505e44b066c36db32760d, type: 3}
---- !u!210 &1838574198582622695 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 3394877447828423895, guid: cc032f91cda505e44b066c36db32760d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3935840905125920048}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1761330035424232494 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3935840905125920048}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
