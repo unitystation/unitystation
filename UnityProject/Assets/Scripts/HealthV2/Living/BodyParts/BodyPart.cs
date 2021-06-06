@@ -219,13 +219,6 @@ namespace HealthV2
 				bodyPartModification.RelatedPart = this;
 				bodyPartModification.Initialisation();
 			}
-
-			if(IsSurface && BodyPartItemInheritsSkinColor)
-			{
-				CharacterSettings settings = Storage.gameObject.Player().CharacterSettings;
-				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
-				BodyPartItemSprite.SetColor(Tone);
-			}
 		}
 
 		/// <summary>
@@ -300,9 +293,17 @@ namespace HealthV2
 
 		/// <summary>
 		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
+		/// Will check if the this body part causes death upon removal and will tint it's Item Sprite to the character's skinTone if allowed.
 		/// </summary>
+		[ContextMenu("[Debug] - Drop this body part.")]
 		public virtual void RemoveFromBodyThis()
 		{
+			if(IsSurface && BodyPartItemInheritsSkinColor)
+			{
+				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
+				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
+				BodyPartItemSprite.SetColor(Tone);
+			}
 			if(DeathOnRemoval)
 			{
 				healthMaster.Death();
