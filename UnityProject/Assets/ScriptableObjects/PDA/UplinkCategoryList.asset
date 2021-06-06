@@ -24,7 +24,7 @@ MonoBehaviour:
       item: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
       name: Energy Sword
-      isNukeOps: 0
+      isNukeOps: 1
     - cost: 12
       item: {fileID: 4117137691947961148, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -132,16 +132,16 @@ MonoBehaviour:
       item: {fileID: 7508253555952636633, guid: 251c85198dd9873499087ca7a48dd1f7,
         type: 3}
       name: .45 Magazine
-      isNukeOps: 0
+      isNukeOps: 1
     - cost: 4
       item: {fileID: 435832073196029829, guid: 6350e652bf2cf6f4798e94b428abe26a, type: 3}
       name: .45 Incendiary Magazine
-      isNukeOps: 0
+      isNukeOps: 1
     - cost: 5
       item: {fileID: 4430048610868926130, guid: 3ff692322b59b2c42910672d01e80be0,
         type: 3}
       name: .45 AP Magazine
-      isNukeOps: 0
+      isNukeOps: 1
     - cost: 6
       item: {fileID: 9000248426970939090, guid: e9d40516785485e4186335c8a0127177,
         type: 3}
@@ -258,11 +258,6 @@ MonoBehaviour:
       isNukeOps: 1
   - categoryName: Misc. Gadgets
     itemList:
-    - cost: 2
-      item: {fileID: 6998335104120014203, guid: 24d90ebee10594247988f55484a416d6,
-        type: 3}
-      name: Blood-Red Magboots
-      isNukeOps: 1
     - cost: 1
       item: {fileID: 3668676918291703395, guid: 00019cd41de95b244ac165825679fd64,
         type: 3}
@@ -287,6 +282,11 @@ MonoBehaviour:
         type: 3}
       name: Syndicate Jaws of Life
       isNukeOps: 0
+    - cost: 2
+      item: {fileID: 6998335104120014203, guid: 24d90ebee10594247988f55484a416d6,
+        type: 3}
+      name: Blood-Red Magboots
+      isNukeOps: 1
     - cost: 25
       item: {fileID: 1932387406643808284, guid: 29bb4fde205c69c8aaa3f76e935c0f68,
         type: 3}
