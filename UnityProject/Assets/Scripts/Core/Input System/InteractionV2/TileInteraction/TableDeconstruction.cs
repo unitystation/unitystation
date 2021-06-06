@@ -6,9 +6,9 @@ using Random = UnityEngine.Random;
 /// Deconstruct the tile and spawn its deconstruction object (if defined) and (optionally) additional objects when an item with a particular
 /// trait is used on the tile.
 /// </summary>\
-[CreateAssetMenu(fileName = "DeconstructWhenItemUsed",
-	menuName = "Interaction/TileInteraction/DeconstructWhenItemUsed")]
-public class DeconstructWhenItemUsed : TileInteraction
+[CreateAssetMenu(fileName = "TableDeconstruction",
+	menuName = "Interaction/TileInteraction/TableDeconstruction")]
+public class TableDeconstruction : TileInteraction
 {
 	[Tooltip(
 		"Trait required on the used item in order to deconstruct the tile. If welder, will check if welder is on.")]
@@ -39,6 +39,7 @@ public class DeconstructWhenItemUsed : TileInteraction
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (requiredTrait == CommonTraits.Instance.Wrench && interaction.Intent != Intent.Harm) return false;
 		if (requiredTrait == CommonTraits.Instance.Welder)
 		{
 			return Validations.HasUsedActiveWelder(interaction);
