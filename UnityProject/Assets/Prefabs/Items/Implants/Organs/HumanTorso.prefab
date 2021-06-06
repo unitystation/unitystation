@@ -129,6 +129,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: BodyPartItemInheritsSkinColor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
       value: 3
       objectReference: {fileID: 0}

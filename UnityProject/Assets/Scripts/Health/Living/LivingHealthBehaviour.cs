@@ -175,22 +175,16 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	void OnEnable()
 	{
-		if (CustomNetworkManager.IsServer)
-		{
-			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
-		}
+		if(CustomNetworkManager.IsServer == false) return;
 
-		UpdateManager.Add(PeriodicUpdate, 1f);
+		UpdateManager.Add(ServerPeriodicUpdate, tickRate);
 	}
 
 	void OnDisable()
 	{
-		if (CustomNetworkManager.IsServer)
-		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
-		}
+		if(CustomNetworkManager.IsServer == false) return;
 
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
 	}
 
 	/// Add any missing systems:
@@ -524,9 +518,14 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// ---------------------------
 
 	//Handled via UpdateManager
-	void ServerPeriodicUpdate()
+	private void ServerPeriodicUpdate()
 	{
 		// TODO If becomes dead, why not remove from UpdateManager?
+		if (damageEffectAttempts >= maxDamageEffectAttempts)
+		{
+			damageEffectAttempts = 0;
+		}
+
 		if (IsDead) return;
 
 		if (fireStacks > 0)
@@ -548,14 +547,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		CalculateRadiationDamage();
 		CalculateOverallHealth();
 		CheckHealthAndUpdateConsciousState();
-	}
-
-	private void PeriodicUpdate()
-	{
-		if (damageEffectAttempts >= maxDamageEffectAttempts)
-		{
-			damageEffectAttempts = 0;
-		}
 	}
 
 	[NonSerialized]

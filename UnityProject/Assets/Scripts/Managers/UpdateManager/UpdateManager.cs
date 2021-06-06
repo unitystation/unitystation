@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Profiling;
 using System.Linq;
+using System.Text;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -348,6 +349,67 @@ public class UpdateManager : MonoBehaviour
 			Action = null;
 			UpdateManager.instance.pooledTimedUpdates.Add(this);
 		}
+	}
+
+	[ContextMenu("List Updates")]
+	private void ListUpdates()
+	{
+		DebugLog(updateActions);
+		DebugLog(fixedUpdateActions);
+		DebugLog(lateUpdateActions);
+
+		void DebugLog(List<Action> type)
+		{
+			var updates = new Dictionary<String, int>();
+
+			foreach (var update in type)
+			{
+				if (updates.ContainsKey($"{update.Method.DeclaringType?.Name} {update.Method.Name}") == false)
+				{
+					updates.Add($"{update.Method.DeclaringType?.Name} {update.Method.Name}", 1);
+				}
+				else
+				{
+					updates[$"{update.Method.DeclaringType?.Name} {update.Method.Name}"]++;
+				}
+			}
+
+			var updateString = new StringBuilder();
+
+			updateString.AppendLine(nameof(type));
+
+			foreach (var update in updates)
+			{
+				updateString.AppendLine($"Name: {update.Key} Amount: {update.Value}");
+			}
+
+			Debug.LogError(updateString.ToString());
+		}
+
+		var periodicUpdate = new Dictionary<string, int>();
+
+		foreach (var update in periodicUpdateActions)
+		{
+			if (periodicUpdate.ContainsKey($"{update.Action.Method.DeclaringType?.Name} {update.Action.Method.Name}") == false)
+			{
+				periodicUpdate.Add($"{update.Action.Method.DeclaringType?.Name} {update.Action.Method.Name}", 1);
+			}
+			else
+			{
+				periodicUpdate[$"{update.Action.Method.DeclaringType?.Name} {update.Action.Method.Name}"]++;
+			}
+		}
+
+		var stringBuilder = new StringBuilder();
+
+		stringBuilder.AppendLine(nameof(periodicUpdateActions));
+
+		foreach (var update in periodicUpdate)
+		{
+			stringBuilder.AppendLine($"Name: {update.Key} Amount: {update.Value}");
+		}
+
+		Debug.LogError(stringBuilder.ToString());
 	}
 }
 

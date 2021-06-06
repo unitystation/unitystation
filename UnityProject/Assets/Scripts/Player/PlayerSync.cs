@@ -477,7 +477,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			return;
 		}
-		
+
 		if (Matrix != null)
 		{
 			CheckMovementClient();

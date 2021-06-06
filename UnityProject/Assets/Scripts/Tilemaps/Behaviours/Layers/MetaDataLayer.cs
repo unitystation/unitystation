@@ -111,99 +111,89 @@ public class MetaDataLayer : MonoBehaviour
 		//Find all reagents on this tile (including current reagent) 
 		var reagentContainersList = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
 
-		bool landedOnReagents = false;
-
-		if(reagentContainersList.Count > 0)
+		//If there is more than one Reagent Container, loop through them
+		foreach (ReagentContainer chem in reagentContainersList)
 		{
-			//If there is more than one Reagent Container, loop through them
-			foreach (ReagentContainer chem in reagentContainersList)
+			//If the reagent tile is a pool/puddle/splat
+			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
-				//If the reagent tile is a pool/puddle/splat
-				if(chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
-				{
-					reagents.Add(chem.CurrentReagentMix);
-				}
-				//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
-				
+				reagents.Add(chem.CurrentReagentMix);
 			}
-			landedOnReagents = true;
+			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
 		}
-	
-		foreach (var reagent in reagents.reagents.m_dict)
+
+
+		if(reagents.reagents != null && reagents.Total > 1)
 		{
-			if (reagent.Value < 1)
+			foreach (var reagent in reagents.reagents.m_dict)
 			{
-				continue;
-			}
-
-			switch (reagent.Key.name)
-			{
-				case "Water":
+				if (reagent.Value < 1)
 				{
-					matrix.ReactionManager.ExtinguishHotspot(localPosInt);
-
-					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
-					{
-						livingHealthBehaviour.Extinguish();
-					}
-
-					Clean(worldPosInt, localPosInt, true);
-					break;
+					continue;
 				}
-				case "SpaceCleaner":
-					Clean(worldPosInt, localPosInt, false);
-					break;
-				case "SpaceLube":
+
+				switch (reagent.Key.name)
 				{
-					// ( ͡° ͜ʖ ͡°)
-					if (Get(localPosInt).IsSlippery == false)
-					{
-						EffectsFactory.WaterSplat(worldPosInt);
-						MakeSlipperyAt(localPosInt, false);
-					}
+					case "Water":
+						{
+							matrix.ReactionManager.ExtinguishHotspot(localPosInt);
+							foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
+							{
+								livingHealthBehaviour.Extinguish();
+							}
+							Paintsplat(worldPosInt, localPosInt, reagents.MixColor, reagents);
+							break;
+						}
+					case "SpaceCleaner":
+						Clean(worldPosInt, localPosInt, false);
+						break;
+					case "SpaceLube":
+						{
+							// ( ͡° ͜ʖ ͡°)
+							if (Get(localPosInt).IsSlippery == false)
+							{
+								EffectsFactory.WaterSplat(worldPosInt);
+								MakeSlipperyAt(localPosInt, false);
+							}
 
-					break;
-				}
-				default:
-				{
-					var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
-					
-					if (didSplat == false && landedOnReagents == false)
-					{
-
-						if(stateDesc == "powder")
-						{
-							EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+							break;
 						}
-						else
+					default:
 						{
-							MakeSlipperyAt(localPosInt, false);
-							EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
+							if (didSplat == false)
+							{
+								Clean(worldPosInt, localPosInt, false);
+								Paintsplat(worldPosInt, localPosInt, reagents.MixColor, reagents);
+							}
+							didSplat = true;
+							break;
 						}
-					}
-					else
-					{
-						//There is already a reagent here, clear its tile like you washed it and place a new effect over it (already has new reagents added)
-
-						if (stateDesc == "powder")
-						{
-							Clean(worldPosInt, localPosInt, Get(localPosInt).IsSlippery);
-							//TODO: Power should not clean but overlap... Clean because we want to move the existing reagent
-							EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
-						}
-						else
-						{
-							Clean(worldPosInt, localPosInt, true);
-							EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
-						}
-					}
-					didSplat = true;
-					break;
 				}
 			}
 		}
 	}
-
+	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, Color splatColor, ReagentMix reagents)
+	{
+		switch (ChemistryUtils.GetMixStateDescription(reagents))
+		{
+			case "powder":
+			{
+				EffectsFactory.PowderSplat(worldPosInt, splatColor, reagents);
+				break;
+			}
+			case "liquid":
+			{
+				MakeSlipperyAt(localPosInt);
+				EffectsFactory.ChemSplat(worldPosInt, splatColor, reagents);
+				break;
+			}
+			default:
+			{
+				EffectsFactory.ChemSplat(worldPosInt, splatColor, reagents);
+				break;
+			}
+		}
+	}
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
 		Get(localPosInt).IsSlippery = false;

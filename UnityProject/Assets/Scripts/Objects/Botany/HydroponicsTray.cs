@@ -115,15 +115,30 @@ namespace Objects.Botany
 			harvestNotifier.PushClear();
 		}
 
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		#endregion Lifecycle
 
 		/// <summary>
 		/// Server updates plant status and updates clients as needed
+		/// Server Side Only
 		/// </summary>
-		public override void UpdateMe()
+		private void UpdateMe()
 		{
 			//Only server checks plant status, wild plants do not grow
-			if (!isServer || isWild) return;
+			if (isWild) return;
 
 			//Only update at set rate
 			tickCount += Time.deltaTime;

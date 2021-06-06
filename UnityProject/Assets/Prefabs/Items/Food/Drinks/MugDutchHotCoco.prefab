@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5224528153624499084, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 7996204198541009528}
     - target: {fileID: 5228294035572171748, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: Resistances.FreezeProof
@@ -90,24 +95,24 @@ PrefabInstance:
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103,
+      objectReference: {fileID: 11400000, guid: f7d2e4cdb6fe85456b9ac4626bd0baea,
         type: 2}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: f7d2e4cdb6fe85456b9ac4626bd0baea,
+      objectReference: {fileID: 11400000, guid: 5b5f8bbc79979ff58b9cbaa4a2a95eaf,
         type: 2}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
@@ -118,12 +123,12 @@ PrefabInstance:
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6358828029291461304, guid: a3c2eebd1ee083c4f873a4e8475bae26,
         type: 3}
@@ -132,3 +137,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3c2eebd1ee083c4f873a4e8475bae26, type: 3}
+--- !u!210 &7996204198541009528 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2135095128480167006, guid: a3c2eebd1ee083c4f873a4e8475bae26,
+    type: 3}
+  m_PrefabInstance: {fileID: 8311772372205835814}
+  m_PrefabAsset: {fileID: 0}

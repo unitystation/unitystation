@@ -26,6 +26,8 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private bool randomInitialSprite = false;
 
 	private SpriteRenderer spriteRenderer;
+
+	public SpriteRenderer SpriteRenderer => spriteRenderer;
 	private Image image;
 
 	private int animationIndex = 0;

@@ -15,6 +15,16 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
+      propertyPath: BodyPartItemSprite
+      value: 
+      objectReference: {fileID: 8353274749508252259}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: BodyPartItemInheritsSkinColor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 93cc56c549d8bcd48990dd32f3295b61,
@@ -65,6 +75,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7647657205560036865, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 8223192537170104234}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_RootOrder
@@ -142,3 +157,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78253771c2047f94c9ae40161a6be7ee, type: 3}
+--- !u!210 &8223192537170104234 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 4540137138841594323, guid: 78253771c2047f94c9ae40161a6be7ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 5557275531694368377}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8353274749508252259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4536149052226606106, guid: 78253771c2047f94c9ae40161a6be7ee,
+    type: 3}
+  m_PrefabInstance: {fileID: 5557275531694368377}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

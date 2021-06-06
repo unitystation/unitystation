@@ -262,12 +262,20 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		this.onFire = onFire;
 		if (this.onFire)
 		{
-			UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
+			}
+
 			burningObjectOverlay.Burn();
 		}
 		else
 		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
+			}
+
 			burningObjectOverlay.StopBurning();
 		}
 	}
