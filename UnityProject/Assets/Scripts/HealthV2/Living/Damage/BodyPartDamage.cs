@@ -631,6 +631,7 @@ namespace HealthV2
 			}
 			isBleedingExternally = true;
 			StartCoroutine(Bleedout());
+			CheckCutSize();
 			if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
 			{
 				willCloseOnItsOwn = true;
@@ -639,6 +640,7 @@ namespace HealthV2
 			{
 				Logger.Log($"[BodyPart/{this.name}] - Currently bleeding for 128 seconds or until damage is healed.");
 				yield return WaitFor.Seconds(128);
+				CheckCutSize();
 				if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
 				{
 					isBleedingExternally = false;
