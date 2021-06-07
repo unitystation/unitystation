@@ -639,7 +639,10 @@ namespace HealthV2
 			{
 				Logger.Log($"[BodyPart/{this.name}] - Currently bleeding for 128 seconds or until damage is healed.");
 				yield return WaitFor.Seconds(128);
-				isBleedingExternally = false;
+				if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
+				{
+					isBleedingExternally = false;
+				}
 			}
 		}
 
@@ -648,6 +651,7 @@ namespace HealthV2
 			while(isBleedingExternally)
 			{
 				yield return WaitFor.Seconds(4f);
+				healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
 				EffectsFactory.BloodSplat(healthMaster.gameObject.Player().GameObject.RegisterTile().WorldPositionServer, 
 				BloodSplatSize.medium, BloodSplatType.red);
 			}
