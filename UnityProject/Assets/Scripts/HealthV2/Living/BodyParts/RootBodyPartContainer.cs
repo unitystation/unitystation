@@ -294,7 +294,7 @@ namespace HealthV2
 
 		/// <summary>
 		/// Updates the body part container and all contained body parts relative to their related
-		/// systems (default: blood system, radiation damage)
+		/// systems (default: blood system, radiation damage) each second.
 		/// </summary>
 		public virtual void ImplantPeriodicUpdate()
 		{
