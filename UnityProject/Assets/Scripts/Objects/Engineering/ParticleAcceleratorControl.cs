@@ -359,6 +359,9 @@ namespace Objects.Engineering
 
 		private void UpdateGUI()
 		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.ParticleAccelerator);
+			if(peppers.Count == 0) return;
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(status) });
 			valuesToSend.Add(new ElementValue() { Id = "TextPower", Value = Encoding.UTF8.GetBytes(powerUsage + " volts") });

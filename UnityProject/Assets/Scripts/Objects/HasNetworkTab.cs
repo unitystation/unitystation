@@ -41,17 +41,13 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var allowed = true;
-
 			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
 			{
-				if(validateNetTab.CanOpenNetTab(interaction.Performer)) continue;
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
 
-				allowed = false;
-				break;
+				//If false block net tab opening
+				return;
 			}
-
-			if (allowed == false) return;
 
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
@@ -76,6 +72,14 @@ namespace Objects
 
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 		}

@@ -42,6 +42,8 @@ namespace Doors.Modules
 		{
 			boltsDown = state;
 
+			master.ToggleBlockAutoClose(state);
+
 			SoundManager.PlayNetworkedAtPos(boltsDown ? boltsDownSound : boltsUpSound, master.RegisterTile.WorldPositionServer, sourceObj: master.gameObject);
 
 			if (boltsDown && CanShowLights)
@@ -52,6 +54,8 @@ namespace Doors.Modules
 			{
 				master.DoorAnimator.TurnOffAllLights();
 			}
+
+			master.UpdateGui();
 		}
 
 		/// <summary>

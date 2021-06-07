@@ -201,7 +201,7 @@ namespace Objects.Wallmounts.Switches
 		}
 
 		//Called when player wants to open nettab, so we can validate access
-		public bool CanOpenNetTab(GameObject playerObject)
+		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
 			if (accessRestrictions != null && restricted)
 			{
@@ -219,6 +219,9 @@ namespace Objects.Wallmounts.Switches
 
 		private void UpdateGui()
 		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.TurretController);
+			if(peppers.Count == 0) return;
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 
 			if (HasPower == false)

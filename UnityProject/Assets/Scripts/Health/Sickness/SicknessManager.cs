@@ -361,7 +361,7 @@ namespace Health.Sickness
 
 		private void OnDestroy()
 		{
-			blockingCollectionSymptoms.Dispose();
+			blockingCollectionSymptoms?.Dispose();
 		}
 	}
 }

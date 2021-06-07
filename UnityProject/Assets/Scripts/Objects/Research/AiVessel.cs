@@ -195,6 +195,9 @@ namespace Objects.Research
 
 		public void UpdateGui()
 		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.InteliCard);
+			if(peppers.Count == 0) return;
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 
 			valuesToSend.Add(new ElementValue() { Id = "SliderRemote", Value = Encoding.UTF8.GetBytes((allowRemoteAction ? 1 * 100 : 0).ToString()) });

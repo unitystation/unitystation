@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Doors.Modules;
 using Mirror;
 using UnityEngine;
@@ -9,6 +10,7 @@ using Core.Input_System.InteractionV2.Interactions;
 using HealthV2;
 using Messages.Client.NewPlayer;
 using Messages.Server;
+using UI.Core.Net;
 
 //TODO: Need to reimplement hacking with this system. Might be a nightmare, dk yet.
 namespace Doors
@@ -16,7 +18,7 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab
 	{
 		#region inspector
 		[SerializeField]
@@ -71,7 +73,10 @@ namespace Doors
 		private SpriteRenderer spriteRenderer;
 
 		private Matrix matrix => registerTile.Matrix;
+
 		private List<DoorModuleBase> modulesList;
+		public List<DoorModuleBase> ModulesList => modulesList;
+
 		private APCPoweredDevice apc;
 		public APCPoweredDevice Apc => apc;
 
@@ -326,6 +331,7 @@ namespace Doors
 			if (!gameObject) return; // probably destroyed by a shuttle crash
 
 			IsClosed = true;
+			UpdateGui();
 
 			if (isPerformingAction)
 			{
@@ -348,7 +354,9 @@ namespace Doors
 			{
 				ResetWaiting();
 			}
+
 			IsClosed = false;
+			UpdateGui();
 
 			if (!isPerformingAction)
 			{
@@ -517,6 +525,11 @@ namespace Doors
 			}
 		}
 
+		public void ToggleBlockAutoClose(bool newState)
+		{
+			blockAutoClose = newState;
+		}
+
 		#region Ai interaction
 
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
@@ -531,6 +544,12 @@ namespace Doors
 
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
+			if (HasPower == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Door is unpowered");
+				return;
+			}
+
 			//Try open/close
 			if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
 			{
@@ -559,6 +578,49 @@ namespace Doors
 					}
 				}
 			}
+		}
+
+		#endregion
+
+		#region Airlock UI
+
+		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
+		{
+			//Only checking airlock, so when hacking UI reimplemented this check wont happen
+			//Return true so it doesnt block those checks
+			//TODO block Ai from hacking UI
+			if (netTabType != NetTabType.Airlock) return true;
+
+			if (HasPower == false)
+			{
+				Chat.AddExamineMsgFromServer(playerObject, "Door is unpowered");
+				return false;
+			}
+
+			//Only allow AI to open airlock control UI
+			return playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+		}
+
+		public void UpdateGui()
+		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.Airlock);
+			if(peppers.Count == 0) return;
+
+			List<ElementValue> valuesToSend = new List<ElementValue>();
+
+			valuesToSend.Add(new ElementValue() { Id = "OpenLabel", Value = Encoding.UTF8.GetBytes(IsClosed ? "Closed" : "Open") });
+
+			foreach (var module in modulesList)
+			{
+				if(module is BoltsModule bolts)
+				{
+					valuesToSend.Add(new ElementValue() { Id = "BoltLabel", Value = Encoding.UTF8.GetBytes(bolts.BoltsDown ? "Bolted" : "Unbolted") });
+					break;
+				}
+			}
+
+			// Update all UI currently opened.
+			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Airlock, TabAction.Update, valuesToSend.ToArray());
 		}
 
 		#endregion
