@@ -132,6 +132,9 @@ namespace HealthV2
 		private float currentSlashCutDamage = 0;
 		private float currentPierceDamage = 0;
 
+		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
+		private SlashDamageLevel currentSlashDamageLevel = SlashDamageLevel.NONE;
+
 		/// <summary>
 		/// Toxin damage taken
 		/// </summary>
@@ -254,6 +257,22 @@ namespace HealthV2
 		}
 
 		enum BodyPartCutSize
+		{
+			NONE,
+			SMALL,
+			MEDIUM,
+			LARGE
+		}
+
+		enum PierceDamageLevel
+		{
+			NONE,
+			SMALL,
+			MEDIUM,
+			LARGE
+		}
+
+		enum SlashDamageLevel
 		{
 			NONE,
 			SMALL,
@@ -505,7 +524,7 @@ namespace HealthV2
 		public void ApplyCutSizeLogic(float cutDamage, TramuticDamageTypes damageType = TramuticDamageTypes.SLASH)
 		{
 			//We use dismember protection chance because it's the most logical value.
-			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100))
+			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
 				if(damageType == TramuticDamageTypes.SLASH){currentSlashCutDamage += cutDamage;}
 				if(damageType == TramuticDamageTypes.PIERCE){currentPierceDamage += cutDamage;}
@@ -549,7 +568,7 @@ namespace HealthV2
 
 			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
 			{
-				isBleedingExternally = true;
+				StartCoroutine(ExternalBleedingLogic());
 			}
 		}
 
@@ -600,6 +619,37 @@ namespace HealthV2
 			if(CanBleedInternally)
 			{
 				isBleedingInternally = true;
+			}
+		}
+
+		public IEnumerator ExternalBleedingLogic()
+		{
+			bool willCloseOnItsOwn = false;
+			if(isBleedingExternally)
+			{
+				yield break;
+			}
+			isBleedingExternally = true;
+			StartCoroutine(Bleedout());
+			if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
+			{
+				willCloseOnItsOwn = true;
+			}
+			if(willCloseOnItsOwn)
+			{
+				Logger.Log($"[BodyPart/{this.name}] - Currently bleeding for 128 seconds or until damage is healed.");
+				yield return WaitFor.Seconds(128);
+				isBleedingExternally = false;
+			}
+		}
+
+		private IEnumerator Bleedout()
+		{
+			while(isBleedingExternally)
+			{
+				yield return WaitFor.Seconds(4f);
+				EffectsFactory.BloodSplat(healthMaster.gameObject.Player().GameObject.RegisterTile().WorldPositionServer, 
+				BloodSplatSize.medium, BloodSplatType.red);
 			}
 		}
 
