@@ -392,9 +392,15 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Applies pierce damage to limbs inside of this container. Armor chance is handled inside of ApplyCutSizeLogic();
+		/// </summary>
 		public void TakePierceDamage(float damage)
 		{
-
+			foreach (var ContainsLimb in ContainsLimbs)
+			{
+				ContainsLimb.ApplyCutSizeLogic(damage, BodyPart.TramuticDamageTypes.PIERCE);
+			}
 		}
 
 		/// <summary>
