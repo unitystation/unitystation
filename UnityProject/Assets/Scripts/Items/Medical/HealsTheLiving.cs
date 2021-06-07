@@ -16,7 +16,13 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
 
 	public DamageType healType;
-	private Stackable stackable;
+
+	public bool StopsExternalBleeding = false;
+	public bool HealsSlashDamage = false;
+
+	[Range(0,100)] public float SlashDamageToHeal = 20;
+
+	protected Stackable stackable;
 
 	private void Awake()
 	{
@@ -31,7 +37,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		return true;
 	}
 
-	public void ServerPerformInteraction(HandApply interaction)
+	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB.ZoneHasDamageOf(interaction.TargetBodyPart,healType))
@@ -47,7 +53,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 		else
 		{
-			if(CheckForBleedingBodyContainers(LHB, interaction))
+			if(CheckForBleedingBodyContainers(LHB, interaction) && StopsExternalBleeding)
 			{
 				RemoveLimbLossBleed(LHB, interaction);
 			}
@@ -96,8 +102,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				container.IsBleeding = false;
 				Chat.AddActionMsgToChat(interaction.Performer.gameObject, 
-				$"You stopped {interaction.TargetObject.name}'s bleeding.",
-				$"{interaction.PerformerPlayerScript.characterSettings.Name} stopped {interaction.TargetObject.name}'s bleeding.");
+				$"You stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.",
+				$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.");
 			}
 		}
 	}

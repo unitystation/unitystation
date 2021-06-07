@@ -120,6 +120,8 @@ namespace HealthV2
 
 		public bool IsBleedingInternally => isBleedingInternally;
 
+		public bool IsBleedingExternally => isBleedingExternally;
+
 		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
 
 		[SerializeField]
@@ -648,6 +650,9 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Limb bleed logic, continues on until isBleedingExternally is false.
+		/// </summary>
 		private IEnumerator Bleedout()
 		{
 			while(isBleedingExternally)
@@ -656,6 +661,19 @@ namespace HealthV2
 				healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
 				EffectsFactory.BloodSplat(healthMaster.gameObject.Player().GameObject.RegisterTile().WorldPositionServer, 
 				BloodSplatSize.medium, BloodSplatType.red);
+			}
+		}
+
+		/// <summary>
+		/// Stops a limb's external bleeding.
+		/// Does not reset cutsize or any damages.
+		/// </summary>
+		public void StopExternalBleeding()
+		{
+			if(isBleedingExternally)
+			{
+				isBleedingExternally = false;
+				StopCoroutine(Bleedout());
 			}
 		}
 

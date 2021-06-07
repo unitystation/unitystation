@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healType: 0
+  StopsExternalBleeding: 1
+  HealsSlashDamage: 0
+  SlashDamageToHeal: 20
 --- !u!1001 &5006578600938051199
 PrefabInstance:
   m_ObjectHideFlags: 0
