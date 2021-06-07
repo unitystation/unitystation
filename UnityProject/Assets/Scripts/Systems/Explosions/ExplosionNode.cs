@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Items;
+using Light2D;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -59,7 +61,23 @@ namespace Systems.Explosions
 
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
+				Debug.Log($"ExplosionNode handling : {integrity}");
 				//Throw items
+				if(integrity.GetComponent<ItemAttributesV2>() != null)
+				{
+					ThrowInfo throwInfo = new ThrowInfo
+					{
+						//the thrown object is itself for now, in case ThrownBy breaks if null
+						ThrownBy = integrity.gameObject,
+						Aim = BodyPartType.Chest,
+						OriginWorldPos = integrity.registerTile.WorldPosition,
+						WorldTrajectory = AngleAndIntensity.Rotate90(),
+						SpinMode = RandomSpin()
+					};
+
+					integrity.GetComponent<CustomNetTransform>().Throw(throwInfo);
+				}
+
 				//And do damage to objects
 				integrity.ApplyDamage(Damagedealt, AttackType.Bomb, DamageType.Brute);
 			}
@@ -78,6 +96,23 @@ namespace Systems.Explosions
 			}
 			AngleAndIntensity = Vector2.zero;
 
+		}
+
+		private SpinMode RandomSpin()
+		{
+			var num = Random.Range(0, 3);
+
+			switch (num)
+			{
+				case 0:
+					return SpinMode.None;
+				case 1:
+					return SpinMode.Clockwise;
+				case 2:
+					return SpinMode.CounterClockwise;
+				default:
+					return SpinMode.Clockwise;
+			}
 		}
 	}
 }
