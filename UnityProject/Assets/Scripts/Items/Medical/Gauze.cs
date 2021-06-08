@@ -19,6 +19,11 @@ namespace Items.Medical
 				RemoveLimbExternalBleeding(LHB, interaction);
 				stackable.ServerConsume(1);
 			}
+			else if(CheckForBleedingBodyContainers(LHB, interaction))
+			{
+				RemoveLimbExternalBleeding(LHB, interaction);
+				stackable.ServerConsume(1);
+			}
 			else
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, 

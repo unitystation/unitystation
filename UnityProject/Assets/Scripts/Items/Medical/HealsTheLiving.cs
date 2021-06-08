@@ -84,7 +84,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(originator.RegisterTile(), 5f, originator);
 	}
 
-	private bool CheckForBleedingBodyContainers(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+	protected bool CheckForBleedingBodyContainers(LivingHealthMasterBase targetBodyPart, HandApply interaction)
 	{
 		foreach(var container in targetBodyPart.RootBodyPartContainers)
 		{
@@ -96,7 +96,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		return false;
 	}
 
-	private void RemoveLimbLossBleed(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+	protected void RemoveLimbLossBleed(LivingHealthMasterBase targetBodyPart, HandApply interaction)
 	{
 		foreach(var container in targetBodyPart.RootBodyPartContainers)
 		{
