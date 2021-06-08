@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
 using Items;
- using Messages.Server.HealthMessages;
+using Messages.Server.HealthMessages;
 
 public class Gauze : HealsTheLiving
 {
@@ -12,13 +12,15 @@ public class Gauze : HealsTheLiving
     public override void ServerPerformInteraction(HandApply interaction)
     {
         var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-        if (LHB.ZoneHasDamageOf(interaction.TargetBodyPart,healType))
+        if(CheckForBleedingLimbs(LHB, interaction))
+        {
+            RemoveLimbExternalBleeding(LHB, interaction);
+            stackable.ServerConsume(1);
+        }
+		else
 		{
-            if(CheckForBleedingLimbs(LHB, interaction))
-            {
-                RemoveLimbExternalBleeding(LHB, interaction);
-                stackable.ServerConsume(1);
-            }
+			Chat.AddExamineMsgFromServer(interaction.Performer, 
+			$"{LHB.gameObject.Player().Script.visibleName}'s {interaction.TargetBodyPart} doesn't seem to be bleeding.");
 		}
     }
 

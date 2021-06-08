@@ -208,6 +208,8 @@ namespace Items
 
 		private bool hasInit;
 
+		public bool CanBeUsedOnSelfOnHelpIntent = false;
+
 
 		public ItemsSprites ItemSprites => itemSprites;
 

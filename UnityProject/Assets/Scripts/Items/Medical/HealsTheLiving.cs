@@ -34,6 +34,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
+
+		if(interaction.Intent != Intent.Help) return false;
 		return true;
 	}
 

@@ -298,20 +298,36 @@ namespace HealthV2
 		[ContextMenu("[Debug] - Drop this body part.")]
 		public virtual void RemoveFromBodyThis()
 		{
+			BodyPartRemovalChecks();
+			var parent = this.GetParent();
+			if (parent != null)
+			{
+				parent.RemoveSpecifiedFromThis(this.gameObject);
+			}
+		}
+
+
+		/// <summary>
+		/// Checks if a body part has a condition or state that applies logic upon removal then executes it.
+		/// </summary>
+		private void BodyPartRemovalChecks()
+		{
+			//Checks if the body part is not an internal organ and if that part shares a skin tone.
 			if(IsSurface && BodyPartItemInheritsSkinColor)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
 				BodyPartItemSprite.SetColor(Tone);
 			}
+			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
+			if(IsBleedingExternally)
+			{
+				StopExternalBleeding();
+			}
+			//If this body part is necessary for a character existence, kill them upon removal.
 			if(DeathOnRemoval)
 			{
 				healthMaster.Death();
-			}
-			var parent = this.GetParent();
-			if (parent != null)
-			{
-				parent.RemoveSpecifiedFromThis(this.gameObject);
 			}
 		}
 
