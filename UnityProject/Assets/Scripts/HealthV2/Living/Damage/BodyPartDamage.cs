@@ -377,10 +377,12 @@ namespace HealthV2
 					}
 				}
 			}
-
-			if(attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
+			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
 			{
-				CheckBodyPartIntigrity(damage);
+				if (attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
+				{
+					CheckBodyPartIntigrity(damage);
+				}
 			}
 			if(attackType == AttackType.Bomb)
 			{
