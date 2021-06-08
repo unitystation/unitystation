@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -24,6 +25,8 @@ public class TileList
 	//withing the ForEachSafe action.
 	//Also it's only possible to lock a single position at a time.
 	private Vector3Int? lockedPosition = null;
+
+	private int LockedName = 0;
 	//queued operations to dequeue once iteration is complete.
 	private readonly List<QueuedOp> queuedOps = new List<QueuedOp>();
 
@@ -181,19 +184,21 @@ public class TileList
 	{
 		if (lockedPosition != null)
 		{
-			Logger.LogErrorFormat("Tried to lock tile at position {0} while position {1} is currently locked." +
+
+			Logger.LogErrorFormat("{2} Tried to lock tile at position {0} while position {1} is currently locked by {3}" +
 			                      " TileList only supports locking one position at a time. Please add this locking capability" +
-			                      " to TileList if it is really necessary. Action will be skipped", Category.Matrix, localPosition, lockedPosition);
+			                      " to TileList if it is really necessary. Action will be skipped", Category.Matrix, localPosition, lockedPosition,Thread.CurrentThread.ManagedThreadId ,  LockedName);
 			return;
 		}
 
 		lockedPosition = localPosition;
+		LockedName = Thread.CurrentThread.ManagedThreadId;
 		foreach (var registerTile in Get((Vector3Int)lockedPosition))
 		{
 			action.Invoke(registerTile);
 		}
 		lockedPosition = null;
-
+		LockedName = 0;
 		foreach (var queuedOp in queuedOps)
 		{
 			if (queuedOp.Remove)

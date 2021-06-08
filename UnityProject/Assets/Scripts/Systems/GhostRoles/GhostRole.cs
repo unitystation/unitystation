@@ -93,6 +93,9 @@ namespace Systems.GhostRoles
 
 		private int totalPlayers = 0;
 
+		private int playersSpawned = 0;
+		public int PlayersSpawned => playersSpawned;
+
 		public GhostRoleServer(int roleDataIndex) : base(roleDataIndex)
 		{
 			timeoutCoroutine = GhostRoleManager.Instance.StartCoroutine(TimeoutTimer(RoleData.Timeout));
@@ -149,6 +152,7 @@ namespace Systems.GhostRoles
 
 		private void SpawnPlayer(ConnectedPlayer player)
 		{
+			playersSpawned++;
 			if (RoleData.IsAntagonist)
 			{
 				player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, RoleData.TargetAntagonist.AntagName);

@@ -430,7 +430,7 @@ namespace HealthV2
 			{
 				if (!string.IsNullOrWhiteSpace(toReplace))
 				{
-					toReplace = toReplace.Replace("{WhoOn}", RelatedBodyPart.HealthMaster.gameObject.ExpensiveName());
+					toReplace = toReplace.Replace("{performer}", RelatedBodyPart.HealthMaster.gameObject.ExpensiveName());
 				}
 
 				if (!string.IsNullOrWhiteSpace(toReplace))

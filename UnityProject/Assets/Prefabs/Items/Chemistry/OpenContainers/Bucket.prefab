@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: eb343884b18cee7428553105a19c25fc, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: a81a8c7023268144cb09641be85e8664, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -34,7 +34,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 2
-  bodyPartsCovered: 2
+  armoredBodyParts:
+  - armoringBodyPartType: 0
+    armor:
+      Melee: 10
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 75
+      Acid: 50
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
 --- !u!114 &6812290110784052155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +145,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5306080339723729786, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 3287814896275168614}
     - target: {fileID: 5308929091803073298, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: Armor.Acid
@@ -300,6 +318,12 @@ PrefabInstance:
 --- !u!1 &8724836040044288808 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5203532174433049318, guid: 364841a08150e9345b119e71191c8dcf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3540516328072298958}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &3287814896275168614 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2054445091669433512, guid: 364841a08150e9345b119e71191c8dcf,
     type: 3}
   m_PrefabInstance: {fileID: 3540516328072298958}
   m_PrefabAsset: {fileID: 0}

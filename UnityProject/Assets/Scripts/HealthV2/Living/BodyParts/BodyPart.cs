@@ -95,6 +95,12 @@ namespace HealthV2
 		[Tooltip("The prefab sprites for this")]
 		public BodyPartSprites SpritePrefab;
 
+		[Tooltip("The body part's pickable item's sprites.")]
+		public SpriteHandler BodyPartItemSprite;
+
+		[Tooltip("Does this body part share the same color as the player's skintone when it deattatches from his body?")]
+		public bool BodyPartItemInheritsSkinColor = false;
+
 		/// <summary>
 		/// Boolean for whether the sprites for the body part have been set, returns true when they are
 		/// </summary>
@@ -133,6 +139,8 @@ namespace HealthV2
 		/// </summary>
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
+
+		[HideInInspector] public Color Tone = Color.white;
 
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
@@ -285,9 +293,17 @@ namespace HealthV2
 
 		/// <summary>
 		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
+		/// Will check if the this body part causes death upon removal and will tint it's Item Sprite to the character's skinTone if allowed.
 		/// </summary>
+		[ContextMenu("[Debug] - Drop this body part.")]
 		public virtual void RemoveFromBodyThis()
 		{
+			if(IsSurface && BodyPartItemInheritsSkinColor)
+			{
+				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
+				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
+				BodyPartItemSprite.SetColor(Tone);
+			}
 			if(DeathOnRemoval)
 			{
 				healthMaster.Death();

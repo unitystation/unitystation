@@ -20,6 +20,16 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
+      propertyPath: DamageThreshold
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 66791af9bc1d52a4dbf346d6aa386d1e,
@@ -59,6 +69,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d81ee360e0f6abe47b4c32c4b41166bc,
         type: 3}
+    - target: {fileID: 8808238315706163973, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 556031351903563602}
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
@@ -136,3 +151,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc032f91cda505e44b066c36db32760d, type: 3}
+--- !u!210 &556031351903563602 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 3394877447828423895, guid: cc032f91cda505e44b066c36db32760d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2930273928116792197}
+  m_PrefabAsset: {fileID: 0}
