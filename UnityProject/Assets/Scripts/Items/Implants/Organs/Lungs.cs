@@ -192,7 +192,7 @@ public class Lungs : BodyPartModification
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (Random.value < 0.2)
 			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps");
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps");
 			}
 		}
 
@@ -208,7 +208,7 @@ public class Lungs : BodyPartModification
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
 				"You gasp for air; but you drown in your own blood from the inside!", 
-				$"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps for air!");
+				$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps for air!");
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 				RelatedPart.InternalBleedingLogic(AttackType.Internal, DamageType.Oxy);
 			}
@@ -219,7 +219,7 @@ public class Lungs : BodyPartModification
             if(DMMath.Prob(coughChanceWhenInternallyBleeding))
             {
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
-				"You cough up blood!", $"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} coughs up blood!");
+				"You cough up blood!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} coughs up blood!");
 				RelatedPart.CurrentInternalBleedingDamage -= Random.Range(RelatedPart.MinMaxInternalBleedingValues.x, RelatedPart.MinMaxInternalBleedingValues.y);
 				EffectsFactory.BloodSplat(RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
             }

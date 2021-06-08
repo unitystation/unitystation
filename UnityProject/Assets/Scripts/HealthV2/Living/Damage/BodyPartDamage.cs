@@ -640,7 +640,6 @@ namespace HealthV2
 			}
 			if(willCloseOnItsOwn)
 			{
-				Logger.Log($"[BodyPart/{this.name}] - Currently bleeding for 128 seconds or until damage is healed.");
 				yield return WaitFor.Seconds(128);
 				CheckCutSize();
 				if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
@@ -659,8 +658,6 @@ namespace HealthV2
 			{
 				yield return WaitFor.Seconds(4f);
 				healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
-				EffectsFactory.BloodSplat(healthMaster.gameObject.Player().GameObject.RegisterTile().WorldPositionServer, 
-				BloodSplatSize.medium, BloodSplatType.red);
 			}
 		}
 

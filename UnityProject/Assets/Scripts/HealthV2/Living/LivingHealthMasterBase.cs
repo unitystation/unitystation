@@ -226,9 +226,15 @@ namespace HealthV2
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
+		public PlayerScript PlayerScriptOwner;
+
 		public virtual void Awake()
 		{
 			EnsureInit();
+			if(PlayerScriptOwner == null)
+			{
+				PlayerScriptOwner = this.gameObject.Player().Script;
+			}
 		}
 
 		void OnEnable()

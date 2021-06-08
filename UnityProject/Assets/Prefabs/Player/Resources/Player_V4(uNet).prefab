@@ -707,6 +707,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: -8106636780342977062}
 --- !u!114 &114803877374308862
 MonoBehaviour:
@@ -899,6 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4109701b444706740ae28471c23eb12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeBetweenDisarms: 0.5
 --- !u!114 &7786899671633797224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1099,6 +1101,7 @@ MonoBehaviour:
   brain: {fileID: 0}
   ImplantList: []
   RootBodyPartContainers: []
+  PlayerScriptOwner: {fileID: 114617133355526680}
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   percentAllergies: 30
   commonAllergies: {fileID: 0}
@@ -7945,6 +7948,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &8271366125234986503
@@ -8057,6 +8062,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &4508263270075214926
@@ -8200,6 +8207,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &3010957235167502249
@@ -8545,6 +8554,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &6433378785423412763
@@ -8764,6 +8775,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &9114892414776758325
@@ -8876,6 +8889,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &3506449732822759296

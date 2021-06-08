@@ -20,7 +20,7 @@ public class Gauze : HealsTheLiving
 		else
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, 
-			$"{LHB.gameObject.Player().Script.visibleName}'s {interaction.TargetBodyPart} doesn't seem to be bleeding.");
+			$"{LHB.PlayerScriptOwner.visibleName}'s {interaction.TargetBodyPart} doesn't seem to be bleeding.");
 		}
     }
 
