@@ -283,6 +283,21 @@ MonoBehaviour:
       m_SubObjectType: 
   canTakeIntegrityDamage: 1
   isHugBox: 0
+--- !u!114 &6965517500649778319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972878001720233250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 32
+  type: 0
+  priority: 0
 --- !u!114 &7328592128274559140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,6 +421,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1964781063
       objectReference: {fileID: 0}
     - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -565,6 +595,11 @@ PrefabInstance:
       propertyPath: Resistances.LightningDamageProof
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 5622916386991815058}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: isDirty
@@ -586,6 +621,12 @@ GameObject:
 --- !u!4 &6976381843524439032 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 7692339049185974434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &5622916386991815058 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 7692339049185974434}
   m_PrefabAsset: {fileID: 0}
