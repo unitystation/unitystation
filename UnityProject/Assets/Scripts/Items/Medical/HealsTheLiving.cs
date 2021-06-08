@@ -55,6 +55,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 		else
 		{
+			//If there is no limb in this Zone, check if it's bleeding from limb loss.
 			if(CheckForBleedingBodyContainers(LHB, interaction) && StopsExternalBleeding)
 			{
 				RemoveLimbLossBleed(LHB, interaction);

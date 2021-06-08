@@ -47,7 +47,7 @@ public class Lungs : BodyPartModification
 	public float LungSize = 6;
 
 	[SerializeField, Range(0,100)] private float coughChanceWhenInternallyBleeding = 32;
-    [SerializeField] private float internalBleedingCooldown = 4f;
+	[SerializeField] private float internalBleedingCooldown = 4f;
     private bool onCooldown = false;
 
 	public override void ImplantPeriodicUpdate()
