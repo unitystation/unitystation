@@ -21,7 +21,7 @@ namespace Items.Medical
 			}
 			else if(CheckForBleedingBodyContainers(LHB, interaction))
 			{
-				RemoveLimbExternalBleeding(LHB, interaction);
+				RemoveLimbLossBleed(LHB, interaction);
 				stackable.ServerConsume(1);
 			}
 			else
