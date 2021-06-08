@@ -20,9 +20,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: BodyPartItemSprite
-      value: 
-      objectReference: {fileID: 451774734967116443}
+      propertyPath: DamageThreshold
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
@@ -152,15 +157,3 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 2930273928116792197}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &451774734967116443 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2930273928116792197}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

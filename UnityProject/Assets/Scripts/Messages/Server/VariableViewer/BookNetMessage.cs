@@ -22,7 +22,7 @@ namespace Messages.Server.VariableViewer
 				Book = VariableViewerNetworking.ProcessBook(_book)
 			};
 
-			SendTo(ToWho, msg);
+			SendTo(ToWho, msg, Category.VariableViewer, 3);
 			return msg;
 		}
 	}

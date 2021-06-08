@@ -57,7 +57,7 @@ namespace Messages.Server.VariableViewer
 				GameObject = netID
 			};
 
-			SendToAll(msg);
+			SendToAll(msg, 3);
 			return msg;
 		}
 	}

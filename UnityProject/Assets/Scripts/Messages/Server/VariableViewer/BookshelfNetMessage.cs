@@ -23,7 +23,7 @@ namespace Messages.Server.VariableViewer
 			NetMessage msg = new NetMessage();
 			msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
 
-			SendTo(ToWho, msg);
+			SendTo(ToWho, msg, Category.VariableViewer, 3);
 			return msg;
 		}
 	}

@@ -9,19 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
-      propertyPath: BodyPartItemSprite
-      value: 
-      objectReference: {fileID: 8336079078209149784}
-    - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
-        type: 3}
       propertyPath: LobbyCustomisation
       value: 
       objectReference: {fileID: 3733396620072965436, guid: 45f24e063ce67b74a8d6f141071d55b2,
         type: 3}
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
-      propertyPath: BodyPartItemInheritsSkinColor
-      value: 1
+      propertyPath: DismembermentChance
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 4990853901509658031, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
@@ -45,11 +40,6 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8425247333623062447, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
-        type: 3}
-      propertyPath: CurrentsortingGroup
-      value: 
-      objectReference: {fileID: 8240987992148141713}
     - target: {fileID: 8461046446165312327, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
         type: 3}
       propertyPath: m_RootOrder
@@ -112,21 +102,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b87ebcdea6fb0dd49b0fbcf1b308c159, type: 3}
---- !u!210 &8240987992148141713 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 2435423574505437309, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
-    type: 3}
-  m_PrefabInstance: {fileID: 6021737374776418028}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8336079078209149784 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2323349423520023988, guid: b87ebcdea6fb0dd49b0fbcf1b308c159,
-    type: 3}
-  m_PrefabInstance: {fileID: 6021737374776418028}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
