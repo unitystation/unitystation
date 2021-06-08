@@ -69,7 +69,7 @@ namespace aaa
 
 		public void ToggleArm()
 		{
-			if (obj.armed == false && obj.timer < 10 && pageswitcher.Pages.IndexOf( pageswitcher.CurrentPage ) == 0)
+			if (obj.armed == false && obj.timer < 5)
 			{
 				return;
 			}
@@ -135,7 +135,6 @@ namespace aaa
 
 		public void ServerSwitch()
 		{
-			if (obj.armed) return;
 			int value = int.Parse(slider.Value);
 			value = value/100;
 			pageswitcher.SetActivePage(value);

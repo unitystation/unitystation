@@ -44,8 +44,17 @@ namespace trainofpainandsuffering
 		{
 			if (obj.IsOn)
 			{
-				obj.UpdateFreq(freq);
-				UpdateFreq();
+				var newval = obj.frequencyReceive + freq;
+				if(newval > 0)
+				{
+					obj.UpdateFreq(newval);
+					UpdateFreq();
+				}
+				else
+				{
+					obj.UpdateFreq(0);
+					UpdateFreq();
+				}
 			}
 		}
 

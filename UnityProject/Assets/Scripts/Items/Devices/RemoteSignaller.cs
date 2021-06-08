@@ -10,13 +10,15 @@ using Mirror;
 [RequireComponent(typeof(RadioMessager))]
 [RequireComponent(typeof(RadioReceiver))]
 [RequireComponent(typeof(HackingDevice))]
-public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
+public class RemoteSignaller : NetworkBehaviour, IServerSpawn
 {
 	private ItemAttributesV2 itemAtts;
 	private RegisterTile registerTile;
 	private Pickupable pickupable;
 	private RadioMessager radioMessager;
+	public int frequencySend{get {return radioMessager.frequency; } set {radioMessager.frequency = value;}}
 	private RadioReceiver radioReceiver;
+	public int frequencyReceive{get {return radioReceiver.frequency; } set {radioReceiver.frequency = value;}}
 	private HackingDevice hackDevice;
 
 	[SyncVar]
@@ -56,6 +58,8 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 		EnsureInit();
 	}
 
+	/*
+
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (IsOn)
@@ -73,6 +77,22 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 				//Ad frequency change code here.
 			}
 		}
+	} */
+
+	public void SendSignal()
+	{
+		radioMessager.SendSignal();
+	}
+
+	public void UpdateFreq(int freq)
+	{
+		frequencyReceive = freq;
+		frequencySend = freq;
+	}
+
+	public void TogglePower()
+	{
+		isOn ^= true;
 	}
 
 	/// <summary>

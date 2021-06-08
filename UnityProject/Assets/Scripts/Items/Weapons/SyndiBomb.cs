@@ -13,7 +13,7 @@ namespace Items.Weapons
 	[RequireComponent(typeof(RadioReceiver))]
     public class SyndiBomb : NetworkBehaviour
 	{
-		[NonSerialized] public int timer = 10;
+		[NonSerialized] public int timer = 90;
 		private bool detonated = false;
 		[NonSerialized] public bool freq = false;
 		[NonSerialized] public bool armed = false;
@@ -21,12 +21,13 @@ namespace Items.Weapons
 		private RegisterObject registerObject;
 		private ObjectBehaviour objectBehaviour;
 		private RadioReceiver radioReceiver;
-		public int frequencyReceive{get {return radioReceiver.Frequency; } set {radioReceiver.Frequency = value;}}
+		public int frequencyReceive{get {return radioReceiver.frequency; } set {radioReceiver.frequency = value;}}
 
 
 		private void Start()
 		{
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+			registerObject = GetComponent<RegisterObject>();
 			radioReceiver = GetComponent<RadioReceiver>();
 		}
 
@@ -48,7 +49,7 @@ namespace Items.Weapons
 
 		public void ServerUpdateTimer()
 		{
-			if (freq == false && armed == true && detonated == false)
+			if (armed == true && detonated == false)
 			{
 				if (timer > 0)
 				{
@@ -68,9 +69,9 @@ namespace Items.Weapons
 
 		public void ServerFreqDet()
 		{
-			if (freq == true && armed == true && detonated == false)
+			if (armed == false && detonated == false)
 			{
-				Detonate();
+				armed = true;
 			}
 		}
 

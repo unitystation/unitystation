@@ -8,8 +8,7 @@ public class RadioReceiver : MonoBehaviour, IServerSpawn, IServerDespawn
 {
 	[SerializeField]
 	[Tooltip("The frequency this device is waiting on a signal for. Uses MHz.")]
-	private float frequency = 200f;
-	public float Frequency => frequency;
+	public int frequency = 200;
 
 	[SerializeField]
 	[Tooltip("The mimimum frequency that will active a signal received call. Uses MHz.")]

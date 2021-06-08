@@ -13,7 +13,7 @@ public class RadioMessager : MonoBehaviour
 	/// </summary>
 	[SerializeField]
 	[Tooltip("The frequency that the signal should be sent at. Uses MHz.")]
-	private float frequency = 200;
+	public int frequency = 200;
 	[SerializeField]
 	[Tooltip("The minium frequency range that the signal should be sent at. Uses MHz.")]
 	private float frequencyMin = 0;

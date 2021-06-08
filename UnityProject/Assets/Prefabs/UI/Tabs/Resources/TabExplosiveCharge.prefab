@@ -147,7 +147,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjTimer
         m_Mode: 3
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: NetTab, Assets
         m_MethodName: CloseTab
         m_Mode: 1
@@ -513,7 +513,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjFreq
         m_Mode: 3
@@ -747,7 +747,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjTimer
         m_Mode: 3
@@ -870,7 +870,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: ClientSwitchSlider
         m_Mode: 1
@@ -897,7 +897,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: ServerSwitch
         m_Mode: 1
@@ -1210,7 +1210,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: ToggleArm
         m_Mode: 1
@@ -1369,7 +1369,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjFreq
         m_Mode: 3
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjTimer
         m_Mode: 3
@@ -1949,7 +1949,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjFreq
         m_Mode: 3
@@ -2319,7 +2319,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjTimer
         m_Mode: 3
@@ -2688,7 +2688,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: AdjFreq
         m_Mode: 3
@@ -2712,7 +2712,7 @@ GameObject:
   - component: {fileID: 5132843544542544910}
   - component: {fileID: 2080870293712713015}
   - component: {fileID: 6224200852862704973}
-  - component: {fileID: 5882702856762909417}
+  - component: {fileID: 5739644658784091420}
   m_Layer: 5
   m_Name: TabExplosiveCharge
   m_TagString: Untagged
@@ -2808,7 +2808,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &5882702856762909417
+--- !u!114 &5739644658784091420
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2817,7 +2817,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8317024002202406274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4d047b4992b6e82a6e3502168b6e14, type: 3}
+  m_Script: {fileID: 11500000, guid: b79f06da660b51684a6ce37e81bbeee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Hidden: 0
@@ -2893,7 +2893,7 @@ MonoBehaviour:
   OnPageChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882702856762909417}
+      - m_Target: {fileID: 5739644658784091420}
         m_TargetAssemblyTypeName: blahblahblah.GUI_ExplosiveCharge, Assets
         m_MethodName: ClientSwitchPage
         m_Mode: 1

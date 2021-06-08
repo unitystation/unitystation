@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1466420703624141254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3995174436980368392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a36c01f485005929ea07133ee0d7992a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  explosionPrefab: {fileID: 7158339095262215306, guid: 99841d6fc22d78dc4b98168c1630813f,
-    type: 3}
 --- !u!114 &2490451868538897651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,7 +33,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 40
+  NetTabType: 39
 --- !u!114 &6847124802713479590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,17 +46,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec7b2d5bc00c4c478d4cc46b2232f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Frequency: 200
-  MinFrequency: 0
-  MaxFrequency: 0
+  frequency: 200
+  minFrequency: 0
+  maxFrequency: 0
   useFrequencyRange: 0
   sensitivity: 0.5
+  IsOn: 1
   signalCallbacks:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1466420703624141254}
+      - m_Target: {fileID: 8679239919561860399}
         m_TargetAssemblyTypeName: Items.Weapons.SyndiBomb, Assets
-        m_MethodName: Detonate
+        m_MethodName: ServerFreqDet
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -82,6 +67,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8679239919561860399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3995174436980368392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57a5ea83ba9b877cac4b2b3320681a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  explosionPrefab: {fileID: 7158339095262215306, guid: 99841d6fc22d78dc4b98168c1630813f,
+    type: 3}
 --- !u!1001 &4428652512209056136
 PrefabInstance:
   m_ObjectHideFlags: 0

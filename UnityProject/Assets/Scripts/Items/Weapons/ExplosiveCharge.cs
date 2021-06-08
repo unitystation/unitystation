@@ -18,11 +18,10 @@ namespace Items.Weapons
 		[NonSerialized] public bool freq = false;
 		[NonSerialized] public bool armed = false;
 		[SerializeField] private ExplosionComponent explosionPrefab;
-
 		private RegisterItem registerItem;
 		private ObjectBehaviour objectBehaviour;
 		private RadioReceiver radioReceiver;
-		public int frequencyReceive{get {return radioReceiver.Frequency; } set {radioReceiver.Frequency = value;}}
+		public int frequencyReceive{get {return radioReceiver.frequency; } set {radioReceiver.frequency = value;}}
 
 
 		private void Start()

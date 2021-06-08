@@ -54,9 +54,6 @@ public class RadioManager : MonoBehaviour
 	{
 		if (rec ==null || signal == null || originator == null) return false;
 
-		//Prevent signallers spamming in a loop.
-		if (originator == LastRadioMessager) return false;
-
 		LastRadioMessager = originator;
 
 		//Prevent a receiver picking up a signal if it was the one that sent it.
@@ -68,7 +65,7 @@ public class RadioManager : MonoBehaviour
 			{
 				if (signal.frequencyMin >= rec.MinFrequency || signal.frequencyMax <= rec.MaxFrequency)
 				{
-					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
+					float distance = Vector3.Distance(rec.gameObject.AssumedWorldPosServer(), originator.gameObject.AssumedWorldPosServer());
 					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
@@ -77,9 +74,9 @@ public class RadioManager : MonoBehaviour
 			}
 			else
 			{
-				if (signal.frequencyMin < rec.Frequency && signal.frequencyMax > rec.Frequency)
+				if (signal.frequencyMin < rec.frequency && signal.frequencyMax > rec.frequency)
 				{
-					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
+					float distance = Vector3.Distance(rec.gameObject.AssumedWorldPosServer(), originator.gameObject.AssumedWorldPosServer());
 					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
@@ -94,7 +91,7 @@ public class RadioManager : MonoBehaviour
 			{
 				if (signal.frequency >= rec.MinFrequency && signal.frequency <= rec.MaxFrequency)
 				{
-					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
+					float distance = Vector3.Distance(rec.gameObject.AssumedWorldPosServer(), originator.gameObject.AssumedWorldPosServer());
 					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
@@ -103,10 +100,9 @@ public class RadioManager : MonoBehaviour
 			}
 			else
 			{
-				//Have to use an epsilon check here, since floats are imperfect.
-				if (Mathf.Abs(signal.frequency - rec.Frequency) < 0.01)
+				if (signal.frequency == rec.frequency)
 				{
-					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
+					float distance = Vector3.Distance(rec.gameObject.AssumedWorldPosServer(), originator.gameObject.AssumedWorldPosServer());
 					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
