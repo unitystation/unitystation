@@ -71,11 +71,15 @@ namespace Objects.Engineering
 
 		private void OnEnable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(EmitterUpdate, 1f);
 		}
 
 		private void OnDisable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, EmitterUpdate);
 		}
 
@@ -83,11 +87,10 @@ namespace Objects.Engineering
 
 		/// <summary>
 		/// Update Loop, runs every 1 second
+		/// Server Side Only
 		/// </summary>
 		private void EmitterUpdate()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
-
 			if(isOn == false && alwaysShoot == false) return;
 
 			if (voltage < minVoltage && alwaysShoot == false)

@@ -10,6 +10,7 @@ using UI.Objects.Shuttles;
 using Systems.Shuttles;
 using Messages.Client.NewPlayer;
 using Messages.Server;
+using Shuttles;
 using Tilemaps.Behaviours.Layers;
 
 /// <summary>
@@ -436,6 +437,8 @@ public class MatrixMove : ManagedBehaviour
 	{
 		networkedMatrix.MatrixSync.OnRcsActivated(rcsModeActive, on);
 		rcsModeActive = on;
+
+
 	}
 
 	/// Start moving. If speed was zero, it'll be set to 1
@@ -498,6 +501,11 @@ public class MatrixMove : ManagedBehaviour
 		if (newValue)
 		{
 			CacheRcs();
+			rcsModeActive = true;
+		}
+		else
+		{
+			rcsModeActive = false;
 		}
 	}
 

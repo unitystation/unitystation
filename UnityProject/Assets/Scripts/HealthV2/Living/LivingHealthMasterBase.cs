@@ -233,12 +233,16 @@ namespace HealthV2
 
 		void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Add(PeriodicUpdate, 1f);
 		}
 
 		void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
@@ -316,32 +320,27 @@ namespace HealthV2
 			EnsureInit();
 		}
 
+		//Server Side only
 		private void UpdateMe()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			foreach (var implant in RootBodyPartContainers)
 			{
-				foreach (var implant in RootBodyPartContainers)
-				{
-					implant.ImplantUpdate();
-				}
+				implant.ImplantUpdate();
 			}
-
 			//do Separate delayed blood update
 		}
 
+		//Server Side only
 		private void PeriodicUpdate()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			foreach (var implant in RootBodyPartContainers)
 			{
-				foreach (var implant in RootBodyPartContainers)
-				{
-					implant.ImplantPeriodicUpdate();
-				}
-
-				fireStacksDamage();
-				CalculateRadiationDamage();
-				CalculateOverallHealth();
+				implant.ImplantPeriodicUpdate();
 			}
+
+			fireStacksDamage();
+			CalculateRadiationDamage();
+			CalculateOverallHealth();
 		}
 
 		/// <summary>

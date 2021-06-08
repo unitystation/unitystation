@@ -2,6 +2,18 @@
 ---
 
 
+* 2021/6/6: [Fix] - Fixed an error that would prevent damage to spread to all limbs by bombs. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6625](https://github.com/unitystation/unitystation/pull/6625)
+* 2021/6/6: [Improvement] - Races no longer share the same dismemberment chance values. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6625](https://github.com/unitystation/unitystation/pull/6625)
+* 2021/6/6: [New] - Characters will now start bleeding when losing a limb. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6625](https://github.com/unitystation/unitystation/pull/6625)
+* 2021/6/6: [Improvement] - Dropped body parts will now match their character's skin tone. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6676](https://github.com/unitystation/unitystation/pull/6676)
+* 2021/6/6: **[Fix]** Fixed bug where items in the uplink's Misc. Gadgets category weren't showing up for traitors. by [PetMudstone](https://github.com/PetMudstone) in PR #[6757](https://github.com/unitystation/unitystation/pull/6757)
+* 2021/6/5: **[Fix]** Added ability to climb glass tables. by [PetMudstone](https://github.com/PetMudstone) in PR #[6698](https://github.com/unitystation/unitystation/pull/6698)
+* 2021/6/5: [Fix] Fixed bombhoods showing up as tophats in inhand sprites. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
+* 2021/6/5: [Fix] Fixed seclites showing up as normal flashlights in inhand sprites. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
+* 2021/6/5: [Improvement]  Made some adjustments to the bombhoods, now they are actually transparent, instead of having a pre-made face inside of it. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
+* 2021/6/5: [New]  Added belt sprites for all botany tools and handcuffs. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
+* 2021/6/5: [Improvement]  Hatchets and handcuffs can now be put on your belt. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
+* 2021/6/5: [Improvement] Added new inhand 64x64 sprites for shotguns (combat shotguns, short combat shotguns, riot shotguns, toy shotguns, improvised shotguns, and double-barrel shotguns to be specific). by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6677](https://github.com/unitystation/unitystation/pull/6677)
 * 2021/6/2: Fixed a sprite issue with the double-emergency tank (it was using the wrong sprite). by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6669](https://github.com/unitystation/unitystation/pull/6669)
 * 2021/6/2: Added belt and inhand sprites for all bags. by [MrAsbestos](https://github.com/MrAsbestos) in PR #[6669](https://github.com/unitystation/unitystation/pull/6669)
 * 2021/5/29: [Fix] - Fixed a bug where the player couldn't empty a reagent container in there hand by [jamessimo](https://github.com/jamessimo) in PR #[6621](https://github.com/unitystation/unitystation/pull/6621)

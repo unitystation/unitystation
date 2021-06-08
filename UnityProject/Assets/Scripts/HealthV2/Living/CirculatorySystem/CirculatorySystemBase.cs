@@ -48,5 +48,18 @@ namespace HealthV2
 			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd));
 			bloodPool.Add(bloodToAdd);
 		}
+
+		public void Bleed(float amount)
+		{
+			ReadyBloodPool.Take(amount);
+			if(amount > 12)
+			{
+				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
+			}
+			else
+			{
+				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
+			}
+		}
 	}
 }

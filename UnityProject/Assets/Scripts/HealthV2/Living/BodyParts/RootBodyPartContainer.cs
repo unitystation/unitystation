@@ -67,6 +67,14 @@ namespace HealthV2
 		[Tooltip("Individual limbs contained within this")]
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
 
+		[HideInInspector] public bool IsBleeding = false;
+		
+		/// <summary>
+		/// How much blood does the body lose when there is lost limbs in this container?
+		/// </summary>
+		[SerializeField, Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
+		private float limbLossBleedingValue = 35f;
+
 		public RootBodyPartController RootBodyPartController;
 
 		/// <summary>
@@ -294,6 +302,10 @@ namespace HealthV2
 			{
 				prop.ImplantPeriodicUpdate();
 			}
+			if(IsBleeding)
+			{
+				healthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
+			}
 		}
 
 		/// <summary>
@@ -304,6 +316,7 @@ namespace HealthV2
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			RemoveSpritesNID(implant);
+			IsBleeding = true;
 		}
 
 		/// <summary>
@@ -339,16 +352,16 @@ namespace HealthV2
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
 			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
-				foreach (var ContainsLimb in ContainsLimbs)
+				//We don't use foreach to avoid errors when the list gets modifed.
+				for(int limbCount = ContainsLimbs.Count - 1; limbCount >= 0; limbCount--)
 				{
-					ContainsLimb.TakeDamage(
-						damagedBy,
+					ContainsLimbs[limbCount].TakeDamage(damagedBy,
 						damage / ContainsLimbs.Count,
 						attackType,
 						damageType,
 						damageSplit,
 						armorPenetration: armorPenetration
-					);
+						);
 				}
 			}
 			else

@@ -145,9 +145,23 @@ namespace Objects
 			UpdateGUI();
 		}
 
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		#endregion
 
-		private void Update()
+		private void UpdateMe()
 		{
 			// Check if the jukebox is in play mode and if the sound is finished playing.
 			// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
@@ -155,7 +169,9 @@ namespace Objects
 			{
 				// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 				if (NextSong() == false)
+				{
 					Stop();
+				}
 			}
 		}
 

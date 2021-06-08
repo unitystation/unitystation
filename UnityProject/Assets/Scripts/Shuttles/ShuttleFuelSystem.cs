@@ -10,7 +10,7 @@ namespace Systems.Shuttles
 	/// <summary>
 	/// Used to monitor the fuel level and to remove fuel from the canister and also stop the shuttle if the fuel has run out
 	/// </summary>
-	public class ShuttleFuelSystem : ManagedBehaviour
+	public class ShuttleFuelSystem : MonoBehaviour
 	{
 		public float FuelLevel;
 		public ShuttleFuelConnector Connector;
@@ -23,17 +23,27 @@ namespace Systems.Shuttles
 		public float optimumMassConsumption = 0.05f;
 
 
-		protected override void OnEnable()
+		protected void OnEnable()
 		{
-			base.OnEnable();
 			if (MatrixMove == null)
 			{
 				MatrixMove = this.GetComponent<MatrixMove>();
 				MatrixMove.RegisterShuttleFuelSystem(this);
 			}
+
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		public override void UpdateMe()
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (Connector == null)
 			{
