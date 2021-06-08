@@ -687,7 +687,7 @@ namespace HealthV2
 				BodyPart currentParent = GetParent();
 				if(currentParent != null)
 				{
-					currentParent.TakeDamage(null, damageToTake, attackType, damageType, false, false, 0);
+					currentParent.TakeDamage(null, damageToTake, attackType, damageType, damageSplit: false, false, 0);
 				}
 			}
 			else
