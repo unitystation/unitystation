@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/6/8: [Change] Shields from field generators now block explosions by [ThatDan123](https://github.com/ThatDan123) in PR #[6769](https://github.com/unitystation/unitystation/pull/6769)
+* 2021/6/8: [New] Adds Ghost Teleport spots to singularity, tesla and SM by [ThatDan123](https://github.com/ThatDan123) in PR #[6769](https://github.com/unitystation/unitystation/pull/6769)
 * 2021/6/6: [Fix] - Fixed an error that would prevent damage to spread to all limbs by bombs. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6625](https://github.com/unitystation/unitystation/pull/6625)
 * 2021/6/6: [Improvement] - Races no longer share the same dismemberment chance values. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6625](https://github.com/unitystation/unitystation/pull/6625)
 * 2021/6/6: [New] - Characters will now start bleeding when losing a limb. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6625](https://github.com/unitystation/unitystation/pull/6625)
