@@ -171,10 +171,15 @@ public class Lungs : BodyPartModification
 				// Get as much as we need, or as much as in the lungs, whichever is lower
 				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
 				float molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
-				toInhale.Add(gasReagent, molesRecieved * efficiency);
+				if(molesRecieved > 0f)
+				{
+					toInhale.Add(gasReagent, molesRecieved * efficiency);
+				}
+				
 
 				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
+			
 		}
 		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 

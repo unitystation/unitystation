@@ -200,7 +200,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 
 			if (isServer)
 			{
-				EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+				//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 				string descriptor = null;
 				if (player != null)
 				{
@@ -240,7 +240,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	protected override void Gib()
 	{
 		Death();
-		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+		//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 		//drop everything

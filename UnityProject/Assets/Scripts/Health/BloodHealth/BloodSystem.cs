@@ -197,7 +197,7 @@ public class BloodSystem : MonoBehaviour
 		}
 
 
-		EffectsFactory.BloodSplat(transform.position, scaleOfTragedy, bloodSplatColor);
+		//EffectsFactory.BloodSplat(transform.position, scaleOfTragedy, bloodSplatColor);
 	}
 
 	/// <summary>
