@@ -39,6 +39,33 @@ public static class EffectsFactory
 	{
 		EnsureInit();
 		GameObject chosenTile = null;
+
+		if (chosenTile != null)
+		{
+			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
+			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
+			{
+				var bloodtile = Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
+
+				if (bloodtile.Successful)
+				{
+					var bloodTileGO = bloodtile.GameObject;
+					var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
+					if (bloodReagents != null)
+					{
+						tileReagents.Add(bloodReagents);
+					}
+					var decal = bloodTileGO.GetComponent<FloorDecal>();
+					if (decal)
+					{
+						decal.color = new Color(bloodReagents.MixColor.r, bloodReagents.MixColor.g, bloodReagents.MixColor.b);
+					}
+				}
+			}
+		}
+
+
+
 		switch (bloodColorType)
 		{
 			case BloodSplatType.red:
@@ -79,30 +106,6 @@ public static class EffectsFactory
 				break;
 			case BloodSplatType.none:
 						return;
-		}
-
-		if (chosenTile != null)
-		{
-			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
-			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
-			{
-				var bloodtile = Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
-
-				if (bloodtile.Successful)
-				{
-					var bloodTileGO = bloodtile.GameObject;
-					var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
-					if (bloodReagents != null)
-					{
-						tileReagents.Add(bloodReagents);
-					}
-					var decal = bloodTileGO.GetComponent<FloorDecal>();
-					if (decal)
-					{
-						decal.color = new Color(bloodReagents.MixColor.r, bloodReagents.MixColor.g, bloodReagents.MixColor.b);
-					}
-				}
-			}
 		}
 	}
 

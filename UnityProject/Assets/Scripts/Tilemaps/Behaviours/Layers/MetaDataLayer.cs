@@ -104,15 +104,31 @@ public class MetaDataLayer : MonoBehaviour
 	/// </summary>
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
+		Debug.Log("Reagent react called");
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
 
 		bool didSplat = false;
 
+
 		//Find all reagents on this tile (including current reagent) 
-		var reagentContainersList = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
+		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
+		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
+		var existingSplat = new FloorDecal();
+
+		for (var i = 0; i < existingSplats.Count; i++)
+		{
+			if (existingSplats[i].GetComponent<ReagentContainer>())
+			{
+				existingSplat = existingSplats[i];
+				didSplat = true;
+			}
+		}
+
+
+
 
 		//If there is more than one Reagent Container, loop through them
-		foreach (ReagentContainer chem in reagentContainersList)
+		foreach (ReagentContainer chem in reagentContainer)
 		{
 			//If the reagent tile is a pool/puddle/splat
 			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
@@ -123,17 +139,23 @@ public class MetaDataLayer : MonoBehaviour
 		}
 
 
-		if(reagents.reagents != null && reagents.Total > 1)
+		if(reagents.reagents != null && reagents.Total > 0)
 		{
 			foreach (var reagent in reagents.reagents.m_dict)
 			{
 				if (reagent.Value < 1)
 				{
-					continue;
+					//continue;
 				}
-
+		
 				switch (reagent.Key.name)
 				{
+					case "RedBloodCells":
+						{
+							EffectsFactory.BloodSplat(worldPosInt, BloodSplatSize.medium, BloodSplatType.red, reagents);
+							didSplat = true;
+							break;
+						}
 					case "Water":
 						{
 							matrix.ReactionManager.ExtinguishHotspot(localPosInt);
@@ -141,7 +163,7 @@ public class MetaDataLayer : MonoBehaviour
 							{
 								livingHealthBehaviour.Extinguish();
 							}
-							Paintsplat(worldPosInt, localPosInt, reagents.MixColor, reagents);
+							//Paintsplat(worldPosInt, localPosInt, reagents.MixColor, reagents);
 							break;
 						}
 					case "SpaceCleaner":
@@ -154,23 +176,33 @@ public class MetaDataLayer : MonoBehaviour
 							{
 								EffectsFactory.WaterSplat(worldPosInt);
 								MakeSlipperyAt(localPosInt, false);
+								didSplat = true;
 							}
-
 							break;
 						}
 					default:
 						{
-							if (didSplat == false)
+							if (didSplat == true)
 							{
-								Clean(worldPosInt, localPosInt, false);
-								Paintsplat(worldPosInt, localPosInt, reagents.MixColor, reagents);
+								if (existingSplat && reagents.Total > 0)
+								{
+									existingSplat.color = reagents.MixColor;
+								}
 							}
-							didSplat = true;
+							else
+							{
+								//Clean(worldPosInt, localPosInt, false);
+								Paintsplat(worldPosInt, localPosInt, reagents.MixColor, reagents);
+								didSplat = true;
+							}
+							
 							break;
 						}
 				}
+				Debug.Log(reagent.Key);
 			}
 		}
+	
 	}
 	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, Color splatColor, ReagentMix reagents)
 	{
@@ -183,7 +215,7 @@ public class MetaDataLayer : MonoBehaviour
 			}
 			case "liquid":
 			{
-				MakeSlipperyAt(localPosInt);
+				//MakeSlipperyAt(localPosInt);
 				EffectsFactory.ChemSplat(worldPosInt, splatColor, reagents);
 				break;
 			}
