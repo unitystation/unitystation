@@ -603,7 +603,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
+			//EffectsFactory.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
 		}
 	}
 
@@ -944,7 +944,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Server]
 	protected virtual void Gib()
 	{
-		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+		//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//todo: actual gibs
 
 		//never destroy players!

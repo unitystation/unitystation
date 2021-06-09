@@ -590,7 +590,7 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -611,7 +611,7 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -731,7 +731,7 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 

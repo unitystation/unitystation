@@ -104,7 +104,7 @@ namespace HealthV2
 		protected override void Gib()
 		{
 			Death();
-			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+			//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 			//drop everything
@@ -189,7 +189,7 @@ namespace HealthV2
 
 				if (isServer)
 				{
-					EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+					//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 					string their = null;
 					if (player != null)
 					{

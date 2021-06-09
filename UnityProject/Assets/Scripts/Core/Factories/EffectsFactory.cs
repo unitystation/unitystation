@@ -35,7 +35,7 @@ public static class EffectsFactory
 		}
 	}
 
-	public static void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize, BloodSplatType bloodColorType)
+	public static void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize, BloodSplatType bloodColorType, ReagentMix bloodReagents)
 	{
 		EnsureInit();
 		GameObject chosenTile = null;
@@ -55,7 +55,7 @@ public static class EffectsFactory
 						break;
 					case BloodSplatSize.Random:
 						int rand = Random.Range(0, 3);
-						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType);
+						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType, bloodReagents);
 						return;
 				}
 				break;
@@ -73,13 +73,12 @@ public static class EffectsFactory
 						break;
 					case BloodSplatSize.Random:
 						int rand = Random.Range(0, 3);
-						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType);
+						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType, bloodReagents);
 						return;
 				}
 				break;
 			case BloodSplatType.none:
 						return;
-
 		}
 
 		if (chosenTile != null)
@@ -87,8 +86,22 @@ public static class EffectsFactory
 			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
 			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
 			{
-				Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
-				//TODO: Need to add blood reagents
+				var bloodtile = Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
+
+				if (bloodtile.Successful)
+				{
+					var bloodTileGO = bloodtile.GameObject;
+					var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
+					if (bloodReagents != null)
+					{
+						tileReagents.Add(bloodReagents);
+					}
+					var decal = bloodTileGO.GetComponent<FloorDecal>();
+					if (decal)
+					{
+						decal.color = new Color(bloodReagents.MixColor.r, bloodReagents.MixColor.g, bloodReagents.MixColor.b);
+					}
+				}
 			}
 		}
 	}

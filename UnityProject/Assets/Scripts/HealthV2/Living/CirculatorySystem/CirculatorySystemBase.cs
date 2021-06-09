@@ -51,14 +51,16 @@ namespace HealthV2
 
 		public void Bleed(float amount)
 		{
-			ReadyBloodPool.Take(amount);
+			var bloodLoss = new ReagentMix();
+			ReadyBloodPool.TransferTo(bloodLoss, amount);
+
 			if(amount > 12)
 			{
-				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
+				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red, bloodLoss);
 			}
 			else
 			{
-				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
+				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red, bloodLoss);
 			}
 		}
 	}

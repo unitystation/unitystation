@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114758807010794188}
   - component: {fileID: 114116087744016572}
   - component: {fileID: -5758749406593069758}
+  - component: {fileID: -6765196734712830949}
   m_Layer: 0
   m_Name: MediumBloodSplat
   m_TagString: Untagged
@@ -93,6 +94,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
 --- !u!114 &114262681174990446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +172,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &-6765196734712830949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 2
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
+  maxCapacity: 50
+  reactionSet: {fileID: 0}
+  AdditionalReactions: []
+  canPourOut: 0
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
