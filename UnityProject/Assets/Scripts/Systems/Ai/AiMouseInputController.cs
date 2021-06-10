@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,9 +10,11 @@ namespace Systems.Ai
 	/// <summary>
 	/// Main entry point for handling all Ai input events
 	/// </summary>
-	public class AiMouseInputController : MouseInputController
+	public class AiMouseInputController : MouseInputController, IPlayerControllable
 	{
 		private AiPlayer aiPlayer;
+
+		private bool moveCoolDown;
 
 		public override void Start()
 		{
@@ -84,6 +88,24 @@ namespace Systems.Ai
 				var aiActivate = new AiActivate(gameObject, null, applyTarget, Intent.Help, clickType);
 				InteractionUtils.ClientCheckAndTrigger(behaviours, aiActivate);
 			}
+		}
+
+		public void RecievePlayerMoveAction(PlayerAction moveActions)
+		{
+			if(moveActions.moveActions.Length == 0) return;
+
+			if (moveCoolDown) return;
+			moveCoolDown = true;
+
+			StartCoroutine(CoolDown());
+
+			aiPlayer.MoveCameraByKey(PlayerAction.GetMoveAction(moveActions.Direction()));
+		}
+
+		private IEnumerator CoolDown()
+		{
+			yield return WaitFor.Seconds(.3f);
+			moveCoolDown = false;
 		}
 	}
 }

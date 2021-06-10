@@ -12,6 +12,8 @@ namespace Objects
 {
 	public class SecurityCamera : NetworkBehaviour, ICheckedInteractable<AiActivate>, ICheckedInteractable<HandApply>, IExaminable
 	{
+		//Accurate on client and server but wont be when custom securityCameraChannel are added
+		//TODO sync channel and change its current dictionary position when sync'd on client
 		private static Dictionary<string, List<SecurityCamera>> cameras = new Dictionary<string, List<SecurityCamera>>();
 		public static Dictionary<string, List<SecurityCamera>> Cameras => cameras;
 

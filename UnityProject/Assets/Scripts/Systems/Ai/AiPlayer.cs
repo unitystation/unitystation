@@ -77,7 +77,7 @@ namespace Systems.Ai
 		[SyncVar(hook = nameof(SyncNumberOfCameras))]
 		private uint numberOfCameras = 100;
 
-		//Follow card only, server only
+		//Client and server accurate
 		private bool isCarded;
 		public bool IsCarded => isCarded;
 
@@ -114,10 +114,9 @@ namespace Systems.Ai
 		//	Law 4: Freeform
 		//	Higher laws (the law above each one) override all lower ones. Whether numbered or not, how they appear (in order) is the order of priority.
 
-		//Is sync'd manually to client
+		//Is sync'd manually to owner client so is accurate on owner client
 		//Tried to use sync dictionary from mirror but didnt work correctly, wouldnt sync the values correctly
 		private Dictionary<LawOrder, List<string>> aiLaws = new Dictionary<LawOrder, List<string>>();
-
 		public Dictionary<LawOrder, List<string>> AiLaws => aiLaws;
 
 		[Serializable]
@@ -145,23 +144,19 @@ namespace Systems.Ai
 			//Set up laws
 			SetRandomDefaultLawSet();
 
-			vesselObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
+			var newVesselObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
 
-			if (vesselObject == null)
+			if (newVesselObject == null)
 			{
 				Debug.LogError($"Failed to spawn Ai core for {gameObject}");
 				return;
 			}
 
-			//Force camera to core
-			ServerSetCameraLocation(vesselObject);
-
-			//Set up vessel listeners, here it will be core as player can only start as core not card
-			AddVesselListeners();
+			//Set new vessel
+			ServerSetNewVessel(newVesselObject);
 
 			playerScript.SetPermanentName(playerScript.characterSettings.AiName);
-			vesselObject.GetComponent<ObjectAttributes>().ServerSetArticleName(playerScript.characterSettings.AiName);
-			vesselObject.GetComponent<AiVessel>().SetLinkedPlayer(this);
+			newVesselObject.GetComponent<AiVessel>().SetLinkedPlayer(this);
 
 			isCarded = false;
 		}
@@ -197,24 +192,28 @@ namespace Systems.Ai
 
 		private void RemoveVesselListeners()
 		{
-			if (vesselObject != null)
-			{
-				var coreIntegrity = vesselObject.GetComponent<Integrity>();
-				coreIntegrity.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
-				coreIntegrity.OnApplyDamage.RemoveListener(OnCoreDamage);
+			if (vesselObject == null) return;
 
-				var apc = vesselObject.GetComponent<APCPoweredDevice>();
-				if (apc != null)
-				{
-					apc.OnStateChangeEvent.RemoveListener(OnCorePowerLost);
-					apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.RemoveListener(OnPowerNetworkUpdate);
-				}
+			var coreIntegrity = vesselObject.GetComponent<Integrity>();
+			coreIntegrity.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
+			coreIntegrity.OnApplyDamage.RemoveListener(OnCoreDamage);
+
+			var apc = vesselObject.GetComponent<APCPoweredDevice>();
+			if (apc != null)
+			{
+				apc.OnStateChangeEvent.RemoveListener(OnCorePowerLost);
+				apc.RelatedAPC.OrNull()?.OnPowerNetworkUpdate.RemoveListener(OnPowerNetworkUpdate);
 			}
 		}
 
 		#endregion
 
 		#region Sync Stuff
+
+		public override void OnStartLocalPlayer()
+		{
+			PlayerManager.SetMovementControllable(GetComponent<AiMouseInputController>());
+		}
 
 		/// <summary>
 		/// Sync is used to set up client and to reset stuff for rejoining client
@@ -237,14 +236,14 @@ namespace Systems.Ai
 			//Reset location to core
 			CmdTeleportToCore();
 
-			var isInteliCard = newCore.GetComponent<AiVessel>().IsInteliCard;
-			if (isInteliCard == false)
+			isCarded = newCore.GetComponent<AiVessel>().IsInteliCard;
+			if (isCarded == false)
 			{
 				ClientSetCameraLocation(newCore.transform);
 			}
 
 			//Enable security camera overlay if we are only a core
-			SetCameras(isInteliCard == false);
+			SetCameras(isCarded == false);
 
 			//Ask server to force sync laws
 			CmdAskForLawUpdate();
@@ -359,17 +358,9 @@ namespace Systems.Ai
 		}
 
 		[Server]
-		private bool ServerSetCameraLocationCard()
+		private void ServerSetCameraLocationVessel()
 		{
-			var cardLocation = ServerGetCardLocationObject();
-
-			if (cardLocation != null)
-			{
-				ServerSetCameraLocation(cardLocation, true);
-				return true;
-			}
-
-			return false;
+			ServerSetCameraLocation(GetRootVesselGameobject(), true);
 		}
 
 		[Client]
@@ -403,10 +394,8 @@ namespace Systems.Ai
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
 
-			//Set camera to card location, defined by pickupable
-			if (isCarded && ServerSetCameraLocationCard()) return;
-
-			ServerSetCameraLocation(vesselObject);
+			//Set camera to vessel location, checks if carded or in core
+			ServerSetCameraLocationVessel();
 		}
 
 		[Command]
@@ -570,9 +559,9 @@ namespace Systems.Ai
 				}
 			}
 
-			//FOV distance is 13, 19 is wall mount layer for sec cameras
+			//FOV distance is 13 and only check wall mount layer for sec cameras
 			var overlap = Physics2D.OverlapCircleAll(objectPos.To2Int(),
-				13); //, LayerMask.NameToLayer("WallMounts")
+				13, LayerMask.GetMask("WallMounts"));
 
 			foreach (var wallMount in overlap)
 			{
@@ -584,7 +573,7 @@ namespace Systems.Ai
 
 				//Do linecast and raycast to see if we can see player
 				var check = MatrixManager.Linecast(securityCamera.RegisterObject.WorldPosition,
-					LayerTypeSelection.Walls, LayerMask.NameToLayer("Door Closed"),
+					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed"),
 					objectPos);
 
 				//If hit wall or closed door, and above tolerance skip
@@ -612,6 +601,90 @@ namespace Systems.Ai
 
 		#endregion
 
+		#region Key Move Camera
+
+		//Moving the camera using the arrow keys
+		[Client]
+		public void MoveCameraByKey(MoveAction moveAction)
+		{
+			if (isCarded)
+			{
+				Chat.AddExamineMsgToClient("You are carded, you cannot move throughout the camera network");
+				return;
+			}
+
+			var lowerDegree = 0;
+
+			switch (moveAction)
+			{
+				case MoveAction.MoveUp:
+					lowerDegree = 0;
+					break;
+				case MoveAction.MoveLeft:
+					lowerDegree = 90;
+					break;
+				case MoveAction.MoveDown:
+					lowerDegree = 180;
+					break;
+				case MoveAction.MoveRight:
+					lowerDegree = 270;
+					break;
+				default:
+					return;
+			}
+
+			var chosenCameras = new List<SecurityCamera>();
+			var aiPlayerCameraLocation = cameraLocation.position;
+
+			foreach (var cameraGroup in SecurityCamera.Cameras)
+			{
+				if(openNetworks.Contains(cameraGroup.Key) == false) continue;
+
+				foreach (var securityCamera in cameraGroup.Value)
+				{
+					if(securityCamera.CameraActive == false) continue;
+
+					if(securityCamera.gameObject.transform == cameraLocation) continue;
+
+					var securityCameraLocation = securityCamera.gameObject.WorldPosClient();
+
+					var direction = securityCameraLocation - aiPlayerCameraLocation;
+					var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 45;
+
+					if (Mathf.Sign(angle) == -1)
+					{
+						angle += 360;
+					}
+
+					//Check to see if between the correct angle for the move type
+					if (angle > lowerDegree && angle <= lowerDegree + 90)
+					{
+						chosenCameras.Add(securityCamera);
+					}
+				}
+			}
+
+			if(chosenCameras.Count == 0) return;
+
+			var sortedCameras = chosenCameras.OrderBy(c =>
+				Vector3.Distance(aiPlayerCameraLocation, c.gameObject.WorldPosClient()));
+
+			var direction2 = sortedCameras.First().gameObject.WorldPosClient() - aiPlayerCameraLocation;
+			var angle1 = (Mathf.Atan2(direction2.y, direction2.x) * Mathf.Rad2Deg) - 45;
+
+			if (Mathf.Sign(angle1) == -1)
+			{
+				angle1 += 360;
+			}
+
+			Debug.LogError(angle1);
+
+			//Move to nearest camera
+			CmdTeleportToCamera(sortedCameras.First().gameObject);
+		}
+
+		#endregion
+
 		#region AiCore
 
 		[Server]
@@ -620,13 +693,17 @@ namespace Systems.Ai
 			RemoveVesselListeners();
 			vesselObject = newVessel;
 
+			playerScript.SetPlayerChatLocation(newVessel);
+
 			isCarded = newVessel.GetComponent<AiVessel>().IsInteliCard;
 
 			if (isCarded)
 			{
 				hasPower = true;
-				ServerSetCameraLocationCard();
 			}
+
+			//Force camera to core/card
+			ServerSetCameraLocationVessel();
 
 			AddVesselListeners();
 		}
@@ -697,7 +774,7 @@ namespace Systems.Ai
 		{
 			var newIntegrity = integrity + byValue;
 
-			//Integrity is between 0 and 100 due to the slider setting for the intelicard GUI
+			//Integrity has to be between 0 and 100 due to the slider setting for the intelicard GUI
 			newIntegrity = Mathf.Clamp(newIntegrity, 0, 100);
 
 			integrity = newIntegrity;
@@ -736,13 +813,13 @@ namespace Systems.Ai
 		}
 
 		[Server]
-		public GameObject GetRootVesselGameobject()
+		private GameObject GetRootVesselGameobject()
 		{
 			return isCarded ? ServerGetCardLocationObject() : VesselObject;
 		}
 
 		[Server]
-		public GameObject ServerGetCardLocationObject()
+		private GameObject ServerGetCardLocationObject()
 		{
 			var cardPickupable = vesselObject.GetComponent<Pickupable>();
 			if (cardPickupable.OrNull()?.ItemSlot != null)

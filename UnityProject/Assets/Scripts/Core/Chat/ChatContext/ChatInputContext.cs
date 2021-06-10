@@ -19,7 +19,7 @@ public class ChatInputContext : IChatInputContext
 				return ChatChannel.None;
 			}
 
-			// Player is blob?
+			// Player is Ai?
 			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
 			{
 				return ChatChannel.Binary;

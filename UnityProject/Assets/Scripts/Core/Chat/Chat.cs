@@ -103,10 +103,10 @@ public partial class Chat : MonoBehaviour
 		{
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
-			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = (player == null) ? TransformState.HiddenPos : player.gameObject.AssumedWorldPosServer(),
+			speaker = (player == null) ? sentByPlayer.Username : player.playerName,
+			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
-			originator = sentByPlayer.GameObject
+			originator = (player == null) ? sentByPlayer.GameObject : player.PlayerChatLocation
 		};
 
 		if (channels.HasFlag(ChatChannel.OOC))
@@ -196,19 +196,8 @@ public partial class Chat : MonoBehaviour
 				else if (!player.playerHealth.IsDead && !player.IsGhost)
 				{
 					//Control the chat bubble
-					player.playerNetworkActions.CmdToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
+					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
 				}
-			}
-			//If health is null might be Ai
-			else if (player.TryGetComponent<AiPlayer>(out var aiPlayer))
-			{
-				//Set originator to core
-				chatEvent.originator = aiPlayer.IsCarded ? aiPlayer.ServerGetCardLocationObject() : aiPlayer.VesselObject;
-
-				chatEvent.position = aiPlayer.IsCarded ? aiPlayer.ServerGetCardLocationObject().AssumedWorldPosServer() : aiPlayer.VesselObject.AssumedWorldPosServer();
-
-				//TODO here make it so we dont send local with binary
-				//TODO maybe also make it so we only speak local when only wanting local, all other channels dont have local with them?
 			}
 		}
 

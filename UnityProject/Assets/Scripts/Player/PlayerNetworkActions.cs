@@ -503,7 +503,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
+	public void ServerToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
 		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))

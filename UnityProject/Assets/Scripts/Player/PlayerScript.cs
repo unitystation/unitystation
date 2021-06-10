@@ -114,6 +114,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
+	//The object the player will receive chat and send chat from.
+	//E.g. usually same object as this script but for Ai it will be their core object
+	//Serverside only
+	private GameObject playerChatLocation = null;
+	public GameObject PlayerChatLocation => playerChatLocation;
+
 	#region Lifecycle
 
 	private void Awake()
@@ -159,6 +165,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	// You know the drill
 	public override void OnStartServer()
 	{
+		//We default to this game object being the location for chat
+		SetPlayerChatLocation(gameObject);
+
 		Init();
 	}
 
@@ -198,7 +207,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
-			if (IsGhost && IsPlayerSemiGhost == false)
+			if (playerState == PlayerStates.Ghost)
 			{
 				if (PlayerList.Instance.IsClientAdmin)
 				{
@@ -272,6 +281,16 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		{
 			playerHealth.RTT = rtt;
 		}
+	}
+
+	/// <summary>
+	/// Sets the game object for where the player can receive and send chat message from
+	/// </summary>
+	/// <param name="newLocation"></param>
+	[Server]
+	public void SetPlayerChatLocation(GameObject newLocation)
+	{
+		playerChatLocation = newLocation;
 	}
 
 	/// <summary>
@@ -375,6 +394,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		characterSettings.Name = newName;
 		playerName = newName;
+		RefreshVisibleName();
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)

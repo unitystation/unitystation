@@ -51,6 +51,10 @@ namespace Objects.Research
 			{
 				UpdateGui();
 			}
+
+			//Set name of vessel to Ai name if we can
+			GetComponent<Attributes>().ServerSetArticleName(aiPlayer.OrNull()?.PlayerScript.characterSettings.AiName ??
+			                                                      (isInteliCard ? "Intelicard" : "Ai Core"));
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
