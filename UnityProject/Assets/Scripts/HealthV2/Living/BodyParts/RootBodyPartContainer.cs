@@ -386,9 +386,9 @@ namespace HealthV2
 		/// </summary>
 		public void TakeSlashDamage(float damage)
 		{
-			foreach (var ContainsLimb in ContainsLimbs)
+			foreach (var limb in ContainsLimbs)
 			{
-				ContainsLimb.ApplyCutSizeLogic(damage);
+				limb.ApplyCutSizeLogic(damage);
 			}
 		}
 
