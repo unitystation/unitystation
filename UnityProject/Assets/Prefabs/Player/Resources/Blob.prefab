@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 2991741834301703790}
   - component: {fileID: 448360181673478972}
   - component: {fileID: 1205907779006116383}
+  - component: {fileID: 376142281930293820}
   m_Layer: 31
   m_Name: Blob
   m_TagString: Untagged
@@ -322,6 +323,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0.1
+--- !u!114 &376142281930293820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc34b2077deffe4ca88851eaaff1394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  offsetPosition: {x: 0, y: -0.6}
+  waitToInit: 2
 --- !u!1 &6777920429691229453
 GameObject:
   m_ObjectHideFlags: 0

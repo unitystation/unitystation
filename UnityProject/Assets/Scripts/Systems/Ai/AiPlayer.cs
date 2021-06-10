@@ -332,7 +332,7 @@ namespace Systems.Ai
 
 				//This is to move the player object so we can see the Ai Eye sprite underneath us
 				//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
-				playerScript.PlayerSync.SetPosition(cameraLocation.gameObject.WorldPosServer());
+				playerScript.PlayerSync.SetPosition(cameraLocation.gameObject.WorldPosServer(), true);
 			}
 			else
 			{
@@ -462,7 +462,7 @@ namespace Systems.Ai
 
 		[Command]
 		//Used by the Ai teleport tab to move camera
-		public void CmdTeleportToCamera(GameObject newCamera, bool moveMessage = true)
+		public void CmdTeleportToCamera(GameObject newCamera, bool moveMessage)
 		{
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);

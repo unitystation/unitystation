@@ -171,7 +171,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 				return;
 			}
 
-			aiPlayer.CmdTeleportToCamera(info.gameObject);
+			aiPlayer.CmdTeleportToCamera(info.gameObject, true);
 		}
 
 		public void SetNumberOfCameras(uint newNumber)
@@ -338,7 +338,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 			if (savedCameras.TryGetValue(cameraClicked, out var secCame) == false) return;
 
-			aiPlayer.CmdTeleportToCamera(secCame);
+			aiPlayer.CmdTeleportToCamera(secCame, true);
 		}
 
 		#endregion
