@@ -254,9 +254,15 @@ namespace Doors
 			}
 		}
 
-		public void TryOpen(GameObject originator = null, bool blockClosing = false)
+		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
-			if(IsClosed == false || isPerformingAction || HasPower == false) return;
+			if(IsClosed == false || isPerformingAction) return;
+			
+			if(HasPower == false)
+			{
+				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+				return;
+			}
 
 			Open(blockClosing);
 		}
@@ -295,7 +301,7 @@ namespace Doors
 				ResetWaiting();
 			}
 
-			if(HasPower == false)
+			if(HasPower == false && originator != null)
 			{
 				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
 			}
