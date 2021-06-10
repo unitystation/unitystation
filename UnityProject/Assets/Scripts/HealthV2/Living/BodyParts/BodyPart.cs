@@ -253,6 +253,10 @@ namespace HealthV2
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
 				bodyPartModification.ImplantPeriodicUpdate();
+				if (IsBleedingInternally)
+				{
+					bodyPartModification.InternalDamageLogic();
+				}
 			}
 		}
 
