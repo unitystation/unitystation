@@ -90,7 +90,7 @@ namespace Systems.Ai
 			}
 		}
 
-		public void RecievePlayerMoveAction(PlayerAction moveActions)
+		public void ReceivePlayerMoveAction(PlayerAction moveActions)
 		{
 			if(moveActions.moveActions.Length == 0) return;
 
