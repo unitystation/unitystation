@@ -41,7 +41,10 @@ namespace Messages.Server
 				}
 
 				//We use NewtonSoft's Json as unity inbuilt doesnt support nullables
-				string jsondata = JsonConvert.SerializeObject(changeChunk);
+				string jsondata = JsonConvert.SerializeObject(changeChunk, new JsonSerializerSettings()
+				{ 
+					ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+				});
 
 				NetMessage msg = new NetMessage
 				{
