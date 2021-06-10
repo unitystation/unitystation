@@ -225,7 +225,8 @@ namespace Systems.Ai
 			vesselObject = newCore;
 			if(newCore == null) return;
 
-			if (CustomNetworkManager.IsHeadless) return;
+			//Something weird with headless and local host triggering the sync even though its set to owner
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
 			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
 			aiUi.OrNull()?.SetUp(this);
@@ -258,7 +259,7 @@ namespace Systems.Ai
 		{
 			hasPower = newState;
 
-			if (CustomNetworkManager.IsHeadless) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
 			//If we lose power we cant see much
 			lightingSystem.fovDistance = newState ? 13 : 2;
@@ -270,7 +271,7 @@ namespace Systems.Ai
 		{
 			power = newValue;
 
-			if (CustomNetworkManager.IsHeadless) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
 			aiUi.SetPowerLevel(newValue);
 		}
@@ -280,7 +281,7 @@ namespace Systems.Ai
 		{
 			integrity = newValue;
 
-			if (CustomNetworkManager.IsHeadless) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
 			aiUi.SetIntegrityLevel(newValue);
 		}
@@ -290,7 +291,7 @@ namespace Systems.Ai
 		{
 			numberOfCameras = newValue;
 
-			if (CustomNetworkManager.IsHeadless) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
 			if (aiUi == null)
 			{
@@ -305,7 +306,7 @@ namespace Systems.Ai
 		#region Camera Stuff
 
 		[Server]
-		public void ServerSetCameraLocation(GameObject newObject, bool ignoreCardCheck = false)
+		public void ServerSetCameraLocation(GameObject newObject, bool ignoreCardCheck = false, bool moveMessage = true)
 		{
 			//Cant switch cameras when carded
 			if (isCarded && ignoreCardCheck == false)
@@ -331,7 +332,7 @@ namespace Systems.Ai
 
 				//This is to move the player object so we can see the Ai Eye sprite underneath us
 				//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
-				playerScript.PlayerSync.SetPosition(cameraLocation.position);
+				playerScript.PlayerSync.SetPosition(cameraLocation.gameObject.WorldPosServer());
 			}
 			else
 			{
@@ -351,7 +352,7 @@ namespace Systems.Ai
 				}
 			}
 
-			if (newObject != null && isCarded == false)
+			if (newObject != null && isCarded == false && moveMessage)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"You move to the {newObject.ExpensiveName()}");
 			}
@@ -431,8 +432,20 @@ namespace Systems.Ai
 		private void CameraStateChanged(bool newState)
 		{
 			//Only need to reset location when it turns off
-			//TODO maybe go to nearest camera instead?
 			if(newState) return;
+
+			if (hasPower && cameraLocation != null)
+			{
+				var validCameras = GetValidCameras().OrderBy(c =>
+					Vector3.Distance(cameraLocation.position, c.gameObject.WorldPosServer())).ToArray();
+
+				if (validCameras.Any())
+				{
+					//Move to nearest camera instead
+					ServerSetCameraLocation(validCameras.First().gameObject);
+					return;
+				}
+			}
 
 			//Lost power so move back to core
 			ServerSetCameraLocation(vesselObject);
@@ -449,7 +462,7 @@ namespace Systems.Ai
 
 		[Command]
 		//Used by the Ai teleport tab to move camera
-		public void CmdTeleportToCamera(GameObject newCamera)
+		public void CmdTeleportToCamera(GameObject newCamera, bool moveMessage = true)
 		{
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
@@ -482,7 +495,7 @@ namespace Systems.Ai
 				return;
 			}
 
-			ServerSetCameraLocation(newCamera);
+			ServerSetCameraLocation(newCamera, moveMessage: moveMessage);
 		}
 
 		[Command]
@@ -636,31 +649,22 @@ namespace Systems.Ai
 			var chosenCameras = new List<SecurityCamera>();
 			var aiPlayerCameraLocation = cameraLocation.position;
 
-			foreach (var cameraGroup in SecurityCamera.Cameras)
+			foreach (var securityCamera in GetValidCameras())
 			{
-				if(openNetworks.Contains(cameraGroup.Key) == false) continue;
+				var securityCameraLocation = securityCamera.gameObject.WorldPosClient();
 
-				foreach (var securityCamera in cameraGroup.Value)
+				var direction = securityCameraLocation - aiPlayerCameraLocation;
+				var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 45;
+
+				if (Mathf.Sign(angle) == -1)
 				{
-					if(securityCamera.CameraActive == false) continue;
+					angle += 360;
+				}
 
-					if(securityCamera.gameObject.transform == cameraLocation) continue;
-
-					var securityCameraLocation = securityCamera.gameObject.WorldPosClient();
-
-					var direction = securityCameraLocation - aiPlayerCameraLocation;
-					var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 45;
-
-					if (Mathf.Sign(angle) == -1)
-					{
-						angle += 360;
-					}
-
-					//Check to see if between the correct angle for the move type
-					if (angle > lowerDegree && angle <= lowerDegree + 90)
-					{
-						chosenCameras.Add(securityCamera);
-					}
+				//Check to see if between the correct angle for the move type
+				if (angle > lowerDegree && angle <= lowerDegree + 90)
+				{
+					chosenCameras.Add(securityCamera);
 				}
 			}
 
@@ -669,18 +673,8 @@ namespace Systems.Ai
 			var sortedCameras = chosenCameras.OrderBy(c =>
 				Vector3.Distance(aiPlayerCameraLocation, c.gameObject.WorldPosClient()));
 
-			var direction2 = sortedCameras.First().gameObject.WorldPosClient() - aiPlayerCameraLocation;
-			var angle1 = (Mathf.Atan2(direction2.y, direction2.x) * Mathf.Rad2Deg) - 45;
-
-			if (Mathf.Sign(angle1) == -1)
-			{
-				angle1 += 360;
-			}
-
-			Debug.LogError(angle1);
-
 			//Move to nearest camera
-			CmdTeleportToCamera(sortedCameras.First().gameObject);
+			CmdTeleportToCamera(sortedCameras.First().gameObject, false);
 		}
 
 		#endregion
@@ -1236,6 +1230,27 @@ namespace Systems.Ai
 
 		#endregion
 
+		private List<SecurityCamera> GetValidCameras(bool addCurrentLocation = false)
+		{
+			var validCameras = new List<SecurityCamera>();
+
+			foreach (var cameraGroup in SecurityCamera.Cameras)
+			{
+				if(openNetworks.Contains(cameraGroup.Key) == false) continue;
+
+				foreach (var securityCamera in cameraGroup.Value)
+				{
+					if(securityCamera.CameraActive == false) continue;
+
+					if(addCurrentLocation == false && securityCamera.gameObject.transform == cameraLocation) continue;
+
+					validCameras.Add(securityCamera);
+				}
+			}
+
+			return validCameras;
+		}
+
 		public bool OnCoolDown(NetworkSide side)
 		{
 			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Interaction, side));
@@ -1260,8 +1275,5 @@ namespace Systems.Ai
 
 			return adminInfo.ToString();
 		}
-
-		//TODO when moving to card, remove power and integrity listeners from old core.
-		//TODO keep track of our integrity
 	}
 }

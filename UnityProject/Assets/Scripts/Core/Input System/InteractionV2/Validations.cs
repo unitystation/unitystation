@@ -540,6 +540,8 @@ public static class Validations
 	//AiActivate Validation
 	public static bool CanApply(AiActivate toValidate, NetworkSide side, bool lineCast = true)
 	{
+		if (side == NetworkSide.Client && PlayerManager.LocalPlayer != toValidate.Performer) return false;
+
 		//Performer and target cant be null
 		if (toValidate.Performer == null || toValidate.TargetObject == null) return false;
 
