@@ -480,7 +480,7 @@ namespace Items.PDA
 			var bestSlot = GetBestSlot(slot.ItemObject);
 			if (!Inventory.ServerTransfer(slot, bestSlot))
 			{
-				Inventory.ServerDrop(IDSlot);
+				Inventory.ServerDrop(slot);
 			}
 		}
 

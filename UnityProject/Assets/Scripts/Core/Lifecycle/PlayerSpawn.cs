@@ -57,11 +57,14 @@ public static class PlayerSpawn
 		var isOk = true;
 		var message = "";
 
+		//Disable this until we fix skin tone checks.
+		/*
 		if(ServerValidations.HasIllegalSkinTone(request.CharacterSettings))
 		{
 			message += " Invalid player skin tone.";
 			isOk = false;
 		}
+		*/
 
 		if(ServerValidations.HasIllegalCharacterName(request.CharacterSettings.Name))
 		{
