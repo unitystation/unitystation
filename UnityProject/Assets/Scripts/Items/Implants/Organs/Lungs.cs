@@ -210,7 +210,6 @@ public class Lungs : BodyPartModification
 				"You gasp for air; but you drown in your own blood from the inside!", 
 				$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps for air!");
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
-				RelatedPart.InternalBleedingLogic(AttackType.Internal, DamageType.Oxy);
 			}
 			else
 			{
