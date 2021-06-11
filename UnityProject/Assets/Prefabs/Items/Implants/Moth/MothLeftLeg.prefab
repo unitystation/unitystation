@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: DismembermentChance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: c9191e040f023ed4fb5eb384a338f1b1,
@@ -86,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_Name
-      value: HumanLeftLeg Variant
+      value: MothLeftLeg
       objectReference: {fileID: 0}
     - target: {fileID: 2856768839702850670, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}

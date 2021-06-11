@@ -22,7 +22,7 @@ namespace Messages.Server.VariableViewer
 				BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
 			};
 
-			SendToAll(msg);
+			SendToAll(msg, 3);
 			return msg;
 		}
 	}

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.13
+      objectReference: {fileID: 0}
     - target: {fileID: 6786220533655849171, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: Populater.Contents.Array.data[4]
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 7761316997644922781, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_Name
-      value: CatHead
+      value: FelinidHead
       objectReference: {fileID: 0}
     - target: {fileID: 7879089347396255999, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}

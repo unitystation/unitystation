@@ -91,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: BodyPartItemSprite
+      value: 
+      objectReference: {fileID: 3382038559166527774}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: maleSprite.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -127,6 +132,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
         type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyPartItemInheritsSkinColor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.size
@@ -276,6 +286,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2780143343961368630, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 3394877447828423895}
     - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_AssetId
@@ -354,3 +369,21 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
+--- !u!210 &3394877447828423895 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 8337619479501541348, guid: e241039a7933eb347bd1a9bb67a9078a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6676634485609286451}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3382038559166527774 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8234622556944347693, guid: e241039a7933eb347bd1a9bb67a9078a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6676634485609286451}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

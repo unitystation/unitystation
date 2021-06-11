@@ -173,7 +173,7 @@ namespace Objects.Science
 			//detect players positioned on the portal bit of the gateway
 			foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 			{
-				Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
+				Chat.AddExamineMsgFromServer(player.gameObject, message);
 				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject, SingletonSOSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, travelCoord);
 				somethingTeleported = true;
@@ -183,7 +183,7 @@ namespace Objects.Science
 			foreach (var item in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true)
 									.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
 			{
-				
+
 				if (item.gameObject.TryGetComponent(out IQuantumReaction reaction))
 				{
 					reaction.OnTeleportStart();

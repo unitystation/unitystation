@@ -9,7 +9,7 @@ using Items;
 using Messages.Server.SoundMessages;
 using Systems.Interaction;
 
-public class WeaponNetworkActions : ManagedNetworkBehaviour
+public class WeaponNetworkActions : NetworkBehaviour
 {
 	[SerializeField]
 	private List<AddressableAudioSource> meleeSounds = default;
@@ -39,6 +39,16 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		spriteRendererSource = null;
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	/// <summary>
 	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
 	/// if weapon is null.
@@ -56,7 +66,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (playerMove.allowInput == false) return;
 		if (playerScript.IsGhost) return;
 		if (playerScript.playerHealth.serverPlayerConscious == false) return;
-		
+
 		if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 		{
 			// validate based on position of target vector
@@ -209,7 +219,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	// Server lerps
-	public override void UpdateMe()
+	private void UpdateMe()
 	{
 		if (lerping)
 		{

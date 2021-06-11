@@ -115,10 +115,7 @@ namespace Player
 			{
 				if (Vector3.Distance(sentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
 				{
-					Chat.AddExamineMsg(sentByPlayer,
-						$"This is <b>{VisibleName}</b>.\n" +
-						$"{Equipment.Examine()}" +
-						$"<color={LILAC_COLOR}>{Health.GetExamineText(script)}</color>");
+					BasicExamine(sentByPlayer);
 					return;
 				}
 			}
@@ -136,6 +133,14 @@ namespace Player
 				ServerOnObservationEnded
 			);
 			SpatialRelationship.ServerActivate(relationship);
+		}
+
+		private void BasicExamine(GameObject sentByPlayer)
+		{
+			Chat.AddExamineMsg(sentByPlayer,
+				$"This is <b>{VisibleName}</b>.\n" +
+				$"{Equipment.Examine()}" +
+				$"<color={LILAC_COLOR}>{Health.GetExamineText(script)}</color>");
 		}
 
 		private void ServerOnObservationEnded(RangeRelationship cancelled)
