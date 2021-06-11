@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Mirror;
+using Newtonsoft.Json;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 
@@ -39,7 +40,11 @@ namespace Messages.Server
 						entry.LayerType);
 				}
 
-				string jsondata = JsonUtility.ToJson (changeChunk);
+				//We use NewtonSoft's Json as unity inbuilt doesnt support nullables
+				string jsondata = JsonConvert.SerializeObject(changeChunk, new JsonSerializerSettings()
+				{ 
+					ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+				});
 
 				NetMessage msg = new NetMessage
 				{

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AddressableReferences;
 using Audio.Containers;
 using Initialisation;
+using Messages.Server.SoundMessages;
 
 namespace Audio.Managers
 {
@@ -32,6 +33,8 @@ namespace Audio.Managers
 		private Dictionary<AddressableAudioSource, string> playingSource = new Dictionary<AddressableAudioSource, string>();
 
 		[SerializeField] private AudioClipsArray ambientSoundsArray = null;
+
+		private static AudioSourceParameters parameters = new AudioSourceParameters();
 
 		#region Initialization
 
@@ -85,7 +88,7 @@ namespace Audio.Managers
 
 			var guid = Guid.NewGuid().ToString();
 			Instance.playingSource.Add(audioSource, guid);
-			_ = SoundManager.Play(audioSource, guid);
+			_ = SoundManager.Play(audioSource, guid, parameters);
 		}
 
 		public static void PlayAudio(AddressableAudioSource source)
@@ -103,7 +106,7 @@ namespace Audio.Managers
 
 			var guid = Guid.NewGuid().ToString();
 			Instance.playingSource.Add(source, guid);
-			_ = SoundManager.Play(source, guid);
+			_ = SoundManager.Play(source, guid, parameters);
 		}
 
 		public static void StopAudio(string assetAddress)
@@ -141,9 +144,16 @@ namespace Audio.Managers
 		/// <param name="newVolume"></param>
 		public static void SetVolumeForAllAudioSources(float newVolume)
 		{
+			parameters.Volume = newVolume;
+
 			foreach (var audioSource in Instance.ambientAudioSources)
 			{
 				audioSource.Value.AudioSource.volume = newVolume;
+			}
+
+			foreach (var audioSource in Instance.playingSource)
+			{
+				SoundManager.ChangeAudioSourceParameters(audioSource.Value, parameters);
 			}
 
 			PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, newVolume);
