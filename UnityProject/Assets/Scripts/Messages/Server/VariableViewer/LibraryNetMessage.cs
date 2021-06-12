@@ -43,7 +43,7 @@ namespace Messages.Server.VariableViewer
 			{
 				msg.data = JsonConvert.SerializeObject(List.ToList());
 				msg.Number = ListsOfLists.Count;
-				SendTo(ToWho, msg);
+				SendTo(ToWho, msg, channel: 3);
 			}
 
 			return msg;
