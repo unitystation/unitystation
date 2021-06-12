@@ -12,7 +12,7 @@ public class GUI_P_Collection : PageElement
 	public override PageElementEnum PageElementType => PageElementEnum.Collection;
 
 	public TMP_Text TText;
-	public Text ButtonText;
+	public TMP_Text ButtonText;
 	public GameObject Page;
 	public GameObject DynamicSizePanel;
 	public bool IsOpen;
@@ -65,6 +65,8 @@ public class GUI_P_Collection : PageElement
 	{
 		VariableViewerNetworking.NetFriendlySentence Data = new VariableViewerNetworking.NetFriendlySentence();
 		//Logger.Log("A");
+
+		TText.text = ValueType.ToString();
 		if (Page != null)
 		{
 			//Logger.Log("B");

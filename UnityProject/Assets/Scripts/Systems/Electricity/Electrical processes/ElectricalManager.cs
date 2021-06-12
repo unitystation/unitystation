@@ -18,11 +18,6 @@ namespace Systems.Electricity
 
 		public static ElectricalManager Instance {
 			get {
-				if (instance == null)
-				{
-					instance = FindObjectOfType<ElectricalManager>();
-				}
-
 				return instance;
 			}
 			set { instance = value; }
