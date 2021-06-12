@@ -126,6 +126,19 @@ MonoBehaviour:
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12
+--- !u!114 &8621561795956599103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2654136094092541073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d408cfa84b1b6714c90e9c97d3f1733c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBurningOnSpawn: 1
 --- !u!1001 &2654578771155042347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194,6 +207,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 8097771933091248863}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -375,6 +393,12 @@ GameObject:
 --- !u!4 &2650052370968986085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 2654578771155042347}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &8097771933091248863 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 2654578771155042347}
   m_PrefabAsset: {fileID: 0}
