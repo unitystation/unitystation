@@ -28,7 +28,7 @@ public class GUI_VariableViewer : MonoBehaviour
 		}
 		set
 		{
-			boookTitle.text = value.ToString();
+			boookTitle.text = value;
 			_Title = value;
 			return;
 		}
