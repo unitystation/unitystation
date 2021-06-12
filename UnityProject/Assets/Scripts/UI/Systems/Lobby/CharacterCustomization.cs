@@ -1066,6 +1066,7 @@ namespace UI.CharacterCreator
 				SaveLastCharacterIndex();
 				RefreshSelectorData();
 				RefreshAll();
+				_ = ServerData.UpdateCharacterProfile(currentCharacter);
 			}
 		}
 

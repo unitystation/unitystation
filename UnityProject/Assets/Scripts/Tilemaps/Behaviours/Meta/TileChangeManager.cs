@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Messages.Client.NewPlayer;
 using Messages.Server;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
@@ -49,7 +50,8 @@ public class TileChangeManager : MonoBehaviour
 		if (CustomNetworkManager.IsServer) return;
 
 		//Unpacking the data example (and then run action change)
-		var dataList = JsonUtility.FromJson<TileChangeList>(data);
+		//We use NewtonSoft's Json as unity inbuilt doesnt support nullables
+		var dataList = JsonConvert.DeserializeObject<TileChangeList>(data);
 		foreach (TileChangeEntry entry in dataList.List)
 		{
 			Logger.LogTraceFormat("Received update for {0} layer {1} " + entry.TileName, Category.TileMaps,
@@ -62,7 +64,7 @@ public class TileChangeManager : MonoBehaviour
 			}
 			else
 			{
-				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName,entry.transformMatrix, entry.color );
+				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName, entry.transformMatrix, entry.color );
 			}
 		}
 	}
@@ -370,8 +372,8 @@ public class TileChangeManager : MonoBehaviour
 			TileType = tileType,
 			TileName = tileName,
 			RemoveAll = removeAll,
-			transformMatrix = transformMatrix.GetValueOrDefault(),
-			color = color.GetValueOrDefault()
+			transformMatrix = transformMatrix,
+			color = color
 		});
 	}
 
@@ -386,8 +388,8 @@ public class TileChangeManager : MonoBehaviour
 			TileType = layerTile.TileType,
 			TileName = layerTile.name,
 			RemoveAll = removeAll,
-			transformMatrix = transformMatrix.GetValueOrDefault(),
-			color = color.GetValueOrDefault()
+			transformMatrix = transformMatrix,
+			color = color
 		});
 	}
 
@@ -444,9 +446,9 @@ public class TileChangeEntry
 
 	public bool RemoveAll;
 
-	public Matrix4x4 transformMatrix;
+	public Matrix4x4? transformMatrix;
 
-	public Color color;
+	public Color? color;
 
 	public TileChangeManager.OverlayType overlayType;
 

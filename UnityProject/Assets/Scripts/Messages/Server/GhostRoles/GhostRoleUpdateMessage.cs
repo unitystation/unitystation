@@ -39,9 +39,9 @@ namespace Messages.Server.GhostRoles
 
 				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 				{
-					if (player?.Script == null) 
-					{ 
-						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts); 
+					if (player?.Script == null)
+					{
+						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts);
 						continue;
 					}
 					if (player.Script.IsDeadOrGhost == false) continue;
@@ -70,15 +70,25 @@ namespace Messages.Server.GhostRoles
 
 		private static NetMessage GetMessage(uint key, GhostRoleServer role)
 		{
-			return new NetMessage
+			var MSG =  new NetMessage
 			{
 				roleID = key,
 				roleType = role.RoleListIndex,
 				minPlayers = role.MinPlayers,
 				maxPlayers = role.MaxPlayers,
-				playerCount = role.WaitingPlayers.Count,
+				playerCount = role.PlayersSpawned,
 				timeRemaining = role.TimeRemaining,
 			};
+			if (MSG.minPlayers > 0 && role.PlayersSpawned == 0)
+			{
+				MSG.playerCount = role.WaitingPlayers.Count;
+			}
+			else
+			{
+				MSG.playerCount = role.PlayersSpawned;
+			}
+
+			return MSG;
 		}
 	}
 }

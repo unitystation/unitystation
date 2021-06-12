@@ -72,9 +72,20 @@ namespace HealthV2
 		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs
 		/// <summary>
-		public float DamageThreshold = 18f;
-		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
-		public float GibChance = 0.15f;
+		public float DamageThreshold = 15f;
+
+		/// <summary>
+		/// On Which DamageSeverity level do we start checking if this limb can be dismemered?
+		/// <summary>
+		[Tooltip("On Which DamageSeverity level do we start checking if this limb can be dismemered?")]
+		public DamageSeverity DismembermentOnSeverityLevel = DamageSeverity.Max;
+
+		/// <summary>
+		/// The chance of this body part getting dismemered.
+		/// The higher the harder. (1 means it's impossible to disemember it based on chance)
+		/// <summary>
+		[Tooltip("The chance of this body part getting dismemered. The Higher, the harder. (1 = total immunaity to dismembering when using chance)")]
+		public float DismembermentChance = 0.15f;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -397,7 +408,7 @@ namespace HealthV2
 		/// </summary>
 		protected void CheckBodyPartIntigrity()
 		{
-			if(Severity >= GibsOnSeverityLevel)
+			if(Severity >= DismembermentOnSeverityLevel)
 			{
 				DismemberBodyPartWithChance();
 			}
@@ -409,8 +420,12 @@ namespace HealthV2
 		public void DismemberBodyPartWithChance()
 		{
 			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
-			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
+			float armorChanceModifer = DismembermentChance + SelfArmor.DismembermentProtectionChance;
 			if(Severity == DamageSeverity.Max){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
+			if(armorChanceModifer >= 1.0f)
+			{
+				return;
+			}
 			if(chance >= armorChanceModifer)
 			{
 				RemoveFromBodyThis();

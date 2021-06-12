@@ -179,7 +179,8 @@ public partial class Chat
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
-		message = HighlightInGameName(message);
+		//Dont play sound here as it could be examine or action, we only play sound for someone speaking
+		message = HighlightInGameName(message, false);
 
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
@@ -338,7 +339,7 @@ public partial class Chat
 		return output;
 	}
 
-	private static string HighlightInGameName(string input)
+	private static string HighlightInGameName(string input, bool playSound = true)
 	{
 		if(ThemeManager.ChatHighlight == false && ThemeManager.MentionSound == false)
 		{
@@ -352,14 +353,14 @@ public partial class Chat
 		{
 			foreach (var nameSplit in PlayerManager.LocalPlayerScript.playerName.Split(' '))
 			{
-				boldedName = HighlightName(boldedName, nameSplit);
+				boldedName = HighlightName(boldedName, nameSplit, playSound);
 			}
 		}
 
 		return boldedName;
 	}
 
-	private static string HighlightName(string input, string name)
+	private static string HighlightName(string input, string name, bool playSound = true)
 	{
 		if ((ThemeManager.ChatHighlight == false && ThemeManager.MentionSound == false) || name.IsNullOrEmpty())
 		{
@@ -375,7 +376,7 @@ public partial class Chat
 				// Bold and underline it
 				output[i] = $"<u><b>{output[i]}</b></u>";
 
-				if (ThemeManager.MentionSound && playedSound == false)
+				if (ThemeManager.MentionSound && playedSound == false && playSound)
 				{
 					_ = SoundManager.Play(ThemeManager.CurrentMentionSound);
 					playedSound = true;

@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6508975342101006405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6375345504749491285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 8b742e817b3166d47949a64ea98175a8, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
 --- !u!1001 &8524145954627237720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9,15 +30,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2449762591122860759, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: 4a17de5c703656048bf20898c47783a9,
-        type: 2}
-    - target: {fileID: 2449762591122860759, guid: a4904005b4f886143a41a4b3c99a6845,
-        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: 55d27543c314d084189a7d2f6dcac008,
+        type: 2}
+    - target: {fileID: 2449762591122860759, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a17de5c703656048bf20898c47783a9,
         type: 2}
     - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
@@ -38,6 +59,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -53,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -65,16 +96,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
@@ -120,3 +141,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4904005b4f886143a41a4b3c99a6845, type: 3}
+--- !u!1 &6375345504749491285 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3328757573197865741, guid: a4904005b4f886143a41a4b3c99a6845,
+    type: 3}
+  m_PrefabInstance: {fileID: 8524145954627237720}
+  m_PrefabAsset: {fileID: 0}

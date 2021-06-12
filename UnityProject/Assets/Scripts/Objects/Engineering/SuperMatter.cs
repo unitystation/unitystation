@@ -867,12 +867,12 @@ namespace Objects.Engineering
 
 		private void Explode()
 		{
-			SendMessageToAllPlayers("</color=red>You feel reality distort for a moment...<color>");
+			SendMessageToAllPlayers("<color=red>You feel reality distort for a moment...</color>");
 
 			if (combinedGas > MolePenaltyThreshold)
 			{
 				//Spawns a singularity which can eat the crystal...
-				SendMessageToAllPlayers("</color=red>A horrible screeching fills your ears, and a wave of dread washes over you...<color>");
+				SendMessageToAllPlayers("<color=red>A horrible screeching fills your ears, and a wave of dread washes over you...</color>");
 				Spawn.ServerPrefab(singularity, registerTile.WorldPosition, transform.parent);
 
 				//Dont explode if singularity is spawned

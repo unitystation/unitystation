@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0710b7ee16acb014fa2155c8feed8af9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0710b7ee16acb014fa2155c8feed8af9,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3568482238077595727, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: hideClothingFlags
@@ -40,6 +38,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartsCovered
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936454131396164911, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}

@@ -14,8 +14,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1973002661359593264, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
-      value: 0.1
+      propertyPath: armoredBodyParts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armoringBodyPartType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973002661359593264, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[4].armoringBodyPartType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}

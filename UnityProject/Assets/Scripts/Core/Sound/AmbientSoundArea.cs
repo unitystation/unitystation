@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
 using Audio.Containers;
+using Audio.Managers;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +17,8 @@ public class AmbientSoundArea : MonoBehaviour
 	[SerializeField] private AudioClipsArray enteringSoundTrack = null;
 	[SerializeField] private AudioClipsArray leavingSoundTrack = null;
 	private string guid = "";
+
+	private AddressableAudioSource playing;
 
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
@@ -55,8 +59,8 @@ public class AmbientSoundArea : MonoBehaviour
 	{
 		if (clipToPlay == null) return;
 
-		SoundManager.Stop(guid);
-		guid = Guid.NewGuid().ToString();
-		_ = SoundManager.Play(clipToPlay, guid);
+		SoundAmbientManager.StopAudio(playing);
+		playing = clipToPlay;
+		SoundAmbientManager.PlayAudio(clipToPlay);
 	}
 }

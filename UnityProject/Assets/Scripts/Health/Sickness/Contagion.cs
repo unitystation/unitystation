@@ -26,7 +26,22 @@ namespace Health.Sickness
 			spawnedTime = Time.time;
 		}
 
-		public void Update()
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		//Server Side Only
+		private void UpdateMe()
 		{
 			// Check if the contagion zone should despawn itself (after a set amount of time).
 			// One day, we should hook this with the air scrubbers and general atmos system

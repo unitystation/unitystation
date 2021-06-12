@@ -7,7 +7,6 @@ namespace Messages.Server.VariableViewer
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string data;
 			public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
 		}
 
@@ -23,7 +22,7 @@ namespace Messages.Server.VariableViewer
 				BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
 			};
 
-			SendTo(ToWho, msg);
+			SendTo(ToWho, msg, channel : 3);
 			return msg;
 		}
 	}
