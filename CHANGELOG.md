@@ -2,6 +2,19 @@
 ---
 
 
+* 2021/6/13: [Fix] - You can no longer roleplay as an Asian mother by doing extreme damage to limbs with just a shoe. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [Fix] - clicking yourself with non-lethal object will no longer spawn blood on the ground. reported in #6586 by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [Fix] - Players no longer need a harm intention to heal themselves. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [Fix] - Losing a heart is an instant death from now on. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [Improvement] - Gauzes now stop limb loss bleeding, disabled that logic on brute packs as they were place holders a few PRs ago. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Slash and Pierce damage will go on their own as long as the player doesn't receive a higher damage of level of these new damages. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Added in the Gauze healing item, stops external bleeding. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Players can bleed to death now if they don't treat external bleeding. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Adds in Slash and Piercing damage. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Added Disemboweling. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Hearts that suffer from internal damage can heart attack. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Lungs that are bleeding will cause players to cough up blood regularly. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
+* 2021/6/13: [New] - Players' organs can now have internal bleeding. Dying slowly from the inside. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
 * 2021/6/13: **[Fix]** Items bought in PDA uplink that can't find an ideal slot to go to will now spawn on the ground. by [pyrosshade](https://github.com/pyrosshade) in PR #[6791](https://github.com/unitystation/unitystation/pull/6791)
 * 2021/6/11: [Fix] - Candles can now start plasma fires again just like lighters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6782](https://github.com/unitystation/unitystation/pull/6782)
 * 2021/6/10: [Fix] - Character deletion will now be synced across the server to avoid spawning in with ghost characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6777](https://github.com/unitystation/unitystation/pull/6777)
