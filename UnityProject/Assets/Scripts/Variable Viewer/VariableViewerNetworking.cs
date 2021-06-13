@@ -227,51 +227,7 @@ public class VariableViewerNetworking : MonoBehaviour
 				+ sizeof(bool);
 		}
 	}
-
-	public static IDnName ProcessBookShelfToID(Librarian.Library.LibraryBookShelf _BookShelf)
-	{
-		IDnName _IDnName = new IDnName
-		{
-			ID = _BookShelf.ID,
-			SN = _BookShelf.ShelfName,
-		};
-		if (_IDnName.SN == null) {
-			_IDnName.SN = "null";
-		}
-		return (_IDnName);
-	}
-
-	public static NetFriendlyBookShelf ProcessSUBBookShelf(Librarian.Library.LibraryBookShelf _BookShelf)  {
-		if (_BookShelf.IsPartiallyGenerated) {
-			_BookShelf.PopulateBookShelf();
-		}
-
-		NetFriendlyBookShelf BookShelf = new NetFriendlyBookShelf
-		{
-			ID = _BookShelf.ID,
-			SN = _BookShelf.ShelfName,
-			IE = _BookShelf.IsEnabled,
-		};
-		List<IDnName> _lisofIDnName = new List<IDnName>();
-		foreach (var HeldBook in _BookShelf.HeldBooks)
-		{
-			IDnName _IDnName = new IDnName
-			{
-				ID = HeldBook.ID,
-				SN = HeldBook.BookClass.GetType().Name
-			};
-			if (_IDnName.SN == null)
-			{ _IDnName.SN = "null"; }
-			_lisofIDnName.Add(_IDnName);
-		}
-
-
-		BookShelf.HB = _lisofIDnName.ToArray();
-
-
-		return (BookShelf);
-	}
-
+	
 	public static NetFriendlyBook ProcessBook(Librarian.Book _book) {
 		string Classe;
 		Classe = _book.BookClass.GetType().Name;

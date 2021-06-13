@@ -106,7 +106,7 @@ public class LibraryUI : MonoBehaviour
 		Refresh();
 	}
 
-	public void poolhierarchyEntry(HierarchyEntry hierarchyEntry)
+	public void PoolhierarchyEntry(HierarchyEntry hierarchyEntry)
 	{
 		PoolHierarchys.Enqueue(hierarchyEntry);
 		hierarchyEntry.transform.SetParent(PoolHolder);

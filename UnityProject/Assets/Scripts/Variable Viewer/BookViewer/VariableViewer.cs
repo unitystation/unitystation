@@ -537,16 +537,13 @@ public static class Librarian
 			if (VariableType.IsGenericType)
 			{
 				IEnumerable list;
-				Type TType;
 				if (FInfo == null)
 				{
 					list = PInfo.GetValue(Script) as IEnumerable; //icollection<keyvaluepair>
-					TType = PInfo.PropertyType;
 				}
 				else
 				{
 					list = FInfo.GetValue(Script) as IEnumerable; //
-					TType = FInfo.FieldType;
 				}
 
 				sentence.Sentences = new List<Sentence>();
