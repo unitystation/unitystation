@@ -20,8 +20,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
-      propertyPath: DismembermentChance
+      propertyPath: cutChance
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: DamageThreshold
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: maximumInternalBleedDamage
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
@@ -64,11 +79,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 324093289d930c247992ceda793d1197,
         type: 3}
-    - target: {fileID: 8808238315706163973, guid: cc032f91cda505e44b066c36db32760d,
-        type: 3}
-      propertyPath: CurrentsortingGroup
-      value: 
-      objectReference: {fileID: 556031351903563602}
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
@@ -146,9 +156,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc032f91cda505e44b066c36db32760d, type: 3}
---- !u!210 &556031351903563602 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 3394877447828423895, guid: cc032f91cda505e44b066c36db32760d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2930273928116792197}
-  m_PrefabAsset: {fileID: 0}

@@ -294,7 +294,7 @@ namespace HealthV2
 
 		/// <summary>
 		/// Updates the body part container and all contained body parts relative to their related
-		/// systems (default: blood system, radiation damage)
+		/// systems (default: blood system, radiation damage) each second.
 		/// </summary>
 		public virtual void ImplantPeriodicUpdate()
 		{
@@ -378,6 +378,28 @@ namespace HealthV2
 						armorPenetration: armorPenetration
 					);
 				}
+			}
+		}
+
+		/// <summary>
+		/// Applies slash damage to limbs inside of this container. Armor chance is handled inside of ApplyCutSizeLogic();
+		/// </summary>
+		public void TakeSlashDamage(float damage)
+		{
+			foreach (var limb in ContainsLimbs)
+			{
+				limb.ApplyCutSizeLogic(damage);
+			}
+		}
+
+		/// <summary>
+		/// Applies pierce damage to limbs inside of this container. Armor chance is handled inside of ApplyCutSizeLogic();
+		/// </summary>
+		public void TakePierceDamage(float damage)
+		{
+			foreach (var ContainsLimb in ContainsLimbs)
+			{
+				ContainsLimb.ApplyCutSizeLogic(damage, BodyPart.TramuticDamageTypes.PIERCE);
 			}
 		}
 
