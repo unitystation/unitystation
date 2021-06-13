@@ -132,7 +132,7 @@ public class HierarchyEntry : MonoBehaviour
 		ChildPage = 0;
 		ThePageUp.SetActive(false);
 		ThePageDown.SetActive(false);
-		UIManager.Instance.LibraryUI.poolhierarchyEntry(this);
+		UIManager.Instance.LibraryUI.PoolhierarchyEntry(this);
 		Shelf = null;
 		Name.text = "UnSET!";
 		foreach (var hierarchyEntry in hierarchyEntryChildren)

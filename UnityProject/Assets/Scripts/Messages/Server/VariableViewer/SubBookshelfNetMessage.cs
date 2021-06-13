@@ -19,7 +19,7 @@ namespace Messages.Server.VariableViewer
 		{
 			NetMessage msg = new NetMessage()
 			{
-				BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
+				BookShelf = VariableViewerNetworking.ProcessSubBookShelf(_BookShelf)
 			};
 
 			SendTo(ToWho, msg, channel : 3);
