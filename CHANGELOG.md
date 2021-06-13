@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/6/13: **[Fix]** Items bought in PDA uplink that can't find an ideal slot to go to will now spawn on the ground. by [pyrosshade](https://github.com/pyrosshade) in PR #[6791](https://github.com/unitystation/unitystation/pull/6791)
 * 2021/6/11: [Fix] - Candles can now start plasma fires again just like lighters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6782](https://github.com/unitystation/unitystation/pull/6782)
 * 2021/6/10: [Fix] - Character deletion will now be synced across the server to avoid spawning in with ghost characters. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6777](https://github.com/unitystation/unitystation/pull/6777)
 * 2021/6/8: [Change] Shields from field generators now block explosions by [ThatDan123](https://github.com/ThatDan123) in PR #[6769](https://github.com/unitystation/unitystation/pull/6769)
