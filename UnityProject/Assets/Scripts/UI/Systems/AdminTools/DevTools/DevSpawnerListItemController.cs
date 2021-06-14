@@ -70,7 +70,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		if (selectedItem == this)
 		{
-			cursorObject.transform.position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			cursorObject.transform.position = MouseUtils.MouseToWorldPos();
 			if (CommonInput.GetMouseButtonDown(0))
 			{
 				//Ignore spawn if pointer is hovering over GUI
@@ -181,7 +181,6 @@ public class DevSpawnerListItemController : MonoBehaviour
 	private void TrySpawn()
 	{
 		Vector3Int position = cursorObject.transform.position.RoundToInt();
-		position.z = 0;
 
 		if (CustomNetworkManager.IsServer)
 		{
