@@ -317,11 +317,15 @@ namespace HealthV2
 		private void BodyPartRemovalChecks()
 		{
 			//Checks if the body part is not an internal organ and if that part shares a skin tone.
-			if(IsSurface && BodyPartItemInheritsSkinColor)
+			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
 				BodyPartItemSprite.SetColor(Tone);
+			}
+			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
+			{
+				BodyPartItemSprite.SetColor(bodyPartColorWhenCharred);
 			}
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
 			if(IsBleedingExternally)

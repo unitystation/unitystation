@@ -131,11 +131,16 @@ namespace HealthV2
 
 		private float currentInternalBleedingDamage = 0;
 
+		[SerializeField]
+		private Color bodyPartColorWhenCharred = Color.black;
+
 		private float currentSlashCutDamage = 0;
-		private float currentPierceDamage = 0;
+		private float currentPierceDamage   = 0;
+		private float currentBurnDamage     = 0;
 
 		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
 		private SlashDamageLevel currentSlashDamageLevel = SlashDamageLevel.NONE;
+		private BurnDamageLevels currentBurnDamageLevel = BurnDamageLevels.NONE;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -707,6 +712,35 @@ namespace HealthV2
 			if(chance >= armorChanceModifer)
 			{
 				RemoveFromBodyThis();
+			}
+		}
+
+		private void TakeBurnDamage(float burnDamage)
+		{
+			if(SelfArmor.Fire < burnDamage)
+			{
+				currentBurnDamage += burnDamage;
+				CheckBurnDamageLevels();
+			}
+		}
+
+		private void CheckBurnDamageLevels()
+		{
+			if (currentBurnDamage <= 0)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.NONE;
+			}
+			if (currentBurnDamage >= 25)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.MINOR;
+			}
+			if (currentBurnDamage >= 50)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.MAJOR;
+			}
+			if (currentBurnDamage >= 95)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
 			}
 		}
 
