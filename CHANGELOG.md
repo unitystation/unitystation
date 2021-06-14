@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/6/13: **[Improvement]**  VV Is now way better to use by [Bod9001](https://github.com/Bod9001) in PR #[6788](https://github.com/unitystation/unitystation/pull/6788)
+* 2021/6/13: **[New]** VV has hierarchy now by [Bod9001](https://github.com/Bod9001) in PR #[6788](https://github.com/unitystation/unitystation/pull/6788)
 * 2021/6/13: [Fix] - You can no longer roleplay as an Asian mother by doing extreme damage to limbs with just a shoe. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
 * 2021/6/13: [Fix] - clicking yourself with non-lethal object will no longer spawn blood on the ground. reported in #6586 by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
 * 2021/6/13: [Fix] - Players no longer need a harm intention to heal themselves. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
