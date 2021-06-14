@@ -185,8 +185,7 @@ public class RightClickManager : MonoBehaviour
 			return null;
 		}
 
-		var position = Camera.main.ScreenToWorldPoint(mousePosition);
-		position.z = 0f;
+		var position = MouseUtils.MouseToWorldPos();
 		var objects = UITileList.GetItemsAtPosition(position);
 
 		//special case, remove wallmounts that are transparent

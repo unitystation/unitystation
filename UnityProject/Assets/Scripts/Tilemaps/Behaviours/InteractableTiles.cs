@@ -444,7 +444,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		var wallMount = CheckWallMountOverlay();
 		if (wallMount)
 		{
-			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			Vector2 cameraPos = MouseUtils.MouseToWorldPos();
 			var tilePos = cameraPos.RoundToInt();
 			OrientationEnum orientation = OrientationEnum.Down;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
