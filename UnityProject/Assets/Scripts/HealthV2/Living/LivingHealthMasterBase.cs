@@ -744,7 +744,7 @@ namespace HealthV2
 				{
 					if (bodyPartContainer.BodyPartType == aimedBodyPart)
 					{
-						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(2f);
 						bodyPartContainer.TakeSlashDamage(damage);
 					}
 				}
@@ -759,7 +759,7 @@ namespace HealthV2
 				{
 					if (bodyPartContainer.BodyPartType == aimedBodyPart)
 					{
-						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(2f);
 						bodyPartContainer.TakePierceDamage(damage);
 					}
 				}

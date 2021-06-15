@@ -266,7 +266,7 @@ namespace HealthV2
 			}
 		}
 
-		enum BodyPartCutSize
+		public enum BodyPartCutSize
 		{
 			NONE,
 			SMALL,
@@ -274,7 +274,7 @@ namespace HealthV2
 			LARGE
 		}
 
-		enum PierceDamageLevel
+		public enum PierceDamageLevel
 		{
 			NONE,
 			SMALL,
@@ -282,7 +282,7 @@ namespace HealthV2
 			LARGE
 		}
 
-		enum SlashDamageLevel
+		public enum SlashDamageLevel
 		{
 			NONE,
 			SMALL,
@@ -290,7 +290,7 @@ namespace HealthV2
 			LARGE
 		}
 
-		enum BurnDamageLevels
+		public enum BurnDamageLevels
 		{
 			NONE,
 			MINOR,
@@ -548,7 +548,18 @@ namespace HealthV2
 				CheckCutSize();
 			}
 			//Burn damage checks for it's own armor damage type.
-			if (damageType == TramuticDamageTypes.BURN) { TakeBurnDamage(tramuaDamage); }
+			if (damageType == TramuticDamageTypes.BURN)
+			{
+				//Large cuts and parts in terrible condition means less protective flesh against fire.
+				if(currentSlashDamageLevel == SlashDamageLevel.LARGE || Severity >= DamageSeverity.Critical)
+				{
+					TakeBurnDamage(tramuaDamage * 1.25f);
+				}
+				else
+				{
+					TakeBurnDamage(tramuaDamage);
+				}
+			}
 		}
 
 		[ContextMenu("Debug - Apply 25 Slash Damage")]
@@ -776,6 +787,10 @@ namespace HealthV2
 			}
 		}
 
+
+		/// <summary>
+		/// Turns this body part into ash while protecting items inside of that cannot be ashed.
+		/// </summary>
 		private void AshBodyPart()
 		{
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
@@ -791,6 +806,14 @@ namespace HealthV2
 							Inventory.ServerDespawn(item);
 						}
 					}
+					var organ = item.ItemObject?.GetComponent<BodyPart>();
+					if (organ != null)
+					{
+						if (organ.DeathOnRemoval)
+						{
+							HealthMaster.Death();
+						}
+					}
 				}
 				if(PlayerItemList != null) //In case this is not a player
 				{
@@ -800,10 +823,18 @@ namespace HealthV2
 						{
 							if (item.ItemAttributes.CannotBeAshed)
 							{
+								Inventory.ServerDrop(item);
+							}
+							else
+							{
 								Inventory.ServerDespawn(item);
 							}
 						}
 					}
+				}
+				if (DeathOnRemoval)
+				{
+					healthMaster.Death();
 				}
 				_ = Spawn.ServerPrefab(Storage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
 				_ = Despawn.ServerSingle(this.gameObject);
