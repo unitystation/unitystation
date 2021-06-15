@@ -54,6 +54,7 @@ public enum NetTabType
 	TurretController = 40,
 	InteliCard = 41,
 	Airlock = 42,
+	Turret = 43,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name

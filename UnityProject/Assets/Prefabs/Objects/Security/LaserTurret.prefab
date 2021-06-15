@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1586561495887623337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 68
 --- !u!114 &1598609385433514140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,6 +47,12 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  aiTurret: 0
+  CheckWeaponAuthorisation: 0
+  CheckSecurityRecords: 1
+  CheckForArrest: 1
+  CheckUnauthorisedPersonnel: 0
+  CheckUnidentifiedLifeSigns: 1
   conType: 9
 --- !u!114 &2506153195070795302
 MonoBehaviour:
@@ -83,7 +102,7 @@ MonoBehaviour:
   Populater:
     MergeMode: 0
     Contents: []
---- !u!114 &1586561495887623337
+--- !u!114 &7246554565139759485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,10 +111,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1526276624429649764}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restriction: 68
+  NetTabType: 43
 --- !u!1 &5035411517673045519
 GameObject:
   m_ObjectHideFlags: 0

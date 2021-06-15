@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Systems;
 using Systems.Construction;
 using Systems.Electricity;
 using Systems.MobAIs;
@@ -10,8 +11,10 @@ using AddressableReferences;
 using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
 using Mirror;
+using Objects.Security;
 using Objects.Wallmounts;
 using Objects.Wallmounts.Switches;
+using UI.Core.Net;
 using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
@@ -22,7 +25,7 @@ namespace Objects.Other
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(APCPoweredDevice))]
 	[RequireComponent(typeof(AccessRestrictions))]
-	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlave, IExaminable, IServerSpawn
+	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlave, IExaminable, IServerSpawn, ICanOpenNetTab
 	{
 		[SerializeField]
 		[Tooltip("Used to get the lethal bullet and spawn the gun when deconstructed")]
@@ -61,6 +64,36 @@ namespace Objects.Other
 		[SerializeField]
 		private AddressableAudioSource taserSound = null;
 
+		[SerializeField]
+		[Tooltip("Targets all mobs/players ignores the check settings below")]
+		//Turret ignores all checks below and fires on everything
+		private bool aiTurret;
+
+		//Check for Weapon Authorization:
+		//No/Yes - neutralizes people who have a weapon out but are not Heads or Security staff.
+		[Tooltip("Neutralize people who have a weapon out but are not Heads or Security staff")]
+		public bool CheckWeaponAuthorisation;
+
+		//Check Security Records:
+		//Yes/No - searches Security Records for criminals.
+		[Tooltip("Search Security Records for criminals")]
+		public bool CheckSecurityRecords = true;
+
+		//Neutralize Identified Criminals:
+		//Yes/No - neutralizes crew members set to Arrest on the Security Records.
+		[Tooltip("Neutralize crew members set to Arrest on the Security Records")]
+		public bool CheckForArrest = true;
+
+		//Neutralize All Non-Security and Non-Command Personnel:
+		//No/Yes - self explanatory.
+		[Tooltip("Neutralize All Non-Security and Non-Command Personnel")]
+		public bool CheckUnauthorisedPersonnel;
+
+		//Neutralize All Unidentified Life Signs:
+		//Yes/No - neutralizes aliens.
+		[Tooltip("Neutralize All Unidentified Life Signs")]
+		public bool CheckUnidentifiedLifeSigns = true;
+
 		private RegisterTile registerTile;
 		private Integrity integrity;
 
@@ -77,6 +110,7 @@ namespace Objects.Other
 
 		//Has power
 		private bool hasPower;
+		public bool HasPower => hasPower;
 
 		//Cover open or closed
 		private bool coverOpen;
@@ -84,6 +118,7 @@ namespace Objects.Other
 
 		//Is off, stun or lethal
 		private TurretState turretState;
+		public TurretState CurrentTurretState => turretState;
 
 		//Unlocked
 		private bool unlocked;
@@ -237,10 +272,13 @@ namespace Objects.Other
 					//Only target normal players and alive players
 					if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
 
+					//Check if player is allowed, but only if not an Ai turret as those will shoot all targets
+					if(aiTurret == false && ValidatePlayer(script)) continue;
+
 					worldPos = script.WorldPos;
 				}
 				//Test for mob
-				else if (mob.TryGetComponent<MobAI>(out var mobAi))
+				else if ((aiTurret == false || CheckUnidentifiedLifeSigns) && mob.TryGetComponent<MobAI>(out var mobAi))
 				{
 					//Only target alive mobs
 					if(mobAi.IsDead) continue;
@@ -249,7 +287,7 @@ namespace Objects.Other
 				}
 				else
 				{
-					//No idea what it could be on player and Npc layer but not be a mob or player
+					//Must be allowed mob or player so dont target them
 					continue;
 				}
 
@@ -272,6 +310,87 @@ namespace Objects.Other
 
 			//No targets
 			target = null;
+		}
+
+		/// <summary>
+		/// Validate player based on settings of turret, true if player is allowed, false if player failed validation
+		/// </summary>
+		private bool ValidatePlayer(PlayerScript script)
+		{
+			//Record Checking
+			if (CheckUnidentifiedLifeSigns || CheckForArrest || CheckSecurityRecords)
+			{
+				var hasRecord = false;
+				foreach (var record in CrewManifestManager.Instance.SecurityRecords)
+				{
+					//Check to see if we have record
+					if (record.characterSettings.Name.Equals(script.visibleName) == false) continue;
+
+					//Check Security Records For Criminals
+					if (CheckSecurityRecords && record.Status == SecurityStatus.Criminal)
+					{
+						return false;
+					}
+
+					//Neutralize Identified Criminals
+					if (CheckForArrest && record.Status == SecurityStatus.Arrest)
+					{
+						return false;
+					}
+
+					hasRecord = true;
+					break;
+				}
+
+				//Neutralize All Unidentified Life Signs
+				//Unknown name check here or else it would be possible for someone to add record with the name Unknown
+				//and then wouldn't be targeted by turrets
+				if (CheckUnidentifiedLifeSigns && (hasRecord == false || script.visibleName.Equals("Unknown")))
+				{
+					return false;
+				}
+			}
+
+
+			//Neutralize All Non-Security and Non-Command Personnel
+			if (CheckUnauthorisedPersonnel)
+			{
+				if (AccessRestrictions.CheckAccess(script.gameObject, Access.heads) == false &&
+				    AccessRestrictions.CheckAccess(script.gameObject, Access.security) == false)
+				{
+					return false;
+				}
+			}
+
+			//Check for Weapon Authorization
+			if (CheckWeaponAuthorisation && script.Equipment != null)
+			{
+				if (CheckSlot(NamedSlot.rightHand) == false || CheckSlot(NamedSlot.leftHand) == false)
+				{
+					return false;
+				}
+
+				bool CheckSlot(NamedSlot slot)
+				{
+					var handItem = script.Equipment.GetClothingItem(slot);
+					if (handItem == null) return true;
+
+					if (Validations.HasItemTrait(handItem.GameObjectReference, CommonTraits.Instance.Gun))
+					{
+						//Only allow heads or security to have guns
+						//TODO maybe have a proper access which is for weapon authorisation instead
+						if (AccessRestrictions.CheckAccess(script.gameObject, Access.heads) == false &&
+						    AccessRestrictions.CheckAccess(script.gameObject, Access.security) == false)
+						{
+							return false;
+						}
+					}
+
+					return true;
+				}
+			}
+
+			return true;
 		}
 
 		private void ShootTarget()
@@ -334,6 +453,7 @@ namespace Objects.Other
 		public void ChangeBulletState(TurretState newState)
 		{
 			turretState = newState;
+			UpdateGui();
 
 			//No power or off set sprite to off state
 			if (hasPower == false || newState == TurretState.Off)
@@ -455,6 +575,12 @@ namespace Objects.Other
 
 					Chat.AddActionMsgToChat(interaction.Performer, $"You {(unlocked ? "unlock" : "lock")} the {gameObject.ExpensiveName()}",
 						$"{interaction.Performer.ExpensiveName()} {(unlocked ? "unlocks" : "locks")} the {gameObject.ExpensiveName()}");
+
+					if (unlocked == false)
+					{
+						//Force close net tab when locked
+						TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Turret, TabAction.Close);
+					}
 				}
 
 				return;
@@ -492,6 +618,26 @@ namespace Objects.Other
 			_ = Despawn.ServerSingle(gun.gameObject);
 		}
 
+		public void UpdateGui()
+		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.Turret);
+			if(peppers.Count == 0) return;
+
+			List<ElementValue> valuesToSend = new List<ElementValue>();
+
+			valuesToSend.Add(new ElementValue() { Id = "PowerLabel", Value = Encoding.UTF8.GetBytes(
+				hasPower ? turretState == TurretState.Off ? "Off" : "On" : "No Power") });
+
+			valuesToSend.Add(new ElementValue() { Id = "WeaponsLabel", Value = Encoding.UTF8.GetBytes(CheckWeaponAuthorisation ? "Yes" : "No") });
+			valuesToSend.Add(new ElementValue() { Id = "RecordLabel", Value = Encoding.UTF8.GetBytes(CheckSecurityRecords ? "Yes" : "No") });
+			valuesToSend.Add(new ElementValue() { Id = "ArrestLabel", Value = Encoding.UTF8.GetBytes(CheckForArrest ? "Yes" : "No") });
+			valuesToSend.Add(new ElementValue() { Id = "PersonnelLabel", Value = Encoding.UTF8.GetBytes(CheckUnauthorisedPersonnel ? "Yes" : "No") });
+			valuesToSend.Add(new ElementValue() { Id = "LifeSignsLabel", Value = Encoding.UTF8.GetBytes(CheckUnidentifiedLifeSigns ? "Yes" : "No") });
+
+			// Update all UI currently opened.
+			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Turret, TabAction.Update, valuesToSend.ToArray());
+		}
+
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			var message = new StringBuilder();
@@ -510,6 +656,18 @@ namespace Objects.Other
 			}
 
 			return message.ToString();
+		}
+
+		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
+		{
+			if (aiTurret == false && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai)
+			{
+				Chat.AddExamineMsgFromServer(playerObject, "Turret is locked");
+				return false;
+			}
+
+			//Only allow changing settings on non Ai turrets, as the settings only work on those
+			return aiTurret == false;
 		}
 	}
 }
