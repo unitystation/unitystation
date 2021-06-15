@@ -26,7 +26,7 @@ namespace HealthV2
 
 		public string GetFullBodyPartDamageDescReport()
 		{
-			string report = $"Analyizing damage report for {BodyPartReadableName}..";
+			string report = $"Analyizing damage report for {BodyPartReadableName}.. \n";
 
 			report += "[Open Wound Size -> ";
 			switch (currentCutSize)
@@ -45,56 +45,61 @@ namespace HealthV2
 					break;
 			}
 
-			report += $"[Wound Bleeding -> {isBleedingExternally}]";
+			report += $"[Wound Bleeding -> {isBleedingExternally}] \n";
+
+			if (CanBleedInternally)
+			{
+				report += $"[Organ is internally bleeding -> {isBleedingInternally}] \n";
+			}
 
 			if(currentCutSize != BodyPartCutSize.NONE)
 			{
-				report += "[Wound Report]\n";
+				report += "[Wound Report] \n";
 				switch (currentPierceDamageLevel)
 				{
 					case (PierceDamageLevel.SMALL):
-						report += $"{pireceDamageDescOnSMALL}\n";
+						report += $"{pireceDamageDescOnSMALL} \n";
 						break;
 					case (PierceDamageLevel.MEDIUM):
-						report += $"{pireceDamageDescOnMEDIUM}\n";
+						report += $"{pireceDamageDescOnMEDIUM} \n";
 						break;
 					case (PierceDamageLevel.LARGE):
-						report += $"{pireceDamageDescOnLARGE}\n";
+						report += $"{pireceDamageDescOnLARGE} \n";
 						break;
 					default:
-						report += $"{pireceDamageDescOnNone}]\n";
+						report += $"{pireceDamageDescOnNone}] \n";
 						break;
 				}
 				switch (currentSlashDamageLevel)
 				{
 					case (SlashDamageLevel.SMALL):
-						report += $"{slashDamageDescOnSMALL}\n";
+						report += $"{slashDamageDescOnSMALL} \n";
 						break;
 					case (SlashDamageLevel.MEDIUM):
-						report += $"{slashDamageDescOnMEDIUM}\n";
+						report += $"{slashDamageDescOnMEDIUM} \n";
 						break;
 					case (SlashDamageLevel.LARGE):
-						report += $"{slashDamageDescOnLARGE}\n";
+						report += $"{slashDamageDescOnLARGE} \n";
 						break;
 					default:
-						report += $"{slashDamageDescOnNone}]\n";
+						report += $"{slashDamageDescOnNone}] \n";
 						break;
 				}
 			}
-			report += "[Burn Damage]\n";
+			report += "[Burn Damage] \n";
 			switch (currentBurnDamageLevel)
 			{
 				case (BurnDamageLevels.MINOR):
-					report += $"{burnDamageDescOnMINOR}\n";
+					report += $"{burnDamageDescOnMINOR} \n";
 					break;
 				case (BurnDamageLevels.MAJOR):
-					report += $"{burnDamageDescOnMAJOR}\n";
+					report += $"{burnDamageDescOnMAJOR} \n";
 					break;
 				case (BurnDamageLevels.CHARRED):
-					report += $"{burnDamageDescOnCHARRED}\n";
+					report += $"{burnDamageDescOnCHARRED} \n";
 					break;
 				default:
-					report += $"{burnDamageDescOnNone}\n";
+					report += $"{burnDamageDescOnNone} \n";
 					break;
 			}
 
