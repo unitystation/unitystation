@@ -400,6 +400,10 @@ namespace HealthV2
 					DismemberBodyPartWithChance();
 				}
 			}
+			if(attackType == AttackType.Fire)
+			{
+				TakeBurnDamage(damage);
+			}
 		}
 
 
@@ -637,13 +641,17 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// The logic executed for when a body part is externally bleeding.
+		/// checks if bleeding stops on it's own over time.
+		/// </summary>
 		public IEnumerator ExternalBleedingLogic()
 		{
-			bool willCloseOnItsOwn = false;
 			if(isBleedingExternally)
 			{
 				yield break;
 			}
+			bool willCloseOnItsOwn = false;
 			isBleedingExternally = true;
 			StartCoroutine(Bleedout());
 			CheckCutSize();
@@ -733,6 +741,9 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Checks and sets what damage level this body part is on, once it becomes charred; the game displays it being charred.
+		/// </summary>
 		private void CheckBurnDamageLevels()
 		{
 			if (currentBurnDamage <= 0)
@@ -749,10 +760,25 @@ namespace HealthV2
 			}
 			if (currentBurnDamage >= 95)
 			{
+				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
+				{
+					var spritesList = Root.ImplantBaseSpritesDictionary.Values;
+					foreach (var sprites in spritesList)
+					{
+						foreach(var sprite in sprites)
+						{
+							sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
+						}
+					}
+				}
 				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
 			}
 		}
 
+		/// <summary>
+		/// Returns current burn damage
+		/// </summary>
+		/// <returns>currentBurnDamage</returns>
 		public float GetCurrentBurnDamage()
 		{
 			return currentBurnDamage;
