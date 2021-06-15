@@ -799,9 +799,10 @@ namespace HealthV2
 				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.ItemStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
-					if(item.ItemAttributes != null) //Incase this is an empty slot
+					Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
+					if(itemObject != null) //Incase this is an empty slot
 					{
-						if (item.ItemAttributes.CannotBeAshed)
+						if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
 						{
 							Inventory.ServerDrop(item);
 						}
@@ -819,9 +820,10 @@ namespace HealthV2
 				{
 					foreach (ItemSlot item in PlayerItemList)
 					{
-						if (item.ItemAttributes != null)
+						Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
+						if (itemObject != null)
 						{
-							if (item.ItemAttributes.CannotBeAshed)
+							if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
 							{
 								Inventory.ServerDrop(item);
 							}

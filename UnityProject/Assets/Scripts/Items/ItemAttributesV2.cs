@@ -146,11 +146,6 @@ namespace Items
 			set => burnDamage = value;
 		}
 
-		[Tooltip("Can this item turn into ash?"),
-		SerializeField]
-		private bool cannotBeAshed = false;
-		public bool CannotBeAshed => cannotBeAshed;
-
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]
 		[SerializeField]
 		private float throwSpeed = 2;

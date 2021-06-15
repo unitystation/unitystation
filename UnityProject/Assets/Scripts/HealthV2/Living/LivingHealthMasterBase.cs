@@ -963,7 +963,7 @@ namespace HealthV2
 		/// ---------------------------
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
-		/// Currently not implemented
+		/// Currently not fully implemented
 		///</Summary>
 		public virtual void Death()
 		{
