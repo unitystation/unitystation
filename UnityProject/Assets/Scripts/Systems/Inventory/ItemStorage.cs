@@ -161,8 +161,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
 	{
-		ItemAttributesV2 Item = InGameObject.GetComponent<ItemAttributesV2>();
-		if (Item == null) return false;
+		ItemAttributesV2 item = InGameObject.GetComponent<ItemAttributesV2>();
+		if (item == null) return false;
 		IEnumerable<ItemSlot> slots = GetItemSlots();
 		HealthV2.BodyPart mobHealth = InGameObject.GetComponent<HealthV2.BodyPart>();
 		foreach (var slot in slots)
