@@ -62,7 +62,7 @@ namespace UI.Objects
 				if(module is BoltsModule bolts)
 				{
 					//Toggle bolts
-					bolts.SetBoltsState(!bolts.BoltsDown);;
+					bolts.SetBoltsState(!bolts.BoltsDown);
 					return;
 				}
 			}
