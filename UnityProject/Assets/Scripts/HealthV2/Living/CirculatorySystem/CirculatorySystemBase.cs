@@ -53,17 +53,7 @@ namespace HealthV2
 		{
 			var bloodLoss = new ReagentMix();
 			ReadyBloodPool.TransferTo(bloodLoss, amount);
-
-			if(amount > 12)
-			{
-				MatrixManager.ReagentReact(bloodLoss, healthMaster.gameObject.RegisterTile().WorldPositionServer);
-				//EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red, bloodLoss);
-			}
-			else
-			{
-				MatrixManager.ReagentReact(bloodLoss, healthMaster.gameObject.RegisterTile().WorldPositionServer);
-				//EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red, bloodLoss);
-			}
+			MatrixManager.ReagentReact(bloodLoss, healthMaster.gameObject.RegisterTile().WorldPositionServer);
 		}
 	}
 }

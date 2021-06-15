@@ -189,7 +189,7 @@ namespace HealthV2
 
 				if (isServer)
 				{
-					EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
+					//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
 					string their = null;
 					if (player != null)
 					{
