@@ -689,7 +689,7 @@ namespace HealthV2
 			while(isBleedingExternally)
 			{
 				yield return WaitFor.Seconds(4f);
-				if(healthMaster != null || healthMaster.CirculatorySystem != null) //This is to prevent rare moments where body parts still attempt to bleed when they no longer should.
+				if(Root.ContainsLimbs.Contains(this) != false) //This is to prevent rare moments where body parts still attempt to bleed when they no longer should.
 				{
 					healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
 				}
