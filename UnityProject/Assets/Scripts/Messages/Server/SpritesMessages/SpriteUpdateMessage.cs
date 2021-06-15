@@ -138,7 +138,7 @@ namespace Messages.Server.SpritesMessages
 
 		public static void SendToAll(Dictionary<SpriteHandler, SpriteHandlerManager.SpriteChange> toSend)
 		{
-			foreach (var changeChunk in toSend.Chunk(500))
+			foreach (var changeChunk in toSend.Chunk(400))
 			{
 				var msg = GenerateMessage(changeChunk);
 				SendToAll(msg);
