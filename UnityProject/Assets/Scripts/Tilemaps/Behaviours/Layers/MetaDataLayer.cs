@@ -113,7 +113,6 @@ public class MetaDataLayer : MonoBehaviour
 		//Find all reagents on this tile (including current reagent) 
 		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
 		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
-		
 
 		for (var i = 0; i < existingSplats.Count; i++)
 		{
@@ -122,7 +121,6 @@ public class MetaDataLayer : MonoBehaviour
 				existingSplat = existingSplats[i];
 			}
 		}
-
 
 		//Loop though all reagent containers and add the passed in reagents
 		foreach (ReagentContainer chem in reagentContainer)
@@ -134,7 +132,6 @@ public class MetaDataLayer : MonoBehaviour
 			}
 			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
 		}
-
 
 		if(reagents.Total > 0)
 		{
@@ -188,26 +185,15 @@ public class MetaDataLayer : MonoBehaviour
 					Paintsplat(worldPosInt, localPosInt, reagents);
 				}
 			}
-			
 		}
 	}
 
 	public void PaintBlood(Vector3Int worldPosInt, ReagentMix reagents)
 	{
-		//IS there already a regaent here?
-		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
-
-		for (var i = 0; i < reagentContainer.Count; i++)
-		{
-			Debug.Log(reagentContainer[i].ReagentMixTotal);
-		}
-
-		//switch (reagents.Total)
 		EffectsFactory.BloodSplat(worldPosInt, reagents);
-
 		BloodDry(worldPosInt);
-
 	}
+
 	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, ReagentMix reagents)
 	{
 		switch (ChemistryUtils.GetMixStateDescription(reagents))
@@ -233,6 +219,7 @@ public class MetaDataLayer : MonoBehaviour
 			}
 		}
 	}
+
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
 		Get(localPosInt).IsSlippery = false;
@@ -255,6 +242,7 @@ public class MetaDataLayer : MonoBehaviour
 			MakeSlipperyAt(localPosInt);
 		}
 	}
+
 	public void BloodDry(Vector3Int position)
 	{
 		var tile = Get(position, false);
@@ -271,10 +259,11 @@ public class MetaDataLayer : MonoBehaviour
 		StartCoroutine(tile.CurrentDrying);
 		
 	}
+
 	private IEnumerator BloodDryUp(MetaDataNode tile)
 	{
 		//Blood should take 3 mins to dry (TG STATION)
-		yield return WaitFor.Seconds(Random.Range(170, 190));
+		yield return WaitFor.Seconds(180);
 		tile.IsSlippery = false;
 
 		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
@@ -283,6 +272,7 @@ public class MetaDataLayer : MonoBehaviour
 			if (decal.isBlood)
 			{
 				decal.color = new Color(decal.color.r / 2, decal.color.g / 2, decal.color.b / 2, decal.color.a);
+				decal.name = $"dried {decal.name}";
 			}
 		}
 	}
