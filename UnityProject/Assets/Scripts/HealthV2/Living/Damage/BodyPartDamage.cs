@@ -803,7 +803,7 @@ namespace HealthV2
 					{
 						if (item.ItemAttributes.CannotBeAshed)
 						{
-							Inventory.ServerDespawn(item);
+							Inventory.ServerDrop(item);
 						}
 					}
 					var organ = item.ItemObject?.GetComponent<BodyPart>();
