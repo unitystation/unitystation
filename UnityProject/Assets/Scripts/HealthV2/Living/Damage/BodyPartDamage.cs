@@ -138,7 +138,7 @@ namespace HealthV2
 		private float currentPierceDamage   = 0;
 		private float currentBurnDamage     = 0;
 
-		[SerializeField] private float bodyPartAshesAboveThisDamage = 10;
+		[SerializeField] private float bodyPartAshesAboveThisDamage = 125;
 		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
 
 		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;

@@ -170,11 +170,9 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			{
 				if(mobHealth != null)
 				{
-					Debug.Log("health found");
 					if(mobHealth.GetCurrentBurnDamage() > mobHealth.BodyPartAshesAboveThisDamage)
 					{
-						Debug.Log("TIME TO GET ASHED MOTHER FUCKER");
-						_ = Spawn.ServerPrefab(ashPrefab, Item.gameObject.RegisterTile().WorldPosition);
+						_ = Spawn.ServerPrefab(ashPrefab, mobHealth.HealthMaster.gameObject.RegisterTile().WorldPosition);
 						_ = Despawn.ServerSingle(slot.Item.gameObject);
 						return true;
 					}
