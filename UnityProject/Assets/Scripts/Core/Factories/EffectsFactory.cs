@@ -40,24 +40,35 @@ public static class EffectsFactory
 	{
 		EnsureInit();
 
-		var chosenTile = new GameObject();
+		GameObject chosenTile;
+		string sizeDesc;
+
 
 		if (bloodReagents.Total < 0.1f)
 		{
 			chosenTile = smallBloodTile;
+			sizeDesc = "drop";
 		}
 		else if(bloodReagents.Total > 0.1f && bloodReagents.Total < 0.3f)
 		{
 			chosenTile = mediumBloodTile;
+			sizeDesc = "splat";
 		}
 		else
 		{
 			chosenTile = largeBloodTile;
+			sizeDesc = "pool";
 		}
 
 		var bloodTileInst = Spawn.ServerPrefab(chosenTile, worldPos, MatrixManager.AtPoint(worldPos.CutToInt(), true).Objects, Quaternion.identity);
 		if (bloodTileInst.Successful)
 		{
+			var colorDesc = TextUtils.ColorToString(bloodReagents.MixColor);
+			var stateDesc = ChemistryUtils.GetMixStateDescription(bloodReagents);
+
+			bloodTileInst.GameObject.name = $"{colorDesc} blood {sizeDesc}";
+
+
 			var bloodTileGO = bloodTileInst.GameObject;
 			var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
 			if (bloodTileGO)
@@ -95,6 +106,11 @@ public static class EffectsFactory
 		{
 			var chemTileGO = chemTileInst.GameObject;
 			var tileReagents = chemTileGO.GetComponent<ReagentContainer>();
+
+			var colorDesc = TextUtils.ColorToString(reagents.MixColor);
+			var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
+			chemTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
+
 			if (chemTileGO)
 			{
 				var decal = chemTileGO.GetComponent<FloorDecal>();
@@ -114,10 +130,16 @@ public static class EffectsFactory
 	{
 		EnsureInit();
 		var powderTileInst = Spawn.ServerPrefab(powderTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+
 		if (powderTileInst.Successful)
 		{
 			var powderTileGO = powderTileInst.GameObject;
 			var tileReagents = powderTileGO.GetComponent<ReagentContainer>();
+
+			var colorDesc = TextUtils.ColorToString(reagents.MixColor);
+			var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
+			powderTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
+
 			if (powderTileGO)
 			{
 				var decal = powderTileGO.GetComponent<FloorDecal>();
