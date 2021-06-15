@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5590053673681855753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2689983249500970802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3a4d93919206aa40bad0e7a3e0bb835, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  LivingHealthMasterBase: {fileID: 0}
-  InitiateSurgeryItemTraits: []
 --- !u!1001 &9185682862828390235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -255,9 +239,3 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}
---- !u!1 &2689983249500970802 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6498312071342856297, guid: 51326f2264a075148a8aaa6bf95604c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 9185682862828390235}
-  m_PrefabAsset: {fileID: 0}

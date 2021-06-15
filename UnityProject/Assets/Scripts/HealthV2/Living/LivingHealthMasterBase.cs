@@ -740,11 +740,11 @@ namespace HealthV2
 		{
 			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
 				foreach (var bodyPartContainer in RootBodyPartContainers)
 				{
 					if (bodyPartContainer.BodyPartType == aimedBodyPart)
 					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
 						bodyPartContainer.TakeSlashDamage(damage);
 					}
 				}
@@ -755,11 +755,11 @@ namespace HealthV2
 		{
 			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
 				foreach (var bodyPartContainer in RootBodyPartContainers)
 				{
 					if (bodyPartContainer.BodyPartType == aimedBodyPart)
 					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
 						bodyPartContainer.TakePierceDamage(damage);
 					}
 				}

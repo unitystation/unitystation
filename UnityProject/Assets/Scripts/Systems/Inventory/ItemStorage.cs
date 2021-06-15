@@ -80,6 +80,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	private SpawnInfo spawnInfo;
 
 	[SerializeField] private GameObject ashPrefab;
+	public GameObject AshPrefab => ashPrefab;
 
 	private void Awake()
 	{

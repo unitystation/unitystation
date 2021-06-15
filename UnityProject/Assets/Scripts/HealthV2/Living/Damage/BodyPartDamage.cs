@@ -758,7 +758,7 @@ namespace HealthV2
 			{
 				currentBurnDamageLevel = BurnDamageLevels.MAJOR;
 			}
-			if (currentBurnDamage >= 95)
+			if (currentBurnDamage >= 75)
 			{
 				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
 				{
@@ -772,6 +772,41 @@ namespace HealthV2
 					}
 				}
 				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
+				AshBodyPart();
+			}
+		}
+
+		private void AshBodyPart()
+		{
+			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
+			{
+				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
+				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.ItemStorage.GetItemSlots();
+				foreach(ItemSlot item in internalItemList)
+				{
+					if(item.ItemAttributes != null) //Incase this is an empty slot
+					{
+						if (item.ItemAttributes.CannotBeAshed)
+						{
+							Inventory.ServerDespawn(item);
+						}
+					}
+				}
+				if(PlayerItemList != null) //In case this is not a player
+				{
+					foreach (ItemSlot item in PlayerItemList)
+					{
+						if (item.ItemAttributes != null)
+						{
+							if (item.ItemAttributes.CannotBeAshed)
+							{
+								Inventory.ServerDespawn(item);
+							}
+						}
+					}
+				}
+				_ = Spawn.ServerPrefab(Storage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
+				_ = Despawn.ServerSingle(this.gameObject);
 			}
 		}
 
