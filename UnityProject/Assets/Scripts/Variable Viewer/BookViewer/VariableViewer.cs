@@ -821,10 +821,6 @@ public static class Librarian
 				libraryBookShelf.Parent = _Parent;
 				if (_Parent != null)
 				{
-					if (library.TransformToBookShelves.ContainsKey(_Parent) == false)
-					{
-						Logger.Log("man");
-					}
 					library.TransformToBookShelves[_Parent].InternalContain.Add(libraryBookShelf);
 				}
 
@@ -844,10 +840,6 @@ public static class Librarian
 				Parent = Shelf.transform.parent;
 				if (Shelf.transform.parent != null)
 				{
-					if (library.TransformToBookShelves.ContainsKey(Shelf.transform.parent) == false)
-					{
-						Logger.Log("oh man~");
-					}
 					library.TransformToBookShelves[Shelf.transform.parent].InternalContain.Add(this);
 				}
 
