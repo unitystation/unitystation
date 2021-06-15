@@ -94,6 +94,8 @@ namespace Systems.Ai
 		{
 			if(moveActions.moveActions.Length == 0) return;
 
+			if(UIManager.IsInputFocus) return;
+
 			if (moveCoolDown) return;
 			moveCoolDown = true;
 
