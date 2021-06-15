@@ -138,6 +138,9 @@ namespace HealthV2
 		private float currentPierceDamage   = 0;
 		private float currentBurnDamage     = 0;
 
+		[SerializeField] private float bodyPartAshesAboveThisDamage = 10;
+		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
+
 		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
 		private SlashDamageLevel currentSlashDamageLevel = SlashDamageLevel.NONE;
 		private BurnDamageLevels currentBurnDamageLevel = BurnDamageLevels.NONE;
@@ -298,7 +301,8 @@ namespace HealthV2
 		public enum TramuticDamageTypes 
 		{
 			SLASH,
-			PIERCE
+			PIERCE,
+			BURN
 		}
 
 		public void DamageInitialisation()
@@ -527,30 +531,32 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Applies slash damage to the body part, checks if it has enough protective armor to cancel the slash damage
+		/// Applies trauma damage to the body part, checks if it has enough protective armor to cancel the trauma damage
 		/// and automatically checks how big is the body part's cut size.
 		/// </summary>
-		public void ApplyCutSizeLogic(float cutDamage, TramuticDamageTypes damageType = TramuticDamageTypes.SLASH)
+		public void ApplyTraumaDamage(float tramuaDamage, TramuticDamageTypes damageType = TramuticDamageTypes.SLASH)
 		{
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if(damageType == TramuticDamageTypes.SLASH){currentSlashCutDamage += cutDamage;}
-				if(damageType == TramuticDamageTypes.PIERCE){currentPierceDamage += cutDamage;}
+				if(damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += tramuaDamage; }
+				if(damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += tramuaDamage; }
+				CheckCutSize();
 			}
-			CheckCutSize();
+			//Burn damage checks for it's own armor damage type.
+			if (damageType == TramuticDamageTypes.BURN) { TakeBurnDamage(tramuaDamage); }
 		}
 
 		[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
-			ApplyCutSizeLogic(25);
+			ApplyTraumaDamage(25);
 		}
 
 		[ContextMenu("Debug - Apply 25 Pierce Damage")]
 		private void DEBUG_ApplyTestPierce()
 		{
-			ApplyCutSizeLogic(25, TramuticDamageTypes.PIERCE);
+			ApplyTraumaDamage(25, TramuticDamageTypes.PIERCE);
 		}
 
 		/// <summary>
@@ -664,7 +670,10 @@ namespace HealthV2
 			while(isBleedingExternally)
 			{
 				yield return WaitFor.Seconds(4f);
-				healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
+				if(healthMaster != null || healthMaster.CirculatorySystem != null) //This is to prevent rare moments where body parts still attempt to bleed when they no longer should.
+				{
+					healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
+				}
 			}
 		}
 
@@ -742,6 +751,11 @@ namespace HealthV2
 			{
 				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
 			}
+		}
+
+		public float GetCurrentBurnDamage()
+		{
+			return currentBurnDamage;
 		}
 
 		/// <summary>

@@ -79,6 +79,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	private SpawnInfo spawnInfo;
 
+	[SerializeField] private GameObject ashPrefab;
+
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -158,13 +160,25 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
 	{
-		var Item = InGameObject.GetComponent<ItemAttributesV2>();
+		ItemAttributesV2 Item = InGameObject.GetComponent<ItemAttributesV2>();
 		if (Item == null) return false;
-		var slots = GetItemSlots();
+		IEnumerable<ItemSlot> slots = GetItemSlots();
+		HealthV2.BodyPart mobHealth = InGameObject.GetComponent<HealthV2.BodyPart>();
 		foreach (var slot in slots)
 		{
 			if (slot.Item.OrNull()?.gameObject == InGameObject)
 			{
+				if(mobHealth != null)
+				{
+					Debug.Log("health found");
+					if(mobHealth.GetCurrentBurnDamage() > mobHealth.BodyPartAshesAboveThisDamage)
+					{
+						Debug.Log("TIME TO GET ASHED MOTHER FUCKER");
+						_ = Spawn.ServerPrefab(ashPrefab, Item.gameObject.RegisterTile().WorldPosition);
+						_ = Despawn.ServerSingle(slot.Item.gameObject);
+						return true;
+					}
+				}
 				if (Destroy)
 				{
 					return Inventory.ServerDespawn(slot);
@@ -174,7 +188,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 					return Inventory.ServerDrop(slot);
 
 				}
-
 			}
 		}
 

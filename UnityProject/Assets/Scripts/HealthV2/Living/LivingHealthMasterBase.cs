@@ -766,6 +766,17 @@ namespace HealthV2
 			}
 		}
 
+		public virtual void ApplyBurnDamage(BodyPartType aimedBodyPart, float damage)
+		{
+			foreach (var bodyPartContainer in RootBodyPartContainers)
+			{
+				if (bodyPartContainer.BodyPartType == aimedBodyPart)
+				{
+					bodyPartContainer.TakeBurnDamage(damage);
+				}
+			}
+		}
+
 		/// <summary>
 		/// Gets all body parts in a zone targetable by the UI (head, chest, left arm, etc)
 		/// </summary>

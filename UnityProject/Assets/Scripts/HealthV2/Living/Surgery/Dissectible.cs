@@ -335,7 +335,6 @@ namespace HealthV2
 
 				ThisSurgeryStep = SurgeryProcedureBase.SurgerySteps[CurrentStep];
 
-
 				if (ThisSurgeryStep != null)
 				{
 					if (Validations.HasItemTrait(interaction.HandObject, ThisSurgeryStep.RequiredTrait))
@@ -426,6 +425,11 @@ namespace HealthV2
 				SurgeryProcedureBase = inSurgeryProcedureBase;
 			}
 
+			/// <summary>
+			/// Replaces $ tags with their wanted names.
+			/// </summary>
+			/// <param name="toReplace">must have performer, Using and/or OnPart tags to replace.</param>
+			/// <returns></returns>
 			public string ApplyChatModifiers(string toReplace)
 			{
 				if (!string.IsNullOrWhiteSpace(toReplace))

@@ -140,6 +140,9 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
+		/// <summary>
+		/// What is this BodyPart's sprite's tone if it shared a skin tone with the player?
+		/// </summary>
 		[HideInInspector] public Color Tone = Color.white;
 
 		[System.NonSerialized]
@@ -303,7 +306,7 @@ namespace HealthV2
 		public virtual void RemoveFromBodyThis()
 		{
 			BodyPartRemovalChecks();
-			var parent = this.GetParent();
+			RootBodyPartContainer parent = this.GetParent();
 			if (parent != null)
 			{
 				parent.RemoveSpecifiedFromThis(this.gameObject);
