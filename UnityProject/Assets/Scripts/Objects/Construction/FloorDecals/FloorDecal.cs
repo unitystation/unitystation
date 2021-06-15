@@ -21,6 +21,8 @@ namespace Objects.Construction
 
 		public bool CanDryUp = false;
 
+		public bool isBlood = false;
+
 		[SyncVar(hook = "OnColorChanged")]
 		[HideInInspector]
 		public Color color;

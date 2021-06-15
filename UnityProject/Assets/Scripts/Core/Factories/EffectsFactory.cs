@@ -23,6 +23,7 @@ public static class EffectsFactory
 		if (smallBloodTile == null)
 		{
 			//Do init stuff
+			//TODO: Make only ONE bloodTile prefab that can handel all sizes.
 			smallBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallBloodSplat");
 			mediumBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MediumBloodSplat");
 			largeBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeBloodSplat");
@@ -35,77 +36,39 @@ public static class EffectsFactory
 		}
 	}
 
-	public static void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize, BloodSplatType bloodColorType, ReagentMix bloodReagents)
+	public static void BloodSplat(Vector3 worldPos, ReagentMix bloodReagents = default, BloodSplatSize splatSize = default, BloodSplatType bloodColorType = default)
 	{
 		EnsureInit();
-		GameObject chosenTile = null;
 
-		if (chosenTile != null)
+		var chosenTile = new GameObject();
+
+		if (bloodReagents.Total < 0.1f)
 		{
-			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
-			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
-			{
-				var bloodtile = Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
-
-				if (bloodtile.Successful)
-				{
-					var bloodTileGO = bloodtile.GameObject;
-					var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
-					if (bloodReagents != null)
-					{
-						tileReagents.Add(bloodReagents);
-					}
-					var decal = bloodTileGO.GetComponent<FloorDecal>();
-					if (decal)
-					{
-						decal.color = new Color(bloodReagents.MixColor.r, bloodReagents.MixColor.g, bloodReagents.MixColor.b);
-					}
-				}
-			}
+			chosenTile = smallBloodTile;
+		}
+		else if(bloodReagents.Total > 0.1f && bloodReagents.Total < 0.3f)
+		{
+			chosenTile = mediumBloodTile;
+		}
+		else
+		{
+			chosenTile = largeBloodTile;
 		}
 
-
-
-		switch (bloodColorType)
+		var bloodTileInst = Spawn.ServerPrefab(chosenTile, worldPos, MatrixManager.AtPoint(worldPos.CutToInt(), true).Objects, Quaternion.identity);
+		if (bloodTileInst.Successful)
 		{
-			case BloodSplatType.red:
-				switch (splatSize)
+			var bloodTileGO = bloodTileInst.GameObject;
+			var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
+			if (bloodTileGO)
+			{
+				var decal = bloodTileGO.GetComponent<FloorDecal>();
+				if (decal)
 				{
-					case BloodSplatSize.small:
-						chosenTile = smallBloodTile;
-						break;
-					case BloodSplatSize.medium:
-						chosenTile = mediumBloodTile;
-						break;
-					case BloodSplatSize.large:
-						chosenTile = largeBloodTile;
-						break;
-					case BloodSplatSize.Random:
-						int rand = Random.Range(0, 3);
-						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType, bloodReagents);
-						return;
+					decal.color = bloodReagents.MixColor;
+					tileReagents.Add(bloodReagents);
 				}
-				break;
-			case BloodSplatType.green:
-				switch (splatSize)
-				{
-					case BloodSplatSize.small:
-						chosenTile = smallXenoBloodTile;
-						break;
-					case BloodSplatSize.medium:
-						chosenTile = medXenoBloodTile;
-						break;
-					case BloodSplatSize.large:
-						chosenTile = largeXenoBloodTile;
-						break;
-					case BloodSplatSize.Random:
-						int rand = Random.Range(0, 3);
-						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType, bloodReagents);
-						return;
-				}
-				break;
-			case BloodSplatType.none:
-						return;
+			}
 		}
 	}
 

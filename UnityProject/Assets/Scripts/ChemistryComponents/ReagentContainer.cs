@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Items;
+using Items.Others;
 using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.Events;
@@ -438,13 +439,24 @@ namespace Chemistry.Components
 
 		public void ServerPerformInteraction(ContextMenuApply interaction)
 		{
+			var eyeItem = interaction.Performer.GetComponent<Equipment>().GetClothingItem(NamedSlot.eyes).GameObjectReference;
 			switch (interaction.RequestedOption)
 			{
 				case "Contents":
-					// I think some condition should be met before the user knows what the exact contents of a container are.
-					// Wearing science goggles?
-					ExamineContents();
-					break;
+					{
+						if (eyeItem)
+						{
+							if (!Validations.HasItemTrait(eyeItem, CommonTraits.Instance.ScienceScan))
+							{
+								eyeItem.GetComponent<ReagentScanner>().doScan(interaction.Performer.gameObject, this.gameObject);
+							}
+						}
+						else
+						{
+							ExamineContents();
+						}
+						break;
+					}
 				case "PourOut":
 					SpillAll();
 					break;
