@@ -19,7 +19,8 @@ public class UIManager : MonoBehaviour, IInitialise
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
-	public BookshelfViewer BookshelfViewer;
+	public UI_BooksInBookshelf UI_BooksInBookshelf;
+	public LibraryUI LibraryUI;
 	public GUI_TextInputDialog TextInputDialog;
 	public ControlAction actionControl;
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;

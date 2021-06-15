@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelatedPart: {fileID: 0}
   StomachContents: {fileID: 2660474701404190820}
   DigesterAmountPerSecond: 1
   BodyFats: []
@@ -40,11 +39,13 @@ MonoBehaviour:
   transferAmount: 20
   maxCapacity: 100
   reactionSet: {fileID: 0}
+  AdditionalReactions: []
   initialReagentMix:
     temperature: 273.15
     reagents:
       m_keys: []
       m_values: []
+    reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
 --- !u!1001 &7132720453719274872
@@ -155,6 +156,21 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyPartType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CanBleedInternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}

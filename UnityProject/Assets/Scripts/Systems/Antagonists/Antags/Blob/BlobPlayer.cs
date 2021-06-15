@@ -562,8 +562,6 @@ namespace Blob
 		[Command]
 		public void CmdTryPlaceBlobOrAttack(Vector3Int worldPos)
 		{
-			worldPos.z = 0;
-
 			//Whether player can click anywhere, or if when they click it treats it as if they clicked the tile they're
 			//standing on (or around since validation checks adjacent)
 			if (!clickCoords)
@@ -938,8 +936,6 @@ namespace Blob
 		[Command]
 		public void CmdTryPlaceStrongReflective(Vector3Int worldPos)
 		{
-			worldPos.z = 0;
-
 			if (!ValidateAction(worldPos)) return;
 
 			if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
@@ -994,8 +990,6 @@ namespace Blob
 		[Command]
 		public void CmdTryPlaceOther(Vector3Int worldPos, BlobConstructs blobConstructs)
 		{
-			worldPos.z = 0;
-
 			if (!ValidateAction(worldPos)) return;
 
 			if (MatrixManager.IsSpaceAt(worldPos, true))
@@ -1119,8 +1113,6 @@ namespace Blob
 		[Command]
 		public void CmdRemoveBlob(Vector3Int worldPos)
 		{
-			worldPos.z = 0;
-
 			InternalRemoveBlob(worldPos);
 		}
 
@@ -1284,8 +1276,6 @@ namespace Blob
 		[Command]
 		public void CmdMoveCore(Vector3Int worldPos)
 		{
-			worldPos.z = 0;
-
 			if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 			{
 				SwitchCore(blob);

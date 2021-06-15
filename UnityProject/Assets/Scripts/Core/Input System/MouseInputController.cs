@@ -358,10 +358,8 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			// check empty space positional hand apply
-			var posHandApply = PositionalHandApply.ByLocalPlayer(MatrixManager
-				.AtPoint(
-					(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
-					 PlayerManager.LocalPlayer.transform.position).RoundToInt(), false).GameObject.transform.parent.gameObject);
+			var mousePos = MouseUtils.MouseToWorldPos().RoundToInt();
+			var posHandApply = PositionalHandApply.ByLocalPlayer(MatrixManager.AtPoint(mousePos, false).GameObject.transform.parent.gameObject);
 			if (posHandApply.HandObject != null)
 			{
 				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()

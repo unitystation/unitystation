@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fae19aae8ddc974c84a11abe4f1279e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelatedPart: {fileID: 0}
   breatheCooldown: 4
   pressureSafeMin: 16
   LungSize: 6
+  coughChanceWhenInternallyBleeding: 35
+  internalBleedingCooldown: 4
 --- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,6 +135,16 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyPartType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CanBleedInternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maximumInternalBleedDamage
+      value: 165
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

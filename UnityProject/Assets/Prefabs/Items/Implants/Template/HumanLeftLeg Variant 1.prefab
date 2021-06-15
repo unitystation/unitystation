@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: CanBleedExternally
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_AssetId
@@ -70,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_Name
-      value: HumanLeftLeg Variant
+      value: HumanLeftLeg Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 2856768839702850670, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
