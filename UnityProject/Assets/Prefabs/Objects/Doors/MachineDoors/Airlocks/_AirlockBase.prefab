@@ -804,18 +804,31 @@ MonoBehaviour:
   needsClosedToLight: 1
   boltsUpSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/Doors/AirlockBoltUp.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   boltsDownSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/Doors/AirlockBoltDown.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+--- !u!114 &-2169664583946153626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 42
 --- !u!114 &2243806384905767094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,19 +899,6 @@ MonoBehaviour:
   maxTimeOpen: 5
   blockAutoClose: 0
   isWindowedDoor: 0
---- !u!114 &-2169664583946153626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8248341723222571775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 42
 --- !u!1001 &3511082394880060143
 PrefabInstance:
   m_ObjectHideFlags: 0
