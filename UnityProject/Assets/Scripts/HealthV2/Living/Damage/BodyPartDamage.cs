@@ -131,11 +131,19 @@ namespace HealthV2
 
 		private float currentInternalBleedingDamage = 0;
 
+		[SerializeField]
+		private Color bodyPartColorWhenCharred = Color.black;
+
 		private float currentSlashCutDamage = 0;
-		private float currentPierceDamage = 0;
+		private float currentPierceDamage   = 0;
+		private float currentBurnDamage     = 0;
+
+		[SerializeField] private float bodyPartAshesAboveThisDamage = 125;
+		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
 
 		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
 		private SlashDamageLevel currentSlashDamageLevel = SlashDamageLevel.NONE;
+		private BurnDamageLevels currentBurnDamageLevel = BurnDamageLevels.NONE;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -258,7 +266,7 @@ namespace HealthV2
 			}
 		}
 
-		enum BodyPartCutSize
+		public enum BodyPartCutSize
 		{
 			NONE,
 			SMALL,
@@ -266,7 +274,7 @@ namespace HealthV2
 			LARGE
 		}
 
-		enum PierceDamageLevel
+		public enum PierceDamageLevel
 		{
 			NONE,
 			SMALL,
@@ -274,7 +282,7 @@ namespace HealthV2
 			LARGE
 		}
 
-		enum SlashDamageLevel
+		public enum SlashDamageLevel
 		{
 			NONE,
 			SMALL,
@@ -282,7 +290,7 @@ namespace HealthV2
 			LARGE
 		}
 
-		enum BurnDamageLevels
+		public enum BurnDamageLevels
 		{
 			NONE,
 			MINOR,
@@ -293,7 +301,8 @@ namespace HealthV2
 		public enum TramuticDamageTypes 
 		{
 			SLASH,
-			PIERCE
+			PIERCE,
+			BURN
 		}
 
 		public void DamageInitialisation()
@@ -390,6 +399,10 @@ namespace HealthV2
 				{
 					DismemberBodyPartWithChance();
 				}
+			}
+			if(attackType == AttackType.Fire)
+			{
+				TakeBurnDamage(damage);
 			}
 		}
 
@@ -522,30 +535,43 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Applies slash damage to the body part, checks if it has enough protective armor to cancel the slash damage
+		/// Applies trauma damage to the body part, checks if it has enough protective armor to cancel the trauma damage
 		/// and automatically checks how big is the body part's cut size.
 		/// </summary>
-		public void ApplyCutSizeLogic(float cutDamage, TramuticDamageTypes damageType = TramuticDamageTypes.SLASH)
+		public void ApplyTraumaDamage(float tramuaDamage, TramuticDamageTypes damageType = TramuticDamageTypes.SLASH)
 		{
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if(damageType == TramuticDamageTypes.SLASH){currentSlashCutDamage += cutDamage;}
-				if(damageType == TramuticDamageTypes.PIERCE){currentPierceDamage += cutDamage;}
+				if(damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += tramuaDamage; }
+				if(damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += tramuaDamage; }
+				CheckCutSize();
 			}
-			CheckCutSize();
+			//Burn damage checks for it's own armor damage type.
+			if (damageType == TramuticDamageTypes.BURN)
+			{
+				//Large cuts and parts in terrible condition means less protective flesh against fire.
+				if(currentSlashDamageLevel == SlashDamageLevel.LARGE || Severity >= DamageSeverity.Critical)
+				{
+					TakeBurnDamage(tramuaDamage * 1.25f);
+				}
+				else
+				{
+					TakeBurnDamage(tramuaDamage);
+				}
+			}
 		}
 
 		[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
-			ApplyCutSizeLogic(25);
+			ApplyTraumaDamage(25);
 		}
 
 		[ContextMenu("Debug - Apply 25 Pierce Damage")]
 		private void DEBUG_ApplyTestPierce()
 		{
-			ApplyCutSizeLogic(25, TramuticDamageTypes.PIERCE);
+			ApplyTraumaDamage(25, TramuticDamageTypes.PIERCE);
 		}
 
 		/// <summary>
@@ -626,13 +652,17 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// The logic executed for when a body part is externally bleeding.
+		/// checks if bleeding stops on it's own over time.
+		/// </summary>
 		public IEnumerator ExternalBleedingLogic()
 		{
-			bool willCloseOnItsOwn = false;
 			if(isBleedingExternally)
 			{
 				yield break;
 			}
+			bool willCloseOnItsOwn = false;
 			isBleedingExternally = true;
 			StartCoroutine(Bleedout());
 			CheckCutSize();
@@ -659,7 +689,10 @@ namespace HealthV2
 			while(isBleedingExternally)
 			{
 				yield return WaitFor.Seconds(4f);
-				healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
+				if(Root.ContainsLimbs.Contains(this) != false) //This is to prevent rare moments where body parts still attempt to bleed when they no longer should.
+				{
+					healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
+				}
 			}
 		}
 
@@ -708,6 +741,115 @@ namespace HealthV2
 			{
 				RemoveFromBodyThis();
 			}
+		}
+
+		private void TakeBurnDamage(float burnDamage)
+		{
+			if(SelfArmor.Fire < burnDamage)
+			{
+				currentBurnDamage += burnDamage;
+				CheckBurnDamageLevels();
+			}
+		}
+
+		/// <summary>
+		/// Checks and sets what damage level this body part is on, once it becomes charred; the game displays it being charred.
+		/// </summary>
+		private void CheckBurnDamageLevels()
+		{
+			if (currentBurnDamage <= 0)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.NONE;
+			}
+			if (currentBurnDamage >= 25)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.MINOR;
+			}
+			if (currentBurnDamage >= 50)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.MAJOR;
+			}
+			if (currentBurnDamage >= 75)
+			{
+				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
+				{
+					var spritesList = Root.ImplantBaseSpritesDictionary.Values;
+					foreach (var sprites in spritesList)
+					{
+						foreach(var sprite in sprites)
+						{
+							sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
+						}
+					}
+				}
+				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
+				AshBodyPart();
+			}
+		}
+
+
+		/// <summary>
+		/// Turns this body part into ash while protecting items inside of that cannot be ashed.
+		/// </summary>
+		private void AshBodyPart()
+		{
+			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
+			{
+				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
+				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.ItemStorage.GetItemSlots();
+				foreach(ItemSlot item in internalItemList)
+				{
+					Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
+					if(itemObject != null) //Incase this is an empty slot
+					{
+						if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
+						{
+							Inventory.ServerDrop(item);
+						}
+					}
+					var organ = item.ItemObject?.GetComponent<BodyPart>();
+					if (organ != null)
+					{
+						if (organ.DeathOnRemoval)
+						{
+							HealthMaster.Death();
+						}
+					}
+				}
+				if(PlayerItemList != null) //In case this is not a player
+				{
+					foreach (ItemSlot item in PlayerItemList)
+					{
+						Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
+						if (itemObject != null)
+						{
+							if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
+							{
+								Inventory.ServerDrop(item);
+							}
+							else
+							{
+								Inventory.ServerDespawn(item);
+							}
+						}
+					}
+				}
+				if (DeathOnRemoval)
+				{
+					healthMaster.Death();
+				}
+				_ = Spawn.ServerPrefab(Storage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
+				_ = Despawn.ServerSingle(this.gameObject);
+			}
+		}
+
+		/// <summary>
+		/// Returns current burn damage
+		/// </summary>
+		/// <returns>currentBurnDamage</returns>
+		public float GetCurrentBurnDamage()
+		{
+			return currentBurnDamage;
 		}
 
 		/// <summary>

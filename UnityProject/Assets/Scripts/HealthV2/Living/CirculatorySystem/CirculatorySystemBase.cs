@@ -52,7 +52,7 @@ namespace HealthV2
 		public void Bleed(float amount)
 		{
 			ReadyBloodPool.Take(amount);
-			if(amount > 12)
+			if(amount > 8)
 			{
 				EffectsFactory.BloodSplat(healthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
 			}
