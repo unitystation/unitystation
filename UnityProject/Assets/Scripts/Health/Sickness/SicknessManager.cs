@@ -40,15 +40,11 @@ namespace Health.Sickness
 
 		private void OnEnable()
 		{
-			if(NetworkServer.active == false) return;
-
 			UpdateManager.Add(SicknessUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
-			if(NetworkServer.active == false) return;
-
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
 		}
 
@@ -69,6 +65,8 @@ namespace Health.Sickness
 		//Server side only
 		private void SicknessUpdate()
 		{
+			if(CustomNetworkManager.Instance._isServer == false) return;
+
 			// Since unity can provide Time.time only in the main thread, we update for our running thread at the begining of frame.
 			startedTime = Time.time;
 
