@@ -389,7 +389,7 @@ public class VariableViewerNetworking : MonoBehaviour
 	{
 		foreach (var Children in LibraryBookShelf.Contains)
 		{
-			List.Add(ProcessLibraryBookShelf(Librarian.TransformToBookShelf[Children]));
+			List.Add(ProcessLibraryBookShelf(Librarian.TransformToBookShelf[Children])); //################
 			RecursiveProcessLibrary(Librarian.TransformToBookShelf[Children], List);
 		}
 	}
