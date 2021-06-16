@@ -172,8 +172,6 @@ namespace Objects.Disposals
 				if(item == null) continue;
 				ThrowItem(item, throwVector);
 			}
-
-			containedItems.Clear();
 		}
 
 		private void ThrowContainedObjects(Vector3 throwVector)
