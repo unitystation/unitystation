@@ -272,10 +272,6 @@ public class GUI_VariableViewer : MonoBehaviour
 		EventManager.AddHandler(Event.RoundEnded, Reset);
 	}
 
-	void OnDisable()
-	{
-		EventManager.RemoveHandler(Event.RoundEnded, Reset);
-	}
 
 	private void OnDestroy()
 	{

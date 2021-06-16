@@ -20,6 +20,13 @@ public class UI_BooksInBookshelf : MonoBehaviour
 
 	public VariableViewerNetworking.NetFriendlyBookShelf BookShelfView => _BookShelfView;
 
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(Event.RoundEnded, PoolBooks);
+	}
+
+
 	public void PoolBooks()
 	{
 		foreach (var books in TotalBooks)

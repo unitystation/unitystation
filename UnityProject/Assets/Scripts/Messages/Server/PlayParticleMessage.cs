@@ -29,6 +29,9 @@ namespace Messages.Server
 				Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.Particles);
 				return;
 			}
+			
+			//Dont play particles on headless server
+			if(CustomNetworkManager.IsHeadless) return;
 
 			LoadMultipleObjects(new uint[] {msg.ParticleObject, msg.ParentObject});
 
