@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5637927323335251555}
   - component: {fileID: 5696991112296638323}
   m_Layer: 0
-  m_Name: ExplosionDistant 1
+  m_Name: ExplosionFar
   m_TagString: SoundFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
