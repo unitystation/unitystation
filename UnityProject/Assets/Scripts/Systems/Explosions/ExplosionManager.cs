@@ -23,6 +23,8 @@ namespace Systems.Explosions
 
 		public void Step()
 		{
+			if(CustomNetworkManager.Instance._isServer == false) return;
+		
 			SubCheckLines.UnionWith(CheckLines);
 			CheckLines.Clear();
 			foreach (var CheckLine in SubCheckLines)
