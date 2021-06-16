@@ -169,8 +169,11 @@ namespace Objects.Disposals
 		{
 			foreach (ObjectBehaviour item in containedItems)
 			{
+				if(item == null) continue;
 				ThrowItem(item, throwVector);
 			}
+
+			containedItems.Clear();
 		}
 
 		private void ThrowContainedObjects(Vector3 throwVector)
