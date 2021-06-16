@@ -45,8 +45,6 @@ namespace Systems.Electricity
 		//Server Side Only
 		private void UpdateMe()
 		{
-			if(CustomNetworkManager.Instance._isServer == false) return;
-
 			if(roundStartedServer == false) return;
 
 			if (Mode == ElectricalMode.GameLoop && Running)
@@ -77,6 +75,9 @@ namespace Systems.Electricity
 		{
 			EventManager.AddHandler(Event.RoundStarted, StartSim);
 			EventManager.AddHandler(Event.RoundEnded, StopSim);
+
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
@@ -84,6 +85,9 @@ namespace Systems.Electricity
 		{
 			EventManager.RemoveHandler(Event.RoundStarted, StartSim);
 			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
+
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 

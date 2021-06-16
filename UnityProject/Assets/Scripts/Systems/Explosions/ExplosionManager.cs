@@ -13,18 +13,20 @@ namespace Systems.Explosions
 
 		private void OnEnable()
 		{
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
 			UpdateManager.Add(Step, 0.25f);
 		}
 
 		private void OnDisable()
 		{
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Step);
 		}
 
 		public void Step()
 		{
-			if(CustomNetworkManager.Instance._isServer == false) return;
-		
 			SubCheckLines.UnionWith(CheckLines);
 			CheckLines.Clear();
 			foreach (var CheckLine in SubCheckLines)
