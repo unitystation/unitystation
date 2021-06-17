@@ -85,6 +85,17 @@ namespace Items.Medical
 				scanMessage.Append("</mspace>");
 			}
 
+			if (interaction.IsAltClick && AdvancedHealthScanner)
+			{
+				foreach(BodyPart part in health.ImplantList)
+				{
+					if(part.BodyPartType == interaction.TargetBodyPart)
+					{
+						scanMessage.AppendLine(part.GetFullBodyPartDamageDescReport());
+					}
+				}
+			}
+
 			scanMessage.Append("----------------------------------------");
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"</i>{scanMessage}<i>");

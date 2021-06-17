@@ -232,8 +232,8 @@ MonoBehaviour:
   AnnounceEvent: 1
   immovableRodPrefab: {fileID: 7144248469089430455, guid: 92917100ffedb8446b152dfce67581f8,
     type: 3}
-  minStrength: 1000
-  maxStrength: 1500
+  minStrength: 2500
+  maxStrength: 4500
   timeBetweenExplosions: 0.25
 --- !u!1 &2176390301219290958
 GameObject:
@@ -534,8 +534,8 @@ MonoBehaviour:
   asteroidEventLevels: 0
   minMeteorAmount: 2
   maxMeteorAmount: 10
-  minStrength: 750
-  maxStrength: 1750
+  minStrength: 2000
+  maxStrength: 3000
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
 --- !u!114 &6635215241995570004
@@ -562,8 +562,8 @@ MonoBehaviour:
   asteroidEventLevels: 1
   minMeteorAmount: 3
   maxMeteorAmount: 8
-  minStrength: 750
-  maxStrength: 1750
+  minStrength: 2000
+  maxStrength: 3000
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
 --- !u!114 &5120446799834176700
@@ -590,8 +590,8 @@ MonoBehaviour:
   asteroidEventLevels: 2
   minMeteorAmount: 4
   maxMeteorAmount: 8
-  minStrength: 750
-  maxStrength: 1500
+  minStrength: 2000
+  maxStrength: 3000
   minTimeBetweenMeteors: 1
   maxTimeBetweenMeteors: 10
 --- !u!1 &2961505858790993329
