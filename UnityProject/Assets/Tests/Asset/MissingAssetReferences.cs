@@ -134,7 +134,7 @@ namespace Tests
 		/// <summary>
 		/// Check if there are scriptable objects that has missing reference fields
 		/// </summary>
-		private void CheckMissingRefenceFieldsScriptableObjects(string path, bool checkEmpty = false)
+		private void CheckMissingReferenceFieldsScriptableObjects(string path, bool checkEmpty = false)
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
@@ -174,14 +174,14 @@ namespace Tests
 		public void TestScriptableObjects()
 		{
 			CheckMissingScriptableObjects("ScriptableObjects");
-			CheckMissingRefenceFieldsScriptableObjects("ScriptableObjects");
+			CheckMissingReferenceFieldsScriptableObjects("ScriptableObjects");
 		}
 
 		[Test]
 		public void TestSingletonScriptableObjects()
 		{
 			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");
-			CheckMissingRefenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons", true);
+			CheckMissingReferenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons", true);
 		}
 
 
