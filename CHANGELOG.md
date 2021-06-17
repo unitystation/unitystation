@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/6/17: [Fix] - Fixed a null error that would occur when limbs are bleeding and have been chopped off. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
+* 2021/6/17: [Fix] - Fixed Food Processors taking longer than they should to shake. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
+* 2021/6/17: [Fix] - Fixed Food Processors disappearing after using them (again) by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
 * 2021/6/16: [Fix] - Fixes an error where body parts attempt to bleed out while they're no longer attached to a body. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
 * 2021/6/16: [Improvement] - Items like the Nuke Disk cannot be destroyed during Inventory drops or deletions. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
 * 2021/6/16: [New] - Advanced health scanners have the ability now to give a detailed report on a body part when Alt-Clicking on the player you wish to diagnose. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
