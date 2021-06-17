@@ -44,7 +44,7 @@ namespace Items.Others
 					$"{performerName} scans the {targetName}.");
 
 			var reagents = TargetObject.GetComponent<ReagentContainer>().CurrentReagentMix;
-			StringBuilder scanMessage = new StringBuilder();
+			StringBuilder scanMessage;
 			if (reagents.Total > 0f)
 			{
 				scanMessage = new StringBuilder(
