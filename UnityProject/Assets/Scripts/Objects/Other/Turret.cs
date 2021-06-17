@@ -49,8 +49,13 @@ namespace Objects.Other
 
 		[SerializeField]
 		[Range(0.1f,10f)]
-		[Tooltip("The shooting speed, ONLY IN MULTIPLES OF 0.1")]
-		private float shootSpeed = 1.5f;
+		[Tooltip("Multiplies on the default fire delay of the gun inside, lower is quicker")]
+		private float shootSpeedMultiplier = 1f;
+
+		[SerializeField]
+		[Range(0.1f,10f)]
+		[Tooltip("Used for taser or default laser when theres no gun inside, multiplied by shootSpeedMultiplier")]
+		private float defaultShootSpeed = 1.5f;
 
 		[SerializeField]
 		private GameObject framePrefab = null;
@@ -65,14 +70,27 @@ namespace Objects.Other
 		private AddressableAudioSource taserSound = null;
 
 		[SerializeField]
-		[Tooltip("Targets all mobs/players ignores the check settings below")]
-		//Turret ignores all checks below and fires on everything
-		private bool aiTurret;
+		private bool ballisticTurret;
+
+		[SerializeField]
+		[Tooltip("If turret not normal, then will always target mobs, if turret is Ai then will ignore all other checks and always fire")]
+		//If turret not normal, then will always target mobs, if turret is Ai then will ignore all other checks and
+		//always fire
+		private TurretType turretType = TurretType.Normal;
+
+		private enum TurretType
+		{
+			Normal,
+			Ai,
+			Syndicate
+		}
 
 		//Check for Weapon Authorization:
 		//No/Yes - neutralizes people who have a weapon out but are not Heads or Security staff.
 		[Tooltip("Neutralize people who have a weapon out but are not Heads or Security staff")]
 		public bool CheckWeaponAuthorisation;
+		[SerializeField]
+		private List<Access> weaponAuthorisation = new List<Access>();
 
 		//Check Security Records:
 		//Yes/No - searches Security Records for criminals.
@@ -88,6 +106,8 @@ namespace Objects.Other
 		//No/Yes - self explanatory.
 		[Tooltip("Neutralize All Non-Security and Non-Command Personnel")]
 		public bool CheckUnauthorisedPersonnel;
+		[SerializeField]
+		private List<Access> authorisedAccess = new List<Access>();
 
 		//Neutralize All Unidentified Life Signs:
 		//Yes/No - neutralizes aliens.
@@ -107,6 +127,8 @@ namespace Objects.Other
 
 		private float shootingTimer = 0;
 		private float detectTimer = 0;
+
+		private float shootSpeed = 1.5f;
 
 		//Has power
 		private bool hasPower;
@@ -175,6 +197,11 @@ namespace Objects.Other
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			if (ballisticTurret)
+			{
+				coverOpen = true;
+			}
+
 			if(spawnGun == null || gun != null) return;
 
 			var newGun = Spawn.ServerPrefab(spawnGun, registerTile.WorldPosition, transform.parent);
@@ -217,6 +244,14 @@ namespace Objects.Other
 		{
 			//transform.localEulerAngles = new Vector3(0, 0, rotation);
 			var angle = Mathf.Atan2(newValue.y, newValue.x) * Mathf.Rad2Deg;
+
+			//Ballistic turret sprite is initially pointing upwards, whereas we assume it points down for laser
+			//so add 180
+			if (ballisticTurret)
+			{
+				angle += 180;
+			}
+
 			gunSprite.transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
 		}
 
@@ -273,12 +308,12 @@ namespace Objects.Other
 					if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
 
 					//Check if player is allowed, but only if not an Ai turret as those will shoot all targets
-					if(aiTurret == false && ValidatePlayer(script)) continue;
+					if(turretType != TurretType.Ai && ValidatePlayer(script)) continue;
 
 					worldPos = script.WorldPos;
 				}
-				//Test for mob
-				else if ((aiTurret == false || CheckUnidentifiedLifeSigns) && mob.TryGetComponent<MobAI>(out var mobAi))
+				//Test for mob, syndicate and AI will always target mobs, otherwise only on unidentified
+				else if ((turretType != TurretType.Normal || CheckUnidentifiedLifeSigns) && mob.TryGetComponent<MobAI>(out var mobAi))
 				{
 					//Only target alive mobs
 					if(mobAi.IsDead) continue;
@@ -317,6 +352,23 @@ namespace Objects.Other
 		/// </summary>
 		private bool ValidatePlayer(PlayerScript script)
 		{
+			//Neutralize All Unauthorised Personnel
+			if (CheckUnauthorisedPersonnel)
+			{
+				var allowed = false;
+				foreach (var access in authorisedAccess)
+				{
+					if (AccessRestrictions.CheckAccess(script.gameObject, access) == false) continue;
+
+					//Only need to check for one valid access
+					allowed = true;
+					break;
+				}
+
+				//Check for failure
+				if (allowed == false) return false;
+			}
+
 			//Record Checking
 			if (CheckUnidentifiedLifeSigns || CheckForArrest || CheckSecurityRecords)
 			{
@@ -351,17 +403,6 @@ namespace Objects.Other
 				}
 			}
 
-
-			//Neutralize All Non-Security and Non-Command Personnel
-			if (CheckUnauthorisedPersonnel)
-			{
-				if (AccessRestrictions.CheckAccess(script.gameObject, Access.heads) == false &&
-				    AccessRestrictions.CheckAccess(script.gameObject, Access.security) == false)
-				{
-					return false;
-				}
-			}
-
 			//Check for Weapon Authorization
 			if (CheckWeaponAuthorisation && script.Equipment != null)
 			{
@@ -377,15 +418,22 @@ namespace Objects.Other
 
 					if (Validations.HasItemTrait(handItem.GameObjectReference, CommonTraits.Instance.Gun))
 					{
-						//Only allow heads or security to have guns
-						//TODO maybe have a proper access which is for weapon authorisation instead
-						if (AccessRestrictions.CheckAccess(script.gameObject, Access.heads) == false &&
-						    AccessRestrictions.CheckAccess(script.gameObject, Access.security) == false)
+						//Only allow authorised people to have guns
+						var allowed = false;
+						foreach (var access in weaponAuthorisation)
 						{
-							return false;
+							if (AccessRestrictions.CheckAccess(script.gameObject, access) == false) continue;
+
+							//Only need to check for one valid access
+							allowed = true;
+							break;
 						}
+
+						//Check for failure
+						if (allowed == false) return false;
 					}
 
+					//Passed weapons check for this hand
 					return true;
 				}
 			}
@@ -471,22 +519,33 @@ namespace Objects.Other
 
 		private void SetUpBullet()
 		{
+			shootSpeed = defaultShootSpeed;
+
 			if (turretState == TurretState.Stun)
 			{
 				bulletName = stunBullet.name;
 				bulletSound = taserSound;
+				shootSpeed *= shootSpeedMultiplier;
+				return;
 			}
-			else if (gun != null)
+
+			if (gun != null)
 			{
 				if (gun is GunElectrical electrical && electrical.firemodeProjectiles.Count > 0 && electrical.firemodeFiringSound.Count > 0)
 				{
 					bulletName = electrical.firemodeProjectiles[0].GetComponent<Bullet>().name;
 					bulletSound = electrical.firemodeFiringSound[0];
+
+					//Min shoot speed 0.5
+					shootSpeed = Mathf.Max((float)electrical.FireDelay, 0.5f);
 				}
 				else if (gun.CurrentMagazine != null)
 				{
 					bulletName = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().name;
 					bulletSound = gun.FiringSoundA;
+
+					//Min shoot speed 0.5
+					shootSpeed = Mathf.Max((float)gun.FireDelay, 0.5f);
 				}
 				else
 				{
@@ -500,10 +559,16 @@ namespace Objects.Other
 				bulletName = laserBullet.name;
 				bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
 			}
+
+			shootSpeedMultiplier = Mathf.Clamp(shootSpeedMultiplier, 0.1f, 10f);
+			shootSpeed *= shootSpeedMultiplier;
 		}
 
 		private void ChangeCoverState()
 		{
+			//Dont have cover on ballistic turret
+			if(ballisticTurret) return;
+
 			//If changing cover state dont check
 			if (coverStateChanging) return;
 
@@ -660,14 +725,14 @@ namespace Objects.Other
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			if (aiTurret == false && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai)
+			if (turretType != TurretType.Ai && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai)
 			{
 				Chat.AddExamineMsgFromServer(playerObject, "Turret is locked");
 				return false;
 			}
 
 			//Only allow changing settings on non Ai turrets, as the settings only work on those
-			return aiTurret == false;
+			return turretType != TurretType.Ai;
 		}
 	}
 }

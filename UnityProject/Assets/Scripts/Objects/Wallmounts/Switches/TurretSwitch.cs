@@ -44,9 +44,11 @@ namespace Objects.Wallmounts.Switches
 		private bool hasPower;
 		public bool HasPower => hasPower;
 
+		[SerializeField]
 		private bool isOn = true;
 		public bool IsOn => isOn;
 
+		[SerializeField]
 		private bool isStun = true;
 		public bool IsStun => isStun;
 

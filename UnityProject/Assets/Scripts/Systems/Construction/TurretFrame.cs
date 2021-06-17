@@ -23,6 +23,8 @@ namespace Systems.Construction
 
 		[SerializeField] private GameObject turretPrefab = null;
 
+		[SerializeField] private ItemTrait gunTrait = null;
+
 		private ItemSlot gunSlot;
 		private Stateful stateful;
 		private StatefulState CurrentState => stateful.CurrentState;
@@ -76,7 +78,7 @@ namespace Systems.Construction
 			//Add gun or unwrench
 			if (CurrentState == wrenchState)
 			{
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.EnergyGun) ||
+				return Validations.HasUsedItemTrait(interaction, gunTrait) ||
 					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
 			}
 
@@ -229,7 +231,7 @@ namespace Systems.Construction
 			//Add gun or unwrench
 			if (CurrentState == wrenchState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.EnergyGun))
+				if (Validations.HasUsedItemTrait(interaction, gunTrait))
 				{
 					//Add energy gun
 					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the turret frame.",
