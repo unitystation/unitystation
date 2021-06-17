@@ -109,7 +109,7 @@ namespace Systems.MobAIs
 					posShift.y += normalised.y;
 					
 					//Check for impassable objects to hit first before tile
-					TryAttackObjects(posShift, new Vector3(0, normalised.y, 0));
+					if(TryAttackObjects(posShift, new Vector3(0, normalised.y, 0))) return;
 
 					if (CheckTile() == false)
 					{
