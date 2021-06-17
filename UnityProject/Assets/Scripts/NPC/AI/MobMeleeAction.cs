@@ -46,17 +46,10 @@ namespace Systems.MobAIs
 		private bool lerping;
 		private bool isActing = false;
 
-		private BoxCollider2D collider2D;
-
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target
 		/// </summary>
 		protected float TetherRange = 30f;
-
-		private void Start()
-		{
-			collider2D = GetComponent<BoxCollider2D>();
-		}
 
 		public override void OnEnable()
 		{
@@ -140,10 +133,9 @@ namespace Systems.MobAIs
 					//Continue if it still exists and is in range
 					if (FollowTarget != null && TargetDistance() < TetherRange)
 					{
-						collider2D.enabled = false;
-						var hitInfo = MatrixManager.Linecast(OriginTile.WorldPositionServer,
+						Vector3 dir = (Vector3)(TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).Normalize() / 1.5f;
+						var hitInfo = MatrixManager.Linecast(OriginTile.WorldPositionServer + dir,
 							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask, TargetTile.WorldPositionServer);
-						collider2D.enabled = true;
 
 						if (hitInfo.ItHit)
 						{

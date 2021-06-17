@@ -263,7 +263,7 @@ public partial class MatrixManager : MonoBehaviour
 					{
 						if (ClosestHit != null)
 						{
-							if (ClosestHit.Value.Distance < Checkhit.Value.Distance)
+							if (ClosestHit.Value.Distance > Checkhit.Value.Distance)
 							{
 								ClosestHit = Checkhit;
 							}
