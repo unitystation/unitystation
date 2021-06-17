@@ -84,48 +84,64 @@ namespace Systems.MobAIs
 			//Greater than 4 means more than one tile away
 			if (pos > 4)
 			{
-				//Check for impassable objects to hit
-				if(TryAttackObjects(worldPos)) return;
-
 				//Attack adjacent tiles instead
 				var normalised = (worldPos - registerObj.WorldPositionServer).Normalize();
+				var posShift = registerObj.WorldPositionServer;
+				var xSuccess = false;
+
+				//x must be either -1, or 1 for us to attack it
 				if (normalised.x != 0)
 				{
-					var posShift = registerObj.WorldPositionServer;
 					posShift.x += normalised.x;
+
+					//Check for the tiles on the x tile
+					xSuccess = CheckTile(true);
+
+					//Check for impassable objects to hit on the x tile
+					if(TryAttackObjects(posShift, dir)) return;
+				}
+
+				//x must have failed and y must be either -1, or 1 for us to attack it
+				if (xSuccess == false && normalised.y != 0)
+				{
+					//Remove x change and then add y change
+					posShift.x -= normalised.x;
+					posShift.y += normalised.y;
+
+					if (CheckTile() == false)
+					{
+						//Check for impassable objects to hit
+						TryAttackObjects(posShift, dir);
+
+						//Else nothing to attack, x and y failed so stop
+						return;
+					}
+				}
+
+				bool CheckTile(bool isX = false)
+				{
+					dir = new Vector3(isX ? normalised.x : 0, isX ? 0 : normalised.y , 0);
 
 					if (MatrixManager.IsWindowAtAnyMatrix(posShift, true) || MatrixManager.IsGrillAtAnyMatrix(posShift, true))
 					{
-						dir = new Vector3(0, normalised.y , 0);
 						worldPos = posShift;
+						return true;
 					}
-					else
-					{
-						posShift.x -= normalised.x;
-						posShift.y += normalised.y;
 
-						if (MatrixManager.IsWindowAtAnyMatrix(posShift, true) || MatrixManager.IsGrillAtAnyMatrix(posShift, true))
-						{
-							dir = new Vector3(0, normalised.y , 0);
-							worldPos = posShift;
-						}
-						else
-						{
-							//Check for impassable objects to hit
-							TryAttackObjects(worldPos);
-
-							//Else nothing to attack so stop
-							return;
-						}
-					}
+					return false;
 				}
+			}
+			else
+			{
+				//This is the target tile so check for impassable objects to hit before attacking tile
+				if(TryAttackObjects(worldPos, dir)) return;
 			}
 
 			matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPos, matrix), hitDamage * 2, worldPos);
 			ServerDoLerpAnimation(dir);
 		}
 
-		protected bool TryAttackObjects(Vector3Int worldPos)
+		protected bool TryAttackObjects(Vector3Int worldPos, Vector3 dir)
 		{
 			var objects = MatrixManager.GetAt<RegisterObject>(worldPos, true);
 			foreach (var objectOnTile in objects)
@@ -134,6 +150,7 @@ namespace Systems.MobAIs
 				if(objectOnTile.TryGetComponent<Integrity>(out var objectIntegrity) == false || objectIntegrity.Resistances.Indestructable) continue;
 
 				objectIntegrity.ApplyDamage(hitDamage, AttackType.Melee, DamageType.Brute);
+				ServerDoLerpAnimation(dir);
 				return true;
 			}
 
