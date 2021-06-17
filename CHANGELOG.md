@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/6/17: [Improvement] Mobs will also hit adjacent tiles if they cant move to target by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
+* 2021/6/17: [Fix] Mobs will hit windows and grills again by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
 * 2021/6/17: [Fix] - Fixed a null error that would occur when limbs are bleeding and have been chopped off. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
 * 2021/6/17: [Fix] - Fixed Food Processors taking longer than they should to shake. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
 * 2021/6/17: [Fix] - Fixed Food Processors disappearing after using them (again) by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
