@@ -9,7 +9,7 @@ using UnityEditor.SceneManagement;
 
 namespace Tests
 {
-	public class MissingAssetReferences 
+	public class MissingAssetReferences
 	{
 		/// <summary>
 		/// Checks if there is any prefab with missing reference component
@@ -51,7 +51,7 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Check if there any prefab with MissingReference field 
+		/// Check if there any prefab with MissingReference field
 		/// </summary>
 		[Test]
 		public void CheckMissingReferenceFieldsOnPrefabs()
@@ -132,9 +132,9 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Check if there are scriptable objects that has missing reference fields 
+		/// Check if there are scriptable objects that has missing reference fields
 		/// </summary>
-		private void CheckMissingRefenceFieldsScriptableObjects(string path)
+		private void CheckMissingReferenceFieldsScriptableObjects(string path, bool checkEmpty = false)
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
@@ -153,7 +153,7 @@ namespace Tests
 					continue;
 
 				var so = new SerializedObject(asset);
-				var missRefs = GetMissingRefs(so);
+				var missRefs = GetMissingRefs(so, checkEmpty);
 				foreach (var miss in missRefs)
 					listResults.Add((asset.name, miss));
 			}
@@ -174,14 +174,14 @@ namespace Tests
 		public void TestScriptableObjects()
 		{
 			CheckMissingScriptableObjects("ScriptableObjects");
-			CheckMissingRefenceFieldsScriptableObjects("ScriptableObjects");
+			CheckMissingReferenceFieldsScriptableObjects("ScriptableObjects");
 		}
 
 		[Test]
 		public void TestSingletonScriptableObjects()
 		{
 			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");
-			CheckMissingRefenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons");
+			CheckMissingReferenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons", true);
 		}
 
 
@@ -250,7 +250,7 @@ namespace Tests
 
 		}
 
-		private static List<string> GetMissingRefs(SerializedObject so)
+		private static List<string> GetMissingRefs(SerializedObject so, bool checkEmpty = false)
 		{
 			var sp = so.GetIterator();
 			var listResult = new List<string>();
@@ -259,8 +259,19 @@ namespace Tests
 			{
 				if (sp.propertyType == SerializedPropertyType.ObjectReference)
 				{
+					if (checkEmpty)
+					{
+						if (sp.objectReferenceValue == null
+						    || sp.objectReferenceInstanceIDValue == 0)
+						{
+							listResult.Add(sp.displayName);
+						}
+
+						continue;
+					}
+
 					if (sp.objectReferenceValue == null
-						&& sp.objectReferenceInstanceIDValue != 0)
+					    && sp.objectReferenceInstanceIDValue != 0)
 					{
 						listResult.Add(sp.displayName);
 					}

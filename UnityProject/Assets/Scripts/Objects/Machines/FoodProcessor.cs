@@ -207,7 +207,7 @@ namespace Objects.Kitchen
 			if (IsOperating == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			RpcHaltProcessorAnim();
+			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
 			playAudioLoop = false;
 		}
 
