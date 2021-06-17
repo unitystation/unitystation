@@ -46,10 +46,17 @@ namespace Systems.MobAIs
 		private bool lerping;
 		private bool isActing = false;
 
+		private BoxCollider2D collider2D;
+
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target
 		/// </summary>
 		protected float TetherRange = 30f;
+
+		private void Start()
+		{
+			collider2D = GetComponent<BoxCollider2D>();
+		}
 
 		public override void OnEnable()
 		{
@@ -71,6 +78,12 @@ namespace Systems.MobAIs
 			CheckForTargetAction();
 		}
 
+		public void ForceTargetAction()
+		{
+			if(Pause || isActing || lerping) return;
+			CheckForTargetAction();
+		}
+
 		/// <summary>
 		/// Determines if the target of the action can be acted upon and what kind of target it is.
 		/// Then performs the appropriate action. Action methods are individually overridable for flexibility.
@@ -83,7 +96,8 @@ namespace Systems.MobAIs
 				return false;
 			}
 			var dir = (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).normalized;
-			if (hitInfo.CollisionHit.GameObject != null)
+
+			if (hitInfo.CollisionHit.GameObject != null && (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).sqrMagnitude <= 4)
 			{
 				if (onlyActOnTarget)
 				{
@@ -100,6 +114,7 @@ namespace Systems.MobAIs
 					return PerformActionNpc(hitInfo, dir);
 				}
 			}
+
 			return PerformActionTile(hitInfo, dir);
 		}
 
@@ -125,11 +140,12 @@ namespace Systems.MobAIs
 					//Continue if it still exists and is in range
 					if (FollowTarget != null && TargetDistance() < TetherRange)
 					{
-						Vector3 dir = (TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).Normalize();
-						var hitInfo = MatrixManager.Linecast(OriginTile.WorldPositionServer + dir, LayerTypeSelection.Windows, checkMask, TargetTile.WorldPositionServer);
+						collider2D.enabled = false;
+						var hitInfo = MatrixManager.Linecast(OriginTile.WorldPositionServer,
+							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask, TargetTile.WorldPositionServer);
+						collider2D.enabled = true;
 
-						if (hitInfo.ItHit == true && Vector3.Distance(OriginTile.WorldPositionServer,
-							hitInfo.TileHitWorld) <= 1.5f)
+						if (hitInfo.ItHit)
 						{
 							return hitInfo;
 						}
@@ -137,6 +153,7 @@ namespace Systems.MobAIs
 				}
 				FollowTarget = null;
 			}
+			FollowTarget = null;
 
 			Deactivate();
 			return new MatrixManager.CustomPhysicsHit();
@@ -150,7 +167,7 @@ namespace Systems.MobAIs
 			var healthBehaviourV2 = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
 			if (healthBehaviourV2 != null)
 			{
-				if (hitInfo.CollisionHit.GameObject.transform == FollowTarget && healthBehaviourV2.IsDead == false)
+				if (hitInfo.CollisionHit.GameObject == FollowTarget && healthBehaviourV2.IsDead == false)
 				{
 					ActOnLivingV2(dir, healthBehaviourV2);
 					return true;
@@ -162,7 +179,7 @@ namespace Systems.MobAIs
 				var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthBehaviour>();
 				if (healthBehaviour != null)
 				{
-					if (hitInfo.CollisionHit.GameObject.transform == FollowTarget && healthBehaviour.IsDead == false)
+					if (hitInfo.CollisionHit.GameObject == FollowTarget && healthBehaviour.IsDead == false)
 					{
 						ActOnLiving(dir, healthBehaviour);
 						return true;
@@ -317,16 +334,10 @@ namespace Systems.MobAIs
 
 		protected virtual void DeterminePostAction()
 		{
+			Pause = false;
 			if (Random.value > 0.2f) //80% chance of hitting the target again
 			{
-				if (!CheckForTargetAction())
-				{
-					Pause = false;
-				}
-			}
-			else
-			{
-				Pause = false;
+				CheckForTargetAction();
 			}
 		}
 

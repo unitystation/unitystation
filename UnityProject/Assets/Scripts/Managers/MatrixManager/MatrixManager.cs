@@ -937,6 +937,11 @@ public partial class MatrixManager : MonoBehaviour
 		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
+	public static bool IsGrillAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	{
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsGrillAt(WorldToLocalInt(worldTarget, mat), isServer));
+	}
+
 	/// <Summary>
 	/// Cross-matrix edition of GetFirst
 	/// Use a Vector3Int of the WorldPosition to use
