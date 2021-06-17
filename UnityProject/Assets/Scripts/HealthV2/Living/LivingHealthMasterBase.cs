@@ -766,6 +766,17 @@ namespace HealthV2
 			}
 		}
 
+		public virtual void ApplyBurnDamage(BodyPartType aimedBodyPart, float damage)
+		{
+			foreach (var bodyPartContainer in RootBodyPartContainers)
+			{
+				if (bodyPartContainer.BodyPartType == aimedBodyPart)
+				{
+					bodyPartContainer.TakeBurnDamage(damage);
+				}
+			}
+		}
+
 		/// <summary>
 		/// Gets all body parts in a zone targetable by the UI (head, chest, left arm, etc)
 		/// </summary>
@@ -952,7 +963,7 @@ namespace HealthV2
 		/// ---------------------------
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
-		/// Currently not implemented
+		/// Currently not fully implemented
 		///</Summary>
 		public virtual void Death()
 		{

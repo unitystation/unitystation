@@ -40,21 +40,21 @@ namespace Health.Sickness
 
 		private void OnEnable()
 		{
-			if(NetworkServer.active == false) return;
+			if(Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Add(SicknessUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
-			if(NetworkServer.active == false) return;
+			if(Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
 		}
 
 		private void Start()
 		{
-			if(NetworkServer.active == false) return;
+			if(Application.isEditor == false && NetworkServer.active == false) return;
 
 			sickPlayers = new List<MobSickness>();
 

@@ -23,6 +23,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 	private float pierceChance = 0f;
 	private float pierceDamage = 0f;
 
+	private float burnDamage = 0f;
+
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
 	public bool lerping { get; private set; } // needs to be read by Camera2DFollow
@@ -99,6 +101,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			slashDamage = weaponAttributes.SlashDamage;
 			pierceChance = weaponAttributes.PierceChance;
 			pierceDamage = weaponAttributes.PierceDamage;
+			burnDamage = weaponAttributes.BurnDamage;
 		}
 
 		LayerTile attackedTile = null;
@@ -147,6 +150,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
 					victimHealth.ApplySlashDamage(slashChance, damageZone, slashDamage);
 					victimHealth.ApplyPierceDamage(pierceChance, damageZone, pierceDamage);
+					victimHealth.ApplyBurnDamage(damageZone, burnDamage);
 					didHit = true;
 				}
 				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))

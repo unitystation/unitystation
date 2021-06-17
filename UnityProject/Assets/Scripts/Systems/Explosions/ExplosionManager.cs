@@ -13,14 +13,14 @@ namespace Systems.Explosions
 
 		private void OnEnable()
 		{
-			if(NetworkServer.active == false) return;
+			if(Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Add(Step, 0.25f);
 		}
 
 		private void OnDisable()
 		{
-			if(NetworkServer.active == false) return;
+			if(Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Step);
 		}

@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/6/16: [Fix] - Fixes an error where body parts attempt to bleed out while they're no longer attached to a body. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
+* 2021/6/16: [Improvement] - Items like the Nuke Disk cannot be destroyed during Inventory drops or deletions. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
+* 2021/6/16: [New] - Advanced health scanners have the ability now to give a detailed report on a body part when Alt-Clicking on the player you wish to diagnose. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
+* 2021/6/16: [New] - Ashing has been added for body parts. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
+* 2021/6/16: [New] - Players with burnt bodies will now visually appear burnt. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
 * 2021/6/13: **[Improvement]**  VV Is now way better to use by [Bod9001](https://github.com/Bod9001) in PR #[6788](https://github.com/unitystation/unitystation/pull/6788)
 * 2021/6/13: **[New]** VV has hierarchy now by [Bod9001](https://github.com/Bod9001) in PR #[6788](https://github.com/unitystation/unitystation/pull/6788)
 * 2021/6/13: [Fix] - You can no longer roleplay as an Asian mother by doing extreme damage to limbs with just a shoe. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6643](https://github.com/unitystation/unitystation/pull/6643)
