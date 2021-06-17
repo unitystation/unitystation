@@ -230,7 +230,6 @@ namespace Systems.MobAIs
 				}
 
 				var dest = registerObj.LocalPositionServer + (Vector3Int)dirToMove;
-				Debug.DrawLine(registerObj.WorldPositionServer, registerObj.WorldPositionServer + (Vector3Int)dirToMove, Color.green, 5f);
 
 				if (!cnt.Push(dirToMove, context: gameObject))
 				{
