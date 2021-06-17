@@ -107,12 +107,12 @@ namespace Systems.MobAIs
 					//Remove x change and then add y change
 					posShift.x -= normalised.x;
 					posShift.y += normalised.y;
+					
+					//Check for impassable objects to hit first before tile
+					TryAttackObjects(posShift, new Vector3(0, normalised.y, 0));
 
 					if (CheckTile() == false)
 					{
-						//Check for impassable objects to hit
-						TryAttackObjects(posShift, dir);
-
 						//Else nothing to attack, x and y failed so stop
 						return;
 					}
