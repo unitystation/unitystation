@@ -148,7 +148,7 @@ public class MetaDataLayer : MonoBehaviour
 						}
 					case "Water":
 						{
-							MakeSlipperyAt(localPosInt, true);
+							MakeSlipperyAt(localPosInt);
 							matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 							foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
 							{

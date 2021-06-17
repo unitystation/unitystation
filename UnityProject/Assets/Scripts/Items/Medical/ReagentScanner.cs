@@ -15,10 +15,8 @@ namespace Items.Others
 	/// </summary>
 	public class ReagentScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
+		[SerializeField]
 		public bool isGoggles = false;
-
-
-		private TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -31,11 +29,11 @@ namespace Items.Others
 		{
 			if(isGoggles == false)
 			{
-				doScan(interaction.Performer, interaction.TargetObject);
+				DoScan(interaction.Performer, interaction.TargetObject);
 			}
 		
 		}
-		public void doScan(GameObject Performer, GameObject TargetObject)
+		public void DoScan(GameObject Performer, GameObject TargetObject)
 		{
 
 			var performerName = Performer.ExpensiveName();
@@ -53,7 +51,6 @@ namespace Items.Others
 				"----------------------------------------\n" +
 				$"{targetName} contains {reagents.Total} units of {TextUtils.ColorToString(reagents.MixColor)} {ChemistryUtils.GetMixStateDescription(reagents)}\n" +
 				$"<b>Its Chemical make up is: \n");
-				StringBuilder partMessages = new StringBuilder();
 
 				foreach (var reagent in reagents.reagents)
 				{
@@ -61,7 +58,6 @@ namespace Items.Others
 					scanMessage.AppendLine(
 							$"<color=#{ColorUtility.ToHtmlStringRGB(reagent.Key.color)}><b>{reagent.Key}</b> - {reagent.Value.ToString("F3")}u</color>"
 					);
-					scanMessage.Append(partMessages);
 					scanMessage.Append("</mspace>");
 				}
 				scanMessage.Append("----------------------------------------");

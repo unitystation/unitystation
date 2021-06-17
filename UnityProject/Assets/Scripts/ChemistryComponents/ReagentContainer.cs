@@ -443,12 +443,10 @@ namespace Chemistry.Components
 			{
 				case "Contents":
 					{
-						if (eyeItem)
+
+						if (Validations.HasItemTrait(eyeItem, CommonTraits.Instance.ScienceScan))
 						{
-							if (!Validations.HasItemTrait(eyeItem, CommonTraits.Instance.ScienceScan))
-							{
-								eyeItem.GetComponent<ReagentScanner>().doScan(interaction.Performer.gameObject, this.gameObject);
-							}
+							eyeItem.GetComponent<ReagentScanner>().DoScan(interaction.Performer.gameObject, this.gameObject);
 						}
 						else
 						{
@@ -469,18 +467,9 @@ namespace Chemistry.Components
 				Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} is empty.");
 				return;
 			}
-			//We cant use the container game object to manage this, do it ourselves.
-			if(this.ExamineAmount == ExamineAmountMode.UNKNOWN_AMOUNT)
-			{
-				//TODO: Cleanup the logic between looking at things in containters and things with no container/item attributes
-				Chat.AddExamineMsgToClient(this.Examine());
-			}
 			else
 			{
-				foreach (var reagent in CurrentReagentMix.reagents.m_dict)
-				{
-					Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
-				}
+				Chat.AddExamineMsgToClient(this.Examine());
 			}
 		}
 

@@ -171,7 +171,7 @@ public class Lungs : BodyPartModification
 				// Get as much as we need, or as much as in the lungs, whichever is lower
 				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
 				float molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
-				if(molesRecieved > 0f)
+				if(molesRecieved.Approx(0) == false)
 				{
 					toInhale.Add(gasReagent, molesRecieved * efficiency);
 				}

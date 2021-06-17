@@ -64,10 +64,7 @@ public static class EffectsFactory
 		if (bloodTileInst.Successful)
 		{
 			var colorDesc = TextUtils.ColorToString(bloodReagents.MixColor);
-			var stateDesc = ChemistryUtils.GetMixStateDescription(bloodReagents);
-
 			bloodTileInst.GameObject.name = $"{colorDesc} blood {sizeDesc}";
-
 
 			var bloodTileGO = bloodTileInst.GameObject;
 			var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();

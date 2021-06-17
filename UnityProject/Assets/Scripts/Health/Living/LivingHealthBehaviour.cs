@@ -603,6 +603,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
+			//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 			//EffectsFactory.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
 		}
 	}
@@ -944,6 +945,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Server]
 	protected virtual void Gib()
 	{
+		//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 		//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//todo: actual gibs
 

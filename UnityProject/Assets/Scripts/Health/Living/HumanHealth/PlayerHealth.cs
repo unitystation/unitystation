@@ -200,6 +200,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 
 			if (isServer)
 			{
+				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 				//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 				string descriptor = null;
 				if (player != null)
@@ -240,6 +241,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	protected override void Gib()
 	{
 		Death();
+		//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 		//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 

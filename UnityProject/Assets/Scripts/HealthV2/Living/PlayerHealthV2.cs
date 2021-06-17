@@ -104,6 +104,7 @@ namespace HealthV2
 		protected override void Gib()
 		{
 			Death();
+			//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 			//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			//drop clothes, gib... but don't destroy actual player, a piece should remain
 
@@ -189,6 +190,7 @@ namespace HealthV2
 
 				if (isServer)
 				{
+					//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 					//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
 					string their = null;
 					if (player != null)
