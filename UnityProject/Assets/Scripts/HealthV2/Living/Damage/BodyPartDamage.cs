@@ -79,28 +79,28 @@ namespace HealthV2
 		/// <summary>
 		/// When does this body part take before it's contents in it's storage spill out?
 		/// </summary>
-		[SerializeField, 
+		[SerializeField,
 		Tooltip("When does the contents of this body part's storage to spill out when a large enough cut exists?")]
 		private BodyPartCutSize BodyPartStorageContentsSpillOutOnCutSize = BodyPartCutSize.LARGE;
 
 		/// <summary>
 		/// When do we start applying Slash logic?
 		/// </summary>
-		[SerializeField, 
+		[SerializeField,
 		Tooltip("At what cut size do we start applying slash logic?")]
 		private BodyPartCutSize BodyPartSlashLogicOnCutSize = BodyPartCutSize.SMALL;
 
 		/// <summary>
 		/// When do we start applying disembowel logic?
 		/// </summary>
-		[SerializeField, 
+		[SerializeField,
 		Tooltip("At what cut size do we start applying disembowel logic?")]
 		private BodyPartCutSize BodyPartDisembowelLogicOnCutSize = BodyPartCutSize.MEDIUM;
 
 		/// <summary>
 		/// How likely does the contents of this body part's storage to spill out?
 		/// </summary>
-		[SerializeField, 
+		[SerializeField,
 		Tooltip("How likely does the contents of this body part's storage to spill out when a large enough cut exists?"),
 		Range(0,1.0f)]
 		private float spillChanceWhenCutPresent = 0.5f;
@@ -181,9 +181,9 @@ namespace HealthV2
 		public float RadiationStacks => Damages[(int) DamageType.Radiation];
 
 
-		[HideInInspector] public float CurrentInternalBleedingDamage 
-		{ 
-			get 
+		[HideInInspector] public float CurrentInternalBleedingDamage
+		{
+			get
 			{
 				return currentInternalBleedingDamage;
 			}
@@ -298,7 +298,7 @@ namespace HealthV2
 			CHARRED
 		}
 
-		public enum TramuticDamageTypes 
+		public enum TramuticDamageTypes
 		{
 			SLASH,
 			PIERCE,
@@ -717,7 +717,7 @@ namespace HealthV2
 			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
 			if(currentInternalBleedingDamage >= maximumInternalBleedDamage)
 			{
-				BodyPart currentParent = GetParent();
+				BodyPart currentParent = ContainedIn;
 				if(currentParent != null)
 				{
 					currentParent.TakeDamage(null, damageToTake, attackType, damageType, damageSplit: false, false, 0);

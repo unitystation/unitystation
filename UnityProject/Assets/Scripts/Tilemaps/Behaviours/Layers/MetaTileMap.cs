@@ -1197,8 +1197,21 @@ namespace TileManagement
 			return false;
 		}
 
+		public void NotifyRegisterTilePotentialMatrixChange(Vector3Int position)
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				foreach (var ServerObject in ObjectLayer.ServerObjects.Get(position))
+				{
+					ServerObject.CNT.CheckMatrixSwitch();
+				}
+			}
+		}
+
+
 		public void RemoveTile(Vector3Int position, bool RemoveAll = true)
 		{
+			NotifyRegisterTilePotentialMatrixChange(position);
 			TileLocation TileLcation = null;
 			foreach (var layer in LayersValues)
 			{

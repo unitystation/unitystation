@@ -306,7 +306,7 @@ namespace HealthV2
 		public virtual void RemoveFromBodyThis()
 		{
 			BodyPartRemovalChecks();
-			RootBodyPartContainer parent = this.GetParent();
+			dynamic parent = this.GetParent();
 			if (parent != null)
 			{
 				parent.RemoveSpecifiedFromThis(this.gameObject);
