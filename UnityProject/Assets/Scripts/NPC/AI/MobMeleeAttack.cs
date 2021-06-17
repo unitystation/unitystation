@@ -34,7 +34,7 @@ namespace Systems.MobAIs
 		}
 
 		//We need to slow the attack down because clients are behind server
-		private async Task AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour targetHealth, LivingHealthMasterBase targetHealthV2, 
+		private async Task AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour targetHealth, LivingHealthMasterBase targetHealthV2,
 			Vector3 worldPos, NetworkConnection ctc, float rtt)
 		{
 			if (targetHealth == null && targetHealthV2 == null) return;
@@ -78,8 +78,66 @@ namespace Systems.MobAIs
 		protected override void ActOnTile(Vector3Int worldPos, Vector3 dir)
 		{
 			var matrix = MatrixManager.AtPoint(worldPos, true);
+
+			var pos = (worldPos - registerObj.WorldPositionServer).sqrMagnitude;
+
+			//Greater than 4 means more than one tile away
+			if (pos > 4)
+			{
+				//Check for impassable objects to hit
+				if(TryAttackObjects(worldPos)) return;
+
+				//Attack adjacent tiles instead
+				var normalised = (worldPos - registerObj.WorldPositionServer).Normalize();
+				if (normalised.x != 0)
+				{
+					var posShift = registerObj.WorldPositionServer;
+					posShift.x += normalised.x;
+
+					if (MatrixManager.IsWindowAtAnyMatrix(posShift, true) || MatrixManager.IsGrillAtAnyMatrix(posShift, true))
+					{
+						dir = new Vector3(0, normalised.y , 0);
+						worldPos = posShift;
+					}
+					else
+					{
+						posShift.x -= normalised.x;
+						posShift.y += normalised.y;
+
+						if (MatrixManager.IsWindowAtAnyMatrix(posShift, true) || MatrixManager.IsGrillAtAnyMatrix(posShift, true))
+						{
+							dir = new Vector3(0, normalised.y , 0);
+							worldPos = posShift;
+						}
+						else
+						{
+							//Check for impassable objects to hit
+							TryAttackObjects(worldPos);
+
+							//Else nothing to attack so stop
+							return;
+						}
+					}
+				}
+			}
+
 			matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPos, matrix), hitDamage * 2, worldPos);
 			ServerDoLerpAnimation(dir);
+		}
+
+		protected bool TryAttackObjects(Vector3Int worldPos)
+		{
+			var objects = MatrixManager.GetAt<RegisterObject>(worldPos, true);
+			foreach (var objectOnTile in objects)
+			{
+				if(objectOnTile.IsPassable(true, gameObject)) continue;
+				if(objectOnTile.TryGetComponent<Integrity>(out var objectIntegrity) == false || objectIntegrity.Resistances.Indestructable) continue;
+
+				objectIntegrity.ApplyDamage(hitDamage, AttackType.Melee, DamageType.Brute);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

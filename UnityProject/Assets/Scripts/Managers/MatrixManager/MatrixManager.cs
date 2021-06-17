@@ -263,7 +263,7 @@ public partial class MatrixManager : MonoBehaviour
 					{
 						if (ClosestHit != null)
 						{
-							if (ClosestHit.Value.Distance < Checkhit.Value.Distance)
+							if (ClosestHit.Value.Distance > Checkhit.Value.Distance)
 							{
 								ClosestHit = Checkhit;
 							}
@@ -935,6 +935,11 @@ public partial class MatrixManager : MonoBehaviour
 	public static bool IsWindowAtAnyMatrix(Vector3Int worldTarget, bool isServer)
 	{
 		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
+	}
+
+	public static bool IsGrillAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	{
+		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsGrillAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
 	/// <Summary>
