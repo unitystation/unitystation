@@ -26,12 +26,16 @@ MonoBehaviour:
   RelatedPresentSprites: []
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
+  BodyPartItemSprite: {fileID: 0}
+  BodyPartItemInheritsSkinColor: 0
   BodySpriteSet: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 0
+  DeathOnRemoval: 0
   ClothingHide: 0
+  Tone: {r: 1, g: 1, b: 1, a: 1}
   efficiency: 1
   TotalModified: 1
   SurgeryProcedureBase: []
@@ -58,6 +62,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   SubOrganBodyPartArmour:
     Melee: 100
     Bullet: 90
@@ -69,11 +74,25 @@ MonoBehaviour:
     Acid: 100
     Magic: 100
     Bio: 0
+    DismembermentProtectionChance: 0
   SubOrganDamageIncreasePoint: 50
   DamageContributesToOverallHealth: 1
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
+  DamageThreshold: 18
+  GibsOnSeverityLevel: 150
+  GibChance: 0.15
+  BodyPartStorageContentsSpillOutOnCutSize: 3
+  BodyPartSlashLogicOnCutSize: 1
+  BodyPartDisembowelLogicOnCutSize: 2
+  spillChanceWhenCutPresent: 0.5
+  CanBleedInternally: 0
+  CanBleedExternally: 0
+  MinMaxInternalBleedingValues: {x: 5, y: 20}
+  maximumInternalBleedDamage: 100
+  bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
+  bodyPartAshesAboveThisDamage: 125
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +116,8 @@ MonoBehaviour:
   Populater:
     MergeMode: 0
     Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &8113072997116454967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +141,7 @@ MonoBehaviour:
   maxCapacity: 0.5
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
+  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:

@@ -13,14 +13,12 @@ using Object = System.Object;
 
 
 // TODO
-// Colour code
 // pool books
 
 public static class VariableViewer
 {
 	public static void ProcessTile(Vector3 Location, GameObject WhoBy)
 	{
-		Location.z = 0f;
 		Vector3Int worldPosInt = Location.To2Int().To3Int();
 		Matrix matrix = MatrixManager.AtPoint(worldPosInt, true).Matrix;
 
@@ -54,7 +52,7 @@ public static class VariableViewer
 
 	public static void ProcessTransform(Transform transform, GameObject WhoBy)
 	{
-		Librarian.library.TraverseHierarchy(transform);
+		Librarian.library.TraverseHierarchy();
 		Librarian.Library.LibraryBookShelf BookShelf;
 		if (Librarian.TransformToBookShelf.ContainsKey(transform))
 		{
@@ -72,6 +70,13 @@ public static class VariableViewer
 		LibraryNetMessage.Send(Librarian.library, WhoBy);
 
 	}
+
+	public static void RequestHierarchy(GameObject WhoBy)
+	{
+		Librarian.library.TraverseHierarchy();
+		LibraryNetMessage.Send(Librarian.library, WhoBy);
+	}
+
 
 	public static void ProcessOpenBook(ulong BookID, GameObject ByWho) //yes yes if you Have high Ping then rip, -Creator
 	{
@@ -593,8 +598,23 @@ public static class Librarian
 		public List<LibraryBookShelf> Roots = new List<LibraryBookShelf>();
 
 		public Dictionary<Transform, LibraryBookShelf> TransformToBookShelves = new Dictionary<Transform,LibraryBookShelf>();
-		public void TraverseHierarchy(Transform Object)
+		public void TraverseHierarchy()
 		{
+			List<Transform> Transforms = new List<Transform>();
+			foreach (var KV in Librarian.library.TransformToBookShelves)
+			{
+				if (KV.Key == null)
+				{
+					Transforms.Add(KV.Key);
+				}
+			}
+
+			foreach (var TF in Transforms)
+			{
+				Librarian.library.TransformToBookShelves.Remove(TF);
+				TransformToBookShelf.Remove(TF);
+			}
+
 			int countLoaded = SceneManager.sceneCount;
 			Scene[] loadedScenes = new Scene[countLoaded];
 
@@ -608,93 +628,26 @@ public static class Librarian
 				var roots = Scene.GetRootGameObjects();
 				foreach (var root in roots)
 				{
-					RootTraverseHierarchy(root.transform);
+					RecursivePopulate(root.transform, null);
 				}
 			}
 
 		}
 
-
-		public void RootTraverseHierarchy(Transform Root)
-		{
-			if (TransformToBookShelves.ContainsKey(Root))
-			{
-
-				List<Transform> Children = new List<Transform>();
-				if (Root.childCount > 0)
-				{
-					for (int i = 0; i < Root.childCount; i++)
-					{
-						Children.Add(Root.GetChild(i));
-					}
-				}
-
-				var libraryBookShelf =  TransformToBookShelves[Root];
-				List<Transform> TOProcessAdd = new List<Transform>();
-
-				foreach (var Child in Children)
-				{
-					if (libraryBookShelf.Contains.Contains(Child) == false)
-					{
-						TOProcessAdd.Add(Child);
-					}
-				}
-
-				List<Transform> TOProcessRemove = new List<Transform>();
-				foreach (var Child in libraryBookShelf.Contains)
-				{
-					if (Children.Contains(Child) == false)
-					{
-						TOProcessRemove.Add(Child);
-					}
-				}
-
-				foreach (var Child in TOProcessRemove)
-				{
-					if (TransformToBookShelves.ContainsKey(Child))
-					{
-						TransformToBookShelves[Child].ParentChange();
-					}
-				}
-
-
-				foreach (var Child in TOProcessAdd)
-				{
-					libraryBookShelf.Contains.Add(Child);
-				}
-
-
-				foreach (var Child in Children)
-				{
-					RecursivePopulate(Child,Root);
-				}
-			}
-			else
-			{
-				List<Transform> Children = new List<Transform>();
-				if (Root.childCount > 0)
-				{
-					for (int i = 0; i < Root.childCount; i++)
-					{
-						Children.Add(Root.GetChild(i));
-					}
-				}
-
-				var libraryBookShelf =  LibraryBookShelf.PartialGenerateLibraryBookShelf(Root, null, Children);
-				TransformToBookShelves[Root] = libraryBookShelf;
-				Roots.Add(libraryBookShelf);
-				foreach (var Child in Children)
-				{
-					RecursivePopulate(Child,Root);
-				}
-			}
-		}
-
+		List<LibraryBookShelf> THISDestroy = new List<LibraryBookShelf>();
+		List<Transform> Children = new List<Transform>();
+		List<Transform> TOProcessAdd = new List<Transform>();
+		List<LibraryBookShelf> TOProcessRemove = new List<LibraryBookShelf>();
 		public void RecursivePopulate(Transform Object, Transform Parent)
 		{
+			THISDestroy.Clear();
+			Children.Clear();
+			TOProcessAdd.Clear();
+			TOProcessRemove.Clear();
+
 			if (TransformToBookShelves.ContainsKey(Object))
 			{
-				List<Transform> Children = new List<Transform>();
+
 				if (Object.childCount > 0)
 				{
 					for (int i = 0; i < Object.childCount; i++)
@@ -704,7 +657,7 @@ public static class Librarian
 				}
 
 				var libraryBookShelf =  TransformToBookShelves[Object];
-				List<Transform> TOProcessAdd = new List<Transform>();
+
 
 				foreach (var Child in Children)
 				{
@@ -714,42 +667,77 @@ public static class Librarian
 					}
 				}
 
+				bool DestroySelf = false;
 				if (libraryBookShelf.Parent != Parent)
 				{
-					libraryBookShelf.ParentChange();
+					if (libraryBookShelf.ParentChange())
+					{
+						DestroySelf = true;
+					}
 				}
 
-				List<Transform> TOProcessRemove = new List<Transform>();
-				foreach (var Child in libraryBookShelf.Contains)
+
+				bool hasNull = false;
+				foreach (var Child in libraryBookShelf.InternalContain)
 				{
-					if (Children.Contains(Child) == false)
+					if (Child.Shelf == null)
+					{
+						TOProcessRemove.Add(Child);
+						continue;
+					}
+					if (Children.Contains(Child.Shelf.transform) == false)
 					{
 						TOProcessRemove.Add(Child);
 					}
+
 				}
+
 
 				foreach (var Child in TOProcessRemove)
 				{
-					if (TransformToBookShelves.ContainsKey(Child))
+					libraryBookShelf.Contains.RemoveAll(item => item == null);
+					if (Child.Shelf != null)
 					{
-						TransformToBookShelves[Child].ParentChange();
+						libraryBookShelf.Contains.Remove(Child.Shelf.transform);
+						if (TransformToBookShelves.ContainsKey(Child.Shelf.transform))
+						{
+							TransformToBookShelves[Child.Shelf.transform].ParentChange();
+						}
 					}
+					else
+					{
+						Child.DestroySelf();
+					}
+
+					libraryBookShelf.InternalContain.Remove(Child);
+
 				}
+
 
 				foreach (var Child in TOProcessAdd)
 				{
 					libraryBookShelf.Contains.Add(Child);
+					Children.Add(Child);
 				}
 
 
-				foreach (var Child in Children)
+				foreach (var _Shelf in THISDestroy)
+				{
+					_Shelf.DestroySelf();
+				}
+
+				if (DestroySelf)
+				{
+					libraryBookShelf.DestroySelf();
+				}
+
+				foreach (var Child in Children.ToArray())
 				{
 					RecursivePopulate(Child,Object);
 				}
 			}
 			else
 			{
-				List<Transform> Children = new List<Transform>();
 				if (Object.childCount > 0)
 				{
 					for (int i = 0; i < Object.childCount; i++)
@@ -760,7 +748,12 @@ public static class Librarian
 
 				var libraryBookShelf =  LibraryBookShelf.PartialGenerateLibraryBookShelf(Object, Parent, Children);
 				TransformToBookShelves[Object] = libraryBookShelf;
-				foreach (var Child in Children)
+				if (Parent == null)
+				{
+					Roots.Add(libraryBookShelf);
+				}
+
+				foreach (var Child in Children.ToArray())
 				{
 					RecursivePopulate(Child,Object);
 				}
@@ -775,6 +768,7 @@ public static class Librarian
 			public Transform Parent;
 			public List<Transform> Contains = new List<Transform>();
 
+			public List<LibraryBookShelf> InternalContain = new List<LibraryBookShelf>();
 
 			public bool IsPartiallyGenerated = true;
 			public List<Book> HeldBooks = new List<Book>();
@@ -783,6 +777,19 @@ public static class Librarian
 			public string ShelfName;
 			public bool IsEnabled;
 			public GameObject Shelf;
+
+			public void DestroySelf()
+			{
+				if (Shelf != null)
+				{
+					Librarian.library.TransformToBookShelves.Remove(Shelf.transform);
+					TransformToBookShelf.Remove(Shelf.transform);
+				}
+				IDToBookShelf.Remove(ID);
+				Librarian.library.Roots.Remove(this);
+				Contains.Clear();
+
+			}
 
 			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform)
 			{
@@ -812,16 +819,31 @@ public static class Librarian
 				BookShelfAID++;
 				libraryBookShelf.Shelf = _Transform.gameObject;
 				libraryBookShelf.Parent = _Parent;
-				libraryBookShelf.Contains = Children;
+				if (_Parent != null)
+				{
+					library.TransformToBookShelves[_Parent].InternalContain.Add(libraryBookShelf);
+				}
+
+				libraryBookShelf.Contains.AddRange(Children);
 				IDToBookShelf[libraryBookShelf.ID] = libraryBookShelf;
 				TransformToBookShelf[libraryBookShelf.Shelf.transform] = libraryBookShelf;
 
 				return libraryBookShelf;
 			}
 
-			public void ParentChange()
+			public bool ParentChange()
 			{
+				if (Shelf == null)
+				{
+					return false;
+				}
 				Parent = Shelf.transform.parent;
+				if (Shelf.transform.parent != null)
+				{
+					library.TransformToBookShelves[Shelf.transform.parent].InternalContain.Add(this);
+				}
+
+				return true;
 			}
 
 

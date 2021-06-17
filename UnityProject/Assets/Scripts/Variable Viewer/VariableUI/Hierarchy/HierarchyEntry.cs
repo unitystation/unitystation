@@ -30,7 +30,6 @@ public class HierarchyEntry : MonoBehaviour
 		ThePageDown.SetActive(false);
 		Shelf = _Shelf;
 		Name.text = _Shelf.Nm;
-
 	}
 
 	public void Highlight()
@@ -45,6 +44,8 @@ public class HierarchyEntry : MonoBehaviour
 			hierarchyEntry.ResetThis();
 		}
 		hierarchyEntryChildren.Clear();
+		ThePageUp.SetActive(false);
+		ThePageDown.SetActive(false);
 	}
 
 	public void DisplayPage()
@@ -70,7 +71,7 @@ public class HierarchyEntry : MonoBehaviour
 			hierarchyEntryChildren.Add(hierarchyEntry);
 			hierarchyEntry.transform.SetParent(this.transform);
 			hierarchyEntry.transform.localScale = Vector3.one;
-			hierarchyEntry.SetActive(true);
+			hierarchyEntry.gameObject.SetActive(true);
 			hierarchyEntry.SetThis(Child);
 			UIManager.Instance.LibraryUI.IDtoHierarchyEntry[Child.ID] = hierarchyEntry;
 			i++;
@@ -130,6 +131,7 @@ public class HierarchyEntry : MonoBehaviour
 		Name.color = Color.white;
 		ExpandText.text = ">";
 		ChildPage = 0;
+		this.gameObject.SetActive(false);
 		ThePageUp.SetActive(false);
 		ThePageDown.SetActive(false);
 		UIManager.Instance.LibraryUI.PoolhierarchyEntry(this);

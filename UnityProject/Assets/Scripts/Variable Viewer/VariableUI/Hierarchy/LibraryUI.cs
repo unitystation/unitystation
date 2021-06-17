@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
@@ -32,13 +34,30 @@ public class LibraryUI : MonoBehaviour
 	public List<VariableViewerNetworking.NetFriendlyHierarchyBookShelf> THisCompressedHierarchy = new List<VariableViewerNetworking.NetFriendlyHierarchyBookShelf>();
 
 	public TMP_InputField InputField;
+
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(Event.RoundEnded, Reset);
+	}
+
+	public void Reset()
+	{
+		SetUp(new List<VariableViewerNetworking.NetFriendlyHierarchyBookShelf>());
+	}
+
+	public void NetRefresh()
+	{
+		RequestRefreshHierarchy.Send(ServerData.UserID, PlayerList.Instance.AdminToken);
+	}
+
 	public HierarchyEntry GethierarchyEntry()
 	{
 		if (PoolHierarchys.Count == 0)
 		{
 			var hierarchyEntry = Instantiate(SpawnPrefab, PoolHolder);
 			OpenHierarchys.Add(hierarchyEntry);
-			return Instantiate(SpawnPrefab);
+			return hierarchyEntry;
 		}
 		else
 		{
@@ -71,11 +90,10 @@ public class LibraryUI : MonoBehaviour
 		{
 			HierarchyEntry HierarchyEntry = GethierarchyEntry();
 			HierarchyEntry.transform.SetParent(RootSpace);
-			HierarchyEntry.SetActive(true);
+			HierarchyEntry.gameObject.SetActive(true);
 			HierarchyEntry.SetThis(root);
 			HierarchyEntry.transform.localScale = Vector3.one;
 			IDtoHierarchyEntry[root.ID] = HierarchyEntry;
-			OpenHierarchys.Add(HierarchyEntry);
 			//RecursivPopulate(root);
 		}
 
@@ -92,6 +110,10 @@ public class LibraryUI : MonoBehaviour
 		foreach (var Compressed in CompressedHierarchy)
 		{
 			IDtoBookShelves[Compressed.ID] = Compressed;
+		}
+
+		foreach (var Compressed in CompressedHierarchy)
+		{
 			if (Compressed.PID == 0)
 			{
 				Roots.Add(Compressed);
@@ -103,6 +125,8 @@ public class LibraryUI : MonoBehaviour
  			}
 		}
 
+
+
 		Refresh();
 	}
 
@@ -110,7 +134,7 @@ public class LibraryUI : MonoBehaviour
 	{
 		PoolHierarchys.Enqueue(hierarchyEntry);
 		hierarchyEntry.transform.SetParent(PoolHolder);
-		hierarchyEntry.SetActive(false);
+		hierarchyEntry.gameObject.SetActive(false);
 		if (OpenHierarchys.Contains(hierarchyEntry)) OpenHierarchys.Remove(hierarchyEntry);
 	}
 
@@ -135,21 +159,12 @@ public class LibraryUI : MonoBehaviour
 
 		foreach (var root in Roots)
 		{
-			HierarchyEntry HierarchyEntry = null;
-			if (PoolHierarchys.Count == 0)
-			{
-				HierarchyEntry = Instantiate(SpawnPrefab);
-			}
-			else
-			{
-				HierarchyEntry = PoolHierarchys.Dequeue();
-			}
+			HierarchyEntry HierarchyEntry = GethierarchyEntry();
 			HierarchyEntry.transform.SetParent(RootSpace);
 			HierarchyEntry.SetActive(true);
 			HierarchyEntry.SetThis(root);
 			HierarchyEntry.transform.localScale = Vector3.one;
 			IDtoHierarchyEntry[root.ID] = HierarchyEntry;
-			OpenHierarchys.Add(HierarchyEntry);
 			//RecursivPopulate(root);
 		}
 

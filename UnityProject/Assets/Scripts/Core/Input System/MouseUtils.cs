@@ -30,6 +30,17 @@ public static class MouseUtils
 	}
 
 	/// <summary>
+	/// orthographic cameras print their z position when using ScreenToWorldPoint()
+	/// this function is meant to set that to 0 which is the usual position of objects and tiles
+	/// </summary>
+	public static Vector3 MouseToWorldPos()
+	{
+		var worldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt();
+		worldPos.z = 0;
+		return worldPos;
+	}
+
+	/// <summary>
 	/// Gets the game objects under the given world position, ordered so that highest item comes first.
 	///
 	/// The top-level matrix gameobject (the one with InteractableTiles) at this point is included at the end (if any of its tilemap gameobjects were at this point)
@@ -45,7 +56,6 @@ public static class MouseUtils
 	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null,
 		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		worldPoint.z = 0;
 		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance._isServer)
 			.Matrix;
 		if (!matrix)
@@ -128,7 +138,7 @@ public static class MouseUtils
 	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null,
 		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask,
+		return GetOrderedObjectsAtPoint(MouseToWorldPos(), layerMask,
 			gameObjectFilter);
 	}
 
