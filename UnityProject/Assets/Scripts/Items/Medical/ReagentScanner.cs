@@ -16,7 +16,7 @@ namespace Items.Others
 	public class ReagentScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		[SerializeField]
-		public bool isGoggles = false;
+		private bool isGoggles = false;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
