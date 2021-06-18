@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/6/18: **[Balance]** several cargo crates in the cargo console have been combined together for convenience. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
+* 2021/6/18: **[Balance]** removed several redundant cargo crates from the medical, security, service, and engineering categories in the cargo console. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
+* 2021/6/18: **[Balance]** first aid kits now come with gauze for treating bleeding. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
 * 2021/6/18: [Fix] fixes item sticking to matrices #6762 by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
 * 2021/6/18: [Fix] Fixes Body parts And internal bleedding by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
 * 2021/6/18: [Fix] Fixes characters Settings for lizards by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
