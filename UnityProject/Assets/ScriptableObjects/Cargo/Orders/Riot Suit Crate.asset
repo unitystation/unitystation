@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: Riot Suit Crate
   m_EditorClassIdentifier: 
   OrderName: Riot Suit Crate
-  CreditCost: 1200
+  CreditCost: 1800
   Crate: {fileID: 8898622964154730421, guid: 2ddd540cb32301549aa9c9be8616f5d6, type: 3}
   Items:
   - {fileID: 8047502545042658809, guid: 0cbcbdb33f79d8147854f04a0ce18a71, type: 3}
   - {fileID: 8047502545042658809, guid: 0cbcbdb33f79d8147854f04a0ce18a71, type: 3}
   - {fileID: 8047502545042658809, guid: 0cbcbdb33f79d8147854f04a0ce18a71, type: 3}
-  ContentSellPrice: 0
+  - {fileID: 7636118406116123594, guid: 0d3043f6d48ca14478534a739fb01782, type: 3}
+  - {fileID: 7636118406116123594, guid: 0d3043f6d48ca14478534a739fb01782, type: 3}
+  - {fileID: 7636118406116123594, guid: 0d3043f6d48ca14478534a739fb01782, type: 3}
+  ContentSellPrice: 500
+  EmagOnly: 0

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
-  m_Name: Oxygen Canister Crate
+  m_Name: Oxygen Tank Crate
   m_EditorClassIdentifier: 
-  OrderName: Oxygen Canister Crate
+  OrderName: Oxygen Tank Crate
   CreditCost: 1200
   Crate: {fileID: 5157900141329837819, guid: 096c41b09ced97346991ef6fca83f8ad, type: 3}
   Items:
@@ -26,4 +26,5 @@ MonoBehaviour:
   - {fileID: 8687924225242013247, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a, type: 3}
   - {fileID: 8687924225242013247, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a, type: 3}
   - {fileID: 8687924225242013247, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 500
+  EmagOnly: 0
