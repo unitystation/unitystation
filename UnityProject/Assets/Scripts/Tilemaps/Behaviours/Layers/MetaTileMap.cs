@@ -1203,7 +1203,7 @@ namespace TileManagement
 			{
 				foreach (var ServerObject in ObjectLayer.ServerObjects.Get(position))
 				{
-					ServerObject.CNT.CheckMatrixSwitch();
+					ServerObject.customNetTransform.CheckMatrixSwitch();
 				}
 			}
 		}

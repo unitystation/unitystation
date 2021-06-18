@@ -235,7 +235,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private CustomNetTransform cnt;
 
-	public CustomNetTransform CNT => cnt;
+	public CustomNetTransform customNetTransform => cnt;
 
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
