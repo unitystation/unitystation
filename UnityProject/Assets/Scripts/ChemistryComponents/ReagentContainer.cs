@@ -450,7 +450,7 @@ namespace Chemistry.Components
 						}
 						else
 						{
-							ExamineContents();
+							ExamineContents(interaction);
 						}
 						break;
 					}
@@ -460,16 +460,16 @@ namespace Chemistry.Components
 			}
 		}
 
-		private void ExamineContents()
+		private void ExamineContents(ContextMenuApply interaction)
 		{
 			if (IsEmpty)
 			{
-				Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} is empty.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} is empty.");
 				return;
 			}
 			else
 			{
-				Chat.AddExamineMsgToClient(this.Examine());
+				Chat.AddExamineMsgFromServer(interaction.Performer, this.Examine());
 			}
 		}
 
