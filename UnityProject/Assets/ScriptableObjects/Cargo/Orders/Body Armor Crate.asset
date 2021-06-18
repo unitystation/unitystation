@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
-  m_Name: Armor Crate
+  m_Name: Body Armor Crate
   m_EditorClassIdentifier: 
-  OrderName: Armor Crate
-  CreditCost: 600
+  OrderName: Body Armor Crate
+  CreditCost: 800
   Crate: {fileID: 8898622964154730421, guid: 2ddd540cb32301549aa9c9be8616f5d6, type: 3}
   Items:
   - {fileID: 8961080704280307221, guid: 900572ab8ed9030429b12eaa3974a43f, type: 3}
   - {fileID: 8961080704280307221, guid: 900572ab8ed9030429b12eaa3974a43f, type: 3}
   - {fileID: 8961080704280307221, guid: 900572ab8ed9030429b12eaa3974a43f, type: 3}
-  ContentSellPrice: 0
+  - {fileID: 6027075545028170607, guid: 756f2030a8381aa4c8151d3e29cae3d2, type: 3}
+  - {fileID: 6027075545028170607, guid: 756f2030a8381aa4c8151d3e29cae3d2, type: 3}
+  - {fileID: 6027075545028170607, guid: 756f2030a8381aa4c8151d3e29cae3d2, type: 3}
+  ContentSellPrice: 500
+  EmagOnly: 0

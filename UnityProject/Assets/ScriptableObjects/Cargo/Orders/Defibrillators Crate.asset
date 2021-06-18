@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
-  m_Name: Burn Kit Crate
+  m_Name: Defibrillators Crate
   m_EditorClassIdentifier: 
-  OrderName: Burn Kit Crate
+  OrderName: Defibrillators Crate
   CreditCost: 800
   Crate: {fileID: 2395943996647778371, guid: a85bb77436de9574c8523fe45acffb14, type: 3}
   Items:
-  - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
-  - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
-  - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
-  ContentSellPrice: 0
+  - {fileID: 5743668296517273336, guid: 468072fd130877c408f3a1950377560d, type: 3}
+  - {fileID: 5743668296517273336, guid: 468072fd130877c408f3a1950377560d, type: 3}
+  ContentSellPrice: 500
+  EmagOnly: 0
