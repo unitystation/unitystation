@@ -121,7 +121,7 @@ namespace Messages.Server
 					if (instance == null)
 					{
 						Logger.LogError($"Couldn't find NetTab to send for {provider.ExpensiveName()} " +
-								$"Does the tab prefab match the type '{type}'? Expecting prefab name Tab'{type}' in a specific folder.");
+								$"Does the tab prefab match the type '{type}'? Expecting prefab name 'Tab{type}' in a specific folder.");
 						return default;
 					}
 					values = instance.ElementValues;
