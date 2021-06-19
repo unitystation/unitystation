@@ -194,6 +194,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
@@ -277,6 +278,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -390,6 +392,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:

@@ -48,5 +48,12 @@ namespace HealthV2
 			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd));
 			bloodPool.Add(bloodToAdd);
 		}
+
+		public void Bleed(float amount)
+		{
+			var bloodLoss = new ReagentMix();
+			ReadyBloodPool.TransferTo(bloodLoss, amount);
+			MatrixManager.ReagentReact(bloodLoss, healthMaster.gameObject.RegisterTile().WorldPositionServer);
+		}
 	}
 }

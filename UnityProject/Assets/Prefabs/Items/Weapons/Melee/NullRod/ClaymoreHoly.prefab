@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: eac21e8e93bf196439e7e796264cf08f, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 09d0b1c65378ef84a8825344c77f2727, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -129,6 +129,26 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: slashChance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: slashDamage
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: pierceChance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: pierceDamage
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}

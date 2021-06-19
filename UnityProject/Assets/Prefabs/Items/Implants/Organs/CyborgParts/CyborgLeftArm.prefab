@@ -100,6 +100,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 51ca87009f5327b44b59092dea2460c5,
         type: 2}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyPartDisembowlLogicOnCutSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5603819714738991316, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: PresentSpriteSet

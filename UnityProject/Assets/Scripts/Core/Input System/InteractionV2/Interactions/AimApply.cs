@@ -75,7 +75,7 @@ public class AimApply : Interaction
 			PLAYER_LAYER_MASK = LayerMask.GetMask("Players");
 		}
 
-		var targetVector = (Vector2) Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
+		var targetVector = (Vector2) MouseUtils.MouseToWorldPos() -
 		                   (Vector2) PlayerManager.LocalPlayer.transform.position;
 		//check for self aim if target vector is sufficiently small so we can avoid raycast
 		var selfAim = false;

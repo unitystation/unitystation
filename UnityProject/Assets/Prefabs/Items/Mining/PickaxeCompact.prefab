@@ -29,6 +29,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
+      propertyPath: pierceChance
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: pierceDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 2
       objectReference: {fileID: 0}

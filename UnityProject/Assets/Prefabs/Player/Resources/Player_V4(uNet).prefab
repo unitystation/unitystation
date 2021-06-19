@@ -418,6 +418,7 @@ GameObject:
   - component: {fileID: 114803877374308862}
   - component: {fileID: 114449635359748350}
   - component: {fileID: 50851566022184656}
+  - component: {fileID: 8384177609795425991}
   - component: {fileID: 114908376472113748}
   - component: {fileID: 6017414943583453005}
   - component: {fileID: 6880295280032021907}
@@ -427,6 +428,7 @@ GameObject:
   - component: {fileID: 7786899671633797224}
   - component: {fileID: 8566362239651287352}
   - component: {fileID: 114279031792796038}
+  - component: {fileID: 441872716838640463}
   - component: {fileID: 4171332437423579703}
   - component: {fileID: 7831221530082840597}
   - component: {fileID: -5817005449759474551}
@@ -449,7 +451,6 @@ GameObject:
   - component: {fileID: -854922976880339718}
   - component: {fileID: 2105882665300898234}
   - component: {fileID: 1952996692186363365}
-  - component: {fileID: 8647976758232063740}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -706,6 +707,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: -8106636780342977062}
 --- !u!114 &114803877374308862
 MonoBehaviour:
@@ -778,6 +780,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8384177609795425991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  denyStorageOfStorageItems: 0
+  canClickPickup: 0
+  canQuickEmpty: 0
+  actionData: {fileID: 0}
 --- !u!114 &114908376472113748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,6 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4109701b444706740ae28471c23eb12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeBetweenDisarms: 0.5
 --- !u!114 &7786899671633797224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,6 +967,7 @@ MonoBehaviour:
   Populater:
     MergeMode: 0
     Contents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &4171332437423579703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,6 +1102,7 @@ MonoBehaviour:
   brain: {fileID: 0}
   ImplantList: []
   RootBodyPartContainers: []
+  PlayerScriptOwner: {fileID: 114617133355526680}
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   percentAllergies: 30
   commonAllergies: {fileID: 0}
@@ -1307,25 +1328,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0
---- !u!114 &8647976758232063740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a9211349d74cc745b7ba53da3ecadd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 1
-  syncInterval: 0.1
-  playerNetworkActions: {fileID: 114390575568471296}
-  registerPlayer: {fileID: 114285504268110804}
-  UIBodyPartsToSerialise: 
-  ClientUIBodyPartsToSerialise: 
-  StandardPopulator: {fileID: 11400000, guid: e9fa91afc36164817bc3c3c26eb54266, type: 2}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -7947,6 +7949,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &8271366125234986503
@@ -7970,8 +7974,10 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
-    DeprecatedContents: []
+    MergeMode: 0
+    Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &1623862359695953465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8059,6 +8065,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &4508263270075214926
@@ -8082,8 +8090,10 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
-    DeprecatedContents: []
+    MergeMode: 0
+    Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &167948671899965558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8202,6 +8212,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &3010957235167502249
@@ -8225,8 +8237,10 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
-    DeprecatedContents: []
+    MergeMode: 0
+    Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &3893195702280130298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8331,7 +8345,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8547,6 +8561,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &6433378785423412763
@@ -8570,8 +8586,10 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
-    DeprecatedContents: []
+    MergeMode: 0
+    Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &359018724164210273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8766,6 +8784,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &9114892414776758325
@@ -8789,8 +8809,10 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
-    DeprecatedContents: []
+    MergeMode: 0
+    Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &1044408257225912275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8878,6 +8900,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &3506449732822759296
@@ -8901,8 +8925,10 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
-    DeprecatedContents: []
+    MergeMode: 0
+    Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &2073203771905383012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9098,10 +9124,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4300145449095171559}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4299649681570296155 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
-

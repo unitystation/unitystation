@@ -46,6 +46,10 @@ public class Lungs : BodyPartModification
 	[Tooltip("The volume of the lung in litres")]
 	public float LungSize = 6;
 
+	[SerializeField, Range(0,100)] private float coughChanceWhenInternallyBleeding = 32;
+	[SerializeField] private float internalBleedingCooldown = 4f;
+    private bool onCooldown = false;
+
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
@@ -56,6 +60,11 @@ public class Lungs : BodyPartModification
 		if (TryBreathing(node, RelatedPart.TotalModified))
 		{
 			AtmosManager.Update(node);
+		}
+
+		if(RelatedPart.IsBleedingInternally)
+		{
+			InternalDamageLogic();
 		}
 	}
 
@@ -162,10 +171,15 @@ public class Lungs : BodyPartModification
 				// Get as much as we need, or as much as in the lungs, whichever is lower
 				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
 				float molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
-				toInhale.Add(gasReagent, molesRecieved * efficiency);
+				if(molesRecieved.Approx(0) == false)
+				{
+					toInhale.Add(gasReagent, molesRecieved * efficiency);
+				}
+				
 
 				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
+			
 		}
 		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 
@@ -183,11 +197,48 @@ public class Lungs : BodyPartModification
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (Random.value < 0.2)
 			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.gameObject.ExpensiveName()} gasps");
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps");
 			}
 		}
 
 		//Debug.Log("Gas inhaled: " + toInhale.Total + " Saturation: " + saturation);
 		return toInhale.Total > 0;
 	}
+
+	public override void InternalDamageLogic()
+	{
+        if(!onCooldown)
+        {
+			if(RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage / 2)
+			{
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
+				"You gasp for air; but you drown in your own blood from the inside!", 
+				$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps for air!");
+				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
+			}
+			else
+			{
+				RelatedPart.InternalBleedingLogic();
+			}
+            if(DMMath.Prob(coughChanceWhenInternallyBleeding))
+            {
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
+				"You cough up blood!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} coughs up blood!");
+				RelatedPart.CurrentInternalBleedingDamage -= Random.Range(RelatedPart.MinMaxInternalBleedingValues.x, RelatedPart.MinMaxInternalBleedingValues.y);
+
+				//TODO: TAKE BLOOD
+				var bloodLoss = new ReagentMix();
+				RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(bloodLoss, RelatedPart.CurrentInternalBleedingDamage);
+				MatrixManager.ReagentReact(bloodLoss, RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer);
+            }
+			onCooldown = true;
+            StartCoroutine(CooldownTick());
+        }
+	}
+
+    private IEnumerator<WaitForSeconds> CooldownTick()
+    {
+        yield return new WaitForSeconds(internalBleedingCooldown);
+        onCooldown = false;
+    }
 }

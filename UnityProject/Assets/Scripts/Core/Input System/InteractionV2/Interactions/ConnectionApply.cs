@@ -73,8 +73,7 @@ public class ConnectionApply : TargetedInteraction
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
 
-		var targetVec = targetVector ?? Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
-						PlayerManager.LocalPlayer.transform.position;
+		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos() - PlayerManager.LocalPlayer.transform.position;
 
 		return new ConnectionApply(
 			PlayerManager.LocalPlayer,

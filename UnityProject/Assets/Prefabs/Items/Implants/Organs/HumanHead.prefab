@@ -217,6 +217,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: BodyPartReadableName
+      value: Head
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: maleSprite.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -248,6 +253,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287,
         type: 2}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SurgeryProcedureBase.Array.size

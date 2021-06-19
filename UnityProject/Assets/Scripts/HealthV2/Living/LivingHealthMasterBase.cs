@@ -226,19 +226,29 @@ namespace HealthV2
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
+		public PlayerScript PlayerScriptOwner;
+
 		public virtual void Awake()
 		{
 			EnsureInit();
+			if(PlayerScriptOwner == null)
+			{
+				PlayerScriptOwner = this.gameObject.Player().Script;
+			}
 		}
 
 		void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Add(PeriodicUpdate, 1f);
 		}
 
 		void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
@@ -316,32 +326,27 @@ namespace HealthV2
 			EnsureInit();
 		}
 
+		//Server Side only
 		private void UpdateMe()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			foreach (var implant in RootBodyPartContainers)
 			{
-				foreach (var implant in RootBodyPartContainers)
-				{
-					implant.ImplantUpdate();
-				}
+				implant.ImplantUpdate();
 			}
-
 			//do Separate delayed blood update
 		}
 
+		//Server Side only
 		private void PeriodicUpdate()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			foreach (var implant in RootBodyPartContainers)
 			{
-				foreach (var implant in RootBodyPartContainers)
-				{
-					implant.ImplantPeriodicUpdate();
-				}
-
-				fireStacksDamage();
-				CalculateRadiationDamage();
-				CalculateOverallHealth();
+				implant.ImplantPeriodicUpdate();
 			}
+
+			fireStacksDamage();
+			CalculateRadiationDamage();
+			CalculateOverallHealth();
 		}
 
 		/// <summary>
@@ -591,7 +596,8 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
+				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -612,7 +618,8 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
+				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -729,10 +736,46 @@ namespace HealthV2
 					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration);
 				}
 			}
+		}
 
-			if (damageType == DamageType.Brute)
+		public virtual void ApplySlashDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
+						bodyPartContainer.TakeSlashDamage(damage);
+					}
+				}
+			}
+		}
+
+		public virtual void ApplyPierceDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
+			{
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
+						bodyPartContainer.TakePierceDamage(damage);
+					}
+				}
+			}
+		}
+
+		public virtual void ApplyBurnDamage(BodyPartType aimedBodyPart, float damage)
+		{
+			foreach (var bodyPartContainer in RootBodyPartContainers)
+			{
+				if (bodyPartContainer.BodyPartType == aimedBodyPart)
+				{
+					bodyPartContainer.TakeBurnDamage(damage);
+				}
 			}
 		}
 
@@ -922,7 +965,7 @@ namespace HealthV2
 		/// ---------------------------
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
-		/// Currently not implemented
+		/// Currently not fully implemented
 		///</Summary>
 		public virtual void Death()
 		{

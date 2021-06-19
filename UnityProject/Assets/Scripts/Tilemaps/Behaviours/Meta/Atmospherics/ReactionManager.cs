@@ -71,7 +71,21 @@ namespace Systems.Atmospherics
 			AtmosThread.reactionManagerList.Add(this);
 		}
 
-		private void Update()
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			Profiler.BeginSample("Wind");
 			winds.Iterate(windsNodeDelegator);

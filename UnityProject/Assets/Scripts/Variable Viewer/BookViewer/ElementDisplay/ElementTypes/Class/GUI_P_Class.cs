@@ -34,7 +34,10 @@ public class GUI_P_Class : PageElement
 
 	public override void SetUpValues(Type ValueType, VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false)
 	{
-		TText.text = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
+		var name = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
+		if (name.Length > 50)
+			name = name.Substring(0, 50);
+		TText.text = name;
 		if (Page != null)
 		{
 			PageID = Page.ID;

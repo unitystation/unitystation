@@ -53,6 +53,8 @@ namespace Items
 				}
 			}
 
+			objectName = wallTile.DisplayName;
+
 			ToolUtils.ServerUseToolWithActionMessages(
 				interaction, calculatedMineTime,
 				$"You start mining the {objectName}...",

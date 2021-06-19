@@ -42,6 +42,8 @@ public class Heart : BodyPartModification
 
 	public int CurrentPulse = 0;
 
+	private bool alarmedForInternalBleeding = false;
+
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
@@ -74,6 +76,21 @@ public class Heart : BodyPartModification
 		DoHeartBeat(RelatedPart.HealthMaster);
 	}
 
+	public override void InternalDamageLogic()
+	{
+		base.InternalDamageLogic();
+		if(RelatedPart.CurrentInternalBleedingDamage > 50 && alarmedForInternalBleeding == false)
+		{
+			Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
+			$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
+			alarmedForInternalBleeding = true;
+		}
+		if(RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage)
+		{
+			DoHeartAttack();
+		}
+	}
+
 	public void DoHeartBeat(LivingHealthMasterBase healthMaster)
 	{
 		//If we actually have a circulatory system.
@@ -84,6 +101,7 @@ public class Heart : BodyPartModification
 			if (RNGInt > 9990)
 			{
 				HeartAttack = false;
+				alarmedForInternalBleeding = false;
 			}
 
 			return;

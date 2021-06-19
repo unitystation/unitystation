@@ -62,8 +62,7 @@ public class PositionalHandApply : BodyPartTargetedInteraction
 		{
 			return Invalid;
 		}
-		var targetVec = targetVector ?? Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
-		                PlayerManager.LocalPlayer.transform.position;
+		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos() - PlayerManager.LocalPlayer.transform.position;
 		return new PositionalHandApply(PlayerManager.LocalPlayer,
 			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot()?.ItemObject,
 			targetObject,

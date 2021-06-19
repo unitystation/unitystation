@@ -335,7 +335,6 @@ namespace HealthV2
 
 				ThisSurgeryStep = SurgeryProcedureBase.SurgerySteps[CurrentStep];
 
-
 				if (ThisSurgeryStep != null)
 				{
 					if (Validations.HasItemTrait(interaction.HandObject, ThisSurgeryStep.RequiredTrait))
@@ -426,12 +425,21 @@ namespace HealthV2
 				SurgeryProcedureBase = inSurgeryProcedureBase;
 			}
 
+			/// <summary>
+			/// Replaces $ tags with their wanted names.
+			/// </summary>
+			/// <param name="toReplace">must have performer, Using and/or OnPart tags to replace.</param>
+			/// <returns></returns>
 			public string ApplyChatModifiers(string toReplace)
 			{
 				if (!string.IsNullOrWhiteSpace(toReplace))
 				{
+					toReplace = toReplace.Replace("{WhoOn}", Stored.TargetObject.ExpensiveName());
+				}
 
-					toReplace = toReplace.Replace("{performer}", RelatedBodyPart.HealthMaster.gameObject.ExpensiveName());
+				if (!string.IsNullOrWhiteSpace(toReplace))
+				{
+					toReplace = toReplace.Replace("{performer}", Stored.Performer.ExpensiveName());
 				}
 
 				if (!string.IsNullOrWhiteSpace(toReplace))
@@ -441,7 +449,7 @@ namespace HealthV2
 
 				if (!string.IsNullOrWhiteSpace(toReplace))
 				{
-					toReplace = toReplace.Replace("{OnPart}", RelatedBodyPart?.gameObject?.ExpensiveName());
+					toReplace = toReplace.Replace("{OnPart}", RelatedBodyPart.OrNull()?.gameObject.OrNull()?.ExpensiveName());
 				}
 
 				return toReplace;

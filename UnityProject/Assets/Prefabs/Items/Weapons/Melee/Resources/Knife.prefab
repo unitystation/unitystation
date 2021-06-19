@@ -32,6 +32,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -47,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -103,18 +103,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      propertyPath: hitSound
+      value: BladeSlice
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 7
+      propertyPath: hitDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwRange
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: initialName
       value: kitchen knife
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: slashChance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: slashDamage
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: pierceChance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: pierceDamage
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -124,35 +159,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: hitDamage
-      value: 10
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: throwDamage
-      value: 10
+      propertyPath: attackVerbs.Array.size
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: throwSpeed
-      value: 3
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: throwRange
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: hitSound
-      value: BladeSlice
-      objectReference: {fileID: 0}
-    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
-        type: 2}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: attackVerbs.Array.data[0]
@@ -190,9 +209,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/BladeSlice.prefab
-      objectReference: {fileID: 0}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
 --- !u!1 &7781396554342910705 stripped

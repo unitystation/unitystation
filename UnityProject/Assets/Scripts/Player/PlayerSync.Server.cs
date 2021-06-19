@@ -295,7 +295,7 @@ public partial class PlayerSync
 		var newState = new PlayerState
 		{
 			MoveNumber = 0,
-			WorldImpulse = direction,
+			WorldImpulse = Vector2.zero,
 			MatrixId = newMatrix.Id,
 			WorldPosition = pushGoal,
 			ImportantFlightUpdate = true,

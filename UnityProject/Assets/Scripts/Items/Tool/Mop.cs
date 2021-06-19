@@ -57,7 +57,25 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		//do the mopping
 		void CompleteProgress()
 		{
-			CleanTile(interaction.WorldPositionTarget);
+			Vector3Int worldPos = interaction.WorldPositionTarget.RoundToInt();
+			MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
+			Vector3Int localPos = MatrixManager.WorldToLocalInt(worldPos, matrixInfo);
+			if (reagentContainer)
+			{
+				if (reagentContainer.MajorMixReagent.name == "Water")
+				{
+					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
+				}
+				else if (reagentContainer.MajorMixReagent.name == "SpaceCleaner")
+				{
+					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
+				}
+				else
+				{
+					MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos);
+				}
+			}
+			
 			Chat.AddExamineMsg(interaction.Performer, "You finish mopping.");
 		}
 
@@ -72,12 +90,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 				$"{interaction.Performer.name} begins to clean the floor with the {gameObject.ExpensiveName()}.");
 		}
 	}
-
-	public void CleanTile(Vector3 worldPos)
-	{
-		MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos.CutToInt());
-	}
-
+	
 	public string Examine(Vector3 worldPos = default)
 	{
 		string msg = null;

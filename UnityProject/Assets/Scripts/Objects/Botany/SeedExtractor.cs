@@ -10,7 +10,7 @@ using Items.Botany;
 namespace Objects.Botany
 {
 	[RequireComponent(typeof(HasNetworkTab))]
-	public class SeedExtractor : ManagedNetworkBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle, IAPCPowerable
+	public class SeedExtractor : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle, IAPCPowerable
 	{
 		private Queue<GrownFood> foodToBeProcessed;
 		private float processingProgress;
@@ -63,15 +63,30 @@ namespace Objects.Botany
 			}
 		}
 
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		#endregion
 
 		/// <summary>
 		/// Handles processing produce into seed packets at rate defined by processingTime
+		/// Server Side Only
 		/// </summary>
-		public override void UpdateMe()
+		private void UpdateMe()
 		{
 			// Only run on server and if there is something to process and the device has power
-			if (isServer == false || IsProcessing == false || currentState == PowerState.Off) return;
+			if (IsProcessing == false || currentState == PowerState.Off) return;
 			// If processing isn't done keep waiting
 			if (processingProgress < processingTime)
 			{

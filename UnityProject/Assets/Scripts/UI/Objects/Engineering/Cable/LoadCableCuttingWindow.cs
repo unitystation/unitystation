@@ -78,7 +78,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	public void OpenCableCuttingWindow()
 	{
 		// get mouse position
-		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+		Vector3 mousePosition = MouseUtils.MouseToWorldPos();
 		// round mouse position
 		Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
 		targetWorldPosition = roundedMousePosition;

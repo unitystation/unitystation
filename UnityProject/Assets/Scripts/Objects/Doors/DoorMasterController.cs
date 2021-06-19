@@ -153,6 +153,10 @@ namespace Doors
 			{
 				TryOpen(byPlayer);
 			}
+			else if(HasPower == false)
+			{
+				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.ExpensiveName()} is unpowered");
+			}
 
 			StartInputCoolDown();
 		}
@@ -244,14 +248,23 @@ namespace Doors
 			{
 				TryOpen(interaction.Performer);
 			}
+			else if(HasPower == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered");
+			}
 		}
 
-		public void TryOpen(GameObject originator = null, bool blockClosing = false)
+		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
-			if (IsClosed && !isPerformingAction && HasPower)
+			if(IsClosed == false || isPerformingAction) return;
+			
+			if(HasPower == false)
 			{
-				Open(blockClosing);
+				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+				return;
 			}
+
+			Open(blockClosing);
 		}
 
 		/// <summary>
@@ -286,6 +299,11 @@ namespace Doors
 			else
 			{
 				ResetWaiting();
+			}
+
+			if(HasPower == false && originator != null)
+			{
+				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
 			}
 		}
 

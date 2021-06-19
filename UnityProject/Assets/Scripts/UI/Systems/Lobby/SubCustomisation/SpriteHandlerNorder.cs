@@ -73,7 +73,7 @@ public class SpriteHandlerNorder : NetworkBehaviour
 			}
 		}
 
-		SpriteHandler.ChangeSpriteVariant(referenceOffset);
+		SpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
 }
