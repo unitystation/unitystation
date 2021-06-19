@@ -110,7 +110,7 @@ public class MetaDataLayer : MonoBehaviour
 		bool didSplat = false;
 		bool paintBlood = false;
 
-		//Find all reagents on this tile (including current reagent) 
+		//Find all reagents on this tile (including current reagent)
 		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
 		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
 
@@ -137,16 +137,19 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			//Force clean the tile
 			Clean(worldPosInt, localPosInt, false);
-			foreach (var reagent in reagents.reagents.m_dict)
+
+			lock (reagents.reagents)
 			{
-				switch (reagent.Key.name)
+				foreach (var reagent in reagents.reagents.m_dict)
 				{
-					case "HumanBlood":
+					switch (reagent.Key.name)
+					{
+						case "HumanBlood":
 						{
 							paintBlood = true;
 							break;
 						}
-					case "Water":
+						case "Water":
 						{
 							MakeSlipperyAt(localPosInt);
 							matrix.ReactionManager.ExtinguishHotspot(localPosInt);
@@ -156,11 +159,11 @@ public class MetaDataLayer : MonoBehaviour
 							}
 							break;
 						}
-					case "SpaceCleaner":
-						Clean(worldPosInt, localPosInt, false);
-						didSplat = true;
-						break;
-					case "SpaceLube":
+						case "SpaceCleaner":
+							Clean(worldPosInt, localPosInt, false);
+							didSplat = true;
+							break;
+						case "SpaceLube":
 						{
 							// ( ͡° ͜ʖ ͡°)
 							if (Get(localPosInt).IsSlippery == false)
@@ -170,10 +173,12 @@ public class MetaDataLayer : MonoBehaviour
 							}
 							break;
 						}
-					default:
-						break;
+						default:
+							break;
+					}
 				}
 			}
+
 			if (didSplat == false)
 			{
 				if (paintBlood)
@@ -205,7 +210,7 @@ public class MetaDataLayer : MonoBehaviour
 			}
 			case "liquid":
 			{
-				//TODO: Work out if reagent is "slippery" according to its viscocity (not modeled yet) 
+				//TODO: Work out if reagent is "slippery" according to its viscocity (not modeled yet)
 				EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
 				break;
 			}
@@ -229,7 +234,7 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			floorDecals[i].TryClean();
 		}
-		
+
 		//check for any moppable overlays
 		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, TileChangeManager.OverlayType.Cleanable);
 
@@ -250,14 +255,14 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			return;
 		}
-	
+
 		if (tile.CurrentDrying != null)
 		{
 			StopCoroutine(tile.CurrentDrying);
 		}
 		tile.CurrentDrying = BloodDryUp(tile);
 		StartCoroutine(tile.CurrentDrying);
-		
+
 	}
 
 	private IEnumerator BloodDryUp(MetaDataNode tile)
