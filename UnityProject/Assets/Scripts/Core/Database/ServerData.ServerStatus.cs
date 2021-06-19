@@ -228,6 +228,9 @@ namespace DatabaseAPI
 		public string OSXDownload;
 		public string LinuxDownload;
 
+		//End of a discord invite used for serverinfo page
+		public string DiscordLinkID;
+
 		//Discord Webhook URL//
 
 		//OOC chat
