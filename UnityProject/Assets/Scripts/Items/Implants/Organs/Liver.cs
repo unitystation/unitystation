@@ -33,9 +33,15 @@ namespace HealthV2
 		[SerializeField] private List<Reagent> Toxins;
 
 		/// <summary>
-		/// Amount of reagents liver will attempt to process. Affected by bodypart efficiency
+		/// Amount of reagents liver will attempt to pull from the blood. Affected by BodyPart efficiency
 		/// </summary>
-		[SerializeField] private float processAmount;
+		[SerializeField] private float processAmount = 0.1f;
+
+		/// <summary>
+		/// Multiplier to determine how many times as many reagents are flushed from the liver as were pulled from the blood stream.
+		/// This should be greater then one so the liver doesn't
+		/// </summary>
+		[SerializeField] private float flushMultiplier = 2;
 
 		public override void SetUpSystems()
 		{
@@ -45,17 +51,50 @@ namespace HealthV2
 
 		public override void ImplantPeriodicUpdate()
 		{
+			//Liver has failed or just generally unable to process things, so don't let it.
+			if (RelatedPart.TotalModified == 0) return;
+
+			float tickPullProcessingAmnt = RelatedPart.TotalModified *=processAmount;
+			float tickClearAmount = tickPullProcessingAmnt * flushMultiplier;
+
+			ReagentContainerBody blood = RelatedPart.BloodContainer;
+
 			//take what we are gonna process, out of the blood
-			foreach (Reagent reagent in RelatedPart.BloodContainer.CurrentReagentMix.reagents.Keys)
+			foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
 			{
 				if (Alchohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
 				{
+					float amount = Mathf.Min(tickPullProcessingAmnt,RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
+					amount = Mathf.Min(amount, (processingContainer.MaxCapacity - processingContainer.ReagentMixTotal));
+
 					//add to processingContainer first to avoid intermediate variable
-					processingContainer.CurrentReagentMix.Add(reagent, RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
+					processingContainer.CurrentReagentMix.Add(reagent, amount);
+
+					if (processingContainer.IsFull)
+					{
+						Logger.LogTrace("Liver is full, please try again. or don't.",Category.Health);
+						break;
+					}
 
 					//remove from bloodstream
-					RelatedPart.BloodContainer.CurrentReagentMix.Remove(reagent,
-						RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
+					blood.CurrentReagentMix.Remove(reagent, amount);
+					tickPullProcessingAmnt -= amount;
+					if (tickPullProcessingAmnt <= 0) break;
+
+				}
+			}
+
+			foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
+			{
+				//TODO: remove check for toxins when they are more integrated with reactions, with a metabolism rate, and liver damage
+				if (Toxins.Contains(reagent) || reagent == ethanolReagent)
+				{
+					float amount = Mathf.Min(tickClearAmount,processingContainer.CurrentReagentMix[reagent]);
+
+					//remove from liver
+					processingContainer.CurrentReagentMix.Remove(reagent, amount);
+					tickClearAmount -= amount;
+					if (tickClearAmount <= 0) break;
 				}
 			}
 		}
