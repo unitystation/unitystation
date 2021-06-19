@@ -2,6 +2,12 @@
 ---
 
 
+* 2021/6/19: **[Fix]** Water splats no longer stack ontop of one another by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
+* 2021/6/19: **[Balance]** Lungs now filter moles that have no value from being added to the blood by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
+* 2021/6/19: **[Improvement]** Chem and Powder splats now have there basic description on the examine radial menu by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
+* 2021/6/19: **[New]** Blood now dries up after 3 minutes by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
+* 2021/6/19: **[New]** Can now scan blood & chemspalts on the floor to see its reagents with science goggles by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
+* 2021/6/19: **[New]** Lost blood now shows on the floor with the correct color and reagents as inside the players body by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
 * 2021/6/18: **[Balance]** several cargo crates in the cargo console have been combined together for convenience. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
 * 2021/6/18: **[Balance]** removed several redundant cargo crates from the medical, security, service, and engineering categories in the cargo console. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
 * 2021/6/18: **[Balance]** first aid kits now come with gauze for treating bleeding. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
