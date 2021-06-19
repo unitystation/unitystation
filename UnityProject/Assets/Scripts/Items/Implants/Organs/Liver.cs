@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Chemistry.Components;
@@ -59,16 +60,18 @@ namespace HealthV2
 
 			ReagentContainerBody blood = RelatedPart.BloodContainer;
 
-			//take what we are gonna process, out of the blood
+			List<Tuple<Reagent,float>> tempArray = new List<Tuple<Reagent, float>>();
+
+			float drawnAmount = 0;
+			//figure out what we are processing
 			foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
 			{
 				if (Alchohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
 				{
 					float amount = Mathf.Min(tickPullProcessingAmnt,RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
-					amount = Mathf.Min(amount, (processingContainer.MaxCapacity - processingContainer.ReagentMixTotal));
+					amount = Mathf.Min(amount, (processingContainer.MaxCapacity - processingContainer.ReagentMixTotal)-drawnAmount);
 
-					//add to processingContainer first to avoid intermediate variable
-					processingContainer.CurrentReagentMix.Add(reagent, amount);
+					tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
 
 					if (processingContainer.IsFull)
 					{
@@ -76,13 +79,19 @@ namespace HealthV2
 						break;
 					}
 
-					//remove from bloodstream
-					blood.CurrentReagentMix.Remove(reagent, amount);
+					drawnAmount += amount;
 					tickPullProcessingAmnt -= amount;
 					if (tickPullProcessingAmnt <= 0) break;
-
 				}
 			}
+
+			//take what we are gonna process, out of the blood
+			foreach (var reagent in tempArray)
+			{
+				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
+				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
+			}
+			tempArray.Clear();
 
 			foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
 			{
@@ -91,12 +100,20 @@ namespace HealthV2
 				{
 					float amount = Mathf.Min(tickClearAmount,processingContainer.CurrentReagentMix[reagent]);
 
-					//remove from liver
-					processingContainer.CurrentReagentMix.Remove(reagent, amount);
+					//setup to remove from liver
+					tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
+
 					tickClearAmount -= amount;
 					if (tickClearAmount <= 0) break;
 				}
 			}
+
+			foreach (var reagent in tempArray)
+			{
+				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
+			}
+			tempArray.Clear();
+
 		}
 	}
 }
