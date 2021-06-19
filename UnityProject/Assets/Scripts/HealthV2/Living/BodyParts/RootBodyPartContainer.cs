@@ -382,24 +382,32 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Applies slash damage to limbs inside of this container. Armor chance is handled inside of ApplyCutSizeLogic();
+		/// Applies slash damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
 		/// </summary>
 		public void TakeSlashDamage(float damage)
 		{
 			foreach (var limb in ContainsLimbs)
 			{
-				limb.ApplyCutSizeLogic(damage);
+				limb.ApplyTraumaDamage(damage);
 			}
 		}
 
 		/// <summary>
-		/// Applies pierce damage to limbs inside of this container. Armor chance is handled inside of ApplyCutSizeLogic();
+		/// Applies pierce damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
 		/// </summary>
 		public void TakePierceDamage(float damage)
 		{
 			foreach (var ContainsLimb in ContainsLimbs)
 			{
-				ContainsLimb.ApplyCutSizeLogic(damage, BodyPart.TramuticDamageTypes.PIERCE);
+				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
+			}
+		}
+
+		public void TakeBurnDamage(float damage)
+		{
+			foreach (var ContainsLimb in ContainsLimbs)
+			{
+				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
 			}
 		}
 

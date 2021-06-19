@@ -16,7 +16,7 @@ MonoBehaviour:
   syncInterval: 0.1
   ejectionAlarmSound:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineBuzzer.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -231,6 +231,11 @@ PrefabInstance:
       propertyPath: ReachableThrough
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 3925827565069146067}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_AssetId
@@ -241,6 +246,12 @@ PrefabInstance:
 --- !u!1 &1781006999364248419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &3925827565069146067 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 1347533324463388387}
   m_PrefabAsset: {fileID: 0}

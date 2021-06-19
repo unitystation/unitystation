@@ -740,11 +740,11 @@ namespace HealthV2
 		{
 			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
 				foreach (var bodyPartContainer in RootBodyPartContainers)
 				{
 					if (bodyPartContainer.BodyPartType == aimedBodyPart)
 					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(2f);
 						bodyPartContainer.TakeSlashDamage(damage);
 					}
 				}
@@ -755,13 +755,24 @@ namespace HealthV2
 		{
 			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.medium, BloodSplatType.red);
 				foreach (var bodyPartContainer in RootBodyPartContainers)
 				{
 					if (bodyPartContainer.BodyPartType == aimedBodyPart)
 					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(2f);
 						bodyPartContainer.TakePierceDamage(damage);
 					}
+				}
+			}
+		}
+
+		public virtual void ApplyBurnDamage(BodyPartType aimedBodyPart, float damage)
+		{
+			foreach (var bodyPartContainer in RootBodyPartContainers)
+			{
+				if (bodyPartContainer.BodyPartType == aimedBodyPart)
+				{
+					bodyPartContainer.TakeBurnDamage(damage);
 				}
 			}
 		}
@@ -952,7 +963,7 @@ namespace HealthV2
 		/// ---------------------------
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
-		/// Currently not implemented
+		/// Currently not fully implemented
 		///</Summary>
 		public virtual void Death()
 		{

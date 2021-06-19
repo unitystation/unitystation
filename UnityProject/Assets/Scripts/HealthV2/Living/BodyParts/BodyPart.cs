@@ -140,6 +140,9 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
+		/// <summary>
+		/// What is this BodyPart's sprite's tone if it shared a skin tone with the player?
+		/// </summary>
 		[HideInInspector] public Color Tone = Color.white;
 
 		[System.NonSerialized]
@@ -303,7 +306,7 @@ namespace HealthV2
 		public virtual void RemoveFromBodyThis()
 		{
 			BodyPartRemovalChecks();
-			var parent = this.GetParent();
+			RootBodyPartContainer parent = this.GetParent();
 			if (parent != null)
 			{
 				parent.RemoveSpecifiedFromThis(this.gameObject);
@@ -317,11 +320,15 @@ namespace HealthV2
 		private void BodyPartRemovalChecks()
 		{
 			//Checks if the body part is not an internal organ and if that part shares a skin tone.
-			if(IsSurface && BodyPartItemInheritsSkinColor)
+			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
 				BodyPartItemSprite.SetColor(Tone);
+			}
+			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
+			{
+				BodyPartItemSprite.SetColor(bodyPartColorWhenCharred);
 			}
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
 			if(IsBleedingExternally)

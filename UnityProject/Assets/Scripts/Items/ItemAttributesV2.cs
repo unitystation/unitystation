@@ -136,6 +136,16 @@ namespace Items
 			set => pierceDamage = value;
 		}
 
+		[Tooltip("How much burn damage does this item cause?"),
+		Range(0,100),
+		SerializeField]
+		private float burnDamage = 0;
+		public float BurnDamage
+		{
+			get => burnDamage;
+			set => burnDamage = value;
+		}
+
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]
 		[SerializeField]
 		private float throwSpeed = 2;
