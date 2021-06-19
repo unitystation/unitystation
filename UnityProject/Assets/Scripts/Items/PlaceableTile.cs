@@ -18,15 +18,11 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	[SerializeField]
 	private List<PlaceableTileEntry> waysToPlace = null;
 
-	[Tooltip("How many seconds it takes to place.")]
-	[SerializeField]
-	private float placeTime = 1.0f;
-
 	[SerializeField] private AddressableAudioSource placeSound = null;
 
 	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig
-	= new StandardProgressActionConfig(StandardProgressActionType.Construction);
+	= new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -116,7 +112,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 			}
 
 			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
-				.ServerStartProgress(targetPosition, placeTime, performer);
+				.ServerStartProgress(targetPosition, placeableTileEntry.timeToPlace, performer);
 		}
 	}
 
@@ -140,5 +136,9 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		[Tooltip("The amount of this item required to place tile.")]
 		[SerializeField]
 		public int itemCost = 1;
+
+		[Tooltip("Time it takes to place the tile")]
+		[SerializeField]
+		public float timeToPlace = 1f;
 	}
 }
