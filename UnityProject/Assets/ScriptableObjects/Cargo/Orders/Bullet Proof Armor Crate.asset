@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
-  m_Name: Heavy Armor Crate
+  m_Name: Bullet Proof Armor Crate
   m_EditorClassIdentifier: 
-  OrderName: Heavy Armor Crate
-  CreditCost: 1200
+  OrderName: Bullet Proof Armor Crate
+  CreditCost: 2000
   Crate: {fileID: 8898622964154730421, guid: 2ddd540cb32301549aa9c9be8616f5d6, type: 3}
   Items:
   - {fileID: 1330908723137500671, guid: dbfef72a303adaa489b990c1ac8a96da, type: 3}
   - {fileID: 1330908723137500671, guid: dbfef72a303adaa489b990c1ac8a96da, type: 3}
   - {fileID: 1330908723137500671, guid: dbfef72a303adaa489b990c1ac8a96da, type: 3}
-  ContentSellPrice: 0
+  - {fileID: 7636118406116123594, guid: 8a90a03870d450740a42e9183126340b, type: 3}
+  - {fileID: 7636118406116123594, guid: 8a90a03870d450740a42e9183126340b, type: 3}
+  - {fileID: 7636118406116123594, guid: 8a90a03870d450740a42e9183126340b, type: 3}
+  ContentSellPrice: 500
+  EmagOnly: 0

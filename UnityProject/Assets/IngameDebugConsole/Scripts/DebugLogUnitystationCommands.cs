@@ -382,6 +382,22 @@ namespace IngameDebugConsole
 		}
 
 #if UNITY_EDITOR
+		[MenuItem("Networking/Give me some AA!")]
+#endif
+		private static void MakeAA()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				{
+					var ID = Spawn.ServerPrefab("IDCardCaptainsSpare").GameObject;
+					Inventory.ServerAdd(ID, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.id), ReplacementStrategy.DropOther);
+				}
+
+			}
+		}
+
+#if UNITY_EDITOR
 		[MenuItem("Networking/Give me some goddamn Gloves!")]
 #endif
 		private static void GiveGloves()

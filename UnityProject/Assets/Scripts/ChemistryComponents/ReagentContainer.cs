@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Items;
+using Items.Others;
 using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.Events;
@@ -415,7 +416,6 @@ namespace Chemistry.Components
 			{
 				result.AddElement("PourOut", OnPourOutClicked);
 			}
-
 			return result;
 		}
 
@@ -438,38 +438,38 @@ namespace Chemistry.Components
 
 		public void ServerPerformInteraction(ContextMenuApply interaction)
 		{
+			var eyeItem = interaction.Performer.GetComponent<Equipment>().GetClothingItem(NamedSlot.eyes).GameObjectReference;
 			switch (interaction.RequestedOption)
 			{
 				case "Contents":
-					// I think some condition should be met before the user knows what the exact contents of a container are.
-					// Wearing science goggles?
-					ExamineContents();
-					break;
+					{
+
+						if (Validations.HasItemTrait(eyeItem, CommonTraits.Instance.ScienceScan))
+						{
+							eyeItem.GetComponent<ReagentScanner>().DoScan(interaction.Performer.gameObject, this.gameObject);
+						}
+						else
+						{
+							ExamineContents(interaction);
+						}
+						break;
+					}
 				case "PourOut":
 					SpillAll();
 					break;
 			}
 		}
 
-		private void ExamineContents()
+		private void ExamineContents(ContextMenuApply interaction)
 		{
 			if (IsEmpty)
 			{
-				Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} is empty.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} is empty.");
 				return;
-			}
-			//We cant use the container game object to manage this, do it ourselves.
-			if(this.ExamineAmount == ExamineAmountMode.UNKNOWN_AMOUNT)
-			{
-				//TODO: Cleanup the logic between looking at things in containters and things with no container/item attributes
-				Chat.AddExamineMsgToClient(this.Examine());
 			}
 			else
 			{
-				foreach (var reagent in CurrentReagentMix.reagents.m_dict)
-				{
-					Chat.AddExamineMsgToClient($"The {gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
-				}
+				Chat.AddExamineMsgFromServer(interaction.Performer, this.Examine());
 			}
 		}
 

@@ -171,10 +171,15 @@ public class Lungs : BodyPartModification
 				// Get as much as we need, or as much as in the lungs, whichever is lower
 				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
 				float molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
-				toInhale.Add(gasReagent, molesRecieved * efficiency);
+				if(molesRecieved.Approx(0) == false)
+				{
+					toInhale.Add(gasReagent, molesRecieved * efficiency);
+				}
+				
 
 				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
+			
 		}
 		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 
@@ -220,7 +225,11 @@ public class Lungs : BodyPartModification
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
 				"You cough up blood!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} coughs up blood!");
 				RelatedPart.CurrentInternalBleedingDamage -= Random.Range(RelatedPart.MinMaxInternalBleedingValues.x, RelatedPart.MinMaxInternalBleedingValues.y);
-				EffectsFactory.BloodSplat(RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
+
+				//TODO: TAKE BLOOD
+				var bloodLoss = new ReagentMix();
+				RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(bloodLoss, RelatedPart.CurrentInternalBleedingDamage);
+				MatrixManager.ReagentReact(bloodLoss, RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer);
             }
 			onCooldown = true;
             StartCoroutine(CooldownTick());

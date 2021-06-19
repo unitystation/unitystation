@@ -405,7 +405,7 @@ public class MatrixMove : ManagedBehaviour
 			}
 		}
 
-		if (CustomNetworkManager.IsServer == false)
+		if (CustomNetworkManager.IsHeadless == false)
 		{
 			if (coordReadoutScript != null) coordReadoutScript.SetCoords(clientState.Position);
 			if (shuttleControlGUI != null && rcsModeActive != shuttleControlGUI.RcsMode)
