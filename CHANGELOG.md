@@ -2,6 +2,21 @@
 ---
 
 
+* 2021/6/18: **[Balance]** several cargo crates in the cargo console have been combined together for convenience. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
+* 2021/6/18: **[Balance]** removed several redundant cargo crates from the medical, security, service, and engineering categories in the cargo console. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
+* 2021/6/18: **[Balance]** first aid kits now come with gauze for treating bleeding. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6820](https://github.com/unitystation/unitystation/pull/6820)
+* 2021/6/18: [Fix] fixes item sticking to matrices #6762 by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
+* 2021/6/18: [Fix] Fixes Body parts And internal bleedding by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
+* 2021/6/18: [Fix] Fixes characters Settings for lizards by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
+* 2021/6/18: [Fix] Fixes layering issues on cat Race #6764 by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
+* 2021/6/18: [Fix] Fixes VV matriix  #6779 by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
+* 2021/6/18: [Fix] fixes table climbing While buckled  #6715 by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
+* 2021/6/18: [Fix] Fixes shuttle Coordinates not being updated on UI #6784 by [Bod9001](https://github.com/Bod9001) in PR #[6814](https://github.com/unitystation/unitystation/pull/6814)
+* 2021/6/17: [Improvement] Mobs will also hit adjacent tiles if they cant move to target by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
+* 2021/6/17: [Fix] Mobs will hit windows and grills again by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
+* 2021/6/17: [Fix] - Fixed a null error that would occur when limbs are bleeding and have been chopped off. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
+* 2021/6/17: [Fix] - Fixed Food Processors taking longer than they should to shake. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
+* 2021/6/17: [Fix] - Fixed Food Processors disappearing after using them (again) by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6813](https://github.com/unitystation/unitystation/pull/6813)
 * 2021/6/16: [Fix] - Fixes an error where body parts attempt to bleed out while they're no longer attached to a body. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
 * 2021/6/16: [Improvement] - Items like the Nuke Disk cannot be destroyed during Inventory drops or deletions. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
 * 2021/6/16: [New] - Advanced health scanners have the ability now to give a detailed report on a body part when Alt-Clicking on the player you wish to diagnose. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[6800](https://github.com/unitystation/unitystation/pull/6800)
