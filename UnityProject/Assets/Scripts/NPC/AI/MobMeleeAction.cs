@@ -195,12 +195,12 @@ namespace Systems.MobAIs
 				}
 				ActOnLivingV2(dir, healthBehaviour);
 
-				if (FollowTarget.gameObject.layer != playersLayer)
+				if (FollowTarget != null && FollowTarget.gameObject.layer != playersLayer)
 				{
 					return true;
 				}
 
-				if (FollowTarget == hitInfo.CollisionHit.GameObject)
+				if (FollowTarget != null && FollowTarget == hitInfo.CollisionHit.GameObject)
 				{
 					return true;
 				}

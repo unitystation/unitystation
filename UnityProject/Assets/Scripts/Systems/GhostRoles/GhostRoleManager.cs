@@ -174,7 +174,12 @@ namespace Systems.GhostRoles
 		/// <param name="key">The unique key the ghost role instance is associated with.</param>
 		public void ServerGhostRequestRole(ConnectedPlayer player, uint key)
 		{
-			GhostRoleServer role = serverAvailableRoles[key];
+			if (serverAvailableRoles.TryGetValue(key, out var role) == false)
+			{
+				//Failed to find ghost role, could have been used already?
+				return;
+			}
+
 			if (role.QuickPoolInProgress)
 			{
 				role.QuickPlayerPool.Add(player);

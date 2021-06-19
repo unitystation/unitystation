@@ -639,6 +639,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		SyncCuffed(cuffed, false);
 
 		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+
+		if(connectionToClient == null) return;
 		TargetPlayerUIHandCuffToggle(connectionToClient, false);
 	}
 

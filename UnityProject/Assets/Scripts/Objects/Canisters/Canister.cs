@@ -376,6 +376,9 @@ namespace Objects.Atmospherics
 
 		public void MergeCanisterAndTank()
 		{
+			//Check for inserted tank
+			if(InsertedContainer == null) return;
+
 			GasContainer canisterTank = GetComponent<GasContainer>();
 			GasContainer externalTank = InsertedContainer.GetComponent<GasContainer>();
 			GasMix canisterGas = canisterTank.GasMix;

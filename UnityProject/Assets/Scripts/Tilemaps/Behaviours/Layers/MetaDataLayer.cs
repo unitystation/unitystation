@@ -108,7 +108,7 @@ public class MetaDataLayer : MonoBehaviour
 
 		bool didSplat = false;
 
-		//Find all reagents on this tile (including current reagent) 
+		//Find all reagents on this tile (including current reagent)
 		var reagentContainersList = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
 
 		//If there is more than one Reagent Container, loop through them
@@ -125,16 +125,18 @@ public class MetaDataLayer : MonoBehaviour
 
 		if(reagents.reagents != null && reagents.Total > 1)
 		{
-			foreach (var reagent in reagents.reagents.m_dict)
+			lock (reagents.reagents)
 			{
-				if (reagent.Value < 1)
+				foreach (var reagent in reagents.reagents.m_dict)
 				{
-					continue;
-				}
+					if (reagent.Value < 1)
+					{
+						continue;
+					}
 
-				switch (reagent.Key.name)
-				{
-					case "Water":
+					switch (reagent.Key.name)
+					{
+						case "Water":
 						{
 							matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 							foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
@@ -144,10 +146,10 @@ public class MetaDataLayer : MonoBehaviour
 							Paintsplat(worldPosInt, localPosInt, reagents.MixColor, reagents);
 							break;
 						}
-					case "SpaceCleaner":
-						Clean(worldPosInt, localPosInt, false);
-						break;
-					case "SpaceLube":
+						case "SpaceCleaner":
+							Clean(worldPosInt, localPosInt, false);
+							break;
+						case "SpaceLube":
 						{
 							// ( ͡° ͜ʖ ͡°)
 							if (Get(localPosInt).IsSlippery == false)
@@ -158,7 +160,7 @@ public class MetaDataLayer : MonoBehaviour
 
 							break;
 						}
-					default:
+						default:
 						{
 							if (didSplat == false)
 							{
@@ -168,6 +170,7 @@ public class MetaDataLayer : MonoBehaviour
 							didSplat = true;
 							break;
 						}
+					}
 				}
 			}
 		}
@@ -204,7 +207,7 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			floorDecals[i].TryClean();
 		}
-		
+
 		//check for any moppable overlays
 		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, TileChangeManager.OverlayType.Cleanable);
 

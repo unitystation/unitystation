@@ -683,9 +683,17 @@ namespace Objects.Construction
 			TryTransferVendorContent();
 
 			allowedTraits.Clear();
-			foreach (var list in machineParts.machineParts)
+
+			if (machineParts == null || machineParts.machineParts == null)
 			{
-				allowedTraits.Add(new AllowedTraitList(list.itemTrait));
+				Logger.LogError($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
+			}
+			else
+			{
+				foreach (var list in machineParts.machineParts)
+				{
+					allowedTraits.Add(new AllowedTraitList(list.itemTrait));
+				}
 			}
 
 			// Put it in

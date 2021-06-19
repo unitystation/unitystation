@@ -1199,7 +1199,7 @@ namespace TileManagement
 
 		public void NotifyRegisterTilePotentialMatrixChange(Vector3Int position)
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (Application.isPlaying && CustomNetworkManager.Instance._isServer)
 			{
 				foreach (var ServerObject in ObjectLayer.ServerObjects.Get(position))
 				{
