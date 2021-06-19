@@ -196,8 +196,8 @@ public class BloodSystem : MonoBehaviour
 			scaleOfTragedy = BloodSplatSize.large;
 		}
 
-
-		EffectsFactory.BloodSplat(transform.position, scaleOfTragedy, bloodSplatColor);
+		//TODO: Re-impliment this using the new reagent-first code introduced in PR #6810
+		//EffectsFactory.BloodSplat(transform.position, scaleOfTragedy, bloodSplatColor);
 	}
 
 	/// <summary>
