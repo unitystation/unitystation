@@ -50,7 +50,7 @@ public class SingleBookshelf : MonoBehaviour
 	public void ValueSetUp()
 	{
 		PoolBooks();
-		ShelfInformation.text = "ID > " + _BookShelfView.ID + "  " + _BookShelfView.SN;
+		ShelfInformation.text =  _BookShelfView.SN;
 
 		for (int i = 0; i < _BookShelfView.HB.Length; i++)
 		{
@@ -89,17 +89,17 @@ public class SingleBookshelf : MonoBehaviour
 
 		for (uint i = 0; i < PresentSUBBookShelfs.Count; i++)
 		{
-			if (!(i >= BookShelfView.OBS.Length))
-			{
-				TopBookshelves = 0;
+			// if (!(i >= BookShelfView.OBS.Length))
+			// {
+				// TopBookshelves = 0;
 
-				PresentSUBBookShelfs[(int)i].gameObject.SetActive(true);
-				PresentSUBBookShelfs[(int)i].IDANName = _BookShelfView.OBS[i];
-			}
-			else {
-				BottomBookshelves = i;
-				PresentSUBBookShelfs[(int)i].gameObject.SetActive(false);
-			}
+				// PresentSUBBookShelfs[(int)i].gameObject.SetActive(true);
+				// PresentSUBBookShelfs[(int)i].IDANName = _BookShelfView.OBS[i];
+			// }
+			// else {
+				// BottomBookshelves = i;
+				// PresentSUBBookShelfs[(int)i].gameObject.SetActive(false);
+			// }
 		}
 	}
 
@@ -174,22 +174,22 @@ public class SingleBookshelf : MonoBehaviour
 			PresentSUBBookShelfs[1].IDANName = PresentSUBBookShelfs[0].IDANName;
 			TopBookshelves--;
 			BottomBookshelves--;
-			PresentSUBBookShelfs[0].IDANName = _BookShelfView.OBS[TopBookshelves];
+			// PresentSUBBookShelfs[0].IDANName = _BookShelfView.OBS[TopBookshelves];
 		}
 
 	}
 
 	public void BookShelveDown()
 	{
-		if (!(_BookShelfView.OBS.Length <= (BottomBookshelves + 1)))
-		{
-			PresentSUBBookShelfs[0].IDANName = PresentSUBBookShelfs[1].IDANName;
-			PresentSUBBookShelfs[1].IDANName = PresentSUBBookShelfs[2].IDANName;
-			PresentSUBBookShelfs[2].IDANName = PresentSUBBookShelfs[3].IDANName;
-			TopBookshelves++;
-			BottomBookshelves++;
-			PresentSUBBookShelfs[3].IDANName = _BookShelfView.OBS[BottomBookshelves];
-		}
+		// if (!(_BookShelfView.OBS.Length <= (BottomBookshelves + 1)))
+		// {
+			// PresentSUBBookShelfs[0].IDANName = PresentSUBBookShelfs[1].IDANName;
+			// PresentSUBBookShelfs[1].IDANName = PresentSUBBookShelfs[2].IDANName;
+			// PresentSUBBookShelfs[2].IDANName = PresentSUBBookShelfs[3].IDANName;
+			// TopBookshelves++;
+			// BottomBookshelves++;
+			// PresentSUBBookShelfs[3].IDANName = _BookShelfView.OBS[BottomBookshelves];
+		// }
 	}
 
 }

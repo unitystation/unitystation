@@ -17,6 +17,14 @@ public class WeaponNetworkActions : NetworkBehaviour
 	private readonly float speed = 7f;
 	private readonly float fistDamage = 5;
 
+	private float slashChance = 0f;
+	private float slashDamage = 0f;
+
+	private float pierceChance = 0f;
+	private float pierceDamage = 0f;
+
+	private float burnDamage = 0f;
+
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
 	public bool lerping { get; private set; } // needs to be read by Camera2DFollow
@@ -89,6 +97,11 @@ public class WeaponNetworkActions : NetworkBehaviour
 			damage = weaponAttributes.ServerHitDamage;
 			damageType = weaponAttributes.ServerDamageType;
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
+			slashChance = weaponAttributes.SlashChance;
+			slashDamage = weaponAttributes.SlashDamage;
+			pierceChance = weaponAttributes.PierceChance;
+			pierceDamage = weaponAttributes.PierceDamage;
+			burnDamage = weaponAttributes.BurnDamage;
 		}
 
 		LayerTile attackedTile = null;
@@ -135,6 +148,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 				{
 					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
+					victimHealth.ApplySlashDamage(slashChance, damageZone, slashDamage);
+					victimHealth.ApplyPierceDamage(pierceChance, damageZone, pierceDamage);
+					victimHealth.ApplyBurnDamage(damageZone, burnDamage);
 					didHit = true;
 				}
 				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))

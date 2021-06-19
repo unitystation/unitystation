@@ -75,7 +75,8 @@ namespace UI.CharacterCreator
 		{
 			base.SetUp(incharacterCustomization, Body_Part, path);
 			// Make a list of all available options which can then be passed to the dropdown box
-			var itemOptions = OptionalSprites.Select(pcd => pcd.DisplayName).ToList();
+
+			var itemOptions = OptionalSprites.Select(pcd => pcd.DisplayName == "" ? pcd.name : pcd.DisplayName).ToList();
 			itemOptions.Sort();
 
 			// Ensure "None" is at the top of the option lists
@@ -103,7 +104,7 @@ namespace UI.CharacterCreator
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
 			BodyPartColour.a = 1;
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
-			OptionalSprites = OptionalSprites.OrderBy(x => x?.name).ToList();
+			OptionalSprites = OptionalSprites.OrderBy(pcd => pcd.DisplayName == "" ? pcd.name : pcd.DisplayName).ToList();
 			if (ColourAnd_Selected.Chosen != 0)
 			{
 				if (ColourAnd_Selected.Chosen >= OptionalSprites.Count)
@@ -183,7 +184,7 @@ namespace UI.CharacterCreator
 			else
 			{
 				var ChosenOption = Dropdown.options[Dropdown.value].text;
-				var GotOption = OptionalSprites.First(x => x.DisplayName == ChosenOption);
+				var GotOption = OptionalSprites.First(x => (x.DisplayName == "" ? x.name : x.DisplayName) == ChosenOption);
 				RelatedRelatedPreviewSprites[0].SpriteHandler.SetSpriteSO(GotOption);
 			}
 		}

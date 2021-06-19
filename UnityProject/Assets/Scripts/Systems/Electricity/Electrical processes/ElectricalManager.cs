@@ -19,11 +19,6 @@ namespace Systems.Electricity
 
 		public static ElectricalManager Instance {
 			get {
-				if (instance == null)
-				{
-					instance = FindObjectOfType<ElectricalManager>();
-				}
-
 				return instance;
 			}
 			set { instance = value; }
@@ -81,7 +76,7 @@ namespace Systems.Electricity
 			EventManager.AddHandler(Event.RoundStarted, StartSim);
 			EventManager.AddHandler(Event.RoundEnded, StopSim);
 
-			if(NetworkServer.active == false) return;
+			if(Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
@@ -91,7 +86,7 @@ namespace Systems.Electricity
 			EventManager.RemoveHandler(Event.RoundStarted, StartSim);
 			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
 
-			if(NetworkServer.active == false) return;
+			if(Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}

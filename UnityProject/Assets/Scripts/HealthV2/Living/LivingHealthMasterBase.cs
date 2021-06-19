@@ -226,9 +226,15 @@ namespace HealthV2
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
+		public PlayerScript PlayerScriptOwner;
+
 		public virtual void Awake()
 		{
 			EnsureInit();
+			if(PlayerScriptOwner == null)
+			{
+				PlayerScriptOwner = this.gameObject.Player().Script;
+			}
 		}
 
 		void OnEnable()
@@ -728,10 +734,46 @@ namespace HealthV2
 					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration);
 				}
 			}
+		}
 
-			if (damageType == DamageType.Brute)
+		public virtual void ApplySlashDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(2f);
+						bodyPartContainer.TakeSlashDamage(damage);
+					}
+				}
+			}
+		}
+
+		public virtual void ApplyPierceDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
+			{
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(2f);
+						bodyPartContainer.TakePierceDamage(damage);
+					}
+				}
+			}
+		}
+
+		public virtual void ApplyBurnDamage(BodyPartType aimedBodyPart, float damage)
+		{
+			foreach (var bodyPartContainer in RootBodyPartContainers)
+			{
+				if (bodyPartContainer.BodyPartType == aimedBodyPart)
+				{
+					bodyPartContainer.TakeBurnDamage(damage);
+				}
 			}
 		}
 
@@ -921,7 +963,7 @@ namespace HealthV2
 		/// ---------------------------
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
-		/// Currently not implemented
+		/// Currently not fully implemented
 		///</Summary>
 		public virtual void Death()
 		{

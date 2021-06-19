@@ -140,6 +140,9 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
+		/// <summary>
+		/// What is this BodyPart's sprite's tone if it shared a skin tone with the player?
+		/// </summary>
 		[HideInInspector] public Color Tone = Color.white;
 
 		[System.NonSerialized]
@@ -253,6 +256,10 @@ namespace HealthV2
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
 				bodyPartModification.ImplantPeriodicUpdate();
+				if (IsBleedingInternally)
+				{
+					bodyPartModification.InternalDamageLogic();
+				}
 			}
 		}
 
@@ -295,23 +302,43 @@ namespace HealthV2
 		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
 		/// Will check if the this body part causes death upon removal and will tint it's Item Sprite to the character's skinTone if allowed.
 		/// </summary>
-		[ContextMenu("[Debug] - Drop this body part.")]
+		[ContextMenu("Debug - Drop this body part.")]
 		public virtual void RemoveFromBodyThis()
 		{
-			if(IsSurface && BodyPartItemInheritsSkinColor)
+			BodyPartRemovalChecks();
+			dynamic parent = this.GetParent();
+			if (parent != null)
+			{
+				parent.RemoveSpecifiedFromThis(this.gameObject);
+			}
+		}
+
+
+		/// <summary>
+		/// Checks if a body part has a condition or state that applies logic upon removal then executes it.
+		/// </summary>
+		private void BodyPartRemovalChecks()
+		{
+			//Checks if the body part is not an internal organ and if that part shares a skin tone.
+			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
 				BodyPartItemSprite.SetColor(Tone);
 			}
+			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
+			{
+				BodyPartItemSprite.SetColor(bodyPartColorWhenCharred);
+			}
+			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
+			if(IsBleedingExternally)
+			{
+				StopExternalBleeding();
+			}
+			//If this body part is necessary for a character existence, kill them upon removal.
 			if(DeathOnRemoval)
 			{
 				healthMaster.Death();
-			}
-			var parent = this.GetParent();
-			if (parent != null)
-			{
-				parent.RemoveSpecifiedFromThis(this.gameObject);
 			}
 		}
 
@@ -342,6 +369,7 @@ namespace HealthV2
 		/// </summary>
 		/// <returns>A body part that contains it OR a body part container that contains it OR null if it is not
 		/// contained in anything</returns>
+		///TODO change to some type of inheritance/Interface model
 		public dynamic GetParent()
 		{
 			if (ContainedIn != null)

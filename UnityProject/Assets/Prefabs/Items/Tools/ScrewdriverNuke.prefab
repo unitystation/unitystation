@@ -42,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
@@ -99,6 +99,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ScrewdriverNuke
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: slashChance
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: slashDamage
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: pierceChance
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: pierceDamage
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}

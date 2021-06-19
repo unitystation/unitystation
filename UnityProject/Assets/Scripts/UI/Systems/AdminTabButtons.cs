@@ -49,7 +49,7 @@ namespace UI.AdminTools
 		public void BtnOpenVV()
 		{
 			DisableAllGUI();
-			vv.Open();
+			UIManager.Instance.VariableViewer.Open();
 		}
 
 		public void BtnOpenTileVV()

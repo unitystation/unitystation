@@ -16,7 +16,7 @@ public class TableInteractionClimb : TileInteraction
 		CustomNetTransform netTransform;
 		if(interaction.UsedObject.TryGetComponent(out playerSync))
 		{
-			if (playerSync.IsMoving)
+			if (playerSync.IsMoving || playerSync.playerMove.IsBuckled)
 			{
 				return false;
 			}
@@ -27,7 +27,7 @@ public class TableInteractionClimb : TileInteraction
 			{
 				//interaction.PerformerPlayerScript
 				return false;
-			}	
+			}
 		}
 		else if(interaction.UsedObject.TryGetComponent(out netTransform)) // Do the same check but for mouse draggable objects this time.
 		{
@@ -74,7 +74,7 @@ public class TableInteractionClimb : TileInteraction
 				}
 			}
 		}).ServerStartProgress(interaction.UsedObject.RegisterTile(), 3.0f, interaction.Performer);
-		
+
 		Chat.AddActionMsgToChat(interaction.Performer,
 			"You begin climbing onto the table...",
 			$"{interaction.Performer.ExpensiveName()} begins climbing onto the table...");

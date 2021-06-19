@@ -83,7 +83,7 @@ public class BodyPartSprites : NetworkBehaviour
 			}
 		}
 
-		baseSpriteHandler.ChangeSpriteVariant(referenceOffset);
+		baseSpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
 

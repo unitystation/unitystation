@@ -242,6 +242,15 @@ namespace Systems.MobAIs
 					{
 						tryGetDoor.MobTryOpen(gameObject);
 					}
+
+					//New doors
+					DoorMasterController tryGetDoorMaster =
+						registerObj.Matrix.GetFirst<DoorMasterController>(
+							dest, true);
+					if (tryGetDoorMaster)
+					{
+						tryGetDoorMaster.Bump(gameObject);
+					}
 				}
 				else
 				{

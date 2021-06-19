@@ -9,6 +9,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: ashPrefab
+      value: 
+      objectReference: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+        type: 3}
+    - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: UesAddlistPopulater
       value: 1
       objectReference: {fileID: 0}
@@ -86,14 +92,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: DamageThreshold
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: bloodThroughput
       value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: BodyPartItemSprite
-      value: 
-      objectReference: {fileID: 3382038559166527774}
+      propertyPath: CanBleedExternally
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: BodyPartReadableName
+      value: Torso
+      objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: maleSprite.Array.size
@@ -117,6 +133,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: bodyPartColorWhenCharred.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.b
+      value: 0.00591848
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.g
+      value: 0.00591848
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: bodyPartColorWhenCharred.r
+      value: 0.1792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: femaleSprite.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: ccfebde2cc0de824b80261ac774928d7,
@@ -128,14 +164,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
+      propertyPath: SubOrganBodyPartArmour.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
       propertyPath: limbSpriteData.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234,
         type: 2}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
-      propertyPath: BodyPartItemInheritsSkinColor
+      propertyPath: MinMaxInternalBleedingValues.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -286,11 +337,6 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2780143343961368630, guid: e241039a7933eb347bd1a9bb67a9078a,
-        type: 3}
-      propertyPath: CurrentsortingGroup
-      value: 
-      objectReference: {fileID: 3394877447828423895}
     - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_AssetId
@@ -369,21 +415,3 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
---- !u!210 &3394877447828423895 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 8337619479501541348, guid: e241039a7933eb347bd1a9bb67a9078a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6676634485609286451}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3382038559166527774 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8234622556944347693, guid: e241039a7933eb347bd1a9bb67a9078a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6676634485609286451}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

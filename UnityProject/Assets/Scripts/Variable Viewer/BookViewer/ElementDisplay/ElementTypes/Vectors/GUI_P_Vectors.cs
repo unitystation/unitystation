@@ -5,15 +5,16 @@ using System;
 using UnityEngine.UI;
 using DatabaseAPI;
 using Messages.Client.VariableViewer;
+using TMPro;
 
 /// <summary>
 /// Used to display vectors in the Variable viewer and to do all the Serialisation and deserialisation of vectors
 /// </summary>
 public class GUI_P_Vectors : PageElement
 {
-	public InputField INX;
-	public InputField INY;
-	public InputField INZ;
+	public TMP_InputField INX;
+	public TMP_InputField INY;
+	public TMP_InputField INZ;
 
 	public bool IsSentence;
 	public bool iskey;

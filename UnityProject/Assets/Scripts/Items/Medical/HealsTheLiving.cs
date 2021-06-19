@@ -16,7 +16,13 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
 
 	public DamageType healType;
-	private Stackable stackable;
+
+	public bool StopsExternalBleeding = false;
+	public bool HealsSlashDamage = false;
+
+	[Range(0,100)] public float SlashDamageToHeal = 20;
+
+	protected Stackable stackable;
 
 	private void Awake()
 	{
@@ -28,10 +34,12 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
+
+		if(interaction.Intent != Intent.Help) return false;
 		return true;
 	}
 
-	public void ServerPerformInteraction(HandApply interaction)
+	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB.ZoneHasDamageOf(interaction.TargetBodyPart,healType))
@@ -47,7 +55,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 		else
 		{
-			if(CheckForBleedingBodyContainers(LHB, interaction))
+			//If there is no limb in this Zone, check if it's bleeding from limb loss.
+			if(CheckForBleedingBodyContainers(LHB, interaction) && StopsExternalBleeding)
 			{
 				RemoveLimbLossBleed(LHB, interaction);
 			}
@@ -76,7 +85,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(originator.RegisterTile(), 5f, originator);
 	}
 
-	private bool CheckForBleedingBodyContainers(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+	protected bool CheckForBleedingBodyContainers(LivingHealthMasterBase targetBodyPart, HandApply interaction)
 	{
 		foreach(var container in targetBodyPart.RootBodyPartContainers)
 		{
@@ -88,7 +97,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		return false;
 	}
 
-	private void RemoveLimbLossBleed(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+	protected void RemoveLimbLossBleed(LivingHealthMasterBase targetBodyPart, HandApply interaction)
 	{
 		foreach(var container in targetBodyPart.RootBodyPartContainers)
 		{
@@ -96,8 +105,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				container.IsBleeding = false;
 				Chat.AddActionMsgToChat(interaction.Performer.gameObject, 
-				$"You stopped {interaction.TargetObject.name}'s bleeding.",
-				$"{interaction.PerformerPlayerScript.characterSettings.Name} stopped {interaction.TargetObject.name}'s bleeding.");
+				$"You stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.",
+				$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.");
 			}
 		}
 	}

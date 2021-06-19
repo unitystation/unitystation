@@ -51,7 +51,7 @@ namespace Effects
 
 		public void GetOriginalPosition()
 		{
-			originalPosition = transform.position;
+			originalPosition = this.gameObject.RegisterTile().WorldPositionServer;
 		}
 	}
 }

@@ -36,8 +36,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
+      propertyPath: BodyPartReadableName
+      value: Facial Hair
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
       propertyPath: isBloodReagentConsumed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: MinMaxInternalBleedingValues.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}

@@ -25,6 +25,7 @@ namespace HealthV2
 
 		public override void ImplantPeriodicUpdate()
 		{
+			base.ImplantPeriodicUpdate();
 			ContainedGoodReagents.Clear();
 			foreach (var Reagent in WhiteListReagents)
 			{
