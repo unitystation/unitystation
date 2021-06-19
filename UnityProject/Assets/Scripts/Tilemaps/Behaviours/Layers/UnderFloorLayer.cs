@@ -56,7 +56,7 @@ public class UnderFloorLayer : Layer
 									if (PipeDirCheck[d])
 									{
 										canInitializePipe = false;
-										Logger.LogError($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Pipes);
+										Logger.LogWarning($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Pipes);
 										tilemap.SetTile(localPlace, null);
 										break;
 									}
