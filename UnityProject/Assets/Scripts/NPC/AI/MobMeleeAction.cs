@@ -143,10 +143,9 @@ namespace Systems.MobAIs
 						}
 					}
 				}
-				FollowTarget = null;
 			}
-			FollowTarget = null;
 
+			FollowTarget = null;
 			Deactivate();
 			return new MatrixManager.CustomPhysicsHit();
 		}
