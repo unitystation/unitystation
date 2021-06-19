@@ -411,10 +411,12 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
-					var ID = Spawn.ServerPrefab("IDCardCaptainsSpare").GameObject;
-					Inventory.ServerAdd(ID, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.id), ReplacementStrategy.DropOther);
+					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.id))
+					{
+						var ID = Spawn.ServerPrefab("IDCardCaptainsSpare").GameObject;
+						Inventory.ServerAdd(ID,itemSlot, ReplacementStrategy.DropOther);
+					}
 				}
-
 			}
 		}
 
