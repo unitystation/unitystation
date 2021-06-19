@@ -63,7 +63,8 @@ namespace HealthV2
 			List<Tuple<Reagent,float>> tempArray = new List<Tuple<Reagent, float>>();
 
 			float drawnAmount = 0;
-			//figure out what we are processing
+
+			//figure out how much we are going to process or remove
 			foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
 			{
 				if (Alchohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
@@ -85,17 +86,18 @@ namespace HealthV2
 				}
 			}
 
-			//take what we are gonna process, out of the blood
-			foreach (var reagent in tempArray)
+			//take what we are gonna process or remove, out of the blood
+			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
+				tempArray.Remove(reagent);
 			}
-			tempArray.Clear();
 
+			//calculate what's going to be removed, seeing as processing will happen in the reactionset
 			foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
 			{
-				//TODO: remove check for toxins when they are more integrated with reactions, with a metabolism rate, and liver damage
+				//TODO: remove check for toxins when they are more integrated with reactions, with a metabolism rate, and liver damage. my intention is to do so in the pr changing alchohol
 				if (Toxins.Contains(reagent) || reagent == ethanolReagent)
 				{
 					float amount = Mathf.Min(tickClearAmount,processingContainer.CurrentReagentMix[reagent]);
@@ -108,12 +110,25 @@ namespace HealthV2
 				}
 			}
 
-			foreach (var reagent in tempArray)
+			//remove what's going to be removed
+			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
+				tempArray.Remove(reagent);
 			}
-			tempArray.Clear();
 
+			//put that thing back where it came from or so help me
+			foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
+			{
+				tempArray.Add(new Tuple<Reagent, float>(reagent,processingContainer.CurrentReagentMix[reagent]));
+			}
+
+			//the liver is merely an avenue, a pitstop, not a home.
+			foreach (Tuple<Reagent,float> reagent in tempArray)
+			{
+				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
+				tempArray.Remove(reagent);
+			}
 		}
 	}
 }
