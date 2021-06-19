@@ -70,7 +70,7 @@ namespace Systems.Explosions
 						//the thrown object is itself for now, in case ThrownBy breaks if null
 						ThrownBy = integrity.gameObject,
 						Aim = BodyPartType.Chest,
-						OriginWorldPos = integrity.registerTile.WorldPosition,
+						OriginWorldPos = integrity.RegisterTile.WorldPosition,
 						WorldTrajectory = AngleAndIntensity.Rotate90(),
 						SpinMode = RandomSpin()
 					};
