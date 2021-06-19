@@ -2,6 +2,13 @@
 ---
 
 
+* 2021/6/19: **[Fix]** Fixed discrepancies with the protection values of the chemist jumpskirt and medical doctor jumpsuit. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
+* 2021/6/19: **[Balance]** MKIII SWAT armor, the prototype hardsuit, and bombsuits have had their bomb armor nerfed from 100 to 95. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
+* 2021/6/19: **[Balance]** the clown suit has gained 10 melee armor. Call it stuffing. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
+* 2021/6/19: **[Balance]** PRT and inquisitor armor have gained 30 magic protection. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
+* 2021/6/19: **[Balance]** damage of the .357 revolvers nerfed from 60 to 50. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
+* 2021/6/19: **[Balance]** damage of the 7.12 buzzsaw LMG nerfed from 45 to 40. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
+* 2021/6/19: **[New]** the Armor Piercing ammunition in the syndicate uplink now pierces armor. All AP bullets reduce the effectiveness of armor by 50%. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
 * 2021/6/19: **[Fix]** Water splats no longer stack ontop of one another by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
 * 2021/6/19: **[Balance]** Lungs now filter moles that have no value from being added to the blood by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
 * 2021/6/19: **[Improvement]** Chem and Powder splats now have there basic description on the examine radial menu by [jamessimo](https://github.com/jamessimo) in PR #[6810](https://github.com/unitystation/unitystation/pull/6810)
