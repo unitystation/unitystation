@@ -9,6 +9,7 @@ namespace CameraEffects
 	{
 
 		public DrunkCamera drunkCamera;
+		public GreyscaleCamera greyscaleCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
@@ -47,6 +48,7 @@ namespace CameraEffects
 
 			if (drunkCamera.enabled == false)
 			{
+				drunkCamera.ModerateDrunk();
 				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
 			}
 		}
@@ -93,6 +95,7 @@ namespace CameraEffects
 			drunkCamera.enabled = false;
 			glitchEffect.enabled = false;
 			nightVisionCamera.enabled = false;
+			greyscaleCamera.enabled = false;
 		}
 	}
 }
