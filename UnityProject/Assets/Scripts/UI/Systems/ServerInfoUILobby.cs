@@ -55,13 +55,9 @@ namespace ServerInfo
 
         private void LoadLinks()
         {
-	        var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDescLinks.json");
+	        if (string.IsNullOrEmpty(ServerData.ServerConfig.DiscordLinkID)) return;
 
-	        if (File.Exists(path) == false) return;
-
-	        var linkList = JsonUtility.FromJson<ServerInfoLinks>(File.ReadAllText(path));
-
-	        serverDiscordID = linkList.DiscordLinkID;
+	        serverDiscordID = ServerData.ServerConfig.DiscordLinkID;
         }
 
         public void ClientSetValues(string newName, string newDesc, string newDiscordID)

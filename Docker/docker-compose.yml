@@ -16,6 +16,7 @@ services:
       ADMIN_WEBHOOK: $ADMIN_WEBHOOK
       ADMINLOG_WEBHOOK: $ADMINLOG_WEBHOOK
       ALLCHAT_WEBHOOK: $ALLCHAT_WEBHOOK
+      DISCORDLINKID: $DISCORDLINKID
     labels:
       - io.portainer.accesscontrol.public
     volumes:

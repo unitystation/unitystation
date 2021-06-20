@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114758807010794188}
   - component: {fileID: -6881874909172061398}
   - component: {fileID: 6916251711597282407}
+  - component: {fileID: 2021181720746405368}
   m_Layer: 0
   m_Name: LargeBloodSplat
   m_TagString: Untagged
@@ -69,7 +70,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Cleanable: 1
-  CanDryUp: 0
+  CanDryUp: 1
+  isBlood: 1
   color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: 21300000, guid: 50f148f4e4cb8bb4b88f2704dbebbc43, type: 3}
@@ -95,6 +97,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
 --- !u!114 &114262681174990446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +175,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &2021181720746405368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 2
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
+  maxCapacity: 100
+  reactionSet: {fileID: 0}
+  AdditionalReactions: []
+  canPourOut: 0
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +279,7 @@ SpriteRenderer:
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: 50f148f4e4cb8bb4b88f2704dbebbc43, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a33966df3b5c0e3419717f5abb491626, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -276,7 +311,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a98707ee1e7a40409177d0d92bc89c4, type: 2}
   - {fileID: 11400000, guid: df97274b1e6f2ab4facfeae8c31f0f66, type: 2}
   - {fileID: 11400000, guid: 1250c9dc9ff72b94b8ea25eb266db7b4, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 83604a43c54c49d41b3f322dc2f43ad5, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: df97274b1e6f2ab4facfeae8c31f0f66, type: 2}
   randomInitialSprite: 1
   pushTextureOnStartUp: 1
   variantIndex: 0

@@ -38,7 +38,10 @@ MonoBehaviour:
   Tone: {r: 1, g: 1, b: 1, a: 1}
   efficiency: 1
   TotalModified: 1
-  SurgeryProcedureBase: []
+  SurgeryProcedureBase:
+  - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
+  - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
+  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodCirculated: 1
   isBloodReagentConsumed: 1
   bloodType: {fileID: 0}
@@ -93,6 +96,9 @@ MonoBehaviour:
   maximumInternalBleedDamage: 100
   bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
   bodyPartAshesAboveThisDamage: 125
+  BodyPartReadableName: '[Default Part Name]'
+  internalDamageDesc: This {readableName} is suffering from internal damage.
+  externalBleedingDesc: This {readableName} is bleeding due to an open wound.
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +216,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 4940620596253206870}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -226,6 +237,12 @@ PrefabInstance:
 --- !u!1 &1163316686972202776 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1164032867585741730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &4940620596253206870 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 1164032867585741730}
   m_PrefabAsset: {fileID: 0}
