@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6ae085312b071098d3dbb5d8da0511, type: 3}
   m_Name: HumanLiverBreakdown
   m_EditorClassIdentifier: 
-  parents: []
+  parents:
+  - {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   reactions: []
