@@ -61,7 +61,6 @@ namespace Systems.Explosions
 
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
 			{
-				Debug.Log($"ExplosionNode handling : {integrity}");
 				//Throw items
 				if(integrity.GetComponent<ItemAttributesV2>() != null)
 				{
