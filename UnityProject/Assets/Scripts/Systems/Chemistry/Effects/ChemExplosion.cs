@@ -108,10 +108,6 @@ namespace Chemistry.Effects
 			{
 				Despawn.ServerSingle(sender.gameObject);
 			}
-			else if (picked != null && insideBody)
-			{
-
-			}
 		}
 	}
 }
