@@ -92,6 +92,7 @@ namespace CameraEffects
 
 		public void EnsureAllEffectsAreDisabled()
 		{
+			//TODO: Find out a solution in the shaders why the screen inverts if both drunk and greyscale are both on
 			drunkCamera.enabled = false;
 			glitchEffect.enabled = false;
 			nightVisionCamera.enabled = false;
