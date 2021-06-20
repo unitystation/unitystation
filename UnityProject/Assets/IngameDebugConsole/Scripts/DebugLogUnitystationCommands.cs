@@ -392,7 +392,7 @@ namespace IngameDebugConsole
 
 					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
 					{
-						var MagBoots = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
+						var MagBoots = Spawn.ServerPrefab("MagBoots").GameObject;
 						Inventory.ServerAdd(MagBoots,itemSlot, ReplacementStrategy.DropOther);
 					}
 
