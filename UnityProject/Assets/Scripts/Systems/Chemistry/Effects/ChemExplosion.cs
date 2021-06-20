@@ -36,7 +36,6 @@ namespace Chemistry.Effects
 
 			if (insideBody)
 			{
-				UnityEngine.Debug.Log($"ChemExplosion damaging: {bodyPart}");
 				if (strength >= bodyPart.Health)
 				{
 					float temp = bodyPart.Health; //temporary store to make sure we don't use an updated health when decrementing strength
@@ -54,7 +53,6 @@ namespace Chemistry.Effects
 					if (part == bodyPart) continue; // we prioritised the origin organ first
 					if (part.ContainedIn == null) continue;
 
-					UnityEngine.Debug.Log($"ChemExplosion damaging: {part}");
 					if (strength >= part.Health)
 					{
 						float temp = part.Health; //temporary store to make sure we don't use an updated health when decrementing strength
