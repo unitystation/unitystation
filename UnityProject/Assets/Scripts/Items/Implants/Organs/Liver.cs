@@ -5,26 +5,27 @@ using Chemistry;
 using Chemistry.Components;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HealthV2
 {
 	public class Liver : BodyPartModification
 	{
 		/// <summary>
-		///ReagentContainer which the liver uses to hold reagents it will process. Reagents like achohol will be broken down into their ethanol reagent via ReactionSet
+		///ReagentContainer which the liver uses to hold reagents it will process. Reagents like alcohol will be broken down into their ethanol reagent via ReactionSet
 		/// </summary>
 		private ReagentContainer processingContainer;
 
 		/// <summary>
-		/// Alchoholic reagents that the liver will process, override to define what the liver will accept to break down
+		/// Alcoholic reagents that the liver will process, override to define what the liver will accept to break down
 		/// </summary>
-		[Tooltip("Alchoholic reagents that the liver will process")]
-		[SerializeField] private AlcoholicDrinksSOScript Alchohols;
+		[Tooltip("Alcoholic reagents that the liver will process")]
+		[SerializeField] private AlcoholicDrinksSOScript Alcohols;
 
 		/// <summary>
-		/// Reagent that 'alchohols' are assumed to be processed into
+		/// Reagent that 'alcohols' are assumed to be processed into
 		/// </summary>
-		[Tooltip("Reagent that 'alchohols' are assumed to be processed into")]
+		[Tooltip("Reagent that 'alcohols' are assumed to be processed into")]
 		[SerializeField] private Reagent ethanolReagent;
 
 		/// <summary>
@@ -67,7 +68,7 @@ namespace HealthV2
 			//figure out how much we are going to process or remove
 			foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
 			{
-				if (Alchohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
+				if (Alcohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
 				{
 					float amount = Mathf.Min(tickPullProcessingAmnt,RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
 					amount = Mathf.Min(amount, (processingContainer.MaxCapacity - processingContainer.ReagentMixTotal)-drawnAmount);
