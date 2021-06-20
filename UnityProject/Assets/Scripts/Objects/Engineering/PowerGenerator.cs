@@ -52,14 +52,21 @@ namespace Objects.Engineering
 
 		void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
-			securable = GetComponent<WrenchSecurable>();
-			baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
-			electricalNodeControl = GetComponent<ElectricalNodeControl>();
+
+			Initialise();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			Initialise();
+		}
+
+		public void Initialise()
+		{
+			registerTile = GetComponent<RegisterTile>();
+			securable = GetComponent<WrenchSecurable>();
+			baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
+			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			var itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
