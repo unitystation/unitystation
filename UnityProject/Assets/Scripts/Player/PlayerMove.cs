@@ -643,6 +643,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			Inventory.ServerDrop(itemSlot);
 		}
+
+		//Connection will be null when uncuffing a disconnected player
+		if(connectionToClient == null) return;
+
 		TargetPlayerUIHandCuffToggle(connectionToClient, false);
 	}
 

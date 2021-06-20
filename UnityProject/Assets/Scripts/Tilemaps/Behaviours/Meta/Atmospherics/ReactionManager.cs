@@ -94,56 +94,52 @@ namespace Systems.Atmospherics
 			Profiler.BeginSample("HotspotModify");
 			//perform the actual logic that needs to happen for adding / removing hotspots that have been
 			//queued up to be added / removed
-			lock (hotspotsToAdd)
+			for (int i = hotspotsToAdd.Count - 1; i >= 0; i--)
 			{
-				foreach (var addedHotspot in hotspotsToAdd)
+				var addedHotspot = hotspotsToAdd[i];
+				if (!hotspots.ContainsKey(addedHotspot.node.Position) &&
+				    // only process the addition if it hasn't already been done, which
+				    // could happen if multiple things try to add a hotspot to the same tile
+				    addedHotspot.node.Hotspot == null)
 				{
-					if (!hotspots.ContainsKey(addedHotspot.node.Position) &&
-						// only process the addition if it hasn't already been done, which
-						// could happen if multiple things try to add a hotspot to the same tile
-						addedHotspot.node.Hotspot == null)
-					{
-						addedHotspot.node.Hotspot = addedHotspot;
-						hotspots.TryAdd(addedHotspot.node.Position, addedHotspot.node);
-						tileChangeManager.AddOverlay(
-							new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
-							TileType.Effects, "Fire");
+					addedHotspot.node.Hotspot = addedHotspot;
+					hotspots.TryAdd(addedHotspot.node.Position, addedHotspot.node);
+					tileChangeManager.AddOverlay(
+						new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
+						TileType.Effects, "Fire");
 
-						if (fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
+					if (fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
 
-						var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
+					var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
 
-						fireLightDictionary.Add(addedHotspot.node.Position, fireLightSpawn.GameObject);
-					}
+					fireLightDictionary.Add(addedHotspot.node.Position, fireLightSpawn.GameObject);
 				}
-
 			}
-			lock (hotspotsToRemove)
+
+			for (int i = hotspotsToRemove.Count - 1; i >= 0; i--)
 			{
-				foreach (var removedHotspot in hotspotsToRemove)
+				var removedHotspot = hotspotsToRemove[i];
+				if (hotspots.TryGetValue(removedHotspot, out var affectedNode) &&
+				    // only process the removal if it hasn't already been done, which
+				    // could happen if multiple things try to remove a hotspot to the same tile)
+				    affectedNode.HasHotspot)
 				{
-					if (hotspots.TryGetValue(removedHotspot, out var affectedNode) &&
-						// only process the removal if it hasn't already been done, which
-						// could happen if multiple things try to remove a hotspot to the same tile)
-						affectedNode.HasHotspot)
+					affectedNode.Hotspot = null;
+					tileChangeManager.RemoveOverlaysOfName(
+						new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
+						LayerType.Effects, "Fire");
+					hotspots.TryRemove(removedHotspot, out var value);
+
+					if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
+
+					var fireObject = fireLightDictionary[affectedNode.Position];
+
+					if (fireObject != null)
 					{
-						affectedNode.Hotspot = null;
-						tileChangeManager.RemoveOverlaysOfName(
-							new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
-							LayerType.Effects, "Fire");
-						hotspots.TryRemove(removedHotspot, out var value);
-
-						if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
-
-						var fireObject = fireLightDictionary[affectedNode.Position];
-
-						if (fireObject != null)
-						{
-							_ = Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
-						}
-
-						fireLightDictionary.Remove(affectedNode.Position);
+						_ = Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
 					}
+
+					fireLightDictionary.Remove(affectedNode.Position);
 				}
 			}
 

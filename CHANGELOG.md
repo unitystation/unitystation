@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/6/20: **[Balance]** Potassium chemical explosions will be nerfed until their math or base explosion math can be made to be more nuanced. by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
+* 2021/6/20: **[New]** Liver now has functionality to filter alcohol and toxins from the bloodstream by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
+* 2021/6/20: **[New]** Explosions outside the body now attempt to throw items by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
+* 2021/6/20: **[New]** Chemical Reactions that explode now do damage to your insides if the reaction takes place in your body by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
+* 2021/6/20: **[New]** Standard reactions now happen within the stomach by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
 * 2021/6/19: **[Fix]** Fixed discrepancies with the protection values of the chemist jumpskirt and medical doctor jumpsuit. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
 * 2021/6/19: **[Balance]** MKIII SWAT armor, the prototype hardsuit, and bombsuits have had their bomb armor nerfed from 100 to 95. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)
 * 2021/6/19: **[Balance]** the clown suit has gained 10 melee armor. Call it stuffing. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6821](https://github.com/unitystation/unitystation/pull/6821)

@@ -115,6 +115,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private bool destroyed = false;
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
+	public RegisterTile RegisterTile => registerTile;
 	private IPushable pushable;
 
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)

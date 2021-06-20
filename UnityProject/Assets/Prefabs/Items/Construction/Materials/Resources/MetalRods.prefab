@@ -30,17 +30,19 @@ MonoBehaviour:
     placeableOn: 7
     placeableOnlyOnTile: {fileID: 0}
     itemCost: 1
+    timeToPlace: 0
   - layerTile: {fileID: 11400000, guid: 517cdfc8a30c3db42bd5e0c333c5c5ea, type: 2}
     placeableOn: 4
     placeableOnlyOnTile: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
       type: 2}
     itemCost: 1
+    timeToPlace: 1
   - layerTile: {fileID: 11400000, guid: 4ab231e80f4a9e849b744473ab2d33cc, type: 2}
     placeableOn: 4
     placeableOnlyOnTile: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
       type: 2}
     itemCost: 2
-  placeTime: 1
+    timeToPlace: 5
   placeSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GenHit.prefab
@@ -141,6 +143,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1822098680064261327, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 3986029492502748020}
     - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_Sprite
@@ -236,6 +243,12 @@ PrefabInstance:
 --- !u!1 &7198241665461443898 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+    type: 3}
+  m_PrefabInstance: {fileID: 8878983786138796137}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &3986029492502748020 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 5506006793603177245, guid: c3138c3e8a46444199668b85070b1a39,
     type: 3}
   m_PrefabInstance: {fileID: 8878983786138796137}
   m_PrefabAsset: {fileID: 0}
