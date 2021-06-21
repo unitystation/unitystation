@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
-  m_Name: MedicalStuff
+  m_Name: CommonMedicalStuff
   m_EditorClassIdentifier: 
   pool:
   - prefab: {fileID: 6748581008247049004, guid: 13186a514a60194429e94407b6cf1e0a,
@@ -33,3 +33,15 @@ MonoBehaviour:
       type: 3}
     maxAmount: 1
     probability: 100
+  - prefab: {fileID: 1791647728409730387, guid: 3ce7c70f4f293004689a6e84fe5b861d,
+      type: 3}
+    maxAmount: 3
+    probability: 100
+  - prefab: {fileID: 3431291279286482953, guid: be015a419db34cb44a8476f24b6f1dc8,
+      type: 3}
+    maxAmount: 1
+    probability: 20
+  - prefab: {fileID: 3431291279286482953, guid: e7c66dc6818ee2e4e8a12a7fbfa0a374,
+      type: 3}
+    maxAmount: 1
+    probability: 20
