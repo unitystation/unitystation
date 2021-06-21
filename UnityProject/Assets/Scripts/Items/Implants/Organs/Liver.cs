@@ -98,6 +98,7 @@ namespace HealthV2
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 			}
 			tempArray.Clear();
+			
 			//calculate what's going to be removed, seeing as processing will happen in the reactionset
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
