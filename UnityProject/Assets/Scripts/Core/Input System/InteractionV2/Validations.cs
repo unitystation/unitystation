@@ -628,7 +628,7 @@ public static class Validations
 	{
 		if (toCheck == null)
 		{
-			Logger.LogError("Cannot put item to slot because the item is null", Category.Inventory);
+			Logger.LogError("Cannot put item to slot because the item is null playerScript > " +  playerScript + " itemSlot > " + itemSlot, Category.Inventory);
 			return false;
 		}
 		if (CanInteract(playerScript.gameObject, side, true) == false)

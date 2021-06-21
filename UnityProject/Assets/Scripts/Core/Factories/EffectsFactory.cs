@@ -23,6 +23,7 @@ public static class EffectsFactory
 		if (smallBloodTile == null)
 		{
 			//Do init stuff
+			//TODO: Make only ONE bloodTile prefab that can handel all sizes.
 			smallBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallBloodSplat");
 			mediumBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MediumBloodSplat");
 			largeBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeBloodSplat");
@@ -35,60 +36,46 @@ public static class EffectsFactory
 		}
 	}
 
-	public static void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize, BloodSplatType bloodColorType)
+	public static void BloodSplat(Vector3 worldPos, ReagentMix bloodReagents = default, BloodSplatSize splatSize = default, BloodSplatType bloodColorType = default)
 	{
 		EnsureInit();
-		GameObject chosenTile = null;
-		switch (bloodColorType)
-		{
-			case BloodSplatType.red:
-				switch (splatSize)
-				{
-					case BloodSplatSize.small:
-						chosenTile = smallBloodTile;
-						break;
-					case BloodSplatSize.medium:
-						chosenTile = mediumBloodTile;
-						break;
-					case BloodSplatSize.large:
-						chosenTile = largeBloodTile;
-						break;
-					case BloodSplatSize.Random:
-						int rand = Random.Range(0, 3);
-						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType);
-						return;
-				}
-				break;
-			case BloodSplatType.green:
-				switch (splatSize)
-				{
-					case BloodSplatSize.small:
-						chosenTile = smallXenoBloodTile;
-						break;
-					case BloodSplatSize.medium:
-						chosenTile = medXenoBloodTile;
-						break;
-					case BloodSplatSize.large:
-						chosenTile = largeXenoBloodTile;
-						break;
-					case BloodSplatSize.Random:
-						int rand = Random.Range(0, 3);
-						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType);
-						return;
-				}
-				break;
-			case BloodSplatType.none:
-						return;
 
+		GameObject chosenTile;
+		string sizeDesc;
+
+
+		if (bloodReagents.Total < 0.1f)
+		{
+			chosenTile = smallBloodTile;
+			sizeDesc = "drop";
+		}
+		else if(bloodReagents.Total > 0.1f && bloodReagents.Total < 0.3f)
+		{
+			chosenTile = mediumBloodTile;
+			sizeDesc = "splat";
+		}
+		else
+		{
+			chosenTile = largeBloodTile;
+			sizeDesc = "pool";
 		}
 
-		if (chosenTile != null)
+		var bloodTileInst = Spawn.ServerPrefab(chosenTile, worldPos, MatrixManager.AtPoint(worldPos.CutToInt(), true).Objects, Quaternion.identity);
+		if (bloodTileInst.Successful)
 		{
-			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
-			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
+			var colorDesc = TextUtils.ColorToString(bloodReagents.MixColor);
+			bloodTileInst.GameObject.name = $"{colorDesc} blood {sizeDesc}";
+
+			var bloodTileGO = bloodTileInst.GameObject;
+			var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
+			if (bloodTileGO)
 			{
-				Spawn.ServerPrefab(chosenTile, worldPos, matrix.Objects);
-				//TODO: Need to add blood reagents
+				var decal = bloodTileGO.GetComponent<FloorDecal>();
+				if (decal)
+				{
+					decal.color = bloodReagents.MixColor;
+					tileReagents.Add(bloodReagents);
+				}
 			}
 		}
 	}
@@ -116,6 +103,11 @@ public static class EffectsFactory
 		{
 			var chemTileGO = chemTileInst.GameObject;
 			var tileReagents = chemTileGO.GetComponent<ReagentContainer>();
+
+			var colorDesc = TextUtils.ColorToString(reagents.MixColor);
+			var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
+			chemTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
+
 			if (chemTileGO)
 			{
 				var decal = chemTileGO.GetComponent<FloorDecal>();
@@ -135,10 +127,16 @@ public static class EffectsFactory
 	{
 		EnsureInit();
 		var powderTileInst = Spawn.ServerPrefab(powderTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+
 		if (powderTileInst.Successful)
 		{
 			var powderTileGO = powderTileInst.GameObject;
 			var tileReagents = powderTileGO.GetComponent<ReagentContainer>();
+
+			var colorDesc = TextUtils.ColorToString(reagents.MixColor);
+			var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
+			powderTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
+
 			if (powderTileGO)
 			{
 				var decal = powderTileGO.GetComponent<FloorDecal>();

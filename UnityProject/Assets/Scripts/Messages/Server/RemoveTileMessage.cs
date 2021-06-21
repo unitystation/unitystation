@@ -10,7 +10,6 @@ namespace Messages.Server
 		{
 			public Vector3 Position;
 			public LayerType LayerType;
-			public bool RemoveAll;
 			public uint MatrixSyncNetId;
 		}
 
@@ -20,13 +19,11 @@ namespace Messages.Server
 		{
 			public Vector3 Position;
 			public LayerType LayerType;
-			public bool RemoveAll;
 			public uint MatrixSyncNetId;
-			public delayedData(Vector3 inPosition, LayerType inLayerType, bool inRemoveAll, uint inMatrixSyncNetId)
+			public delayedData(Vector3 inPosition, LayerType inLayerType, uint inMatrixSyncNetId)
 			{
 				Position = inPosition;
 				LayerType = inLayerType;
-				RemoveAll = inRemoveAll;
 				MatrixSyncNetId = inMatrixSyncNetId;
 			}
 		}
@@ -35,12 +32,12 @@ namespace Messages.Server
 			LoadNetworkObject(msg.MatrixSyncNetId);
 			if (NetworkObject == null)
 			{
-				DelayedStuff.Add(new delayedData(msg.Position, msg.LayerType, msg.RemoveAll, msg.MatrixSyncNetId));
+				DelayedStuff.Add(new delayedData(msg.Position, msg.LayerType, msg.MatrixSyncNetId));
 			}
 			else
 			{
 				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalRemoveTile(msg.Position, msg.LayerType, msg.RemoveAll);
+				tileChangerManager.InternalRemoveTile(msg.Position, msg.LayerType);
 				TryDoNotDoneTiles();
 			}
 		}
@@ -54,20 +51,19 @@ namespace Messages.Server
 				if (NetworkObject != null)
 				{
 					var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-					tileChangerManager.InternalRemoveTile(DelayedStuff[i].Position, DelayedStuff[i].LayerType, DelayedStuff[i].RemoveAll);
+					tileChangerManager.InternalRemoveTile(DelayedStuff[i].Position, DelayedStuff[i].LayerType);
 					DelayedStuff.RemoveAt(i);
 					i--;
 				}
 			}
 		}
 
-		public static NetMessage Send(uint matrixSyncNetId, Vector3 position, LayerType layerType, bool removeAll)
+		public static NetMessage Send(uint matrixSyncNetId, Vector3 position, LayerType layerType)
 		{
 			NetMessage msg = new NetMessage
 			{
 				Position = position,
 				LayerType = layerType,
-				RemoveAll = removeAll,
 				MatrixSyncNetId = matrixSyncNetId
 			};
 

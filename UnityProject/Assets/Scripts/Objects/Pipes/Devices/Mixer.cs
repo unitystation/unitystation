@@ -11,7 +11,7 @@ namespace Pipes
 
 		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
-		public int MaxPressure = 10000;
+		public int MaxPressure = 9999;
 		private float TransferMoles = 500f;
 
 		public float ToTakeFromInputOne = 0.5f;
