@@ -87,7 +87,6 @@ namespace Pipes
 		public void SetColour(Color newColour)
 		{
 			Colour = newColour;
-			spritehandler.SetColor(Colour);
 		}
 
 		#region Editor
