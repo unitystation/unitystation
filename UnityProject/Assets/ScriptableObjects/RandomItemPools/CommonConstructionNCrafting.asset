@@ -15,7 +15,7 @@ MonoBehaviour:
   pool:
   - prefab: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
       type: 3}
-    maxAmount: 5
+    maxAmount: 10
     probability: 100
   - prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
       type: 3}
@@ -43,13 +43,17 @@ MonoBehaviour:
     probability: 100
   - prefab: {fileID: 4433336198165141055, guid: 827dad187b7a6e449b5b73aa0e691a38,
       type: 3}
-    maxAmount: 5
+    maxAmount: 10
     probability: 100
   - prefab: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
       type: 3}
-    maxAmount: 5
+    maxAmount: 10
     probability: 100
   - prefab: {fileID: 8166096417663405829, guid: 0e933e4f965c9bf4082015f5e176ac73,
       type: 3}
     maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf,
+      type: 3}
+    maxAmount: 20
     probability: 100
