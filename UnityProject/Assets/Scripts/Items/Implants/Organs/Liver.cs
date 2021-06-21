@@ -91,21 +91,13 @@ namespace HealthV2
 
 			}
 
-			List<Tuple<Reagent,float>> Toremove = new List<Tuple<Reagent,float>>();
-
 			//take what we are gonna process or remove, out of the blood
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				Toremove.Add(reagent);
-
 			}
-			foreach (var eReagent in Toremove)
-			{
-				tempArray.Remove(eReagent);
-			}
-			Toremove.Clear();
+			tempArray.Clear();
 			//calculate what's going to be removed, seeing as processing will happen in the reactionset
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
@@ -129,14 +121,8 @@ namespace HealthV2
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				Toremove.Add(reagent);
 			}
-
-			foreach (var eReagent in Toremove)
-			{
-				tempArray.Remove(eReagent);
-			}
-			Toremove.Clear();
+			tempArray.Clear();
 
 			//put that thing back where it came from or so help me
 			lock (processingContainer.CurrentReagentMix.reagents)
@@ -151,13 +137,8 @@ namespace HealthV2
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				Toremove.Add(reagent);
 			}
-			foreach (var eReagent in Toremove)
-			{
-				tempArray.Remove(eReagent);
-			}
-			Toremove.Clear();
+			tempArray.Clear();
 		}
 	}
 }
