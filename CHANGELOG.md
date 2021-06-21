@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/6/21: **[Fix]** Fixes the drunk shader being upside-down for OpenGL machines (Linux and some mac) #4542 by [jamessimo](https://github.com/jamessimo) in PR #[6832](https://github.com/unitystation/unitystation/pull/6832)
+* 2021/6/21: **[Improvement]** Made the drunk view more tame like you are drunk and not tripping on antifreeze and mercury. by [jamessimo](https://github.com/jamessimo) in PR #[6832](https://github.com/unitystation/unitystation/pull/6832)
 * 2021/6/20: **[Balance]** Potassium chemical explosions will be nerfed until their math or base explosion math can be made to be more nuanced. by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
 * 2021/6/20: **[New]** Liver now has functionality to filter alcohol and toxins from the bloodstream by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
 * 2021/6/20: **[New]** Explosions outside the body now attempt to throw items by [pyrosshade](https://github.com/pyrosshade) in PR #[6830](https://github.com/unitystation/unitystation/pull/6830)
