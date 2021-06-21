@@ -8,6 +8,7 @@ using UI.Action;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 namespace Items.Tool
 {
@@ -195,7 +196,7 @@ namespace Items.Tool
 			}
 
 			var graffitiAlreadyOnTile = registerItem.TileChangeManager
-				.GetAllOverlayTiles(cellPos, isWall ? LayerType.Walls : LayerType.Floors, TileChangeManager.OverlayType.Cleanable)
+				.GetAllOverlayTiles(cellPos, isWall ? LayerType.Walls : LayerType.Floors, OverlayType.Cleanable)
 				.Where(t => t.IsGraffiti).ToList();
 
 			foreach (var graffiti in graffitiAlreadyOnTile)
@@ -213,7 +214,7 @@ namespace Items.Tool
 						{
 							if (charges > 0 || charges == -1)
 							{
-								registerItem.TileChangeManager.RemoveOverlaysOfName(cellPos, isWall ? LayerType.Walls : LayerType.Floors, graffiti.OverlayName);
+								registerItem.TileChangeManager.RemoveOverlaysOfType(cellPos, isWall ? LayerType.Walls : LayerType.Floors, OverlayType.Cleanable);
 								registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
 							}
 

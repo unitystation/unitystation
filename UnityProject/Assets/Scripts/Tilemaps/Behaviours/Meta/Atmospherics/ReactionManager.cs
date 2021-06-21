@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 namespace Systems.Atmospherics
 {
@@ -125,9 +126,9 @@ namespace Systems.Atmospherics
 				    affectedNode.HasHotspot)
 				{
 					affectedNode.Hotspot = null;
-					tileChangeManager.RemoveOverlaysOfName(
+					tileChangeManager.RemoveOverlaysOfType(
 						new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
-						LayerType.Effects, "Fire");
+						LayerType.Effects, OverlayType.Fire);
 					hotspots.TryRemove(removedHotspot, out var value);
 
 					if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;

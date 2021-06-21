@@ -180,7 +180,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							matrixInfo.TileChangeManager.RemoveTile(localPos, tileToSummon.LayerType, false);
+							matrixInfo.TileChangeManager.RemoveTile(localPos, tileToSummon.LayerType);
 						}
 					}
 				}
