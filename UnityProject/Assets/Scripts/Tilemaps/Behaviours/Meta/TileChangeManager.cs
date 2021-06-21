@@ -378,25 +378,6 @@ public class TileChangeManager : MonoBehaviour
 
 }
 
-public enum OverlayType
-{
-	//none is used to say there is no overlay, add new category if you need a new type
-	None,
-	Gas,
-	Damage,
-	Cleanable,
-	Fire,
-	Mining,
-	KineticAnimation,
-	Plasma,
-	NO2,
-	WaterVapour,
-	Miasma,
-	Nitryl,
-	Tritium,
-	Freon
-}
-
 [System.Serializable]
 public class TileChangeList
 {

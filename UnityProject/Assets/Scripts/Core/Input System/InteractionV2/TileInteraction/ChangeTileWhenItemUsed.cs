@@ -3,6 +3,7 @@ using System;
 //using NUnit.Framework.Internal;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 /// <summary>
 /// Changes the tile to a different tile when an item with a particular

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 /// <summary>
 /// Deconstruct the tile and spawn its deconstruction object (if defined) and (optionally) additional objects when an item with a particular
