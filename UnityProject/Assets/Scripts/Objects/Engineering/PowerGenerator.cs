@@ -50,18 +50,7 @@ namespace Objects.Engineering
 
 		#region Lifecycle
 
-		void Awake()
-		{
-
-			Initialise();
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			Initialise();
-		}
-
-		public void Initialise()
+		void Start()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			securable = GetComponent<WrenchSecurable>();
@@ -70,12 +59,17 @@ namespace Objects.Engineering
 			var itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
 			if (startAsOn)
 			{
 				fuelAmount = fuelPerSheet;
 				TryToggleOn();
 			}
 		}
+
 
 		private void OnDisable()
 		{
