@@ -939,65 +939,13 @@ namespace TileManagement
 		}
 
 		/// <summary>
-		/// Get position of an overlay by name
-		/// </summary>
-		/// <param name="position"></param>
-		/// <param name="layerType"></param>
-		/// <param name="overlayName"></param>
-		/// <returns></returns>
-		public Vector3Int? GetOverlayPos(Vector3Int position, LayerType layerType, string overlayName)
-		{
-			if (layerType == LayerType.Objects)
-			{
-				Logger.LogError("Please use get objects instead of get tile");
-				return null;
-			}
-
-			TileLocation tileLocation = null;
-			OverlayTile overlayTile = null;
-			position.z = 1;
-
-			if (Layers.TryGetValue(layerType, out var layer))
-			{
-				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
-				var count = 0;
-				while (count < OVERLAY_LIMIT)
-				{
-					lock (PresentTiles)
-					{
-						PresentTiles[layer].TryGetValue(position, out tileLocation);
-					}
-
-					if (tileLocation != null)
-					{
-						overlayTile = tileLocation.Tile as OverlayTile;
-
-						if (overlayTile != null && overlayTile.OverlayName == overlayName)
-						{
-							return position;
-						}
-					}
-
-					position.z++;
-					count++;
-				}
-			}
-			else
-			{
-				LogMissingLayer(position, layerType);
-			}
-
-			return null;
-		}
-
-		/// <summary>
 		/// Gets all positions with a specific overlay type
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="layerType"></param>
 		/// <param name="overlayName"></param>
 		/// <returns></returns>
-		public List<Vector3Int> GetOverlayPosByType(Vector3Int position, LayerType layerType, TileChangeManager.OverlayType overlayType)
+		public List<Vector3Int> GetOverlayPosByType(Vector3Int position, LayerType layerType, OverlayType overlayType)
 		{
 			if (layerType == LayerType.Objects)
 			{
@@ -1103,7 +1051,7 @@ namespace TileManagement
 		/// <param name="layerType"></param>
 		/// <param name="overlayType"></param>
 		/// <returns></returns>
-		public List<OverlayTile> GetOverlayTilesByType(Vector3Int position, LayerType layerType, TileChangeManager.OverlayType overlayType)
+		public List<OverlayTile> GetOverlayTilesByType(Vector3Int position, LayerType layerType, OverlayType overlayType)
 		{
 			if (layerType == LayerType.Objects)
 			{

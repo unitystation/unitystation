@@ -236,7 +236,7 @@ public class MetaDataLayer : MonoBehaviour
 		}
 
 		//check for any moppable overlays
-		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, TileChangeManager.OverlayType.Cleanable);
+		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
 
 		if (MatrixManager.IsSpaceAt(worldPosInt, true) == false && makeSlippery)
 		{

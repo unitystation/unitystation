@@ -120,7 +120,7 @@ namespace Systems.Explosions
 
 			tileChangeManager.AddOverlay(position, TileType.Effects, "Fire");
 			yield return WaitFor.Seconds(time);
-			tileChangeManager.RemoveOverlaysOfName(position, LayerType.Effects, "Fire");
+			tileChangeManager.RemoveOverlaysOfType(position, LayerType.Effects, OverlayType.Fire);
 		}
 
 

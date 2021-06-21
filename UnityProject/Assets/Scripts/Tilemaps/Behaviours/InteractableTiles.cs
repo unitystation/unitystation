@@ -559,7 +559,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
 			count: getTile.SpawnAmountOnDeconstruct);
 		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Mining);
+		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Mining);
 
 		return true;
 	}
@@ -586,11 +586,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 		yield return WaitFor.Seconds(animationTime);
 
-		RemoveOverlay(cellPos, animatedTile);
+		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, animatedTile.OverlayType);
 	}
 
-	private void RemoveOverlay(Vector3Int cellPos, AnimatedOverlayTile animatedTile)
-	{
-		tileChangeManager.RemoveOverlaysOfName(cellPos, LayerType.Effects, animatedTile.name);
-	}
 }
