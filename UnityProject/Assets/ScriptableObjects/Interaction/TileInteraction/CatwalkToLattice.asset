@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0627a4860741578ec35e4340e83cc6, type: 3}
-  m_Name: GrilleDeconstruct
+  m_Script: {fileID: 11500000, guid: b78698377d6a4aaf8d6e3a304a6cbc5e, type: 3}
+  m_Name: CatwalkToLattice
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: 
   othersStartActionMessage: 
-  seconds: 0
-  objectsToSpawn: {fileID: 11400000, guid: 9d86fbdfb4c3e3e4bbe0df28394963f3, type: 2}
+  seconds: 1
+  objectsToSpawn: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
+  toTile: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
   performerFinishActionMessage: 
   othersFinishActionMessage: 
