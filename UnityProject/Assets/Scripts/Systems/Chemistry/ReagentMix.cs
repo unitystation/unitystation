@@ -196,7 +196,10 @@ namespace Chemistry
 			}
 			else
 			{
-				Temperature = (Temperature * Total + b.Temperature * b.Total) / (Total + b.Total); //TODO Change to use different formula Involving Heat capacity of each Reagent
+				if (Total + b.Total != 0)
+				{
+					Temperature = (Temperature * Total + b.Temperature * b.Total) / (Total + b.Total); //TODO Change to use different formula Involving Heat capacity of each Reagent
+				}
 			}
 
 			lock (reagents)

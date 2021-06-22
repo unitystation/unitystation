@@ -324,11 +324,11 @@ namespace HealthV2
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
-				BodyPartItemSprite.SetColor(Tone);
+				BodyPartItemSprite.OrNull()?.SetColor(Tone);
 			}
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
 			{
-				BodyPartItemSprite.SetColor(bodyPartColorWhenCharred);
+				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 			}
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
 			if(IsBleedingExternally)
