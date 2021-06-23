@@ -57,7 +57,30 @@ public class Lungs : BodyPartModification
 		Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
-		if (TryBreathing(node, RelatedPart.TotalModified))
+
+		var TotalModified = 1f;
+		foreach (var Modifier in RelatedPart.AppliedModifiers)
+		{
+
+			float ToMultiply = 1f;
+
+			if (Modifier == RelatedPart.DamageModifier)
+			{
+				ToMultiply = Mathf.Max(0f,Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
+			}
+			else if (Modifier == RelatedPart.HungerModifier)
+			{
+				continue;
+			}
+			else
+			{
+				ToMultiply = Mathf.Max(0f, Modifier.Multiplier);
+			}
+			TotalModified *= ToMultiply;
+		}
+
+
+		if (TryBreathing(node, TotalModified))
 		{
 			AtmosManager.Update(node);
 		}

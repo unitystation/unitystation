@@ -81,7 +81,7 @@ public class Heart : BodyPartModification
 		base.InternalDamageLogic();
 		if(RelatedPart.CurrentInternalBleedingDamage > 50 && alarmedForInternalBleeding == false)
 		{
-			Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
+			Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 			$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
 			alarmedForInternalBleeding = true;
 		}
@@ -107,7 +107,28 @@ public class Heart : BodyPartModification
 			return;
 		}
 
-		Heartbeat(RelatedPart.TotalModified);
+		var TotalModified = 1f;
+		foreach (var Modifier in RelatedPart.AppliedModifiers)
+		{
+
+			float ToMultiply = 1f;
+
+			if (Modifier == RelatedPart.DamageModifier)
+			{
+				ToMultiply = Mathf.Max(0f,Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
+			}
+			else if (Modifier == RelatedPart.HungerModifier)
+			{
+				continue;
+			}
+			else
+			{
+				ToMultiply = Mathf.Max(0f, Modifier.Multiplier);
+			}
+			TotalModified *= ToMultiply;
+		}
+
+		Heartbeat(TotalModified);
 	}
 
 
