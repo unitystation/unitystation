@@ -50,9 +50,9 @@ public class CirculatoryInfo : ScriptableObject
 
 	[Tooltip("When saturation of blood reagent falls below this point you'll start to feel symptoms, like being light headed.")]
 	public float BLOOD_REAGENT_SATURATION_OKAY = 0.92f;
-	
+
 	[Tooltip("When saturation of blood reagent falls below this point the organism will start taking oxy damage.")]
-	public float BLOOD_REAGENT_SATURATION_BAD = 0.90f;
+	public float BLOOD_REAGENT_SATURATION_BAD = 0.40f;
 
 	[Tooltip("If we reach critical, the organism will very quickly accumalate oxy damage.")]
 	public float BLOOD_REAGENT_SATURATION_CRITICAL = 0.80f;
