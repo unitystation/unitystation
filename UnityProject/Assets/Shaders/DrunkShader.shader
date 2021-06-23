@@ -38,7 +38,9 @@
 				vector <float, 2> uv = vertex.xy / _ScreenParams.xy;
 			
 				// Flip sampling of the Texture if DirectX
-				#if SHADER_API_D3D11
+				#ifdef SHADER_API_D3D10
+						uv.y = 1 - uv.y;
+				#elsif SHADER_API_D3D11
 						uv.y = 1 - uv.y;
 				#endif
 
