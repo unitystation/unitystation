@@ -61,12 +61,10 @@ public class Lungs : BodyPartModification
 		var TotalModified = 1f;
 		foreach (var Modifier in RelatedPart.AppliedModifiers)
 		{
-
-			float ToMultiply = 1f;
-
+			var toMultiply = 1f;
 			if (Modifier == RelatedPart.DamageModifier)
 			{
-				ToMultiply = Mathf.Max(0f,Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
+				toMultiply = Mathf.Max(0f,Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
 			}
 			else if (Modifier == RelatedPart.HungerModifier)
 			{
@@ -74,9 +72,9 @@ public class Lungs : BodyPartModification
 			}
 			else
 			{
-				ToMultiply = Mathf.Max(0f, Modifier.Multiplier);
+				toMultiply = Mathf.Max(0f, Modifier.Multiplier);
 			}
-			TotalModified *= ToMultiply;
+			TotalModified *= toMultiply;
 		}
 
 
