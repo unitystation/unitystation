@@ -225,8 +225,10 @@ public class Lungs : BodyPartModification
 					bloodToCoughUp += 10;
 				}
 				RelatedPart.CurrentInternalBleedingDamage -= bloodToCoughUp;
-				EffectsFactory.BloodSplat(RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
-            }
+				var bloodLoss = new ReagentMix();
+				RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(bloodLoss, RelatedPart.CurrentInternalBleedingDamage);
+				MatrixManager.ReagentReact(bloodLoss, RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer);
+			}
 			onCooldown = true;
             StartCoroutine(CooldownTick());
         }
