@@ -1,90 +1,61 @@
-
-/// <summary>
-/// Util class containing the default WIllinteract logic for each interaction type
-/// </summary>
 public static class DefaultWillInteract
 {
 	/// <summary>
-	/// Default Willinteract logic for the given interaction type T.
-	///
 	/// Chooses and invokes DefaultWillInteract method corresponding to the supplied type.
 	/// </summary>
 	/// <param name="interaction">interaction to check</param>
 	/// <param name="side">side of the network this is being checked on</param>
 	/// <typeparam name="T">type of interaction</typeparam>
-	/// <returns></returns>
 	public static bool Default<T>(T interaction, NetworkSide side) where T : Interaction
 	{
 		if (typeof(T) == typeof(PositionalHandApply))
 		{
-			return PositionalHandApply(interaction as PositionalHandApply, side);
+			var positionalHandApply = interaction as PositionalHandApply;
+			return Validations.CanApply(positionalHandApply.PerformerPlayerScript, positionalHandApply.TargetObject, side, targetVector: positionalHandApply.TargetVector);
 		}
-		else if (typeof(T) == typeof(HandApply))
+		if (typeof(T) == typeof(HandApply))
 		{
-			return HandApply(interaction as HandApply, side);
+			var handApply = interaction as HandApply;
+			return Validations.CanApply(handApply.PerformerPlayerScript, handApply.TargetObject, side);
 		}
-		else if (typeof(T) == typeof(AimApply))
+		if (typeof(T) == typeof(AimApply))
 		{
 			return AimApply(interaction as AimApply, side);
 		}
-		else if (typeof(T) == typeof(MouseDrop))
+		if (typeof(T) == typeof(MouseDrop))
 		{
-			return MouseDrop(interaction as MouseDrop, side);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side);
 		}
-		else if (typeof(T) == typeof(HandActivate))
+		if (typeof(T) == typeof(HandActivate))
 		{
-			return HandActivate(interaction as HandActivate, side);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side);
 		}
-		else if (typeof(T) == typeof(InventoryApply))
+		if (typeof(T) == typeof(InventoryApply))
 		{
-			return InventoryApply(interaction as InventoryApply, side);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side);
 		}
-		else if (typeof(T) == typeof(TileApply))
+		if (typeof(T) == typeof(TileApply))
 		{
-			return TileApply(interaction as TileApply, side);
+			var tileApply = interaction as TileApply;
+			return Validations.CanApply(tileApply.PerformerPlayerScript, tileApply.TargetInteractableTiles.gameObject, side, targetVector: tileApply.TargetVector);
 		}
-		else if (typeof(T) == typeof(ConnectionApply))
+		if (typeof(T) == typeof(ConnectionApply))
 		{
-			return ConnectionApply(interaction as ConnectionApply, side);
+			var connectionApply = interaction as ConnectionApply;
+			return Validations.CanApply(connectionApply.PerformerPlayerScript, connectionApply.TargetObject, side, targetVector: connectionApply.TargetVector);
 		}
-		else if (typeof(T) == typeof(ContextMenuApply))
+		if (typeof(T) == typeof(ContextMenuApply))
 		{
-			return ContextMenuApply(interaction as ContextMenuApply, side);
+			var contextMenuApply = interaction as ContextMenuApply;
+			return Validations.CanApply(contextMenuApply.PerformerPlayerScript, contextMenuApply.TargetObject, side);
 		}
 		Logger.LogError("Unable to recognize interaction type.", Category.Interaction);
 		return false;
 	}
 
-	/// <summary>
-	/// Default WillInteract logic for InventoryApply
-	/// </summary>
-	public static bool InventoryApply(InventoryApply interaction, NetworkSide side)
-	{
-		return Validations.CanInteract(interaction.Performer, side);
-	}
-
-	/// <summary>
-	/// Default WillInteract logic for Activate
-	/// </summary>
-	public static bool HandActivate(HandActivate interaction, NetworkSide side)
-	{
-		return Validations.CanInteract(interaction.Performer, side);
-	}
-
-	/// <summary>
-	/// Default WillInteract logic for MouseDrop
-	/// </summary>
-	public static bool MouseDrop(MouseDrop interaction, NetworkSide side)
-	{
-		return Validations.CanApply(interaction, side);
-	}
-
-	/// <summary>
-	/// Default WillInteract logic for AimApply
-	/// </summary>
 	public static bool AimApply(AimApply interaction, NetworkSide side)
 	{
-		if ( !Validations.CanInteract(interaction.Performer, side) )
+		if ( !Validations.CanInteract(interaction.PerformerPlayerScript, side) )
 		{
 			return false;
 		}
@@ -102,45 +73,5 @@ public static class DefaultWillInteract
 		}
 
 		return isNotHidden.GetValueOrDefault( true );
-	}
-
-	/// <summary>
-	/// Default WillInteract logic for HandApply
-	/// </summary>
-	public static bool HandApply(HandApply interaction, NetworkSide side)
-	{
-		return Validations.CanApply(interaction, side);
-	}
-
-	/// <summary>
-	/// Default WIllInteract logic for PositionalHandApply interactions
-	/// </summary>
-	public static bool PositionalHandApply(PositionalHandApply interaction, NetworkSide side)
-	{
-		return Validations.CanApply(interaction, side);
-	}
-
-	/// <summary>
-	/// Default WIllInteract logic for TileApply interactions
-	/// </summary>
-	public static bool TileApply(TileApply interaction, NetworkSide side)
-	{
-		return Validations.CanApply(interaction, side);
-	}
-
-	/// <summary>
-	/// Default WillInteract logic for ConnectionApply interactions
-	/// </summary>
-	public static bool ConnectionApply(ConnectionApply interaction, NetworkSide side)
-	{
-		return Validations.CanApply(interaction, side);
-	}
-
-	/// <summary>
-	/// Default WillInteract logic for ContextMenuApply interactions
-	/// </summary>
-	public static bool ContextMenuApply(ContextMenuApply interaction, NetworkSide side)
-	{
-		return Validations.CanApply(interaction, side);
 	}
 }

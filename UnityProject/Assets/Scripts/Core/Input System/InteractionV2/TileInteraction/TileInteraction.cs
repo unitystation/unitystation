@@ -8,7 +8,10 @@ using UnityEngine;
 /// </summary>
 public abstract class TileInteraction : ScriptableObject, IPredictedCheckedInteractable<TileApply>
 {
-	public virtual bool WillInteract(TileApply interaction, NetworkSide side) { return DefaultWillInteract.TileApply(interaction, side); }
+	public virtual bool WillInteract(TileApply interaction, NetworkSide side)
+	{
+		return DefaultWillInteract.Default(interaction, side);
+	}
 
 	public virtual void ServerPerformInteraction(TileApply interaction) { }
 
