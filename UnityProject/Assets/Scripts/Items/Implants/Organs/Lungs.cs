@@ -219,7 +219,12 @@ public class Lungs : BodyPartModification
             {
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
 				"You cough up blood!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} coughs up blood!");
-				RelatedPart.CurrentInternalBleedingDamage -= Random.Range(RelatedPart.MinMaxInternalBleedingValues.x, RelatedPart.MinMaxInternalBleedingValues.y);
+				float bloodToCoughUp = RelatedPart.InternalBleedingBloodLoss;
+				if(RelatedPart.Severity > DamageSeverity.Bad)
+				{
+					bloodToCoughUp += 10;
+				}
+				RelatedPart.CurrentInternalBleedingDamage -= bloodToCoughUp;
 				EffectsFactory.BloodSplat(RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer, BloodSplatSize.small, BloodSplatType.red);
             }
 			onCooldown = true;

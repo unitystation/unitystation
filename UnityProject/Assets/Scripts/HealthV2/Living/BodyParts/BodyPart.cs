@@ -302,11 +302,10 @@ namespace HealthV2
 		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
 		/// Will check if the this body part causes death upon removal and will tint it's Item Sprite to the character's skinTone if allowed.
 		/// </summary>
-		[ContextMenu("Debug - Drop this body part.")]
 		public virtual void RemoveFromBodyThis()
 		{
 			BodyPartRemovalChecks();
-			RootBodyPartContainer parent = this.GetParent();
+			dynamic parent = this.GetParent();
 			if (parent != null)
 			{
 				parent.RemoveSpecifiedFromThis(this.gameObject);

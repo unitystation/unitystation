@@ -101,18 +101,15 @@ namespace HealthV2
 			Gib();
 		}
 
-		protected override void Gib()
+		public override void Gib()
 		{
-			Death();
-			EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
-			//drop clothes, gib... but don't destroy actual player, a piece should remain
-
 			//drop everything
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				Inventory.ServerDrop(slot);
 			}
 
+			base.Gib();
 			PlayerMove.PlayerScript.pushPull.VisibleState = false;
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
