@@ -101,19 +101,15 @@ namespace HealthV2
 			Gib();
 		}
 
-		protected override void Gib()
+		public override void Gib()
 		{
-			Death();
-			//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-			//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
-			//drop clothes, gib... but don't destroy actual player, a piece should remain
-
 			//drop everything
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				Inventory.ServerDrop(slot);
 			}
 
+			base.Gib();
 			PlayerMove.PlayerScript.pushPull.VisibleState = false;
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
@@ -190,8 +186,7 @@ namespace HealthV2
 
 				if (isServer)
 				{
-					//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-					//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
+					EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 					string their = null;
 					if (player != null)
 					{

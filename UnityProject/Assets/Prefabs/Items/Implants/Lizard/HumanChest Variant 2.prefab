@@ -30,6 +30,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
+      propertyPath: ExternalBleedingBloodLoss
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: InternalBleedingBloodLoss
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
       propertyPath: maximumInternalBleedDamage
       value: 125
       objectReference: {fileID: 0}

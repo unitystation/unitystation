@@ -77,30 +77,35 @@ namespace HealthV2
 		public float GibChance = 0.15f;
 
 		/// <summary>
+		/// When the torso or center of the body part is getting dismembermed do we gib everything and destroy the body?
+		/// </summary>
+		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
+
+		/// <summary>
 		/// When does this body part take before it's contents in it's storage spill out?
 		/// </summary>
-		[SerializeField,
+		[SerializeField, 
 		Tooltip("When does the contents of this body part's storage to spill out when a large enough cut exists?")]
 		private BodyPartCutSize BodyPartStorageContentsSpillOutOnCutSize = BodyPartCutSize.LARGE;
 
 		/// <summary>
 		/// When do we start applying Slash logic?
 		/// </summary>
-		[SerializeField,
+		[SerializeField, 
 		Tooltip("At what cut size do we start applying slash logic?")]
 		private BodyPartCutSize BodyPartSlashLogicOnCutSize = BodyPartCutSize.SMALL;
 
 		/// <summary>
 		/// When do we start applying disembowel logic?
 		/// </summary>
-		[SerializeField,
+		[SerializeField, 
 		Tooltip("At what cut size do we start applying disembowel logic?")]
 		private BodyPartCutSize BodyPartDisembowelLogicOnCutSize = BodyPartCutSize.MEDIUM;
 
 		/// <summary>
 		/// How likely does the contents of this body part's storage to spill out?
 		/// </summary>
-		[SerializeField,
+		[SerializeField, 
 		Tooltip("How likely does the contents of this body part's storage to spill out when a large enough cut exists?"),
 		Range(0,1.0f)]
 		private float spillChanceWhenCutPresent = 0.5f;
@@ -122,7 +127,8 @@ namespace HealthV2
 
 		public bool IsBleedingExternally => isBleedingExternally;
 
-		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
+		public float InternalBleedingBloodLoss = 12;
+		public float ExternalBleedingBloodLoss = 6;
 
 		[SerializeField]
 		private float maximumInternalBleedDamage = 100;
@@ -181,9 +187,9 @@ namespace HealthV2
 		public float RadiationStacks => Damages[(int) DamageType.Radiation];
 
 
-		[HideInInspector] public float CurrentInternalBleedingDamage
-		{
-			get
+		[HideInInspector] public float CurrentInternalBleedingDamage 
+		{ 
+			get 
 			{
 				return currentInternalBleedingDamage;
 			}
@@ -298,11 +304,16 @@ namespace HealthV2
 			CHARRED
 		}
 
-		public enum TramuticDamageTypes
+		[Flags]
+		public enum TramuticDamageTypes 
 		{
-			SLASH,
-			PIERCE,
-			BURN
+			SLASH  = 0,
+			PIERCE = 1,
+			BURN   = 2,
+
+			BURNING_SLASH  = 4,
+			BURNING_PIERCE = 8,
+			SLASH_PIERCE   = 12
 		}
 
 		public void DamageInitialisation()
@@ -416,6 +427,24 @@ namespace HealthV2
 			AffectDamage(-healAmt, (int) damageTypeToHeal);
 		}
 
+		public void HealTraumaticDamage(float healAmount, TramuticDamageTypes damageTypeToHeal)
+		{
+			if(damageTypeToHeal == TramuticDamageTypes.BURN)
+			{
+				currentBurnDamage -= healAmount;
+			}
+			if(damageTypeToHeal == TramuticDamageTypes.SLASH)
+			{
+				currentSlashCutDamage -= healAmount;
+			}
+			if(damageTypeToHeal == TramuticDamageTypes.PIERCE)
+			{
+				currentPierceDamage -= healAmount;
+			}
+			CheckCutSize();
+			CheckBurnDamageLevels();
+		}
+
 		/// <summary>
 		/// Heals damage taken by this body part
 		/// </summary>
@@ -517,11 +546,11 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
+		/// Checks if how badly is the body part damaged and applies logic if requirements are met.
 		/// </summary>
 		protected void CheckBodyPartIntigrity(float lastDamage)
 		{
-			if(currentCutSize >= BodyPartSlashLogicOnCutSize)
+			if(currentCutSize >= BodyPartSlashLogicOnCutSize || currentPierceDamageLevel >= PierceDamageLevel.MEDIUM)
 			{
 				if(containBodyParts.Count != 0)
 				{
@@ -610,7 +639,7 @@ namespace HealthV2
 		{
 			BodyPart randomBodyPart = ContainBodyParts.GetRandom();
 			BodyPart randomCustomBodyPart = OptionalOrgans.GetRandom();
-			if(currentCutSize >= BodyPartStorageContentsSpillOutOnCutSize)
+			if(currentCutSize >= BodyPartStorageContentsSpillOutOnCutSize && currentCutSize >= BodyPartDisembowelLogicOnCutSize)
 			{
 				float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 				if(chance >= spillChanceWhenCutPresent)
@@ -621,7 +650,7 @@ namespace HealthV2
 						randomCustomBodyPart.RemoveFromBodyThis();
 					}
 				}
-				else
+				if(currentPierceDamageLevel >= PierceDamageLevel.MEDIUM)
 				{
 					randomBodyPart.ApplyInternalDamage();
 					if(randomCustomBodyPart != null)
@@ -693,7 +722,7 @@ namespace HealthV2
 				{
 					if (Root.ContainsLimbs.Contains(this) != false) 
 					{
-						healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
+						healthMaster.CirculatorySystem.Bleed(ExternalBleedingBloodLoss);
 					}
 				}
 				else
@@ -721,18 +750,17 @@ namespace HealthV2
 		/// </summary>
 		public void InternalBleedingLogic(AttackType attackType = AttackType.Internal, DamageType damageType = DamageType.Brute)
 		{
-			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
 			if(currentInternalBleedingDamage >= maximumInternalBleedDamage)
 			{
-				BodyPart currentParent = ContainedIn;
+				BodyPart currentParent = GetParent();
 				if(currentParent != null)
 				{
-					currentParent.TakeDamage(null, damageToTake, attackType, damageType, damageSplit: false, false, 0);
+					currentParent.TakeDamage(null, InternalBleedingBloodLoss, attackType, damageType, damageSplit: false, false, 0);
 				}
 			}
 			else
 			{
-				currentInternalBleedingDamage += damageToTake;
+				currentInternalBleedingDamage += InternalBleedingBloodLoss;
 			}
 		}
 
@@ -745,6 +773,19 @@ namespace HealthV2
 			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
 			if(Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
+			{
+				DismemberBodyPartLogic();
+			}
+		}
+
+		[ContextMenu("Debug - Disemember Body Part")]
+		private void DismemberBodyPartLogic()
+		{
+			if (gibsEntireBodyOnRemoval)
+			{
+				healthMaster.Gib();
+			}
+			else
 			{
 				RemoveFromBodyThis();
 			}
@@ -800,51 +841,47 @@ namespace HealthV2
 		/// </summary>
 		private void AshBodyPart()
 		{
+			Logger.Log($"Ashing bodyPart -> {this.name}");
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
 				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
-				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.ItemStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
-					Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
-					if(itemObject != null) //Incase this is an empty slot
+					if(item.IsEmpty == false)
 					{
-						if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
+						Integrity itemObject = item.ItemObject?.GetComponent<Integrity>();
+						if(itemObject != null) //Incase this object does not hold a Integrity Compontent.
 						{
-							Inventory.ServerDrop(item);
+							if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
+							{
+								Inventory.ServerDrop(item);
+							}
 						}
 					}
-					var organ = item.ItemObject?.GetComponent<BodyPart>();
+					BodyPart organ = item.ItemObject?.GetComponent<BodyPart>();
 					if (organ != null)
 					{
+						if (organ.gibsEntireBodyOnRemoval)
+						{
+							_ = Spawn.ServerPrefab(Storage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
+							healthMaster.Gib();
+							return;
+						}
 						if (organ.DeathOnRemoval)
 						{
 							HealthMaster.Death();
 						}
 					}
 				}
-				if(PlayerItemList != null) //In case this is not a player
+
+				if (gibsEntireBodyOnRemoval)
 				{
-					foreach (ItemSlot item in PlayerItemList)
-					{
-						Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
-						if (itemObject != null)
-						{
-							if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
-							{
-								Inventory.ServerDrop(item);
-							}
-							else
-							{
-								Inventory.ServerDespawn(item);
-							}
-						}
-					}
+					_ = Spawn.ServerPrefab(Storage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
+					healthMaster.Gib();
+					return;
 				}
-				if (DeathOnRemoval)
-				{
-					healthMaster.Death();
-				}
+				if (DeathOnRemoval) { healthMaster.Death(); }
+
 				_ = Spawn.ServerPrefab(Storage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
@@ -857,6 +894,16 @@ namespace HealthV2
 		public float GetCurrentBurnDamage()
 		{
 			return currentBurnDamage;
+		}
+
+		public float GetCurrentSlashDamage()
+		{
+			return currentSlashCutDamage;
+		}
+
+		public float GetCurrentPierceDamage()
+		{
+			return currentPierceDamage;
 		}
 
 		/// <summary>

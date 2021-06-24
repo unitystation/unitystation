@@ -381,33 +381,33 @@ namespace HealthV2
 			}
 		}
 
-		/// <summary>
-		/// Applies slash damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
-		/// </summary>
-		public void TakeSlashDamage(float damage)
+		public void TakeTraumaDamage(float damage, BodyPart.TramuticDamageTypes damageType)
 		{
-			foreach (var limb in ContainsLimbs)
+			//Check if we do more than one type of trauma damage at once.
+			//If true, don't run the indivual case check.
+			//We also do a check for a body part's existence in case it got removed by the previous damage.
+			foreach(BodyPart limb in ContainsLimbs)
 			{
-				limb.ApplyTraumaDamage(damage);
-			}
-		}
-
-		/// <summary>
-		/// Applies pierce damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
-		/// </summary>
-		public void TakePierceDamage(float damage)
-		{
-			foreach (var ContainsLimb in ContainsLimbs)
-			{
-				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
-			}
-		}
-
-		public void TakeBurnDamage(float damage)
-		{
-			foreach (var ContainsLimb in ContainsLimbs)
-			{
-				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
+				switch (damageType)
+				{
+					case BodyPart.TramuticDamageTypes.SLASH:
+						limb.ApplyTraumaDamage(damage);
+						break;
+					case BodyPart.TramuticDamageTypes.BURN:
+						limb.ApplyTraumaDamage(damage);
+						break;
+					case BodyPart.TramuticDamageTypes.PIERCE:
+						limb.ApplyTraumaDamage(damage);
+						break;
+					case BodyPart.TramuticDamageTypes.BURNING_SLASH:
+						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
+						if (limb.IsBloodCirculated) limb.ApplyTraumaDamage(damage);
+						break;
+					case BodyPart.TramuticDamageTypes.BURNING_PIERCE:
+						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
+						if (limb.IsBloodCirculated) limb.ApplyTraumaDamage(damage);
+						break;
+				}
 			}
 		}
 
@@ -425,6 +425,14 @@ namespace HealthV2
 				//yes It technically duplicates the healing but, I've would feel pretty robbed if There was a damage on one limb Of 50
 				//and I used a bandage of 50 and only healed 25,  if the healing was split across the two limbs
 				limb.HealDamage(healingItem, healAmt, (int)damageTypeToHeal);
+			}
+		}
+
+		public void HealTraumaDamage(float healAmt, BodyPart.TramuticDamageTypes typeToHeal)
+		{
+			foreach(BodyPart limb in ContainsLimbs)
+			{
+				limb.HealTraumaticDamage(healAmt, typeToHeal);
 			}
 		}
 	}

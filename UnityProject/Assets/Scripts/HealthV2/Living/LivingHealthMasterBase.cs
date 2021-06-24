@@ -596,8 +596,7 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -618,8 +617,7 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -738,45 +736,31 @@ namespace HealthV2
 			}
 		}
 
-		public virtual void ApplySlashDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		/// <summary>
+		/// Applys Trauma Damage to a specified body part of the creature. Server only
+		/// </summary>
+		/// <param name="aimedBodyPart">Which body part do we target?</param>
+		/// <param name="damage">The Trauma damage value</param>
+		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
+		[Server]
+		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, BodyPart.TramuticDamageTypes damageType)
 		{
-			if(DMMath.Prob(chance))
+			RootBodyPartContainer aimedPartContainer = null;
+			foreach (RootBodyPartContainer container in RootBodyPartContainers)
 			{
-				foreach (var bodyPartContainer in RootBodyPartContainers)
+				if (container.BodyPartType == aimedBodyPart)
 				{
-					if (bodyPartContainer.BodyPartType == aimedBodyPart)
-					{
-						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
-						bodyPartContainer.TakeSlashDamage(damage);
-					}
+					aimedPartContainer = container;
 				}
 			}
-		}
 
-		public virtual void ApplyPierceDamage(float chance, BodyPartType aimedBodyPart, float damage)
-		{
-			if(DMMath.Prob(chance))
+			if(aimedPartContainer == null)
 			{
-				foreach (var bodyPartContainer in RootBodyPartContainers)
-				{
-					if (bodyPartContainer.BodyPartType == aimedBodyPart)
-					{
-						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
-						bodyPartContainer.TakePierceDamage(damage);
-					}
-				}
+				Logger.LogError($"[LivingHealthBase/{name}] - Unable to find body part container. Skipping Trauma Damage.");
+				return;
 			}
-		}
 
-		public virtual void ApplyBurnDamage(BodyPartType aimedBodyPart, float damage)
-		{
-			foreach (var bodyPartContainer in RootBodyPartContainers)
-			{
-				if (bodyPartContainer.BodyPartType == aimedBodyPart)
-				{
-					bodyPartContainer.TakeBurnDamage(damage);
-				}
-			}
+			aimedPartContainer.TakeTraumaDamage(damage, damageType);
 		}
 
 		/// <summary>
@@ -895,6 +879,41 @@ namespace HealthV2
 
 		}
 
+
+		/// <summary>
+		/// Does the body part we're targeting suffer from traumatic damage?
+		/// </summary>
+		/// <param name="damageTypeToGet">Trauma damage type</param>
+		/// <param name="partType">targted body part.</param>
+		/// <returns></returns>
+		public bool HasTraumaDamage(BodyPartType partType)
+		{
+			foreach(var container in RootBodyPartContainers)
+			{
+				if(container.BodyPartType == partType)
+				{
+					foreach(BodyPart part in container.ContainsLimbs)
+					{
+						if (part.GetCurrentBurnDamage() > 0) return true;
+						if (part.GetCurrentSlashDamage() > 0) return true;
+						if (part.GetCurrentPierceDamage() > 0) return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, BodyPart.TramuticDamageTypes typeToHeal)
+		{
+			foreach(var container in RootBodyPartContainers)
+			{
+				if(container.BodyPartType == targetBodyPartToHeal)
+				{
+					container.HealTraumaDamage(healAmount, typeToHeal);
+				}
+			}
+		}
+
 		/// <summary>
 		/// Revives a dead player to full health.
 		/// </summary>
@@ -952,12 +971,15 @@ namespace HealthV2
 		}
 
 		[Server]
-		protected virtual void Gib()
+		public virtual void Gib()
 		{
-			//TODO: Reimplement
-
-			//never destroy players!
-			_ = Despawn.ServerSingle(gameObject);
+			Death();
+			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Slip, gameObject.transform.position, gameObject); //TODO: replace with gibbing noise
+			CirculatorySystem.Bleed(GetTotalBlood());
+			foreach(RootBodyPartContainer container in RootBodyPartContainers.ToArray())
+			{
+				container.RemoveLimbs();
+			}
 		}
 
 		/// ---------------------------
