@@ -223,10 +223,17 @@ public class Lungs : BodyPartModification
 		var inGas = GAS2ReagentSingleton.Instance.GetGasToReagent(requiredGas);
 		float bloodCap =  RelatedPart.bloodType.GetGasCapacity(RelatedPart.BloodContainer.CurrentReagentMix);
 		float foreignCap =  RelatedPart.bloodType.GetGasCapacityForeign( RelatedPart.BloodContainer.CurrentReagentMix);
-		var ratioNativeBlood =  bloodCap / ( bloodCap + foreignCap);
-		float bloodSaturation =  RelatedPart.BloodContainer[RelatedPart.requiredReagent] * ratioNativeBlood / bloodCap;
-
-		if (bloodSaturation >=RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
+		float bloodSaturation = 0;
+		if (bloodCap + foreignCap == 0)
+		{
+			bloodSaturation = 0;
+		}
+		else
+		{
+			var ratioNativeBlood =  bloodCap / ( bloodCap + foreignCap);
+			bloodSaturation =  RelatedPart.BloodContainer[RelatedPart.requiredReagent] * ratioNativeBlood / bloodCap;
+		}
+		if (bloodSaturation >= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
 		{
 			currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
