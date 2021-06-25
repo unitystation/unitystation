@@ -56,7 +56,7 @@ public class UnderFloorLayer : Layer
 									if (PipeDirCheck[d])
 									{
 										canInitializePipe = false;
-										Logger.LogError($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Pipes);
+										Logger.LogWarning($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Pipes);
 										tilemap.SetTile(localPlace, null);
 										break;
 									}
@@ -366,9 +366,7 @@ public class UnderFloorLayer : Layer
 			if (TileStore[(Vector2Int) position].Contains(tile))
 			{
 				int index = TileStore[(Vector2Int) position].IndexOf(tile);
-				matrix.TileChangeManager.RemoveTile(new Vector3Int(position.x, position.y, (-index) + 1),
-					LayerType.Underfloor,
-					false);
+				matrix.TileChangeManager.RemoveTile(new Vector3Int(position.x, position.y, (-index) + 1), LayerType.Underfloor);
 				TileStore[(Vector2Int) position][index] = null;
 			}
 		}

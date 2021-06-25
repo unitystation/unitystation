@@ -57,7 +57,7 @@ namespace UI.Action
 
 		public void CallActionServer(ConnectedPlayer SentByPlayer)
 		{
-			if (Validations.CanInteract(SentByPlayer.GameObject, NetworkSide.Server, allowSoftCrit: true))
+			if (Validations.CanInteract(SentByPlayer.Script , NetworkSide.Server, true))
 			{
 				ServerActionClicked?.Invoke();
 				UpdateButtonSprite(true);

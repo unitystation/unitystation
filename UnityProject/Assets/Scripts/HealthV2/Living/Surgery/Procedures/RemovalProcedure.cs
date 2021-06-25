@@ -21,6 +21,9 @@ namespace HealthV2
 				PresentProcedure.ISon.SetBodyPartIsOpen(false,false) ;
 				PresentProcedure.ISon.currentlyOn = null;
 			}
+
+			PresentProcedure.ISon.ThisPresentProcedure.PreviousBodyPart = null;
+			PresentProcedure.ISon.ThisPresentProcedure.RelatedBodyPart = null;
 			OnBodyPart.RemoveFromBodyThis();
 
 		}

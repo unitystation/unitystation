@@ -396,7 +396,7 @@ namespace UI.Objects.Atmospherics
 
 			if (usingTank)
 			{
-				if (canister.InsertedContainer != null)
+				if (canister.HasContainerInserted)
 				{
 					canister.MergeCanisterAndTank();
 					GasContainer externalTank = canister.InsertedContainer.GetComponent<GasContainer>();
@@ -411,7 +411,7 @@ namespace UI.Objects.Atmospherics
 
 		public void EjectExternalTank()
 		{
-			if (canister.InsertedContainer != null)
+			if (canister.HasContainerInserted)
 			{
 				if (canister.tankValveOpen)
 				{

@@ -10,7 +10,7 @@ public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove, PlayerMove.I
 {
 	[Tooltip("The speed debuff to apply to run speed.")]
 	[SerializeField]
-	private float runSpeedDebuff = 1.5f;
+	private float runSpeedDebuff = -1.5f;
 
 	private SpriteHandler spriteHandler;
 	private ItemAttributesV2 itemAttributesV2;

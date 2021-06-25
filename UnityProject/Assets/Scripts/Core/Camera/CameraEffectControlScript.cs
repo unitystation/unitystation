@@ -9,6 +9,7 @@ namespace CameraEffects
 	{
 
 		public DrunkCamera drunkCamera;
+		public GreyscaleCamera greyscaleCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
@@ -47,6 +48,7 @@ namespace CameraEffects
 
 			if (drunkCamera.enabled == false)
 			{
+				drunkCamera.ModerateDrunk();
 				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
 			}
 		}
@@ -90,9 +92,11 @@ namespace CameraEffects
 
 		public void EnsureAllEffectsAreDisabled()
 		{
+			//TODO: Find out a solution in the shaders why the screen inverts if both drunk and greyscale are both on
 			drunkCamera.enabled = false;
 			glitchEffect.enabled = false;
 			nightVisionCamera.enabled = false;
+			greyscaleCamera.enabled = false;
 		}
 	}
 }

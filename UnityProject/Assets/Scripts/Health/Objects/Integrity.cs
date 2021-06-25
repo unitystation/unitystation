@@ -115,6 +115,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private bool destroyed = false;
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
+	public RegisterTile RegisterTile => registerTile;
 	private IPushable pushable;
 
 	//The current integrity divided by the initial integrity

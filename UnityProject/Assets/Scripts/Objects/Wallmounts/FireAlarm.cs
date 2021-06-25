@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Electricity.Inheritance;
@@ -100,6 +101,11 @@ namespace Objects.Wallmounts
 					SendCloseAlerts();
 				}
 			}
+		}
+
+		public void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

@@ -121,22 +121,6 @@ public static class Validations
 	/// Checks if a player is allowed to interact with things (based on this player's status, such
 	/// as being conscious, and not cuffed).
 	/// </summary>
-	/// <param name="player">player gameobject to check</param>
-	/// <param name="side">side of the network the check is being performed on</param>
-	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
-	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
-	/// <returns></returns>
-	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false, bool isPlayerClick = true)
-	{
-		if (player == null) return false;
-
-		return CanInteract(player.GetComponent<PlayerScript>(), side, allowSoftCrit, allowCuffed, isPlayerClick);
-	}
-
-	/// <summary>
-	/// Checks if a player is allowed to interact with things (based on this player's status, such
-	/// as being conscious, and not cuffed).
-	/// </summary>
 	/// <param name="playerScript">playerscript of the player to check</param>
 	/// <param name="side">side of the network the check is being performed on</param>
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
@@ -456,86 +440,10 @@ public static class Validations
 		}
 	}
 
-	/// <summary>
-	/// Validates if the performer is in range and capable of interaction -  all the typical requirements for all
-	/// various interactions. Works properly even if player is hidden in a ClosetControl. Can also optionally allow soft crit.
-	///
-	/// </summary>
-	/// <param name="player">player performing the interaction</param>
-	/// <param name="target">target object</param>
-	/// <param name="side">side of the network this is being checked on</param>
-	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
-	/// <param name="reachRange">range to allow</param>
-	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
-	/// if specified will use this to determine if in range rather than target object position.</param>
-	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
-	/// if you can do so without using GetComponent, especially if you are calling this frequently.
-	/// This is an optimization so GetComponent call can be avoided to avoid
-	/// creating garbage.</param>
-	/// <returns></returns>
-	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null, bool isPlayerClick = false)
-	{
-		if (player == null) return false;
-		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector, targetRegisterTile, isPlayerClick);
-	}
-
 	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state, GameObject context = null)
 	{
 		return ps.IsPositionReachable(state.WorldPosition, true) || ps.IsPositionReachable(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f, context: context);
 	}
-
-	/// <summary>
-	/// Validates if the performer is in range and not in crit for a HandApply interaction.
-	/// </summary>
-	/// <param name="toValidate">interaction to validate</param>
-	/// <param name="side">side of the network this is being checked on</param>
-	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
-	/// <param name="reachRange">range to allow</param>
-	/// <returns></returns>
-	public static bool CanApply(HandApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
-
-	/// <summary>
-	/// Validates if the performer is in range and not in crit for a PositionalHandApply interaction.
-	/// Range check is based on the target vector of toValidate, not the distance to the object.
-	/// </summary>
-	/// <param name="toValidate">interaction to validate</param>
-	/// <param name="side">side of the network this is being checked on</param>
-	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
-	/// <param name="reachRange">range to allow</param>
-	/// <returns></returns>
-	public static bool CanApply(PositionalHandApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, toValidate.TargetVector, isPlayerClick: isPlayerClick);
-
-	/// <summary>
-	/// Validates if the performer is in range and not in crit for a TileApply interaction.
-	/// Range check is based on the target vector of toValidate, not the distance to the object.
-	/// </summary>
-	/// <param name="toValidate">interaction to validate</param>
-	/// <param name="side">side of the network this is being checked on</param>
-	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
-	/// <param name="reachRange">range to allow</param>
-	/// <returns></returns>
-	public static bool CanApply(TileApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
-		CanApply(toValidate.Performer, toValidate.TargetInteractableTiles.gameObject, side, allowSoftCrit, reachRange, toValidate.TargetVector, isPlayerClick: isPlayerClick);
-
-	/// <summary>
-	/// Validates if the performer is in range and not in crit for a MouseDrop interaction.
-	/// </summary>
-	/// <param name="toValidate">interaction to validate</param>
-	/// <param name="side">side of the network this is being checked on</param>
-	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
-	/// <param name="reachRange">range to allow</param>
-	/// <returns></returns>
-	public static bool CanApply(MouseDrop toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
-
-	public static bool CanApply(ConnectionApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, toValidate.TargetVector, isPlayerClick: isPlayerClick);
-
-	public static bool CanApply(ContextMenuApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
 
 	//AiActivate Validation
 	public static bool CanApply(AiActivate toValidate, NetworkSide side, bool lineCast = true)
@@ -597,9 +505,8 @@ public static class Validations
 
 		return true;
 	}
-
+	
 	#endregion
-
 
 	public static bool IsMineableAt(Vector2 targetWorldPosition, MetaTileMap metaTileMap)
 	{
@@ -693,10 +600,10 @@ public static class Validations
 	{
 		if (toCheck == null)
 		{
-			Logger.LogError("Cannot put item to slot because the item is null", Category.Inventory);
+			Logger.LogError("Cannot put item to slot because the item is null playerScript > " +  playerScript + " itemSlot > " + itemSlot, Category.Inventory);
 			return false;
 		}
-		if (CanInteract(playerScript.gameObject, side, true) == false)
+		if (CanInteract(playerScript, side, true) == false)
 		{
 			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;

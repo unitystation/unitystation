@@ -121,8 +121,8 @@ namespace Messages.Server
 					var instance = NetworkTabManager.Instance.Get(provider, type);
 					if (instance == null)
 					{
-						Logger.LogError($"Couldn't find NetTab to send! " +
-								$"Does the tab prefab match the type '{type}'? Expecting prefab name Tab'{type}' in a specific folder.");
+						Logger.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
+								$"Does the tab prefab match the type '{type}'? Expecting prefab name 'Tab{type}' in a specific folder.");
 						return default;
 					}
 					values = instance.ElementValues;
@@ -133,14 +133,14 @@ namespace Messages.Server
 				case TabAction.Update:
 					// TODO: FIXME: duplication of NetTab.ValidatePeepers
 					// Not sending updates and closing tab for players that don't pass the validation anymore
-					var validate = Validations.CanApply(recipient, provider, NetworkSide.Server);
+					var validate = Validations.CanApply(recipient.GetComponent<PlayerScript>(), provider, NetworkSide.Server);
 
 					if (recipient.GetComponent<PlayerScript>().OrNull()?.PlayerState == PlayerScript.PlayerStates.Ai)
 					{
 						validate = Validations.CanApply(new AiActivate(recipient, null,
 							provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
 					}
-
+					
 					if (!validate)
 					{
 						Send(recipient, provider, type, TabAction.Close);

@@ -91,7 +91,15 @@ public static class SweetExtensions
 			}
 			else
 			{
-				return go.GetComponent<NetworkIdentity>().netId;
+				matrix = go.GetComponentInChildren<Matrix>();
+				if (matrix != null)
+				{
+					return matrix.NetworkedMatrix.MatrixSync.netId;
+				}
+				else
+				{
+					return go.GetComponent<NetworkIdentity>().netId;
+				}
 			}
 		}
 		else
