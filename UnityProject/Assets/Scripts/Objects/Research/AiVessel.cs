@@ -62,7 +62,7 @@ namespace Objects.Research
 			//This interaction only for Ai core
 			if (isInteliCard) return false;
 
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver)) return true;
 

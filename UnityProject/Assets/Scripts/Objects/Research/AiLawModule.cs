@@ -121,7 +121,7 @@ namespace Objects.Research
 
 		public bool Interact(HandActivate interaction)
 		{
-			if (DefaultWillInteract.HandActivate(interaction, NetworkSide.Client) == false) return false;
+			if (DefaultWillInteract.Default(interaction, NetworkSide.Client) == false) return false;
 
 			if (aiModuleType != AiModuleType.Freeform && aiModuleType != AiModuleType.Hacked) return false;
 

@@ -53,7 +53,7 @@ public static class DefaultWillInteract
 		}
 		if (typeof(T) == typeof(AiActivate))
 		{
-			return AiActivate(interaction as AiActivate, side);
+			return Validations.CanApply(interaction as AiActivate, side);
 		}
 
 		Logger.LogError("Unable to recognize interaction type.", Category.Interaction);
@@ -80,5 +80,13 @@ public static class DefaultWillInteract
 		}
 
 		return isNotHidden.GetValueOrDefault( true );
+	}
+
+	/// <summary>
+	/// Default WillInteract logic for AiActivate interactions
+	/// </summary>
+	public static bool AiActivate(AiActivate interaction, NetworkSide side, bool lineCast = true)
+	{
+		return Validations.CanApply(interaction, side, lineCast);
 	}
 }

@@ -172,7 +172,7 @@ namespace Objects
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//Ai core has this camera script so dont try to cut cameras on it
 			if (interaction.TargetObject.GetComponent<AiVessel>() != null) return false;
