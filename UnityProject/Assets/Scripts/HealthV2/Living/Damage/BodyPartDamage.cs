@@ -841,7 +841,6 @@ namespace HealthV2
 		/// </summary>
 		private void AshBodyPart()
 		{
-			Logger.Log($"Ashing bodyPart -> {this.name}");
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
 				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
