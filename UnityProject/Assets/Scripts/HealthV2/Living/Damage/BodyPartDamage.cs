@@ -187,7 +187,7 @@ namespace HealthV2
 		public float RadiationStacks => Damages[(int) DamageType.Radiation];
 
 
-		[HideInInspector] public float CurrentInternalBleedingDamage 
+		public float CurrentInternalBleedingDamage 
 		{ 
 			get 
 			{
