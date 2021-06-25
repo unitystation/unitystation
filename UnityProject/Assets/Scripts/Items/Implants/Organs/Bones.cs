@@ -6,7 +6,7 @@ namespace HealthV2
 {
 	public class Bones : BodyPartModification
 	{
-		[SerializeField] private float BloodGeneratedByOneNutriment = 1;
+		[SerializeField] private float BloodGeneratedByOneNutriment = 5;
 		[SerializeField] private BloodType GeneratesThis;
 		public override void SetUpSystems()
 		{
