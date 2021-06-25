@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/6/25: **[Fix]** Cyborg and surplus prosthetic limbs on players no longer look like standard human limbs. by [PetMudstone](https://github.com/PetMudstone) in PR #[6855](https://github.com/unitystation/unitystation/pull/6855)
 * 2021/6/22: **[Balance]** Using rods on base floor tiles creates reinforced floors faster. by [PetMudstone](https://github.com/PetMudstone) in PR #[6842](https://github.com/unitystation/unitystation/pull/6842)
 * 2021/6/22: **[Balance]** Using rods on lattices now creates catwalks instantly. by [PetMudstone](https://github.com/PetMudstone) in PR #[6842](https://github.com/unitystation/unitystation/pull/6842)
 * 2021/6/22: **[Improvement]** Catwalks now turn into a lattice and drop a metal rod when cut with wirecutters or when destroyed. by [PetMudstone](https://github.com/PetMudstone) in PR #[6842](https://github.com/unitystation/unitystation/pull/6842)
