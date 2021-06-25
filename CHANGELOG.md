@@ -2,6 +2,11 @@
 ---
 
 
+* 2021/6/25: **[Balance]** added emergency storage rooms to Outpost's Arrivals and Evac halls. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6857](https://github.com/unitystation/unitystation/pull/6857)
+* 2021/6/25: **[Balance]** reduced the amount of equipment provided by Engineering's firefight and electrical tools lockers. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6857](https://github.com/unitystation/unitystation/pull/6857)
+* 2021/6/25: **[Balance]** Outpost's Service quarters have been reworked to let the Bartender and Chef have access to it. The Chef now has a place to sleep, too! by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6857](https://github.com/unitystation/unitystation/pull/6857)
+* 2021/6/25: **[Balance]** Outpost's EVA and Engineering now have more materials to make station repairs. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6857](https://github.com/unitystation/unitystation/pull/6857)
+* 2021/6/25: **[Balance]** Squarestation's Engineering and EVA now come with tools and materials to make station repairs. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6857](https://github.com/unitystation/unitystation/pull/6857)
 * 2021/6/25: **[Fix]** Cyborg and surplus prosthetic limbs on players no longer look like standard human limbs. by [PetMudstone](https://github.com/PetMudstone) in PR #[6855](https://github.com/unitystation/unitystation/pull/6855)
 * 2021/6/22: **[Balance]** Using rods on base floor tiles creates reinforced floors faster. by [PetMudstone](https://github.com/PetMudstone) in PR #[6842](https://github.com/unitystation/unitystation/pull/6842)
 * 2021/6/22: **[Balance]** Using rods on lattices now creates catwalks instantly. by [PetMudstone](https://github.com/PetMudstone) in PR #[6842](https://github.com/unitystation/unitystation/pull/6842)
