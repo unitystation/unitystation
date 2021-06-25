@@ -35,7 +35,7 @@ namespace HealthV2
 		private void Awake()
 		{
 			healthMaster = GetComponent<LivingHealthMasterBase>();
-			AddFreshBlood(ReadyBloodPool, 5);
+			AddFreshBlood(ReadyBloodPool, 500);
 		}
 
 		///<summary>
