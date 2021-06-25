@@ -745,7 +745,7 @@ namespace HealthV2
 		/// <param name="damage">The Trauma damage value</param>
 		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
 		[Server]
-		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, BodyPart.TramuticDamageTypes damageType)
+		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, TramuticDamageTypes damageType)
 		{
 			RootBodyPartContainer aimedPartContainer = null;
 			foreach (RootBodyPartContainer container in RootBodyPartContainers)
@@ -905,7 +905,7 @@ namespace HealthV2
 			return false;
 		}
 
-		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, BodyPart.TramuticDamageTypes typeToHeal)
+		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, TramuticDamageTypes typeToHeal)
 		{
 			foreach(var container in RootBodyPartContainers)
 			{

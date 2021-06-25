@@ -304,18 +304,6 @@ namespace HealthV2
 			CHARRED
 		}
 
-		[Flags]
-		public enum TramuticDamageTypes 
-		{
-			SLASH  = 0,
-			PIERCE = 1,
-			BURN   = 2,
-
-			BURNING_SLASH  = 4,
-			BURNING_PIERCE = 8,
-			SLASH_PIERCE   = 12
-		}
-
 		public void DamageInitialisation()
 		{
 			this.AddModifier(DamageModifier);
@@ -913,4 +901,14 @@ namespace HealthV2
 			UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
 		}
 	}
+}
+
+
+[Flags]
+public enum TramuticDamageTypes
+{
+	NONE = 0,
+	SLASH = 1 << 0,
+	PIERCE = 2 << 1,
+	BURN = 4 << 2
 }

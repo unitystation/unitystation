@@ -22,7 +22,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	[Range(0,100)] public float TraumaDamageToHeal = 20;
 
-	public BodyPart.TramuticDamageTypes DamageTypeToHeal;
+	public TramuticDamageTypes DamageTypeToHeal;
 
 	protected Stackable stackable;
 

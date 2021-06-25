@@ -109,14 +109,8 @@ namespace Items
 			set => traumaDamageChance = value;
 		}
 
-		[SerializeReference]
-		private HealthV2.BodyPart.TramuticDamageTypes traumaticDamageType;
-
-		public HealthV2.BodyPart.TramuticDamageTypes TraumaticDamageType
-		{
-			get => traumaticDamageType;
-			set => traumaticDamageType = value;
-		}
+		[EnumFlag]
+		public TramuticDamageTypes TraumaticDamageType;
 
 		[Header("Sprites/Sounds/Flags/Misc.")]
 
