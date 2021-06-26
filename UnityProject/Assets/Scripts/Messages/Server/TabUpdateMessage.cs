@@ -132,7 +132,7 @@ namespace Messages.Server
 				case TabAction.Update:
 					// TODO: FIXME: duplication of NetTab.ValidatePeepers
 					// Not sending updates and closing tab for players that don't pass the validation anymore
-					var validate = Validations.CanApply(recipient, provider, NetworkSide.Server);
+					var validate = Validations.CanApply(recipient.GetComponent<PlayerScript>(), provider, NetworkSide.Server);
 					if (!validate)
 					{
 						Send(recipient, provider, type, TabAction.Close);

@@ -505,7 +505,7 @@ public class MouseInputController : MonoBehaviour
 			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
 					go.GetComponent<MouseDraggable>() != null &&
 					go.GetComponent<MouseDraggable>().enabled &&
-					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
+					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayerScript))
 				.FirstOrDefault();
 		if (draggable != null)
 		{

@@ -369,6 +369,8 @@ public static class PlayerSpawn
 
 		if (PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer))
 		{
+			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.ghost.connectedPlayer);
+			adminItemStorage.ServerAddObserverPlayer(ghost);
 			ghost.GetComponent<GhostSprites>().SetAdminGhost();
 		}
 	}
