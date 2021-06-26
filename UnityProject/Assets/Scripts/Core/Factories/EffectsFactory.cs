@@ -44,12 +44,12 @@ public static class EffectsFactory
 		string sizeDesc;
 
 
-		if (bloodReagents.Total < 0.1f)
+		if (bloodReagents.Total < 5f)
 		{
 			chosenTile = smallBloodTile;
 			sizeDesc = "drop";
 		}
-		else if(bloodReagents.Total > 0.1f && bloodReagents.Total < 0.3f)
+		else if(bloodReagents.Total > 5f && bloodReagents.Total < 15f)
 		{
 			chosenTile = mediumBloodTile;
 			sizeDesc = "splat";
