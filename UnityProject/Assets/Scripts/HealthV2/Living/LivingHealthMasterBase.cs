@@ -389,7 +389,14 @@ namespace HealthV2
 		/// </summary>
 		public float GetOxyDamage()
 		{
-			return brain.RelatedPart.Oxy;
+			if (brain.OrNull()?.RelatedPart != null)
+			{
+				return 0;
+			}
+			else
+			{
+				return brain.RelatedPart.Oxy;
+			}
 		}
 
 		/// <summary>
