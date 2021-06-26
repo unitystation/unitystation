@@ -740,7 +740,7 @@ namespace HealthV2
 		{
 			if(currentInternalBleedingDamage >= maximumInternalBleedDamage)
 			{
-				BodyPart currentParent = GetParent();
+				BodyPart currentParent = ContainedIn;
 				if(currentParent != null)
 				{
 					currentParent.TakeDamage(null, InternalBleedingBloodLoss, attackType, damageType, damageSplit: false, false, 0);

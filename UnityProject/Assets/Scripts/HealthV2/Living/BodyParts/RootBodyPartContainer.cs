@@ -276,12 +276,12 @@ namespace HealthV2
 		/// <summary>
 		/// Removes all limbs from the container and drops all items that they are holding
 		/// </summary>
-		public void RemoveLimbs()
+		public void RemoveLimbs(bool destroySelf = true)
 		{
 			if (ItemStorage == null) ItemStorage = this.GetComponent<ItemStorage>();
 			ItemStorage.ServerDropAll();
 			PlayerSprites.livingHealthMasterBase.RootBodyPartContainers.Remove(this);
-			Destroy(gameObject); //?
+			if(destroySelf == true) Destroy(gameObject); //?
 		}
 
 		public virtual void ImplantUpdate()

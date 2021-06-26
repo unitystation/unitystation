@@ -980,7 +980,7 @@ namespace HealthV2
 			CirculatorySystem.Bleed(GetTotalBlood());
 			foreach(RootBodyPartContainer container in RootBodyPartContainers.ToArray())
 			{
-				container.RemoveLimbs();
+				container.RemoveLimbs(false);
 			}
 		}
 
