@@ -100,6 +100,7 @@ namespace UI.CharacterCreator
 		public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData,
 			LivingHealthMasterBase LivingHealthMasterBase)
 		{
+			Body_Part.SetCustomisationData = InData;
 			var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
 			BodyPartColour.a = 1;

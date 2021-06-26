@@ -200,8 +200,15 @@ public class Lungs : BodyPartModification
 				}
 				else
 				{
-					molesRecieved = Available / (TotalMoles / gasMoles);
-					molesRecieved = Mathf.Min(molesRecieved, gasMoles);
+					if (gasMoles == 0)
+					{
+						molesRecieved = 0;
+					}
+					else
+					{
+						molesRecieved = Available / (TotalMoles / gasMoles);
+						molesRecieved = Mathf.Min(molesRecieved, gasMoles);
+					}
 				}
 
 
