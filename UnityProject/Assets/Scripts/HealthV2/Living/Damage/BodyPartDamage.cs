@@ -145,6 +145,8 @@ namespace HealthV2
 		private float currentBurnDamage     = 0;
 
 		[SerializeField] private float bodyPartAshesAboveThisDamage = 125;
+
+		[SerializeField, Range(0.2f, 4.25f)] private float baseTraumaDamageMultiplier = 0.25f;
 		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
 
 		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
@@ -560,22 +562,43 @@ namespace HealthV2
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if(damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += tramuaDamage; }
-				if(damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += tramuaDamage; }
+				if(damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
+				if(damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
 				CheckCutSize();
 			}
 			//Burn damage checks for it's own armor damage type.
 			if (damageType == TramuticDamageTypes.BURN)
 			{
-				//Large cuts and parts in terrible condition means less protective flesh against fire.
-				if(currentSlashDamageLevel == SlashDamageLevel.LARGE || Severity >= DamageSeverity.Critical)
-				{
-					TakeBurnDamage(tramuaDamage * 1.25f);
-				}
-				else
-				{
-					TakeBurnDamage(tramuaDamage);
-				}
+				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
+			}
+		}
+
+		/// <summary>
+		/// Calculates how much trauma damage a body part can receive if based on the condition and trauma levels of
+		/// the current body part that is being attatcked.
+		/// </summary>
+		/// <param name="baseDamage">the base trauma damage.</param>
+		/// <returns></returns>
+		private float MultiplyTraumaDamage(float baseDamage)
+		{
+			if (currentBurnDamageLevel >= BurnDamageLevels.CHARRED || currentCutSize >= BodyPartCutSize.LARGE
+			|| Severity >= DamageSeverity.Critical)
+			{
+				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
+			}
+			else if (currentBurnDamageLevel >= BurnDamageLevels.MAJOR || currentCutSize >= BodyPartCutSize.MEDIUM
+			|| Severity >= DamageSeverity.Bad)
+			{
+				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
+			}
+			else if (currentBurnDamageLevel >= BurnDamageLevels.MINOR || currentCutSize >= BodyPartCutSize.SMALL
+			|| Severity >= DamageSeverity.LightModerate)
+			{
+				return baseDamage * baseTraumaDamageMultiplier;
+			}
+			else
+			{
+				return baseDamage;
 			}
 		}
 
