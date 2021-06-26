@@ -584,12 +584,12 @@ namespace HealthV2
 			if (currentBurnDamageLevel >= BurnDamageLevels.CHARRED || currentCutSize >= BodyPartCutSize.LARGE
 			|| Severity >= DamageSeverity.Critical)
 			{
-				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
+				return baseDamage * (baseTraumaDamageMultiplier + 0.75f);
 			}
 			else if (currentBurnDamageLevel >= BurnDamageLevels.MAJOR || currentCutSize >= BodyPartCutSize.MEDIUM
 			|| Severity >= DamageSeverity.Bad)
 			{
-				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
+				return baseDamage * (baseTraumaDamageMultiplier + 0.50f);
 			}
 			else if (currentBurnDamageLevel >= BurnDamageLevels.MINOR || currentCutSize >= BodyPartCutSize.SMALL
 			|| Severity >= DamageSeverity.LightModerate)
