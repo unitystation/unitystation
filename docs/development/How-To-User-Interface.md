@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-In order to create a User Interface for UnityStation, first open the Unity Editor. You will need to save at least one of each file types, the UI Prefab, the GUI script and the backend script. Each type file needs to be saved in a different place. If there is more then one file of the same type, please create a subfolder to group them together. Note that some of the UI Prefabs are located in UnityProject\Assets\Resources\UI\GUI, they will be moved from this location in the future, do not try to add UI Prefabs here unless you really have to.
+In order to create a User Interface for UnityStation, first open the Unity Editor. You will need to save at least one of each file types, the UI Prefab, the GUI script and the backend script. Each type file needs to be saved in a different place. If there is more then one file of the same type, please create a subfolder to group them together. Note that some of the UI Prefabs are located in UnityProject\Assets\Resources\UI\GUI, they will be moved from this location in the future, do not try to add UI Prefabs here unless you really have to. Feel free to copy and use the resources in this folder for your UI if you need a placeholder.
 
 ### UI Prefab files
 
@@ -16,7 +16,7 @@ Make sure to **tick to disable auto save**  when you open this prefab to modify 
 
 ![](../assets/images/HowToUI/auto_save_location.png)
 
-Make sure to attach the relevant GUI Script component to the prefab itself (In this case TabCloningConsole). This component will help run the GUI when it is opened.
+When building your UI in the editor, it is good to group each menu of the UI into a NetPageSwitcher, you don't have to have one. It is possible to nest NetPageSwitchers if a menu requires submenus.
 
 ### GUI Scripts
 
@@ -26,17 +26,35 @@ These files are stored in **UnityProject\Assets\Scripts\UI** this file is what r
 
 #### Tips
 
-To be expanded. Include Netpage assignment variable declaration, utilisation of UpdateDisplay(), declaration in NetTab.cs for NetTabType enumerical  and communication to backend script.
+Copy an existing UI script and attach to your copied Tab object via the inspector, shown on the right below in the PDA screenshot. Make sure to clearly and distinctly label all objects in your TabNAME, particularly NetPages to avoid confusion and they are the child of ScreenMask - this object hides the pages so only one can show at a time.
+
+##### IsPopOut
+
+This next section will explain the GUI script, going from the top of the GUI script component in the inspector. IsPopOut checkbox if ticked, will not be anchored to the top right menu, instead it will be a standalone menu occupying the centre of your screen.
+
+![](../assets/images/HowToUI/is_pop_out_pic.png)
+
+##### Type
+
+Type is important as this enumerical used to bring up the UI from the object/item/system etc. Add your new UI's name and number into the list inside *NetTab.cs* and select it in your GUI script.
+
+##### NetObjects
+
+![](../assets/images/HowToUI/editor_UI_elements.png)
+
+Make sure you reference the necessary objects from the hierarchy into your GUI_NAME script so they can be called (**red box**). If you want your UI to change it's appearance depending on a player/item attribute it is best to store them as separate 2D Textures so they can be tailored (**yellow box**). Doing this allows you to reference them in your code and be able to manipulate them using your backend script.
+
+One of the most important functions to include in your GUI_Script is an *UpdateDisplay()* function, this function should update the UI by calling *SetValueServer* for all necessary UI elements.  For regular menus switching can be handled by attaching the <function name> to a NetButton, however *.SetActivePage()* function will allow you to switch between your submenus in your code so long as you make a variable stating it is a *NestedSwitcher*. **Your class from the backend script should also be stored as a variable inside GUI_NAME as well so you can call it.**
 
 ### Backend
 
 #### Overview
 
-These files are stored in **UnityProject\Assets\Scripts** this file contains any backend code that does not directly dictate what the UI does. Place these scripts inside the corresponding folder so it matches where you put the GUI Script, so Scripts\Core for Scripts\UI\Core and so on.
+These files are stored in **UnityProject\Assets\Scripts\Managers** this file contains any backend code that does not directly dictate what the UI does, but manages all other components. Place these scripts inside the corresponding folder so it matches where you put the GUI Script, so Scripts\Core for Scripts\UI\Core and so on. The player-to-item or player-to-object interaction step is not handled in the manager script as it is treated as external to the UI. Create the script inside either Core, Items, Objects, etc. in **UnityProject\Assets\Scripts**, call a public GUI class inside it if modifications through items to the object are required, block out all unnecessary trait with the WillInteract function, etc.. Attach this component to the object on that will be on the map.
 
-#### Tips
+#### Tips 
 
-To be expanded. Include AddListener() and explain that all Server Side functions should appear here. Adding #region will help a lot in remembering what section does what.
+To be expanded. Include AddListener() and explain that all Server, Validations and Inventory functions should appear here. Adding #region will help a lot in remembering what section does what.
 
 ## NetUI Elements
 
