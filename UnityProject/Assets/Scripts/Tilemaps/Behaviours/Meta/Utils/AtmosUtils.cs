@@ -272,5 +272,23 @@ namespace Systems.Atmospherics
 			data.GasesArray = newData;
 			data.GasesDict.Remove(gasType);
 		}
+
+		/// <summary>
+		/// Copies the array, creating new references
+		/// </summary>
+		/// <param name="oldData"></param>
+		public static GasData Copy(this GasData oldData)
+		{
+			var newGasData = new GasData();
+
+			foreach (var value in oldData.GasesArray)
+			{
+				newGasData.SetMoles(value.GasType, value.Moles);
+			}
+
+			newGasData.RegenerateDict();
+
+			return newGasData;
+		}
 	}
 }

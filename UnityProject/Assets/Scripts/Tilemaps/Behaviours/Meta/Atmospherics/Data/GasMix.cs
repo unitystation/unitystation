@@ -119,7 +119,7 @@ namespace Systems.Atmospherics
 
 		public static GasMix NewGasMix(GasMix other)
 		{
-			return FromPressure(CopyGasData(other.GasData), other.Pressure, other.Volume);
+			return FromPressure(other.GasData.Copy(), other.Pressure, other.Volume);
 		}
 
 		public static GasMix FromTemperature(GasData gases, float temperature, float volume = AtmosConstants.TileVolume)
@@ -138,20 +138,11 @@ namespace Systems.Atmospherics
 			float volume = AtmosConstants.TileVolume)
 		{
 			var gaxMix = new GasMix();
-			gaxMix.GasData = CopyGasData(gases);
+			gaxMix.GasData = gases.Copy();
 			gaxMix.Pressure = pressure;
 			gaxMix.Volume = volume;
 			gaxMix.Temperature = AtmosUtils.CalcTemperature(gaxMix.Pressure, gaxMix.Volume, gaxMix.GasData.Sum());
 			return gaxMix;
-		}
-
-		private static GasData CopyGasData(GasData oldData)
-		{
-			var newGasData = new GasData();
-			newGasData.GasesArray = (GasValues[]) oldData.GasesArray.Clone();
-			newGasData.RegenerateDict();
-
-			return newGasData;
 		}
 
 		/// <summary>
@@ -337,7 +328,7 @@ namespace Systems.Atmospherics
 
 		public void Copy(GasMix other)
 		{
-			other.GasData = CopyGasData(other.GasData);
+			other.GasData = other.GasData.Copy();
 			Pressure = other.Pressure;
 			Temperature = other.Temperature;
 			Volume = other.Volume;
