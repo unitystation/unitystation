@@ -286,7 +286,7 @@ namespace Systems.Atmospherics
 
 				foreach (var gasMix in otherGas)
 				{
-					gasMoles += PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData.GetGasMoles(gas.Key);;
+					gasMoles += PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData.GetGasMoles(gas.Key);
 				}
 
 				gasMoles /= totalVolume;
