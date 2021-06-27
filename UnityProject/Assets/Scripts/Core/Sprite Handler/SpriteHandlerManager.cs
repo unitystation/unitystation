@@ -19,6 +19,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public Dictionary<SpriteHandler, SpriteChange> NewClientChanges = new Dictionary<SpriteHandler, SpriteChange>();
 
+	public List<HitIcon> HitIconPool = new List<HitIcon>();
+	public GameObject HitIconPrefab;
+
 	private void Awake()
 	{
 		if (spriteHandlerManager == null)
@@ -223,6 +226,20 @@ public class SpriteHandlerManager : NetworkBehaviour
 		else
 		{
 			return (new SpriteChange());
+		}
+	}
+
+	public HitIcon GetHitIcon()
+	{
+		if (HitIconPool.Count == 0)
+		{
+			return Instantiate(HitIconPrefab).GetComponent<HitIcon>();
+		}
+		else
+		{
+			var hitIcon = HitIconPool[0];
+			HitIconPool.Remove(hitIcon);
+			return hitIcon;
 		}
 	}
 

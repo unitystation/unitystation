@@ -55,8 +55,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public MouseInputController mouseInputController { get; set; }
 
-	public HitIcon hitIcon { get; set; }
-
 	public ChatIcon chatIcon { get; private set; }
 
 	/// <summary>
@@ -108,7 +106,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
-		hitIcon = GetComponentInChildren<HitIcon>(true);
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
