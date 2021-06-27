@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Systems.Atmospherics
@@ -54,11 +55,12 @@ namespace Systems.Atmospherics
 					}
 					else
 					{
+
 						// check if the moles are different. (e.g. CO2 is different from breathing)
-						for (int j = 0; j < Gas.Count; j++)
+						foreach (var gas in Gas.Gases)
 						{
-							float moles = node.GasMix.Gases[j];
-							float molesNeighbor = neighbor.GasMix.Gases[j];
+							float moles = node.GasMix.GasData.GetGasMoles(gas.Key);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.Key);
 
 							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 							{
@@ -127,6 +129,148 @@ namespace Systems.Atmospherics
 			}
 
 			return capacity;
+		}
+
+		/// <summary>
+		/// Total moles of this array of gases
+		/// </summary>
+		public static float Sum(this GasData data)
+		{
+			var total = 0f;
+
+			foreach (var gas in data.GasesArray)
+			{
+				total += gas.Moles;
+			}
+
+			return total;
+		}
+
+		/// <summary>
+		/// Checks to see if the data contains a gas
+		/// </summary>
+		public static bool HasGasType(this GasData data, GasType gasType)
+		{
+			return data.GasesDict.ContainsKey(gasType);
+		}
+
+		/// <summary>
+		/// Gets moles of a specific gas from the gas array
+		/// </summary>
+		public static float GetGasMoles(this GasData data, GasType gasType)
+		{
+			return GetGasType(data, gasType)?.Moles ?? 0;
+		}
+
+		/// <summary>
+		/// Gets moles of a specific gas from the gas array
+		/// </summary>
+		public static void GetGasMoles(this GasData data, GasType gasType, out float gasMoles)
+		{
+			gasMoles = GetGasMoles(data, gasType);
+		}
+
+		/// <summary>
+		/// Gets a specific gas from the gas array
+		/// </summary>
+		public static void GetGasType(this GasData data, GasType gasType, out GasValues gasData)
+		{
+			gasData = GetGasType(data, gasType);
+		}
+
+		/// <summary>
+		/// Gets a specific gas from the gas array
+		/// </summary>
+		public static GasValues GetGasType(this GasData data, GasType gasType)
+		{
+			if (data.GasesDict.TryGetValue(gasType, out var value))
+			{
+				return value;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Adds/Removes moles for a specific gas in the gas data
+		/// </summary>
+		public static void ChangeMoles(this GasData data, GasType gasType, float moles)
+		{
+			InternalSetMoles(data, gasType, moles, true);
+		}
+
+		/// <summary>
+		/// Sets moles for a specific gas to a specific value in the gas data
+		/// </summary>
+		public static void SetMoles(this GasData data, GasType gasType, float moles)
+		{
+			InternalSetMoles(data, gasType, moles, false);
+		}
+
+		private static void InternalSetMoles(GasData data, GasType gasType, float moles, bool isChange)
+		{
+			GetGasType(data, gasType, out var gas);
+
+			if (gas != null)
+			{
+				if (isChange)
+				{
+					gas.Moles += moles;
+				}
+				else
+				{
+					gas.Moles = moles;
+				}
+
+				if (gas.Moles < 0)
+				{
+					data.RemoveGasType(gasType);
+				}
+
+				return;
+			}
+
+			//Dont add new data for negative moles or if approx 0
+			if(Math.Sign(moles) == -1 || moles.Approx(0)) return;
+
+			var newValues = new GasValues {Moles = moles, GasType = gasType};
+			var newArray = new GasValues[data.GasesArray.Length + 1];
+
+			for (int i = 0; i < newArray.Length; i++)
+			{
+				if (data.GasesArray.Length == i)
+				{
+					newArray[i] = newValues;
+
+					//Should only happen on last index since we are adding only one thing so can break
+					break;
+				}
+
+				newArray[i] = data.GasesArray[i];
+			}
+
+			data.GasesArray = newArray;
+			data.GasesDict.Add(gasType, newValues);
+		}
+
+		/// <summary>
+		/// Removes a specific gas type
+		/// </summary>
+		public static void RemoveGasType(this GasData data, GasType gasType)
+		{
+			var newData = new GasValues[data.GasesArray.Length - 1];
+			var count = 0;
+
+			foreach (var gas in data.GasesArray)
+			{
+				if(gas.GasType == gasType) continue;
+
+				newData[count] = gas;
+				count++;
+			}
+
+			data.GasesArray = newData;
+			data.GasesDict.Remove(gasType);
 		}
 	}
 }

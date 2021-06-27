@@ -13,8 +13,9 @@ namespace Systems.Atmospherics
 	[Serializable]
 	public class GasMix
 	{
-		[InfoBox("Plasma, oxygen, nitrogen, carbon dioxide", EInfoBoxType.Normal)]
-		public float[] Gases;
+		[InfoBox("Gas data container", EInfoBoxType.Normal)]
+		public GasData GasData;
+		public GasValues[] GasesArray => GasData.GasesArray;
 
 		public float Pressure;// in kPA
 		public float Volume; // in m3
@@ -25,9 +26,9 @@ namespace Systems.Atmospherics
 			get
 			{
 				float value = 0;
-				foreach (var a in Gases)
+				foreach (var a in GasesArray)
 				{
-					value += a;
+					value += a.Moles;
 				}
 
 				if (float.IsNaN(value))
@@ -44,9 +45,10 @@ namespace Systems.Atmospherics
 			get
 			{
 				float capacity = 0f;
-				foreach (Gas gas in Gas.All)
+
+				foreach (var gas in GasesArray)
 				{
-					capacity += gas.MolarHeatCapacity * Gases[gas];
+					capacity += Gas.Get(gas.GasType).MolarHeatCapacity * gas.Moles;
 				}
 
 				return capacity;
@@ -117,10 +119,10 @@ namespace Systems.Atmospherics
 
 		public static GasMix NewGasMix(GasMix other)
 		{
-			return FromPressure((float[]) other.Gases.Clone(), other.Pressure, other.Volume);
+			return FromPressure(CopyGasData(other.GasData), other.Pressure, other.Volume);
 		}
 
-		public static GasMix FromTemperature(float[] gases, float temperature, float volume = AtmosConstants.TileVolume)
+		public static GasMix FromTemperature(GasData gases, float temperature, float volume = AtmosConstants.TileVolume)
 		{
 			float pressure = 0;
 
@@ -132,15 +134,24 @@ namespace Systems.Atmospherics
 			return FromPressure(gases, pressure, volume);
 		}
 
-		public static GasMix FromPressure(IEnumerable<float> gases, float pressure,
+		public static GasMix FromPressure(GasData gases, float pressure,
 			float volume = AtmosConstants.TileVolume)
 		{
 			var gaxMix = new GasMix();
-			gaxMix.Gases = gases.ToArray();
+			gaxMix.GasData = CopyGasData(gases);
 			gaxMix.Pressure = pressure;
 			gaxMix.Volume = volume;
-			gaxMix.Temperature = AtmosUtils.CalcTemperature(gaxMix.Pressure, gaxMix.Volume, gaxMix.Gases.Sum());
+			gaxMix.Temperature = AtmosUtils.CalcTemperature(gaxMix.Pressure, gaxMix.Volume, gaxMix.GasData.Sum());
 			return gaxMix;
+		}
+
+		private static GasData CopyGasData(GasData oldData)
+		{
+			var newGasData = new GasData();
+			newGasData.GasesArray = (GasValues[]) oldData.GasesArray.Clone();
+			newGasData.RegenerateDict();
+
+			return newGasData;
 		}
 
 		/// <summary>
@@ -154,13 +165,18 @@ namespace Systems.Atmospherics
 			var percentage =  molesTransferred / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
-			for (int i = 0; i < Gas.Count; i++)
+			foreach (var gas in Gas.Gases)
 			{
-				if (CodeUtilities.IsEqual(source.Gases[i], 0))
-					continue;
-				var transfer = source.Gases[i] * percentage;
-				target.Gases[i] += transfer;
-				source.Gases[i] -= transfer;
+				var sourceMoles = source.GetMoles(gas.Value);
+				if (CodeUtilities.IsEqual(sourceMoles, 0)) continue;
+
+				var transfer = sourceMoles * percentage;
+
+				//Add to target
+				target.GasData.ChangeMoles(gas.Key, transfer);
+
+				//Remove from source
+				source.GasData.ChangeMoles(gas.Key, -transfer);
 			}
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
@@ -195,12 +211,17 @@ namespace Systems.Atmospherics
 			var totalWholeHeatCapacity = WholeHeatCapacity + otherGas.WholeHeatCapacity;
 			var newTemperature = totalWholeHeatCapacity > 0 ? totalInternalEnergy / totalWholeHeatCapacity : 0;
 			var totalVolume = Volume + otherGas.Volume;
-			for (var i = 0; i < Gas.Count; i++)
+
+			foreach (var gas in Gas.Gases)
 			{
-				float gas = (Gases[i] + otherGas.Gases[i]) / totalVolume;
-				Gases[i] = gas * Volume;
-				otherGas.Gases[i] = gas * otherGas.Volume;
+				var gasMoles = GasData.GetGasMoles(gas.Key);
+				gasMoles += otherGas.GasData.GetGasMoles(gas.Key);
+				gasMoles /= totalVolume;
+
+				GasData.SetMoles(gas.Key, gasMoles * Volume);
+				otherGas.GasData.SetMoles(gas.Key, gasMoles * otherGas.Volume);
 			}
+
 			SetTemperature(newTemperature);
 			otherGas.SetTemperature(newTemperature);
 			return otherGas;
@@ -208,10 +229,11 @@ namespace Systems.Atmospherics
 
 		public void MultiplyGas(float factor)
 		{
-			for (int i = 0; i < Gas.Count; i++)
+			for (int i = 0; i < GasesArray.Length; i++)
 			{
-				Gases[i] *= factor;
+				GasesArray[i].Moles *= factor;
 			}
+
 			SetPressure(Pressure * factor);
 		}
 
@@ -222,14 +244,14 @@ namespace Systems.Atmospherics
 
 		public float GetPressure(Gas gas)
 		{
-			if (Moles == 0)
-				return 0;
-			return Pressure * (Gases[gas] / Moles);
+			if (Moles == 0) return 0;
+
+			return Pressure * (GetMoles(gas) / Moles);
 		}
 
 		public float GetMoles(Gas gas)
 		{
-			return Gases[gas];
+			return GasData.GetGasMoles(gas.GasType);
 		}
 
 		/// <summary>
@@ -239,11 +261,7 @@ namespace Systems.Atmospherics
 		/// <param name="gasIndex">Gas index.</param>
 		public float GasRatio(Gas gasIndex)
 		{
-			if (Gases[gasIndex] != 0)
-			{
-				return (Gases[gasIndex] / Moles);
-			}
-			return 0;
+			return GetMoles(gasIndex) / Moles;
 		}
 
 		/// <summary>
@@ -262,22 +280,24 @@ namespace Systems.Atmospherics
 				totalVolume += PipeFunctions.PipeOrNet(gasMix).GetGasMix().Volume;
 			}
 
-
 			var newTemperature = totalInternalEnergy / totalWholeHeatCapacity;
-			for (var i = 0; i < Gas.Count; i++)
+
+			foreach (var gas in Gas.Gases)
 			{
-				var gas = (Gases[i]);
+				var gasMoles = GasData.GetGasMoles(gas.Key);
+
 				foreach (var gasMix in otherGas)
 				{
-					gas += PipeFunctions.PipeOrNet(gasMix).GetGasMix().Gases[i];
+					gasMoles += PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData.GetGasMoles(gas.Key);;
 				}
 
-				gas /= totalVolume;
-				Gases[i] = gas * Volume;
+				gasMoles /= totalVolume;
+				GasData.SetMoles(gas.Key, gasMoles * Volume);
+
 				foreach (var gasMix in otherGas)
 				{
 					var inGas = PipeFunctions.PipeOrNet(gasMix).GetGasMix();
-					inGas.Gases[i] = gas * inGas.Volume;
+					inGas.GasData.SetMoles(gas.Key, gasMoles * inGas.Volume);
 					PipeFunctions.PipeOrNet(gasMix).SetGasMix(inGas);
 				}
 			}
@@ -289,7 +309,6 @@ namespace Systems.Atmospherics
 				var gasMix = getMixAndVolume.GetGasMix();
 				gasMix.SetTemperature(newTemperature);
 				getMixAndVolume.SetGasMix(gasMix);
-
 			}
 		}
 
@@ -300,30 +319,25 @@ namespace Systems.Atmospherics
 		/// <param name="moles">The amount to set the gas.</param>
 		public void SetGas(Gas gas, float moles)
 		{
-			Gases[gas] = moles;
+			GasData.SetMoles(gas.GasType, moles);
 			RecalculatePressure();
 		}
 
 		public void AddGas(Gas gas, float moles)
 		{
-			Gases[gas] += moles;
+			GasData.ChangeMoles(gas.GasType, moles);
 			RecalculatePressure();
 		}
 
 		public void RemoveGas(Gas gas, float moles)
 		{
-			Gases[gas] -= moles;
-			if (Gases[gas] < 0)
-				Gases[gas] = 0;
+			GasData.ChangeMoles(gas.GasType, -moles);
 			RecalculatePressure();
 		}
 
 		public void Copy(GasMix other)
 		{
-			for (int i = 0; i < Gas.Count; i++)
-			{
-				Gases[i] = other.Gases[i];
-			}
+			other.GasData = CopyGasData(other.GasData);
 			Pressure = other.Pressure;
 			Temperature = other.Temperature;
 			Volume = other.Volume;
@@ -333,7 +347,5 @@ namespace Systems.Atmospherics
 		{
 			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume}m^3 ";
 		}
-
-
 	}
 }

@@ -180,49 +180,47 @@ public class Lungs : BodyPartModification
 			blood.Add(RelatedPart.requiredReagent, RelatedPart.bloodType.GetSpareGasCapacity(blood));
 			return false;
 		}
+
 		ReagentMix toInhale = new ReagentMix();
 		var Available = RelatedPart.bloodType.GetGasCapacityOfnonMeanCarrier(blood);
 		var TotalMoles = breathGasMix.Moles;
-		for (int i = 0; i < breathGasMix.Gases.Length; i++)
+
+		foreach (var gasValues in breathGasMix.GasData.GasesArray)
 		{
-			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(Gas.All[i]))
+			var gas = Gas.Get(gasValues.GasType);
+			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
+
+			// n = PV/RT
+			float gasMoles = breathGasMix.GetPressure(gas) * LungSize / ( 8.314f * breathGasMix.Temperature);
+
+			// Get as much as we need, or as much as in the lungs, whichever is lower
+			Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
+			float molesRecieved = 0;
+			if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
 			{
-				// n = PV/RT
-				float gasMoles = breathGasMix.GetPressure(Gas.All[i]) * LungSize / 8.314f / breathGasMix.Temperature;
-
-
-				// Get as much as we need, or as much as in the lungs, whichever is lower
-				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
-				float molesRecieved = 0;
-				if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
+				molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
+			}
+			else
+			{
+				if (gasMoles == 0)
 				{
-					molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
+					molesRecieved = 0;
 				}
 				else
 				{
-					if (gasMoles == 0)
-					{
-						molesRecieved = 0;
-					}
-					else
-					{
-						molesRecieved = Available / (TotalMoles / gasMoles);
-						molesRecieved = Mathf.Min(molesRecieved, gasMoles);
-					}
+					molesRecieved = Available / (TotalMoles / gasMoles);
+					molesRecieved = Mathf.Min(molesRecieved, gasMoles);
 				}
-
-
-
-				if(molesRecieved.Approx(0) == false)
-				{
-					toInhale.Add(gasReagent, molesRecieved * efficiency);
-				}
-
-
-				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
 
+			if(molesRecieved.Approx(0) == false)
+			{
+				toInhale.Add(gasReagent, molesRecieved * efficiency);
+			}
+
+			//TODO: Add pressureSafeMax check here, for hyperoxia
 		}
+
 		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 
 		// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen

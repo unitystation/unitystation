@@ -170,11 +170,10 @@ namespace Systems.Atmospherics
 				return;
 
 			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
-			for (var i = 0; i < Gas.Count; i++)
+			foreach (var gasData in meanGasMix.GasesArray)
 			{
-				meanGasMix.Gases[i] = meanGasMix.Gases[i] / targetCount;
+				meanGasMix.GasData.SetMoles(gasData.GasType, meanGasMix.GasData.GetGasMoles(gasData.GasType) / targetCount);
 			}
-
 		}
 
 		#region GasVisualEffects

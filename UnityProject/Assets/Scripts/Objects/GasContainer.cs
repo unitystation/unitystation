@@ -14,6 +14,9 @@ namespace Objects.Atmospherics
 
 		public GasMix GasMix { get; set; }
 
+		[HideInInspector]
+		public GasMix StoredGasMix = GasMix.NewGasMix(GasMixes.Empty);
+
 		public bool IsVenting { get; private set; } = false;
 
 		[Tooltip("This is the maximum moles the container should be able to contain without exploding.")]
@@ -26,7 +29,6 @@ namespace Objects.Atmospherics
 
 		//hide these values as they're defined in GasContainerEditor.cs
 		[HideInInspector] public float Temperature;
-		[HideInInspector] public float[] Gases = new float[Gas.Count];
 
 		private Integrity integrity;
 
@@ -45,7 +47,7 @@ namespace Objects.Atmospherics
 		//How full the tank is
 		private float fullPercentageClient = 0;
 		public float FullPercentageClient => fullPercentageClient;
-		
+
 		//Valid serverside only
 		public float FullPercentage => GasMix.Moles / MaximumMoles;
 
@@ -153,9 +155,9 @@ namespace Objects.Atmospherics
 				Volume = GasMix.Volume;
 				Temperature = GasMix.Temperature;
 
-				foreach (Gas gas in Gas.All)
+				foreach (var gas in GasMix.GasesArray)
 				{
-					Gases[gas] = GasMix.Gases[gas];
+					StoredGasMix.GasData.SetMoles(gas.GasType, gas.Moles);
 				}
 			}
 		}
@@ -163,7 +165,7 @@ namespace Objects.Atmospherics
 		public void UpdateGasMix()
 		{
 			gasIsInitialised = true;
-			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
+			GasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
 		}
 	}
 }

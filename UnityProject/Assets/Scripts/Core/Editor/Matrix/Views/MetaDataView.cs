@@ -21,8 +21,10 @@ public class MetaDataView : BasicView
 		localChecks.Add(new SpaceConnectCheck());
 		localChecks.Add(new HotspotCheck());
 		localChecks.Add(new WindCheck());
+		localChecks.Add(new TotalMolesCheck());
 		localChecks.Add(new PlasmaCheck());
 		localChecks.Add(new OxygenCheck());
+		localChecks.Add(new NitrogenCheck());
 		localChecks.Add(new CarbonDioxideCheck());
 		localChecks.Add(new RoomNumberCheck());
 		localChecks.Add(new AirlockCheck());
@@ -304,6 +306,22 @@ public class MetaDataView : BasicView
 		}
 	}
 
+	private class NitrogenCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Nitrogen";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = LocalToWorld(source, position);
+				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.Nitrogen):0.###}", p, false);
+			}
+		}
+	}
+
 	private class CarbonDioxideCheck : Check<MetaDataLayer>
 	{
 		public override string Label { get; } = "CarbonDioxide";
@@ -316,6 +334,22 @@ public class MetaDataView : BasicView
 			{
 				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
+			}
+		}
+	}
+
+	private class TotalMolesCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Total Moles";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = LocalToWorld(source, position);
+				GizmoUtils.DrawText($"{node.GasMix.Moles:0.###}", p, false);
 			}
 		}
 	}
