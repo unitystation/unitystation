@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using Systems.Explosions;
+using UnityEditor;
 
 namespace Objects.Atmospherics
 {
@@ -14,8 +15,7 @@ namespace Objects.Atmospherics
 
 		public GasMix GasMix { get; set; }
 
-		[HideInInspector]
-		public GasMix StoredGasMix = GasMix.NewGasMix(GasMixes.Empty);
+		public GasMix StoredGasMix = new GasMix();
 
 		public bool IsVenting { get; private set; } = false;
 
@@ -23,12 +23,8 @@ namespace Objects.Atmospherics
 		public float MaximumMoles = 0f;
 
 		public float ReleasePressure = 101.325f;
-
-		// Keeping a copy of these values for initialization and the editor
 		public float Volume;
-
-		//hide these values as they're defined in GasContainerEditor.cs
-		[HideInInspector] public float Temperature;
+		public float Temperature;
 
 		private Integrity integrity;
 
@@ -160,6 +156,13 @@ namespace Objects.Atmospherics
 					StoredGasMix.GasData.SetMoles(gas.GasType, gas.Moles);
 				}
 			}
+		}
+
+		[ContextMenu("Set Values for Gas")]
+		private void Validate()
+		{
+			Undo.RecordObject(gameObject, "Gas Change");
+			StoredGasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
 		}
 
 		public void UpdateGasMix()

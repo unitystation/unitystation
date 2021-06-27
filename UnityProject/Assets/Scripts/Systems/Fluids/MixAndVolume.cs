@@ -11,7 +11,7 @@ namespace Pipes
 	{
 		private float Volume => gasMix.Volume;
 		[SerializeField] private ReagentMix mix = new ReagentMix();
-		[SerializeField] private GasMix gasMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+		[SerializeField] private GasMix gasMix = new GasMix();
 
 
 		public float InternalEnergy

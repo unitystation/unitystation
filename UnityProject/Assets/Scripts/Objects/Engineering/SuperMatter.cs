@@ -275,7 +275,7 @@ namespace Objects.Engineering
 
 		private RegisterTile registerTile;
 
-		private GasMix removeMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+		private GasMix removeMix = new GasMix();
 
 		private bool finalCountdown; //uh oh
 		private int finalCountdownTime = 30; //30 seconds

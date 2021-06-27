@@ -72,6 +72,13 @@ namespace Systems.Atmospherics
 			}
 		}
 
+		public GasMix(float volume = AtmosConstants.TileVolume, float temperature = Reactions.KOffsetC + 20)
+		{
+			GasData = new GasData();
+			Volume = volume;
+			Temperature = temperature;
+		}
+
 		/// <summary>
 		/// Changes the pressure by the specified value
 		/// </summary>
@@ -328,7 +335,7 @@ namespace Systems.Atmospherics
 
 		public void Copy(GasMix other)
 		{
-			other.GasData = other.GasData.Copy();
+			GasData = other.GasData.Copy();
 			Pressure = other.Pressure;
 			Temperature = other.Temperature;
 			Volume = other.Volume;

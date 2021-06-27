@@ -222,7 +222,7 @@ namespace Systems.Atmospherics
 					gas.Moles = moles;
 				}
 
-				if (gas.Moles < 0)
+				if (gas.Moles <= 0)
 				{
 					data.RemoveGasType(gasType);
 				}
@@ -230,8 +230,11 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			//Dont add new data for negative moles or if approx 0
-			if(Math.Sign(moles) == -1 || moles.Approx(0)) return;
+			//Dont add new data for negative moles
+			if(Math.Sign(moles) == -1) return;
+
+			//Dont add if approx 0
+			if (moles.Approx(0)) return;
 
 			var newValues = new GasValues {Moles = moles, GasType = gasType};
 			var newArray = new GasValues[data.GasesArray.Length + 1];

@@ -12,6 +12,31 @@ PrefabInstance:
       propertyPath: Gases.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: StoredGasMix.Volume
+      value: 0.00600323
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1387664462041162565, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6526821469536107890, guid: 1119a35da5222e24b85fe0cd49f6cb12,
         type: 3}
       propertyPath: m_AssetId
@@ -21,6 +46,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlasmaInternalsTankEmergencyEmpty
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562969735469596082, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6562969735469596082, guid: 1119a35da5222e24b85fe0cd49f6cb12,
         type: 3}
@@ -39,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6562969735469596082, guid: 1119a35da5222e24b85fe0cd49f6cb12,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6562969735469596082, guid: 1119a35da5222e24b85fe0cd49f6cb12,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6562969735469596082, guid: 1119a35da5222e24b85fe0cd49f6cb12,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6562969735469596082, guid: 1119a35da5222e24b85fe0cd49f6cb12,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6562969735469596082, guid: 1119a35da5222e24b85fe0cd49f6cb12,
         type: 3}
