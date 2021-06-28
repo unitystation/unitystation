@@ -27,8 +27,7 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 	public Reagent Stimulum;
 	public Reagent Pluoxium;
 	public Reagent Freon;
-
-
+	
 	private static Dictionary<Reagent, GasSO> ReagentToGas;
 	private static Dictionary<GasSO, Reagent> GasToReagent;
 
@@ -101,8 +100,6 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 	}
 
 	private Dictionary<int, GasSO> InitialReagentToGas;
-
-
 
 	private Reagent IntToReagent(int ToGET)
 	{

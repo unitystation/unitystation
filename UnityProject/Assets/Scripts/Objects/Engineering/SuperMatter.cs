@@ -55,18 +55,7 @@ namespace Objects.Engineering
 		#region HeatPenaltyDefines
 
 		// Higher == Bigger heat and waste penalty from having the crystal surrounded by this gas. Negative numbers reduce penalty.
-		private Dictionary<GasSO, float> heatPenaltyDefines = new Dictionary<GasSO, float>
-		{
-			{Gas.Plasma, 15},
-			{Gas.Oxygen, 1},
-			{Gas.Pluoxium, -1},
-			{Gas.Tritium, 10},
-			{Gas.CarbonDioxide, 0.1f},
-			{Gas.Nitrogen, -1.5f},
-			{Gas.BZ, 5},
-			{Gas.WaterVapor, 8},
-			{Gas.Freon, -10}
-		};
+		private Dictionary<GasSO, float> heatPenaltyDefines;
 
 		#endregion
 
@@ -75,27 +64,14 @@ namespace Objects.Engineering
 		//All of these get divided by 10-bzcomp * 5 before having 1 added and being multiplied with power to determine rads
 		//Keep the negative values here above -10 and we won't get negative rads
 		//Higher == Bigger bonus to power generation.
-		private Dictionary<GasSO, float> transmitDefines = new Dictionary<GasSO, float>
-		{
-			{Gas.Oxygen, 1.5f},
-			{Gas.Plasma, 4},
-			{Gas.BZ, -2},
-			{Gas.Tritium, 30},
-			{Gas.Pluoxium, -5},
-			{Gas.WaterVapor, -9}
-		};
+		private Dictionary<GasSO, float> transmitDefines;
 
 		#endregion
 
 		#region HeatResistanceDefines
 
 		//Higher == Gas makes the crystal more resistant against heat damage.
-		private Dictionary<GasSO, float> heatResistanceDefines = new Dictionary<GasSO, float>
-		{
-			{Gas.NitrousOxide, 6},
-			{Gas.Pluoxium, 3},
-			{Gas.WaterVapor, 10}
-		};
+		private Dictionary<GasSO, float> heatResistanceDefines;
 
 		#endregion
 
@@ -293,6 +269,36 @@ namespace Objects.Engineering
 			registerTile = GetComponent<RegisterTile>();
 			emitterBulletName = emitterBulletPrefab.GetComponent<Bullet>().visibleName;
 			mask = LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC");
+
+			heatResistanceDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.NitrousOxide, 6},
+				{Gas.Pluoxium, 3},
+				{Gas.WaterVapor, 10}
+			};
+
+			transmitDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.Oxygen, 1.5f},
+				{Gas.Plasma, 4},
+				{Gas.BZ, -2},
+				{Gas.Tritium, 30},
+				{Gas.Pluoxium, -5},
+				{Gas.WaterVapor, -9}
+			};
+
+			heatPenaltyDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.Plasma, 15},
+				{Gas.Oxygen, 1},
+				{Gas.Pluoxium, -1},
+				{Gas.Tritium, 10},
+				{Gas.CarbonDioxide, 0.1f},
+				{Gas.Nitrogen, -1.5f},
+				{Gas.BZ, 5},
+				{Gas.WaterVapor, 8},
+				{Gas.Freon, -10}
+			};
 		}
 
 		public override void OnStartClient()

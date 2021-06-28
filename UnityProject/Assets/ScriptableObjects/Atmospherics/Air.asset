@@ -15,11 +15,11 @@ MonoBehaviour:
   gasMix:
     GasData:
       GasesArray:
-      - GasType: 0
-        Moles: 20.785606
-      - GasType: 1
-        Moles: 83.142426
-    Pressure: 101.325005
+      - GasSO: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
+        Moles: 22
+      - GasSO: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
+        Moles: 83
+    Pressure: 80.92114
     Volume: 2.5
     Temperature: 293.15
   volumeOverride: 2.5

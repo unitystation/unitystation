@@ -15,10 +15,14 @@ namespace ScriptableObjects.Atmospherics
 		[SerializeField]
 		private float volumeOverride = AtmosConstants.TileVolume;
 
-		private void OnValidate()
+		[ContextMenu("Validate Gases")]
+		private void Validate()
 		{
-			if(gasMix.GasData.GasesArray.Any(x => x.GasSO == null)) return;
+			gasMix = GasMix.FromTemperature(gasMix.GasData, Reactions.KOffsetC + 20, volumeOverride);
+		}
 
+		private void OnEnable()
+		{
 			gasMix = GasMix.FromTemperature(gasMix.GasData, Reactions.KOffsetC + 20, volumeOverride);
 		}
 	}
