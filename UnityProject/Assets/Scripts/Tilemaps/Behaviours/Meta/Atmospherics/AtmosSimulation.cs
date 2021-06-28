@@ -32,13 +32,6 @@ namespace Systems.Atmospherics
 		/// </summary>
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
-		/// <summary>
-		/// List of tiles that currently have fog effects
-		/// Before we start telling the main thread to add/remove vfx, we can check to see if the tile has already been taken care of
-		/// While not nessecary for this feature to function, it should significantly reduce performance hits from this feature
-		/// </summary>
-		private IDictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
-
 		public bool IsInUpdateList(MetaDataNode node)
 		{
 			return updateList.Contains(node);

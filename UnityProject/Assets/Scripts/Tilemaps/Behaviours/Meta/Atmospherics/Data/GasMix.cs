@@ -264,7 +264,7 @@ namespace Systems.Atmospherics
 
 		public float GetPressure(GasSO gas)
 		{
-			if (Moles == 0) return 0;
+			if (Moles.Approx(0)) return 0;
 
 			return Pressure * (GetMoles(gas) / Moles);
 		}

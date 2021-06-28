@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Systems.Atmospherics
 {
-	public class Gas
+	public static class Gas
 	{
 		//This is here as its easier to put Gas.Gases than GasesSingleton.Instance.Gases
 		public static Dictionary<int, GasSO> Gases => GasesSingleton.Instance.Gases;
