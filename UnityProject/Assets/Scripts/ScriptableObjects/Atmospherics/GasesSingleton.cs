@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Systems.Atmospherics;
 using Chemistry;
@@ -29,7 +30,12 @@ namespace ScriptableObjects.Atmospherics
 		public GasSO Pluoxium = null;
 		public GasSO Freon = null;
 
-		public void SetUpGases()
+		private void OnEnable()
+		{
+			SetUpGases();
+		}
+
+		private void SetUpGases()
 		{
 			//Could maybe change this to use reflection?
 			AddNewGasSo(Plasma);

@@ -22,6 +22,9 @@ namespace Systems.Atmospherics
 		public float Volume; // in m3
 		public float Temperature;
 
+		private HashSet<GasSO> cache = new HashSet<GasSO>();
+		private HashSet<GasSO> pipeCache = new HashSet<GasSO>();
+
 		public float Moles
 		{
 			get
@@ -164,18 +167,18 @@ namespace Systems.Atmospherics
 			var percentage =  molesTransferred / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
-			foreach (var gas in Gas.Gases)
+			foreach (var gas in source.GasesArray)
 			{
-				var sourceMoles = source.GetMoles(gas.Value);
+				var sourceMoles = source.GetMoles(gas.GasSO);
 				if (CodeUtilities.IsEqual(sourceMoles, 0)) continue;
 
 				var transfer = sourceMoles * percentage;
 
 				//Add to target
-				target.GasData.ChangeMoles(gas.Value, transfer);
+				target.GasData.ChangeMoles(gas.GasSO, transfer);
 
 				//Remove from source
-				source.GasData.ChangeMoles(gas.Value, -transfer);
+				source.GasData.ChangeMoles(gas.GasSO, -transfer);
 			}
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
@@ -211,15 +214,33 @@ namespace Systems.Atmospherics
 			var newTemperature = totalWholeHeatCapacity > 0 ? totalInternalEnergy / totalWholeHeatCapacity : 0;
 			var totalVolume = Volume + otherGas.Volume;
 
-			foreach (var gas in Gas.Gases)
+			foreach (var gas in GasesArray)
 			{
-				var gasMoles = GasData.GetGasMoles(gas.Value);
-				gasMoles += otherGas.GasData.GetGasMoles(gas.Value);
+				var gasMoles = GasData.GetGasMoles(gas.GasSO);
+				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
 				gasMoles /= totalVolume;
 
-				GasData.SetMoles(gas.Value, gasMoles * Volume);
-				otherGas.GasData.SetMoles(gas.Value, gasMoles * otherGas.Volume);
+				cache.Add(gas.GasSO);
+
+				GasData.SetMoles(gas.GasSO, gasMoles * Volume);
+				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
 			}
+
+			foreach (var gas in otherGas.GasesArray)
+			{
+				//Check if already merged
+				if(cache.Contains(gas.GasSO)) continue;
+
+				var gasMoles = GasData.GetGasMoles(gas.GasSO);
+				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
+				gasMoles /= totalVolume;
+
+				GasData.SetMoles(gas.GasSO, gasMoles * Volume);
+				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
+			}
+
+			//Clear for next use
+			cache.Clear();
 
 			SetTemperature(newTemperature);
 			otherGas.SetTemperature(newTemperature);
@@ -281,25 +302,71 @@ namespace Systems.Atmospherics
 
 			var newTemperature = totalInternalEnergy / totalWholeHeatCapacity;
 
-			foreach (var gas in Gas.Gases)
+			//First do the gases in THIS gas mix and merge them with all pipes
+			foreach (var gas in GasesArray)
 			{
-				var gasMoles = GasData.GetGasMoles(gas.Key);
+				var gasMoles = GasData.GetGasMoles(gas.GasSO);
 
 				foreach (var gasMix in otherGas)
 				{
-					gasMoles += PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData.GetGasMoles(gas.Key);
+					gasMoles += PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData.GetGasMoles(gas.GasSO);
 				}
 
 				gasMoles /= totalVolume;
-				GasData.SetMoles(gas.Value, gasMoles * Volume);
+				GasData.SetMoles(gas.GasSO, gasMoles * Volume);
 
 				foreach (var gasMix in otherGas)
 				{
 					var inGas = PipeFunctions.PipeOrNet(gasMix).GetGasMix();
-					inGas.GasData.SetMoles(gas.Value, gasMoles * inGas.Volume);
+					inGas.GasData.SetMoles(gas.GasSO, gasMoles * inGas.Volume);
 					PipeFunctions.PipeOrNet(gasMix).SetGasMix(inGas);
 				}
+
+				//Since we've done the merge of THIS gas mix and pipes for the gases in THIS mix
+				//we only need to do gases which are present in pipes but not in THIS gas mix, so we add the current gas to the block hashset
+				pipeCache.Add(gas.GasSO);
 			}
+
+			//Next loop through all pipes
+			foreach (var gasMix in otherGas)
+			{
+				//Loop through their contained gases
+				foreach (var gas in PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData.GasesArray)
+				{
+					//Only do gases we haven't done yet
+					if(pipeCache.Contains(gas.GasSO)) continue;
+
+					//We DONT add THIS Gas Mix moles value as it will be 0 as all gases (0 >) in THIS as they were already
+					//merged in the first merge loop
+					var gasMoles = 0f;
+
+					foreach (var gasPipeMix in otherGas)
+					{
+						gasMoles += PipeFunctions.PipeOrNet(gasPipeMix).GetGasMix().GasData.GetGasMoles(gas.GasSO);
+					}
+
+					gasMoles /= totalVolume;
+
+					//We do however still need to merge it back into THIS gas mix
+					GasData.SetMoles(gas.GasSO, gasMoles * Volume);
+
+					//Merge to all pipes
+					foreach (var gasPipeMix in otherGas)
+					{
+						var inGas = PipeFunctions.PipeOrNet(gasPipeMix).GetGasMix();
+						inGas.GasData.SetMoles(gas.GasSO, gasMoles * inGas.Volume);
+						PipeFunctions.PipeOrNet(gasPipeMix).SetGasMix(inGas);
+					}
+
+					//We add the gas we've done as we've merged to THIS mix and all the other pipes
+					pipeCache.Add(gas.GasSO);
+
+					//Now we continue checking for gases in the other pipes which still need to be merged
+				}
+			}
+
+			//Clear for next use
+			pipeCache.Clear();
 
 			SetTemperature(newTemperature);
 			foreach (var pipeData in otherGas)
