@@ -95,7 +95,7 @@ UnityStation’s Electrical Wiring differs from base SS13. Follow the guide belo
 Make sure to always put a machine connector (white square in diagram) on the lower voltage side of the device. If you are still stuck, consult the wiring on TestStation Scene in the Electrical Testing Area and inspect the relevant prefabs.
 
 !!! Tip
-    Make sure all of the electrical wires go under airlocks and doors, NEVER WALLS. Doing this will allow players who are playing the engineer role the ability to debug the wire pathways to find a fault without ever having to deconstruct a wall or window in the way. If it is unavoidable, that's ok, but don't make a habit of it.
+    It is strongly encouraged to avoid mapping underfloor utilities (wires, atmos / disposal pipes) under walls, windows. While mapping more than one type of underfloor utilities on one tile is currently annoying in that they aren't yet layered correctly for rendering, doing this will allow players who are playing the engineer role the ability to debug the wire pathways to find a fault without ever having to deconstruct a wall or window in the way. If it is unavoidable, that's ok, but don't make a habit of it.
 
 #### Atmospherics
 
