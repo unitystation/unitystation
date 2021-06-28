@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4751150299153049447
+--- !u!114 &-1323719490864838106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 885698226935283379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49a3b980b33b4f6c945ab7c474875ab6, type: 3}
+  m_Script: {fileID: 11500000, guid: 481d24c2187c0df4b80652ebb7e481e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spritehandler: {fileID: 1092700744719504871, guid: 3a1c398e56f60c94088993b75a3eb87c,
-    type: 3}
+  spritehandler: {fileID: 5627899777227691113}
   SpawnOnDeconstruct: {fileID: 5905333807210643416, guid: 7bf928fbb0e621a49b8437e1e441b028,
     type: 3}
   registerTile: {fileID: 8401196600706621179}
@@ -40,11 +39,12 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Mix:
+      mix:
         temperature: 273.15
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
         Gases:
         - 0
@@ -63,14 +63,14 @@ MonoBehaviour:
         - 0
         - 0
         Pressure: 0
-        Volume: 0.05
+        Volume: 2.5
+        Temperature: 0
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  SelfSufficient: 0
-  MaxTransferMoles: 200
-  MaxOutletPressure: 1e+11
+  isTurnedOn: 1
+  operatingMode: 0
 --- !u!1001 &1848070622877717058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,6 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AirInjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -100,6 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -111,16 +121,6 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -142,8 +142,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3c24deeba2e536e48b51159f10ae47ce,
+      objectReference: {fileID: 21300000, guid: 7d6be7647708e1e448d4cab65112b2d8,
         type: 3}
+    - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -151,8 +156,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647416796583051997, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3144899109316854307, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -163,6 +173,29 @@ PrefabInstance:
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b2330e205cc15942aea595665baaeb4,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b2330e205cc15942aea595665baaeb4,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f5154611cac1810439c49d4e96d5d8e1,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 3abcece9e48b1ee459e6c665e5f00db5,
         type: 2}
@@ -206,5 +239,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5627899777227691113 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+    type: 3}
+  m_PrefabInstance: {fileID: 1848070622877717058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

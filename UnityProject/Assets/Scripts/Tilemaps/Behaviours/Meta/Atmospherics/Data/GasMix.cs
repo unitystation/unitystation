@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
@@ -146,19 +146,20 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Transfers moles from one gas to another
 		/// </summary>
-		public static void TransferGas(GasMix target, GasMix source, float molesTransferred)
+		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer)
 		{
 			var sourceStartMoles = source.Moles;
-			if (CodeUtilities.IsEqual(molesTransferred, 0) || CodeUtilities.IsEqual(sourceStartMoles, 0))
+			molesToTransfer = molesToTransfer.Clamp(0, sourceStartMoles);
+			if (CodeUtilities.IsEqual(molesToTransfer, 0) || CodeUtilities.IsEqual(sourceStartMoles, 0))
 				return;
-			var percentage =  molesTransferred / sourceStartMoles;
+			var ratio =  molesToTransfer / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
 			for (int i = 0; i < Gas.Count; i++)
 			{
 				if (CodeUtilities.IsEqual(source.Gases[i], 0))
 					continue;
-				var transfer = source.Gases[i] * percentage;
+				var transfer = source.Gases[i] * ratio;
 				target.Gases[i] += transfer;
 				source.Gases[i] -= transfer;
 			}
@@ -170,12 +171,12 @@ namespace Systems.Atmospherics
 			else
 			{
 				var energyTarget = targetStartMoles * target.Temperature;
-				var energyTransfer = molesTransferred * source.Temperature;
-				var targetTempFinal = (energyTransfer + energyTarget) / (targetStartMoles + molesTransferred);
+				var energyTransfer = molesToTransfer * source.Temperature;
+				var targetTempFinal = (energyTransfer + energyTarget) / (targetStartMoles + molesToTransfer);
 				target.SetTemperature(targetTempFinal);
 			}
 
-			if (CodeUtilities.IsEqual(percentage, 1)) //transferred everything, source is empty
+			if (CodeUtilities.IsEqual(ratio, 1)) //transferred everything, source is empty
 			{
 				source.SetPressure(0);
 			}
