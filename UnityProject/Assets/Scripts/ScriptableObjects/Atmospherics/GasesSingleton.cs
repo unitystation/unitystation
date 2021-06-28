@@ -38,6 +38,8 @@ namespace ScriptableObjects.Atmospherics
 
 		private void SetUpGases()
 		{
+			gases.Clear();
+			
 			//Could maybe change this to use reflection?
 			AddNewGasSo(Plasma);
 			AddNewGasSo(Oxygen);

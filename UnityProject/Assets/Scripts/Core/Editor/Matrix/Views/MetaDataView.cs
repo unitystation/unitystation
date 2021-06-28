@@ -22,6 +22,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new HotspotCheck());
 		localChecks.Add(new WindCheck());
 		localChecks.Add(new TotalMolesCheck());
+		localChecks.Add(new NumberOfGasesCheck());
 		localChecks.Add(new PlasmaCheck());
 		localChecks.Add(new OxygenCheck());
 		localChecks.Add(new NitrogenCheck());
@@ -350,6 +351,22 @@ public class MetaDataView : BasicView
 			{
 				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.Moles:0.###}", p, false);
+			}
+		}
+	}
+
+	private class NumberOfGasesCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Number Of Gases On Tile";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = LocalToWorld(source, position);
+				GizmoUtils.DrawText($"{node.GasMix.GasesArray.Length}", p, false);
 			}
 		}
 	}
