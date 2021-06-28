@@ -148,6 +148,8 @@ namespace HealthV2
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
 
+		public string SetCustomisationData;
+
 		/// <summary>
 		/// Initializes the body part
 		/// </summary>
@@ -174,6 +176,7 @@ namespace HealthV2
 
 				BodySpriteSet = true;
 			}
+
 			UpdateIcons();
 			foreach (var bodyPartModification in BodyPartModifications)
 			{

@@ -3,33 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
+using System.Text;
 
 namespace Items.Atmospherics
 {
-	public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
+	public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, IInteractable<PositionalHandApply>
 	{
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			string toShow = "";
 			var metaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.registerTile.WorldPositionServer, true).MetaDataLayer;
 			if (metaDataLayer != null)
 			{
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
 				if (node != null)
 				{
-					toShow = GetGasMixInfo(node.GasMix);
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"</i><mspace=0.6em>{GetGasMixInfo(node.GasMix)}</mspace><i>");
 				}
 			}
-
-			Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
-		}
-
-		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
-		{
-			if (interaction.HandObject == null) return false;
-			if (Validations.IsReachableByPositions(interaction.PerformerPlayerScript.WorldPos, interaction.WorldPositionTarget,
-				side == NetworkSide.Server) == false) return false;
-			return true;
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
@@ -55,24 +45,24 @@ namespace Items.Atmospherics
 			}
 		}
 
-		private string GetGasMixInfo(GasMix gasMix)
+		private static string GetGasMixInfo(GasMix gasMix)
 		{
-			string info = $"Pressure: {gasMix.Pressure:0.###} kPa\n" +
-					$"Temperature: {gasMix.Temperature:0.###} K ({gasMix.Temperature - Reactions.KOffsetC:0.###} °C)\n" +
+			StringBuilder sb = new StringBuilder(
+					$"Pressure: {gasMix.Pressure:0.###} kPa, {gasMix.Moles:0.##} moles\n" +
+					$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
 					// You want Fahrenheit? HAHAHAHA
-					$"Total mols of gas: {gasMix.Moles:0.###}\n";
 
 			foreach (var gas in Gas.All)
 			{
 				var ratio = gasMix.GasRatio(gas);
 
-				if (ratio != 0)
+				if (ratio.Approx(0) == false)
 				{
-					info += $"{gas.Name}: {ratio * 100:0.###} %\n";
+					sb.AppendLine($"{gas.Name}: {ratio:P}");
 				}
 			}
 
-			return info;
+			return sb.ToString();
 		}
 	}
 }

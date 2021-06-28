@@ -89,6 +89,7 @@ public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
    public AddressableAudioSource HyperSpaceProgress;
 
    public AddressableAudioSource Tick;
+   public AddressableAudioSource Tap;
 
    public AddressableAudioSource StealthOff;
    public AddressableAudioSource MachineHum4;
