@@ -22,8 +22,6 @@ public class HitIcon : MonoBehaviour
 	/// <param name="sprite">sprite to show</param>
 	public void ShowHitIcon(Vector2 dir, SpriteRenderer sourceSpriteRenderer, PlayerScript playerScript)
 	{
-		transform.SetParent(playerScript.transform.parent);
-		transform.localPosition = playerScript.transform.localPosition;
 		lerpFrom = transform.localPosition + (Vector3)(dir * 0.75f);
 		lerpTo = transform.localPosition + (Vector3)(dir);
 		MaterialPropertyBlock pb = new MaterialPropertyBlock();
@@ -60,10 +58,7 @@ public class HitIcon : MonoBehaviour
 			transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress);
 			yield return WaitFor.EndOfFrame;
 		}
-
 		spriteRenderer.sprite = null;
-		transform.SetParent(SpriteHandlerManager.Instance.transform);
-		transform.localPosition = Vector3.zero;
-		SpriteHandlerManager.Instance.HitIconPool.Add(this);
+		Despawn.ClientSingle(gameObject);
 	}
 }
