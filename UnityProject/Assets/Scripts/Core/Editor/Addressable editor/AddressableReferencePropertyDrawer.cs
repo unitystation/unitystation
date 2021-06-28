@@ -24,7 +24,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 	{
 		EditorGUI.BeginProperty(position, label, property);
 		float width = position.width - x;
-		EditorGUI.LabelField(new Rect(x, position.y * (Height * 0), width, Height), label);
+		//EditorGUI.LabelField(new Rect(x, position.y * (Height * 0), width, Height), label); TODO: fix this screwing up GUI layout
 		string labelText = label.text;
 		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
