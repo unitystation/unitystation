@@ -33,6 +33,7 @@ namespace ScriptableObjects.Atmospherics
 		private void OnEnable()
 		{
 			SetUpGases();
+			GasReactions.SetUpReactions();
 		}
 
 		private void SetUpGases()
