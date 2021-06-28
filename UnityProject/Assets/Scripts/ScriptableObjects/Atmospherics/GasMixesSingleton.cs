@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace ScriptableObjects.Atmospherics
 {
-
-	[CreateAssetMenu(fileName = "GasMixesSingleton", menuName = "Singleton/GasMixesSingleton")]
+	[CreateAssetMenu(fileName = "GasMixesSingleton", menuName = "Singleton/Atmos/GasMixesSingleton")]
 	public class GasMixesSingleton : SingletonScriptableObject<GasMixesSingleton>
 	{
 		public GasMixesSO space;

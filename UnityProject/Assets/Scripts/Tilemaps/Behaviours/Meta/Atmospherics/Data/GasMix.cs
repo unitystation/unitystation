@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using Pipes;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
 namespace Systems.Atmospherics
@@ -48,7 +49,7 @@ namespace Systems.Atmospherics
 
 				foreach (var gas in GasesArray)
 				{
-					capacity += Gas.Get(gas.GasType).MolarHeatCapacity * gas.Moles;
+					capacity += gas.GasSO.MolarHeatCapacity * gas.Moles;
 				}
 
 				return capacity;
@@ -171,10 +172,10 @@ namespace Systems.Atmospherics
 				var transfer = sourceMoles * percentage;
 
 				//Add to target
-				target.GasData.ChangeMoles(gas.Key, transfer);
+				target.GasData.ChangeMoles(gas.Value, transfer);
 
 				//Remove from source
-				source.GasData.ChangeMoles(gas.Key, -transfer);
+				source.GasData.ChangeMoles(gas.Value, -transfer);
 			}
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
@@ -212,12 +213,12 @@ namespace Systems.Atmospherics
 
 			foreach (var gas in Gas.Gases)
 			{
-				var gasMoles = GasData.GetGasMoles(gas.Key);
-				gasMoles += otherGas.GasData.GetGasMoles(gas.Key);
+				var gasMoles = GasData.GetGasMoles(gas.Value);
+				gasMoles += otherGas.GasData.GetGasMoles(gas.Value);
 				gasMoles /= totalVolume;
 
-				GasData.SetMoles(gas.Key, gasMoles * Volume);
-				otherGas.GasData.SetMoles(gas.Key, gasMoles * otherGas.Volume);
+				GasData.SetMoles(gas.Value, gasMoles * Volume);
+				otherGas.GasData.SetMoles(gas.Value, gasMoles * otherGas.Volume);
 			}
 
 			SetTemperature(newTemperature);
@@ -240,16 +241,16 @@ namespace Systems.Atmospherics
 			MultiplyGas(0);
 		}
 
-		public float GetPressure(Gas gas)
+		public float GetPressure(GasSO gas)
 		{
 			if (Moles == 0) return 0;
 
 			return Pressure * (GetMoles(gas) / Moles);
 		}
 
-		public float GetMoles(Gas gas)
+		public float GetMoles(GasSO gas)
 		{
-			return GasData.GetGasMoles(gas.GasType);
+			return GasData.GetGasMoles(gas);
 		}
 
 		/// <summary>
@@ -257,7 +258,7 @@ namespace Systems.Atmospherics
 		/// </summary>
 		/// <returns>The ratio of the gas</returns>
 		/// <param name="gasIndex">Gas index.</param>
-		public float GasRatio(Gas gasIndex)
+		public float GasRatio(GasSO gasIndex)
 		{
 			return GetMoles(gasIndex) / Moles;
 		}
@@ -290,12 +291,12 @@ namespace Systems.Atmospherics
 				}
 
 				gasMoles /= totalVolume;
-				GasData.SetMoles(gas.Key, gasMoles * Volume);
+				GasData.SetMoles(gas.Value, gasMoles * Volume);
 
 				foreach (var gasMix in otherGas)
 				{
 					var inGas = PipeFunctions.PipeOrNet(gasMix).GetGasMix();
-					inGas.GasData.SetMoles(gas.Key, gasMoles * inGas.Volume);
+					inGas.GasData.SetMoles(gas.Value, gasMoles * inGas.Volume);
 					PipeFunctions.PipeOrNet(gasMix).SetGasMix(inGas);
 				}
 			}
@@ -315,21 +316,21 @@ namespace Systems.Atmospherics
 		/// </summary>
 		/// <param name="gas">The gas you want to set.</param>
 		/// <param name="moles">The amount to set the gas.</param>
-		public void SetGas(Gas gas, float moles)
+		public void SetGas(GasSO gas, float moles)
 		{
-			GasData.SetMoles(gas.GasType, moles);
+			GasData.SetMoles(gas, moles);
 			RecalculatePressure();
 		}
 
-		public void AddGas(Gas gas, float moles)
+		public void AddGas(GasSO gas, float moles)
 		{
-			GasData.ChangeMoles(gas.GasType, moles);
+			GasData.ChangeMoles(gas, moles);
 			RecalculatePressure();
 		}
 
-		public void RemoveGas(Gas gas, float moles)
+		public void RemoveGas(GasSO gas, float moles)
 		{
-			GasData.ChangeMoles(gas.GasType, -moles);
+			GasData.ChangeMoles(gas, -moles);
 			RecalculatePressure();
 		}
 

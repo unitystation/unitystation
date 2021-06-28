@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Systems.Atmospherics;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace ScriptableObjects.Atmospherics
 
 		private void OnValidate()
 		{
+			if(gasMix.GasData.GasesArray.Any(x => x.GasSO == null)) return;
+
 			gasMix = GasMix.FromTemperature(gasMix.GasData, Reactions.KOffsetC + 20, volumeOverride);
 		}
 	}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
 namespace Systems.Atmospherics
@@ -26,7 +27,7 @@ namespace Systems.Atmospherics
 
 			reaction: new TritiumFireReaction(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Tritium,
@@ -63,7 +64,7 @@ namespace Systems.Atmospherics
 
 			reaction: new FreonFireReaction(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Oxygen,
@@ -100,7 +101,7 @@ namespace Systems.Atmospherics
 
 			reaction: new FusionReaction(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Tritium,
@@ -145,7 +146,7 @@ namespace Systems.Atmospherics
 
 			reaction: new NO2Formation(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Oxygen,
@@ -186,7 +187,7 @@ namespace Systems.Atmospherics
 
 			reaction: new NO2Decomposition(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.NitrousOxide,
@@ -215,7 +216,7 @@ namespace Systems.Atmospherics
 
 			reaction: new NitrylFormation(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Oxygen,
@@ -260,7 +261,7 @@ namespace Systems.Atmospherics
 
 			reaction: new BZFormation(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.NitrousOxide,
@@ -297,7 +298,7 @@ namespace Systems.Atmospherics
 
 			reaction: new FreonFormation(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Plasma,
@@ -342,7 +343,7 @@ namespace Systems.Atmospherics
 
 			reaction: new WaterVapourReaction(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.WaterVapor,
@@ -371,7 +372,7 @@ namespace Systems.Atmospherics
 
 			reaction: new StimulumFormation(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Tritium,
@@ -420,7 +421,7 @@ namespace Systems.Atmospherics
 
 			reaction: new StimBallReaction(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Pluoxium,
@@ -473,7 +474,7 @@ namespace Systems.Atmospherics
 
 			reaction: new HyperNobliumFormation(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Nitrogen,
@@ -510,7 +511,7 @@ namespace Systems.Atmospherics
 
 			reaction: new MiasmaDecomposition(),
 
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			gasReactionData: new Dictionary<GasSO, GasReactionData>()
 			{
 				{
 					Gas.Miasma,
@@ -534,7 +535,7 @@ namespace Systems.Atmospherics
 		#endregion
 
 		//Gas and minimum moles to react
-		public Dictionary<Gas, GasReactionData> GasReactionData;
+		public Dictionary<GasSO, GasReactionData> GasReactionData;
 
 		public Reaction Reaction;
 
@@ -551,7 +552,7 @@ namespace Systems.Atmospherics
 
 		public readonly int Index;
 
-		public GasReactions(Dictionary<Gas, GasReactionData> gasReactionData, Reaction reaction, float minimumTemperature, float maximumTemperature, float minimumPressure, float maximumPressure, float minimumMoles, float maximumMoles, float energyChange, bool addToBaseReactions = false)
+		public GasReactions(Dictionary<GasSO, GasReactionData> gasReactionData, Reaction reaction, float minimumTemperature, float maximumTemperature, float minimumPressure, float maximumPressure, float minimumMoles, float maximumMoles, float energyChange, bool addToBaseReactions = false)
 		{
 			GasReactionData = gasReactionData;
 

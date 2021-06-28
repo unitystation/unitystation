@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
 using Messages.Server;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
 namespace Pipes
@@ -12,24 +14,7 @@ namespace Pipes
 
 		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
-		public Dictionary<string, Gas> CapableFiltering = new Dictionary<string, Gas>()
-		{
-			{"O2",Gas.Oxygen},
-			{"N2",Gas.Nitrogen},
-			{"PLS",Gas.Plasma},
-			{"CO2",Gas.CarbonDioxide},
-			{"N2O",Gas.NitrousOxide},
-			{"H2",Gas.Hydrogen},
-			{"H2O",Gas.WaterVapor},
-			{"BZ",Gas.BZ},
-			{"MIAS",Gas.Miasma},
-			{"NO2",Gas.Nitryl},
-			{"TRIT",Gas.Tritium},
-			{"HN",Gas.HyperNoblium},
-			{"STIM",Gas.Stimulum},
-			{"PLX",Gas.Pluoxium},
-			{"FRE",Gas.Freon},
-		};
+		public Dictionary<string, GasSO> CapableFiltering;
 
 		//This is only used to set the inital filter values, nothing else
 		//the names contained within should always match the key of the above Dictionary
@@ -60,8 +45,33 @@ namespace Pipes
 
 		public bool IsOn = false;
 
-		public Gas GasIndex = Gas.Oxygen;
+		[NonSerialized]
+		public GasSO GasIndex;
 		public Chemistry.Reagent FilterReagent;
+
+		public override void Awake()
+		{
+			base.Awake();
+
+			CapableFiltering = new Dictionary<string, GasSO>()
+			{
+				{"O2",Gas.Oxygen},
+				{"N2",Gas.Nitrogen},
+				{"PLS",Gas.Plasma},
+				{"CO2",Gas.CarbonDioxide},
+				{"N2O",Gas.NitrousOxide},
+				{"H2",Gas.Hydrogen},
+				{"H2O",Gas.WaterVapor},
+				{"BZ",Gas.BZ},
+				{"MIAS",Gas.Miasma},
+				{"NO2",Gas.Nitryl},
+				{"TRIT",Gas.Tritium},
+				{"HN",Gas.HyperNoblium},
+				{"STIM",Gas.Stimulum},
+				{"PLX",Gas.Pluoxium},
+				{"FRE",Gas.Freon},
+			};
+		}
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{

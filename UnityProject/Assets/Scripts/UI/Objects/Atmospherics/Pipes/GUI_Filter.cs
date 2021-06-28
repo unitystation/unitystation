@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
+using ScriptableObjects.Atmospherics;
 using UI.Core;
 
 namespace UI.Objects.Atmospherics
@@ -47,7 +48,7 @@ namespace UI.Objects.Atmospherics
 			SetFilteredGasValue(Filter.GasIndex);
 		}
 
-		public void SetFilteredGasValue(Gas GasIndex)
+		public void SetFilteredGasValue(GasSO GasIndex)
 		{
 			foreach (var INFilter in Filter.CapableFiltering)
 			{

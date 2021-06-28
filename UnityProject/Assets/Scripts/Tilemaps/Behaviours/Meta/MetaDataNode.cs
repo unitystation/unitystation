@@ -7,6 +7,7 @@ using Systems.Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using Systems.Electricity;
+using ScriptableObjects.Atmospherics;
 
 /// <summary>
 /// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
@@ -69,15 +70,15 @@ public class MetaDataNode : IGasMixContainer
 	private Dictionary<LayerType, float> damageInfo  = new Dictionary<LayerType, float>();
 
 	//Which overlays this node has on
-	private HashSet<Gas> gasOverlayData = new HashSet<Gas>();
-	public HashSet<Gas> GasOverlayData => gasOverlayData;
+	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
+	public HashSet<GasSO> GasOverlayData => gasOverlayData;
 
-	public void AddGasOverlay(Gas gas)
+	public void AddGasOverlay(GasSO gas)
 	{
 		gasOverlayData.Add(gas);
 	}
 
-	public void RemoveGasOverlay(Gas gas)
+	public void RemoveGasOverlay(GasSO gas)
 	{
 		gasOverlayData.Remove(gas);
 	}

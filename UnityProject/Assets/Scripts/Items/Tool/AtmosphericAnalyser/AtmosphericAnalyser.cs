@@ -62,13 +62,13 @@ namespace Items.Atmospherics
 					// You want Fahrenheit? HAHAHAHA
 					$"Total mols of gas: {gasMix.Moles:0.###}\n";
 
-			foreach (var gas in Gas.All)
+			foreach (var gas in gasMix.GasesArray)
 			{
-				var ratio = gasMix.GasRatio(gas);
+				var ratio = gasMix.GasRatio(gas.GasSO);
 
 				if (ratio != 0)
 				{
-					info += $"{gas.Name}: {ratio * 100:0.###} %\n";
+					info += $"{gas.GasSO.Name}: {ratio * 100:0.###} %\n";
 				}
 			}
 

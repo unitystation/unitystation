@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
 namespace Systems.Atmospherics
@@ -56,15 +57,34 @@ namespace Systems.Atmospherics
 					else
 					{
 
-						// check if the moles are different. (e.g. CO2 is different from breathing)
-						foreach (var gas in Gas.Gases)
+						//Check if the moles are different. (e.g. CO2 is different from breathing)
+
+						//Check current node then check neighbor so we dont miss a gas if its only on one of the nodes
+						foreach (var gas in node.GasMix.GasesArray)
 						{
-							float moles = node.GasMix.GasData.GetGasMoles(gas.Key);
-							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.Key);
+							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
 
 							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 							{
 								result = true;
+								break;
+							}
+						}
+
+						//Only need to check if false
+						if (result == false)
+						{
+							foreach (var gas in neighbor.GasMix.GasesArray)
+							{
+								float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+								float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+
+								if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+								{
+									result = true;
+									break;
+								}
 							}
 						}
 					}
@@ -120,17 +140,6 @@ namespace Systems.Atmospherics
 			return 0;
 		}
 
-		public static float CalcHeatCapacity(float[] Gases)
-		{
-			float capacity = 0f;
-			foreach (Gas gas in Gas.All)
-			{
-				capacity += gas.MolarHeatCapacity * Gases[gas];
-			}
-
-			return capacity;
-		}
-
 		/// <summary>
 		/// Total moles of this array of gases
 		/// </summary>
@@ -149,7 +158,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Checks to see if the data contains a gas
 		/// </summary>
-		public static bool HasGasType(this GasData data, GasType gasType)
+		public static bool HasGasType(this GasData data, GasSO gasType)
 		{
 			return data.GasesDict.ContainsKey(gasType);
 		}
@@ -157,7 +166,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Gets moles of a specific gas from the gas array
 		/// </summary>
-		public static float GetGasMoles(this GasData data, GasType gasType)
+		public static float GetGasMoles(this GasData data, GasSO gasType)
 		{
 			return GetGasType(data, gasType)?.Moles ?? 0;
 		}
@@ -165,7 +174,15 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Gets moles of a specific gas from the gas array
 		/// </summary>
-		public static void GetGasMoles(this GasData data, GasType gasType, out float gasMoles)
+		public static float GetGasMoles(this GasData data, int gasType)
+		{
+			return GetGasType(data, gasType)?.Moles ?? 0;
+		}
+
+		/// <summary>
+		/// Gets moles of a specific gas from the gas array
+		/// </summary>
+		public static void GetGasMoles(this GasData data, GasSO gasType, out float gasMoles)
 		{
 			gasMoles = GetGasMoles(data, gasType);
 		}
@@ -173,7 +190,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Gets a specific gas from the gas array
 		/// </summary>
-		public static void GetGasType(this GasData data, GasType gasType, out GasValues gasData)
+		public static void GetGasType(this GasData data, GasSO gasType, out GasValues gasData)
 		{
 			gasData = GetGasType(data, gasType);
 		}
@@ -181,7 +198,20 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Gets a specific gas from the gas array
 		/// </summary>
-		public static GasValues GetGasType(this GasData data, GasType gasType)
+		public static GasValues GetGasType(this GasData data, GasSO gasType)
+		{
+			if (data.GasesDict.TryGetValue(gasType, out var value))
+			{
+				return value;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Gets a specific gas from the gas array
+		/// </summary>
+		public static GasValues GetGasType(this GasData data, int gasType)
 		{
 			if (data.GasesDict.TryGetValue(gasType, out var value))
 			{
@@ -194,7 +224,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Adds/Removes moles for a specific gas in the gas data
 		/// </summary>
-		public static void ChangeMoles(this GasData data, GasType gasType, float moles)
+		public static void ChangeMoles(this GasData data, GasSO gasType, float moles)
 		{
 			InternalSetMoles(data, gasType, moles, true);
 		}
@@ -202,12 +232,12 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Sets moles for a specific gas to a specific value in the gas data
 		/// </summary>
-		public static void SetMoles(this GasData data, GasType gasType, float moles)
+		public static void SetMoles(this GasData data, GasSO gasType, float moles)
 		{
 			InternalSetMoles(data, gasType, moles, false);
 		}
 
-		private static void InternalSetMoles(GasData data, GasType gasType, float moles, bool isChange)
+		private static void InternalSetMoles(GasData data, GasSO gasType, float moles, bool isChange)
 		{
 			GetGasType(data, gasType, out var gas);
 
@@ -236,7 +266,7 @@ namespace Systems.Atmospherics
 			//Dont add if approx 0
 			if (moles.Approx(0)) return;
 
-			var newValues = new GasValues {Moles = moles, GasType = gasType};
+			var newValues = new GasValues {Moles = moles, GasSO = gasType};
 			var newArray = new GasValues[data.GasesArray.Length + 1];
 
 			for (int i = 0; i < newArray.Length; i++)
@@ -259,14 +289,14 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Removes a specific gas type
 		/// </summary>
-		public static void RemoveGasType(this GasData data, GasType gasType)
+		public static void RemoveGasType(this GasData data, GasSO gasType)
 		{
 			var newData = new GasValues[data.GasesArray.Length - 1];
 			var count = 0;
 
 			foreach (var gas in data.GasesArray)
 			{
-				if(gas.GasType == gasType) continue;
+				if(gas.GasSO == gasType) continue;
 
 				newData[count] = gas;
 				count++;
@@ -286,7 +316,7 @@ namespace Systems.Atmospherics
 
 			foreach (var value in oldData.GasesArray)
 			{
-				newGasData.SetMoles(value.GasType, value.Moles);
+				newGasData.SetMoles(value.GasSO, value.Moles);
 			}
 
 			newGasData.RegenerateDict();

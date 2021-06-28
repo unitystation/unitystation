@@ -153,7 +153,7 @@ namespace Objects.Atmospherics
 
 				foreach (var gas in GasMix.GasesArray)
 				{
-					StoredGasMix.GasData.SetMoles(gas.GasType, gas.Moles);
+					StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
 				}
 			}
 		}

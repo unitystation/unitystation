@@ -4,6 +4,7 @@ using Systems.Atmospherics;
 using Chemistry;
 using HealthV2;
 using Objects.Atmospherics;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,13 +27,13 @@ public class Lungs : BodyPartModification
 	/// The gas that this tries to put into the blood stream
 	/// </summary>
 	[Tooltip("The gas that this tries to put into the blood stream")]
-	[SerializeField] private Gas requiredGas = Gas.Oxygen;
+	[SerializeField] private GasSO requiredGas;
 
 	/// <summary>
 	/// The gas that this expels when breathing out
 	/// </summary>
 	[Tooltip("The gas that this expels when breathing out")]
-	[SerializeField] private Gas expelledGas = Gas.CarbonDioxide;
+	[SerializeField] private GasSO expelledGas;
 
 	/// <summary>
 	/// The base amount of blood that this attempts to process each single breath
@@ -187,7 +188,7 @@ public class Lungs : BodyPartModification
 
 		foreach (var gasValues in breathGasMix.GasData.GasesArray)
 		{
-			var gas = Gas.Get(gasValues.GasType);
+			var gas = gasValues.GasSO;
 			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
 
 			// n = PV/RT

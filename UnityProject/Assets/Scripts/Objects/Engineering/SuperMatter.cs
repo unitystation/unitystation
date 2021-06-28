@@ -11,6 +11,7 @@ using HealthV2;
 using Light2D;
 using Messages.Server;
 using Mirror;
+using ScriptableObjects.Atmospherics;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles;
@@ -54,7 +55,7 @@ namespace Objects.Engineering
 		#region HeatPenaltyDefines
 
 		// Higher == Bigger heat and waste penalty from having the crystal surrounded by this gas. Negative numbers reduce penalty.
-		private Dictionary<Gas, float> heatPenaltyDefines = new Dictionary<Gas, float>
+		private Dictionary<GasSO, float> heatPenaltyDefines = new Dictionary<GasSO, float>
 		{
 			{Gas.Plasma, 15},
 			{Gas.Oxygen, 1},
@@ -74,7 +75,7 @@ namespace Objects.Engineering
 		//All of these get divided by 10-bzcomp * 5 before having 1 added and being multiplied with power to determine rads
 		//Keep the negative values here above -10 and we won't get negative rads
 		//Higher == Bigger bonus to power generation.
-		private Dictionary<Gas, float> transmitDefines = new Dictionary<Gas, float>
+		private Dictionary<GasSO, float> transmitDefines = new Dictionary<GasSO, float>
 		{
 			{Gas.Oxygen, 1.5f},
 			{Gas.Plasma, 4},
@@ -89,7 +90,7 @@ namespace Objects.Engineering
 		#region HeatResistanceDefines
 
 		//Higher == Gas makes the crystal more resistant against heat damage.
-		private Dictionary<Gas, float> heatResistanceDefines = new Dictionary<Gas, float>
+		private Dictionary<GasSO, float> heatResistanceDefines = new Dictionary<GasSO, float>
 		{
 			{Gas.NitrousOxide, 6},
 			{Gas.Pluoxium, 3},
