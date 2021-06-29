@@ -504,8 +504,6 @@ public static class Validations
 			//E.g a door on the same axis as the camera would fail usually
 			var normalise = (cameraPos - endPos).normalized;
 
-			Debug.LogError(endPos);
-
 			//Try x first
 			if (normalise.x != 0)
 			{
@@ -523,8 +521,6 @@ public static class Validations
 			{
 				var newEndPos = endPos;
 				newEndPos.y += normalise.y.RoundToLargestInt();
-
-				Debug.LogError(newEndPos);
 
 				return LineCheck(cameraPos, aiPlayer, newEndPos, side);
 			}
