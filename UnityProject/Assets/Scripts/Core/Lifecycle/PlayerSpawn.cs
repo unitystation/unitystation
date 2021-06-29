@@ -249,7 +249,7 @@ public static class PlayerSpawn
 				occupation.PlaySound);
 		}
 
-		newPlayer.GetComponent<DynamicItemStorage>().SetUpOccupation(occupation);
+		newPlayer.GetComponent<DynamicItemStorage>()?.SetUpOccupation(occupation);
 
 		return newPlayer;
 	}

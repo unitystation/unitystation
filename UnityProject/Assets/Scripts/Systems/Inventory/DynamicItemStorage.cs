@@ -454,13 +454,19 @@ public class DynamicItemStorage : NetworkBehaviour
 			}
 		}
 
-		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(null);
-		if (isLocalPlayer)
+		if (ServerObjectToSlots[bodyPartUISlots.GameObject].Count == 0)
 		{
-			UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
+			ServerObjectToSlots.Remove(bodyPartUISlots.GameObject);
 		}
 
+		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(null);
+
+
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
+		// if (isLocalPlayer)
+		// {
+			// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
+		// }
 		OnContentsChangeServer.Invoke();
 	}
 
@@ -505,10 +511,10 @@ public class DynamicItemStorage : NetworkBehaviour
 			}
 		}
 
-		if (isLocalPlayer)
-		{
-			UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
-		}
+		// if (isLocalPlayer)
+		// {
+			// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
+		// }
 
 		OnContentsChangeServer.Invoke();
 	}
@@ -905,6 +911,11 @@ public class DynamicItemStorage : NetworkBehaviour
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
 			objt.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(newBody);
+		}
+
+		if (newBody == this.gameObject)
+		{
+			UIManager.Instance.UI_SlotManager.RemoveAll();
 		}
 	}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using HealthV2;
 using UnityEngine;
 
@@ -81,7 +82,7 @@ public class UI_SlotManager : MonoBehaviour
 		{
 			if (storageCharacteristicse.SlotArea == SlotArea.Hands)
 			{
-				HandsController.RemoveHand(bodyPartUISlots, storageCharacteristicse);
+				HandsController.RemoveHand( storageCharacteristicse);
 			}
 		}
 	}
@@ -103,7 +104,6 @@ public class UI_SlotManager : MonoBehaviour
 				BodyPartToSlot[bodyPartUISlots][i].GetComponentInChildren<UI_DynamicItemSlot>().ReSetSlot();
 				Destroy(BodyPartToSlot[bodyPartUISlots][i]);
 				BodyPartToSlot[bodyPartUISlots].RemoveAt(i);
-
 			}
 		}
 
@@ -115,10 +115,25 @@ public class UI_SlotManager : MonoBehaviour
 
 		if (StorageCharacteristics.SlotArea == SlotArea.Hands)
 		{
-			HandsController.RemoveHand(bodyPartUISlots, StorageCharacteristics);
+			HandsController.RemoveHand(StorageCharacteristics);
 		}
 	}
 
+
+	public void RemoveAll()
+	{
+		foreach (var Inslots in BodyPartToSlot.Keys.ToArray())
+		{
+			foreach (var Characteristics in Inslots.Storage)
+			{
+				RemoveSpecifyedUISlot(Inslots, Characteristics);
+			}
+
+		}
+		BodyPartToSlot.Clear();
+
+		HandsController.RemoveAllHands();
+	}
 
 	public void AddIndividual(IDynamicItemSlotS bodyPartUISlots,
 		BodyPartUISlots.StorageCharacteristics storageCharacteristicse)

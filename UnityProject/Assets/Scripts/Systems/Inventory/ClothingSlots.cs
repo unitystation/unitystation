@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Clothing
 {
-	public class ClothingSlots : MonoBehaviour, IDynamicItemSlotS, IServerInventoryMove
+	public class ClothingSlots : MonoBehaviour, IDynamicItemSlotS, IServerInventoryMove, IServerDespawn
 	{
 		public NamedSlotFlagged NamedSlotFlagged;
 
@@ -71,6 +71,15 @@ namespace Clothing
 		public void AddSelf(DynamicItemStorage dynamicItemStorage)
 		{
 			dynamicItemStorage.Add(this);
+		}
+
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			if (ItemStorage != null)
+			{
+				RemoveSelf(ItemStorage);
+			}
 		}
 	}
 }

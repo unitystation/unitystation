@@ -75,7 +75,7 @@ public class DoubleHandController : MonoBehaviour
 	/// <param name="bodyPartUISlots"></param>
 	/// <param name="StorageCharacteristics"></param>
 	/// <returns>To mark whether or not to destroy hand controller from no hands being Present in it</returns>
-	public bool RemoveHand(IDynamicItemSlotS bodyPartUISlots,
+	public bool RemoveHand(
 		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
 		switch (StorageCharacteristics.namedSlot)

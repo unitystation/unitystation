@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using HealthV2;
 using UnityEngine;
 
@@ -91,11 +92,19 @@ public class HandsController : MonoBehaviour
 		}
 	}
 
-	public void RemoveHand(IDynamicItemSlotS bodyPartUISlots,
+	public void RemoveAllHands()
+	{
+		foreach (var HandStorage in StorageToHands.Keys.ToArray())
+		{
+			RemoveHand(HandStorage);
+		}
+	}
+
+	public void RemoveHand(
 		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
 		if (StorageToHands.ContainsKey(StorageCharacteristics) == false) return;
-		if (StorageToHands[StorageCharacteristics].RemoveHand(bodyPartUISlots, StorageCharacteristics))
+		if (StorageToHands[StorageCharacteristics].RemoveHand( StorageCharacteristics))
 		{
 			var DoubleHand = StorageToHands[StorageCharacteristics];
 			DoubleHandControllers.Remove(DoubleHand);
@@ -129,7 +138,8 @@ public class HandsController : MonoBehaviour
 				}
 			}
 
-			Destroy(DoubleHand);
+			DoubleHandControllers.Remove(DoubleHand);
+			Destroy(DoubleHand.gameObject);
 		}
 		else
 		{
@@ -165,7 +175,7 @@ public class HandsController : MonoBehaviour
 
 	public void SetActiveHand(DoubleHandController doubleHandController, NamedSlot SetActiv)
 	{
-		activeDoubleHandController?.Deactivate(ActiveHand);
+		activeDoubleHandController.OrNull()?.Deactivate(ActiveHand);
 		activeDoubleHandController = doubleHandController;
 		ActiveHand = SetActiv;
 
