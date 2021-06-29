@@ -99,7 +99,6 @@ namespace Systems.Ai
 		private const float purgeDamageInterval = 1f;
 
 		private bool tryingToRestorePower;
-		private Coroutine routine;
 
 		//TODO make into sync list, will need to be sync as it is used in some validations client and serverside
 		private List<string> openNetworks = new List<string>()
@@ -823,7 +822,7 @@ namespace Systems.Ai
 				if (tryingToRestorePower == false)
 				{
 					tryingToRestorePower = true;
-					routine = StartCoroutine(TryRestartPower());
+					StartCoroutine(TryRestartPower());
 				}
 
 				return;
@@ -871,7 +870,7 @@ namespace Systems.Ai
 			var apc = vesselObject.OrNull()?.GetComponent<APCPoweredDevice>();
 			if (apc == null)
 			{
-				Message("Unable to verify! No power connection detected!");
+				Message("ERROR: Unable to verify! No power connection detected!");
 				StopRestore();
 
 				//Shouldn't need to yield break but just in case
@@ -892,16 +891,17 @@ namespace Systems.Ai
 
 				apc.ConnectToClosestApc();
 
+				yield return WaitFor.Seconds(1);
+
 				if (apc.RelatedAPC == null)
 				{
-					Message("Failed to interface! No APC's detected! Recovery operation ceasing!");
+					Message("ERROR: Failed to interface! No APC's detected! Recovery operation ceasing!");
 					StopRestore();
 
 					//Shouldn't need to yield break but just in case
 					yield break;
 				}
 
-				yield return WaitFor.Seconds(1);
 				//Found APC check power again
 				PowerRestoreIntervalCheck(true);
 			}
@@ -920,7 +920,7 @@ namespace Systems.Ai
 			var apcSecondCheck = vesselObject.OrNull()?.GetComponent<APCPoweredDevice>();
 			if (apcSecondCheck == null || apcSecondCheck.RelatedAPC == null)
 			{
-				Message("Connection to APC has failed whilst trying to find fault!");
+				Message("ERROR: Connection to APC has failed whilst trying to find fault!");
 				StopRestore();
 
 				//Shouldn't need to yield break but just in case
@@ -928,10 +928,10 @@ namespace Systems.Ai
 			}
 
 			//Check for department battery
-			var batteries = apcSecondCheck.RelatedAPC.ConnectedDepartmentBatteries;
-			if (batteries.Count == 0)
+			var batteries = apcSecondCheck.RelatedAPC.DepartmentBatteries.Where(x => x != null).ToArray();
+			if (batteries.Length == 0)
 			{
-				Message("Unable to locate external power network department battery! Physical fault cannot be fixed!");
+				Message("ERROR: Unable to locate external power network department battery! Physical fault cannot be fixed!");
 				StopRestore();
 
 				//Shouldn't need to yield break but just in case
@@ -942,20 +942,36 @@ namespace Systems.Ai
 			yield return WaitFor.Seconds(2);
 			PowerRestoreIntervalCheck();
 
-			for (int i = 0; i < batteries.Count; i++)
+			for (int i = 0; i < batteries.Length; i++)
 			{
-				if(batteries[i] == null) continue;
+				var battery = batteries[i];
+				if(battery == null) continue;
 				Message("Operational department battery found.");
 				yield return WaitFor.Seconds(1);
 				PowerRestoreIntervalCheck();
 
-				if (batteries[i].OrNull()?.CurrentState == BatteryStateSprite.Empty)
+				if (battery == null)
+				{
+					Message("ERROR: Lost Connection to department battery!");
+
+					//Only stop checking if this is the last battery
+					if(i != batteries.Length - 1) continue;
+
+					Message("ERROR: All external power providers have been check. Recovery operation ceasing!");
+					StopRestore();
+
+					//Shouldn't need to yield break but just in case
+					yield break;
+				}
+
+				if (battery.CurrentState == BatteryStateSprite.Empty)
 				{
 					Message("Fault Found: Department battery power is at 0%. Unable to fix fault.");
 
 					//Only stop checking if this is the last battery
-					if(i != batteries.Count - 1) continue;
+					if(i != batteries.Length - 1) continue;
 
+					Message("ERROR: All external power providers have been check. Recovery operation ceasing!");
 					StopRestore();
 
 					//Shouldn't need to yield break but just in case
@@ -963,7 +979,7 @@ namespace Systems.Ai
 				}
 
 				//Battery is not empty so see if it is off
-				if (batteries[i].OrNull()?.isOn == false)
+				if (battery.isOn == false)
 				{
 					Message("Fault Found: Department battery power supply is turned off! Loading control program into power port software.");
 					yield return WaitFor.Seconds(1);
@@ -977,9 +993,31 @@ namespace Systems.Ai
 					yield return WaitFor.Seconds(1);
 					PowerRestoreIntervalCheck();
 
+					if (battery == null)
+					{
+						Message("ERROR: Lost Connection to department battery!");
 
+						//Only stop checking if this is the last battery
+						if(i != batteries.Length - 1) continue;
+
+						Message("ERROR: All external power providers have been check. Recovery operation ceasing!");
+						StopRestore();
+
+						//Shouldn't need to yield break but just in case
+						yield break;
+					}
+
+					Message("Assuming direct control. Forcing power supply on!");
+
+					//Force turn on the supply
+					battery.isOn = true;
+					battery.UpdateServerState();
+					break;
 				}
 			}
+
+			//Power back online!
+			tryingToRestorePower = false;
 		}
 
 		private void PowerRestoreIntervalCheck(bool weRestoredPower = false)
@@ -1007,7 +1045,7 @@ namespace Systems.Ai
 
 		private void StopRestore()
 		{
-			StopCoroutine(routine);
+			StopCoroutine(TryRestartPower());
 			tryingToRestorePower = false;
 		}
 

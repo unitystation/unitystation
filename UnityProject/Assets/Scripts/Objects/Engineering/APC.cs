@@ -59,6 +59,13 @@ namespace Objects.Engineering
 		public UnityEvent<APC> OnPowerNetworkUpdate = new UnityEvent<APC>();
 
 		/// <summary>
+		///Used to store all the departmentBatteries that have ever connected to this APC, there might be null values
+		///Dont use this to access currently connected batteries.
+		/// </summary>
+		public List<DepartmentBattery> DepartmentBatteries => departmentBatteries;
+		private List<DepartmentBattery> departmentBatteries = new List<DepartmentBattery>();
+
+		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 		/// </summary>
 		private void SyncVoltage(float oldVoltage, float newVoltage)
@@ -113,12 +120,16 @@ namespace Objects.Engineering
 				connectedDepartmentBatteries.Clear();
 				foreach (var device in electricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
 				{
-
 					if (device.Key.Data.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
 
-					if (!connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()))
+					if (connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
 					{
 						connectedDepartmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+
+						if (departmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
+						{
+							departmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+						}
 					}
 				}
 			}
