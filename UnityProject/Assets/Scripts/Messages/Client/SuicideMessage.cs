@@ -1,4 +1,6 @@
-﻿using HealthV2;
+﻿using Systems.Ai;
+using Blob;
+using HealthV2;
 using Mirror;
 using UnityEngine;
 
@@ -10,6 +12,8 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
+			Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
+
 			if (SentByPlayer.Script.TryGetComponent<LivingHealthMasterBase>(out var livingHealthBehaviour))
 			{
 				if (livingHealthBehaviour.IsDead)
@@ -18,9 +22,21 @@ namespace Messages.Client
 				}
 				else
 				{
-					Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
 					livingHealthBehaviour.ApplyDamageAll(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
 				}
+
+				return;
+			}
+
+			if (SentByPlayer.Script.TryGetComponent<AiPlayer>(out var aiPlayer))
+			{
+				aiPlayer.Suicide();
+				return;
+			}
+
+			if (SentByPlayer.Script.TryGetComponent<BlobPlayer>(out var blobPlayer))
+			{
+				blobPlayer.Death();
 			}
 		}
 

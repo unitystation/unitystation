@@ -1145,6 +1145,12 @@ namespace Systems.Ai
 		#region Death
 
 		[Server]
+		public void Suicide()
+		{
+			Death();
+		}
+
+		[Server]
 		private void Death()
 		{
 			if(hasDied) return;
