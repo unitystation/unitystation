@@ -226,7 +226,7 @@ namespace Systems.Ai
 				lightingSystem = Camera.main.GetComponent<LightingSystem>();
 			}
 		}
-		
+
 		/// <summary>
 		/// Sync is used to set up client and to reset stuff for rejoining client
 		/// This is only sync'd to the client which owns this object, due to setting on script
@@ -974,7 +974,7 @@ namespace Systems.Ai
 					//Only stop checking if this is the last battery
 					if(i != batteries.Length - 1) continue;
 
-					Message("ERROR: All external power providers have been check. Recovery operation ceasing!");
+					Message("ERROR: All external power providers have been checked. Recovery operation ceasing!");
 					StopRestore();
 
 					//Shouldn't need to yield break but just in case
@@ -988,7 +988,7 @@ namespace Systems.Ai
 					//Only stop checking if this is the last battery
 					if(i != batteries.Length - 1) continue;
 
-					Message("ERROR: All external power providers have been check. Recovery operation ceasing!");
+					Message("ERROR: All external power providers have been checked. Recovery operation ceasing!");
 					StopRestore();
 
 					//Shouldn't need to yield break but just in case
@@ -1020,7 +1020,7 @@ namespace Systems.Ai
 						//Only stop checking if this is the last battery
 						if(i != batteries.Length - 1) continue;
 
-						Message("ERROR: All external power providers have been check. Recovery operation ceasing!");
+						Message("ERROR: All external power providers have been checked. Recovery operation ceasing!");
 						StopRestore();
 
 						//Shouldn't need to yield break but just in case
