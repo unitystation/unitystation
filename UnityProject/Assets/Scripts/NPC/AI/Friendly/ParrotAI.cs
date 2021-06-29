@@ -1,4 +1,5 @@
 using System.Collections;
+using Messages.Server;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -75,7 +76,7 @@ namespace Systems.MobAIs
 				text,
 				gameObject,
 				MobName);
-			ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);
+			ShowChatBubbleMessage.SendToNearby(gameObject, text);
 		}
 		private void SayRandomThing()
 		{
