@@ -522,7 +522,7 @@ public static class Validations
 			if (normalise.y != 0)
 			{
 				var newEndPos = endPos;
-				newEndPos.y += normalise.y.RoundToLargestInt();;
+				newEndPos.y += normalise.y.RoundToLargestInt();
 
 				Debug.LogError(newEndPos);
 
