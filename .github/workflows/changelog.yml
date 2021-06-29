@@ -20,7 +20,7 @@ jobs:
 
       - name: pr2changelog
         id: pr2changelog
-        uses: corp-0/pr2changelog@master
+        uses: corp-0/pr2changelog@v0.1.1
         with:
           repo: ${{ github.repository }}
           pr_number: ${{ github.event.pull_request.number }}
