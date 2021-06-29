@@ -66,25 +66,29 @@ namespace HealthV2
 			float drawnAmount = 0;
 
 			//figure out how much we are going to process or remove
-			foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
+			lock (blood.CurrentReagentMix.reagents)
 			{
-				if (Alcohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
+				foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
 				{
-					float amount = Mathf.Min(tickPullProcessingAmnt,RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
-					amount = Mathf.Min(amount, (processingContainer.MaxCapacity - processingContainer.ReagentMixTotal)-drawnAmount);
-
-					tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
-
-					if (processingContainer.IsFull)
+					if (Alcohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
 					{
-						Logger.LogTrace("Liver is full, please try again. or don't.",Category.Health);
-						break;
-					}
+						float amount = Mathf.Min(tickPullProcessingAmnt,RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
+						amount = Mathf.Min(amount, (processingContainer.MaxCapacity - processingContainer.ReagentMixTotal)-drawnAmount);
 
-					drawnAmount += amount;
-					tickPullProcessingAmnt -= amount;
-					if (tickPullProcessingAmnt <= 0) break;
+						tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
+
+						if (processingContainer.IsFull)
+						{
+							Logger.LogTrace("Liver is full, please try again. or don't.",Category.Health);
+							break;
+						}
+
+						drawnAmount += amount;
+						tickPullProcessingAmnt -= amount;
+						if (tickPullProcessingAmnt <= 0) break;
+					}
 				}
+
 			}
 
 			//take what we are gonna process or remove, out of the blood
@@ -92,22 +96,25 @@ namespace HealthV2
 			{
 				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				tempArray.Remove(reagent);
 			}
-
+			tempArray.Clear();
+			
 			//calculate what's going to be removed, seeing as processing will happen in the reactionset
-			foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
+			lock (processingContainer.CurrentReagentMix.reagents)
 			{
-				//TODO: remove check for toxins when they are more integrated with reactions, with a metabolism rate, and liver damage. my intention is to do so in the pr changing alchohol
-				if (Toxins.Contains(reagent) || reagent == ethanolReagent)
+				foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
 				{
-					float amount = Mathf.Min(tickClearAmount,processingContainer.CurrentReagentMix[reagent]);
+					//TODO: remove check for toxins when they are more integrated with reactions, with a metabolism rate, and liver damage. my intention is to do so in the pr changing alchohol
+					if (Toxins.Contains(reagent) || reagent == ethanolReagent)
+					{
+						float amount = Mathf.Min(tickClearAmount, processingContainer.CurrentReagentMix[reagent]);
 
-					//setup to remove from liver
-					tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
+						//setup to remove from liver
+						tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
 
-					tickClearAmount -= amount;
-					if (tickClearAmount <= 0) break;
+						tickClearAmount -= amount;
+						if (tickClearAmount <= 0) break;
+					}
 				}
 			}
 
@@ -115,21 +122,24 @@ namespace HealthV2
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				tempArray.Remove(reagent);
 			}
+			tempArray.Clear();
 
 			//put that thing back where it came from or so help me
-			foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
+			lock (processingContainer.CurrentReagentMix.reagents)
 			{
-				tempArray.Add(new Tuple<Reagent, float>(reagent,processingContainer.CurrentReagentMix[reagent]));
+				foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
+				{
+					tempArray.Add(new Tuple<Reagent, float>(reagent, processingContainer.CurrentReagentMix[reagent]));
+				}
 			}
 
 			//the liver is merely an avenue, a pitstop, not a home.
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				tempArray.Remove(reagent);
 			}
+			tempArray.Clear();
 		}
 	}
 }

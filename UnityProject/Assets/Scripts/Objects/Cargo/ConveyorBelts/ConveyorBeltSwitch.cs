@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
@@ -10,7 +11,7 @@ namespace Construction.Conveyors
 	/// <summary>
 	/// Used for controlling conveyor belts.
 	/// </summary>
-	public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlaveMultiMaster
+	public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlaveMultiMaster, ICheckedInteractable<AiActivate>
 	{
 		[Tooltip("Assign the conveyor belts this switch should control.")]
 		[SerializeField]
@@ -209,5 +210,23 @@ namespace Construction.Conveyors
 		}
 
 		#endregion Multitool Interaction
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			ToggleSwitch();
+		}
+
+		#endregion
 	}
 }

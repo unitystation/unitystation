@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,6 +121,11 @@ public class PlayerSprites : MonoBehaviour
 		playerHealth.EnsureInit();
 		playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
 		OnClientFireStacksChange(playerHealth.FireStacks);
+	}
+
+	private void OnDestroy()
+	{
+		playerHealth.OnClientFireStacksChange.RemoveListener(OnClientFireStacksChange);
 	}
 
 	/// <summary>

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 8224268276445300722}
   - component: {fileID: 4509690511415981971}
   - component: {fileID: 6663514336625432320}
+  - component: {fileID: 3816408273032552164}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -101,7 +102,8 @@ MonoBehaviour:
   visibleName: ' '
   RTT: 0
   RcsMode: 0
-  IsPlayerSemiGhost: 0
+  playerState: 1
+  actionData: {fileID: 0}
 --- !u!114 &3553771700973194240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +192,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
@@ -285,6 +288,20 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+--- !u!114 &3816408273032552164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2289be7f53edd4a99fd0e94ec456bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 1
+  syncInterval: 0.1
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0

@@ -275,6 +275,9 @@ namespace Objects
 				return;
 			}
 
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.Jukebox);
+			if(peppers.Count == 0) return;
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
 			valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(SongName) });

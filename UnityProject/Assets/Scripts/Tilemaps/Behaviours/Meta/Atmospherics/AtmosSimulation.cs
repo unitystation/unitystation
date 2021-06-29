@@ -208,7 +208,7 @@ namespace Systems.Atmospherics
 
 					node.RemoveGasOverlay(gas);
 
-					node.ReactionManager.TileChangeManager.RemoveOverlaysOfName(node.Position, LayerType.Effects, gas.TileName);
+					node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
 				}
 			}
 		}

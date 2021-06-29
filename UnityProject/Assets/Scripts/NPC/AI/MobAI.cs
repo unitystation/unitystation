@@ -23,6 +23,8 @@ namespace Systems.MobAIs
 		protected Directional directional;
 		protected MobSprite mobSprite;
 		protected CustomNetTransform cnt;
+		public CustomNetTransform Cnt => cnt;
+
 		protected RegisterObject registerObject;
 		protected UprightSprites uprightSprites;
 		protected bool isServer;

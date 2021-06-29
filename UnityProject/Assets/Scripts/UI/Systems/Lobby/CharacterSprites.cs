@@ -38,6 +38,10 @@ namespace UI.CharacterCreator
 			characterView.dirChangeEvent.RemoveListener(OnDirChange);
 		}
 
+		private void OnDestroy()
+		{
+			characterView.dirChangeEvent.RemoveListener(OnDirChange);
+		}
 		public void OnDirChange()
 		{
 			currentDir = characterView.currentDir;

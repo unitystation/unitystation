@@ -302,7 +302,7 @@ public class MouseInputController : MonoBehaviour
 			return;
 		}
 
-		var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
+		var hit = MouseUtils.GetOrderedObjectsUnderMouse()?.FirstOrDefault();
 		if (hit != null)
 		{
 			if (lastHoveredThing != hit)
@@ -505,7 +505,7 @@ public class MouseInputController : MonoBehaviour
 			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
 					go.GetComponent<MouseDraggable>() != null &&
 					go.GetComponent<MouseDraggable>().enabled &&
-					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
+					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayerScript))
 				.FirstOrDefault();
 		if (draggable != null)
 		{

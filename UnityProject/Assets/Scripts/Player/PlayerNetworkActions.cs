@@ -15,6 +15,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using Objects.Research;
 using Shuttles;
 using UI.Items;
 
@@ -495,7 +496,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
+	public void ServerToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
 		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
@@ -926,5 +927,27 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;
 
 		crayonScript.SetTileFromClient(category, index, colourIndex, direction);
+	}
+
+	[Command]
+	public void CmdAskforAntagObjectives()
+	{
+		playerScript.mind.ShowObjectives();
+	}
+
+	[Command]
+	public void CmdFilledModuleInput(GameObject module, string input)
+	{
+		if(module == null || module.TryGetComponent<AiLawModule>(out var moduleScript) == false) return;
+
+		if (playerScript.Equipment.ItemStorage.GetActiveHandSlot()?.Item.gameObject != module)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, $"{module.ExpensiveName()} must be in your hands to use");
+			return;
+		}
+
+		moduleScript.ServerSetCustomLaw(input);
+
+		Chat.AddExamineMsgFromServer(gameObject, $"Law Module Change To:\n {moduleScript.CustomLaw}");
 	}
 }

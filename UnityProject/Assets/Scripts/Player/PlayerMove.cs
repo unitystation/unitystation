@@ -349,8 +349,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			Chat.AddActionMsgToChat(
 				playerScript.gameObject,
-				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
-				playerScript.name + " is trying to ubuckle themself from the chair!"
+				"You're trying to unbuckle yourself from the chair! (this will take some time...)",
+				playerScript.name + " is trying to unbuckle themself from the chair!"
 			);
 			StandardProgressAction.Create(
 				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
@@ -621,7 +621,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 			Inventory.ServerDrop(itemSlot);
 		}
 
-		if (connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
+		if (connectionToClient != null)
+		{
+			TargetPlayerUIHandCuffToggle(connectionToClient, true);
+		}
 	}
 
 	[TargetRpc]
@@ -638,7 +641,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	public void Uncuff()
 	{
 		SyncCuffed(cuffed, false);
-
 		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
 		{
 			Inventory.ServerDrop(itemSlot);

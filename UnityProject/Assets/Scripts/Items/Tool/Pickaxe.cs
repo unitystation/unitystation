@@ -1,6 +1,7 @@
 using UnityEngine;
 using AddressableReferences;
 using Objects.Mining;
+using TileManagement;
 
 namespace Items
 {
@@ -49,7 +50,7 @@ namespace Items
 					var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
 					Spawn.ServerPrefab(tile.SpawnOnDeconstruct, interaction.WorldPositionTarget, count: tile.SpawnAmountOnDeconstruct);
 					interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-					interactableTiles.TileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Mining);
+					interactableTiles.TileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Mining);
 				}
 			}
 

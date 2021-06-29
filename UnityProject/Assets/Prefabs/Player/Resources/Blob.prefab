@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4509690511415981971}
   - component: {fileID: 2991741834301703790}
   - component: {fileID: 448360181673478972}
+  - component: {fileID: 1205907779006116383}
+  - component: {fileID: 376142281930293820}
   m_Layer: 31
   m_Name: Blob
   m_TagString: Untagged
@@ -62,7 +64,8 @@ MonoBehaviour:
   visibleName: ' '
   RTT: 0
   RcsMode: 0
-  IsPlayerSemiGhost: 0
+  playerState: 2
+  actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
 --- !u!114 &4504212478988223552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,8 +100,6 @@ MonoBehaviour:
   IsTrapped: 0
   actionData: {fileID: 0}
   moveList: 05000000060000000700000008000000
-  PlayerDirectional: {fileID: 0}
-  pna: {fileID: 0}
   RunSpeed: 10
   WalkSpeed: 10
   CrawlSpeed: 0.8
@@ -136,6 +137,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  CurrentsortingGroup: {fileID: 0}
+  networkedLean: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,13 +232,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0
-  Outbreak5:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AI/Outbreak5.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
   blobCorePrefab: {fileID: 2295760805495773599, guid: 6900836707b2b9b44b1d402b18158c31,
     type: 3}
   blobNodePrefab: {fileID: 8328666627165077003, guid: 78595bed3a93a2c459820c745204ed51,
@@ -313,6 +309,36 @@ MonoBehaviour:
   cursorOffset: {x: 0, y: 0}
   placeOther: 0
   blobConstructs: 0
+--- !u!114 &1205907779006116383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2289be7f53edd4a99fd0e94ec456bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 1
+  syncInterval: 0.1
+--- !u!114 &376142281930293820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc34b2077deffe4ca88851eaaff1394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  offsetPosition: {x: 0, y: -0.6}
+  waitToInit: 2
 --- !u!1 &6777920429691229453
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,10 +5,11 @@ using Electricity.Inheritance;
 using Mirror;
 using UnityEngine;
 using Systems.Electricity;
+using Core.Input_System.InteractionV2.Interactions;
 
 namespace Objects.Lighting
 {
-	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, ISetMultitoolMaster
+	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, ISetMultitoolMaster, ICheckedInteractable<AiActivate>
 	{
 		public List<LightSource> listOfLights;
 
@@ -71,14 +72,50 @@ namespace Objects.Lighting
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
-			return !isInCoolDown;
+
+			if (isInCoolDown) return false;
+			StartCoroutine(SwitchCoolDown());
+
+			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			StartCoroutine(SwitchCoolDown());
+			TryInteraction();
+		}
+
+		#endregion
+
+		private void TryInteraction()
+		{
 			if (powerState == PowerState.Off || powerState == PowerState.LowVoltage) return;
 			ServerChangeState(!isOn);
+		}
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			if (isInCoolDown) return false;
+
+			//Trigger client cooldown only, or else it will break for local host
+			if (CustomNetworkManager.IsServer == false)
+			{
+				StartCoroutine(SwitchCoolDown());
+			}
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			//Start server cooldown
+			StartCoroutine(SwitchCoolDown());
+			TryInteraction();
 		}
 
 		#endregion

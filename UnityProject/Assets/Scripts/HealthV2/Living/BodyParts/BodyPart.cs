@@ -148,6 +148,8 @@ namespace HealthV2
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
 
+		public string SetCustomisationData;
+
 		/// <summary>
 		/// Initializes the body part
 		/// </summary>
@@ -174,6 +176,7 @@ namespace HealthV2
 
 				BodySpriteSet = true;
 			}
+
 			UpdateIcons();
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
@@ -326,11 +329,11 @@ namespace HealthV2
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
-				BodyPartItemSprite.SetColor(Tone);
+				BodyPartItemSprite.OrNull()?.SetColor(Tone);
 			}
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
 			{
-				BodyPartItemSprite.SetColor(bodyPartColorWhenCharred);
+				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 			}
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
 			if(IsBleedingExternally)

@@ -12,6 +12,16 @@ but for another one you'll have to make a **standalone build**.
 
 You can launch the game directly into the current scene, if it is a MainStation scene, that is open.
 
+### TLDR QuickBuild
+`Tools > Quick Build`
+
+![quickbuild window](https://i.imgur.com/XQMuiAa.png)
+
+- Automatically sets build settings to get MVB (minimum viable build) by including only necessary scenes.
+- Operates independently of the main build window.
+- Settings are persistent and won't be picked up by git (except Quick Load which is handled externally, so be sure to not commit that change).
+- The Disable Scenes tab is the old `DisableNonEssentialScenes` tool.
+
 ### Initial setup: Build settings
 To make a proper standalone build, you should set up build settings (only once).
 
