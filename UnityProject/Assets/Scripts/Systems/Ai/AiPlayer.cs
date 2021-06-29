@@ -11,7 +11,6 @@ using Mirror;
 using Objects;
 using Objects.Engineering;
 using Objects.Research;
-using TMPro;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 
@@ -864,15 +863,15 @@ namespace Systems.Ai
 
 		private IEnumerator TryRestartPower()
 		{
-			Message("Backup battery online. Scanners, camera, and radio interface offline. Beginning fault-detection.");
+			SendChatMessage("Backup battery online. Scanners, camera, and radio interface offline. Beginning fault-detection.");
 			yield return WaitFor.Seconds(5);
 			PowerRestoreIntervalCheck();
 
-			Message("Fault confirmed: missing external power. Shutting down main control system to save power.");
+			SendChatMessage("Fault confirmed: missing external power. Shutting down main control system to save power.");
 			yield return WaitFor.Seconds(2);
 			PowerRestoreIntervalCheck();
 
-			Message("Emergency control system online. Verifying connection to power network...");
+			SendChatMessage("Emergency control system online. Verifying connection to power network...");
 			yield return WaitFor.Seconds(5);
 			PowerRestoreIntervalCheck();
 
@@ -880,7 +879,7 @@ namespace Systems.Ai
 			var apc = vesselObject.OrNull()?.GetComponent<APCPoweredDevice>();
 			if (apc == null)
 			{
-				Message("ERROR: Unable to verify! No power connection detected!");
+				SendChatMessage("ERROR: Unable to verify! No power connection detected!");
 				StopRestore();
 
 				//Shouldn't need to yield break but just in case
@@ -891,12 +890,12 @@ namespace Systems.Ai
 			if (apc.RelatedAPC == null)
 			{
 				//No APC connection, try to find nearest
-				Message("Unable to verify! No connection to APC detected!");
+				SendChatMessage("Unable to verify! No connection to APC detected!");
 				yield return WaitFor.Seconds(2);
 				PowerRestoreIntervalCheck();
 				yield return WaitFor.EndOfFrame;
 
-				Message("APC connection protocols activated. Attempting to interface with nearest APC...");
+				SendChatMessage("APC connection protocols activated. Attempting to interface with nearest APC...");
 				yield return WaitFor.Seconds(5);
 				PowerRestoreIntervalCheck();
 				yield return WaitFor.EndOfFrame;
@@ -907,7 +906,7 @@ namespace Systems.Ai
 
 				if (apc.RelatedAPC == null)
 				{
-					Message("ERROR: Failed to interface! No APC's detected! Recovery operation ceasing!");
+					SendChatMessage("ERROR: Failed to interface! No APC's detected! Recovery operation ceasing!");
 					StopRestore();
 
 					//Shouldn't need to yield break but just in case
@@ -920,13 +919,13 @@ namespace Systems.Ai
 			}
 
 			//We have an APC but still no power...
-			Message("Connection to APC verified. Searching for fault in internal power network...");
+			SendChatMessage("Connection to APC verified. Searching for fault in internal power network...");
 			yield return WaitFor.Seconds(5);
 			PowerRestoreIntervalCheck();
 			yield return WaitFor.EndOfFrame;
 
 			//TODO once APC can be shut off check here for that and to force reactivate if it was turned off
-			Message("APC internal power network operational. Searching for fault in external power network...");
+			SendChatMessage("APC internal power network operational. Searching for fault in external power network...");
 			yield return WaitFor.Seconds(2);
 			PowerRestoreIntervalCheck();
 			yield return WaitFor.EndOfFrame;
@@ -935,7 +934,7 @@ namespace Systems.Ai
 			var apcSecondCheck = vesselObject.OrNull()?.GetComponent<APCPoweredDevice>();
 			if (apcSecondCheck == null || apcSecondCheck.RelatedAPC == null)
 			{
-				Message("ERROR: Connection to APC has failed whilst trying to find fault!");
+				SendChatMessage("ERROR: Connection to APC has failed whilst trying to find fault!");
 				StopRestore();
 
 				//Shouldn't need to yield break but just in case
@@ -946,14 +945,14 @@ namespace Systems.Ai
 			var batteries = apcSecondCheck.RelatedAPC.DepartmentBatteries.Where(x => x != null).ToArray();
 			if (batteries.Length == 0)
 			{
-				Message("ERROR: Unable to locate external power network department battery! Physical fault cannot be fixed!");
+				SendChatMessage("ERROR: Unable to locate external power network department battery! Physical fault cannot be fixed!");
 				StopRestore();
 
 				//Shouldn't need to yield break but just in case
 				yield break;
 			}
 
-			Message("APC external power network operational. Searching for fault in external power network provider...");
+			SendChatMessage("APC external power network operational. Searching for fault in external power network provider...");
 			yield return WaitFor.Seconds(2);
 			PowerRestoreIntervalCheck();
 			yield return WaitFor.EndOfFrame;
@@ -962,19 +961,19 @@ namespace Systems.Ai
 			{
 				var battery = batteries[i];
 				if(battery == null) continue;
-				Message("Operational department battery found.");
+				SendChatMessage("Operational department battery found.");
 				yield return WaitFor.Seconds(1);
 				PowerRestoreIntervalCheck();
 				yield return WaitFor.EndOfFrame;
 
 				if (battery == null)
 				{
-					Message("ERROR: Lost Connection to department battery!");
+					SendChatMessage("ERROR: Lost Connection to department battery!");
 
 					//Only stop checking if this is the last battery
 					if(i != batteries.Length - 1) continue;
 
-					Message("ERROR: All external power providers have been checked. Recovery operation ceasing!");
+					SendChatMessage("ERROR: All external power providers have been checked. Recovery operation ceasing!");
 					StopRestore();
 
 					//Shouldn't need to yield break but just in case
@@ -983,12 +982,12 @@ namespace Systems.Ai
 
 				if (battery.CurrentState == BatteryStateSprite.Empty)
 				{
-					Message("Fault Found: Department battery power is at 0%. Unable to fix fault.");
+					SendChatMessage("Fault Found: Department battery power is at 0%. Unable to fix fault.");
 
 					//Only stop checking if this is the last battery
 					if(i != batteries.Length - 1) continue;
 
-					Message("ERROR: All external power providers have been checked. Recovery operation ceasing!");
+					SendChatMessage("ERROR: All external power providers have been checked. Recovery operation ceasing!");
 					StopRestore();
 
 					//Shouldn't need to yield break but just in case
@@ -998,36 +997,36 @@ namespace Systems.Ai
 				//Battery is not empty so see if it is off
 				if (battery.isOn == false)
 				{
-					Message("Fault Found: Department battery power supply is turned off! Loading control program into power port software.");
+					SendChatMessage("Fault Found: Department battery power supply is turned off! Loading control program into power port software.");
 					yield return WaitFor.Seconds(1);
 					PowerRestoreIntervalCheck();
 					yield return WaitFor.EndOfFrame;
 
-					Message("Transfer complete. Forcing battery to execute program.");
+					SendChatMessage("Transfer complete. Forcing battery to execute program.");
 					yield return WaitFor.Seconds(5);
 					PowerRestoreIntervalCheck();
 					yield return WaitFor.EndOfFrame;
 
-					Message("Receiving control information from battery.");
+					SendChatMessage("Receiving control information from battery.");
 					yield return WaitFor.Seconds(1);
 					PowerRestoreIntervalCheck();
 					yield return WaitFor.EndOfFrame;
 
 					if (battery == null)
 					{
-						Message("ERROR: Lost Connection to department battery!");
+						SendChatMessage("ERROR: Lost Connection to department battery!");
 
 						//Only stop checking if this is the last battery
 						if(i != batteries.Length - 1) continue;
 
-						Message("ERROR: All external power providers have been checked. Recovery operation ceasing!");
+						SendChatMessage("ERROR: All external power providers have been checked. Recovery operation ceasing!");
 						StopRestore();
 
 						//Shouldn't need to yield break but just in case
 						yield break;
 					}
 
-					Message("Assuming direct control. Forcing power supply on!");
+					SendChatMessage("Assuming direct control. Forcing power supply on!");
 
 					//Force turn on the supply
 					battery.isOn = true;
@@ -1047,7 +1046,7 @@ namespace Systems.Ai
 			{
 				if (isCarded)
 				{
-					Message("InteliCard Power Online. Alert cancelled. Power has been restored.");
+					SendChatMessage("InteliCard Power Online. Alert cancelled. Power has been restored.");
 				}
 
 				StopRestore();
@@ -1057,7 +1056,7 @@ namespace Systems.Ai
 			//If we still dont have power continue
 			if(hasPower == false) return;
 
-			Message(weRestoredPower ? "Alert cancelled. Power has been restored."
+			SendChatMessage(weRestoredPower ? "Alert cancelled. Power has been restored."
 				: "Alert cancelled. Power has been restored without our assistance.");
 
 			StopRestore();
@@ -1069,7 +1068,7 @@ namespace Systems.Ai
 			tryingToRestorePower = false;
 		}
 
-		private void Message(string message)
+		private void SendChatMessage(string message)
 		{
 			Chat.AddExamineMsgFromServer(gameObject, message);
 		}

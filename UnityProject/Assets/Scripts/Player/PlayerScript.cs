@@ -1,3 +1,4 @@
+using System.Text;
 using Systems.Ai;
 using UnityEngine;
 using Mirror;
@@ -547,18 +548,28 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public string AdminInfoString()
 	{
-		if (PlayerList.Instance.IsAntag(gameObject))
-		{
-			return $"<color=yellow>Name: {characterSettings.Name}\n" +
-				   $"Acc: {characterSettings.Username}\n" +
-				   $"Antag: True \n" +
-				   "Objectives : "+ mind.GetAntag().GetObjectiveSummary() + "</color>";
+		var stringBuilder = new StringBuilder();
 
+		stringBuilder.AppendLine($"<color=yellow>Name: {characterSettings.Name}");
+		stringBuilder.AppendLine($"Acc: {characterSettings.Username}");
+
+		if(connectionToClient == null)
+		{
+			stringBuilder.AppendLine("Has No Soul");
 		}
 
-		return $"Name: {characterSettings.Name}\n" +
-			   $"Acc: {characterSettings.Username}\n" +
-			   $"Antag: False";
+		if (playerHealth != null)
+		{
+			stringBuilder.AppendLine($"Is Alive: {playerHealth.IsDead == false} Health: {playerHealth.OverallHealth}");
+		}
+
+		if (mind.IsAntag)
+		{
+			stringBuilder.AppendLine($"Antag: {mind.GetAntag().Antagonist.AntagJobType}");
+			stringBuilder.AppendLine($"Objectives : {mind.GetAntag().GetObjectiveSummary()}</color>");
+		}
+
+		return stringBuilder.ToString();
 	}
 
 	public void CallActionClient()
