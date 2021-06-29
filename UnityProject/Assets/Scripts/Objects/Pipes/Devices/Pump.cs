@@ -35,7 +35,7 @@ namespace Pipes
 		}
 
 		//Ai interaction
-		public override void Interaction(AiActivate interaction)
+		public override void AiInteraction(AiActivate interaction)
 		{
 			ToggleState();
 		}

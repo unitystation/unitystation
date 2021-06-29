@@ -98,10 +98,10 @@ namespace Pipes
 
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
-			Interaction(interaction);
+			AiInteraction(interaction);
 		}
 
-		public virtual void Interaction(AiActivate interaction) { }
+		public virtual void AiInteraction(AiActivate interaction) { }
 
 		#endregion
 

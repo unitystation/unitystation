@@ -85,7 +85,7 @@ namespace Objects.Atmospherics
 		}
 
 		//Ai interaction
-		public override void Interaction(AiActivate interaction)
+		public override void AiInteraction(AiActivate interaction)
 		{
 			if (interaction.ClickType == AiActivate.ClickTypes.AltClick)
 			{

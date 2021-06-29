@@ -53,7 +53,7 @@ namespace Pipes
 		}
 
 		//Ai interaction
-		public override void Interaction(AiActivate interaction)
+		public override void AiInteraction(AiActivate interaction)
 		{
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Mixer, TabAction.Open);
 		}
