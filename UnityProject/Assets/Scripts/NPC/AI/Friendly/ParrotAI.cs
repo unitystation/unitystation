@@ -48,7 +48,7 @@ namespace Systems.MobAIs
 		public override void ExplorePeople(PlayerScript player)
 		{
 			if (player.IsGhost) return;
-			var inventory = player.GetComponent<ItemStorage>();
+			var inventory = player.GetComponent<DynamicItemStorage>();
 			var thingInHand = inventory.GetActiveHandSlot();
 
 			if (thingInHand != null && thingInHand.Item != null)

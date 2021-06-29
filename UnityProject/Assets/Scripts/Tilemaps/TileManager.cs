@@ -82,7 +82,6 @@ public class TileManager : MonoBehaviour, IInitialise
 #if UNITY_EDITOR
 		CacheAllAssets();
 #endif
-
 		if (!initialized) StartCoroutine(LoadAllTiles());
 	}
 

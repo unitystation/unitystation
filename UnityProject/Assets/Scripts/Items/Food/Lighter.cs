@@ -138,13 +138,15 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		if (player && player.ItemStorage)
 		{
 			var playerEquipment = player.ItemStorage;
-			var gloves = playerEquipment.GetNamedItemSlot(NamedSlot.hands);
-
-			if (gloves != null && gloves.IsOccupied)
+			foreach (var itemSlot in playerEquipment.GetNamedItemSlots(NamedSlot.hands))
 			{
-				// TODO: need aditional check to heat resistence and gloves trait
-				return true;
+				if (itemSlot != null && itemSlot.IsOccupied)
+				{
+					// TODO: need aditional check to heat resistence and gloves trait
+					return true;
+				}
 			}
+
 		}
 
 		return false;

@@ -6,222 +6,231 @@ using Items;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+public class ControlInternals : TooltipMonoBehaviour
 {
-	public class ControlInternals : TooltipMonoBehaviour
+	[SerializeField] private Image airTank = default; // TODO: unused and is creating a compiler warning.
+	[SerializeField] private Image airTankFillImage = default;
+	[SerializeField] private Image mask = default;
+
+	[Header("Color settings")]
+	[SerializeField] private Color activeAirFlowTankColor = default;
+
+	[NonSerialized] private int _currentState = 1;
+
+	private GameObject Mask;
+	private GameObject Tank;
+
+	public int CurrentState
 	{
-		[SerializeField] private Image airTank = default; // TODO: unused and is creating a compiler warning.
-		[SerializeField] private Image airTankFillImage = default;
-		[SerializeField] private Image mask = default;
-
-		[Header("Color settings")]
-		[SerializeField] private Color activeAirFlowTankColor = default;
-
-		[NonSerialized] private int _currentState = 1;
-
-		private List<ItemSlot> GasUseSlots = new List<ItemSlot>();
-		private ItemSlot maskSlot;
-		public int CurrentState {
-			get => _currentState;
-			set {
-				_currentState = value;
-				switch (_currentState)
-				{
-					case 1:
-						// Player is wearing neither a tank nor a mask.
-						// No tubes and mask are shown in HUD, the air tank is greyed out.
-						mask.color = Color.white;
-						mask.enabled = false;
-
-						airTankFillImage.fillAmount = 0;
-						break;
-					case 2:
-						// Player is wearing a tank, but no mask.
-						// The tank icon now shows the fullness/capacity of the tank, but no tubes/mask are shown
-						mask.color = Color.white;
-						mask.enabled = false;
-						break;
-					case 3:
-						// Player is wearing a mask, but no tank.
-						// Tubes and mask are shown in the HUD, but the tank remains greyed out.
-						mask.color = Color.white;
-						mask.enabled = true;
-
-						airTankFillImage.fillAmount = 0;
-						break;
-					case 4:
-						// Player is wearing a mask and a tank, but airflow is off.
-						// The air tank is shown in blue in the HUD, and the mask is shown too.
-						mask.color = Color.white;
-						mask.enabled = true;
-						break;
-					case 5:
-						// Player is wearing a mask and tank, and the airflow is on.
-						// Same as above, but the air tank in the HUD is given a green hue to show the difference.
-						mask.color = activeAirFlowTankColor;
-						mask.enabled = true;
-						break;
-					default:
-						Logger.LogError("Internals state is out of range. <1; 5>", Category.PlayerInventory);
-						break;
-				}
-			}
-		}
-		public bool isAirflowEnabled;
-		private GasContainer gasContainer = null;
-		private bool isWearingMask = false;
-
-		public override string Tooltip => "toggle air flow";
-
-		void Awake()
+		get => _currentState;
+		set
 		{
-			isAirflowEnabled = false;
-		}
-
-		void OnEnable()
-		{
-			EventManager.AddHandler(Event.EnableInternals, OnEnableInternals);
-			EventManager.AddHandler(Event.DisableInternals, OnDisableInternals);
-		}
-
-		void OnDisable()
-		{
-			EventManager.RemoveHandler(Event.EnableInternals, OnEnableInternals);
-			EventManager.RemoveHandler(Event.DisableInternals, OnDisableInternals);
-
-			if (PlayerManager.LocalPlayerScript != null)
+			_currentState = value;
+			switch (_currentState)
 			{
-				RemoveListeners();
-			}
-		}
+				case 1:
+					// Player is wearing neither a tank nor a mask.
+					// No tubes and mask are shown in HUD, the air tank is greyed out.
+					mask.color = Color.white;
+					mask.enabled = false;
 
-		/// <summary>
-		/// toggle the button state and play any sounds
-		/// </summary>
-		public void OxygenSelect()
-		{
-			if (CurrentState != 4 && CurrentState != 5)
-				return;
-
-			if (PlayerManager.LocalPlayer == null)
-				return;
-
-			if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
-				return;
-
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-
-			if (isAirflowEnabled)
-				EventManager.Broadcast(Event.DisableInternals);
-			else
-				EventManager.Broadcast(Event.EnableInternals);
-
-			UpdateState();
-		}
-
-		public void OnEnableInternals()
-		{
-			isAirflowEnabled = true;
-		}
-
-		public void OnDisableInternals()
-		{
-			isAirflowEnabled = false;
-		}
-
-		public void SetupListeners()
-		{
-			UpdateState();
-
-			maskSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask);
-			maskSlot.OnSlotContentsChangeClient.AddListener(OnMaskChanged);
-
-			GasUseSlots.Clear();
-			foreach (NamedSlot namedSlot in ItemStorage.GasUseSlots)
-			{
-				ItemSlot itemSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(namedSlot);
-				GasUseSlots.Add(itemSlot);
-				itemSlot.OnSlotContentsChangeClient.AddListener(OnOxygenTankEquipped);
-			}
-		}
-
-		public void RemoveListeners()
-		{
-			maskSlot.OnSlotContentsChangeClient.RemoveListener(OnMaskChanged);
-			foreach (var itemSlot in GasUseSlots)
-			{
-				itemSlot.OnSlotContentsChangeClient.RemoveListener(OnOxygenTankEquipped);
-			}
-		}
-
-		private void OnMaskChanged()
-		{
-			ItemAttributesV2 maskItemAttrs = maskSlot.ItemAttributes;
-			if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank)
-				isWearingMask = true;
-			else
-				isWearingMask = false;
-
-			UpdateState();
-		}
-
-		private void OnOxygenTankEquipped()
-		{
-			this.gasContainer = null;
-			foreach (NamedSlot namedSlot in ItemStorage.GasUseSlots)
-			{
-				ItemSlot itemSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(namedSlot);
-				if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent(out GasContainer gasContainer))
-				{
-					this.gasContainer = gasContainer;
+					airTankFillImage.fillAmount = 0;
 					break;
+				case 2:
+					// Player is wearing a tank, but no mask.
+					// The tank icon now shows the fullness/capacity of the tank, but no tubes/mask are shown
+					mask.color = Color.white;
+					mask.enabled = false;
+					break;
+				case 3:
+					// Player is wearing a mask, but no tank.
+					// Tubes and mask are shown in the HUD, but the tank remains greyed out.
+					mask.color = Color.white;
+					mask.enabled = true;
+
+					airTankFillImage.fillAmount = 0;
+					break;
+				case 4:
+					// Player is wearing a mask and a tank, but airflow is off.
+					// The air tank is shown in blue in the HUD, and the mask is shown too.
+					mask.color = Color.white;
+					mask.enabled = true;
+					break;
+				case 5:
+					// Player is wearing a mask and tank, and the airflow is on.
+					// Same as above, but the air tank in the HUD is given a green hue to show the difference.
+					mask.color = activeAirFlowTankColor;
+					mask.enabled = true;
+					break;
+				default:
+					Logger.LogError("Internals state is out of range. <1; 5>", Category.PlayerInventory);
+					break;
+			}
+		}
+	}
+	public bool isAirflowEnabled;
+	private GasContainer gasContainer = null;
+	private bool isWearingMask = false;
+
+	public override string Tooltip => "toggle air flow";
+
+	void Awake()
+	{
+		isAirflowEnabled = false;
+	}
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(Event.EnableInternals, OnEnableInternals);
+		EventManager.AddHandler(Event.DisableInternals, OnDisableInternals);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(Event.EnableInternals, OnEnableInternals);
+		EventManager.RemoveHandler(Event.DisableInternals, OnDisableInternals);
+	}
+
+	/// <summary>
+	/// toggle the button state and play any sounds
+	/// </summary>
+	public void OxygenSelect()
+	{
+		if (CurrentState != 4 && CurrentState != 5)
+			return;
+
+		if (PlayerManager.LocalPlayer == null)
+			return;
+
+		if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
+			return;
+
+		SoundManager.Play(SingletonSOSounds.Instance.Click01);
+
+		if (isAirflowEnabled)
+			EventManager.Broadcast(Event.DisableInternals);
+		else
+			EventManager.Broadcast(Event.EnableInternals);
+
+		UpdateState();
+	}
+
+	public void OnEnableInternals()
+	{
+		isAirflowEnabled = true;
+	}
+
+	public void OnDisableInternals()
+	{
+		isAirflowEnabled = false;
+	}
+
+	public void SetupListeners()
+	{
+		UpdateState();
+		PlayerManager.LocalPlayerScript.ItemStorage.OnContentsChangeClient.AddListener(InventoryChange);
+	}
+
+	public void InventoryChange()
+	{
+		if (PlayerManager.LocalPlayerScript.IsGhost) return;
+		if (Mask == null)
+		{
+			foreach (var maskItemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlots(NamedSlot.mask ))
+			{
+				if (maskItemSlot.ItemObject != null && maskItemSlot.ItemAttributes != null)
+				{
+					if (maskItemSlot.ItemAttributes.CanConnectToTank)
+					{
+						Mask = maskItemSlot.ItemObject;
+						isWearingMask = true;
+						break;
+					}
 				}
 			}
-
-			UpdateState();
 		}
 
-		private void Update()
+		if (Tank == null)
 		{
-			if (gasContainer != null && airTankFillImage != null)
+			bool Doublebreak = false;
+			foreach (NamedSlot namedSlot in DynamicItemStorage.GasUseSlots)
 			{
-				airTankFillImage.fillAmount = gasContainer.FullPercentageClient;
+				foreach (ItemSlot itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlots(namedSlot))
+				{
+					if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent(out GasContainer gasContainer))
+					{
+						Tank = itemSlot.ItemObject;
+						this.gasContainer = gasContainer;
+						Doublebreak = true;
+						break;
+					}
+				}
+				if (Doublebreak) break;
 			}
 		}
 
-		private void UpdateState()
+
+		if (Mask != null)
 		{
-			// Player is wearing neither a tank nor a mask
-			if (!isWearingMask && gasContainer == null)
+			if (PlayerManager.LocalPlayerScript.ItemStorage.InventoryHasObject(Mask) == false)
 			{
-				CurrentState = 1;
-				if (isAirflowEnabled)
-					EventManager.Broadcast(Event.DisableInternals);
+				isWearingMask = false;
+				Mask = null;
 			}
-			// Player is wearing a tank, but no mask.
-			else if (!isWearingMask && gasContainer != null)
+		}
+
+		if (Tank != null)
+		{
+			if (PlayerManager.LocalPlayerScript.ItemStorage.InventoryHasObject(Tank) == false)
 			{
-				CurrentState = 2;
-				if (isAirflowEnabled)
-					EventManager.Broadcast(Event.DisableInternals);
+				gasContainer = null;
+				Tank = null;
 			}
-			// Player is wearing a mask, but no tank
-			else if (isWearingMask && gasContainer == null)
-			{
-				CurrentState = 3;
-				if (isAirflowEnabled)
-					EventManager.Broadcast(Event.DisableInternals);
-			}
-			// Player is wearing a mask and a tank, but airflow is off
-			else if (isWearingMask && gasContainer != null && !isAirflowEnabled)
-			{
-				CurrentState = 4;
-			}
-			// Player is wearing a mask and tank, and the airflow is on
-			else if (isWearingMask && gasContainer != null && isAirflowEnabled)
-			{
-				CurrentState = 5;
-			}
+		}
+		UpdateState();
+	}
+
+
+	private void Update()
+	{
+		if (gasContainer != null && airTankFillImage != null)
+		{
+			airTankFillImage.fillAmount = gasContainer.GasMix.GetMoles(Gas.Oxygen) / gasContainer.MaximumMoles;
+		}
+	}
+
+	private void UpdateState()
+	{
+		// Player is wearing neither a tank nor a mask
+		if (!isWearingMask && gasContainer == null)
+		{
+			CurrentState = 1;
+			if(isAirflowEnabled)
+				EventManager.Broadcast(Event.DisableInternals);
+		}
+		// Player is wearing a tank, but no mask.
+		else if (!isWearingMask && gasContainer != null)
+		{
+			CurrentState = 2;
+			if(isAirflowEnabled)
+				EventManager.Broadcast(Event.DisableInternals);
+		}
+		// Player is wearing a mask, but no tank
+		else if (isWearingMask && gasContainer == null)
+		{
+			CurrentState = 3;
+			if(isAirflowEnabled)
+				EventManager.Broadcast(Event.DisableInternals);
+		}
+		// Player is wearing a mask and a tank, but airflow is off
+		else if (isWearingMask && gasContainer != null && !isAirflowEnabled)
+		{
+			CurrentState = 4;
+		}
+		// Player is wearing a mask and tank, and the airflow is on
+		else if (isWearingMask && gasContainer != null && isAirflowEnabled)
+		{
+			CurrentState = 5;
 		}
 	}
 }

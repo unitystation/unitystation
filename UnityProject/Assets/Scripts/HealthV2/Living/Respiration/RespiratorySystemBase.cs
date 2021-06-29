@@ -122,20 +122,20 @@ namespace HealthV2
 			if (playerScript != null)
 			{
 				// Check if internals exist
-				var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
-				bool internalsEnabled = playerScript.Equipment.IsInternalsEnabled;
-				if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
-				{
-					foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
-					{
-						if (gasSlot.Item == null) continue;
-						var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-						if (gasContainer)
-						{
-							return gasContainer;
-						}
-					}
-				}
+				// var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
+				// bool internalsEnabled = playerScript.Equipment.IsInternalsEnabled;
+				// if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
+				// {
+					// foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
+					// {
+						// if (gasSlot.Item == null) continue;
+						// var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
+						// if (gasContainer)
+						// {
+							// return gasContainer;
+						// }
+					// }
+				// }
 			}
 			return null;
 		}
@@ -162,13 +162,13 @@ namespace HealthV2
 				return false;
 			}
 
-			ItemAttributesV2 headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
-			ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear).ItemAttributes;
+			// ItemAttributesV2 headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
+			// ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear).ItemAttributes;
 
-			if (headItem != null && suitItem != null)
-			{
-				return headItem.IsEVACapable && suitItem.IsEVACapable;
-			}
+			// if (headItem != null && suitItem != null)
+			// {
+				// return headItem.IsEVACapable && suitItem.IsEVACapable;
+			// }
 
 			return false;
 		}

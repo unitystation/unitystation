@@ -73,7 +73,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// This player's item storage.
 	/// </summary>
-	public ItemStorage ItemStorage { get; private set; }
+	public DynamicItemStorage ItemStorage { get; private set; }
 
 	private static bool verified;
 	private static ulong SteamID;
@@ -132,7 +132,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
-		ItemStorage = GetComponent<ItemStorage>();
+		ItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
@@ -188,6 +188,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		if(CustomNetworkManager.IsHeadless) return;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
+
 
 	public void Init()
 	{
