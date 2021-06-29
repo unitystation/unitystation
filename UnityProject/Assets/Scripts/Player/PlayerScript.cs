@@ -203,7 +203,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
-			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
+			IPlayerControllable input = PlayerSync;
+
+			if (TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
+			{
+				input = aiMouseInputController;
+			}
+
+			PlayerManager.SetPlayerForControl(gameObject, input);
 
 			if (playerState == PlayerStates.Ghost)
 			{

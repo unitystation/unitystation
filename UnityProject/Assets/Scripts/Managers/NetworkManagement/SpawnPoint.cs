@@ -32,12 +32,19 @@ namespace Systems.Spawns
 			return GetPointsForCategory(SpawnPointCategory.LateJoin).ToList().PickRandom();
 		}
 
-		public static Transform GetRandomPointForJob(JobType job)
+		public static Transform GetRandomPointForJob(JobType job, bool isGhost = false)
 		{
 			if (categoryByJob.ContainsKey(job))
 			{
 				//Get all available points and order by priority, higher numbers picked first
 				var points = GetPointsForCategory(categoryByJob[job]).OrderBy(x => x.GetComponent<SpawnPoint>().priority).ToList();
+
+				if (points.Any() == false)
+				{
+					// Default to arrivals if there is no mapped spawn point for this job!
+					// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
+					return GetRandomPointForLateSpawn();
+				}
 
 				//Get last point as that should have biggest priority
 				var last = points.Last();
@@ -46,8 +53,8 @@ namespace Systems.Spawns
 					//If the priority isnt 0 then we use this one else choose random
 					if (spawn.priority != 0)
 					{
-						//If this point is only allowed once then set it to used
-						if (spawn.type == SpawnPointType.Once)
+						//If this point is only allowed once then set it to used, dont allow ghosts to use up a spawn point
+						if (spawn.type == SpawnPointType.Once && isGhost == false)
 						{
 							spawn.used = true;
 						}
@@ -58,8 +65,8 @@ namespace Systems.Spawns
 					//Pick random as all points will be 0
 					last = points.PickRandom();
 
-					//If this point is only allowed once then set it to used
-					if (spawn.type == SpawnPointType.Once)
+					//If this point is only allowed once then set it to used, dont allow ghosts to use up a spawn point
+					if (spawn.type == SpawnPointType.Once && isGhost == false)
 					{
 						spawn.used = true;
 					}
