@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// An objective to set off the nuke on the station
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/OnlyCargoMenEscape")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/OnlyCargoMenEscape")]
 	public class OnlyCargoMenEscape : Objective
 	{
 		protected override void Setup()

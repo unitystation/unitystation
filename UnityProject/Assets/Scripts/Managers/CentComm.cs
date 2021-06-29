@@ -47,7 +47,7 @@ namespace Managers
 
 		//Server only:
 		private List<Vector2> asteroidLocations = new List<Vector2>();
-		private int plasmaOrderRequestAmt;
+
 		public DateTime lastAlertChange;
 		public double coolDownAlertChange = 5;
 
@@ -113,7 +113,6 @@ namespace Managers
 
 			//Shuffle the list:
 			asteroidLocations = asteroidLocations.OrderBy(x => Random.value).ToList();
-			plasmaOrderRequestAmt = Random.Range(5, 50);
 
 
 			// Checks if there will be antags this round and sets the initial update/report
@@ -134,7 +133,6 @@ namespace Managers
 		{
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce, string.Format(ReportTemplates.InitialUpdate, ReportTemplates.ExtendedInitial),
 				UpdateSound.Notice);
-			SpawnReports(StationObjectiveReport());
 		}
 		private void SendAntagUpdate()
 		{
@@ -146,7 +144,6 @@ namespace Managers
 					ReportTemplates.AntagInitialUpdate+"\n\n"+
 					ChatTemplates.GetAlertLevelMessage(AlertLevelChange.UpToBlue)),
 				UpdateSound.Alert);
-			SpawnReports(StationObjectiveReport());
 			SpawnReports(ReportTemplates.AntagThreat);
 			ChangeAlertLevel(AlertLevel.Blue, false);
 		}
@@ -217,15 +214,18 @@ namespace Managers
 		/// </summary>
 		/// <param name="text">String that will be the report body</param>
 		/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
-		public void MakeCommandReport(string text, UpdateSound type)
+		public void MakeCommandReport(string text, bool loudAnnouncement = true)
 		{
 			SpawnReports(text);
 
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
+			if (loudAnnouncement)
+			{
+				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
 
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-			_ = SoundManager.PlayNetworked(updateTypes[type], audioSourceParameters);
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+				_ = SoundManager.PlayNetworked(updateTypes[UpdateSound.Notice], audioSourceParameters);
+				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
+			}
 		}
 
 		/// <summary>
@@ -276,19 +276,6 @@ namespace Managers
 				MatrixManager.MainStationMatrix);
 
 			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
-		}
-
-		private string StationObjectiveReport()
-		{
-			var report = new StringBuilder();
-			report.AppendFormat(ReportTemplates.StationObjective, plasmaOrderRequestAmt);
-
-			foreach (var location in asteroidLocations)
-			{
-				report.AppendFormat(" <size=24>{0}</size> ", Vector2Int.RoundToInt(location));
-			}
-
-			return report.ToString();
 		}
 
 		public enum UpdateSound {
