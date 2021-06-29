@@ -214,11 +214,6 @@ namespace Systems.Ai
 
 		#region Sync Stuff
 
-		public override void OnStartLocalPlayer()
-		{
-			PlayerManager.SetMovementControllable(GetComponent<AiMouseInputController>());
-		}
-
 		private void Init()
 		{
 			if (aiUi == null)
@@ -231,7 +226,7 @@ namespace Systems.Ai
 				lightingSystem = Camera.main.GetComponent<LightingSystem>();
 			}
 		}
-
+		
 		/// <summary>
 		/// Sync is used to set up client and to reset stuff for rejoining client
 		/// This is only sync'd to the client which owns this object, due to setting on script

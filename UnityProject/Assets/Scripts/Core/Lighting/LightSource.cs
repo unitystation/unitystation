@@ -287,7 +287,7 @@ namespace Objects.Lighting
 
 		private void TryRemoveBulb(HandApply interaction)
 		{
-			var handSlot = interaction.PerformerPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.hands);
+			var handSlot = interaction.PerformerPlayerScript.ItemStorage.GetActiveHandSlot();
 
 			if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
 					!Validations.HasItemTrait(handSlot.ItemObject, CommonTraits.Instance.BlackGloves)))

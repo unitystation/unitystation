@@ -26,7 +26,21 @@ namespace Player
 		/// Check if player is wearing a mask
 		/// </summary>
 		/// <returns>true if player don't wear mask</returns>
-		private bool IsFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty;
+		private bool IsFaceVisible
+		{
+			get
+			{
+				foreach (var itemSlot in script.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+				{
+					if (itemSlot.IsEmpty == false)
+					{
+						return false;
+					}
+				}
+
+				return true;
+			}
+		}
 
 		[Tooltip("Slots from which other players can read ID card data")]
 		[SerializeField]
@@ -82,26 +96,28 @@ namespace Player
 		{
 			foreach (var slot in readableIDslots)
 			{
-				var itemSlot = script.ItemStorage.GetNamedItemSlot(slot);
-				if (itemSlot.IsOccupied == false)
+				foreach (var itemSlot in script.ItemStorage.GetNamedItemSlots(slot))
 				{
-					continue;
-				}
-				// if item is ID card
-				if (itemSlot.ItemObject.TryGetComponent(out idCard))
-				{
+					if (itemSlot.IsOccupied == false)
+					{
+						continue;
+					}
+					// if item is ID card
+					if (itemSlot.ItemObject.TryGetComponent(out idCard))
+					{
+						return true;
+					}
+
+					// if item is PDA and IDCard is not null
+					if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
+					    pdaLogic.IDCard == null)
+					{
+						continue;
+					}
+
+					idCard = pdaLogic.IDCard;
 					return true;
 				}
-
-				// if item is PDA and IDCard is not null
-				if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
-				    pdaLogic.IDCard == null)
-				{
-					continue;
-				}
-
-				idCard = pdaLogic.IDCard;
-				return true;
 			}
 
 			idCard = null;
@@ -132,7 +148,7 @@ namespace Player
 			}
 
 			// start itemslot observation
-			interactableStorage.ItemStorage.ServerAddObserverPlayer(sentByPlayer);
+			this.GetComponent<DynamicItemStorage>().ServerAddObserverPlayer(sentByPlayer);
 			// send message to enable examination window
 			PlayerExaminationMessage.Send(sentByPlayer, this, true);
 
@@ -160,7 +176,7 @@ namespace Player
 		private void ServerOnObservationEnded(RangeRelationship cancelled)
 		{
 			// stop observing item storage
-			interactableStorage.ItemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
+			this.GetComponent<DynamicItemStorage>().ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
 			// send message to disable examination window
 			PlayerExaminationMessage.Send(cancelled.obj1.gameObject, this, false);
 		}

@@ -408,7 +408,7 @@ public class CableCuttingWindow : MonoBehaviour
 	private bool WillInteract(PositionalHandApply apply)
 	{
 		if (!DefaultWillInteract.Default(apply, NetworkSide.Client)) return false;
-		return Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter);
+		return Validations.HasItemTrait(PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Wirecutter);
 	}
 
 	/// <summary>

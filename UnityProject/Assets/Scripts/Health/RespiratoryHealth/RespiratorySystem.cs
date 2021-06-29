@@ -204,10 +204,13 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (gameObject.Player() != null)
 		{
-			var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
-			if (maskItemAttrs != null && maskItemAttrs.HasTrait(CommonTraits.Instance.GasMask))
+			foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
-				return true;
+				var currentItemAtt  = itemSlot.ItemAttributes;
+				if (currentItemAtt  != null && currentItemAtt.HasTrait(CommonTraits.Instance.GasMask))
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -261,21 +264,26 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		if (playerScript != null)
 		{
 
-			// Check if internals exist
-			var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
 			bool internalsEnabled = equipment.IsInternalsEnabled;
-			if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
+			foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
-				foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
+				var maskItemAttrs = itemSlot.ItemAttributes;
+
+				if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
 				{
-					if (gasSlot.Item == null) continue;
-					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-					if (gasContainer)
+					foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
 					{
-						return gasContainer;
+						if (gasSlot.Item == null) continue;
+						var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
+						if (gasContainer)
+						{
+							return gasContainer;
+						}
 					}
 				}
 			}
+			// Check if internals exist
+
 		}
 
 		return null;
@@ -476,13 +484,13 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			}
 			filtered = true;
 		}
-		
+
 		//if there's not enough to cause the plasma or CO2 warnings, skip the breathe messages
 		if((gasMix.GetMoles(Gas.Plasma) < PLASMA_WARNING_LEVEL && gasMix.GetMoles(Gas.Plasma) > 0) || (gasMix.GetMoles(Gas.CarbonDioxide) < CARBON_DIOXIDE_WARNING_LEVEL && gasMix.GetMoles(Gas.CarbonDioxide) > 0))
 		{
 			return true;
 		}
-		
+
 		//if somehow both are 0 return false
 		if(gasMix.GetMoles(Gas.Plasma) == 0 && gasMix.GetMoles(Gas.CarbonDioxide) == 0)
 		{
@@ -535,12 +543,34 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			return false;
 		}
 
-		ItemAttributesV2 headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
-		ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear).ItemAttributes;
+		bool headItemhasEVA = false;
+		bool suitItemhasEVA = false;
 
-		if (headItem != null && suitItem != null)
+		foreach (var headItem in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.head))
 		{
-			return headItem.IsEVACapable && suitItem.IsEVACapable;
+			if (headItem.ItemAttributes != null)
+			{
+				if (headItem.ItemAttributes.IsEVACapable)
+				{
+					headItemhasEVA = true;
+				}
+			}
+		}
+
+		foreach (var suitItem in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
+		{
+			if (suitItem.ItemAttributes != null)
+			{
+				if (suitItem.ItemAttributes.IsEVACapable)
+				{
+					suitItemhasEVA = true;
+				}
+			}
+		}
+
+		if (headItemhasEVA && suitItemhasEVA)
+		{
+			return true;
 		}
 
 		return false;

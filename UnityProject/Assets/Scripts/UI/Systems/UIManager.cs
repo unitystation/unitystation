@@ -27,7 +27,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
 	public PanelHudBottomController panelHudBottomController;
-	public Hands hands;
 	public ControlInternals internalControls;
 	public PlayerExaminationWindowUI playerExaminationWindow;
 	public ControlIntent intentControl;
@@ -62,6 +61,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public CrayonUI CrayonUI;
 
+	public UI_SlotManager UI_SlotManager;
+	
 	public GeneralInputField GeneralInputField;
 
 	public static bool PreventChatInput
@@ -154,8 +155,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 
 	public static PlayerExaminationWindowUI PlayerExaminationWindow => Instance.playerExaminationWindow;
-
-	public static Hands Hands => Instance.hands;
 
 	public static ControlIntent Intent => Instance.intentControl;
 
@@ -401,7 +400,6 @@ public class UIManager : MonoBehaviour, IInitialise
 		}
 
 		StorageHandler.CloseStorageUI();
-		Hands.SetHand(true);
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);

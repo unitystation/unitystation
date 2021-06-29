@@ -53,6 +53,8 @@ namespace Messages.Client.Interaction
 			//these are all used when it's an InventoryApply to denote the target slot
 			//netid of targeted storage
 			public uint Storage;
+			//Used to get correct item storage on game object if there's multiple
+			public uint StorageIndexOnGameObject;
 			//slot index of slot targeted in storage (-1 if tareting named slot)
 			public int SlotIndex;
 			//named slot targeted in storage
@@ -176,7 +178,7 @@ namespace Messages.Client.Interaction
 			{
 				var clientStorage = SentByPlayer.Script.ItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
-				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+				var usedObject = clientStorage.GetActiveHandSlot()?.ItemObject;
 				LoadMultipleObjects(new uint[]{
 					TargetObject, ProcessorObject
 				});
@@ -243,11 +245,11 @@ namespace Messages.Client.Interaction
 				ItemSlot targetSlot = null;
 				if (SlotIndex == -1)
 				{
-					targetSlot = ItemSlot.GetNamed(storageObj.GetComponent<ItemStorage>(), NamedSlot);
+					targetSlot = ItemSlot.GetNamed(storageObj.GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], NamedSlot);
 				}
 				else
 				{
-					targetSlot = ItemSlot.GetIndexed(storageObj.GetComponent<ItemStorage>(), SlotIndex);
+					targetSlot = ItemSlot.GetIndexed(storageObj.GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], SlotIndex);
 				}
 
 				//if used object is null, then empty hand was used
@@ -525,6 +527,18 @@ namespace Messages.Client.Interaction
 			else if (typeof(T) == typeof(InventoryApply))
 			{
 				var casted = interaction as InventoryApply;
+
+				//StorageIndexOnGameObject
+				msg.StorageIndexOnGameObject = 0;
+				foreach (var itemStorage in NetworkIdentity.spawned[casted.TargetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+				{
+					if (itemStorage == casted.TargetSlot.ItemStorage)
+					{
+						break;
+					}
+
+					msg.StorageIndexOnGameObject++;
+				}
 				msg.Storage = casted.TargetSlot.ItemStorageNetID;
 				msg.SlotIndex = casted.TargetSlot.SlotIdentifier.SlotIndex;
 				msg.NamedSlot = casted.TargetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none);
@@ -693,6 +707,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (message.InteractionType == typeof(InventoryApply))
 			{
+				message.StorageIndexOnGameObject = reader.ReadUInt32();
 				message.UsedObject = reader.ReadUInt32();
 				message.Storage = reader.ReadUInt32();
 				message.SlotIndex = reader.ReadInt32();
@@ -772,6 +787,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (message.InteractionType == typeof(InventoryApply))
 			{
+				writer.WriteUInt32(message.StorageIndexOnGameObject);
 				writer.WriteUInt32(message.UsedObject);
 				writer.WriteUInt32(message.Storage);
 				writer.WriteInt32(message.SlotIndex);

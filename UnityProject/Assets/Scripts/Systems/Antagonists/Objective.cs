@@ -118,7 +118,7 @@ namespace Antagonists
 			return CheckStorage(Owner.body.ItemStorage, component, default) >= count;
 		}
 
-		private int CheckStorage(ItemStorage itemStorage, Type component, string name)
+		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name)
 		{
 			int count = 0;
 			foreach (var slot in itemStorage.GetItemSlots())
@@ -147,7 +147,7 @@ namespace Antagonists
 			}
 
 			//Check to see if this item has storage, and do checks on that
-			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var itemStorage))
+			if (slot.ItemObject.TryGetComponent<DynamicItemStorage>(out var itemStorage))
 			{
 				return CheckStorage(itemStorage, component, name);
 			}

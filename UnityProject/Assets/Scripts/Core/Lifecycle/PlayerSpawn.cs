@@ -249,6 +249,8 @@ public static class PlayerSpawn
 				occupation.PlaySound);
 		}
 
+		newPlayer.GetComponent<DynamicItemStorage>()?.SetUpOccupation(occupation);
+
 		return newPlayer;
 	}
 
@@ -335,7 +337,7 @@ public static class PlayerSpawn
 		if (spawnPosition == TransformState.HiddenPos)
 		{
 			//spawn ghost at occupation location if we can't determine where their body is
-			Transform spawnTransform = SpawnPoint.GetRandomPointForJob(forMind.occupation.JobType);
+			Transform spawnTransform = SpawnPoint.GetRandomPointForJob(forMind.occupation.JobType, true);
 			if (spawnTransform == null)
 			{
 				Logger.LogErrorFormat("Unable to determine spawn position for occupation {1}. Cannot spawn ghost.", Category.Ghosts,
@@ -480,7 +482,7 @@ public static class PlayerSpawn
 			}
 
 			//no longer can observe their inventory
-			oldBody.GetComponent<ItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
+			oldBody.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
 		}
 
 		var connectedPlayer = PlayerList.Instance.Get(conn);
@@ -504,7 +506,7 @@ public static class PlayerSpawn
 			TriggerEventMessage.SendTo(newBody, eventType);
 
 			//can observe their new inventory
-			newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);
+			newBody.GetComponent<DynamicItemStorage>()?.ServerAddObserverPlayer(newBody);
 		}
 
 		var playerScript = newBody.GetComponent<PlayerScript>();
@@ -537,24 +539,5 @@ public static class PlayerSpawn
 		{
 			healthStateMonitor.ProcessClientUpdateRequest(newBody);
 		}
-	}
-
-	private static StepType GetStepType(PlayerScript player)
-	{
-		// if (player == null || player.Equipment == null)
-		// {
-		// 	return StepType.Barefoot;
-		// }
-		//
-		// if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
-		// {
-		// 	return StepType.Suit;
-		// }
-		// else if (player.Equipment.GetClothingItem(NamedSlot.feet) != null)
-		// {
-		// 	return StepType.Shoes;
-		// }
-
-		return StepType.Barefoot;
 	}
 }

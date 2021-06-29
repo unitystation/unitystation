@@ -90,12 +90,14 @@ public class ClothingItem : MonoBehaviour
 			if (!InHands && GameObjectReference != null)
 			{
 				// did we take off clothing?
-				if (GameObjectReference.TryGetComponent<ClothingV2>(out var unequippedClothing))
+				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
+				if (unequippedClothing != null)
 				{
 					// Unhide the players's slots defined in the clothing's HiddenSlots, as we're removing it.
 					thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
 
-					OnClothingEquipped?.Invoke(unequippedClothing, false);
+					if (unequippedClothing)
+						OnClothingEquipped?.Invoke(unequippedClothing, false);
 				}
 			}
 

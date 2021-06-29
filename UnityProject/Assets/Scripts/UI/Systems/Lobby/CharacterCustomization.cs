@@ -491,11 +491,11 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			// Setup sprite //
-			// OpenBodySprites
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			//Setup sprite//
+			//OpenBodySprites
+			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					ParentDictionary[bodyPart].Add(subBodyPart);
@@ -924,9 +924,9 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSetBodyPart(subBodyPart, path);
@@ -1129,9 +1129,9 @@ namespace UI.CharacterCreator
 				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
 			}
 
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSaveBodyPart(subBodyPart, path);
