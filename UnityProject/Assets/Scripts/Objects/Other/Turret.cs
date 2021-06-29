@@ -668,6 +668,8 @@ namespace Objects.Other
 					}
 
 					frame.GameObject.GetComponent<TurretFrame>().SetUp(gun != null ? gun.GetComponent<Pickupable>() : null);
+
+					_ = Despawn.ServerSingle(gameObject);
 				});
 		}
 
