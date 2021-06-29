@@ -115,6 +115,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only
+	[SerializeField]
 	private GameObject playerChatLocation = null;
 	public GameObject PlayerChatLocation => playerChatLocation;
 
@@ -162,9 +163,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	// You know the drill
 	public override void OnStartServer()
 	{
-		//We default to this game object being the location for chat
-		SetPlayerChatLocation(gameObject);
-
 		Init();
 	}
 

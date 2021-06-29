@@ -687,6 +687,8 @@ namespace Objects.Other
 
 		public void UpdateGui()
 		{
+			if(NetworkTabManager.Instance == null) return;
+
 			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.Turret);
 			if(peppers.Count == 0) return;
 

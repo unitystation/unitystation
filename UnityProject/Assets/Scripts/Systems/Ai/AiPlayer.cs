@@ -219,6 +219,19 @@ namespace Systems.Ai
 			PlayerManager.SetMovementControllable(GetComponent<AiMouseInputController>());
 		}
 
+		private void Init()
+		{
+			if (aiUi == null)
+			{
+				aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
+			}
+
+			if (lightingSystem == null)
+			{
+				lightingSystem = Camera.main.GetComponent<LightingSystem>();
+			}
+		}
+
 		/// <summary>
 		/// Sync is used to set up client and to reset stuff for rejoining client
 		/// This is only sync'd to the client which owns this object, due to setting on script
@@ -232,11 +245,9 @@ namespace Systems.Ai
 			//Something weird with headless and local host triggering the sync even though its set to owner
 			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
-			aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
+			Init();
 			aiUi.OrNull()?.SetUp(this);
 			coreCamera = newCore.GetComponent<SecurityCamera>();
-
-			lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 			//Reset location to core
 			CmdTeleportToCore();
@@ -265,6 +276,8 @@ namespace Systems.Ai
 
 			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
+			Init();
+
 			//If we lose power we cant see much
 			lightingSystem.fovDistance = newState ? 13 : 2;
 			interactionDistance = newState ? 29 : 2;
@@ -277,6 +290,8 @@ namespace Systems.Ai
 
 			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
+			Init();
+
 			aiUi.SetPowerLevel(newValue);
 		}
 
@@ -286,6 +301,8 @@ namespace Systems.Ai
 			integrity = newValue;
 
 			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+
+			Init();
 
 			aiUi.SetIntegrityLevel(newValue);
 		}
@@ -297,10 +314,7 @@ namespace Systems.Ai
 
 			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
 
-			if (aiUi == null)
-			{
-				aiUi = UIManager.Instance.displayControl.hudBottomAi.GetComponent<UI_Ai>();
-			}
+			Init();
 
 			aiUi.SetNumberOfCameras(newValue);
 		}
