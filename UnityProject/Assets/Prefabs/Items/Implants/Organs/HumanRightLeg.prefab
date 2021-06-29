@@ -17,11 +17,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &6633847452124842489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,11 +39,11 @@ MonoBehaviour:
   NamedSlotFlagged: 0
   relatedStorage: {fileID: 5655852655570756341}
   storage:
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 3
     hoverName: Feet
-    DropContents: 0
+    DropContents: 1
     placeholderSprite: {fileID: 21300000, guid: d7d5558b9127fa7469f51a1a8bfdf062,
       type: 3}
     Conditional: 1

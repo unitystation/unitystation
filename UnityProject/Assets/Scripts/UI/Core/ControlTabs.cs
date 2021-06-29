@@ -555,7 +555,7 @@ namespace UI
 							hasitem = true;
 						}
 					}
-					
+
 					//Validate for AI reach
 					if (playerScript != null && playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
 					{
@@ -568,7 +568,7 @@ namespace UI
 						toClose.Add(tab);
 					}
 
-					if(UIManager.Hands.CurrentSlot == null) continue;
+					if(playerScript.ItemStorage.GetActiveHandSlot() == null) continue;
 
 					// Make sure the item is not in the players hands first:
 					if (hasitem == false)

@@ -112,7 +112,11 @@ namespace UI.Action
 			// ... not the client that owns this object
 			if (pickupable.ItemSlot.LocalUISlot == null) return false;
 			// ... item is not in an allowed slot
-			if (!allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value))) return false;
+			if (pickupable.ItemSlot.NamedSlot != null)
+			{
+				if (!allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value))) return false;
+			}
+
 
 			return true;
 		}

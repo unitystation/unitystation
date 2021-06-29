@@ -180,6 +180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: storage.Array.data[2].DropContents
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: storage.Array.data[2].NotPresentOnUI
       value: 1
       objectReference: {fileID: 0}

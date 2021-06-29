@@ -143,6 +143,16 @@ public class GenerateSpriteSO : EditorWindow
 				{
 					Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
 				}
+
+				if (Entry.NamedSlot == NamedSlot.back)
+				{
+					Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+				}
+
+				if (Entry.NamedSlot == NamedSlot.ear)
+				{
+					Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+				}
 			}
 
 			if (NOID)
