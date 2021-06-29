@@ -342,15 +342,15 @@ namespace Objects
 				//Testing for player
 				if (mob.TryGetComponent<PlayerScript>(out var script))
 				{
-					//Only target normal players and alive players
+					//Only target normal players and alive players can trigger sensor
 					if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
 
 					worldPos = script.WorldPos;
 				}
-				//Test for mob, syndicate and AI will always target mobs, otherwise only on unidentified
+				//Test for mobs
 				else if (mob.TryGetComponent<MobAI>(out var mobAi))
 				{
-					//Only target alive mobs
+					//Only alive mobs can trigger sensor
 					if(mobAi.IsDead) continue;
 
 					worldPos = mobAi.Cnt.ServerPosition;

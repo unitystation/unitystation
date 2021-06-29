@@ -67,6 +67,7 @@ namespace Chemistry
 			if (bestSlot == null)
 			{
 				Inventory.ServerDrop(itemSlot);
+				return;
 			}
 
 			if (!Inventory.ServerTransfer(itemSlot, bestSlot))
