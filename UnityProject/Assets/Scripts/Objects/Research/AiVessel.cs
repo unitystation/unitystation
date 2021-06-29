@@ -228,14 +228,20 @@ namespace Objects.Research
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
+			if (LinkedPlayer != null && linkedPlayer.connectionToClient == null)
+			{
+				//Player is disconnected
+				return "Core.exe has stopped responding! NTOS is searching for a solution to the problem...";
+			}
+
 			if (isInteliCard == false && TryGetComponent<APCPoweredDevice>(out var apc) && apc.RelatedAPC == null)
 			{
-				return "Ai core is not connected to APC!";
+				return "Ai core is not connected to an APC!";
 			}
 
 			if (isInteliCard)
 			{
-				return LinkedPlayer == null ? "Contains no Ai" : $"Contains the AI: {LinkedPlayer.gameObject.ExpensiveName()}";
+				return LinkedPlayer == null ? "Contains no activate Artificial Intelligence" : $"Contains the Artificial Intelligence: {LinkedPlayer.gameObject.ExpensiveName()}";
 			}
 
 			return "";

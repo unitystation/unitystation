@@ -19,6 +19,7 @@ namespace Systems.Ai
 {
 	/// <summary>
 	/// Main class controlling player job AI logic
+	/// This isn't the class which is on the AiCore or InteliCard that is AiVessel
 	/// Sync vars in this class only get sync'd to the object owner
 	/// </summary>
 	public class AiPlayer : NetworkBehaviour, IAdminInfo
@@ -96,6 +97,9 @@ namespace Systems.Ai
 
 		//Remove one integrity every 1 second
 		private const float purgeDamageInterval = 1f;
+
+		private bool tryingToRestorePower;
+		private Coroutine routine;
 
 		//TODO make into sync list, will need to be sync as it is used in some validations client and serverside
 		private List<string> openNetworks = new List<string>()
@@ -717,43 +721,6 @@ namespace Systems.Ai
 			Death();
 		}
 
-		//Called when the core has lost power
-		[Server]
-		private void OnCorePowerLost(Tuple<PowerState, PowerState> oldAndNewStates)
-		{
-			if (oldAndNewStates.Item2 == PowerState.Off)
-			{
-				hasPower = false;
-
-				//Set serverside interaction distance validation
-				interactionDistance = 2;
-				Chat.AddExamineMsgFromServer(gameObject, "Core power has failed");
-
-				//Force move to core
-				ServerSetCameraLocation(vesselObject);
-
-				power = 0;
-				return;
-			}
-
-			hasPower = true;
-
-			//Reset distance validation value
-			interactionDistance = 29;
-
-			if (oldAndNewStates.Item2 == PowerState.LowVoltage && oldAndNewStates.Item1 == PowerState.Off)
-			{
-				Chat.AddExamineMsgFromServer(gameObject, "Your core power is failing");
-			}
-		}
-
-		[Server]
-		//Called when the connected apc does a power network update
-		private void OnPowerNetworkUpdate(APC apc)
-		{
-			power = Mathf.Clamp(apc.CalculateChargePercentage() * 100, 0, 100);
-		}
-
 		//Called when the core is damaged
 		[Server]
 		private void OnCoreDamage(DamageInfo info)
@@ -829,6 +796,224 @@ namespace Systems.Ai
 
 			//Else we must be on the floor so return ourselves
 			return vesselObject;
+		}
+
+		#endregion
+
+		#region Power
+
+		//Called when the core has lost power
+		[Server]
+		private void OnCorePowerLost(Tuple<PowerState, PowerState> oldAndNewStates)
+		{
+			if (oldAndNewStates.Item2 == PowerState.Off)
+			{
+				hasPower = false;
+				allowRadio = false;
+
+				//Set serverside interaction distance validation
+				interactionDistance = 2;
+				Chat.AddExamineMsgFromServer(gameObject, "Core power has failed");
+
+				//Force move to core
+				ServerSetCameraLocation(vesselObject);
+
+				power = 0;
+
+				if (tryingToRestorePower == false)
+				{
+					tryingToRestorePower = true;
+					routine = StartCoroutine(TryRestartPower());
+				}
+
+				return;
+			}
+
+			hasPower = true;
+			allowRadio = true;
+
+			//Reset distance validation value
+			interactionDistance = 29;
+
+			if (oldAndNewStates.Item1 == PowerState.LowVoltage)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Your core power is failing!");
+			}
+
+			if (oldAndNewStates.Item1 == PowerState.OverVoltage)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Your core power voltage is too high!");
+			}
+		}
+
+		[Server]
+		//Called when the connected apc does a power network update
+		private void OnPowerNetworkUpdate(APC apc)
+		{
+			power = Mathf.Clamp(apc.CalculateChargePercentage() * 100, 0, 100);
+		}
+
+		private IEnumerator TryRestartPower()
+		{
+			Message("Backup battery online. Scanners, camera, and radio interface offline. Beginning fault-detection.");
+			yield return WaitFor.Seconds(5);
+			PowerRestoreIntervalCheck();
+
+			Message("Fault confirmed: missing external power. Shutting down main control system to save power.");
+			yield return WaitFor.Seconds(2);
+			PowerRestoreIntervalCheck();
+
+			Message("Emergency control system online. Verifying connection to power network...");
+			yield return WaitFor.Seconds(5);
+			PowerRestoreIntervalCheck();
+
+			//Check to see if connected to APCPoweredDevice
+			var apc = vesselObject.OrNull()?.GetComponent<APCPoweredDevice>();
+			if (apc == null)
+			{
+				Message("Unable to verify! No power connection detected!");
+				StopRestore();
+
+				//Shouldn't need to yield break but just in case
+				yield break;
+			}
+
+			//Check to see if connected to APC
+			if (apc.RelatedAPC == null)
+			{
+				//No APC connection, try to find nearest
+				Message("Unable to verify! No connection to APC detected!");
+				yield return WaitFor.Seconds(2);
+				PowerRestoreIntervalCheck();
+
+				Message("APC connection protocols activated. Attempting to interface with nearest APC...");
+				yield return WaitFor.Seconds(5);
+				PowerRestoreIntervalCheck();
+
+				apc.ConnectToClosestApc();
+
+				if (apc.RelatedAPC == null)
+				{
+					Message("Failed to interface! No APC's detected! Recovery operation ceasing!");
+					StopRestore();
+
+					//Shouldn't need to yield break but just in case
+					yield break;
+				}
+
+				yield return WaitFor.Seconds(1);
+				//Found APC check power again
+				PowerRestoreIntervalCheck(true);
+			}
+
+			//We have an APC but still no power...
+			Message("Connection to APC verified. Searching for fault in internal power network...");
+			yield return WaitFor.Seconds(5);
+			PowerRestoreIntervalCheck();
+
+			//TODO once APC can be shut off check here for that and to force reactivate if it was turned off
+			Message("APC internal power network operational. Searching for fault in external power network...");
+			yield return WaitFor.Seconds(2);
+			PowerRestoreIntervalCheck();
+
+			//Check for APC again, might have been destroyed...
+			var apcSecondCheck = vesselObject.OrNull()?.GetComponent<APCPoweredDevice>();
+			if (apcSecondCheck == null || apcSecondCheck.RelatedAPC == null)
+			{
+				Message("Connection to APC has failed whilst trying to find fault!");
+				StopRestore();
+
+				//Shouldn't need to yield break but just in case
+				yield break;
+			}
+
+			//Check for department battery
+			var batteries = apcSecondCheck.RelatedAPC.ConnectedDepartmentBatteries;
+			if (batteries.Count == 0)
+			{
+				Message("Unable to locate external power network department battery! Physical fault cannot be fixed!");
+				StopRestore();
+
+				//Shouldn't need to yield break but just in case
+				yield break;
+			}
+
+			Message("APC external power network operational. Searching for fault in external power network provider...");
+			yield return WaitFor.Seconds(2);
+			PowerRestoreIntervalCheck();
+
+			for (int i = 0; i < batteries.Count; i++)
+			{
+				if(batteries[i] == null) continue;
+				Message("Operational department battery found.");
+				yield return WaitFor.Seconds(1);
+				PowerRestoreIntervalCheck();
+
+				if (batteries[i].OrNull()?.CurrentState == BatteryStateSprite.Empty)
+				{
+					Message("Fault Found: Department battery power is at 0%. Unable to fix fault.");
+
+					//Only stop checking if this is the last battery
+					if(i != batteries.Count - 1) continue;
+
+					StopRestore();
+
+					//Shouldn't need to yield break but just in case
+					yield break;
+				}
+
+				//Battery is not empty so see if it is off
+				if (batteries[i].OrNull()?.isOn == false)
+				{
+					Message("Fault Found: Department battery power supply is turned off! Loading control program into power port software.");
+					yield return WaitFor.Seconds(1);
+					PowerRestoreIntervalCheck();
+
+					Message("Transfer complete. Forcing battery to execute program.");
+					yield return WaitFor.Seconds(5);
+					PowerRestoreIntervalCheck();
+
+					Message("Receiving control information from battery.");
+					yield return WaitFor.Seconds(1);
+					PowerRestoreIntervalCheck();
+
+
+				}
+			}
+		}
+
+		private void PowerRestoreIntervalCheck(bool weRestoredPower = false)
+		{
+			//Check to see if we have died or carded during routine...
+			if (hasDied || isCarded)
+			{
+				if (isCarded)
+				{
+					Message("InteliCard Power Online. Alert cancelled. Power has been restored.");
+				}
+
+				StopRestore();
+				return;
+			}
+
+			//If we still dont have power continue
+			if(hasPower == false) return;
+
+			Message(weRestoredPower ? "Alert cancelled. Power has been restored."
+				: "Alert cancelled. Power has been restored without our assistance.");
+
+			StopRestore();
+		}
+
+		private void StopRestore()
+		{
+			StopCoroutine(routine);
+			tryingToRestorePower = false;
+		}
+
+		private void Message(string message)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, message);
 		}
 
 		#endregion
