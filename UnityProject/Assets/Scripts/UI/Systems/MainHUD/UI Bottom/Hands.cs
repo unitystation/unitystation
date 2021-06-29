@@ -38,6 +38,11 @@ public class Hands : MonoBehaviour
 	/// </summary>
 	public UI_ItemSlot CurrentSlot;// => PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot();
 
+
+	/// <summary>
+	/// Non active slot
+	/// </summary>
+
 	/// <summary>
 	/// True iff right hand is active hand
 	/// </summary>

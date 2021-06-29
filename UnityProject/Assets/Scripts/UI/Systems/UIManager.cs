@@ -62,6 +62,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public CrayonUI CrayonUI;
 
 	public UI_SlotManager UI_SlotManager;
+	
 	public GeneralInputField GeneralInputField;
 
 	public static bool PreventChatInput
