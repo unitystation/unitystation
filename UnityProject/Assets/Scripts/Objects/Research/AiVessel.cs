@@ -239,12 +239,7 @@ namespace Objects.Research
 				return "Ai core is not connected to an APC!";
 			}
 
-			if (isInteliCard)
-			{
-				return LinkedPlayer == null ? "Contains no activate Artificial Intelligence" : $"Contains the Artificial Intelligence: {LinkedPlayer.gameObject.ExpensiveName()}";
-			}
-
-			return "";
+			return LinkedPlayer == null ? "Contains no activate Artificial Intelligence" : $"Contains the Artificial Intelligence: {LinkedPlayer.gameObject.ExpensiveName()}";
 		}
 	}
 }

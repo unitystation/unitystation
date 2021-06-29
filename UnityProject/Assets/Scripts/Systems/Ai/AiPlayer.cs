@@ -99,6 +99,7 @@ namespace Systems.Ai
 		private const float purgeDamageInterval = 1f;
 
 		private bool tryingToRestorePower;
+		private Coroutine routine;
 
 		//TODO make into sync list, will need to be sync as it is used in some validations client and serverside
 		private List<string> openNetworks = new List<string>()
@@ -822,7 +823,7 @@ namespace Systems.Ai
 				if (tryingToRestorePower == false)
 				{
 					tryingToRestorePower = true;
-					StartCoroutine(TryRestartPower());
+					routine = StartCoroutine(TryRestartPower());
 				}
 
 				return;
@@ -884,10 +885,12 @@ namespace Systems.Ai
 				Message("Unable to verify! No connection to APC detected!");
 				yield return WaitFor.Seconds(2);
 				PowerRestoreIntervalCheck();
+				yield return WaitFor.EndOfFrame;
 
 				Message("APC connection protocols activated. Attempting to interface with nearest APC...");
 				yield return WaitFor.Seconds(5);
 				PowerRestoreIntervalCheck();
+				yield return WaitFor.EndOfFrame;
 
 				apc.ConnectToClosestApc();
 
@@ -904,17 +907,20 @@ namespace Systems.Ai
 
 				//Found APC check power again
 				PowerRestoreIntervalCheck(true);
+				yield return WaitFor.EndOfFrame;
 			}
 
 			//We have an APC but still no power...
 			Message("Connection to APC verified. Searching for fault in internal power network...");
 			yield return WaitFor.Seconds(5);
 			PowerRestoreIntervalCheck();
+			yield return WaitFor.EndOfFrame;
 
 			//TODO once APC can be shut off check here for that and to force reactivate if it was turned off
 			Message("APC internal power network operational. Searching for fault in external power network...");
 			yield return WaitFor.Seconds(2);
 			PowerRestoreIntervalCheck();
+			yield return WaitFor.EndOfFrame;
 
 			//Check for APC again, might have been destroyed...
 			var apcSecondCheck = vesselObject.OrNull()?.GetComponent<APCPoweredDevice>();
@@ -941,6 +947,7 @@ namespace Systems.Ai
 			Message("APC external power network operational. Searching for fault in external power network provider...");
 			yield return WaitFor.Seconds(2);
 			PowerRestoreIntervalCheck();
+			yield return WaitFor.EndOfFrame;
 
 			for (int i = 0; i < batteries.Length; i++)
 			{
@@ -949,6 +956,7 @@ namespace Systems.Ai
 				Message("Operational department battery found.");
 				yield return WaitFor.Seconds(1);
 				PowerRestoreIntervalCheck();
+				yield return WaitFor.EndOfFrame;
 
 				if (battery == null)
 				{
@@ -984,14 +992,17 @@ namespace Systems.Ai
 					Message("Fault Found: Department battery power supply is turned off! Loading control program into power port software.");
 					yield return WaitFor.Seconds(1);
 					PowerRestoreIntervalCheck();
+					yield return WaitFor.EndOfFrame;
 
 					Message("Transfer complete. Forcing battery to execute program.");
 					yield return WaitFor.Seconds(5);
 					PowerRestoreIntervalCheck();
+					yield return WaitFor.EndOfFrame;
 
 					Message("Receiving control information from battery.");
 					yield return WaitFor.Seconds(1);
 					PowerRestoreIntervalCheck();
+					yield return WaitFor.EndOfFrame;
 
 					if (battery == null)
 					{
@@ -1045,7 +1056,7 @@ namespace Systems.Ai
 
 		private void StopRestore()
 		{
-			StopCoroutine(TryRestartPower());
+			StopCoroutine(routine);
 			tryingToRestorePower = false;
 		}
 
