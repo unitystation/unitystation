@@ -144,6 +144,7 @@ namespace GameModes
 			JobType.WARDEN,
 			JobType.SECURITY_OFFICER,
 			JobType.DETECTIVE,
+			JobType.AI
 		};
 		/// <summary>
 		/// The JobTypes that cannot be chosen as antagonists for this game mode

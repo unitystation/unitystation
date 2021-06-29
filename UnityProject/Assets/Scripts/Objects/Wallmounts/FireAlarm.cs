@@ -8,10 +8,11 @@ using UnityEngine;
 using Systems.Atmospherics;
 using Doors;
 using AddressableReferences;
+using Core.Input_System.InteractionV2.Interactions;
 
 namespace Objects.Wallmounts
 {
-	public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+	public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster, ICheckedInteractable<AiActivate>
 	{
 		public List<FireLock> FireLockList = new List<FireLock>();
 		private MetaDataNode metaNode;
@@ -184,24 +185,29 @@ namespace Objects.Wallmounts
 			}
 			else
 			{
-				if (activated && !isInCooldown)
-				{
-					activated = false;
-					stateSync = FireAlarmState.TopLightSpriteNormal;
-					StartCoroutine(SwitchCoolDown());
-					foreach (var firelock in FireLockList)
-					{
-						if (firelock == null) continue;
-						var controller = firelock.Controller;
-						if (controller == null) continue;
+				InternalToggleState();
+			}
+		}
 
-						controller.TryOpen();
-					}
-				}
-				else
+		private void InternalToggleState()
+		{
+			if (activated && !isInCooldown)
+			{
+				activated = false;
+				stateSync = FireAlarmState.TopLightSpriteNormal;
+				StartCoroutine(SwitchCoolDown());
+				foreach (var firelock in FireLockList)
 				{
-					SendCloseAlerts();
+					if (firelock == null) continue;
+					var controller = firelock.Controller;
+					if (controller == null) continue;
+
+					controller.TryOpen();
 				}
+			}
+			else
+			{
+				SendCloseAlerts();
 			}
 		}
 
@@ -280,6 +286,24 @@ namespace Objects.Wallmounts
 				FireLockList.Add(fireLock);
 				fireLock.fireAlarm = this;
 			}
+		}
+
+		#endregion
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			InternalToggleState();
 		}
 
 		#endregion

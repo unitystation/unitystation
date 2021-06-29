@@ -1,3 +1,5 @@
+using Core.Input_System.InteractionV2.Interactions;
+
 public static class DefaultWillInteract
 {
 	/// <summary>
@@ -49,6 +51,11 @@ public static class DefaultWillInteract
 			var contextMenuApply = interaction as ContextMenuApply;
 			return Validations.CanApply(contextMenuApply.PerformerPlayerScript, contextMenuApply.TargetObject, side);
 		}
+		if (typeof(T) == typeof(AiActivate))
+		{
+			return Validations.CanApply(interaction as AiActivate, side);
+		}
+
 		Logger.LogError("Unable to recognize interaction type.", Category.Interaction);
 		return false;
 	}
@@ -73,5 +80,13 @@ public static class DefaultWillInteract
 		}
 
 		return isNotHidden.GetValueOrDefault( true );
+	}
+
+	/// <summary>
+	/// Default WillInteract logic for AiActivate interactions
+	/// </summary>
+	public static bool AiActivate(AiActivate interaction, NetworkSide side, bool lineCast = true)
+	{
+		return Validations.CanApply(interaction, side, lineCast);
 	}
 }

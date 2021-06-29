@@ -39,9 +39,9 @@ public class Hands : MonoBehaviour
 	/// </summary>
 	public UI_ItemSlot OtherSlot => IsRight ? LeftHand : RightHand;
 	public UI_ItemSlot LeftHand =>
-		PlayerManager.LocalPlayerScript?.ItemStorage?.GetNamedItemSlot(NamedSlot.leftHand)?.LocalUISlot;
+		PlayerManager.LocalPlayerScript.OrNull()?.ItemStorage.OrNull()?.GetNamedItemSlot(NamedSlot.leftHand)?.LocalUISlot;
 	public UI_ItemSlot RightHand =>
-		PlayerManager.LocalPlayerScript?.ItemStorage?.GetNamedItemSlot(NamedSlot.rightHand)?.LocalUISlot;
+		PlayerManager.LocalPlayerScript.OrNull()?.ItemStorage.OrNull()?.GetNamedItemSlot(NamedSlot.rightHand)?.LocalUISlot;
 	/// <summary>
 	/// True iff right hand is active hand
 	/// </summary>

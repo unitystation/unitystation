@@ -1,12 +1,13 @@
+using Systems.Ai;
 using UnityEngine;
 using Mirror;
 using Blob;
 using HealthV2;
 using UI;
 using Player;
+using UI.Action;
 
-
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -95,6 +96,28 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
 
+	[SerializeField]
+	private PlayerStates playerState = PlayerStates.Normal;
+	public PlayerStates PlayerState => playerState;
+
+	public enum PlayerStates
+	{
+		Normal,
+		Ghost,
+		Blob,
+		Ai
+	}
+
+	[SerializeField]
+	private ActionData actionData = null;
+	public ActionData ActionData => actionData;
+
+	//The object the player will receive chat and send chat from.
+	//E.g. usually same object as this script but for Ai it will be their core object
+	//Serverside only
+	private GameObject playerChatLocation = null;
+	public GameObject PlayerChatLocation => playerChatLocation;
+
 	#region Lifecycle
 
 	private void Awake()
@@ -113,11 +136,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
-
-		if (GetComponent<BlobPlayer>() != null)
-		{
-			IsPlayerSemiGhost = true;
-		}
 	}
 
 	public override void OnStartClient()
@@ -144,6 +162,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 	// You know the drill
 	public override void OnStartServer()
 	{
+		//We default to this game object being the location for chat
+		SetPlayerChatLocation(gameObject);
+
 		Init();
 	}
 
@@ -183,7 +204,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 
 			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
-			if (IsGhost && IsPlayerSemiGhost == false)
+			if (playerState == PlayerStates.Ghost)
 			{
 				if (PlayerList.Instance.IsClientAdmin)
 				{
@@ -198,6 +219,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
 			}
+			//Normal players
 			else if (IsPlayerSemiGhost == false)
 			{
 				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
@@ -206,12 +228,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 			}
+			//Players like blob or Ai
 			else
 			{
 				// stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-				// show ghosts
+				// hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
@@ -255,6 +278,16 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		{
 			playerHealth.RTT = rtt;
 		}
+	}
+
+	/// <summary>
+	/// Sets the game object for where the player can receive and send chat message from
+	/// </summary>
+	/// <param name="newLocation"></param>
+	[Server]
+	public void SetPlayerChatLocation(GameObject newLocation)
+	{
+		playerChatLocation = newLocation;
 	}
 
 	/// <summary>
@@ -316,9 +349,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 	}
 
-	[HideInInspector]
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
-	public bool IsPlayerSemiGhost;
+	public bool IsPlayerSemiGhost => playerState == PlayerStates.Blob || playerState == PlayerStates.Ai;
 
 	public object Chat { get; internal set; }
 
@@ -359,6 +391,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		characterSettings.Name = newName;
 		playerName = newName;
+		RefreshVisibleName();
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
@@ -370,6 +403,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
 				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
 				| ChatChannel.Supply | ChatChannel.Syndicate;
+
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;
@@ -377,7 +411,31 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
-		if (IsPlayerSemiGhost)
+		if (playerState == PlayerStates.Ai)
+		{
+			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary | ChatChannel.Command
+			                                 | ChatChannel.Common | ChatChannel.Engineering |
+			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+			                                 | ChatChannel.Supply;
+			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+			                                   | ChatChannel.Supply;
+
+			if (GetComponent<AiPlayer>().AllowRadio == false)
+			{
+				aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local;
+				aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			}
+
+			if (transmitOnly)
+			{
+				return aiTransmitChannels;
+			}
+			return aiTransmitChannels | aiReceiveChannels;
+		}
+
+		if (playerState == PlayerStates.Blob)
 		{
 			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
 			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
@@ -495,5 +553,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		return $"Name: {characterSettings.Name}\n" +
 			   $"Acc: {characterSettings.Username}\n" +
 			   $"Antag: False";
+	}
+
+	public void CallActionClient()
+	{
+		playerNetworkActions.CmdAskforAntagObjectives();
+	}
+
+	public void ActivateAntagAction(bool state)
+	{
+		UIActionManager.ToggleLocal(this, state);
 	}
 }

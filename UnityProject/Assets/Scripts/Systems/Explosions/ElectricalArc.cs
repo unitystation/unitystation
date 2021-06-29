@@ -110,7 +110,7 @@ namespace Systems.ElectricalArcs
 
 			var linecast = MatrixManager.Linecast(
 					startPos,
-					LayerTypeSelection.Walls | LayerTypeSelection.Windows, LayerMask.NameToLayer("Door Closed"),
+					LayerTypeSelection.Walls | LayerTypeSelection.Windows, LayerMask.GetMask("Door Closed"),
 					endPos);
 			return linecast.ItHit == false || Vector3.Distance(endPos, linecast.HitWorld) < 0.1f; // Allow for some raycast/linecast tolerance
 		}

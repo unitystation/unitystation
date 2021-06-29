@@ -158,5 +158,6 @@ public enum MultitoolConnectionType
 	FireAlarm,
 	LightSwitch,
 	DoorButton,
-	GeneralSwitch
+	GeneralSwitch,
+	Turret
 }

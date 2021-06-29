@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Systems.Ai;
+using Core.Input_System.InteractionV2.Interactions;
 using HealthV2;
 using Items;
+using Objects.Wallmounts;
 using TileManagement;
 using UnityEngine;
 
@@ -238,7 +241,7 @@ public static class Validations
 		// This was added so NetTabs (NetTab.ValidatePeepers()) can be used on items in an inventory.
 		if (target != null && target.TryGetComponent(out Pickupable pickupable) && pickupable.ItemSlot != null)
 		{
-			if (pickupable.ItemSlot.RootPlayer().gameObject == playerScript.gameObject)
+			if (pickupable.ItemSlot.RootPlayer().OrNull()?.gameObject == playerScript.gameObject)
 			{
 				result = true;
 			}
@@ -442,8 +445,68 @@ public static class Validations
 		return ps.IsPositionReachable(state.WorldPosition, true) || ps.IsPositionReachable(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f, context: context);
 	}
 
-	#endregion
+	//AiActivate Validation
+	public static bool CanApply(AiActivate toValidate, NetworkSide side, bool lineCast = true)
+	{
+		if (side == NetworkSide.Client && PlayerManager.LocalPlayer != toValidate.Performer) return false;
 
+		//Performer and target cant be null
+		if (toValidate.Performer == null || toValidate.TargetObject == null) return false;
+
+		//Ai's shouldn't be able to interacte with items, only objects
+		if (toValidate.TargetObject.GetComponent<ItemAttributesV2>() != null) return false;
+
+		//Has to be Ai to do this interaction
+		if(toValidate.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return false;
+
+		//Only allow interactions if true
+		if (aiPlayer.AllowRemoteAction == false)
+		{
+			if (side == NetworkSide.Client)
+			{
+				Chat.AddExamineMsgToClient("Intelicard remote interactions have been disabled");
+			}
+
+			return false;
+		}
+
+		//We should always have a camera location, either core or camera
+		if (aiPlayer.CameraLocation == null) return false;
+
+		var cameraPos = aiPlayer.CameraLocation.position;
+
+		//Distance check to make sure its in range, this wont be called for "saved" cameras
+		if (Vector2.Distance(cameraPos, toValidate.TargetObject.transform.position) > aiPlayer.InteractionDistance) return false;
+
+		if (lineCast == false)
+		{
+			return true;
+		}
+
+		var endPos = toValidate.TargetObject.transform.position;
+
+		//If wall mount calculate to the tile in front of it instead of the wall it is on
+		if (toValidate.TargetObject.TryGetComponent<WallmountBehavior>(out var wall))
+		{
+			endPos = wall.CalculateTileInFrontPos();
+		}
+
+		//raycast to make sure not hidden
+		var linecast = MatrixManager.Linecast(cameraPos, LayerTypeSelection.Walls, null,
+			endPos);
+
+		//Visualise the interaction on client
+		if (side == NetworkSide.Client)
+		{
+			aiPlayer.ShowInteractionLine(new []{cameraPos, linecast.ItHit ? linecast.HitWorld : endPos}, linecast.ItHit);
+		}
+
+		if (linecast.ItHit && Vector3.Distance(endPos, linecast.HitWorld) > 0.5f) return false;
+
+		return true;
+	}
+	
+	#endregion
 
 	public static bool IsMineableAt(Vector2 targetWorldPosition, MetaTileMap metaTileMap)
 	{

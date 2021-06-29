@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public CrayonUI CrayonUI;
 
+	public GeneralInputField GeneralInputField;
+
 	public static bool PreventChatInput
 	{
 		get { return uiManager.preventChatInput; }

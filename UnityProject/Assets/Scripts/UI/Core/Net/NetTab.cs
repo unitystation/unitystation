@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Input_System.InteractionV2.Interactions;
 using JetBrains.Annotations;
 using Messages.Server;
 using UnityEngine;
@@ -50,6 +51,10 @@ public enum NetTabType
 	SyndicateOpConsole = 37,
 	ChemMaster = 38,
 	CondimasterNeo = 39,
+	TurretController = 40,
+	InteliCard = 41,
+	Airlock = 42,
+	Turret = 43,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
@@ -77,7 +82,7 @@ public class NetTab : Tab
 
 	[NonSerialized]
 	public RegisterTile ProviderRegisterTile;
-	
+
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor(Provider, Type);
 
 	/// Is current tab a server tab?
@@ -256,6 +261,16 @@ public class NetTab : Tab
 
 			if (peeper.Script == false || canApply == false)
 			{
+				//Validate for AI
+				if (peeper.Script.PlayerState == PlayerScript.PlayerStates.Ai)
+				{
+					if (Validations.CanApply(new AiActivate(peeper.GameObject, null,
+						Provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server))
+					{
+						continue;
+					}
+				}
+
 				TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
 			}
 		}

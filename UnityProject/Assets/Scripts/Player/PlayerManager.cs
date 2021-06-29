@@ -89,7 +89,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		if (MovementControllable != null)
 		{
-			MovementControllable.RecievePlayerMoveAction(GetMovementActions());
+			MovementControllable.ReceivePlayerMoveAction(GetMovementActions());
 		}
 	}
 

@@ -9,6 +9,16 @@ public class AccessRestrictions : MonoBehaviour
 
 	public bool CheckAccess(GameObject Player)
 	{
+		return CheckAccess(Player, restriction);
+	}
+
+	public bool CheckAccessCard(GameObject idCardObj)
+	{
+		return CheckAccessCard(idCardObj, restriction);
+	}
+
+	public static bool CheckAccess(GameObject Player, Access restriction)
+	{
 		// If there isn't any restriction, grant access right away
 		if ((int) restriction == 0) return true;
 
@@ -22,12 +32,12 @@ public class AccessRestrictions : MonoBehaviour
 
 
 		//check if active hand or equipped id cards have access
-		if (CheckAccessCard(playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject)) return true;
+		if (CheckAccessCard(playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject, restriction)) return true;
 
-		return CheckAccessCard(playerStorage.GetActiveHandSlot().ItemObject);
+		return CheckAccessCard(playerStorage.GetActiveHandSlot().ItemObject, restriction);
 	}
 
-	public bool CheckAccessCard(GameObject idCardObj)
+	public static bool CheckAccessCard(GameObject idCardObj, Access restriction)
 	{
 		if (idCardObj == null)
 			return false;
