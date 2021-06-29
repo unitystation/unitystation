@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
@@ -156,7 +154,7 @@ namespace Systems.Atmospherics
 		}
 
 		/// <summary>
-		/// Checks to see if the data contains a gas
+		/// Checks to see if the gas mix contains a specific gas
 		/// </summary>
 		public static bool HasGasType(this GasData data, GasSO gasType)
 		{
@@ -164,7 +162,7 @@ namespace Systems.Atmospherics
 		}
 
 		/// <summary>
-		/// Gets moles of a specific gas from the gas array
+		/// Gets moles of a specific gas from the gas array, returns 0 if gas isn't in mix
 		/// </summary>
 		public static float GetGasMoles(this GasData data, GasSO gasType)
 		{
@@ -172,7 +170,7 @@ namespace Systems.Atmospherics
 		}
 
 		/// <summary>
-		/// Gets moles of a specific gas from the gas array
+		/// Gets moles of a specific gas from the gas array, returns 0 if gas isn't in mix
 		/// </summary>
 		public static float GetGasMoles(this GasData data, int gasType)
 		{
@@ -180,7 +178,7 @@ namespace Systems.Atmospherics
 		}
 
 		/// <summary>
-		/// Gets moles of a specific gas from the gas array
+		/// Gets moles of a specific gas from the gas array, returns 0 if gas isn't in mix
 		/// </summary>
 		public static void GetGasMoles(this GasData data, GasSO gasType, out float gasMoles)
 		{
@@ -188,7 +186,7 @@ namespace Systems.Atmospherics
 		}
 
 		/// <summary>
-		/// Gets a specific gas from the gas array
+		/// Gets a specific gas from the gas array, returns null if gas isn't in mix
 		/// </summary>
 		public static void GetGasType(this GasData data, GasSO gasType, out GasValues gasData)
 		{
@@ -196,7 +194,7 @@ namespace Systems.Atmospherics
 		}
 
 		/// <summary>
-		/// Gets a specific gas from the gas array
+		/// Gets a specific gas from the gas array, returns null if gas isn't in mix
 		/// </summary>
 		public static GasValues GetGasType(this GasData data, GasSO gasType)
 		{
@@ -209,7 +207,7 @@ namespace Systems.Atmospherics
 		}
 
 		/// <summary>
-		/// Gets a specific gas from the gas array
+		/// Gets a specific gas from the gas array, returns null if gas isn't in mix
 		/// </summary>
 		public static GasValues GetGasType(this GasData data, int gasType)
 		{
@@ -239,6 +237,7 @@ namespace Systems.Atmospherics
 
 		private static void InternalSetMoles(GasData data, GasSO gasType, float moles, bool isChange)
 		{
+			//Try to get gas value if already inside mix
 			GetGasType(data, gasType, out var gas);
 
 			if (gas != null)
@@ -252,7 +251,8 @@ namespace Systems.Atmospherics
 					gas.Moles = moles;
 				}
 
-				if (gas.Moles <= 0)
+				//Remove gas from mix if less than threshold
+				if (gas.Moles <= AtmosConstants.MinPressureDifference)
 				{
 					data.RemoveGasType(gasType);
 				}
@@ -260,12 +260,15 @@ namespace Systems.Atmospherics
 				return;
 			}
 
+			//Gas isn't inside mix so we'll add it
+
 			//Dont add new data for negative moles
 			if(Math.Sign(moles) == -1) return;
 
-			//Dont add if approx 0
-			if (moles.Approx(0)) return;
+			//Dont add if approx 0 or below threshold
+			if (moles.Approx(0) || moles <= AtmosConstants.MinPressureDifference) return;
 
+			//Create new array and add old gas values and new gas
 			var newValues = new GasValues {Moles = moles, GasSO = gasType};
 			var newArray = new GasValues[data.GasesArray.Length + 1];
 
