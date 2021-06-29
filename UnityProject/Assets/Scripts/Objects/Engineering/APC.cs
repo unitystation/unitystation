@@ -482,6 +482,13 @@ namespace Objects.Engineering
 			else
 			{
 				connectedDevices.Add(poweredDevice);
+
+				if (poweredDevice.RelatedAPC != null)
+				{
+					//Already connected to something so remove it
+					poweredDevice.RelatedAPC.RemoveDevice(poweredDevice);
+				}
+
 				poweredDevice.RelatedAPC = this;
 			}
 		}
