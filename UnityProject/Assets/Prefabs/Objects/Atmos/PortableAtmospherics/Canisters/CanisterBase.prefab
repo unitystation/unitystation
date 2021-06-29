@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 10
+  aiInteractable: 0
 --- !u!114 &3242550791702936155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,6 +101,7 @@ MonoBehaviour:
   connectorHoseOverlay: {fileID: 9134291535749874632}
   tankInsertedOverlay: {fileID: 6970499638236400721}
   openValveOverlay: {fileID: 3794313558254657728}
+  tankValveOpen: 0
 --- !u!1 &2770036439668985193
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +172,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -200,6 +202,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 97f07cb954e3e6e47a2ed1ea2b508b96, type: 2}
   - {fileID: 11400000, guid: 2aa4e176185f75f4c926728760c8fab3, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -274,7 +277,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 21300000, guid: 868c055a3292ef74292bfc9b93091cd7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -309,6 +312,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb2803022da7c7d4f947ad0ef8c30e42, type: 2}
   - {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -383,7 +387,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 13
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -412,6 +416,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 28c54210dc4de3d4eb66c05f314554e1, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -486,7 +491,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -515,6 +520,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -589,7 +595,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -623,6 +629,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41ca67d7574e27747af6ce62161c708f, type: 2}
   - {fileID: 11400000, guid: a630f4c1c7d07544ca2a375985e00775, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -640,10 +647,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fe5b245ddf523454ea1ed7732990318e,
         type: 3}
+    - target: {fileID: 3289657738632450357, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: m_Name
       value: CanisterBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -662,6 +679,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -674,16 +696,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -702,27 +714,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: initialDescription
-      value: A canister for the storage of gas.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
       propertyPath: initialName
       value: canister
       objectReference: {fileID: 0}
-    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
+    - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: Armor.Melee
-      value: 50
+      propertyPath: initialDescription
+      value: A canister for the storage of gas.
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: Armor.Bullet
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: Armor.Laser
+      propertyPath: Armor.Acid
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -737,7 +739,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: Armor.Acid
+      propertyPath: Armor.Laser
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: Armor.Bullet
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6137218331869067967, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -751,6 +763,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a74c48b29b9c0c14f9919e8aa98be14d,
         type: 2}
+    - target: {fileID: 6204448132171339114, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 69088610438818992}
     - target: {fileID: 6564800655704309824, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: m_AssetId
@@ -763,15 +780,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a74c48b29b9c0c14f9919e8aa98be14d,
         type: 2}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -784,11 +806,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ece3554a33a7c7849894088ccea47d78,
         type: 2}
-    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
-        type: 3}
-      propertyPath: pushTextureOnStartUp
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
 --- !u!1 &3330777552754972672 stripped
@@ -800,6 +817,12 @@ GameObject:
 --- !u!4 &3327308291878936282 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
+    type: 3}
+  m_PrefabInstance: {fileID: 71571786451086626}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &69088610438818992 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 3155120428695954, guid: 5d7892c86699e21499ad5f872fd4d512,
     type: 3}
   m_PrefabInstance: {fileID: 71571786451086626}
   m_PrefabAsset: {fileID: 0}
@@ -831,6 +854,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []

@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 
 namespace Pipes
 {
-	public class MonoPipe : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
+	public class MonoPipe : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
 		public SpriteHandler spritehandler;
 		public GameObject SpawnOnDeconstruct;
@@ -82,6 +83,25 @@ namespace Pipes
 		public virtual void Interaction(HandApply interaction) { }
 
 		public virtual void OnDisassembly(HandApply interaction) { }
+
+		//Ai interaction
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			//Only alt and normal are used so dont need to check others, change if needed in the future
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick &&
+			    interaction.ClickType != AiActivate.ClickTypes.AltClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			Interaction(interaction);
+		}
+
+		public virtual void Interaction(AiActivate interaction) { }
 
 		#endregion
 
