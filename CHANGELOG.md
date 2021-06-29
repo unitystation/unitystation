@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/6/29: UI slots are now determined by what clothing and body parts you have by [Bod9001](https://github.com/Bod9001) in PR #[6530](https://github.com/unitystation/unitystation/pull/6530)
 * 2021/6/29: [New] Added Ai Core Frame construction by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
 * 2021/6/29: [New] Added InteliCard logic by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
 * 2021/6/29: [New] Added Turrets logic and construction by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
