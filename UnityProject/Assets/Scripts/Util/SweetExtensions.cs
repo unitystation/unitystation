@@ -527,8 +527,6 @@ public static class SweetExtensions
 	/// <summary>
 	/// Rounds float to largest eg 1.1 => 2, -0.1 => -1
 	/// </summary>
-	/// <param name="source"></param>
-	/// <returns></returns>
 	public static int RoundToLargestInt(this float source)
 	{
 		if (source < 0)
