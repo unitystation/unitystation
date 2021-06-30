@@ -2,6 +2,14 @@
 ---
 
 
+* 2021/6/29: UI slots are now determined by what clothing and body parts you have by [Bod9001](https://github.com/Bod9001) in PR #[6530](https://github.com/unitystation/unitystation/pull/6530)
+* 2021/6/29: [New] Added Ai Core Frame construction by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
+* 2021/6/29: [New] Added InteliCard logic by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
+* 2021/6/29: [New] Added Turrets logic and construction by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
+* 2021/6/29: [New] Added Ai Upload Console and law changing by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
+* 2021/6/29: [New] Added Ai Job Role and Logic by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
+* 2021/6/28: [Fix] Fixes atmospheric analysers not working when used on pipes. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[6870](https://github.com/unitystation/unitystation/pull/6870)
+* 2021/6/28: [New] Adds functionality to gaseous injectors to distinguish them from air vents. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[6870](https://github.com/unitystation/unitystation/pull/6870)
 * 2021/6/28: **[Improvement]** The ancient station's shuttle now comes with collision sensors and RCS thrusters. by [PetMudstone](https://github.com/PetMudstone) in PR #[6863](https://github.com/unitystation/unitystation/pull/6863)
 * 2021/6/25: **[Balance]** added emergency storage rooms to Outpost's Arrivals and Evac halls. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6857](https://github.com/unitystation/unitystation/pull/6857)
 * 2021/6/25: **[Balance]** reduced the amount of equipment provided by Engineering's firefight and electrical tools lockers. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[6857](https://github.com/unitystation/unitystation/pull/6857)

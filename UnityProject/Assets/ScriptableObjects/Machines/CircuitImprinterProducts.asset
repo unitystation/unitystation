@@ -265,6 +265,131 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: e8030000
       productionTime: 1
+    - name: AI Core
+      product: {fileID: 4465635458187586037, guid: a545d615e116da445ae386fcce71d624,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: AI Upload
+      product: {fileID: 5579821717940027203, guid: 6e3f0dd0f42b93445b523b11a0903825,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Reset
+      product: {fileID: 5947858428213664520, guid: 34aa485f5e6ca814c9a0f3d3ecb2d352,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Purge
+      product: {fileID: 212919279903208431, guid: c7a0601b9d5567942bd6c4d26a735b61,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Asimov
+      product: {fileID: 6493926428190090321, guid: 5829805cc04f84f48837a9f4ffab8070,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Freeform
+      product: {fileID: 8267240668601402136, guid: 786088f4229654842bec01c33ae55607,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e803000010270000
+      productionTime: 1
+    - name: Safe Guard
+      product: {fileID: 3980841458320303758, guid: 4051c13a808f7904f87ebf6d52462335,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: One Human
+      product: {fileID: 5903722295641782727, guid: e62e415a3a6f45a4491ac9bb53653fb9,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
+        m_values: e803000070170000
+      productionTime: 1
+    - name: Protect Station
+      product: {fileID: 3072162505061310978, guid: 906ad70684e9d7d43a71a96fb498c570,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Quarantine
+      product: {fileID: 6007229653232885750, guid: c7a650f26b776054db8b83160e8232e5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Oxygen Is Toxic To Humans
+      product: {fileID: 2040792523790899517, guid: 3f5f2064c9c427440b81c0133ffd6dc5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: P.A.L.A.D.I.N.
+      product: {fileID: 1723415937981905638, guid: 0920272424fa18c4d874a96bff4afd4f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
+        m_values: e803000010270000
+      productionTime: 1
+    - name: T.Y.R.A.N.T.
+      product: {fileID: 4672678639558831814, guid: c13aa2b6cf6d5af41be06c525e783fdf,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Corporate
+      product: {fileID: 4898271047517803769, guid: 9f6fc4b1068141040a6145759e0bdbe8,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
   - categoryName: Misc. Machinery
     products:
     - name: Machine Design (Autolathe Board)

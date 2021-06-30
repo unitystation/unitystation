@@ -1,4 +1,5 @@
 using System.Collections;
+using Messages.Server;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -48,7 +49,7 @@ namespace Systems.MobAIs
 		public override void ExplorePeople(PlayerScript player)
 		{
 			if (player.IsGhost) return;
-			var inventory = player.GetComponent<ItemStorage>();
+			var inventory = player.GetComponent<DynamicItemStorage>();
 			var thingInHand = inventory.GetActiveHandSlot();
 
 			if (thingInHand != null && thingInHand.Item != null)
@@ -75,7 +76,7 @@ namespace Systems.MobAIs
 				text,
 				gameObject,
 				MobName);
-			ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);
+			ShowChatBubbleMessage.SendToNearby(gameObject, text);
 		}
 		private void SayRandomThing()
 		{

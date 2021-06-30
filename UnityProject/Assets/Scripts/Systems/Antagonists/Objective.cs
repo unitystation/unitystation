@@ -47,9 +47,24 @@ namespace Antagonists
 		protected bool Complete;
 
 		/// <summary>
+		/// Whether the Ai job can have this objective
+		/// </summary>
+		public bool aiCanHave;
+
+		/// <summary>
 		/// Check if this objective is possible for a player, defaults to true if not overriden
 		/// </summary>
-		public virtual bool IsPossible(PlayerScript candidate)
+		public bool IsPossible(PlayerScript candidate)
+		{
+			if (aiCanHave == false && candidate.PlayerState == PlayerScript.PlayerStates.Ai)
+			{
+				return false;
+			}
+
+			return IsPossibleInternal(candidate);
+		}
+
+		protected virtual bool IsPossibleInternal(PlayerScript candidate)
 		{
 			return true;
 		}
@@ -103,7 +118,7 @@ namespace Antagonists
 			return CheckStorage(Owner.body.ItemStorage, component, default) >= count;
 		}
 
-		private int CheckStorage(ItemStorage itemStorage, Type component, string name)
+		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name)
 		{
 			int count = 0;
 			foreach (var slot in itemStorage.GetItemSlots())
@@ -132,7 +147,7 @@ namespace Antagonists
 			}
 
 			//Check to see if this item has storage, and do checks on that
-			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var itemStorage))
+			if (slot.ItemObject.TryGetComponent<DynamicItemStorage>(out var itemStorage))
 			{
 				return CheckStorage(itemStorage, component, name);
 			}

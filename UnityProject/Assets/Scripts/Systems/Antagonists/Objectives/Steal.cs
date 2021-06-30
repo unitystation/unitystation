@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// An objective to steal items from the station
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Steal")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Steal")]
 	public class Steal : Objective
 	{
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Antagonists
 		/// <summary>
 		/// Make sure there's at least one item which hasn't been targeted
 		/// </summary>
-		public override bool IsPossible(PlayerScript candidate)
+		protected override bool IsPossibleInternal(PlayerScript candidate)
 		{
 			// Get all items from the item pool which haven't been targeted already
 			int itemCount = ItemPool.Where( itemDict =>

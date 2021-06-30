@@ -470,6 +470,7 @@ namespace HealthV2
 		/// </summary>
 		private void UpdateSeverity()
 		{
+
 			var oldSeverity = Severity;
 			// update UI limbs depending on their severity of damage
 			float severity = 1 - (Mathf.Max(maxHealth - TotalDamageWithoutOxyCloneRadStam, 0) / maxHealth);
@@ -510,7 +511,7 @@ namespace HealthV2
 				Severity = DamageSeverity.Max;
 			}
 
-			if (oldSeverity != Severity && healthMaster != null)
+			if (DamageContributesToOverallHealth && oldSeverity != Severity && healthMaster != null)
 			{
 				UpdateIcons();
 			}

@@ -39,25 +39,9 @@ namespace UI
 
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			// if there is an item in this slot, try interacting.
-			if (itemSlot.Item != null)
-			{
-				itemSlot.TryItemInteract();
-			}
-			// otherwise, try switching hands to this hand if this is our own  hand slot and not already active
-			else if (itemSlot == UIManager.Hands.LeftHand && UIManager.Hands.CurrentSlot != itemSlot)
-			{
-				UIManager.Hands.SetHand(false);
-			}
-			else if (itemSlot == UIManager.Hands.RightHand && UIManager.Hands.CurrentSlot != itemSlot)
-			{
-				UIManager.Hands.SetHand(true);
-			}
-			else
-			{
-				// otherwise, try just interacting with the blank slot (which will transfer the item
-				itemSlot.TryItemInteract();
-			}
+			itemSlot.TryItemInteract();
 		}
+
 
 		public void OnDrag(PointerEventData data)
 		{
@@ -76,18 +60,19 @@ namespace UI
 		{
 			base.OnPointerEnter(eventData);
 
-			var item = UIManager.Hands.CurrentSlot.Item;
+			var item = PlayerManager.LocalPlayerScript?.ItemStorage?.GetActiveHandSlot().Item;
 			if (item == null
 				|| itemSlot.Item != null
-				|| itemSlot == UIManager.Hands.RightHand
-				|| itemSlot == UIManager.Hands.LeftHand)
+				|| itemSlot.NamedSlot == NamedSlot.rightHand
+				|| itemSlot.NamedSlot == NamedSlot.leftHand)
 			{
 				return;
 			}
-
 			itemSlot.UpdateImage(item.gameObject,
 				Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item, NetworkSide.Client)
 				? successOverlayColor : failOverlayColor);
+
+
 		}
 
 		public new void OnPointerExit(PointerEventData eventData)

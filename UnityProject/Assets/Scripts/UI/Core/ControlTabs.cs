@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
 using TMPro;
 using UnityEngine;
@@ -534,18 +535,48 @@ namespace UI
 		{
 			var toClose = new List<NetTab>();
 			var toDestroy = new List<NetTab>();
+			var reach = ReachRange.Standard;
+			var playerScript = PlayerManager.LocalPlayerScript;
 
 			foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 			{
 				if (tab.Provider == null)
 				{
 					toDestroy.Add(tab);
+					continue;
 				}
-				else if (Validations.CanApply(PlayerManager.LocalPlayerScript, tab.Provider, NetworkSide.Client) == false)
+
+				if (Validations.CanApply(playerScript, tab.Provider, NetworkSide.Client, reachRange: reach) == false)
 				{
+					//Validate for AI reach
+					if (playerScript != null && playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+					{
+						if (Validations.CanApply(new AiActivate(playerScript.gameObject, null,
+							tab.Provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Client))
+						{
+							continue;
+						}
+
+						toClose.Add(tab);
+						continue;
+					}
+
+					bool hasItem = false;
+
+					//Make sure the item is not in the players hands first:
+					foreach (var itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
+					{
+						if (itemSlot.ItemObject == tab.Provider.gameObject)
+						{
+							hasItem = true;
+							break;
+						}
+					}
+
+					if(playerScript.ItemStorage.GetActiveHandSlot() == null) continue;
+
 					// Make sure the item is not in the players hands first:
-					if (UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
-						UIManager.Hands.OtherSlot.Item != tab.Provider.gameObject)
+					if (hasItem == false)
 					{
 						toClose.Add(tab);
 					}

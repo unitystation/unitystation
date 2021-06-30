@@ -9,6 +9,16 @@ public class AccessRestrictions : MonoBehaviour
 
 	public bool CheckAccess(GameObject Player)
 	{
+		return CheckAccess(Player, restriction);
+	}
+
+	public bool CheckAccessCard(GameObject idCardObj)
+	{
+		return CheckAccessCard(idCardObj, restriction);
+	}
+
+	public static bool CheckAccess(GameObject Player, Access restriction)
+	{
 		// If there isn't any restriction, grant access right away
 		if ((int) restriction == 0) return true;
 
@@ -16,18 +26,21 @@ public class AccessRestrictions : MonoBehaviour
 		if (Player == null) return false;
 
 
-		var playerStorage = Player.GetComponent<ItemStorage>();
+		var playerStorage = Player.GetComponent<DynamicItemStorage>();
 		//this isn't a player. It could be an npc. No NPC access logic at the moment
 		if (playerStorage == null) return false;
 
 
 		//check if active hand or equipped id cards have access
-		if (CheckAccessCard(playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject)) return true;
+		foreach (var itemSlot in playerStorage.GetNamedItemSlots(NamedSlot.id))
+		{
+			if (CheckAccessCard(itemSlot.ItemObject, restriction)) return true;
+		}
 
-		return CheckAccessCard(playerStorage.GetActiveHandSlot().ItemObject);
+		return CheckAccessCard(playerStorage.GetActiveHandSlot()?.ItemObject, restriction);
 	}
 
-	public bool CheckAccessCard(GameObject idCardObj)
+	public static bool CheckAccessCard(GameObject idCardObj, Access restriction)
 	{
 		if (idCardObj == null)
 			return false;

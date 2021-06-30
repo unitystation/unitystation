@@ -89,7 +89,8 @@
 		tox_storage = 77, // Toxins mixing and storage
 		virology = 78,
 		weapons = 79, //Weapon authorization for secbots
-		xenobiology = 80
+		xenobiology = 80,
+		centcom = 81,
 	}
 
 	/// <summary>

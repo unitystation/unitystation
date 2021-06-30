@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 
 namespace Pipes
@@ -29,6 +30,17 @@ namespace Pipes
 		}
 
 		public override void Interaction(HandApply interaction)
+		{
+			ToggleState();
+		}
+
+		//Ai interaction
+		public override void AiInteraction(AiActivate interaction)
+		{
+			ToggleState();
+		}
+
+		private void ToggleState()
 		{
 			IsOn = !IsOn;
 			if (IsOn)

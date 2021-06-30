@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
 using Objects.Engineering;
+using UnityEngine.Events;
 
 namespace Systems.Electricity
 {
@@ -63,6 +66,11 @@ namespace Systems.Electricity
 		private PowerState state = PowerState.Off;
 		public PowerState State => state;
 
+		/// <summary>
+		/// 1 PowerState is the old state, 2 PowerState is the new state
+		/// </summary>
+		[NonSerialized]
+		public UnityEvent<Tuple<PowerState, PowerState>> OnStateChangeEvent = new UnityEvent<Tuple<PowerState, PowerState>>();
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
@@ -72,6 +80,9 @@ namespace Systems.Electricity
 		public MultitoolConnectionType ConType => conType;
 
 		private Texture disconnectedImg;
+		private RegisterTile registerTile;
+
+		private bool blockApcChange;
 
 		#region Lifecycle
 
@@ -98,6 +109,7 @@ namespace Systems.Electricity
 		{
 			if (Powered != null) return;
 			Powered = GetComponent<IAPCPowerable>();
+			registerTile = GetComponent<RegisterTile>();
 			if (isSelfPowered)
 			{
 				if (AdvancedControlToScript)
@@ -135,6 +147,7 @@ namespace Systems.Electricity
 			else
 			{
 				UpdateSynchronisedState(state, state);
+				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(PowerState.Off, state));
 			}
 		}
 
@@ -142,13 +155,19 @@ namespace Systems.Electricity
 
 		public void SetMaster(ISetMultitoolMaster imaster)
 		{
+			if (blockApcChange)
+			{
+				//TODO how to tell player it is blocked?
+				return;
+			}
+
 			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
 			if (RelatedAPC != null)
 			{
 				RemoveFromAPC();
 			}
 			RelatedAPC = inApc;
-			RelatedAPC.AddDevice(this);
+			RelatedAPC.OrNull()?.AddDevice(this);
 		}
 
 		/// <summary>
@@ -184,6 +203,9 @@ namespace Systems.Electricity
 				}
 
 				if (newState == state) return;
+
+				OnStateChangeEvent.Invoke(new Tuple<PowerState, PowerState>(state, newState));
+
 				state = newState;
 				Powered?.StateUpdate(state);
 			}
@@ -244,6 +266,11 @@ namespace Systems.Electricity
 			}
 		}
 
+		public void LockApcLinking(bool newState)
+		{
+			blockApcChange = newState;
+		}
+
 		private void OnDrawGizmosSelected()
 		{
 			if (RelatedAPC == null || isSelfPowered)
@@ -275,6 +302,46 @@ namespace Systems.Electricity
 		public static bool IsOn(PowerState states)
 		{
 			return (states == PowerState.On || states == PowerState.LowVoltage || states == PowerState.OverVoltage);
+		}
+
+		public bool ConnectToClosestApc()
+		{
+			var apcs = Physics2D.OverlapCircleAll(registerTile.WorldPositionServer.To2Int(), 30);
+
+			apcs = apcs.Where(a => a.gameObject.GetComponent<APC>() != null).ToArray();
+
+			if (apcs.Length == 0)
+			{
+				return false;
+			}
+
+			APC bestTarget = null;
+			float closestDistance = Mathf.Infinity;
+			var devicePosition = gameObject.transform.position;
+
+			foreach (var potentialTarget in apcs)
+			{
+				var directionToTarget = potentialTarget.gameObject.transform.position - devicePosition;
+				float dSqrToTarget = directionToTarget.sqrMagnitude;
+
+				if (dSqrToTarget >= closestDistance) continue;
+				closestDistance = dSqrToTarget;
+				bestTarget = potentialTarget.gameObject.GetComponent<APC>();
+			}
+
+			if (bestTarget == null || bestTarget == RelatedAPC) return false;
+
+			//If connected to apc before remove us
+			if(RelatedAPC != null)
+			{
+				RelatedAPC.RemoveDevice(this);
+			}
+
+			RelatedAPC = bestTarget;
+
+			bestTarget.AddDevice(this);
+
+			return true;
 		}
 	}
 

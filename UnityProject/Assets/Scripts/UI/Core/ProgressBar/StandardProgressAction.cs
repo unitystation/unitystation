@@ -174,7 +174,7 @@ public class StandardProgressAction : IProgressAction
 		}
 		//interrupt if active hand slot changes
 		var activeSlot = playerScript.ItemStorage?.GetActiveHandSlot();
-		eventRegistry.Register(activeSlot.OnSlotContentsChangeServer, OnSlotContentsChanged);
+		eventRegistry.Register(activeSlot?.OnSlotContentsChangeServer, OnSlotContentsChanged);
 		usedSlot = activeSlot;
 		//interrupt if cuffed
 		eventRegistry.Register(playerScript.playerMove.OnCuffChangeServer, OnCuffChange);
@@ -271,7 +271,6 @@ public class StandardProgressAction : IProgressAction
 		       //make sure we're still in range
 		       Validations.IsInReachDistanceByPositions(playerScript.registerTile.WorldPositionServer,
 			       startProgressInfo.Target.TargetWorldPosition);
-			;
 	}
 
 	private void OnWelderOff()

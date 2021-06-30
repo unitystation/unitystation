@@ -2,6 +2,7 @@
 using UnityEngine;
 using Systems.Atmospherics;
 using Systems.Electricity;
+using Core.Input_System.InteractionV2.Interactions;
 using Pipes;
 
 namespace Objects.Atmospherics
@@ -72,6 +73,21 @@ namespace Objects.Atmospherics
 			if (interaction.HandSlot.IsOccupied) return;
 
 			if (interaction.IsAltClick)
+			{
+				operatingMode = operatingMode.Next();
+			}
+			else
+			{
+				isTurnedOn = !isTurnedOn;
+			}
+
+			UpdateState();
+		}
+
+		//Ai interaction
+		public override void AiInteraction(AiActivate interaction)
+		{
+			if (interaction.ClickType == AiActivate.ClickTypes.AltClick)
 			{
 				operatingMode = operatingMode.Next();
 			}

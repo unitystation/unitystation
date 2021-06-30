@@ -296,8 +296,15 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
-			Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-			Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+			foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+			{
+				Inventory.ServerDrop(itemSlot);
+			}
+
+			foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+			{
+				Inventory.ServerDrop(itemSlot);
+			}
 		}
 		playerScript.playerMove.allowInput = false;
 

@@ -39,15 +39,17 @@ public class FootstepSounds : MonoBehaviour
 
 	public static StepType GetFootSteptype(PlayerSync PlayerSync)
 	{
-		if (PlayerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet)?.Item != null)
+		foreach (var itemSlot in PlayerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
 		{
-			return StepType.Shoes;
+			if (itemSlot.Item != null)
+			{
+				return StepType.Shoes;
+			}
 		}
-		else
-		{
-			//Add stuff for races
-			return StepType.Barefoot;
-		}
+
+		//Add stuff for races
+		return StepType.Barefoot;
+
 	}
 
 

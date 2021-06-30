@@ -228,6 +228,12 @@ public class PlayerSprites : MonoBehaviour
 
 	public IEnumerator WaitForPlayerinitialisation()
 	{
+		//This is to prevent body parts being spawned in before server start, since they would get populated awake then populated again with server start, kind of buggy yo, if that happens
+		yield return null;
+		yield return null;
+		yield return null;
+		SetUpCharacter(ThisCharacter);
+		livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 		yield return null;
 		SetupsSprites();
 	}
@@ -531,9 +537,6 @@ public class PlayerSprites : MonoBehaviour
 					RaceBodyparts = Race;
 				}
 			}
-
-			SetUpCharacter(characterSettings);
-			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 			SetupCharacterData(characterSettings);
 		}
 	}

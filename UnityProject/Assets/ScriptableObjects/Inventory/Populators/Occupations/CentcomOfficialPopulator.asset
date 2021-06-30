@@ -13,44 +13,109 @@ MonoBehaviour:
   m_Name: CentcomOfficialPopulator
   m_EditorClassIdentifier: 
   Entries:
-  - NamedSlot: 2
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 2
     Prefab: {fileID: 1748291999611963142, guid: 4f882acc8095667489ce618083ca7b4a,
       type: 3}
-  - NamedSlot: 3
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 3
     Prefab: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2,
       type: 3}
-  - NamedSlot: 6
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 6
     Prefab: {fileID: 3011710637427380133, guid: 2364289c293fa6744bacf25005359952,
       type: 3}
-  - NamedSlot: 9
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 9
     Prefab: {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
       type: 3}
-  - NamedSlot: 12
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 12
     Prefab: {fileID: 9143502950441779951, guid: 00b3545d02429464f849be8f35a6b7a2,
       type: 3}
-  - NamedSlot: 7
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 7
     Prefab: {fileID: 448357460697814289, guid: 1a1b6f4ded6f86441bbb000972ea2089, type: 3}
-  - NamedSlot: 1
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 1
     Prefab: {fileID: 5316882905438950620, guid: 725d217f992b8d247b2f034c4a69136a,
       type: 3}
-  - NamedSlot: 18
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 18
     Prefab: {fileID: 6858401807900832942, guid: e0f9bddfca13db847ad27b471e310887,
       type: 3}
-  - NamedSlot: 16
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 16
     Prefab: {fileID: 7231615556705506312, guid: 6889368ca37503245b8aee273cc97b03,
       type: 3}
-  - NamedSlot: 17
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 17
     Prefab: {fileID: 4024192966601867823, guid: d9c42e1e7b801ab408872be5bb5b1264,
       type: 3}
-  - NamedSlot: 10
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 10
     Prefab: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93,
       type: 3}
-  - NamedSlot: 11
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 11
     Prefab: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
       type: 3}
-  - NamedSlot: 15
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 15
     Prefab: {fileID: 8652821319832697528, guid: 5b53ac009fb889245b31f44fd7807bf9,
       type: 3}
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 0}
   duffelVariant: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93,
     type: 3}

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
+using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
@@ -104,6 +105,12 @@ namespace Pipes
 		public override void Interaction(HandApply interaction)
 		{
 			TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType.Filter, TabAction.Open );
+		}
+
+		//Ai interaction
+		public override void AiInteraction(AiActivate interaction)
+		{
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Mixer, TabAction.Open);
 		}
 
 		public override void TickUpdate()

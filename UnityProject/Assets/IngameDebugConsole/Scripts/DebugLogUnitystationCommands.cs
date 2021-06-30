@@ -363,18 +363,39 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
+					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.head))
+					{
 
-					var helmet = Spawn.ServerPrefab("MiningHardsuitHelmet").GameObject;
-					var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
-					var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
-					var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
-					var MagBoots = Spawn.ServerPrefab("MagBoots").GameObject;
 
-					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.DropOther);
-					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear), ReplacementStrategy.DropOther);
-					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.DropOther);
-					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
-					Inventory.ServerAdd(MagBoots, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.feet), ReplacementStrategy.DropOther);
+						var helmet = Spawn.ServerPrefab("MiningHardsuitHelmet").GameObject;
+						Inventory.ServerAdd(helmet,itemSlot, ReplacementStrategy.DropOther);
+					}
+
+					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
+					{
+						var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
+						Inventory.ServerAdd(suit,itemSlot, ReplacementStrategy.DropOther);
+					}
+
+
+					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+					{
+						var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
+						Inventory.ServerAdd(mask,itemSlot, ReplacementStrategy.DropOther);
+					}
+
+					foreach (var itemSlot in player.Script.ItemStorage.GetPocketsSlots())
+					{
+						var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
+						Inventory.ServerAdd(oxyTank,itemSlot, ReplacementStrategy.DropOther);
+					}
+
+					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
+					{
+						var MagBoots = Spawn.ServerPrefab("MagBoots").GameObject;
+						Inventory.ServerAdd(MagBoots,itemSlot, ReplacementStrategy.DropOther);
+					}
+
 					player.Script.Equipment.IsInternalsEnabled = true;
 				}
 
@@ -390,10 +411,12 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
-					var ID = Spawn.ServerPrefab("IDCardCaptainsSpare").GameObject;
-					Inventory.ServerAdd(ID, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.id), ReplacementStrategy.DropOther);
+					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.id))
+					{
+						var ID = Spawn.ServerPrefab("IDCardCaptainsSpare").GameObject;
+						Inventory.ServerAdd(ID,itemSlot, ReplacementStrategy.DropOther);
+					}
 				}
-
 			}
 		}
 
@@ -406,8 +429,11 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
-					var InsulatedGloves = Spawn.ServerPrefab("InsulatedGloves").GameObject;
-					Inventory.ServerAdd(InsulatedGloves, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.hands), ReplacementStrategy.DropOther);
+					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.hands))
+					{
+						var InsulatedGloves = Spawn.ServerPrefab("InsulatedGloves").GameObject;
+						Inventory.ServerAdd(InsulatedGloves,itemSlot, ReplacementStrategy.DropOther);
+					}
 				}
 
 			}

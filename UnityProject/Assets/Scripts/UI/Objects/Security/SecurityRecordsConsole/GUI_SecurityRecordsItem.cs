@@ -50,6 +50,8 @@ namespace UI.Objects.Security
 					return DebugTools.HexToColor("424142");
 				case SecurityStatus.Arrest:
 					return DebugTools.HexToColor("C10000");
+				case SecurityStatus.Criminal:
+					return DebugTools.HexToColor("C17100");
 				case SecurityStatus.Parole:
 					return DebugTools.HexToColor("F57211");
 			}

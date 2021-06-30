@@ -54,10 +54,10 @@ public class HandApply : BodyPartTargetedInteraction
 			return HandApply.Invalid;
 		}
 		return new HandApply(PlayerManager.LocalPlayer,
-			UIManager.Hands.CurrentSlot.ItemObject,
+			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot()?.ItemObject,
 			targetObject,
 			UIManager.DamageZone,
-			UIManager.Instance.hands.CurrentSlot.ItemSlot,
+			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot(),
 			UIManager.CurrentIntent,
 			KeyboardInputManager.IsAltPressed());
 	}

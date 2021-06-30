@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Electricity.NodeModules;
+using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 using Mirror;
 
@@ -14,7 +15,7 @@ public enum BatteryStateSprite
 
 namespace Objects.Engineering
 {
-	public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
+	public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, ICheckedInteractable<AiActivate>
 	{
 		public DepartmentBatterySprite CurrentSprite = DepartmentBatterySprite.Default;
 		public SpriteRenderer Renderer;
@@ -170,5 +171,24 @@ namespace Objects.Engineering
 				PowerIndicator.sprite = LightOff;
 			}
 		}
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			isOn = !isOn;
+			UpdateServerState();
+		}
+
+		#endregion
 	}
 }
