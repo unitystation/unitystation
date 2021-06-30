@@ -52,7 +52,7 @@ namespace Messages.Client
 			else
 			{
 				validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
-				           || playerScript.ItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
+				           || playerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
 			}
 
 			if (!validate)

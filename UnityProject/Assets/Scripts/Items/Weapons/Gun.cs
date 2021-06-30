@@ -528,8 +528,9 @@ namespace Weapons
 			//if we are client, only process this if we are holding it
 			if (!isServer)
 			{
-				if (PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot() == null) return;
-				var heldItem = PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject;
+				if (PlayerManager.LocalPlayerScript.DynamicItemStorage.OrNull()?.GetActiveHandSlot() == null) return;
+
+				var heldItem = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject;
 				if (gameObject != heldItem) return;
 			}
 

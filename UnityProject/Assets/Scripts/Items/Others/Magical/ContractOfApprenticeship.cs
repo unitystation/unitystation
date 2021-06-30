@@ -88,7 +88,7 @@ namespace Items.Magical
 					foreach (GameObject prefab in spellArtifact.Artifacts)
 					{
 						GameObject item = Spawn.ServerPrefab(prefab, player.Script.WorldPos).GameObject;
-						player.Script.ItemStorage.GetBestHandOrSlotFor(item);
+						player.Script.DynamicItemStorage.GetBestHandOrSlotFor(item);
 					}
 				}
 			}

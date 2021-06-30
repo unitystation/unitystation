@@ -74,7 +74,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// This player's item storage.
 	/// </summary>
-	public DynamicItemStorage ItemStorage { get; private set; }
+	public DynamicItemStorage DynamicItemStorage { get; private set; }
 
 	private static bool verified;
 	private static ulong SteamID;
@@ -134,7 +134,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
-		ItemStorage = GetComponent<DynamicItemStorage>();
+		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();

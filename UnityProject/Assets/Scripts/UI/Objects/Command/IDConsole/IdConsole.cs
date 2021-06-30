@@ -76,7 +76,7 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 			return default;
 		}
 
-		var playerStorage = subject.Script.ItemStorage;
+		var playerStorage = subject.Script.DynamicItemStorage;
 		return playerStorage.GetBestHandOrSlotFor(item);
 	}
 

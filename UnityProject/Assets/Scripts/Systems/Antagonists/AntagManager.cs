@@ -157,7 +157,7 @@ namespace Antagonists
 		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
 		public static void TryInstallPDAUplink(ConnectedPlayer player, int tcCount, bool isNukeOps)
 		{
-			foreach (ItemSlot slot in player.Script.ItemStorage.GetItemSlotTree())
+			foreach (ItemSlot slot in player.Script.DynamicItemStorage.GetItemSlotTree())
 			{
 				if (slot.IsEmpty) continue;
 				if (slot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))

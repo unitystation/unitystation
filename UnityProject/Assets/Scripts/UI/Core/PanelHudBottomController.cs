@@ -226,14 +226,14 @@ namespace UI
 			}
 
 			// if hand and pocket are empty
-			if (PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().IsEmpty && pocket.ItemSlot.IsEmpty)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().IsEmpty && pocket.ItemSlot.IsEmpty)
 			{
 				Chat.AddExamineMsgToClient(emptyHandNPocketMessage);
 				return;
 			}
 
 			// if hand and pocket are full
-			if (PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().IsOccupied &&
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().IsOccupied &&
 			    pocket.ItemSlot.IsOccupied)
 			{
 				// if first pocket is empty - try to interact

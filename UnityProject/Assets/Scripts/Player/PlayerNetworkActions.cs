@@ -35,7 +35,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	public DynamicItemStorage itemStorage => playerScript.ItemStorage;
+	public DynamicItemStorage itemStorage => playerScript.DynamicItemStorage;
 	public Transform chatBubbleTarget;
 
 	public bool IsRolling { get; private set; } = false;
@@ -150,12 +150,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		// Drop player items
 
-		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
 		{
 			Inventory.ServerDrop(itemSlot);
 		}
 
-		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
 		{
 			Inventory.ServerDrop(itemSlot);
 		}
@@ -696,7 +696,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (handID != 0)
 		{
-			var slot = playerScript.ItemStorage.GetNamedItemSlot(NetworkIdentity.spawned[handID].gameObject, NamedSlot);
+			var slot = playerScript.DynamicItemStorage.GetNamedItemSlot(NetworkIdentity.spawned[handID].gameObject, NamedSlot);
 			if (slot == null) return;
 			activeHand = NetworkIdentity.spawned[handID].gameObject;
 		}

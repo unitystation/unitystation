@@ -15,7 +15,7 @@ using Messages.Server;
 public class Equipment : NetworkBehaviour
 {
 	private PlayerScript script;
-	public DynamicItemStorage ItemStorage => script.ItemStorage;
+	public DynamicItemStorage ItemStorage => script.DynamicItemStorage;
 
 	public bool IsInternalsEnabled;
 

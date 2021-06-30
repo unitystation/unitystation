@@ -30,7 +30,7 @@ namespace Player
 		{
 			get
 			{
-				foreach (var itemSlot in script.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+				foreach (var itemSlot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 				{
 					if (itemSlot.IsEmpty == false)
 					{
@@ -96,7 +96,7 @@ namespace Player
 		{
 			foreach (var slot in readableIDslots)
 			{
-				foreach (var itemSlot in script.ItemStorage.GetNamedItemSlots(slot))
+				foreach (var itemSlot in script.DynamicItemStorage.GetNamedItemSlots(slot))
 				{
 					if (itemSlot.IsOccupied == false)
 					{

@@ -77,11 +77,11 @@ public class ConnectionApply : TargetedInteraction
 
 		return new ConnectionApply(
 			PlayerManager.LocalPlayer,
-			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			targetObject,
 			wireEndA,
 			wireEndB,
-			targetVec,PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot(),
+			targetVec,PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 
 			UIManager.CurrentIntent
 		);

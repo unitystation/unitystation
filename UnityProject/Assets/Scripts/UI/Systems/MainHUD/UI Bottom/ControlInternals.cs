@@ -128,7 +128,7 @@ public class ControlInternals : TooltipMonoBehaviour
 	public void SetupListeners()
 	{
 		UpdateState();
-		PlayerManager.LocalPlayerScript.ItemStorage.OnContentsChangeClient.AddListener(InventoryChange);
+		PlayerManager.LocalPlayerScript.DynamicItemStorage.OnContentsChangeClient.AddListener(InventoryChange);
 	}
 
 	public void InventoryChange()
@@ -136,7 +136,7 @@ public class ControlInternals : TooltipMonoBehaviour
 		if (PlayerManager.LocalPlayerScript.IsGhost) return;
 		if (Mask == null)
 		{
-			foreach (var maskItemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlots(NamedSlot.mask ))
+			foreach (var maskItemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask ))
 			{
 				if (maskItemSlot.ItemObject != null && maskItemSlot.ItemAttributes != null)
 				{
@@ -155,7 +155,7 @@ public class ControlInternals : TooltipMonoBehaviour
 			bool Doublebreak = false;
 			foreach (NamedSlot namedSlot in DynamicItemStorage.GasUseSlots)
 			{
-				foreach (ItemSlot itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlots(namedSlot))
+				foreach (ItemSlot itemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetNamedItemSlots(namedSlot))
 				{
 					if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent(out GasContainer gasContainer))
 					{
@@ -172,7 +172,7 @@ public class ControlInternals : TooltipMonoBehaviour
 
 		if (Mask != null)
 		{
-			if (PlayerManager.LocalPlayerScript.ItemStorage.InventoryHasObject(Mask) == false)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.InventoryHasObject(Mask) == false)
 			{
 				isWearingMask = false;
 				Mask = null;
@@ -181,7 +181,7 @@ public class ControlInternals : TooltipMonoBehaviour
 
 		if (Tank != null)
 		{
-			if (PlayerManager.LocalPlayerScript.ItemStorage.InventoryHasObject(Tank) == false)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.InventoryHasObject(Tank) == false)
 			{
 				gasContainer = null;
 				Tank = null;

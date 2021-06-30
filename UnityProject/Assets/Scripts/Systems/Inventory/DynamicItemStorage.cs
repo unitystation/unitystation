@@ -955,11 +955,11 @@ public class DynamicItemStorage : NetworkBehaviour
 		//target slot is occupied, but it's okay if active hand slot is not occupied)
 		if (Item != null)
 		{
-			var combine = InventoryApply.ByLocalPlayer(itemSlot, PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot());
+			var combine = InventoryApply.ByLocalPlayer(itemSlot, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot());
 			//check interactables in the active hand (if active hand occupied)
-			if (PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().Item != null)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item != null)
 			{
-				var handInteractables = PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().Item
+				var handInteractables = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item
 					.GetComponents<IBaseInteractable<InventoryApply>>()
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 				if (InteractionUtils.ClientCheckAndTrigger(handInteractables, combine) != null) return true;
@@ -978,7 +978,7 @@ public class DynamicItemStorage : NetworkBehaviour
 	{
 		if (HandsController.isValidPlayer())
 		{
-			var CurrentSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot();
+			var CurrentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 			if (CurrentSlot != itemSlot)
 			{
 				if (CurrentSlot.Item == null)

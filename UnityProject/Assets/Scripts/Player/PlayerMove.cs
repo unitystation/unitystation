@@ -658,7 +658,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	public void Uncuff()
 	{
 		SyncCuffed(cuffed, false);
-		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
 		{
 			Inventory.ServerDrop(itemSlot);
 		}

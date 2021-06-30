@@ -74,7 +74,7 @@ namespace Antagonists
 
 		private void SetPapers(ConnectedPlayer player)
 		{
-			IEnumerable<ItemSlot> idSlots = player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.id);
+			IEnumerable<ItemSlot> idSlots = player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id);
 			foreach (var idSlot in idSlots)
 			{
 				if (idSlot.IsOccupied && idSlot.ItemObject.TryGetComponent<Paper>(out var papersPlease))
@@ -85,7 +85,7 @@ namespace Antagonists
 
 
 
-			IEnumerable<ItemSlot> storage02s = player.Script.ItemStorage.GetPocketsSlots();
+			IEnumerable<ItemSlot> storage02s = player.Script.DynamicItemStorage.GetPocketsSlots();
 			foreach (var storage02 in storage02s)
 			{
 				if (storage02.IsOccupied && storage02.ItemObject.TryGetComponent<Paper>(out var helpPaper))
