@@ -218,7 +218,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 					// TODO: Check how many cables we have first. Only open the cable
 					//       cutting window when the number of cables exceeds 2.
 					if (underFloorTile is ElectricalCableTile &&
-						Validations.HasItemTrait(PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Wirecutter))
+						Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Wirecutter))
 					{
 						// open cable cutting ui window instead of cutting cable
 						EnableCableCuttingWindow();
@@ -492,7 +492,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			if (!instanceActive)
 			{
 				instanceActive = true;
-				Highlight.ShowHighlight(PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().ItemObject, true);
+				Highlight.ShowHighlight(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, true);
 			}
 
 			Vector3 spritePos = tilePos;
@@ -526,7 +526,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	WallMountHandApplySpawn CheckWallMountOverlay()
 	{
 
-		var itemSlot = PlayerManager.LocalPlayerScript?.ItemStorage?.GetActiveHandSlot();
+		var itemSlot = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
 		if (itemSlot == null || itemSlot.ItemObject == null)
 		{
 			return null;

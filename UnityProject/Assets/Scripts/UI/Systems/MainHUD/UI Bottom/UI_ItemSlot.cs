@@ -348,7 +348,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	{
 		if (isValidPlayer())
 		{
-			var CurrentSlot = PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot();
+			var CurrentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 			if (CurrentSlot != itemSlot.itemSlot)
 			{
 				if (CurrentSlot.Item == null)
@@ -381,7 +381,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		var slotName = itemSlot.SlotIdentifier.NamedSlot;
 		// Clicked on another slot other than our own hands
 		bool IsHandSlots = false;
-		foreach (var HadnitemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
+		foreach (var HadnitemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
 		{
 			if (HadnitemSlot == itemSlot)
 			{
@@ -411,7 +411,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		}
 
 		// If there is an item and the hand is interacting in the same slot
-		if (Item != null && PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot() == itemSlot)
+		if (Item != null && PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot() == itemSlot)
 		{
 			//check IF2 logic first
 			var interactables = Item.GetComponents<IBaseInteractable<HandActivate>>()
@@ -421,7 +421,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		}
 		else
 		{
-			if (PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot() != itemSlot)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot() != itemSlot)
 			{
 				if (TryIF2InventoryApply()) return;
 				if (swapIfEmpty)
@@ -437,11 +437,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		//target slot is occupied, but it's okay if active hand slot is not occupied)
 		if (Item != null)
 		{
-			var combine = InventoryApply.ByLocalPlayer(itemSlot, PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot());
+			var combine = InventoryApply.ByLocalPlayer(itemSlot, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot());
 			//check interactables in the active hand (if active hand occupied)
-			if (PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().Item != null)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item != null)
 			{
-				var handInteractables = PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot().Item
+				var handInteractables = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item
 					.GetComponents<IBaseInteractable<InventoryApply>>()
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 				if (InteractionUtils.ClientCheckAndTrigger(handInteractables, combine) != null) return true;

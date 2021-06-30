@@ -135,9 +135,9 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	private bool CheckGlovesProtection(PlayerScript player)
 	{
-		if (player && player.ItemStorage)
+		if (player && player.DynamicItemStorage)
 		{
-			var playerEquipment = player.ItemStorage;
+			var playerEquipment = player.DynamicItemStorage;
 			foreach (var itemSlot in playerEquipment.GetNamedItemSlots(NamedSlot.hands))
 			{
 				if (itemSlot != null && itemSlot.IsOccupied)

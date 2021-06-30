@@ -64,7 +64,7 @@ namespace Systems.Spells.Wizard
 
 			if (summonedObject.TryGetComponent<Pickupable>(out var pickupable))
 			{
-				ItemSlot slot = caster.Script.ItemStorage.GetBestHandOrSlotFor(summonedObject);
+				ItemSlot slot = caster.Script.DynamicItemStorage.GetBestHandOrSlotFor(summonedObject);
 				Inventory.ServerAdd(pickupable, slot);
 
 				Chat.AddActionMsgToChat(caster.GameObject, $"The {summonedName} appears in your hand!",
@@ -79,7 +79,7 @@ namespace Systems.Spells.Wizard
 
 		private void TryAddMark()
 		{
-			DynamicItemStorage playerStorage = caster.Script.ItemStorage;
+			DynamicItemStorage playerStorage = caster.Script.DynamicItemStorage;
 
 			ItemSlot activeHand = playerStorage.GetActiveHandSlot();
 			if (activeHand.IsOccupied)

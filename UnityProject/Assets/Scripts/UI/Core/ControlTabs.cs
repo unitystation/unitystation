@@ -564,7 +564,7 @@ namespace UI
 					bool hasItem = false;
 
 					//Make sure the item is not in the players hands first:
-					foreach (var itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
+					foreach (var itemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
 					{
 						if (itemSlot.ItemObject == tab.Provider.gameObject)
 						{
@@ -573,7 +573,7 @@ namespace UI
 						}
 					}
 
-					if(playerScript.ItemStorage.GetActiveHandSlot() == null) continue;
+					if(playerScript.DynamicItemStorage.GetActiveHandSlot() == null) continue;
 
 					// Make sure the item is not in the players hands first:
 					if (hasItem == false)

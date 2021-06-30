@@ -142,7 +142,7 @@ namespace Messages.Client.Interaction
 				return;
 			}
 
-			if (SentByPlayer.Script.ItemStorage == null)
+			if (SentByPlayer.Script.DynamicItemStorage == null)
 			{
 				if (InteractionType == typeof(AiActivate))
 				{
@@ -160,7 +160,7 @@ namespace Messages.Client.Interaction
 			if (InteractionType == typeof(PositionalHandApply))
 			{
 				//look up item in active hand slot
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadMultipleObjects(new uint[]{
@@ -176,7 +176,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (InteractionType == typeof(HandApply))
 			{
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot()?.ItemObject;
 				LoadMultipleObjects(new uint[]{
@@ -192,7 +192,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (InteractionType == typeof(AimApply))
 			{
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadNetworkObject(ProcessorObject);
@@ -226,7 +226,7 @@ namespace Messages.Client.Interaction
 
 				var performerObj = SentByPlayer.GameObject;
 				//look up item in active hand slot
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent);
@@ -256,7 +256,7 @@ namespace Messages.Client.Interaction
 				ItemSlot fromSlot = null;
 				if (usedObj == null)
 				{
-					fromSlot = SentByPlayer.Script.ItemStorage.GetActiveHandSlot();
+					fromSlot = SentByPlayer.Script.DynamicItemStorage.GetActiveHandSlot();
 				}
 				else
 				{
@@ -267,7 +267,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (InteractionType == typeof(TileApply))
 			{
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadNetworkObject(ProcessorObject);
@@ -295,7 +295,7 @@ namespace Messages.Client.Interaction
 			else if (InteractionType == typeof(ConnectionApply))
 			{
 				//look up item in active hand slot
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadMultipleObjects(new uint[]{
@@ -312,7 +312,7 @@ namespace Messages.Client.Interaction
 			else if (InteractionType == typeof(ContextMenuApply))
 			{
 				LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedObj = clientStorage.GetActiveHandSlot().ItemObject;
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];

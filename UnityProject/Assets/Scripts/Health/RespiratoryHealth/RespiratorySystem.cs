@@ -204,7 +204,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (gameObject.Player() != null)
 		{
-			foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
 				var currentItemAtt  = itemSlot.ItemAttributes;
 				if (currentItemAtt  != null && currentItemAtt.HasTrait(CommonTraits.Instance.GasMask))
@@ -265,13 +265,13 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 
 			bool internalsEnabled = equipment.IsInternalsEnabled;
-			foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
 				var maskItemAttrs = itemSlot.ItemAttributes;
 
 				if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
 				{
-					foreach (var gasSlot in playerScript.ItemStorage.GetGasSlots())
+					foreach (var gasSlot in playerScript.DynamicItemStorage.GetGasSlots())
 					{
 						if (gasSlot.Item == null) continue;
 						var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
@@ -546,7 +546,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		bool headItemhasEVA = false;
 		bool suitItemhasEVA = false;
 
-		foreach (var headItem in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.head))
+		foreach (var headItem in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.head))
 		{
 			if (headItem.ItemAttributes != null)
 			{
@@ -557,7 +557,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			}
 		}
 
-		foreach (var suitItem in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
+		foreach (var suitItem in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
 		{
 			if (suitItem.ItemAttributes != null)
 			{

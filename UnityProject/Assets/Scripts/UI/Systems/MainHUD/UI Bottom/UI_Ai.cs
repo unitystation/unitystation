@@ -183,6 +183,17 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		public void OpenLaws()
 		{
+			if (aiPlayer == null)
+			{
+				aiPlayer = PlayerManager.LocalPlayer.OrNull()?.GetComponent<AiPlayer>();
+			}
+
+			if (aiPlayer == null)
+			{
+				Logger.LogError("Failed to find AiPlayer for player");
+				return;
+			}
+
 			aiLawsTab.SetActive(true);
 			aiLawsTabDummyLaw.SetActive(false);
 

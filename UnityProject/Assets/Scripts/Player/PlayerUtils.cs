@@ -51,12 +51,12 @@ public static class PlayerUtils
 				ps.registerTile.ServerStandUp();
 
 
-				foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+				foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
 				{
 					Inventory.ServerAdd(Spawn.ServerPrefab("Bike Horn").GameObject, itemSlot);
 				}
 
-				foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+				foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
 				{
 					Inventory.ServerAdd(Spawn.ServerPrefab("Bike Horn").GameObject, itemSlot);
 				}

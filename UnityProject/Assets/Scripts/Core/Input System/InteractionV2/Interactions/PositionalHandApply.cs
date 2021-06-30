@@ -64,10 +64,10 @@ public class PositionalHandApply : BodyPartTargetedInteraction
 		}
 		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos() - PlayerManager.LocalPlayer.transform.position;
 		return new PositionalHandApply(PlayerManager.LocalPlayer,
-			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot()?.ItemObject,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 			targetObject,
 			targetVec,
-			PlayerManager.LocalPlayerScript.ItemStorage.GetActiveHandSlot(), UIManager.CurrentIntent, UIManager.DamageZone);
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(), UIManager.CurrentIntent, UIManager.DamageZone);
 	}
 
 	/// <summary>

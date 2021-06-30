@@ -47,7 +47,7 @@ namespace Chemistry
 				return default;
 			}
 
-			var playerStorage = subject.Script.ItemStorage;
+			var playerStorage = subject.Script.DynamicItemStorage;
 			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 

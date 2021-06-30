@@ -78,6 +78,9 @@ namespace Objects.Other
 		//always fire
 		private TurretType turretType = TurretType.Normal;
 
+		[SyncVar(hook = nameof(SyncOpen))]
+		private bool open;
+
 		private enum TurretType
 		{
 			Normal,
@@ -253,6 +256,12 @@ namespace Objects.Other
 			}
 
 			gunSprite.transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+		}
+
+		private void SyncOpen(bool oldState, bool newState)
+		{
+			//Changes gun sprite order so it is either in front of or behind frame
+			gunSprite.SpriteRenderer.sortingOrder = newState ? 1 : 0;
 		}
 
 		private void UpdateLoop()
@@ -590,10 +599,23 @@ namespace Objects.Other
 		private IEnumerator WaitForAnimation(bool stateAfter)
 		{
 			coverStateChanging = true;
+
+			//Set gun behind frame before closing
+			if (stateAfter == false)
+			{
+				open = false;
+			}
+
 			frameSprite.AnimateOnce(stateAfter ? 1 : 3);
 
 			//Wait for animation to complete before allowing to fire or change cover state
 			yield return new WaitForSeconds(0.55f);
+
+			//Set gun in front frame when open
+			if (stateAfter)
+			{
+				open = true;
+			}
 
 			coverOpen = stateAfter;
 			coverStateChanging = false;

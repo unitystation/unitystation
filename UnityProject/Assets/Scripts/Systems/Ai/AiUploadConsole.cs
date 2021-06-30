@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Systems.Electricity;
 using Objects.Research;
 using UnityEngine;
@@ -40,9 +41,10 @@ namespace Systems.Ai
 			//Cycle through AIs
 			if (interaction.HandObject == null)
 			{
-				var aiPlayers = PlayerList.Instance.GetAllByPlayersOfState(PlayerScript.PlayerStates.Ai);
+				var aiPlayers = PlayerList.Instance.GetAllByPlayersOfState(PlayerScript.PlayerStates.Ai).Where(
+					a => a.GameObject.TryGetComponent<AiPlayer>(out var aiPlayer) && aiPlayer.HasDied == false).ToList();
 
-				if (lastIndex >= aiPlayers.Count - 1)
+				if (lastIndex >= aiPlayers.Count)
 				{
 					lastIndex = 0;
 				}
@@ -65,6 +67,13 @@ namespace Systems.Ai
 			if (selectedAiPlayer == null)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "Select an Ai to upload laws to first");
+				return;
+			}
+
+			//Check Ai isn't dead
+			if (selectedAiPlayer.HasDied)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Unable to connect to {selectedAiPlayer.gameObject.ExpensiveName()}");
 				return;
 			}
 

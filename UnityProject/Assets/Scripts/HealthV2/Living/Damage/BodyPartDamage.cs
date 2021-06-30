@@ -804,7 +804,7 @@ namespace HealthV2
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
 				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
-				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.ItemStorage.GetItemSlots();
+				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.DynamicItemStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
 					Integrity itemObject = item.ItemObject.GetComponent<Integrity>();

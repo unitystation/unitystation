@@ -55,7 +55,7 @@ public class Hands : MonoBehaviour
 	public void SetHand(NamedSlot namedSlot, GameObject gamebodypPart)
 	{
 		if (!isValidPlayer()) return;
-		var Slot = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(gamebodypPart, namedSlot);
+		var Slot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetNamedItemSlot(gamebodypPart, namedSlot);
 		if (Slot == null) return;
 
 		var bodyPartUISlots = gamebodypPart.GetComponent<BodyPartUISlots>();
@@ -196,7 +196,7 @@ public class Hands : MonoBehaviour
 
 		//This checks which UI slot the item can be equiped to and swaps it there
 		//Try to equip the item into the appropriate slot
-		var bestSlot = BestSlotForTrait.Instance.GetBestSlot(CurrentSlot.Item, PlayerManager.LocalPlayerScript.ItemStorage);
+		var bestSlot = BestSlotForTrait.Instance.GetBestSlot(CurrentSlot.Item, PlayerManager.LocalPlayerScript.DynamicItemStorage);
 		if (bestSlot == null)
 		{
 			Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, "There is no available slot for that");

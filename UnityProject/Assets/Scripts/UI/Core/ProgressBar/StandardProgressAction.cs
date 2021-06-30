@@ -173,7 +173,7 @@ public class StandardProgressAction : IProgressAction
 			eventRegistry.Register(startProgressInfo.Target.Target.OnDespawnedServer, OnDespawned);
 		}
 		//interrupt if active hand slot changes
-		var activeSlot = playerScript.ItemStorage?.GetActiveHandSlot();
+		var activeSlot = playerScript.DynamicItemStorage?.GetActiveHandSlot();
 		eventRegistry.Register(activeSlot?.OnSlotContentsChangeServer, OnSlotContentsChanged);
 		usedSlot = activeSlot;
 		//interrupt if cuffed

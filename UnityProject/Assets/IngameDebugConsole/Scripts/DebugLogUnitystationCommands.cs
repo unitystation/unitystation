@@ -363,7 +363,7 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
-					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.head))
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.head))
 					{
 
 
@@ -371,26 +371,26 @@ namespace IngameDebugConsole
 						Inventory.ServerAdd(helmet,itemSlot, ReplacementStrategy.DropOther);
 					}
 
-					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
 					{
 						var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
 						Inventory.ServerAdd(suit,itemSlot, ReplacementStrategy.DropOther);
 					}
 
 
-					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 					{
 						var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
 						Inventory.ServerAdd(mask,itemSlot, ReplacementStrategy.DropOther);
 					}
 
-					foreach (var itemSlot in player.Script.ItemStorage.GetPocketsSlots())
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetPocketsSlots())
 					{
 						var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
 						Inventory.ServerAdd(oxyTank,itemSlot, ReplacementStrategy.DropOther);
 					}
 
-					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 					{
 						var MagBoots = Spawn.ServerPrefab("MagBoots").GameObject;
 						Inventory.ServerAdd(MagBoots,itemSlot, ReplacementStrategy.DropOther);
@@ -411,7 +411,7 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
-					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.id))
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id))
 					{
 						var ID = Spawn.ServerPrefab("IDCardCaptainsSpare").GameObject;
 						Inventory.ServerAdd(ID,itemSlot, ReplacementStrategy.DropOther);
@@ -429,7 +429,7 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
-					foreach (var itemSlot in player.Script.ItemStorage.GetNamedItemSlots(NamedSlot.hands))
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
 					{
 						var InsulatedGloves = Spawn.ServerPrefab("InsulatedGloves").GameObject;
 						Inventory.ServerAdd(InsulatedGloves,itemSlot, ReplacementStrategy.DropOther);

@@ -109,13 +109,13 @@ namespace Antagonists
 		/// </summary>
 		protected bool CheckStorageFor(string name, int count)
 		{
-			return CheckStorage(Owner.body.ItemStorage, default, name) >= count;
+			return CheckStorage(Owner.body.DynamicItemStorage, default, name) >= count;
 		}
 
 		/// <inheritdoc cref="CheckStorageFor(string, int)"/>
 		protected bool CheckStorageFor(Type component, int count)
 		{
-			return CheckStorage(Owner.body.ItemStorage, component, default) >= count;
+			return CheckStorage(Owner.body.DynamicItemStorage, component, default) >= count;
 		}
 
 		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name)

@@ -50,7 +50,7 @@ namespace Objects.Engineering
 
 		#region Lifecycle
 
-		void Start()
+		void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			securable = GetComponent<WrenchSecurable>();

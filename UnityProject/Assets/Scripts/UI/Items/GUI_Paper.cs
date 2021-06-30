@@ -69,7 +69,7 @@ namespace UI.Items
 		private bool IsPenInHand()
 		{
 			Pen pen = null;
-			foreach (var itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
+			foreach (var itemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
 			{
 				if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent<Pen>(out pen))
 				{

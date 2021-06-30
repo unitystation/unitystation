@@ -984,7 +984,7 @@ public partial class PlayerSync
 		CheckTileSlip();
 
 		bool slipProtection = true;
-		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 		{
 			if (itemSlot.ItemAttributes == null || itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
 			{
@@ -1013,7 +1013,7 @@ public partial class PlayerSync
 		var matrix = MatrixManager.Get(serverState.MatrixId);
 
 		bool slipProtection = true;
-		foreach (var itemSlot in playerScript.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 		{
 			if (itemSlot.ItemAttributes == null || itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
 			{

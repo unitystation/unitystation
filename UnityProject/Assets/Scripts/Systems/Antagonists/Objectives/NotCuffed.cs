@@ -12,15 +12,20 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			ItemStorage itemStorage = Owner.body.GetComponent<ItemStorage>();
+			DynamicItemStorage dynamicItemStorage = Owner.body.GetComponent<DynamicItemStorage>();
 
 			//for whatever reason this is null, give the guy the greentext
-			if (itemStorage == null)
+			if (dynamicItemStorage == null) return true;
+
+			foreach (var handCuffs in dynamicItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
 			{
-				return true;
+				if(handCuffs.IsEmpty) continue;
+
+				//If any hands are cuff then we fail
+				return false;
 			}
 
-			return itemStorage.GetNamedItemSlot(NamedSlot.handcuffs).IsEmpty;
+			return true;
 		}
 	}
 }
