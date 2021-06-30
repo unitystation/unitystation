@@ -214,6 +214,16 @@ namespace Systems.Ai
 
 		#region Sync Stuff
 
+		public override void OnStartLocalPlayer()
+		{
+			base.OnStartLocalPlayer();
+
+			Init();
+
+			CmdAskForLawUpdate();
+			SyncPowerState(hasPower, hasPower);
+		}
+
 		private void Init()
 		{
 			if (aiUi == null)
