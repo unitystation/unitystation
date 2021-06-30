@@ -44,7 +44,7 @@ namespace Systems.Ai
 				var aiPlayers = PlayerList.Instance.GetAllByPlayersOfState(PlayerScript.PlayerStates.Ai).Where(
 					a => a.GameObject.TryGetComponent<AiPlayer>(out var aiPlayer) && aiPlayer.HasDied == false).ToList();
 
-				if (lastIndex >= aiPlayers.Count - 1)
+				if (lastIndex >= aiPlayers.Count)
 				{
 					lastIndex = 0;
 				}
