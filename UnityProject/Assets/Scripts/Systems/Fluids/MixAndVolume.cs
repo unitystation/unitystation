@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.Atmospherics;
 using Chemistry;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
 namespace Pipes
@@ -11,7 +12,7 @@ namespace Pipes
 	{
 		private float Volume => gasMix.Volume;
 		[SerializeField] private ReagentMix mix = new ReagentMix();
-		[SerializeField] private GasMix gasMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+		[SerializeField] private GasMix gasMix = new GasMix();
 
 
 		public float InternalEnergy
@@ -102,10 +103,12 @@ namespace Pipes
 			}
 
 			mix.Add(mixAndVolume.mix);
-			var newOne = new float[gasMix.Gases.Length];
-			for (int i = 0; i < gasMix.Gases.Length; i++)
+
+			var newOne = new GasData();
+			foreach (var gasData in gasMix.GasesArray)
 			{
-				newOne[i] = gasMix.Gases[i] + mixAndVolume.gasMix.Gases[i];
+				newOne.SetMoles(gasData.GasSO, gasMix.GasData.GetGasMoles(gasData.GasSO)
+				                                 + mixAndVolume.gasMix.GasData.GetGasMoles(gasData.GasSO));
 			}
 
 			gasMix = GasMix.FromTemperature(newOne, gasMix.Temperature, gasVolume);
@@ -130,12 +133,13 @@ namespace Pipes
 
 			var returnMix = mix.Take(mix.Total * percentage);
 
-			var newOne = new float[gasMix.Gases.Length];
-			var removeNewOne = new float[gasMix.Gases.Length];
-			for (int i = 0; i < gasMix.Gases.Length; i++)
+			var newOne = new GasData();
+			var removeNewOne = new GasData();
+			foreach (var gasData in gasMix.GasesArray)
 			{
-				removeNewOne[i] = gasMix.Gases[i] * percentage;
-				newOne[i] = gasMix.Gases[i] * (1 - percentage);
+				var moles = gasMix.GasData.GetGasMoles(gasData.GasSO);
+				removeNewOne.SetMoles(gasData.GasSO, moles * percentage);
+				newOne.SetMoles(gasData.GasSO, moles * (1 - percentage));
 			}
 
 			gasMix = GasMix.FromTemperature(newOne, gasMix.Temperature, gasVolume);
@@ -159,10 +163,10 @@ namespace Pipes
 
 			mix.Divide(divideAmount);
 
-			var newOne = new float[gasMix.Gases.Length];
-			for (var i = 0; i < gasMix.Gases.Length; i++)
+			var newOne = new GasData();
+			foreach (var gasData in gasMix.GasesArray)
 			{
-				newOne[i] = gasMix.Gases[i] / divideAmount;
+				newOne.SetMoles(gasData.GasSO, gasMix.GasData.GetGasMoles(gasData.GasSO) / divideAmount);
 			}
 
 			gasMix = GasMix.FromTemperature(newOne, gasMix.Temperature, gasVolume);
@@ -178,10 +182,10 @@ namespace Pipes
 
 			mix.Multiply(multiplyAmount);
 
-			var newOne = new float[gasMix.Gases.Length];
-			for (var i = 0; i < gasMix.Gases.Length; i++)
+			var newOne = new GasData();
+			foreach (var gasData in gasMix.GasesArray)
 			{
-				newOne[i] = gasMix.Gases[i] * multiplyAmount;
+				newOne.SetMoles(gasData.GasSO, gasMix.GasData.GetGasMoles(gasData.GasSO) * multiplyAmount);
 			}
 
 			gasMix = GasMix.FromTemperature(newOne, gasMix.Temperature, gasVolume);
@@ -201,20 +205,20 @@ namespace Pipes
 			mix.Multiply(0);
 		}
 
-		public void TransferSpecifiedTo(MixAndVolume toTransfer, Gas? specifiedGas = null,
+		public void TransferSpecifiedTo(MixAndVolume toTransfer, GasSO specifiedGas = null,
 			Reagent reagent = null, Vector2? amount = null)
 		{
 			if (specifiedGas != null)
 			{
 				float toRemoveGas = 0;
-				var gas = specifiedGas.GetValueOrDefault(Systems.Atmospherics.Gas.Oxygen);
+				var gas = specifiedGas == null ? Systems.Atmospherics.Gas.Oxygen : specifiedGas;
 				if (amount != null)
 				{
 					toRemoveGas = amount.Value.y;
 				}
 				else
 				{
-					toRemoveGas = gasMix.Gases[gas];
+					toRemoveGas = gasMix.GasData.GetGasMoles(gas);
 				}
 
 				var transferredEnergy = toRemoveGas * gas.MolarHeatCapacity * gasMix.Temperature;

@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1522905266836922115, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
@@ -100,6 +100,12 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ec0e04de167151e4c9c2c7b2fb3f60ef,
+        type: 2}
+    - target: {fileID: 6735081632615268852, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f8f71237e56b5244a4119555cda299e, type: 3}

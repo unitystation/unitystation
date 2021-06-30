@@ -34,9 +34,9 @@ namespace Systems.Atmospherics
 			var gasPower = 0f;
 
 
-			foreach (var gas in Gas.All)
+			foreach (var gas in gasMix.GasesArray)
 			{
-				gasPower += gas.FusionPower * gasMix.GetMoles(gas);
+				gasPower += gas.GasSO.FusionPower * gas.Moles;
 			}
 
 			var instability =  Mathf.Pow(gasPower * AtmosDefines.INSTABILITY_GAS_POWER_FACTOR, 2) % toroidalSize;

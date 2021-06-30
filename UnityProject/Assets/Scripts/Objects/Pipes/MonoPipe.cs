@@ -18,7 +18,7 @@ namespace Pipes
 
 		#region Lifecycle
 
-		private void Awake()
+		public virtual void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 		}
