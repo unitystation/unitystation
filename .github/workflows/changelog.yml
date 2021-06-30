@@ -3,6 +3,7 @@ on:
     pull_request_target:
         branches:
             - master
+            - develop
         types:
             - closed
             - edited
@@ -25,7 +26,7 @@ jobs:
                 id: pr2changelog
                 uses: corp-0/pr2changelog@master
                 with:
-                    categories: Fix;New;Improvement
+                    categories: Fix;New;Improvement;Balance
 
     after_merge:
         if: github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
