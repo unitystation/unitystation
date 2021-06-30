@@ -15,7 +15,7 @@ namespace Pipes
 
 		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
-		public Dictionary<string, GasSO> CapableFiltering;
+		public static Dictionary<string, GasSO> CapableFiltering;
 
 		//This is only used to set the inital filter values, nothing else
 		//the names contained within should always match the key of the above Dictionary
@@ -53,6 +53,9 @@ namespace Pipes
 		public override void Awake()
 		{
 			base.Awake();
+
+			//Only needs to be set once by one instance
+			if(CapableFiltering != null) return;
 
 			CapableFiltering = new Dictionary<string, GasSO>()
 			{
