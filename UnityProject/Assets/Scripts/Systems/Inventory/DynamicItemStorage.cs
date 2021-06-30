@@ -604,6 +604,13 @@ public class DynamicItemStorage : NetworkBehaviour
 	/// <param name="NewST"></param>
 	public void UpdateSlots(string oldST, string NewST)
 	{
+		StartCoroutine(WaitForInit(NewST));
+	}
+
+	private IEnumerator WaitForInit(string NewST)
+	{
+		yield return WaitFor.Seconds(1);
+
 		added.Clear();
 		removed.Clear();
 		var incomingList = JsonConvert.DeserializeObject<List<uint>>(NewST);
@@ -625,12 +632,24 @@ public class DynamicItemStorage : NetworkBehaviour
 
 		foreach (var addInt in removed)
 		{
-			RemoveClient(NetworkIdentity.spawned[addInt].GetComponent<IDynamicItemSlotS>());
+			if (NetworkIdentity.spawned.TryGetValue(addInt, out var spawned) == false)
+			{
+				Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet?");
+				continue;
+			}
+
+			RemoveClient(spawned.GetComponent<IDynamicItemSlotS>());
 		}
 
 		foreach (var addInt in added)
 		{
-			AddClient(NetworkIdentity.spawned[addInt].GetComponent<IDynamicItemSlotS>());
+			if (NetworkIdentity.spawned.TryGetValue(addInt, out var spawned) == false)
+			{
+				Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet?");
+				continue;
+			}
+
+			AddClient(spawned.GetComponent<IDynamicItemSlotS>());
 		}
 
 		ClientUIBodyPartsToSerialise = incomingList;
