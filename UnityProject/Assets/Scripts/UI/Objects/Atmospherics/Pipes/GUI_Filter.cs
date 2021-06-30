@@ -19,7 +19,7 @@ namespace UI.Objects.Atmospherics
 
 		public void SetFilterAmount(string gasName)
 		{
-			foreach (var INFilter in Filter.CapableFiltering)
+			foreach (var INFilter in Pipes.Filter.CapableFiltering)
 			{
 				if (INFilter.Key == gasName) //Checks what button has been pressed  And sets the correct position appropriate
 				{
@@ -31,7 +31,7 @@ namespace UI.Objects.Atmospherics
 				}
 			}
 
-			Filter.GasIndex = Filter.CapableFiltering[gasName];
+			Filter.GasIndex = Pipes.Filter.CapableFiltering[gasName];
 		}
 
 		void Start()
@@ -50,7 +50,7 @@ namespace UI.Objects.Atmospherics
 
 		public void SetFilteredGasValue(GasSO GasIndex)
 		{
-			foreach (var INFilter in Filter.CapableFiltering)
+			foreach (var INFilter in Pipes.Filter.CapableFiltering)
 			{
 				if (INFilter.Value == GasIndex) //Checks what button has been pressed  And sets the correct position appropriate
 				{
