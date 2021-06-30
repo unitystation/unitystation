@@ -213,7 +213,7 @@ namespace Managers
 		/// Makes and announce a written report that will spawn at all comms consoles. Must be called on server.
 		/// </summary>
 		/// <param name="text">String that will be the report body</param>
-		/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
+		/// <param name="loudAnnouncement">Play as sound when announcing</param>
 		public void MakeCommandReport(string text, bool loudAnnouncement = true)
 		{
 			SpawnReports(text);

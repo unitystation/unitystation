@@ -10,7 +10,6 @@ namespace StationObjectives
 		/// <summary>
 		/// The description of the objective which is shown to players.
 		/// </summary>
-		[SerializeField]
 		public string description;
 
 		/// <summary>
