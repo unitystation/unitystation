@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
@@ -24,6 +25,11 @@ public class UI_SlotManager : MonoBehaviour
 	public GameObject SlotPrefab;
 
 	public HandsController HandsController;
+
+	public void Start()
+	{
+		CustomNetworkManager.Instance.OnClientDisconnected.AddListener(RemoveAll);
+	}
 
 	public void AddContainer(IDynamicItemSlotS bodyPartUISlots)
 	{
