@@ -19,6 +19,9 @@ namespace Objects
 		[Tooltip("Network tab to display.")]
 		public NetTabType NetTabType = NetTabType.None;
 
+		[SerializeField]
+		private bool aiInteractable = true;
+
 		/// <summary>
 		/// This method simply tells the script what player last interacted, giving an reference to their gameobject
 		/// </summary>
@@ -62,6 +65,8 @@ namespace Objects
 
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
 		{
+			if (aiInteractable == false) return false;
+
 			//Normal click to open tab
 			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
 

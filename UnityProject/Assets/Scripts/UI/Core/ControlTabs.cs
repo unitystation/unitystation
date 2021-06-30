@@ -543,19 +543,11 @@ namespace UI
 				if (tab.Provider == null)
 				{
 					toDestroy.Add(tab);
+					continue;
 				}
-				else if (Validations.CanApply(playerScript, tab.Provider, NetworkSide.Client, reachRange: reach) == false)
-				{
-					//Make sure the item is not in the players hands first:
-					bool hasitem = false;
-					foreach (var itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
-					{
-						if (itemSlot.ItemObject == tab.Provider.gameObject)
-						{
-							hasitem = true;
-						}
-					}
 
+				if (Validations.CanApply(playerScript, tab.Provider, NetworkSide.Client, reachRange: reach) == false)
+				{
 					//Validate for AI reach
 					if (playerScript != null && playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
 					{
@@ -566,12 +558,25 @@ namespace UI
 						}
 
 						toClose.Add(tab);
+						continue;
+					}
+
+					bool hasItem = false;
+
+					//Make sure the item is not in the players hands first:
+					foreach (var itemSlot in PlayerManager.LocalPlayerScript.ItemStorage.GetHandSlots())
+					{
+						if (itemSlot.ItemObject == tab.Provider.gameObject)
+						{
+							hasItem = true;
+							break;
+						}
 					}
 
 					if(playerScript.ItemStorage.GetActiveHandSlot() == null) continue;
 
 					// Make sure the item is not in the players hands first:
-					if (hasitem == false)
+					if (hasItem == false)
 					{
 						toClose.Add(tab);
 					}

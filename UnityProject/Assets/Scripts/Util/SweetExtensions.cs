@@ -523,4 +523,17 @@ public static class SweetExtensions
 			if (obj is TResult) yield return (TResult)obj;
 		}
 	}
+
+	/// <summary>
+	/// Rounds float to largest eg 1.1 => 2, -0.1 => -1
+	/// </summary>
+	public static int RoundToLargestInt(this float source)
+	{
+		if (source < 0)
+		{
+			return Mathf.FloorToInt(source);
+		}
+
+		return Mathf.CeilToInt(source);
+	}
 }
