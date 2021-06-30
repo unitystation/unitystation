@@ -4,6 +4,7 @@ using UnityEngine;
 using Machines;
 using Pipes;
 using ScriptableObjects;
+using ScriptableObjects.Atmospherics;
 
 /// <summary>
 /// In order for the SingletonScriptableObject to work, the singleton instance must
@@ -36,4 +37,6 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public RaceSOSingleton RaceSOSingleton;
 	public GAS2ReagentSingleton GAS2ReagentSingleton;
 	public SurgeryProcedureBaseSingleton SurgeryProcedureBaseSingleton;
+	public GasesSingleton GasesSingleton;
+	public GasMixesSingleton GasMixesSingleton;
 }
