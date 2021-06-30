@@ -63,6 +63,7 @@ namespace Systems.Ai
 		private UI_Ai aiUi;
 
 		private bool hasDied;
+		public bool HasDied => hasDied;
 
 		[SyncVar(hook = nameof(SyncPowerState))]
 		private bool hasPower;
@@ -1417,6 +1418,13 @@ namespace Systems.Ai
 			foreach (var lawData in newData)
 			{
 				aiLaws.Add(lawData.LawOrder, lawData.Laws.ToList());
+			}
+
+			Init();
+
+			if (aiUi.aiPlayer == null)
+			{
+				aiUi.SetUp(this);
 			}
 
 			aiUi.OpenLaws();
