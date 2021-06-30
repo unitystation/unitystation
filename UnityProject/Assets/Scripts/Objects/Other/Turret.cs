@@ -668,6 +668,8 @@ namespace Objects.Other
 					}
 
 					frame.GameObject.GetComponent<TurretFrame>().SetUp(gun != null ? gun.GetComponent<Pickupable>() : null);
+
+					_ = Despawn.ServerSingle(gameObject);
 				});
 		}
 
@@ -685,6 +687,8 @@ namespace Objects.Other
 
 		public void UpdateGui()
 		{
+			if(NetworkTabManager.Instance == null) return;
+
 			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.Turret);
 			if(peppers.Count == 0) return;
 

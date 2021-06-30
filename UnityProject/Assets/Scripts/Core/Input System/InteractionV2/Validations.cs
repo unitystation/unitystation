@@ -448,6 +448,11 @@ public static class Validations
 	//AiActivate Validation
 	public static bool CanApply(AiActivate toValidate, NetworkSide side, bool lineCast = true)
 	{
+		return InternalAiActivate(toValidate, side, lineCast);
+	}
+
+	private static bool InternalAiActivate(AiActivate toValidate, NetworkSide side, bool lineCast = true)
+	{
 		if (side == NetworkSide.Client && PlayerManager.LocalPlayer != toValidate.Performer) return false;
 
 		//Performer and target cant be null
@@ -491,6 +496,44 @@ public static class Validations
 			endPos = wall.CalculateTileInFrontPos();
 		}
 
+		//Check to see if we can directly hit the target tile
+		if (LineCheck(cameraPos, aiPlayer, endPos, side) == false)
+		{
+			//We didnt hit the target tile so we'll try adding the normalised x or y coords
+			//This is done because the raycast can miss stuff which should be in line of sight
+			//E.g a door on the same axis as the camera would fail usually
+			var normalise = (cameraPos - endPos).normalized;
+
+			//Try x first
+			if (normalise.x != 0)
+			{
+				var newEndPos = endPos;
+				newEndPos.x += normalise.x.RoundToLargestInt();
+
+				if (LineCheck(cameraPos, aiPlayer, newEndPos, side))
+				{
+					//If x passes we dont need to try y
+					return true;
+				}
+			}
+
+			if (normalise.y != 0)
+			{
+				var newEndPos = endPos;
+				newEndPos.y += normalise.y.RoundToLargestInt();
+
+				return LineCheck(cameraPos, aiPlayer, newEndPos, side);
+			}
+
+			//All coords missed, therefore shouldn't be able to interact
+			return false;
+		}
+
+		return true;
+	}
+
+	private static bool LineCheck(Vector3 cameraPos, AiPlayer aiPlayer, Vector3 endPos, NetworkSide side)
+	{
 		//raycast to make sure not hidden
 		var linecast = MatrixManager.Linecast(cameraPos, LayerTypeSelection.Walls, null,
 			endPos);
@@ -505,7 +548,7 @@ public static class Validations
 
 		return true;
 	}
-	
+
 	#endregion
 
 	public static bool IsMineableAt(Vector2 targetWorldPosition, MetaTileMap metaTileMap)
