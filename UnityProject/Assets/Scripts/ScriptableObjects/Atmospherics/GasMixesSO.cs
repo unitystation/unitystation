@@ -10,7 +10,12 @@ namespace ScriptableObjects.Atmospherics
 	{
 		[SerializeField]
 		private GasMix gasMix = new GasMix();
-		public GasMix GasMix => gasMix;
+
+		/// <summary>
+		/// Do not change anything directly, copy this gas mix using gasMix.Copy() or GasMix.NewGasMix()
+		/// As this is an SO and will change the original values
+		/// </summary>
+		public GasMix BaseGasMix => gasMix;
 
 		[SerializeField]
 		private float volumeOverride = AtmosConstants.TileVolume;

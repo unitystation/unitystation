@@ -123,7 +123,7 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.Empty);
+		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
 
 		/// <summary>
 		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
@@ -131,7 +131,7 @@ namespace Systems.Atmospherics
 		/// <returns>The mean gas mix.</returns>
 		private void CalcMeanGasMix()
 		{
-			meanGasMix.Copy(GasMixes.Empty);
+			meanGasMix.Copy(GasMixes.BaseEmptyMix);
 
 			var targetCount = 0;
 
