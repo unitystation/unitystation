@@ -8,7 +8,7 @@ namespace Antagonists
 	/// Maroon your target on the station (dont allow them to leave the station on the shuttle)
 	/// Basically a slightly different assassinate objective
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Maroon")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Maroon")]
 	public class Maroon : Objective
 	{
 		/// <summary>
