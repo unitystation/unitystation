@@ -157,7 +157,7 @@ namespace Objects.Atmospherics
 				}
 			}
 		}
-#if Unity_Editor
+#if UNITY_EDITOR
 
 		[ContextMenu("Set Values for Gas")]
 		private void Validate()
