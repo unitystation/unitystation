@@ -44,7 +44,7 @@ namespace HealthV2
 		/// </summary>
 		public Equipment Equipment => equipment;
 
-		private DynamicItemStorage itemStorage;
+		private DynamicItemStorage dynamicItemStorage;
 
 		private bool init = false;
 
@@ -72,7 +72,7 @@ namespace HealthV2
 			playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
-			itemStorage = GetComponent<DynamicItemStorage>();
+			dynamicItemStorage = GetComponent<DynamicItemStorage>();
 			equipment = GetComponent<Equipment>();
 			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
@@ -109,7 +109,7 @@ namespace HealthV2
 			//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 			//drop everything
-			foreach (var slot in itemStorage.GetItemSlots())
+			foreach (var slot in dynamicItemStorage.GetItemSlots())
 			{
 				Inventory.ServerDrop(slot);
 			}
@@ -182,9 +182,9 @@ namespace HealthV2
 				}
 
 				//drop items in hand
-				if (itemStorage != null)
+				if (dynamicItemStorage != null)
 				{
-					foreach (var itemSlot in itemStorage.GetHandSlots())
+					foreach (var itemSlot in dynamicItemStorage.GetHandSlots())
 					{
 						Inventory.ServerDrop(itemSlot);
 					}
@@ -285,18 +285,18 @@ namespace HealthV2
 			float resistance = GetNakedHumanoidElectricalResistance(voltage);
 
 			// Give the humanoid extra/less electrical resistance based on what they're holding/wearing
-			foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.hands))
+			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
 			{
 				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
 			}
 
-			foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.feet))
+			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 			{
 				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
 			}
 
 			// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
-			if (itemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
+			if (dynamicItemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
 
 			// Broken skin reduces electrical resistance - arbitrarily chosen at 4 to 1.
 			resistance -= 4 * GetTotalBruteDamage();
@@ -327,7 +327,7 @@ namespace HealthV2
 		{
 			// TODO: Add sparks VFX at shockSourcePos.
 			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
-			Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
+			Inventory.ServerDrop(dynamicItemStorage.GetActiveHandSlot());
 
 			// Slip is essentially a yelp SFX.
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));

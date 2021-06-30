@@ -457,30 +457,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
 		ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
-		if (CustomNetworkManager.Instance._isServer)
+
+		var playerStorage = gameObject.GetComponent<DynamicItemStorage>();
+		if (playerStorage != null)
 		{
-			var playerStorage = gameObject.GetComponent<ItemStorage>();
-			if (playerStorage && !playerStorage.GetNamedItemSlot(NamedSlot.ear).IsEmpty)
+			foreach (var earSlot in playerStorage.GetNamedItemSlots(NamedSlot.ear))
 			{
-				Headset headset = playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
-				if (headset)
-				{
-					EncryptionKeyType key = headset.EncryptionKey;
-					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-				}
-			}
-		}
-		else
-		{
-			GameObject earSlotItem = gameObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.ear).ItemObject;
-			if (earSlotItem)
-			{
-				Headset headset = earSlotItem.GetComponent<Headset>();
-				if (headset)
-				{
-					EncryptionKeyType key = headset.EncryptionKey;
-					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-				}
+				if(earSlot.IsEmpty) continue;
+				if(earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+
+				EncryptionKeyType key = headset.EncryptionKey;
+				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
 			}
 		}
 

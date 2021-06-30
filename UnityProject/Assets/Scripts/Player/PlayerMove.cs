@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HealthV2;
 using Messages.Client.Interaction;
 using UnityEngine;
@@ -584,15 +585,31 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// </summary>
 	public void ServerPerformInteraction(ContextMenuApply interaction)
 	{
-		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs).ItemObject;
-		if (handcuffs == null) return;
+		var handcuffSlots = interaction.TargetObject.GetComponent<DynamicItemStorage>().OrNull()?.GetNamedItemSlots(NamedSlot.handcuffs)
+			.Where(x => x.IsEmpty == false).ToList();
 
-		var restraint = handcuffs.GetComponent<Restraint>();
-		if (restraint == null) return;
+		if (handcuffSlots == null) return;
 
-		var ProgressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
-		StandardProgressAction.Create(ProgressConfig, Uncuff)
-			.ServerStartProgress(interaction.TargetObject.RegisterTile(), restraint.RemoveTime, interaction.Performer);
+		//Somehow has no cuffs but has cuffed effect, force uncuff
+		if (handcuffSlots.Count == 0)
+		{
+			Uncuff();
+			return;
+		}
+
+		foreach (var handcuffSlot in handcuffSlots)
+		{
+			var restraint = handcuffSlot.Item.GetComponent<Restraint>();
+			if (restraint == null) continue;
+
+			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+			StandardProgressAction.Create(progressConfig, Uncuff)
+				.ServerStartProgress(interaction.TargetObject.RegisterTile(),
+					restraint.RemoveTime * (handcuffSlots.Count / 2f), interaction.Performer);
+
+			//Only need to do it once
+			break;
+		}
 	}
 
 	[Server]

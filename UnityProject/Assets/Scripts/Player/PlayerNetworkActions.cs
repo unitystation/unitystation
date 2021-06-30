@@ -284,28 +284,32 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdDisrobe(GameObject toDisrobe)
 	{
 		if (!Validations.CanApply(playerScript, toDisrobe, NetworkSide.Server)) return;
-		//only allowed if this player is an observer of the player to disrobe
-		var itemStorage = toDisrobe.GetComponent<ItemStorage>();
-		if (itemStorage == null) return;
 
-		//are we an observer of the player to disrobe?
-		if (!itemStorage.ServerIsObserver(gameObject)) return;
+		//only allowed if this player is an observer of the player to disrobe
+		var dynamicItemStorage = toDisrobe.GetComponent<DynamicItemStorage>();
+		if (dynamicItemStorage == null) return;
 
 		//disrobe each slot, taking .2s per each occupied slot
 		//calculate time
-		var occupiedSlots = itemStorage.GetItemSlots()
+		var occupiedSlots = dynamicItemStorage.GetItemSlots()
 			.Count(slot => slot.NamedSlot != NamedSlot.handcuffs && !slot.IsEmpty);
-		if (occupiedSlots == 0) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		var timeTaken = occupiedSlots * .4f;
 
+		if (occupiedSlots == 0) return;
+
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+
+		var timeTaken = occupiedSlots * .4f;
 		void ProgressComplete()
 		{
 			var victimsHealth = toDisrobe.GetComponent<PlayerHealthV2>();
-			foreach (var itemSlot in itemStorage.GetItemSlots())
+			foreach (var itemSlot in dynamicItemStorage.GetItemSlots())
 			{
+				//are we an observer of the player to disrobe?
+				if (itemSlot.ServerIsObservedBy(gameObject) == false) continue;
+
 				//skip slots which have special uses
 				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
+
 				// cancels out of the loop if player gets up
 				if (!victimsHealth.IsCrit) break;
 
