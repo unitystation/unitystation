@@ -157,6 +157,7 @@ namespace Objects.Atmospherics
 				}
 			}
 		}
+#if Unity_Editor
 
 		[ContextMenu("Set Values for Gas")]
 		private void Validate()
@@ -164,7 +165,7 @@ namespace Objects.Atmospherics
 			Undo.RecordObject(gameObject, "Gas Change");
 			StoredGasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
 		}
-
+#endif
 		public void UpdateGasMix()
 		{
 			gasIsInitialised = true;
