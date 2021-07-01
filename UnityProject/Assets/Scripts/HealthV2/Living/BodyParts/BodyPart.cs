@@ -307,7 +307,7 @@ namespace HealthV2
 		/// </summary>
 		public virtual void RemoveFromBodyThis()
 		{
-			BodyPartRemovalChecks();
+			if (BodyPartRemovalChecks() == false) return;
 			dynamic parent = this.GetParent();
 			if (parent != null)
 			{
@@ -317,9 +317,12 @@ namespace HealthV2
 
 
 		/// <summary>
-		/// Checks if a body part has a condition or state that applies logic upon removal then executes it.
+		/// Checks if it's possible to remove this body part and runs any logic
+		/// required upon it's removal.
 		/// </summary>
-		private void BodyPartRemovalChecks()
+		/// <returns>True if allowed to remove. Flase if gibbing.</returns>
+		[ContextMenu("Debug - Drop this Body Part")]
+		private bool BodyPartRemovalChecks()
 		{
 			//Checks if the body part is not an internal organ and if that part shares a skin tone.
 			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
@@ -337,11 +340,17 @@ namespace HealthV2
 			{
 				StopExternalBleeding();
 			}
+			if (gibsEntireBodyOnRemoval)
+			{
+				healthMaster.Gib();
+				return false;
+			}
 			//If this body part is necessary for a character existence, kill them upon removal.
 			if(DeathOnRemoval)
 			{
 				healthMaster.Death();
 			}
+			return true;
 		}
 
 		/// <summary>

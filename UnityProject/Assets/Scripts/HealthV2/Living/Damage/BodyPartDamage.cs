@@ -794,19 +794,6 @@ namespace HealthV2
 			if(Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
 			{
-				DismemberBodyPartLogic();
-			}
-		}
-
-		[ContextMenu("Debug - Disemember Body Part")]
-		private void DismemberBodyPartLogic()
-		{
-			if (gibsEntireBodyOnRemoval)
-			{
-				healthMaster.Gib();
-			}
-			else
-			{
 				RemoveFromBodyThis();
 			}
 		}
