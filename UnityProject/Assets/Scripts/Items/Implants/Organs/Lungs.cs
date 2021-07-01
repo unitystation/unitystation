@@ -249,7 +249,7 @@ public class Lungs : BodyPartModification
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (Random.value < 0.2)
 			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps");
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");
 			}
 		}
 
@@ -265,7 +265,7 @@ public class Lungs : BodyPartModification
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 				"You gasp for air; but you drown in your own blood from the inside!",
-				$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps for air!");
+				$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps for air!");
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			}
 			else

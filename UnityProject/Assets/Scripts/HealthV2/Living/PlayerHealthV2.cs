@@ -22,13 +22,6 @@ namespace HealthV2
 
 		private PlayerSprites playerSprites;
 
-
-		private PlayerScript playerScript;
-		/// <summary>
-		/// The associated Player Script
-		/// </summary>
-		public PlayerScript PlayerScript => playerScript;
-
 		private PlayerNetworkActions playerNetworkActions;
 
 		private RegisterPlayer registerPlayer;
@@ -46,8 +39,6 @@ namespace HealthV2
 
 		private DynamicItemStorage dynamicItemStorage;
 
-		private bool init = false;
-
 		/// <summary>
 		/// The percentage of players that start with common allergies.
 		/// </summary>
@@ -63,26 +54,21 @@ namespace HealthV2
 		//fixme: not actually set or modified. keep an eye on this!
 		public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-		public override void EnsureInit()
+		public override void Awake()
 		{
-			if (init) return;
-			init = true;
-			base.EnsureInit();
+			base.Awake();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			dynamicItemStorage = GetComponent<DynamicItemStorage>();
 			equipment = GetComponent<Equipment>();
-			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 			registerPlayer.AddStatus(this);
 		}
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 		{
-			if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
-
 			if (isServer)
 			{
 				playerNetworkActions.OnConsciousStateChanged(oldState, newState);

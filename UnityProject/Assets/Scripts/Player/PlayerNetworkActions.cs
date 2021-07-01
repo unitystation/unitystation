@@ -112,7 +112,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
 		{
 			if (playerScript.playerSprites != null &&
-			    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+			    playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
 			{
 				if (cuffsClothingItem != null &&
 				    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
@@ -342,7 +342,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		if (playerScript.playerSprites != null &&
-		    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+		    playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
 		{
 			if (cuffsClothingItem != null &&
 			    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))

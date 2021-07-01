@@ -755,24 +755,12 @@ public class DynamicItemStorage : NetworkBehaviour
 
 	public void SetUpOccupation(Occupation occupation)
 	{
-		StartCoroutine(InternalSetUpOccupation(occupation));
-	}
-
-
-	public IEnumerator InternalSetUpOccupation(Occupation occupation)
-	{
-		yield return null;
-		yield return null;
-		yield return null;
 		var NSP = occupation.InventoryPopulator as PlayerSlotStoragePopulator;
 		if (NSP != null)
 		{
 			NSP.PopulateDynamicItemStorage(this, registerPlayer.PlayerScript);
 		}
-
-		//
 	}
-
 
 	#region check conditionals
 
@@ -917,7 +905,10 @@ public class DynamicItemStorage : NetworkBehaviour
 	{
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
-			objt.GetComponent<ItemStorage>().ServerAddObserverPlayer(newBody);
+			foreach (var itemStorage in objt.GetComponents<ItemStorage>())
+			{
+				itemStorage.ServerAddObserverPlayer(newBody);
+			}
 		}
 	}
 
