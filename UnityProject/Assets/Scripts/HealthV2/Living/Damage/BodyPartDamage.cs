@@ -114,7 +114,7 @@ namespace HealthV2
 
 		public bool CanBleedExternally = false;
 
-		public bool gibsEntireBodyOnRemoval = false;
+		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
 		private bool isBleedingInternally = false;
 
