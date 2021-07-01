@@ -226,15 +226,18 @@ namespace HealthV2
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
-		public PlayerScript PlayerScriptOwner;
+		public PlayerScript playerScript;
 
 		public virtual void Awake()
 		{
-			EnsureInit();
-			if(PlayerScriptOwner == null)
-			{
-				PlayerScriptOwner = this.gameObject.Player().Script;
-			}
+			RegisterTile = GetComponent<RegisterTile>();
+			RespiratorySystem = GetComponent<RespiratorySystemBase>();
+			CirculatorySystem = GetComponent<CirculatorySystemBase>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
+			healthStateController = GetComponent<HealthStateController>();
+			immunedSickness = new List<Sickness>();
+			mobSickness = GetComponent<MobSickness>();
+			playerScript = GetComponent<PlayerScript>();
 		}
 
 		void OnEnable()
@@ -253,25 +256,6 @@ namespace HealthV2
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
-		public virtual void EnsureInit()
-		{
-			if (RegisterTile) return;
-			RegisterTile = GetComponent<RegisterTile>();
-			RespiratorySystem = GetComponent<RespiratorySystemBase>();
-			CirculatorySystem = GetComponent<CirculatorySystemBase>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
-			healthStateController = GetComponent<HealthStateController>();
-			immunedSickness = new List<Sickness>();
-			mobSickness = GetComponent<MobSickness>();
-
-			foreach (var implant in ImplantList)
-			{
-				//Debug.Log(implant.gameObject.name);
-				implant.HealthMaster = this;
-				implant.Initialisation();
-			}
-		}
-
 		public void Setbrain(Brain _brain)
 		{
 			brain = _brain;
@@ -279,9 +263,7 @@ namespace HealthV2
 
 		public override void OnStartServer()
 		{
-			EnsureInit();
 			mobID = PlayerManager.Instance.GetMobID();
-
 			//Generate BloodType and DNA
 			healthStateController.SetDNA(new DNAandBloodType());
 		}
@@ -309,6 +291,7 @@ namespace HealthV2
 		/// <param name="implant"></param>
 		public void AddNewImplant(BodyPart implant)
 		{
+			implant.HealthMaster = this;
 			ImplantList.Add(implant);
 		}
 
@@ -318,12 +301,6 @@ namespace HealthV2
 		public void RemoveImplant(BodyPart implantBase)
 		{
 			ImplantList.Remove(implantBase);
-		}
-
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			EnsureInit();
 		}
 
 		//Server Side only
@@ -974,18 +951,17 @@ namespace HealthV2
 		/// Kills the creature, used for causes of death other than damage.
 		/// Currently not fully implemented
 		///</Summary>
-		public virtual void Death()
+		public void Death()
 		{
 			var HV2 = (this as PlayerHealthV2);
 			if (HV2 != null)
 			{
-				if (HV2.PlayerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				if (HV2.playerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
 				{
-					HV2.PlayerScript.playerMove.allowInput = false;
+					HV2.playerScript.playerMove.allowInput = false;
 				}
 
 			}
-
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -995,16 +971,6 @@ namespace HealthV2
 
 		protected abstract void OnDeathActions();
 
-		public void OnFullyInitialised(Action TODO)
-		{
-			StartCoroutine(WaitForPlayerinitialisation(TODO));
-		}
-
-		public IEnumerator WaitForPlayerinitialisation(Action TODO)
-		{
-			yield return null;
-			TODO.Invoke();
-		}
 
 		/// <summary>
 		/// Updates the blood health stats from the server via NetMsg

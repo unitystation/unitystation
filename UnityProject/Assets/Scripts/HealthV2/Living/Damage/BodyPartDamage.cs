@@ -692,7 +692,7 @@ namespace HealthV2
 				yield return WaitFor.Seconds(4f);
 				if(Root != null) //This is to prevent rare moments where body parts still attempt to bleed when they no longer should.
 				{
-					if (Root.ContainsLimbs.Contains(this) != false) 
+					if (Root.ContainsLimbs.Contains(this) != false)
 					{
 						healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
 					}
@@ -804,7 +804,7 @@ namespace HealthV2
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
 				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
-				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.DynamicItemStorage.GetItemSlots();
+				IEnumerable<ItemSlot> PlayerItemList = healthMaster.playerScript.DynamicItemStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
 					Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
