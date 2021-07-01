@@ -307,6 +307,7 @@ namespace HealthV2
 		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
 		/// Will check if the this body part causes death upon removal and will tint it's Item Sprite to the character's skinTone if allowed.
 		/// </summary>
+		[ContextMenu("Debug - Drop this Body Part")]
 		public virtual void RemoveFromBodyThis()
 		{
 			if (BodyPartRemovalChecks() == false) return;
@@ -323,7 +324,6 @@ namespace HealthV2
 		/// required upon it's removal.
 		/// </summary>
 		/// <returns>True if allowed to remove. Flase if gibbing.</returns>
-		[ContextMenu("Debug - Drop this Body Part")]
 		private bool BodyPartRemovalChecks()
 		{
 			//Checks if the body part is not an internal organ and if that part shares a skin tone.
