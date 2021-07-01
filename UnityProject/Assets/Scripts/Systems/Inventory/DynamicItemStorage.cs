@@ -917,7 +917,10 @@ public class DynamicItemStorage : NetworkBehaviour
 	{
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
-			objt.GetComponent<ItemStorage>().ServerAddObserverPlayer(newBody);
+			foreach (var itemStorage in objt.GetComponents<ItemStorage>())
+			{
+				itemStorage.ServerAddObserverPlayer(newBody);
+			}
 		}
 	}
 
