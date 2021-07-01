@@ -388,38 +388,24 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Applies Trauma damage to a body part.
+		/// </summary>
 		public void TakeTraumaDamage(float damage, BodyPart.TramuticDamageTypes damageType)
 		{
-			//Check if we do more than one type of trauma damage at once.
-			//If true, don't run the indivual case check.
-			//We also do a check for a body part's existence in case it got removed by the previous damage.
 			foreach(BodyPart limb in ContainsLimbs)
 			{
-				if(damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN) && damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH)
-				|| damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN) && damageType.HasFlag(BodyPart.TramuticDamageTypes.PIERCE))
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN))
 				{
-					if (damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH))
-					{
-						limb.ApplyTraumaDamage(damage);
-					}
-					else
-					{
-						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
-					}
 					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
-					return;
 				}
-				switch (damageType)
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH))
 				{
-					case BodyPart.TramuticDamageTypes.SLASH:
-						limb.ApplyTraumaDamage(damage);
-						continue;
-					case BodyPart.TramuticDamageTypes.BURN:
-						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
-						continue;
-					case BodyPart.TramuticDamageTypes.PIERCE:
-						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
-						break;
+					limb.ApplyTraumaDamage(damage);
+				}
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.PIERCE))
+				{
+					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
 				}
 			}
 		}
