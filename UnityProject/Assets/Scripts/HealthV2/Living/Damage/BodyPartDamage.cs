@@ -425,6 +425,24 @@ namespace HealthV2
 			AffectDamage(-healAmt, damageTypeToHeal);
 		}
 
+		public void HealTraumaticDamage(float healAmount, TramuticDamageTypes damageTypeToHeal)
+		{
+			if (damageTypeToHeal == TramuticDamageTypes.BURN)
+			{
+				currentBurnDamage -= healAmount;
+			}
+			if (damageTypeToHeal == TramuticDamageTypes.SLASH)
+			{
+				currentSlashCutDamage -= healAmount;
+			}
+			if (damageTypeToHeal == TramuticDamageTypes.PIERCE)
+			{
+				currentPierceDamage -= healAmount;
+			}
+			CheckCutSize();
+			CheckBurnDamageLevels();
+		}
+
 		/// <summary>
 		/// Resets all damage sustained by this body part
 		/// </summary>
@@ -851,14 +869,20 @@ namespace HealthV2
 			}
 		}
 
-		/// <summary>
-		/// Returns current burn damage
-		/// </summary>
-		/// <returns>currentBurnDamage</returns>
+
 		public float GetCurrentBurnDamage()
 		{
 			return currentBurnDamage;
 		}
+		public float GetCurrentSlashDamage()
+		{
+			return currentSlashCutDamage;
+		}
+		public float GetCurrentPierceDamage()
+		{
+			return currentPierceDamage;
+		}
+
 
 		/// <summary>
 		/// Updates the player health UI if present
