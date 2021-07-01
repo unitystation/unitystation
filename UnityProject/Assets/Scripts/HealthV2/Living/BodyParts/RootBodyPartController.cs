@@ -9,17 +9,10 @@ using UnityEngine;
 public class RootBodyPartController : NetworkBehaviour
 {
 	[SyncVar(hook = nameof(UpdateCustomisations))]
-	private string PlayerSpritesData = "";
+	public string PlayerSpritesData = "";
 
 	[SyncVar(hook = nameof(UpdateChildren))]
 	private string SerialisedNetIDs = "";
-
-	[System.Serializable]
-	public struct StringClass
-	{
-		public string String;
-		public RootBodyPartContainer BodyPart;
-	}
 
 	public List<RootBodyPartContainer> RootBodyParts = new List<RootBodyPartContainer>();
 
@@ -41,32 +34,14 @@ public class RootBodyPartController : NetworkBehaviour
 
 	public void RequestUpdate(RootBodyPartContainer RootBodyPartContainer)
 	{
-		DictionaryToSerialised[RootBodyPartContainer.name] =
-			RootBodyPartContainer.InternalNetIDs;
-
-		UpdateChildren("", JsonConvert.SerializeObject(DictionaryToSerialised));
+		DictionaryToSerialised[RootBodyPartContainer.name] = RootBodyPartContainer.InternalNetIDs;
+		SerialisedNetIDs = JsonConvert.SerializeObject(DictionaryToSerialised);
 	}
 
 
 	public void UpdateChildren(string InOld, string InNew)
 	{
 		SerialisedNetIDs = InNew;
-		if (CustomNetworkManager.Instance._isServer) return;
-		StartCoroutine(WaitForStartChildren());
-	}
-
-
-	public void UpdateCustomisations(string InOld, string InNew)
-	{
-		PlayerSpritesData = InNew;
-		if (CustomNetworkManager.Instance._isServer) return;
-		StartCoroutine(WaitForStartCustomisations());
-	}
-
-	private IEnumerator WaitForStartChildren()
-	{
-		yield return null;
-		yield return null;
 		playerSprites.Addedbodypart.Clear();
 		DictionaryToSerialised = JsonConvert.DeserializeObject<Dictionary<string, List<uint>>>(SerialisedNetIDs);
 		foreach (var Entry in DictionaryToSerialised)
@@ -78,10 +53,10 @@ public class RootBodyPartController : NetworkBehaviour
 		}
 	}
 
-	private IEnumerator WaitForStartCustomisations()
+	public void UpdateCustomisations(string InOld, string InNew)
 	{
-		yield return null;
-		yield return null;
+		PlayerSpritesData = InNew;
 		playerSprites.UpdateChildren(JsonConvert.DeserializeObject<List<uint>>(PlayerSpritesData));
 	}
+
 }

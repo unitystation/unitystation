@@ -218,7 +218,6 @@ namespace HealthV2
 			health = maxHealth;
 			DamageInitialisation();
 			UpdateSeverity();
-			Initialisation();
 
 			BodyPartModifications = this.GetComponents<BodyPartModification>().ToList();
 
@@ -229,14 +228,7 @@ namespace HealthV2
 			}
 		}
 
-		/// <summary>
-		/// Overridable method for variant body parts to use for their non-systems based initialisation
-		/// </summary>
-		public virtual void Initialisation()
-		{
-		}
-
-		public virtual void ImplantUpdate()
+		public void ImplantUpdate()
 		{
 			foreach (BodyPart prop in ContainBodyParts)
 			{
@@ -427,7 +419,6 @@ namespace HealthV2
 		public void SetUpBodyPart(BodyPart implant)
 		{
 			implant.HealthMaster = HealthMaster;
-			if (HealthMaster == null) return;
 			HealthMaster.AddNewImplant(implant);
 			SubBodyPartAdded(implant);
 
@@ -438,7 +429,6 @@ namespace HealthV2
 		/// </summary>
 		public virtual void SetUpSystems()
 		{
-			if (HealthMaster == null) return;
 			foreach (BodyPart prop in ContainBodyParts)
 			{
 				prop.SetUpSystems();

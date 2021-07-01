@@ -26,8 +26,8 @@ namespace Items.Medical
 			}
 			else
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, 
-				$"{LHB.PlayerScriptOwner.visibleName}'s {interaction.TargetBodyPart} doesn't seem to be bleeding.");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+				$"{LHB.playerScript.visibleName}'s {interaction.TargetBodyPart} doesn't seem to be bleeding.");
 			}
 		}
 
@@ -44,13 +44,13 @@ namespace Items.Medical
 							limb.StopExternalBleeding();
 							if(interaction.Performer.Player().GameObject == interaction.TargetObject.Player().GameObject)
 							{
-								Chat.AddActionMsgToChat(interaction.Performer.gameObject, 
+								Chat.AddActionMsgToChat(interaction.Performer.gameObject,
 								$"You stopped your {interaction.TargetObject.Player().Script.visibleName}'s bleeding.",
 								$"{interaction.PerformerPlayerScript.visibleName} stopped their own bleeding from their {interaction.TargetObject.ExpensiveName()}.");
 							}
 							else
 							{
-								Chat.AddActionMsgToChat(interaction.Performer.gameObject, 
+								Chat.AddActionMsgToChat(interaction.Performer.gameObject,
 								$"You stopped {interaction.TargetObject.Player().Script.visibleName}'s bleeding.",
 								$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.Player().Script.visibleName}'s bleeding.");
 							}

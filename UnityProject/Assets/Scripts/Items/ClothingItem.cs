@@ -39,11 +39,6 @@ public class ClothingItem : MonoBehaviour
 	public PlayerScript thisPlayerScript;
 
 	/// <summary>
-	/// Player equipped or unequipped some clothing from ClothingItem slot
-	/// </summary>
-	public event OnClothingEquippedDelegate OnClothingEquipped;
-
-	/// <summary>
 	/// Direction clothing is facing (absolute)
 	/// </summary>
 	public Orientation Direction
@@ -97,7 +92,7 @@ public class ClothingItem : MonoBehaviour
 					thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
 
 					if (unequippedClothing)
-						OnClothingEquipped?.Invoke(unequippedClothing, false);
+						thisPlayerScript.playerSprites.OnClothingEquipped(unequippedClothing, true);
 				}
 			}
 
@@ -126,8 +121,7 @@ public class ClothingItem : MonoBehaviour
 				// But for the others, we call the OnClothingEquipped event.
 				if (equippedClothing)
 				{
-					// call the event of equiped clothing
-					OnClothingEquipped?.Invoke(equippedClothing, true);
+					thisPlayerScript.playerSprites.OnClothingEquipped(equippedClothing, true);
 				}
 			}
 		}
