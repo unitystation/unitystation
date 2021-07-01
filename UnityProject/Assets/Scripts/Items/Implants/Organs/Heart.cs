@@ -82,7 +82,8 @@ public class Heart : BodyPartModification
 		if(RelatedPart.CurrentInternalBleedingDamage > 50 && alarmedForInternalBleeding == false)
 		{
 			Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-			$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!", $"{RelatedPart.HealthMaster.playerScript.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
+			$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!",
+			$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
 			alarmedForInternalBleeding = true;
 		}
 		if(RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage)

@@ -226,7 +226,7 @@ namespace HealthV2
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
-		public PlayerScript playerScript;
+		public PlayerScript PlayerScriptOwner;
 
 		public virtual void Awake()
 		{
@@ -237,7 +237,7 @@ namespace HealthV2
 			healthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
-			playerScript = GetComponent<PlayerScript>();
+			PlayerScriptOwner = GetComponent<PlayerScript>();
 		}
 
 		void OnEnable()
@@ -980,9 +980,9 @@ namespace HealthV2
 			var HV2 = (this as PlayerHealthV2);
 			if (HV2 != null)
 			{
-				if (HV2.playerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				if (HV2.PlayerScriptOwner.OrNull()?.playerMove.OrNull()?.allowInput != null)
 				{
-					HV2.playerScript.playerMove.allowInput = false;
+					HV2.PlayerScriptOwner.playerMove.allowInput = false;
 				}
 
 			}
