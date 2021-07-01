@@ -388,37 +388,37 @@ namespace HealthV2
 			}
 		}
 
-		public void TakeTraumaDamage(float damage, TramuticDamageTypes damageType)
+		public void TakeTraumaDamage(float damage, BodyPart.TramuticDamageTypes damageType)
 		{
 			//Check if we do more than one type of trauma damage at once.
 			//If true, don't run the indivual case check.
 			//We also do a check for a body part's existence in case it got removed by the previous damage.
 			foreach(BodyPart limb in ContainsLimbs)
 			{
-				if(damageType.HasFlag(TramuticDamageTypes.BURN) && damageType.HasFlag(TramuticDamageTypes.SLASH)
-				|| damageType.HasFlag(TramuticDamageTypes.BURN) && damageType.HasFlag(TramuticDamageTypes.PIERCE))
+				if(damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN) && damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH)
+				|| damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN) && damageType.HasFlag(BodyPart.TramuticDamageTypes.PIERCE))
 				{
-					if (damageType.HasFlag(TramuticDamageTypes.SLASH))
+					if (damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH))
 					{
 						limb.ApplyTraumaDamage(damage);
 					}
 					else
 					{
-						limb.ApplyTraumaDamage(damage, TramuticDamageTypes.PIERCE);
+						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
 					}
-					limb.ApplyTraumaDamage(damage, TramuticDamageTypes.BURN);
+					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
 					return;
 				}
 				switch (damageType)
 				{
-					case TramuticDamageTypes.SLASH:
+					case BodyPart.TramuticDamageTypes.SLASH:
 						limb.ApplyTraumaDamage(damage);
 						continue;
-					case TramuticDamageTypes.BURN:
-						limb.ApplyTraumaDamage(damage, TramuticDamageTypes.BURN);
+					case BodyPart.TramuticDamageTypes.BURN:
+						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
 						continue;
-					case TramuticDamageTypes.PIERCE:
-						limb.ApplyTraumaDamage(damage, TramuticDamageTypes.PIERCE);
+					case BodyPart.TramuticDamageTypes.PIERCE:
+						limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
 						break;
 				}
 			}
@@ -441,7 +441,7 @@ namespace HealthV2
 			}
 		}
 
-		public void HealTraumaDamage(float healAmt, TramuticDamageTypes typeToHeal)
+		public void HealTraumaDamage(float healAmt, BodyPart.TramuticDamageTypes typeToHeal)
 		{
 			foreach(BodyPart limb in ContainsLimbs)
 			{

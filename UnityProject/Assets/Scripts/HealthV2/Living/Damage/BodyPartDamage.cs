@@ -274,6 +274,15 @@ namespace HealthV2
 			}
 		}
 
+		[Flags]
+		public enum TramuticDamageTypes
+		{
+			NONE = 0,
+			SLASH = 1 << 0,
+			PIERCE = 2 << 1,
+			BURN = 4 << 2
+		}
+
 		public enum BodyPartCutSize
 		{
 			NONE,
@@ -924,14 +933,4 @@ namespace HealthV2
 			UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
 		}
 	}
-}
-
-
-[Flags]
-public enum TramuticDamageTypes
-{
-	NONE = 0,
-	SLASH = 1 << 0,
-	PIERCE = 2 << 1,
-	BURN = 4 << 2
 }

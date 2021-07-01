@@ -18,7 +18,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 	private readonly float fistDamage = 5;
 
 	private float traumaDamageChance = 0;
-	private TramuticDamageTypes tramuticDamageType;
+	private BodyPart.TramuticDamageTypes tramuticDamageType;
 
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
