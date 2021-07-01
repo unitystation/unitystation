@@ -9,9 +9,11 @@ namespace Messages.Client
 		{
 			public uint PlayerStorage;
 			public int PlayerSlotIndex;
+			public int StorageIndexOnPlayer;
 			public NamedSlot PlayerNamedSlot;
 			public uint TargetStorage;
 			public int TargetSlotIndex;
+			public int StorageIndexOnGameObject;
 			public NamedSlot TargetNamedSlot;
 			public bool IsGhost;
 		}
@@ -21,8 +23,8 @@ namespace Messages.Client
 			LoadMultipleObjects(new uint[]{msg.PlayerStorage, msg.TargetStorage});
 			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
-			var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), msg.PlayerNamedSlot, msg.PlayerSlotIndex);
-			var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), msg.TargetNamedSlot, msg.TargetSlotIndex);
+			var playerSlot = ItemSlot.Get(NetworkObjects[0].GetComponents<ItemStorage>()[msg.StorageIndexOnPlayer], msg.PlayerNamedSlot, msg.PlayerSlotIndex);
+			var targetSlot = ItemSlot.Get(NetworkObjects[1].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], msg.TargetNamedSlot, msg.TargetSlotIndex);
 
 			var playerScript = SentByPlayer.Script;
 			var playerObject = playerScript.gameObject;
@@ -110,6 +112,29 @@ namespace Messages.Client
 				TargetNamedSlot = targetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
 				IsGhost = isGhost
 			};
+
+			msg.StorageIndexOnPlayer = 0;
+			foreach (var itemStorage in NetworkIdentity.spawned[playerSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == playerSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnPlayer++;
+			}
+
+			msg.StorageIndexOnGameObject = 0;
+			foreach (var itemStorage in NetworkIdentity.spawned[targetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			{
+				if (itemStorage == targetSlot.ItemStorage)
+				{
+					break;
+				}
+
+				msg.StorageIndexOnGameObject++;
+			}
+
 
 			Send(msg);
 		}

@@ -14,8 +14,15 @@ namespace UI.Action
 		{
 			if (PlayerManager.LocalPlayerScript == null) return;
 			var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
-			var showAlert = pna.GetActiveHandItem() == gameObject ||
-							pna.GetOffHandItem() == gameObject;
+			bool showAlert = false;
+			foreach (var itemSlot in pna.itemStorage.GetHandSlots())
+			{
+				if (itemSlot.ItemObject == gameObject)
+				{
+					showAlert = true;
+				}
+			}
+
 			foreach (var _IActionGUI in ControllingActions)
 			{
 				UIActionManager.ToggleLocal(_IActionGUI, showAlert);

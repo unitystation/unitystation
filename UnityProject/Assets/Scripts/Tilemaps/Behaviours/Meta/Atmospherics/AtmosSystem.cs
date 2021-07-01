@@ -25,11 +25,11 @@ namespace Systems.Atmospherics
 				MetaDataNode node = metaDataLayer.Get(position, false);
 				if ((node.IsRoom || node.IsOccupied) && !spawnWithNoAir)
 				{
-					node.GasMix = GasMix.NewGasMix(GasMixes.Air);
+					node.GasMix = GasMix.NewGasMix(GasMixes.BaseAirMix);
 				}
 				else
 				{
-					node.GasMix = GasMix.NewGasMix(GasMixes.Space);
+					node.GasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
 				}
 			}
 		}

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Antagonists
 {
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/CargoEliminateSecurity")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/CargoEliminateSecurity")]
 	public class CargoEliminateSecurity : Objective
 	{
 		protected override void Setup()

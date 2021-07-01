@@ -29,7 +29,7 @@ namespace UI.Core.Windows
 			this.teleportWindow = teleportWindow;
 			TeleportInfo = teleportInfo;
 
-			SetTeleportButtonText($"{TeleportInfo.text}/n{TeleportInfo.position}");
+			SetTeleportButtonText($"{TeleportInfo.text}\n{TeleportInfo.position}");
 		}
 
 		private void SetTeleportButtonText(string textString)

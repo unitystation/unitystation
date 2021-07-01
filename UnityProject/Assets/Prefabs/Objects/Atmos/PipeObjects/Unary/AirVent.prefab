@@ -46,22 +46,8 @@ MonoBehaviour:
           m_values: []
         reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 0.05
         Temperature: 0
@@ -70,7 +56,7 @@ MonoBehaviour:
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   SelfSufficient: 0
-  MaxTransferMoles: 100
+  MaxTransferMoles: 10
   MaxOutletPressure: 110
 --- !u!1001 &3479803565540039848
 PrefabInstance:

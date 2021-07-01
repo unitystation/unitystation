@@ -18,6 +18,7 @@ public class CharacterSettings
 	public const int MAX_NAME_LENGTH = 26; // Arbitrary limit, but 26 is the max the current UI can fit
 	public string Username;
 	public string Name = "Cuban Pete";
+	public string AiName = "R.O.B.O.T.";
 	public BodyType BodyType = BodyType.Male;
 	public ClothingStyle ClothingStyle = ClothingStyle.JumpSuit;
 	public BagStyle BagStyle = BagStyle.Backpack;
@@ -43,6 +44,7 @@ public class CharacterSettings
 	{
 		var sb = new StringBuilder($"{Username}'s character settings:\n", 300);
 		sb.AppendLine($"Name: {Name}");
+		sb.AppendLine($"AiName: {AiName}");
 		sb.AppendLine($"ClothingStyle: {ClothingStyle}");
 		sb.AppendLine($"BagStyle: {BagStyle}");
 		sb.AppendLine($"Pronouns: {PlayerPronoun}");
@@ -61,6 +63,7 @@ public class CharacterSettings
 	public void ValidateSettings()
 	{
 		ValidateName();
+		ValidateAiName();
 		ValidateJobPreferences();
 	}
 
@@ -76,6 +79,23 @@ public class CharacterSettings
 		}
 
 		if (Name.Length > MAX_NAME_LENGTH)
+		{
+			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
+		}
+	}
+
+	/// <summary>
+	/// Checks if the character Ai name follows all rules
+	/// </summary>
+	/// <exception cref="InvalidOperationException">If the name not valid</exception>
+	private void ValidateAiName()
+	{
+		if (String.IsNullOrWhiteSpace(AiName))
+		{
+			AiName = "R.O.B.O.T.";
+		}
+
+		if (AiName.Length > MAX_NAME_LENGTH)
 		{
 			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
 		}
@@ -157,7 +177,7 @@ public class CharacterSettings
 	/// Returns an object pronoun string (i.e. "he's", "she's", "they're") for the provided gender enum.
 	/// </summary>
 	public string TheyrePronoun(PlayerScript script)
-	{	
+	{
 		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
 		{
 			return "they're";
@@ -177,7 +197,7 @@ public class CharacterSettings
 	/// Returns an object pronoun string (i.e. "himself", "herself", "themself") for the provided gender enum.
 	/// </summary>
 	public string ThemselfPronoun(PlayerScript script)
-	{	
+	{
 		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
 		{
 			return "themself";

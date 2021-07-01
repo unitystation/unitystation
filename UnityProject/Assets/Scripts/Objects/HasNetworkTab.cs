@@ -1,5 +1,7 @@
 using System;
+using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
+using UI.Core.Net;
 using UnityEngine;
 
 namespace Objects
@@ -10,12 +12,15 @@ namespace Objects
 	/// please ensure this component is placed below them, otherwise the tab open/close will
 	/// be the interaction that always takes precedence.
 	/// </summary>
-	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn
+	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
 	{
 		[NonSerialized] private GameObject playerInteracted;
 
 		[Tooltip("Network tab to display.")]
 		public NetTabType NetTabType = NetTabType.None;
+
+		[SerializeField]
+		private bool aiInteractable = true;
 
 		/// <summary>
 		/// This method simply tells the script what player last interacted, giving an reference to their gameobject
@@ -39,6 +44,14 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 		}
@@ -47,5 +60,36 @@ namespace Objects
 		{
 			NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
 		}
+
+		#region Ai interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (aiInteractable == false) return false;
+
+			//Normal click to open tab
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
+
+		#endregion
+
 	}
 }

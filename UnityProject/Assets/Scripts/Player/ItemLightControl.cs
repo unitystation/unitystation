@@ -38,8 +38,9 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		NamedSlot.suitStorage,
 		NamedSlot.belt,
 		NamedSlot.back,
-		NamedSlot.storage01,
-		NamedSlot.storage02,
+		NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03, NamedSlot.storage04,
+		NamedSlot.storage05, NamedSlot.storage06, NamedSlot.storage07, NamedSlot.storage08,
+		NamedSlot.storage09, NamedSlot.storage10,
 		NamedSlot.suitStorage,
 		NamedSlot.head,
 		NamedSlot.id // PDA in ID slot

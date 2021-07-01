@@ -93,4 +93,82 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 			Validations.CanFit(slot, toCheck, side));
 	}
 
+	/// <summary>
+	/// modified for dynamic storage
+	/// </summary>
+	/// <param name="toCheck"></param>
+	/// <param name="storage"></param>
+	/// <param name="mustHaveUISlot"></param>
+	/// <returns></returns>
+	public ItemSlot GetBestSlot(Pickupable toCheck, DynamicItemStorage storage, bool mustHaveUISlot = true)
+	{
+		if (toCheck == null || storage == null)
+		{
+			Logger.LogTrace("Cannot get best slot, toCheck or storage was null", Category.PlayerInventory);
+			return null;
+		}
+
+		var side = CustomNetworkManager.IsServer ? NetworkSide.Server : NetworkSide.Client;
+		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
+		if (itemAttrs == null)
+		{
+			Logger.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +
+			                      " first available slot.", Category.PlayerInventory, toCheck);
+		}
+		else
+		{
+			//find the best slot
+			ItemSlot best = null;
+			foreach (var tsm in BestSlots)
+			{
+				if (mustHaveUISlot)
+				{
+					bool hasLocalUISlot = false;
+					foreach (var itemSlot in storage.GetNamedItemSlots(tsm.Slot))
+					{
+						if (itemSlot.LocalUISlot != null)
+						{
+							hasLocalUISlot = true;
+						}
+					}
+
+					if (hasLocalUISlot == false) continue;
+				}
+
+				bool pass = false;
+				foreach (var itemSlot in storage.GetNamedItemSlots(tsm.Slot))
+				{
+					if (Validations.CanFit(itemSlot, toCheck, side))
+					{
+						best = itemSlot;
+						pass = true;
+					}
+				}
+				if (pass == false) continue;
+
+				if (tsm.Trait != null)
+				{
+					bool thisitemAttrs = itemAttrs.HasTrait(tsm.Trait);
+					if (thisitemAttrs == false) continue;
+				}
+				return best;
+			}
+		}
+
+		Logger.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
+		                      " be placed in first available slot.", Category.PlayerInventory, toCheck);
+
+		// Get all slots
+		var allSlots = storage.GetItemSlots();
+
+		// Filter blaclisted named slots
+		var allowedSlots = allSlots.Where((slot) => !slot.NamedSlot.HasValue ||
+		                                            (slot.NamedSlot.HasValue && !BlackListSlots.Contains(slot.NamedSlot.Value))).ToArray();
+
+		// Select first avaliable
+		return allowedSlots.FirstOrDefault(slot =>
+			(!mustHaveUISlot || slot.LocalUISlot != null) &&
+			Validations.CanFit(slot, toCheck, side));
+	}
+
 }

@@ -38,8 +38,8 @@ public class HandActivate : Interaction
 			//hand apply never works when local player
 			return HandActivate.Invalid;
 		}
-		return new HandActivate(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
-			UIManager.Hands.CurrentSlot.ItemSlot, UIManager.CurrentIntent);
+		return new HandActivate(PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
+			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(), UIManager.CurrentIntent);
 	}
 
 	/// <summary>

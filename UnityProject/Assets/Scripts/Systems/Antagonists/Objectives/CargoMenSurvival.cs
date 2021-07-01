@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// Make sure at least 50% of all cargomen are alive by round end
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/CargoMenSurvival")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/CargoMenSurvival")]
 	public class CargoMenSurvival : Objective
 	{
 		protected override void Setup()

@@ -44,7 +44,7 @@ namespace HealthV2
 		/// </summary>
 		public Equipment Equipment => equipment;
 
-		private ItemStorage itemStorage;
+		private DynamicItemStorage dynamicItemStorage;
 
 		private bool init = false;
 
@@ -72,7 +72,7 @@ namespace HealthV2
 			playerMove = GetComponent<PlayerMove>();
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
-			itemStorage = GetComponent<ItemStorage>();
+			dynamicItemStorage = GetComponent<DynamicItemStorage>();
 			equipment = GetComponent<Equipment>();
 			playerScript = GetComponent<PlayerScript>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
@@ -104,7 +104,7 @@ namespace HealthV2
 		public override void Gib()
 		{
 			//drop everything
-			foreach (var slot in itemStorage.GetItemSlots())
+			foreach (var slot in dynamicItemStorage.GetItemSlots())
 			{
 				Inventory.ServerDrop(slot);
 			}
@@ -178,10 +178,12 @@ namespace HealthV2
 				}
 
 				//drop items in hand
-				if (itemStorage != null)
+				if (dynamicItemStorage != null)
 				{
-					Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-					Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+					foreach (var itemSlot in dynamicItemStorage.GetHandSlots())
+					{
+						Inventory.ServerDrop(itemSlot);
+					}
 				}
 
 				if (isServer)
@@ -231,7 +233,7 @@ namespace HealthV2
 		private const int ELECTROCUTION_ANIM_PERIOD = 5; // Set less than stun period.
 		private const int ELECTROCUTION_MICROLERP_PERIOD = 15;
 		private BodyPartType electrocutedHand;
-
+		private BodyPart electrocutedPart;
 		/// <summary>
 		/// Electrocutes a player, applying effects to the victim depending on the electrocution power.
 		/// </summary>
@@ -239,7 +241,9 @@ namespace HealthV2
 		/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 		public override LivingShockResponse Electrocute(Electrocution electrocution)
 		{
-			if (playerNetworkActions.activeHand == NamedSlot.leftHand)
+			electrocutedPart = playerNetworkActions.activeHand.GetComponent<BodyPart>();
+
+			if (playerNetworkActions.CurrentActiveHand == NamedSlot.leftHand)
 			{
 				electrocutedHand = BodyPartType.LeftArm;
 			}
@@ -277,10 +281,18 @@ namespace HealthV2
 			float resistance = GetNakedHumanoidElectricalResistance(voltage);
 
 			// Give the humanoid extra/less electrical resistance based on what they're holding/wearing
-			resistance += Electrocution.GetItemElectricalResistance(itemStorage.GetNamedItemSlot(NamedSlot.hands).ItemObject);
-			resistance += Electrocution.GetItemElectricalResistance(itemStorage.GetNamedItemSlot(NamedSlot.feet).ItemObject);
+			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
+			{
+				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+			}
+
+			foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+			{
+				resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+			}
+
 			// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
-			if (itemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
+			if (dynamicItemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
 
 			// Broken skin reduces electrical resistance - arbitrarily chosen at 4 to 1.
 			resistance -= 4 * GetTotalBruteDamage();
@@ -311,7 +323,7 @@ namespace HealthV2
 		{
 			// TODO: Add sparks VFX at shockSourcePos.
 			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
-			Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
+			Inventory.ServerDrop(dynamicItemStorage.GetActiveHandSlot());
 
 			// Slip is essentially a yelp SFX.
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));

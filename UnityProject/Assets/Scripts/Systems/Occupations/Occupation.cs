@@ -154,4 +154,9 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	private Color backgroundColor = Color.red;
 	public Color BackgroundColor => backgroundColor;
+
+	[Header("If used will spawn player using this prefab instead of human body.")]
+	[SerializeField]
+	private GameObject specialPlayerPrefab = null;
+	public GameObject SpecialPlayerPrefab => specialPlayerPrefab;
 }

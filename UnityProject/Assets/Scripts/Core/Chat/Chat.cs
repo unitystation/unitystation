@@ -7,6 +7,7 @@ using DatabaseAPI;
 using Systems.MobAIs;
 using System.Text;
 using System.Text.RegularExpressions;
+using Systems.Ai;
 using Core.Chat;
 using Items;
 using Messages.Server;
@@ -102,10 +103,10 @@ public partial class Chat : MonoBehaviour
 		{
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
-			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = (player == null) ? TransformState.HiddenPos : player.gameObject.AssumedWorldPosServer(),
+			speaker = (player == null) ? sentByPlayer.Username : player.playerName,
+			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
-			originator = sentByPlayer.GameObject
+			originator = (player == null) ? sentByPlayer.GameObject : player.PlayerChatLocation
 		};
 
 		if (channels.HasFlag(ChatChannel.OOC))
@@ -171,29 +172,32 @@ public partial class Chat : MonoBehaviour
 
 		// TODO the following code uses player.playerHealth, but ConciousState would be more appropriate.
 		// Check if the player is allowed to talk:
-		if (player != null && player.playerHealth != null)
+		if (player != null)
 		{
-			if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+			if (player.playerHealth != null)
 			{
-				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
-				return;
-			}
-
-			if (player.playerHealth.IsCrit)
-			{
-				if (!player.playerHealth.IsDead)
+				if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
 				{
+					AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
 					return;
 				}
-				else
+
+				if (player.playerHealth.IsCrit)
 				{
-					chatEvent.channels = ChatChannel.Ghost;
+					if (!player.playerHealth.IsDead)
+					{
+						return;
+					}
+					else
+					{
+						chatEvent.channels = ChatChannel.Ghost;
+					}
 				}
-			}
-			else if (!player.playerHealth.IsDead && !player.IsGhost)
-			{
-				//Control the chat bubble
-				player.playerNetworkActions.CmdToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
+				else if (!player.playerHealth.IsDead && !player.IsGhost)
+				{
+					//Control the chat bubble
+					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
+				}
 			}
 		}
 

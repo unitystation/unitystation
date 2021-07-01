@@ -405,7 +405,7 @@ public class TileChangeEntry
 
 	public Matrix4x4? transformMatrix;
 
-	public Color? color;
+	public Vector4? color;
 
 }
 

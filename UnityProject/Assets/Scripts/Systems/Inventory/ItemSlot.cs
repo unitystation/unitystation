@@ -69,7 +69,7 @@ public class ItemSlot
 	/// RegisterPlayer this slot is in the top-level inventory of. Null if not on a player or
 	/// in something like a backpack.
 	/// </summary>
-	public RegisterPlayer Player => itemStorage != null ? itemStorage.GetComponent<RegisterPlayer>() : null;
+	public RegisterPlayer Player => itemStorage != null ? itemStorage.Player : null;
 
 	/// <summary>
 	/// RegisterPlayer this slot is in the slot tree of (i.e. even if in a backpack). Null if not on a player at all.
@@ -78,7 +78,7 @@ public class ItemSlot
 	{
 		var root = GetRootStorage();
 		if (root == null) return null;
-		return root.GetComponent<RegisterPlayer>();
+		return root.Player;
 	}
 
 	/// <summary>
@@ -175,6 +175,7 @@ public class ItemSlot
 	/// </summary>
 	public static ItemSlot GetNamed(ItemStorage itemStorage, NamedSlot named)
 	{
+		if (itemStorage == null) return null;
 		return Get(itemStorage, SlotIdentifier.Named(named));
 	}
 

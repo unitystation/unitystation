@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Items
 {
-	public class HasNetworkTabItem : MonoBehaviour, ICheckedInteractable<HandActivate>, IServerDespawn
+	public class HasNetworkTabItem : MonoBehaviour, ICheckedInteractable<HandActivate>, IServerDespawn, IServerInventoryMove
 	{
 		/// <summary>
 		///     This is the same thing as HasNetworkTab but it works with items in the hand.
@@ -39,6 +39,24 @@ namespace Items
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
+		}
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if(info.InventoryMoveType == InventoryMoveType.Add) return;
+
+			//Remove if being dropped by player
+			if (info.ToPlayer == null && info.FromPlayer != null)
+			{
+				NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType.InteliCard);
+				return;
+			}
+
+			//remove if being taken from player
+			if (info.FromPlayer != null && info.ToPlayer != info.FromPlayer)
+			{
+				NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType.InteliCard);
+			}
 		}
 	}
 }
