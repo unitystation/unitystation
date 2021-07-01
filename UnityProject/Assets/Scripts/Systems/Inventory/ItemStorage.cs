@@ -86,7 +86,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		player = registerPlayer;
 	}
 
-	
+
 	[SerializeField] private GameObject ashPrefab;
 	public GameObject AshPrefab => ashPrefab;
 
@@ -400,15 +400,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			return new[] {slot};
 		}
 
-		var itemStorage = slot.Item.GetComponent<ItemStorage>();
-		if (itemStorage != null)
+		var itemStorage = slot.Item.GetComponents<ItemStorage>();
+		var ListThis = new List<ItemSlot>();
+		foreach (var itemStorages in itemStorage)
 		{
-			return itemStorage.GetItemSlots().Concat(new[] {slot});
+			ListThis.AddRange(itemStorages.GetItemSlots());
 		}
-		else
-		{
-			return new[] {slot};
-		}
+
+		var ToReturn = ListThis.ToArray().Concat(new[] {slot});
+		return ToReturn;
+
 	}
 
 	public IEnumerable<ItemSlot> GetIndexedSlots()
