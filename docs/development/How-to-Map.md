@@ -37,13 +37,14 @@ Additional Scenes – the scenes which the antagonists start on.
 
 Here is a handy diagram which you can use if you want to add a new antagonist or job and ensure that it updates across all the scenes.
 ![](../assets/images/HowToMap/adding_role_to_maps.png)
+
 ## Important Sidebar Functions
 ![](../assets/images/HowToMap/sidebar.png)
 When you open the editor, there should be a sidebar open on the right hand side of your screen. If it is not present, go Window -> Sidebar to make it appear. This sidebar will help you through some of the processes as you map. From Top to Bottom they are:
 
 ### Test Runner
 
-![](../assets/images/HowToMap/test_runner.PNG)
+![](../assets/images/HowToMap/test_runner.png)
 
 Performs a variety of tests to check for Null references and other things. These tests are also used when you send a Pull Request. To run these tests, click __Run All__ and then leave it for a while, it is not a quick process (use this opportunity to get something to eat/drink or some other professional/recreational activity of your choice).
 
@@ -93,6 +94,9 @@ UnityStation’s Electrical Wiring differs from base SS13. Follow the guide belo
 ![](../assets/images/HowToMap/wire_connections.png)
 Make sure to always put a machine connector (white square in diagram) on the lower voltage side of the device. If you are still stuck, consult the wiring on TestStation Scene in the Electrical Testing Area and inspect the relevant prefabs.
 
+!!! Tip
+    It is strongly encouraged to avoid mapping underfloor utilities (wires, atmos / disposal pipes) under walls, windows. While mapping more than one type of underfloor utilities on one tile is currently annoying in that they aren't yet layered correctly for rendering, doing this will allow players who are playing the engineer role the ability to debug the wire pathways to find a fault without ever having to deconstruct a wall or window in the way. If it is unavoidable, that's ok, but don't make a habit of it.
+
 #### Atmospherics
 
 ![](../assets/images/HowToMap/atmos_pipes.png)
@@ -133,10 +137,10 @@ To help with completing Part 3, click and drag all prefabs onto the scene, selec
 
 ### Part 3 - Adding and linking in all the other Prefabs
 
-1.	Add in all the other prefabs. Don’t worry if you aren’t getting the x,y co-ordinates close to the centre of a grid square, the Custom Net Transform always has Snap To Grid enabled, so it will have perfect co-ordinates in-game.
+1.	Add in all the other prefabs. Don’t worry if you aren’t getting the x,y co-ordinates close to the centre of a grid square, the Custom Net Transform always has Snap To Grid enabled, so it will have perfect co-ordinates in-game. If you like, you can also use the `Mapping > Snap to Grid All Applicable Objects` tool to ensure this before runtime.
 1.	As you progress placing the objects down onto the matrix, make sure you modify the relevant fields on the prefabs so that they can be referred to by the other relevant prefabs. The best way to see what prefabs relate to what is to open an existing map and turn on gizmos. Make sure all of the gizmos are turned on and if a line exists between the prefab and another, then a relationship exists. As there are a multitude of components that can exist on a prefab, it is best to read through them to understand what they are doing and what they need, some have tooltips to help. Always remember you can look at existing maps to see how the prefabs are connected.
-1.	All the shuttles need the Retro Control System (RCS) Thrusters to be added onto the outside of the shuttle matrixes. Follow instructions detailed [here](https://github.com/unitystation/unitystation/pull/5111).
-
+1.	All the shuttles need the reaction control system (RCS) Thrusters to be added onto the outside of the shuttle matrixes. Follow instructions detailed [here](https://github.com/unitystation/unitystation/pull/5111).
+1.	Use the `Tools > Mapping > Name Validator` tool to ensure certain objects have appropriate names.
 ## Asteroids and Ruins
 
 Asteroids and ruins are different obstacles Shaft Miners, Curators or Assistants can stumble upon on their travels. Asteroids primarily serve as Ore Deposits for Shaft Miners, sometimes they also have exotic plants or mobs to fight as well. Ruins are derelict stations or shuttles for the players to explore. Copy an existing asteroid or ruin scene inside the **AsteroidScenes** Scene Folder to get started, **make sure you define the location of your scene to somewhere well away from (0,0) otherwise it will spawn inside the station.**

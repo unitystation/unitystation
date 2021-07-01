@@ -112,6 +112,7 @@ namespace Objects.Security
 	{
 		None,
 		Arrest,
+		Criminal,
 		Parole
 	}
 

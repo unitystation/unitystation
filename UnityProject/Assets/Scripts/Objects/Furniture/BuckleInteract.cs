@@ -23,6 +23,10 @@ namespace Objects
 
 		public bool forceLayingDown;
 
+		[SerializeField]
+		[Tooltip("Whether the object you can trying to buckle to is impassable, therefore should bypass the push check")]
+		private bool allowImpassable;
+
 		private void Start()
 		{
 			occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
@@ -64,7 +68,7 @@ namespace Objects
 			var registerPlayer = playerMove.GetComponent<RegisterPlayer>();
 			// Determine if a push into the tile would be necessary or insufficient.
 
-			if (IsPushEnough(interaction, side, registerPlayer.PlayerScript, out _, out _) == false) return false;
+			if (allowImpassable == false && IsPushEnough(interaction, side, registerPlayer.PlayerScript, out _, out _) == false) return false;
 
 			//if there are any restrained players already here, we can't restrain another one here
 			if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
@@ -98,7 +102,7 @@ namespace Objects
 
 			if (sameSquare == false)
 			{
-				playerScript.pushPull.QueuePush(dir);
+				playerScript.pushPull.QueuePush(dir, forcePush: allowImpassable);
 			}
 
 			BucklePlayer(playerScript);

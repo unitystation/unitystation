@@ -89,7 +89,8 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		}
 		GameObject WallMount = Spawn.ServerPrefab(WallMountToSpawn, roundTargetWorldPosition,  interaction.Performer.transform.parent, spawnItems: false).GameObject;
 		var Directional = WallMount.GetComponent<Directional>();
-		Directional.FaceDirection(Orientation.FromEnum(FaceDirection));
+		if (Directional != null) Directional.FaceDirection(Orientation.FromEnum(FaceDirection));
+
 		Inventory.ServerConsume(interaction.HandSlot, 1);
 
 		var construction = WallMount.GetComponent<LightFixtureConstruction>();

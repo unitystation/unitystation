@@ -26,15 +26,22 @@ MonoBehaviour:
   RelatedPresentSprites: []
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
+  BodyPartItemSprite: {fileID: 0}
+  BodyPartItemInheritsSkinColor: 0
   BodySpriteSet: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 0
+  DeathOnRemoval: 0
   ClothingHide: 0
+  Tone: {r: 1, g: 1, b: 1, a: 1}
   efficiency: 1
   TotalModified: 1
-  SurgeryProcedureBase: []
+  SurgeryProcedureBase:
+  - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
+  - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
+  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodCirculated: 1
   isBloodReagentConsumed: 1
   bloodType: {fileID: 0}
@@ -58,6 +65,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   SubOrganBodyPartArmour:
     Melee: 100
     Bullet: 90
@@ -69,11 +77,28 @@ MonoBehaviour:
     Acid: 100
     Magic: 100
     Bio: 0
+    DismembermentProtectionChance: 0
   SubOrganDamageIncreasePoint: 50
   DamageContributesToOverallHealth: 1
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
+  DamageThreshold: 18
+  GibsOnSeverityLevel: 150
+  GibChance: 0.15
+  BodyPartStorageContentsSpillOutOnCutSize: 3
+  BodyPartSlashLogicOnCutSize: 1
+  BodyPartDisembowelLogicOnCutSize: 2
+  spillChanceWhenCutPresent: 0.5
+  CanBleedInternally: 0
+  CanBleedExternally: 0
+  MinMaxInternalBleedingValues: {x: 5, y: 20}
+  maximumInternalBleedDamage: 100
+  bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
+  bodyPartAshesAboveThisDamage: 125
+  BodyPartReadableName: '[Default Part Name]'
+  internalDamageDesc: This {readableName} is suffering from internal damage.
+  externalBleedingDesc: This {readableName} is bleeding due to an open wound.
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +122,8 @@ MonoBehaviour:
   Populater:
     MergeMode: 0
     Contents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &8113072997116454967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +147,7 @@ MonoBehaviour:
   maxCapacity: 0.5
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
+  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -188,6 +216,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 4940620596253206870}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -204,6 +237,12 @@ PrefabInstance:
 --- !u!1 &1163316686972202776 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1164032867585741730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &4940620596253206870 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 1164032867585741730}
   m_PrefabAsset: {fileID: 0}

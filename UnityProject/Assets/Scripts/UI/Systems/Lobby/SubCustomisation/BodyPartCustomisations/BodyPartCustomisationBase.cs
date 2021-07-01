@@ -23,8 +23,15 @@ namespace UI.CharacterCreator
 			return "";
 		}
 
+		/// <summary>
+		/// Responsible for setting up body part data from the player's character sheet.
+		/// This includes SkinTones, hair and underwear customization, etc.
+		/// </summary>
 		public virtual void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase) { }
 
+		/// <summary>
+		/// Responsible for randomizing character customization. Works inside the character creator UI only.
+		/// </summary>
 		public virtual void RandomizeValues() { }
 
 		public virtual void SetUp(CharacterCustomization incharacterCustomization, BodyPart Body_Part, string path)
@@ -34,6 +41,9 @@ namespace UI.CharacterCreator
 			Text.text = Body_Part.name;
 		}
 
+		/// <summary>
+		/// Updates body part customizations inside of the character creator UI.
+		/// </summary>
 		public virtual void Refresh() { }
 	}
 }

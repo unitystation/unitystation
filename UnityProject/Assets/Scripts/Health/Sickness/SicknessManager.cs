@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using HealthV2;
+using Mirror;
 using UnityEngine;
 
 namespace Health.Sickness
@@ -39,19 +40,33 @@ namespace Health.Sickness
 
 		private void OnEnable()
 		{
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
 			UpdateManager.Add(SicknessUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
 		}
 
 		private void Start()
 		{
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
 			sickPlayers = new List<MobSickness>();
+
+			// We can't use UnityEngine.Random because it can be called only in the main thread.
+			random = new System.Random();
+			sicknessThread = new Thread(ProcessSickness);
+			sicknessThread.Start();
+
+			blockingCollectionSymptoms = new BlockingCollection<SymptomManifestation>();
 		}
 
+		//Server side only
 		private void SicknessUpdate()
 		{
 			// Since unity can provide Time.time only in the main thread, we update for our running thread at the begining of frame.
@@ -61,16 +76,6 @@ namespace Health.Sickness
 			SymptomManifestation symptomManifestation;
 			while (blockingCollectionSymptoms.TryTake(out symptomManifestation))
 				TriggerStageSymptom(symptomManifestation);
-		}
-
-		private void Awake()
-		{
-			// We can't use UnityEngine.Random because it can be called only in the main thread.
-			random = new System.Random();
-			sicknessThread = new Thread(ProcessSickness);
-			sicknessThread.Start();
-
-			blockingCollectionSymptoms = new BlockingCollection<SymptomManifestation>();
 		}
 
 		private void ProcessSickness()
@@ -356,7 +361,7 @@ namespace Health.Sickness
 
 		private void OnDestroy()
 		{
-			blockingCollectionSymptoms.Dispose();
+			blockingCollectionSymptoms?.Dispose();
 		}
 	}
 }

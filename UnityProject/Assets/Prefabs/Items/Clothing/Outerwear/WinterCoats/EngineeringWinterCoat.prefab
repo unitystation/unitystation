@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: b1f41ace2ade48b4488df58918ee2291,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: b1f41ace2ade48b4488df58918ee2291,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 251446803486426646, guid: caa7ec1293d63a74aa063307403f0c7e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -132,6 +130,66 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: engineering winter coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Rad
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Rad
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Rad
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Acid
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389294854367717100, guid: caa7ec1293d63a74aa063307403f0c7e,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[3].armor.Fire
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}

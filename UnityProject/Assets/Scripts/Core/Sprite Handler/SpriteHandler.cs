@@ -26,6 +26,8 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private bool randomInitialSprite = false;
 
 	private SpriteRenderer spriteRenderer;
+
+	public SpriteRenderer SpriteRenderer => spriteRenderer;
 	private Image image;
 
 	private int animationIndex = 0;
@@ -158,19 +160,25 @@ public class SpriteHandler : MonoBehaviour
 		InternalChangeSprite(SubCataloguePage, Network);
 	}
 
+	/// <summary>
+	/// When the animation for the given SO is complete,
+	/// the current SO index is incremented (looping to 0 if needed) instead of looping the SO's animation.
+	/// </summary>
 	public void AnimateOnce(int SubCataloguePage, bool Network = true)
 	{
 		InternalChangeSprite(SubCataloguePage, Network, true);
 	}
 
-
 	private void InternalChangeSprite(int SubCataloguePage, bool Network = true, bool AnimateOnce = false)
 	{
-		if (cataloguePage > -1 && SubCataloguePage == cataloguePage) return;
+		if (AnimateOnce == false)
+		{
+			if ((cataloguePage > -1 && SubCataloguePage == cataloguePage) || SubCataloguePage < 0) return;
+		}
 
 		if (SubCataloguePage >= SubCatalogue.Count)
 		{
-			Logger.LogError("new SubCataloguePage Is out of bounds on " + this.transform.parent.gameObject);
+			Logger.LogError($"Sprite catalogue index '{SubCataloguePage}' is out of bounds on {transform.parent.gameObject}.");
 			return;
 		}
 
@@ -816,7 +824,7 @@ public class SpriteHandler : MonoBehaviour
 		timeElapsed += UpdateManager.CashedDeltaTime;
 		if (timeElapsed >= PresentFrame.secondDelay)
 		{
-			if (PresentSpriteSet.Variance.Count > variantIndex)
+			if (variantIndex < PresentSpriteSet.Variance.Count)
 			{
 				animationIndex++;
 				if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
@@ -824,13 +832,7 @@ public class SpriteHandler : MonoBehaviour
 					animationIndex = 0;
 					if (animateOnce)
 					{
-						if (CustomNetworkManager.IsServer)
-						{
-							ChangeSprite(SubCatalogue.Count - 1 >= CataloguePage + 1 ? CataloguePage + 1 : 0);
-						}
-
-						isAnimation = false;
-						UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+						InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, false);
 						return;
 					}
 				}

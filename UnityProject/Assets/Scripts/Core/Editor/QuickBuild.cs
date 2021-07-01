@@ -9,8 +9,7 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 using NaughtyAttributes.Editor;
 
-
-namespace Util
+namespace Core.Editor
 {
 	/// <summary>
 	/// <para>This editor tool allows to quickly build the game by disabling unneeded scenes.</para>
@@ -140,7 +139,7 @@ namespace Util
 
 			GUILayout.Space(20);
 
-			if (BuildButton())
+			if (EditorUIUtils.BigAssButton("Build"))
 			{
 				Build();
 			}
@@ -186,18 +185,6 @@ namespace Util
 			}
 
 			SetPathForDisplay(buildPath);
-		}
-
-		private bool BuildButton()
-		{
-			GUIStyle buildBtnStyle = new GUIStyle(GUI.skin.button);
-			buildBtnStyle.padding = new RectOffset(30, 30, 8, 8);
-
-			GUIContent btnTxt = new GUIContent("Build");
-			Rect rect = GUILayoutUtility.GetRect(btnTxt, buildBtnStyle, GUILayout.ExpandWidth(false));
-			rect.center = new Vector2(EditorGUIUtility.currentViewWidth / 2, rect.center.y);
-
-			return GUI.Button(rect, btnTxt, GUI.skin.button);
 		}
 
 		private void UpdateGameManager(bool isQuickLoad)

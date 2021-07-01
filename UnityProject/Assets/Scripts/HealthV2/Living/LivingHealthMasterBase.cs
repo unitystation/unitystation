@@ -226,26 +226,10 @@ namespace HealthV2
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
+		public PlayerScript playerScript;
+
 		public virtual void Awake()
 		{
-			EnsureInit();
-		}
-
-		void OnEnable()
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Add(PeriodicUpdate, 1f);
-		}
-
-		void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-		}
-
-		public virtual void EnsureInit()
-		{
-			if (RegisterTile) return;
 			RegisterTile = GetComponent<RegisterTile>();
 			RespiratorySystem = GetComponent<RespiratorySystemBase>();
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
@@ -253,13 +237,23 @@ namespace HealthV2
 			healthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
+			playerScript = GetComponent<PlayerScript>();
+		}
 
-			foreach (var implant in ImplantList)
-			{
-				//Debug.Log(implant.gameObject.name);
-				implant.HealthMaster = this;
-				implant.Initialisation();
-			}
+		void OnEnable()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Add(PeriodicUpdate, 1f);
+		}
+
+		void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
 		public void Setbrain(Brain _brain)
@@ -269,9 +263,7 @@ namespace HealthV2
 
 		public override void OnStartServer()
 		{
-			EnsureInit();
 			mobID = PlayerManager.Instance.GetMobID();
-
 			//Generate BloodType and DNA
 			healthStateController.SetDNA(new DNAandBloodType());
 		}
@@ -299,6 +291,7 @@ namespace HealthV2
 		/// <param name="implant"></param>
 		public void AddNewImplant(BodyPart implant)
 		{
+			implant.HealthMaster = this;
 			ImplantList.Add(implant);
 		}
 
@@ -310,38 +303,27 @@ namespace HealthV2
 			ImplantList.Remove(implantBase);
 		}
 
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			EnsureInit();
-		}
-
+		//Server Side only
 		private void UpdateMe()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			foreach (var implant in RootBodyPartContainers)
 			{
-				foreach (var implant in RootBodyPartContainers)
-				{
-					implant.ImplantUpdate();
-				}
+				implant.ImplantUpdate();
 			}
-
 			//do Separate delayed blood update
 		}
 
+		//Server Side only
 		private void PeriodicUpdate()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			foreach (var implant in RootBodyPartContainers)
 			{
-				foreach (var implant in RootBodyPartContainers)
-				{
-					implant.ImplantPeriodicUpdate();
-				}
-
-				fireStacksDamage();
-				CalculateRadiationDamage();
-				CalculateOverallHealth();
+				implant.ImplantPeriodicUpdate();
 			}
+
+			fireStacksDamage();
+			CalculateRadiationDamage();
+			CalculateOverallHealth();
 		}
 
 		/// <summary>
@@ -384,7 +366,14 @@ namespace HealthV2
 		/// </summary>
 		public float GetOxyDamage()
 		{
-			return brain.RelatedPart.Oxy;
+			if (brain.OrNull()?.RelatedPart != null)
+			{
+				return 0;
+			}
+			else
+			{
+				return brain.RelatedPart.Oxy;
+			}
 		}
 
 		/// <summary>
@@ -591,7 +580,8 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
+				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -612,7 +602,8 @@ namespace HealthV2
 
 			if (damageType == DamageType.Brute)
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
+				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
 		}
 
@@ -729,10 +720,46 @@ namespace HealthV2
 					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration);
 				}
 			}
+		}
 
-			if (damageType == DamageType.Brute)
+		public virtual void ApplySlashDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
 			{
-				EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
+						bodyPartContainer.TakeSlashDamage(damage);
+					}
+				}
+			}
+		}
+
+		public virtual void ApplyPierceDamage(float chance, BodyPartType aimedBodyPart, float damage)
+		{
+			if(DMMath.Prob(chance))
+			{
+				foreach (var bodyPartContainer in RootBodyPartContainers)
+				{
+					if (bodyPartContainer.BodyPartType == aimedBodyPart)
+					{
+						bodyPartContainer.healthMaster.CirculatorySystem.Bleed(damage);
+						bodyPartContainer.TakePierceDamage(damage);
+					}
+				}
+			}
+		}
+
+		public virtual void ApplyBurnDamage(BodyPartType aimedBodyPart, float damage)
+		{
+			foreach (var bodyPartContainer in RootBodyPartContainers)
+			{
+				if (bodyPartContainer.BodyPartType == aimedBodyPart)
+				{
+					bodyPartContainer.TakeBurnDamage(damage);
+				}
 			}
 		}
 
@@ -849,7 +876,7 @@ namespace HealthV2
 			{
 				bodyPart.ResetDamage();
 			}
-			
+
 		}
 
 		/// <summary>
@@ -922,11 +949,19 @@ namespace HealthV2
 		/// ---------------------------
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
-		/// Currently not implemented
+		/// Currently not fully implemented
 		///</Summary>
-		public virtual void Death()
+		public void Death()
 		{
-			PlayerManager.PlayerScript.playerMove.allowInput = false;
+			var HV2 = (this as PlayerHealthV2);
+			if (HV2 != null)
+			{
+				if (HV2.playerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				{
+					HV2.playerScript.playerMove.allowInput = false;
+				}
+
+			}
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -936,16 +971,6 @@ namespace HealthV2
 
 		protected abstract void OnDeathActions();
 
-		public void OnFullyInitialised(Action TODO)
-		{
-			StartCoroutine(WaitForPlayerinitialisation(TODO));
-		}
-
-		public IEnumerator WaitForPlayerinitialisation(Action TODO)
-		{
-			yield return null;
-			TODO.Invoke();
-		}
 
 		/// <summary>
 		/// Updates the blood health stats from the server via NetMsg

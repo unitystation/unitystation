@@ -96,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: f7a04efe5e6bebf44856e6d70b991929,
         type: 3}
+      propertyPath: CanBeUsedOnSelfOnHelpIntent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: f7a04efe5e6bebf44856e6d70b991929,
+        type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 635f2dad6ee0ce749a89253fd4a13f8f,

@@ -46,6 +46,7 @@ namespace UI.CharacterCreator
 		public SpriteHandlerNorder BodyPartSprite;
 
 		public InputField characterNameField;
+		public InputField characterAiNameField;
 		public InputField ageField;
 		public Text errorLabel;
 		public Text genderText;
@@ -490,11 +491,11 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			// Setup sprite //
-			// OpenBodySprites
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			//Setup sprite//
+			//OpenBodySprites
+			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					ParentDictionary[bodyPart].Add(subBodyPart);
@@ -923,9 +924,9 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSetBodyPart(subBodyPart, path);
@@ -1066,6 +1067,7 @@ namespace UI.CharacterCreator
 				SaveLastCharacterIndex();
 				RefreshSelectorData();
 				RefreshAll();
+				_ = ServerData.UpdateCharacterProfile(currentCharacter);
 			}
 		}
 
@@ -1127,9 +1129,9 @@ namespace UI.CharacterCreator
 				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
 			}
 
-			if (bodyPart?.Storage?.Populater?.Contents != null)
+			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.Contents)
+				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSaveBodyPart(subBodyPart, path);
@@ -1153,6 +1155,7 @@ namespace UI.CharacterCreator
 			try
 			{
 				currentCharacter.Name = TruncateName(currentCharacter.Name);
+				currentCharacter.AiName = TruncateName(currentCharacter.AiName);
 				currentCharacter.ValidateSettings();
 			}
 			catch (InvalidOperationException e)
@@ -1196,6 +1199,7 @@ namespace UI.CharacterCreator
 		private void RefreshName()
 		{
 			characterNameField.text = TruncateName(currentCharacter.Name);
+			characterAiNameField.text = TruncateName(currentCharacter.AiName);
 		}
 
 		public void RandomNameBtn()
@@ -1220,6 +1224,12 @@ namespace UI.CharacterCreator
 		{
 			currentCharacter.Name = TruncateName(characterNameField.text);
 			characterNameField.text = currentCharacter.Name;
+		}
+
+		public void OnManualAiNameChange()
+		{
+			currentCharacter.AiName = TruncateName(characterAiNameField.text);
+			characterAiNameField.text = currentCharacter.AiName;
 		}
 
 		private string TruncateName(string proposedName)

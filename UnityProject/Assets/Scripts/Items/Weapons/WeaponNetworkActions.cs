@@ -9,13 +9,21 @@ using Items;
 using Messages.Server.SoundMessages;
 using Systems.Interaction;
 
-public class WeaponNetworkActions : ManagedNetworkBehaviour
+public class WeaponNetworkActions : NetworkBehaviour
 {
 	[SerializeField]
 	private List<AddressableAudioSource> meleeSounds = default;
 
 	private readonly float speed = 7f;
 	private readonly float fistDamage = 5;
+
+	private float slashChance = 0f;
+	private float slashDamage = 0f;
+
+	private float pierceChance = 0f;
+	private float pierceDamage = 0f;
+
+	private float burnDamage = 0f;
 
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
@@ -39,6 +47,16 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		spriteRendererSource = null;
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	/// <summary>
 	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
 	/// if weapon is null.
@@ -56,7 +74,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (playerMove.allowInput == false) return;
 		if (playerScript.IsGhost) return;
 		if (playerScript.playerHealth.serverPlayerConscious == false) return;
-		
+
 		if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 		{
 			// validate based on position of target vector
@@ -79,6 +97,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			damage = weaponAttributes.ServerHitDamage;
 			damageType = weaponAttributes.ServerDamageType;
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
+			slashChance = weaponAttributes.SlashChance;
+			slashDamage = weaponAttributes.SlashDamage;
+			pierceChance = weaponAttributes.PierceChance;
+			pierceDamage = weaponAttributes.PierceDamage;
+			burnDamage = weaponAttributes.BurnDamage;
 		}
 
 		LayerTile attackedTile = null;
@@ -125,6 +148,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 				{
 					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
+					victimHealth.ApplySlashDamage(slashChance, damageZone, slashDamage);
+					victimHealth.ApplyPierceDamage(pierceChance, damageZone, pierceDamage);
+					victimHealth.ApplyBurnDamage(damageZone, burnDamage);
 					didHit = true;
 				}
 				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
@@ -179,7 +205,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 		if (spriteRendererSource != null)
 		{
-			playerScript.hitIcon.ShowHitIcon(stabDir, spriteRendererSource);
+			var projectile = Spawn.ClientPrefab("hitIcon", playerScript.transform.position, playerScript.transform.parent).GameObject;
+			var hitIcon = projectile.GetComponent<HitIcon>();
+			hitIcon.ShowHitIcon(stabDir, spriteRendererSource, playerScript);
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;
@@ -209,7 +237,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	// Server lerps
-	public override void UpdateMe()
+	private void UpdateMe()
 	{
 		if (lerping)
 		{

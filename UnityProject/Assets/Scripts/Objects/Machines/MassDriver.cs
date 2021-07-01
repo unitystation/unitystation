@@ -140,7 +140,7 @@ namespace Objects
 		private void ThrowItem(ObjectBehaviour item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
-			var spin = RandomSpin();
+			var spin = RandomUtils.RandomSpin();
 			ThrowInfo throwInfo = new ThrowInfo
 			{
 				ThrownBy = gameObject,
@@ -153,23 +153,6 @@ namespace Objects
 			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
 			if (itemTransform == null) return;
 			itemTransform.Throw(throwInfo);
-		}
-
-		private SpinMode RandomSpin()
-		{
-			var num = Random.Range(0, 3);
-
-			switch (num)
-			{
-				case 0:
-					return SpinMode.None;
-				case 1:
-					return SpinMode.Clockwise;
-				case 2:
-					return SpinMode.CounterClockwise;
-				default:
-					return SpinMode.Clockwise;
-			}
 		}
 
 		private void PushObject(ObjectBehaviour entity, Vector3 pushVector)

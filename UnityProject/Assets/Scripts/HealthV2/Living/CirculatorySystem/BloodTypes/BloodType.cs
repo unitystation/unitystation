@@ -24,6 +24,13 @@ namespace HealthV2
 		///</summary>
 		public float BloodGasCapability;
 
+
+		public float GetGasCapacityOfnonMeanCarrier(ReagentMix reagentMix)
+		{
+			return reagentMix[this] * BloodGasCapability;
+		}
+
+
 		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			if (reagent == CirculatedReagent || reagent == null)
@@ -45,12 +52,15 @@ namespace HealthV2
 		public float GetGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			float toReturn = 0;
-			foreach(var reagen in reagentMix.reagents.m_dict)
+			lock (reagentMix.reagents)
 			{
-				var kindOfBlood = reagen.Key as BloodType;
-				if(kindOfBlood != null && kindOfBlood != this)
+				foreach(var reagen in reagentMix.reagents.m_dict)
 				{
-					toReturn += kindOfBlood.GetGasCapacity(reagentMix, reagent);
+					var kindOfBlood = reagen.Key as BloodType;
+					if(kindOfBlood != null && kindOfBlood != this)
+					{
+						toReturn += kindOfBlood.GetGasCapacity(reagentMix, reagent);
+					}
 				}
 			}
 			return toReturn;
@@ -58,14 +68,18 @@ namespace HealthV2
 		public float GetSpareGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			float toReturn = 0;
-			foreach(var reagen in reagentMix.reagents.m_dict)
+			lock (reagentMix.reagents)
 			{
-				var kindOfBlood = reagen.Key as BloodType;
-				if(kindOfBlood != null && kindOfBlood != this)
+				foreach (var reagen in reagentMix.reagents.m_dict)
 				{
-					toReturn += kindOfBlood.GetSpareGasCapacity(reagentMix, reagent);
+					var kindOfBlood = reagen.Key as BloodType;
+					if (kindOfBlood != null && kindOfBlood != this)
+					{
+						toReturn += kindOfBlood.GetSpareGasCapacity(reagentMix, reagent);
+					}
 				}
 			}
+
 			return toReturn;
 		}
 	}

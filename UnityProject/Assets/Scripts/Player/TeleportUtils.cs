@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Ai;
+using Systems.MobAIs;
 using UnityEngine;
 using Systems.Spawns;
+using Objects;
 
 namespace Systems.Teleport
 {
@@ -94,6 +97,85 @@ namespace Systems.Teleport
 				var teleportInfo = new TeleportInfo(nameOfPlace, placePosition.CutToInt(), place.gameObject);
 
 				yield return teleportInfo;
+			}
+		}
+
+		/// <summary>
+		/// Gets teleport destinations via all security cameras.
+		/// For AI use only
+		/// </summary>
+		/// <returns>TeleportInfo, with name, position and object</returns>
+		public static IEnumerable<TeleportInfo> GetCameraDestinations()
+		{
+			if (PlayerManager.LocalPlayer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
+
+			var securityCameras = UnityEngine.Object.FindObjectsOfType<SecurityCamera>();
+
+			if (securityCameras == null)
+			{
+				yield break;
+			}
+
+			foreach (var camera in securityCameras)
+			{
+				if(aiPlayer.OpenNetworks.Contains(camera.SecurityCameraChannel) == false) continue;
+
+				var placePosition = camera.transform.position;// Only way to get position of this object.
+
+				var name = camera.CameraName + " - SecCam";
+
+				if (camera.CameraActive == false)
+				{
+					name += " INACTIVE";
+				}
+
+				var teleportInfo = new TeleportInfo(name, placePosition.CutToInt(), camera.gameObject);
+
+				yield return teleportInfo;
+			}
+		}
+
+		/// <summary>
+		/// Gets teleport destinations via all players in security camera vision.
+		/// For AI use only
+		/// </summary>
+		/// <returns>TeleportInfo, with name, position and object</returns>
+		public static IEnumerable<TeleportInfo> GetCameraTrackPlayerDestinations()
+		{
+			if (PlayerManager.LocalPlayer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
+
+			//Check for players
+			var playerScripts = UnityEngine.Object.FindObjectsOfType<PlayerScript>();
+
+			if (playerScripts != null)
+			{
+				foreach (var playerScript in playerScripts)
+				{
+					if(aiPlayer.CanSeeObject(playerScript.gameObject) == null) continue;
+
+					var placePosition = playerScript.transform.position;// Only way to get position of this object.
+
+					var teleportInfo = new TeleportInfo(playerScript.gameObject.ExpensiveName(), placePosition.CutToInt(), playerScript.gameObject);
+
+					yield return teleportInfo;
+				}
+			}
+
+			//Check for mobs
+			var mobScripts = UnityEngine.Object.FindObjectsOfType<MobAI>();
+
+			if (mobScripts != null)
+			{
+				foreach (var mobAI in mobScripts)
+				{
+					if(aiPlayer.CanSeeObject(mobAI.gameObject) == null) continue;
+
+					var placePosition = mobAI.transform.position;// Only way to get position of this object.
+
+					var teleportInfo = new TeleportInfo(mobAI.gameObject.ExpensiveName(), placePosition.CutToInt(), mobAI.gameObject);
+
+					yield return teleportInfo;
+				}
 			}
 		}
 

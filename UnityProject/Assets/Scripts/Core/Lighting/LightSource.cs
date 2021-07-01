@@ -287,7 +287,7 @@ namespace Objects.Lighting
 
 		private void TryRemoveBulb(HandApply interaction)
 		{
-			var handSlot = interaction.PerformerPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.hands);
+			var handSlot = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 
 			if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
 					!Validations.HasItemTrait(handSlot.ItemObject, CommonTraits.Instance.BlackGloves)))
@@ -302,7 +302,7 @@ namespace Objects.Lighting
 			}
 
 			var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer()).GameObject;
-			ItemSlot bestHand = interaction.PerformerPlayerScript.ItemStorage.GetBestHand();
+			ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 			if (bestHand != null && spawnedItem != null)
 			{
 				Inventory.ServerAdd(spawnedItem, bestHand);
@@ -428,10 +428,10 @@ namespace Objects.Lighting
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			CheckIntegrityState();
+			CheckIntegrityState(arg0);
 		}
 
-		private void CheckIntegrityState()
+		private void CheckIntegrityState(DamageInfo arg0)
 		{
 			if (integrity.integrity > integrityThreshBar || mState == LightMountState.MissingBulb) return;
 			Vector3 pos = gameObject.AssumedWorldPosServer();
@@ -446,7 +446,11 @@ namespace Objects.Lighting
 				ServerChangeLightState(LightMountState.Broken);
 				Spawn.ServerPrefab(CommonPrefabs.Instance.GlassShard, pos, count: Random.Range(0, 2),
 					scatterRadius: Random.Range(0, 2));
-				TrySpark();
+				//Because this can get destroyed by fire then it tries accessing the tile safe loop and Complaints
+				if (arg0.AttackType != AttackType.Fire)
+				{
+					TrySpark();
+				}
 			}
 		}
 

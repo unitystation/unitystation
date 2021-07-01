@@ -802,6 +802,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needsClosedToLight: 1
+  boltsUpSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockBoltUp.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  boltsDownSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockBoltDown.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+--- !u!114 &-2169664583946153626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 42
 --- !u!114 &2243806384905767094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,6 +911,11 @@ PrefabInstance:
       propertyPath: doorController
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: -1004363680957688268, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 6682145752921394767}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -1015,6 +1047,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1883797623
+      objectReference: {fileID: 0}
     - target: {fileID: 8330720231993589308, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: State
@@ -1036,21 +1078,27 @@ PrefabInstance:
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+--- !u!1 &8248341723222571775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &215518841633704133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3622147455447933482, guid: 1291a5cb15d008c41bf0a373403f56b2,
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &8242232534866279461 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+--- !u!210 &6682145752921394767 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8248341723222571775 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+--- !u!4 &8242232534866279461 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}

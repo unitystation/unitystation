@@ -15,6 +15,9 @@ namespace Chemistry
 		[SerializeField]
 		public DictionaryReagentFloat reagents;
 
+		//should only be accessed when locked so should be okay
+		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
+
 		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
@@ -60,6 +63,7 @@ namespace Chemistry
 				{
 					foreach (var reagent in reagents.m_dict)
 					{
+						if (reagent.Key == null) continue;
 						capacity += reagent.Key.heatDensity * reagent.Value;
 					}
 				}
@@ -104,10 +108,12 @@ namespace Chemistry
 		{
 			get
 			{
-				var reagent = reagents.m_dict.OrderByDescending(p => p.Value)
-					.FirstOrDefault();
-
-				return reagent.Value > 0 ? reagent.Key : null;
+				lock (reagents)
+				{
+					var reagent = reagents.m_dict.OrderByDescending(p => p.Value)
+						.FirstOrDefault();
+					return reagent.Value > 0 ? reagent.Key : null;
+				}
 			}
 		}
 
@@ -120,13 +126,15 @@ namespace Chemistry
 			{
 				var avgColor = new Color();
 				var totalAmount = Total;
-
-				foreach (var reagent in reagents.m_dict)
+				lock (reagents)
 				{
-					var percent = reagent.Value / totalAmount;
-					var colorStep = percent * reagent.Key.color;
+					foreach (var reagent in reagents.m_dict)
+					{
+						var percent = reagent.Value / totalAmount;
+						var colorStep = percent * reagent.Key.color;
 
-					avgColor += colorStep;
+						avgColor += colorStep;
+					}
 				}
 
 				return avgColor;
@@ -191,10 +199,12 @@ namespace Chemistry
 				Temperature = (Temperature * Total + b.Temperature * b.Total) / (Total + b.Total); //TODO Change to use different formula Involving Heat capacity of each Reagent
 			}
 
-
-			foreach (var reagent in b.reagents.m_dict)
+			lock (reagents)
 			{
-				Add(reagent.Key, reagent.Value);
+				foreach (var reagent in b.reagents.m_dict)
+				{
+					Add(reagent.Key, reagent.Value);
+				}
 			}
 		}
 
@@ -203,6 +213,12 @@ namespace Chemistry
 			if (amount < 0f)
 			{
 				Logger.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
+				return;
+			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to add {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 
@@ -215,7 +231,10 @@ namespace Chemistry
 			}
 			else
 			{
-				reagents.m_dict[reagent] += amount;
+				lock (reagents)
+				{
+					reagents.m_dict[reagent] += amount;
+				}
 			}
 		}
 
@@ -228,6 +247,12 @@ namespace Chemistry
 				return 0;
 			}
 
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
+				return 0;
+			}
+
 			if (!reagents.m_dict.ContainsKey(reagent))
 			{
 				//Debug.LogError($"Trying to move {reagent} from container doesn't contain it ");
@@ -235,17 +260,31 @@ namespace Chemistry
 			}
 			else
 			{
-				amount = Math.Min(reagents.m_dict[reagent], amount);
-				reagents.m_dict[reagent] -= amount;
+				lock (reagents)
+				{
+					amount = Math.Min(reagents.m_dict[reagent], amount);
+					reagents.m_dict[reagent] -= amount;
+
+
+					if (reagents.m_dict[reagent] <= 0)
+					{
+						reagents.m_dict.Remove(reagent);
+					}
+				}
+
+
 				return amount;
 			}
 		}
 
 		public void Subtract(ReagentMix b)
 		{
-			foreach (var reagent in b.reagents.m_dict)
+			lock (reagents)
 			{
-				Subtract(reagent.Key, reagent.Value);
+				foreach (var reagent in b.reagents.m_dict)
+				{
+					Subtract(reagent.Key, reagent.Value);
+				}
 			}
 		}
 
@@ -255,6 +294,12 @@ namespace Chemistry
 			{
 				Logger.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
 					subAmount, reagent);
+				return 0;
+			}
+
+			if (float.IsNaN(subAmount) || float.IsInfinity(subAmount))
+			{
+				Logger.LogError($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -274,8 +319,12 @@ namespace Chemistry
 					return amount;
 				}
 
-				// change amount to subtraction result
-				reagents.m_dict[reagent] = newAmount;
+				lock (reagents)
+				{
+					// change amount to subtraction result
+					reagents.m_dict[reagent] = newAmount;
+				}
+
 				return subAmount;
 			}
 
@@ -294,6 +343,12 @@ namespace Chemistry
 				return;
 			}
 
+			if (float.IsNaN(multiplier) || float.IsInfinity(multiplier))
+			{
+				Logger.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
+				return;
+			}
+
 			if (multiplier == 0f)
 			{
 				// if multiply by zero - clear all reagents
@@ -301,9 +356,21 @@ namespace Chemistry
 				return;
 			}
 
-			foreach (var key in reagents.m_dict.Keys.ToArray())
+			lock (reagents)
 			{
-				reagents.m_dict[key] *= multiplier;
+				TEMPReagents.Clear();
+				foreach (var key in reagents.m_dict.Keys)
+				{
+					var nuber = reagents.m_dict[key];
+					nuber = nuber * multiplier;
+					TEMPReagents[key] = nuber;
+				}
+
+				//man, I wish changing the value of the key didn't modify the order
+				foreach (var key in TEMPReagents.Keys)
+				{
+					reagents.m_dict[key] = TEMPReagents[key];
+				}
 			}
 		}
 
@@ -324,9 +391,26 @@ namespace Chemistry
 				return;
 			}
 
-			foreach (var key in reagents.m_dict.Keys.ToArray())
+			if (float.IsNaN(Divider) || float.IsInfinity(Divider))
 			{
-				reagents.m_dict[key] /= Divider;
+				Logger.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
+				return;
+			}
+
+			lock (reagents)
+			{
+				TEMPReagents.Clear();
+				foreach (var key in reagents.m_dict.Keys)
+				{
+					var nuber = reagents.m_dict[key];
+					nuber = nuber / Divider;
+					TEMPReagents[key] = nuber;
+				}
+				//man, I wish changing the value of the key didn't modify the order
+				foreach (var key in TEMPReagents.Keys)
+				{
+					reagents.m_dict[key] = TEMPReagents[key];
+				}
 			}
 		}
 
@@ -334,6 +418,17 @@ namespace Chemistry
 		public List<Reagent> reagentKeys = new List<Reagent>();
 		public void TransferTo(ReagentMix target, float amount)
 		{
+			if (amount == 0 || amount < 0)
+			{
+				return;
+			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
+				return;
+			}
+
 			var total = Total;
 
 			//temperature change
@@ -351,30 +446,49 @@ namespace Chemistry
 			if (amount < total)
 			{
 				var multiplier = amount / total;
-				reagentKeys.Clear();
-				foreach (var key in reagents.m_dict.Keys)
+				lock (reagents)
 				{
-					reagentKeys.Add(key);
-				}
-				foreach (var reagent in reagentKeys)
-				{
-					var reagentAmount = reagents.m_dict[reagent] * multiplier;
-					reagents.m_dict[reagent] -= reagentAmount;
-					target.Add(reagent, reagentAmount);
+					reagentKeys.Clear();
+					foreach (var key in reagents.m_dict.Keys)
+					{
+						reagentKeys.Add(key);
+					}
+
+					foreach (var reagent in reagentKeys)
+					{
+						var reagentAmount = reagents.m_dict[reagent] * multiplier;
+						reagents.m_dict[reagent] -= reagentAmount;
+						target.Add(reagent, reagentAmount);
+					}
 				}
 			}
 			else
 			{
-				foreach (var reagent in reagents.m_dict)
+				lock (reagents)
 				{
-					target.Add(reagent.Key, reagent.Value);
+					foreach (var reagent in reagents.m_dict)
+					{
+						target.Add(reagent.Key, reagent.Value);
+					}
+
+					reagents.m_dict.Clear();
 				}
-				reagents.m_dict.Clear();
 			}
 		}
 
 		public ReagentMix Take(float amount)
 		{
+			if (amount == 0 || amount < 0)
+			{
+				return new ReagentMix();
+			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to Take {amount}", Category.Chemistry);
+				return new ReagentMix();;
+			}
+
 			var taken = new ReagentMix();
 			TransferTo(taken, amount);
 			return taken;
@@ -386,6 +500,23 @@ namespace Chemistry
 			{
 				return;
 			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to RemoveVolume {amount}", Category.Chemistry);
+				return;
+			}
+
+			if (amount > Total)
+			{
+				amount = Total;
+			}
+
+			if (Total == 0)
+			{
+				return;
+			}
+
 			var multiplier = (Total - amount) / Total;
 			if (float.IsNaN(multiplier))
 			{
@@ -419,7 +550,10 @@ namespace Chemistry
 
 		public void Clear()
 		{
-			reagents.m_dict.Clear();
+			lock (reagents)
+			{
+				reagents.m_dict.Clear();
+			}
 		}
 
 		// Inefficient for now, can replace with a caching solution later.
@@ -429,10 +563,14 @@ namespace Chemistry
 			get
 			{
 				float total = 0;
-				foreach (var reagent in reagents.m_dict)
+				lock (reagents)
 				{
-					total += reagent.Value;
+					foreach (var reagent in reagents.m_dict)
+					{
+						total += reagent.Value;
+					}
 				}
+
 				total = Mathf.Clamp(total, 0, float.MaxValue);
 				return total;
 			}
@@ -455,11 +593,14 @@ namespace Chemistry
 				return false;
 			}
 
-			foreach (var reagent in reagents.m_dict)
+			lock (reagents)
 			{
-				if (b[reagent.Key] != this[reagent.Key])
+				foreach (var reagent in reagents.m_dict)
 				{
-					return false;
+					if (b[reagent.Key] != this[reagent.Key])
+					{
+						return false;
+					}
 				}
 			}
 

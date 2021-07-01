@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Systems.Ai;
 using UnityEngine;
 
 namespace Antagonists
@@ -18,6 +19,12 @@ namespace Antagonists
 
 		public override void AfterSpawn(ConnectedPlayer player)
 		{
+			if (player.GameObject.TryGetComponent<AiPlayer>(out var aiPlayer))
+			{
+				aiPlayer.AddLaw("Accomplish your goals at all costs.", AiPlayer.LawOrder.Traitor);
+				return;
+			}
+
 			AntagManager.TryInstallPDAUplink(player, initialTC, false);
 		}
 	}

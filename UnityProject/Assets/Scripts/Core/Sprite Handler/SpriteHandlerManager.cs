@@ -46,6 +46,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		QueueChanges.Clear();
 		NewClientChanges.Clear();
 		PresentSprites.Clear();
+		SpriteUpdateMessage.UnprocessedData.Clear();
 	}
 
 	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
@@ -179,27 +180,34 @@ public class SpriteHandlerManager : NetworkBehaviour
 		QueueChanges.Clear();
 	}
 
-	public static NetworkIdentity GetRecursivelyANetworkBehaviour(GameObject gameObject)
+	//Ignore startingGameObject when calling externally, as its used internally in this functions recursion
+	public static NetworkIdentity GetRecursivelyANetworkBehaviour(GameObject gameObject, GameObject startingGameObject = null)
 	{
 		if (gameObject == null)
 		{
 			return null;
 		}
+
 		var Net = gameObject.GetComponent<NetworkIdentity>();
 		if (Net != null)
 		{
 			return (Net);
 		}
-		else if (gameObject.transform.parent != null)
+
+		if (startingGameObject == null)
 		{
-			return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject);
+			startingGameObject = gameObject;
 		}
-		else
+
+		if (gameObject.transform.parent != null)
 		{
-			Logger.LogError("Was unable to find A NetworkBehaviour for? yeah Youll have to look at this stack trace",
-				Category.Sprites);
-			return null;
+			return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject, startingGameObject);
 		}
+
+		Logger.LogError($"Was unable to find A NetworkBehaviour for {startingGameObject.ExpensiveName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.ExpensiveName()}" +
+		                $"Parent Parent: {startingGameObject.transform.parent.OrNull()?.parent.OrNull()?.gameObject.ExpensiveName()}",
+			Category.Sprites);
+		return null;
 	}
 
 	public static List<SpriteChange> PooledSpriteChange = new List<SpriteChange>();

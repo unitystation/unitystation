@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Mirror;
 
 namespace Systems.Electricity
 {
@@ -18,11 +19,6 @@ namespace Systems.Electricity
 
 		public static ElectricalManager Instance {
 			get {
-				if (instance == null)
-				{
-					instance = FindObjectOfType<ElectricalManager>();
-				}
-
 				return instance;
 			}
 			set { instance = value; }
@@ -46,14 +42,17 @@ namespace Systems.Electricity
 			}
 		}
 
-		private void Update()
+		//Server Side Only
+		private void UpdateMe()
 		{
-			if (roundStartedServer && CustomNetworkManager.Instance._isServer && Mode == ElectricalMode.GameLoop && Running)
+			if(roundStartedServer == false) return;
+
+			if (Mode == ElectricalMode.GameLoop && Running)
 			{
 				electricalSync.DoUpdate(false);
 			}
 
-			if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
+			if (Running)
 			{
 				if (electricalSync.MainThreadProcess)
 				{
@@ -76,12 +75,20 @@ namespace Systems.Electricity
 		{
 			EventManager.AddHandler(Event.RoundStarted, StartSim);
 			EventManager.AddHandler(Event.RoundEnded, StopSim);
+
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.RoundStarted, StartSim);
 			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
+
+			if(Application.isEditor == false && NetworkServer.active == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		public void StartSim()

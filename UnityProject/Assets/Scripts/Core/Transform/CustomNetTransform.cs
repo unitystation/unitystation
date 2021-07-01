@@ -13,10 +13,11 @@ using Debug = UnityEngine.Debug;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
+public partial class CustomNetTransform : NetworkBehaviour, IPushable //see UpdateManager
 {
 	[SerializeField][Tooltip("When the scene loads, snap this to the middle of the nearest tile?")]
 	private bool snapToGridOnStart = true;
+	public bool SnapToGridOnStart => snapToGridOnStart;
 
 	//I think this is valid server side only
 	public bool VisibleState {
@@ -103,8 +104,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				doMotionCheck = false;
 				// In the case we become Still and then Moving again in one second, we're still updating because freeze timer hasn't finished yet.
 				// Checking here if timer has passed yet (so we're no longer updating), if we are still updating we don't have to call OnEnable again.
-				if (!IsUpdating)
-					base.OnEnable();
+				if (!isUpdating)
+					OnEnable();
 			}
 			else
 			{
@@ -178,6 +179,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private bool waitForId;
 	private bool WaitForMatrixId;
 
+	private bool isUpdating;
+
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -188,6 +191,18 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private void Start()
 	{
 		LoadManager.RegisterAction(Init);
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		isUpdating = true;
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		isUpdating = false;
 	}
 
 	private void Init()
@@ -311,8 +326,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		predictedState = clientState;
 	}
 
-	//managed by UpdateManager
-	public override void UpdateMe()
+	//Server and Client Side
+	private void UpdateMe()
 	{
 		if (doMotionCheck) DoMotionCheck();
 
@@ -331,7 +346,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			doMotionCheck = false;
 			if (MotionState == MotionStateEnum.Still)
 			{
-				base.OnDisable();
+				OnDisable();
 			}
 		}
 	}
@@ -752,7 +767,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				//An identity could have a valid id of 0, but since this message is only for net transforms and since the
 				//identities on the managers will get set first, this shouldn't cause any issues.
 
-				if (waitForId)
+				if (waitForId == false)
 				{
 					waitForId = true;
 					StartCoroutine(IdWait(networkIdentity));
@@ -763,9 +778,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Wait for networked matrix id to init
-		if (serverState.IsUninitialized || matrix.NetworkedMatrix.OrNull()?.MatrixSync.netId == 0)
+		if (serverState.IsUninitialized || matrix.NetworkedMatrix == null || matrix.NetworkedMatrix.MatrixSync.netId == 0)
 		{
-			if (WaitForMatrixId)
+			if (WaitForMatrixId == false)
 			{
 				WaitForMatrixId = true;
 				StartCoroutine(NetworkedMatrixIdWait());
@@ -819,7 +834,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 		while (matrixSync.netId == 0)
 		{
-			yield return WaitFor.EndOfFrame;
+			yield return new WaitForSeconds(0.1f);
 		}
 
 		WaitForMatrixId = false;

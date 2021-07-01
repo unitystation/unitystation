@@ -278,7 +278,7 @@ namespace Objects
 		private void ThrowItem(PushPull item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
-			var spin = RandomSpin();
+			var spin = RandomUtils.RandomSpin();
 			ThrowInfo throwInfo = new ThrowInfo
 			{
 				ThrownBy = gameObject,
@@ -316,23 +316,6 @@ namespace Objects
 			//Force Push Twice
 			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
 			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
-		}
-
-		private SpinMode RandomSpin()
-		{
-			var num = Random.Range(0, 3);
-
-			switch (num)
-			{
-				case 0:
-					return SpinMode.None;
-				case 1:
-					return SpinMode.Clockwise;
-				case 2:
-					return SpinMode.CounterClockwise;
-				default:
-					return SpinMode.Clockwise;
-			}
 		}
 
 		#endregion

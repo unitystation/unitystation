@@ -52,6 +52,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 17
       objectReference: {fileID: 0}
+    - target: {fileID: 3851280718696237169, guid: 53973314651fa7c42bf8d37554722470,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424681749507756621, guid: 53973314651fa7c42bf8d37554722470,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5266d694d4410a04eb7925357c029507,
+        type: 2}
     - target: {fileID: 5424681749507756621, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
@@ -76,12 +87,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 716ead0d12e5d9743896eb0f01a66703,
         type: 2}
-    - target: {fileID: 5424681749507756621, guid: 53973314651fa7c42bf8d37554722470,
+    - target: {fileID: 6371554299081183750, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 5266d694d4410a04eb7925357c029507,
-        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6371554299081183750, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -99,6 +109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6371554299081183750, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6371554299081183750, guid: 53973314651fa7c42bf8d37554722470,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -111,16 +126,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6371554299081183750, guid: 53973314651fa7c42bf8d37554722470,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6371554299081183750, guid: 53973314651fa7c42bf8d37554722470,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6371554299081183750, guid: 53973314651fa7c42bf8d37554722470,
         type: 3}

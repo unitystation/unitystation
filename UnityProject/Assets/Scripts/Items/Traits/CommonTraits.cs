@@ -42,6 +42,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Tools")] public ItemTrait RollingPin;
 	[BoxGroup("Tools")] public ItemTrait LightReplacer;
 	[BoxGroup("Tools")] public ItemTrait Pickaxe;
+	[BoxGroup("Tools")] public ItemTrait ScienceScan;
 
 	[BoxGroup("Surgical")] public ItemTrait Scalpel;
 	[BoxGroup("Surgical")] public ItemTrait Retractor;
@@ -90,4 +91,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait RawDurathreadBundle;
 	public ItemTrait BluespaceActivity;
 	public ItemTrait Id;
+	public ItemTrait ProximitySensor;
 }

@@ -163,22 +163,18 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 			if (VariableType.IsGenericType)
 			{
 				IEnumerable list;
-				Type TType;
 				if (Info == null)
 				{
 					list = PInfo.GetValue(Script) as IEnumerable;
-					TType = PInfo.PropertyType;
 				}
 				else
 				{
 					list = Info.GetValue(Script) as IEnumerable;
-					TType = Info.FieldType;
 				}
 				if (list != null)
 				{
 					foreach (object c in list)
 					{
-						Type valueType = c.GetType();
 						ReflectionSpriteSheetAndData(c.GetType(), c);
 					}
 				}

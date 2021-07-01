@@ -31,8 +31,9 @@ namespace UI.CharacterCreator
 
 		public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
 		{
+			Body_Part.SetCustomisationData = InData;
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
-			BodyPartColour.a = 1;
+			BodyPartColour.a = 1; //Force body part color to never be transparent.
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
 		}
 

@@ -14,7 +14,7 @@ namespace Objects.Botany
 	/// <summary>
 	/// Where the magic happens in botany. This tray grows all of the plants
 	/// </summary>
-	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
+	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn
 	{
 		public bool HasPlant => plantData?.FullyGrownSpriteSO != null;
 		public bool ReadyToHarvest => plantCurrentStage == PlantSpriteStage.FullyGrown;
@@ -73,6 +73,11 @@ namespace Objects.Botany
 		{
 			base.OnStartServer();
 			EnsureInit();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			EnsureInit();
 			ServerInit();
 		}
 
@@ -110,15 +115,30 @@ namespace Objects.Botany
 			harvestNotifier.PushClear();
 		}
 
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		#endregion Lifecycle
 
 		/// <summary>
 		/// Server updates plant status and updates clients as needed
+		/// Server Side Only
 		/// </summary>
-		public override void UpdateMe()
+		private void UpdateMe()
 		{
 			//Only server checks plant status, wild plants do not grow
-			if (!isServer || isWild) return;
+			if (isWild) return;
 
 			//Only update at set rate
 			tickCount += Time.deltaTime;

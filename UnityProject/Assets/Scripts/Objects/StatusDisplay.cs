@@ -128,8 +128,12 @@ namespace Objects.Wallmounts
 		/// </summary>
 		private void SyncStatusText(string oldText, string newText)
 		{
-			//display font doesn't have lowercase chars!
-			statusText = newText.ToUpper().Substring(0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE * 2));
+			if (newText != null)
+			{
+				//display font doesn't have lowercase chars!
+				statusText = newText.ToUpper().Substring(0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE * 2));
+			}
+
 
 			if (!textField)
 			{

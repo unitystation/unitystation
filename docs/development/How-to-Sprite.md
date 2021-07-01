@@ -16,11 +16,11 @@ Here is Tyler, the Single Frame png file which has just been added into the proj
 
 Now make the following adjustments:
 
-    - Change **Pixels Per Unit** to **32**
-    - Change **Mesh Type** to **Full Rect**
-    - Tick **Read/Write Enabled** so it is true
-    - Set **Filter Mode** to **Point (no filter)**
-    - Set the **Format** to **RGBA 32 bit** in the **Default** tab
+- Change **Pixels Per Unit** to **32**
+- Change **Mesh Type** to **Full Rect**
+- Tick **Read/Write Enabled** so it is true
+- Set **Filter Mode** to **Point (no filter)**
+- Set the **Format** to **RGBA 32 bit** in the **Default** tab
 
 Now the image is ready to put into the Singleton Scriptable Object. Right Click up top on the white bar and go **Create** -> **Singleton Scriptable Object** -> **SpriteData**.
 
@@ -30,19 +30,19 @@ Make sure the names between your sprite and SO match. Open up the newly created 
 
 Now make the following adjustments (in order):
 
-    1. Set **Variance** from 0 to 1
-    2. Inside **Element 0** subtab in **Frames** set size from 0 to 1
-    3. Now inside the **Frame's** **Element 0** there should be an entry called **Sprite**, click on the cricle to the right and search for your sprite. Click and hit enter to make sure you actually select it, it can be a bit temperamental.
+1. Set **Variance** from 0 to 1
+1. Inside **Element 0** subtab in **Frames** set size from 0 to 1
+1. Now inside the **Frame's** **Element 0** there should be an entry called **Sprite**, click on the cricle to the right and search for your sprite. Click and hit enter to make sure you actually select it, it can be a bit temperamental.
 
 ![](../assets/images/HowToSprite/tyler_select_sprite.png)
 
 To add your sprite to the repository, commit and PR these files to git, make sure you are looking to commit your files and not any tyler images.
 
-    - tyler.asset
-    - tyler.asset.meta
-    - tyler.png
-    - tyler.png.meta
-    - SpriteCatalogueSingleton
+- tyler.asset
+- tyler.asset.meta
+- tyler.png
+- tyler.png.meta
+- SpriteCatalogueSingleton
 
 ###  Multi Frame Sprite
 

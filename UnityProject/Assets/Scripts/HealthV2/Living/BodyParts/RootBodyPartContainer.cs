@@ -67,6 +67,14 @@ namespace HealthV2
 		[Tooltip("Individual limbs contained within this")]
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
 
+		[HideInInspector] public bool IsBleeding = false;
+
+		/// <summary>
+		/// How much blood does the body lose when there is lost limbs in this container?
+		/// </summary>
+		[SerializeField, Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
+		private float limbLossBleedingValue = 35f;
+
 		public RootBodyPartController RootBodyPartController;
 
 		/// <summary>
@@ -100,6 +108,8 @@ namespace HealthV2
 			}
 
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
+			//TODO Make generic version for mobs \/
+			Storage.SetRegisterPlayer(healthMaster.GetComponent<RegisterPlayer>());
 		}
 
 		public void UpdateChildren(List<uint> NewInternalNetIDs)
@@ -226,6 +236,14 @@ namespace HealthV2
 				i++;
 			}
 			RootBodyPartController.RequestUpdate(this);
+			
+			if (implant.SetCustomisationData != "")
+			{
+				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant,
+					implant.SetCustomisationData,
+					healthMaster);
+			}
+
 		}
 
 		/// <summary>
@@ -286,13 +304,17 @@ namespace HealthV2
 
 		/// <summary>
 		/// Updates the body part container and all contained body parts relative to their related
-		/// systems (default: blood system, radiation damage)
+		/// systems (default: blood system, radiation damage) each second.
 		/// </summary>
 		public virtual void ImplantPeriodicUpdate()
 		{
 			foreach (BodyPart prop in ContainsLimbs)
 			{
 				prop.ImplantPeriodicUpdate();
+			}
+			if(IsBleeding)
+			{
+				healthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
 			}
 		}
 
@@ -304,6 +326,7 @@ namespace HealthV2
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			RemoveSpritesNID(implant);
+			IsBleeding = true;
 		}
 
 		/// <summary>
@@ -339,16 +362,16 @@ namespace HealthV2
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
 			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
-				foreach (var ContainsLimb in ContainsLimbs)
+				//We don't use foreach to avoid errors when the list gets modifed.
+				for(int limbCount = ContainsLimbs.Count - 1; limbCount >= 0; limbCount--)
 				{
-					ContainsLimb.TakeDamage(
-						damagedBy,
+					ContainsLimbs[limbCount].TakeDamage(damagedBy,
 						damage / ContainsLimbs.Count,
 						attackType,
 						damageType,
 						damageSplit,
 						armorPenetration: armorPenetration
-					);
+						);
 				}
 			}
 			else
@@ -365,6 +388,36 @@ namespace HealthV2
 						armorPenetration: armorPenetration
 					);
 				}
+			}
+		}
+
+		/// <summary>
+		/// Applies slash damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
+		/// </summary>
+		public void TakeSlashDamage(float damage)
+		{
+			foreach (var limb in ContainsLimbs)
+			{
+				limb.ApplyTraumaDamage(damage);
+			}
+		}
+
+		/// <summary>
+		/// Applies pierce damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
+		/// </summary>
+		public void TakePierceDamage(float damage)
+		{
+			foreach (var ContainsLimb in ContainsLimbs)
+			{
+				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
+			}
+		}
+
+		public void TakeBurnDamage(float damage)
+		{
+			foreach (var ContainsLimb in ContainsLimbs)
+			{
+				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
 			}
 		}
 

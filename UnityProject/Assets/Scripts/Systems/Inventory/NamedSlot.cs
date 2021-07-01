@@ -30,10 +30,19 @@ public enum NamedSlot
 	storage01 = 16,
 	storage02 = 17,
 	suitStorage = 18,
+	storage03 = 19,
+	storage04 = 20,
+	storage05 = 21,
+	storage06 = 22,
+	storage07 = 23,
+	storage08 = 24,
+	storage09 = 25,
+	storage10 = 26,
 	//special
 	ghostStorage01 = 50,
 	ghostStorage02 = 51,
 	ghostStorage03 = 52,
+
 
 	//alternative for non-nullable null value
 	none = 2048,
