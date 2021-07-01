@@ -114,6 +114,8 @@ namespace HealthV2
 
 		public bool CanBleedExternally = false;
 
+		public bool gibsEntireBodyOnRemoval = false;
+
 		private bool isBleedingInternally = false;
 
 		private bool isBleedingExternally = false;
@@ -124,8 +126,12 @@ namespace HealthV2
 
 		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
 
-		[SerializeField]
-		private float maximumInternalBleedDamage = 100;
+
+		[SerializeField] private float maximumInternalBleedDamage = 100;
+		public float InternalBleedingBloodLoss = 12;
+		public float ExternalBleedingBloodLoss = 6;
+
+		[SerializeField, Range(0.2f, 4.25f)] private float baseTraumaDamageMultiplier = 0.25f;
 
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
@@ -562,26 +568,41 @@ namespace HealthV2
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if(damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += tramuaDamage; }
-				if(damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += tramuaDamage; }
+				if (damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
+				if (damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
 				CheckCutSize();
 			}
 			//Burn damage checks for it's own armor damage type.
 			if (damageType == TramuticDamageTypes.BURN)
 			{
-				//Large cuts and parts in terrible condition means less protective flesh against fire.
-				if(currentSlashDamageLevel == SlashDamageLevel.LARGE || Severity >= DamageSeverity.Critical)
-				{
-					TakeBurnDamage(tramuaDamage * 1.25f);
-				}
-				else
-				{
-					TakeBurnDamage(tramuaDamage);
-				}
+				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
 			}
 		}
 
-		[ContextMenu("Debug - Apply 25 Slash Damage")]
+		private float MultiplyTraumaDamage(float baseDamage)
+		{
+			if (currentBurnDamageLevel >= BurnDamageLevels.CHARRED || currentCutSize >= BodyPartCutSize.LARGE
+			|| Severity >= DamageSeverity.Critical)
+			{
+				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
+			}
+			else if (currentBurnDamageLevel >= BurnDamageLevels.MAJOR || currentCutSize >= BodyPartCutSize.MEDIUM
+			|| Severity >= DamageSeverity.Bad)
+			{
+				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
+			}
+			else if (currentBurnDamageLevel >= BurnDamageLevels.MINOR || currentCutSize >= BodyPartCutSize.SMALL
+			|| Severity >= DamageSeverity.LightModerate)
+			{
+				return baseDamage * baseTraumaDamageMultiplier;
+			}
+			else
+			{
+				return baseDamage;
+			}
+		}
+
+			[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
 			ApplyTraumaDamage(25);
@@ -836,27 +857,14 @@ namespace HealthV2
 					var organ = item.ItemObject?.GetComponent<BodyPart>();
 					if (organ != null)
 					{
+						if (organ.gibsEntireBodyOnRemoval)
+						{
+							healthMaster.Gib();
+							return;
+						}
 						if (organ.DeathOnRemoval)
 						{
 							HealthMaster.Death();
-						}
-					}
-				}
-				if(PlayerItemList != null) //In case this is not a player
-				{
-					foreach (ItemSlot item in PlayerItemList)
-					{
-						Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
-						if (itemObject != null)
-						{
-							if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
-							{
-								Inventory.ServerDrop(item);
-							}
-							else
-							{
-								Inventory.ServerDespawn(item);
-							}
 						}
 					}
 				}
