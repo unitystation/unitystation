@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TipsUI : MonoBehaviour
 {
-    [SerializeField] private TipsSO SO;
+    [SerializeField] private ScriptableObjects.StringList GeneralTipsList;
 
     [SerializeField] private TMP_Text UI_Text;
 
@@ -25,7 +25,7 @@ public class TipsUI : MonoBehaviour
     public void DisplayRandomTip()
     {
         System.Random randomValue = new System.Random();
-        string TipToDisplay = SO.Tips[randomValue.Next(SO.Tips.Count)];
+        string TipToDisplay = GeneralTipsList.Strings[randomValue.Next(GeneralTipsList.Strings.Length)];
 
         UI_Text.text = TipToDisplay;
     }
