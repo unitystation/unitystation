@@ -18,7 +18,6 @@ namespace Learning
 
 		public void DisplayRandomTip()
 		{
-			Debug.Log(GeneralTipsList.Strings.PickRandom());
 			UI_Text.text = GeneralTipsList.Strings.PickRandom();
 		}
 	}
