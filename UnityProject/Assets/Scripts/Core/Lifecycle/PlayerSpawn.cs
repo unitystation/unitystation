@@ -248,8 +248,11 @@ public static class PlayerSpawn
 				occupation.BackgroundColor,
 				occupation.PlaySound);
 		}
+		if (info.SpawnItems)
+		{
+			newPlayer.GetComponent<DynamicItemStorage>()?.SetUpOccupation(occupation);
+		}
 
-		newPlayer.GetComponent<DynamicItemStorage>()?.SetUpOccupation(occupation);
 
 		return newPlayer;
 	}
