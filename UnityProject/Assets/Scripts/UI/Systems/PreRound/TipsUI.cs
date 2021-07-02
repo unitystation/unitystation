@@ -24,10 +24,7 @@ public class TipsUI : MonoBehaviour
 
     public void DisplayRandomTip()
     {
-        System.Random randomValue = new System.Random();
-        string TipToDisplay = GeneralTipsList.Strings[randomValue.Next(GeneralTipsList.Strings.Length)];
-
-        UI_Text.text = TipToDisplay;
+        UI_Text.text = GeneralTipsList.Strings.PickRandom();
     }
 
     public void DisplayCustomTip(string tip)
