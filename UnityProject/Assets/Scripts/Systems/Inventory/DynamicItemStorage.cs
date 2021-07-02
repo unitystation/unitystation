@@ -355,6 +355,15 @@ public class DynamicItemStorage : NetworkBehaviour
 		return GetNamedItemSlot(playerNetworkActions.activeHand, playerNetworkActions.CurrentActiveHand);
 	}
 
+	public void PassthroughContentsChangeClient()
+	{
+		OnContentsChangeClient.Invoke();
+	}
+
+	public void PassthroughContentsChangeServer()
+	{
+		OnContentsChangeServer.Invoke();
+	}
 
 
 	/// <summary>
@@ -405,6 +414,11 @@ public class DynamicItemStorage : NetworkBehaviour
 		if (ContainedInventorys.Contains(bodyPartUISlots) == false) return;
 		ContainedInventorys.Remove(bodyPartUISlots);
 		UIBodyPartsToSerialise.Remove(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
+		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+		{
+			item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
+			item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeClient);
+		}
 
 
 		foreach (var storageCharacteristicse in bodyPartUISlots.Storage)
@@ -482,6 +496,11 @@ public class DynamicItemStorage : NetworkBehaviour
 		UIBodyPartsToSerialise.Add(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
 		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(registerPlayer);
+		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+		{
+			item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeServer);
+			item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeClient);
+		}
 
 		foreach (var storageCharacteristicse in bodyPartUISlots.Storage)
 		{
@@ -523,6 +542,11 @@ public class DynamicItemStorage : NetworkBehaviour
 	public void AddClient(IDynamicItemSlotS bodyPartUISlots)
 	{
 		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(registerPlayer);
+		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+		{
+			item.OnSlotContentsChangeClient.AddListener(PassthroughContentsChangeClient);
+		}
+
 		foreach (var storageCharacteristicse in bodyPartUISlots.Storage)
 		{
 			var Slot = bodyPartUISlots.RelatedStorage.GetNamedItemSlot(storageCharacteristicse.namedSlot);
@@ -556,6 +580,12 @@ public class DynamicItemStorage : NetworkBehaviour
 	public void RemoveClient(IDynamicItemSlotS bodyPartUISlots)
 	{
 		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(null);
+
+		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+		{
+			item.OnSlotContentsChangeClient.RemoveListener(PassthroughContentsChangeClient);
+		}
+
 		foreach (var storageCharacteristicse in bodyPartUISlots.Storage)
 		{
 			var SstorageCharacteristicse = storageCharacteristicse;
@@ -609,8 +639,15 @@ public class DynamicItemStorage : NetworkBehaviour
 
 	private IEnumerator WaitForInit(string NewST)
 	{
-		yield return WaitFor.Seconds(1);
+		yield return null;
+		yield return null;
+		yield return null;
+		ProcessChangeClient(NewST);
+	}
 
+
+	public void ProcessChangeClient(string NewST)
+	{
 		added.Clear();
 		removed.Clear();
 		var incomingList = JsonConvert.DeserializeObject<List<uint>>(NewST);
@@ -655,6 +692,22 @@ public class DynamicItemStorage : NetworkBehaviour
 		ClientUIBodyPartsToSerialise = incomingList;
 	}
 
+	public void OnDestroy()
+	{
+		if (isServer)
+		{
+			foreach (var itemStorage in ContainedInventorys.ToArray())
+			{
+				Remove(itemStorage);
+			}
+		}
+		else
+		{
+			var newl = new List<uint>();
+			ProcessChangeClient(JsonConvert.SerializeObject(newl));
+		}
+
+	}
 
 	/// <summary>
 	/// Checks if this game object is present in this storage
@@ -921,11 +974,6 @@ public class DynamicItemStorage : NetworkBehaviour
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
 			objt.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(newBody);
-		}
-
-		if (newBody == this.gameObject)
-		{
-			UIManager.Instance.UI_SlotManager.RemoveAll();
 		}
 	}
 
