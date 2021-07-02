@@ -54,6 +54,8 @@ namespace Objects.Construction
 
 		private void Start()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			// Try get the best name for the object, else default to object's prefab name.
 			if (TryGetComponent<ObjectAttributes>(out var attributes)
 			    && string.IsNullOrWhiteSpace(attributes.InitialName) == false)

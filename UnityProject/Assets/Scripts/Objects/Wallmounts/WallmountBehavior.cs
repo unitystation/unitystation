@@ -49,6 +49,15 @@ namespace Objects.Wallmounts
 		}
 
 		/// <summary>
+		/// Calculates the tile which is in front of the wall mount
+		/// </summary>
+		/// <returns></returns>
+		public Vector3 CalculateTileInFrontPos()
+		{
+			return CalculateFacing() + transform.position;
+		}
+
+		/// <summary>
 		/// Checks if the wallmount is facing the specified position
 		/// </summary>
 		/// <param name="worldPosition">position to check</param>

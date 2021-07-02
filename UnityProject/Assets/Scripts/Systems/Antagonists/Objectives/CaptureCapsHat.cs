@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Antagonists
 {
-    [CreateAssetMenu(menuName="ScriptableObjects/Objectives/CaptureCapsHat")]
+    [CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/CaptureCapsHat")]
     public class CaptureCapsHat : Objective
     {
         [SerializeField]
@@ -32,14 +32,23 @@ namespace Antagonists
 	        var captain = FindCaptain();
             // No captain? Objective completed
             if (captain == null) return true;
-            var inventory = captain.GameObject.GetComponent<ItemStorage>();
+            var inventory = captain.GameObject.GetComponent<DynamicItemStorage>();
             //something fucked up, give them green
             if (inventory == null) return true;
-            var headSlot = inventory.GetNamedItemSlot(NamedSlot.head).Item;
-            // Objective completed if captain has no hat or is wearing a non-allowed hat
-            if (headSlot == null || !allowedHats.Contains(headSlot.gameObject)) return true;
 
-            return false;
+            var headSlots = inventory.GetNamedItemSlots(NamedSlot.head);
+            foreach (var headSlot in headSlots)
+            {
+	            if(headSlot.IsEmpty) continue;
+
+	            if(allowedHats.Contains(headSlot.Item.gameObject) == false) continue;
+
+	            //Failed captain is wearing his hat!
+	            return false;
+            }
+
+            // Objective completed if captain has no hat or is wearing a non-allowed hat
+            return true;
         }
     }
 }

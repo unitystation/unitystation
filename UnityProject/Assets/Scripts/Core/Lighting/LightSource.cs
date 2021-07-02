@@ -287,7 +287,7 @@ namespace Objects.Lighting
 
 		private void TryRemoveBulb(HandApply interaction)
 		{
-			var handSlot = interaction.PerformerPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.hands);
+			var handSlot = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 
 			if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
 					!Validations.HasItemTrait(handSlot.ItemObject, CommonTraits.Instance.BlackGloves)))
@@ -302,7 +302,7 @@ namespace Objects.Lighting
 			}
 
 			var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer()).GameObject;
-			ItemSlot bestHand = interaction.PerformerPlayerScript.ItemStorage.GetBestHand();
+			ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 			if (bestHand != null && spawnedItem != null)
 			{
 				Inventory.ServerAdd(spawnedItem, bestHand);

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
+using UI;
 
 namespace UI.Items
 {
 	public class GUI_Paper : NetTab
 	{
-		[SerializeField]
-		private TMP_InputField textField = default;
+		[SerializeField] private TMP_InputField textField = default;
 
 		public override void OnEnable()
 		{
@@ -24,6 +25,7 @@ namespace UI.Items
 			{
 				yield return WaitFor.EndOfFrame;
 			}
+
 			RefreshText();
 		}
 
@@ -58,6 +60,7 @@ namespace UI.Items
 				textField.readOnly = false;
 				textField.ActivateInputField();
 			}
+
 			UIManager.IsInputFocus = true;
 			UIManager.PreventChatInput = true;
 			CheckForInput();
@@ -65,20 +68,18 @@ namespace UI.Items
 
 		private bool IsPenInHand()
 		{
-			var pen = UIManager.Hands.CurrentSlot.Item?.GetComponent<Pen>();
-			if (pen == null)
+			Pen pen = null;
+			foreach (var itemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
 			{
-				pen = UIManager.Hands.OtherSlot.Item?.GetComponent<Pen>();
-				if (pen == null)
+				if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent<Pen>(out pen))
 				{
-					//no pen
-					return false;
 				}
 			}
-			return true;
+
+			return pen != null;
 		}
 
-		// Safety measure:
+		//Safety measure:
 		private async void CheckForInput()
 		{
 			await Task.Delay(500);
@@ -89,10 +90,11 @@ namespace UI.Items
 			}
 		}
 
-		// Request an edit from server:
+		//Request an edit from server:
 		public void OnTextEditEnd()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject,
+				textField.text);
 			UIManager.IsInputFocus = false;
 			UIManager.PreventChatInput = false;
 		}

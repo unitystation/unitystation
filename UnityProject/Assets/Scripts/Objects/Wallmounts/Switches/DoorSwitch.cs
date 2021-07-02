@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Input_System.InteractionV2.Interactions;
 using Electricity.Inheritance;
 using UnityEngine;
 using Mirror;
@@ -13,7 +14,7 @@ namespace Objects.Wallmounts
 	/// Allows object to function as a door switch - opening / closing door when clicked.
 	/// </summary>
 	[ExecuteInEditMode]
-	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn
+	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn, ICheckedInteractable<AiActivate>
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -259,6 +260,25 @@ namespace Objects.Wallmounts
 			{
 				doorControllers.Add(doorController);
 			}
+		}
+
+		#endregion
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			RunDoorController();
+			RpcPlayButtonAnim(true);
 		}
 
 		#endregion

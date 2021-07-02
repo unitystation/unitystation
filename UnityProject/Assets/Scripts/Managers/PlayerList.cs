@@ -313,6 +313,27 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Get all players with specific state, logged in and logged off
+	/// </summary>
+	[Server]
+	public List<ConnectedPlayer> GetAllByPlayersOfState(PlayerScript.PlayerStates state)
+	{
+		return GetAllPlayers().Where(player => player.Script.PlayerState == state).ToList();
+	}
+
+	/// <summary>
+	/// Get all in game players, logged in and logged off
+	/// </summary>
+	[Server]
+	public List<ConnectedPlayer> GetAllPlayers()
+	{
+		var players = InGamePlayers;
+		players.AddRange(loggedOff.FindAll(player => player.Script != null));
+
+		return players.ToList();
+	}
+
+	/// <summary>
 	/// Check logged in and logged off players
 	/// </summary>
 	/// <param name="condition"></param>

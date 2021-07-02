@@ -20,9 +20,6 @@ namespace Systems.Atmospherics
 
 		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
 
-		private Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
-		public Dictionary<Vector3Int, HashSet<Gas>> FogTiles => fogTiles;
-
 		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions =
 			new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
 		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> Reactions => reactions;

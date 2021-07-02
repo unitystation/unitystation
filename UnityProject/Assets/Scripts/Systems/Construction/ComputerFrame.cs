@@ -303,16 +303,20 @@ namespace Objects.Construction
 
 			if (CurrentState == glassAddedState)
 			{
-				Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 2));
-				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+				//1-2
+				Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 3));
+				//1-5
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
 			}
 
 			if (CurrentState == cablesAddedState)
 			{
-				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+				//1-5
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
 			}
 
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+			//1-5
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}

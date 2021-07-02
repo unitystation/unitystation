@@ -12,18 +12,23 @@ namespace UI
 		public UI_ItemSlot beltItemSlot = default;
 		public UI_ItemSlot pocketOneItemSlot = default;
 		public UI_ItemSlot pocketTwoItemSlot = default;
-		[FormerlySerializedAs("pocketThreeItemSlot")] public UI_ItemSlot suitStorageSlot = default;
+
+		[FormerlySerializedAs("pocketThreeItemSlot")]
+		public UI_ItemSlot suitStorageSlot = default;
 
 		private bool _isWearingUniform;
 
 		private ItemSlot OXsuit;
 		private ItemSlot uniform;
+
 		/// <summary>
 		/// Do player have item in uniform slot
 		/// </summary>
-		public bool IsWearingUniform {
+		public bool IsWearingUniform
+		{
 			get => _isWearingUniform;
-			set {
+			set
+			{
 				_isWearingUniform = value;
 				if (_isWearingUniform)
 				{
@@ -44,10 +49,6 @@ namespace UI
 					pocketTwoImage.color = greyedPocketColor;
 					pocketOneImage.color = greyedPocketColor;
 
-					// drop items from pockets
-					DropItem(pocketTwoItemSlot);
-					DropItem(pocketOneItemSlot);
-
 					// disable raycastTarget so player cannot put items back
 					pocketTwoImage.raycastTarget = false;
 					pocketOneImage.raycastTarget = false;
@@ -59,9 +60,11 @@ namespace UI
 
 		private bool _IsWearingXOSuit;
 
-		public bool IsWearingXOSuit {
+		public bool IsWearingXOSuit
+		{
 			get => _IsWearingXOSuit;
-			set {
+			set
+			{
 				_IsWearingXOSuit = value;
 				if (_IsWearingXOSuit)
 				{
@@ -78,9 +81,6 @@ namespace UI
 					// change pocket image color to gray
 					SuitStorageImage.color = greyedPocketColor;
 
-					// drop items from suitStorage
-					DropItem(suitStorageSlot);
-
 					// disable raycastTarget so player cannot put items back
 					SuitStorageImage.raycastTarget = false;
 					suitStorageSlot.ItemSlot.IsEnabled = false;
@@ -88,8 +88,9 @@ namespace UI
 			}
 		}
 
-		[Header("UI GameObject references")]
-		[SerializeField] private Text backpackKeybindText = default;
+		[Header("UI GameObject references")] [SerializeField]
+		private Text backpackKeybindText = default;
+
 		[SerializeField] private Text PDAKeybindText = default;
 		[SerializeField] private Text beltKeybindText = default;
 		[SerializeField] private Text pocketOneKeybindText = default;
@@ -100,11 +101,12 @@ namespace UI
 		[SerializeField] private Image SuitStorageImage = default;
 		[SerializeField] private Color greyedPocketColor = Color.gray;
 
-		[Header("Message settings")]
-		[SerializeField] private string emptyHandNPocketMessage = "There's nothing in that pocket";
+		[Header("Message settings")] [SerializeField]
+		private string emptyHandNPocketMessage = "There's nothing in that pocket";
+
 		[SerializeField] private string fullHandNPocketMessage = "My pockets are full";
 
-		#region  /=== KEYBINDS ===\
+		#region /=== KEYBINDS ===\
 
 		public void SetBackPackKeybindText(string key)
 		{
@@ -138,7 +140,7 @@ namespace UI
 
 		#endregion
 
-		#region  /=== EVENT LISTENERS ===\
+		#region /=== EVENT LISTENERS ===\
 
 		private void OnDisable()
 		{
@@ -153,12 +155,12 @@ namespace UI
 		/// </summary>
 		public void SetupListeners()
 		{
-			uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
-			uniform.OnSlotContentsChangeClient.AddListener(OnUniformSlotUpdate);
+			// uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
+			// uniform.OnSlotContentsChangeClient.AddListener(OnUniformSlotUpdate);
 			OnUniformSlotUpdate();
 
-			OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
-			OXsuit.OnSlotContentsChangeClient.AddListener(OnOXsuitSlotUpdate);
+			// OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+			// OXsuit.OnSlotContentsChangeClient.AddListener(OnOXsuitSlotUpdate);
 			OnOXsuitSlotUpdate();
 		}
 
@@ -171,6 +173,7 @@ namespace UI
 			{
 				uniform.OnSlotContentsChangeClient.RemoveListener(OnUniformSlotUpdate);
 			}
+
 			if (OXsuit != null)
 			{
 				OXsuit.OnSlotContentsChangeClient.RemoveListener(OnOXsuitSlotUpdate);
@@ -182,8 +185,8 @@ namespace UI
 		/// </summary>
 		private void OnUniformSlotUpdate()
 		{
-			ItemSlot uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
-			IsWearingUniform = uniform.IsOccupied;
+			// ItemSlot uniform = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.uniform);
+			// IsWearingUniform = uniform.IsOccupied;
 		}
 
 		/// <summary>
@@ -191,18 +194,8 @@ namespace UI
 		/// </summary>
 		private void OnOXsuitSlotUpdate()
 		{
-			ItemSlot OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
-			IsWearingXOSuit = OXsuit.IsOccupied;
-		}
-
-		private void DropItem(UI_ItemSlot itemSlot)
-		{
-			if (itemSlot.ItemSlot.IsEmpty || PlayerManager.LocalPlayerScript.IsGhost)
-				return;
-
-			Logger.Log("Drop pocket item - uniform is null", Category.PlayerInventory);
-
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemWithoutValidations(itemSlot.NamedSlot);
+			//ItemSlot OXsuit = PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
+			//IsWearingXOSuit = OXsuit.IsOccupied;
 		}
 
 		#endregion
@@ -216,7 +209,8 @@ namespace UI
 			if (!IsWearingUniform && slot != 1)
 				return;
 
-			UI_ItemSlot pocket = null;// = slot == 1 ? pocketOneItemSlot : slot == 2 ? pocketTwoItemSlot : suitStorageSlot;
+			UI_ItemSlot
+				pocket = null; // = slot == 1 ? pocketOneItemSlot : slot == 2 ? pocketTwoItemSlot : suitStorageSlot;
 
 			switch (slot)
 			{
@@ -232,13 +226,15 @@ namespace UI
 			}
 
 			// if hand and pocket are empty
-			if (UIManager.Hands.CurrentSlot.ItemSlot.IsEmpty && pocket.ItemSlot.IsEmpty)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().IsEmpty && pocket.ItemSlot.IsEmpty)
 			{
 				Chat.AddExamineMsgToClient(emptyHandNPocketMessage);
 				return;
 			}
+
 			// if hand and pocket are full
-			if (UIManager.Hands.CurrentSlot.ItemSlot.IsOccupied && pocket.ItemSlot.IsOccupied)
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().IsOccupied &&
+			    pocket.ItemSlot.IsOccupied)
 			{
 				// if first pocket is empty - try to interact
 				if (IsWearingUniform && pocketOneItemSlot.ItemSlot.IsEmpty)

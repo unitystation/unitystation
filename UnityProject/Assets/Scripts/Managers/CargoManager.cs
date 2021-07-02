@@ -39,6 +39,8 @@ namespace Systems.Cargo
 
 		private Dictionary<string, ExportedItem> exportedItems = new Dictionary<string, ExportedItem>();
 
+		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
+
 		private void Awake()
 		{
 			if (Instance == null)
@@ -86,6 +88,7 @@ namespace Systems.Cargo
 			ActiveBounties.Clear();
 			CurrentOrders.Clear();
 			CurrentCart.Clear();
+			SoldHistory.Clear();
 			ShuttleStatus = ShuttleStatus.DockedStation;
 			Credits = 1000;
 			CurrentFlyTime = 0f;
@@ -329,7 +332,11 @@ namespace Systems.Cargo
 						Logger.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
 						continue;
 					}
-
+					if(SoldHistory.ContainsKey(itemTrait) == false)
+					{
+						SoldHistory.Add(itemTrait, 0);
+					}
+					SoldHistory[itemTrait] += count;
 					count = TryCompleteBounty(itemTrait, count);
 					if (count == 0)
 					{

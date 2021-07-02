@@ -8,7 +8,7 @@ namespace Antagonists
 	/// <summary>
 	/// Acquire x amount of guns.
 	/// </summary>
-	[CreateAssetMenu(menuName = "ScriptableObjects/Objectives/SurvivalistGuns")]
+	[CreateAssetMenu(menuName = "ScriptableObjects/AntagObjectives/SurvivalistGuns")]
 	public class SurvivalistGuns : Objective
 	{
 		[SerializeField]

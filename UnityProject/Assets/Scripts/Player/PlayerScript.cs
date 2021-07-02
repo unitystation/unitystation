@@ -1,12 +1,14 @@
+using System.Text;
+using Systems.Ai;
 using UnityEngine;
 using Mirror;
 using Blob;
 using HealthV2;
 using UI;
 using Player;
+using UI.Action;
 
-
-public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
+public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -55,8 +57,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public MouseInputController mouseInputController { get; set; }
 
-	public HitIcon hitIcon { get; set; }
-
 	public ChatIcon chatIcon { get; private set; }
 
 	/// <summary>
@@ -74,7 +74,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// <summary>
 	/// This player's item storage.
 	/// </summary>
-	public ItemStorage ItemStorage { get; private set; }
+	public DynamicItemStorage DynamicItemStorage { get; private set; }
 
 	private static bool verified;
 	private static ulong SteamID;
@@ -97,6 +97,29 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
 
+	[SerializeField]
+	private PlayerStates playerState = PlayerStates.Normal;
+	public PlayerStates PlayerState => playerState;
+
+	public enum PlayerStates
+	{
+		Normal,
+		Ghost,
+		Blob,
+		Ai
+	}
+
+	[SerializeField]
+	private ActionData actionData = null;
+	public ActionData ActionData => actionData;
+
+	//The object the player will receive chat and send chat from.
+	//E.g. usually same object as this script but for Ai it will be their core object
+	//Serverside only
+	[SerializeField]
+	private GameObject playerChatLocation = null;
+	public GameObject PlayerChatLocation => playerChatLocation;
+
 	#region Lifecycle
 
 	private void Awake()
@@ -108,19 +131,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
-		hitIcon = GetComponentInChildren<HitIcon>(true);
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
-		ItemStorage = GetComponent<ItemStorage>();
+		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
-
-		if (GetComponent<BlobPlayer>() != null)
-		{
-			IsPlayerSemiGhost = true;
-		}
 	}
 
 	public override void OnStartClient()
@@ -171,6 +188,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
+
 	public void Init()
 	{
 		if (isLocalPlayer)
@@ -184,9 +202,16 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
-			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
+			IPlayerControllable input = PlayerSync;
 
-			if (IsGhost && IsPlayerSemiGhost == false)
+			if (TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
+			{
+				input = aiMouseInputController;
+			}
+
+			PlayerManager.SetPlayerForControl(gameObject, input);
+
+			if (playerState == PlayerStates.Ghost)
 			{
 				if (PlayerList.Instance.IsClientAdmin)
 				{
@@ -201,6 +226,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
 			}
+			//Normal players
 			else if (IsPlayerSemiGhost == false)
 			{
 				UIManager.LinkUISlots(ItemStorageLinkOrigin.localPlayer);
@@ -209,12 +235,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 			}
+			//Players like blob or Ai
 			else
 			{
 				// stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-				// show ghosts
+				// hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
@@ -258,6 +285,16 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		{
 			playerHealth.RTT = rtt;
 		}
+	}
+
+	/// <summary>
+	/// Sets the game object for where the player can receive and send chat message from
+	/// </summary>
+	/// <param name="newLocation"></param>
+	[Server]
+	public void SetPlayerChatLocation(GameObject newLocation)
+	{
+		playerChatLocation = newLocation;
 	}
 
 	/// <summary>
@@ -319,9 +356,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 	}
 
-	[HideInInspector]
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
-	public bool IsPlayerSemiGhost;
+	public bool IsPlayerSemiGhost => playerState == PlayerStates.Blob || playerState == PlayerStates.Ai;
 
 	public object Chat { get; internal set; }
 
@@ -362,6 +398,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		characterSettings.Name = newName;
 		playerName = newName;
+		RefreshVisibleName();
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
@@ -373,6 +410,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
 				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
 				| ChatChannel.Supply | ChatChannel.Syndicate;
+
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;
@@ -380,7 +418,31 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
-		if (IsPlayerSemiGhost)
+		if (playerState == PlayerStates.Ai)
+		{
+			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary | ChatChannel.Command
+			                                 | ChatChannel.Common | ChatChannel.Engineering |
+			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+			                                 | ChatChannel.Supply;
+			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+			                                   | ChatChannel.Supply;
+
+			if (GetComponent<AiPlayer>().AllowRadio == false)
+			{
+				aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local;
+				aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			}
+
+			if (transmitOnly)
+			{
+				return aiTransmitChannels;
+			}
+			return aiTransmitChannels | aiReceiveChannels;
+		}
+
+		if (playerState == PlayerStates.Blob)
 		{
 			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
 			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
@@ -395,30 +457,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
 		ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
-		if (CustomNetworkManager.Instance._isServer)
+
+		var playerStorage = gameObject.GetComponent<DynamicItemStorage>();
+		if (playerStorage != null)
 		{
-			var playerStorage = gameObject.GetComponent<ItemStorage>();
-			if (playerStorage && !playerStorage.GetNamedItemSlot(NamedSlot.ear).IsEmpty)
+			foreach (var earSlot in playerStorage.GetNamedItemSlots(NamedSlot.ear))
 			{
-				Headset headset = playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
-				if (headset)
-				{
-					EncryptionKeyType key = headset.EncryptionKey;
-					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-				}
-			}
-		}
-		else
-		{
-			GameObject earSlotItem = gameObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.ear).ItemObject;
-			if (earSlotItem)
-			{
-				Headset headset = earSlotItem.GetComponent<Headset>();
-				if (headset)
-				{
-					EncryptionKeyType key = headset.EncryptionKey;
-					transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
-				}
+				if(earSlot.IsEmpty) continue;
+				if(earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+
+				EncryptionKeyType key = headset.EncryptionKey;
+				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
 			}
 		}
 
@@ -486,17 +535,37 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public string AdminInfoString()
 	{
-		if (PlayerList.Instance.IsAntag(gameObject))
-		{
-			return $"<color=yellow>Name: {characterSettings.Name}\n" +
-				   $"Acc: {characterSettings.Username}\n" +
-				   $"Antag: True \n" +
-				   "Objectives : "+ mind.GetAntag().GetObjectiveSummary() + "</color>";
+		var stringBuilder = new StringBuilder();
 
+		stringBuilder.AppendLine($"<color=yellow>Name: {characterSettings.Name}");
+		stringBuilder.AppendLine($"Acc: {characterSettings.Username}");
+
+		if(connectionToClient == null)
+		{
+			stringBuilder.AppendLine("Has No Soul");
 		}
 
-		return $"Name: {characterSettings.Name}\n" +
-			   $"Acc: {characterSettings.Username}\n" +
-			   $"Antag: False";
+		if (playerHealth != null)
+		{
+			stringBuilder.AppendLine($"Is Alive: {playerHealth.IsDead == false} Health: {playerHealth.OverallHealth}");
+		}
+
+		if (mind.IsAntag)
+		{
+			stringBuilder.AppendLine($"Antag: {mind.GetAntag().Antagonist.AntagJobType}");
+			stringBuilder.AppendLine($"Objectives : {mind.GetAntag().GetObjectiveSummary()}</color>");
+		}
+
+		return stringBuilder.ToString();
+	}
+
+	public void CallActionClient()
+	{
+		playerNetworkActions.CmdAskforAntagObjectives();
+	}
+
+	public void ActivateAntagAction(bool state)
+	{
+		UIActionManager.ToggleLocal(this, state);
 	}
 }

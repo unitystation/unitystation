@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.Atmospherics;
 using Managers;
+using ScriptableObjects.Atmospherics;
 using Strings;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace InGameEvents
 
 				reaction: new OxyToPlasma(),
 
-				gasReactionData: new Dictionary<Gas, GasReactionData>()
+				gasReactionData: new Dictionary<GasSO, GasReactionData>()
 				{
 					{
 						Gas.Oxygen,

@@ -45,7 +45,14 @@ namespace Chemistry
 				return default;
 			}
 
-			var playerStorage = subject.Script.ItemStorage;
+			var playerStorage = subject.Script.DynamicItemStorage;
+
+			//Can be null if Ai is using machine
+			if (playerStorage == null)
+			{
+				return null;
+			}
+
 			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
@@ -56,6 +63,13 @@ namespace Chemistry
 		public void EjectContainer(ConnectedPlayer subject)
 		{
 			var bestSlot = GetBestSlot(itemSlot.ItemObject, subject);
+
+			if (bestSlot == null)
+			{
+				Inventory.ServerDrop(itemSlot);
+				return;
+			}
+
 			if (!Inventory.ServerTransfer(itemSlot, bestSlot))
 			{
 				Inventory.ServerDrop(itemSlot);

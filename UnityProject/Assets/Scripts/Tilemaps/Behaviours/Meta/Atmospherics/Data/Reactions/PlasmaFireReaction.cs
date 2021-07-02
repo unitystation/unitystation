@@ -51,23 +51,21 @@ namespace Systems.Atmospherics
 				}
 
 				gasMix.RemoveGas(Gas.Plasma, MolesPlasmaBurnt);
-				if (gasMix.Gases[Gas.Plasma] < 0) gasMix.Gases[Gas.Plasma] = 0;
-
 				gasMix.RemoveGas(Gas.Oxygen, MolesPlasmaBurnt * 2);
-				if (gasMix.Gases[Gas.Oxygen] < 0) gasMix.Gases[Gas.Oxygen] = 0;
-				var TotalmolestoCO2 = MolesPlasmaBurnt + (MolesPlasmaBurnt * 2);
+
+				var totalMolesToCO2 = MolesPlasmaBurnt + (MolesPlasmaBurnt * 2);
 
 				if (superSaturated)
 				{
-					gasMix.AddGas(Gas.Tritium, TotalmolestoCO2 / 3);
+					gasMix.AddGas(Gas.Tritium, totalMolesToCO2 / 3);
 				}
 				else
 				{
-					gasMix.AddGas(Gas.CarbonDioxide, TotalmolestoCO2 / 3);
+					gasMix.AddGas(Gas.CarbonDioxide, totalMolesToCO2 / 3);
 				}
 
 				float heatCapacity = gasMix.WholeHeatCapacity;
-				gasMix.SetTemperature((temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity);
+				gasMix.SetTemperature((temperature * heatCapacity + (Reactions.EnergyPerMole * totalMolesToCO2)) / gasMix.WholeHeatCapacity);
 			}
 		}
 

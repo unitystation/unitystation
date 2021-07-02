@@ -25,7 +25,7 @@ namespace Pipes
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
 			if (SelfSufficient)
 			{
-				selfSufficientGas = GasMix.NewGasMix(GasMixes.Air);
+				selfSufficientGas = GasMix.NewGasMix(GasMixes.BaseAirMix);
 			}
 			base.OnSpawnServer(info);
 		}
@@ -74,7 +74,7 @@ namespace Pipes
 			if (SelfSufficient)
 			{
 				GasMix.TransferGas(selfSufficientGas, gasOnNode, available);
-				selfSufficientGas.Copy(GasMixes.Air);
+				selfSufficientGas.Copy(GasMixes.BaseAirMix);
 			}
 			else
 			{

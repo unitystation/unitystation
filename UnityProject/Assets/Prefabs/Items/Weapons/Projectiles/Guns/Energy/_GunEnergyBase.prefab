@@ -243,8 +243,6 @@ MonoBehaviour:
   SpawnsCasing: 0
   MagInternal: 0
   SmartGun: 0
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
   FiringSoundA:
     SetLoadSetting: 0
     AssetAddress: null
@@ -267,6 +265,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   FireDelay: 0.5
+  AllowSuicide: 0
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
@@ -614,7 +613,7 @@ PrefabInstance:
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -633,6 +632,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 8642408458191644664, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c98230014db4344db8ab42b83408117,
         type: 2}
     m_RemovedComponents:
     - {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}

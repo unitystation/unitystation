@@ -4,6 +4,7 @@ using Systems.Atmospherics;
 using Chemistry;
 using HealthV2;
 using Objects.Atmospherics;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,13 +27,13 @@ public class Lungs : BodyPartModification
 	/// The gas that this tries to put into the blood stream
 	/// </summary>
 	[Tooltip("The gas that this tries to put into the blood stream")]
-	[SerializeField] private Gas requiredGas = Gas.Oxygen;
+	[SerializeField] private GasSO requiredGas;
 
 	/// <summary>
 	/// The gas that this expels when breathing out
 	/// </summary>
 	[Tooltip("The gas that this expels when breathing out")]
-	[SerializeField] private Gas expelledGas = Gas.CarbonDioxide;
+	[SerializeField] private GasSO expelledGas;
 
 	/// <summary>
 	/// The base amount of blood that this attempts to process each single breath
@@ -180,49 +181,47 @@ public class Lungs : BodyPartModification
 			blood.Add(RelatedPart.requiredReagent, RelatedPart.bloodType.GetSpareGasCapacity(blood));
 			return false;
 		}
+
 		ReagentMix toInhale = new ReagentMix();
 		var Available = RelatedPart.bloodType.GetGasCapacityOfnonMeanCarrier(blood);
 		var TotalMoles = breathGasMix.Moles;
-		for (int i = 0; i < breathGasMix.Gases.Length; i++)
+
+		foreach (var gasValues in breathGasMix.GasData.GasesArray)
 		{
-			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(Gas.All[i]))
+			var gas = gasValues.GasSO;
+			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
+
+			// n = PV/RT
+			float gasMoles = breathGasMix.GetPressure(gas) * LungSize / ( 8.314f * breathGasMix.Temperature);
+
+			// Get as much as we need, or as much as in the lungs, whichever is lower
+			Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
+			float molesRecieved = 0;
+			if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
 			{
-				// n = PV/RT
-				float gasMoles = breathGasMix.GetPressure(Gas.All[i]) * LungSize / 8.314f / breathGasMix.Temperature;
-
-
-				// Get as much as we need, or as much as in the lungs, whichever is lower
-				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(Gas.All[i]);
-				float molesRecieved = 0;
-				if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
+				molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
+			}
+			else
+			{
+				if (gasMoles == 0)
 				{
-					molesRecieved = Mathf.Min(gasMoles, RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent));
+					molesRecieved = 0;
 				}
 				else
 				{
-					if (gasMoles == 0)
-					{
-						molesRecieved = 0;
-					}
-					else
-					{
-						molesRecieved = Available / (TotalMoles / gasMoles);
-						molesRecieved = Mathf.Min(molesRecieved, gasMoles);
-					}
+					molesRecieved = Available / (TotalMoles / gasMoles);
+					molesRecieved = Mathf.Min(molesRecieved, gasMoles);
 				}
-
-
-
-				if(molesRecieved.Approx(0) == false)
-				{
-					toInhale.Add(gasReagent, molesRecieved * efficiency);
-				}
-
-
-				//TODO: Add pressureSafeMax check here, for hyperoxia
 			}
 
+			if(molesRecieved.Approx(0) == false)
+			{
+				toInhale.Add(gasReagent, molesRecieved * efficiency);
+			}
+
+			//TODO: Add pressureSafeMax check here, for hyperoxia
 		}
+
 		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale);
 
 		// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
@@ -250,7 +249,7 @@ public class Lungs : BodyPartModification
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (Random.value < 0.2)
 			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps");
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");
 			}
 		}
 
@@ -266,7 +265,7 @@ public class Lungs : BodyPartModification
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 				"You gasp for air; but you drown in your own blood from the inside!",
-				$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps for air!");
+				$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps for air!");
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			}
 			else
@@ -276,7 +275,7 @@ public class Lungs : BodyPartModification
             if(DMMath.Prob(coughChanceWhenInternallyBleeding))
             {
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-				"You cough up blood!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} coughs up blood!");
+				"You cough up blood!", $"{RelatedPart.HealthMaster.playerScript.visibleName} coughs up blood!");
 				RelatedPart.CurrentInternalBleedingDamage -= Random.Range(RelatedPart.MinMaxInternalBleedingValues.x, RelatedPart.MinMaxInternalBleedingValues.y);
 
 				//TODO: TAKE BLOOD
