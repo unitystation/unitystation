@@ -537,7 +537,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		var stringBuilder = new StringBuilder();
 
-		stringBuilder.AppendLine($"<color=yellow>Name: {characterSettings.Name}");
+		stringBuilder.AppendLine($"Name: {characterSettings.Name}");
 		stringBuilder.AppendLine($"Acc: {characterSettings.Username}");
 
 		if(connectionToClient == null)
@@ -550,8 +550,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			stringBuilder.AppendLine($"Is Alive: {playerHealth.IsDead == false} Health: {playerHealth.OverallHealth}");
 		}
 
-		if (mind.IsAntag)
+		if (mind !=null && mind.IsAntag)
 		{
+			stringBuilder.Insert(0, "<color=yellow>");
 			stringBuilder.AppendLine($"Antag: {mind.GetAntag().Antagonist.AntagJobType}");
 			stringBuilder.AppendLine($"Objectives : {mind.GetAntag().GetObjectiveSummary()}</color>");
 		}

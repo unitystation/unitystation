@@ -26,9 +26,13 @@ namespace Objects.Research
 		[SerializeField]
 		private GameObject aiCoreFramePrefab = null;
 
-		[FormerlySerializedAs("inteliCardSpriteHandler")] [SerializeField]
+		[FormerlySerializedAs("inteliCardSpriteHandler")]
+		[SerializeField]
 		private SpriteHandler vesselSpriteHandler = null;
 		public SpriteHandler VesselSpriteHandler => vesselSpriteHandler;
+
+		[SerializeField]
+		private ItemTrait moduleTrait = null;
 
 		private AiPlayer linkedPlayer;
 		public AiPlayer LinkedPlayer => linkedPlayer;
@@ -68,40 +72,29 @@ namespace Objects.Research
 
 			if (Validations.HasUsedItemTrait(interaction, inteliCardTrait)) return true;
 
+			//Allow law changes directly on core
+			if (Validations.HasItemTrait(interaction.HandObject, moduleTrait)) return true;
+
 			return false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			//Deconstruct core
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
-				//Only deconstruct if no AI inside
-				if (linkedPlayer != null)
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, "Transfer the Ai to an intelicard before you deconstruct");
-					return;
-				}
-
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
-					"You start unscrewing in the glass on the Ai core...",
-					$"{interaction.Performer.ExpensiveName()} starts unscrewing the glass on the Ai core...",
-					"You unscrew the glass on the Ai core.",
-					$"{interaction.Performer.ExpensiveName()} unscrews the glass on the Ai core.",
-					() =>
-					{
-						var newCoreFrame = Spawn.ServerPrefab(aiCoreFramePrefab, SpawnDestination.At(gameObject), 1);
-
-						if (newCoreFrame.Successful)
-						{
-							newCoreFrame.GameObject.GetComponent<AiCoreFrame>().SetUp();
-						}
-
-						_ = Despawn.ServerSingle(gameObject);
-					});
-
+				TryDeconstruct(interaction);
 				return;
 			}
 
+			//Upload law to core
+			if (Validations.HasUsedItemTrait(interaction, moduleTrait))
+			{
+				TryUpload(interaction);
+				return;
+			}
+
+			//Try card/uncard
 			var cardScript = interaction.HandObject.GetComponent<AiVessel>();
 			if(cardScript == null) return;
 
@@ -145,9 +138,44 @@ namespace Objects.Research
 			cardScript.SetLinkedPlayer(null);
 		}
 
-		private void TryDeconstruct()
+		private void TryDeconstruct(HandApply interaction)
 		{
+			//Only deconstruct if no AI inside
+			if (linkedPlayer != null)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Transfer the Ai to an intelicard before you deconstruct");
+				return;
+			}
 
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
+				"You start unscrewing in the glass on the Ai core...",
+				$"{interaction.Performer.ExpensiveName()} starts unscrewing the glass on the Ai core...",
+				"You unscrew the glass on the Ai core.",
+				$"{interaction.Performer.ExpensiveName()} unscrews the glass on the Ai core.",
+				() =>
+				{
+					var newCoreFrame = Spawn.ServerPrefab(aiCoreFramePrefab, SpawnDestination.At(gameObject), 1);
+
+					if (newCoreFrame.Successful)
+					{
+						newCoreFrame.GameObject.GetComponent<AiCoreFrame>().SetUp();
+					}
+
+					_ = Despawn.ServerSingle(gameObject);
+				});
+		}
+
+		private void TryUpload(HandApply interaction)
+		{
+			//Only upload if AI inside
+			if (linkedPlayer == null)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "No Ai program running on core");
+				return;
+			}
+
+			//Try to upload law module
+			linkedPlayer.UploadLawModule(interaction);
 		}
 
 		//Move camera to item position/ root container

@@ -220,7 +220,7 @@ namespace Systems.Ai
 
 			Init();
 
-			CmdAskForLawUpdate();
+			SyncCore(vesselObject, vesselObject);
 			SyncPowerState(hasPower, hasPower);
 		}
 
@@ -1218,6 +1218,59 @@ namespace Systems.Ai
 		#endregion
 
 		#region Laws
+
+		[Server]
+		public void UploadLawModule(HandApply interaction, bool isUploadConsole = false)
+		{
+			//Check Ai isn't dead, or carded and disallowed interactions
+			if (HasDied || (isCarded && allowRemoteAction == false))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Unable to connect to {gameObject.ExpensiveName()}");
+				return;
+			}
+
+			//Must have used module, but do check in case
+			if (interaction.HandObject.TryGetComponent<AiLawModule>(out var module) == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Can only use a module on this {(isUploadConsole ? "console" : "core")}");
+				return;
+			}
+
+			var lawFromModule = module.GetLawsFromModule(interaction.PerformerPlayerScript);
+
+			if (module.AiModuleType == AiModuleType.Purge || module.AiModuleType == AiModuleType.Reset)
+			{
+				var isPurge = module.AiModuleType == AiModuleType.Purge;
+				ResetLaws(isPurge);
+				Chat.AddActionMsgToChat(interaction.Performer, $"You {(isPurge ? "purge" : "reset")} all of {gameObject.ExpensiveName()}'s laws",
+					$"{interaction.Performer.ExpensiveName()} {(isPurge ? "purges" : "resets")} all of {gameObject.ExpensiveName()}'s laws");
+				return;
+			}
+
+			if (lawFromModule.Count == 0)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "No laws to upload");
+				return;
+			}
+
+			//If we are only adding core laws then we must mean to remove old core laws
+			//This means we are assuming that the law set must only have core laws if it is to replace the old laws fully
+			var notOnlyCoreLaws = false;
+
+			foreach (var law in lawFromModule)
+			{
+				if (law.Key != AiPlayer.LawOrder.Core)
+				{
+					notOnlyCoreLaws = true;
+					break;
+				}
+			}
+
+			SetLaws(lawFromModule, true, notOnlyCoreLaws);
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.ExpensiveName()} laws",
+				$"{interaction.Performer.ExpensiveName()} changes {gameObject.ExpensiveName()} laws");
+		}
 
 		//Add one law
 		//Wont allow more than one traitor law
