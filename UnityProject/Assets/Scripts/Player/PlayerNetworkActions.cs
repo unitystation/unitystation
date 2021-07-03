@@ -17,6 +17,7 @@ using Items.Tool;
 using Messages.Server;
 using Objects.Research;
 using Shuttles;
+using UI.Core;
 using UI.Items;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -939,19 +940,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.mind.ShowObjectives();
 	}
 
-	[Command]
-	public void CmdFilledModuleInput(GameObject module, string input)
+	[TargetRpc]
+	public void TargetRpcOpenInput(GameObject objectForInput, string title, string currentText)
 	{
-		if(module == null || module.TryGetComponent<AiLawModule>(out var moduleScript) == false) return;
+		if(objectForInput == null) return;
 
-		if (playerScript.Equipment.ItemStorage.GetActiveHandSlot()?.Item.gameObject != module)
+		UIManager.Instance.GeneralInputField.OnOpen(objectForInput, title, currentText);
+	}
+
+	[Command]
+	public void CmdFilledDynamicInput(GameObject forGameObject, string input)
+	{
+		if(forGameObject == null) return;
+
+		foreach (var dynamicInput in forGameObject.GetComponents<IDynamicInput>())
 		{
-			Chat.AddExamineMsgFromServer(gameObject, $"{module.ExpensiveName()} must be in your hands to use");
-			return;
+			dynamicInput.OnInputFilled(input, playerScript);
 		}
-
-		moduleScript.ServerSetCustomLaw(input);
-
-		Chat.AddExamineMsgFromServer(gameObject, $"Law Module Change To:\n {moduleScript.CustomLaw}");
 	}
 }

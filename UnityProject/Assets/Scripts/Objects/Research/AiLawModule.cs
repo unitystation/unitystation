@@ -2,11 +2,12 @@
 using System.Text;
 using Systems.Ai;
 using Mirror;
+using UI.Core;
 using UnityEngine;
 
 namespace Objects.Research
 {
-	public class AiLawModule : NetworkBehaviour, IExaminable, IClientInteractable<HandActivate>
+	public class AiLawModule : NetworkBehaviour, IExaminable, IClientInteractable<HandActivate>, IDynamicInput
 	{
 		[SerializeField]
 		private AiLawSet lawSet = null;
@@ -125,14 +126,27 @@ namespace Objects.Research
 
 			if (aiModuleType != AiModuleType.Freeform && aiModuleType != AiModuleType.Hacked) return false;
 
-			UIManager.Instance.GeneralInputField.OnOpen(gameObject, OnClientInput, aiModuleType == AiModuleType.Freeform ? "Freeform Law Setting" : "Hacked Law Setting", customLaw);
+			UIManager.Instance.GeneralInputField.OnOpen(gameObject, aiModuleType == AiModuleType.Freeform ? "Freeform Law Setting" : "Hacked Law Setting", customLaw);
 
 			return true;
 		}
 
 		private void OnClientInput(string input)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledModuleInput(gameObject, input);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledDynamicInput(gameObject, input);
+		}
+
+		public void OnInputFilled(string input, PlayerScript player)
+		{
+			if (player.Equipment.ItemStorage.GetActiveHandSlot()?.Item.gameObject != gameObject)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"{gameObject.ExpensiveName()} must be in your hands to use");
+				return;
+			}
+
+			ServerSetCustomLaw(input);
+
+			Chat.AddExamineMsgFromServer(gameObject, $"Law Module Change To:\n {CustomLaw}");
 		}
 	}
 
