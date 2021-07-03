@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 namespace Doors.Modules
 {
 	public abstract class DoorModuleBase : MonoBehaviour
@@ -11,11 +12,11 @@ namespace Doors.Modules
 			master = GetComponentInParent<DoorMasterController>();
 		}
 
-		public abstract ModuleSignal OpenInteraction(HandApply interaction);
+		public abstract ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States);
 
-		public abstract ModuleSignal ClosedInteraction(HandApply interaction);
+		public abstract ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States);
 
-		public abstract ModuleSignal BumpingInteraction(GameObject byPlayer);
+		public abstract ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States);
 
 		/// <summary>
 		/// Whether or not the door can opened or closed. This should only return false if the door is physically prevented
