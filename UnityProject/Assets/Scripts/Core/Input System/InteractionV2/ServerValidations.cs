@@ -74,17 +74,17 @@ public static class ServerValidations
 			handApply.TargetObject.TileWorldPosition(), allowed, messagePerformer);
 	}
 
-	
+
 
 	/// <summary>
 	/// Validates that the player's character name.
 	/// </summary>
 	/// <param name="characterName">CharacterSettings.Name</param>
 	/// <returns>True if illegal.</returns>
-	public static bool HasIllegalCharacterName(String characterName)
+	public static bool HasIllegalCharacterName(string characterName)
 	{
-		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol) 
-		|| characterName.Count() > GameManager.Instance.CharacterNameLimit || characterName.Contains("\n") 
+		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol)
+		|| characterName.Count() > GameManager.Instance.CharacterNameLimit || characterName.Contains("\n")
 		|| characterName.All(char.IsUpper))
 		{
 			return true;

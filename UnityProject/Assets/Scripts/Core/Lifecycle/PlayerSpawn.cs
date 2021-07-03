@@ -64,14 +64,14 @@ public static class PlayerSpawn
 			message += " Invalid player skin tone.";
 			isOk = false;
 		}
-		*/
+
 
 		if(ServerValidations.HasIllegalCharacterName(request.CharacterSettings.Name))
 		{
 			message += " Invalid player character name.";
 			isOk = false;
 		}
-
+		*/
 		if(ServerValidations.HasIllegalCharacterAge(request.CharacterSettings.Age))
 		{
 			message += " Invalid character age.";
