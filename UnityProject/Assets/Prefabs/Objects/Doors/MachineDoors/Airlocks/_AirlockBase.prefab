@@ -695,6 +695,7 @@ GameObject:
   - component: {fileID: 2928157364170990969}
   - component: {fileID: 3801622674961811191}
   - component: {fileID: 6636148725921946958}
+  - component: {fileID: 4037041962226261796}
   m_Layer: 18
   m_Name: modules
   m_TagString: Untagged
@@ -801,7 +802,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721556b81b487084782d2d54ec862919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IDToggleCard: {fileID: 11400000, guid: cf3b09017623921439e0c774d656f53f, type: 2}
   needsClosedToLight: 1
+--- !u!114 &4037041962226261796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444326074182531729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ef2e1fdce213d948989eb4b5d19a5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2243806384905767094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -884,6 +898,11 @@ PrefabInstance:
       propertyPath: doorController
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: -1004363680957688268, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 6682145752921394767}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -1049,6 +1068,12 @@ PrefabInstance:
 --- !u!1 &215518841633704133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3622147455447933482, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &6682145752921394767 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}

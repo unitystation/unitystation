@@ -132,10 +132,10 @@ namespace Doors
 			}
 
 			bool canOpen = true;
-
+			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (var module in modulesList)
 			{
-				ModuleSignal signal = module.BumpingInteraction(byPlayer);
+				ModuleSignal signal = module.BumpingInteraction(byPlayer, states);
 
 				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
 				{
@@ -149,7 +149,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && canOpen)
+			if (!isPerformingAction && canOpen && CheckStatusAllow(states))
 			{
 				TryOpen(byPlayer);
 			}
@@ -185,10 +185,11 @@ namespace Doors
 		/// <param name="interaction"></param>
 		public void OpenInteraction(HandApply interaction)
 		{
+			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			bool canClose = true;
 			foreach (DoorModuleBase module in modulesList)
 			{
-				ModuleSignal signal = module.OpenInteraction(interaction);
+				ModuleSignal signal = module.OpenInteraction(interaction, states);
 
 				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
 				{
@@ -208,9 +209,9 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && canClose)
+			if (!isPerformingAction && canClose && CheckStatusAllow(states))
 			{
-				TryClose(interaction.Performer);
+				TryClose(interaction.Performer, OverrideLogic: true);
 			}
 
 			StartInputCoolDown();
@@ -224,14 +225,16 @@ namespace Doors
 		public void ClosedInteraction(HandApply interaction)
 		{
 			bool canOpen = true;
+			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (DoorModuleBase module in modulesList)
 			{
-				ModuleSignal signal = module.ClosedInteraction(interaction);
+				ModuleSignal signal = module.ClosedInteraction(interaction, states);
 
 				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
 				{
 					canOpen = false;
 				}
+
 
 				if (signal == ModuleSignal.SkipRemaining)
 				{
@@ -244,7 +247,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && canOpen)
+			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states))
 			{
 				TryOpen(interaction.Performer);
 			}
@@ -254,10 +257,23 @@ namespace Doors
 			}
 		}
 
+		public bool CheckStatusAllow(HashSet<DoorProcessingStates> states)
+		{
+			if (states.Contains(DoorProcessingStates.SoftwarePrevented))
+			{
+				return states.Contains(DoorProcessingStates.SoftwareHacked);
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
 			if(IsClosed == false || isPerformingAction) return;
-			
+
 			if(HasPower == false)
 			{
 				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
@@ -287,14 +303,52 @@ namespace Doors
 			Open();
 		}
 
-		public void TryClose(GameObject originator = null, bool force = false)
+		public void TryClose(GameObject originator = null, bool force = false, bool OverrideLogic = false)
 		{
 			// Sliding door is not passable according to matrix
 			if(!isPerformingAction &&
 				(ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true )) &&
-				HasPower || force)
+				(HasPower || force ) )
+
 			{
-				Close();
+				if (OverrideLogic)
+				{
+					Close();
+				}
+				else
+				{
+					HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+					bool canClose = true;
+					foreach (DoorModuleBase module in modulesList)
+					{
+						ModuleSignal signal = module.OpenInteraction(null, states);
+
+						if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
+						{
+							canClose = false;
+						}
+
+						if (signal == ModuleSignal.SkipRemaining)
+						{
+							break;
+						}
+
+						if (signal == ModuleSignal.Break)
+						{
+							ResetWaiting();
+							return;
+						}
+					}
+
+					if (!isPerformingAction && canClose && CheckStatusAllow(states))
+					{
+						Close();
+					}
+					else
+					{
+						ResetWaiting();
+					}
+				}
 			}
 			else
 			{

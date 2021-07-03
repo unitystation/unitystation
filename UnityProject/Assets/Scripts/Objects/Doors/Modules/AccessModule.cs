@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Systems.Electricity;
 using Random = UnityEngine.Random;
 
@@ -19,26 +20,37 @@ namespace Doors.Modules
 			accessRestrictions = GetComponent<AccessRestrictions>();
 		}
 
-		public override ModuleSignal OpenInteraction(HandApply interaction)
+		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return ModuleSignal.Continue;
-		}
-
-		public override ModuleSignal ClosedInteraction(HandApply interaction)
-		{
-			if (!master.HasPower || !CheckAccess(interaction.Performer))
+			if (interaction != null)
 			{
-				return ModuleSignal.ContinueWithoutDoorStateChange;
+				if (!master.HasPower || !CheckAccess(interaction.Performer))
+				{
+					States.Add(DoorProcessingStates.SoftwarePrevented);
+				}
 			}
 
 			return ModuleSignal.Continue;
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer)
+		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		{
+			if (interaction != null)
+			{
+				if (!master.HasPower || !CheckAccess(interaction.Performer))
+				{
+					States.Add(DoorProcessingStates.SoftwarePrevented);
+				}
+			}
+
+			return ModuleSignal.Continue;
+		}
+
+		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
 			if (!master.HasPower || !CheckAccess(byPlayer))
 			{
-				return ModuleSignal.ContinueWithoutDoorStateChange;
+				States.Add(DoorProcessingStates.SoftwarePrevented);
 			}
 
 			return ModuleSignal.Continue;
