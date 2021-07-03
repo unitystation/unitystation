@@ -302,11 +302,11 @@ public partial class Chat
 		{
 			verb = " coldly states,";
 		}
-		else if (message.EndsWith("!"))
+		else if ((modifiers & ChatModifier.Exclaim) == ChatModifier.Exclaim)
 		{
 			verb = "exclaims,";
 		}
-		else if (message.EndsWith("?"))
+		else if ((modifiers & ChatModifier.Question) == ChatModifier.Question)
 		{
 			verb = "asks,";
 		}
