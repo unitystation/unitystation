@@ -135,7 +135,7 @@ namespace Systems.Atmospherics
 				return pressure * volume / (Gas.R * moles) * 1000;
 			}
 
-			return 0;
+			return 2.7f; //space radiation
 		}
 
 		/// <summary>
