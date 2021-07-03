@@ -122,6 +122,8 @@ MonoBehaviour:
   aiSprite: {fileID: 1084228954753203219}
   cameraLight: {fileID: 8737062874307794873}
   spriteHandler: {fileID: 0}
+  motionSensingCamera: 0
+  motionSensingRange: 5
 --- !u!114 &7527627783644952830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +141,7 @@ MonoBehaviour:
   aiCoreFramePrefab: {fileID: 856484549658838475, guid: 2f2e6aac51ae2974b9d8b337462d6611,
     type: 3}
   vesselSpriteHandler: {fileID: 6196046200730087148}
+  moduleTrait: {fileID: 11400000, guid: 6a8a62b47010e4c498c7ef77ec09535e, type: 2}
 --- !u!114 &8414053308888204017
 MonoBehaviour:
   m_ObjectHideFlags: 0
