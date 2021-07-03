@@ -6,8 +6,6 @@ namespace UI.Core
 {
 	public class GeneralInputField : MonoBehaviour
 	{
-		public Action<string> OnProceed;
-
 		[SerializeField]
 		private TMP_Text titleText = null;
 
@@ -46,15 +44,15 @@ namespace UI.Core
 
 		#endregion
 
-		public void OnOpen(GameObject openerObject, Action<string> onProceed, string title, string inputText = "")
+		public void OnOpen(GameObject openerObject, string title, string inputText = "")
 		{
-			if(openerObject == null || onProceed == null) return;
+			if(openerObject == null) return;
 			titleText.text = title;
 
 			//Only delete contents if its a new thing which needs this input field
 			if (openerObject != lastOpener)
 			{
-				input.text = String.Empty;
+				input.text = string.Empty;
 			}
 
 			if (inputText != "")
@@ -64,21 +62,27 @@ namespace UI.Core
 
 			lastOpener = openerObject;
 
-			OnProceed = onProceed;
 			gameObject.SetActive(true);
 		}
 
 		public void OnProceedPressed()
 		{
-			OnProceed?.Invoke(input.text);
-			OnProceed = null;
-			input.text = String.Empty;
+			if(PlayerManager.LocalPlayer == null) return;
+
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledDynamicInput(lastOpener, input.text);
+
+			input.text = string.Empty;
 			gameObject.SetActive(false);
 		}
+
 		public void OnCancel()
 		{
 			gameObject.SetActive(false);
-			OnProceed = null;
 		}
+	}
+
+	public interface IDynamicInput
+	{
+		void OnInputFilled(string input, PlayerScript player);
 	}
 }

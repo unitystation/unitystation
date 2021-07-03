@@ -8,6 +8,8 @@ using Core.Input_System.InteractionV2.Interactions;
 using Mirror;
 using NUnit.Framework;
 using Objects.Research;
+using Objects.Wallmounts;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,6 +28,7 @@ namespace Objects
 		public string CameraName => cameraName;
 
 		[SerializeField]
+		[SyncVar(hook = nameof(SyncChannel))]
 		private string securityCameraChannel = "Station";
 		public string SecurityCameraChannel => securityCameraChannel;
 
@@ -82,10 +85,11 @@ namespace Objects
 			if (cameras.ContainsKey(securityCameraChannel) == false)
 			{
 				cameras.Add(securityCameraChannel, new List<SecurityCamera> {this});
-				return;
 			}
-
-			cameras[securityCameraChannel].Add(this);
+			else
+			{
+				cameras[securityCameraChannel].Add(this);
+			}
 
 			cameraActive = !wiresCut;
 
@@ -181,10 +185,41 @@ namespace Objects
 			}
 		}
 
+		[Client]
+		private void SyncChannel(string oldState, string newState)
+		{
+			SetNewChannel(oldState, newState);
+		}
+
 		[Server]
 		public void ToggleLight(bool newState)
 		{
 			lightOn = newState;
+		}
+
+		public void SetUp(PlayerScript player)
+		{
+			if(player.connectedPlayer?.Connection == null) return;
+
+			player.playerNetworkActions.TargetRpcOpenInput(gameObject, "Camera Channel", securityCameraChannel);
+		}
+
+		private void SetNewChannel(string oldState, string newState)
+		{
+			if (cameras.TryGetValue(oldState, out var list))
+			{
+				list.Remove(this);
+			}
+
+			//Add new
+			if (cameras.ContainsKey(newState) == false)
+			{
+				cameras.Add(newState, new List<SecurityCamera> {this});
+			}
+			else
+			{
+				cameras[newState].Add(this);
+			}
 		}
 
 		#region Player Interaction
@@ -200,6 +235,8 @@ namespace Objects
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter)) return true;
 
+			if (Validations.HasUsedActiveWelder(interaction)) return true;
+
 			return false;
 		}
 
@@ -214,6 +251,12 @@ namespace Objects
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter))
 			{
 				TryCut(interaction);
+				return;
+			}
+
+			if (Validations.HasUsedActiveWelder(interaction))
+			{
+				TryWeld(interaction);
 			}
 		}
 
@@ -247,6 +290,45 @@ namespace Objects
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You {(wiresCut ? "cut" : "repair")} the cameras wiring",
 				$"{interaction.Performer.ExpensiveName()} {(panelOpen ? "cuts" : "repairs")} the cameras wiring");
+		}
+
+		private void TryWeld(HandApply interaction)
+		{
+			if (panelOpen == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Open the cameras back panel first");
+				return;
+			}
+
+			if (wiresCut == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Cut the cameras wires first");
+				return;
+			}
+
+			if (Validations.HasUsedActiveWelder(interaction))
+			{
+				//Unweld from wall
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start unwelding the camera assembly from the wall...",
+					$"{interaction.Performer.ExpensiveName()} starts unwelding the camera assembly from the wall...",
+					"You unweld the camera assembly onto the wall.",
+					$"{interaction.Performer.ExpensiveName()} unwelds the camera assembly from the wall.",
+					() =>
+					{
+						var result = Spawn.ServerPrefab(CommonPrefabs.Instance.CameraAssembly,
+							registerObject.WorldPositionServer,
+							transform.parent);
+
+						if (result.Successful)
+						{
+							result.GameObject.GetComponent<Directional>().FaceDirection(GetComponent<Directional>().CurrentDirection);
+							result.GameObject.GetComponent<CameraAssembly>().SetState(CameraAssembly.CameraAssemblyState.Unwelded);
+						}
+
+						_ = Despawn.ServerSingle(gameObject);
+					});
+			}
 		}
 
 		#endregion
