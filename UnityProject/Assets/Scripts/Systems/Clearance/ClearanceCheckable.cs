@@ -55,17 +55,19 @@ namespace Systems.Clearance
 				return false;
 			}
 
-			var playerStorage = player.GetComponent<ItemStorage>();
+			var playerStorage = player.GetComponent<DynamicItemStorage>();
 			if (playerStorage == null)
 			{
 				return false;
 			}
 
 			// Try get object in ID slot
-			var idSlot = playerStorage.OrNull()?.GetNamedItemSlot(NamedSlot.id).ItemObject;
-			if (idSlot != null && idSlot.TryGetComponent<IClearanceProvider>(out var idObject))
+			foreach (var slot in playerStorage.GetNamedItemSlots(NamedSlot.id))
 			{
-				return HasClearance(idObject.GetClearance());
+				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceProvider>(out var idObject))
+				{
+					return HasClearance(idObject.GetClearance());
+				}
 			}
 
 			// Nothing worked, let's go with active hand
