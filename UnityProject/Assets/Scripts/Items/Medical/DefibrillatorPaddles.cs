@@ -15,7 +15,7 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (DefaultWillInteract.HandApply(interaction,side) == false) return false;
+		if (DefaultWillInteract.Default(interaction,side) == false) return false;
 		if (interaction.HandObject != this.gameObject) return false;
 		var Healthv2 = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (Healthv2 == null) return false;

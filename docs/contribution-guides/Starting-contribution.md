@@ -223,6 +223,8 @@ Don't forget to enable Roslyn Analyzers (static code analysis) if they are suppo
 
 When opening the Unitystation project using your code editor, open the "UnityProject" subfolder as your editor's workspace, instead of the root "unitystation" folder that contains the entire repo.
 
+Make sure to link your code editor to Unity by going **Edit > Preferences > External Tools**. Also generate the csproject files as well for Embedded packages, Local packages, Registry packages and Built-in packages, this helps a lot.
+
 ##### Getting help
 There is no shame in asking questions.
 

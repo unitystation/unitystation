@@ -110,6 +110,18 @@ PrefabInstance:
       propertyPath: BodyPartDisembowlLogicOnCutSize
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ae08a8dec2a6e64ebfca9945eba0188,
+        type: 2}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 22461163953d0de4f93ab6abb841f931,
+        type: 2}
     - target: {fileID: 5603819714738991316, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: PresentSpriteSet

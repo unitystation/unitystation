@@ -89,7 +89,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		if (MovementControllable != null)
 		{
-			MovementControllable.RecievePlayerMoveAction(GetMovementActions());
+			MovementControllable.ReceivePlayerMoveAction(GetMovementActions());
 		}
 	}
 
@@ -115,8 +115,7 @@ public class PlayerManager : MonoBehaviour
 		LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
 		Equipment = playerObjToControl.GetComponent<Equipment>();
 
-		PlayerScript =
-			LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
+		PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
 		Camera2DFollow.followControl.target = LocalPlayer.transform;
 
 		HasSpawned = true;

@@ -127,6 +127,17 @@ PrefabInstance:
       propertyPath: Gases.Array.data[0]
       value: 87.3464
       objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274,
+        type: 2}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: PresentSpriteSet

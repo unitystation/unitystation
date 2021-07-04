@@ -280,7 +280,7 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="bloodIn">Incoming blood</param>
 		/// <returns>Whatever is left over from bloodIn</returns>
-		public ReagentMix BloodPumpedEvent(ReagentMix bloodIn, float efficiency)
+		public ReagentMix BloodPumpedEvent(ReagentMix bloodIn)
 		{
 			//Maybe have a dynamic 50% other blood in this blood
 			// if (bloodReagent != requiredReagent)

@@ -121,7 +121,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder)) return true;
 

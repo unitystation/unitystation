@@ -98,6 +98,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 04a41a9505ba97e4f89066c1f97749a5, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
@@ -141,11 +142,12 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Mix:
+      mix:
         temperature: 273.15
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
         Gases:
         - 0
@@ -165,12 +167,13 @@ MonoBehaviour:
         - 0
         Pressure: 0
         Volume: 0.1
+        Temperature: 0
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spriteHandlerOverlay: {fileID: 5381845236512158830}
-  MaxPressure: 10000
+  MaxPressure: 9999
   ToTakeFromInputOne: 0.5
   ToTakeFromInputTwo: 0.5
   IsOn: 0
@@ -216,6 +219,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -231,6 +239,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -242,16 +255,6 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
@@ -275,6 +278,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e1a3feba2ed2e6847a999535c872052e,
         type: 3}
+    - target: {fileID: 1625578739251644646, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -288,13 +296,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
-      propertyPath: initialDescription
-      value: Very useful for mixing gasses.
+      propertyPath: initialName
+      value: gas mixer
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
-      propertyPath: initialName
-      value: gas mixer
+      propertyPath: initialDescription
+      value: Very useful for mixing gasses.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9e0975a92c4564094bbb26dd165002, type: 3}

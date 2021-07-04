@@ -492,7 +492,7 @@ namespace Items.PDA
 				return default;
 			}
 
-			var playerStorage = player.Script.ItemStorage;
+			var playerStorage = player.Script.DynamicItemStorage;
 			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 

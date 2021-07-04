@@ -23,7 +23,7 @@ MonoBehaviour:
   - prefab: {fileID: 7914350351518715449, guid: 908afbc5b9f871148b5ccd0b81bd147f,
       type: 3}
     maxAmount: 1
-    probability: 100
+    probability: 50
   - prefab: {fileID: 5988267975595058318, guid: 802a90962afb0e44cbcc98f23c352222,
       type: 3}
     maxAmount: 1
@@ -47,3 +47,7 @@ MonoBehaviour:
   - prefab: {fileID: 133447297619427422, guid: 41be4fe4e9ea29443a0731c3637687f9, type: 3}
     maxAmount: 1
     probability: 30
+  - prefab: {fileID: 7785875528613525472, guid: 94dfead23e20498409009e55d3dfe3ca,
+      type: 3}
+    maxAmount: 1
+    probability: 100

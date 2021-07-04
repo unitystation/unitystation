@@ -12,7 +12,16 @@ public class WindowFocus : MonoBehaviour
 	public TMP_InputField Searchtext;
 	private void Start()
 	{
-		Searchtext = GetComponent<TMP_InputField>();
+		if (Searchtext == null)
+		{
+			Searchtext = GetComponent<TMP_InputField>();
+		}
+
+		if (Searchtext == null)
+		{
+			Logger.LogError($"{nameof(TMP_InputField)} not found / assigned to {this}.");
+			enabled = false;
+		}
 	}
 	void Update()
 	{

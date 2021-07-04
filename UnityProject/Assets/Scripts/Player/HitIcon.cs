@@ -6,12 +6,11 @@ public class HitIcon : MonoBehaviour
 {
 	private readonly Color transparent = new Color(1f, 1f, 1f, 0f);
 	private readonly Color visible = new Color(1f, 1f, 1f, 1f);
-	private bool isFading;
 	private Vector3 lerpFrom;
 	private Vector3 lerpTo;
 	private SpriteRenderer spriteRenderer;
 
-	private void Start()
+	private void Awake()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
@@ -21,32 +20,17 @@ public class HitIcon : MonoBehaviour
 	/// </summary>
 	/// <param name="dir">direction of the animation in world space</param>
 	/// <param name="sprite">sprite to show</param>
-	public void ShowHitIcon(Vector2 dir, SpriteRenderer sourceSpriteRenderer)
+	public void ShowHitIcon(Vector2 dir, SpriteRenderer sourceSpriteRenderer, PlayerScript playerScript)
 	{
-		if (isFading)
-		{
-			return;
-		}
-	
-
-		Vector3 lerpFromWorld = transform.position + (Vector3)(dir * 0.75f);
-		Vector3 lerpToWorld = transform.position + (Vector3)(dir);
-		Vector3 lerpFromLocal = transform.parent.InverseTransformPoint(lerpFromWorld);
-		Vector3 lerpToLocal = transform.parent.InverseTransformPoint(lerpToWorld);
+		lerpFrom = transform.localPosition + (Vector3)(dir * 0.75f);
+		lerpTo = transform.localPosition + (Vector3)(dir);
 		MaterialPropertyBlock pb = new MaterialPropertyBlock();
 		sourceSpriteRenderer.GetPropertyBlock(pb);
 
-		lerpFrom = lerpFromLocal;
-		lerpTo = lerpToLocal;
-		isFading = true;
 		spriteRenderer.sprite = sourceSpriteRenderer.sprite;
 		spriteRenderer.SetPropertyBlock(pb);
-		
 
-		if (gameObject.activeInHierarchy)
-		{
-			StartCoroutine(FadeIcon());
-		}
+		StartCoroutine(FadeIcon());
 	}
 
 	private IEnumerator FadeIcon()
@@ -75,7 +59,6 @@ public class HitIcon : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 		spriteRenderer.sprite = null;
-		isFading = false;
-		transform.localPosition = Vector3.zero;
+		Despawn.ClientSingle(gameObject);
 	}
 }

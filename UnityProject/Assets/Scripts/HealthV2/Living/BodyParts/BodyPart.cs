@@ -148,6 +148,8 @@ namespace HealthV2
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
 
+		public string SetCustomisationData;
+
 		/// <summary>
 		/// Initializes the body part
 		/// </summary>
@@ -174,11 +176,14 @@ namespace HealthV2
 
 				BodySpriteSet = true;
 			}
+
 			UpdateIcons();
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
 				bodyPartModification.HealthMasterSet();
 			}
+			//TODO Make this generic \/ for mobs
+			Storage.SetRegisterPlayer(healthMaster?.GetComponent<RegisterPlayer>());
 		}
 
 		/// <summary>
@@ -213,7 +218,6 @@ namespace HealthV2
 			health = maxHealth;
 			DamageInitialisation();
 			UpdateSeverity();
-			Initialisation();
 
 			BodyPartModifications = this.GetComponents<BodyPartModification>().ToList();
 
@@ -224,14 +228,7 @@ namespace HealthV2
 			}
 		}
 
-		/// <summary>
-		/// Overridable method for variant body parts to use for their non-systems based initialisation
-		/// </summary>
-		public virtual void Initialisation()
-		{
-		}
-
-		public virtual void ImplantUpdate()
+		public void ImplantUpdate()
 		{
 			foreach (BodyPart prop in ContainBodyParts)
 			{
@@ -324,11 +321,11 @@ namespace HealthV2
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
-				BodyPartItemSprite.SetColor(Tone);
+				BodyPartItemSprite.OrNull()?.SetColor(Tone);
 			}
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
 			{
-				BodyPartItemSprite.SetColor(bodyPartColorWhenCharred);
+				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 			}
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
 			if(IsBleedingExternally)
@@ -422,7 +419,6 @@ namespace HealthV2
 		public void SetUpBodyPart(BodyPart implant)
 		{
 			implant.HealthMaster = HealthMaster;
-			if (HealthMaster == null) return;
 			HealthMaster.AddNewImplant(implant);
 			SubBodyPartAdded(implant);
 
@@ -433,7 +429,6 @@ namespace HealthV2
 		/// </summary>
 		public virtual void SetUpSystems()
 		{
-			if (HealthMaster == null) return;
 			foreach (BodyPart prop in ContainBodyParts)
 			{
 				prop.SetUpSystems();

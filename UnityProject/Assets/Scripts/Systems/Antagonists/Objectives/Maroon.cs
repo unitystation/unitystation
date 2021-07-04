@@ -8,7 +8,7 @@ namespace Antagonists
 	/// Maroon your target on the station (dont allow them to leave the station on the shuttle)
 	/// Basically a slightly different assassinate objective
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Maroon")]
+	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Maroon")]
 	public class Maroon : Objective
 	{
 		/// <summary>
@@ -24,7 +24,7 @@ namespace Antagonists
 		/// <summary>
 		/// Make sure there's at least one player which hasn't been targeted, not including the candidate
 		/// </summary>
-		public override bool IsPossible(PlayerScript candidate)
+		protected override bool IsPossibleInternal(PlayerScript candidate)
 		{
 			int targetCount = PlayerList.Instance.InGamePlayers.Where( p =>
 				(p.Script != candidate) && !AntagManager.Instance.TargetedPlayers.Contains(p.Script)

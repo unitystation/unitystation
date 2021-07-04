@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vulpkanin_hair_belle
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1691448265965010539, guid: 85e225dea0d0e574ead50036e7a4edc2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1441569977336363877, guid: 85e225dea0d0e574ead50036e7a4edc2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4354780512400938356, guid: 85e225dea0d0e574ead50036e7a4edc2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8755936031373011609, guid: 85e225dea0d0e574ead50036e7a4edc2,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 15474
+  DisplayName: Belle

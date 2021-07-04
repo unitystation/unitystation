@@ -13,6 +13,9 @@ public static class SpawnSafeThread
 	private static ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>> tilesToUpdate
 		= new ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>>();
 
+	private static ConcurrentQueue<Tuple<uint, Vector3Int, LayerType>> tilesToRemove
+		= new ConcurrentQueue<Tuple<uint, Vector3Int, LayerType>>();
+
 	public static void Process()
 	{
 		if (!prefabsToSpawn.IsEmpty)
@@ -45,6 +48,15 @@ public static class SpawnSafeThread
 					tuple.Item7);
 			}
 		}
+
+		if (!tilesToRemove.IsEmpty)
+		{
+			Tuple<uint, Vector3Int, LayerType> tuple;
+			while (tilesToRemove.TryDequeue(out tuple))
+			{
+				RemoveTileMessage.Send(tuple.Item1, tuple.Item2, tuple.Item3);
+			}
+		}
 	}
 
 	public static void SpawnPrefab(Vector3 tilePos, GameObject prefabObject, Transform parentTransform = null,
@@ -62,12 +74,9 @@ public static class SpawnSafeThread
 				(matrixSyncNetID, position, tileType, tileName, transformMatrix, colour, LayerType.None));
 	}
 
-	public static void RemoveTileMessageSend(uint matrixSyncNetID, Vector3Int cellPosition, LayerType layerType,
-		TileType tileType = TileType.Effects)
+	public static void RemoveTileMessageSend(uint matrixSyncNetID, Vector3Int cellPosition, LayerType layerType)
 	{
-		tilesToUpdate.Enqueue(
-			new Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>
-				(matrixSyncNetID, cellPosition, tileType, "", Matrix4x4.identity, Color.white, layerType));
+		tilesToRemove.Enqueue(new Tuple<uint, Vector3Int, LayerType>(matrixSyncNetID, cellPosition, layerType));
 	}
 }
 

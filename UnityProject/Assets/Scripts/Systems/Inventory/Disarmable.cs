@@ -23,7 +23,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 	private string performerName;
 	private string targetName;
 	private Vector2 interactionWorldPosition;
-	
+
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -83,17 +83,23 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 
 	private void Disarm()
 	{
-		var disarmStorage = target.GetComponent<ItemStorage>();
-		var leftHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.leftHand);
-		var rightHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.rightHand);
+		var disarmStorage = target.GetComponent<DynamicItemStorage>();
+		if(disarmStorage == null) return;
 
-		if (leftHandSlot.Item != null)
+		var leftHandSlots = disarmStorage.GetNamedItemSlots(NamedSlot.leftHand);
+		var rightHandSlots = disarmStorage.GetNamedItemSlots(NamedSlot.rightHand);
+
+		foreach (var leftHandSlot in leftHandSlots)
 		{
+			if (leftHandSlot.IsEmpty) continue;
+
 			Inventory.ServerDrop(leftHandSlot);
 		}
 
-		if (rightHandSlot.Item != null)
+		foreach (var rightHandSlot in rightHandSlots)
 		{
+			if (rightHandSlot.IsEmpty) continue;
+
 			Inventory.ServerDrop(rightHandSlot);
 		}
 

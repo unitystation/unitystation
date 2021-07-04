@@ -130,7 +130,7 @@ namespace Items.Food
 			}
 
 
-			var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
+			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			//If food has a stack component, decrease amount by one instead of deleting the entire stack.
 			if (stackable != null)
 			{

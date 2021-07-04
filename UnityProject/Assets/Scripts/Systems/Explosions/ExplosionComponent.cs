@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using UnityEngine;
+using TileManagement;
 
 namespace Systems.Explosions
 {
@@ -120,7 +121,7 @@ namespace Systems.Explosions
 
 			tileChangeManager.AddOverlay(position, TileType.Effects, "Fire");
 			yield return WaitFor.Seconds(time);
-			tileChangeManager.RemoveOverlaysOfName(position, LayerType.Effects, "Fire");
+			tileChangeManager.RemoveOverlaysOfType(position, LayerType.Effects, OverlayType.Fire);
 		}
 
 

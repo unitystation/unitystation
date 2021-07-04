@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-namespace UI
-{
+
 	public class ControlClothing : TooltipMonoBehaviour
 	{
 		public GameObject retractableGroup;
-		private Image[] equipImgs = new Image[0];
-		private UI_ItemSlot[] itemSlots;
 		public GameObject hideOnRetract;
 		private bool isOpen;
+
+		public GameObject ObjectToHide;
 
 		[SerializeField] private GameObject openButtonImage = default;
 		[SerializeField] private GameObject closeButtonImage = default;
@@ -22,11 +22,6 @@ namespace UI
 		private void Start()
 		{
 			isOpen = false;
-			if (retractableGroup)
-			{
-				equipImgs = retractableGroup.GetComponentsInChildren<Image>();
-				itemSlots = retractableGroup.GetComponentsInChildren<UI_ItemSlot>();
-			}
 			ToggleEquipMenu(false);
 		}
 
@@ -42,37 +37,18 @@ namespace UI
 			isOpen = isOn;
 			openButtonImage.SetActive(!isOn);
 			closeButtonImage.SetActive(isOn);
-			// TODO: This needs to hide the slots better
+			//TODO: This needs to hide the slots better
 			if (isOn)
 			{
-				// Adjusting the alpha to hide the slots as the enabled state is handled
-				// by other components. Raycast target is also adjusted based on on or off
-				for (int i = 0; i < equipImgs.Length; i++)
-				{
-					Color tempCol = equipImgs[i].color;
-					tempCol.a = 1f;
-					equipImgs[i].color = tempCol;
-					equipImgs[i].raycastTarget = true;
-				}
+				ObjectToHide.SetActive(true);
 			}
 			else
 			{
-				for (int i = 0; i < equipImgs.Length; i++)
-				{
-					Color tempCol = equipImgs[i].color;
-					tempCol.a = 0f;
-					equipImgs[i].color = tempCol;
-					equipImgs[i].raycastTarget = false;
-				}
+				ObjectToHide.SetActive(false);
 			}
-			foreach (var itemSlot in itemSlots)
+			if ( hideOnRetract != null )
 			{
-				itemSlot.SetHidden(!isOpen);
-			}
-			if (hideOnRetract != null)
-			{
-				hideOnRetract.SetActive(isOn == false && UIManager.UseGamePad);
+				hideOnRetract.SetActive( !isOn && UIManager.UseGamePad );
 			}
 		}
 	}
-}

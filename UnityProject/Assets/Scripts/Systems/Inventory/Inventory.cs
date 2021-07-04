@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Messages.Client;
 using UnityEngine;
 using Objects;
@@ -8,15 +9,28 @@ using Objects;
 public static class Inventory
 {
 	/// <summary>
+	/// Instantiates prefab then add it to inventory
+	/// </summary>
+	/// <param name="addedObject"></param>
+	/// <param name="toSlot"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
+	/// <returns>true if successful</returns>
+	public static bool ServerSpawnPrefab(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
+	{
+		var spawn = Spawn.ServerPrefab(addedObject);
+		return ServerPerform(InventoryMove.Add(spawn.GameObject.GetComponent<Pickupable>(), toSlot, replacementStrategy, IgnoreRestraints));
+	}
+
+	/// <summary>
 	/// Inventory move in which the object in one slot is transferred directly to another
 	/// </summary>
 	/// <param name="fromSlot"></param>
 	/// <param name="toSlot"></param>
 	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerTransfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
+	public static bool ServerTransfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
 	{
-		return ServerPerform(InventoryMove.Transfer(fromSlot, toSlot, replacementStrategy));
+		return ServerPerform(InventoryMove.Transfer(fromSlot, toSlot, replacementStrategy, IgnoreRestraints));
 	}
 
 	/// <summary>
@@ -27,9 +41,9 @@ public static class Inventory
 	/// <param name="toSlot"></param>
 	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerAdd(Pickupable addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
+	public static bool ServerAdd(Pickupable addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
 	{
-		return ServerPerform(InventoryMove.Add(addedObject, toSlot, replacementStrategy));
+		return ServerPerform(InventoryMove.Add(addedObject, toSlot, replacementStrategy,IgnoreRestraints));
 	}
 
 	/// <summary>
@@ -40,9 +54,9 @@ public static class Inventory
 	/// <param name="toSlot"></param>
 	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerAdd(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
+	public static bool ServerAdd(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
 	{
-		return ServerPerform(InventoryMove.Add(addedObject, toSlot, replacementStrategy));
+		return ServerPerform(InventoryMove.Add(addedObject, toSlot, replacementStrategy, IgnoreRestraints));
 	}
 
 	/// <summary>
@@ -269,7 +283,7 @@ public static class Inventory
 			return false;
 		}
 
-		if (!Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true))
+		if (!Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true) && toPerform.IgnoreConstraints == false)
 		{
 			Logger.LogTraceFormat("Attempted to transfer {0} to slot {1} but slot cannot fit this item." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name, toSlot);
@@ -320,8 +334,8 @@ public static class Inventory
 
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
-		var holder = fromSlot.GetRootStorage();
-		var holderPushPull = holder.GetComponent<PushPull>();
+		var holder = fromSlot.Player;
+		var holderPushPull = holder?.GetComponent<PushPull>();
 		var parentContainer = holderPushPull == null ? null : holderPushPull.parentContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
 		{
@@ -371,10 +385,10 @@ public static class Inventory
 				return true;
 			}
 
-			var holderPlayer = holder.GetComponent<PlayerSync>();
+			var holderPlayer = holder?.GetComponent<PlayerSync>();
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			var holderPosition = holder.gameObject.AssumedWorldPosServer();
-			Vector3 targetWorldPos = holderPosition + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
+			var holderPosition = holder?.gameObject.AssumedWorldPosServer();
+			Vector3 targetWorldPos = holderPosition.GetValueOrDefault(Vector3.zero) + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
 			if (holderPlayer != null)
 			{
 				// dropping from player
@@ -471,7 +485,7 @@ public static class Inventory
 			}
 		}
 
-		if (Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true) == false)
+		if (!Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true) && toPerform.IgnoreConstraints == false)
 		{
 			Logger.LogTraceFormat("Attempted to add {0} to slot {1} but slot cannot fit this item." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name, toSlot);
@@ -555,5 +569,38 @@ public static class Inventory
 			pu.RefreshUISlotImage();
 		}
 
+	}
+
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in namedSlotPopulatorEntrys
+	/// </summary>
+	/// <param name="gameObject"></param>
+	/// <param name="namedSlotPopulatorEntrys"></param>
+	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
+	{
+		if (namedSlotPopulatorEntrys.Count == 0)  return;
+
+		var ItemStorage = gameObject.GetComponent<ItemStorage>();
+		if (ItemStorage == null) return;
+
+
+		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
+		{
+			ItemSlot ItemSlot;
+			if (namedSlotPopulatorEntry.UesIndex)
+			{
+				ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+			}
+			else
+			{
+				ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+			}
+			if (ItemSlot == null) continue;
+
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab);
+			Inventory.ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
+			PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
+		}
 	}
 }

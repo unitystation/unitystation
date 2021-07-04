@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Systems.Electricity.NodeModules;
 using Objects.Lighting;
+using UnityEngine.Events;
 
 namespace Objects.Engineering
 {
@@ -52,6 +53,17 @@ namespace Objects.Engineering
 
 		[Tooltip("Sound used when the APC loses all power.")]
 		[SerializeField] private AddressableAudioSource NoPowerSound = null;
+
+		[NonSerialized]
+		//Called every power network update
+		public UnityEvent<APC> OnPowerNetworkUpdate = new UnityEvent<APC>();
+
+		/// <summary>
+		///Used to store all the departmentBatteries that have ever connected to this APC, there might be null values
+		///Dont use this to access currently connected batteries.
+		/// </summary>
+		public List<DepartmentBattery> DepartmentBatteries => departmentBatteries;
+		private List<DepartmentBattery> departmentBatteries = new List<DepartmentBattery>();
 
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
@@ -108,12 +120,16 @@ namespace Objects.Engineering
 				connectedDepartmentBatteries.Clear();
 				foreach (var device in electricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
 				{
-
 					if (device.Key.Data.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
 
-					if (!connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()))
+					if (connectedDepartmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
 					{
 						connectedDepartmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+
+						if (departmentBatteries.Contains(device.Key.Data.GetComponent<DepartmentBattery>()) == false)
+						{
+							departmentBatteries.Add(device.Key.Data.GetComponent<DepartmentBattery>());
+						}
 					}
 				}
 			}
@@ -129,6 +145,8 @@ namespace Objects.Engineering
 			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
 			Current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
+
+			OnPowerNetworkUpdate.Invoke(this);
 		}
 
 		private void UpdateDisplay()
@@ -154,6 +172,42 @@ namespace Objects.Engineering
 				State = APCState.Dead;
 			}
 
+		}
+
+		private float CalculateMaxCapacity()
+		{
+			float newCapacity = 0;
+			foreach (DepartmentBattery battery in ConnectedDepartmentBatteries)
+			{
+				newCapacity += battery.BatterySupplyingModule.CapacityMax;
+			}
+
+			return newCapacity;
+		}
+
+		//Percentage in decimal, 0-1
+		public float CalculateChargePercentage()
+		{
+			var maxCapacity = CalculateMaxCapacity();
+
+			if (maxCapacity.Approx(0))
+			{
+				return 0;
+			}
+
+			float newCapacity = 0;
+			foreach (DepartmentBattery battery in ConnectedDepartmentBatteries)
+			{
+				newCapacity += battery.BatterySupplyingModule.CurrentCapacity;
+			}
+
+			return (newCapacity / maxCapacity);
+		}
+
+		// Percentage as string, 0% to 100%
+		public string CalculateChargePercentageString()
+		{
+			return CalculateChargePercentage().ToString("P0");
 		}
 
 		/// <summary>
@@ -439,6 +493,13 @@ namespace Objects.Engineering
 			else
 			{
 				connectedDevices.Add(poweredDevice);
+
+				if (poweredDevice.RelatedAPC != null)
+				{
+					//Already connected to something so remove it
+					poweredDevice.RelatedAPC.RemoveDevice(poweredDevice);
+				}
+
 				poweredDevice.RelatedAPC = this;
 			}
 		}
