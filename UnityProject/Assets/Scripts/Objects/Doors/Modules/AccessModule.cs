@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Systems.Clearance;
+using UnityEngine;
 using Systems.Electricity;
 using Random = UnityEngine.Random;
 
@@ -8,6 +9,7 @@ namespace Doors.Modules
 	public class AccessModule : DoorModuleBase
 	{
 		private AccessRestrictions accessRestrictions;
+		private ClearanceCheckable clearanceCheckable;
 
 		[SerializeField]
 		[Tooltip("When the door is at low voltage, this is the chance that the access check gives a false positive.")]
@@ -17,6 +19,7 @@ namespace Doors.Modules
 		{
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceCheckable = GetComponent<ClearanceCheckable>();
 		}
 
 		public override ModuleSignal OpenInteraction(HandApply interaction)
