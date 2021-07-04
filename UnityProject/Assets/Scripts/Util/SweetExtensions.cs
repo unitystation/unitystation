@@ -23,12 +23,12 @@ public static class SweetExtensions
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.GetComponent<ItemAttributesV2>();
+		return go.OrNull()?.GetComponent<ItemAttributesV2>();
 	}
 
 	public static ObjectAttributes Object(this GameObject go)
 	{
-		return go.GetComponent<ObjectAttributes>();
+		return go.OrNull()?.GetComponent<ObjectAttributes>();
 	}
 
 	/// <summary>

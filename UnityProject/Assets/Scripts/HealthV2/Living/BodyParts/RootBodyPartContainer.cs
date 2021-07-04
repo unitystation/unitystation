@@ -234,9 +234,10 @@ namespace HealthV2
 
 				i++;
 				i++;
+				i++;
 			}
 			RootBodyPartController.RequestUpdate(this);
-			
+
 			if (implant.SetCustomisationData != "")
 			{
 				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant,

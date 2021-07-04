@@ -1,6 +1,7 @@
 ﻿using System;
 using AddressableReferences;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Doors.Modules
 {
@@ -14,8 +15,9 @@ namespace Doors.Modules
 
 		private string soundGuid = "";
 
-		public override ModuleSignal OpenInteraction(HandApply interaction)
+		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
+			if (interaction == null) return ModuleSignal.Continue;
 			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
 			if ((!master.HasPower ||
 			     !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor)) &&
@@ -36,8 +38,9 @@ namespace Doors.Modules
 
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction)
+		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
+			if (interaction == null) return ModuleSignal.Continue;
 			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
 			if ((!master.HasPower ||
 			     !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor)) &&
@@ -65,7 +68,7 @@ namespace Doors.Modules
 			return ModuleSignal.Break;
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer)
+		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
 			return ModuleSignal.Continue;
 		}
