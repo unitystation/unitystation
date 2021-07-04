@@ -38,7 +38,7 @@ public class CirculatoryInfo : ScriptableObject
 	[Tooltip("This is the normal resting heartrate of the organism." +
 	         "Normally, the heart will try to achieve this BPM if it isn't under stress.")]
 	//The ideal resting heartrate of the organism.
-	public float HEARTRATE_NORMAL = 55;
+	public float HEARTRATE_NORMAL = 75;
 
 	[Tooltip("Minimum heart rate of the organism. If this is reached, it will enter cardiac arrest.")]
 	//The minimum heartrate of the circulatory system. If this is reached, the organism will enter cardiac arrest.
