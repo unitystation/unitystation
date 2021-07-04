@@ -7,8 +7,8 @@ namespace Doors.Modules
 {
 	public class EmagInteractionModule : DoorModuleBase
 	{
-
 		private BoltsModule BoltsModule;
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -25,7 +25,7 @@ namespace Doors.Modules
 		{
 			if (interaction != null)
 			{
-				var ItemStorage = interaction.Performer.GetComponent<ItemStorage>();
+				var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
 				if (ItemStorage != null)
 				{
 					var Hand = ItemStorage.GetActiveHandSlot().ItemAttributes;
@@ -39,25 +39,29 @@ namespace Doors.Modules
 						}
 					}
 
-					var ID = ItemStorage.GetNamedItemSlot(NamedSlot.id).ItemAttributes;
-
-					if (ID != null)
+					foreach (var item in ItemStorage.GetNamedItemSlots(NamedSlot.id))
 					{
-						if (ID.HasTrait(CommonTraits.Instance.Emag))
+						var ID = item.ItemAttributes;
+
+						if (ID != null)
 						{
-							States.Add(DoorProcessingStates.SoftwareHacked);
-							StartCoroutine(ToggleBolts());
-							return ModuleSignal.Continue;
+							if (ID.HasTrait(CommonTraits.Instance.Emag))
+							{
+								States.Add(DoorProcessingStates.SoftwareHacked);
+								StartCoroutine(ToggleBolts());
+								return ModuleSignal.Continue;
+							}
 						}
 					}
 				}
 			}
+
 			return ModuleSignal.Continue;
 		}
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			var ItemStorage = byPlayer.GetComponent<ItemStorage>(); //Change the dynamic When update
+			var ItemStorage = byPlayer.GetComponent<DynamicItemStorage>();
 			if (ItemStorage != null)
 			{
 				var Hand = ItemStorage.GetActiveHandSlot().ItemAttributes;
@@ -71,18 +75,22 @@ namespace Doors.Modules
 					}
 				}
 
-				var ID = ItemStorage.GetNamedItemSlot(NamedSlot.id).ItemAttributes;
-
-				if (ID != null)
+				foreach (var item in ItemStorage.GetNamedItemSlots(NamedSlot.id))
 				{
-					if (ID.HasTrait(CommonTraits.Instance.Emag))
+					var ID = item.ItemAttributes;
+
+					if (ID != null)
 					{
-						States.Add(DoorProcessingStates.SoftwareHacked);
-						StartCoroutine(ToggleBolts());
-						return ModuleSignal.Continue;
+						if (ID.HasTrait(CommonTraits.Instance.Emag))
+						{
+							States.Add(DoorProcessingStates.SoftwareHacked);
+							StartCoroutine(ToggleBolts());
+							return ModuleSignal.Continue;
+						}
 					}
 				}
 			}
+
 			return ModuleSignal.Continue;
 		}
 
