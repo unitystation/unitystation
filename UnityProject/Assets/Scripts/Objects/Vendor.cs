@@ -164,7 +164,7 @@ namespace Objects
 			if (player != null && accessRestrictions && !isEmagged)
 			{
 				var hasAccess = accessRestrictions.CheckAccess(player.GameObject);
-				if (hasAccess == false)
+				if (hasAccess == false && player.Script.PlayerState != PlayerScript.PlayerStates.Ai)
 				{
 					Chat.AddWarningMsgFromServer(player.GameObject, noAccessMessage);
 					return false;

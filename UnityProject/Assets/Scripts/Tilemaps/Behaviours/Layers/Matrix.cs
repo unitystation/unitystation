@@ -29,7 +29,7 @@ public class Matrix : MonoBehaviour
 
 	private TileList serverObjects;
 
-	private TileList ServerObjects => serverObjects ??
+	public TileList ServerObjects => serverObjects ??
 	                                  (serverObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects])
 		                                  .ServerObjects);
 
@@ -302,23 +302,6 @@ public class Matrix : MonoBehaviour
 
 		return true;
 	}
-
-	/// <summary>
-	/// Efficient way of iterating through the register tiles at a particular position which
-	/// also is safe against modifications made to the list of tiles while the action is running.
-	/// The limitation compared to Get<> is it can only get RegisterTiles, but the benefit is it avoids
-	/// GetComponent so there's no GC. The OTHER benefit is that normally iterating through these
-	/// would throw an exception if the RegisterTiles at this position were modified, such as
-	/// being destroyed are created. This method uses a locking mechanism to avoid
-	/// such issues.
-	/// </summary>
-	/// <param name="localPosition"></param>
-	/// <returns></returns>
-	public void ForEachRegisterTileSafe(IRegisterTileAction action, Vector3Int localPosition, bool isServer)
-	{
-		(isServer ? ServerObjects : ClientObjects).ForEachSafe(action, localPosition);
-	}
-
 
 	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 	{

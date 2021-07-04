@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vulpkanin_hair_short
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1704428476577939035, guid: 49c57ce46f28e3748bae6ab65d5838cb,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4298349344619183701, guid: 49c57ce46f28e3748bae6ab65d5838cb,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6849463687024300049, guid: 49c57ce46f28e3748bae6ab65d5838cb,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -307531603984513194, guid: 49c57ce46f28e3748bae6ab65d5838cb,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 15488
+  DisplayName: Short

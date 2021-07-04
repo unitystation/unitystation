@@ -53,15 +53,7 @@ namespace Messages.Server
 			else
 			{
 				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-				if (msg.TileName == "")
-				{
-					tileChangerManager.RemoveTile(msg.Position, msg.LayerType);
-				}
-				else
-				{
-					tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour);
-				}
-
+				tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour);
 				TryDoNotDoneTiles();
 			}
 		}

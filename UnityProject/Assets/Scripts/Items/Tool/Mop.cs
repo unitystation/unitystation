@@ -65,10 +65,12 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 				if (reagentContainer.MajorMixReagent.name == "Water")
 				{
 					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
+					reagentContainer.TakeReagents(reagentsPerUse);
 				}
 				else if (reagentContainer.MajorMixReagent.name == "SpaceCleaner")
 				{
 					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
+					reagentContainer.TakeReagents(reagentsPerUse);
 				}
 				else
 				{

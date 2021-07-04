@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using NaughtyAttributes;
 using Managers;
+using StationObjectives;
 
 namespace GameModes
 {
@@ -144,6 +145,7 @@ namespace GameModes
 			JobType.WARDEN,
 			JobType.SECURITY_OFFICER,
 			JobType.DETECTIVE,
+			JobType.AI
 		};
 		/// <summary>
 		/// The JobTypes that cannot be chosen as antagonists for this game mode
@@ -358,6 +360,7 @@ namespace GameModes
 			{
 				SpawnAntag(spawnReq);
 			}
+			StationObjectiveManager.Instance.ServerChooseObjective();
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(Event.RoundStarted, true);
 		}
@@ -386,6 +389,7 @@ namespace GameModes
 		public virtual void EndRound()
 		{
 			Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
+			StationObjectiveManager.Instance.ShowStationStatusReport();
 			AntagManager.Instance.ShowAntagStatusReport();
 
 			var msg = $"The round will restart in {GameManager.Instance.RoundEndTime} seconds.";

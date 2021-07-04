@@ -9,14 +9,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 256375122203596789, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
+      propertyPath: Volume
+      value: 0.00600323
+      objectReference: {fileID: 0}
+    - target: {fileID: 256375122203596789, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
       propertyPath: Gases.Array.data[0]
       value: 0.748683
       objectReference: {fileID: 0}
     - target: {fileID: 256375122203596789, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
-      propertyPath: Volume
-      value: 0.00600323
-      objectReference: {fileID: 0}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274,
+        type: 2}
     - target: {fileID: 2201958457960026097, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -41,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -53,6 +64,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
@@ -71,16 +87,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5466086382375602434, guid: 38587331617a9c747832658ce8bee272,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -96,19 +102,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
-        type: 2}
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: initialName
+      value: emergency plasma internals tank
+      objectReference: {fileID: 0}
     - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
       propertyPath: initialSize
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
-        type: 3}
-      propertyPath: hitDamage
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
@@ -118,14 +123,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 502be0126d6693c4abbfd86b2e736a7c,
         type: 2}
-    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
-        type: 3}
-      propertyPath: initialName
-      value: emergency plasma internals tank
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38587331617a9c747832658ce8bee272, type: 3}

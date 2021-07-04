@@ -591,7 +591,7 @@ public partial class PlayerList
 		var index = jobBanPlayerEntry.Value.Item2;
 
 		//Check each job to see if expired
-		foreach (var jobBan in jobBanPlayerEntry.Value.Item1.jobBanEntry)
+		foreach (var jobBan in jobBanPlayerEntry.Value.Item1.jobBanEntry.ToArray())
 		{
 			var entryTime = DateTime.ParseExact(jobBan.dateTimeOfBan, "O", CultureInfo.InvariantCulture);
 			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);

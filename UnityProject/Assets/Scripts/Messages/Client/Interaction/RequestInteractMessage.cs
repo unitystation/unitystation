@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Core.Input_System.InteractionV2.Interactions;
 using Mirror;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;
@@ -52,6 +53,8 @@ namespace Messages.Client.Interaction
 			//these are all used when it's an InventoryApply to denote the target slot
 			//netid of targeted storage
 			public uint Storage;
+			//Used to get correct item storage on game object if there's multiple
+			public uint StorageIndexOnGameObject;
 			//slot index of slot targeted in storage (-1 if tareting named slot)
 			public int SlotIndex;
 			//named slot targeted in storage
@@ -60,6 +63,8 @@ namespace Messages.Client.Interaction
 			public Connection connectionPointA, connectionPointB;
 			// Requested option of a right-click context menu interaction
 			public string RequestedOption;
+			// Click Type for AI interaction
+			public AiActivate.ClickTypes ClickTypes;
 		}
 
 		public static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
@@ -132,15 +137,30 @@ namespace Messages.Client.Interaction
 
 			var performer = SentByPlayer.GameObject;
 
-			if (SentByPlayer == null || SentByPlayer.Script == null || SentByPlayer.Script.ItemStorage == null)
+			if (SentByPlayer == null || SentByPlayer.Script == null)
 			{
+				return;
+			}
+
+			if (SentByPlayer.Script.DynamicItemStorage == null)
+			{
+				if (InteractionType == typeof(AiActivate))
+				{
+					LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
+					var targetObj = NetworkObjects[0];
+					var processorObj = NetworkObjects[1];
+
+					var interaction = new AiActivate(performer, null, targetObj, Intent, msg.ClickTypes);
+					ProcessInteraction(interaction, processorObj, ComponentType);
+				}
+
 				return;
 			}
 
 			if (InteractionType == typeof(PositionalHandApply))
 			{
 				//look up item in active hand slot
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadMultipleObjects(new uint[]{
@@ -156,9 +176,9 @@ namespace Messages.Client.Interaction
 			}
 			else if (InteractionType == typeof(HandApply))
 			{
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
-				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+				var usedObject = clientStorage.GetActiveHandSlot()?.ItemObject;
 				LoadMultipleObjects(new uint[]{
 					TargetObject, ProcessorObject
 				});
@@ -172,7 +192,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (InteractionType == typeof(AimApply))
 			{
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadNetworkObject(ProcessorObject);
@@ -206,7 +226,7 @@ namespace Messages.Client.Interaction
 
 				var performerObj = SentByPlayer.GameObject;
 				//look up item in active hand slot
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent);
@@ -225,18 +245,18 @@ namespace Messages.Client.Interaction
 				ItemSlot targetSlot = null;
 				if (SlotIndex == -1)
 				{
-					targetSlot = ItemSlot.GetNamed(storageObj.GetComponent<ItemStorage>(), NamedSlot);
+					targetSlot = ItemSlot.GetNamed(storageObj.GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], NamedSlot);
 				}
 				else
 				{
-					targetSlot = ItemSlot.GetIndexed(storageObj.GetComponent<ItemStorage>(), SlotIndex);
+					targetSlot = ItemSlot.GetIndexed(storageObj.GetComponents<ItemStorage>()[msg.StorageIndexOnGameObject], SlotIndex);
 				}
 
 				//if used object is null, then empty hand was used
 				ItemSlot fromSlot = null;
 				if (usedObj == null)
 				{
-					fromSlot = SentByPlayer.Script.ItemStorage.GetActiveHandSlot();
+					fromSlot = SentByPlayer.Script.DynamicItemStorage.GetActiveHandSlot();
 				}
 				else
 				{
@@ -247,7 +267,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (InteractionType == typeof(TileApply))
 			{
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadNetworkObject(ProcessorObject);
@@ -275,7 +295,7 @@ namespace Messages.Client.Interaction
 			else if (InteractionType == typeof(ConnectionApply))
 			{
 				//look up item in active hand slot
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 				LoadMultipleObjects(new uint[]{
@@ -292,7 +312,7 @@ namespace Messages.Client.Interaction
 			else if (InteractionType == typeof(ContextMenuApply))
 			{
 				LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
-				var clientStorage = SentByPlayer.Script.ItemStorage;
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedObj = clientStorage.GetActiveHandSlot().ItemObject;
 				var targetObj = NetworkObjects[0];
 				var processorObj = NetworkObjects[1];
@@ -507,6 +527,18 @@ namespace Messages.Client.Interaction
 			else if (typeof(T) == typeof(InventoryApply))
 			{
 				var casted = interaction as InventoryApply;
+
+				//StorageIndexOnGameObject
+				msg.StorageIndexOnGameObject = 0;
+				foreach (var itemStorage in NetworkIdentity.spawned[casted.TargetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+				{
+					if (itemStorage == casted.TargetSlot.ItemStorage)
+					{
+						break;
+					}
+
+					msg.StorageIndexOnGameObject++;
+				}
 				msg.Storage = casted.TargetSlot.ItemStorageNetID;
 				msg.SlotIndex = casted.TargetSlot.SlotIdentifier.SlotIndex;
 				msg.NamedSlot = casted.TargetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none);
@@ -526,6 +558,12 @@ namespace Messages.Client.Interaction
 				var casted = interaction as ContextMenuApply;
 				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.RequestedOption = casted.RequestedOption;
+			}
+			else if (typeof(T) == typeof(AiActivate))
+			{
+				var casted = interaction as AiActivate;
+				msg.TargetObject = GetNetId(casted.TargetObject);
+				msg.ClickTypes = casted.ClickType;
 			}
 
 			Send(msg);
@@ -607,7 +645,7 @@ namespace Messages.Client.Interaction
 
 				return netMatrix.MatrixSync.netId;
 			}
-			
+
 			Logger.LogError($"Failed to find netId for {objectNetIdWanted.name}");
 
 			return NetId.Invalid;
@@ -669,6 +707,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (message.InteractionType == typeof(InventoryApply))
 			{
+				message.StorageIndexOnGameObject = reader.ReadUInt32();
 				message.UsedObject = reader.ReadUInt32();
 				message.Storage = reader.ReadUInt32();
 				message.SlotIndex = reader.ReadInt32();
@@ -695,6 +734,11 @@ namespace Messages.Client.Interaction
 			{
 				message.TargetObject = reader.ReadUInt32();
 				message.RequestedOption = reader.ReadString();
+			}
+			else if (message.InteractionType == typeof(AiActivate))
+			{
+				message.TargetObject = reader.ReadUInt32();
+				message.ClickTypes = (AiActivate.ClickTypes)reader.ReadByte();
 			}
 
 			return message;
@@ -743,6 +787,7 @@ namespace Messages.Client.Interaction
 			}
 			else if (message.InteractionType == typeof(InventoryApply))
 			{
+				writer.WriteUInt32(message.StorageIndexOnGameObject);
 				writer.WriteUInt32(message.UsedObject);
 				writer.WriteUInt32(message.Storage);
 				writer.WriteInt32(message.SlotIndex);
@@ -769,6 +814,11 @@ namespace Messages.Client.Interaction
 			{
 				writer.WriteUInt32(message.TargetObject);
 				writer.WriteString(message.RequestedOption);
+			}
+			else if (message.InteractionType == typeof(AiActivate))
+			{
+				writer.WriteUInt32(message.TargetObject);
+				writer.WriteByte((byte)message.ClickTypes);
 			}
 		}
 	}

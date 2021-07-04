@@ -84,10 +84,11 @@ public class Camera2DFollow : MonoBehaviour
 		starsBackground.parent = null;
 	}
 
+	//idk I don't know probably should look into the sometime TODO look into this
 	public void SetCameraXOffset()
 	{
 		float xOffSet =
-			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.38f;
+			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Instance.transform.position).x) * 1.38f;
 
 		followControl.SetXOffset(xOffSet);
 	}

@@ -27,9 +27,6 @@ namespace Objects.Construction
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-			if (!DefaultWillInteract.PositionalHandApply(interaction, NetworkSide.Client)) return false;
-
 			return true;
 		}
 

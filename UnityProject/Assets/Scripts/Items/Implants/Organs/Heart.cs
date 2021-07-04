@@ -81,8 +81,8 @@ public class Heart : BodyPartModification
 		base.InternalDamageLogic();
 		if(RelatedPart.CurrentInternalBleedingDamage > 50 && alarmedForInternalBleeding == false)
 		{
-			Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, 
-			$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
+			Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
+			$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!", $"{RelatedPart.HealthMaster.playerScript.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
 			alarmedForInternalBleeding = true;
 		}
 		if(RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage)
@@ -107,7 +107,26 @@ public class Heart : BodyPartModification
 			return;
 		}
 
-		Heartbeat(RelatedPart.TotalModified);
+		var TotalModified = 1f;
+		foreach (var Modifier in RelatedPart.AppliedModifiers)
+		{
+			var toMultiply = 1f;
+			if (Modifier == RelatedPart.DamageModifier)
+			{
+				toMultiply = Mathf.Max(0f,Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
+			}
+			else if (Modifier == RelatedPart.HungerModifier)
+			{
+				continue;
+			}
+			else
+			{
+				toMultiply = Mathf.Max(0f, Modifier.Multiplier);
+			}
+			TotalModified *= toMultiply;
+		}
+
+		Heartbeat(TotalModified);
 	}
 
 
@@ -116,39 +135,27 @@ public class Heart : BodyPartModification
 		CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
 		if (circulatorySystem)
 		{
-			//circulatorySystem.HeartBeat(heartStrength * TotalModified);
-			//TODOH Balance all this stuff, Currently takes an eternity to suffocate
-			// Logger.Log("heart Available  " + ReadyBloodPool);
-			// Logger.Log("heart pumpedReagent " + pumpedReagent);
-
+			float pumpedReagent = Math.Min(heartStrength * efficiency, circulatorySystem.ReadyBloodPool.Total);
 			float totalWantedBlood = 0;
 			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
-				totalWantedBlood += implant.BloodThroughput * efficiency;
-				// Due to how blood is implemented as a single pool with its solutes, we need to compensate for
-				// consumed solutes.  This may change in the future if blood changes
-				totalWantedBlood += implant.BloodContainer.MaxCapacity - implant.BloodContainer.ReagentMixTotal;
-			}
-			float toPump = Mathf.Min(totalWantedBlood, heartStrength * efficiency);
-			var bloodToGive = circulatorySystem.ReadyBloodPool.Take(Mathf.Min(toPump, circulatorySystem.ReadyBloodPool.Total));
-			if (bloodToGive.Total < toPump)
-			{
-				// Try to maintain blood levels in organs by taking the remainder from used
-				circulatorySystem.UsedBloodPool.TransferTo(bloodToGive, Mathf.Min(toPump - bloodToGive.Total, circulatorySystem.UsedBloodPool.Total));
+				totalWantedBlood += implant.BloodThroughput;
 			}
 
+			pumpedReagent = Math.Min(pumpedReagent, totalWantedBlood);
 			ReagentMix SpareBlood = new ReagentMix();
+
 			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
-				ReagentMix transfer = bloodToGive.Take((implant.BloodThroughput * efficiency + implant.BloodContainer.MaxCapacity) / totalWantedBlood * bloodToGive.Total);
-				transfer.Add(SpareBlood);
+				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodThroughput / totalWantedBlood) * pumpedReagent);
+				BloodToGive.Add(SpareBlood);
 				SpareBlood.Clear();
-				SpareBlood.Add(implant.BloodPumpedEvent(transfer, efficiency));
+				SpareBlood.Add(implant.BloodPumpedEvent(BloodToGive));
 			}
+
 			circulatorySystem.ReadyBloodPool.Add(SpareBlood);
-			circulatorySystem.ReadyBloodPool.Add(bloodToGive);
 		}
 	}
 

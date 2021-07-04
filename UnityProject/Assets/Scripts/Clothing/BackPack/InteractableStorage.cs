@@ -121,7 +121,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
-		if (interaction.TargetSlot.ItemStorage.gameObject != PlayerManager.LocalPlayer && !interaction.IsAltClick) return false;
+		if (interaction.TargetSlot.ItemStorage.Player.gameObject != PlayerManager.LocalPlayer && !interaction.IsAltClick) return false;
 
 		if (interaction.UsedObject == null)
 		{
@@ -560,8 +560,27 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			// Show the 'switch pickup mode' action button if this is in either of the players hands
 			var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
-			var showAlert = pna.GetActiveHandItem() == gameObject ||
-			                pna.GetOffHandItem() == gameObject;
+			bool showAlert = false;
+			foreach (var itemSlot in pna.itemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+			{
+				if (itemSlot.ItemObject == gameObject)
+				{
+					showAlert = true;
+					break;
+				}
+			}
+
+			if (showAlert == false)
+			{
+				foreach (var itemSlot in pna.itemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+				{
+					if (itemSlot.ItemObject == gameObject)
+					{
+						showAlert = true;
+						break;
+					}
+				}
+			}
 
 			UI.Action.UIActionManager.ToggleLocal(this, showAlert);
 		}

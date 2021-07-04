@@ -216,6 +216,12 @@ namespace Chemistry
 				return;
 			}
 
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to add {amount} amount of {reagent}", Category.Chemistry);
+				return;
+			}
+
 			if (!reagents.m_dict.ContainsKey(reagent))
 			{
 				lock (reagents)
@@ -238,6 +244,12 @@ namespace Chemistry
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");
+				return 0;
+			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -285,6 +297,12 @@ namespace Chemistry
 				return 0;
 			}
 
+			if (float.IsNaN(subAmount) || float.IsInfinity(subAmount))
+			{
+				Logger.LogError($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
+				return 0;
+			}
+
 			if (reagents.m_dict.TryGetValue(reagent, out var amount))
 			{
 				var newAmount = amount - subAmount;
@@ -322,6 +340,12 @@ namespace Chemistry
 			if (multiplier < 0f)
 			{
 				Logger.LogError($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
+				return;
+			}
+
+			if (float.IsNaN(multiplier) || float.IsInfinity(multiplier))
+			{
+				Logger.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
 				return;
 			}
 
@@ -367,6 +391,12 @@ namespace Chemistry
 				return;
 			}
 
+			if (float.IsNaN(Divider) || float.IsInfinity(Divider))
+			{
+				Logger.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
+				return;
+			}
+
 			lock (reagents)
 			{
 				TEMPReagents.Clear();
@@ -388,6 +418,17 @@ namespace Chemistry
 		public List<Reagent> reagentKeys = new List<Reagent>();
 		public void TransferTo(ReagentMix target, float amount)
 		{
+			if (amount == 0 || amount < 0)
+			{
+				return;
+			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
+				return;
+			}
+
 			var total = Total;
 
 			//temperature change
@@ -437,6 +478,17 @@ namespace Chemistry
 
 		public ReagentMix Take(float amount)
 		{
+			if (amount == 0 || amount < 0)
+			{
+				return new ReagentMix();
+			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to Take {amount}", Category.Chemistry);
+				return new ReagentMix();;
+			}
+
 			var taken = new ReagentMix();
 			TransferTo(taken, amount);
 			return taken;
@@ -448,6 +500,23 @@ namespace Chemistry
 			{
 				return;
 			}
+
+			if (float.IsNaN(amount) || float.IsInfinity(amount))
+			{
+				Logger.LogError($"Trying to RemoveVolume {amount}", Category.Chemistry);
+				return;
+			}
+
+			if (amount > Total)
+			{
+				amount = Total;
+			}
+
+			if (Total == 0)
+			{
+				return;
+			}
+
 			var multiplier = (Total - amount) / Total;
 			if (float.IsNaN(multiplier))
 			{

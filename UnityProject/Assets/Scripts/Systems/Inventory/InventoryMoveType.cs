@@ -79,9 +79,14 @@ public class InventoryMove
 	public RegisterPlayer ToRootPlayer => ToSlot?.RootPlayer();
 
 
+	/// <summary>
+	/// To allow Convenient stuff like syndicate suit in cardboard box, that you can Only take out and Can't put back in
+	/// </summary>
+	public bool IgnoreConstraints = false;
+
 	public InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
 		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? worldTargetVector = null, SpinMode? throwSpinMode = null,
-		ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
+		ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel,bool ignoreRestraints = false)
 	{
 		InventoryMoveType = inventoryMoveType;
 		MovedObject = movedObject;
@@ -92,6 +97,7 @@ public class InventoryMove
 		WorldTargetVector = worldTargetVector;
 		ThrowSpinMode = throwSpinMode;
 		ReplacementStrategy = replacementStrategy;
+		IgnoreConstraints = ignoreRestraints;
 	}
 
 	/// <summary>
@@ -101,9 +107,9 @@ public class InventoryMove
 	/// <param name="toSlot"></param>
 	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns></returns>
-	public static InventoryMove Transfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
+	public static InventoryMove Transfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel,bool ignoreRestraints = false)
 	{
-		return new InventoryMove(InventoryMoveType.Transfer, fromSlot.Item, fromSlot, toSlot, replacementStrategy: replacementStrategy);
+		return new InventoryMove(InventoryMoveType.Transfer, fromSlot.Item, fromSlot, toSlot, replacementStrategy: replacementStrategy, ignoreRestraints: ignoreRestraints);
 	}
 
 	/// <summary>
@@ -114,9 +120,9 @@ public class InventoryMove
 	/// <param name="toSlot"></param>
 	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns></returns>
-	public static InventoryMove Add(Pickupable addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
+	public static InventoryMove Add(Pickupable addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false )
 	{
-		return new InventoryMove(InventoryMoveType.Add, addedObject, null, toSlot, replacementStrategy: replacementStrategy);
+		return new InventoryMove(InventoryMoveType.Add, addedObject, null, toSlot, replacementStrategy: replacementStrategy, ignoreRestraints: IgnoreRestraints);
 	}
 
 	/// <summary>
@@ -127,7 +133,7 @@ public class InventoryMove
 	/// <param name="toSlot"></param>
 	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns></returns>
-	public static InventoryMove Add(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
+	public static InventoryMove Add(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false )
 	{
 		if (addedObject == null)
 		{
@@ -139,7 +145,7 @@ public class InventoryMove
 		{
 			Logger.LogErrorFormat("{0} has no pickupable, thus cannot be added to inventory", Category.Inventory, addedObject);
 		}
-		return new InventoryMove(InventoryMoveType.Add, pu, null, toSlot, replacementStrategy: replacementStrategy);
+		return new InventoryMove(InventoryMoveType.Add, pu, null, toSlot, replacementStrategy: replacementStrategy, ignoreRestraints:IgnoreRestraints);
 	}
 
 	/// <summary>

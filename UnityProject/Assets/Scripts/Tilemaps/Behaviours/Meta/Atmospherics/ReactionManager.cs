@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 namespace Systems.Atmospherics
 {
@@ -18,9 +19,6 @@ namespace Systems.Atmospherics
 		private GameObject fireLight = null;
 
 		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
-
-		private Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
-		public Dictionary<Vector3Int, HashSet<Gas>> FogTiles => fogTiles;
 
 		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions =
 			new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
@@ -125,9 +123,9 @@ namespace Systems.Atmospherics
 				    affectedNode.HasHotspot)
 				{
 					affectedNode.Hotspot = null;
-					tileChangeManager.RemoveOverlaysOfName(
+					tileChangeManager.RemoveOverlaysOfType(
 						new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
-						LayerType.Effects, "Fire");
+						LayerType.Effects, OverlayType.Fire);
 					hotspots.TryRemove(removedHotspot, out var value);
 
 					if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
@@ -330,7 +328,7 @@ namespace Systems.Atmospherics
 
 				//only expose to atmos impassable objects, since those are the things the flames would
 				//actually brush up against
-				matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
+				matrix.ServerObjects.InvokeOnObjects(applyExposure, atLocalPosition);
 				//expose the tiles there
 				foreach (var tilemapDamage in tilemapDamages)
 				{
@@ -343,7 +341,7 @@ namespace Systems.Atmospherics
 			{
 				Profiler.BeginSample("DirectExposure");
 				//direct exposure logic
-				matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
+				matrix.ServerObjects.InvokeOnObjects(applyExposure, atLocalPosition);
 				//expose the tiles
 				foreach (var tilemapDamage in tilemapDamages)
 				{

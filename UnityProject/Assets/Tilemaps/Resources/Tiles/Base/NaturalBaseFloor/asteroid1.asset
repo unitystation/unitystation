@@ -12,17 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: asteroid1
   m_EditorClassIdentifier: 
-  displayName: asteroid
+  displayName: sand
   LayerType: 4
   TileType: 7
   RequiredTiles: []
-  floorTileType: 1
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  miningTime: 5
+  RadiationPassability: 1
   doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -39,10 +44,21 @@ MonoBehaviour:
     Acid: 50
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 6f8c4ea636baad341b27769536862bd5, type: 2}
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 11400000, guid: 97c5dfde9f162f4409c8103d4137de31, type: 2}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: ea3b14aabe7a9bc419026e1a1465e055, type: 3}

@@ -637,7 +637,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	}
 #endif
 
-	public void RecievePlayerMoveAction(PlayerAction moveActions)
+	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
 		if (moveActions.moveActions.Length != 0 && !MoveCooldown
 		                                        && isLocalPlayer && playerMove != null

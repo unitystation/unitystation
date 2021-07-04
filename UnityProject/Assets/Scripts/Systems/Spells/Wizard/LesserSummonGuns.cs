@@ -59,7 +59,7 @@ namespace Systems.Spells.Wizard
 			if (result.Successful)
 			{
 				GameObject gun = result.GameObject;
-				ItemSlot bestSlot = caster.Script.ItemStorage.GetBestHandOrSlotFor(gun);
+				ItemSlot bestSlot = caster.Script.DynamicItemStorage.GetBestHandOrSlotFor(gun);
 				Inventory.ServerAdd(gun, bestSlot);
 
 				return true;

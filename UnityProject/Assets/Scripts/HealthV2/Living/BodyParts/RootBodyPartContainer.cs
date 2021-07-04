@@ -68,7 +68,7 @@ namespace HealthV2
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
 
 		[HideInInspector] public bool IsBleeding = false;
-		
+
 		/// <summary>
 		/// How much blood does the body lose when there is lost limbs in this container?
 		/// </summary>
@@ -108,6 +108,8 @@ namespace HealthV2
 			}
 
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
+			//TODO Make generic version for mobs \/
+			Storage.SetRegisterPlayer(healthMaster.GetComponent<RegisterPlayer>());
 		}
 
 		public void UpdateChildren(List<uint> NewInternalNetIDs)
@@ -234,6 +236,14 @@ namespace HealthV2
 				i++;
 			}
 			RootBodyPartController.RequestUpdate(this);
+			
+			if (implant.SetCustomisationData != "")
+			{
+				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant,
+					implant.SetCustomisationData,
+					healthMaster);
+			}
+
 		}
 
 		/// <summary>

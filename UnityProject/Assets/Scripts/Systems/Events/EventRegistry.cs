@@ -23,6 +23,8 @@ public class EventRegistry
 	/// </summary>
 	public void Register(UnityEvent unityEvent, UnityAction unityAction)
 	{
+		if (unityEvent == null) return;
+		if (unityAction == null) return;
 		unityEvent.AddListener(unityAction);
 		subscriptions.Add(new SubscribedAction(unityEvent, unityAction));
 	}

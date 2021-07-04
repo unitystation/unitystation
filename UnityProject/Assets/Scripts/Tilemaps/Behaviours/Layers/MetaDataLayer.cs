@@ -6,6 +6,7 @@ using Chemistry.Components;
 using HealthV2;
 using UnityEngine;
 using Objects.Construction;
+using TileManagement;
 
 /// <summary>
 /// Holds and provides functionality for all the MetaDataTiles for a given matrix.
@@ -236,7 +237,7 @@ public class MetaDataLayer : MonoBehaviour
 		}
 
 		//check for any moppable overlays
-		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, TileChangeManager.OverlayType.Cleanable);
+		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
 
 		if (MatrixManager.IsSpaceAt(worldPosInt, true) == false && makeSlippery)
 		{

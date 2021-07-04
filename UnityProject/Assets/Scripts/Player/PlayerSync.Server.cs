@@ -983,9 +983,14 @@ public partial class PlayerSync
 		CheckTileContagion();
 		CheckTileSlip();
 
-		var shoeSlot = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.feet);
-
-		bool slipProtection = !shoeSlot.IsEmpty && shoeSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip);
+		bool slipProtection = true;
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+		{
+			if (itemSlot.ItemAttributes == null || itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
+			{
+				slipProtection = false;
+			}
+		}
 
 		if (slipProtection) return;
 		var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(position, true);
@@ -1005,12 +1010,16 @@ public partial class PlayerSync
 
 	public void CheckTileSlip()
 	{
-
 		var matrix = MatrixManager.Get(serverState.MatrixId);
 
-		var shoeSlot = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.feet);
-
-		bool slipProtection = !shoeSlot.IsEmpty && shoeSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip);
+		bool slipProtection = true;
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+		{
+			if (itemSlot.ItemAttributes == null || itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
+			{
+				slipProtection = false;
+			}
+		}
 
 		if (matrix.MetaDataLayer.IsSlipperyAt(ServerLocalPosition) && !slipProtection)
 		{

@@ -205,7 +205,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 		if (spriteRendererSource != null)
 		{
-			playerScript.hitIcon.ShowHitIcon(stabDir, spriteRendererSource);
+			var projectile = Spawn.ClientPrefab("hitIcon", playerScript.transform.position, playerScript.transform.parent).GameObject;
+			var hitIcon = projectile.GetComponent<HitIcon>();
+			hitIcon.ShowHitIcon(stabDir, spriteRendererSource, playerScript);
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;

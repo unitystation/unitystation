@@ -180,7 +180,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							matrixInfo.TileChangeManager.RemoveTile(localPos, tileToSummon.LayerType, false);
+							matrixInfo.TileChangeManager.RemoveTile(localPos, tileToSummon.LayerType);
 						}
 					}
 				}
@@ -240,18 +240,23 @@ namespace Systems.Spells
 
 		private bool CheckWizardGarb(Equipment casterEquipment)
 		{
-			var outerwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear);
-			if (outerwear.IsEmpty || outerwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			foreach (var outerwear in casterEquipment.ItemStorage.GetNamedItemSlots(NamedSlot.outerwear))
 			{
-				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your robe!</color>");
-				return false;
+				if (outerwear.IsEmpty || outerwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+				{
+					Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your robe!</color>");
+					return false;
+				}
 			}
 
-			var headwear = casterEquipment.ItemStorage.GetNamedItemSlot(NamedSlot.head);
-			if (headwear.IsEmpty || headwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+			foreach (var headwear in casterEquipment.ItemStorage.GetNamedItemSlots(NamedSlot.head))
 			{
-				Chat.AddExamineMsg(casterEquipment.gameObject, "<color=red>You don't feel strong enough without your hat!</color>");
-				return false;
+				if (headwear.IsEmpty || headwear.ItemAttributes.HasTrait(CommonTraits.Instance.WizardGarb) == false)
+				{
+					Chat.AddExamineMsg(casterEquipment.gameObject,
+						"<color=red>You don't feel strong enough without your hat!</color>");
+					return false;
+				}
 			}
 
 			return true;
