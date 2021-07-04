@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vulpkanin_tail
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 6068062572712691648, guid: b4351ba620e49a648acee7dcd567ef9c,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5844802705718556708, guid: b4351ba620e49a648acee7dcd567ef9c,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2427719565406141395, guid: b4351ba620e49a648acee7dcd567ef9c,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -6994692650979646519, guid: b4351ba620e49a648acee7dcd567ef9c,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 15494
+  DisplayName: Vulpkanin_Tail

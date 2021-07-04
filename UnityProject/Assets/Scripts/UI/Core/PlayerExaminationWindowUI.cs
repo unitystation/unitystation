@@ -217,6 +217,7 @@ namespace UI.Core
 		/// </summary>
 		private void OnSlotContentsChangeClient()
 		{
+			gameObject.SetActive(true);
 			// need to wait one frame because item needs to refresh before updating UI
 			StartCoroutine(WaitOneFrameForUpdate());
 		}

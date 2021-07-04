@@ -165,6 +165,16 @@ namespace Systems.Ai
 			isCarded = false;
 		}
 
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+
+			if(PlayerManager.LocalPlayerScript  == null ||
+			   PlayerManager.LocalPlayerScript.PlayerState != PlayerScript.PlayerStates.Ai) return;
+
+			SetSpriteVisibility(true);
+		}
+
 		private void AddVesselListeners()
 		{
 			var coreIntegrity = vesselObject.GetComponent<Integrity>();
@@ -210,19 +220,20 @@ namespace Systems.Ai
 			}
 		}
 
-		#endregion
-
-		#region Sync Stuff
-
 		public override void OnStartLocalPlayer()
 		{
 			base.OnStartLocalPlayer();
 
 			Init();
 
-			CmdAskForLawUpdate();
+			SyncCore(vesselObject, vesselObject);
 			SyncPowerState(hasPower, hasPower);
+			CmdSetVisibilityToOtherAis();
 		}
+
+		#endregion
+
+		#region Sync Stuff
 
 		private void Init()
 		{
@@ -263,15 +274,8 @@ namespace Systems.Ai
 				ClientSetCameraLocation(newCore.transform);
 			}
 
-			//Enable security camera overlay if we are only a core
-			SetCameras(isCarded == false);
-
 			//Ask server to force sync laws
 			CmdAskForLawUpdate();
-
-			//Set sprite to player layer
-			//TODO currently other AIs cant see where each other is looking maybe try sync this to only AI's?
-			mainSprite.layer = 8;
 		}
 
 		[Client]
@@ -474,13 +478,22 @@ namespace Systems.Ai
 			ServerSetCameraLocation(vesselObject);
 		}
 
-		[TargetRpc]
-		private void TargetRpcTurnOffCameras(NetworkConnection conn)
+		private void ToggleCameras(bool newState)
 		{
-			SetCameras(false);
+			if(connectionToClient == null) return;
+			TargetRpcToggleCameras(connectionToClient, newState);
+			SetVisibilityToOtherAis(false);
+		}
 
-			//Reset sprite to ghost layer
-			mainSprite.layer = 31;
+		[TargetRpc]
+		//Sets the camera and Ai player sprites for this player
+		private void TargetRpcToggleCameras(NetworkConnection conn, bool newState)
+		{
+			//Set cameras
+			SetCameras(newState);
+
+			//Set our sprite state
+			SetSpriteVisibility(newState);
 		}
 
 		[Command]
@@ -718,6 +731,8 @@ namespace Systems.Ai
 			{
 				hasPower = true;
 			}
+
+			ToggleCameras(isCarded == false);
 
 			//Force camera to core/card
 			ServerSetCameraLocationVessel();
@@ -1150,6 +1165,39 @@ namespace Systems.Ai
 			lineRenderer.enabled = false;
 		}
 
+		[Command]
+		private void CmdSetVisibilityToOtherAis()
+		{
+			SetVisibilityToOtherAis(true);
+		}
+
+		[Server]
+		//Sets Ai sprite for all players
+		private void SetVisibilityToOtherAis(bool isVisible)
+		{
+			foreach (var player in PlayerList.Instance.GetAllPlayers())
+			{
+				if(player.Script.PlayerState != PlayerScript.PlayerStates.Ai) continue;
+
+				player.Script.GetComponent<AiPlayer>().OrNull()?.TargetRpcSetSpriteVisibility(connectionToClient, isVisible);
+			}
+		}
+
+		[TargetRpc]
+		private void TargetRpcSetSpriteVisibility(NetworkConnection conn, bool isVisible)
+		{
+			//Reset sprite layer, 31 ghost, 8 for players
+			SetSpriteVisibility(isVisible);
+		}
+
+
+		[Client]
+		private void SetSpriteVisibility(bool isVisible)
+		{
+			//Reset sprite layer, 8 for players, 31 for ghosts
+			mainSprite.layer = isVisible ? 8 : 31;
+		}
+
 		#endregion
 
 		#region Death
@@ -1166,10 +1214,7 @@ namespace Systems.Ai
 			if(hasDied) return;
 			hasDied = true;
 
-			if (connectionToClient != null)
-			{
-				TargetRpcTurnOffCameras(connectionToClient);
-			}
+			ToggleCameras(false);
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You have been destroyed");
 
@@ -1218,6 +1263,59 @@ namespace Systems.Ai
 		#endregion
 
 		#region Laws
+
+		[Server]
+		public void UploadLawModule(HandApply interaction, bool isUploadConsole = false)
+		{
+			//Check Ai isn't dead, or carded and disallowed interactions
+			if (HasDied || (isCarded && allowRemoteAction == false))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Unable to connect to {gameObject.ExpensiveName()}");
+				return;
+			}
+
+			//Must have used module, but do check in case
+			if (interaction.HandObject.TryGetComponent<AiLawModule>(out var module) == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Can only use a module on this {(isUploadConsole ? "console" : "core")}");
+				return;
+			}
+
+			var lawFromModule = module.GetLawsFromModule(interaction.PerformerPlayerScript);
+
+			if (module.AiModuleType == AiModuleType.Purge || module.AiModuleType == AiModuleType.Reset)
+			{
+				var isPurge = module.AiModuleType == AiModuleType.Purge;
+				ResetLaws(isPurge);
+				Chat.AddActionMsgToChat(interaction.Performer, $"You {(isPurge ? "purge" : "reset")} all of {gameObject.ExpensiveName()}'s laws",
+					$"{interaction.Performer.ExpensiveName()} {(isPurge ? "purges" : "resets")} all of {gameObject.ExpensiveName()}'s laws");
+				return;
+			}
+
+			if (lawFromModule.Count == 0)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "No laws to upload");
+				return;
+			}
+
+			//If we are only adding core laws then we must mean to remove old core laws
+			//This means we are assuming that the law set must only have core laws if it is to replace the old laws fully
+			var notOnlyCoreLaws = false;
+
+			foreach (var law in lawFromModule)
+			{
+				if (law.Key != AiPlayer.LawOrder.Core)
+				{
+					notOnlyCoreLaws = true;
+					break;
+				}
+			}
+
+			SetLaws(lawFromModule, true, notOnlyCoreLaws);
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.ExpensiveName()} laws",
+				$"{interaction.Performer.ExpensiveName()} changes {gameObject.ExpensiveName()} laws");
+		}
 
 		//Add one law
 		//Wont allow more than one traitor law
