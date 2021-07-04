@@ -37,6 +37,7 @@ public class GUI_IDConsole : NetTab
 
 	private void Awake()
 	{
+		mainPage.SetActive(true);
 		//cache the entries for quick lookup
 		foreach (var entry in GetComponentsInChildren<GUI_IDConsoleEntry>())
 		{
@@ -49,6 +50,7 @@ public class GUI_IDConsole : NetTab
 				occupationToEntry.Add(entry.Occupation, entry);
 			}
 		}
+		mainPage.SetActive(false);
 	}
 
 	public override void OnEnable()
