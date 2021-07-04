@@ -241,7 +241,15 @@ namespace Messages.Server.SpritesMessages
 						int SpriteID = reader.ReadInt32();
 						if (ProcessSection)
 						{
-							SP.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[SpriteID], Network: false);
+							try
+							{
+								SP.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[SpriteID], Network: false);
+							}
+							catch (Exception e)
+							{
+								Logger.Log("ddD");
+							}
+
 						}
 						else
 						{
