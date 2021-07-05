@@ -49,11 +49,11 @@ namespace Objects.Construction
 			switch (constructionState)
 			{
 				case State.initial:
-					spriteHandler.SetSpriteSO(initialStateSprites, NewvariantIndex: SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
+					spriteHandler.SetSpriteSO(initialStateSprites, newVariantIndex: SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
 					break;
 				case State.wiresAdded:
 					lightSource.ServerChangeLightState(LightMountState.None);
-					spriteHandler.SetSpriteSO(wiresAddedStateSprites, NewvariantIndex: SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
+					spriteHandler.SetSpriteSO(wiresAddedStateSprites, newVariantIndex: SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
 					break;
 				case State.ready:
 				default:

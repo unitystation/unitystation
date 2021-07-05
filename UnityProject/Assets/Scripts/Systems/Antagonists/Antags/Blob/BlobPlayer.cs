@@ -1532,7 +1532,7 @@ namespace Blob
 				blobStructure.lightSprite.Color.a = 0.2f;
 			}
 
-			blobStructure.spriteHandler.SetSpriteSO(blobStructure.activeSprite, NewvariantIndex: Random.Range(0, blobStructure.activeSprite.Variance.Count));
+			blobStructure.spriteHandler.SetSpriteSO(blobStructure.activeSprite, newVariantIndex: Random.Range(0, blobStructure.activeSprite.Variance.Count));
 			blobStructure.spriteHandler.SetColor(currentStrain.color);
 		}
 

@@ -57,8 +57,8 @@ namespace Systems.Spells.Wizard
 		{
 			string summonedName = summonedObject.ExpensiveName();
 			Chat.AddActionMsgToChat(summonedObject,
-					"<color='red'>You feel a magical force transposing you!</color>",
-					$"<color='red'>The {summonedName} suddenly disappears!</color>");
+				"<color=red>You feel a magical force transposing you!</color>",
+				$"<color=red>The {summonedName} suddenly disappears!</color>");
 
 			TeleportObjectToPosition(summonedObject, caster.Script.WorldPos);
 
@@ -68,11 +68,11 @@ namespace Systems.Spells.Wizard
 				Inventory.ServerAdd(pickupable, slot);
 
 				Chat.AddActionMsgToChat(caster.GameObject, $"The {summonedName} appears in your hand!",
-					$"<color='red'>A {summonedName} suddenly appears in {caster.Script.visibleName}'s hand!</color>");
+					$"<color=red>A {summonedName} suddenly appears in {caster.Script.visibleName}'s hand!</color>");
 			}
 			else
 			{
-				string message = $"<color='red'>The {summonedName} suddenly appears!</color>";
+				string message = $"<color=red>The {summonedName} suddenly appears!</color>";
 				Chat.AddActionMsgToChat(caster.GameObject, message, message);
 			}
 		}
