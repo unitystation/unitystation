@@ -357,7 +357,7 @@ namespace HealthV2
 					healthStateController.SetFireStacks(0);
 				}
 
-				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700);
 			}
 		}
 

@@ -214,10 +214,18 @@ namespace Systems.Atmospherics
 			}
 		}
 
+		/// <summary>
 		/// Same as ExposeHotspot but allows providing a world position and handles the conversion
-		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition)
+		/// </summary>
+		/// <param name="tileWorldPosition">World position</param>
+		/// <param name="exposeTemperature">The temperature the hotspot will think it is for validation, leave to -1 for
+		/// the current gas mix temperature</param>
+		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
+		/// is greater than the current gas mix temperature when true</param>
+		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float exposeTemperature = -1f, bool changeTemp = false)
 		{
-			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)));
+			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)),
+				exposeTemperature, changeTemp);
 		}
 
 		public void RemoveHotspot(MetaDataNode node)
@@ -234,14 +242,22 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		public void ExposeHotspot(Vector3Int localPosition)
+		/// <summary>
+		/// Creates a hotspot if the tile is hot enough
+		/// </summary>
+		/// <param name="localPosition">Local position on the matrix</param>
+		/// <param name="exposeTemperature">The temperature the hotspot will think it is for validation, leave to -1 for
+		/// the current gas mix temperature</param>
+		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
+		/// is greater than the current gas mix temperature when true</param>
+		public void ExposeHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false)
 		{
 			//Try add new hotspot if we dont already have one or is null
 			if (hotspots.TryGetValue(localPosition, out var hotspot) == false || hotspot.HasHotspot == false)
 			{
 				Profiler.BeginSample("MarkForAddition");
 
-				InternalTryAddHotspot(localPosition);
+				InternalTryAddHotspot(localPosition, exposeTemperature, changeTemp);
 
 				Profiler.EndSample();
 
@@ -260,26 +276,36 @@ namespace Systems.Atmospherics
 			Expose(localPosition, localPosition + Vector3Int.down);
 		}
 
-		private void InternalTryAddHotspot(Vector3Int localPosition)
+		private void InternalTryAddHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false)
 		{
 			MetaDataNode node = metaDataLayer.Get(localPosition, false);
 
-			if(IsAllowedHotSpot(node) == false) return;
+			if(IsAllowedHotSpot(node, exposeTemperature, changeTemp) == false) return;
 
 			//Igniting
 			//Addition will be done later in Update
 			hotspotsToAdd.Add(new Hotspot(node));
 		}
 
-		private bool IsAllowedHotSpot(MetaDataNode node)
+		private bool IsAllowedHotSpot(MetaDataNode node, float exposeTemperature = -1f, bool changeTemp = false)
 		{
 			//Only need to check stuff which has nodes as we are checking gas contents afterwards
 			if(node == null) return false;
 
 			GasMix gasMix = node.GasMix;
 
+			if (exposeTemperature < 0)
+			{
+				exposeTemperature = gasMix.Temperature;
+			}
+			else if(changeTemp)
+			{
+				//Set temperature if required
+				gasMix.SetTemperature(exposeTemperature);
+			}
+
 			//Minimum temperature requirement
-			if(gasMix.Temperature < AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST) return false;
+			if(exposeTemperature < AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST) return false;
 
 			//Minimum oxygen requirement
 			if(gasMix.GetMoles(Gas.Oxygen) < 0.5f) return false;

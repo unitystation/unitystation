@@ -18,6 +18,9 @@ namespace Weapons.Projectiles.Behaviours
 		[SerializeField, ShowIf(nameof(setsMobsOnFire)), Range(1, 10)]
 		private int fireStacksToGive = 4;
 
+		[SerializeField]
+		private float fireHotspotTemperature = 700;
+
 		private Transform thisTransform;
 
 		private Vector3Int currentTileWorldPos = default;
@@ -64,7 +67,7 @@ namespace Weapons.Projectiles.Behaviours
 		private void CreateHotSpot()
 		{
 			var reactionManager = MatrixManager.AtPoint(currentTileWorldPos, true).ReactionManager;
-			reactionManager.ExposeHotspotWorldPosition(currentTileWorldPos.To2Int());
+			reactionManager.ExposeHotspotWorldPosition(currentTileWorldPos.To2Int(), fireHotspotTemperature, true);
 		}
 	}
 }

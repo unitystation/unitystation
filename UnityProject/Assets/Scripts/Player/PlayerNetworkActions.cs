@@ -876,11 +876,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
 		if (reactionManager == null) return;
 
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition());
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 1000, true);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 1000, true);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 1000, true);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 1000, true);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 1000, true);
 	}
 
 	[Command]

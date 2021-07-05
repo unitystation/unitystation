@@ -371,10 +371,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Server]
 	public void OnExposed(FireExposure exposure)
 	{
+		if (Resistances.Flammable == false) return;
+
 		Profiler.BeginSample("IntegrityExpose");
 		if (exposure.Temperature > HeatResistance)
 		{
-			ApplyDamage(exposure.StandardDamage(), AttackType.Fire, DamageType.Burn);
+			//We enable the update, instead of doing damage as that will cause thread errors further downstream
+			UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
 		}
 		OnExposedEvent.Invoke();
 		Profiler.EndSample();

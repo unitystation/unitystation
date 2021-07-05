@@ -255,7 +255,7 @@ namespace Objects.Engineering
 
 				//Try start fire if possible
 				var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
-				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int());
+				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int(), 1000);
 
 				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: gameObject);
 			}
