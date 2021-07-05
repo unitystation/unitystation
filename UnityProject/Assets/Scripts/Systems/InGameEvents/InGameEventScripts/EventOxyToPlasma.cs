@@ -70,7 +70,7 @@ namespace InGameEvents
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			var oxyMoles = gasMix.GetMoles(Gas.Oxygen);
 

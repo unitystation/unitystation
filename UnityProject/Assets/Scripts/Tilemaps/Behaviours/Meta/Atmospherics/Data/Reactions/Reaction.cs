@@ -9,7 +9,7 @@ namespace Systems.Atmospherics
 	{
 		bool Satisfies(GasMix gasMix);
 
-		void React(GasMix gasMix, Vector3 tilePos, Matrix matrix);
+		void React(GasMix gasMix, MetaDataNode node);
 	}
 
 	public struct GasReactions
@@ -21,6 +21,7 @@ namespace Systems.Atmospherics
 
 		//list of gas reactions:
 		private static GasReactions TritiumFire;
+		private static GasReactions PlasmaFire;
 		private static GasReactions FreonFire;
 		private static GasReactions Fusion;
 		private static GasReactions NO2Form;
@@ -48,6 +49,43 @@ namespace Systems.Atmospherics
 				{
 					{
 						Gas.Tritium,
+						new GasReactionData()
+						{
+							minimumMolesToReact = 0.01f
+						}
+					},
+
+					{
+						Gas.Oxygen,
+						new GasReactionData()
+						{
+							minimumMolesToReact = 0.01f
+						}
+					}
+				},
+
+				minimumTemperature: 373.15f,
+				maximumTemperature: 10000000000f,
+				minimumPressure: 0f,
+				maximumPressure: 10000000000f,
+				minimumMoles: 0.01f,
+				maximumMoles: 10000000000f,
+				energyChange: 0f,
+				addToBaseReactions: true
+			);
+
+			#endregion
+
+			#region PlasmaFire
+
+			PlasmaFire = new GasReactions(
+
+				reaction: new PlasmaFireReaction(),
+
+				gasReactionData: new Dictionary<GasSO, GasReactionData>()
+				{
+					{
+						Gas.Plasma,
 						new GasReactionData()
 						{
 							minimumMolesToReact = 0.01f

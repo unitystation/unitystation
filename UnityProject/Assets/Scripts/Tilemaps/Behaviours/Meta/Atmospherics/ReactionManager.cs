@@ -17,6 +17,7 @@ namespace Systems.Atmospherics
 		private float PushMultiplier = 5;
 
 		private GameObject fireLight = null;
+		public GameObject FireLightPrefab => fireLight;
 
 		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
 
@@ -102,15 +103,7 @@ namespace Systems.Atmospherics
 				{
 					addedHotspot.node.Hotspot = addedHotspot;
 					hotspots.TryAdd(addedHotspot.node.Position, addedHotspot.node);
-					tileChangeManager.AddOverlay(
-						new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
-						TileType.Effects, "Fire");
-
-					if (fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
-
-					var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
-
-					fireLightDictionary.Add(addedHotspot.node.Position, fireLightSpawn.GameObject);
+					addedHotspot.OnCreation();
 				}
 			}
 
@@ -122,28 +115,16 @@ namespace Systems.Atmospherics
 				    // could happen if multiple things try to remove a hotspot to the same tile)
 				    affectedNode.HasHotspot)
 				{
+					affectedNode.Hotspot.OnRemove();
 					affectedNode.Hotspot = null;
-					tileChangeManager.RemoveOverlaysOfType(
-						new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
-						LayerType.Effects, OverlayType.Fire);
 					hotspots.TryRemove(removedHotspot, out var value);
-
-					if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
-
-					var fireObject = fireLightDictionary[affectedNode.Position];
-
-					if (fireObject != null)
-					{
-						_ = Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
-					}
-
-					fireLightDictionary.Remove(affectedNode.Position);
 				}
 			}
 
 			hotspotsToAdd.Clear();
 			hotspotsToRemove.Clear();
 
+			//Do hotspot checks every 0.5 seconds
 			timePassed += Time.deltaTime;
 			if (timePassed < 0.5)
 			{
@@ -222,16 +203,13 @@ namespace Systems.Atmospherics
 			//(but we actually perform the add / remove after this loop so we don't concurrently modify the dict)
 			foreach (MetaDataNode node in hotspots.Values)
 			{
-				if (node.Hotspot != null)
+				if (IsAllowedHotSpot(node))
 				{
-					if (PlasmaFireReaction.CanHoldHotspot(node.GasMix))
-					{
-						node.Hotspot.Process();
-					}
-					else
-					{
-						RemoveHotspot(node);
-					}
+					node.Hotspot.Process();
+				}
+				else
+				{
+					RemoveHotspot(node);
 				}
 			}
 		}
@@ -258,33 +236,62 @@ namespace Systems.Atmospherics
 
 		public void ExposeHotspot(Vector3Int localPosition)
 		{
-			if (!hotspots.ContainsKey(localPosition) || hotspots[localPosition].Hotspot == null)
+			//Try add new hotspot if we dont already have one or is null
+			if (hotspots.TryGetValue(localPosition, out var hotspot) == false || hotspot.HasHotspot == false)
 			{
 				Profiler.BeginSample("MarkForAddition");
-				MetaDataNode node = metaDataLayer.Get(localPosition);
-				GasMix gasMix = node.GasMix;
 
-				if (PlasmaFireReaction.CanHoldHotspot(gasMix))
-				{
-					// igniting
-					//addition will be done later in Update
-					hotspotsToAdd.Add(new Hotspot(node));
-				}
+				InternalTryAddHotspot(localPosition);
 
 				Profiler.EndSample();
+
+				//Return here as InternalTryAddHotspot only adds it to the queue for new hotspots
+				//So hotspot wont be available for next section yet
+				return;
 			}
 
-			if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
+			//If we already have hotspot expose everything on this tile
+			Expose(localPosition, localPosition);
+
+			//Expose impassable things on the adjacent tiles too
+			Expose(localPosition, localPosition + Vector3Int.right);
+			Expose(localPosition, localPosition + Vector3Int.left);
+			Expose(localPosition, localPosition + Vector3Int.up);
+			Expose(localPosition, localPosition + Vector3Int.down);
+		}
+
+		private void InternalTryAddHotspot(Vector3Int localPosition)
+		{
+			MetaDataNode node = metaDataLayer.Get(localPosition, false);
+
+			if(IsAllowedHotSpot(node) == false) return;
+
+			//Igniting
+			//Addition will be done later in Update
+			hotspotsToAdd.Add(new Hotspot(node));
+		}
+
+		private bool IsAllowedHotSpot(MetaDataNode node)
+		{
+			//Only need to check stuff which has nodes as we are checking gas contents afterwards
+			if(node == null) return false;
+
+			GasMix gasMix = node.GasMix;
+
+			//Minimum temperature requirement
+			if(gasMix.Temperature < AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST) return false;
+
+			//Minimum oxygen requirement
+			if(gasMix.GetMoles(Gas.Oxygen) < 0.5f) return false;
+
+			//Minimum plasma/tritium requirement
+			if (gasMix.GetMoles(Gas.Plasma) < 0.5f && gasMix.GetMoles(Gas.Tritium) < 0.5f)
 			{
-				//expose everything on this tile
-				Expose(localPosition, localPosition);
-
-				//expose impassable things on the adjacent tile
-				Expose(localPosition, localPosition + Vector3Int.right);
-				Expose(localPosition, localPosition + Vector3Int.left);
-				Expose(localPosition, localPosition + Vector3Int.up);
-				Expose(localPosition, localPosition + Vector3Int.down);
+				return false;
 			}
+
+			//Passed all checks, this position is allowed a hotspot
+			return true;
 		}
 
 		private void Expose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)

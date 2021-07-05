@@ -14,11 +14,10 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			var energyReleased = 0f;
 			var oldHeatCap = gasMix.WholeHeatCapacity;
-
 			var burnedFuel = 0f;
 
 			if (gasMix.GetMoles(Gas.Oxygen) < gasMix.GetMoles(Gas.Tritium) || AtmosDefines.MINIMUM_TRIT_OXYBURN_ENERGY > gasMix.InternalEnergy)
@@ -39,7 +38,7 @@ namespace Systems.Atmospherics
 
 				if (rnd.Next(0,10) == 0 && burnedFuel > AtmosDefines.TRITIUM_MINIMUM_RADIATION_ENERGY)
 				{
-					RadiationManager.Instance.RequestPulse(matrix, tilePos.RoundToInt(), energyReleased / AtmosDefines.TRITIUM_BURN_RADIOACTIVITY_FACTOR, rnd.Next(Int32.MinValue, Int32.MaxValue));
+					RadiationManager.Instance.RequestPulse(node.PositionMatrix, node.Position, energyReleased / AtmosDefines.TRITIUM_BURN_RADIOACTIVITY_FACTOR, rnd.Next(Int32.MinValue, Int32.MaxValue));
 				}
 
 				gasMix.AddGas(Gas.WaterVapor, burnedFuel / AtmosDefines.TRITIUM_BURN_OXY_FACTOR);
@@ -52,6 +51,12 @@ namespace Systems.Atmospherics
 				{
 					gasMix.SetTemperature((gasMix.Temperature * oldHeatCap + energyReleased) / newHeatCap);
 				}
+			}
+
+			//Create fire if possible
+			if (gasMix.Temperature > AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST)
+			{
+				node.ReactionManager.ExposeHotspot(node.Position);
 			}
 		}
 	}

@@ -6,11 +6,17 @@ namespace Systems.Atmospherics
 {
 	public static class AtmosDefines
 	{
+		public static readonly float MINIMUM_MOLE_COUNT	= 0.01f;
+		public static readonly float FIRE_MINIMUM_TEMPERATURE_TO_EXIST	= 373.15f;
+
 		//Plasma fire properties
 		public static readonly float OXYGEN_BURN_RATE_BASE = 1.4f;
 		public static readonly float PLASMA_BURN_RATE_DELTA = 9f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_NEEDED = 2f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_PLASMA_RATIO = 30f;
+		public static readonly float PLASMA_UPPER_TEMPERATURE = 1643.15f;
+		public static readonly float PLASMA_MINIMUM_BURN_TEMPERATURE = 373.15f;
+		public static readonly int PLASMA_OXYGEN_FULLBURN = 10;
 		public static readonly float FIRE_CARBON_ENERGY_RELEASED = 100000f;	//Amount of heat released per mole of burnt carbon into the tile
 		public static readonly float FIRE_HYDROGEN_ENERGY_RELEASED = 280000f;  //Amount of heat released per mole of burnt hydrogen and/or tritium(hydrogen isotope)
 
