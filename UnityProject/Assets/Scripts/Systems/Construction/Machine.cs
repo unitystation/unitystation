@@ -10,7 +10,7 @@ namespace Objects.Machines
 	/// <summary>
 	/// Main Component for Machine deconstruction
 	/// </summary>
-	public class Machine : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class Machine : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 		/// <summary>
 		/// Machine parts used to build this machine
@@ -140,6 +140,49 @@ namespace Objects.Machines
 		public void SetPartsInFrame(IDictionary<GameObject, int> partsInFrame)
 		{
 			this.partsInFrame = partsInFrame;
+
+			if (partsInFrame == null)
+			{
+				Logger.LogError($"PartsInFrame was null on {gameObject.ExpensiveName()}");
+				return;
+			}
+
+			var toRefresh = GetComponents<IRefreshParts>();
+
+			foreach (var refresh in toRefresh)
+			{
+				refresh.RefreshParts(partsInFrame);
+			}
 		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//Only do so on mapping
+			if(partsInFrame == null || partsInFrame.Count == 0) return;
+
+			if (basicPartsUsed == null)
+			{
+				Logger.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
+				return;
+			}
+
+			var toRefresh = GetComponents<IInitialParts>();
+
+			foreach (var refresh in toRefresh)
+			{
+				refresh.InitialParts(basicPartsUsed);
+			}
+		}
+	}
+
+	public interface IRefreshParts
+	{
+		void RefreshParts(IDictionary<GameObject, int> partsInFrame);
+	}
+
+	public interface IInitialParts
+	{
+		//This will be called before RefreshParts when building a new machine
+		void InitialParts(IDictionary<ItemTrait, int> basicPartsUsed);
 	}
 }
