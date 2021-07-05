@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: Cayenne
-  knockedDownRotation: 0
   deathSounds: []
   randomSounds: []
   playRandomSoundTimer: 3
@@ -101,7 +100,7 @@ PrefabInstance:
         type: 3}
       propertyPath: mobAI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2696443875438064445}
     m_RemovedComponents:
     - {fileID: 4589139352508196882, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d, type: 3}
