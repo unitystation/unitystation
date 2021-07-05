@@ -111,7 +111,7 @@ namespace UI.Action
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
 				var _UIAction = Instance.DicIActionGUI[iActionGUI];
-				_UIAction.IconFront.SetSpriteSO(sprite, Network: networked);
+				_UIAction.IconFront.SetSpriteSO(sprite, networked: networked);
 				_UIAction.IconFront.SetPaletteOfCurrentSprite(palette);
 			}
 			else
