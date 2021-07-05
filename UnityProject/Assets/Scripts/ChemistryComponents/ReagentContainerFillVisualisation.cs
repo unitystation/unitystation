@@ -79,7 +79,7 @@ public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 		// Apply new state to sprite render
 		var newSprite = GetSpriteByFill(newState.fillPercent);
 		fillSpriteHandler.SetSprite(newSprite);
-		fillSpriteHandler.SetColor(newState.mixColor, NetWork: false);
+		fillSpriteHandler.SetColor(newState.mixColor, networked: false);
 	}
 
 	private Sprite GetSpriteByFill(float fillPercent)

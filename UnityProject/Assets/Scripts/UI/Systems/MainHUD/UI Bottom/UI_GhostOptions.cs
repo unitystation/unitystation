@@ -87,7 +87,7 @@ namespace UI.Systems.Ghost
 
 		public void NewGhostRoleAvailable(GhostRoleData role)
 		{
-			ghostRoleSpriteHandler.SetSpriteSO(role.Sprite, Network: false);
+			ghostRoleSpriteHandler.SetSpriteSO(role.Sprite, networked: false);
 			if (roleBtnAnimating) return; // Drop rapid subsequent notifications
 
 			StartCoroutine(GhostRoleNotify(role));
@@ -107,7 +107,7 @@ namespace UI.Systems.Ghost
 			ghostRoleAnimator.TriggerAnimation();
 
 			yield return WaitFor.Seconds(5);
-			ghostRoleSpriteHandler.ChangeSprite(0, Network: false);
+			ghostRoleSpriteHandler.ChangeSprite(0, networked: false);
 
 			roleBtnAnimating = false;
 		}

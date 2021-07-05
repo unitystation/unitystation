@@ -60,7 +60,7 @@ namespace Messages.Server.SpritesMessages
 				{
 					var argument = spriteUpdateEntry.arg[argumentIndex];
 					argumentIndex++;
-					spriteHandler.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[argument], Network: false);
+					spriteHandler.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[argument], networked: false);
 				}
 				else if (spriteOperation == SpriteOperation.VariantIndex)
 				{
@@ -94,7 +94,7 @@ namespace Messages.Server.SpritesMessages
 				}
 				else if (spriteOperation == SpriteOperation.ClearPallet)
 				{
-					spriteHandler.ClearPallet(false);
+					spriteHandler.ClearPalette(false);
 				}
 				else if (spriteOperation == SpriteOperation.SetColour)
 				{
@@ -241,7 +241,7 @@ namespace Messages.Server.SpritesMessages
 						int SpriteID = reader.ReadInt32();
 						if (ProcessSection)
 						{
-							SP.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[SpriteID], Network: false);
+							SP.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[SpriteID], networked: false);
 						}
 						else
 						{
@@ -256,7 +256,7 @@ namespace Messages.Server.SpritesMessages
 						int Variant = reader.ReadInt32();
 						if (ProcessSection)
 						{
-							SP.ChangeSpriteVariant(Variant, NetWork: false);
+							SP.ChangeSpriteVariant(Variant, networked: false);
 						}
 						else
 						{
@@ -334,7 +334,7 @@ namespace Messages.Server.SpritesMessages
 					{
 						if (ProcessSection)
 						{
-							SP.ClearPallet(false);
+							SP.ClearPalette(false);
 						}
 						else
 						{
@@ -439,7 +439,7 @@ namespace Messages.Server.SpritesMessages
 					writer.WriteByte((byte) 7);
 				}
 
-				if (spriteChange.ClearPallet)
+				if (spriteChange.ClearPalette)
 				{
 					writer.WriteByte((byte) 8);
 				}
@@ -450,11 +450,11 @@ namespace Messages.Server.SpritesMessages
 					writer.WriteColor(spriteChange.SetColour.Value);
 				}
 
-				if (spriteChange.Pallet != null)
+				if (spriteChange.Palette != null)
 				{
 					writer.WriteByte((byte) 10);
-					writer.WriteByte((byte) spriteChange.Pallet.Count);
-					foreach (Color Colour in spriteChange.Pallet)
+					writer.WriteByte((byte) spriteChange.Palette.Count);
+					foreach (Color Colour in spriteChange.Palette)
 					{
 						writer.WriteColor(Colour);
 					}
