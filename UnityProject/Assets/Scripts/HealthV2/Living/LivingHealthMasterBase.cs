@@ -355,9 +355,10 @@ namespace HealthV2
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
 					healthStateController.SetFireStacks(0);
+					return;
 				}
 
-				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700);
+				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 500, true);
 			}
 		}
 

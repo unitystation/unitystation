@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Atmospherics;
 using Systems.Explosions;
 using AddressableReferences;
 using DatabaseAPI;
@@ -253,6 +254,14 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void PeriodicUpdateBurn()
 	{
+		//Instantly stop burning if there's no oxygen at this location
+		MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
+		if (node?.GasMix.GetMoles(Gas.Oxygen) < 1)
+		{
+			SyncOnFire(true, false);
+			return;
+		}
+		
 		ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
 	}
 
