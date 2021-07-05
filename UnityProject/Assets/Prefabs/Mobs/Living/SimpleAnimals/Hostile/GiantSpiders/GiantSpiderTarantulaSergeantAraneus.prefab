@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: Sergeant Araneus
-  knockedDownRotation: 0
   deathSounds: []
   randomSounds: []
   playRandomSoundTimer: 3
@@ -33,6 +32,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b66515ad7b970f54ca08f76c0b8efd62,
         type: 3}
+    - target: {fileID: 2072128766881217317, guid: 8f91a231963bd354ea7ab5c9f9e87335,
+        type: 3}
+      propertyPath: mobAI
+      value: 
+      objectReference: {fileID: 5297666000700073382}
     - target: {fileID: 6256730927213014420, guid: 8f91a231963bd354ea7ab5c9f9e87335,
         type: 3}
       propertyPath: m_RootOrder

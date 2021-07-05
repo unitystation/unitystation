@@ -49,6 +49,11 @@ PrefabInstance:
       propertyPath: canBreathAnywhere
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: canBreatheAnywhere
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 89586231598816738, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -64,6 +69,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxDamage
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: mobName
+      value: shade
       objectReference: {fileID: 0}
     - target: {fileID: 3085675842200537965, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
