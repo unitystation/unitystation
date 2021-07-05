@@ -1,19 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using Light2D;
+using UnityEngine;
+using Mirror;
 
 namespace Core.Lighting_System.Light2D
 {
-	public class NetworkLight: MonoBehaviour
+	public class NetworkLight: NetworkBehaviour
 	{
-		// Start is called before the first frame update
-		void Start()
-		{
+		private Color baseColour;
+		public Color BaseColour => baseColour;
 
+		private LightSprite lightSprite;
+
+		[SyncVar(hook = nameof(SyncColour))]
+		private Color currentColour;
+
+		private void Awake()
+		{
+			lightSprite = GetComponent<LightSprite>();
+			baseColour = lightSprite.Color;
 		}
 
-		// Update is called once per frame
-		void Update()
+		[Server]
+		public void SetColour(Color newColour)
 		{
+			currentColour = newColour;
+		}
 
+		private void SyncColour(Color oldColour, Color newColour)
+		{
+			lightSprite.Color = newColour;
 		}
 	}
 }

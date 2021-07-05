@@ -286,6 +286,24 @@ public class TileChangeManager : MonoBehaviour
 		return metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
 	}
 
+	[Server]
+	public bool HasOverlayOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType)
+	{
+		return metaTileMap.HasOverlayOfType(cellPosition, layerType, overlayType);
+	}
+
+	/// <summary>
+	/// Gets the colour of the first tile of this type
+	/// </summary>
+	[Server]
+	public Color? GetColourOfFirstTile(Vector3Int cellPosition, OverlayType overlayType, LayerType layerType)
+	{
+		var overlays = metaTileMap.GetOverlayPosByType(cellPosition, layerType, overlayType);
+		if (overlays.Count == 0) return null;
+
+		return metaTileMap.GetColour(overlays.First(), layerType);
+	}
+
 	#endregion
 
 

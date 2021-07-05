@@ -563,6 +563,35 @@ namespace TileManagement
 			return null;
 		}
 
+		/// <summary>
+		/// Gets the colour of the tile with the specified layer type at the specified cell position
+		/// </summary>
+		/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+		/// as world position.</param>
+		/// <param name="layerType"></param>
+		/// <returns></returns>
+		public Color? GetColour(Vector3Int cellPosition, LayerType layerType)
+		{
+			if (layerType == LayerType.Objects) return null;
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				TileLocation TileLcation = null;
+				lock (PresentTiles)
+				{
+					PresentTiles[layer].TryGetValue(cellPosition, out TileLcation);
+				}
+
+				return TileLcation?.Colour;
+				//return layer.GetTile(cellPosition);
+			}
+			else
+			{
+				LogMissingLayer(cellPosition, layerType);
+			}
+
+			return null;
+		}
+
 
 		/// <summary>
 		/// used to check if the tiles are same for networking
@@ -1145,6 +1174,54 @@ namespace TileManagement
 			return false;
 		}
 
+		/// <summary>
+		/// Whether a tile has this overlay already
+		/// </summary>
+		public bool HasOverlayOfType(Vector3Int position, LayerType layerType, OverlayType overlayTypeWanted)
+		{
+			if (layerType == LayerType.Objects)
+			{
+				Logger.LogError("Please use get objects instead of get tile");
+				return false;
+			}
+
+			TileLocation tileLocation = null;
+			OverlayTile overlayTile = null;
+			position.z = 1;
+
+			if (Layers.TryGetValue(layerType, out var layer))
+			{
+				//Go through overlays under the overlay limit. The first overlay checked will be at z = 1.
+				var count = 0;
+				while (count < OVERLAY_LIMIT)
+				{
+					lock (PresentTiles)
+					{
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
+					}
+
+					if (tileLocation != null)
+					{
+						overlayTile = tileLocation.Tile as OverlayTile;
+
+						if (overlayTile != null && overlayTile.OverlayType == overlayTypeWanted)
+						{
+							return true;
+						}
+					}
+
+					position.z++;
+					count++;
+				}
+			}
+			else
+			{
+				LogMissingLayer(position, layerType);
+			}
+
+			return false;
+		}
+
 		public void NotifyRegisterTilePotentialMatrixChange(Vector3Int position)
 		{
 			if (Application.isPlaying && CustomNetworkManager.Instance._isServer)
@@ -1618,6 +1695,10 @@ namespace TileManagement
 		Miasma,
 		Nitryl,
 		Tritium,
-		Freon
+		Freon,
+		FireSparkles,
+		FireOverCharged,
+		FireFusion,
+		FireRainbow
 	}
 }
