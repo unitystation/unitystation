@@ -103,7 +103,7 @@ namespace Systems.Clothing
 			if (myItem.ItemSprites.IsPaletted)
 			{
 				//	myItem.SetPaletteOfCurrentSprite(palette);
-				clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette, Network: false);
+				clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette, networked: false);
 				pickupable.SetPalette(palette);
 			}
 		}

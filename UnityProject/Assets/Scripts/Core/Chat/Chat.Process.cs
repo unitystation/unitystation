@@ -300,7 +300,7 @@ public partial class Chat
 		}
 		else if ((modifiers & ChatModifier.ColdlyState) == ChatModifier.ColdlyState)
 		{
-			verb = " coldly states,";
+			verb = "coldly states,";
 		}
 		else if ((modifiers & ChatModifier.Exclaim) == ChatModifier.Exclaim)
 		{
