@@ -239,9 +239,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 		public bool PushTexture = false;
 		public bool Empty = false;
 		public bool PushClear = false;
-		public bool ClearPallet = false;
+		public bool ClearPalette = false;
 		public Color? SetColour = null;
-		public List<Color> Pallet = null;
+		public List<Color> Palette = null;
 		public bool AnimateOnce = false;
 
 		public void Clean()
@@ -252,9 +252,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 			PushTexture = false;
 			Empty = false;
 			PushClear = false;
-			ClearPallet = false;
+			ClearPalette = false;
 			SetColour = null;
-			Pallet = null;
+			Palette = null;
 			AnimateOnce = false;
 		}
 
@@ -289,10 +289,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 				Empty = spriteChange.Empty;
 			}
 
-			if (spriteChange.ClearPallet)
+			if (spriteChange.ClearPalette)
 			{
-				if (Pallet != null) Pallet = null;
-				ClearPallet = spriteChange.ClearPallet;
+				if (Palette != null) Palette = null;
+				ClearPalette = spriteChange.ClearPalette;
 			}
 
 			if (spriteChange.PushClear)
@@ -312,10 +312,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 				SetColour = spriteChange.SetColour;
 			}
 
-			if (spriteChange.Pallet != null)
+			if (spriteChange.Palette != null)
 			{
-				if (ClearPallet) ClearPallet = false;
-				Pallet = spriteChange.Pallet;
+				if (ClearPalette) ClearPalette = false;
+				Palette = spriteChange.Palette;
 			}
 
 			if (pool)
