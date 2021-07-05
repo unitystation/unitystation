@@ -5,6 +5,7 @@ using Mirror;
 using ScriptableObjects;
 using UnityEngine;
 using Systems.Electricity;
+using Systems.Explosions;
 using Random = UnityEngine.Random;
 using Objects.Construction;
 
@@ -49,7 +50,7 @@ namespace Objects.Lighting
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 		private SOLightMountState currentState;
-		private RegisterTile registerTile;
+		private ObjectBehaviour objectBehaviour;
 		private LightFixtureConstruction construction;
 
 		private ItemTrait traitRequired;
@@ -67,7 +68,7 @@ namespace Objects.Lighting
 
 		private void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
 			construction = GetComponent<LightFixtureConstruction>();
 			if (mLightRendererObject == null)
 			{
@@ -404,22 +405,10 @@ namespace Objects.Lighting
 			//Has to be broken and have power to spark
 			if (mState != LightMountState.Broken || powerState == PowerState.Off) return;
 
-			//25% chance to do effect and not already doing an effect
-			if (DMMath.Prob(75) || currentSparkEffect != null) return;
+			//Not already doing an effect
+			if (currentSparkEffect != null) return;
 
-			var worldPos = registerTile.WorldPositionServer;
-
-			var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);
-			if (result.Successful)
-			{
-				currentSparkEffect = result.GameObject;
-
-				//Try start fire if possible
-				var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
-				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int(), 1000);
-
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: gameObject);
-			}
+			currentSparkEffect = SparkUtil.TrySpark(objectBehaviour);
 		}
 
 		#endregion
