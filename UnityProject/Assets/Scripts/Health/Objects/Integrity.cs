@@ -261,7 +261,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			SyncOnFire(true, false);
 			return;
 		}
-		
+
 		ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
 	}
 

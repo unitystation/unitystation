@@ -7,8 +7,15 @@ using System.Text;
 
 namespace Items.Atmospherics
 {
-	public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, IInteractable<PositionalHandApply>
+	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>, IInteractable<PositionalHandApply>
 	{
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return true;
+		}
+
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			var metaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.registerTile.WorldPositionServer, true).MetaDataLayer;
@@ -24,6 +31,8 @@ namespace Items.Atmospherics
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
+			if (interaction.TargetObject == gameObject) return;
+
 			if (interaction.TargetObject != null)
 			{
 				if (interaction.TargetObject.TryGetComponent(out GasContainer container))
