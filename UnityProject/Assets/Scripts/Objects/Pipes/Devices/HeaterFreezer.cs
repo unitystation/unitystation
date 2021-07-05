@@ -315,10 +315,10 @@ namespace Objects
 
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine($"Status: {state}");
-			stringBuilder.AppendLine($"Current Pipe Temperature: {CurrentTemperature}");
-			stringBuilder.AppendLine($"Minimum Temperature: {MinTemperature}");
-			stringBuilder.AppendLine($"Current Target Temperature: {TargetTemperature}");
-			stringBuilder.AppendLine($"Maximum Temperature: {MaxTemperature}");
+			stringBuilder.AppendLine($"Pipe Temp: {CurrentTemperature}\n");
+			stringBuilder.AppendLine($"Min Temp: {MinTemperature}");
+			stringBuilder.AppendLine($"Target Temp: {TargetTemperature}");
+			stringBuilder.AppendLine($"Max Temp: {MaxTemperature}");
 
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextData", Value = Encoding.UTF8.GetBytes(stringBuilder.ToString()) });

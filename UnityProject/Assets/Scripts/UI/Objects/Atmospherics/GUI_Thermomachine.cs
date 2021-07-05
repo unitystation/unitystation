@@ -30,10 +30,10 @@ namespace UI.Objects.Atmospherics
 
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine($"Status: {state}");
-			stringBuilder.AppendLine($"Current Pipe Temperature: {HeaterFreezer.CurrentTemperature}");
-			stringBuilder.AppendLine($"Minimum Temperature: {HeaterFreezer.MinTemperature}");
-			stringBuilder.AppendLine($"Current Target Temperature: {HeaterFreezer.TargetTemperature}");
-			stringBuilder.AppendLine($"Maximum Temperature: {HeaterFreezer.MaxTemperature}");
+			stringBuilder.AppendLine($"Pipe Temp: {HeaterFreezer.CurrentTemperature}\n");
+			stringBuilder.AppendLine($"Min Temp: {HeaterFreezer.MinTemperature}");
+			stringBuilder.AppendLine($"Target Temp: {HeaterFreezer.TargetTemperature}");
+			stringBuilder.AppendLine($"Max Temp: {HeaterFreezer.MaxTemperature}");
 
 			temperatureData.Value = stringBuilder.ToString();
 
