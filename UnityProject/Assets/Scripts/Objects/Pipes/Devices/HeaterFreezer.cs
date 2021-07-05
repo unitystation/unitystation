@@ -21,28 +21,45 @@ namespace Objects
 		private float initalMaxTemperature = 140;
 
 		private float minTemperature;
+		public float MinTemperature => minTemperature;
+
 		private float maxTemperature;
+		public float MaxTemperature => maxTemperature;
+
+		private float currentTemperature;
+		public float CurrentTemperature => currentTemperature;
 
 		[SerializeField]
 		private float targetTemperature = 298.15f;
+		public float TargetTemperature => targetTemperature;
 
 		[SerializeField]
 		private float idleWattUsage = 100;
 
 		[SerializeField]
 		private HeaterFreezerType type = HeaterFreezerType.Freezer;
+		public HeaterFreezerType Type => type;
 
 		private bool isOn;
+		public bool IsOn => isOn;
 
 		private float heatCapacity = 0;
 
 		private APCPoweredDevice apcPoweredDevice;
+		public APCPoweredDevice ApcPoweredDevice => apcPoweredDevice;
+
+		private bool updateUi;
 
 		public override void Awake()
 		{
 			base.Awake();
 
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)
@@ -58,6 +75,8 @@ namespace Objects
 			{
 				targetTemperature = maxTemperature;
 			}
+
+			UpdateGui();
 		}
 
 		public override void TickUpdate()
@@ -89,6 +108,9 @@ namespace Objects
 
 			gasMix.SetTemperature(DMMath.Lerp(gasMix.Temperature, targetTemperature, 0.5f));
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
+			currentTemperature = gasMix.Temperature;
+
+			ThreadSafeUpdateGui();
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
@@ -173,6 +195,8 @@ namespace Objects
 
 				maxTemperature = 293.15f + (initalMaxTemperature * maxTempRating);
 			}
+
+			UpdateGui();
 		}
 
 		public void InitialParts(IDictionary<ItemTrait, int> basicPartsUsed)
@@ -222,6 +246,19 @@ namespace Objects
 
 				maxTemperature = 293.15f + (initalMaxTemperature * maxTempRating);
 			}
+
+			UpdateGui();
+		}
+
+		public override void Interaction(HandApply interaction)
+		{
+			if (interaction.IsAltClick)
+			{
+				targetTemperature = type == HeaterFreezerType.Heater ? maxTemperature : minTemperature;
+				UpdateGui();
+			}
+
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.ThermoMachine, TabAction.Open);
 		}
 
 		public override void AiInteraction(AiActivate interaction)
@@ -235,10 +272,63 @@ namespace Objects
 			if (interaction.ClickType == AiActivate.ClickTypes.AltClick)
 			{
 				targetTemperature = type == HeaterFreezerType.Heater ? maxTemperature : minTemperature;
+				UpdateGui();
 			}
 		}
 
-		private enum HeaterFreezerType
+		public void TogglePower(bool newState)
+		{
+			isOn = newState;
+			UpdateGui();
+		}
+
+		public void ChangeTargetTemperature(int change)
+		{
+			targetTemperature += change;
+			targetTemperature = Mathf.Clamp(targetTemperature, minTemperature, maxTemperature);
+
+			UpdateGui();
+		}
+
+		private void ThreadSafeUpdateGui()
+		{
+			//We have to update Ui this way due to thread issues with calling NetworkTabManager stuff
+			if(updateUi) return;
+			updateUi = true;
+			UpdateManager.Add(Loop, 0.5f);
+		}
+
+		private void Loop()
+		{
+			UpdateGui();
+			updateUi = false;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
+		}
+
+		private void UpdateGui()
+		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.ThermoMachine);
+			if(peppers.Count == 0) return;
+
+			var state = ApcPoweredDevice.State == PowerState.Off ? "No Power" :
+				IsOn ? "On" : "Off";
+
+			var stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine($"Status: {state}");
+			stringBuilder.AppendLine($"Current Pipe Temperature: {CurrentTemperature}");
+			stringBuilder.AppendLine($"Minimum Temperature: {MinTemperature}");
+			stringBuilder.AppendLine($"Current Target Temperature: {TargetTemperature}");
+			stringBuilder.AppendLine($"Maximum Temperature: {MaxTemperature}");
+
+			List<ElementValue> valuesToSend = new List<ElementValue>();
+			valuesToSend.Add(new ElementValue() { Id = "TextData", Value = Encoding.UTF8.GetBytes(stringBuilder.ToString()) });
+			valuesToSend.Add(new ElementValue() { Id = "SliderPower", Value = Encoding.UTF8.GetBytes((IsOn ? 1 * 100 : 0).ToString()) });
+
+			// Update all UI currently opened.
+			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.ThermoMachine, TabAction.Update, valuesToSend.ToArray());
+		}
+
+		public enum HeaterFreezerType
 		{
 			Freezer,
 			Heater,

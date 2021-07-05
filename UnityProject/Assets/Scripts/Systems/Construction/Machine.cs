@@ -158,7 +158,7 @@ namespace Objects.Machines
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			//Only do so on mapping
-			if(partsInFrame == null || partsInFrame.Count == 0) return;
+			if(partsInFrame != null && partsInFrame.Count > 0) return;
 
 			if (basicPartsUsed == null)
 			{
