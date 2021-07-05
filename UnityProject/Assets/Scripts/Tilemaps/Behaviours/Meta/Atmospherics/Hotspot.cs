@@ -15,6 +15,7 @@ namespace Systems.Atmospherics
 		/// </summary>
 		public MetaDataNode node;
 
+		//The fire light on this hotspot's tile
 		private NetworkLight firelight;
 
 		//Overlay stuff
@@ -43,15 +44,30 @@ namespace Systems.Atmospherics
 
 		public void OnRemove()
 		{
-			//Remove fire overlay
+			//Remove fire overlays
 			node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(
 				node.Position, LayerType.Effects, OverlayType.Fire);
 
-			node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(
-				node.Position, LayerType.Effects, OverlayType.FireSparkles);
+			if (hasSparkle)
+			{
+				node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(
+					node.Position, LayerType.Effects, OverlayType.FireSparkles);
+			}
 
-			node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(
-				node.Position, LayerType.Effects, OverlayType.FireOverCharged);
+			if (hasOvercharge)
+			{
+				node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(
+					node.Position, LayerType.Effects, OverlayType.FireOverCharged);
+			}
+
+			if (hasFusion)
+			{
+				node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(
+					node.Position, LayerType.Effects, OverlayType.FireFusion);
+
+				node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(
+					node.Position, LayerType.Effects, OverlayType.FireRainbow);
+			}
 
 			//Despawn firelight
 			if (firelight != null)
