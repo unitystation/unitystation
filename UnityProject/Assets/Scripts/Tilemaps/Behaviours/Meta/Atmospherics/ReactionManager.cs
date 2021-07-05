@@ -322,6 +322,18 @@ namespace Systems.Atmospherics
 
 		private void Expose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)
 		{
+			try
+			{
+				InternalExpose(hotspotPosition, atLocalPosition);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		private void InternalExpose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)
+		{
 			Profiler.BeginSample("ExposureInit");
 			var isSideExposure = hotspotPosition != atLocalPosition;
 			//calculate world position
@@ -355,6 +367,14 @@ namespace Systems.Atmospherics
 				if (!metadata.IsOccupied)
 				{
 					//atmos can pass here, so no need to check side exposure (nothing to brush up against)
+					Profiler.EndSample();
+					return;
+				}
+
+				if (metadata.PositionMatrix.IsWallAt(atWorldPosition, true) ||
+				    metadata.PositionMatrix.IsWindowAt(atWorldPosition, true))
+				{
+					//Theres a wall or window so dont need to expose it
 					Profiler.EndSample();
 					return;
 				}

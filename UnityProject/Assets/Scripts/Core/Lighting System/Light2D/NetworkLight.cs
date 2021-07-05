@@ -19,6 +19,9 @@ namespace Core.Lighting_System.Light2D
 		{
 			lightSprite = GetComponent<LightSprite>();
 			baseColour = lightSprite.Color;
+
+			//Used to make mirror cache network identity so it wont do get component checks in atmos thread
+			var netIdSet = netId;
 		}
 
 		[Server]
