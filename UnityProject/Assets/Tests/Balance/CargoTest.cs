@@ -28,18 +28,14 @@ namespace Tests.Balance
 					var value = order.ContentSellPrice;
 					if (value < order.CreditCost)
 					{
-						if (order.Crate != null && order.Crate.TryGetComponent<Attributes>(out var crate))
+						//Check for within 10 percent
+						if (value > order.CreditCost - (order.CreditCost * 0.1f))
 						{
-							//Check for within 10 percent
-							if (crate.ExportCost > order.CreditCost - (order.CreditCost * 0.1f))
-							{
-								report.AppendLine("Found possible cargo order exploit in: ");
-								report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
-								report.AppendLine("The crate export cost within 10% of the sell price, the items might be too cheap!");
-								report.AppendFormat("\nBuy price: {0} Sell price: {1}\n\n", order.CreditCost, value);
-							}
+							report.AppendLine("Found possible cargo order exploit in: ");
+							report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
+							report.AppendLine("The export cost is within 10% of the sell price, the items might be too cheap!");
+							report.AppendFormat("\nBuy price: {0} Sell price: {1}\n\n", order.CreditCost, value);
 						}
-
 
 						continue;
 					}
