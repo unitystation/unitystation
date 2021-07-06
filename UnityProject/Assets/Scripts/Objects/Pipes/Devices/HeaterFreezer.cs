@@ -70,10 +70,10 @@ namespace Objects
 
 		public override void TickUpdate()
 		{
+			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
+
 			//Only work when powered and online
 			if(apcPoweredDevice.State == PowerState.Off || isOn == false) return;
-
-			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 
 			var airHeatCapacity = pipeData.mixAndVolume.WholeHeatCapacity;
 			var combinedHeatCapacity = heatCapacity + airHeatCapacity;
