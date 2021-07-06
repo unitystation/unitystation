@@ -73,19 +73,19 @@ namespace Objects
 			//Only work when powered and online
 			if(apcPoweredDevice.State == PowerState.Off || isOn == false) return;
 
-			var gasMix = pipeData.mixAndVolume.GetGasMix();
+			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 
-			var airHeatCapacity = gasMix.WholeHeatCapacity;
+			var airHeatCapacity = pipeData.mixAndVolume.WholeHeatCapacity;
 			var combinedHeatCapacity = heatCapacity + airHeatCapacity;
-			var oldTemperature = gasMix.Temperature;
+			var oldTemperature = pipeData.mixAndVolume.Temperature;
 
 			if (combinedHeatCapacity > 0)
 			{
 				var combinedEnergy = heatCapacity * targetTemperature + airHeatCapacity * oldTemperature;
-				gasMix.SetTemperature(combinedEnergy / combinedHeatCapacity);
+				pipeData.mixAndVolume.Temperature = combinedEnergy / combinedHeatCapacity;
 			}
 
-			var temperatureDelta = Mathf.Abs(oldTemperature - gasMix.Temperature);
+			var temperatureDelta = Mathf.Abs(oldTemperature - pipeData.mixAndVolume.Temperature);
 			if (temperatureDelta > 1)
 			{
 				apcPoweredDevice.Wattusage = (heatCapacity * temperatureDelta) / 10 + idleWattUsage;
@@ -95,10 +95,7 @@ namespace Objects
 				apcPoweredDevice.Wattusage = idleWattUsage;
 			}
 
-			gasMix.SetTemperature(DMMath.Lerp(gasMix.Temperature, targetTemperature, 0.5f));
-			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
-
-			currentTemperature = gasMix.Temperature;
+			currentTemperature = pipeData.mixAndVolume.Temperature;
 			ThreadSafeUpdateGui();
 		}
 

@@ -27,16 +27,16 @@ MonoBehaviour:
         pipeType: 1
         PortType: 0
         flagLogic: 0
-      - Bool: 0
+      - Bool: 1
         pipeType: 1
-        PortType: 0
+        PortType: 3
         flagLogic: 0
       - Bool: 0
         pipeType: 1
         PortType: 0
         flagLogic: 0
     CustomLogic: 0
-    NetCompatible: 1
+    NetCompatible: 0
     mixAndVolume:
       mix:
         temperature: 273.15

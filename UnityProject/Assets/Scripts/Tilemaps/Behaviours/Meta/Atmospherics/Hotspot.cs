@@ -23,6 +23,8 @@ namespace Systems.Atmospherics
 		private bool hasOvercharge;
 		private bool hasFusion;
 
+		private uint timer;
+
 		public Hotspot(MetaDataNode newNode)
 		{
 			node = newNode;
@@ -78,11 +80,15 @@ namespace Systems.Atmospherics
 
 		public void Process()
 		{
+			timer++;
 			UpdateColour();
 		}
 
 		private void UpdateColour()
 		{
+			if(timer < 7) return;
+			timer = 0;
+
 			if(firelight == null) return;
 
 			var temperature = node.GasMix.Temperature;

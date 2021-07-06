@@ -4,6 +4,7 @@ using UnityEngine;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
 using System.Text;
+using Pipes;
 
 namespace Items.Atmospherics
 {
@@ -38,6 +39,12 @@ namespace Items.Atmospherics
 				if (interaction.TargetObject.TryGetComponent(out GasContainer container))
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+					return;
+				}
+
+				if (interaction.TargetObject.TryGetComponent(out MonoPipe monoPipe))
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(monoPipe.pipeData.mixAndVolume.GetGasMix()));
 					return;
 				}
 			}
