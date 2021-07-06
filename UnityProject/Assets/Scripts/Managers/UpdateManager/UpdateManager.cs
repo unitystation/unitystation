@@ -271,12 +271,6 @@ public class UpdateManager : MonoBehaviour
 				var toQueue = threadSafeAddQueue.Dequeue();
 				Add(toQueue.Item1, toQueue.Item2);
 			}
-
-			foreach (var toAdd in threadSafeAddQueue)
-			{
-				var toQueue = threadSafeAddQueue.Dequeue();
-				Add(toQueue.Item1, toQueue.Item2);
-			}
 		}
 
 		if (threadSafeAddPeriodicQueue.Count > 0)
