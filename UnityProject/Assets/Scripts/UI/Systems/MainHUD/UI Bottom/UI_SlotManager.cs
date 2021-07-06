@@ -130,6 +130,7 @@ public class UI_SlotManager : MonoBehaviour
 
 	public void RemoveAll()
 	{
+		if (gameObject == null) return;
 		foreach (var Inslots in BodyPartToSlot.Keys.ToArray())
 		{
 			foreach (var Characteristics in Inslots.Storage)
