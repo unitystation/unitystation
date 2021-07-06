@@ -29,7 +29,7 @@ namespace Tests.Balance
 					if (value < order.CreditCost)
 					{
 						//Check for within 10 percent
-						if (value > order.CreditCost * 0.9f)
+						if (value >= order.CreditCost * 0.9f)
 						{
 							report.AppendLine("Found possible cargo order exploit in: ");
 							report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
