@@ -223,7 +223,7 @@ namespace Systems.Atmospherics
 				DMMath.Lerp(250, heatR, greyscaleFire) / 255,
 				DMMath.Lerp(250, heatG, greyscaleFire) / 255,
 				DMMath.Lerp(250, heatB, greyscaleFire) / 255,
-				firelight.BaseColour.a));
+				heatA / 255));
 		}
 
 		#region Colour

@@ -16,14 +16,22 @@ namespace Pipes
 
 		public Color Colour = Color.white;
 
+		protected Directional directional;
+
 		#region Lifecycle
 
 		public virtual void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			directional = GetComponent<Directional>();
 		}
 
 		public virtual void OnSpawnServer(SpawnInfo info)
+		{
+			SetUpPipes();
+		}
+
+		protected void SetUpPipes()
 		{
 			if (pipeData.PipeAction == null)
 			{
@@ -77,10 +85,10 @@ namespace Pipes
 				}
 			}
 
-			Interaction(interaction);
+			HandApplyInteraction(interaction);
 		}
 
-		public virtual void Interaction(HandApply interaction) { }
+		public virtual void HandApplyInteraction(HandApply interaction) { }
 
 		public virtual void OnDisassembly(HandApply interaction) { }
 

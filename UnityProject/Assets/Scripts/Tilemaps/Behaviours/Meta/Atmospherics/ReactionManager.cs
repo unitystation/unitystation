@@ -328,7 +328,7 @@ namespace Systems.Atmospherics
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
+				Logger.LogError(e.ToString());
 			}
 		}
 

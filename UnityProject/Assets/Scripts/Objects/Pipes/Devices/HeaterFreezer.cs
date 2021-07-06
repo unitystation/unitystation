@@ -250,8 +250,28 @@ namespace Objects
 			UpdateGui();
 		}
 
-		public override void Interaction(HandApply interaction)
+		public override void HandApplyInteraction(HandApply interaction)
 		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
+			{
+				//Rotate
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2,
+					$"You start to rotate the {gameObject.ExpensiveName()}...",
+					$"{interaction.Performer.ExpensiveName()} starts to rotate the {gameObject.ExpensiveName()}...",
+					$"You rotates the {gameObject.ExpensiveName()}.",
+					$"{interaction.Performer.ExpensiveName()} rotates the {gameObject.ExpensiveName()}.",
+					() =>
+					{
+						pipeData.OnDisable();
+
+						directional.FaceDirection(Orientation.GetOrientation(directional.CurrentDirection.Degrees + 90));
+
+						SetUpPipes();
+					});
+
+				return;
+			}
+
 			if (interaction.IsAltClick)
 			{
 				targetTemperature = type == HeaterFreezerType.Heater ? maxTemperature : minTemperature;
