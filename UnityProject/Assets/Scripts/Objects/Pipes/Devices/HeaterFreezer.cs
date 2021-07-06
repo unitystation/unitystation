@@ -68,23 +68,6 @@ namespace Objects
 			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
 		}
 
-		public override void OnSpawnServer(SpawnInfo info)
-		{
-			base.OnSpawnServer(info);
-
-			if (type == HeaterFreezerType.Freezer)
-			{
-				targetTemperature = minTemperature;
-			}
-
-			if (type == HeaterFreezerType.Heater)
-			{
-				targetTemperature = maxTemperature;
-			}
-
-			UpdateGui();
-		}
-
 		public override void TickUpdate()
 		{
 			//Only work when powered and online
@@ -114,8 +97,8 @@ namespace Objects
 
 			gasMix.SetTemperature(DMMath.Lerp(gasMix.Temperature, targetTemperature, 0.5f));
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
-			currentTemperature = gasMix.Temperature;
 
+			currentTemperature = gasMix.Temperature;
 			ThreadSafeUpdateGui();
 		}
 
@@ -190,6 +173,7 @@ namespace Objects
 
 				minTemperature = Mathf.Max(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN -
 				                           (initalMinTemperature + minTempRating * 15), 2.7f);
+				targetTemperature = minTemperature;
 			}
 			else
 			{
@@ -210,6 +194,7 @@ namespace Objects
 				}
 
 				maxTemperature = 293.15f + (initalMaxTemperature * maxTempRating);
+				targetTemperature = maxTemperature;
 			}
 			else
 			{
@@ -249,6 +234,7 @@ namespace Objects
 
 				minTemperature = Mathf.Max(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN -
 				                           (initalMinTemperature + minTempRating * 15), 2.7f);
+				targetTemperature = minTemperature;
 			}
 			else
 			{
@@ -269,6 +255,8 @@ namespace Objects
 				}
 
 				maxTemperature = 293.15f + (initalMaxTemperature * maxTempRating);
+				targetTemperature = maxTemperature;
+
 			}
 			else
 			{
