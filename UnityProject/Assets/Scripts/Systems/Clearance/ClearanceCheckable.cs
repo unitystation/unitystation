@@ -88,6 +88,14 @@ namespace Systems.Clearance
 		{
 			requiredClearance = newClearance;
 		}
-	}
 
+		/// <summary>
+		/// Public interface to set the check typer for this object.
+		/// </summary>
+		/// <param name="newType"></param>
+		public void SetCheckType(CheckType newType)
+		{
+			type = newType;
+		}
+	}
 }
