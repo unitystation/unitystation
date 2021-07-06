@@ -26,7 +26,33 @@ namespace Tests.Balance
 				foreach (var order in category.Orders)
 				{
 					var value = order.ContentSellPrice;
-					if (value <= order.CreditCost) continue;
+					if (value <= order.CreditCost)
+					{
+						if (order.Crate != null && order.Crate.TryGetComponent<Attributes>(out var crate))
+						{
+							//If all items in crate are 0, cost will be same as crate value, therefore items will be free
+							if (crate.ExportCost == order.CreditCost)
+							{
+								report.AppendLine("Found possible cargo order exploit in: ");
+								report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
+								report.AppendLine("The crate export cost is the same as the sell price!");
+								report.AppendFormat("\nBuy price: {0} Sell price: {1}\n\n", order.CreditCost, value);
+								continue;
+							}
+
+							//Check for within 10 percent
+							if (crate.ExportCost > order.CreditCost - (order.CreditCost * 0.1f))
+							{
+								report.AppendLine("Found possible cargo order exploit in: ");
+								report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
+								report.AppendLine("The crate export cost within 10% of the sell price, the items might be too cheap!");
+								report.AppendFormat("\nBuy price: {0} Sell price: {1}\n\n", order.CreditCost, value);
+							}
+						}
+
+
+						continue;
+					}
 
 					report.AppendLine("Found possible cargo order exploit in: ");
 					report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
