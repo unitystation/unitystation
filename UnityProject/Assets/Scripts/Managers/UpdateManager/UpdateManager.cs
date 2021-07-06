@@ -30,6 +30,10 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> lateUpdateActions = new List<Action>();
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
 
+	private Queue<Tuple<CallbackType, Action>> threadSafeAddQueue = new Queue<Tuple<CallbackType, Action>>();
+	private Queue<Tuple<Action, float>> threadSafeAddPeriodicQueue = new Queue<Tuple<Action, float>>();
+	private Queue<Tuple<CallbackType, Action>> threadSafeRemoveQueue = new Queue<Tuple<CallbackType, Action>>();
+
 	private static int NumberOfUpdatesAdded = 0;
 
 	public List<TimedUpdate> pooledTimedUpdates = new List<TimedUpdate>();
@@ -94,16 +98,25 @@ public class UpdateManager : MonoBehaviour
 		instance.AddCallbackInternal(type, action);
 	}
 
-	public static void Add(Action action, float TimeInterval)
+	public static void SafeAdd(CallbackType type, Action action)
+	{
+		instance.threadSafeAddQueue.Enqueue(new Tuple<CallbackType, Action>(type, action));
+	}
+
+	public static void Add(Action action, float timeInterval)
 	{
 		if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
 		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
-		timedUpdate.SetUp(action, TimeInterval);
+		timedUpdate.SetUp(action, timeInterval);
 		timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.1f;
 		NumberOfUpdatesAdded++;
 		Instance.periodicUpdateActions.Add(timedUpdate);
 	}
 
+	public static void SafeAdd(Action action, float timeInterval)
+	{
+		instance.threadSafeAddPeriodicQueue.Enqueue(new Tuple<Action, float>(action, timeInterval));
+	}
 
 	public static void Add(ManagedNetworkBehaviour networkBehaviour)
 	{
@@ -251,6 +264,39 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
+		if (threadSafeAddQueue.Count > 0)
+		{
+			for (int i = 0; i < threadSafeAddQueue.Count; i++)
+			{
+				var toQueue = threadSafeAddQueue.Dequeue();
+				Add(toQueue.Item1, toQueue.Item2);
+			}
+
+			foreach (var toAdd in threadSafeAddQueue)
+			{
+				var toQueue = threadSafeAddQueue.Dequeue();
+				Add(toQueue.Item1, toQueue.Item2);
+			}
+		}
+
+		if (threadSafeAddPeriodicQueue.Count > 0)
+		{
+			for (int i = 0; i < threadSafeAddPeriodicQueue.Count; i++)
+			{
+				var toQueue = threadSafeAddPeriodicQueue.Dequeue();
+				Add(toQueue.Item1, toQueue.Item2);
+			}
+		}
+
+		if (threadSafeRemoveQueue.Count > 0)
+		{
+			for (int i = 0; i < threadSafeRemoveQueue.Count; i++)
+			{
+				var toQueue = threadSafeRemoveQueue.Dequeue();
+				Remove(toQueue.Item1, toQueue.Item2);
+			}
+		}
+
 		CashedDeltaTime = Time.deltaTime;
 		for (int i = updateActions.Count; i >= 0; i--)
 		{

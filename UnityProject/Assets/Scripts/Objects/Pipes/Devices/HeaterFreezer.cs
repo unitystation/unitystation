@@ -380,7 +380,7 @@ namespace Objects
 			//We have to update Ui this way due to thread issues with calling NetworkTabManager stuff
 			if(updateUi) return;
 			updateUi = true;
-			UpdateManager.Add(Loop, 0.5f);
+			UpdateManager.SafeAdd(Loop, 0.5f);
 		}
 
 		private void Loop()

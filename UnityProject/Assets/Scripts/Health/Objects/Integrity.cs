@@ -386,7 +386,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (exposure.Temperature > HeatResistance)
 		{
 			//We enable the update, instead of doing damage as that will cause thread errors further downstream
-			UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
+			UpdateManager.SafeAdd(PeriodicUpdateBurn, BURN_RATE);
 		}
 		OnExposedEvent.Invoke();
 		Profiler.EndSample();

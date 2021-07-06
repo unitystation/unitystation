@@ -1015,8 +1015,8 @@ namespace HealthV2
 
 		public void OnExposed(FireExposure exposure)
 		{
+			//Dont do direct damage here only add fire stacks due to thread issues further downstream
 			ChangeFireStacks(1f);
-			ApplyDamageAll(null, 0.25f, AttackType.Fire, DamageType.Burn, false);
 		}
 
 		/// <summary>

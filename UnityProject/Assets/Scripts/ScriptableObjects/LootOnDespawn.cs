@@ -11,9 +11,12 @@ namespace ScriptableObjects
 		[SerializeField] private float minRadius = default;
 		[SerializeField] private float maxRadius = default;
 
+		//Have to use system random due to thread calling SpawnLoot
+		private System.Random rnd = new System.Random();
+
 		public void SpawnLoot(Vector3 worldPosition)
 		{
-			Spawn.ServerPrefab(objectToSpawn, worldPosition, count: Random.Range(minAmount, maxAmount),
+			Spawn.ServerPrefab(objectToSpawn, worldPosition, count: rnd.Next(minAmount, maxAmount),
 				scatterRadius: Random.Range(minRadius, maxRadius));
 		}
 	}
