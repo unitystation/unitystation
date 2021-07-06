@@ -24,12 +24,9 @@ namespace HealthV2
 			set
 			{
 				healthMaster = value;
-				for (int i = ContainBodyParts.Count; i >= 0; i--)
+				foreach (var bodyPart in ContainBodyParts)
 				{
-					if (i < ContainBodyParts.Count)
-					{
-						SetUpBodyPart(ContainBodyParts[i]);
-					}
+					SetUpBodyPart(bodyPart);
 				}
 				HealthMasterSet();
 			}
@@ -150,6 +147,8 @@ namespace HealthV2
 
 		public string SetCustomisationData;
 
+		private bool SystemSetup = false;
+
 		/// <summary>
 		/// Initializes the body part
 		/// </summary>
@@ -178,6 +177,7 @@ namespace HealthV2
 			}
 
 			UpdateIcons();
+			SetUpSystemsThis();
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
 				bodyPartModification.HealthMasterSet();
@@ -242,7 +242,6 @@ namespace HealthV2
 		/// </summary>
 		public virtual void ImplantPeriodicUpdate()
 		{
-			//TODOH backwards for i
 			foreach (BodyPart prop in ContainBodyParts)
 			{
 				prop.ImplantPeriodicUpdate();
@@ -441,6 +440,15 @@ namespace HealthV2
 			{
 				prop.SetUpSystems();
 			}
+
+			SetUpSystemsThis();
+		}
+
+
+		public void SetUpSystemsThis()
+		{
+			if (SystemSetup) return;
+			SystemSetup = true;
 			BloodInitialise();
 			foreach (var bodyPartModification in BodyPartModifications)
 			{

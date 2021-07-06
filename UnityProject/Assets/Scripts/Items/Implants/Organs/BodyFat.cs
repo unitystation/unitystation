@@ -58,8 +58,9 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
+			// Logger.Log("Absorbing >" + Absorbing);
 			float NutrimentPercentage = (RelatedPart.BloodContainer[RelatedPart.Nutriment] / RelatedPart.BloodContainer.ReagentMixTotal);
-			// Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
+			//Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentAtPercent)
 			{
 				float ToRelease = ReleaseAmount;
@@ -86,7 +87,7 @@ namespace HealthV2
 				// Logger.Log("Absorbing >" + Absorbing);
 			}
 
-			// Logger.Log("AbsorbedAmount >" + AbsorbedAmount);
+			//Logger.Log("AbsorbedAmount >" + AbsorbedAmount);
 			//TODOH Proby doesn't need to be updated so often
 			if (DebuffCutInPoint < AbsorbedAmount)
 			{
@@ -107,6 +108,12 @@ namespace HealthV2
 		public override void BloodWasPumped()
 		{
 			isFreshBlood = true;
+		}
+
+		[NaughtyAttributes.Button()]
+		public void BecomeSkinny()
+		{
+			AbsorbedAmount = 0;
 		}
 
 		public override void Initialisation()
