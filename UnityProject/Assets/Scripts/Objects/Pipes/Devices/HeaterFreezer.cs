@@ -344,6 +344,12 @@ namespace Objects
 
 		private void PowerStateChange(Tuple<PowerState, PowerState> states)
 		{
+			if (isOn == false)
+			{
+				ChangeSprite(false);
+				return;
+			}
+
 			ChangeSprite(states.Item2 != PowerState.Off);
 		}
 
