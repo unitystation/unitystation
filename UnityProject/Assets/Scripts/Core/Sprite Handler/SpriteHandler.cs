@@ -205,6 +205,7 @@ public class SpriteHandler : MonoBehaviour
 	public void SetSpriteSO(SpriteDataSO newSpriteSO, Color? color = null, int newVariantIndex = -1,
 		bool networked = true)
 	{
+		if (newSpriteSO == null) return;
 		if (newSpriteSO != PresentSpriteSet)
 		{
 			isPaletteSet = false;
