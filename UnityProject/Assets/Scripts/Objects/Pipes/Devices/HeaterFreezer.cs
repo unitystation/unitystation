@@ -55,11 +55,13 @@ namespace Objects
 			base.Awake();
 
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
+			apcPoweredDevice.OnStateChangeEvent.AddListener(PowerStateChange);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Loop);
+			apcPoweredDevice.OnStateChangeEvent.RemoveListener(PowerStateChange);
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)
@@ -113,6 +115,8 @@ namespace Objects
 			ThreadSafeUpdateGui();
 		}
 
+		#region Examine
+
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			var stringBuilder = new StringBuilder();
@@ -146,6 +150,10 @@ namespace Objects
 		{
 			return $"{(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN - kelvin) * -1}";
 		}
+
+		#endregion
+
+		#region Machine Parts
 
 		public void RefreshParts(IDictionary<GameObject, int> partsInFrame)
 		{
@@ -250,6 +258,10 @@ namespace Objects
 			UpdateGui();
 		}
 
+		#endregion
+
+		#region Interaction
+
 		public override void HandApplyInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
@@ -264,7 +276,7 @@ namespace Objects
 					{
 						pipeData.OnDisable();
 
-						directional.FaceDirection(Orientation.GetOrientation(directional.CurrentDirection.Degrees + 90));
+						directional.FaceDirection(Orientation.GetOrientation(directional.CurrentDirection.Degrees + 45));
 
 						SetUpPipes();
 					});
@@ -296,16 +308,46 @@ namespace Objects
 			}
 		}
 
+		#endregion
+
+		private void PowerStateChange(Tuple<PowerState, PowerState> states)
+		{
+			ChangeSprite(states.Item2 != PowerState.Off);
+		}
+
 		public void TogglePower(bool newState)
 		{
 			isOn = newState;
+
+			ChangeSprite(newState);
+
 			UpdateGui();
+		}
+
+		private void ChangeSprite(bool newState)
+		{
+			if (type == HeaterFreezerType.Both)
+			{
+				//0 is freezer off, 1 is freezer on, 2 is heater off, 3 is heater on
+				spritehandler.ChangeSprite(newState ? targetTemperature > currentTemperature ? 3 : 1
+					: targetTemperature > currentTemperature ? 2 : 0);
+			}
+			else
+			{
+				//0 is off, 1 is heater/freezer depending on prefab
+				spritehandler.ChangeSprite(newState ? 1 : 0);
+			}
 		}
 
 		public void ChangeTargetTemperature(int change)
 		{
 			targetTemperature += change;
 			targetTemperature = Mathf.Clamp(targetTemperature, minTemperature, maxTemperature);
+
+			if (type == HeaterFreezerType.Both && isOn)
+			{
+				spritehandler.ChangeSprite(targetTemperature > currentTemperature ? 1 : 2);
+			}
 
 			UpdateGui();
 		}

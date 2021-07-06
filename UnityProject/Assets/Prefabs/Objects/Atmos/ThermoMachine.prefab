@@ -30,22 +30,22 @@ PrefabInstance:
     - target: {fileID: 864781805263754368, guid: 17045812469b8c649babb925c6965066,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 864781805263754368, guid: 17045812469b8c649babb925c6965066,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 864781805263754368, guid: 17045812469b8c649babb925c6965066,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 864781805263754368, guid: 17045812469b8c649babb925c6965066,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 864781805263754368, guid: 17045812469b8c649babb925c6965066,
         type: 3}
@@ -83,6 +83,33 @@ PrefabInstance:
       propertyPath: initalMaxTemperature
       value: 140
       objectReference: {fileID: 0}
+    - target: {fileID: 3994855510315014633, guid: 17045812469b8c649babb925c6965066,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3994855510315014633, guid: 17045812469b8c649babb925c6965066,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.00000008742278
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639939868946462848, guid: 17045812469b8c649babb925c6965066,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639939868946462848, guid: 17045812469b8c649babb925c6965066,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: e2dd6f2a64e35ba499a14d742de35a8d,
+        type: 2}
+    - target: {fileID: 5639939868946462848, guid: 17045812469b8c649babb925c6965066,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f52dfe7180536d48979a482e0f8472b,
+        type: 2}
     - target: {fileID: 7543558257408462186, guid: 17045812469b8c649babb925c6965066,
         type: 3}
       propertyPath: initialName

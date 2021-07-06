@@ -39,7 +39,7 @@ public class DirectionalRotatesParent : MonoBehaviour
 		{
 			foreach (Transform child in transform)
 			{
-				child.rotation = offset.Quaternion;
+				child.rotation = Quaternion.Euler(newDir.Vector);
 			}
 		}
 	}
@@ -59,7 +59,7 @@ public class DirectionalRotatesParent : MonoBehaviour
 			{
 				foreach (Transform child in transform)
 				{
-					child.rotation = offset.Quaternion;
+					child.rotation = Quaternion.Euler(dir.Vector);
 				}
 			}
 		}

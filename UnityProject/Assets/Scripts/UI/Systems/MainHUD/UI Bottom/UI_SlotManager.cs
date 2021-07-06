@@ -108,7 +108,7 @@ public class UI_SlotManager : MonoBehaviour
 
 			if (slot == null)
 			{
-				Logger.LogError($"{bodyPartUISlots.RelatedStorage.gameObject.ExpensiveName()} has null UI_DynamicItemSlot, slot: {StorageCharacteristics.namedSlot}");
+				Logger.LogError($"{bodyPartUISlots.RelatedStorage.OrNull()?.gameObject.ExpensiveName()} has null UI_DynamicItemSlot, slot: {StorageCharacteristics.namedSlot}");
 				continue;
 			}
 
