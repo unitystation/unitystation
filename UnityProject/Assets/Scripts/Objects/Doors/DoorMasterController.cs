@@ -151,6 +151,9 @@ namespace Doors
 
 				if(signal == ModuleSignal.ContinueRegardlessOfOtherModulesStates)
 				{
+					//(Max): This is to prevent some modules breaking some door behavior and rendering them un-useable.
+					//Only use this signal if you're module's logic is being interrupted by other
+					//modules that are sending ContinueWithoutDoorStateChange as a signal.
 					canOpen = true;
 					break;
 				}

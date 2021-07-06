@@ -41,7 +41,6 @@ namespace Doors.Modules
 					ServerElectrocute(mob);
 					return ModuleSignal.Break;
 				}
-				//This is to prevent other modules breaking doors and rendering them unusable.
 				return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
 			}
 
