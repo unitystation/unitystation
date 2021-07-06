@@ -69,6 +69,7 @@ namespace UI.Objects
 
 		private void UpdateSafetyStatusUI(ElectrifiedDoorModule door)
 		{
+			//(Max): This is broken for some reason and doesn't work.
 			if (doorMasterController.HasPower == false)
 			{
 				safetyImage.color = safetyImageColorWhenNOPOWER;
