@@ -17,17 +17,17 @@ namespace Doors.Modules
 			set => isElectrecuted = value;
 		}
 
-		public override ModuleSignal OpenInteraction(HandApply interaction)
+		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			return CanElectricute(interaction.Performer);
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction)
+		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			return CanElectricute(interaction.Performer);
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject mob)
+		public override ModuleSignal BumpingInteraction(GameObject mob, HashSet<DoorProcessingStates> States)
 		{
 			return CanElectricute(mob);
 		}
@@ -41,7 +41,10 @@ namespace Doors.Modules
 					ServerElectrocute(mob);
 					return ModuleSignal.Break;
 				}
+				//This is to prevent other modules breaking doors and rendering them unusable.
+				return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
 			}
+
 			return ModuleSignal.Continue;
 		}
 

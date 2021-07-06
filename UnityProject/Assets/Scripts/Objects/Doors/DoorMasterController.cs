@@ -149,6 +149,12 @@ namespace Doors
 					canOpen = false;
 				}
 
+				if(signal == ModuleSignal.ContinueRegardlessOfOtherModulesStates)
+				{
+					canOpen = true;
+					break;
+				}
+
 				if (signal == ModuleSignal.SkipRemaining || signal == ModuleSignal.Break)
 				{
 					StartInputCoolDown();
