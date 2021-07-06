@@ -48,6 +48,8 @@ namespace Objects
 		private APCPoweredDevice apcPoweredDevice;
 		public APCPoweredDevice ApcPoweredDevice => apcPoweredDevice;
 
+		private Machine machine;
+
 		private bool updateUi;
 
 		public override void Awake()
@@ -56,6 +58,8 @@ namespace Objects
 
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			apcPoweredDevice.OnStateChangeEvent.AddListener(PowerStateChange);
+
+			machine = GetComponent<Machine>();
 		}
 
 		private void OnDisable()
@@ -187,6 +191,10 @@ namespace Objects
 				minTemperature = Mathf.Max(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN -
 				                           (initalMinTemperature + minTempRating * 15), 2.7f);
 			}
+			else
+			{
+				minTemperature = initalMinTemperature;
+			}
 
 			if (type == HeaterFreezerType.Heater || type == HeaterFreezerType.Both)
 			{
@@ -202,6 +210,10 @@ namespace Objects
 				}
 
 				maxTemperature = 293.15f + (initalMaxTemperature * maxTempRating);
+			}
+			else
+			{
+				maxTemperature = initalMaxTemperature;
 			}
 
 			UpdateGui();
@@ -238,6 +250,10 @@ namespace Objects
 				minTemperature = Mathf.Max(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN -
 				                           (initalMinTemperature + minTempRating * 15), 2.7f);
 			}
+			else
+			{
+				minTemperature = initalMinTemperature;
+			}
 
 			if (type == HeaterFreezerType.Heater || type == HeaterFreezerType.Both)
 			{
@@ -253,6 +269,10 @@ namespace Objects
 				}
 
 				maxTemperature = 293.15f + (initalMaxTemperature * maxTempRating);
+			}
+			else
+			{
+				maxTemperature = initalMaxTemperature;
 			}
 
 			UpdateGui();
@@ -276,7 +296,7 @@ namespace Objects
 					{
 						pipeData.OnDisable();
 
-						directional.FaceDirection(Orientation.GetOrientation(directional.CurrentDirection.Degrees + 45));
+						directional.FaceDirection(directional.CurrentDirection.Rotate(1));
 
 						SetUpPipes();
 					});
@@ -288,6 +308,18 @@ namespace Objects
 			{
 				targetTemperature = type == HeaterFreezerType.Heater ? maxTemperature : minTemperature;
 				UpdateGui();
+				return;
+			}
+
+			if (interaction.HandObject != null)
+			{
+				//Try trigger machine deconstruction interaction as it has been blocked by this script :(
+				if (machine.WillInteract(interaction, NetworkSide.Server))
+				{
+					machine.ServerPerformInteraction(interaction);
+				}
+
+				return;
 			}
 
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.ThermoMachine, TabAction.Open);
@@ -346,7 +378,7 @@ namespace Objects
 
 			if (type == HeaterFreezerType.Both && isOn)
 			{
-				spritehandler.ChangeSprite(targetTemperature > currentTemperature ? 1 : 2);
+				spritehandler.ChangeSprite(targetTemperature > currentTemperature ? 3 : 1);
 			}
 
 			UpdateGui();

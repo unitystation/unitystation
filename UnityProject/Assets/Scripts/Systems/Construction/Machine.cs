@@ -165,6 +165,20 @@ namespace Objects.Machines
 				Logger.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
 				return;
 			}
+			//Means we are mapped so use machine parts ist
+			else if (basicPartsUsed.Count == 0)
+			{
+				if (MachineParts.OrNull()?.machineParts == null)
+				{
+					Logger.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+					return;
+				}
+
+				foreach (var part in MachineParts.machineParts)
+				{
+					basicPartsUsed.Add(part.itemTrait, part.amountOfThisPart);
+				}
+			}
 
 			var toRefresh = GetComponents<IInitialParts>();
 
