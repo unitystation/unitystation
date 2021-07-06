@@ -162,7 +162,7 @@ namespace Objects
 					}
 				}
 			}
-			
+
 			/* --ACCESS REWORK--
 			 *  TODO Remove the AccessRestriction check when we finish migrating!
 			 *
