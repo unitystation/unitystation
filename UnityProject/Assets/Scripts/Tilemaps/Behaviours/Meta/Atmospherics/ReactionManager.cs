@@ -250,7 +250,8 @@ namespace Systems.Atmospherics
 		/// the current gas mix temperature</param>
 		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
 		/// is greater than the current gas mix temperature when true</param>
-		public void ExposeHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false)
+		/// <param name="doExposure">Do exposure on the tiles, do not do for non main thread calls</param>
+		public void ExposeHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false, bool doExposure = true)
 		{
 			//Try add new hotspot if we dont already have one or is null
 			if (hotspots.TryGetValue(localPosition, out var hotspot) == false || hotspot.HasHotspot == false)
@@ -265,6 +266,9 @@ namespace Systems.Atmospherics
 				//So hotspot wont be available for next section yet
 				return;
 			}
+
+			//Only do expose if allowed
+			if(doExposure == false) return;
 
 			//If we already have hotspot expose everything on this tile
 			Expose(localPosition, localPosition);
