@@ -68,13 +68,6 @@ namespace Doors
 		public bool IsPerformingAction => isPerformingAction;
 		public bool HasPower => APCPoweredDevice.IsOn(apc.State);
 
-		private bool isElectrecuted = false;
-		public bool IsElectrecuted
-		{
-			get => isElectrecuted;
-			set => isElectrecuted = value;
-		}
-
 
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
@@ -294,12 +287,6 @@ namespace Doors
 				return;
 			}
 
-			if (isElectrecuted)
-			{
-				ServerElectrocute(originator);
-				return;
-			}
-
 			Open(blockClosing);
 		}
 
@@ -471,20 +458,6 @@ namespace Doors
 				return false;
 			}
 
-			if(isElectrecuted)
-			{
-				List<ItemSlot> slots = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
-				foreach (ItemSlot slot in slots)
-				{
-					if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Insulated) == false)
-					{
-						ServerElectrocute(interaction.Performer);
-						return false;
-					}
-				}
-				return true;
-			}
-
 			//jaws of life
 			if (interaction.HandObject != null &&
 			    Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.CanPryDoor))
@@ -520,16 +493,6 @@ namespace Doors
 			return true;
 		}
 
-		private void ServerElectrocute(GameObject obj)
-		{
-			PlayerScript ply = obj.GetComponent<PlayerScript>();
-			if (ply != null)
-			{
-				var playerLHB = obj.GetComponent<LivingHealthMasterBase>();
-				var electrocution = new Electrocution(9080, registerTile.WorldPositionServer, "wire"); //More magic numbers.
-				if (playerLHB != null) playerLHB.Electrocute(electrocution);
-			}
-		}
 
 		public void StartInputCoolDown()
 		{
@@ -709,14 +672,17 @@ namespace Doors
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 
 			valuesToSend.Add(new ElementValue() { Id = "OpenLabel", Value = Encoding.UTF8.GetBytes(IsClosed ? "Closed" : "Open") });
-			valuesToSend.Add(new ElementValue() { Id = "ShockStateLabel", Value = Encoding.UTF8.GetBytes(IsElectrecuted ? "DANGER" : "SAFE") });
 
 			foreach (var module in modulesList)
 			{
 				if(module is BoltsModule bolts)
 				{
 					valuesToSend.Add(new ElementValue() { Id = "BoltLabel", Value = Encoding.UTF8.GetBytes(bolts.BoltsDown ? "Bolted" : "Unbolted") });
-					break;
+				}
+
+				if (module is ElectrifiedDoorModule electric)
+				{
+					valuesToSend.Add(new ElementValue() { Id = "ShockStateLabel", Value = Encoding.UTF8.GetBytes(electric.IsElectrecuted ? "DANGER" : "SAFE") });
 				}
 			}
 

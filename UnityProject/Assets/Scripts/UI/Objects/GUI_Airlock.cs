@@ -1,4 +1,5 @@
-﻿using Doors;
+﻿using System.Linq;
+using Doors;
 using Doors.Modules;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,7 @@ namespace UI.Objects
 
 		[SerializeField] private NetLabel labelSafety = null;
 
-		[SerializeField] private Image safetyImage = null;
+		[SerializeField] private Image safetyImage;
 		[SerializeField] private Color safetyImageColorWhenSAFE;
 		[SerializeField] private Color safetyImageColorWhenHARM;
 		[SerializeField] private Color safetyImageColorWhenNOPOWER;
@@ -32,40 +33,48 @@ namespace UI.Objects
 
 		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 		{
+			bool foundBolts = false;
 			labelOpen.Value = DoorMasterController.IsClosed ? "Closed" : "Open";
-			labelSafety.Value = DoorMasterController.IsElectrecuted ? "DANGER" : "SAFE";
-			UpdateSafetyStatusUI();
 
 			foreach (var module in DoorMasterController.ModulesList)
 			{
 				if(module is BoltsModule bolts)
 				{
-
 					labelBolts.Value = bolts.BoltsDown ? "Bolted" : "Unbolted";
-					return;
+					foundBolts = true;
+				}
+				if (module is ElectrifiedDoorModule electric)
+				{
+					labelSafety.Value = electric.IsElectrecuted ? "DANGER" : "SAFE";
+					UpdateSafetyStatusUI(electric);
 				}
 			}
 
-			labelBolts.Value = "No Bolt Module";
+			if(!foundBolts) labelBolts.Value = "No Bolt Module";
 		}
 
 		public void OnToggleAirLockSafety()
 		{
-			if (DoorMasterController.HasPower == false) return;
-
-			doorMasterController.IsElectrecuted = !doorMasterController.IsElectrecuted;
-			UpdateSafetyStatusUI();
+			foreach (var module in DoorMasterController.ModulesList)
+			{
+				if (module is ElectrifiedDoorModule electric)
+				{
+					if(doorMasterController.HasPower) electric.IsElectrecuted = !electric.IsElectrecuted;
+					doorMasterController.UpdateGui();
+					UpdateSafetyStatusUI(electric);
+					break;
+				}
+			}
 		}
 
-		private void UpdateSafetyStatusUI()
+		private void UpdateSafetyStatusUI(ElectrifiedDoorModule door)
 		{
-			labelSafety.Value = DoorMasterController.IsElectrecuted ? "DANGER" : "SAFE";
 			if (doorMasterController.HasPower == false)
 			{
 				safetyImage.color = safetyImageColorWhenNOPOWER;
 				return;
 			}
-			if (doorMasterController.IsElectrecuted)
+			if (door.IsElectrecuted)
 			{
 				safetyImage.color = safetyImageColorWhenHARM;
 			}
