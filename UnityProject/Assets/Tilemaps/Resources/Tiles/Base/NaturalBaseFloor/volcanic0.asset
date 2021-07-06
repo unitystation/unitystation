@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
-  m_Name: asteroid12
+  m_Name: volcanic0
   m_EditorClassIdentifier: 
-  displayName: sand
+  displayName: rock
   LayerType: 4
   TileType: 7
   RequiredTiles: []
@@ -29,8 +29,8 @@ MonoBehaviour:
   indestructible: 0
   ExplosionImpassable: 0
   passableException:
-    m_keys: 
-    m_values: 
+    m_keys: 01000000
+    m_values: 00
   maxHealth: 300
   damageDeflection: 0
   armor:
@@ -46,10 +46,10 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions:
-  - {fileID: 11400000, guid: 6f8c4ea636baad341b27769536862bd5, type: 2}
+  - {fileID: 11400000, guid: 2935596f4c4116e4cbf6c4b81fabe456, type: 2}
   spawnOnDeconstruct: {fileID: 0}
-  spawnAmountOnDeconstruct: 1
-  lootOnDespawn: {fileID: 11400000, guid: 97c5dfde9f162f4409c8103d4137de31, type: 2}
+  spawnAmountOnDeconstruct: 0
+  lootOnDespawn: {fileID: 11400000, guid: 46ac63fab83e9e74b93e4795ead905fa, type: 2}
   toTileWhenDestroyed: {fileID: 0}
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
@@ -61,4 +61,4 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   SoundOnDestroy: []
-  sprite: {fileID: 21300000, guid: fc16ef728b5d5764f9c6415f5cac4b06, type: 3}
+  sprite: {fileID: 21300000, guid: ade78dc1356cfdb4eb8a1d9bccdbba81, type: 3}
