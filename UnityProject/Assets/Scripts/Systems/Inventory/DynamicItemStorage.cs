@@ -48,6 +48,8 @@ public class DynamicItemStorage : NetworkBehaviour
 	public Dictionary<string, Conditional> ServerActiveConditional = new Dictionary<string, Conditional>();
 	public Dictionary<string, Conditional> ClientActiveConditional = new Dictionary<string, Conditional>();
 
+	public HashSet<GameObject> Observers = new HashSet<GameObject>();
+
 	public string GetSetData => SerialisedNetIDs;
 
 
@@ -76,6 +78,7 @@ public class DynamicItemStorage : NetworkBehaviour
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		registerPlayer = GetComponent<RegisterPlayer>();
+		Observers.Add(this.gameObject);
 	}
 
 	//Returns the correct content depending on server or client
@@ -412,8 +415,11 @@ public class DynamicItemStorage : NetworkBehaviour
 	public void Remove(IDynamicItemSlotS bodyPartUISlots)
 	{
 		if (ContainedInventorys.Contains(bodyPartUISlots) == false) return;
+		bodyPartUISlots.RelatedStorage.ServerRemoveObserverPlayer(this.gameObject);
 		ContainedInventorys.Remove(bodyPartUISlots);
 		UIBodyPartsToSerialise.Remove(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
+		bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet -= InventoryChange;
+
 		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
 		{
 			item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
@@ -492,10 +498,13 @@ public class DynamicItemStorage : NetworkBehaviour
 	public void Add(IDynamicItemSlotS bodyPartUISlots)
 	{
 		if (ContainedInventorys.Contains(bodyPartUISlots)) return;
+		bodyPartUISlots.RelatedStorage.ServerAddObserverPlayer(this.gameObject);
 		ContainedInventorys.Add(bodyPartUISlots);
 		UIBodyPartsToSerialise.Add(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
 		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(registerPlayer);
+
+		bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet += InventoryChange;
 		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
 		{
 			item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeServer);
@@ -636,6 +645,16 @@ public class DynamicItemStorage : NetworkBehaviour
 	{
 		SerialisedNetIDs = NewST;
 		ProcessChangeClient(NewST);
+	}
+
+	public void ShowClientUI()
+	{
+		var BackupData = GetSetData;
+		if (string.IsNullOrEmpty(BackupData) == false)
+		{
+			ProcessChangeClient("[]");
+			ProcessChangeClient(BackupData);
+		}
 	}
 
 
@@ -955,18 +974,49 @@ public class DynamicItemStorage : NetworkBehaviour
 
 	#endregion
 
+
+	private void InventoryChange(Pickupable RemovedObject, Pickupable AddedObject)
+	{
+		if (AddedObject != null)
+		{
+			var ItemStorage = AddedObject.GetComponent<InteractableStorage>()?.ItemStorage;
+			if (ItemStorage != null)
+			{
+				foreach (var Observer in Observers)
+				{
+					ItemStorage.ServerAddObserverPlayer(Observer);
+				}
+			}
+
+
+		}
+
+		if (RemovedObject != null)
+		{
+			var ItemStorage = RemovedObject.GetComponent<InteractableStorage>()?.ItemStorage;
+			if (ItemStorage != null)
+			{
+				foreach (var Observer in Observers)
+				{
+					ItemStorage.ServerRemoveObserverPlayer(Observer);
+				}
+			}
+
+		}
+
+	}
+
 	/// <summary>
 	/// Ensure players can see inventory changes/Interact with storage
 	/// </summary>
 	/// <param name="newBody"></param>
 	public void ServerAddObserverPlayer(GameObject newBody)
 	{
-		foreach (var objt in ServerObjectToSlots.Keys)
+		Observers.Add(newBody);
+
+		foreach (var objt in ContainedInventorys)
 		{
-			foreach (var itemStorage in objt.GetComponents<ItemStorage>())
-			{
-				itemStorage.ServerAddObserverPlayer(newBody);
-			}
+			objt.RelatedStorage.ServerAddObserverPlayer(newBody);
 		}
 	}
 
@@ -976,6 +1026,11 @@ public class DynamicItemStorage : NetworkBehaviour
 	/// <param name="newBody"></param>
 	public void ServerRemoveObserverPlayer(GameObject newBody)
 	{
+		if (Observers.Contains(newBody))
+		{
+			Observers.Remove(newBody);
+		}
+
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
 			objt.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(newBody);

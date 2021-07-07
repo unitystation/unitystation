@@ -242,7 +242,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// will simply return this
 	/// </summary>
 	/// <returns></returns>
-	public ItemStorage GetRootStorage()
+	public GameObject GetRootStorageOrPlayer()
 	{
 		ItemStorage storage = this;
 		var pickupable = storage.GetComponent<Pickupable>();
@@ -250,9 +250,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			storage = pickupable.ItemSlot.ItemStorage;
 			pickupable = storage.GetComponent<Pickupable>();
+			if (pickupable == null)
+			{
+				if (storage.player != null)
+				{
+					return storage.player.gameObject;
+				}
+			}
 		}
 
-		return storage;
+		return storage.gameObject;
 	}
 
 	/// <summary>
@@ -384,7 +391,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	///
 	/// As you should expect, this can create a bit of garbage so use sparingly.
 	///
-	/// DOES NOT CHECK SUB-SUBSTORAGES.
 	/// </summary>
 	public IEnumerable<ItemSlot> GetItemSlotTree()
 	{
@@ -404,7 +410,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		var ListThis = new List<ItemSlot>();
 		foreach (var itemStorages in itemStorage)
 		{
-			ListThis.AddRange(itemStorages.GetItemSlots());
+			ListThis.AddRange(itemStorages.GetItemSlotTree());
 		}
 
 		var ToReturn = ListThis.ToArray().Concat(new[] {slot});
@@ -510,7 +516,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerRemoveAllObserversExceptOwner()
 	{
 		if (!CustomNetworkManager.IsServer) return;
-		var rootStorage = GetRootStorage();
+		var rootStorage = GetRootStorageOrPlayer();
 		//have to do it this way so we don't get a concurrent modification error
 		var observersToRemove = serverObserverPlayers.Where(obs => obs != rootStorage.gameObject).ToArray();
 		foreach (var observerPlayer in observersToRemove)

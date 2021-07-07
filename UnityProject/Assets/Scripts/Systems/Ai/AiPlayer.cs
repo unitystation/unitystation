@@ -825,7 +825,7 @@ namespace Systems.Ai
 					return rootPlayer.gameObject;
 				}
 
-				return cardPickupable.ItemSlot.GetRootStorage().gameObject;
+				return cardPickupable.ItemSlot.GetRootStorageOrPlayer().gameObject;
 			}
 
 			//Else we must be on the floor so return ourselves

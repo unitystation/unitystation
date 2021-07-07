@@ -37,13 +37,13 @@ public partial class SubSceneManager
 		if (GameManager.Instance.QuickLoad == false)
 		{
 			//Load Asteroids:
-			yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
+			// yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
 			//Load away site:
-			yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
+			// yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
 			//Load CentCom Scene:
-			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
+			// yield return StartCoroutine(ServerLoadCentCom(loadTimer));
 			//Load Additional Scenes:
-			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
+			// yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 		}
 
 		netIdentity.isDirty = true;
