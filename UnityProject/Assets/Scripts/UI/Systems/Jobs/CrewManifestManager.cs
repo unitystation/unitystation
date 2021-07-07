@@ -16,7 +16,7 @@ namespace Systems
 
 		/// <summary>
 		/// A list of all mainstation crewmembers, including traitors and silicons but not, for example, fugitives or wizards.
-		/// <para>ServerSide Only<para>
+		/// <para>ServerSide Only</para>
 		/// </summary>
 		public List<CrewManifestEntry> CrewManifest { get; private set; } = new List<CrewManifestEntry>();
 		/// <summary>
@@ -28,7 +28,7 @@ namespace Systems
 
 		/// <summary>
 		/// A list of crew member jobs and how many there are
-		/// <para>Server and Client Side valid<para>
+		/// <para>Server and Client Side valid</para>
 		/// </summary>
 		public Dictionary<JobType, int> Jobs { get; private set; } = new Dictionary<JobType, int>();
 
