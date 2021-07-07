@@ -14,7 +14,7 @@ namespace HealthV2
 		/// <summary>
 		///ReagentContainer which the liver uses to hold reagents it will process. Reagents like alcohol will be broken down into their ethanol reagent via ReactionSet
 		/// </summary>
-		[SerializeField] private ReagentContainer processingContainer;
+		[HideInInspector] public ReagentContainer processingContainer;
 
 		/// <summary>
 		/// Alcoholic reagents that the liver will process, override to define what the liver will accept to break down
@@ -45,6 +45,12 @@ namespace HealthV2
 		/// </summary>
 		[SerializeField] private float flushMultiplier = 2;
 
+		public override void SetUpSystems()
+		{
+			base.SetUpSystems();
+
+			processingContainer = GetComponentInChildren<ReagentContainer>();
+		}
 
 		public override void ImplantPeriodicUpdate()
 		{

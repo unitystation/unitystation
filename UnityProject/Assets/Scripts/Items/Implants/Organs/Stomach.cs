@@ -8,7 +8,7 @@ namespace HealthV2
 {
 	public class Stomach : BodyPartModification
 	{
-		public ReagentContainer StomachContents = null;
+		[HideInInspector] public ReagentContainer StomachContents;
 
 		public float DigesterAmountPerSecond = 1;
 
@@ -19,6 +19,9 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
+
+			StomachContents = GetComponentInChildren<ReagentContainer>();
+
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)
 			{
