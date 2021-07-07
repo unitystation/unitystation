@@ -72,7 +72,7 @@ namespace Items.Food
 			}
 
 			_ = Pregnancy(eater.playerHealth);
-			var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
+			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			Inventory.ServerDespawn(feederSlot);
 		}
 

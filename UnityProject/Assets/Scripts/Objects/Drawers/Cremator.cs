@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Systems.Clearance;
 using UnityEngine;
 using AddressableReferences;
 using HealthV2;
@@ -26,6 +27,7 @@ namespace Objects.Drawers
 		}
 
 		private AccessRestrictions accessRestrictions;
+		private ClearanceCheckable clearanceCheckable;
 
 		private const float BURNING_DURATION = 1.5f; // In seconds - timed to the Ding SFX.
 
@@ -33,6 +35,7 @@ namespace Objects.Drawers
 		{
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceCheckable = GetComponent<ClearanceCheckable>();
 		}
 
 		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
@@ -42,7 +45,13 @@ namespace Objects.Drawers
 		{
 			RightClickableResult result = RightClickableResult.Create();
 			if (drawerState == DrawerState.Open) return result;
-			if (!accessRestrictions.CheckAccess(PlayerManager.LocalPlayer)) return result;
+
+			/* --ACCESS REWORK--
+			 *  TODO Remove the AccessRestriction check when we finish migrating!
+			 *
+			 */
+			if (!accessRestrictions.CheckAccess(PlayerManager.LocalPlayer) ||
+			    !clearanceCheckable.HasClearance(PlayerManager.LocalPlayer)) return result;
 			var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
 			if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;
 

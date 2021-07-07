@@ -38,7 +38,7 @@ namespace Items.Food
 				}
 			}
 
-			var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
+			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			Inventory.ServerDespawn(gameObject);
 
 			if (leavings != null)

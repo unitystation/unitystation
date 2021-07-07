@@ -271,8 +271,8 @@ public class MouseInputController : MonoBehaviour
 	// return the Gun component if there is a loaded gun in active hand, otherwise null.
 	private Gun GetLoadedGunInActiveHand()
 	{
-		if (UIManager.Instance == null || UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return null;
-		var item = UIManager.Hands.CurrentSlot.Item;
+		if (PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot() == null) return null;
+		var item = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item;
 		if (item != null)
 		{
 			var gun = item.GetComponent<Gun>();
@@ -302,7 +302,7 @@ public class MouseInputController : MonoBehaviour
 			return;
 		}
 
-		var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
+		var hit = MouseUtils.GetOrderedObjectsUnderMouse()?.FirstOrDefault();
 		if (hit != null)
 		{
 			if (lastHoveredThing != hit)
@@ -440,7 +440,7 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		//can't do anything if we have no item in hand
-		var handObj = UIManager.Hands.CurrentSlot.Item;
+		var handObj = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.Item;
 		if (handObj == null)
 		{
 			triggeredAimApply = null;
@@ -505,7 +505,7 @@ public class MouseInputController : MonoBehaviour
 			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
 					go.GetComponent<MouseDraggable>() != null &&
 					go.GetComponent<MouseDraggable>().enabled &&
-					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
+					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayerScript))
 				.FirstOrDefault();
 		if (draggable != null)
 		{
@@ -601,7 +601,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		if (UIManager.IsThrow)
 		{
-			var currentSlot = UIManager.Hands.CurrentSlot;
+			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 			if (currentSlot.Item == null)
 			{
 				return false;
@@ -614,7 +614,7 @@ public class MouseInputController : MonoBehaviour
 			//so target is still correct when lerping on a matrix (since registered world position is rounded)
 			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.NamedSlot,
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
 				targetVector, (int) UIManager.DamageZone);
 
 			//Disabling throw button

@@ -20,9 +20,6 @@ namespace Systems.Atmospherics
 
 		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
 
-		private Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
-		public Dictionary<Vector3Int, HashSet<Gas>> FogTiles => fogTiles;
-
 		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions =
 			new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
 		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> Reactions => reactions;
@@ -331,7 +328,7 @@ namespace Systems.Atmospherics
 
 				//only expose to atmos impassable objects, since those are the things the flames would
 				//actually brush up against
-				matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
+				matrix.ServerObjects.InvokeOnObjects(applyExposure, atLocalPosition);
 				//expose the tiles there
 				foreach (var tilemapDamage in tilemapDamages)
 				{
@@ -344,7 +341,7 @@ namespace Systems.Atmospherics
 			{
 				Profiler.BeginSample("DirectExposure");
 				//direct exposure logic
-				matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
+				matrix.ServerObjects.InvokeOnObjects(applyExposure, atLocalPosition);
 				//expose the tiles
 				foreach (var tilemapDamage in tilemapDamages)
 				{

@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using Systems.Explosions;
+using UnityEditor;
 
 namespace Objects.Atmospherics
 {
@@ -14,19 +15,16 @@ namespace Objects.Atmospherics
 
 		public GasMix GasMix { get; set; }
 
+		public GasMix StoredGasMix = new GasMix();
+
 		public bool IsVenting { get; private set; } = false;
 
 		[Tooltip("This is the maximum moles the container should be able to contain without exploding.")]
 		public float MaximumMoles = 0f;
 
 		public float ReleasePressure = 101.325f;
-
-		// Keeping a copy of these values for initialization and the editor
 		public float Volume;
-
-		//hide these values as they're defined in GasContainerEditor.cs
-		[HideInInspector] public float Temperature;
-		[HideInInspector] public float[] Gases = new float[Gas.Count];
+		public float Temperature;
 
 		private Integrity integrity;
 
@@ -45,7 +43,7 @@ namespace Objects.Atmospherics
 		//How full the tank is
 		private float fullPercentageClient = 0;
 		public float FullPercentageClient => fullPercentageClient;
-		
+
 		//Valid serverside only
 		public float FullPercentage => GasMix.Moles / MaximumMoles;
 
@@ -153,17 +151,25 @@ namespace Objects.Atmospherics
 				Volume = GasMix.Volume;
 				Temperature = GasMix.Temperature;
 
-				foreach (Gas gas in Gas.All)
+				foreach (var gas in GasMix.GasesArray)
 				{
-					Gases[gas] = GasMix.Gases[gas];
+					StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
 				}
 			}
 		}
+#if UNITY_EDITOR
 
+		[ContextMenu("Set Values for Gas")]
+		private void Validate()
+		{
+			Undo.RecordObject(gameObject, "Gas Change");
+			StoredGasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
+		}
+#endif
 		public void UpdateGasMix()
 		{
 			gasIsInitialised = true;
-			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
+			GasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
 		}
 	}
 }

@@ -36,13 +36,13 @@ MonoBehaviour:
     placeableOnlyOnTile: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
       type: 2}
     itemCost: 1
-    timeToPlace: 1
+    timeToPlace: 0
   - layerTile: {fileID: 11400000, guid: 4ab231e80f4a9e849b744473ab2d33cc, type: 2}
     placeableOn: 4
     placeableOnlyOnTile: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
       type: 2}
     itemCost: 2
-    timeToPlace: 5
+    timeToPlace: 1
   placeSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GenHit.prefab

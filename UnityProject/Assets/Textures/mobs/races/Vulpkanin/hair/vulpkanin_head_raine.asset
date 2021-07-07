@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vulpkanin_head_raine
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -4016448407798011278, guid: 78046a9786e130a49aa794684ebd9639,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2716265955315304413, guid: 78046a9786e130a49aa794684ebd9639,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7724265541040276500, guid: 78046a9786e130a49aa794684ebd9639,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1713172162100912703, guid: 78046a9786e130a49aa794684ebd9639,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 15493
+  DisplayName: Raine

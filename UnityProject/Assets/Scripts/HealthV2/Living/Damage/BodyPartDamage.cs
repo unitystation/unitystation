@@ -114,6 +114,8 @@ namespace HealthV2
 
 		public bool CanBleedExternally = false;
 
+		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
+
 		private bool isBleedingInternally = false;
 
 		private bool isBleedingExternally = false;
@@ -124,8 +126,12 @@ namespace HealthV2
 
 		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
 
-		[SerializeField]
-		private float maximumInternalBleedDamage = 100;
+
+		[SerializeField] private float maximumInternalBleedDamage = 100;
+		public float InternalBleedingBloodLoss = 12;
+		public float ExternalBleedingBloodLoss = 6;
+
+		[SerializeField, Range(0.2f, 4.25f)] private float baseTraumaDamageMultiplier = 0.25f;
 
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
@@ -425,6 +431,24 @@ namespace HealthV2
 			AffectDamage(-healAmt, damageTypeToHeal);
 		}
 
+		public void HealTraumaticDamage(float healAmount, TramuticDamageTypes damageTypeToHeal)
+		{
+			if (damageTypeToHeal == TramuticDamageTypes.BURN)
+			{
+				currentBurnDamage -= healAmount;
+			}
+			if (damageTypeToHeal == TramuticDamageTypes.SLASH)
+			{
+				currentSlashCutDamage -= healAmount;
+			}
+			if (damageTypeToHeal == TramuticDamageTypes.PIERCE)
+			{
+				currentPierceDamage -= healAmount;
+			}
+			CheckCutSize();
+			CheckBurnDamageLevels();
+		}
+
 		/// <summary>
 		/// Resets all damage sustained by this body part
 		/// </summary>
@@ -470,6 +494,7 @@ namespace HealthV2
 		/// </summary>
 		private void UpdateSeverity()
 		{
+
 			var oldSeverity = Severity;
 			// update UI limbs depending on their severity of damage
 			float severity = 1 - (Mathf.Max(maxHealth - TotalDamageWithoutOxyCloneRadStam, 0) / maxHealth);
@@ -510,7 +535,7 @@ namespace HealthV2
 				Severity = DamageSeverity.Max;
 			}
 
-			if (oldSeverity != Severity && healthMaster != null)
+			if (DamageContributesToOverallHealth && oldSeverity != Severity && healthMaster != null)
 			{
 				UpdateIcons();
 			}
@@ -543,26 +568,41 @@ namespace HealthV2
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if(damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += tramuaDamage; }
-				if(damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += tramuaDamage; }
+				if (damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
+				if (damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
 				CheckCutSize();
 			}
 			//Burn damage checks for it's own armor damage type.
 			if (damageType == TramuticDamageTypes.BURN)
 			{
-				//Large cuts and parts in terrible condition means less protective flesh against fire.
-				if(currentSlashDamageLevel == SlashDamageLevel.LARGE || Severity >= DamageSeverity.Critical)
-				{
-					TakeBurnDamage(tramuaDamage * 1.25f);
-				}
-				else
-				{
-					TakeBurnDamage(tramuaDamage);
-				}
+				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
 			}
 		}
 
-		[ContextMenu("Debug - Apply 25 Slash Damage")]
+		private float MultiplyTraumaDamage(float baseDamage)
+		{
+			if (currentBurnDamageLevel >= BurnDamageLevels.CHARRED || currentCutSize >= BodyPartCutSize.LARGE
+			|| Severity >= DamageSeverity.Critical)
+			{
+				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
+			}
+			else if (currentBurnDamageLevel >= BurnDamageLevels.MAJOR || currentCutSize >= BodyPartCutSize.MEDIUM
+			|| Severity >= DamageSeverity.Bad)
+			{
+				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
+			}
+			else if (currentBurnDamageLevel >= BurnDamageLevels.MINOR || currentCutSize >= BodyPartCutSize.SMALL
+			|| Severity >= DamageSeverity.LightModerate)
+			{
+				return baseDamage * baseTraumaDamageMultiplier;
+			}
+			else
+			{
+				return baseDamage;
+			}
+		}
+
+			[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
 			ApplyTraumaDamage(25);
@@ -691,7 +731,7 @@ namespace HealthV2
 				yield return WaitFor.Seconds(4f);
 				if(Root != null) //This is to prevent rare moments where body parts still attempt to bleed when they no longer should.
 				{
-					if (Root.ContainsLimbs.Contains(this) != false) 
+					if (Root.ContainsLimbs.Contains(this) != false)
 					{
 						healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
 					}
@@ -803,7 +843,6 @@ namespace HealthV2
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
 				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
-				IEnumerable<ItemSlot> PlayerItemList = healthMaster.PlayerScriptOwner.ItemStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
 					Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
@@ -817,27 +856,14 @@ namespace HealthV2
 					var organ = item.ItemObject?.GetComponent<BodyPart>();
 					if (organ != null)
 					{
+						if (organ.gibsEntireBodyOnRemoval)
+						{
+							healthMaster.Gib();
+							return;
+						}
 						if (organ.DeathOnRemoval)
 						{
 							HealthMaster.Death();
-						}
-					}
-				}
-				if(PlayerItemList != null) //In case this is not a player
-				{
-					foreach (ItemSlot item in PlayerItemList)
-					{
-						Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
-						if (itemObject != null)
-						{
-							if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
-							{
-								Inventory.ServerDrop(item);
-							}
-							else
-							{
-								Inventory.ServerDespawn(item);
-							}
 						}
 					}
 				}
@@ -850,14 +876,20 @@ namespace HealthV2
 			}
 		}
 
-		/// <summary>
-		/// Returns current burn damage
-		/// </summary>
-		/// <returns>currentBurnDamage</returns>
+
 		public float GetCurrentBurnDamage()
 		{
 			return currentBurnDamage;
 		}
+		public float GetCurrentSlashDamage()
+		{
+			return currentSlashCutDamage;
+		}
+		public float GetCurrentPierceDamage()
+		{
+			return currentPierceDamage;
+		}
+
 
 		/// <summary>
 		/// Updates the player health UI if present

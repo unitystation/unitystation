@@ -57,8 +57,7 @@ public class PlayerSprites : MonoBehaviour
 	public CharacterSettings ThisCharacter;
 
 	//clothes for each clothing slot
-	//TODO: don't use string as the dictionary key
-	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
+	public readonly Dictionary<NamedSlot, ClothingItem> clothes = new Dictionary<NamedSlot, ClothingItem>();
 
 	public readonly List<BodyPartSprites> Addedbodypart = new List<BodyPartSprites>();
 
@@ -76,13 +75,12 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerHealthV2 playerHealth;
 	private PlayerSync playerSync;
 
-	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
-	private ulong overflow = 0;
-
 	/// <summary>
 	/// Define which piece of clothing are hidden (not rendering) right now
 	/// </summary>
-	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
+	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
+
+	private ulong overflow = 0;
 
 	public SpriteHandlerNorder ToInstantiateSpriteCustomisation;
 
@@ -90,7 +88,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public List<uint> InternalNetIDs;
 
-	public bool RootBodyPartsLoaded = false;
+	public bool RootBodyPartsLoaded;
 
 	[SerializeField]
 	private GameObject OverlaySprites;
@@ -100,27 +98,24 @@ public class PlayerSprites : MonoBehaviour
 		directional = GetComponent<Directional>();
 		playerHealth = GetComponent<PlayerHealthV2>();
 
-		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
+		foreach (var clothingItem in GetComponentsInChildren<ClothingItem>())
 		{
-			clothes[c.name] = c;
-			// add listener in case clothing was changed
-			c.OnClothingEquipped += OnClothingEquipped;
+			clothes.Add(clothingItem.Slot, clothingItem);
 		}
 
-		for (int i = 0; i < BodyParts.transform.childCount; i++)
+		for (var i = 0; i < BodyParts.transform.childCount; i++)
 		{
 			//TODO: Do we need to add listeners for implant removalv
 			bodyParts[BodyParts.transform.GetChild(i).name] = BodyParts.transform.GetChild(i).gameObject;
 		}
 
-
 		AddOverlayGameObjects();
 
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		//TODO: Need to reimplement fire stacks on players.
-		playerHealth.EnsureInit();
 		playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
-		OnClientFireStacksChange(playerHealth.FireStacks);
+		var healthStateController = GetComponent<HealthStateController>();
+		OnClientFireStacksChange(healthStateController.FireStacks);
 	}
 
 	private void OnDestroy()
@@ -157,7 +152,7 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
-	public void SetUpCharacter(CharacterSettings Character)
+	public void SetUpCharacter()
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -224,19 +219,6 @@ public class PlayerSprites : MonoBehaviour
 		{
 			SubSetBodyPart(Limb, path);
 		}
-	}
-
-	public IEnumerator WaitForPlayerinitialisation()
-	{
-		yield return null;
-		SetupsSprites();
-	}
-
-	public void SetupCharacterData(CharacterSettings Character)
-	{
-		ThisCharacter = Character;
-		StartCoroutine(WaitForPlayerinitialisation());
-
 	}
 
 	public void SetupsSprites()
@@ -308,33 +290,8 @@ public class PlayerSprites : MonoBehaviour
 				}
 			}
 		}
+		GetComponent<RootBodyPartController>().PlayerSpritesData = JsonConvert.SerializeObject(ToClient);
 
-		this.GetComponent<RootBodyPartController>().UpdateCustomisations("", JsonConvert.SerializeObject(ToClient));
-
-		//TODOH
-
-		//Fetch Race Health Pack
-		// if(Character.Race == Race.Human)
-		// {
-		//
-		// }
-
-		//this is Target zone
-
-		//Instantiates Sprites
-		//TODOH
-		//Race data contain sprites order
-		//healing/Damage splits across body parts
-		//needs a generate sprites dynamically
-
-
-		//RaceBodyparts.Base.LegLeft.GetComponent<ItemStorage>()
-
-
-		//RaceTexture = Spawn.RaceData["human"];
-
-		//Loop through dimrphic body parts
-		//SetupBodySpritesByGender();
 		SetSurfaceColour();
 		OnDirectionChange(directional.CurrentDirection);
 	}
@@ -343,16 +300,7 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
 		{
-			// var Set = ToSpawn.GetComponent<RootBodyPartContainer>();
-			// Set.PlayerSprites = this;
-			// Set.healthMaster = playerHealth;
-			// var InSpawnResult = Spawn.ServerPrefab(ToSpawn, Vector3.zero, InWhere, AutoOnSpawnServerHook: false);
-			// InSpawnResult.GameObject.transform.localPosition = Vector3.zero;
-
 			var rootBodyPartContainer = InWhere.GetComponent<RootBodyPartContainer>();
-			//rootBodyPartContainer.ItemStorage
-
-			//rootBodyPartContainer.ItemStorage.ServerTryAdd()
 			livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
 			rootBodyPartContainer.PlayerSprites = this;
 
@@ -361,18 +309,7 @@ public class PlayerSprites : MonoBehaviour
 				var InSpawnResult = Spawn.ServerPrefab(ToSpawn).GameObject;
 				rootBodyPartContainer.ItemStorage.ServerTryAdd(InSpawnResult);
 			}
-
-			//Spawn._ServerFireClientServerSpawnHooks(InSpawnResult);
 		}
-
-		// var rootBodyPartContainer = Spawn.ServerPrefab(ToSpawn, null ,InWhere).GameObject.GetComponent<RootBodyPartContainer>();
-		// if (rootBodyPartContainer != null)
-		// {
-		// rootBodyPartContainer.name = ToSpawn.name;
-		// livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
-		// rootBodyPartContainer.PlayerSprites = this;
-		// rootBodyPartContainer.healthMaster = playerHealth;
-		// }
 	}
 
 	public void SetSurfaceColour()
@@ -420,14 +357,14 @@ public class PlayerSprites : MonoBehaviour
 	private void OnDirectionChange(Orientation direction)
 	{
 		//update the clothing sprites
-		foreach (ClothingItem c in clothes.Values)
+		foreach (var clothingItem in clothes.Values)
 		{
-			c.Direction = direction;
+			clothingItem.Direction = direction;
 		}
 
-		foreach (var Sprite in OpenSprites)
+		foreach (var sprite in OpenSprites)
 		{
-			Sprite.OnDirectionChange(direction);
+			sprite.OnDirectionChange(direction);
 		}
 
 		foreach (var bodypart in Addedbodypart)
@@ -453,20 +390,6 @@ public class PlayerSprites : MonoBehaviour
 		else
 		{
 			electrocutedOverlay.StartOverlay(directional.CurrentDirection);
-		}
-	}
-
-	/// <summary>
-	/// Enables the electrocuted overlay for the player's mob.
-	/// </summary>
-	/// <param name="time">If provided and greater than zero, how long until the electrocuted overlay is disabled.</param>
-	public void EnableElectrocutedOverlay(float time = -1)
-	{
-		electrocutedOverlay.StartOverlay(directional.CurrentDirection);
-
-		if (time > 0)
-		{
-			StartCoroutine(StopElectrocutedOverlayAfter(time));
 		}
 	}
 
@@ -531,10 +454,9 @@ public class PlayerSprites : MonoBehaviour
 					RaceBodyparts = Race;
 				}
 			}
-
-			SetUpCharacter(characterSettings);
+			SetUpCharacter();
+			SetupsSprites();
 			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
-			SetupCharacterData(characterSettings);
 		}
 	}
 
@@ -565,15 +487,7 @@ public class PlayerSprites : MonoBehaviour
 		muzzleFlash.gameObject.SetActive(false);
 	}
 
-	/// <summary>
-	/// Returns true if this playersprites has a clothing item for the specified named slot
-	/// </summary>
-	public bool HasClothingItem(NamedSlot? namedSlot)
-	{
-		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
-	}
-
-	private void OnClothingEquipped(ClothingV2 clothing, bool isEquipped)
+	public void OnClothingEquipped(ClothingV2 clothing, bool isEquipped)
 	{
 		//Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
 
@@ -646,7 +560,7 @@ public class PlayerSprites : MonoBehaviour
 		// TODO: Not implemented yet?
 		//ValidateHideFlag(ClothingHideFlags.HIDE_SUITSTORAGE, "suit_storage");
 	}
-
+/*
 	private void ValidateHideFlag(ClothingHideFlags hideFlag, string name)
 	{
 		// Check if dictionary has entry about such clothing item name
@@ -660,13 +574,7 @@ public class PlayerSprites : MonoBehaviour
 		var isVisible = !hideClothingFlags.HasFlag(hideFlag);
 		clothes[name].gameObject.SetActive(isVisible);
 	}
-
-	private IEnumerator StopElectrocutedOverlayAfter(float seconds)
-	{
-		yield return WaitFor.Seconds(seconds);
-		DisableElectrocutedOverlay();
-	}
-
+*/
 	public void UpdateChildren(List<uint> NewInternalNetIDs)
 	{
 		OpenSprites.Clear();

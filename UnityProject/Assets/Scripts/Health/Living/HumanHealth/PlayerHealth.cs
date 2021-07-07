@@ -56,7 +56,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	private RegisterPlayer registerPlayer;
 	public RegisterPlayer RegisterPlayer => registerPlayer;
 
-	private ItemStorage itemStorage;
+	private DynamicItemStorage itemStorage;
 
 	private bool init = false;
 
@@ -127,7 +127,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		PlayerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
-		itemStorage = GetComponent<ItemStorage>();
+		itemStorage = GetComponent<DynamicItemStorage>();
 		mobSickness = GetComponent<MobSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
@@ -194,8 +194,15 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 			//drop items in hand
 			if (itemStorage != null)
 			{
-				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+				foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+				{
+					Inventory.ServerDrop(itemSlot);
+				}
+
+				foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+				{
+					Inventory.ServerDrop(itemSlot);
+				}
 			}
 
 			if (isServer)
@@ -287,14 +294,14 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 	/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 	public override LivingShockResponse Electrocute(Electrocution electrocution)
 	{
-		if (playerNetworkActions.activeHand == NamedSlot.leftHand)
-		{
-			electrocutedHand = BodyPartType.LeftArm;
-		}
-		else
-		{
-			electrocutedHand = BodyPartType.RightArm;
-		}
+		// if (playerNetworkActions.activeHand == NamedSlot.leftHand)
+		// {
+			// electrocutedHand = BodyPartType.LeftArm;
+		// }
+		// else
+		// {
+			// electrocutedHand = BodyPartType.RightArm;
+		// }
 
 		return base.Electrocute(electrocution);
 	}
@@ -325,8 +332,16 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 		float resistance = GetNakedHumanoidElectricalResistance(voltage);
 
 		// Give the humanoid extra/less electrical resistance based on what they're holding/wearing
-		resistance += Electrocution.GetItemElectricalResistance(itemStorage.GetNamedItemSlot(NamedSlot.hands).ItemObject);
-		resistance += Electrocution.GetItemElectricalResistance(itemStorage.GetNamedItemSlot(NamedSlot.feet).ItemObject);
+		foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.hands))
+		{
+			resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+		}
+
+		foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.feet))
+		{
+			resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+		}
+
 		// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
 		if (itemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
 

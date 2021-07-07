@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Systems.Atmospherics;
 using Chemistry;
 using ScriptableObjects;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
 
@@ -26,13 +27,12 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 	public Reagent Stimulum;
 	public Reagent Pluoxium;
 	public Reagent Freon;
+	
+	private static Dictionary<Reagent, GasSO> ReagentToGas;
+	private static Dictionary<GasSO, Reagent> GasToReagent;
 
 
-	private static Dictionary<Reagent, Gas> ReagentToGas;
-	private static Dictionary<Gas, Reagent> GasToReagent;
-
-
-	public Dictionary<Reagent, Gas> DictionaryReagentToGas
+	public Dictionary<Reagent, GasSO> DictionaryReagentToGas
 	{
 		get
 		{
@@ -41,7 +41,7 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 		}
 	}
 
-	public Dictionary<Gas, Reagent> DictionaryGasToReagent
+	public Dictionary<GasSO, Reagent> DictionaryGasToReagent
 	{
 		get
 		{
@@ -54,8 +54,8 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 	{
 		if (ReagentToGas == null || GasToReagent == null)
 		{
-			ReagentToGas = new Dictionary<Reagent, Gas>();
-			GasToReagent = new Dictionary<Gas, Reagent>();
+			ReagentToGas = new Dictionary<Reagent, GasSO>();
+			GasToReagent = new Dictionary<GasSO, Reagent>();
 			foreach (var _ReagentToGas in InitialReagentToGas)
 			{
 				ReagentToGas[IntToReagent(_ReagentToGas.Key)] = _ReagentToGas.Value;
@@ -65,38 +65,41 @@ public class GAS2ReagentSingleton : SingletonScriptableObject<GAS2ReagentSinglet
 	}
 
 
-	public Reagent GetGasToReagent(Gas InGas)
+	public Reagent GetGasToReagent(GasSO InGas)
 	{
 		CheckState();
 		return GasToReagent[InGas];
 	}
 
-	public Gas GetReagentToGas(Reagent InReagent)
+	public GasSO GetReagentToGas(Reagent InReagent)
 	{
 		CheckState();
 		return ReagentToGas[InReagent];
 	}
 
-	private Dictionary<int, Gas> InitialReagentToGas = new Dictionary<int, Gas>()
+	private void OnEnable()
 	{
-		{1, Gas.Oxygen},
-		{2, Gas.Nitrogen},
-		{3, Gas.CarbonDioxide},
-		{4, Gas.Plasma},
-		{5, Gas.NitrousOxide},
-		{6, Gas.Hydrogen},
-		{7, Gas.WaterVapor},
-		{8, Gas.BZ},
-		{9, Gas.Miasma},
-		{10, Gas.Nitryl},
-		{11, Gas.Tritium},
-		{12, Gas.HyperNoblium},
-		{13, Gas.Stimulum},
-		{14, Gas.Pluoxium},
-		{15, Gas.Freon},
-	};
+		InitialReagentToGas = new Dictionary<int, GasSO>()
+		{
+			{1, Gas.Oxygen},
+			{2, Gas.Nitrogen},
+			{3, Gas.CarbonDioxide},
+			{4, Gas.Plasma},
+			{5, Gas.NitrousOxide},
+			{6, Gas.Hydrogen},
+			{7, Gas.WaterVapor},
+			{8, Gas.BZ},
+			{9, Gas.Miasma},
+			{10, Gas.Nitryl},
+			{11, Gas.Tritium},
+			{12, Gas.HyperNoblium},
+			{13, Gas.Stimulum},
+			{14, Gas.Pluoxium},
+			{15, Gas.Freon},
+		};
+	}
 
-
+	private Dictionary<int, GasSO> InitialReagentToGas;
 
 	private Reagent IntToReagent(int ToGET)
 	{

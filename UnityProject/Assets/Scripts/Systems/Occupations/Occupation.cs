@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Systems.Clearance;
 using AddressableReferences;
 using NaughtyAttributes;
 using UnityEditor;
@@ -55,6 +56,23 @@ public class Occupation : ScriptableObject
 	[Tooltip("Default access allowed for this occupation.")]
 	private List<Access> allowedAccess = null;
 	public List<Access> AllowedAccess => allowedAccess;
+
+	[SerializeField]
+	[Tooltip("Default clearance issued to this occupation.")]
+	private List<Clearance> issuedClearance = default;
+	public List<Clearance> IssuedClearance
+	{
+		get => issuedClearance;
+		set => issuedClearance = value; //Change me to read only when we're ready migrating!
+	}
+
+	[SerializeField] [Tooltip("Default clearance issued to this occupation when round is LowPop.")]
+	private List<Clearance> issuedLowPopClearance = default;
+	public List<Clearance> IssuedLowPopClearance
+	{
+		get => issuedLowPopClearance;
+		set => issuedLowPopClearance = value; //Change me to read only when we're ready migrating!
+	}
 
 	[SerializeField]
 	[Tooltip("Default spells available for this occupation.")]
@@ -154,4 +172,9 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	private Color backgroundColor = Color.red;
 	public Color BackgroundColor => backgroundColor;
+
+	[Header("If used will spawn player using this prefab instead of human body.")]
+	[SerializeField]
+	private GameObject specialPlayerPrefab = null;
+	public GameObject SpecialPlayerPrefab => specialPlayerPrefab;
 }

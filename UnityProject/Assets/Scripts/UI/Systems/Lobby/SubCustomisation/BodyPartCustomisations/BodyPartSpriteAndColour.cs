@@ -46,7 +46,7 @@ namespace UI.CharacterCreator
 
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
 			BodyPartColour.a = 1;
-			if (ColourAnd_Selected.Chosen >= OptionalSprites.Count)
+			if (ColourAnd_Selected.Chosen >= (OptionalSprites.Count + 1))
 			{
 				Dropdown.value = 0;
 			}
@@ -100,6 +100,7 @@ namespace UI.CharacterCreator
 		public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData,
 			LivingHealthMasterBase LivingHealthMasterBase)
 		{
+			Body_Part.SetCustomisationData = InData;
 			var ColourAnd_Selected = JsonConvert.DeserializeObject<ColourAndSelected>(InData);
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
 			BodyPartColour.a = 1;
@@ -107,7 +108,7 @@ namespace UI.CharacterCreator
 			OptionalSprites = OptionalSprites.OrderBy(pcd => pcd.DisplayName == "" ? pcd.name : pcd.DisplayName).ToList();
 			if (ColourAnd_Selected.Chosen != 0)
 			{
-				if (ColourAnd_Selected.Chosen >= OptionalSprites.Count)
+				if (ColourAnd_Selected.Chosen >= OptionalSprites.Count + 1)
 				{
 					Body_Part.RelatedPresentSprites[0].baseSpriteHandler.Empty();
 					return;

@@ -1,4 +1,5 @@
-﻿using Messages.Server;
+﻿using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
 
 namespace Doors.Modules
@@ -10,13 +11,14 @@ namespace Doors.Modules
 		[SerializeField] [Tooltip("Base time this door takes to be welded")]
 		private float weldTime = 5f;//TODO use time multipliers from welder tools
 
-		public override ModuleSignal OpenInteraction(HandApply interaction)
+		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			return ModuleSignal.Continue;
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction)
+		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
+			if (interaction == null) return ModuleSignal.Continue;
 			if (Validations.HasUsedActiveWelder(interaction))
 			{
 				TryWeld(interaction);
@@ -35,7 +37,7 @@ namespace Doors.Modules
 			return ModuleSignal.Continue;
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer)
+		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
 			return ModuleSignal.Continue;
 		}

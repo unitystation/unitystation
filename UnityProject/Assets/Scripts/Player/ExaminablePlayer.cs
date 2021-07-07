@@ -26,7 +26,21 @@ namespace Player
 		/// Check if player is wearing a mask
 		/// </summary>
 		/// <returns>true if player don't wear mask</returns>
-		private bool IsFaceVisible => script.ItemStorage.GetNamedItemSlot(NamedSlot.mask).IsEmpty;
+		private bool IsFaceVisible
+		{
+			get
+			{
+				foreach (var itemSlot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
+				{
+					if (itemSlot.IsEmpty == false)
+					{
+						return false;
+					}
+				}
+
+				return true;
+			}
+		}
 
 		[Tooltip("Slots from which other players can read ID card data")]
 		[SerializeField]
@@ -82,26 +96,28 @@ namespace Player
 		{
 			foreach (var slot in readableIDslots)
 			{
-				var itemSlot = script.ItemStorage.GetNamedItemSlot(slot);
-				if (itemSlot.IsOccupied == false)
+				foreach (var itemSlot in script.DynamicItemStorage.GetNamedItemSlots(slot))
 				{
-					continue;
-				}
-				// if item is ID card
-				if (itemSlot.ItemObject.TryGetComponent(out idCard))
-				{
+					if (itemSlot.IsOccupied == false)
+					{
+						continue;
+					}
+					// if item is ID card
+					if (itemSlot.ItemObject.TryGetComponent(out idCard))
+					{
+						return true;
+					}
+
+					// if item is PDA and IDCard is not null
+					if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
+					    pdaLogic.IDCard == null)
+					{
+						continue;
+					}
+
+					idCard = pdaLogic.IDCard;
 					return true;
 				}
-
-				// if item is PDA and IDCard is not null
-				if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
-				    pdaLogic.IDCard == null)
-				{
-					continue;
-				}
-
-				idCard = pdaLogic.IDCard;
-				return true;
 			}
 
 			idCard = null;
@@ -110,9 +126,11 @@ namespace Player
 
 		public void Examine(GameObject sentByPlayer)
 		{
-			// if distance is too big or is self-examination, send normal examine message
-			if (PlayerUtils.IsGhost(sentByPlayer) == false)
+			if(sentByPlayer.TryGetComponent<PlayerScript>(out var sentByPlayerScript) == false) return;
+
+			if (sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Ghost)
 			{
+				// if distance is too big or is self-examination, send normal examine message
 				if (Vector3.Distance(sentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
 				{
 					BasicExamine(sentByPlayer);
@@ -120,10 +138,22 @@ namespace Player
 				}
 			}
 
+			//If youre not normal or ghost then only allow basic examination
+			//TODO maybe in future have this be a separate setting for each player type?
+			if (sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Normal &&
+			    sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Ghost)
+			{
+				BasicExamine(sentByPlayer);
+				return;
+			}
+
 			// start itemslot observation
-			interactableStorage.ItemStorage.ServerAddObserverPlayer(sentByPlayer);
+			this.GetComponent<DynamicItemStorage>().ServerAddObserverPlayer(sentByPlayer);
 			// send message to enable examination window
 			PlayerExaminationMessage.Send(sentByPlayer, this, true);
+
+			//Allow ghosts to keep the screen open even if player moves away
+			if(sentByPlayerScript.PlayerState == PlayerScript.PlayerStates.Ghost) return;
 
 			//stop observing when target player is too far away
 			var relationship = RangeRelationship.Between(
@@ -146,7 +176,7 @@ namespace Player
 		private void ServerOnObservationEnded(RangeRelationship cancelled)
 		{
 			// stop observing item storage
-			interactableStorage.ItemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
+			this.GetComponent<DynamicItemStorage>().ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
 			// send message to disable examination window
 			PlayerExaminationMessage.Send(cancelled.obj1.gameObject, this, false);
 		}

@@ -25,6 +25,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
+      propertyPath: gibsEntireBodyOnRemoval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 125
       objectReference: {fileID: 0}
@@ -46,11 +56,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5104905171ff46a40950259df066250b,
         type: 2}
-    - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
-        type: 3}
-      propertyPath: Populater.Contents.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 8743880023469781445, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_Sprite

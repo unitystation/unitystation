@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Vulpkanin
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements:
+      - {fileID: 2786272515407694308, guid: fc7da719ff1e9914997b5ac7e93329f4, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 5981652827617143068, guid: e6757c969c15c0e4bbb70a67ad997c65, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 5040048018192131826, guid: 9b0868b0970ca724c91940ee054c77b3, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 6237006825172328352, guid: b958008c840883e4a95171961fc3ea0a, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 3015072755168004777, guid: 6e29d44acc06ee743b16901af59de78d, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 7598470278081952332, guid: a41526c40e9f8fe46b90658a04c7fcc1, type: 3}
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 1
+        Name: Male
+      - bodyType: 2
+        Name: Female
+      - bodyType: 0
+        Name: NonBinary
+    SkinColours: []
+    BloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+    RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
+      type: 2}
+    BodyPartsThatShareTheSkinTone:
+    - {fileID: 1644536323247627075, guid: df82693e0cd2bfc4b97bdedcf98469fb, type: 3}

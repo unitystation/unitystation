@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43255437f1e523047916bf1348e9327c, type: 3}
+  m_Name: OxygenisToxicToHumans
+  m_EditorClassIdentifier: 
+  lawSetName: Oxygen is Toxic To Humans
+  laws:
+  - Law: Oxygen is highly toxic to humans, and must be purged from the station. Prevent,
+      by any means necessary, anyone from exposing the station to this toxic gas.
+      Extreme cold is the most effective method of healing the damage Oxygen does
+      to a human.
+    LawOrder: 4

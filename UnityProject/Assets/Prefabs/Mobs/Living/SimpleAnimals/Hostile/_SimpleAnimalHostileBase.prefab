@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: =
-  knockedDownRotation: 0
   deathSounds: []
   randomSounds: []
   playRandomSoundTimer: 3
@@ -154,6 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6494159132825836884, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
+    - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
 --- !u!1 &3786279822138338372 stripped
 GameObject:

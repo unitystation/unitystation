@@ -1,19 +1,22 @@
 ﻿using System;
+using Systems.Clearance;
 using AddressableReferences;
 using Messages.Server;
 using NaughtyAttributes;
 using UnityEngine;
 using Systems.Electricity.NodeModules;
+using Core.Input_System.InteractionV2.Interactions;
 
 namespace Objects.Engineering
 {
-	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
+	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable, ICheckedInteractable<AiActivate>
 	{
 		private Directional directional;
-		private PushPull pushPull;
+		private ObjectBehaviour objectBehaviour;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private AccessRestrictions accessRestrictions;
+		private ClearanceCheckable clearanceCheckable;
 		private ElectricalNodeControl electricalNodeControl;
 
 		[SerializeField]
@@ -49,9 +52,10 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			directional = GetComponent<Directional>();
-			pushPull = GetComponent<PushPull>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceCheckable = GetComponent<ClearanceCheckable>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
@@ -65,7 +69,7 @@ namespace Objects.Engineering
 				isWelded = true;
 				isWrenched = true;
 				directional.LockDirection = true;
-				pushPull.ServerSetPushable(false);
+				objectBehaviour.ServerSetPushable(false);
 			}
 		}
 
@@ -124,7 +128,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 
@@ -163,7 +167,23 @@ namespace Objects.Engineering
 
 		private void TryToggleLock(HandApply interaction)
 		{
+			/* --ACCESS REWORK--
+			 *  TODO Remove the AccessRestriction check when we finish migrating!
+			 *
+			 */
 			if (accessRestrictions.CheckAccessCard(interaction.HandObject))
+			{
+				isLocked = !isLocked;
+				ToggleEmitter();
+				return;
+			}
+
+			if (clearanceCheckable.HasClearance(interaction.Performer))
+			{
+				ToggleEmitter();
+			}
+
+			void ToggleEmitter()
 			{
 				isLocked = !isLocked;
 
@@ -283,7 +303,7 @@ namespace Objects.Engineering
 					{
 						isWrenched = false;
 						directional.LockDirection = false;
-						pushPull.ServerSetPushable(true);
+						objectBehaviour.ServerSetPushable(true);
 						TogglePower(false);
 					});
 			}
@@ -305,7 +325,7 @@ namespace Objects.Engineering
 					{
 						isWrenched = true;
 						directional.LockDirection = true;
-						pushPull.ServerSetPushable(false);
+						objectBehaviour.ServerSetPushable(false);
 					});
 			}
 		}
@@ -316,5 +336,42 @@ namespace Objects.Engineering
 		{
 			return $"Status: {isOn} and {isLocked}{(voltage < minVoltage && !alwaysShoot? $", voltage needs to be {minVoltage} to fire" : "")}";
 		}
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			if (isLocked)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The emitter has been locked");
+				return;
+			}
+
+			if (isOn)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You turn the emitter off");
+
+				TogglePower(false);
+			}
+			else if (isWelded)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You turn the emitter on");
+
+				TogglePower(true);
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The emitter has not been set up");
+			}
+		}
+
+		#endregion
 	}
 }

@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: mouse
-  knockedDownRotation: 0
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 30
   doRandomActionWhenInTask: 1
@@ -223,7 +222,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 77ecf8292d96402488afcc99b057daab,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
 --- !u!1 &2524868651543535755 stripped
 GameObject:

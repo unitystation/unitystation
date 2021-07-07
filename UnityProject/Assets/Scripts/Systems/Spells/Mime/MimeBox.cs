@@ -52,7 +52,7 @@ namespace Spells
 				}
 			}
 			// putting box in hand
-			Inventory.ServerAdd(box, caster.Script.ItemStorage.GetActiveHandSlot(), ReplacementStrategy.DropOther);
+			Inventory.ServerAdd(box, caster.Script.DynamicItemStorage.GetActiveHandSlot(), ReplacementStrategy.DropOther);
 
 			return true;
 		}

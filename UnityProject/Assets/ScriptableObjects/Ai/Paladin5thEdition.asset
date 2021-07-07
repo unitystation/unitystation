@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43255437f1e523047916bf1348e9327c, type: 3}
+  m_Name: Paladin5thEdition
+  m_EditorClassIdentifier: 
+  lawSetName: Paladin 5th Edition
+  laws:
+  - Law: Don't lie or cheat. Let your word be your promise.
+    LawOrder: 3
+  - Law: Never fear to act, though caution is wise.
+    LawOrder: 3
+  - Law: Aid others, protect the weak, and punish those who threaten them. Show mercy
+      to your foes, but temper it with wisdom.
+    LawOrder: 3
+  - Law: Treat others with fairness, and let your honorable deeds be an example to
+      them. Do as much good as possible while causing the least amount of harm.
+    LawOrder: 3
+  - Law: Be responsible for your actions and their consequences, protect those entrusted
+      to your care, and obey those who have just authority over you.
+    LawOrder: 3

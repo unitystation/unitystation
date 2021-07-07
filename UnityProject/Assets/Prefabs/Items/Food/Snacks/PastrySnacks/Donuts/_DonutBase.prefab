@@ -15,7 +15,7 @@ MonoBehaviour:
   leavings: {fileID: 0}
   sound:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -145,6 +145,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: _DonutBase
       objectReference: {fileID: 0}
+    - target: {fileID: 1400342808477330523, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 6266328658070900882}
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_AssetId
@@ -200,6 +205,12 @@ PrefabInstance:
 --- !u!1 &162704264883279580 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1205097671078976283}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &6266328658070900882 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 5066309082529041289, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
     type: 3}
   m_PrefabInstance: {fileID: 1205097671078976283}
   m_PrefabAsset: {fileID: 0}

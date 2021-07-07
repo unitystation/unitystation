@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,16 +45,6 @@ PrefabInstance:
     - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4229879504764961347, guid: 99f427c13b626c146a2a6efa08139c18,
@@ -65,7 +65,17 @@ PrefabInstance:
     - target: {fileID: 4231750384934020167, guid: 99f427c13b626c146a2a6efa08139c18,
         type: 3}
       propertyPath: m_Name
-      value: Fox
+      value: FoxRenault
+      objectReference: {fileID: 0}
+    - target: {fileID: 4263351388272213723, guid: 99f427c13b626c146a2a6efa08139c18,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5524055316852405766, guid: 99f427c13b626c146a2a6efa08139c18,
+        type: 3}
+      propertyPath: mobName
+      value: Renault
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99f427c13b626c146a2a6efa08139c18, type: 3}

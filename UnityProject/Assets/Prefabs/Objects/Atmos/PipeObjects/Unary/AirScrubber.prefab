@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c55ecf95c48fe9eb8073c0d662d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spritehandler: {fileID: 3137194816065529687, guid: baaab78960a9a8d46a19114806c13a67,
-    type: 3}
+  spritehandler: {fileID: 5629559581263994867}
   SpawnOnDeconstruct: {fileID: 4395726476476273493, guid: 0d3043e7f404c574a98e19c120e1bcbc,
     type: 3}
   registerTile: {fileID: 8407495201485837665}
@@ -47,22 +46,8 @@ MonoBehaviour:
           m_values: []
         reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 0.05
         Temperature: 0
@@ -73,7 +58,7 @@ MonoBehaviour:
   SelfSufficient: 0
   MMinimumPressure: 101
   MaxInternalPressure: 8000
-  MaxTransferMoles: 100
+  MaxTransferMoles: 10
 --- !u!1001 &1846420785246050776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,7 +130,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ab114164e53d9954dac5b33964df4cf3,
+      objectReference: {fileID: 21300048, guid: ab114164e53d9954dac5b33964df4cf3,
         type: 3}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -234,5 +219,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5629559581263994867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+    type: 3}
+  m_PrefabInstance: {fileID: 1846420785246050776}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

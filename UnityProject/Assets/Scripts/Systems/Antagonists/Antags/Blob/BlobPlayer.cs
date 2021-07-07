@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Light2D;
 using Mirror;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Blob
 	/// <summary>
 	/// Class which has the logic and data for the blob player
 	/// </summary>
-	public class BlobPlayer : NetworkBehaviour
+	public class BlobPlayer : NetworkBehaviour, IAdminInfo
 	{
 		[SerializeField] private GameObject blobCorePrefab = null;
 		[SerializeField] private GameObject blobNodePrefab = null;
@@ -199,8 +200,6 @@ namespace Blob
 			overmindName = $"Overmind {Random.Range(1, 1001)}";
 
 			playerScript.SetPermanentName(overmindName);
-
-			playerScript.IsPlayerSemiGhost = true;
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
 
@@ -441,7 +440,6 @@ namespace Blob
 
 			SetBlobUI();
 			TurnOnClientLight();
-			playerScript.IsPlayerSemiGhost = true;
 		}
 
 		[Client]
@@ -551,8 +549,6 @@ namespace Blob
 		[TargetRpc]
 		private void TargetRpcTurnOffLight(NetworkConnection target)
 		{
-			playerScript.IsPlayerSemiGhost = false;
-			PlayerManager.LocalPlayerScript.IsPlayerSemiGhost = false;
 			overmindLightObject.SetActive(false);
 		}
 
@@ -1212,7 +1208,6 @@ namespace Blob
 					"The biohazard has been contained."),
 				MatrixManager.MainStationMatrix);
 
-			playerScript.IsPlayerSemiGhost = false;
 			clientLight = false;
 
 			if (connectionToClient != null)
@@ -1532,7 +1527,7 @@ namespace Blob
 				blobStructure.lightSprite.Color.a = 0.2f;
 			}
 
-			blobStructure.spriteHandler.SetSpriteSO(blobStructure.activeSprite, NewvariantIndex: Random.Range(0, blobStructure.activeSprite.Variance.Count));
+			blobStructure.spriteHandler.SetSpriteSO(blobStructure.activeSprite, newVariantIndex: Random.Range(0, blobStructure.activeSprite.Variance.Count));
 			blobStructure.spriteHandler.SetColor(currentStrain.color);
 		}
 
@@ -2090,6 +2085,17 @@ namespace Blob
 		}
 
 		#endregion
+
+		public string AdminInfoString()
+		{
+			var adminInfo = new StringBuilder();
+
+			adminInfo.AppendLine($"Resources: {resources}");
+			adminInfo.AppendLine($"Health: {health}%");
+			adminInfo.AppendLine($"Victory: {numOfNonSpaceBlobTiles / numOfTilesForVictory}%");
+
+			return adminInfo.ToString();
+		}
 	}
 
 	public enum BlobConstructs

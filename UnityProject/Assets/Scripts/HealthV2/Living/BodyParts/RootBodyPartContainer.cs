@@ -68,7 +68,7 @@ namespace HealthV2
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
 
 		[HideInInspector] public bool IsBleeding = false;
-		
+
 		/// <summary>
 		/// How much blood does the body lose when there is lost limbs in this container?
 		/// </summary>
@@ -108,6 +108,8 @@ namespace HealthV2
 			}
 
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
+			//TODO Make generic version for mobs \/
+			Storage.SetRegisterPlayer(healthMaster.GetComponent<RegisterPlayer>());
 		}
 
 		public void UpdateChildren(List<uint> NewInternalNetIDs)
@@ -232,8 +234,17 @@ namespace HealthV2
 
 				i++;
 				i++;
+				i++;
 			}
 			RootBodyPartController.RequestUpdate(this);
+
+			if (implant.SetCustomisationData != "")
+			{
+				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant,
+					implant.SetCustomisationData,
+					healthMaster);
+			}
+
 		}
 
 		/// <summary>
@@ -281,7 +292,6 @@ namespace HealthV2
 			if (ItemStorage == null) ItemStorage = this.GetComponent<ItemStorage>();
 			ItemStorage.ServerDropAll();
 			PlayerSprites.livingHealthMasterBase.RootBodyPartContainers.Remove(this);
-			Destroy(gameObject); //?
 		}
 
 		public virtual void ImplantUpdate()
@@ -382,32 +392,24 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Applies slash damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
+		/// Applies Trauma damage to a body part.
 		/// </summary>
-		public void TakeSlashDamage(float damage)
+		public void TakeTraumaDamage(float damage, BodyPart.TramuticDamageTypes damageType)
 		{
-			foreach (var limb in ContainsLimbs)
+			foreach(BodyPart limb in ContainsLimbs)
 			{
-				limb.ApplyTraumaDamage(damage);
-			}
-		}
-
-		/// <summary>
-		/// Applies pierce damage to limbs inside of this container. Armor chance is handled inside of ApplyTraumaDamage();
-		/// </summary>
-		public void TakePierceDamage(float damage)
-		{
-			foreach (var ContainsLimb in ContainsLimbs)
-			{
-				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
-			}
-		}
-
-		public void TakeBurnDamage(float damage)
-		{
-			foreach (var ContainsLimb in ContainsLimbs)
-			{
-				ContainsLimb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN))
+				{
+					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
+				}
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH))
+				{
+					limb.ApplyTraumaDamage(damage);
+				}
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.PIERCE))
+				{
+					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
+				}
 			}
 		}
 
@@ -425,6 +427,14 @@ namespace HealthV2
 				//yes It technically duplicates the healing but, I've would feel pretty robbed if There was a damage on one limb Of 50
 				//and I used a bandage of 50 and only healed 25,  if the healing was split across the two limbs
 				limb.HealDamage(healingItem, healAmt, (int)damageTypeToHeal);
+			}
+		}
+
+		public void HealTraumaDamage(float healAmt, BodyPart.TramuticDamageTypes typeToHeal)
+		{
+			foreach(BodyPart limb in ContainsLimbs)
+			{
+				limb.HealTraumaticDamage(healAmt, typeToHeal);
 			}
 		}
 	}

@@ -34,6 +34,7 @@ public class SurgeryDialogue : MonoBehaviour
 
 	public void ShowDialogue(Dissectible Dissectible, List<BodyPart> BodyParts, bool TopLayer = false)
 	{
+		this.transform.localPosition = Vector3.zero;
 		this.SetActive(true);
 		Clear();
 		foreach (var bodyPart in BodyParts)
@@ -70,6 +71,7 @@ public class SurgeryDialogue : MonoBehaviour
 
 	public void ShowDialogue(Dissectible Dissectible, BodyPart BodyPart)
 	{
+		this.transform.localPosition = Vector3.zero;
 		Clear();
 		this.SetActive(true);
 		foreach (var Procedure in BodyPart.SurgeryProcedureBase)

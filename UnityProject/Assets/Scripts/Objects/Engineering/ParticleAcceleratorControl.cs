@@ -305,7 +305,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
 		}
@@ -359,6 +359,9 @@ namespace Objects.Engineering
 
 		private void UpdateGUI()
 		{
+			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.ParticleAccelerator);
+			if(peppers.Count == 0) return;
+
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 			valuesToSend.Add(new ElementValue() { Id = "TextSetting", Value = Encoding.UTF8.GetBytes(status) });
 			valuesToSend.Add(new ElementValue() { Id = "TextPower", Value = Encoding.UTF8.GetBytes(powerUsage + " volts") });

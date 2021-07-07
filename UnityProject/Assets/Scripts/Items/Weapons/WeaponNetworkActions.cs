@@ -17,13 +17,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 	private readonly float speed = 7f;
 	private readonly float fistDamage = 5;
 
-	private float slashChance = 0f;
-	private float slashDamage = 0f;
-
-	private float pierceChance = 0f;
-	private float pierceDamage = 0f;
-
-	private float burnDamage = 0f;
+	private float traumaDamageChance = 0;
+	private BodyPart.TramuticDamageTypes tramuticDamageType;
 
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
@@ -97,11 +92,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 			damage = weaponAttributes.ServerHitDamage;
 			damageType = weaponAttributes.ServerDamageType;
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
-			slashChance = weaponAttributes.SlashChance;
-			slashDamage = weaponAttributes.SlashDamage;
-			pierceChance = weaponAttributes.PierceChance;
-			pierceDamage = weaponAttributes.PierceDamage;
-			burnDamage = weaponAttributes.BurnDamage;
+			tramuticDamageType = weaponAttributes.TraumaticDamageType;
+			traumaDamageChance = weaponAttributes.TraumaDamageChance;
 		}
 
 		LayerTile attackedTile = null;
@@ -148,9 +140,10 @@ public class WeaponNetworkActions : NetworkBehaviour
 				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 				{
 					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
-					victimHealth.ApplySlashDamage(slashChance, damageZone, slashDamage);
-					victimHealth.ApplyPierceDamage(pierceChance, damageZone, pierceDamage);
-					victimHealth.ApplyBurnDamage(damageZone, burnDamage);
+					if(DMMath.Prob(traumaDamageChance))
+					{
+						victimHealth.ApplyTraumaDamage(damageZone, damage, tramuticDamageType);
+					}
 					didHit = true;
 				}
 				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
@@ -205,7 +198,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 		if (spriteRendererSource != null)
 		{
-			playerScript.hitIcon.ShowHitIcon(stabDir, spriteRendererSource);
+			var projectile = Spawn.ClientPrefab("hitIcon", playerScript.transform.position, playerScript.transform.parent).GameObject;
+			var hitIcon = projectile.GetComponent<HitIcon>();
+			hitIcon.ShowHitIcon(stabDir, spriteRendererSource, playerScript);
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;

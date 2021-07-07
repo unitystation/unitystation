@@ -32,13 +32,6 @@ namespace Systems.Atmospherics
 		/// </summary>
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
-		/// <summary>
-		/// List of tiles that currently have fog effects
-		/// Before we start telling the main thread to add/remove vfx, we can check to see if the tile has already been taken care of
-		/// While not nessecary for this feature to function, it should significantly reduce performance hits from this feature
-		/// </summary>
-		private IDictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
-
 		public bool IsInUpdateList(MetaDataNode node)
 		{
 			return updateList.Contains(node);
@@ -130,7 +123,7 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.Empty);
+		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
 
 		/// <summary>
 		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
@@ -138,7 +131,7 @@ namespace Systems.Atmospherics
 		/// <returns>The mean gas mix.</returns>
 		private void CalcMeanGasMix()
 		{
-			meanGasMix.Copy(GasMixes.Empty);
+			meanGasMix.Copy(GasMixes.BaseEmptyMix);
 
 			var targetCount = 0;
 
@@ -170,11 +163,10 @@ namespace Systems.Atmospherics
 				return;
 
 			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
-			for (var i = 0; i < Gas.Count; i++)
+			foreach (var gasData in meanGasMix.GasesArray)
 			{
-				meanGasMix.Gases[i] = meanGasMix.Gases[i] / targetCount;
+				meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
 			}
-
 		}
 
 		#region GasVisualEffects
@@ -188,8 +180,9 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			foreach (var gas in Gas.All)
+			foreach (var gasData in node.GasMix.GasesArray)
 			{
+				var gas = gasData.GasSO;
 				if(!gas.HasOverlay) continue;
 
 				var gasAmount = node.GasMix.GetMoles(gas);

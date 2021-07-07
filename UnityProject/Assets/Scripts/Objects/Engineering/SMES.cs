@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Systems.Electricity.NodeModules;
+using Core.Input_System.InteractionV2.Interactions;
 using Mirror;
 using UnityEngine;
 using ScriptableObjects;
@@ -9,7 +10,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(BatterySupplyingModule))]
-	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
+	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable
 	{
 		[Tooltip("How often (in seconds) the SMES's charging status should be updated.")]
 		[SerializeField]
@@ -114,7 +115,7 @@ namespace Objects.Engineering
 			return $"The charge indicator shows a {ChargePercent} percent charge. " +
 			       $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
 			       $"The power input/output is " +
-			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " + 
+			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " +
 			       "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
 		}
 
@@ -146,6 +147,24 @@ namespace Objects.Engineering
 		}
 
 		#endregion Interaction
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			ServerToggleOutputMode();
+		}
+
+		#endregion
 
 		private void ServerToggleOutputMode()
 		{
