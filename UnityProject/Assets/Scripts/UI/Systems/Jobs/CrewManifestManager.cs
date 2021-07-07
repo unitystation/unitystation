@@ -16,19 +16,19 @@ namespace Systems
 
 		/// <summary>
 		/// A list of all mainstation crewmembers, including traitors and silicons but not, for example, fugitives or wizards.
-		/// ServerSide Only
+		/// <para>ServerSide Only<para>
 		/// </summary>
 		public List<CrewManifestEntry> CrewManifest { get; private set; } = new List<CrewManifestEntry>();
 		/// <summary>
 		/// A list of all security records. By default, includes traitors and silicons but not, for example, fugitives or wizards.
-		/// Records can be updated, added or removed during gameplay at the security records console.
-		/// ServerSide Only
+		/// <para>Records can be updated, added or removed during gameplay at the security records console.</para>
+		/// <para>ServerSide Only</para>
 		/// </summary>
 		public List<SecurityRecord> SecurityRecords { get; private set; } = new List<SecurityRecord>();
 
 		/// <summary>
 		/// A list of crew member jobs and how many there are
-		/// Server and Client Side valid
+		/// <para>Server and Client Side valid<para>
 		/// </summary>
 		public Dictionary<JobType, int> Jobs { get; private set; } = new Dictionary<JobType, int>();
 
