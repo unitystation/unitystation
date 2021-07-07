@@ -83,7 +83,7 @@ namespace Messages.Client.NewPlayer
 				return false;
 			}
 
-			int slotsTaken = GameManager.Instance.GetOccupationsCount(msg.JobType);
+			int slotsTaken = GameManager.Instance.ServerGetOccupationsCount(msg.JobType);
 			int slotsMax = GameManager.Instance.GetOccupationMaxCount(msg.JobType);
 			if (slotsTaken >= slotsMax)
 			{

@@ -28,6 +28,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Capable of cutting clean through a holy claymore.
       objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869444691453870322, guid: 9c123336301845541830989cb9e3d606,
+        type: 3}
+      propertyPath: traumaticDamageType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6154199615781592268, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: m_Sprite
@@ -103,14 +113,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7bc36a4f3d7f2cb4ba9bd33d3b6bdbe5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7bc36a4f3d7f2cb4ba9bd33d3b6bdbe5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556420510665103617, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

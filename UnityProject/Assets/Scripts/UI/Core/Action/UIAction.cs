@@ -40,11 +40,11 @@ namespace UI.Action
 
 			if (actionData.Sprites.Count > 0)
 			{
-				IconFront.SetCatalogue(actionData.Sprites, 0, NetWork: false);
+				IconFront.SetCatalogue(actionData.Sprites, 0, networked: false);
 			}
 			if (actionData.Backgrounds.Count > 0)
 			{
-				IconBackground.SetCatalogue(actionData.Backgrounds, 0, NetWork: false);
+				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace UI.Action
 		{
 			IconBackground.Empty(true, false);
 			IconFront.Empty(true, false);
-			IconBackground.SetSpriteSO(DefaultIconBackground, Network: false);
+			IconBackground.SetSpriteSO(DefaultIconBackground, networked: false);
 			gameObject.SetActive(false);
 		}
 
@@ -149,7 +149,7 @@ namespace UI.Action
 
 		private void ToggleOff()
 		{
-			IconFront.SetSpriteSO(actionData.Sprites[0], Network: false);
+			IconFront.SetSpriteSO(actionData.Sprites[0], networked: false);
 			UIActionManager.Instance.ActiveAction = null;
 
 			if (actionData.HasCustomCursor)
@@ -160,7 +160,7 @@ namespace UI.Action
 
 		private void ToggleOn()
 		{
-			IconFront.SetSpriteSO(actionData.ActiveSprite, Network: false);
+			IconFront.SetSpriteSO(actionData.ActiveSprite, networked: false);
 			UIActionManager.Instance.ActiveAction = this;
 
 			TrySetCustomCursor();

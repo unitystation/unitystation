@@ -18,8 +18,9 @@ public class GUI_NukeOps : MonoBehaviour
 
 	void Update()
 	{
-		syndiActive = GameManager.Instance.GetOccupationsCount(JobType.SYNDICATE);
-		nanoActive = GameManager.Instance.GetNanoTrasenCount();
+		//THIS WONT WORK AS SYNDICATE ISNT SYNC'D
+		syndiActive = GameManager.Instance.ClientGetOccupationsCount(JobType.SYNDICATE);
+		nanoActive = GameManager.Instance.ClientGetNanoTrasenCount();
 		UpdateCounts();
 		SyndiesAllowed();
 	}

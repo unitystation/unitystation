@@ -136,7 +136,7 @@ public class ClothingItem : MonoBehaviour
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
 		{
-			spriteHandler.SetPaletteOfCurrentSprite(palette, Network: false);
+			spriteHandler.SetPaletteOfCurrentSprite(palette, networked: false);
 		}
 
 
@@ -190,14 +190,14 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand, Network: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand, networked: false);
 			}
 			else
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, Network: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, networked: false);
 			}
 
-			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette, Network: false);
+			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette, networked: false);
 		}
 	}
 }

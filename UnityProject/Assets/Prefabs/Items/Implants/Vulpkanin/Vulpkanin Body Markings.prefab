@@ -74,8 +74,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1425781211861103502, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300002, guid: dea872f5b9924e045b575a414b4705a0,
+        type: 3}
+    - target: {fileID: 1425781211861103502, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
@@ -108,5 +114,16 @@ PrefabInstance:
       propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[3]
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 4935539326687624021, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: variantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935539326687624021, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6dda2899405f60f41b278475aa065caa,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ce21cfcc54d23d42825f0d4a9b15d49, type: 3}

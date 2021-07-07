@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2101075689454258069, guid: eda8d359cf4858d48abeff014a2e810f,
+        type: 3}
+      propertyPath: mobName
+      value: Henrietta
+      objectReference: {fileID: 0}
     - target: {fileID: 8534544687426315118, guid: eda8d359cf4858d48abeff014a2e810f,
         type: 3}
       propertyPath: m_RootOrder
@@ -65,7 +70,12 @@ PrefabInstance:
     - target: {fileID: 8536983617821984106, guid: eda8d359cf4858d48abeff014a2e810f,
         type: 3}
       propertyPath: m_Name
-      value: ChickenBrown
+      value: ChickenHenrietta
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640490878250819574, guid: eda8d359cf4858d48abeff014a2e810f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eda8d359cf4858d48abeff014a2e810f, type: 3}

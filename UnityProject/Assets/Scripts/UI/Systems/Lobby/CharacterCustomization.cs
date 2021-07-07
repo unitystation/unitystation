@@ -952,9 +952,9 @@ namespace UI.CharacterCreator
 
 			SaveExternalCustomisations();
 			currentCharacter.SerialisedExternalCustom = new List<ExternalCustomisation>(ExternalCustomisationStorage);
-			;
+
 			currentCharacter.SerialisedBodyPartCustom = new List<CustomisationStorage>(bodyPartCustomisationStorage);
-			;
+
 			Logger.Log(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.Character);
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 

@@ -15,4 +15,11 @@
 		SkipRemaining,
 		ContinueWithoutDoorStateChange,
 	}
+
+
+	public enum DoorProcessingStates
+	{
+		SoftwarePrevented,
+		SoftwareHacked,
+	}
 }
