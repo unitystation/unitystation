@@ -90,9 +90,8 @@ namespace Systems.Clearance
 		}
 
 		/// <summary>
-		/// Public interface to set the check typer for this object.
+		/// Public interface to set the check type for this object.
 		/// </summary>
-		/// <param name="newType"></param>
 		public void SetCheckType(CheckType newType)
 		{
 			type = newType;
