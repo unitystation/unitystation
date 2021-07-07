@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Reactor Starting Rod Crate
   m_EditorClassIdentifier: 
   OrderName: Reactor Starting Rod Crate
-  CreditCost: 1000
+  CreditCost: 1150
   Crate: {fileID: 3657931253695786815, guid: d38a25ea933e7a14c9c4c0134c741b6e, type: 3}
   Items:
   - {fileID: 1562249808724683428, guid: 90d47e2251b9b6943b78a010f6b58909, type: 3}
   - {fileID: 1562249808724683428, guid: 90d47e2251b9b6943b78a010f6b58909, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 1000
+  EmagOnly: 0
