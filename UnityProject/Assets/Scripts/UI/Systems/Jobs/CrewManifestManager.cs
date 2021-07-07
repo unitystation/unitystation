@@ -1,5 +1,7 @@
 using Objects.Security;
 using System.Collections.Generic;
+using Messages.Server;
+using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,13 +16,21 @@ namespace Systems
 
 		/// <summary>
 		/// A list of all mainstation crewmembers, including traitors and silicons but not, for example, fugitives or wizards.
+		/// ServerSide Only
 		/// </summary>
 		public List<CrewManifestEntry> CrewManifest { get; private set; } = new List<CrewManifestEntry>();
 		/// <summary>
 		/// A list of all security records. By default, includes traitors and silicons but not, for example, fugitives or wizards.
 		/// Records can be updated, added or removed during gameplay at the security records console.
+		/// ServerSide Only
 		/// </summary>
 		public List<SecurityRecord> SecurityRecords { get; private set; } = new List<SecurityRecord>();
+
+		/// <summary>
+		/// A list of crew member jobs and how many there are
+		/// Server and Client Side valid
+		/// </summary>
+		public Dictionary<JobType, int> Jobs { get; private set; } = new Dictionary<JobType, int>();
 
 		#region Lifecycle
 
@@ -54,6 +64,8 @@ namespace Systems
 
 		#endregion Lifecycle
 
+		#region Crew Manifest
+
 		/// <summary>
 		/// Adds a new employee to the crew manifest, generating new records.
 		/// Will not generate certain records for certain jobs, like security records for AI.
@@ -67,6 +79,9 @@ namespace Systems
 				JobType = jobType,
 			};
 			CrewManifest.Add(entry);
+
+			//Updates clients about the amount of this job
+			ServerAddJob(jobType);
 
 			if (jobType == JobType.AI || jobType == JobType.CYBORG) return entry;
 
@@ -99,6 +114,87 @@ namespace Systems
 
 			return record;
 		}
+
+		#endregion
+
+		#region PlayerJobs
+
+		/// <summary>
+		/// Changes a specific job in the job list
+		/// </summary>
+		public void ChangeJobList(JobType job, int newAmount)
+		{
+			if (Jobs.ContainsKey(job))
+			{
+				Jobs[job] = newAmount;
+				return;
+			}
+
+			//Dont need to make new entry for 0 or less
+			if(newAmount <= 0) return;
+
+			Jobs.Add(job, newAmount);
+		}
+
+		/// <summary>
+		/// Sets the data to the job list
+		/// </summary>
+		public void SetJobList(Dictionary<JobType, int> newData)
+		{
+			Jobs = newData;
+		}
+
+		[Server]
+		private void ServerAddJob(JobType job)
+		{
+			if (Jobs.ContainsKey(job))
+			{
+				//Add one
+				Jobs[job] += 1;
+			}
+			else
+			{
+				//Set to one
+				Jobs.Add(job, 1);
+			}
+
+			//Update players
+			UpdateJobCountsMessage.Send(job, Jobs[job]);
+		}
+
+		/// <summary>
+		/// Server clears the list and updates clients
+		/// </summary>
+		[Server]
+		public void ServerClearList()
+		{
+			//Tell clients to clear
+			SetJobCountsMessage.SendClearMessage();
+		}
+
+		/// <summary>
+		/// Client clears the list and updates clients
+		/// </summary>
+		[Client]
+		public void ClientClearList()
+		{
+			Jobs.Clear();
+		}
+
+		/// <summary>
+		/// Gets how many of a specific job there is, only crew jobs
+		/// </summary>
+		public int GetJobAmount(JobType job)
+		{
+			if (Jobs.TryGetValue(job, out var value))
+			{
+				return value;
+			}
+
+			return 0;
+		}
+
+		#endregion
 	}
 
 	/// <summary>

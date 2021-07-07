@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Net.NetworkInformation;
+using Systems;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -112,7 +113,12 @@ public class JoinedViewer : NetworkBehaviour
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
 		PlayerList.Instance.CheckMentorState(unverifiedConnPlayer, unverifiedUserid);
 
-		PlayerList.ClientJobBanDataMessage.Send(unverifiedUserid);
+		//Send to client their job ban entries
+		var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(unverifiedConnPlayer);
+		PlayerList.ServerSendsJobBanDataMessage.Send(unverifiedConnPlayer.Connection, jobBanEntries);
+
+		//Send to client the current crew job counts
+		SetJobCountsMessage.SendToPlayer(CrewManifestManager.Instance.Jobs, unverifiedConnPlayer);
 	}
 
 	/// <summary>

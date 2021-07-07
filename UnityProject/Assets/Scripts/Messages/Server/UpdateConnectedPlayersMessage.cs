@@ -36,30 +36,17 @@ namespace Messages.Server
 		{
 			Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
 				string.Join(",", PlayerList.Instance.AllPlayers));
-			NetMessage msg = new NetMessage();
+
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
-			bool pendingSpawn = false;
 			foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
 			{
-				if(c.Connection == null) continue; //offline player
-
-				if (string.IsNullOrEmpty(c.Name))
-				{
-					if (c.GameObject == null) continue;
-
-					var joinedViewer = c.GameObject.GetComponent<JoinedViewer>();
-
-					if (joinedViewer == null) continue;
-
-					pendingSpawn = true;
-				}
-
 				var tag = "";
 
 				if (PlayerList.Instance.IsAdmin(c.UserId))
 				{
 					tag = "<color=red>[Admin]</color>";
-				} else if (PlayerList.Instance.IsMentor(c.UserId))
+				}
+				else if (PlayerList.Instance.IsMentor(c.UserId))
 				{
 					tag = "<color=#6400ff>[Mentor]</color>";
 				}
@@ -67,13 +54,11 @@ namespace Messages.Server
 				prepareConnectedPlayers.Add(new ClientConnectedPlayer
 				{
 					UserName = c.Username,
-					Name = c.Name,
-					Job = c.Job,
-					PendingSpawn = pendingSpawn,
 					Tag = tag
 				});
 			}
 
+			NetMessage msg = new NetMessage();
 			msg.Players = prepareConnectedPlayers.ToArray();
 
 			SendToAll(msg);

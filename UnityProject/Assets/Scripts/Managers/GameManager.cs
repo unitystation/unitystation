@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Systems;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -428,6 +429,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
+		//Clear jobs for next round
+		CrewManifestManager.Instance.ServerClearList();
+
 		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 		{
 			SetRandomGameMode();
@@ -604,53 +608,53 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		QueueProcessing = false;
 	}
 
+	/// <summary>
+	/// Gets the occupation counts for only crew job
+	/// </summary>
 	[Client]
 	public int ClientGetOccupationsCount(JobType jobType)
 	{
-		int count = 0;
-
-		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers.Count == 0)
+		if (jobType == JobType.NULL ||
+		    CrewManifestManager.Instance == null ||
+		    CrewManifestManager.Instance.Jobs.Count == 0)
 		{
 			return 0;
 		}
 
-		for (var i = 0; i < PlayerList.Instance.ClientConnectedPlayers.Count; i++)
-		{
-			var player = PlayerList.Instance.ClientConnectedPlayers[i];
-			if (player.Job == jobType)
-			{
-				count++;
-			}
-		}
+		var count = CrewManifestManager.Instance.GetJobAmount(jobType);
 
 		if (count != 0)
 		{
 			Logger.Log($"{jobType} count: {count}", Category.Jobs);
 		}
+
 		return count;
 	}
 
+	/// <summary>
+	/// Gets the total occupation count for all crew jobs
+	/// </summary>
 	[Client]
 	public int ClientGetNanoTrasenCount()
 	{
-		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers.Count == 0)
+		if (CrewManifestManager.Instance == null || CrewManifestManager.Instance.Jobs.Count == 0)
 		{
 			return 0;
 		}
 
 		int startCount = 0;
 
-		for (var i = 0; i < PlayerList.Instance.ClientConnectedPlayers.Count; i++)
+		foreach (var job in CrewManifestManager.Instance.Jobs)
 		{
-			var player = PlayerList.Instance.ClientConnectedPlayers[i];
-			if (player.Job != JobType.SYNDICATE && player.Job != JobType.NULL)
-			{
-				startCount++;
-			}
+			startCount += job.Value;
 		}
+
 		return startCount;
 	}
 
+	/// <summary>
+	/// Gets the occupation counts for any job
+	/// </summary>
 	[Server]
 	public int ServerGetOccupationsCount(JobType jobType)
 	{
