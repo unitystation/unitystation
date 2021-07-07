@@ -1,4 +1,5 @@
 ﻿using System;
+using Systems.Clearance;
 using AddressableReferences;
 using Messages.Server;
 using NaughtyAttributes;
@@ -15,6 +16,7 @@ namespace Objects.Engineering
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private AccessRestrictions accessRestrictions;
+		private ClearanceCheckable clearanceCheckable;
 		private ElectricalNodeControl electricalNodeControl;
 
 		[SerializeField]
@@ -53,6 +55,7 @@ namespace Objects.Engineering
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
+			clearanceCheckable = GetComponent<ClearanceCheckable>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
@@ -164,7 +167,23 @@ namespace Objects.Engineering
 
 		private void TryToggleLock(HandApply interaction)
 		{
+			/* --ACCESS REWORK--
+			 *  TODO Remove the AccessRestriction check when we finish migrating!
+			 *
+			 */
 			if (accessRestrictions.CheckAccessCard(interaction.HandObject))
+			{
+				isLocked = !isLocked;
+				ToggleEmitter();
+				return;
+			}
+
+			if (clearanceCheckable.HasClearance(interaction.Performer))
+			{
+				ToggleEmitter();
+			}
+
+			void ToggleEmitter()
 			{
 				isLocked = !isLocked;
 
