@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Biological Emergency Crate
   m_EditorClassIdentifier: 
   OrderName: Biological Emergency Crate
-  CreditCost: 500
+  CreditCost: 1000
   Crate: {fileID: 3289421036565751087, guid: 0087e63cde7ac474e9af530978189fb6, type: 3}
   Items:
   - {fileID: 7636118406116123594, guid: 1d1397c88f2d0ab48a7d57adf3b29881, type: 3}
@@ -25,4 +25,5 @@ MonoBehaviour:
   - {fileID: 3324399036872067497, guid: 7b95a8b701a593e4faed8291284100c3, type: 3}
   - {fileID: 6373161644663410599, guid: 379aa4c441c691bd1810b624a675f481, type: 3}
   - {fileID: 6373161644663410599, guid: 379aa4c441c691bd1810b624a675f481, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 500
+  EmagOnly: 0
