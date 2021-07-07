@@ -8,6 +8,7 @@ namespace Systems.Explosions
 		/// <summary>
 		/// Try spark using object's register tile
 		/// </summary>
+		/// <returns>Null if the spark failed, else the new spark object.</returns>
 		public static GameObject TrySpark(ObjectBehaviour sourceObjectBehaviour, float chanceToSpark = 75, bool expose = true)
 		{
 			//Clamp just in case
