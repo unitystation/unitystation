@@ -45,11 +45,6 @@ namespace HealthV2
 		/// </summary>
 		[SerializeField] private float flushMultiplier = 2;
 
-		public override void SetUpSystems()
-		{
-			base.SetUpSystems();
-			processingContainer = GetComponent<ReagentContainer>();
-		}
 
 		public override void ImplantPeriodicUpdate()
 		{
