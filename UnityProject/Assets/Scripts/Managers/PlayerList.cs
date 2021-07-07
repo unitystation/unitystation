@@ -147,19 +147,6 @@ public partial class PlayerList : NetworkBehaviour
 		CheckRcon();
 	}
 
-	//filling a struct without connections and gameobjects for client's ClientConnectedPlayers list
-	public List<ClientConnectedPlayer> ClientConnectedPlayerList =>
-		loggedIn.Aggregate(new List<ClientConnectedPlayer>(), (list, player) =>
-		{
-			//not including headless server player
-			if (!GameData.IsHeadlessServer || player.Connection != ConnectedPlayer.Invalid.Connection)
-			{
-				list.Add(new ClientConnectedPlayer {Name = player.Name, Job = player.Job});
-			}
-
-			return list;
-		});
-
 	/// <summary>
 	/// Adds this connected player to the list, or updates an existing entry if there's already one for
 	/// this player's networkconnection. Returns the ConnectedPlayer that was added or updated.
@@ -567,13 +554,8 @@ public partial class PlayerList : NetworkBehaviour
 public struct ClientConnectedPlayer
 {
 	public string UserName;
-	public string Name;
-	public JobType Job;
-	public bool PendingSpawn;
 	public string Tag;
 
-	public override string ToString()
-	{
-		return $"[{nameof(Name)}='{Name}', {nameof(Job)}={Job}]";
-	}
+	//Used to make this ClientConnectedPlayer unique even if UserName and Tags are the same
+	public int Index;
 }
