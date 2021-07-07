@@ -86,6 +86,8 @@ namespace Messages.Server
 		{
 			NetMessage clearMsg = new NetMessage
 			{
+				JobTypes = new JobType[0],
+				Amounts = new int[0],
 				IsClear = true
 			};
 
