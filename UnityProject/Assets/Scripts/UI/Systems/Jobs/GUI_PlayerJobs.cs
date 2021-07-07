@@ -161,7 +161,7 @@ namespace UI
 			{
 				JobType jobType = occupation.JobType;
 
-				int active = GameManager.Instance.GetOccupationsCount(jobType);
+				int active = GameManager.Instance.ClientGetOccupationsCount(jobType);
 				int available = GameManager.Instance.GetOccupationMaxCount(jobType);
 
 				GameObject occupationGO = Instantiate(buttonPrefab, screen_Jobs.transform);
