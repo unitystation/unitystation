@@ -122,8 +122,11 @@ namespace Pipes
 
 		private void OnDrawGizmos()
 		{
+			var density = pipeData.mixAndVolume.Density();
+			if(density.x.Approx(0) && density.y.Approx(0)) return;
+
 			Gizmos.color = Color.white;
-			DebugGizmoUtils.DrawText(pipeData.mixAndVolume.Density().ToString(), transform.position, 10);
+			DebugGizmoUtils.DrawText(density.ToString(), transform.position, 10);
 			Gizmos.color = Color.magenta;
 			if (pipeData.Connections.Directions[0].Bool)
 			{
