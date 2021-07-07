@@ -121,6 +121,18 @@ public class PlayerManager : MonoBehaviour
 		HasSpawned = true;
 
 		SetMovementControllable(movementControllable);
+
+		var Inventory = playerObjToControl.GetComponent<DynamicItemStorage>(); //Reset then reapply changes for the UI to realise that this is the player to show the UI for
+		if (Inventory != null)
+		{
+			var BackupData = Inventory.GetSetData;
+
+			if (string.IsNullOrEmpty(BackupData) == false)
+			{
+				Inventory.ProcessChangeClient("[]");
+				Inventory.ProcessChangeClient(BackupData);
+			}
+		}
 	}
 
 	/// <summary>
