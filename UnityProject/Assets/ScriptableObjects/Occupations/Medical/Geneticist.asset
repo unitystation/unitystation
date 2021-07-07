@@ -19,6 +19,8 @@ MonoBehaviour:
   limit: 2
   priority: 99
   allowedAccess: 1a00000025000000330000003f0000002200000042000000
+  issuedClearance: 1f0000000900000005000000070000000d0000002a000000
+  issuedLowPopClearance: 1f0000000900000005000000070000000d0000002a000000
   spells: []
   progress: 10
   choiceColor: {r: 1, g: 0.93333334, b: 0.9411765, a: 1}
@@ -42,3 +44,4 @@ MonoBehaviour:
       m_SubObjectType: 
   textColor: {r: 1, g: 0.9333334, b: 0.94117653, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
+  specialPlayerPrefab: {fileID: 0}

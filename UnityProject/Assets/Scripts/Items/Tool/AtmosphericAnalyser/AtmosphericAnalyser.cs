@@ -17,7 +17,7 @@ namespace Items.Atmospherics
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
 				if (node != null)
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"</i><mspace=0.6em>{GetGasMixInfo(node.GasMix)}</mspace><i>");
+					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(node.GasMix));
 				}
 			}
 		}
@@ -62,7 +62,7 @@ namespace Items.Atmospherics
 				}
 			}
 
-			return sb.ToString();
+			return $"</i>{sb}<i>";
 		}
 	}
 }

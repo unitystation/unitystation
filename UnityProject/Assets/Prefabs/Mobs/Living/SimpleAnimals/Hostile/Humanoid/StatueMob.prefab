@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4204060412130754771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5529198216873058129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 526f944188797b340b690113f0b7db00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: statue
-  knockedDownRotation: 0
-  deathSounds: []
-  randomSounds: []
-  playRandomSoundTimer: 3
-  randomSoundProbability: 20
-  searchTickRate: 0.5
-  currentStatus: 0
 --- !u!114 &3073820079223461503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,7 +13,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   despawnBody: 1
-  lootDrop: []
+  lootDrop:
+  - {fileID: 773312911048126984, guid: 6e4200f349a2e834c93abd60c2264641, type: 3}
+--- !u!114 &4204060412130754771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5529198216873058129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526f944188797b340b690113f0b7db00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: statue
+  deathSounds: []
+  randomSounds: []
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0
 --- !u!1001 &1885043157082471117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ PrefabInstance:
         type: 3}
       propertyPath: mobAI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4204060412130754771}
     - target: {fileID: 2057831978603074857, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
       propertyPath: hitDamage

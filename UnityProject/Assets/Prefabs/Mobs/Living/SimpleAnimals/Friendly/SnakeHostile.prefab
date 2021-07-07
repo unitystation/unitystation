@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: snake
-  knockedDownRotation: 90
   deathSounds: []
   randomSounds: []
   playRandomSoundTimer: 3
@@ -92,6 +91,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5100212195727588504, guid: a842771eff0d78e42bb2686d82094c96,
+        type: 3}
+      propertyPath: mobAI
+      value: 
+      objectReference: {fileID: 6549672480811829761}
     m_RemovedComponents:
     - {fileID: 6087648716899028521, guid: a842771eff0d78e42bb2686d82094c96, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a842771eff0d78e42bb2686d82094c96, type: 3}

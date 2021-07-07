@@ -23,7 +23,8 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 8accbe94ce1e7b846a2d8cda2e11a265,
+        type: 2}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: DismembermentChance
@@ -33,11 +34,6 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 145
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
-        type: 3}
-      propertyPath: BodyTypesSprites.SpriteOrder.Orders.Array.data[2]
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -72,6 +68,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7976975417466280256, guid: e398bc804b4cdcc41a5c667d9304440c,
         type: 3}
+    - target: {fileID: 7301997280600668226, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_AssetId

@@ -16,7 +16,12 @@ PrefabInstance:
     - target: {fileID: 1999798114661103113, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
       propertyPath: m_Name
-      value: BoozeOMatAllAcces
+      value: BoozeOMatAllAccess
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -50,16 +60,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -71,6 +71,11 @@ PrefabInstance:
     - target: {fileID: 2005509211021586643, guid: 1e7847d11a7d63b41a689c581767d8ae,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804319293778474125, guid: 1e7847d11a7d63b41a689c581767d8ae,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7934608071618872171, guid: 1e7847d11a7d63b41a689c581767d8ae,

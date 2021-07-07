@@ -48,7 +48,7 @@ namespace UI.CharacterCreator
 		public override void Deserialise(string InData)
 		{
 			var Newvalue = JsonConvert.DeserializeObject<int>(InData);
-			if (Newvalue >= ToChooseFromBodyParts.Count)
+			if (Newvalue >= (ToChooseFromBodyParts.Count + 1))
 			{
 				Newvalue = 0;
 			}
@@ -64,7 +64,7 @@ namespace UI.CharacterCreator
 			LivingHealthMasterBase LivingHealthMasterBase)
 		{
 			var PreviousOptions = JsonConvert.DeserializeObject<int>(InData);
-			if (PreviousOptions >= Body_Part.OptionalReplacementOrgan.Count)
+			if (PreviousOptions >= Body_Part.OptionalReplacementOrgan.Count + 1)
 			{
 				return;
 			}

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: xenomorph princess
-  knockedDownRotation: 0
   deathSounds:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/Xenodie.prefab
@@ -96,6 +95,18 @@ PrefabInstance:
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 6b5e9a502852e304387d5c6ddac2d221,
+        type: 2}
+    - target: {fileID: 3938342365367457108, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ef039b21f34aa34a989e358ea73d763,
+        type: 2}
+    - target: {fileID: 3938342365367457108, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dffedd3bb326ae41ae00cbd27c52592,
         type: 2}
     - target: {fileID: 6141197458528421439, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
