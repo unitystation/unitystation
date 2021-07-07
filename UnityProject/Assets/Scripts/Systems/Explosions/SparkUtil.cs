@@ -40,6 +40,7 @@ namespace Systems.Explosions
 		/// <summary>
 		/// Try spark at world pos
 		/// </summary>
+		/// <returns>Null if the spark failed, else the new spark object.</returns>
 		public static GameObject TrySpark(Vector3 worldPos, float chanceToSpark = 75, bool expose = true)
 		{
 			//Clamp just in case
