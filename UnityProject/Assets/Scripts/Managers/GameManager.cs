@@ -430,7 +430,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		//Clear jobs for next round
-		CrewManifestManager.Instance.ServerClearList();
+		if (CrewManifestManager.Instance != null)
+		{
+			CrewManifestManager.Instance.ServerClearList();
+		}
+
 
 		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 		{

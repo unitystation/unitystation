@@ -2,6 +2,7 @@
 using Systems;
 using Messages.Server;
 using Mirror;
+using UI;
 
 namespace Messages.Server
 {
@@ -16,6 +17,7 @@ namespace Messages.Server
 		public override void Process(NetMessage msg)
 		{
 			CrewManifestManager.Instance.ChangeJobList(msg.JobType, msg.Amount);
+			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
 		}
 
 		public static NetMessage Send(JobType job, int newAmount)
@@ -45,6 +47,7 @@ namespace Messages.Server
 			if (msg.IsClear)
 			{
 				CrewManifestManager.Instance.ClientClearList();
+				UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
 				return;
 			}
 
@@ -56,6 +59,7 @@ namespace Messages.Server
 			}
 
 			CrewManifestManager.Instance.SetJobList(jobList);
+			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
 		}
 
 		public static NetMessage SendToPlayer(Dictionary<JobType, int> jobs, ConnectedPlayer toPlayer)

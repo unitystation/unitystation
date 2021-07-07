@@ -38,6 +38,7 @@ namespace Messages.Server
 				string.Join(",", PlayerList.Instance.AllPlayers));
 
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
+			var count = 0;
 			foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
 			{
 				var tag = "";
@@ -54,8 +55,11 @@ namespace Messages.Server
 				prepareConnectedPlayers.Add(new ClientConnectedPlayer
 				{
 					UserName = c.Username,
-					Tag = tag
+					Tag = tag,
+					Index = count
 				});
+
+				count++;
 			}
 
 			NetMessage msg = new NetMessage();
