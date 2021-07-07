@@ -17,7 +17,14 @@ namespace Items.Tool
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Cooldowns.TryStart(interaction, this, 5f, side);
+			if (Cooldowns.TryStart(interaction, this, 5f, side) == false)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "The capacitors inside the igniter are still recharging", side);
+
+				return false;
+			}
+
+			return true;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
