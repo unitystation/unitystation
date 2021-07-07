@@ -14,7 +14,7 @@ namespace HealthV2
 		/// <summary>
 		///ReagentContainer which the liver uses to hold reagents it will process. Reagents like alcohol will be broken down into their ethanol reagent via ReactionSet
 		/// </summary>
-		[HideInInspector] public ReagentContainer processingContainer;
+		[NonSerialized] public ReagentContainer processingContainer;
 
 		/// <summary>
 		/// Alcoholic reagents that the liver will process, override to define what the liver will accept to break down

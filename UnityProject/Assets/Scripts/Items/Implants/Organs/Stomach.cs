@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace HealthV2
 {
 	public class Stomach : BodyPartModification
 	{
-		[HideInInspector] public ReagentContainer StomachContents;
+		[NonSerialized] public ReagentContainer StomachContents;
 
 		public float DigesterAmountPerSecond = 1;
 
