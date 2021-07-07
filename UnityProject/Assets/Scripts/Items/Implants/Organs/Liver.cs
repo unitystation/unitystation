@@ -14,7 +14,7 @@ namespace HealthV2
 		/// <summary>
 		///ReagentContainer which the liver uses to hold reagents it will process. Reagents like alcohol will be broken down into their ethanol reagent via ReactionSet
 		/// </summary>
-		private ReagentContainer processingContainer;
+		[SerializeField] private ReagentContainer processingContainer;
 
 		/// <summary>
 		/// Alcoholic reagents that the liver will process, override to define what the liver will accept to break down
@@ -98,7 +98,7 @@ namespace HealthV2
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 			}
 			tempArray.Clear();
-			
+
 			//calculate what's going to be removed, seeing as processing will happen in the reactionset
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
