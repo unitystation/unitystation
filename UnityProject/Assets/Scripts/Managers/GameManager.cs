@@ -490,10 +490,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		GameMode.EndRound();
 		StartCoroutine(WaitForRoundRestart());
 
-		if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-		{
-			_ = SoundManager.PlayNetworked(endOfRoundSounds.GetRandomClip());
-		}
+		_ = SoundManager.PlayNetworked(endOfRoundSounds.GetRandomClip());
 	}
 
 	/// <summary>
