@@ -66,7 +66,8 @@ namespace Systems.Clearance.Utils
 			{Access.tox_storage, Clearance.ToxinsStorage},
 			{Access.virology, Clearance.Virology},
 			{Access.weapons, Clearance.Weapons},
-			{Access.xenobiology, Clearance.Xenobiology}
+			{Access.xenobiology, Clearance.Xenobiology},
+			{Access.centcom, Clearance.CentGeneral}
 		};
 	}
 }

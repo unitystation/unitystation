@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using Systems.Clearance;
 using NUnit.Framework;
 using UnityEngine;
@@ -9,77 +8,33 @@ namespace Tests.ClearanceFramework
 	[TestFixture]
 	public class HasClearanceTest
 	{
-		private GameObject mockDoor;
 		private ClearanceCheckable checkable;
-		private MockedClearanceProvider mockProvider;
-		private FieldInfo checkType;
 
-		private class MockedClearanceProvider: IClearanceProvider
+		private bool AttemptAccess(List<Clearance> clearances)
 		{
-			private List<Clearance> issuedClearance;
-
-			public MockedClearanceProvider(List<Clearance> issuedClearance)
-			{
-				this.issuedClearance = issuedClearance;
-			}
-
-			public void SetClearances(List<Clearance> newClearances)
-			{
-				issuedClearance = newClearances;
-			}
-
-			public void ClearClearance()
-			{
-				issuedClearance.Clear();
-			}
-
-			public IEnumerable<Clearance> GetClearance()
-			{
-				return issuedClearance;
-			}
-		}
-
-		private bool AttemptAccess()
-		{
-			return checkable.HasClearance(mockProvider.GetClearance());
+			return checkable.HasClearance(clearances);
 		}
 
 		[SetUp]
 		public void SetUp()
 		{
-			mockDoor = new GameObject();
+			var mockDoor = new GameObject();
 			checkable = mockDoor.AddComponent<ClearanceCheckable>();
-			mockProvider = new MockedClearanceProvider(new List<Clearance>());
-
-			var type = checkable.GetType();
-			var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-			foreach (var prv in fields)
-			{
-				if (prv.FieldType != typeof(CheckType)) continue;
-				checkType = prv;
-				break;
-			}
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
-			mockProvider.ClearClearance();
+			checkable.SetCheckType(CheckType.Any);
 		}
 
 		[Test]
 		public void GivenNoClearanceWhenNoClearanceRequiredResultsTrue()
 		{
-			mockProvider = new MockedClearanceProvider(new List<Clearance>());
 			//both checkable and provider have no clearances.
-			Assert.True(AttemptAccess());
+			Assert.True(AttemptAccess(new List<Clearance>()));
 		}
 
 		[Test]
 		public void GivenNoClearanceWhenClearanceIsRequiredResultsFalse()
 		{
 			checkable.SetClearance(new List<Clearance> {Clearance.Captain});
-			Assert.False(AttemptAccess());
+			Assert.False(AttemptAccess(new List<Clearance>()));
 		}
 
 		[Test]
@@ -88,40 +43,37 @@ namespace Tests.ClearanceFramework
 			//door requires 2 clearances but is set to ANY on the check
 			var clearances = new List<Clearance> {Clearance.Captain, Clearance.Court};
 			checkable.SetClearance(clearances);
-			mockProvider.SetClearances(new List<Clearance>{Clearance.Court});
-			checkType.SetValue(checkable, CheckType.Any);
 
-			Assert.True(AttemptAccess());
+			Assert.True(AttemptAccess(new List<Clearance> {Clearance.Court}));
 		}
 
 		[Test]
 		public void GivenInsufficientClearanceWhenAllClearanceIsRequiredResultsFalse()
 		{
 			checkable.SetClearance(new List<Clearance> {Clearance.Atmospherics, Clearance.Engine});
-			mockProvider.SetClearances(new List<Clearance> {Clearance.Atmospherics});
-			checkType.SetValue(checkable, CheckType.All);
+			checkable.SetCheckType(CheckType.All);
 
-			Assert.False(AttemptAccess());
+			Assert.False(AttemptAccess(new List<Clearance> {Clearance.Atmospherics}));
 		}
 
 		[Test]
 		public void GivenAllClearanceWhenAllClearanceIsRequiredResultsTrue()
 		{
 			checkable.SetClearance(new List<Clearance> {Clearance.Armory, Clearance.Atmospherics, Clearance.Bar});
-			mockProvider.SetClearances(new List<Clearance> {Clearance.Armory, Clearance.Atmospherics, Clearance.Bar});
-			checkType.SetValue(checkable, CheckType.All);
+			checkable.SetCheckType(CheckType.All);
 
-			Assert.True(AttemptAccess());
+			Assert.True(AttemptAccess(new List<Clearance>
+				{Clearance.Armory, Clearance.Atmospherics, Clearance.Bar}));
 		}
 
 		[Test]
 		public void GivenAllClearanceIssuedInDiffOrderWhenAllClearanceIsRequiredResultsTrue()
 		{
 			checkable.SetClearance(new List<Clearance> {Clearance.Armory, Clearance.Atmospherics, Clearance.Bar});
-			mockProvider.SetClearances(new List<Clearance> {Clearance.Bar, Clearance.Armory, Clearance.Atmospherics});
-			checkType.SetValue(checkable, CheckType.All);
+			checkable.SetCheckType(CheckType.All);
 
-			Assert.True(AttemptAccess());
+			Assert.True(AttemptAccess(new List<Clearance>
+				{Clearance.Bar, Clearance.Armory, Clearance.Atmospherics}));
 		}
 	}
 }
