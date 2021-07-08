@@ -39,13 +39,16 @@ namespace Weapons.Projectiles.Behaviours
 			var previousTilePos = previousWorldPosition.RoundToInt();
 
 			var amount = Mathf.RoundToInt(traveledDistance.y);
-			var xDifference = (currentTileWorldPos.x - previousTilePos.x) / amount;
-			var yDifference = (currentTileWorldPos.y - previousTilePos.y) / amount;
-
-			for (int i = 0; i < amount; i++)
+			if (amount != 0)
 			{
-				CreateHotSpot(new Vector3Int(xDifference * i + previousTilePos.x,
-					yDifference * i + previousTilePos.y, 0));
+				var xDifference = (currentTileWorldPos.x - previousTilePos.x) / amount;
+				var yDifference = (currentTileWorldPos.y - previousTilePos.y) / amount;
+
+				for (int i = 0; i < amount; i++)
+				{
+					CreateHotSpot(new Vector3Int(xDifference * i + previousTilePos.x,
+						yDifference * i + previousTilePos.y, 0));
+				}
 			}
 
 			if (amount == 0)
