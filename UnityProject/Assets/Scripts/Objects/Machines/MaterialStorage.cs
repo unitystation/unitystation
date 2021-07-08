@@ -54,16 +54,21 @@ namespace Objects.Machines
 			return false;
 		}
 
-		public bool TryRemoveSheet(ItemTrait material, int quantity)
+		public int TryRemoveSheet(ItemTrait material, int quantity)
 		{
-			quantity *= Cm3PerSheet;
-			if (MaterialList[material] >= quantity)
+			if (MaterialList[material] < Cm3PerSheet)
 			{
-				ConsumeMaterial(material, quantity);
-				UpdateGUIs.Invoke();
-				return true;
+				return 0;
 			}
-			return false;
+			var Cm3Used = Cm3PerSheet * quantity;
+			if (MaterialList[material] < Cm3Used)
+			{
+				quantity = MaterialList[material] / Cm3PerSheet;
+				Cm3Used = Cm3PerSheet * quantity;
+			}
+			ConsumeMaterial(material, Cm3Used);
+			UpdateGUIs.Invoke();
+			return quantity;
 		}
 
 		/// <summary>
@@ -91,10 +96,11 @@ namespace Objects.Machines
 
 		public void DispenseSheet(int amountOfSheets, ItemTrait material, Vector3 worldPos)
 		{
-			if (TryRemoveSheet(material, amountOfSheets))
+			var removedSheets = TryRemoveSheet(material, amountOfSheets);
+			if (removedSheets != 0)
 			{
 				var materialToSpawn = CraftingManager.MaterialSheetData[material].RefinedPrefab;
-				Spawn.ServerPrefab(materialToSpawn, worldPos, transform.parent, count: amountOfSheets);
+				Spawn.ServerPrefab(materialToSpawn, worldPos, transform.parent, count: removedSheets);
 			}
 		}
 
