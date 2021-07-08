@@ -845,7 +845,7 @@ namespace HealthV2
 				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
-					Integrity itemObject = item.ItemObject.GetComponent<Integrity>();
+					Integrity itemObject = item.ItemObject.OrNull()?.GetComponent<Integrity>();
 					if(itemObject != null) //Incase this is an empty slot
 					{
 						if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
@@ -853,7 +853,7 @@ namespace HealthV2
 							Inventory.ServerDrop(item);
 						}
 					}
-					var organ = item.ItemObject?.GetComponent<BodyPart>();
+					var organ = item.ItemObject.OrNull()?.GetComponent<BodyPart>();
 					if (organ != null)
 					{
 						if (organ.gibsEntireBodyOnRemoval)
