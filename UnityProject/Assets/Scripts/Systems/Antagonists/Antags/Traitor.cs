@@ -11,6 +11,8 @@ namespace Antagonists
 		[SerializeField]
 		private int initialTC = 20;
 
+		[SerializeField] private Objective aiTraitorObjective;
+
 		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally, with their preferred occupation
@@ -21,11 +23,21 @@ namespace Antagonists
 		{
 			if (player.GameObject.TryGetComponent<AiPlayer>(out var aiPlayer))
 			{
+				aiPlayer.IsMalf = true;
+				AIObjectives();
 				aiPlayer.AddLaw("Accomplish your goals at all costs.", AiPlayer.LawOrder.Traitor);
 				return;
 			}
 
 			AntagManager.TryInstallPDAUplink(player, initialTC, false);
+		}
+
+		private void AIObjectives()
+		{
+			if (DMMath.Prob(GameManager.Instance.MalfAIRecieveTheirIntendedObjectiveChance))
+			{
+				AddObjective(aiTraitorObjective);
+			}
 		}
 	}
 }

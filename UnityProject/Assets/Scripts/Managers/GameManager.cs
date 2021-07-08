@@ -96,6 +96,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public DateTime stationTime;
 	public int RoundsPerMap { get; set; } = 10;
 
+	/// <summary>
+	/// The chance of traitor AIs get the "Prevent all organic lifeforms from escpaing" objective.
+	/// </summary>
+	public int MalfAIRecieveTheirIntendedObjectiveChance { get; set; } = 100;
+
 	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
 	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
@@ -177,6 +182,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 		CharacterNameLimit = GameConfigManager.GameConfig.CharacterNameLimit;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
+		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}

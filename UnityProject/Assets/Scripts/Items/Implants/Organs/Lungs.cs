@@ -214,7 +214,7 @@ public class Lungs : BodyPartModification
 				}
 			}
 
-			if(molesRecieved.Approx(0) == false)
+			if(molesRecieved > 0)
 			{
 				toInhale.Add(gasReagent, molesRecieved * efficiency);
 			}
