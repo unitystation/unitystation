@@ -16,7 +16,7 @@ MonoBehaviour:
   LayerType: 4
   TileType: 7
   RequiredTiles: []
-  floorTileSounds: {fileID: 0}
+  floorTileSounds: {fileID: 11400000, guid: 8a557bb6a08766c489c5b59f51354498, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
@@ -54,7 +54,7 @@ MonoBehaviour:
   damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
