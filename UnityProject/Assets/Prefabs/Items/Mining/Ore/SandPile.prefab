@@ -32,6 +32,19 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+--- !u!114 &3280358701294656580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773312911048126984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e3ac583a1e4eddb2808ce1a2fc3b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildList: {fileID: 11400000, guid: 52ae60bba73d29741b3f75e223fccf7d, type: 2}
 --- !u!1001 &3650095775424363802
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +112,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SandPile
       objectReference: {fileID: 0}
+    - target: {fileID: 4145763841611067022, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 6777682017721693254}
     - target: {fileID: 4145792851350106790, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: m_AssetId
@@ -142,6 +160,12 @@ PrefabInstance:
 --- !u!1 &773312911048126984 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4043358603169337106, guid: fdb2f97a13e5b31468c170e6847a8d15,
+    type: 3}
+  m_PrefabInstance: {fileID: 3650095775424363802}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &6777682017721693254 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7829674143267686748, guid: fdb2f97a13e5b31468c170e6847a8d15,
     type: 3}
   m_PrefabInstance: {fileID: 3650095775424363802}
   m_PrefabAsset: {fileID: 0}
