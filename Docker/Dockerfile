@@ -1,4 +1,4 @@
-FROM ubuntu:20.10
+FROM ubuntu:rolling
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     jq \
