@@ -198,7 +198,7 @@ namespace Objects.Research
 			}
 
 			//Else must be container so follow container
-			linkedPlayer.ServerSetCameraLocation(info.ToSlot.GetRootStorage().gameObject, true);
+			linkedPlayer.ServerSetCameraLocation(info.ToSlot.GetRootStorageOrPlayer().gameObject, true);
 		}
 
 		public void ChangeRemoteActionState(bool newState)

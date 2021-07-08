@@ -73,7 +73,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 				if (pu != null && pu.ItemSlot != null)
 				{
 					//we are in an itemstorage, so report our root item storage object.
-					var pushPull = pu.ItemSlot.GetRootStorage().GetComponent<PushPull>();
+					var pushPull = pu.ItemSlot.GetRootStorageOrPlayer().GetComponent<PushPull>();
 					if (pushPull != null)
 					{
 						//our container has a pushpull, so use its parent
@@ -109,7 +109,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			{
 				//we are in an itemstorage, so report our position
 				//based on our root item storage object.
-				var storage = pu.ItemSlot.GetRootStorage();
+				var storage = pu.ItemSlot.GetRootStorageOrPlayer();
 				var pushPull = storage.GetComponent<PushPull>();
 				if (pushPull != null)
 				{

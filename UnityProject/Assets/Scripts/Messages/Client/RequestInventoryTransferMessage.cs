@@ -49,7 +49,7 @@ namespace Messages.Client
 
 		private bool ValidSlot(ItemSlot toCheck)
 		{
-			var holder = toCheck.GetRootStorage().gameObject;
+			var holder = toCheck.GetRootStorageOrPlayer().gameObject;
 			//its in their inventory, this is valid
 			if (holder == SentByPlayer.GameObject) return true;
 
