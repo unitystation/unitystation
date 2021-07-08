@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using Mirror;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class EscapeShuttle : NetworkBehaviour
+public class EscapeShuttle : MonoBehaviour
 {
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
@@ -144,6 +146,12 @@ public class EscapeShuttle : NetworkBehaviour
 	[HideInInspector]
 	public bool blockRecall;
 
+	public bool hostileEnvironment => hostileEnvironmentCounter >= 1;
+
+	private int hostileEnvironmentCounter = 0;
+
+	private NetworkedMatrix networkedMatrix;
+
 	private void Start()
 	{
 		switch (orientationForDocking)
@@ -201,6 +209,7 @@ public class EscapeShuttle : NetworkBehaviour
 	private void Awake()
 	{
 		mm = GetComponent<MatrixMove>();
+		networkedMatrix = GetComponent<NetworkedMatrix>();
 
 		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
 		foreach (var thruster in thrusters)
@@ -208,6 +217,22 @@ public class EscapeShuttle : NetworkBehaviour
 			var integrity = thruster.GetComponent<Integrity>();
 			integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
 		}
+	}
+
+	private void OnEnable()
+	{
+		if(CustomNetworkManager.IsServer == false) return;
+
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		StopAllCoroutines();
+
+		if(CustomNetworkManager.IsServer == false) return;
+
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	//called when each thruster is destroyed
@@ -226,7 +251,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
 		currentDestination = Destination.Invalid;
-		RpcStrandedEnd();
+		networkedMatrix.MatrixSync.RpcStrandedEnd();
 		StartCoroutine(WaitForGameOver());
 		GameManager.Instance.RespawnCurrentlyAllowed = false;
 	}
@@ -240,19 +265,9 @@ public class EscapeShuttle : NetworkBehaviour
 		GameManager.Instance.EndRound();
 	}
 
-	[ClientRpc]
-	private void RpcStrandedEnd()
+	private void UpdateMe()
 	{
-		UIManager.Instance.PlayStrandedAnimation();
-	}
-
-	private void Update()
-	{
-		if ( !CustomNetworkManager.Instance._isServer || currentDestination == Destination.Invalid )
-		{
-			return;
-		}
-
+		if (currentDestination == Destination.Invalid ) return;
 
 		//arrived to destination
 		if ( mm.ServerState.IsMoving )
@@ -285,7 +300,7 @@ public class EscapeShuttle : NetworkBehaviour
 					Status = EscapeShuttleStatus.DockedCentcom;
 					if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
 					{
-						SoundManager.PlayAtPosition("HyperSpaceEnd", transform.position, gameObject);
+						SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
 					}
 				}
 			}
@@ -303,7 +318,7 @@ public class EscapeShuttle : NetworkBehaviour
 			{
 				if ((!mm.ServerState.IsMoving || mm.ServerState.Speed < 1f) && startedMovingToStation)
 				{
-					Logger.LogTrace("Escape shuttle is blocked.", Category.Matrix);
+					Logger.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
 					isBlocked = true;
 					escapeBlockedTime = 0f;
 				}
@@ -315,7 +330,7 @@ public class EscapeShuttle : NetworkBehaviour
 			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
 			    (mm.ServerState.IsMoving && mm.ServerState.Speed >= 1f))
 			{
-				Logger.LogTrace("Escape shuttle is unblocked.", Category.Matrix);
+				Logger.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
 				isBlocked = false;
 				escapeBlockedTime = 0f;
 			}
@@ -325,17 +340,12 @@ public class EscapeShuttle : NetworkBehaviour
 				escapeBlockedTime += Time.deltaTime;
 				if (escapeBlockedTime > escapeBlockTimeLimit)
 				{
-					Logger.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Matrix, escapeBlockTimeLimit);
+					Logger.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
 					//can't escape
 					ServerStartStrandedEnd();
 				}
 			}
 		}
-	}
-
-	private void OnDisable()
-	{
-		StopAllCoroutines();
 	}
 
 	//sorry, not really clean, robust or universal
@@ -530,12 +540,11 @@ public class EscapeShuttle : NetworkBehaviour
 
 	#endregion
 
-
 	#region Moving To CentCom
 
 	public void SendShuttle()
 	{
-		SoundManager.PlayAtPosition("HyperSpaceBegin", transform.position, gameObject);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceBegin, transform.position, sourceObj: gameObject);
 
 		StartCoroutine(WaitForShuttleLaunch());
 	}
@@ -544,7 +553,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		yield return WaitFor.Seconds(7f);
 
-		SoundManager.PlayAtPosition("HyperSpaceProgress", transform.position, gameObject);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceProgress, transform.position, sourceObj: gameObject);
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 
@@ -594,6 +603,28 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		currentDestination = dest;
 		mm.AutopilotTo( currentDestination.Position );
+	}
+
+	public void SetHostileEnvironment(bool activateHostileEnviro)
+	{
+		if (activateHostileEnviro)
+		{
+			hostileEnvironmentCounter += 1;
+			return;
+		}
+
+		if(hostileEnvironmentCounter > 1)
+		{
+			hostileEnvironmentCounter -= 1;
+			return;
+		}
+
+		hostileEnvironmentCounter = 0;
+
+		if(Status != EscapeShuttleStatus.DockedStation) return;
+
+		Chat.AddSystemMsgToChat($"<color=white>Hostile Environment has been removed! Crew has {TimeSpan.FromSeconds(GameManager.Instance.ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
+		GameManager.Instance.ForceSendEscapeShuttleFromStation(GameManager.Instance.ShuttleDepartTime);
 	}
 }
 

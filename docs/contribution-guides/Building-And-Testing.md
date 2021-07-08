@@ -10,7 +10,17 @@ That means two instances: Client and Host (Server that's client, too).
 You can run one instance from editor by pressing play button, 
 but for another one you'll have to make a **standalone build**.
 
-**Open the Lobby scene first, as it's the correct way to start the game.**
+You can launch the game directly into the current scene, if it is a MainStation scene, that is open.
+
+### TLDR QuickBuild
+`Tools > Quick Build`
+
+![quickbuild window](https://i.imgur.com/XQMuiAa.png)
+
+- Automatically sets build settings to get MVB (minimum viable build) by including only necessary scenes.
+- Operates independently of the main build window.
+- Settings are persistent and won't be picked up by git (except Quick Load which is handled externally, so be sure to not commit that change).
+- The Disable Scenes tab is the old `DisableNonEssentialScenes` tool.
 
 ### Initial setup: Build settings
 To make a proper standalone build, you should set up build settings (only once).
@@ -19,12 +29,13 @@ To make a proper standalone build, you should set up build settings (only once).
 
 ![](https://camo.githubusercontent.com/b2be111d41c3898d0efb0255e0878c5e3e2cc4ae/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f525554726f665a46517a79784d6851396a4d784779412e706e67)
 
-* Make sure that **both scenes are ticked**:
+* Make sure that **StartUp**, **Lobby**, **OnlineScene** and all MainStation scenes possible for lowpop (**Fallstation**, **SquareStation**) are checked (screenshot is out of date):
 
 ![](https://camo.githubusercontent.com/8fb35c8c3a3c25b6fa3e59231a51aefb50e18f76/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f316d4a6f7041563652476d524c5f5034525a4b374f672e706e67)
 
 (If you don't see your current scene in the list, press `Add Open Scenes` button)
 
+If you have **Quick Load** checked on `GameManager` prefab, you can uncheck all the asteroid and additional scenes, too.
 
 * Mark `Development Build` and `Script Debugging` checkboxes, that will show all Build's logs in Editor's console:
 ![](https://camo.githubusercontent.com/ef278b53bbd024b95a20f07cb59cc015b03fee46/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f4c682d326c6542785377364148565f58636b384f64412e706e67)

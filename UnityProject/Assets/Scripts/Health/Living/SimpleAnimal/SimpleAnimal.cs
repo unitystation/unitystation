@@ -1,73 +1,94 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
-public class SimpleAnimal : LivingHealthBehaviour
+namespace Systems.Mob
 {
-	public Sprite aliveSprite;
-
-	public Sprite deadSprite;
-
-	//Syncvar hook so that new players can sync state on start
-	[SyncVar(hook = nameof(SyncAliveState))] public bool deadState;
-
-	public SpriteRenderer spriteRend;
-
-	public RegisterObject registerObject;
-
-	[Server]
-	public void SetDeadState(bool isDead)
+	public class SimpleAnimal : LivingHealthBehaviour
 	{
-		deadState = isDead;
-	}
+		private RegisterObject registerObject;
+		private MobSprite mobSprite;
 
-	public override void Awake()
-	{
-		registerObject = GetComponent<RegisterObject>();
-	}
+		//Syncvar hook so that new players can sync state on start
+		[NonSerialized]
+		[SyncVar(hook = nameof(SyncAliveState))]
+		public bool deadState;
 
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		SyncAliveState(deadState, deadState);
-	}
-
-	[Server]
-	protected override void OnDeathActions()
-	{
-		deadState = true;
-	}
-
-	private void SyncAliveState(bool oldState, bool state)
-	{
-		deadState = state;
-
-		if (state)
+		[Server]
+		public void SetDeadState(bool isDead)
 		{
-			spriteRend.sprite = deadSprite;
-			SetToBodyLayer();
-			registerObject.Passable = state;
+			deadState = isDead;
 		}
-		else
+
+		public override void Awake()
 		{
-			spriteRend.sprite = aliveSprite;
-			SetToNPCLayer();
+			registerObject = GetComponent<RegisterObject>();
+			mobSprite = GetComponent<MobSprite>();
 		}
-	}
 
-	/// <summary>
-	/// Set the sprite renderer to bodies when the mob has died
-	/// </summary>
-	public void SetToBodyLayer()
-	{
-		spriteRend.sortingLayerName = "Bodies";
-	}
+		private void Start()
+		{
+			OnClientFireStacksChange.AddListener(OnClientFireChange);
+			OnClientFireChange(FireStacks);
+		}
 
-	/// <summary>
-	/// Set the mobs sprite renderer to NPC layer
-	/// </summary>
-	public void SetToNPCLayer()
-	{
-		spriteRend.sortingLayerName = "NPCs";
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			SyncAliveState(deadState, deadState);
+		}
+
+		[Server]
+		protected override void OnDeathActions()
+		{
+			deadState = true;
+		}
+
+		private void SyncAliveState(bool oldState, bool state)
+		{
+			deadState = state;
+
+			if (mobSprite == null)
+			{
+				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
+				return;
+			}
+
+			if (state)
+			{
+				mobSprite.SetToDead();
+				mobSprite.SetToBodyLayer();
+				registerObject.SetPassable(true,state);
+			}
+			else
+			{
+				mobSprite.SetToAlive();
+				mobSprite.SetToNPCLayer();
+			}
+		}
+
+		private void OnClientFireChange(float fireStacks)
+		{
+			UpdateBurningOverlays(fireStacks);
+		}
+
+		private void UpdateBurningOverlays(float fireStacks)
+		{
+			if (mobSprite == null)
+			{
+				Logger.LogError($"No {nameof(MobSprite)} component on {this}!", Category.Mobs);
+				return;
+			}
+
+			if (fireStacks > 0)
+			{
+				mobSprite.SetBurningOverlay();
+			}
+			else
+			{
+				mobSprite.ClearBurningOverlay();
+			}
+		}
 	}
 }

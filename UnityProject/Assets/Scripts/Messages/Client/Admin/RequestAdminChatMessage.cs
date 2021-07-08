@@ -1,54 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminTools;
+﻿using Messages.Client;
 using Mirror;
 
-public class RequestAdminChatMessage : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-	public string Message;
-
-	public override void Process()
+	public class RequestAdminChatMessage : ClientMessage<RequestAdminChatMessage.NetMessage>
 	{
-		VerifyAdminStatus();
-	}
-
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(Message, Userid);
+			public string Userid;
+			public string AdminToken;
+			public string Message;
 		}
-	}
 
-	public static RequestAdminChatMessage Send(string userId, string adminToken, string message)
-	{
-		RequestAdminChatMessage msg = new RequestAdminChatMessage
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken,
-			Message = message
-		};
-		msg.Send();
-		return msg;
-	}
+			VerifyAdminStatus(msg);
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		Message = reader.ReadString();
-	}
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player != null)
+			{
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg.Message, msg.Userid);
+			}
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(Message);
+		public static NetMessage Send(string userId, string adminToken, string message)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				Message = message
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

@@ -5,71 +5,111 @@
 /// </summary>
 public class StepChanger : MonoBehaviour, IServerInventoryMove
 {
-	[SerializeField]
-	private WearType wearType = WearType.shoes;
+	[SerializeField] private FloorSounds SoundChange;
+
+	private RegisterPlayer Player;
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		NamedSlot slot = wearType == WearType.hardsuit ? NamedSlot.outerwear : NamedSlot.feet;
+		// NamedSlot slot = wearType == WearType.hardsuit ? NamedSlot.outerwear : NamedSlot.feet;
 
 		//Wearing
-		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+		if (info.ToSlot != null && info.ToRootPlayer)
 		{
-			var mind = info.ToRootPlayer.PlayerScript.mind;
-			if(mind != null & info.ToSlot.NamedSlot == slot)
+			var toPlayer = info.ToPlayer;
+
+			if (toPlayer == null)
 			{
-				TryChange(mind, info.ToSlot.NamedSlot, info.ToPlayer);
+				return;
+			}
+
+			var mind = toPlayer.PlayerScript.mind;
+
+			if (mind != null && mind.StepSound == SoundChange)
+			{
+				mind.StepSound = null;
 			}
 		}
+
 		//taking off
-		if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+		if (info.FromSlot != null && info.FromPlayer)
 		{
-			var mind = info.FromPlayer.PlayerScript.mind;
-			if(mind != null & info.FromSlot.NamedSlot == slot)
+			var fromPlayer = info.FromPlayer;
+
+			if (fromPlayer == null)
 			{
-				TryChange(mind, info.FromSlot.NamedSlot, info.FromPlayer, true);
+				return;
+			}
+
+			var mind = fromPlayer.PlayerScript.mind;
+
+			if (mind != null && mind.StepSound == null)
+			{
+				Player = info.ToPlayer;
+				mind.StepSound = SoundChange;
 			}
 		}
+
+
+
+		//Wearing
+		// if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
+		// {
+			// var mind = info.ToRootPlayer.PlayerScript.mind;
+			// if(mind != null && info.ToSlot.NamedSlot == slot)
+			// {
+				// TryChange(mind, info.ToSlot.NamedSlot, info.ToPlayer);
+			// }
+		// }
+		//taking off
+		// if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
+		// {
+			// var mind = info.FromPlayer.PlayerScript.mind;
+			// if(mind != null && info.FromSlot.NamedSlot == slot)
+			// {
+				// TryChange(mind, info.FromSlot.NamedSlot, info.FromPlayer, true);
+			// }
+		// }
 	}
 
 	private void TryChange(Mind mind, NamedSlot? changeSlot, RegisterPlayer player, bool removing = false)
 	{
-		if (!HasHardsuit(mind, changeSlot))
-		{
-			if (removing && changeSlot == NamedSlot.outerwear)
-			{
-				WearType feet = WearType.barefoot;
-				var tryGetItem = player.PlayerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet).Item;
-				if (tryGetItem != null)
-				{
-					var stepChanger = tryGetItem.GetComponent<StepChanger>();
-					if (stepChanger != null)
-					{
-						feet = stepChanger.wearType;
-					}
-				}
-
-				mind.stepType = (StepType)feet;
-				return;
-			}
-
-			if (removing && changeSlot == NamedSlot.feet)
-			{
-				mind.stepType = StepType.Barefoot;
-				return;
-			}
-
-			mind.stepType = (StepType)wearType;
-		}
+		// if (!HasHardsuit(mind, changeSlot))
+		// {
+		// 	if (removing && changeSlot == NamedSlot.outerwear)
+		// 	{
+		// 		WearType feet = WearType.barefoot;
+		// 		var tryGetItem = player.PlayerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet).Item;
+		// 		if (tryGetItem != null)
+		// 		{
+		// 			var stepChanger = tryGetItem.GetComponent<StepChanger>();
+		// 			if (stepChanger != null)
+		// 			{
+		// 				feet = stepChanger.wearType;
+		// 			}
+		// 		}
+		//
+		// 		mind.stepType = (StepType)feet;
+		// 		return;
+		// 	}
+		//
+		// 	if (removing && changeSlot == NamedSlot.feet)
+		// 	{
+		// 		mind.stepType = StepType.Barefoot;
+		// 		return;
+		// 	}
+		//
+		// 	mind.stepType = (StepType)wearType;
+		// }
 	}
 
-	private bool HasHardsuit(Mind mind, NamedSlot? changeSlot) => mind.stepType == StepType.Suit & changeSlot != NamedSlot.outerwear;
+	// private bool HasHardsuit(Mind mind, NamedSlot? changeSlot) => mind.stepType == StepType.Suit && changeSlot != NamedSlot.outerwear;
 
 	private enum WearType
 	{
 		barefoot = StepType.Barefoot,
 		shoes = StepType.Shoes,
-		clownshoes = StepType.Clown,
-		hardsuit = StepType.Suit
+		// clownshoes = StepType.Clown,
+		// hardsuit = StepType.Suit
 	}
 }

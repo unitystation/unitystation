@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e66dcbbf6b63f74da3f53fcc85ae1cc, type: 3}
+  m_Name: ClonexadoneInBody
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: 5aaf6c8f07381d0f69121b9fac2eaebb, type: 2}
+    m_values: 01000000
+  useExactAmounts: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  results:
+    m_keys: []
+    m_values: 
+  effects: []
+  ReagentMetabolismMultiplier: 1
+  DamageEffect: 4
+  AttackType: 9
+  EffectPerOne: 3
+  CanOverdose: 0
+  PercentageBloodOverdose: 0.5
+  OverdoseDamageMultiplier: 2
+  MultiEffect: 0
+  Effects: []

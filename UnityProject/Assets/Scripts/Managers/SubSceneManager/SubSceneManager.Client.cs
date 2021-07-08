@@ -13,7 +13,7 @@ public partial class SubSceneManager
 
 	void MonitorServerSceneListOnClient()
 	{
-		if (isServer || clientIsLoadingSubscene) return;
+		if (isServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
 
 		waitTime += Time.deltaTime;
 		if (waitTime >= tickRate)

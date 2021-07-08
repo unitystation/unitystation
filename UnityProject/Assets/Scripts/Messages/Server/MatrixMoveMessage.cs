@@ -1,52 +1,62 @@
-using System.Collections;
-using UnityEngine;
 using Mirror;
+using Shuttles;
+using Tilemaps.Behaviours.Layers;
+using UnityEngine;
 
-///     Tells client to
-public class MatrixMoveMessage : ServerMessage
+namespace Messages.Server
 {
-	public MatrixState State;
-	public uint Matrix;
-	//Reset client's prediction queue
-//	public bool ResetQueue;
-
-	///To be run on client
-	public override void Process()
+	///     Tells client to
+	public class MatrixMoveMessage : ServerMessage<MatrixMoveMessage.NetMessage>
 	{
-//		Logger.Log("Processed " + ToString());
-		LoadNetworkObject(Matrix);
+		public struct NetMessage : NetworkMessage
+		{
+			public MatrixState State;
+			public uint Matrix;
 
-		//Sometimes NetworkObject is gone because of game ending or just before exit
-		if (NetworkObject != null) {
-			var matrixMove = NetworkObject.GetComponent<MatrixMove>();
-			matrixMove.UpdateClientState(State);
+			public override string ToString()
+			{
+				return $"[MatrixMoveMessage {State}]";
+			}
 		}
-	}
 
-	public static MatrixMoveMessage Send(NetworkConnection recipient, GameObject matrix, MatrixState state)
-	{
-		var msg = new MatrixMoveMessage
+		//Reset client's prediction queue
+		//public bool ResetQueue;
+
+		///To be run on client
+		public override void Process(NetMessage msg)
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-			State = state,
-		};
-		msg.SendTo(recipient);
-		return msg;
-	}
+			LoadNetworkObject(msg.Matrix);
 
-	public static MatrixMoveMessage SendToAll(GameObject matrix, MatrixState state)
-	{
-		var msg = new MatrixMoveMessage
+			//Sometimes NetworkObject is gone because of game ending or just before exit
+			if (NetworkObject != null)
+			{
+				var matrixMove = NetworkObject.GetComponent<MatrixSync>().MatrixMove;
+				matrixMove.UpdateClientState(msg.State);
+			}
+		}
+
+		public static NetMessage Send(NetworkConnection recipient, GameObject matrix, MatrixState state)
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-			State = state,
-		};
-		msg.SendToAll();
-		return msg;
-	}
+			var msg = new NetMessage
+			{
+				Matrix = matrix != null ? matrix.GetComponent<NetworkedMatrix>().MatrixSync.netId : NetId.Invalid,
+				State = state,
+			};
 
-	public override string ToString()
-	{
-		return $"[MatrixMoveMessage {State}]";
+			SendTo(recipient, msg);
+			return msg;
+		}
+
+		public static NetMessage SendToAll(GameObject matrix, MatrixState state)
+		{
+			var msg = new NetMessage
+			{
+				Matrix = matrix != null ? matrix.GetComponent<NetworkedMatrix>().MatrixSync.netId : NetId.Invalid,
+				State = state,
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

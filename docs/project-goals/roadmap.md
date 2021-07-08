@@ -57,9 +57,9 @@ note: goals that are crossed out are goals that have been completed
       <td>
         <ul>
           <li>basic Modding</li>
-          <li>Advanced Round Management, e.g. map rotating, messages</li>
+          <li><del>Advanced Round Management, e.g. map rotating, messages</del></li>
           <li><del>Basic Admin portal</del></li>
-          <li>Easy server deployment, maybe even automatic</li>
+          <li><del>Easy server deployment, maybe even automatic</del></li>
           <li><del>24 / 7 Server</del></li>
           <li><del>HUD overhaul, Flexible UI with Docking Tabs system that would supersede right panel</del></li>
         </ul>
@@ -71,17 +71,36 @@ note: goals that are crossed out are goals that have been completed
         <ul>
           <li>Advanced Health System, Hunger, Disease</li>
           <li><del>Roles, such as Cook, Botanist, Security, Engineer</del></li>
-          <li>Roles specific mechanics, such as botany, cooking etc.</li>
+          <li><del>Roles specific mechanics, such as botany, cooking etc.</del></li>
           <li>Role Management</li>
-          <li>Piping of Atmospherics</li>
-          <li>Disposals</li>
-          <li>...</li>
+          <li><del>Piping of Atmospherics</del></li>
+          <li><del>Disposals</del></li>
+          <li>Addressable system</li>
+          <li>Races support</li>
+          <li>Wizard</li>
+          <li>Mapping revamp</li>
+          <li><del>Add one of the other ss13 engines (Singulo)</del></li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td> to be continued... </td>
-      <td></td>
+    <td>0.6</td>
+       <td>
+          <ul>
+              <li>Language support (Localisation )</li>
+              <li>Crafting menu</li>
+              <li>Research Gameplay</li>
+              <li>Admin tool remapping(could be in 0.5)</li>
+              <li>Gravity generator for station</li>
+              <li><del>Tesla engine</del></li>
+              <li>Tile and Item overlays</li>
+              <li>Pills/medical chemistry</li>
+          </ul>
+       </td>
+    </tr>
+    <tr>
+        <td> to be continued... </td>
+        <td></td>
     </tr>
   </tbody>
 </table>

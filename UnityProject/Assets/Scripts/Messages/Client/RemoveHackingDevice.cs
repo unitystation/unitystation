@@ -1,57 +1,45 @@
-﻿using System.Collections;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
+﻿using Messages.Server;
 using Mirror;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+using UnityEngine;
 
-public class RemoveHackingDevice: ClientMessage
+namespace Messages.Client
 {
-	public uint Player;
-	public uint HackableObject;
-	public uint HackingDevice;
-
-	public override void Process()
+	public class RemoveHackingDevice : ClientMessage<RemoveHackingDevice.NetMessage>
 	{
-		LoadMultipleObjects(new uint[] { Player, HackableObject, HackingDevice });
-
-		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-		var hackObject = NetworkObjects[1];
-		HackingDevice hackDevice = NetworkObjects[2].GetComponent<HackingDevice>();
-		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
-		if (hackingProcess.ServerPlayerCanRemoveDevice(playerScript, hackDevice))
+		public struct NetMessage : NetworkMessage
 		{
-			hackingProcess.RemoveHackingDevice(hackDevice);
-			hackingProcess.ServerPlayerRemoveHackingDevice(playerScript, hackDevice);
-			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
+			public uint Player;
+			public uint HackableObject;
+			public uint HackingDevice;
 		}
-	}
 
-	public static RemoveHackingDevice Send(GameObject player, GameObject hackObject, GameObject hackingDevice)
-	{
-		RemoveHackingDevice msg = new RemoveHackingDevice
+		public override void Process(NetMessage msg)
 		{
-			Player = player.GetComponent<NetworkIdentity>().netId,
-			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
-			HackingDevice = hackingDevice.GetComponent<NetworkIdentity>().netId
-		};
-		msg.Send();
-		return msg;
-	}
+			LoadMultipleObjects(new uint[] { msg.Player, msg.HackableObject, msg.HackingDevice });
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Player = reader.ReadUInt32();
-		HackableObject = reader.ReadUInt32();
-		HackingDevice = reader.ReadUInt32();
-	}
+			var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
+			var hackObject = NetworkObjects[1];
+			HackingDevice hackDevice = NetworkObjects[2].GetComponent<HackingDevice>();
+			HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
+			if (hackingProcess.ServerPlayerCanRemoveDevice(playerScript, hackDevice))
+			{
+				hackingProcess.RemoveHackingDevice(hackDevice);
+				hackingProcess.ServerPlayerRemoveHackingDevice(playerScript, hackDevice);
+				HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
+			}
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(Player);
-		writer.WriteUInt32(HackableObject);
-		writer.WriteUInt32(HackingDevice);
+		public static NetMessage Send(GameObject player, GameObject hackObject, GameObject hackingDevice)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Player = player.GetComponent<NetworkIdentity>().netId,
+				HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
+				HackingDevice = hackingDevice.GetComponent<NetworkIdentity>().netId
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

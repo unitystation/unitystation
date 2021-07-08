@@ -1,27 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
-using Newtonsoft.Json;
-using System.IO;
-using Newtonsoft.Json.Bson;
-using System;
-public class SubBookshelfNetMessage : ServerMessage
+
+namespace Messages.Server.VariableViewer
 {
-	public string data;
-	public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
-
-	public override void Process()
+	public class SubBookshelfNetMessage : ServerMessage<SubBookshelfNetMessage.NetMessage>
 	{
-		UIManager.Instance.BookshelfViewer.BookShelfIn = BookShelf;
-	}
-
-	public static SubBookshelfNetMessage Send(Librarian.BookShelf _BookShelf)
-	{
-		SubBookshelfNetMessage msg = new SubBookshelfNetMessage()
+		public struct NetMessage : NetworkMessage
 		{
-			BookShelf = VariableViewerNetworking.ProcessSUBBookShelf(_BookShelf)
-		};
-		msg.SendToAll();
-		return msg;
+			public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.UI_BooksInBookshelf.ValueSetUp( msg.BookShelf);
+		}
+
+		public static NetMessage Send(Librarian.Library.LibraryBookShelf _BookShelf, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage()
+			{
+				BookShelf = VariableViewerNetworking.ProcessSubBookShelf(_BookShelf)
+			};
+
+			SendTo(ToWho, msg, channel : 3);
+			return msg;
+		}
 	}
 }

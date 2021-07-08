@@ -28,6 +28,7 @@ public enum EncryptionKeyType
 	Genetics,
 	SrvSec,
 	CentCommPlus,
+	SrvMed,
 }
 
 /// <summary>
@@ -59,6 +60,7 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Mining, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Science},
 		{EncryptionKeyType.Genetics, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Science},
 		{EncryptionKeyType.SrvSec, ChatChannel.Common | ChatChannel.Security | ChatChannel.Service},
+		{EncryptionKeyType.SrvMed, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Service},
 		{EncryptionKeyType.CentCommPlus, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering |
 									ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science | ChatChannel.CentComm},
 	};
@@ -89,6 +91,7 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Supply, ChatChannel.Supply },
 		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate },
 		{EncryptionKeyType.SrvSec, ChatChannel.Security},
+		{EncryptionKeyType.SrvMed, ChatChannel.Medical},
 		{EncryptionKeyType.CentCommPlus, ChatChannel.CentComm}
 	};
 
@@ -175,6 +178,7 @@ public class EncryptionKey : NetworkBehaviour
 	public Sprite syndicateSprite;
 	public Sprite srvsecSprite;
 	public Sprite centCommPlusSprite;
+	public Sprite srvmedSprite;
 
 	[SerializeField] //to show in inspector
 	private EncryptionKeyType type;
@@ -187,7 +191,7 @@ public class EncryptionKey : NetworkBehaviour
 			type = value;
 			if (type == EncryptionKeyType.None)
 			{
-				Logger.LogError("Encryption keys cannot be None type!", Category.Telecoms);
+				Logger.LogError("Encryption keys cannot be None type!", Category.Chat);
 				type = EncryptionKeyType.Common;
 			}
 			UpdateSprite();
@@ -275,6 +279,9 @@ public class EncryptionKey : NetworkBehaviour
 				break;
 			case EncryptionKeyType.SrvSec:
 				spriteRenderer.sprite = srvsecSprite;
+				break;
+			case EncryptionKeyType.SrvMed:
+				spriteRenderer.sprite = srvmedSprite;
 				break;
 			case EncryptionKeyType.CentCommPlus:
 				spriteRenderer.sprite = centCommPlusSprite;

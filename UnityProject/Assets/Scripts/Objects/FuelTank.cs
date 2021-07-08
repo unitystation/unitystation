@@ -2,93 +2,97 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Chemistry;
 using Chemistry.Components;
-using UnityEngine.Events;
+using Systems.Explosions;
 
-public class FuelTank : MonoBehaviour
+namespace Objects.Engineering
 {
-	private ObjectBehaviour objectBehaviour;
-	private RegisterObject registerObject;
-	private ReagentContainer reagentContainerScript;
-	private Integrity integrity;
-	private ReagentContainerObjectInteractionScript reagentContainerObjectInteractionScript;
-	private bool BlewUp = false;
-
-	[SerializeField]
-	private Chemistry.Reagent fuel = default;
-
-	private void Awake()
+	public class FuelTank : MonoBehaviour
 	{
-		BlewUp = false;
-		objectBehaviour = GetComponent<ObjectBehaviour>();
-		registerObject = GetComponent<RegisterObject>();
-		integrity = GetComponent<Integrity>();
-		reagentContainerScript = GetComponent<ReagentContainer>();
-		reagentContainerObjectInteractionScript = GetComponent<ReagentContainerObjectInteractionScript>();
-		integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
-	}
+		private ObjectBehaviour objectBehaviour;
+		private RegisterObject registerObject;
+		private ReagentContainer reagentContainerScript;
+		private Integrity integrity;
+		private ReagentContainerObjectInteractionScript reagentContainerObjectInteractionScript;
+		private bool BlewUp = false;
 
-	private void Start()
-	{
-		reagentContainerObjectInteractionScript.OnHandApply.AddListener(TryServerPerformInteraction);
-	}
+		[SerializeField]
+		private Reagent fuel = default;
 
-	public void TryServerPerformInteraction(HandApply interaction)
-	{
-		if (!Validations.IsTarget(gameObject, interaction)) return;
-
-		if(!Validations.HasUsedActiveWelder(interaction)) return;
-
-		var welder = interaction.UsedObject.GetComponent<Welder>();
-
-		if (welder == null) return;
-
-		if (!welder.IsOn)
+		private void Awake()
 		{
-			return;
+			BlewUp = false;
+			objectBehaviour = GetComponent<ObjectBehaviour>();
+			registerObject = GetComponent<RegisterObject>();
+			integrity = GetComponent<Integrity>();
+			reagentContainerScript = GetComponent<ReagentContainer>();
+			reagentContainerObjectInteractionScript = GetComponent<ReagentContainerObjectInteractionScript>();
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}
 
-		var strength = reagentContainerScript[fuel];
-
-		if (strength + 1 < integrity.integrity)
+		private void Start()
 		{
-			Chat.AddExamineMsg(interaction.Performer, "You realise you forgot to turn off the welder, luckily the fuel tank seems stable.");
-			return;
+			reagentContainerObjectInteractionScript.OnHandApply.AddListener(TryServerPerformInteraction);
 		}
 
-		Chat.AddExamineMsg(interaction.Performer, "<color=red>You have a sudden realisation that you forgot to do something, but it is too late...</color>");
-
-		Explode(strength);
-	}
-
-	private void WhenDestroyed(DestructionInfo info)
-	{
-		if(BlewUp) return;
-
-		Explode(reagentContainerScript[fuel]);
-	}
-
-	private void Explode(float strength)
-	{
-		if (strength < 400f)
+		public void TryServerPerformInteraction(HandApply interaction)
 		{
-			strength = 400f;
+			if (!Validations.IsTarget(gameObject, interaction)) return;
+
+			if (!Validations.HasUsedActiveWelder(interaction)) return;
+
+			var welder = interaction.UsedObject.GetComponent<Welder>();
+
+			if (welder == null) return;
+
+			if (!welder.IsOn)
+			{
+				return;
+			}
+
+			var strength = reagentContainerScript[fuel];
+
+			if (strength + 1 < integrity.integrity)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "You realise you forgot to turn off the welder, luckily the fuel tank seems stable.");
+				return;
+			}
+
+			Chat.AddExamineMsg(interaction.Performer, "<color=red>You have a sudden realisation that you forgot to do something, but it is too late...</color>");
+
+			Explode(strength);
 		}
 
-		BlewUp = true;
+		private void WhenDestroyed(DestructionInfo info)
+		{
+			if (BlewUp) return;
 
-		if (registerObject == null)
-		{
-			Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
-				objectBehaviour.registerTile.Matrix);
-		}
-		else
-		{
-			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, strength,
-				registerObject.Matrix);
+			Explode(reagentContainerScript[fuel]);
 		}
 
-		reagentContainerObjectInteractionScript.OnHandApply.RemoveListener(TryServerPerformInteraction);
-		integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+		private void Explode(float strength)
+		{
+			if (strength < 400f)
+			{
+				strength = 400f;
+			}
+
+			BlewUp = true;
+
+			if (registerObject == null)
+			{
+				Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
+					objectBehaviour.registerTile.Matrix);
+			}
+			else
+			{
+				Explosion.StartExplosion(registerObject.LocalPosition, strength,
+					registerObject.Matrix);
+			}
+
+			reagentContainerObjectInteractionScript.OnHandApply.RemoveListener(TryServerPerformInteraction);
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+		}
 	}
 }

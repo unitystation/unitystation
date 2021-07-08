@@ -21,19 +21,19 @@ public class WearableSpeechMod : MonoBehaviour, IServerInventoryMove
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//Wearing
-		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
 		{
 			var mind = info.ToRootPlayer.PlayerScript.mind;
-			if(mind != null & info.ToSlot.NamedSlot == slot)
+			if(mind != null && info.ToSlot.NamedSlot == slot)
 			{
 				mind.inventorySpeechModifiers |= modifier;
 			}
 		}
 		//taking off
-		if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+		if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
 		{
 			var mind = info.FromPlayer.PlayerScript.mind;
-			if(mind != null & info.FromSlot.NamedSlot == slot)
+			if(mind != null && info.FromSlot.NamedSlot == slot)
 			{
 				mind.inventorySpeechModifiers &= ~modifier;
 			}

@@ -1,12 +1,15 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Systems.Atmospherics;
+using TileManagement;
+using Tilemaps.Behaviours.Layers;
 
-/// Struct that helps identify matrices
-public struct MatrixInfo
+/// Class that helps identify matrices
+public class MatrixInfo : IEquatable<MatrixInfo>
 {
-	public string Name => Matrix.gameObject.name;
-	public int Id;
+	public readonly int Id;
 	public Matrix Matrix;
 	public MetaTileMap MetaTileMap;
 	public MetaDataLayer MetaDataLayer;
@@ -14,27 +17,35 @@ public struct MatrixInfo
 	public TileChangeManager TileChangeManager;
 	public ReactionManager ReactionManager;
 	public GameObject GameObject;
-	public BoundsInt Bounds => MetaTileMap.GetBounds();
-	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
-	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
-
 	public Vector3Int CachedOffset;
+
 	// position we were at when offset was last cached, to check if it is invalid
 	private Vector3 cachedPosition;
 
+	// Transform containing all the physical objects on the map
+	public Transform Objects;
+	public MatrixMove MatrixMove;
+	private Vector3Int initialOffset;
+	private uint netId;
+
+	public BoundsInt Bounds => MetaTileMap.GetBounds();
+
+	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
+
+	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
+
 	public Color Color => Matrix ? Matrix.Color : Color.red;
+
 	public float Speed => MatrixMove ? MatrixMove.ServerState.Speed : 0f;
+
+	public string Name => Matrix.gameObject.name;
 
 	//todo: placeholder, should depend on solid tiles count instead (and use caching)
 	public float Mass => Bounds.size.sqrMagnitude/1000f;
+
 	public bool IsMovable => MatrixMove != null;
+
 	public Vector2Int MovementVector => ( IsMovable && MatrixMove.IsMovingServer ) ? MatrixMove.ServerState.FlyingDirection.VectorInt : Vector2Int.zero;
-
-	/// <summary>
-	/// Transform containing all the physical objects on the map
-	public Transform Objects;
-
-	private Vector3Int initialOffset;
 
 	public Vector3Int InitialOffset
 	{
@@ -69,10 +80,6 @@ public struct MatrixInfo
 		return CachedOffset;
 	}
 
-	public MatrixMove MatrixMove;
-
-	private uint netId;
-
 	public uint NetID
 	{
 		get
@@ -88,29 +95,42 @@ public struct MatrixInfo
 	}
 
 	/// Null object
-	public static readonly MatrixInfo Invalid = new MatrixInfo {Id = -1};
+	public static readonly MatrixInfo Invalid = new MatrixInfo(-1);
+
+	public MatrixInfo(int id)
+	{
+		Id = id;
+	}
 
 	public override string ToString()
 	{
-		return Equals(Invalid)
-			? "[Invalid matrix]"
-			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.ServerState},netId={NetID}]";
+		if(Equals(Invalid))
+		{
+			return "[Invalid matrix]";
+		}
+		else
+		{
+			string objectName = "MatrixInfo";
+			if(GameObject != null)
+				objectName = GameObject.name;
+
+			string pivot = "pivot";
+			string state = "state";
+			if(MatrixMove != null)
+			{
+				pivot = MatrixMove.Pivot.ToString();
+				state = MatrixMove.ServerState.ToString();
+			}
+
+			return $"[({Id}){objectName},offset={Offset},pivot={pivot},state={state},netId={NetID}]";
+		}
 	}
 
-	public bool Equals(MatrixInfo other)
-	{
-		return Id == other.Id;
-	}
+	public bool Equals(MatrixInfo other) => Id == other?.Id;
 
-	public override bool Equals(object obj)
-	{
-		return obj is MatrixInfo other && Equals( other );
-	}
+	public override bool Equals(object obj) => obj is MatrixInfo other && Equals(other);
 
-	public override int GetHashCode()
-	{
-		return Id;
-	}
+	public override int GetHashCode() => Id;
 
 	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices
 	private static uint getNetId(Matrix matrix)
@@ -121,16 +141,19 @@ public struct MatrixInfo
 			return netId;
 		}
 
-		NetworkIdentity component = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
-		NetworkIdentity componentInParent = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
+		NetworkedMatrix networkedMatrix = matrix.gameObject.GetComponentInParent<NetworkedMatrix>();
+
+		if (networkedMatrix.OrNull()?.MatrixSync == null)
+		{
+			//Try to find if null
+			networkedMatrix.BackUpSetMatrixSync();
+		}
+
+		NetworkIdentity component = networkedMatrix.OrNull()?.MatrixSync.OrNull()?.GetComponent<NetworkIdentity>();
+
 		if (component && component.netId != NetId.Invalid && component.netId != NetId.Empty)
 		{
 			netId = component.netId;
-		}
-
-		if (componentInParent && componentInParent.netId != NetId.Invalid && component.netId != NetId.Empty)
-		{
-			netId = componentInParent.netId;
 		}
 
 		if (netId == NetId.Invalid)
@@ -143,26 +166,16 @@ public struct MatrixInfo
 
 	private sealed class IdEqualityComparer : IEqualityComparer<MatrixInfo>
 	{
-		public bool Equals( MatrixInfo x, MatrixInfo y )
-		{
-			return x.Id == y.Id;
-		}
+		public bool Equals(MatrixInfo x, MatrixInfo y) => x?.Id == y?.Id;
 
-		public int GetHashCode( MatrixInfo obj )
-		{
-			return obj.Id;
-		}
+		public int GetHashCode(MatrixInfo obj) => obj.Id;
 	}
 
 	public static IEqualityComparer<MatrixInfo> IdComparer { get; } = new IdEqualityComparer();
 
-	public static bool operator ==( MatrixInfo left, MatrixInfo right )
-	{
-		return left.Equals( right );
-	}
+	public static bool operator ==(MatrixInfo left, MatrixInfo right) =>
+		ReferenceEquals(left, null) == false && left.Equals(right);
 
-	public static bool operator !=( MatrixInfo left, MatrixInfo right )
-	{
-		return !left.Equals( right );
-	}
+	public static bool operator !=(MatrixInfo left, MatrixInfo right) =>
+		ReferenceEquals(left, null) == false && left.Equals(right) == false;
 }

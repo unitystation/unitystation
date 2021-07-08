@@ -1,71 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminTools;
+﻿using Messages.Client;
 using Mirror;
 
-public class RequestKickMessage : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-	public string UserToKick;
-	public string Reason;
-	public bool IsBan;
-	public int BanMinutes;
-	public bool AnnounceBan;
-
-	public override void Process()
+	public class RequestKickMessage : ClientMessage<RequestKickMessage.NetMessage>
 	{
-		VerifyAdminStatus();
-	}
-
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			PlayerList.Instance.ProcessKickRequest(Userid, UserToKick, Reason, IsBan, BanMinutes, AnnounceBan);
+			public string Userid;
+			public string AdminToken;
+			public string UserToKick;
+			public string Reason;
+			public bool IsBan;
+			public int BanMinutes;
+			public bool AnnounceBan;
 		}
-	}
 
-	public static RequestKickMessage Send(string userId, string adminToken, string userIDToKick, string reason,
-		bool ban = false, int banminutes = 0, bool announceBan = true)
-	{
-		RequestKickMessage msg = new RequestKickMessage
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken,
-			UserToKick = userIDToKick,
-			Reason = reason,
-			IsBan = ban,
-			BanMinutes = banminutes,
-			AnnounceBan = announceBan
-		};
-		msg.Send();
-		return msg;
-	}
+			VerifyAdminStatus(msg);
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		UserToKick = reader.ReadString();
-		Reason = reader.ReadString();
-		IsBan = reader.ReadBoolean();
-		BanMinutes = reader.ReadInt32();
-		AnnounceBan = reader.ReadBoolean();
-	}
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player != null)
+			{
+				PlayerList.Instance.ProcessKickRequest(msg.Userid, msg.UserToKick, msg.Reason, msg.IsBan, msg.BanMinutes, msg.AnnounceBan);
+			}
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(UserToKick);
-		writer.WriteString(Reason);
-		writer.WriteBoolean(IsBan);
-		writer.WriteInt32(BanMinutes);
-		writer.WriteBoolean(AnnounceBan);
+		public static NetMessage Send(string userId, string adminToken, string userIDToKick, string reason,
+			bool ban = false, int banminutes = 0, bool announceBan = true)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				UserToKick = userIDToKick,
+				Reason = reason,
+				IsBan = ban,
+				BanMinutes = banminutes,
+				AnnounceBan = announceBan
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

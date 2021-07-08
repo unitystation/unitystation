@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
+using Items;
 using Mirror;
 using UnityEngine;
+using Systems.Clothing;
+using HealthV2;
 
 namespace Clothing
 {
@@ -25,7 +28,6 @@ namespace Clothing
 		private GameObject larvae = null;
 
 		private bool isAlive = true;
-		private RegisterPlayer registerPlayer;
 		private ClothingV2 clothingV2;
 		private ItemAttributesV2 itemAttributesV2;
 
@@ -47,7 +49,7 @@ namespace Clothing
 		public void KillHugger()
 		{
 			isAlive = false;
-			clothingV2.ServerChangeVariant(ClothingV2.ClothingVariantType.Tucked);
+			clothingV2.ChangeSprite(1);
 			itemAttributesV2.ServerSetArticleDescription("It is not moving anymore.");
 		}
 
@@ -74,7 +76,8 @@ namespace Clothing
 
 		private void OnReleasing()
 		{
-			if (!isAlive || isToy)
+			// check if gameObject is active because gameObject needs to be active to StartCoroutine
+			if (!isAlive || isToy || !gameObject.activeInHierarchy)
 			{
 				return;
 			}
@@ -82,19 +85,19 @@ namespace Clothing
 			StartCoroutine(Release());
 		}
 
-		private IEnumerator Coitus(PlayerHealth player)
+		private IEnumerator Coitus(PlayerHealthV2 player)
 		{
 			yield return WaitFor.Seconds(coitusTime);
-			Pregnancy(player);
+			_ = Pregnancy(player);
 			yield return WaitFor.EndOfFrame;
 		}
 
-		private async Task Pregnancy(PlayerHealth player)
+		private async Task Pregnancy(PlayerHealthV2 player)
 		{
 			KillHugger();
 			await Task.Delay(TimeSpan.FromSeconds(pregnancyTime));
 			//TODO check if the larvae was removed from stomach
-			player.ApplyDamageToBodypart(
+			player.ApplyDamageToBodyPart(
 				gameObject,
 				200,
 				AttackType.Internal,
@@ -109,13 +112,15 @@ namespace Clothing
 			//TODO wait until the object's velocity is 0 instead of a fixed amount of time!
 			yield return WaitFor.Seconds(0.6f);
 			Spawn.ServerPrefab(facehugger, gameObject.transform.position);
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 			yield return WaitFor.EndOfFrame;
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+			RegisterPlayer registerPlayer;
+
+			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
 			{
 				registerPlayer = info.ToRootPlayer;
 
@@ -125,7 +130,7 @@ namespace Clothing
 				}
 			}
 
-			if (info.FromSlot != null & info.FromSlot?.NamedSlot != null & info.ToSlot != null)
+			if (info.FromSlot != null && info.FromSlot?.NamedSlot != null && info.ToSlot != null)
 			{
 				registerPlayer = info.FromRootPlayer;
 
@@ -134,7 +139,7 @@ namespace Clothing
 					OnTakingOff();
 				}
 			}
-			else if (info.FromSlot != null & info.ToSlot == null)
+			else if (info.FromSlot != null && info.ToSlot == null)
 			{
 				OnReleasing();
 			}
@@ -151,18 +156,15 @@ namespace Clothing
 				return;
 			}
 
-			switch (info.ClientInventoryMoveType)
+			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
+				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
 			{
-				case ClientInventoryMoveType.Added
-					when playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject ==
-					     gameObject:
-					UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.crit);
-					break;
-				case ClientInventoryMoveType.Removed
-					when playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject !=
-					     gameObject:
-					UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
-					break;
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.crit);
+			}
+			else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
+				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask) == false)
+			{
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
 			}
 		}
 	}

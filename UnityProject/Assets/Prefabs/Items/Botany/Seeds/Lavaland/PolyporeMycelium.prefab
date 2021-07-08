@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3674135601493806286
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3841877697913135098, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c73c12d51b1be1b42ad0cac9c9e80f3a,
+        type: 2}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918807203522369801, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924012154567337085, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_Name
+      value: PolyporeMycelium
+      objectReference: {fileID: 0}
+    - target: {fileID: 7026527766606977481, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7126662471315363617, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e33fe482779a7bf4fa6c47c865dc921b,
+        type: 3}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Polypore Mushrooms
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 8927aa6e041aada4188a5a39d63c4f32,
+        type: 2}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 1309433561375061406, guid: 4f305f20f1c49e444b0c787d220625d5,
+        type: 3}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c73c12d51b1be1b42ad0cac9c9e80f3a,
+        type: 2}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f8da5c17d59695c47b7a5af452cb2c02,
+        type: 2}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d0fab9a96fafa6d41a28593ad3a77749,
+        type: 2}
+    - target: {fileID: 8641037307965292228, guid: 896c6e3b4d7bb56428ed81d5353e7db0,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: bd060787da210af418881070e6ffbe97,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 896c6e3b4d7bb56428ed81d5353e7db0, type: 3}

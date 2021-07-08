@@ -1,103 +1,85 @@
 ﻿using System;
+using Messages.Client.Interaction;
 using UnityEngine;
 using Mirror;
 
-/// <summary>
-/// Adds the rotate option to the context menu of an object. Rotates the object's directional component 90 degrees clockwise.
-/// </summary>
-[RequireComponent(typeof(Directional))]
-public class PlayerRotatable : NetworkBehaviour, IRightClickable, ICheckedInteractable<ContextMenuApply>
+namespace Objects
 {
-	Directional directional;
-
-	[SerializeField]
-	[Tooltip("This will allow the object to be flipped to another object as assigned by Flipped Object.")]
-	private bool isFlippable = false;
-
-	[SerializeField]
-	[Tooltip("The object to flip to when flipped.")]
-	private GameObject flippedObject = null;
-
-	private void Awake()
+	/// <summary>
+	/// Adds the rotate option to the context menu of an object. Rotates the object's directional component 90 degrees clockwise.
+	/// </summary>
+	public class PlayerRotatable : NetworkBehaviour, IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>
 	{
-		directional = GetComponent<Directional>();
-	}
+		private Directional directional;
 
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		var result = RightClickableResult.Create();
+		[SyncVar(hook = nameof(SyncRotation))]
+		private float zRotation = 0;
 
-		if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, null), NetworkSide.Client)) return result;
-
-		if (isFlippable)
+		private void Awake()
 		{
-			result.AddElement("Flip", OnFlipClicked);
+			directional = GetComponent<Directional>();
 		}
 
-		return result.AddElement("Rotate", OnRotateClicked);
-	}
-
-	private void OnRotateClicked()
-	{
-		var menuApply = ContextMenuApply.ByLocalPlayer(gameObject, "Rotate");
-		RequestInteractMessage.Send(menuApply, this);
-	}
-
-	private void OnFlipClicked()
-	{
-		if (!Validations.IsInReach(gameObject.RegisterTile(), PlayerManager.LocalPlayerScript.registerTile, false)) return;
-
-		var menuApply = ContextMenuApply.ByLocalPlayer(gameObject, "Flip");
-		RequestInteractMessage.Send(menuApply, this);
-	}
-
-	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
-	{
-		if (TryGetComponent(out ObjectBehaviour behaviour) && !behaviour.IsPushable) return false;
-		if (interaction.RequestedOption == "Flip" && !isFlippable) return false;
-
-		return DefaultWillInteract.Default(interaction, side);
-	}
-
-	public void ServerPerformInteraction(ContextMenuApply interaction)
-	{
-		switch (interaction.RequestedOption)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			case "Rotate":
-				Rotate();
-				break;
-			case "Flip":
-				Flip();
-				break;
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (TryGetComponent(out ObjectBehaviour behaviour) && !behaviour.IsPushable) return false;
+
+			return interaction.IsAltClick;
 		}
-	}
 
-	private void Rotate()
-	{
-		if (directional == null) return;
-
-		// Obtains the new 90-degrees clockwise orientation of the current orientation.
-		Orientation clockwise = directional.CurrentDirection.Rotate(1);
-		directional.FaceDirection(clockwise);
-	}
-
-	private void Flip()
-	{
-		SpawnResult flippedObjectSpawn = Spawn.ServerPrefab(flippedObject, gameObject.RegisterTile().WorldPositionServer);
-		if (flippedObjectSpawn.Successful)
+		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (flippedObjectSpawn.GameObject.TryGetComponent(out Directional directional))
+			Rotate();
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = RightClickableResult.Create();
+
+			if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, null), NetworkSide.Client)) return result;
+
+			return result.AddElement("Rotate", OnRotateClicked);
+		}
+
+		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (TryGetComponent(out ObjectBehaviour behaviour) && !behaviour.IsPushable) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(ContextMenuApply interaction)
+		{
+			Rotate();
+		}
+
+		private void OnRotateClicked()
+		{
+			var menuApply = ContextMenuApply.ByLocalPlayer(gameObject, "Rotate");
+			RequestInteractMessage.Send(menuApply, this);
+		}
+
+		public void Rotate()
+		{
+			if (directional != null)
 			{
-				var initialOrientation = directional.CurrentDirection;
-				directional.FaceDirection(initialOrientation);
+				// Obtains the new 90-degrees clockwise orientation of the current orientation.
+				Orientation clockwise = directional.CurrentDirection.Rotate(1);
+				directional.FaceDirection(clockwise);
 			}
-
-			Despawn.ServerSingle(gameObject);
+			else
+			{
+				transform.Rotate(0, 0, -90);
+				SyncRotation(zRotation, transform.eulerAngles.z);
+			}
 		}
-		else
+
+		public void SyncRotation(float oldZ, float newZ)
 		{
-			throw new MissingReferenceException(
-					$"Failed to spawn {name}'s flipped version! Is {name}'s prefab missing reference to flippedObject prefab?");
+			zRotation = newZ;
+			transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, newZ);
 		}
 	}
 }

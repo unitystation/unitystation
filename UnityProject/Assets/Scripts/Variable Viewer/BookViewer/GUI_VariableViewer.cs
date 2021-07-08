@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -14,7 +15,6 @@ public class GUI_VariableViewer : MonoBehaviour
 		get { return _ID; }
 		set
 		{
-			boookID.text = "Book ID > " + value.ToString();
 			_ID = value;
 		}
 	}
@@ -28,7 +28,7 @@ public class GUI_VariableViewer : MonoBehaviour
 		}
 		set
 		{
-			boookTitle.text = "Title > " + value.ToString();
+			boookTitle.text = value;
 			_Title = value;
 			return;
 		}
@@ -40,15 +40,14 @@ public class GUI_VariableViewer : MonoBehaviour
 		get { return _IsEnabled; }
 		set
 		{
-			boookIsEnabled.text = "IsEnabled > " + value.ToString();
+			//boookIsEnabled.text = "IsEnabled > " + value.ToString();
 			_IsEnabled = value;
 		}
 	}
 
 	public VariableViewerNetworking.NetFriendlyBook CurrentlyOpenBook; //{get {} set{} };
-	public TMP_Text boookID;
 	public TMP_Text boookTitle;
-	public TMP_Text boookIsEnabled;
+	//public TMP_Text boookIsEnabled;
 	public GameObject LeftArrow;
 	public GameObject RightArrow;
 	public GameObject HistoryForward;
@@ -65,7 +64,6 @@ public class GUI_VariableViewer : MonoBehaviour
 	public GameObject PagePanel;
 	public GUI_PageEntry PageEntryPrefab;
 	public GameObject window;
-	public GameObject bookshelfWindow;
 
 	public void Start()
 	{
@@ -74,7 +72,6 @@ public class GUI_VariableViewer : MonoBehaviour
 	public void Open()
 	{
 		window.SetActive(true);
-		bookshelfWindow.SetActive(true);
 	}
 	public void Close()
 	{
@@ -214,6 +211,8 @@ public class GUI_VariableViewer : MonoBehaviour
 
 		foreach (var page in CurrentlyOpenBook.BindedPages)
 		{
+			if (UIShowDebugOptions.toggle == false) { if (page.VVHighlight == VVHighlight.DEBUG || (page.VariableType == null && page.VVHighlight != VVHighlight.DEBUG)) continue; }
+
 			GUI_PageEntry PageEntry;
 			if (PooledPages.Count > 0)
 			{
@@ -270,12 +269,13 @@ public class GUI_VariableViewer : MonoBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundEnded, Reset);
+		EventManager.AddHandler(Event.RoundEnded, Reset);
 	}
 
-	void OnDisable()
+
+	private void OnDestroy()
 	{
-		EventManager.RemoveHandler(EVENT.RoundEnded, Reset);
+		Reset();
 	}
 
 	public void Pool()

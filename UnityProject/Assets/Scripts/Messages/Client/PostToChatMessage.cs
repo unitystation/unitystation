@@ -1,47 +1,37 @@
-﻿using System.Collections;
-using UnityEngine;
-using Mirror;
+﻿using Mirror;
 
-/// <summary>
-///     Attempts to send a chat message to the server
-/// </summary>
-public class PostToChatMessage : ClientMessage
+namespace Messages.Client
 {
-	public ChatChannel Channels;
-	public string ChatMessageText;
-
-	public override void Process()
+	/// <summary>
+	///     Attempts to send a chat message to the server
+	/// </summary>
+	public class PostToChatMessage: ClientMessage<PostToChatMessage.NetMessage>
 	{
-		if (SentByPlayer != ConnectedPlayer.Invalid)
+		public struct NetMessage : NetworkMessage
 		{
-			Chat.AddChatMsgToChat(SentByPlayer, ChatMessageText, Channels);
+			public ChatChannel Channels;
+			public string ChatMessageText;
 		}
-	}
 
-	//This is only used to send the chat input on the client to the server
-	public static PostToChatMessage Send(string message, ChatChannel channels)
-	{
-		PostToChatMessage msg = new PostToChatMessage
+		public override void Process(NetMessage msg)
 		{
-			Channels = channels,
-			ChatMessageText = message
-		};
-		msg.Send();
+			if (SentByPlayer != ConnectedPlayer.Invalid)
+			{
+				Chat.AddChatMsgToChat(SentByPlayer, msg.ChatMessageText, msg.Channels);
+			}
+		}
 
-		return msg;
-	}
+		//This is only used to send the chat input on the client to the server
+		public static NetMessage Send(string message, ChatChannel channels)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Channels = channels,
+				ChatMessageText = message
+			};
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Channels = (ChatChannel) reader.ReadUInt32();
-		ChatMessageText = reader.ReadString();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteInt32((int) Channels);
-		writer.WriteString(ChatMessageText);
+			Send(msg);
+			return msg;
+		}
 	}
 }

@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Atmospherics;
-using Explosions;
-using Radiation;
+using Systems.Atmospherics;
+using Systems.Explosions;
+using Systems.Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using Systems.Electricity;
+using ScriptableObjects.Atmospherics;
 
 /// <summary>
 /// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
 /// </summary>
-public class MetaDataNode: IGasMixContainer
+public class MetaDataNode : IGasMixContainer
 {
 	public static readonly MetaDataNode None;
+
+	/// <summary>
+	/// Contains the matrix of the current node
+	/// </summary>
+	public Matrix PositionMatrix = null;
 
 	/// <summary>
 	/// Used for calculating explosion data
@@ -34,7 +40,6 @@ public class MetaDataNode: IGasMixContainer
 	/// This contains all the pipe data needed On the tile
 	/// </summary>
 	public List<Pipes.PipeNode> PipeData = new List<Pipes.PipeNode>();
-
 
 	/// <summary>
 	/// Local position of this tile in its parent matrix.
@@ -63,6 +68,20 @@ public class MetaDataNode: IGasMixContainer
 	public Hotspot Hotspot;
 
 	private Dictionary<LayerType, float> damageInfo  = new Dictionary<LayerType, float>();
+
+	//Which overlays this node has on
+	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
+	public HashSet<GasSO> GasOverlayData => gasOverlayData;
+
+	public void AddGasOverlay(GasSO gas)
+	{
+		gasOverlayData.Add(gas);
+	}
+
+	public void RemoveGasOverlay(GasSO gas)
+	{
+		gasOverlayData.Remove(gas);
+	}
 
 	public float GetTileDamage(LayerType layerType)
 	{
@@ -119,26 +138,26 @@ public class MetaDataNode: IGasMixContainer
 	public ReactionManager ReactionManager => reactionManager;
 	private ReactionManager reactionManager;
 
-
 	/// <summary>
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
 	/// </summary>
 	/// <param name="position">local position (within the matrix) the node exists on</param>
-	public MetaDataNode(Vector3Int position, ReactionManager reactionManager)
+	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix)
 	{
+		PositionMatrix = matrix;
 		Position = position;
 		neighborList = new List<MetaDataNode>(4);
 		for (var i = 0; i < neighborList.Capacity; i++)
 		{
 			neighborList.Add(null);
 		}
-		GasMix = new GasMix(GasMixes.Space);
+		GasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
 		this.reactionManager = reactionManager;
 	}
 
 	static MetaDataNode()
 	{
-		None = new MetaDataNode(Vector3Int.one * -1000000, null);
+		None = new MetaDataNode(Vector3Int.one * -1000000, null, null);
 	}
 
 	/// <summary>
@@ -229,7 +248,7 @@ public class MetaDataNode: IGasMixContainer
 					SyncNeighbors();
 					return;
 				}
-				Logger.LogErrorFormat("Failed adding neighbor {0} to node {1} at direction {2}", Category.Atmos, neighbor, this, direction);
+				Logger.LogErrorFormat("Failed adding neighbor {0} to node {1} at direction {2}", Category.Matrix, neighbor, this, direction);
 			}
 		}
 	}

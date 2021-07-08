@@ -1,52 +1,48 @@
-﻿using System.Collections;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
+﻿using Messages.Client;
+using Messages.Server.AdminTools;
 using Mirror;
 
-/// <summary>
-///     Request admin page data from the server
-/// </summary>
-public class RequestAdminPlayerList : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-
-	public override void Process()
+	/// <summary>
+	///     Request admin page data from the server
+	/// </summary>
+	public class RequestAdminPlayerList : ClientMessage<RequestAdminPlayerList.NetMessage>
 	{
-		VerifyAdminStatus();
-	}
-
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			AdminPlayerListRefreshMessage.Send(player, Userid);
+			public string Userid;
+			public string AdminToken;
 		}
-	}
 
-	public static RequestAdminPlayerList Send(string userId, string adminToken)
-	{
-		RequestAdminPlayerList msg = new RequestAdminPlayerList
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken
-		};
-		msg.Send();
-		return msg;
-	}
+			VerifyAdminStatus(msg);
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-	}
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player == null)
+			{
+				player = PlayerList.Instance.GetMentor(msg.Userid, msg.AdminToken);
+				if(player == null)
+					return;
+			}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
+			AdminPlayerListRefreshMessage.Send(player, msg.Userid);
+		}
+
+		public static NetMessage Send(string userId, string adminToken)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

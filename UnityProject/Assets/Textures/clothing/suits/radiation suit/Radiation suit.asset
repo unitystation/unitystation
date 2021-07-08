@@ -9,115 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
   m_Name: Radiation suit
   m_EditorClassIdentifier: 
-  Base:
-    Equipped:
-      Texture: {fileID: 2800000, guid: 71ac4166d63752940af8813fae5f77ea, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 71ac4166d63752940af8813fae5f77ea, type: 3}
-      - {fileID: 21300002, guid: 71ac4166d63752940af8813fae5f77ea, type: 3}
-      - {fileID: 21300004, guid: 71ac4166d63752940af8813fae5f77ea, type: 3}
-      - {fileID: 21300006, guid: 71ac4166d63752940af8813fae5f77ea, type: 3}
-      EquippedData: {fileID: 4900000, guid: 499d93fc556a8574c8e4a57d6655ffbc, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: 6ee8611fb51f8024cb5bab696c0ef325, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 6ee8611fb51f8024cb5bab696c0ef325, type: 3}
-      - {fileID: 21300002, guid: 6ee8611fb51f8024cb5bab696c0ef325, type: 3}
-      - {fileID: 21300004, guid: 6ee8611fb51f8024cb5bab696c0ef325, type: 3}
-      - {fileID: 21300006, guid: 6ee8611fb51f8024cb5bab696c0ef325, type: 3}
-      EquippedData: {fileID: 4900000, guid: 2d298eeabf1bb944e81d6758f48d569b, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: 7201a53304c9b1649982f8175b7d7dad, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7201a53304c9b1649982f8175b7d7dad, type: 3}
-      - {fileID: 21300002, guid: 7201a53304c9b1649982f8175b7d7dad, type: 3}
-      - {fileID: 21300004, guid: 7201a53304c9b1649982f8175b7d7dad, type: 3}
-      - {fileID: 21300006, guid: 7201a53304c9b1649982f8175b7d7dad, type: 3}
-      EquippedData: {fileID: 4900000, guid: 7b521363d49d2884fae6ec72f9e8badd, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: cca323a8ca7f0404c9c00170ffdb0745, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: cca323a8ca7f0404c9c00170ffdb0745, type: 3}
-      EquippedData: {fileID: 0}
-    SpriteEquipped: {fileID: 11400000, guid: c8df96cc7d5ce5348a1a62db9f3794fe, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: 191c35cc0a3844f44b2e306af0efd4fd,
-      type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: b432693e5b7b5f54d8cd64135ef10b44,
-      type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: 2ef0e1d65d5e1dd48b28b03a1a212f17, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  Base_Adjusted:
-    Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    SpriteEquipped: {fileID: 0}
-    SpriteInHandsLeft: {fileID: 0}
-    SpriteInHandsRight: {fileID: 0}
-    SpriteItemIcon: {fileID: 0}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  DressVariant:
-    Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    SpriteEquipped: {fileID: 0}
-    SpriteInHandsLeft: {fileID: 0}
-    SpriteInHandsRight: {fileID: 0}
-    SpriteItemIcon: {fileID: 0}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  Variants: []
+  SpriteEquipped: {fileID: 11400000, guid: c8df96cc7d5ce5348a1a62db9f3794fe, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: 191c35cc0a3844f44b2e306af0efd4fd, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: b432693e5b7b5f54d8cd64135ef10b44, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: 2ef0e1d65d5e1dd48b28b03a1a212f17, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

@@ -144,7 +144,7 @@ namespace IngameDebugConsole
 		public void OnPointerClick( PointerEventData data )
 		{
 			// Hide the popup and show the log window
-			if( !isPopupBeingDragged )
+			if(isPopupBeingDragged == false)
 			{
 				debugManager.Show();
 				Hide();

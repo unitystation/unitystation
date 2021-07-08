@@ -118,8 +118,12 @@ namespace IngameDebugConsole
 				}
 			}
 			else
+			{
+				CopyLogText();
 				manager.OnLogItemClicked( this );
+			}
 #else
+			CopyLogText();
 			manager.OnLogItemClicked( this );
 #endif
 		}
@@ -147,6 +151,11 @@ namespace IngameDebugConsole
 		public override string ToString()
 		{
 			return logEntry.ToString();
+		}
+
+		private void CopyLogText()
+		{
+			GUIUtility.systemCopyBuffer = logEntry.ToString();
 		}
 	}
 }

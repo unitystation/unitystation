@@ -9,7 +9,7 @@ using UnityEditor.SceneManagement;
 
 namespace Tests
 {
-	public class MissingAssetReferences 
+	public class MissingAssetReferences
 	{
 		/// <summary>
 		/// Checks if there is any prefab with missing reference component
@@ -51,7 +51,7 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Check if there any prefab with MissingReference field 
+		/// Check if there any prefab with MissingReference field
 		/// </summary>
 		[Test]
 		public void CheckMissingReferenceFieldsOnPrefabs()
@@ -99,20 +99,19 @@ namespace Tests
 		/// <summary>
 		/// Check if there are scriptable objects that lost their script
 		/// </summary>
-		[Test]
-		public void CheckMissingScritpableObjects()
+		private void CheckMissingScriptableObjects(string path)
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
-				.Where(p => p.Contains("Resources/"));
+				.Where(p => p.Contains(path));
 
 			// Find all .asset (almost always it is SO)
 			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
 
 			var listResults = new List<string>();
-			foreach (var path in allAssetPaths)
+			foreach (var lookUpPath in allAssetPaths)
 			{
-				var asset = AssetDatabase.LoadMainAssetAtPath(path);
+				var asset = AssetDatabase.LoadMainAssetAtPath(lookUpPath);
 
 				// if we can't load it - something bad happend with SO
 				if (!asset)
@@ -133,29 +132,28 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Check if there are scriptable objects that has missing reference fields 
+		/// Check if there are scriptable objects that has missing reference fields
 		/// </summary>
-		[Test]
-		public void CheckMissingRefenceFieldsScritpableObjects()
+		private void CheckMissingReferenceFieldsScriptableObjects(string path, bool checkEmpty = false)
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
-				.Where(p => p.Contains("Resources/"));
+				.Where(p => p.Contains(path));
 
 			// Find all .asset (almost always it is SO)
 			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
 
 			var listResults = new List<(string, string)>();
-			foreach (var path in allAssetPaths)
+			foreach (var lookUpPath in allAssetPaths)
 			{
-				var asset = AssetDatabase.LoadMainAssetAtPath(path);
+				var asset = AssetDatabase.LoadMainAssetAtPath(lookUpPath);
 
 				// skip invalid assets
 				if (!asset || !(asset is ScriptableObject))
 					continue;
 
 				var so = new SerializedObject(asset);
-				var missRefs = GetMissingRefs(so);
+				var missRefs = GetMissingRefs(so, checkEmpty);
 				foreach (var miss in missRefs)
 					listResults.Add((asset.name, miss));
 			}
@@ -170,6 +168,20 @@ namespace Tests
 			}
 
 			Assert.IsEmpty(listResults, report.ToString());
+		}
+
+		[Test]
+		public void TestScriptableObjects()
+		{
+			CheckMissingScriptableObjects("ScriptableObjects");
+			CheckMissingReferenceFieldsScriptableObjects("ScriptableObjects");
+		}
+
+		[Test]
+		public void TestSingletonScriptableObjects()
+		{
+			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");
+			CheckMissingReferenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons", true);
 		}
 
 
@@ -238,7 +250,7 @@ namespace Tests
 
 		}
 
-		private static List<string> GetMissingRefs(SerializedObject so)
+		private static List<string> GetMissingRefs(SerializedObject so, bool checkEmpty = false)
 		{
 			var sp = so.GetIterator();
 			var listResult = new List<string>();
@@ -247,8 +259,19 @@ namespace Tests
 			{
 				if (sp.propertyType == SerializedPropertyType.ObjectReference)
 				{
+					if (checkEmpty)
+					{
+						if (sp.objectReferenceValue == null
+						    || sp.objectReferenceInstanceIDValue == 0)
+						{
+							listResult.Add(sp.displayName);
+						}
+
+						continue;
+					}
+
 					if (sp.objectReferenceValue == null
-						&& sp.objectReferenceInstanceIDValue != 0)
+					    && sp.objectReferenceInstanceIDValue != 0)
 					{
 						listResult.Add(sp.displayName);
 					}

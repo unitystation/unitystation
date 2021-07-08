@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: ChemistryBagCapacity
+  m_EditorClassIdentifier: 
+  MaxItemSize: 5
+  Whitelist:
+  - {fileID: 11400000, guid: cf8fd72dd305a2541b8b3cdc3cd9fff0, type: 2}
+  - {fileID: 11400000, guid: 833578060c939bc4fa9363a5a6c8bf80, type: 2}
+  - {fileID: 11400000, guid: 499414d166fa0d14ca279746eb2d77de, type: 2}
+  - {fileID: 11400000, guid: 76ffc8f58814a6047837649f8fca581b, type: 2}
+  - {fileID: 11400000, guid: 55c4a6df65acc6245a70a461437fc618, type: 2}
+  - {fileID: 11400000, guid: 8f46f13d516624e6883db235a840f575, type: 2}
+  - {fileID: 11400000, guid: cfdb88b89cb5788469b0fb2734022f76, type: 2}
+  - {fileID: 11400000, guid: a8d46b67395aa39438ab785de5a06407, type: 2}
+  Required: []
+  Blacklist: []

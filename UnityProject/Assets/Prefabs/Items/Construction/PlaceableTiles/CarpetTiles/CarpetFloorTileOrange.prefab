@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &902801271536027836
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1050629533720451654, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].layerTile
+      value: 
+      objectReference: {fileID: 11400000, guid: a4d13ed8452fa504caa97bbb15979e85,
+        type: 2}
+    - target: {fileID: 4379559048807310826, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f8f6997110d8dd14b8fff197becbdf39,
+        type: 2}
+    - target: {fileID: 7500036475197416409, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7602444472548548205, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_Name
+      value: CarpetFloorTileOrange
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741893828546030897, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8862ce0fb64649543b05b1049b083d03,
+        type: 3}
+    - target: {fileID: 8029025623717359887, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: initialName
+      value: orange carpet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8029025623717359887, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 23fd6131c8cf8dc41bc05a92891e10dc,
+        type: 2}
+    - target: {fileID: 8029025623717359887, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 34d6e25a5627eeb47ad7c1a3f7c55206,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bae9e1730d4424fbfa160f045597a604, type: 3}

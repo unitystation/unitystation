@@ -1,74 +1,52 @@
-﻿using System.Collections;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
+﻿using Messages.Client;
 using Mirror;
 
-/// <summary>
-///     Request to change game mode settings (admin only)
-/// </summary>
-public class RequestGameModeUpdate : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-	public string NextGameMode;
-	public bool IsSecret;
-
-	public override void Process()
+	/// <summary>
+	///     Request to change game mode settings (admin only)
+	/// </summary>
+	public class RequestGameModeUpdate : ClientMessage<RequestGameModeUpdate.NetMessage>
 	{
-		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (admin != null)
+		public struct NetMessage : NetworkMessage
 		{
-			if (GameManager.Instance.NextGameMode != NextGameMode)
-			{
-				Logger.Log(admin.ExpensiveName() + $" with uid: {Userid}, has updated the next game mode with {NextGameMode}", Category.Admin);
-				GameManager.Instance.NextGameMode = NextGameMode;
-			}
+			public string Userid;
+			public string AdminToken;
+			public string NextGameMode;
+			public bool IsSecret;
+		}
 
-			if (GameManager.Instance.SecretGameMode != IsSecret)
+		public override void Process(NetMessage msg)
+		{
+			var admin = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (admin != null)
 			{
-				Logger.Log(admin.ExpensiveName() + $" with uid: {Userid}, has set the IsSecret GameMode flag to {IsSecret}", Category.Admin);
-				GameManager.Instance.SecretGameMode = IsSecret;
+				if (GameManager.Instance.NextGameMode != msg.NextGameMode)
+				{
+					Logger.Log(admin.Player().Username + $" with uid: {msg.Userid}, has updated the next game mode with {msg.NextGameMode}", Category.Admin);
+					GameManager.Instance.NextGameMode = msg.NextGameMode;
+				}
+
+				if (GameManager.Instance.SecretGameMode != msg.IsSecret)
+				{
+					Logger.Log(admin.Player().Username + $" with uid: {msg.Userid}, has set the IsSecret GameMode flag to {msg.IsSecret}", Category.Admin);
+					GameManager.Instance.SecretGameMode = msg.IsSecret;
+				}
 			}
 		}
-	}
 
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		public static NetMessage Send(string userId, string adminToken, string nextGameMode, bool isSecret)
 		{
-			AdminToolRefreshMessage.Send(player, Userid);
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				NextGameMode = nextGameMode,
+				IsSecret = isSecret
+			};
+
+			Send(msg);
+			return msg;
 		}
-	}
-
-	public static RequestGameModeUpdate Send(string userId, string adminToken, string nextGameMode, bool isSecret)
-	{
-		RequestGameModeUpdate msg = new RequestGameModeUpdate
-		{
-			Userid = userId,
-			AdminToken = adminToken,
-			NextGameMode = nextGameMode,
-			IsSecret = isSecret
-		};
-		msg.Send();
-		return msg;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		NextGameMode = reader.ReadString();
-		IsSecret = reader.ReadBoolean();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(NextGameMode);
-		writer.WriteBoolean(IsSecret);
 	}
 }

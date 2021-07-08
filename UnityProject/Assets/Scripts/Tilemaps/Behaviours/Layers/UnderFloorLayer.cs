@@ -14,39 +14,58 @@ public class UnderFloorLayer : Layer
 
 	public void InitialiseUnderFloorUtilities()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		BoundsInt bounds = Tilemap.cellBounds;
+
+		for (int n = bounds.xMin; n < bounds.xMax; n++)
 		{
-			BoundsInt bounds = Tilemap.cellBounds;
-
-			for (int n = bounds.xMin; n < bounds.xMax; n++)
+			for (int p = bounds.yMin; p < bounds.yMax; p++)
 			{
-				for (int p = bounds.yMin; p < bounds.yMax; p++)
+				Vector3Int localPlace = (new Vector3Int(n, p, 0));
+				bool[] PipeDirCheck = new bool[4];
+
+				for (int i = 0; i < 50; i++)
 				{
-					Vector3Int localPlace = (new Vector3Int(n, p, 0));
-
-					for (int i = 0; i < 50; i++)
+					localPlace.z = -i + 1;
+					var getTile = tilemap.GetTile(localPlace) as LayerTile;
+					if (getTile != null)
 					{
-						localPlace.z = -i + 1;
-						var getTile = tilemap.GetTile(localPlace) as LayerTile;
-						if (getTile != null)
+						if (!TileStore.ContainsKey((Vector2Int) localPlace))
 						{
-							if (!TileStore.ContainsKey((Vector2Int) localPlace))
+							TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+						}
+
+						TileStore[(Vector2Int) localPlace].Add(getTile);
+
+						var electricalCableTile = getTile as ElectricalCableTile;
+						if (electricalCableTile != null)
+						{
+							matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
+						}
+
+						var PipeTile = getTile as PipeTile;
+						if (PipeTile != null)
+						{
+							var matrixStruct = matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(localPlace);
+							var connection = PipeTile.GetRotatedConnection(PipeTile, matrixStruct);
+							var pipeDir = connection.Directions;
+							var canInitializePipe = true;
+							for (var d = 0; d < pipeDir.Length; d++)
 							{
-								TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+								if (pipeDir[d].Bool)
+								{
+									if (PipeDirCheck[d])
+									{
+										canInitializePipe = false;
+										Logger.LogWarning($"A pipe is overlapping its connection at ({n}, {p}) in {matrix.gameObject.scene.name} - {matrix.name} with another pipe, removing one", Category.Pipes);
+										tilemap.SetTile(localPlace, null);
+										break;
+									}
+									PipeDirCheck[d] = true;
+								}
 							}
-
-							TileStore[(Vector2Int) localPlace].Add(getTile);
-
-							var electricalCableTile = getTile as ElectricalCableTile;
-							if (electricalCableTile != null)
+							if (canInitializePipe)
 							{
-								matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
-							}
-
-							var PipeTile = getTile as PipeTile;
-							if (PipeTile != null)
-							{
-								PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+								PipeTile.InitialiseNode(localPlace, matrix);
 							}
 						}
 					}
@@ -61,9 +80,9 @@ public class UnderFloorLayer : Layer
 
 	public T GetFirstTileByType<T>(Vector3Int position) where T : LayerTile
 	{
-		if (!TileStore.ContainsKey((Vector2Int)position)) return default;
+		if (!TileStore.ContainsKey((Vector2Int) position)) return default;
 
-		foreach (LayerTile Tile in TileStore[(Vector2Int)position])
+		foreach (LayerTile Tile in TileStore[(Vector2Int) position])
 		{
 			if (Tile is T) return Tile as T;
 		}
@@ -74,12 +93,27 @@ public class UnderFloorLayer : Layer
 	public IEnumerable<T> GetAllTilesByType<T>(Vector3Int position) where T : LayerTile
 	{
 		List<T> tiles = new List<T>();
-
-		if (!TileStore.ContainsKey((Vector2Int)position)) return tiles;
-
-		foreach (LayerTile Tile in TileStore[(Vector2Int)position])
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			if (Tile is T) tiles.Add(Tile as T);
+			if (!TileStore.ContainsKey((Vector2Int) position)) return tiles;
+
+			foreach (LayerTile Tile in TileStore[(Vector2Int) position])
+			{
+				if (Tile is T) tiles.Add(Tile as T);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				var localPlace = position;
+				localPlace.z = -i + 1;
+				var getTile = tilemap.GetTile(localPlace) as LayerTile;
+				if (getTile != null)
+				{
+					if (getTile is T) tiles.Add(getTile as T);
+				}
+			}
 		}
 
 		return tiles;
@@ -97,7 +131,10 @@ public class UnderFloorLayer : Layer
 
 			foreach (var Tile in TileStore[(Vector2Int) position])
 			{
-				return Tile;
+				if (Tile != null)
+				{
+					return Tile;
+				}
 			}
 		}
 		else
@@ -118,7 +155,7 @@ public class UnderFloorLayer : Layer
 	}
 
 	/// <summary>
-	/// Get tile using Z position instead of searching through the Z levels 
+	/// Get tile using Z position instead of searching through the Z levels
 	/// </summary>
 	public LayerTile GetTileUsingZ(Vector3Int position)
 	{
@@ -148,7 +185,7 @@ public class UnderFloorLayer : Layer
 		{
 			foreach (var l in TileStore[position.To2Int()])
 			{
-				if (l == tile)
+				if ((tile as BasicTile).AreUnderfloorSame(transformMatrix, l as BasicTile, GetMatrix4x4(position, l)))
 				{
 					//duplicate found aborting
 					return;
@@ -201,7 +238,6 @@ public class UnderFloorLayer : Layer
 	}
 
 
-
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{
 		for (var i = 0; i < LookThroughList.Count; i++)
@@ -215,7 +251,7 @@ public class UnderFloorLayer : Layer
 		return (-1);
 	}
 
-	public override void RemoveTile(Vector3Int position, bool removeAll = false)
+	public override bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
 		if (Application.isPlaying)
 		{
@@ -227,17 +263,17 @@ public class UnderFloorLayer : Layer
 				}
 			}
 
-			base.RemoveTile(position, removeAll);
-			return;
+			return base.RemoveTile(position, removeAll);
 		}
 
+		bool HasTile = false;
 		//This is for the erase tool at edit time:
 		for (int i = 0; i < 50; i++)
 		{
 			position.z = -i + 1;
-			var getTile = tilemap.GetTile(position);
-			if (getTile != null)
+			if (tilemap.HasTile(position))
 			{
+				HasTile = true;
 				base.RemoveTile(position, removeAll);
 			}
 		}
@@ -246,10 +282,17 @@ public class UnderFloorLayer : Layer
 		{
 			TileStore[(Vector2Int) position] = new List<LayerTile>();
 		}
+
+		return HasTile;
 	}
 
-	public Color GetColour(Vector3Int position, LayerTile tile)
+	public Color GetColour(Vector3Int position, LayerTile tile, bool specifiedCoordinates = false)
 	{
+		if (specifiedCoordinates)
+		{
+			return tilemap.GetColor(position);
+		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Color.white;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{
@@ -288,8 +331,13 @@ public class UnderFloorLayer : Layer
 		}
 	}
 
-	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile)
+	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile, bool specifiedCoordinates = false)
 	{
+		if (specifiedCoordinates)
+		{
+			return tilemap.GetTransformMatrix(position);
+		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Matrix4x4.identity;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{
@@ -303,8 +351,14 @@ public class UnderFloorLayer : Layer
 		return Matrix4x4.identity;
 	}
 
-	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile)
+	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile, bool UseSpecifiedLocation = false)
 	{
+		if (UseSpecifiedLocation)
+		{
+			RemoveTile(position);
+			return;
+		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return;
 
 		if (TileStore.ContainsKey((Vector2Int) position))
@@ -312,15 +366,13 @@ public class UnderFloorLayer : Layer
 			if (TileStore[(Vector2Int) position].Contains(tile))
 			{
 				int index = TileStore[(Vector2Int) position].IndexOf(tile);
-				matrix.TileChangeManager.RemoveTile(new Vector3Int(position.x, position.y, (-index) + 1),
-					LayerType.Underfloor,
-					false);
+				matrix.TileChangeManager.RemoveTile(new Vector3Int(position.x, position.y, (-index) + 1), LayerType.Underfloor);
 				TileStore[(Vector2Int) position][index] = null;
 			}
 		}
 		else
 		{
-			Logger.LogWarning(position + "Was not present in the underfloor layer Trying to remove" + tile);
+			Logger.LogWarning($"{position} was not present in the underfloor layer, trying to remove {tile}", Category.Matrix);
 		}
 	}
 }

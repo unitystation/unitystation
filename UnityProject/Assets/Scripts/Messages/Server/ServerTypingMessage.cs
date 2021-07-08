@@ -1,53 +1,61 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Messages.Client;
+using Mirror;
 
-/// <summary>
-/// Message from server to client that indicate that other player is typing
-/// Sends only to player that's are nearby to speaker
-/// </summary>
-public class ServerTypingMessage : ServerMessage
+namespace Messages.Server
 {
-	public TypingState state;
-	public uint targetID;
-
-	public override void Process()
+	/// <summary>
+	/// Message from server to client that indicate that other player is typing
+	/// Sends only to player that's are nearby to speaker
+	/// </summary>
+	public class ServerTypingMessage : ServerMessage<ServerTypingMessage.NetMessage>
 	{
-		// other client try to find networked identity that's typing
-		LoadNetworkObject(targetID);
-		if (!NetworkObject)
-			return;
-
-		// than we change it typing icon
-		var player = NetworkObject.GetComponent<PlayerScript>();
-		if (!player)
-			return;
-
-		var icon = player.chatIcon;
-		if (!icon)
-			return;
-
-		var showTyping = state == TypingState.TYPING;
-
-		// check if player is conscious before generating typing icon
-		bool isPlayerConscious = (player.playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
-								  player.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
-		if (isPlayerConscious)
+		public struct NetMessage : NetworkMessage
 		{
-			icon.ToggleTypingIcon(showTyping);
+			public TypingState state;
+			public uint targetID;
 		}
-	}
 
-	public static ServerTypingMessage Send(PlayerScript player, TypingState state)
-	{
-		var msg = new ServerTypingMessage()
+		//This is needed so the message can be discovered in NetworkManagerExtensions
+		public NetMessage IgnoreMe;
+
+		public override void Process(NetMessage msg)
 		{
-			state = state,
-			targetID = player.netId
-		};
+			// other client try to find networked identity that's typing
+			LoadNetworkObject(msg.targetID);
+			if (!NetworkObject)
+				return;
 
-		var playerPos = player.transform.position;
-		msg.SendToNearbyPlayers(playerPos);
-		return msg;
+			// than we change it typing icon
+			var player = NetworkObject.GetComponent<PlayerScript>();
+			if (!player)
+				return;
+
+			var icon = player.chatIcon;
+			if (!icon)
+				return;
+
+			var showTyping = msg.state == TypingState.TYPING;
+
+			// check if player is conscious before generating typing icon
+			bool isPlayerConscious = (player.playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+			                          player.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+			if (isPlayerConscious)
+			{
+				icon.ToggleTypingIcon(showTyping);
+			}
+		}
+
+		public static NetMessage Send(PlayerScript player, TypingState state)
+		{
+			var msg = new NetMessage()
+			{
+				state = state,
+				targetID = player.netId
+			};
+
+			var playerPos = player.transform.position;
+			SendToNearbyPlayers(playerPos, msg);
+			return msg;
+		}
 	}
 }

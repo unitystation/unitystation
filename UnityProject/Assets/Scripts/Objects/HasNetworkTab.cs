@@ -1,47 +1,95 @@
 using System;
+using Core.Input_System.InteractionV2.Interactions;
+using Messages.Server;
+using UI.Core.Net;
 using UnityEngine;
 
-/// <summary>
-/// Allows an object to have an associated network tab that pops up when clicked.
-/// If there are additional interactions that can be done on this object
-/// please ensure this component is placed below them, otherwise the tab open/close will
-/// be the interaction that always takes precedence.
-/// </summary>
-public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn
+namespace Objects
 {
-	[NonSerialized] private GameObject playerInteracted;
-
-	[Tooltip("Network tab to display.")]
-	public NetTabType NetTabType = NetTabType.None;
-
 	/// <summary>
-	/// This method simply tells the script what player last interacted, giving an reference to their gameobject
+	/// Allows an object to have an associated network tab that pops up when clicked.
+	/// If there are additional interactions that can be done on this object
+	/// please ensure this component is placed below them, otherwise the tab open/close will
+	/// be the interaction that always takes precedence.
 	/// </summary>
-	public GameObject LastInteractedPlayer()
+	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
 	{
-		return playerInteracted;
-	}
+		[NonSerialized] private GameObject playerInteracted;
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side))
-			return false;
-		playerInteracted = interaction.Performer;
-		//interaction only works if hand is empty
-		if (interaction.HandObject != null)
-		{ return false; }
+		[Tooltip("Network tab to display.")]
+		public NetTabType NetTabType = NetTabType.None;
 
-		return true;
-	}
+		[SerializeField]
+		private bool aiInteractable = true;
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		playerInteracted = interaction.Performer;
-		TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType, TabAction.Open );
-	}
+		/// <summary>
+		/// This method simply tells the script what player last interacted, giving an reference to their gameobject
+		/// </summary>
+		public GameObject LastInteractedPlayer()
+		{
+			return playerInteracted;
+		}
 
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side))
+				return false;
+			playerInteracted = interaction.Performer;
+			//interaction only works if hand is empty
+			if (interaction.HandObject != null)
+			{ return false; }
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
+		}
+
+		#region Ai interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (aiInteractable == false) return false;
+
+			//Normal click to open tab
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
+
+		#endregion
+
 	}
 }

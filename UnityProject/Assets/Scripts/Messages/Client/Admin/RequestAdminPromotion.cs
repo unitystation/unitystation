@@ -1,57 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminTools;
+﻿using Messages.Client;
 using Mirror;
 
-public class RequestAdminPromotion : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Userid;
-	public string AdminToken;
-	public string UserToPromote;
-
-	public override void Process()
+	public class RequestAdminPromotion : ClientMessage<RequestAdminPromotion.NetMessage>
 	{
-		VerifyAdminStatus();
-	}
-
-	void VerifyAdminStatus()
-	{
-		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
-		if (player != null)
+		public struct NetMessage : NetworkMessage
 		{
-			PlayerList.Instance.ProcessAdminEnableRequest(Userid, UserToPromote);
-			var user = PlayerList.Instance.GetByUserID(UserToPromote);
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{player.ExpensiveName()} made {user.Name} an admin. Users ID is: {UserToPromote}", Userid);
+			public string Userid;
+			public string AdminToken;
+			public string UserToPromote;
 		}
-	}
 
-	public static RequestAdminPromotion Send(string userId, string adminToken, string userIDToPromote)
-	{
-		RequestAdminPromotion msg = new RequestAdminPromotion
+		public override void Process(NetMessage msg)
 		{
-			Userid = userId,
-			AdminToken = adminToken,
-			UserToPromote= userIDToPromote,
-		};
-		msg.Send();
-		return msg;
-	}
+			VerifyAdminStatus(msg);
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		UserToPromote = reader.ReadString();
-	}
+		void VerifyAdminStatus(NetMessage msg)
+		{
+			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
+			if (player != null)
+			{
+				PlayerList.Instance.ProcessAdminEnableRequest(msg.Userid, msg.UserToPromote);
+				var user = PlayerList.Instance.GetByUserID(msg.UserToPromote);
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+					$"{player.Player().Username} made {user.Name} an admin. Users ID is: {msg.UserToPromote}", msg.Userid);
+			}
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(UserToPromote);
+		public static NetMessage Send(string userId, string adminToken, string userIDToPromote)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Userid = userId,
+				AdminToken = adminToken,
+				UserToPromote= userIDToPromote,
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

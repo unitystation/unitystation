@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &830034431390832063
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 228696173393508446, guid: 58c46f182b8950a4a885b2a8e935b74f,
+        type: 3}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Death-Berry Bush
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.Lifespan
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.Potency
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 5aa1b8efcb5e5c64aba07e64906533cf,
+        type: 2}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4041351290112742493, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_Name
+      value: DeathBerrySeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143863672344848873, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4243576168858101505, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9b5a4a221fdb57a4e98de95aa49ebd8b,
+        type: 3}
+    - target: {fileID: 4537474627599956799, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into death berries.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537474627599956799, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: initialName
+      value: pack of death-berry seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877882760342155226, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b33ccaec3391f744f95c147ea0b7baa5,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0a1175404af7039419a7794cb4bda0d9, type: 3}

@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Chemistry;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.Events;
 
 namespace Chemistry.Components
 {
@@ -327,7 +325,7 @@ namespace Chemistry.Components
 			else
 				resultMessage = result.Message;
 			if (transferFrom.IsEmpty && transferFrom.destroyOnEmpty)
-				Despawn.ServerSingle(transferFrom.gameObject);
+				_ = Despawn.ServerSingle(transferFrom.gameObject);
 			Chat.AddExamineMsg(performer, resultMessage);
 		}
 

@@ -1,3 +1,5 @@
+using NaughtyAttributes;
+using ScriptableObjects;
 using UnityEngine;
 
 /// <summary>
@@ -8,54 +10,86 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CommonTraitsSingleton", menuName = "Singleton/Traits/CommonTraits")]
 public class CommonTraits : SingletonScriptableObject<CommonTraits>
 {
-	public ItemTrait ReagentContainer;
-	public ItemTrait CanisterFillable;
-	public ItemTrait Gun;
-	public ItemTrait Ingredient;
-	public ItemTrait Food;
-	public ItemTrait Mask;
-	public ItemTrait Wirecutter;
-	public ItemTrait Wrench;
-	public ItemTrait Emag;
-	public ItemTrait Crowbar;
-	public ItemTrait Screwdriver;
-	public ItemTrait NoSlip;
-	public ItemTrait Slippery;
-	public ItemTrait Multitool;
-	public ItemTrait SpillOnThrow;
-	public ItemTrait CanFillMop;
-	public ItemTrait Cultivator;
-	public ItemTrait Trowel;
-	public ItemTrait Hatchet;
-	public ItemTrait Bucket;
-	public ItemTrait MetalSheet;
-	public ItemTrait GlassSheet;
-	public ItemTrait PlasteelSheet;
-	public ItemTrait ReinforcedGlassSheet;
-	public ItemTrait WoodenPlank;
-	public ItemTrait Cable;
-	public ItemTrait Egg;
-	public ItemTrait Welder;
-	public ItemTrait Shovel;
-	public ItemTrait Knife;
-	public ItemTrait RollingPin;
-	public ItemTrait Transforamble;
-	public ItemTrait Squeaky;
+	[BoxGroup("Guns")] public ItemTrait Gun;
+	[BoxGroup("Guns")] public ItemTrait Suppressor;
+	[BoxGroup("Guns")] public ItemTrait WeaponCell;
+	[BoxGroup("Guns")] public ItemTrait FiringPin;
+
+	[BoxGroup("Food and related")] public ItemTrait Ingredient;
+	[BoxGroup("Food and related")] public ItemTrait Food;
+	[BoxGroup("Food and related")] public ItemTrait Cheese;
+	[BoxGroup("Food and related")] public ItemTrait Pizza;
+	[BoxGroup("Food and related")] public ItemTrait Seeds;
+	[BoxGroup("Food and related")] public ItemTrait Trash;
+	[BoxGroup("Food and related")] public ItemTrait Wheat;
+	[BoxGroup("Food and related")] public ItemTrait Egg;
+
+	[BoxGroup("Tools")] public ItemTrait Wirecutter;
+	[BoxGroup("Tools")] public ItemTrait Wrench;
+	[BoxGroup("Tools")] public ItemTrait Crowbar;
+	[BoxGroup("Tools")] public ItemTrait Screwdriver;
+	[BoxGroup("Tools")] public ItemTrait Multitool;
+	[BoxGroup("Tools")] public ItemTrait Hatchet;
+	[BoxGroup("Tools")] public ItemTrait Cultivator;
+	[BoxGroup("Tools")] public ItemTrait Trowel;
+	[BoxGroup("Tools")] public ItemTrait Bucket;
+	[BoxGroup("Tools")] public ItemTrait Cable;
+	[BoxGroup("Tools")] public ItemTrait Welder;
+	[BoxGroup("Tools")] public ItemTrait Shovel;
+	[BoxGroup("Tools")] public ItemTrait Knife;
+	[BoxGroup("Tools")] public ItemTrait Emag;
+	[BoxGroup("Tools")] public ItemTrait ReagentContainer;
+	[BoxGroup("Tools")] public ItemTrait RollingPin;
+	[BoxGroup("Tools")] public ItemTrait LightReplacer;
+	[BoxGroup("Tools")] public ItemTrait Pickaxe;
+	[BoxGroup("Tools")] public ItemTrait ScienceScan;
+
+	[BoxGroup("Surgical")] public ItemTrait Scalpel;
+	[BoxGroup("Surgical")] public ItemTrait Retractor;
+	[BoxGroup("Surgical")] public ItemTrait CircularSaw;
+	[BoxGroup("Surgical")] public ItemTrait Hemostat;
+	[BoxGroup("Surgical")] public ItemTrait Cautery;
+
+	[BoxGroup("Characteristics")] public ItemTrait NoSlip;
+	[BoxGroup("Characteristics")] public ItemTrait Slippery;
+	[BoxGroup("Characteristics")] public ItemTrait SpillOnThrow;
+	[BoxGroup("Characteristics")] public ItemTrait CanFillMop;
+	[BoxGroup("Characteristics")] public ItemTrait Squeaky;
+	[BoxGroup("Characteristics")] public ItemTrait Transforamble;
+	[BoxGroup("Characteristics")] public ItemTrait Broken;
+	[BoxGroup("Characteristics")] public ItemTrait Insulated;
+	[BoxGroup("Characteristics")] public ItemTrait BudgetInsulated;
+	[BoxGroup("Characteristics")] public ItemTrait AntiFacehugger;
+	[BoxGroup("Characteristics")] public ItemTrait PickUpProtection;
+	[BoxGroup("Characteristics")] public ItemTrait CanPryDoor;
+	[BoxGroup("Characteristics")] public ItemTrait Loomable;
+	[BoxGroup("Characteristics")] public ItemTrait CanisterFillable;
+	[BoxGroup("Characteristics")] public ItemTrait Breakable;
+
+	[BoxGroup("Materials")] public ItemTrait OreGeneral;
+	[BoxGroup("Materials")] public ItemTrait MetalSheet;
+	[BoxGroup("Materials")] public ItemTrait GlassSheet;
+	[BoxGroup("Materials")] public ItemTrait PlasteelSheet;
+	[BoxGroup("Materials")] public ItemTrait ReinforcedGlassSheet;
+	[BoxGroup("Materials")] public ItemTrait WoodenPlank;
+	[BoxGroup("Materials")] public ItemTrait Rods;
+	[BoxGroup("Materials")] public ItemTrait SolidPlasma;
+	[BoxGroup("Materials")] public ItemTrait OrePlasma;
+	[BoxGroup("Materials")] public ItemTrait DiamondSheet;
+
+	[BoxGroup("Clothing")] public ItemTrait Mask;
+	[BoxGroup("Clothing")] public ItemTrait GasMask;
+	[BoxGroup("Clothing")] public ItemTrait BlackGloves;
+	[BoxGroup("Clothing")] public ItemTrait WizardGarb;
+
 	public ItemTrait LightTube;
 	public ItemTrait LightBulb;
-	public ItemTrait LightReplacer;
-	public ItemTrait BlackGloves;
-	public ItemTrait Broken;
-	public ItemTrait Breakable;
-	public ItemTrait Rods;
-	public ItemTrait SolidPlasma;
 	public ItemTrait NukeDisk;
-	public ItemTrait Insulated;
-	public ItemTrait BudgetInsulated;
 	public ItemTrait InternalBattery;
-	public ItemTrait AntiFacehugger;
-	public ItemTrait PickUpProtection;
 	public ItemTrait ReactorRod;
-	public ItemTrait Pickaxe;
-	public ItemTrait CanPryDoor;
+	public ItemTrait RawCottonBundle;
+	public ItemTrait RawDurathreadBundle;
+	public ItemTrait BluespaceActivity;
+	public ItemTrait Id;
+	public ItemTrait ProximitySensor;
 }

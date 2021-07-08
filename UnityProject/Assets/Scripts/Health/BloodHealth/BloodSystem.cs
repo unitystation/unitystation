@@ -55,12 +55,18 @@ public class BloodSystem : MonoBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
 	//Initial setting for blood type. Server only
@@ -71,32 +77,28 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	//Handle by UpdateManager
-	void UpdateMe()
+	void ServerUpdateMe()
 	{
-		//Server Only:
-		if (CustomNetworkManager.Instance._isServer)
+		if (livingHealthBehaviour.IsDead)
 		{
-			if (livingHealthBehaviour.IsDead)
-			{
-				HeartRate = 0;
-				return;
-			}
+			HeartRate = 0;
+			return;
+		}
 
-			tick += Time.deltaTime;
-			if (HeartRate == 0)
-			{
-				// TODO Add ability to start heart again via CPR
-				// Player needs to be in respiratory arrest and not
-				// have any injuries that are incompatible with life
-				tick = 0;
-				return;
-			}
+		tick += Time.deltaTime;
+		if (HeartRate == 0)
+		{
+			// TODO Add ability to start heart again via CPR
+			// Player needs to be in respiratory arrest and not
+			// have any injuries that are incompatible with life
+			tick = 0;
+			return;
+		}
 
-			if (tick >= 60f / (float)HeartRate) //Heart rate determines loop time
-			{
-				tick = 0f;
-				PumpBlood();
-			}
+		if (tick >= 60f / (float)HeartRate) //Heart rate determines loop time
+		{
+			tick = 0f;
+			PumpBlood();
 		}
 	}
 
@@ -194,8 +196,8 @@ public class BloodSystem : MonoBehaviour
 			scaleOfTragedy = BloodSplatSize.large;
 		}
 
-
-		EffectsFactory.BloodSplat(transform.position, scaleOfTragedy, bloodSplatColor);
+		//TODO: Re-impliment this using the new reagent-first code introduced in PR #6810
+		//EffectsFactory.BloodSplat(transform.position, scaleOfTragedy, bloodSplatColor);
 	}
 
 	/// <summary>

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Systems.Clothing;
+using Items;
 
 public enum SpriteHandType
 {
@@ -10,6 +12,7 @@ public enum SpriteHandType
 
 public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEquiped);
 
+//TODO: This conflicted with commit: 888873b483eac262353c5318c0e0cb42eae5086f Fix annyoing fix annoying NRE by @corp-0 tried to merge into Health V2 but caused to many issues.
 /// <summary>
 /// For the Individual clothing player sprite renderers
 /// </summary>
@@ -34,11 +37,6 @@ public class ClothingItem : MonoBehaviour
 	public SpriteHandType spriteType;
 
 	public PlayerScript thisPlayerScript;
-
-	/// <summary>
-	/// Player equipped or unequipped some clothing from ClothingItem slot
-	/// </summary>
-	public event OnClothingEquippedDelegate OnClothingEquiped;
 
 	/// <summary>
 	/// Direction clothing is facing (absolute)
@@ -74,10 +72,10 @@ public class ClothingItem : MonoBehaviour
 		}
 	}
 
-	public virtual void SetReference(GameObject Item)
+	public virtual void SetReference(GameObject item)
 	{
 		UpdateReferenceOffset();
-		if (Item == null)
+		if (item == null)
 		{
 			if (spriteHandler != null)
 			{
@@ -88,34 +86,42 @@ public class ClothingItem : MonoBehaviour
 			{
 				// did we take off clothing?
 				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
-				if (unequippedClothing)
-					OnClothingEquiped?.Invoke(unequippedClothing, false);
+				if (unequippedClothing != null)
+				{
+					// Unhide the players's slots defined in the clothing's HiddenSlots, as we're removing it.
+					thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
+
+					if (unequippedClothing)
+						thisPlayerScript.playerSprites.OnClothingEquipped(unequippedClothing, true);
+				}
 			}
 
 			GameObjectReference = null; // Remove the item from equipment
 		}
 
-		if (Item != null)
+		if (item != null)
 		{
-			GameObjectReference = Item; // Add item to equipment
+			GameObjectReference = item; // Add item to equipment
 
 			if (InHands)
 			{
-				var ItemAttributesV2 = Item.GetComponent<ItemAttributesV2>();
+				var ItemAttributesV2 = item.GetComponent<ItemAttributesV2>();
 				var InHandsSprites = ItemAttributesV2?.ItemSprites;
 				SetInHand(InHandsSprites);
 			}
 			else
 			{
-				var equippedClothing = Item.GetComponent<ClothingV2>();
+				var equippedClothing = item.GetComponent<ClothingV2>();
 				equippedClothing?.LinkClothingItem(this);
 
+				// Set the slots defined in hidesSlots as hidden.
+				//thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
+
 				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
-				// But for the others, we call the OnClothingEquiped event.
+				// But for the others, we call the OnClothingEquipped event.
 				if (equippedClothing)
 				{
-					// call the event of equiped clothing
-					OnClothingEquiped?.Invoke(equippedClothing, true);
+					thisPlayerScript.playerSprites.OnClothingEquipped(equippedClothing, true);
 				}
 			}
 		}
@@ -126,11 +132,11 @@ public class ClothingItem : MonoBehaviour
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
 		spriteHandler.SetCatalogue(clothing.SpriteDataSO);
-		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
+		spriteHandler.ChangeSprite(clothing.CurrentClothIndex);
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
 		{
-			spriteHandler.SetPaletteOfCurrentSprite(palette,  Network:false);
+			spriteHandler.SetPaletteOfCurrentSprite(palette, networked: false);
 		}
 
 
@@ -184,14 +190,14 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand,Network: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand, networked: false);
 			}
 			else
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, Network:false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, networked: false);
 			}
 
-			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette,  Network:false);
+			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette, networked: false);
 		}
 	}
 }

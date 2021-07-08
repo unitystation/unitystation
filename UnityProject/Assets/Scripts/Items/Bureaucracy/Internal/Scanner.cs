@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Items.Bureaucracy.Internal
+namespace Items.Bureaucracy.Internal
 {
 	public class Scanner
 	{
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 			ScannedText = scannedText;
 		}
 
-		public Scanner ToggleScannerLid(GameObject scannerObj)
+		public Scanner ToggleScannerLid(GameObject scannerObj, GameObject paperPrefab)
 		{
 			if (ScannerOpen)
 			{
@@ -29,8 +29,7 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 				//If we're opening the scanner and it aint empty spawn paper
 				if (!ScannerEmpty)
 				{
-					var prefab = Spawn.GetPrefabByName("Paper");
-					var result = Spawn.ServerPrefab(prefab, SpawnDestination.At(scannerObj));
+					var result = Spawn.ServerPrefab(paperPrefab, SpawnDestination.At(scannerObj));
 					if (!result.Successful)
 						throw new InvalidOperationException("Spawn paper failed!");
 
@@ -58,7 +57,7 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 				throw new InvalidOperationException("Cannot place document in scanner");
 
 			var paper = paperObj.GetComponent<Paper>();
-			Despawn.ServerSingle(paperObj);
+			_ = Despawn.ServerSingle(paperObj);
 			return new Scanner(ScannerOpen, false, paper.ServerString, ScannedText);
 		}
 

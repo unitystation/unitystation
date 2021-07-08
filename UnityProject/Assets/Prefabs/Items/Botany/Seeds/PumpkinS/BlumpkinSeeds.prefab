@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1875907070027450865
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 485417397562172148, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b3e65fc1f0ab274f9e089217842fafd,
+        type: 2}
+    - target: {fileID: 4901810038744302538, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Blumpkin Vines
+      objectReference: {fileID: 0}
+    - target: {fileID: 4901810038744302538, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 474724014675506724, guid: fc60a76f8f4460f48822991768a166c8,
+        type: 3}
+    - target: {fileID: 4901810038744302538, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: a7fdb9e89fbbb554ebc0dde44466673d,
+        type: 2}
+    - target: {fileID: 4901810038744302538, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5839873657076935215, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2a873e2bd57425742a16adea74c45122,
+        type: 3}
+    - target: {fileID: 5939867626441303239, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046383330540790791, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6051311479596931443, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: m_Name
+      value: BlumpkinSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131379376615568913, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: initialName
+      value: pack of blumpkin seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131379376615568913, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into blumpkin vines.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5ae657a4ccb195c40a5d8b8372be5cce, type: 3}

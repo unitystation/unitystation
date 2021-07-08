@@ -27,23 +27,28 @@ public enum LayerType
 	[Order(2)] Walls = 0,
 	[Order(3)] Windows = 1,
 	[Order(4)] Grills = 5,
-	[Order(5)] Objects = 2,
-	[Order(6)] Floors = 3,
-	[Order(7)] Underfloor = 8,
-	[Order(8)] Base = 4,
+	[Order(5)] Tables = 9,
+	[Order(6)] Objects = 2,
+	[Order(7)] Floors = 3,
+	[Order(8)] Underfloor = 8,
+	[Order(9)] Base = 4
 }
 
 [Flags]
 public enum LayerTypeSelection
 {
-	Effects = 1,
-	Walls = 2,
-	Windows = 4,
-	Objects = 8,
-	Grills = 16,
-	Floors = 32,
-	Underfloor = 64,
-	Base = 128,
+	None = 0,
+	Effects = 1 << 0,
+	Walls = 1 << 1,
+	Windows =1 << 2,
+	Objects = 1 << 3,
+	Grills = 1 << 4,
+	Floors = 1 << 5,
+	Underfloor = 1 << 6,
+	Base = 1 << 7,
+	Tables = 1 << 8,
+	All = ~None
+
 }
 
 /// <summary>
@@ -54,7 +59,8 @@ public static class LTSUtil
 	public static bool IsLayerIn(LayerTypeSelection SpecifyLayers, LayerType Layer)
 	{
 		LayerTypeSelection LayerCon = LayerType2LayerTypeSelection(Layer);
-		return (SpecifyLayers.HasFlag(LayerCon));
+		//Bits are set in SpecifyLayers, doing a logical AND with the layer will return either 0 if it doesn't contain it or the layer bit itself.
+		return (SpecifyLayers & LayerCon) > 0;
 	}
 
 	public static LayerTypeSelection LayerType2LayerTypeSelection(LayerType Layer)
@@ -77,6 +83,8 @@ public static class LTSUtil
 				return LayerTypeSelection.Underfloor;
 			case LayerType.Base:
 				return LayerTypeSelection.Base;
+			case LayerType.Tables:
+				return LayerTypeSelection.Tables;
 		}
 		return LayerTypeSelection.Base;
 	}

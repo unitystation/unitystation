@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 
-public class StringManager : MonoBehaviour
+public class StringManager : MonoBehaviour, IInitialise
 {
 	private static StringManager stringManager;
 	public static StringManager Instance
@@ -30,7 +31,9 @@ public class StringManager : MonoBehaviour
 
 	public List<TextAsset> nameTextFiles;
 
-	void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.StringManager;
+
+	void IInitialise.Initialise()
 	{
 		for (int i = 0; i < nameTextFiles.Count; i++)
 		{
@@ -52,11 +55,11 @@ public class StringManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Combines a random first and last name depending on gender, uses both male and female names if gender is Nueter
+	/// Combines a random first and last name depending on gender, uses both male and female names if gender is NonBinary
 	/// </summary>
 	public static string GetRandomName(Gender gender)
 	{
-		if (gender == Gender.Neuter) gender = Random.value > 0.5f ? Gender.Male : Gender.Female; //Uses random gendered name if Nueter
+		if (gender == Gender.NonBinary) gender = Random.value > 0.5f ? Gender.Male : Gender.Female; //Uses random gendered name if NonBinary
 		var genderKey = gender.ToString().ToLowerInvariant(); //ToLowerInvariant because ToLower has different behaviour based on culture
 		var firstName = Instance.textObjects[$"first_{genderKey}"][Random.Range(0, Instance.textObjects[$"first_{genderKey}"].Count)]; //Random.Range is max exclusive and as such .Count can be used directly
 		var lastName = Instance.textObjects["last"][Random.Range(0, Instance.textObjects["last"].Count)];

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1742816268446047576
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4337957255405204632, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c28cd545cca74e4898fcb380d04484b,
+        type: 2}
+    - target: {fileID: 7557514667025625771, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594784434676019819, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599149358166298399, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_Name
+      value: JupiterCupMycelium
+      objectReference: {fileID: 0}
+    - target: {fileID: 7747439891457702979, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 17333dfd7a79e4242b83685bd36f12e1,
+        type: 3}
+    - target: {fileID: 8041177823079964797, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: initialName
+      value: pack of jupiter cup mycelium
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041177823079964797, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: initialDescription
+      value: This mycelium grows into jupiter cups. Zeus would be envious at the
+        power at your fingertips.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.Yield
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.Lifespan
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.Endurance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Jupiter Cups
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.GrowthSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b50b784a723a3f34ab13faa14690af92,
+        type: 2}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 2264896177038291652, guid: b57b4d5dde16ad548a35aa615340a4d8,
+        type: 3}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e2bfc129d9a9b749b0d215f5b9480bf,
+        type: 2}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 34d97348eaf6493409662e6c7c638be8,
+        type: 2}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f3d7adf3cea83a74598ae77ec223ce30,
+        type: 2}
+    - target: {fileID: 9118016749297587622, guid: 625f31aec34e13f48a1ece855fc4fe87,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 625f31aec34e13f48a1ece855fc4fe87, type: 3}

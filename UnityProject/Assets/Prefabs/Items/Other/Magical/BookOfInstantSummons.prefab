@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3245850288344695568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6459217844356408720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b42b100d2feb24b950e7ed38a625e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &3509815024118469271
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: spell
+      value: 
+      objectReference: {fileID: 11400000, guid: 75213e88f6e86cb4d8a637d0eeee77c6,
+        type: 2}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.data[0]
+      value: I can't look away from the book!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.data[1]
+      value: The words seem to pop around the page...
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.data[2]
+      value: I just need to focus on one item...
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.data[3]
+      value: Make sure to have a good grip on it while castng...
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.data[4]
+      value: Slow down, book. I still haven't finished this page...
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.data[5]
+      value: Sounds pretty great with some other magical artifacts.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.data[6]
+      value: Magicians must love this one.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4346115978777709696, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a95337103776654448fc984d860428eb,
+        type: 2}
+    - target: {fileID: 7530770484140264115, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567485960501791347, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567485960501791347, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567485960501791347, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567485960501791347, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572413834478188295, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: m_Name
+      value: BookOfInstantSummons
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775301890588689499, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8761e2b7a320eab47a6725fe3fd1b924,
+        type: 3}
+    - target: {fileID: 8069048616680855653, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: initialName
+      value: book of instant summons
+      objectReference: {fileID: 0}
+    - target: {fileID: 8069048616680855653, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: initialDescription
+      value: This book is bright and garish, very hard to miss.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f9b48c194efec7840b9dea9662005173, type: 3}
+--- !u!1 &6459217844356408720 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7572413834478188295, guid: f9b48c194efec7840b9dea9662005173,
+    type: 3}
+  m_PrefabInstance: {fileID: 3509815024118469271}
+  m_PrefabAsset: {fileID: 0}

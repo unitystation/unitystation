@@ -1,37 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminTools;
+﻿using Messages.Client;
 using Mirror;
 
-public class AdminReplyMessage : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string Message;
-
-	public override void Process()
+	public class AdminReplyMessage : ClientMessage<AdminReplyMessage.NetMessage>
 	{
-		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(Message, SentByPlayer.UserId);
-	}
-
-	public static AdminReplyMessage Send(string message)
-	{
-		AdminReplyMessage msg = new AdminReplyMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Message = message
-		};
-		msg.Send();
-		return msg;
-	}
+			public string Message;
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Message = reader.ReadString();
-	}
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(msg.Message, SentByPlayer.UserId);
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Message);
+		public static NetMessage Send(string message)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Message = message
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

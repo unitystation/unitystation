@@ -15,4 +15,5 @@ was force-pushed` message to see when they are published.
 conventions, so if you are running into trouble with something try searching "MkDocs (issue)" or "Python Markdown (issue)" to see the "right" way
 to do something.
 * Use 4 spaces for indentation.
+* Make sure that the png file extension is lower case, .PNG means something different and your image will not show up
 * Code blocks don't work like how they do on github pages. For root-level (non-indented) codeblocks you can use "fenced code blocks" just like you can on github. But for code blocks appearing in a list you must use indented code blocks and a special macro. [See this page for an example of indented code blocks in action](https://raw.githubusercontent.com/unitystation/unitystation/develop/docs/development/SyncVar-Best-Practices-for-Easy-Networking.md)

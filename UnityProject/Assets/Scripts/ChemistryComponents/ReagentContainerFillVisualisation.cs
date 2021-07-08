@@ -34,14 +34,16 @@ public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 	[SyncVar(hook = "OnVisualStateChanged")]
 	private VisualState visualState;
 
+	private SpriteHandler fillSpriteHandler;
 	private ReagentContainer serverContainer;
-	private Pickupable pickupable;
 
 	private void Awake()
 	{
-		pickupable = GetComponent<Pickupable>();
-		serverContainer = GetComponent<ReagentContainer>();
+		if (!fillSpriteRender)
+			return;
+		fillSpriteHandler = fillSpriteRender.GetComponent<SpriteHandler>();
 
+		serverContainer = GetComponent<ReagentContainer>();
 		if (serverContainer)
 		{
 			serverContainer.OnReagentMixChanged.AddListener(ServerUpdateFillState);
@@ -71,15 +73,13 @@ public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 	[Client]
 	private void OnVisualStateChanged(VisualState oldState, VisualState newState)
 	{
-		if (!fillSpriteRender)
+		if (!fillSpriteHandler)
 			return;
 
 		// Apply new state to sprite render
-		fillSpriteRender.color = newState.mixColor;
-		fillSpriteRender.sprite = GetSpriteByFill(newState.fillPercent);
-
-		// Update UI sprite in inventory
-		pickupable?.RefreshUISlotImage();
+		var newSprite = GetSpriteByFill(newState.fillPercent);
+		fillSpriteHandler.SetSprite(newSprite);
+		fillSpriteHandler.SetColor(newState.mixColor, networked: false);
 	}
 
 	private Sprite GetSpriteByFill(float fillPercent)

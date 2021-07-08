@@ -1,35 +1,51 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
 
-/// <summary>
-/// Message that allows the server to broadcast an event to the client
-/// </summary>
-public class TriggerEventMessage : ServerMessage
+namespace Messages.Server
 {
-	public EVENT EventType;
-
-	public override void Process()
-	{
-		TriggerEvent();
-	}
-
-	/// Raise the specified event
-	private void TriggerEvent()
-	{
-		EventManager.Broadcast(EventType);
-	}
 	/// <summary>
-	/// Sends the event message to the player.
+	/// Message that allows the server to broadcast an event to clients.
 	/// </summary>
-	/// <param name="recipient"></param>
-	/// <param name="eventType"></param>
-	/// <returns></returns>
-	public static TriggerEventMessage Send(GameObject recipient, EVENT eventType)
+	public class TriggerEventMessage : ServerMessage<TriggerEventMessage.NetMessage>
 	{
-		TriggerEventMessage msg = new TriggerEventMessage();
-		msg.EventType = eventType;
-		msg.SendTo(recipient);
-		return msg;
+		public struct NetMessage : NetworkMessage
+		{
+			public Event EventType;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			EventManager.Broadcast(msg.EventType);
+		}
+
+		/// <summary>
+		/// Send the event message to a specific player.
+		/// </summary>
+		public static NetMessage SendTo(GameObject recipient, Event eventType)
+		{
+			var msg = CreateMessage(eventType);
+
+			SendTo(recipient, msg);
+			return msg;
+		}
+
+		/// <summary>
+		/// Send the event message to all players.
+		/// </summary>
+		public static NetMessage SendToAll(Event eventType)
+		{
+			var msg = CreateMessage(eventType);
+
+			SendToAll(msg);
+			return msg;
+		}
+
+		private static NetMessage CreateMessage(Event eventType)
+		{
+			return new NetMessage
+			{
+				EventType = eventType,
+			};
+		}
 	}
 }

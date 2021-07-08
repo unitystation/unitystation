@@ -1,5 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System;
+using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using Objects.Machines;
 
 public class CraftingManager : MonoBehaviour
 {
@@ -12,6 +15,12 @@ public class CraftingManager : MonoBehaviour
 	[SerializeField] private GrinderDatabase grind = new GrinderDatabase();
 	[SerializeField] private CraftingDatabase mix = new CraftingDatabase();
 
+
+	[SerializeField]
+	private List<MaterialSheet> MaterialSheetList;
+	public static Dictionary<ItemTrait, MaterialSheet> MaterialSheetData = new Dictionary<ItemTrait, MaterialSheet>();
+	public static MaterialSilo RoundstartStationSilo;
+
 	public static CraftingDatabase Meals => Instance.meals;
 	public static CraftingDatabase Cuts => Instance.cuts;
 	public static CraftingDatabase Logs => Instance.logs;
@@ -19,6 +28,15 @@ public class CraftingManager : MonoBehaviour
 	public static CraftingDatabase SimpleMeal => Instance.simplemeal;
 	public static GrinderDatabase Grind => Instance.grind;
 	public static CraftingDatabase Mix => Instance.mix;
+
+	private void Awake()
+	{
+		MaterialSheetData.Clear();
+		foreach (var material in MaterialSheetList)
+		{
+			MaterialSheetData.Add(material.materialTrait, material);
+		}
+	}
 
 	public static CraftingManager Instance
 	{

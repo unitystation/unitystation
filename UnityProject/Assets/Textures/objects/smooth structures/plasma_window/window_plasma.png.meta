@@ -203,6 +203,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -237,6 +238,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -270,8 +272,8 @@ TextureImporter:
       name: window_plasma_6
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
+        x: 0
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -291,8 +293,8 @@ TextureImporter:
       name: window_plasma_7
       rect:
         serializedVersion: 2
-        x: 224
-        y: 0
+        x: 32
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -312,8 +314,8 @@ TextureImporter:
       name: window_plasma_8
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
+        x: 64
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -333,8 +335,8 @@ TextureImporter:
       name: window_plasma_9
       rect:
         serializedVersion: 2
-        x: 288
-        y: 0
+        x: 96
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -354,8 +356,8 @@ TextureImporter:
       name: window_plasma_10
       rect:
         serializedVersion: 2
-        x: 320
-        y: 0
+        x: 128
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -375,8 +377,8 @@ TextureImporter:
       name: window_plasma_11
       rect:
         serializedVersion: 2
-        x: 352
-        y: 0
+        x: 160
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -396,8 +398,8 @@ TextureImporter:
       name: window_plasma_12
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
+        x: 0
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -417,8 +419,8 @@ TextureImporter:
       name: window_plasma_13
       rect:
         serializedVersion: 2
-        x: 416
-        y: 0
+        x: 32
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -438,8 +440,8 @@ TextureImporter:
       name: window_plasma_14
       rect:
         serializedVersion: 2
-        x: 448
-        y: 0
+        x: 64
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -459,8 +461,8 @@ TextureImporter:
       name: window_plasma_15
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
+        x: 96
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -480,8 +482,8 @@ TextureImporter:
       name: window_plasma_16
       rect:
         serializedVersion: 2
-        x: 512
-        y: 0
+        x: 128
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -501,8 +503,8 @@ TextureImporter:
       name: window_plasma_17
       rect:
         serializedVersion: 2
-        x: 544
-        y: 0
+        x: 160
+        y: 160
         width: 32
         height: 32
       alignment: 0
@@ -522,8 +524,8 @@ TextureImporter:
       name: window_plasma_18
       rect:
         serializedVersion: 2
-        x: 576
-        y: 0
+        x: 0
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -543,8 +545,8 @@ TextureImporter:
       name: window_plasma_19
       rect:
         serializedVersion: 2
-        x: 608
-        y: 0
+        x: 32
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -564,8 +566,8 @@ TextureImporter:
       name: window_plasma_20
       rect:
         serializedVersion: 2
-        x: 640
-        y: 0
+        x: 64
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -585,8 +587,8 @@ TextureImporter:
       name: window_plasma_21
       rect:
         serializedVersion: 2
-        x: 672
-        y: 0
+        x: 96
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -606,8 +608,8 @@ TextureImporter:
       name: window_plasma_22
       rect:
         serializedVersion: 2
-        x: 704
-        y: 0
+        x: 128
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -627,8 +629,8 @@ TextureImporter:
       name: window_plasma_23
       rect:
         serializedVersion: 2
-        x: 736
-        y: 0
+        x: 160
+        y: 128
         width: 32
         height: 32
       alignment: 0
@@ -648,8 +650,8 @@ TextureImporter:
       name: window_plasma_24
       rect:
         serializedVersion: 2
-        x: 768
-        y: 0
+        x: 0
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -669,8 +671,8 @@ TextureImporter:
       name: window_plasma_25
       rect:
         serializedVersion: 2
-        x: 800
-        y: 0
+        x: 32
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -690,8 +692,8 @@ TextureImporter:
       name: window_plasma_26
       rect:
         serializedVersion: 2
-        x: 832
-        y: 0
+        x: 64
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -711,8 +713,8 @@ TextureImporter:
       name: window_plasma_27
       rect:
         serializedVersion: 2
-        x: 864
-        y: 0
+        x: 96
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -732,8 +734,8 @@ TextureImporter:
       name: window_plasma_28
       rect:
         serializedVersion: 2
-        x: 896
-        y: 0
+        x: 128
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -753,8 +755,8 @@ TextureImporter:
       name: window_plasma_29
       rect:
         serializedVersion: 2
-        x: 928
-        y: 0
+        x: 160
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -774,8 +776,8 @@ TextureImporter:
       name: window_plasma_30
       rect:
         serializedVersion: 2
-        x: 960
-        y: 0
+        x: 0
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -795,8 +797,8 @@ TextureImporter:
       name: window_plasma_31
       rect:
         serializedVersion: 2
-        x: 992
-        y: 0
+        x: 32
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -816,8 +818,8 @@ TextureImporter:
       name: window_plasma_32
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 0
+        x: 64
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -837,8 +839,8 @@ TextureImporter:
       name: window_plasma_33
       rect:
         serializedVersion: 2
-        x: 1056
-        y: 0
+        x: 96
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -858,8 +860,8 @@ TextureImporter:
       name: window_plasma_34
       rect:
         serializedVersion: 2
-        x: 1088
-        y: 0
+        x: 128
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -879,8 +881,8 @@ TextureImporter:
       name: window_plasma_35
       rect:
         serializedVersion: 2
-        x: 1120
-        y: 0
+        x: 160
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -900,8 +902,8 @@ TextureImporter:
       name: window_plasma_36
       rect:
         serializedVersion: 2
-        x: 1152
-        y: 0
+        x: 0
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -921,8 +923,8 @@ TextureImporter:
       name: window_plasma_37
       rect:
         serializedVersion: 2
-        x: 1184
-        y: 0
+        x: 32
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -942,8 +944,8 @@ TextureImporter:
       name: window_plasma_38
       rect:
         serializedVersion: 2
-        x: 1216
-        y: 0
+        x: 64
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -963,8 +965,8 @@ TextureImporter:
       name: window_plasma_39
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 0
+        x: 96
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -984,8 +986,8 @@ TextureImporter:
       name: window_plasma_40
       rect:
         serializedVersion: 2
-        x: 1280
-        y: 0
+        x: 128
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -1005,8 +1007,8 @@ TextureImporter:
       name: window_plasma_41
       rect:
         serializedVersion: 2
-        x: 1312
-        y: 0
+        x: 160
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -1027,6 +1029,132 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cca5daa85cb82120800000000000000
+      internalID: 2389366691329322185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: window_plasma_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0277e7a0a5cc7b10800000000000000
+      internalID: 1980675229938577932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: window_plasma_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43e913a63632f7d80800000000000000
+      internalID: -8250837082429088204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: window_plasma_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 546d66ea0e3fc5be0800000000000000
+      internalID: -1487045630614907323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: window_plasma_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cc826e69710a1c70800000000000000
+      internalID: 8942461631152164035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: window_plasma_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cf11ed53cd7af730800000000000000
+      internalID: 4033674694310830020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: window_plasma_42
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
         width: 32
         height: 32
@@ -1037,14 +1165,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65d547dafdbdf9a50800000000000000
-      internalID: 6530179738444782934
+      spriteID: 875ae1ae0bf5b8a00800000000000000
+      internalID: 759806175588820344
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window_plasma_1
+      name: window_plasma_43
       rect:
         serializedVersion: 2
         x: 32
@@ -1058,14 +1186,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5870c8aae6c538800800000000000000
-      internalID: 613435604629981061
+      spriteID: 6a1ac283f9ff664c0800000000000000
+      internalID: -4294464135343857242
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window_plasma_2
+      name: window_plasma_44
       rect:
         serializedVersion: 2
         x: 64
@@ -1079,14 +1207,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ad46a49e24614dc0800000000000000
-      internalID: -3656531271222932061
+      spriteID: f63e18267c46be740800000000000000
+      internalID: 5182346603733836655
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window_plasma_3
+      name: window_plasma_45
       rect:
         serializedVersion: 2
         x: 96
@@ -1100,14 +1228,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 495110167743a8630800000000000000
-      internalID: 3930011312167392660
+      spriteID: a7b71305071a6dde0800000000000000
+      internalID: -1308681137950721158
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window_plasma_4
+      name: window_plasma_46
       rect:
         serializedVersion: 2
         x: 128
@@ -1121,14 +1249,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1cabdfe86c18aef0800000000000000
-      internalID: -96796154962138083
+      spriteID: f9f1e2c9a55a41430800000000000000
+      internalID: 3752806198092373919
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: window_plasma_5
+      name: window_plasma_47
       rect:
         serializedVersion: 2
         x: 160
@@ -1142,134 +1270,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f34e8da97e381e90800000000000000
-      internalID: -7054820123952135176
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: window_plasma_42
-      rect:
-        serializedVersion: 2
-        x: 1344
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 817e89ee7c89818f0800000000000000
-      internalID: -569537368393455848
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: window_plasma_43
-      rect:
-        serializedVersion: 2
-        x: 1376
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 819f96d7493822f30800000000000000
-      internalID: 4549343247380117784
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: window_plasma_44
-      rect:
-        serializedVersion: 2
-        x: 1408
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c19330d934413a610800000000000000
-      internalID: 1631169770667850012
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: window_plasma_45
-      rect:
-        serializedVersion: 2
-        x: 1440
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 661d5739b51ffaf60800000000000000
-      internalID: 8047916434752655718
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: window_plasma_46
-      rect:
-        serializedVersion: 2
-        x: 1472
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ae0321b921fc1ccc0800000000000000
-      internalID: -3692442540649074454
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: window_plasma_47
-      rect:
-        serializedVersion: 2
-        x: 1504
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6a8b24a8d65929890800000000000000
-      internalID: -7452730135641147226
+      spriteID: 69b08944631b52740800000000000000
+      internalID: 5126698597468343190
       vertices: []
       indices: 
       edges: []

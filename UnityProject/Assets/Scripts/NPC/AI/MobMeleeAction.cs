@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections;
+using HealthV2;
+using Messages.Server;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace NPC.AI
+namespace Systems.MobAIs
 {
 	/// <summary>
-	/// Derives from MobMeleeAttack but instead of attacking, performs an action
-	/// on tile reached. You can override the method for your own stuff.
+	/// Basic MobAI for following and acting in melee.
+	/// You can override the method for your own stuff.
 	/// </summary>
 	public class MobMeleeAction : MobFollow
 	{
 		[Tooltip("If a player gets close to this mob and blocks the mobs path to the target," +
-		         "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
-		         "a player originally.")]
+				 "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
+				 "a player originally.")]
 		[SerializeField]
-		private bool targetOtherPlayersWhoGetInWay = true;
+		protected bool targetOtherPlayersWhoGetInWay = true;
 
 		[Tooltip("Act on nothing but the target. No players in the way, no tiles, nada.")]
 		[SerializeField]
-		private bool onlyActOnTarget = false;
+		public bool onlyActOnTarget = false;
 
 		[SerializeField]
 		private bool doLerpOnAction;
@@ -31,11 +33,11 @@ namespace NPC.AI
 		[SerializeField]
 		private float actionCooldown = 1f;
 
-		private LayerMask checkMask;
-		private int playersLayer;
-		private int npcLayer;
+		protected LayerMask checkMask;
+		protected int playersLayer;
+		protected int npcLayer;
 
-		private MobAI mobAI;
+		public MobAI mobAI;
 
 		private bool isForLerpBack;
 		private Vector3 lerpFrom;
@@ -44,12 +46,17 @@ namespace NPC.AI
 		private bool lerping;
 		private bool isActing = false;
 
+		/// <summary>
+		/// Maximum range that the mob will continue to try to act on the target
+		/// </summary>
+		protected float TetherRange = 30f;
+
 		public override void OnEnable()
 		{
 			base.OnEnable();
 			playersLayer = LayerMask.NameToLayer("Players");
 			npcLayer = LayerMask.NameToLayer("NPC");
-			checkMask = LayerMask.GetMask("Players", "NPC", "Windows", "Objects");
+			checkMask = LayerMask.GetMask("Players", "NPC", "Objects");
 			mobAI = GetComponent<MobAI>();
 		}
 
@@ -64,139 +71,234 @@ namespace NPC.AI
 			CheckForTargetAction();
 		}
 
+		public void ForceTargetAction()
+		{
+			if(Pause || isActing || lerping) return;
+			CheckForTargetAction();
+		}
+
+		/// <summary>
+		/// Determines if the target of the action can be acted upon and what kind of target it is.
+		/// Then performs the appropriate action. Action methods are individually overridable for flexibility.
+		/// </summary>
 		protected virtual bool CheckForTargetAction()
 		{
-			if (followTarget == null)
+			var hitInfo = ValidateTarget();
+			if (hitInfo.ItHit == false)
 			{
 				return false;
 			}
+			var dir = (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).normalized;
 
-			if (mobAI.IsDead || mobAI.IsUnconscious)
+			if (hitInfo.CollisionHit.GameObject != null && (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).sqrMagnitude <= 4)
 			{
-				Deactivate();
-				followTarget = null;
-				return false;
-			}
-
-			var followLivingBehaviour = followTarget.GetComponent<LivingHealthBehaviour>();
-			var distanceToTarget = Vector3.Distance(followTarget.transform.position, transform.position);
-			if (followLivingBehaviour != null)
-			{
-				//When to stop following on the server:
-				if (followLivingBehaviour.IsDead || distanceToTarget > 30f)
+				if (onlyActOnTarget)
 				{
-					Deactivate();
-					followTarget = null;
-					return false;
+					return PerformActionOnlyOnTarget(hitInfo, dir);
+				}
+
+				if (hitInfo.CollisionHit.GameObject.layer == playersLayer)
+				{
+					return PerformActionPlayer(hitInfo, dir);
+				}
+
+				if (hitInfo.CollisionHit.GameObject.layer == npcLayer)
+				{
+					return PerformActionNpc(hitInfo, dir);
 				}
 			}
 
-			var dirToTarget = (followTarget.position - transform.position).normalized;
-			RaycastHit2D hitInfo = Physics2D.Linecast(
-				transform.position + dirToTarget,
-				followTarget.position,
-				checkMask);
+			return PerformActionTile(hitInfo, dir);
+		}
 
-			if (hitInfo.collider == null)
+		/// <summary>
+		/// Determines if the target is valid
+		/// </summary>
+		/// <returns>A CustomPhysicsHit result of a Line Cast to the target, or a default one if the target is invalid</returns>
+		protected virtual MatrixManager.CustomPhysicsHit ValidateTarget()
+		{
+			if (FollowTarget != null)
 			{
-				return false;
-			}
-
-			if (!(Vector3.Distance(transform.position, hitInfo.point) < 1.5f))
-			{
-				return false;
-			}
-
-			var dir = ((Vector3) hitInfo.point - transform.position).normalized;
-
-			//Only hit target
-			if (onlyActOnTarget)
-			{
-				var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-				if (hitInfo.transform != followTarget || healthBehaviour.IsDead)
+				if (mobAI.IsDead == false && mobAI.IsUnconscious == false)
 				{
-					return false;
+					var followLivingBehaviour = FollowTarget.GetComponent<LivingHealthMasterBase>();
+					if (followLivingBehaviour != null)
+					{
+						if (followLivingBehaviour.IsDead)
+						{
+							FollowTarget = null;
+						}
+					}
+
+					//Continue if it still exists and is in range
+					if (FollowTarget != null && TargetDistance() < TetherRange)
+					{
+						Vector3 dir = (Vector3)(TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).Normalize() / 1.5f;
+						var hitInfo = MatrixManager.Linecast(OriginTile.WorldPositionServer + dir,
+							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask, TargetTile.WorldPositionServer);
+
+						if (hitInfo.ItHit)
+						{
+							return hitInfo;
+						}
+					}
 				}
-				else
+			}
+
+			FollowTarget = null;
+			Deactivate();
+			return new MatrixManager.CustomPhysicsHit();
+		}
+
+		/// <summary>
+		/// What to do if the Mob will only act on the target
+		/// </summary>
+		protected virtual bool PerformActionOnlyOnTarget(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
+		{
+			var healthBehaviourV2 = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
+			if (healthBehaviourV2 != null)
+			{
+				if (hitInfo.CollisionHit.GameObject == FollowTarget && healthBehaviourV2.IsDead == false)
 				{
-					mobAI.ActOnLiving(dir, healthBehaviour);
+					ActOnLivingV2(dir, healthBehaviourV2);
 					return true;
 				}
-			}
 
-			//What to do with player hit?
-			if (hitInfo.transform.gameObject.layer == playersLayer)
+			}
+			else
 			{
-				var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-				if (healthBehaviour != null && healthBehaviour.IsDead)
+				var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthBehaviour>();
+				if (healthBehaviour != null)
+				{
+					if (hitInfo.CollisionHit.GameObject == FollowTarget && healthBehaviour.IsDead == false)
+					{
+						ActOnLiving(dir, healthBehaviour);
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// What to do if the Mob is trying to act on a Player
+		/// </summary>
+		protected virtual bool PerformActionPlayer(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
+		{
+			var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
+			if (healthBehaviour != null)
+			{
+				if (healthBehaviour.IsDead)
 				{
 					return false;
 				}
+				ActOnLivingV2(dir, healthBehaviour);
 
-				mobAI.ActOnLiving(dir, healthBehaviour);
-
-				if (followTarget == null) return false;
-
-				if (followTarget.gameObject.layer != playersLayer)
+				if (FollowTarget != null && FollowTarget.gameObject.layer != playersLayer)
 				{
 					return true;
 				}
 
-				if (followTarget == hitInfo.transform)
+				if (FollowTarget != null && FollowTarget == hitInfo.CollisionHit.GameObject)
 				{
 					return true;
 				}
 
 				if (targetOtherPlayersWhoGetInWay)
 				{
-					followTarget = hitInfo.transform;
-				}
-
-				return true;
-			}
-
-			//What to do with NPC hit?
-			if (hitInfo.transform.gameObject.layer == npcLayer)
-			{
-				var mobAi = hitInfo.transform.GetComponent<MobAI>();
-				if (mobAi != null && mobAI != null)
-				{
-					if (mobAi.mobName.Equals(mobAI.mobName, StringComparison.OrdinalIgnoreCase))
-					{
-						return false;
-					}
-				}
-
-				var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-				if (healthBehaviour != null)
-				{
-					if (healthBehaviour.IsDead) return false;
-
-					mobAI.ActOnLiving(dir, healthBehaviour);
+					FollowTarget = hitInfo.CollisionHit.GameObject;
 					return true;
 				}
 			}
 
-			//What to do with Tile hits?
-			if (distanceToTarget > 4.5f)
+			return false;
+		}
+
+
+		/// <summary>
+		/// What to do if the Mob is trying to act on an NPC
+		/// </summary>
+		protected virtual bool PerformActionNpc(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
+		{
+			var target = hitInfo.CollisionHit.GameObject.GetComponent<MobAI>();
+
+			//Prevent the mob from acting on itself and those like it
+			if (target != null && mobAI != null)
+			{
+				if (target.mobName.Equals(mobAI.mobName, StringComparison.OrdinalIgnoreCase))
+				{
+					return false;
+				}
+			}
+
+			var healthBehaviour = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthBehaviour>();
+
+
+			if (healthBehaviour != null)
+			{
+				if (healthBehaviour.IsDead)
+				{
+					return false;
+				}
+
+				ActOnLiving(dir, healthBehaviour);
+				return true;
+			}
+			else
+			{
+				//Safety catch in case the NPC is using the new health system
+				var healthBehaviourV2 = hitInfo.CollisionHit.GameObject.GetComponent<LivingHealthMasterBase>();
+				if (healthBehaviourV2 != null)
+				{
+					if (healthBehaviourV2.IsDead)
+					{
+						return false;
+					}
+
+					ActOnLivingV2(dir, healthBehaviourV2);
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// What to do if the Mob is trying to act on a Tile
+		/// </summary>
+		protected virtual bool PerformActionTile(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
+		{
+			if (TargetDistance() > 4.5f)
 			{
 				//Don't bother, the target is too far away to warrant a decision to break a tile
 				return false;
 			}
 
-			mobAI.ActOnTile(hitInfo.point.RoundToInt(), dir);
+			ActOnTile(hitInfo.TileHitWorld.RoundToInt(), dir);
 			return true;
 		}
 
-		public void ServerDoLerpAnimation(Vector2 dir)
-		{
-			var angleOfDir = Vector3.Angle(dir, transform.up);
-			if (dir.x < 0f)
-			{
-				angleOfDir = -angleOfDir;
-			}
+		/// <summary>
+		/// Virtual method to override on extensions of this class for acting on living targets using the old health system
+		/// </summary>
+		protected virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour) { }
 
-			dirSprites.CheckSpriteServer(angleOfDir);
+		/// <summary>
+		/// Virtual method to override on extensions of this class for acting on living targets using the new health system
+		/// </summary>
+		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
+
+
+		/// <summary>
+		/// Virtual method to override on extensions of this class for acting on tiles
+		/// </summary>
+		protected virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) { }
+
+
+
+		public virtual void ServerDoLerpAnimation(Vector2 dir)
+		{
+			directional.FaceDirection(Orientation.From(dir));
 
 			Pause = true;
 			isActing = true;
@@ -221,25 +323,19 @@ namespace NPC.AI
 			DeterminePostAction();
 		}
 
-		private void DeterminePostAction()
+		protected virtual void DeterminePostAction()
 		{
+			Pause = false;
 			if (Random.value > 0.2f) //80% chance of hitting the target again
 			{
-				if (!CheckForTargetAction())
-				{
-					Pause = false;
-				}
-			}
-			else
-			{
-				Pause = false;
+				CheckForTargetAction();
 			}
 		}
 
 		public void ClientDoLerpAnimation(Vector2 dir)
 		{
 			lerpFrom = spriteHolder.transform.localPosition;
-			lerpTo = spriteHolder.transform.localPosition + (Vector3) (dir * 0.5f);
+			lerpTo = spriteHolder.transform.localPosition + (Vector3)(dir * 0.5f);
 
 			lerpProgress = 0f;
 			isForLerpBack = true;
@@ -253,10 +349,10 @@ namespace NPC.AI
 			isForLerpBack = false;
 		}
 
-		protected override void UpdateMe()
+		protected override void ServerUpdateMe()
 		{
 			CheckLerping();
-			base.UpdateMe();
+			base.ServerUpdateMe();
 		}
 
 		private void CheckLerping()

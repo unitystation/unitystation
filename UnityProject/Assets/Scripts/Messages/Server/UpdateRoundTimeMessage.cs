@@ -1,24 +1,31 @@
-﻿using System.Collections;
+﻿using Mirror;
 
-/// <summary>
-///     Message that tells client what is the current round time
-/// </summary>
-public class UpdateRoundTimeMessage : ServerMessage
+namespace Messages.Server
 {
-	public string Time;
-
-	public override void Process()
+	/// <summary>
+	///	Message that tells client what is the current round time
+	/// </summary>
+	public class UpdateRoundTimeMessage : ServerMessage<UpdateRoundTimeMessage.NetMessage>
 	{
-		GameManager.Instance.SyncTime(Time);
-	}
-
-	public static UpdateRoundTimeMessage Send(string time)
-	{
-		UpdateRoundTimeMessage msg = new UpdateRoundTimeMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Time = time
-		};
-		msg.SendToAll();
-		return msg;
+			public string Time;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			GameManager.Instance.SyncTime(msg.Time);
+		}
+
+		public static NetMessage Send(string time)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Time = time
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

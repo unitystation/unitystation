@@ -1,31 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Reflection;
+﻿using Mirror;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System.Text;
-using Newtonsoft.Json;
 
-public class BookNetMessage : ServerMessage
+namespace Messages.Server.VariableViewer
 {
-	public VariableViewerNetworking.NetFriendlyBook Book;
-
-	public override void Process()
+	public class BookNetMessage : ServerMessage<BookNetMessage.NetMessage>
 	{
-		UIManager.Instance.VariableViewer.ReceiveBook(Book);
-	}
-
-	public static BookNetMessage Send(Librarian.Book _book, GameObject ToWho)
-	{
-		BookNetMessage msg = new BookNetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Book = VariableViewerNetworking.ProcessBook(_book)
-		};
-		msg.SendTo(ToWho);
-		return msg;
+			public VariableViewerNetworking.NetFriendlyBook Book;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.VariableViewer.ReceiveBook(msg.Book);
+		}
+
+		public static NetMessage Send(Librarian.Book _book, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Book = VariableViewerNetworking.ProcessBook(_book)
+			};
+
+			SendTo(ToWho, msg, Category.VariableViewer, 3);
+			return msg;
+		}
 	}
-
-
 }

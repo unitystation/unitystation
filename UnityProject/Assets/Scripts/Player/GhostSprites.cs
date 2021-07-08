@@ -14,6 +14,8 @@ public class GhostSprites : MonoBehaviour
 
 	public List<SpriteDataSO> GhostSpritesSOs = new List<SpriteDataSO>();
 
+	public List<SpriteDataSO> AdminGhostSpriteSOs = new List<SpriteDataSO>();
+
 	private Directional directional;
 
 	protected void Awake()
@@ -27,23 +29,28 @@ public class GhostSprites : MonoBehaviour
 		SpriteHandler.SetSpriteSO(GhostSpritesSOs.PickRandom());
 	}
 
+	public void SetAdminGhost()
+	{
+		SpriteHandler.SetSpriteSO(AdminGhostSpriteSOs.PickRandom());
+	}
+
 	private void OnDirectionChange(Orientation direction)
 	{
 		if (Orientation.Down == direction)
 		{
-			SpriteHandler.ChangeSpriteVariant(0, NetWork:false);
+			SpriteHandler.ChangeSpriteVariant(0, networked:false);
 		}
 		else if (Orientation.Up == direction)
 		{
-			SpriteHandler.ChangeSpriteVariant(1, NetWork:false);
+			SpriteHandler.ChangeSpriteVariant(1, networked:false);
 		}
 		else if (Orientation.Right == direction)
 		{
-			SpriteHandler.ChangeSpriteVariant(2, NetWork:false);
+			SpriteHandler.ChangeSpriteVariant(2, networked:false);
 		}
 		else
 		{
-			SpriteHandler.ChangeSpriteVariant(3, NetWork:false);
+			SpriteHandler.ChangeSpriteVariant(3, networked:false);
 		}
 	}
 }

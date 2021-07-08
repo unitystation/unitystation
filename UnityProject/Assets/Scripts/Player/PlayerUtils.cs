@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Messages.Server.SoundMessages;
 
 /// <summary>
 /// Utilities for working with players
@@ -18,6 +19,7 @@ public static class PlayerUtils
 	{
 		return playerObject.layer == 31;
 	}
+
 	public static bool IsOk(GameObject playerObject = null)
 	{
 		var now = DateTime.Now;
@@ -28,39 +30,36 @@ public static class PlayerUtils
 	{
 		return "April fools!";
 	}
-	
+
 	public static void DoReport()
 	{
-		if (!CustomNetworkManager.IsServer)
-		{
-			return;
-		}
+		if (CustomNetworkManager.IsServer == false) return;
 
 		foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 		{
 			var ps = player.Script;
-			if (ps.IsDeadOrGhost)
-			{
-				continue;
-			}
-			
+			if (ps.IsDeadOrGhost) continue;
+
 			if (ps.mind != null &&
 			    ps.mind.occupation != null &&
 			    ps.mind.occupation.JobType == JobType.CLOWN)
 			{
-				//love clown
+				// love clown
 				ps.playerMove.Uncuff();
-				foreach (var bodyPart in ps.playerHealth.BodyParts)
-				{
-					bodyPart.HealDamage(200, DamageType.Brute);
-					bodyPart.HealDamage(200, DamageType.Burn);
-				}
-				ps.registerTile.ServerStandUp();
-				var left = Spawn.ServerPrefab("Bike Horn").GameObject;
-				var right = Spawn.ServerPrefab("Bike Horn").GameObject;
 
-				Inventory.ServerAdd(left, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-				Inventory.ServerAdd(right, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+				ps.playerHealth.ResetDamageAll();
+				ps.registerTile.ServerStandUp();
+
+
+				foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+				{
+					Inventory.ServerAdd(Spawn.ServerPrefab("Bike Horn").GameObject, itemSlot);
+				}
+
+				foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+				{
+					Inventory.ServerAdd(Spawn.ServerPrefab("Bike Horn").GameObject, itemSlot);
+				}
 			}
 			else
 			{
@@ -68,14 +67,18 @@ public static class PlayerUtils
 				{
 					var plantPos = ps.WorldPos + ps.CurrentDirection.Vector;
 					Spawn.ServerPrefab("Banana peel", plantPos, cancelIfImpassable: true);
-					
+
 				}
 				foreach (var pos in ps.WorldPos.BoundsAround().allPositionsWithin)
 				{
-					MatrixManager.Instance.CleanTile(pos, true);
+					var matrixInfo = MatrixManager.AtPoint(pos, true);
+					var localPos = MatrixManager.WorldToLocalInt(pos, matrixInfo);
+					matrixInfo.MetaDataLayer.Clean(pos, localPos, true);
 				}
 			}
 		}
-		SoundManager.PlayNetworked("ClownHonk",Random.Range(0.2f,0.5f),true,true);
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.2f,0.5f));
+		ShakeParameters shakeParameters = new ShakeParameters(true, 64, 30);
+		_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);
 	}
 }

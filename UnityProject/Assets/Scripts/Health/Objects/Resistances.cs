@@ -20,4 +20,6 @@ public class Resistances
 	public bool Indestructable;
 	// Can't be frozen
 	public bool FreezeProof;
+	// Can't be frozen
+	public bool LightningDamageProof;
 }

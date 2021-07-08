@@ -9,7 +9,7 @@ public class PlayerCustomisationData : ScriptableObject
 	public SpriteDataSO SpriteEquipped;
 	public string Name;
 	public CustomisationType Type;
-	public Gender gender = Gender.Neuter;
+	public Gender gender = Gender.NonBinary;
 }
 
 /// <summary>
@@ -24,5 +24,5 @@ public enum CustomisationType
 	Undershirt = 4,
 	Socks = 5,
 	BodySprites = 6,
-	//Others as needed,
+	// Others as needed,
 }

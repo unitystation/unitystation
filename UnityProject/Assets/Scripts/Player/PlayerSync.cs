@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Messages.Client.NewPlayer;
 using UnityEngine;
 using Mirror;
+using Objects;
 
 public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {
@@ -47,8 +48,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	public bool IsMoving => isServer ? IsMovingServer : IsMovingClient;
 
 	public PlayerMove playerMove;
-	private PlayerScript playerScript;
+	public PlayerScript playerScript;
 	private Directional playerDirectional;
+
+	public bool Step = false;
 
 	private Matrix Matrix => registerPlayer != null ? registerPlayer.Matrix : null;
 
@@ -321,7 +324,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		if (isServer)
 		{
-			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2) serverState.WorldPosition,
+			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Movement, name, (Vector2) serverState.WorldPosition,
 				toWorldPosition.To2Int());
 			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition, true);
 			ServerState = nextStateServer;
@@ -383,13 +386,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	private void OnEnable()
 	{
 		onTileReached.AddListener(Cross);
-		EventManager.AddHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		EventManager.AddHandler(Event.PlayerRejoined, setLocalPlayer);
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	private void OnDisable()
 	{
 		onTileReached.RemoveListener(Cross);
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		EventManager.RemoveHandler(Event.PlayerRejoined, setLocalPlayer);
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
@@ -402,7 +405,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			pendingActions = new Queue<PlayerAction>();
 			UpdatePredictedState();
-			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			predictedSpeedClient = UIManager.Intent.Running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}
 	}
 
@@ -411,25 +414,23 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
-	private void TryEscapeContainer()
+	[Command]
+	public void CmdTryEscapeContainer()
 	{
-		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
-		{
-			InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
-		}
-		else if (Camera2DFollow.followControl.target.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
-		{
-			CmdTryEscapeDisposals();
-		}
+		ServerTryEscapeContainer();
 	}
 
-	[Command]
-	private void CmdTryEscapeDisposals()
+	[Server]
+	public void ServerTryEscapeContainer()
 	{
-		if (pushPull?.parentContainer == null) return;
+		if (pushPull == null || pushPull.parentContainer == null) return;
 		GameObject parentContainer = pushPull.parentContainer.gameObject;
 
-		if (parentContainer.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
+		if (parentContainer.TryGetComponent(out ClosetControl closet))
+		{
+			closet.PlayerTryEscaping(gameObject);
+		}
+		else if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			disposalContainer.PlayerTryEscaping(gameObject);
 		}
@@ -454,7 +455,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 					// Player inside something
 					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
 					{
-						TryEscapeContainer();
+						CmdTryEscapeContainer();
 						didWiggle = true;
 					}
 				}
@@ -495,7 +496,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			{
 				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
 				{
-					PlayerSpawn.ServerSpawnDummy();
+					PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 				}
 
 				if (serverState.Position != serverLerpState.Position)
@@ -636,7 +637,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	}
 #endif
 
-	public void RecievePlayerMoveAction(PlayerAction moveActions)
+	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
 		if (moveActions.moveActions.Length != 0 && !MoveCooldown
 		                                        && isLocalPlayer && playerMove != null
@@ -644,7 +645,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient;
 
-			if (playerMove.allowInput && !playerMove.IsBuckled && !beingDraggedWithCuffs && !UIManager.IsInputFocus)
+			if (playerMove.allowInput && !beingDraggedWithCuffs && !UIManager.IsInputFocus)
 			{
 				StartCoroutine(DoProcess(moveActions));
 			}

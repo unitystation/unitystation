@@ -8,7 +8,7 @@ namespace Mirror
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("Network/NetworkRoomPlayer")]
-    [HelpURL("https://mirror-networking.com/docs/Components/NetworkRoomPlayer.html")]
+    [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkRoomPlayer.html")]
     public class NetworkRoomPlayer : NetworkBehaviour
     {
         /// <summary>
@@ -33,13 +33,13 @@ namespace Mirror
         /// Diagnostic index of the player, e.g. Player1, Player2, etc.
         /// </summary>
         [Tooltip("Diagnostic index of the player, e.g. Player1, Player2, etc.")]
-        [SyncVar]
+        [SyncVar(hook = nameof(IndexChanged))]
         public int index;
 
         #region Unity Callbacks
 
         /// <summary>
-        /// Do not use Start - Override OnStartrHost / OnStartClient instead!
+        /// Do not use Start - Override OnStartHost / OnStartClient instead!
         /// </summary>
         public void Start()
         {
@@ -47,17 +47,30 @@ namespace Mirror
             {
                 // NetworkRoomPlayer object must be set to DontDestroyOnLoad along with NetworkRoomManager
                 // in server and all clients, otherwise it will be respawned in the game scene which would
-                // have undesireable effects.
+                // have undesirable effects.
                 if (room.dontDestroyOnLoad)
                     DontDestroyOnLoad(gameObject);
 
                 room.roomSlots.Add(this);
-                room.RecalculateRoomPlayerIndices();
 
-                OnClientEnterRoom();
+                if (NetworkServer.active)
+                    room.RecalculateRoomPlayerIndices();
+
+                if (NetworkClient.active)
+                    room.CallOnClientEnterRoom();
             }
-            else
-                Debug.LogError("RoomPlayer could not find a NetworkRoomManager. The RoomPlayer requires a NetworkRoomManager object to function. Make sure that there is one in the scene.");
+            else Debug.LogError("RoomPlayer could not find a NetworkRoomManager. The RoomPlayer requires a NetworkRoomManager object to function. Make sure that there is one in the scene.");
+        }
+
+        public virtual void OnDisable()
+        {
+            if (NetworkClient.active && NetworkManager.singleton is NetworkRoomManager room)
+            {
+                // only need to call this on client as server removes it before object is destroyed
+                room.roomSlots.Remove(this);
+
+                room.CallOnClientExitRoom();
+            }
         }
 
         #endregion
@@ -79,32 +92,34 @@ namespace Mirror
 
         #region SyncVar Hooks
 
-        void ReadyStateChanged(bool _, bool newReadyState)
-        {
-            OnClientReady(newReadyState);
-        }
+        /// <summary>
+        /// This is a hook that is invoked on clients when the index changes.
+        /// </summary>
+        /// <param name="oldIndex">The old index value</param>
+        /// <param name="newIndex">The new index value</param>
+        public virtual void IndexChanged(int oldIndex, int newIndex) {}
+
+        /// <summary>
+        /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
+        /// <para>This function is called when the a client player calls CmdChangeReadyState.</para>
+        /// </summary>
+        /// <param name="newReadyState">New Ready State</param>
+        public virtual void ReadyStateChanged(bool oldReadyState, bool newReadyState) {}
 
         #endregion
 
         #region Room Client Virtuals
 
         /// <summary>
-        /// This is a hook that is invoked on all player objects when entering the room.
+        /// This is a hook that is invoked on clients for all room player objects when entering the room.
         /// <para>Note: isLocalPlayer is not guaranteed to be set until OnStartLocalPlayer is called.</para>
         /// </summary>
-        public virtual void OnClientEnterRoom() { }
+        public virtual void OnClientEnterRoom() {}
 
         /// <summary>
-        /// This is a hook that is invoked on all player objects when exiting the room.
+        /// This is a hook that is invoked on clients for all room player objects when exiting the room.
         /// </summary>
-        public virtual void OnClientExitRoom() { }
-
-        /// <summary>
-        /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
-        /// <para>This function is called when the a client player calls CmdChangeReadyState.</para>
-        /// </summary>
-        /// <param name="readyState">Whether the player is ready or not.</param>
-        public virtual void OnClientReady(bool readyState) { }
+        public virtual void OnClientExitRoom() {}
 
         #endregion
 
@@ -132,27 +147,6 @@ namespace Mirror
             }
         }
 
-        void DrawPlayerReadyButton()
-        {
-            if (NetworkClient.active && isLocalPlayer)
-            {
-                GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
-
-                if (readyToBegin)
-                {
-                    if (GUILayout.Button("Cancel"))
-                        CmdChangeReadyState(false);
-                }
-                else
-                {
-                    if (GUILayout.Button("Ready"))
-                        CmdChangeReadyState(true);
-                }
-
-                GUILayout.EndArea();
-            }
-        }
-
         void DrawPlayerReadyState()
         {
             GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
@@ -173,6 +167,27 @@ namespace Mirror
             }
 
             GUILayout.EndArea();
+        }
+
+        void DrawPlayerReadyButton()
+        {
+            if (NetworkClient.active && isLocalPlayer)
+            {
+                GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
+
+                if (readyToBegin)
+                {
+                    if (GUILayout.Button("Cancel"))
+                        CmdChangeReadyState(false);
+                }
+                else
+                {
+                    if (GUILayout.Button("Ready"))
+                        CmdChangeReadyState(true);
+                }
+
+                GUILayout.EndArea();
+            }
         }
 
         #endregion

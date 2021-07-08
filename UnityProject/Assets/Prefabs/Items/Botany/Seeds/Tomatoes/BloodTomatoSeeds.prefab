@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6175712407040493737
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 8720244658755400121, guid: 6976ced025dfb134cafa564323e2cb75,
+        type: 3}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 14026869afc3f6b438630283f33a5ff5,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Blood-Tomato Plants
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039221980297394224, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8fc0113e0516f064ea3ed928686a24c2,
+        type: 3}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4251335794183523180, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_Name
+      value: BloodTomatoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281783023236052696, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into blood-tomato plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: initialName
+      value: pack of blood-tomato seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050703676988518635, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: abf3d5c664d8bfb45a094b9c37b2984f,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 650450916815dfb4ba0aa087a3006beb, type: 3}

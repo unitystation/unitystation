@@ -17,8 +17,20 @@ TextureImporter:
   - first:
       213: 21300008
     second: triphasic_scan_module_4
+  - first:
+      213: -2928284871806284261
+    second: triphasic_scan_module_0
+  - first:
+      213: 8253974577619539955
+    second: triphasic_scan_module_1
+  - first:
+      213: -3847189174548405493
+    second: triphasic_scan_module_2
+  - first:
+      213: -242115376627386909
+    second: triphasic_scan_module_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -72,6 +84,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -109,14 +122,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: b1e06de7c64ac57d0800000000000000
+      internalID: -2928284871806284261
       vertices: []
       indices: 
       edges: []
@@ -130,14 +143,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 3f71e1c95220c8270800000000000000
+      internalID: 8253974577619539955
       vertices: []
       indices: 
       edges: []
@@ -151,14 +164,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: b03605b34d90c9ac0800000000000000
+      internalID: -3847189174548405493
       vertices: []
       indices: 
       edges: []
@@ -172,35 +185,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: triphasic_scan_module_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300008
+      spriteID: 3e5f6750955d3acf0800000000000000
+      internalID: -242115376627386909
       vertices: []
       indices: 
       edges: []

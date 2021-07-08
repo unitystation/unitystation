@@ -1,17 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Atmospherics;
+using Systems.Explosions;
+using AddressableReferences;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
-using Tilemaps.Behaviours.Meta;
 using UnityEngine.Profiling;
-using Object = System.Object;
-using Random = UnityEngine.Random;
+using Effects.Overlays;
+using ScriptableObjects;
+
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
 /// take damage, and do things in response to integrity changes. Objects are destroyed when their integrity
@@ -22,9 +21,7 @@ using Random = UnityEngine.Random;
 /// </summary>
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
-[RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable,
-	IServerDespawn
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn
 {
 
 	/// <summary>
@@ -40,7 +37,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// and Integrity is about to apply damage.
 	/// </summary>
 	[NonSerialized]
-	public DamagedEvent OnApllyDamage = new DamagedEvent();
+	public DamagedEvent OnApplyDamage = new DamagedEvent();
 
 	/// <summary>
 	/// event for hotspots
@@ -64,7 +61,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public float initialIntegrity = 100f;
 
 	[Tooltip("Sound to play when damage applied.")]
-	public string soundOnHit;
+	public AddressableAudioSource soundOnHit;
 
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;
@@ -87,6 +84,16 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
+	/// <summary>
+	/// The explosion strength of this object if is set to explode on destroy
+	/// </summary>
+	[Tooltip("The explosion strength of this object if is set to explode on destroy")]
+	public float ExplosionsDamage = 100f;
+
+	[SerializeField]
+	private bool doDamageMessage = true;
+
+	public bool DoDamageMessage => doDamageMessage;
 
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;
@@ -100,35 +107,38 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private static OverlayTile LARGE_ASH;
 
 	// damage incurred each tick while an object is on fire
-	private static float BURNING_DAMAGE = 0.08f;
+	private static float BURNING_DAMAGE = 0.04f;
 
 	private static readonly float BURN_RATE = 1f;
-	private float timeSinceLastBurn;
 
 	public float integrity { get; private set; } = 100f;
 	private bool destroyed = false;
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
+	public RegisterTile RegisterTile => registerTile;
 	private IPushable pushable;
+
+	//The current integrity divided by the initial integrity
+	public float PercentageDamaged => integrity.Approx(0) ? 0 : integrity / initialIntegrity;
 
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)
 	private bool isLarge;
 
 	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size / 10f);
 
+	public bool CannotBeAshed = false;
+
 	private void Awake()
 	{
 		EnsureInit();
 	}
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
+		}
 	}
 
 	private void EnsureInit()
@@ -136,8 +146,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (registerTile != null) return;
 		if (SMALL_BURNING_PREFAB == null)
 		{
-			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("SmallBurning");
-			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("LargeBurning");
+			SMALL_BURNING_PREFAB = CommonPrefabs.Instance.BurningSmall;
+			LARGE_BURNING_PREFAB = CommonPrefabs.Instance.BurningLarge;
 		}
 
 		if (SMALL_ASH == null)
@@ -169,7 +179,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			//cloned
 			var clonedIntegrity = info.ClonedFrom.GetComponent<Integrity>();
 			integrity = clonedIntegrity.integrity;
-			timeSinceLastBurn = clonedIntegrity.timeSinceLastBurn;
 			destroyed = clonedIntegrity.destroyed;
 			SyncOnFire(onFire, clonedIntegrity.onFire);
 		}
@@ -177,7 +186,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			//spawned
 			integrity = initialIntegrity;
-			timeSinceLastBurn = 0;
 			destroyed = false;
 			if (burningObjectOverlay != null)
 			{
@@ -199,16 +207,17 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <param name="damage"></param>
 	/// <param name="damageType"></param>
 	[Server]
-	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType)
+	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true, bool ignoreArmor = false,
+		bool explodeOnDestroy = false)
 	{
 		//already destroyed, don't apply damage
-		if (destroyed || Resistances.Indestructable || damage < damageDeflection) return;
+		if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
 
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
-		var damageInfo = new DamageInfo(damage, attackType, damageType);
+		var damageInfo = new DamageInfo(damage, attackType, damageType, this);
 
-		damage = Armor.GetDamage(damage, attackType);
+		damage = ignoreArmor ? damage : Armor.GetDamage(damage, attackType);
 		if (damage > 0)
 		{
 			if (attackType == AttackType.Fire && !onFire && !destroyed && Resistances.Flammable)
@@ -217,24 +226,34 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
-			OnApllyDamage.Invoke(damageInfo);
-			CheckDestruction();
 
-			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
+			if (triggerEvent)
+			{
+				OnApplyDamage.Invoke(damageInfo);
+			}
+
+			CheckDestruction(explodeOnDestroy);
+
+			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Damage, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
 	}
 
-	private void UpdateMe()
+	/// <summary>
+	/// Directly restore integrity to this object. Final integrity will not exceed the initial integrity.
+	/// </summary>
+	[Server]
+	public void RestoreIntegrity(float amountToRestore)
 	{
-		if (onFire && isServer)
+		integrity += amountToRestore;
+		if (integrity > initialIntegrity)
 		{
-			timeSinceLastBurn += Time.deltaTime;
-			if (timeSinceLastBurn > BURN_RATE)
-			{
-				ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
-				timeSinceLastBurn = 0;
-			}
+			integrity = initialIntegrity;
 		}
+	}
+
+	private void PeriodicUpdateBurn()
+	{
+		ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
 	}
 
 	private void SyncOnFire(bool wasOnFire, bool onFire)
@@ -246,16 +265,26 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		this.onFire = onFire;
 		if (this.onFire)
 		{
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
+			}
+
 			burningObjectOverlay.Burn();
 		}
-		else if (!this.onFire)
+		else
 		{
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
+			}
+
 			burningObjectOverlay.StopBurning();
 		}
 	}
 
 	[Server]
-	private void CheckDestruction()
+	private void CheckDestruction(bool explodeOnDestroy = false)
 	{
 		if (!destroyed && integrity <= 0)
 		{
@@ -268,6 +297,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			{
 				//ensure we stop burning
 				SyncOnFire(onFire, false);
+			}
+
+			if (explodeOnDestroy)
+			{
+				Explosion.StartExplosion(registerTile.LocalPositionServer, ExplosionsDamage, registerTile.Matrix);
 			}
 
 			if (destructInfo.DamageType == DamageType.Burn)
@@ -290,6 +324,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
+	[Server]
+	public void ForceDestroy()
+	{
+		integrity = 0;
+		CheckDestruction();
+	}
+
 	public string Examine(Vector3 worldPos)
 	{
 		string str = "";
@@ -304,10 +345,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private void DefaultBurnUp(DestructionInfo info)
 	{
 		Profiler.BeginSample("DefaultBurnUp");
-		registerTile.TileChangeManager.UpdateOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
-		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject.TileWorldPosition());
+		registerTile.TileChangeManager.AddOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
+		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
-		Despawn.ServerSingle(gameObject);
+		_ = Despawn.ServerSingle(gameObject);
 		Profiler.EndSample();
 	}
 
@@ -316,14 +357,14 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (info.DamageType == DamageType.Brute)
 		{
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject.TileWorldPosition());
-			Despawn.ServerSingle(gameObject);
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
-			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject.TileWorldPosition());
-			Despawn.ServerSingle(gameObject);
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 
@@ -363,11 +404,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		OnServerDespawnEvent?.Invoke();
-		var cnt = GetComponent<CustomNetTransform>();
-		if (cnt != null)
-		{
-			cnt.DisappearFromWorldServer();
-		}
 	}
 }
 
@@ -408,11 +444,14 @@ public class DamageInfo
 
 	public readonly AttackType AttackType;
 
+	public readonly Integrity AttackedIntegrity;
+
 	public readonly float Damage;
-	public DamageInfo(float damage, AttackType attackType, DamageType damageType)
+	public DamageInfo(float damage, AttackType attackType, DamageType damageType, Integrity attackedIntegrity)
 	{
 		DamageType = damageType;
 		Damage = damage;
 		AttackType = attackType;
+		AttackedIntegrity = attackedIntegrity;
 	}
 }

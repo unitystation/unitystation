@@ -31,7 +31,7 @@ namespace IngameDebugConsole
 
 		public bool IsValid()
 		{
-			if( !method.IsStatic && ( instance == null || instance.Equals( null ) ) )
+			if( method.IsStatic == false && ( instance == null || instance.Equals( null ) ) )
 				return false;
 
 			return true;
@@ -276,7 +276,7 @@ namespace IngameDebugConsole
 		/// <param name="command">Name of command to remove</param>
 		public static void RemoveCommand( string command )
 		{
-			if( !string.IsNullOrEmpty( command ) )
+			if( string.IsNullOrEmpty( command ) == false)
 				methods.Remove( command );
 		}
 
@@ -350,7 +350,7 @@ namespace IngameDebugConsole
 				StringBuilder methodSignature = new StringBuilder( 256 );
 				methodSignature.Append( command ).Append( ": " );
 
-				if( !string.IsNullOrEmpty( description ) )
+				if(string.IsNullOrEmpty(description) == false)
 					methodSignature.Append( description ).Append( " -> " );
 
 				methodSignature.Append( method.DeclaringType.ToString() ).Append( "." ).Append( method.Name ).Append( "(" );
@@ -358,7 +358,7 @@ namespace IngameDebugConsole
 				{
 					Type type = parameterTypes[i];
 					string typeName;
-					if( !typeReadableNames.TryGetValue( type, out typeName ) )
+					if(typeReadableNames.TryGetValue(type, out typeName) == false)
 						typeName = type.Name;
 
 					methodSignature.Append( typeName );
@@ -373,7 +373,7 @@ namespace IngameDebugConsole
 				if( returnType != typeof( void ) )
 				{
 					string returnTypeName;
-					if( !typeReadableNames.TryGetValue( returnType, out returnTypeName ) )
+					if( typeReadableNames.TryGetValue( returnType, out returnTypeName) == false)
 						returnTypeName = returnType.Name;
 
 					methodSignature.Append( " : " ).Append( returnTypeName );
@@ -425,9 +425,9 @@ namespace IngameDebugConsole
 
 			// Check if command exists
 			ConsoleMethodInfo methodInfo;
-			if( !methods.TryGetValue( commandArguments[0], out methodInfo ) )
+			if(methods.TryGetValue(commandArguments[0], out methodInfo) == false)
 				Logger.LogWarning( "Can't find command: " + commandArguments[0], Category.DebugConsole);
-			else if( !methodInfo.IsValid() )
+			else if(methodInfo.IsValid() == false)
 				Logger.LogWarning( "Method no longer valid (instance dead): " + commandArguments[0], Category.DebugConsole);
 			else
 			{
@@ -448,14 +448,14 @@ namespace IngameDebugConsole
 
 					Type parameterType = methodInfo.parameterTypes[i];
 					ParseFunction parseFunction;
-					if( !parseFunctions.TryGetValue( parameterType, out parseFunction ) )
+					if(parseFunctions.TryGetValue(parameterType, out parseFunction) == false)
 					{
 						Logger.LogError( "Unsupported parameter type: " + parameterType.Name, Category.DebugConsole);
 						return;
 					}
 
 					object val;
-					if( !parseFunction( argument, out val ) )
+					if(parseFunction(argument, out val) == false)
 					{
 						Logger.LogError( "Couldn't parse " + argument + " to " + parameterType.Name, Category.DebugConsole);
 						return;
@@ -693,7 +693,7 @@ namespace IngameDebugConsole
 			for( i = 0; i < tokens.Count; i++ )
 			{
 				float val;
-				if( !float.TryParse( tokens[i], out val ) )
+				if(float.TryParse(tokens[i], out val) == false)
 				{
 					if( vectorType == typeof( Vector3 ) )
 						output = new Vector3();

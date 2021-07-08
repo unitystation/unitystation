@@ -20,8 +20,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private int maxAmount = 50;
 
 	[Tooltip("Other prefabs which can stack with this object. By default a stackable can stack with its own" +
-	         " prefab, but if you create any variants which have a different initial amount you can assign them" +
-	         " in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
+				" prefab, but if you create any variants which have a different initial amount you can assign them" +
+				" in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
 	[SerializeField]
 	private List<GameObject> stacksWith;
 
@@ -108,22 +108,29 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
+		Logger.LogTraceFormat("Spawning {0}", Category.ItemSpawn, GetInstanceID());
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
+
 		//check for stacking with things on the ground
+		registerTile.WaitForMatrixInit(OnMatrixInit);
+	}
+
+	private void OnMatrixInit(MatrixInfo info)
+	{
 		ServerStackOnGround(registerTile.LocalPositionServer);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
-		Logger.LogTraceFormat("Despawning {0}", Category.Inventory, GetInstanceID());
+		Logger.LogTraceFormat("Despawning {0}", Category.ItemSpawn, GetInstanceID());
 		amountInit = false;
 	}
 
 	private void ServerStackOnGround(Vector3Int localPosition)
 	{
+		if (registerTile?.Matrix == null) return;
 		//stacks with things on the same tile
 		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
 		{
@@ -139,7 +146,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private void SyncAmount(int oldAmount, int newAmount)
 	{
 		EnsureInit();
-		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Inventory, amount, newAmount, GetInstanceID());
+		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
 
@@ -156,13 +163,13 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		if (consumed > amount)
 		{
-			Logger.LogErrorFormat("Consumed amount {0} is greater than amount in this stack {1}, will not consume.", Category.Inventory, consumed, amount);
+			Logger.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);
 			return false;
 		}
 		SyncAmount(amount, amount - consumed);
 		if (amount <= 0)
 		{
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 		return true;
 	}
@@ -183,7 +190,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 		if (increase < 0)
 		{
-			Logger.LogErrorFormat("Attempted to increase stacks by a negative value, ignored", Category.Inventory);
+			Logger.LogErrorFormat("Attempted to increase stacks by a negative value, ignored", Category.Objects);
 			return 0;
 		}
 
@@ -191,8 +198,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 		if (overflow > 0)
 		{
-			Logger.LogErrorFormat("Increased amount {0} will overfill stack, filled to max",
-				 Category.Inventory, increase);
+			Logger.LogErrorFormat($"Increased amount {increase} will overfill stack, filled to max",
+					Category.Objects);
 
 			SyncAmount(amount, MaxAmount);
 			return overflow;
@@ -226,20 +233,21 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	/// </summary>
 	/// <param name="toAdd"></param>
 	[Server]
-	public void ServerCombine(Stackable toAdd)
+	public int ServerCombine(Stackable toAdd)
 	{
 		if (!StacksWith(toAdd))
 		{
-			Logger.LogErrorFormat("toAdd {0} doesn't stack with this {2}, cannot combine. Consider adding" +
-			                      " this prefab to stacksWith if these really should be stackable.",
-				Category.Inventory, toAdd, this);
-			return;
+			Logger.LogErrorFormat($"{toAdd} doesn't stack with {this}, cannot combine. Consider adding" +
+									" this prefab to stacksWith if these really should be stackable.",
+				Category.Objects);
+			return 0;
 		}
 		var amountToConsume = Math.Min(toAdd.amount, SpareCapacity);
-		if (amountToConsume <= 0) return;
-		Logger.LogTraceFormat("Combining {0} <- {1}", Category.Inventory, GetInstanceID(), toAdd.GetInstanceID());
+		if (amountToConsume <= 0) return 0;
+		Logger.LogTraceFormat("Combining {0} <- {1}", Category.Objects, GetInstanceID(), toAdd.GetInstanceID());
 		toAdd.ServerConsume(amountToConsume);
 		SyncAmount(amount, amount + amountToConsume);
+		return amountToConsume;
 	}
 
 	/// <summary>
@@ -294,7 +302,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 		return false;
 	}
-
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{

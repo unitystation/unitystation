@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Text;
+using Items;
 
 public static class SweetExtensions
 {
@@ -20,7 +23,12 @@ public static class SweetExtensions
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.GetComponent<ItemAttributesV2>();
+		return go.OrNull()?.GetComponent<ItemAttributesV2>();
+	}
+
+	public static ObjectAttributes Object(this GameObject go)
+	{
+		return go.OrNull()?.GetComponent<ObjectAttributes>();
 	}
 
 	/// <summary>
@@ -44,10 +52,24 @@ public static class SweetExtensions
 			}
 		}
 
-		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Name))
+		var entityObject = go.Object();
+		if (entityObject != null)
 		{
-			return player.Name;
+			if (!string.IsNullOrWhiteSpace(entityObject.ArticleName))
+			{
+				return entityObject.ArticleName;
+			}
+
+			if (!string.IsNullOrWhiteSpace(entityObject.InitialName))
+			{
+				return entityObject.InitialName;
+			}
+		}
+
+		var player = go.Player();
+		if (player != null && !String.IsNullOrWhiteSpace(player.Script.visibleName))
+		{
+			return player.Script.visibleName;
 		}
 
 		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
@@ -60,7 +82,30 @@ public static class SweetExtensions
 
 	public static uint NetId(this GameObject go)
 	{
-		return go ? go.GetComponent<NetworkIdentity>().netId : global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		if (go)
+		{
+			go.TryGetComponent<Matrix>(out var matrix);
+			if (matrix)
+			{
+				return matrix.NetworkedMatrix.MatrixSync.netId;
+			}
+			else
+			{
+				matrix = go.GetComponentInChildren<Matrix>();
+				if (matrix != null)
+				{
+					return matrix.NetworkedMatrix.MatrixSync.netId;
+				}
+				else
+				{
+					return go.GetComponent<NetworkIdentity>().netId;
+				}
+			}
+		}
+		else
+		{
+			return global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		}
 	}
 
 	/// Creates garbage! Use very sparsely!
@@ -106,12 +151,20 @@ public static class SweetExtensions
 	/// Wraps provided index value if it's more than array length or is negative
 	public static T Wrap<T>(this T[] array, int index)
 	{
+		if (array == null || array.Length == 0)
+		{
+			return default(T);
+		}
 		return array[((index % array.Length) + array.Length) % array.Length];
 	}
 
 	/// Wraps provided index value if it's more than list length or is negative
 	public static T Wrap<T>(this List<T> list, int index)
 	{
+		if (list == null || list.Count == 0)
+		{
+			return default(T);
+		}
 		return list[((index % list.Count) + list.Count) % list.Count];
 	}
 
@@ -149,7 +202,7 @@ public static class SweetExtensions
 		float boost = (distance - NO_BOOST_THRESHOLD) * 2;
 		if (boost > 0)
 		{
-			Logger.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Lerp, boost);
+			Logger.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
 		}
 		return 1 + boost;
 	}
@@ -203,7 +256,7 @@ public static class SweetExtensions
 		{
 			return new Vector2(x, y);
 		}
-		Logger.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.NetUI);
+		Logger.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
 		return TransformState.HiddenPos;
 	}
 
@@ -324,6 +377,17 @@ public static class SweetExtensions
 	}
 
 	/// <summary>
+	/// Removes all KeyValuePairs where each pair matches the given predicate.
+	/// Courtesy of https://www.codeproject.com/Tips/494499/Implementing-Dictionary-RemoveAll.
+	/// </summary>
+	public static void RemoveAll<K, V>(this IDictionary<K, V> dict, Func<K, V, bool> match)
+	{
+		foreach (var key in dict.Keys.ToArray()
+				.Where(key => match(key, dict[key])))
+			dict.Remove(key);
+	}
+
+	/// <summary>
 	/// Enumerate all flags as IEnumerable
 	/// </summary>
 	/// <param name="input"></param>
@@ -345,5 +409,131 @@ public static class SweetExtensions
 			? v
 			: defaultValue;
 
+	}
+
+	/// <summary>
+	/// Removes the last instance of the given string from the given StringBuilder.
+	/// </summary>
+	/// <returns>the final StringBuilder</returns>
+	public static StringBuilder RemoveLast(this StringBuilder sb, string str)
+	{
+		if (sb.Length < 1) return sb;
+
+		sb.Remove(sb.ToString().LastIndexOf(str), str.Length);
+		return sb;
+	}
+
+	public static Vector3 GetRandomPoint(this Bounds bounds)
+	{
+		return new Vector3(
+			UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
+			UnityEngine.Random.Range(bounds.min.y, bounds.max.y),
+			UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
+		);
+	}
+
+	public static Vector3 GetRandomPoint(this BoundsInt bounds)
+	{
+		return new Vector3(
+			UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
+			UnityEngine.Random.Range(bounds.min.y, bounds.max.y),
+			UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
+		);
+	}
+
+	public static string Capitalize(this string text)
+	{
+		return text[0].ToString().ToUpper() + text.Substring(1);
+	}
+
+	/// <summary>
+	/// Extension for all IComparables, like numbers and dates. Returns true if given data
+	/// is between the min and max values. By default, it is inclusive.
+	/// </summary>
+	/// <param name="value">Value to compare</param>
+	/// <param name="min">Minimum value in the range</param>
+	/// <param name="max">Maximum value in the range</param>
+	/// <param name="inclusive">Changes the behavior for min and max, true by default</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>True if the given value is  between the given range</returns>
+	public static bool IsBetween<T>(this T value, T min, T max, bool inclusive=true) where T : IComparable
+	{
+		return inclusive
+			? Comparer<T>.Default.Compare(value, min) >= 0
+			  && Comparer<T>.Default.Compare(value, max) <= 0
+			: Comparer<T>.Default.Compare(value, min) > 0
+			  && Comparer<T>.Default.Compare(value, max) < 0;
+	}
+
+	/// <summary>
+	/// See <see cref="Mathf.Approximately(float, float)"/>
+	/// </summary>
+	public static bool Approx(this float thisValue, float value)
+	{
+		return Mathf.Approximately(thisValue, value);
+	}
+
+	/// <summary>
+	/// See <see cref="Mathf.Clamp(float, float, float)"/>
+	/// </summary>
+	public static float Clamp(this float value, float minValue, float maxValue)
+	{
+		return Mathf.Clamp(value, minValue, maxValue);
+	}
+
+	/// <summary>
+	/// See if two colours are approximately the same
+	/// </summary>
+	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true)
+	{
+		if (checkAlpha)
+		{
+			return Mathf.Approximately(a.b, b.b) &&
+			       Mathf.Approximately(a.r, b.r) &&
+			       Mathf.Approximately(a.g, b.g) &&
+			       Mathf.Approximately(a.a, b.a);
+		}
+
+		return Mathf.Approximately(a.b, b.b) &&
+			   Mathf.Approximately(a.r, b.r) &&
+		       Mathf.Approximately(a.g, b.g);
+	}
+
+
+	public static string Truncate(this string value, int maxLength)
+	{
+		if (string.IsNullOrEmpty(value)) return value;
+		return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+  }
+
+	/// <summary>
+	/// <para>Get specific type from a list.</para>
+	/// Credit to <see href="https://coderethinked.com/get-only-specific-types-from-list/">Karthik Chintala</see>.
+	/// </summary>
+	public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)
+	{
+		if (source == null) return null;
+		return OfTypeIterator<TResult>(source);
+	}
+
+	private static IEnumerable<TResult> OfTypeIterator<TResult>(IEnumerable source)
+	{
+		foreach (object obj in source)
+		{
+			if (obj is TResult) yield return (TResult)obj;
+		}
+	}
+
+	/// <summary>
+	/// Rounds float to largest eg 1.1 => 2, -0.1 => -1
+	/// </summary>
+	public static int RoundToLargestInt(this float source)
+	{
+		if (source < 0)
+		{
+			return Mathf.FloorToInt(source);
+		}
+
+		return Mathf.CeilToInt(source);
 	}
 }

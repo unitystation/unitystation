@@ -1,4 +1,4 @@
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public interface IGasMixContainer
 	{

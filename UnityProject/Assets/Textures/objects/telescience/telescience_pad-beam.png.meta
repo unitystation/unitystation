@@ -17,8 +17,29 @@ TextureImporter:
   - first:
       213: 21300008
     second: pad-beam_4
+  - first:
+      213: -5826673684532454537
+    second: pad-beam_0
+  - first:
+      213: 100126051168418793
+    second: pad-beam_1
+  - first:
+      213: -8001002898041162708
+    second: pad-beam_2
+  - first:
+      213: 8530010969792088476
+    second: pad-beam_3
+  - first:
+      213: -3655728501508638928
+    second: pad-beam_4
+  - first:
+      213: -4449821318475876358
+    second: pad-beam_5
+  - first:
+      213: 4939174673231444950
+    second: pad-beam_6
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -72,6 +93,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -115,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 77b935ba72f732fa0800000000000000
+      internalID: -5826673684532454537
       vertices: []
       indices: 
       edges: []
@@ -136,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 9ebf7a0fc18b36100800000000000000
+      internalID: 100126051168418793
       vertices: []
       indices: 
       edges: []
@@ -157,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: c24b26f514ab6f090800000000000000
+      internalID: -8001002898041162708
       vertices: []
       indices: 
       edges: []
@@ -178,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: c9984a878cfa06670800000000000000
+      internalID: 8530010969792088476
       vertices: []
       indices: 
       edges: []
@@ -199,8 +221,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300008
+      spriteID: 0377e48fb4e344dc0800000000000000
+      internalID: -3655728501508638928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pad-beam_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af7f846461f0f32c0800000000000000
+      internalID: -4449821318475876358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pad-beam_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dbf09942397b8440800000000000000
+      internalID: 4939174673231444950
       vertices: []
       indices: 
       edges: []

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vulpkanin_hair_jagged
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 3401803538667884278, guid: 8255ed8f2750485448582bb88695b9d8,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 730119526937267858, guid: 8255ed8f2750485448582bb88695b9d8,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4827257494743602566, guid: 8255ed8f2750485448582bb88695b9d8,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 3562873098042597180, guid: 8255ed8f2750485448582bb88695b9d8,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 15481
+  DisplayName: Jagged

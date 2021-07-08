@@ -1,56 +1,46 @@
-﻿using System.Collections;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
+﻿using Messages.Server;
 using Mirror;
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
-public class AddHackingConnection : ClientMessage
+namespace Messages.Client
 {
-	public uint Player;
-	public uint HackableObject;
-	public string JsonData;
-
-	public override void Process()
+	public class AddHackingConnection : ClientMessage<AddHackingConnection.NetMessage>
 	{
-		LoadMultipleObjects(new uint[] { Player, HackableObject });
-		int[] connectionToAdd = JsonConvert.DeserializeObject<int[]>(JsonData);
-
-		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-		var hackObject = NetworkObjects[1];
-		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
-		if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
+		public struct NetMessage : NetworkMessage
 		{
-			hackingProcess.AddNodeConnection(connectionToAdd);
-			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
+			public uint Player;
+			public uint HackableObject;
+			public string JsonData;
 		}
-	}
 
-	public static AddHackingConnection Send(GameObject player, GameObject hackObject, int[] connectionToAdd)
-	{
-		AddHackingConnection msg = new AddHackingConnection
+		public override void Process(NetMessage msg)
 		{
-			Player = player.GetComponent<NetworkIdentity>().netId,
-			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
-			JsonData = JsonConvert.SerializeObject(connectionToAdd),
-		};
-		msg.Send();
-		return msg;
-	}
+			LoadMultipleObjects(new uint[] { msg.Player, msg.HackableObject });
+			int[] connectionToAdd = JsonConvert.DeserializeObject<int[]>(msg.JsonData);
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Player = reader.ReadUInt32();
-		HackableObject = reader.ReadUInt32();
-		JsonData = reader.ReadString();
-	}
+			var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
+			var hackObject = NetworkObjects[1];
+			HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
+			if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
+			{
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireMend, playerScript.WorldPos);
+				hackingProcess.AddNodeConnection(connectionToAdd);
+				HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
+			}
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(Player);
-		writer.WriteUInt32(HackableObject);
-		writer.WriteString(JsonData);
+		public static NetMessage Send(GameObject player, GameObject hackObject, int[] connectionToAdd)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Player = player.GetComponent<NetworkIdentity>().netId,
+				HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
+				JsonData = JsonConvert.SerializeObject(connectionToAdd),
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

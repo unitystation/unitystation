@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -24,27 +25,80 @@ public class Armor
 	[Range(-100,100)] public float Magic;
 	[Range(-100,100)] public float Bio;
 
+	[Range(0f,1f)] public float DismembermentProtectionChance;
+
 	/// <summary>
-	/// Calculates how much damage would be done based on armor resistance
+	/// Calculates how much damage would be done based on armor resistance and armor penetration.
 	/// </summary>
-	/// <param name="damage">base damage</param>
-	/// <param name="attackType">type of attack</param>
-	/// <returns>new damage after applying protection values</returns>
-	public float GetDamage(float damage, AttackType attackType)
+	/// <param name="damage">Base damage</param>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
+	/// <returns>New damage after applying protection values</returns>
+	public float GetDamage(float damage, AttackType attackType, float armorPenetration = 0)
 	{
-		return damage * GetRatingValue(attackType);
+		return damage * GetRatingValue(attackType, armorPenetration);
 	}
 
-	public float GetRatingValue(AttackType attackType)
+
+	/// <summary>
+	/// From the damage done, calculates how much force was put into it
+	/// </summary>
+	/// <param name="damage">Base damage</param>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
+	/// <returns>New damage after applying protection values</returns>
+	public float GetForce(float damage, AttackType attackType, float armorPenetration = 0)
 	{
-		float rating = GetRating(attackType);
-		if (rating > 100)
+		return damage / GetRatingValue(attackType, armorPenetration);
+	}
+
+	/// <summary>
+	/// Get the proportion of damage that will be dealt through this armor
+	/// depending on the armor penetration of the attack.
+	/// </summary>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armorPenetration">How well or poorly the attack will break through different types of armor</param>
+	/// <returns>What proportion of damage will be dealt through this armor</returns>
+	public float GetRatingValue(AttackType attackType, float armorPenetration = 0)
+	{
+		return  1 - GetRating(attackType, armorPenetration) / 100;
+	}
+
+	/// <summary>
+	/// Get the armor protection rating from the attackType depending on armor penetration of the attack.
+	/// </summary>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armorPenetration">How well the attack will break through different types of armor</param>
+	/// <returns>The armor protection rating from the attackType depending on armor penetration of the attack</returns>
+	public float GetRating(AttackType attackType, float armorPenetration)
+	{
+		float armorRating = GetRating(attackType);
+		return armorRating < 0 ? armorRating : armorRating * (1 - armorPenetration / 100);
+	}
+
+	/// <summary>
+	/// Calculates how much damage would be done based on multiple armors' resistance
+	/// and armor penetration of the attack.
+	/// </summary>
+	/// <param name="damage">Base damage</param>
+	/// <param name="attackType">Type of attack</param>
+	/// <param name="armors">List of armor trying to protect something from damage</param>
+	/// <param name="armorPenetration">Armor penetration of the attack</param>
+	/// <returns>New damage after applying protection and armor penetration values</returns>
+	public static float GetTotalDamage(
+		float damage,
+		AttackType attackType,
+		IEnumerable<Armor> armors,
+		float armorPenetration = 0
+	)
+	{
+		foreach (Armor armor in armors)
 		{
-			rating = 100;
+			damage *= armor.GetRatingValue(attackType, armorPenetration);
 		}
-		return  (1 - rating / 100);
-	}
 
+		return damage;
+	}
 
 	/// <summary>
 	/// Get the armor rating against a certain type of attack

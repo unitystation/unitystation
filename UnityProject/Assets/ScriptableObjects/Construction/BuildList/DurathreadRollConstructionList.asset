@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba38351aa03f427e90c2f6010b4c1b05, type: 3}
+  m_Name: DurathreadRollConstructionList
+  m_EditorClassIdentifier: 
+  entries:
+  - name: Durathread Jumpsuit
+    prefab: {fileID: 3011710637427380133, guid: c2fa92cf2549540d4abc5269341aaed5,
+      type: 3}
+    cost: 4
+    buildTime: 4
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Durathread Beanie
+    prefab: {fileID: 616735813865956089, guid: 64ad449873de9e640a19a5130227c050, type: 3}
+    cost: 2
+    buildTime: 4
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Durathread Beret
+    prefab: {fileID: 6980020022460415521, guid: c54e94b479657484e86c4cb4f7622f91,
+      type: 3}
+    cost: 2
+    buildTime: 4
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Durathread Bandana
+    prefab: {fileID: 2778216794303504049, guid: 9286d158bd715894db3df20c4f6a3ac0,
+      type: 3}
+    cost: 1
+    buildTime: 3
+    spawnAmount: 1
+    onePerTile: 0

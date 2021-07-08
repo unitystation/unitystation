@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bf4d5e2bd850949b9b9f6afe22de9b, type: 3}
+  m_Name: Blob
+  m_EditorClassIdentifier: 
+  name: Blob
+  description: Arrive on the station infected. Keep to the shadows. Grow your blob
+    and devour the station.
+  sprite: {fileID: 11400000, guid: 9ecbf907661d95f4bb94ece516ae5545, type: 2}
+  respawnType: 1
+  targetOccupation: {fileID: 0}
+  targetAntagonist: {fileID: 11400000, guid: 4e33e3c5bcb99b34cbab164bcfa68951, type: 2}
+  minPlayers: 1
+  maxPlayers: 1
+  timeout: 30
+  playerCountType: 0

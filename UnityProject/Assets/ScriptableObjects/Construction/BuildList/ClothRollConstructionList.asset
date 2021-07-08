@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba38351aa03f427e90c2f6010b4c1b05, type: 3}
+  m_Name: ClothRollConstructionList
+  m_EditorClassIdentifier: 
+  entries:
+  - name: Grey Jumpskirt
+    prefab: {fileID: 6313332283237824220, guid: 4c734bb9f1d853f40bb830ca96ef0260,
+      type: 3}
+    cost: 3
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Grey Jumpsuit
+    prefab: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523,
+      type: 3}
+    cost: 3
+    buildTime: 2
+    spawnAmount: 4
+    onePerTile: 0
+  - name: White Shoes
+    prefab: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4,
+      type: 3}
+    cost: 2
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: White Scarf
+    prefab: {fileID: 3961673132676458627, guid: a4981081d749e834085ce1ec714c4b50,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Backpack
+    prefab: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
+      type: 3}
+    cost: 4
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Beanie
+    prefab: {fileID: 7636118406116123594, guid: 9542c9504316c3845bbb5f541ec22cfb,
+      type: 3}
+    cost: 2
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Plant Bag
+    prefab: {fileID: 3544980290922763715, guid: c9970b39137b47b4e8e1f06443af3ca7,
+      type: 3}
+    cost: 4
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Mining Satchel
+    prefab: {fileID: 6032624691665936685, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
+      type: 3}
+    cost: 4
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: White Bedsheet
+    prefab: {fileID: 3961673132676458627, guid: 423cab216aa4e354f8159742cc80d10a,
+      type: 3}
+    cost: 3
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Fingerless Gloves
+    prefab: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+  - name: White Gloves
+    prefab: {fileID: 6373161644663410599, guid: 2b5931e1b579b4c4087b5dd741deed96,
+      type: 3}
+    cost: 3
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0

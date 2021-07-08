@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Lighting;
+using Systems.Electricity;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Objects.Engineering;
+using Objects.Lighting;
 
 namespace Tests
 {
@@ -44,7 +46,6 @@ namespace Tests
 		    Assert.That(count, Is.EqualTo(0),$"APCs count in the scene: {listOfDevices.Count}");
 	    }
 
-
 	    /// <summary>
 	    /// Checks only scenes selected for build
 	    /// Finds all powered devices
@@ -74,7 +75,7 @@ namespace Tests
 					    countSelfPowered++;
 					    continue;
 				    }
-				    if (device.RelatedAPC == null && device.SelfPowered == false)
+				    if (device.RelatedAPC == null && device.IsSelfPowered == false)
 				    {
 					    countMissingAPC++;
 					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));
@@ -120,7 +121,7 @@ namespace Tests
 		    Logger.Log("Powered Devices without APC", Category.Tests);
 		    foreach (var objectDevice in listOfDevices)
 		    {
-			    var device = objectDevice as APCPoweredDevice;
+			    var device = objectDevice;
 			    if(device.IsSelfPowered) continue;
 			    if (device.RelatedAPC == null)
 			    {

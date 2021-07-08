@@ -30,7 +30,6 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 	public int BrainDamageAmtClient { get; private set; }
 
 	private float tickRate = 1f;
-	private float tick = 0f;
 	private bool init = false;
 
 	void Start()
@@ -61,32 +60,29 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
+		}
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
+		}
 	}
 
 	// Controlled via UpdateManager
-	void UpdateMe()
+	void ServerPeriodicUpdate()
 	{
 		if (!init)
 		{
 			return;
 		}
-		//Server Only:
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			tick += Time.deltaTime;
-			if (tick >= tickRate)
-			{
-				tick = 0f;
-				checkOverallDamage();
-			}
 
-		}
+		checkOverallDamage();
 	}
 
 

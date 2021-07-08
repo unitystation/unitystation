@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6175712407040493737
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Killer-Tomato Plants
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 109c871a269bdb54090ae5e023742134,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 2272378677264978311, guid: 0c894a9b739c8444e994c33d43e20db6,
+        type: 3}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 81a8dd1e661367d40b7d1fe1f4fbdb51,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dc20031a48d28004ebb85e0e540d1f73,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: eb66703a9217bc945aab7b69e3edfe03,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039221980297394224, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2ee9d3f0195ba1940bc224d12a9ec2a2,
+        type: 3}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4251335794183523180, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_Name
+      value: KillerTomatoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281783023236052696, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: initialName
+      value: pack of killer-tomato seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into killer-tomato plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050703676988518635, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a89773b1063e2f4c90cc2b82f879fcd,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 650450916815dfb4ba0aa087a3006beb, type: 3}

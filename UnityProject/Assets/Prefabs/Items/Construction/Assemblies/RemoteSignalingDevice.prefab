@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6795833047291761268
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: initialDescription
+      value: Used to remotely activate devices. Allows for syncing when using a secure
+        signaler on another.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: initialName
+      value: remote signaling device
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f3217659ca184e4c82fab27821e9d84,
+        type: 2}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e038f236bd6f9c04bb0d762c780451b2,
+        type: 2}
+    - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fd09254e352c9ce47b9e82d27016d95f,
+        type: 3}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4476020110803030527, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_Name
+      value: RemoteSignalingDevice
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578525896496213067, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734962754486397560, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d2a2d2a579474743905fe999a579e5a,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 201d4b5714989d64d86b11da761ecb15, type: 3}

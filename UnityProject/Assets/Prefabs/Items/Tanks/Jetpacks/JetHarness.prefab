@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3148108513068170161
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 524682258643487040, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c1205fb347f45364887672e8de130210,
+        type: 2}
+    - target: {fileID: 1893822906720031044, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: Volume
+      value: 0.0400215
+      objectReference: {fileID: 0}
+    - target: {fileID: 1893822906720031044, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: Gases.Array.data[1]
+      value: 9.98244
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836631103282250139, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2992f421cf99bb84bb766aeee8785e19,
+        type: 3}
+    - target: {fileID: 5912685953881191111, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_Name
+      value: JetHarness
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6024163822652723059, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: initialDescription
+      value: A lightweight tactical harness, used by those who don't want to be weighed
+        down by traditional jetpacks.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: initialName
+      value: jet harness (oxygen)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: throwRange
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2b7c686ad40fca54888ac3c8fc35fc39, type: 3}

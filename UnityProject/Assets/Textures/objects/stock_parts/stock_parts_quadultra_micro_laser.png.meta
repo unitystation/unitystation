@@ -8,8 +8,17 @@ TextureImporter:
   - first:
       213: 21300002
     second: quadultra_micro_laser_1
+  - first:
+      213: 6906482706008202215
+    second: quadultra_micro_laser_0
+  - first:
+      213: 8855563124590404975
+    second: quadultra_micro_laser_1
+  - first:
+      213: -3875012112144422310
+    second: quadultra_micro_laser_2
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +72,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -106,8 +116,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 7eb5ff2dd61c8df50800000000000000
+      internalID: 6906482706008202215
       vertices: []
       indices: 
       edges: []
@@ -127,8 +137,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: f6562473eb745ea70800000000000000
+      internalID: 8855563124590404975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: quadultra_micro_laser_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5aab43c301393ac0800000000000000
+      internalID: -3875012112144422310
       vertices: []
       indices: 
       edges: []

@@ -1,13 +1,15 @@
 using System.Collections;
+using HealthV2;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Mirror;
+
 
 /// <summary>
 ///     Indicates an object that emits sound upon activation (bike horn/air horn...)
 /// </summary>
 public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 {
-	public string Sound;
 	public float Cooldown = 0.2f;
 
 	//todo: emit HONK particles
@@ -31,11 +33,13 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		allowUse = true;
 	}
 
-	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
+	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthMasterBase targetHealth )
 	{
 		yield return WaitFor.Seconds( 0.02f );
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: GetHonkSoundObject());
-		targetHealth.ApplyDamageToBodypart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: -1f); //This plays it backwards, is that what you wanted?
+		ShakeParameters shakeParameters = new ShakeParameters(true, 20, 5);
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), audioSourceParameters, true, sourceObj: GetHonkSoundObject(), shakeParameters: shakeParameters);
+		targetHealth.ApplyDamageToBodyPart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
 	/// <summary>
@@ -52,9 +56,10 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	/// </summary>
 	public void ServerPerformInteraction( PositionalHandApply interaction )
 	{
-		bool inCloseRange = Validations.IsInReach( interaction.TargetVector );
+		Vector3 performerWorldPos = interaction.PerformerPlayerScript.WorldPos;
+		bool inCloseRange = Validations.IsReachableByPositions( performerWorldPos, performerWorldPos + (Vector3)interaction.TargetVector, true, context: interaction.TargetObject);
 		var targetObject = interaction.TargetObject;
-		var targetHealth = targetObject != null ? targetObject.GetComponent<LivingHealthBehaviour>() : null;
+		var targetHealth = targetObject != null ? targetObject.GetComponent<LivingHealthMasterBase>() : null;
 		bool isCrit = Random.Range( 0f, 1f ) <= CritChance;
 
 		// honking in someone's face
@@ -78,9 +83,10 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		StartCoroutine( StartCooldown());
 	}
 
-	private void ClassicHonk()
+	public void ClassicHonk()
 	{
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
+		AudioSourceParameters hornParameters = new AudioSourceParameters(pitch: randomPitch);
+		SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), hornParameters, true, sourceObj: GetHonkSoundObject());
 	}
 
 	/// <summary>
@@ -88,7 +94,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	/// </summary>
 	public bool WillInteract( HandActivate interaction, NetworkSide side )
 	{
-		return Validations.CanInteract( interaction.Performer, side, true )
+		return Validations.CanInteract(interaction.PerformerPlayerScript, side, true)
 		       && allowUse;
 	}
 
@@ -98,12 +104,12 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	public bool WillInteract( PositionalHandApply interaction, NetworkSide side )
 	{
 		if (interaction.HandObject != gameObject) return false;
-		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector)
+		return Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector)
 				&& allowUse;
 	}
 
 	/// <summary>
-	/// Is called to find the object where the honk sound is played. 
+	/// Is called to find the object where the honk sound is played.
 	/// </summary>
 	/// <returns>The GameObject where the sound for the Honk should be played.
 	/// If the horn is in an inventory, the container in which it is located is returned. </returns>

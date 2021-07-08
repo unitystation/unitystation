@@ -1,36 +1,37 @@
-﻿using System.Collections;
-using Mirror;
+﻿using Mirror;
 
-public class TileChangeNewPlayer: ClientMessage
+namespace Messages.Client.NewPlayer
 {
-	public uint TileChangeManager;
-
-	public override void Process()
+	public class TileChangeNewPlayer : ClientMessage<TileChangeNewPlayer.NetMessage>
 	{
-		LoadNetworkObject(TileChangeManager);
-		NetworkObject.GetComponent<TileChangeManager>().UpdateNewPlayer(
-			SentByPlayer.Connection);
-	}
-
-	public static TileChangeNewPlayer Send(uint tileChangeNetId)
-	{
-		TileChangeNewPlayer msg = new TileChangeNewPlayer
+		public struct NetMessage : NetworkMessage
 		{
-			TileChangeManager = tileChangeNetId
-		};
-		msg.Send();
-		return msg;
-	}
+			public uint MatrixSyncNetId;
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		TileChangeManager = reader.ReadUInt32();
-	}
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.MatrixSyncNetId);
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(TileChangeManager);
+			if (NetworkObject == null)
+			{
+				Logger.LogError("Failed to load matrix sync for new player", Category.Matrix);
+				return;
+			}
+
+			NetworkObject.transform.parent.GetComponent<TileChangeManager>().UpdateNewPlayer(
+				SentByPlayer.Connection);
+		}
+
+		public static NetMessage Send(uint matrixSyncNetId)
+		{
+			NetMessage msg = new NetMessage
+			{
+				MatrixSyncNetId = matrixSyncNetId
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: ConstructionBagCapacity
+  m_EditorClassIdentifier: 
+  MaxItemSize: 2
+  Whitelist:
+  - {fileID: 11400000, guid: 5454ae301f8f02a43ae7496ed16f70bc, type: 2}
+  - {fileID: 11400000, guid: 1fcae6f8b316b7844bdb2e63a2107bc7, type: 2}
+  - {fileID: 11400000, guid: 0ce8d5c07b7a94c45a0747a66466e58a, type: 2}
+  - {fileID: 11400000, guid: 833578060c939bc4fa9363a5a6c8bf80, type: 2}
+  - {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
+  - {fileID: 11400000, guid: ab47ba198f9b46444a38e8d3d344d8e4, type: 2}
+  - {fileID: 11400000, guid: d44cd86e3bd0ae94ca68d4a61112e0ee, type: 2}
+  - {fileID: 11400000, guid: fcea487f3b867a94680ea7033d84caa8, type: 2}
+  Required: []
+  Blacklist: []

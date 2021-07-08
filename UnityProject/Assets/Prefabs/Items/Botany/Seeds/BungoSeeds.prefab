@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8096210114505955819
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.Yield
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.Lifespan
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Bungo Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.GrowthSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 31a5d0c099866464fab10578ffa5edaf,
+        type: 2}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 7063585487950198228, guid: 61c4c92ba58812a4ea18401eff2b8938,
+        type: 3}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: eb553b025c5ae9043b679e4baab19329,
+        type: 2}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfce390b699d92c4c92afa48ee7b6169,
+        type: 2}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 11e975d90c9cfd54dbca453e95557891,
+        type: 2}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: fb876c94248a40743992b9d6d06bd46e,
+        type: 2}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 97eb7c5634f819c41ac406840516f479,
+        type: 2}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[1]
+      value: 
+      objectReference: {fileID: 4810954027079047999}
+    - target: {fileID: 3488460787324842376, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: dd21eab8d4a4940458ad28f1c3ad4e99,
+        type: 3}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642276469308211104, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645792569818170068, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_Name
+      value: BungoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678386046103158624, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780191012849757622, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: initialName
+      value: pack of bungo seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780191012849757622, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into bungo trees. They appear to be heavy and almost
+        perfectly spherical.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7484536389609453907, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ba1e53eafaeba5445b6c7fce7a5962d4,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c10750ad2e97d7c449aa7a5518793cdc, type: 3}
+--- !u!1 &4810954027079047999 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3645792569818170068, guid: c10750ad2e97d7c449aa7a5518793cdc,
+    type: 3}
+  m_PrefabInstance: {fileID: 8096210114505955819}
+  m_PrefabAsset: {fileID: 0}

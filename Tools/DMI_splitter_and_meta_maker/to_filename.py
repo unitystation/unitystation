@@ -19,4 +19,4 @@ def clean_filename(filename, whitelist=valid_filename_chars, replace=' '):
     cleaned_filename = ''.join(c for c in cleaned_filename if c in whitelist)
     if len(cleaned_filename)>char_limit:
         print("Warning, filename truncated because it was over {}. Filenames may no longer be unique".format(char_limit))
-    return cleaned_filename[:char_limit]    
+    return cleaned_filename[:char_limit]

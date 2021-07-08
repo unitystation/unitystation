@@ -9,101 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
   m_Name: wooden bucket
   m_EditorClassIdentifier: 
-  Base:
-    Equipped:
-      Texture: {fileID: 2800000, guid: 8e9d057c751fb48478d217309090ae91, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 8e9d057c751fb48478d217309090ae91, type: 3}
-      - {fileID: 21300002, guid: 8e9d057c751fb48478d217309090ae91, type: 3}
-      - {fileID: 21300004, guid: 8e9d057c751fb48478d217309090ae91, type: 3}
-      - {fileID: 21300006, guid: 8e9d057c751fb48478d217309090ae91, type: 3}
-      EquippedData: {fileID: 4900000, guid: b78be724d119e2545abe495faeb59975, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: 56ffae5139fe58f4ebc282e290af0ec0, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 56ffae5139fe58f4ebc282e290af0ec0, type: 3}
-      - {fileID: 21300002, guid: 56ffae5139fe58f4ebc282e290af0ec0, type: 3}
-      - {fileID: 21300004, guid: 56ffae5139fe58f4ebc282e290af0ec0, type: 3}
-      - {fileID: 21300006, guid: 56ffae5139fe58f4ebc282e290af0ec0, type: 3}
-      EquippedData: {fileID: 4900000, guid: d52d717c8e7817e4e8854bf4dc63c8c6, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: 9671f2020dc18b641946fd238b8f72d8, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 9671f2020dc18b641946fd238b8f72d8, type: 3}
-      - {fileID: 21300002, guid: 9671f2020dc18b641946fd238b8f72d8, type: 3}
-      - {fileID: 21300004, guid: 9671f2020dc18b641946fd238b8f72d8, type: 3}
-      - {fileID: 21300006, guid: 9671f2020dc18b641946fd238b8f72d8, type: 3}
-      EquippedData: {fileID: 4900000, guid: e90ee9406c3328b44adc0e70436f1077, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: 18c09af3e6370ec42aa8f83bd6c88211, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 18c09af3e6370ec42aa8f83bd6c88211, type: 3}
-      EquippedData: {fileID: 0}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  Base_Adjusted:
-    Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  DressVariant:
-    Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
-  Variants: []
+  SpriteEquipped: {fileID: 11400000, guid: 591360998bdedaa4dae79d11bdca243b, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: 720fe2144158a8d4ab4c5d8703362d51, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: 8e6b8d3efae0a894d916c3700e10f59e, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: e1e2992dc4f871c4e9580f4e3e7324b0, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

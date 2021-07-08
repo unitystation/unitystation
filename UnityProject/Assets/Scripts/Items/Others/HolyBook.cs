@@ -1,7 +1,8 @@
 ﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+ using HealthV2;
+ using UnityEngine;
 using Mirror;
 using Random = System.Random;
 /// <summary>
@@ -40,10 +41,10 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		//can only be applied to LHB
-		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return;
+		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return;
 
 		//The book can't save people who are dead.
-		var LHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 
 		if (LHB.IsDead)
 		{
@@ -98,31 +99,34 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 		//TODO: Rewrite this to deal 10 brain damage when organ damage is implemented.
 		if (willHarm)
 		{
-			LHB.bloodSystem.OxygenDamage += healthModifier;
+			if (LHB.brain != null)
+			{
+				LHB.brain.RelatedPart.TakeDamage(this.gameObject, 10, AttackType.Magic, DamageType.Brute);
+				Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head, and not much else.",
+					$"{performerName}'s book slams into {victimName}'s head, and not much else.");
 
-			Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head, and not much else.",
-			$"{performerName}'s book slams into {victimName}'s head, and not much else.");
-
-			SoundManager.PlayNetworkedAtPos("GenericHit", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+			}
 		}
 		else  //Heal a bodypart if possible.
 		{
 			//If there is no damage, do nothing.
-			if (!(LHB.OverallHealth >= LHB.maxHealth))
+			if (LHB.OverallHealth < LHB.MaxHealth)
 			{
 				//Break foreach loop once a single heal is applied.
-				foreach (BodyPartBehaviour bodyPart in LHB.BodyParts)
+				foreach (BodyPart bodyPart in LHB.ImplantList)
 				{
+					if (bodyPart.DamageContributesToOverallHealth == false) continue;
 					//Heal brute first, then burns.
-					if (bodyPart.BruteDamage != 0)
+					if (bodyPart.Brute != 0)
 					{
-						bodyPart.HealDamage(healthModifier, DamageType.Brute);
+						bodyPart.HealDamage(this.gameObject,healthModifier, DamageType.Brute);
 						break;
 					}
 
-					if (bodyPart.BurnDamage != 0)
+					if (bodyPart.Burn != 0)
 					{
-						bodyPart.HealDamage(healthModifier, DamageType.Burn);
+						bodyPart.HealDamage(this.gameObject, healthModifier, DamageType.Burn);
 						break;
 					}
 				}
@@ -131,7 +135,7 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 				$"A flash of light from your book thwacking {victimName} heals some of {victimName}'s  wounds.",
 				$"A flash of light from {performerName}'s book thwacking {victimName} heals some of {victimName}'s wounds.");
 
-				SoundManager.PlayNetworkedAtPos("PunchMiss", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.PunchMiss, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 			}
 
 

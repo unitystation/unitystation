@@ -1,7 +1,7 @@
 {
 	"RandomEventsAllowed": true,
 
-	"SpawnLavaLand": false,
+	"SpawnLavaLand": true,
 
 	"MinPlayersForCountdown": 1,
 
@@ -16,8 +16,12 @@
 	"RespawnAllowed": false,
 
 	"ShuttleDepartTime": 180,
-	
+
 	"GibbingAllowed": false,
-	
-	"ShuttleGibbingAllowed": true
+
+	"ShuttleGibbingAllowed": true,
+
+	"AdminOnlyHtml": true,
+
+	"CharacterNameLimit": 32
 }

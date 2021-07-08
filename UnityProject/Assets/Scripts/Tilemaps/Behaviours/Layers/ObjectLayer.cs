@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -28,41 +28,11 @@ public class ObjectLayer : Layer
 
 			objectTile.SpawnObject(position, tilemap, transformMatrix);
 		}
-		else
-		{
-			base.SetTile(position, tile, transformMatrix, color);
-		}
 	}
 
-	public override bool HasTile(Vector3Int position, bool isServer)
+	public bool HasObject(Vector3Int position, bool isServer)
 	{
-		return (isServer ? ServerObjects.HasObjects(position) : ClientObjects.HasObjects(position)) || base.HasTile(position, isServer);
-	}
-
-	public override void RemoveTile(Vector3Int position, bool removeAll = false)
-	{
-//		if ( removeAll )
-//		{
-//			List<RegisterTile> list = ServerObjects.Get(position);
-//			for ( var i = list.Count - 1; i >= 0; i-- )
-//			{
-//				PoolManager.PoolNetworkDestroy( list[i].gameObject );
-//			}
-//
-//			List<RegisterTile> objs = ClientObjects.Get(position);
-//			for ( var i = objs.Count - 1; i >= 0; i-- )
-//			{
-//				if ( CustomNetworkManager.IsServer )
-//				{
-//					PoolManager.PoolNetworkDestroy( objs[i].gameObject );
-//				} else
-//				{
-//					DestroyImmediate( objs[i].gameObject );
-//				}
-//			}
-//		}
-
-		base.RemoveTile(position, removeAll);
+		return (isServer ? ServerObjects.HasObjects(position) : ClientObjects.HasObjects(position));
 	}
 
 	public float GetObjectResistanceAt( Vector3Int position, bool isServer )
@@ -80,13 +50,14 @@ public class ObjectLayer : Layer
 		return resistance;
 	}
 
-	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-									  CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null)
+	public bool IsPassableAtOnThisLayer(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
+			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
 		//Targeting windoors here
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
-			if (!t.IsPassableTo(to, isServer) && (!context || t.gameObject != context))
+			if (t.IsPassableFromInside(to, isServer, context) == false
+				&& (context == null|| t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
 				return false;
@@ -95,16 +66,42 @@ public class ObjectLayer : Layer
 
 		foreach ( RegisterTile o in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
-			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin, isServer) && (!context || o.gameObject != context))
+			if ((inclPlayers || o.ObjectType != ObjectType.Player)
+				&& o.IsPassableFromOutside(origin, isServer, context) == false
+				&& (context == null|| o.gameObject != context)
+				&& (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
+				)
 			{
 				return false;
 			}
 		}
 
-		return base.IsPassableAt(origin, to, isServer, collisionType: collisionType, inclPlayers: inclPlayers, context: context, excludeTiles: excludeTiles);
+		return true;
 	}
 
-	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
+	/// <summary>
+	/// Returns whether anything in the same square as some particular object, moving out to a particular destination
+	/// would be blocked by that object
+	/// </summary>
+	/// <param name="to">destination of hypothetical movement</param>
+	/// <param name="isServer">Whether or not being run on server</param>
+	/// <param name="context">the object in question.</param>
+	/// <returns></returns>
+	public bool HasAnyDepartureBlockedByRegisterTile(Vector3Int to, bool isServer, RegisterTile context)
+	{
+		foreach (RegisterTile o in isServer ? ServerObjects.Get(context.LocalPositionServer) : ClientObjects.Get(context.LocalPositionClient) )
+		{
+			if (o.IsPassable(isServer,context.gameObject) == false
+				&& context.IsPassableFromInside(to, isServer, o.gameObject) == false)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
 	{
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
@@ -122,12 +119,12 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		return base.IsAtmosPassableAt(origin, to, isServer);
+		return true;
 	}
 
-	public override bool IsSpaceAt(Vector3Int position, bool isServer)
+	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
-		return IsAtmosPassableAt(position, position, isServer) && base.IsSpaceAt(position, isServer);
+		return IsAtmosPassableAt(position, position, isServer);
 	}
 
 	public override void ClearAllTiles()
@@ -148,7 +145,10 @@ public class ObjectLayer : Layer
 				DestroyImmediate(obj.gameObject);
 			}
 		}
+	}
 
-		base.ClearAllTiles();
+	public override void RecalculateBounds()
+	{
+
 	}
 }

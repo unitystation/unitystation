@@ -61,23 +61,25 @@
 				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
 
 				float _obstacleMask = occlusionSample.r;
-				fixed4 mixedLight = lightSample * (1-_obstacleMask) + occLightSample * _obstacleMask;
+				fixed4 mixedLight = lightSample * (1-_obstacleMask) +((occLightSample-0.2)*0.5) * _obstacleMask;
 				fixed4 screen = tex2D(_MainTex, i.uv);
 
-				float ambient = _AmbLightBloomSA.r;
-				float lightMultyplier = _AmbLightBloomSA.g;
-				float bloomSensitivity = _AmbLightBloomSA.b;
-				float bloomAdd = _AmbLightBloomSA.a;
-
-				fixed4 screenUnlit = (screen * ambient);
-
+				//expand colour range
+				fixed4 doubleBalanceLight = mixedLight*2;
+				
+		
+				//generate bloom 
+				fixed4 balancedMixLight = (lightSample - 0.75)*0.5;
+				balancedMixLight.r = clamp(balancedMixLight.r,0, 10);
+				balancedMixLight.g = clamp(balancedMixLight.g,0, 10);
+				balancedMixLight.b = clamp(balancedMixLight.b,0, 10);
+				
 				// Blend light with scene.
-				half3 bloom = (screenUnlit.rgb + bloomAdd) * pow(mixedLight.rgb, bloomSensitivity) * step(0.005, bloomSensitivity);
-				fixed4 screenLit =  fixed4(screenUnlit.rgb * mixedLight.rgb * lightMultyplier + bloom, screenUnlit.a) * 1;
-
+				fixed4 screenLit =  fixed4( ((screen.rgb*doubleBalanceLight)+balancedMixLight) , screen.a);
+				
 				// Mix Background.
 				fixed4 background = tex2D(_BackgroundTex, i.uv);
-				float backgroundMask = clamp(1 - (screen.a * 2), 0, 1);
+				float backgroundMask = clamp(occlusionSample.g-(screen.a * 2), 0, 1);
 				fixed4 screenLitBackground = background * backgroundMask + screenLit;
 
 				return screenLitBackground;

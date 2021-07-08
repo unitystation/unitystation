@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Messages.Client;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,6 +22,10 @@ public partial class SubSceneManager : NetworkBehaviour
 
 	public bool AwaySiteLoaded { get; private set; }
 	public bool MainStationLoaded { get; private set; }
+
+	public bool SyndicateLoaded { get; private set; }
+	public Scene SyndicateScene { get; private set; }
+	public bool WizardLoaded { get; private set; }
 
 	void Awake()
 	{
@@ -73,6 +78,30 @@ public partial class SubSceneManager : NetworkBehaviour
 			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
 	}
+
+	//TODO Update mirror
+	public static void ManuallyLoadScene(string ToLoad)
+	{
+		Instance.StartCoroutine(Instance.WaitLoad(ToLoad));
+	}
+
+	IEnumerator WaitLoad(string ToLoad)
+	{
+		while (clientIsLoadingSubscene)
+		{
+			yield return null;
+		}
+		foreach (var ReadyLoaded in Instance.clientLoadedSubScenes)
+		{
+			if (ReadyLoaded.SceneName == ToLoad)
+			{
+				yield break;
+			}
+		}
+		clientIsLoadingSubscene = true;
+		yield return Instance.StartCoroutine(Instance.LoadSubScene(ToLoad));
+		clientIsLoadingSubscene = false;
+	}
 }
 
 public enum SceneType
@@ -109,7 +138,9 @@ public struct SceneInfo : IEquatable<SceneInfo>
 }
 
 [System.Serializable]
-public class ScenesSyncList : SyncList<SceneInfo>{}
+public class ScenesSyncList : SyncList<SceneInfo>
+{
+}
 
 public class SubsceneLoadTimer
 {

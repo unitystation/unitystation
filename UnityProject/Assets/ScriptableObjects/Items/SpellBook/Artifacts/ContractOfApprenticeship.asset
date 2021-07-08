@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcc64391453d39409ee8e6748da1c12, type: 3}
+  m_Name: ContractOfApprenticeship
+  m_EditorClassIdentifier: 
+  description: A magical contract binding an apprentice to your service. Using it
+    will summon them to your side.
+  note: 
+  cost: 2
+  conflictsWith: []
+  name: Contract of Apprenticeship
+  artifacts:
+  - {fileID: 6806663897376166138, guid: 2f8bae18744e3a04589e3ec4ab5c2ae6, type: 3}

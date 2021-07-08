@@ -21,6 +21,15 @@ namespace Mirror
         // does this type sync anything? otherwise we don't need to show syncInterval
         bool SyncsAnything(Type scriptClass)
         {
+            // check for all SyncVar fields, they don't have to be visible
+            foreach (FieldInfo field in InspectorHelper.GetAllFields(scriptClass, typeof(NetworkBehaviour)))
+            {
+                if (field.IsSyncVar())
+                {
+                    return true;
+                }
+            }
+
             // has OnSerialize that is not in NetworkBehaviour?
             // then it either has a syncvar or custom OnSerialize. either way
             // this means we have something to sync.
@@ -34,7 +43,7 @@ namespace Mirror
             // is always there even if we don't use SyncObjects. so we need to
             // search for SyncObjects manually.
             // Any SyncObject should be added to syncObjects when unity creates an
-            // object so we can cheeck length of list so see if sync objects exists
+            // object so we can check length of list so see if sync objects exists
             FieldInfo syncObjectsField = scriptClass.GetField("syncObjects", BindingFlags.NonPublic | BindingFlags.Instance);
             List<SyncObject> syncObjects = (List<SyncObject>)syncObjectsField.GetValue(serializedObject.targetObject);
 
@@ -77,7 +86,7 @@ namespace Mirror
         /// </summary>
         protected void DrawDefaultSyncLists()
         {
-            // Need this check incase OnEnable returns early
+            // Need this check in case OnEnable returns early
             if (syncListDrawer == null) { return; }
 
             syncListDrawer.Draw();
@@ -107,8 +116,8 @@ namespace Mirror
     }
     public class SyncListDrawer
     {
-        private readonly UnityEngine.Object targetObject;
-        private readonly List<SyncListField> syncListFields;
+        readonly UnityEngine.Object targetObject;
+        readonly List<SyncListField> syncListFields;
 
         public SyncListDrawer(UnityEngine.Object targetObject)
         {
@@ -174,4 +183,4 @@ namespace Mirror
             }
         }
     }
-} //namespace
+}

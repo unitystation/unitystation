@@ -1,8 +1,9 @@
 using System.Collections;
+using Messages.Server;
 using UnityEngine;
 using WebSocketSharp;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// AI brain for parrots
@@ -22,13 +23,21 @@ namespace NPC
 
 		public override void LocalChatReceived(ChatEvent chatEvent)
 		{
-			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-			if (speaker.Script == null || speaker.Script.playerNetworkActions == null)
+			// check who said the message
+			var originator = chatEvent.originator;
+			if (originator == gameObject)
 			{
+				// parrot should ignore its own speech
 				return;
+
 			}
 
-			lastHeardMsg = chatEvent.message;
+			// parrot should listen only speech and ignore different action/examine/combat messages
+			var channels = chatEvent.channels;
+			if (!Chat.NonSpeechChannels.HasFlag(channels))
+			{
+				lastHeardMsg = chatEvent.message;
+			}
 		}
 
 		public override void OnPetted(GameObject performer)
@@ -40,7 +49,7 @@ namespace NPC
 		public override void ExplorePeople(PlayerScript player)
 		{
 			if (player.IsGhost) return;
-			var inventory = player.GetComponent<ItemStorage>();
+			var inventory = player.GetComponent<DynamicItemStorage>();
 			var thingInHand = inventory.GetActiveHandSlot();
 
 			if (thingInHand != null && thingInHand.Item != null)
@@ -64,10 +73,10 @@ namespace NPC
 		{
 			//TODO use the actual chat api when it allows it!
 			Chat.AddLocalMsgToChat(
-				$"<b>{mobNameCap} says</b>, \"{text}\"",
-				gameObject.transform.position,
-				gameObject);
-			ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);
+				text,
+				gameObject,
+				MobName);
+			ShowChatBubbleMessage.SendToNearby(gameObject, text);
 		}
 		private void SayRandomThing()
 		{
@@ -94,8 +103,8 @@ namespace NPC
 			string[]  _sounds = {"squawks", "screeches"};
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} {_sounds.PickRandom()}!",
-				$"{mobNameCap} {_sounds.PickRandom()}!");
+				$"{MobName} {_sounds.PickRandom()}!",
+				$"{MobName} {_sounds.PickRandom()}!");
 		}
 
 		protected override void DoRandomAction()

@@ -12,12 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6d9c91341f45b9b64b432bc7100ddc, type: 3}
   m_Name: Connector
   m_EditorClassIdentifier: 
+  displayName: 
   LayerType: 2
   TileType: 0
   RequiredTiles: []
+  floorTileType: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 0
+  mineable: 0
+  doesReflectBullet: 0
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 0
+  damageDeflection: 0
+  armor:
+    Melee: 90
+    Bullet: 90
+    Laser: 90
+    Energy: 90
+    Bomb: 90
+    Rad: 100
+    Fire: 100
+    Acid: 90
+    Magic: 0
+    Bio: 100
+  tileInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 0}
+  soundOnHit: 
   IsItem: 1
   KeepOrientation: 0
-  Object: {fileID: 1645856876941636, guid: f5f5ce68cb136244789abc347fb68e1a, type: 3}
+  Object: {fileID: 89826352100901616, guid: 2380849815d66044089a8ddc659c7842, type: 3}
   Offset: 0
   Rotatable: 0
   IsWire: 0

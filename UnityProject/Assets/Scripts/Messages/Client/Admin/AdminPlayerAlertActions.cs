@@ -1,50 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminTools;
+﻿using AdminTools;
+using Messages.Client;
 using Mirror;
 
-public class AdminPlayerAlertActions: ClientMessage
+namespace Messages.Client.Admin
 {
-	public int ActionRequested;
-	public string RoundTimeOfIncident;
-	public uint PerpNetID;
-	public string AdminToken;
-
-	public override void Process()
+	public class AdminPlayerAlertActions : ClientMessage<AdminPlayerAlertActions.NetMessage>
 	{
-		UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)ActionRequested,
-			RoundTimeOfIncident, PerpNetID, AdminToken);
-	}
-
-	public static AdminPlayerAlertActions Send(PlayerAlertActions actionRequested, string roundTimeOfIncident, uint perpId, string adminToken)
-	{
-		AdminPlayerAlertActions msg = new AdminPlayerAlertActions
+		public struct NetMessage : NetworkMessage
 		{
-			ActionRequested = (int)actionRequested,
-			RoundTimeOfIncident = roundTimeOfIncident,
-			PerpNetID = perpId,
-			AdminToken = adminToken
-		};
-		msg.Send();
-		return msg;
-	}
+			public int ActionRequested;
+			public string RoundTimeOfIncident;
+			public uint PerpNetID;
+			public string AdminToken;
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		ActionRequested = reader.ReadInt32();
-		RoundTimeOfIncident = reader.ReadString();
-		PerpNetID = reader.ReadUInt32();
-		AdminToken = reader.ReadString();
-	}
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)msg.ActionRequested,
+				msg.RoundTimeOfIncident, msg.PerpNetID, msg.AdminToken);
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteInt32(ActionRequested);
-		writer.WriteString(RoundTimeOfIncident);
-		writer.WriteUInt32(PerpNetID);
-		writer.WriteString(AdminToken);
+		public static NetMessage Send(PlayerAlertActions actionRequested, string roundTimeOfIncident, uint perpId, string adminToken)
+		{
+			NetMessage msg = new NetMessage
+			{
+				ActionRequested = (int)actionRequested,
+				RoundTimeOfIncident = roundTimeOfIncident,
+				PerpNetID = perpId,
+				AdminToken = adminToken
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

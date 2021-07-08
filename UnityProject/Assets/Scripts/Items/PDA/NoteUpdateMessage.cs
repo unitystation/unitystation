@@ -1,35 +1,40 @@
-﻿using Mirror;
+﻿using Messages.Server;
+using Mirror;
 using UnityEngine;
+using UI;
 
 namespace Items.PDA
 {
-	public class NoteUpdateMessage : ServerMessage
+	public class NoteUpdateMessage : ServerMessage<NoteUpdateMessage.NetMessage>
 	{
-		public uint PDAToUpdate;
-		public uint Recipient;
-		public string Message;
-
-
-		public override void Process()
+		public struct NetMessage : NetworkMessage
 		{
-			LoadMultipleObjects(new uint[] {Recipient, PDAToUpdate});
+			public uint PDAToUpdate;
+			public uint Recipient;
+			public string Message;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadMultipleObjects(new uint[] {msg.Recipient, msg.PDAToUpdate});
 			var notes = NetworkObjects[1].GetComponent<PDANotesNetworkHandler>();
-			notes.NoteString = Message;
+			notes.NoteString = msg.Message;
 			ControlTabs.RefreshTabs();
 		}
 
 		/// <summary>
 		/// Sends the new string to the gameobject
 		/// </summary>
-		public static NoteUpdateMessage Send(GameObject recipient, GameObject noteToUpdate, string message)
+		public static NetMessage Send(GameObject recipient, GameObject noteToUpdate, string message)
 		{
-			NoteUpdateMessage msg = new NoteUpdateMessage
+			NetMessage msg = new NetMessage
 			{
 				Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 				PDAToUpdate = noteToUpdate.GetComponent<NetworkIdentity>().netId,
 				Message = message
 			};
-			msg.SendTo(recipient);
+
+			SendTo(recipient, msg);
 			return msg;
 		}
 	}

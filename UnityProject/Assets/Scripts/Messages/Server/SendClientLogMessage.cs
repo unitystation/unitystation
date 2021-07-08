@@ -1,35 +1,41 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
-/// <summary>
-///     Message that tells client to add a log to their logger. This is for
-/// 	easy debugging for players
-/// </summary>
-public class SendClientLogMessage : ServerMessage
+namespace Messages.Server
 {
-	public string Message;
-	public Category Category;
-	public bool IsError;
-
-	public override void Process()
+	/// <summary>
+	///     Message that tells client to add a log to their logger. This is for
+	/// 	easy debugging for players
+	/// </summary>
+	public class SendClientLogMessage : ServerMessage<SendClientLogMessage.NetMessage>
 	{
-		if (IsError)
+		public struct NetMessage : NetworkMessage
 		{
-			Logger.LogError(Message, Category);
+			public string Message;
+			public Category Category;
+			public bool IsError;
 		}
-		else
+
+		public override void Process(NetMessage msg)
 		{
-			Logger.Log(Message, Category);
+			if (msg.IsError)
+			{
+				Logger.LogError(msg.Message, msg.Category);
+			}
+			else
+			{
+				Logger.Log(msg.Message, msg.Category);
+			}
 		}
-	}
 
-	public static SendClientLogMessage SendLogToClient(GameObject clientPlayer, string message, Category logCat,
-		bool showError)
-	{
-		SendClientLogMessage msg = new SendClientLogMessage {Message = message, Category = logCat, IsError = showError};
+		public static NetMessage SendLogToClient(GameObject clientPlayer, string message, Category logCat,
+			bool showError)
+		{
+			NetMessage msg = new NetMessage {Message = message, Category = logCat, IsError = showError};
 
-		msg.SendTo(clientPlayer);
-
-		return msg;
+			SendTo(clientPlayer, msg);
+			return msg;
+		}
 	}
 }

@@ -2,37 +2,59 @@
 using System.Collections;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	public class XenoQueenAI: GenericHostileAI
 	{
-		[Tooltip("Max amount of active facehuggers that can be in the server at once")][SerializeField]
+		[SerializeField][Tooltip("If true, this Queen won't be counted when spawned for the queen cap.")]
+		private bool ignoreForQueenCount = false;
+		[SerializeField]
+		[Tooltip("Max amount of active facehuggers that can be in the server at once")]
 		private int huggerCap = 0;
 
-		[Tooltip("Chances of laying an egg. This gets rolled every time the Queen has no cd")]
 		[SerializeField]
 		[Range(0, 100)]
+		[Tooltip("Chances of laying an egg. This gets rolled every time the Queen has no cd")]
 		private int fertility = 30;
 
-		[Tooltip("Time in seconds between each roll for laying eggs")] [SerializeField]
+		[SerializeField]
+		[Tooltip("Time in seconds between each roll for laying eggs")]
 		private float eggCooldown = 400;
 
-		[Tooltip("Alien egg reference so we can spawn")][SerializeField]
+		[SerializeField]
+		[Tooltip("Alien egg reference so we can spawn")]
 		private GameObject alienEgg = null;
 
 		private static int currentHuggerAmt;
+		private static int currentQueensAmt;
 		private static bool resetHandlerAdded = false;
 
-		public static int CurrentHuggerAmt
+		public static int CurrentQueensAmt => currentQueensAmt;
+
+		protected override void OnSpawnMob()
 		{
-			get => currentHuggerAmt;
-			set => currentHuggerAmt = value;
+			base.OnSpawnMob();
+			AddResetHandler();
+
+			if (ignoreForQueenCount == false)
+			{
+				currentQueensAmt++;
+			}
 		}
 
-
-		private bool CapReached()
+		protected override void OnAIStart()
 		{
-			if (currentHuggerAmt < 0)
+			base.OnAIStart();
+
+			if (fertility != 0)
+			{
+				FertilityLoop();
+			}
+		}
+
+		private bool HuggerCapReached()
+		{
+			if (huggerCap < 0)
 			{
 				return false;
 			}
@@ -42,7 +64,7 @@ namespace NPC
 
 		private void FertilityLoop()
 		{
-			if (CapReached())
+			if (HuggerCapReached())
 			{
 				StartCoroutine(Cooldown());
 				return;
@@ -62,14 +84,25 @@ namespace NPC
 			FertilityLoop();
 		}
 
+		public static void AddFacehuggerToCount()
+		{
+			currentHuggerAmt ++;
+		}
+
+		public static void RemoveFacehuggerFromCount()
+		{
+			currentHuggerAmt --;
+		}
+
 		private void LayEgg()
 		{
 			Spawn.ServerPrefab(alienEgg, gameObject.transform.position);
 		}
 
-		private static void ResetHuggerAmount()
+		private static void ResetStaticCounters()
 		{
 			currentHuggerAmt = 0;
+			currentQueensAmt = 0;
 		}
 
 		private static void AddResetHandler()
@@ -79,21 +112,17 @@ namespace NPC
 				return;
 			}
 
-			EventManager.AddHandler(EVENT.RoundStarted, ResetHuggerAmount);
+			EventManager.AddHandler(Event.RoundStarted, ResetStaticCounters);
 			resetHandlerAdded = true;
 		}
 
-		protected override void OnSpawnMob()
+		protected override void HandleDeathOrUnconscious()
 		{
-			base.OnSpawnMob();
-			AddResetHandler();
-
-			if (fertility != 0)
+			base.HandleDeathOrUnconscious();
+			if (ignoreForQueenCount == false)
 			{
-				FertilityLoop();
+				currentQueensAmt--;
 			}
-
-			BeginSearch();
 		}
 	}
 }

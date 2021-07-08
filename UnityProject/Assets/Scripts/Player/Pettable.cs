@@ -1,40 +1,51 @@
-﻿using UnityEngine;
+﻿using HealthV2;
+using UnityEngine;
 
-/// <summary>
-/// Allows an object to be pet by a player. Shameless copy of Huggable.cs
-/// </summary>
-public class Pettable : MonoBehaviour, ICheckedInteractable<HandApply>
+namespace Systems.MobAIs
 {
-	public bool WillInteract( HandApply interaction, NetworkSide side )
+	/// <summary>
+	/// Allows an object to be pet by a player. Shameless copy of Huggable.cs
+	/// </summary>
+	public class Pettable : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		var NPCHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
-		if (!DefaultWillInteract.Default(interaction, side) || NPCHealth.IsDead || interaction.Intent != Intent.Help) return false;
- 
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		string npcName;
-		var npc = interaction.TargetObject.GetComponent<MobAI>();
-		
-		if (npc == null)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			npcName = interaction.TargetObject.name;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.HandObject != null) return false;
+			if (interaction.Intent != Intent.Help) return false;
+
+			if (interaction.TargetObject.TryGetComponent<LivingHealthMasterBase>(out var healthV2))
+			{
+				return (healthV2.IsDead || healthV2.IsCrit || healthV2.IsSoftCrit) == false;
+			}
+			// fallback to old system
+			// TODO: convert all mobs to new system then remove this
+			else if (interaction.TargetObject.TryGetComponent<Mob.SimpleAnimal>(out var health))
+			{
+				return (health.IsDead || health.IsCrit || health.IsSoftCrit) == false;
+			}
+
+			Logger.LogError($"{this} is missing a health component. Cannot pet this mob.");
+			return false;
 		}
-		else
-		{
-			npcName = npc.mobName;
-		} 
 
-		Chat.AddActionMsgToChat(
-			interaction.Performer,
-			$"You pet {npcName}.",
-			$"{interaction.Performer.ExpensiveName()} pets {npcName}.");
-		
-		if(npc != null) 
+		public void ServerPerformInteraction(HandApply interaction)
 		{
-			gameObject.GetComponent<MobAI>().OnPetted(interaction.Performer.gameObject);
+			string npcName = gameObject.ExpensiveName();
+			if (TryGetComponent<MobAI>(out var npc))
+			{
+				npc.OnPetted(interaction.Performer.gameObject);
+				if (string.IsNullOrWhiteSpace(npc.mobName) == false)
+				{
+					npcName = npc.mobName;
+				}
+				
+			}
+
+			Chat.AddActionMsgToChat(
+				interaction.Performer,
+				$"You pet {npcName}.",
+				$"{interaction.Performer.ExpensiveName()} pets {npcName}.");
 		}
 	}
 }

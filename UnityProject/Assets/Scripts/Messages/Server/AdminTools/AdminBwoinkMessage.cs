@@ -1,29 +1,32 @@
-﻿using System.Collections;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
-
-public class AdminBwoinkMessage : ServerMessage
+namespace Messages.Server.AdminTools
 {
-	public string AdminUID;
-	public string Message;
-
-	public override void Process()
+	public class AdminBwoinkMessage : ServerMessage<AdminBwoinkMessage.NetMessage>
 	{
-		SoundManager.Play("Bwoink");
-		Chat.AddAdminPrivMsg(Message);
-	}
-
-	public static AdminBwoinkMessage  Send(GameObject recipient, string adminUid, string message)
-	{
-		AdminBwoinkMessage  msg = new AdminBwoinkMessage
+		public struct NetMessage : NetworkMessage
 		{
-			AdminUID = adminUid,
-			Message = message
-		};
+			public string AdminUID;
+			public string Message;
+		}
 
-		msg.SendTo(recipient);
+		public override void Process(NetMessage msg)
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Bwoink);
+			Chat.AddAdminPrivMsg(msg.Message);
+		}
 
-		return msg;
+		public static NetMessage  Send(GameObject recipient, string adminUid, string message)
+		{
+			NetMessage  msg = new NetMessage
+			{
+				AdminUID = adminUid,
+				Message = message
+			};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

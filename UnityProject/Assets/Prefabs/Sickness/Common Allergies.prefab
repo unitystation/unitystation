@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1564450190505329077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8007535781436914198}
+  - component: {fileID: 3966646720165241360}
+  m_Layer: 0
+  m_Name: Common Allergies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8007535781436914198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564450190505329077}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 97.05284, y: 71.06936, z: -7.248047}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3966646720165241360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564450190505329077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0a24338e4bf074095f5275d3fc8a62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sicknessName: Common Allergies
+  contagious: 0
+  sicknessStages:
+  - symptom: 3
+    repeatSymptom: 1
+    repeatMinDelay: 40
+    repeatMaxDelay: 80
+    secondsBeforeNextStage: 0
+    extendedSymptomParametersSerialized: null
+  - symptom: 2
+    repeatSymptom: 1
+    repeatMinDelay: 40
+    repeatMaxDelay: 80
+    secondsBeforeNextStage: 0
+    extendedSymptomParametersSerialized: null

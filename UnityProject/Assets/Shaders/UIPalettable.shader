@@ -18,6 +18,7 @@ Shader "UI/Palettable UI"
 		[Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip("Use Alpha Clip", Float) = 0
 
 		_IsPaletted("Is Paletted", Int) = 0
+		_PaletteSize("Palette Size", Int) = 8
 	}
 
 		SubShader
@@ -84,8 +85,9 @@ Shader "UI/Palettable UI"
 				float4 _ClipRect;
 				float4 _MainTex_ST;
 
-				float4 _ColorPalette[8];
+				float4 _ColorPalette[256];
 				int _IsPaletted;
+				int _PaletteSize;
 
 				v2f vert(appdata_t v)
 				{
@@ -109,8 +111,8 @@ Shader "UI/Palettable UI"
 
 					if (_IsPaletted)
 					{
-						int paletteIndexA = min(textureSample.r, 0.99) * 8;
-						int paletteIndexB = min(textureSample.g, 0.99) * 8;
+						int paletteIndexA = floor(textureSample.r * (_PaletteSize-1));
+						int paletteIndexB = floor(textureSample.g * (_PaletteSize-1));
 						final = lerp(_ColorPalette[paletteIndexA], _ColorPalette[paletteIndexB], textureSample.b) * IN.color;
 					}
 					else

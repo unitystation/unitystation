@@ -1,31 +1,57 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
+using Mirror;
+using Systems.Clothing;
+using UI.Action;
 
 namespace Items.Others
 {
 	[RequireComponent(typeof(ItemLightControl))]
 	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>
 	{
-		// The light the flashlight has access to
-		private ItemLightControl lightControl;
-
+		[Tooltip("The SpriteHandler this flashlight type should use when setting the on/off sprite.")]
 		[SerializeField]
 		private SpriteHandler spriteHandler = default;
 
-		[Tooltip("The ON sprite should be in the first element (That's element 0)")]
-		[SerializeField] private Sprite [] toggleSprites = default;
+		// The light the flashlight has access to
+		private ItemLightControl lightControl;
+		private ItemActionButton actionButton;
 
+		protected bool IsOn => lightControl.IsOn;
+		protected int SpriteIndex => IsOn ? 1 : 0;
+		protected bool HasActionButton => actionButton != null;
 
-		/// <summary>
-		/// Grabs the "ItemLightControl" component from the current gameObject, used to toggle the light, only does this once
-		/// </summary>
-		private void Start()
+		#region Lifecycle
+
+		private void Awake()
 		{
-			lightControl= gameObject.GetComponent<ItemLightControl>();
+			lightControl = GetComponent<ItemLightControl>();
+			actionButton = GetComponent<ItemActionButton>();
 		}
+
+		private void OnEnable()
+		{
+			if (HasActionButton)
+			{
+				actionButton.ClientActionClicked += ClientUpdateActionSprite;
+				actionButton.ServerActionClicked += ToggleLight;
+			}
+		}
+
+		private void OnDisable()
+		{
+			if (HasActionButton)
+			{
+				actionButton.ClientActionClicked -= ClientUpdateActionSprite;
+				actionButton.ServerActionClicked -= ToggleLight;
+			}
+		}
+
+		#endregion Lifecycle
+
+		#region Interaction
 
 		/// <summary>
 		/// Checks to make sure the player is conscious and stuff
@@ -40,16 +66,24 @@ namespace Items.Others
 		/// </summary>
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			bool isOn = lightControl.IsOn;
-			if (isOn)
+			ToggleLight();
+		}
+
+		#endregion Interaction
+
+		protected virtual void ClientUpdateActionSprite()
+		{
+			spriteHandler.ChangeSprite(IsOn ? 0 : 1);
+		}
+
+		protected virtual void ToggleLight()
+		{
+			lightControl.Toggle(!lightControl.IsOn);
+			spriteHandler.ChangeSprite(SpriteIndex);
+
+			if (TryGetComponent<ClothingV2>(out var clothing))
 			{
-				lightControl.Toggle(false);
-				spriteHandler.SetSprite(toggleSprites[1]);
-			}
-			else
-			{
-				lightControl.Toggle(true);
-				spriteHandler.SetSprite(toggleSprites[0]);
+				clothing.ChangeSprite(lightControl.IsOn ? 1 : 0);
 			}
 		}
 	}

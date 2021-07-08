@@ -1,33 +1,33 @@
-﻿using System.Collections;
-using Mirror;
+﻿using Mirror;
 
-public abstract class ClientMessage : GameMessageBase
+namespace Messages.Client
 {
-/// <summary>
-/// Player that sent this ClientMessage.
-/// Returns ConnectedPlayer.Invalid if there are issues finding one from PlayerList (like, player already left)
-/// </summary>
-	public ConnectedPlayer SentByPlayer;
-	public override void Process( NetworkConnection sentBy )
+	public abstract class ClientMessage<T> : GameMessageBase<T> where T : struct, NetworkMessage
 	{
-		SentByPlayer = PlayerList.Instance.Get( sentBy );
-		base.Process(sentBy);
-	}
+		/// <summary>
+		/// Player that sent this ClientMessage.
+		/// Returns ConnectedPlayer.Invalid if there are issues finding one from PlayerList (like, player already left)
+		/// </summary>
+		public ConnectedPlayer SentByPlayer;
+		public override void Process(NetworkConnection sentBy, T msg)
+		{
+			SentByPlayer = PlayerList.Instance.Get( sentBy );
+			base.Process(sentBy, msg);
+		}
 
-	public void Send()
-	{
-		NetworkClient.Send(this, 0);
-//		Logger.Log($"Sent {this}");
-	}
+		public static void Send(T msg)
+		{
+			NetworkClient.Send(msg, 0);
+		}
 
-	public void SendUnreliable()
-	{
-		NetworkClient.Send(this, 1);
-	}
+		public static void SendUnreliable(T msg)
+		{
+			NetworkClient.Send(msg, 1);
+		}
 
-	private static uint LocalPlayerId()
-	{
-
-		return PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>().netId;
+		private static uint LocalPlayerId()
+		{
+			return PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>().netId;
+		}
 	}
 }

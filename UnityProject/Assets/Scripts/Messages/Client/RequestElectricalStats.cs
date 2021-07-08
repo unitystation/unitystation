@@ -1,61 +1,54 @@
-﻿using System.Collections;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
+﻿using Messages.Server;
 using Mirror;
+using UnityEngine;
+using Systems.Electricity;
 
-/// <summary>
-///     Request electrical stats from the server
-/// </summary>
-public class RequestElectricalStats : ClientMessage
+namespace Messages.Client
 {
-	public uint Player;
-	public uint ElectricalItem;
-
-	public override void Process()
+	/// <summary>
+	///     Request electrical stats from the server
+	/// </summary>
+	public class RequestElectricalStats : ClientMessage<RequestElectricalStats.NetMessage>
 	{
-		LoadMultipleObjects(new uint[] {Player, ElectricalItem});
-
-		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-		if (playerScript.IsInReach(NetworkObjects[1], true))
+		public struct NetMessage : NetworkMessage
 		{
-			//Try powered device first:
-			var poweredDevice = NetworkObjects[1].GetComponent<ElectricalOIinheritance>();
-			if (poweredDevice != null)
+			public uint Player;
+			public uint ElectricalItem;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadMultipleObjects(new uint[] {msg.Player, msg.ElectricalItem});
+
+			var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
+			if (playerScript.IsGameObjectReachable(NetworkObjects[1], true, context: NetworkObjects[1]))
 			{
-				SendDataToClient(poweredDevice.InData.Data, NetworkObjects[0]);
-				return;
+				//Try powered device first:
+				var poweredDevice = NetworkObjects[1].GetComponent<ElectricalOIinheritance>();
+				if (poweredDevice != null)
+				{
+					SendDataToClient(poweredDevice.InData.Data, NetworkObjects[0]);
+					return;
+				}
 			}
 		}
-	}
 
-	void SendDataToClient(ElectronicData data, GameObject recipient)
-	{
-		string json = JsonUtility.ToJson(data);
-		ElectricalStatsMessage.Send(recipient, json);
-	}
-
-	public static RequestElectricalStats Send(GameObject player, GameObject electricalItem)
-	{
-		RequestElectricalStats msg = new RequestElectricalStats
+		void SendDataToClient(ElectronicData data, GameObject recipient)
 		{
-			Player = player.GetComponent<NetworkIdentity>().netId,
+			string json = JsonUtility.ToJson(data);
+			ElectricalStatsMessage.Send(recipient, json);
+		}
+
+		public static NetMessage Send(GameObject player, GameObject electricalItem)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Player = player.GetComponent<NetworkIdentity>().netId,
 				ElectricalItem = electricalItem.GetComponent<NetworkIdentity>().netId,
-		};
-		msg.Send();
-		return msg;
-	}
+			};
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		Player = reader.ReadUInt32();
-		ElectricalItem = reader.ReadUInt32();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteUInt32(Player);
-		writer.WriteUInt32(ElectricalItem);
+			Send(msg);
+			return msg;
+		}
 	}
 }

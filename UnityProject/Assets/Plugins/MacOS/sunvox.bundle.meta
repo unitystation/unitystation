@@ -5,16 +5,25 @@ PluginImporter:
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
-  isPreloaded: 0
+  defineConstraints: []
+  isPreloaded: 1
   isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
   platformData:
   - first:
-      '': OSXIntel
+      : Any
+    second:
+      enabled: 0
+      settings:
+        Exclude Win: 1
+  - first:
+      : OSXIntel
     second:
       enabled: 1
       settings: {}
   - first:
-      '': OSXIntel64
+      : OSXIntel64
     second:
       enabled: 1
       settings: {}

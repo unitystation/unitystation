@@ -1,8 +1,11 @@
-﻿using Mirror;
+﻿using System.Collections;
+using Mirror;
 using System.Linq;
+using HealthV2;
+using Messages.Client.Interaction;
+using TileManagement;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using YamlDotNet.Samples;
+using Systems.Electricity;
 
 /// <summary>
 /// Main entry point for Tile Interaction system.
@@ -11,7 +14,7 @@ using YamlDotNet.Samples;
 ///
 /// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>, IExaminable, IClientInteractable<MouseDrop>
+public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>, IExaminable, IClientInteractable<MouseDrop>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -65,9 +68,13 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		tileChangeManager = GetComponent<TileChangeManager>();
 		CacheTileMaps();
 
-		// register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
-		// so registration cannot be inside Start or Awake method inside CableCuttingWindow
-		NetworkServer.RegisterHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
+		// Register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
+		// so registration cannot be inside Start or Awake method inside CableCuttingWindow. ReplaceHandler does the same
+		// thing as RegisterHandler, except RegisterHandler warns about conflicting ID types. See Mirror's documentation or
+		// Mirror's implementation of these methods in NetworkServer.cs.
+		// TODO: This is somehow called multiple times. Not sure why. Figure out if it's an issue and document why this
+		//       happens.
+		NetworkServer.ReplaceHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
 	}
 
 	/// <summary>
@@ -181,34 +188,52 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		return msg;
 	}
 
+	/// <summary>
+	/// Interaction callback to attempt to interact with tiles using a HandApply
+	/// interaction. We check for both basic tiles and under floor tiles and
+	/// attempt to apply its interaction. In the event that an electric cable
+	/// tile is encountered, we open the cable cutting window.
+	/// </summary>
+	/// <param name="interaction">Position of interaction with a hand</param>
 	public bool Interact(PositionalHandApply interaction)
 	{
-		//translate to the tile interaction system
-
+		// translate to the tile interaction system
 		Vector3Int localPosition = WorldToCell(interaction.WorldPositionTarget);
-		//pass the interaction down to the basic tile
+		// pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
+
+		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)
 		{
-			// The underfloor layer can be composed of multiple tiles, iterate over them until interaction is found.
+			// If the the tile is something that's supposed to be underneath floors...
 			if (basicTile.LayerType == LayerType.Underfloor)
 			{
-				// if pointing at electrical cable tile and player holds Wirecutter in hand
-				if (basicTile is ElectricalCableTile &&
-					Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter))
+				// Then we loop through each under floor layer in the matrix until we
+				// can find an interaction.
+				foreach (BasicTile underFloorTile in matrix.UnderFloorLayer.GetAllTilesByType<BasicTile>(localPosition))
 				{
-					// open cable cutting ui window instead of cutting cable
-					EnableCableCuttingWindow();
-					// return false to not cut the cable
-					return false;
-				}
+					// If pointing at electrical cable tile and player is holding
+					// Wirecutter in hand, we enable the cutting window and return false
+					// to indicate that we will not be interacting with anything... yet.
+					// TODO: Check how many cables we have first. Only open the cable
+					//       cutting window when the number of cables exceeds 2.
+					if (underFloorTile is ElectricalCableTile &&
+						Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Wirecutter))
+					{
+						// open cable cutting ui window instead of cutting cable
+						EnableCableCuttingWindow();
+						// return false to not cut the cable
+						return false;
+					}
+					// Else, we attempt to interact with the tile with whatever is in our
+					// at the target.
+					else
+					{
+						var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+							(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetVector);
 
-				foreach (var underFloorTile in matrix.UnderFloorLayer.GetAllTilesByType<BasicTile>(localPosition))
-				{
-					var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-						(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetVector);
-
-					if (TryInteractWithTile(underFloorApply)) return true;
+						if (TryInteractWithTile(underFloorApply)) return true;
+					}
 				}
 			}
 			else
@@ -276,7 +301,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
 			float voltage = ElectricalData.InData.Data.ActualVoltage;
 			var electrocution = new Electrocution(voltage, message.targetWorldPosition, "cable");
-			var performerLHB = message.performer.GetComponent<LivingHealthBehaviour>();
+			var performerLHB = message.performer.GetComponent<LivingHealthMasterBase>();
 			var severity = performerLHB.Electrocute(electrocution);
 			if (severity > LivingShockResponse.Mild) return;
 
@@ -289,7 +314,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	}
 
-	bool TryInteractWithTile(TileApply interaction)
+	private bool TryInteractWithTile(TileApply interaction)
 	{
 		// Iterate over the interactions for the given tile until a valid one is found.
 		foreach (var tileInteraction in interaction.BasicTile.TileInteractions)
@@ -339,7 +364,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 							PerformTileInteract(underFloorApply);
 							break;
 						}
-					}					
+					}
 				}
 			}
 			else
@@ -384,7 +409,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public bool Interact(MouseDrop interaction)
 	{
-		Logger.Log("Interaction detected on InteractableTiles.");
+		Logger.Log("Interaction detected on InteractableTiles.", Category.Interaction);
 
 		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation, true);
 
@@ -419,12 +444,12 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		var wallMount = CheckWallMountOverlay();
 		if (wallMount)
 		{
-			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			Vector2 cameraPos = MouseUtils.MouseToWorldPos();
 			var tilePos = cameraPos.RoundToInt();
 			OrientationEnum orientation = OrientationEnum.Down;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
 			bool isWallBlocked = false;
-			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
+			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
 			{
 				if (PlaceDirection.x > 0)
 				{
@@ -437,7 +462,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			}
 			else
 			{
-				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
+				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
 				{
 					if (PlaceDirection.y > 0)
 					{
@@ -454,7 +479,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				}
 			}
 
-			if (!MatrixManager.IsWallAt(tilePos, false) || isWallBlocked)
+			if (!MatrixManager.IsWallAtAnyMatrix(tilePos, false) || isWallBlocked)
 			{
 				if (instanceActive)
 				{
@@ -467,7 +492,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			if (!instanceActive)
 			{
 				instanceActive = true;
-				Highlight.ShowHighlight(UIManager.Hands.CurrentSlot.ItemObject, true);
+				Highlight.ShowHighlight(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, true);
 			}
 
 			Vector3 spritePos = tilePos;
@@ -500,7 +525,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	WallMountHandApplySpawn CheckWallMountOverlay()
 	{
-		var itemSlot = UIManager.Hands.CurrentSlot;
+
+		var itemSlot = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
 		if (itemSlot == null || itemSlot.ItemObject == null)
 		{
 			return null;
@@ -517,4 +543,51 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			Highlight.DeHighlight();
 		}
 	}
+
+	/// <summary>
+	/// Method for mining ore
+	/// </summary>
+	/// <param name="worldPosition"></param>
+	/// <returns></returns>
+	public bool TryMine(Vector3 worldPosition)
+	{
+		Vector3Int cellPos = metaTileMap.WorldToCell(worldPosition);
+
+		var getTile = metaTileMap.GetTile(cellPos, LayerType.Walls) as BasicTile;
+		if (getTile == null || getTile.Mineable == false) return false;
+
+		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, worldPosition);
+		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
+			count: getTile.SpawnAmountOnDeconstruct);
+		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Mining);
+
+		return true;
+	}
+
+	/// <summary>
+	/// Creates an animated tile in world position
+	/// </summary>
+	/// <param name="worldPosition"> Where to create tile </param>
+	/// <param name="animatedTile"></param>
+	/// <param name="animationTime"></param>
+	public void CreateAnimatedTile(Vector3 worldPosition, AnimatedOverlayTile animatedTile, float animationTime)
+	{
+		Vector3Int cellPos = metaTileMap.WorldToCell(worldPosition);
+
+		StartCoroutine(EnableAnimationCoroutine(cellPos, animatedTile, animationTime));
+	}
+
+	private IEnumerator EnableAnimationCoroutine(
+		Vector3Int cellPos,
+		AnimatedOverlayTile animatedTile,
+		float animationTime)
+	{
+		tileChangeManager.AddOverlay(cellPos, animatedTile);
+
+		yield return WaitFor.Seconds(animationTime);
+
+		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, animatedTile.OverlayType);
+	}
+
 }

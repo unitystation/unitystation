@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3208381171987276062
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3180855700610470511, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 7818414003113654592, guid: c7e51a61178506a45beecd9ba7c14e66,
+        type: 3}
+    - target: {fileID: 3180855700610470511, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: e78c098489bf49e41823a9996cf9574b,
+        type: 2}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464875680645986030, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_Name
+      value: Protolathe
+      objectReference: {fileID: 0}
+    - target: {fileID: 3708022675270210297, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d412a9eb810624047827de2f5d9166eb,
+        type: 3}
+    - target: {fileID: 5028383164152644492, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102460939592706526, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: initialDescription
+      value: Converts raw materials into useful objects.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102460939592706526, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: initialName
+      value: protolathe
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234065340674907188, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: acd573ce73539854397a71430aec20b5,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 76c4b888beee06f4c9fda031b6e4d47b, type: 3}

@@ -20,7 +20,7 @@ public class PlayerTextureData : ScriptableObject
 		{
 			if (PlayerTextureDataSOs.Instance == null)
 			{
-				Resources.LoadAll<PlayerTextureDataSOs>("ScriptableObjects/SOs singletons");
+				Resources.LoadAll<PlayerTextureDataSOs>("ScriptableObjectsSingletons");
 			}
 			if (!PlayerTextureDataSOs.Instance.DataRaceData.Contains(this))
 			{
@@ -52,7 +52,8 @@ public class PlayerTextureData : ScriptableObject
 	{
 		if (Spawn.RaceData.ContainsKey(this.name) && Spawn.RaceData[this.name] != this)
 		{
-			Logger.LogError("a PlayerTextureData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
+			Logger.LogError($"A PlayerTextureData has a duplicate name. Name: {this.name}. " +
+				"Please rename one of them.", Category.PlayerInventory);
 		}
 		Spawn.RaceData[this.name] = this;
 	}

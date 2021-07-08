@@ -1,57 +1,51 @@
 ﻿using Mirror;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// It is up to the client to let us know when they have
-/// finished loading/transitioning to a new subscene
-/// </summary>
-public class RequestObserverRefresh : ClientMessage
+namespace Messages.Client
 {
 	/// <summary>
-	/// The new scene we are requesting to observe
+	/// It is up to the client to let us know when they have
+	/// finished loading/transitioning to a new subscene
 	/// </summary>
-	public string NewSceneNameContext;
-
-	//TODO OldSceneNameContext (the scene we want to stop observing)
-
-	public override void Process()
+	public class RequestObserverRefresh : ClientMessage<RequestObserverRefresh.NetMessage>
 	{
-		var sceneContext = SceneManager.GetSceneByName(NewSceneNameContext);
-
-		if (!sceneContext.IsValid())
+		public struct NetMessage: NetworkMessage
 		{
-			Logger.LogError("No scene was found for Observer refresh!!");
-			return;
+			/// <summary>
+			/// The new scene we are requesting to observe
+			/// </summary>
+			public string NewSceneNameContext;
 		}
 
-		SubSceneManager.ProcessObserverRefreshReq(SentByPlayer, sceneContext);
-	}
-
-	/// <summary>
-	/// Request to become an observer to networked objects in a
-	/// particular scene
-	/// </summary>
-	/// <param name="newSceneNameContext"> The scene we are requesting to be observers of</param>
-	/// <returns></returns>
-	public static RequestObserverRefresh Send(string newSceneNameContext)
-	{
-		RequestObserverRefresh msg = new RequestObserverRefresh
+		//TODO OldSceneNameContext (the scene we want to stop observing)
+		public override void Process(NetMessage msg)
 		{
-			NewSceneNameContext = newSceneNameContext
-		};
-		msg.Send();
-		return msg;
-	}
+			var sceneContext = SceneManager.GetSceneByName(msg.NewSceneNameContext);
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		NewSceneNameContext = reader.ReadString();
-	}
+			if (!sceneContext.IsValid())
+			{
+				Logger.LogError("No scene was found for Observer refresh!!", Category.Connections);
+				return;
+			}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(NewSceneNameContext);
+			SubSceneManager.ProcessObserverRefreshReq(SentByPlayer, sceneContext);
+		}
+
+		/// <summary>
+		/// Request to become an observer to networked objects in a
+		/// particular scene
+		/// </summary>
+		/// <param name="newSceneNameContext"> The scene we are requesting to be observers of</param>
+		/// <returns></returns>
+		public static NetMessage Send(string newSceneNameContext)
+		{
+			NetMessage msg = new NetMessage
+			{
+				NewSceneNameContext = newSceneNameContext
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

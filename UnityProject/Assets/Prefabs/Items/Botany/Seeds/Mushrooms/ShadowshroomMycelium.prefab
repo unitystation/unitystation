@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2818834437192278583
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3208750400927667784, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f52f8ac8ff2acd4e8dc17f1703c3ca6,
+        type: 2}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 8712231725255122534, guid: 7d81962e070184940a817c5c4bf6d974,
+        type: 3}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Shadowshrooms
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 94e5642a9820b9d4fb279f244ca8b5e0,
+        type: 2}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 5dada848c160b5140960e5261b23a76e,
+        type: 2}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: e2c3f172cc52a5f40a4e83862d40276d,
+        type: 2}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1aa3cb559c838b1488b529197aaef258,
+        type: 2}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a8ffcafb958d33848adf13064e8f479b,
+        type: 2}
+    - target: {fileID: 8671100345473241211, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8773533562869460431, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_Name
+      value: ShadowshroomMycelium
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876647463300636307, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 15af6c87349704f41afda0b33078c664,
+        type: 3}
+    - target: {fileID: 9163770803857179309, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: initialDescription
+      value: This mycelium will grow into something shadowy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163770803857179309, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: initialName
+      value: pack of shadowshroom mycelium
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9d50a0a8790aa454c824ffd039c07e6f, type: 3}

@@ -6,19 +6,19 @@ using System.Reflection;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using Messages.Server.VariableViewer;
+using UnityEngine.SceneManagement;
 using Component = UnityEngine.Component;
 using Object = System.Object;
 
 
 // TODO
-// Colour code
 // pool books
 
 public static class VariableViewer
 {
 	public static void ProcessTile(Vector3 Location, GameObject WhoBy)
 	{
-		Location.z = 0f;
 		Vector3Int worldPosInt = Location.To2Int().To3Int();
 		Matrix matrix = MatrixManager.AtPoint(worldPosInt, true).Matrix;
 
@@ -47,39 +47,36 @@ public static class VariableViewer
 
 	public static void ProcessListOnTileTransform(List<Transform> transform, GameObject WhoBy)
 	{
-		List<Librarian.BookShelf> BookShelfs = new List<Librarian.BookShelf>();
-		for (int i = 0; i < transform.Count; i++)
-		{
-			if (Librarian.TransformToBookShelf.ContainsKey(transform[i]))
-			{
-				BookShelfs.Add(Librarian.TransformToBookShelf[transform[i]]);
-			}
-			else
-			{
-				BookShelfs.Add(Librarian.BookShelf.PartialGeneratebookShelf(transform[i]));
-			}
-		}
 
-		SendBookShelfToClient(Librarian.GenerateCustomBookCase(BookShelfs), WhoBy);
 	}
 
-	public static Librarian.BookShelf ProcessTransform(Transform transform, GameObject ByWho)
+	public static void ProcessTransform(Transform transform, GameObject WhoBy)
 	{
-		Librarian.BookShelf BookShelf;
+		Librarian.library.TraverseHierarchy();
+		Librarian.Library.LibraryBookShelf BookShelf;
 		if (Librarian.TransformToBookShelf.ContainsKey(transform))
 		{
 			BookShelf = Librarian.TransformToBookShelf[transform];
 		}
 		else
 		{
-			BookShelf = Librarian.BookShelf.PartialGeneratebookShelf(transform);
+			BookShelf = Librarian.Library.LibraryBookShelf.PartialGenerateLibraryBookShelf(transform);
 		}
 
-		//BookShelf.PopulateBookShelf();
-		SendBookShelfToClient(Librarian.GenerateCustomBookCase(BookShelf),ByWho);
 
-		return (BookShelf);
+
+		BookShelf.PopulateBookShelf();
+		SendBookShelfToClient(BookShelf,WhoBy);
+		LibraryNetMessage.Send(Librarian.library, WhoBy);
+
 	}
+
+	public static void RequestHierarchy(GameObject WhoBy)
+	{
+		Librarian.library.TraverseHierarchy();
+		LibraryNetMessage.Send(Librarian.library, WhoBy);
+	}
+
 
 	public static void ProcessOpenBook(ulong BookID, GameObject ByWho) //yes yes if you Have high Ping then rip, -Creator
 	{
@@ -117,16 +114,14 @@ public static class VariableViewer
 		BookNetMessage.Send(Book,ToWho);
 	}
 
-	public static void SendBookShelfToClient(Librarian.BookShelf BookShelf, GameObject ToWho)
+	public static void SendBookShelfToClient(Librarian.Library.LibraryBookShelf BookShelf, GameObject ToWho)
 	{
-		BookShelf.UpdateBookShelf();
-		BookshelfNetMessage.Send(BookShelf, ToWho);
+		SubBookshelfNetMessage.Send(BookShelf, ToWho);
 	}
 
 	//Receive from Client side
 	public static void RequestOpenPageValue(ulong PageID, uint SentenceID, bool IsSentence, bool iskey, GameObject ToWho)
 	{
-		//if ( client authorised )
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
 			Librarian.Page Page = Librarian.IDToPage[PageID];
@@ -177,10 +172,10 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToBookShelf.ContainsKey(BookshelfID))
 		{
-			Librarian.BookShelf Bookshelf = Librarian.IDToBookShelf[BookshelfID];
+			var Bookshelf = Librarian.IDToBookShelf[BookshelfID];
 			if (IsNewbookBookshelf)
 			{
-				if (!Bookshelf.ICustomBookshelf && Bookshelf.Shelf == null)
+				if (Bookshelf.Shelf == null)
 				{
 					Logger.LogError("Bookshelf has been destroyed > " + BookshelfID, Category.VariableViewer);
 					return;
@@ -190,15 +185,11 @@ public static class VariableViewer
 				{
 					Bookshelf.PopulateBookShelf();
 				}
-
-				if (Bookshelf.ObscuredBy != null)
-				{
-					SendBookShelfToClient(Bookshelf.ObscuredBy,WhoBy);
-				}
+				SubBookshelfNetMessage.Send(Bookshelf, WhoBy);
 			}
 			else
 			{
-				SubBookshelfNetMessage.Send(Bookshelf);
+				SubBookshelfNetMessage.Send(Bookshelf, WhoBy);
 			}
 		}
 		else
@@ -244,6 +235,24 @@ public static class VariableViewer
 			Logger.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
 		}
 	}
+
+	public static void RequestInvokeFunction(ulong PageID, GameObject WhoBy, string AdminId)
+	{
+		if (Librarian.IDToPage.ContainsKey(PageID))
+		{
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				WhoBy.name + " Invoked " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
+				, AdminId);
+
+			Librarian.IDToPage[PageID].Invoke();
+		}
+		else
+		{
+			Logger.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
+		}
+	}
+
+
 	//public static void RequestChangeSentenceVariable(ulong PageID, uint SentenceID, string ChangeTo)
 	//{
 	//	if (Librarian.IDToPage.ContainsKey(PageID))
@@ -266,7 +275,9 @@ public static class VariableViewer
 
 public static class Librarian
 {
-	public static Dictionary<ulong, BookShelf> IDToBookShelf = new Dictionary<ulong, BookShelf>();
+	public static Library library = new Library();
+
+	public static Dictionary<ulong, Library.LibraryBookShelf> IDToBookShelf = new Dictionary<ulong, Library.LibraryBookShelf>();
 	public static Dictionary<ulong, Book> IDToBook = new Dictionary<ulong, Book>();
 	public static Dictionary<ulong, Page> IDToPage = new Dictionary<ulong, Page>();
 
@@ -274,17 +285,16 @@ public static class Librarian
 	public static ulong BookAID = 1;
 	public static ulong PageAID = 1;
 
-	public static Dictionary<Transform, BookShelf> TransformToBookShelf = new Dictionary<Transform, BookShelf>();
+	public static Dictionary<Transform, Library.LibraryBookShelf> TransformToBookShelf = new Dictionary<Transform, Library.LibraryBookShelf>();
 	public static Dictionary<MonoBehaviour, Book> MonoBehaviourToBook = new Dictionary<MonoBehaviour, Book>();
 	public static Dictionary<object, Book> ObjectToBook = new Dictionary<object, Book>();
-
-	public static BookShelf TopSceneBookshelf;
 
 	public static Type TupleTypeReference = Type.GetType("System.ITuple, mscorlib");
 
 	public static void Reset()
 	{
-		TopSceneBookshelf = null;
+
+		library = new Library();
 		ObjectToBook.Clear();
 		MonoBehaviourToBook.Clear();
 		TransformToBookShelf.Clear();
@@ -304,31 +314,31 @@ public static class Librarian
 	}
 
 
-	public static BookShelf GenerateCustomBookCase(List<BookShelf> BookShelfs)
-	{
-		BookShelf Customshelf = new BookShelf();
-		Customshelf.ID = BookShelfAID;
-		BookShelfAID++;
-		Customshelf.IsPartiallyGenerated = false;
-		Customshelf.ShelfName = "Your custom list of bookshelves";
-		Customshelf.ObscuredBookShelves = BookShelfs;
-		Customshelf.ICustomBookshelf = true;
-		IDToBookShelf[Customshelf.ID] = Customshelf;
-		return (Customshelf);
-	}
-
-	public static BookShelf GenerateCustomBookCase(BookShelf BookShelf)
-	{
-		BookShelf Customshelf = new BookShelf();
-		Customshelf.ID = BookShelfAID;
-		BookShelfAID++;
-		Customshelf.IsPartiallyGenerated = false;
-		Customshelf.ShelfName = "Your custom list of bookshelves";
-		Customshelf.ObscuredBookShelves.Add(BookShelf);
-		Customshelf.ICustomBookshelf = true;
-		IDToBookShelf[Customshelf.ID] = Customshelf;
-		return (Customshelf);
-	}
+	// public static BookShelf GenerateCustomBookCase(List<BookShelf> BookShelfs)
+	// {
+	// 	BookShelf Customshelf = new BookShelf();
+	// 	Customshelf.ID = BookShelfAID;
+	// 	BookShelfAID++;
+	// 	Customshelf.IsPartiallyGenerated = false;
+	// 	Customshelf.ShelfName = "Your custom list of bookshelves";
+	// 	Customshelf.ObscuredBookShelves = BookShelfs;
+	// 	Customshelf.ICustomBookshelf = true;
+	// 	IDToBookShelf[Customshelf.ID] = Customshelf;
+	// 	return (Customshelf);
+	// }
+	//
+	// public static BookShelf GenerateCustomBookCase(BookShelf BookShelf)
+	// {
+	// 	BookShelf Customshelf = new BookShelf();
+	// 	Customshelf.ID = BookShelfAID;
+	// 	BookShelfAID++;
+	// 	Customshelf.IsPartiallyGenerated = false;
+	// 	Customshelf.ShelfName = "Your custom list of bookshelves";
+	// 	Customshelf.ObscuredBookShelves.Add(BookShelf);
+	// 	Customshelf.ICustomBookshelf = true;
+	// 	IDToBookShelf[Customshelf.ID] = Customshelf;
+	// 	return (Customshelf);
+	// }
 
 	public static Book GetAttributes(Book Book, object Script)
 	{
@@ -366,14 +376,19 @@ public static class Librarian
 				Page.Sentences = new Librarian.Sentence();
 				Page.Sentences.SentenceID = Page.ASentenceID;
 				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, Field.FieldType, Page, Script, Info: Field);
+				var attribute = Field.GetCustomAttributes(typeof(VVNote), true);
+				if (attribute.Length > 0)
+				{
+					var VVNoteAttributes = attribute.Cast<VVNote>().ToArray()[0];
+					Page.VVHighlight = VVNoteAttributes.variableHighlightl;
+				}
+
+				GenerateSentenceValuesforSentence(Page.Sentences, Field.FieldType, Page, Script, FInfo: Field);
 				Book.BindedPagesAdd(Page);
 			}
 		}
 
-		//.BaseType
-		if (TupleTypeReference != monoType
-		) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
+		if (TupleTypeReference != monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
 		{
 			var Propertie = monoType.BaseType.GetProperties(
 				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
@@ -407,6 +422,14 @@ public static class Librarian
 					Page.Sentences = new Librarian.Sentence();
 					Page.Sentences.SentenceID = Page.ASentenceID;
 					Page.ASentenceID++;
+
+					var attribute = Properties.GetCustomAttributes(typeof(VVNote), true);
+					if (attribute.Length > 0)
+					{
+						var VVNoteAttributes = attribute.Cast<VVNote>().ToArray()[0];
+						Page.VVHighlight = VVNoteAttributes.variableHighlightl;
+					}
+
 					GenerateSentenceValuesforSentence(Page.Sentences, Properties.PropertyType, Page, Script,
 						PInfo: Properties);
 					Book.BindedPagesAdd(Page);
@@ -414,24 +437,61 @@ public static class Librarian
 			}
 		}
 
+		var coolMethods = (monoType.GetMethods(
+			BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
+			BindingFlags.FlattenHierarchy
+		).ToList());
+
+		foreach (MethodInfo Method in coolMethods)
+		{
+			if (Method.GetParameters().Length > 0) continue;
+			Page Page = new Page();
+			Page.VariableName = Method.Name;
+			Page.ID = PageAID;
+			PageAID++;
+			Page.MInfo = Method;
+
+			if (Page.Variable == null)
+			{
+				Page.Variable = "null";
+			}
+			Page.BindedTo = Book;
+			IDToPage[Page.ID] = Page;
+			Page.Sentences = new Librarian.Sentence();
+			Page.Sentences.SentenceID = Page.ASentenceID;
+			Page.ASentenceID++;
+
+
+
+			var attribute = Method.GetCustomAttributes(typeof(VVNote), true);
+			if (attribute.Length > 0)
+			{
+				var VVNoteAttributes = attribute.Cast<VVNote>().ToArray()[0];
+				Page.VVHighlight = VVNoteAttributes.variableHighlightl;
+			}
+
+			// GenerateSentenceValuesforSentence(Page.Sentences, Field.FieldType, Page, Script, FInfo: Field);
+			Book.BindedPagesAdd(Page);
+		}
+
 		return (Book);
 	}
 
 	public static void GenerateSentenceValuesforSentence(Sentence sentence, Type VariableType, Page Page, object Script,
-		FieldInfo Info = null, PropertyInfo PInfo = null)
+		FieldInfo FInfo = null, PropertyInfo PInfo = null)
 	{
-		if (Info == null && PInfo == null)
+		if (FInfo == null && PInfo == null)
 		{
-			foreach (FieldInfo method in VariableType.GetFields(
+			foreach (FieldInfo Field in VariableType.GetFields(
 				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
 				BindingFlags.FlattenHierarchy
 			))
 			{
-				if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+				if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
-					if (method.FieldType.IsGenericType)
+					if (Field.FieldType.IsGenericType)
 					{
-						IEnumerable list = method.GetValue(Script) as IEnumerable;
+						IEnumerable list = Field.GetValue(Script) as IEnumerable;
 						if (sentence.Sentences == null)
 						{
 							sentence.Sentences = new List<Sentence>();
@@ -482,16 +542,13 @@ public static class Librarian
 			if (VariableType.IsGenericType)
 			{
 				IEnumerable list;
-				Type TType;
-				if (Info == null)
+				if (FInfo == null)
 				{
 					list = PInfo.GetValue(Script) as IEnumerable; //icollection<keyvaluepair>
-					TType = PInfo.PropertyType;
 				}
 				else
 				{
-					list = Info.GetValue(Script) as IEnumerable; //
-					TType = Info.FieldType;
+					list = FInfo.GetValue(Script) as IEnumerable; //
 				}
 
 				sentence.Sentences = new List<Sentence>();
@@ -536,58 +593,266 @@ public static class Librarian
 		}
 	}
 
-
-	public class BookShelf
+	public class Library
 	{
-		public ulong ID;
-		public string ShelfName;
-		public bool IsEnabled;
+		public List<LibraryBookShelf> Roots = new List<LibraryBookShelf>();
 
-		public GameObject Shelf;
-
-		//public List<BookShelf> ObscuredBookShelves = new List<BookShelf>();
-		public bool IsPartiallyGenerated = true;
-		public bool ICustomBookshelf = false;
-		public List<BookShelf> ObscuredBookShelves = new List<BookShelf>();
-
-		public BookShelf ObscuredBy;
-		public List<Book> HeldBooks = new List<Book>();
-
-		public void UpdateBookShelf(bool firstLayer = true)
+		public Dictionary<Transform, LibraryBookShelf> TransformToBookShelves = new Dictionary<Transform,LibraryBookShelf>();
+		public void TraverseHierarchy()
 		{
-			if (IsPartiallyGenerated)
+			List<Transform> Transforms = new List<Transform>();
+			foreach (var KV in Librarian.library.TransformToBookShelves)
 			{
-				PopulateBookShelf();
-				return;
+				if (KV.Key == null)
+				{
+					Transforms.Add(KV.Key);
+				}
 			}
 
-			if (firstLayer)
+			foreach (var TF in Transforms)
 			{
-				List<BookShelf> toremove = new List<BookShelf>();
-				foreach (BookShelf _bookshelf in ObscuredBookShelves)
+				Librarian.library.TransformToBookShelves.Remove(TF);
+				TransformToBookShelf.Remove(TF);
+			}
+
+			int countLoaded = SceneManager.sceneCount;
+			Scene[] loadedScenes = new Scene[countLoaded];
+
+			for (int i = 0; i < countLoaded; i++)
+			{
+				loadedScenes[i] = SceneManager.GetSceneAt(i);
+			}
+
+			foreach (var Scene in loadedScenes)
+			{
+				var roots = Scene.GetRootGameObjects();
+				foreach (var root in roots)
 				{
-					if ((!_bookshelf.ICustomBookshelf))
+					RecursivePopulate(root.transform, null);
+				}
+			}
+
+		}
+
+		List<LibraryBookShelf> THISDestroy = new List<LibraryBookShelf>();
+		List<Transform> Children = new List<Transform>();
+		List<Transform> TOProcessAdd = new List<Transform>();
+		List<LibraryBookShelf> TOProcessRemove = new List<LibraryBookShelf>();
+		public void RecursivePopulate(Transform Object, Transform Parent)
+		{
+			THISDestroy.Clear();
+			Children.Clear();
+			TOProcessAdd.Clear();
+			TOProcessRemove.Clear();
+
+			if (TransformToBookShelves.ContainsKey(Object))
+			{
+
+				if (Object.childCount > 0)
+				{
+					for (int i = 0; i < Object.childCount; i++)
 					{
-						if (_bookshelf.Shelf != null)
-						{
-							_bookshelf.UpdateBookShelf(false);
-						}
-						else
-						{
-							toremove.Add(_bookshelf);
-							//poolbook?
-						}
+						Children.Add(Object.GetChild(i));
 					}
 				}
 
-				foreach (BookShelf _bookshelf in toremove)
+				var libraryBookShelf =  TransformToBookShelves[Object];
+
+
+				foreach (var Child in Children)
 				{
-					ObscuredBookShelves.Remove(_bookshelf);
+					if (libraryBookShelf.Contains.Contains(Child) == false)
+					{
+						TOProcessAdd.Add(Child);
+					}
+				}
+
+				bool DestroySelf = false;
+				if (libraryBookShelf.Parent != Parent)
+				{
+					if (libraryBookShelf.ParentChange())
+					{
+						DestroySelf = true;
+					}
+				}
+
+
+				bool hasNull = false;
+				foreach (var Child in libraryBookShelf.InternalContain)
+				{
+					if (Child.Shelf == null)
+					{
+						TOProcessRemove.Add(Child);
+						continue;
+					}
+					if (Children.Contains(Child.Shelf.transform) == false)
+					{
+						TOProcessRemove.Add(Child);
+					}
+
+				}
+
+
+				foreach (var Child in TOProcessRemove)
+				{
+					libraryBookShelf.Contains.RemoveAll(item => item == null);
+					if (Child.Shelf != null)
+					{
+						libraryBookShelf.Contains.Remove(Child.Shelf.transform);
+						if (TransformToBookShelves.ContainsKey(Child.Shelf.transform))
+						{
+							TransformToBookShelves[Child.Shelf.transform].ParentChange();
+						}
+					}
+					else
+					{
+						Child.DestroySelf();
+					}
+
+					libraryBookShelf.InternalContain.Remove(Child);
+
+				}
+
+
+				foreach (var Child in TOProcessAdd)
+				{
+					libraryBookShelf.Contains.Add(Child);
+					Children.Add(Child);
+				}
+
+
+				foreach (var _Shelf in THISDestroy)
+				{
+					_Shelf.DestroySelf();
+				}
+
+				if (DestroySelf)
+				{
+					libraryBookShelf.DestroySelf();
+				}
+
+				foreach (var Child in Children.ToArray())
+				{
+					RecursivePopulate(Child,Object);
+				}
+			}
+			else
+			{
+				if (Object.childCount > 0)
+				{
+					for (int i = 0; i < Object.childCount; i++)
+					{
+						Children.Add(Object.GetChild(i));
+					}
+				}
+
+				var libraryBookShelf =  LibraryBookShelf.PartialGenerateLibraryBookShelf(Object, Parent, Children);
+				TransformToBookShelves[Object] = libraryBookShelf;
+				if (Parent == null)
+				{
+					Roots.Add(libraryBookShelf);
+				}
+
+				foreach (var Child in Children.ToArray())
+				{
+					RecursivePopulate(Child,Object);
 				}
 			}
 
-			if (!ICustomBookshelf)
+
+		}
+
+
+		public class LibraryBookShelf
+		{
+			public Transform Parent;
+			public List<Transform> Contains = new List<Transform>();
+
+			public List<LibraryBookShelf> InternalContain = new List<LibraryBookShelf>();
+
+			public bool IsPartiallyGenerated = true;
+			public List<Book> HeldBooks = new List<Book>();
+
+			public ulong ID;
+			public string ShelfName;
+			public bool IsEnabled;
+			public GameObject Shelf;
+
+			public void DestroySelf()
 			{
+				if (Shelf != null)
+				{
+					Librarian.library.TransformToBookShelves.Remove(Shelf.transform);
+					TransformToBookShelf.Remove(Shelf.transform);
+				}
+				IDToBookShelf.Remove(ID);
+				Librarian.library.Roots.Remove(this);
+				Contains.Clear();
+
+			}
+
+			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform)
+			{
+				List<Transform> Children = new List<Transform>();
+				if (_Transform.childCount > 0)
+				{
+					for (int i = 0; i < _Transform.childCount; i++)
+					{
+						Children.Add(_Transform.GetChild(i));
+					}
+				}
+
+				return PartialGenerateLibraryBookShelf(_Transform, _Transform.parent, Children);
+			}
+
+
+			public static LibraryBookShelf PartialGenerateLibraryBookShelf(Transform _Transform, Transform _Parent, List<Transform> Children)
+			{
+				if (library.TransformToBookShelves.ContainsKey(_Transform))
+				{
+					return (library.TransformToBookShelves[_Transform]);
+				}
+
+				var libraryBookShelf = new LibraryBookShelf();
+				libraryBookShelf.ShelfName = _Transform.gameObject.name;
+				libraryBookShelf.ID = BookShelfAID;
+				BookShelfAID++;
+				libraryBookShelf.Shelf = _Transform.gameObject;
+				libraryBookShelf.Parent = _Parent;
+				if (_Parent != null)
+				{
+					library.TransformToBookShelves[_Parent].InternalContain.Add(libraryBookShelf);
+				}
+
+				libraryBookShelf.Contains.AddRange(Children);
+				IDToBookShelf[libraryBookShelf.ID] = libraryBookShelf;
+				TransformToBookShelf[libraryBookShelf.Shelf.transform] = libraryBookShelf;
+
+				return libraryBookShelf;
+			}
+
+			public bool ParentChange()
+			{
+				if (Shelf == null)
+				{
+					return false;
+				}
+				Parent = Shelf.transform.parent;
+				if (Shelf.transform.parent != null)
+				{
+					library.TransformToBookShelves[Shelf.transform.parent].InternalContain.Add(this);
+				}
+
+				return true;
+			}
+
+
+			public void PopulateBookShelf()
+			{
+				if (!this.IsPartiallyGenerated)
+				{
+					return;
+				}
 				MonoBehaviour[] scriptComponents = Shelf.GetComponents<MonoBehaviour>();
 				HeldBooks.Clear();
 				foreach (MonoBehaviour mono in scriptComponents)
@@ -598,147 +863,20 @@ public static class Librarian
 					}
 				}
 
-				ObscuredBookShelves.Clear();
-				Transform[] ts = Shelf.GetComponentsInChildren<Transform>();
-				foreach (Transform child in ts)
-				{
-					if (child != ts[0])
-					{
-						if (child.parent == Shelf.transform)
-						{
-							BookShelf _bookShelf;
-							_bookShelf = PartialGeneratebookShelf(child);
-							ObscuredBookShelves.Add(_bookShelf);
-						}
-					}
-				}
+				this.IsPartiallyGenerated = false;
 
-				Transform _Transform = Shelf.transform.parent;
-				if (_Transform != null)
-				{
-					ObscuredBy = PartialGeneratebookShelf(_Transform);
-				}
-				else
-				{
-					if (TopSceneBookshelf == null)
-					{
-						List<BookShelf> BookShelfs = new List<BookShelf>();
-						foreach (var game in UnityEngine.SceneManagement.SceneManager.GetActiveScene()
-							.GetRootGameObjects())
-						{
-							var _bookShelf = PartialGeneratebookShelf(game.transform);
-							BookShelfs.Add(_bookShelf);
-						}
-
-						TopSceneBookshelf = GenerateCustomBookCase(BookShelfs);
-					}
-
-					ObscuredBy = TopSceneBookshelf;
-					if (!TopSceneBookshelf.ObscuredBookShelves.Contains(this))
-					{
-						TopSceneBookshelf.ObscuredBookShelves.Add(this);
-					}
-				}
-
-				IsPartiallyGenerated = false;
-			}
-		}
-
-		public void PopulateBookShelf()
-		{
-			if (!this.IsPartiallyGenerated)
-			{
-				return;
 			}
 
-			MonoBehaviour[] scriptComponents = this.Shelf.GetComponents<MonoBehaviour>();
-			//Logger.Log(scriptComponents.Length + "leit !!!");
-
-			foreach (MonoBehaviour mono in scriptComponents)
+			public void UpdateBookShelf()
 			{
-				if (mono != null)
+				if (IsPartiallyGenerated)
 				{
-					this.HeldBooks.Add(Book.PartialGeneratebook(mono));
+					PopulateBookShelf();
+					return;
 				}
 			}
 
-			Transform[] ts = this.Shelf.GetComponentsInChildren<Transform>();
-			foreach (Transform child in ts)
-			{
-				if (child != ts[0])
-				{
-					if (child.parent == this.Shelf.transform)
-					{
-						BookShelf _bookShelf;
-						_bookShelf = PartialGeneratebookShelf(child);
-						this.ObscuredBookShelves.Add(_bookShelf);
-					}
-				}
-			}
 
-			Transform _Transform = this.Shelf.transform.parent;
-
-			if (_Transform != null)
-			{
-				this.ObscuredBy = PartialGeneratebookShelf(_Transform);
-			}
-			else
-			{
-				if (TopSceneBookshelf == null)
-				{
-					List<BookShelf> BookShelfs = new List<BookShelf>();
-					foreach (var game in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
-					{
-						var _bookShelf = PartialGeneratebookShelf(game.transform);
-						BookShelfs.Add(_bookShelf);
-					}
-
-					TopSceneBookshelf = GenerateCustomBookCase(BookShelfs);
-				}
-
-				this.ObscuredBy = TopSceneBookshelf;
-				if (!TopSceneBookshelf.ObscuredBookShelves.Contains(this))
-				{
-					TopSceneBookshelf.ObscuredBookShelves.Add(this);
-				}
-			}
-
-			this.IsPartiallyGenerated = false;
-			return;
-		}
-
-		public static BookShelf PartialGeneratebookShelf(Transform _Transform)
-		{
-			if (TransformToBookShelf.ContainsKey(_Transform))
-			{
-				return (TransformToBookShelf[_Transform]);
-			}
-
-			BookShelf _bookShelf = new BookShelf();
-			_bookShelf.ShelfName = _Transform.gameObject.name;
-			_bookShelf.ID = BookShelfAID;
-			BookShelfAID++;
-			_bookShelf.Shelf = _Transform.gameObject;
-			if (_bookShelf.Shelf == null)
-			{
-				Logger.LogError("HELP");
-			}
-
-			IDToBookShelf[_bookShelf.ID] = _bookShelf;
-			TransformToBookShelf[_bookShelf.Shelf.transform] = _bookShelf;
-			return (_bookShelf);
-		}
-
-		public override string ToString()
-		{
-			StringBuilder logMessage = new StringBuilder();
-			logMessage.AppendLine("ShelfName > " + ShelfName);
-			logMessage.Append("Books > \n");
-			logMessage.AppendLine(string.Join("\n", HeldBooks));
-			logMessage.Append("ObscuredBookShelves  > \n");
-			logMessage.AppendLine(string.Join("\n", ObscuredBookShelves));
-
-			return (logMessage.ToString());
 		}
 	}
 
@@ -757,7 +895,7 @@ public static class Librarian
 			{
 				if (UnGenerated)
 				{
-					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ");
+					Logger.LogWarning("USE GetBindedPages()!,since these books are ungenerated ", Category.VariableViewer);
 				}
 
 				return _BindedPages;
@@ -777,7 +915,7 @@ public static class Librarian
 				}
 				else
 				{
-					Logger.LogError("Book has been destroyed!" + ID);
+					Logger.LogError("Book has been destroyed!" + ID, Category.VariableViewer);
 				}
 
 				UnGenerated = false;
@@ -867,13 +1005,17 @@ public static class Librarian
 		public string AssemblyQualifiedName;
 		public Book BindedTo;
 		public PropertyInfo PInfo;
+		public bool PCanWrite => PInfo.CanWrite;
+
 		public FieldInfo Info;
 
 		public uint ASentenceID;
 		public Sentence Sentences;
 
-		public Dictionary<uint, Sentence> IDtoSentence = new Dictionary<uint, Sentence>();
+		public MethodInfo MInfo;
 
+		public Dictionary<uint, Sentence> IDtoSentence = new Dictionary<uint, Sentence>();
+		public VVHighlight VVHighlight = VVHighlight.None;
 		public override string ToString()
 		{
 			return (VariableName + " = " + Variable + " of   " + VariableType);
@@ -887,7 +1029,6 @@ public static class Librarian
 			if (PInfo != null)
 			{
 				PInfo.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
-				//prop.SetValue(service, Enum.Parse(prop.PropertyType, "Item1"), null);
 			}
 			else if (Info != null)
 			{
@@ -897,6 +1038,15 @@ public static class Librarian
 			UpdatePage();
 		}
 
+		public void Invoke()
+		{
+			if (MInfo != null)
+			{
+				MInfo.Invoke(BindedTo.BookClass, null);
+			}
+		}
+
+
 		public static object DeSerialiseValue(object InObject, string StringVariable, Type InType)
 		{
 			if (VVUIElementHandler.Type2Element.ContainsKey(InType))
@@ -905,13 +1055,20 @@ public static class Librarian
 			}
 			else
 			{
-				if (InType == typeof(Enum))
+				if (InType.IsEnum)
 				{
 					//if ()
 					return Enum.Parse(InObject.GetType(), StringVariable);
 				}
 				else
 				{
+					if (InType == null || InObject == null || InObject as IConvertible == null)
+					{
+						Logger.LogError($"Can't convert {StringVariable} to {InObject.GetType()}  " +
+							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.VariableViewer);
+						return null;
+					}
+
 					return Convert.ChangeType(StringVariable, InObject.GetType());
 				}
 			}
@@ -924,7 +1081,7 @@ public static class Librarian
 			{
 				Variable = PInfo.GetValue(BindedTo.BookClass);
 			}
-			else
+			if (Info != null)
 			{
 				Variable = Info.GetValue(BindedTo.BookClass);
 			}
@@ -949,7 +1106,7 @@ public static class Librarian
 				}
 				else
 				{
-					GenerateSentenceValuesforSentence(Sentences, Info.FieldType, this, BindedTo.BookClass, Info: Info);
+					GenerateSentenceValuesforSentence(Sentences, Info.FieldType, this, BindedTo.BookClass, FInfo: Info);
 				}
 			}
 		}
@@ -993,14 +1150,16 @@ public static class Librarian
 			var assemblyName = TypeName.Substring(0, TypeName.IndexOf('.'));
 
 			// Attempt to load the indicated Assembly
-			var assembly = Assembly.Load(assemblyName);
-			if (assembly == null)
-				return null;
+			if (assemblyName != "Unity" && assemblyName != "Light2D")
+			{
+				var assembly = Assembly.Load(assemblyName);
 
-			// Ask that assembly to return the proper Type
-			type = assembly.GetType(TypeName);
-			if (type != null)
-				return type;
+				// Ask that assembly to return the proper Type
+				type = assembly.GetType(TypeName);
+				if (type != null)
+					return type;
+			}
+
 		}
 
 		// If we still haven't found the proper type, we can enumerate all of the

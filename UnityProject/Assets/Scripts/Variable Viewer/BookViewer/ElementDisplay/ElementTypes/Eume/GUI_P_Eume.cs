@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using TMPro;
 
 public class GUI_P_Eume : PageElement
 {
+	public override PageElementEnum PageElementType => PageElementEnum.Enum;
 	public TMP_Dropdown TDropdown;
 
 	public override bool IsThisType(Type TType)

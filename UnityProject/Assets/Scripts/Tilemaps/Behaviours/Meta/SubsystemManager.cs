@@ -1,31 +1,39 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Initialisation;
 using UnityEngine;
 using Mirror;
 
-public class SubsystemManager : NetworkBehaviour
+public class SubsystemManager : MonoBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
 	private bool initialized;
 
 	private void Start()
 	{
+		LoadManager.RegisterAction(Init);
+	}
+
+	void Init()
+	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		StartCoroutine(Initialize());
 	}
-
 	IEnumerator Initialize()
 	{
 		while (!MatrixManager.IsInitialized)
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-
+		
+		yield return null; //So objects/doors can register themselves before atmospherics system scans for rooms
 		for (int i = 0; i < systems.Count; i++)
 		{
 			systems[i].Initialize();
+			yield return null;
 		}
 
 		initialized = true;
@@ -36,7 +44,7 @@ public class SubsystemManager : NetworkBehaviour
 		systems.Add(system);
 	}
 
-	public void UpdateAt(Vector3Int localPosition)
+	public void UpdateAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 	{
 		if (!initialized)
 		{
@@ -48,7 +56,18 @@ public class SubsystemManager : NetworkBehaviour
 
 		for (int i = 0; i < systems.Count; i++)
 		{
-			systems[i].UpdateAt(localPosition);
+			if (ToUpDate.HasFlag(systems[i].SubsystemType))
+			{
+				systems[i].UpdateAt(localPosition);
+			}
 		}
 	}
+}
+[Flags]
+public enum SystemType
+{
+	None = 0,
+	AtmosSystem = 1 << 0,
+	MetaDataSystem = 1 << 1,
+	All = ~None
 }

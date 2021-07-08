@@ -1,24 +1,32 @@
-﻿using System.Collections;
+﻿using Mirror;
+using UI;
 
-/// <summary>
-///     Message that tells client which UI action to perform
-/// </summary>
-public class UpdateUIMessage : ServerMessage
+namespace Messages.Server
 {
-	public ControlDisplays.Screens Screen;
-
-	public override void Process()
+	/// <summary>
+	///     Message that tells client which UI action to perform
+	/// </summary>
+	public class UpdateUIMessage : ServerMessage<UpdateUIMessage.NetMessage>
 	{
-		UIManager.Display.SetScreenFor(Screen);
-	}
-
-	public static UpdateUIMessage Send(ControlDisplays.Screens screen)
-	{
-		UpdateUIMessage msg = new UpdateUIMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Screen = screen
-		};
-		msg.SendToAll();
-		return msg;
+			public ControlDisplays.Screens Screen;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Display.SetScreenFor(msg.Screen);
+		}
+
+		public static NetMessage Send(ControlDisplays.Screens screen)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Screen = screen
+			};
+
+			SendToAll(msg);
+			return msg;
+		}
 	}
 }

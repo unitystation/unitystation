@@ -1,7 +1,8 @@
-﻿using Mirror;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
+using Mirror;
 
 /// <summary>
 /// Used by the Metabolism class to apply the desired effects. Substances are applied evenly over the duration of the effect.
@@ -40,7 +41,7 @@ public enum MetabolismDuration
 /// <summary>
 /// Handles the intake of substances (food, drink, chemical reagents etc...) for a Living Entity
 /// </summary>
-public class MetabolismSystem : NetworkBehaviour
+public class MetabolismSystem : NetworkBehaviour, PlayerMove.IMovementEffect
 {
 	public static int NUTRITION_LEVEL_MAX = 500;
 	public static int NUTRITION_LEVEL_STUFFED = 450;
@@ -61,41 +62,28 @@ public class MetabolismSystem : NetworkBehaviour
 	[SerializeField]
 	[Tooltip("Speed debuff when walking and starving")]
 	private float starvingWalkDebuff = 1f;
-	
+
+
+	public float RunningAdd {
+		get => -starvingRunDebuff;
+		set { }
+	}
+
+	public float WalkingAdd {
+		get => -starvingWalkDebuff;
+		set { }
+	}
+
+	public float CrawlAdd
+	{
+		get => 0;
+		set { }
+	}
+
 	public int NutritionLevel => nutritionLevel;
 
 	private int nutritionLevel = 400;
-	public HungerState HungerState
-	{
-		get
-		{
-			return hungerState;
-		}
-		set
-		{
-			if(!NetworkManager.isHeadless && PlayerManager.LocalPlayer == gameObject)
-			{
-				if (value == HungerState.Full && this.HungerState != HungerState.Full)
-					Chat.AddExamineMsgToClient("You're stuffed!");
-
-				if (value == HungerState.Normal && this.HungerState != HungerState.Normal)
-					Chat.AddExamineMsgToClient("You're satiated.");
-
-				if (value == HungerState.Hungry && this.HungerState != HungerState.Hungry)
-					Chat.AddExamineMsgToClient("You feel hungry.");
-
-				if (value == HungerState.Malnourished && this.HungerState != HungerState.Malnourished)
-					Chat.AddWarningMsgToClient("Your stomach rumbles violently.");
-
-				if (value == HungerState.Starving && this.HungerState != HungerState.Starving)
-					Chat.AddWarningMsgToClient("Your malnourished body aches!");
-			}
-
-			hungerState = value;
-		}
-	}
-
-	private HungerState hungerState;
+	public HungerState HungerState { get; private set; }
 
 	public bool IsHungry => HungerState >= HungerState.Hungry;
 	public bool IsStarving => HungerState == HungerState.Starving;
@@ -103,90 +91,122 @@ public class MetabolismSystem : NetworkBehaviour
 	/// <summary>
 	/// How much hunger is applied per metabolism tick
 	/// </summary>
-	public int HungerRate { get; set; } = 1;
+	public int HungerRate { get; private set; } = 1;
 
 	private BloodSystem bloodSystem;
 	private PlayerMove playerMove;
 	private List<MetabolismEffect> effects;
-	private float tick = 0;
 	private bool appliedStarvingDebuff;
 
-	void Awake()
+	private void Awake()
 	{
 		bloodSystem = GetComponent<BloodSystem>();
 		playerMove = GetComponent<PlayerMove>();
 	}
 
-	void OnEnable()
+	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		effects = new List<MetabolismEffect>();
-	}
-	void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-	void UpdateMe()
-	{
-		//Server only
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.IsServer)
 		{
-			tick += Time.deltaTime;
-
-			if (tick >= metabolismRate && !bloodSystem.HeartStopped) //Metabolism tick
-			{
-				//Apply hunger
-				nutritionLevel -= HungerRate;
-
-				//Apply effects
-				for(int i = effects.Count - 1; i >= 0; i--)
-				{
-					MetabolismEffect e = effects[i];
-
-					if (e.duration <= 0)
-					{
-						effects.RemoveAt(i);
-						continue;
-					}
-
-					nutritionLevel += e.totalNutrients / e.initialDuration;
-					bloodSystem.ToxinLevel += e.totalToxins / e.initialDuration;
-					e.duration--;
-					effects[i] = e;
-				}
-
-				nutritionLevel = Mathf.Clamp(nutritionLevel, 0, NUTRITION_LEVEL_MAX);
-
-				HungerState oldState = this.HungerState;
-
-				if (nutritionLevel > NUTRITION_LEVEL_STUFFED) //TODO: Make character nauseous when he's too full
-					HungerState = HungerState.Full;
-				else if (nutritionLevel > NUTRITION_LEVEL_NORMAL)
-					HungerState = HungerState.Normal;
-				else if (nutritionLevel > NUTRITION_LEVEL_HUNGRY)
-					HungerState = HungerState.Hungry;
-				else if (nutritionLevel > NUTRITION_LEVEL_MALNOURISHED)
-					HungerState = HungerState.Malnourished;
-				else
-					HungerState = HungerState.Starving;
-
-				if (oldState != this.HungerState) //HungerState was altered, send new one to player
-					UpdateHungerStateMessage.Send(this.gameObject, HungerState);
-
-				tick = 0;
-			}
+			UpdateManager.Add(ServerUpdateMe, metabolismRate);
 		}
 
-		//Client and server
-		if (HungerState == HungerState.Starving & !appliedStarvingDebuff)
+		effects = new List<MetabolismEffect>();
+	}
+
+	private void OnDisable()
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateMe);
+		}
+	}
+
+	// Metabolism tick
+	private void ServerUpdateMe()
+	{
+		if (bloodSystem.HeartStopped) return;
+
+		//Apply hunger
+		nutritionLevel -= HungerRate;
+
+		//Apply effects
+		for (int i = effects.Count - 1; i >= 0; i--)
+		{
+			MetabolismEffect e = effects[i];
+
+			if (e.duration <= 0)
+			{
+				effects.RemoveAt(i);
+				continue;
+			}
+
+			nutritionLevel += e.totalNutrients / e.initialDuration;
+			bloodSystem.ToxinLevel += e.totalToxins / e.initialDuration;
+			e.duration--;
+			effects[i] = e;
+		}
+
+		nutritionLevel = Mathf.Clamp(nutritionLevel, 0, NUTRITION_LEVEL_MAX);
+
+		HungerState oldState = this.HungerState;
+
+		if (nutritionLevel > NUTRITION_LEVEL_STUFFED) //TODO: Make character nauseous when he's too full
+			HungerState = HungerState.Full;
+		else if (nutritionLevel > NUTRITION_LEVEL_NORMAL)
+			HungerState = HungerState.Normal;
+		else if (nutritionLevel > NUTRITION_LEVEL_HUNGRY)
+			HungerState = HungerState.Hungry;
+		else if (nutritionLevel > NUTRITION_LEVEL_MALNOURISHED)
+			HungerState = HungerState.Malnourished;
+		else
+			HungerState = HungerState.Starving;
+
+		if (oldState != this.HungerState)
+		{
+			SetHungerState(HungerState);
+			// HungerState was altered, send new one to player
+			UpdateHungerStateMessage.Send(this.gameObject, HungerState);
+		}
+	}
+
+	public void SetHungerState(HungerState newState)
+	{
+		if (newState == HungerState) return;
+		HungerState = newState;
+
+		if (IsStarving)
 		{
 			ApplySpeedDebuff();
 		}
-		else if (HungerState != HungerState.Starving & appliedStarvingDebuff)
+		else
 		{
 			RemoveSpeedDebuff();
 		}
+
+		if (PlayerManager.LocalPlayer == gameObject)
+		{
+			Chat.AddExamineMsgToClient(GetHungerMessage());
+		}
+	}
+
+	private string GetHungerMessage()
+	{
+		switch (HungerState)
+		{
+			case HungerState.Full:
+				return "You're stuffed!";
+			case HungerState.Normal:
+				return "You're satiated.";
+			case HungerState.Hungry:
+				return "You feel hungry.";
+			case HungerState.Malnourished:
+				return "Your stomach rumbles violently.";
+			case HungerState.Starving:
+				return "Your malnourished body aches!";
+		}
+
+		return default;
 	}
 
 	/// <summary>
@@ -194,9 +214,9 @@ public class MetabolismSystem : NetworkBehaviour
 	/// </summary>
 	private void ApplySpeedDebuff()
 	{
-		playerMove.ServerChangeSpeed(
-			run:playerMove.RunSpeed - starvingRunDebuff,
-			walk: playerMove.WalkSpeed - starvingWalkDebuff);
+		if (appliedStarvingDebuff) return;
+
+		playerMove.AddModifier(this);
 		appliedStarvingDebuff = true;
 	}
 
@@ -205,9 +225,9 @@ public class MetabolismSystem : NetworkBehaviour
 	/// </summary>
 	private void RemoveSpeedDebuff()
 	{
-		playerMove.ServerChangeSpeed(
-			run:playerMove.RunSpeed + starvingRunDebuff,
-			walk: playerMove.WalkSpeed + starvingWalkDebuff);
+		if (!appliedStarvingDebuff) return;
+
+		playerMove.RemoveModifier(this);
 		appliedStarvingDebuff = false;
 	}
 

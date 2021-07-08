@@ -1,30 +1,37 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
-using Mirror;
+using UI;
 
-public class PaperUpdateMessage : ServerMessage
+namespace Messages.Server
 {
-	public uint PaperToUpdate;
-	public uint Recipient;
-	public string Message;
-
-	public override void Process()
+	public class PaperUpdateMessage : ServerMessage<PaperUpdateMessage.NetMessage>
 	{
-		LoadMultipleObjects(new uint[] {Recipient, PaperToUpdate});
-		var paper = NetworkObjects[1].GetComponent<Paper>();
-		paper.PaperString = Message;
-		ControlTabs.RefreshTabs();
-	}
-
-	public static PaperUpdateMessage Send(GameObject recipient, GameObject paperToUpdate, string message)
-	{
-		PaperUpdateMessage msg = new PaperUpdateMessage
+		public struct NetMessage : NetworkMessage
 		{
-			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
-			PaperToUpdate = paperToUpdate.GetComponent<NetworkIdentity>().netId,
-			Message = message
-		};
-		msg.SendTo(recipient);
-		return msg;
+			public uint PaperToUpdate;
+			public uint Recipient;
+			public string Message;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadMultipleObjects(new uint[] {msg.Recipient, msg.PaperToUpdate});
+			var paper = NetworkObjects[1].GetComponent<Paper>();
+			paper.PaperString = msg.Message;
+			ControlTabs.RefreshTabs();
+		}
+
+		public static NetMessage Send(GameObject recipient, GameObject paperToUpdate, string message)
+		{
+			NetMessage msg = new NetMessage
+			{
+				Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+				PaperToUpdate = paperToUpdate.GetComponent<NetworkIdentity>().netId,
+				Message = message
+			};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
 	}
 }

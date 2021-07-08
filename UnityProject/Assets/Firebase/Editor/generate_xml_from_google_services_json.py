@@ -30,6 +30,15 @@ import platform
 import sys
 from xml.etree import ElementTree
 
+if platform.system().lower() == 'windows':
+  import ctypes.wintypes  # pylint: disable=g-import-not-at-top
+
+# Map Python 2's unicode method to encode a string as bytes in python 3.
+try:
+  unicode('')  # See whether unicode class is available (Python < 3)
+except NameError:
+  unicode = str  # pylint: disable=redefined-builtin,invalid-name
+
 # Input filename if it isn't set.
 DEFAULT_INPUT_FILENAME = 'app/google-services.json'
 # Output filename if it isn't set.
@@ -39,7 +48,7 @@ DEFAULT_PLIST_INPUT_FILENAME = 'GoogleService-Info.plist'
 # Output filename for .json files, if it isn't set.
 DEFAULT_JSON_OUTPUT_FILENAME = 'google-services-desktop.json'
 
-# Indicates a web client in the oauth_client list.
+OAUTH_CLIENT_TYPE_ANDROID_APP = 1
 OAUTH_CLIENT_TYPE_WEB = 3
 
 
@@ -231,12 +240,12 @@ def argv_as_unicode_win32():
   command_line_to_argv_w = ctypes.windll.shell32.CommandLineToArgvW
   command_line_to_argv_w.argtypes = [
       ctypes.wintypes.LPCWSTR,
-      ctypes.wintypes.POINTER(ctypes.wintypes.c_int)
+      ctypes.POINTER(ctypes.c_int)
   ]
-  command_line_to_argv_w.restype = ctypes.wintypes.POINTER(
+  command_line_to_argv_w.restype = ctypes.POINTER(
       ctypes.wintypes.LPWSTR)
 
-  argc = ctypes.wintypes.c_int(0)
+  argc = ctypes.c_int(0)
   argv = command_line_to_argv_w(get_command_line_w(), argc)
 
   # Strip the python executable from the arguments if it exists
@@ -298,18 +307,18 @@ def main():
     output_filename = DEFAULT_OUTPUT_FILENAME
 
   if args.i:
-    input_filename_raw = args.i
     # Encode the input string (type unicode) as a normal string (type str)
     # using the 'utf-8' encoding so that it can be worked with the same as
     # input names from other sources (like the defaults).
-    input_filename = input_filename_raw.encode('utf-8')
+    input_filename_raw = args.i.encode('utf-8')
+    # Decode the filename to a unicode string using the 'utf-8' encoding to
+    # properly handle filepaths with unicode characters in them.
+    input_filename = input_filename_raw.decode('utf-8')
 
   if args.o:
     output_filename = args.o
 
-  # Decode the filename to a unicode string using the 'utf-8' encoding to
-  # properly handle filepaths with unicode characters in them.
-  with open(input_filename.decode('utf-8'), 'r') as ifile:
+  with open(input_filename, 'r') as ifile:
     file_string = ifile.read()
 
   json_string = None
@@ -336,7 +345,7 @@ def main():
     if not project_info:
       sys.stderr.write('No project info found in %s.' % input_filename)
       return 1
-    for field, value in project_info.iteritems():
+    for field, value in sorted(project_info.items()):
       sys.stdout.write('%s=%s\n' % (field, value))
     return 0
 
@@ -382,15 +391,24 @@ def main():
     if client_info:
       gen_string(root, 'google_app_id', client_info.get('mobilesdk_app_id'))
 
+    # Only include the first matching OAuth client ID per type.
+    client_id_web_parsed = False
+    client_id_android_parsed = False
+
     oauth_client_list = selected_client.get('oauth_client')
     if oauth_client_list:
       for oauth_client in oauth_client_list:
         client_type = oauth_client.get('client_type')
         client_id = oauth_client.get('client_id')
-        if client_type and client_type == OAUTH_CLIENT_TYPE_WEB and client_id:
+        if not (client_type and client_id): continue
+        if (client_type == OAUTH_CLIENT_TYPE_WEB and
+            not client_id_web_parsed):
           gen_string(root, 'default_web_client_id', client_id)
-          # Only include the first matching OAuth web client ID.
-          break
+          client_id_web_parsed = True
+        if (client_type == OAUTH_CLIENT_TYPE_ANDROID_APP and
+            not client_id_android_parsed):
+          gen_string(root, 'default_android_client_id', client_id)
+          client_id_android_parsed = True
 
     services = selected_client.get('services')
     if services:
@@ -425,11 +443,9 @@ def main():
   indent(root)
 
   if args.l:
-    for package in packages:
+    for package in sorted(packages):
       if package:
-        # Encode the output string in case the system's default encoding differs
-        # from the encoding of the string being printed.
-        sys.stdout.write((package + '\n').encode(sys.getdefaultencoding()))
+        sys.stdout.write(package + '\n')
   else:
     path = os.path.dirname(output_filename)
 

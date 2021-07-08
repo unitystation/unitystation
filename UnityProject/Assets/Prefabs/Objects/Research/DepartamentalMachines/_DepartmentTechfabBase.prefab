@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3987385141909818615
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2948041226145143925, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_Name
+      value: _DepartmentTechfabBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953303807670311599, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3807959077153437940, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 674b3e05609a3f645acb8552bc3a1573,
+        type: 2}
+    - target: {fileID: 3807959077153437940, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 5541512589892677373, guid: 04d141e866c8a1148b6478736bb45143,
+        type: 3}
+    - target: {fileID: 5497899084729746245, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: initialDescription
+      value: An advanced fabricator designed to print out the latest prototypes and
+        circuits researched from Science. Contains hardware to sync to research networks.
+        This one is department-locked and only possesses a limited set of decryption
+        keys.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497899084729746245, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: initialName
+      value: department techfab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6716092082655734039, guid: 673bb8fcbfe706f4ba328a489e31337d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 673bb8fcbfe706f4ba328a489e31337d, type: 3}

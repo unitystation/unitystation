@@ -5,11 +5,11 @@ import time
 import shutil #Requires shutil
 import simplejson
 from decimal import Decimal
-#python 3 
+#python 3
 
 
 path = 'textures' #E.G The name of a folder everything is in Just set it to bypass  The Manual input
-if not path: 
+if not path:
     path = input('''The name of the folder with the DMI textures in.
 Plonk name of folder here >> ''')
 
@@ -24,7 +24,7 @@ start_time = time.time()
 
 AID = 0
 Name_store = set([])
-    
+
 for root, dirs, files in os.walk(path):
     #print(root)
     for name in files:
@@ -44,22 +44,7 @@ for root, dirs, files in os.walk(path):
             #print(new_file)
             #else:
                 #Name_store.add(name)
-            
-        
 
 print(AID)
 
 print("--- %s seconds ---" % (time.time() - start_time)) #Total time
-
-
-
-
-
-
-
-
-
-
-
-    
-

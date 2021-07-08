@@ -2,6 +2,15 @@
 
 public class RcsThruster : MonoBehaviour
 {
-	[SerializeField] private ParticleSystem thrusterParticles;
-	[SerializeField] private DirectionalRotatesParent directional;
+	public ParticleSystem thrusterParticles;
+	public DirectionalRotatesParent directional;
+
+	public delegate void OnThrusterDestroyedDelegate();
+	public OnThrusterDestroyedDelegate OnThrusterDestroyedEvent;
+	
+	private void OnDestroy()
+	{
+		// remove this thruster from RCS thruster list when destroyed
+		OnThrusterDestroyedEvent?.Invoke();
+	}
 }

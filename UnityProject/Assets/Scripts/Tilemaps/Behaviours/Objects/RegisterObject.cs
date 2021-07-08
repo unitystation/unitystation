@@ -1,6 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Blob;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// <see cref="RegisterTile"/> for an object, adds additional logic to
@@ -10,16 +14,34 @@ using Mirror;
 public class RegisterObject : RegisterTile
 {
 	public bool AtmosPassable = true;
-	[SyncVar]
+
+	[NonSerialized]
+	[SyncVar(hook = nameof(SetPassable))]
 	public bool Passable = true;
 
+	[NonSerialized]
+	[SyncVar(hook = nameof(SetCrawlingPassable))]
+	public bool CrawlPassable = false;
+
+	[Tooltip("If true, this object won't block players from interacting with other objects")]
+	public bool ReachableThrough = true;
+
+
 	private bool initialAtmosPassable;
+
+	[SerializeField][FormerlySerializedAs("Passable")]
 	private bool initialPassable;
+
+	[SerializeField][FormerlySerializedAs("CrawlPassable")]
+	private bool initialCrawlPassable;
+
+	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis = default;
 
 	protected override void Awake()
 	{
 		base.Awake();
-		initialPassable = Passable;
+		SetCrawlingPassable(CrawlPassable, initialCrawlPassable);
+		SetPassable(Passable,initialPassable);
 		initialAtmosPassable = AtmosPassable;
 	}
 
@@ -29,7 +51,8 @@ public class RegisterObject : RegisterTile
 	public void RestoreAllToDefault()
 	{
 		AtmosPassable = initialAtmosPassable;
-		Passable = initialPassable;
+		SetCrawlingPassable(CrawlPassable, initialCrawlPassable);
+		SetPassable(Passable,initialPassable);
 	}
 
 	/// <summary>
@@ -37,22 +60,75 @@ public class RegisterObject : RegisterTile
 	/// </summary>
 	public void RestorePassableToDefault()
 	{
-		Passable = initialPassable;
+		SetCrawlingPassable(CrawlPassable, initialCrawlPassable);
+		SetPassable(Passable,initialPassable);
 	}
 
-	public override bool IsPassable(Vector3Int from, bool isServer)
+	public void SetPassable(bool old, bool Newin)
 	{
+		Passable = Newin;
+	}
+
+	public void SetCrawlingPassable(bool old, bool Newin)
+	{
+		CrawlPassable = Newin;
+	}
+
+	public override bool IsPassableFromOutside(Vector3Int enteringFrom, bool isServer, GameObject context = null)
+	{
+		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		if (CheckPassableExclusions(context)) return true;
+		if (Passable != CrawlPassable)
+		{
+			if (context != null && context.GetComponent<RegisterPlayer>() != null &&
+			    context.GetComponent<RegisterPlayer>().IsLayingDown)
+			{
+				return CrawlPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+			}
+		}
+
+		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+	}
+
+	public override bool IsPassable(bool isServer, GameObject context = null)
+	{
+		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		if (CheckPassableExclusions(context)) return true;
+
+		if (Passable != CrawlPassable)
+		{
+			if (context != null && context.GetComponent<RegisterPlayer>() != null &&
+			    context.GetComponent<RegisterPlayer>().IsLayingDown)
+			{
+				return CrawlPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+			}
+		}
 		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 
-	public override bool IsPassable(bool isServer)
-	{
-		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
-	}
-
-	public override bool IsAtmosPassable(Vector3Int from, bool isServer)
+	public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
 		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
+	}
+
+	public override bool IsReachableThrough(Vector3Int reachingFrom, bool isServer, GameObject context = null)
+	{
+		return ReachableThrough || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+	}
+
+	private bool CheckPassableExclusions(GameObject context)
+	{
+		if (context != null && context.TryGetComponent<PassableExclusionHolder>(out var passableExclusionsMono) && passableExclusionsMono != null)
+		{
+			foreach (var exclusion in passableExclusionsToThis)
+			{
+				if(!passableExclusionsMono.passableExclusions.Contains(exclusion)) continue;
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	#region UI Mouse Actions

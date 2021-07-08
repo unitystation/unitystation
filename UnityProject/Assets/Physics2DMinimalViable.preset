@@ -18,7 +18,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_Gravity.y
-    value: -9.81
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_DefaultMaterial
@@ -145,8 +145,8 @@ Preset:
     value: 50
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_AutoSimulation
-    value: 1
+    propertyPath: m_SimulationMode
+    value: 2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_QueriesHitTriggers
@@ -384,3 +384,4 @@ Preset:
     propertyPath: m_LayerCollisionMatrix.Array.data[31]
     value: 1589641416
     objectReference: {fileID: 0}
+  m_ExcludedProperties: []

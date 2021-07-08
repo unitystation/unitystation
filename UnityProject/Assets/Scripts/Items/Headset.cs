@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Items;
+using Mirror;
 
 /// <summary>
 ///     Headset properties

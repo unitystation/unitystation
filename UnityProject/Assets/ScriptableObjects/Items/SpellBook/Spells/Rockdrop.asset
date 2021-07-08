@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46fbaf230eb28d45baade2d17e5f92f, type: 3}
+  m_Name: Rockdrop
+  m_EditorClassIdentifier: 
+  description: Summons lethal rocks that fall from portals. Great for discouraging
+    the station crew from following you during a retreat.
+  note: 
+  cost: 1
+  conflictsWith: []
+  spell: {fileID: 11400000, guid: ffd853d4e6af54647a5486b12b7f1424, type: 2}

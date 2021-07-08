@@ -1,33 +1,100 @@
+using HealthV2;
 using UnityEngine;
 
 /// <summary>
 /// Allows an object to be CPRed by a player.
 /// </summary>
-public class CPRable : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public bool Interact(PositionalHandApply interaction)
-	{
-		var targetPlayerHealth = interaction.TargetObject.GetComponent<PlayerHealth>();
-		var performerPlayerHealth = interaction.Performer.GetComponent<PlayerHealth>();
-		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
+	const float CPR_TIME = 5;
 
-		// Is the target in range for CPR? Is the target unconscious? Is the intent set to help? Is the target a player?
-		// Is the performer's hand empty? Is the performer not stunned/downed? Is the performer conscious to perform the interaction?
-		// Is the performer interacting with itself?
-		if (!PlayerManager.LocalPlayerScript.IsInReach(interaction.WorldPositionTarget, false) ||
-		    targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
-		    targetPlayerHealth.ConsciousState == ConsciousState.DEAD ||
-		    UIManager.CurrentIntent != Intent.Help ||
-		    !targetPlayerHealth ||
-		    interaction.HandObject != null ||
-		    performerRegisterPlayer.IsLayingDown ||
-		    performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    interaction.Performer == interaction.TargetObject)
+	private static readonly StandardProgressActionConfig CPRProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.CPR);
+
+	private string performerName;
+	private string targetName;
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.Intent != Intent.Help) return false;
+		if (interaction.HandObject != null) return false;
+		if (interaction.TargetObject == interaction.Performer) return false;
+
+		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase targetPlayerHealth))
 		{
-			return false;
+			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestCPR(interaction.TargetObject);
+		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
+		if (performerRegisterPlayer.IsLayingDown) return false;
+
 		return true;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		performerName = interaction.Performer.ExpensiveName();
+		targetName = interaction.TargetObject.ExpensiveName();
+
+		var cardiacArrestPlayerRegister = interaction.TargetObject.GetComponent<RegisterPlayer>();
+
+		void ProgressComplete()
+		{
+			ServerDoCPR(interaction.Performer, interaction.TargetObject, interaction.TargetBodyPart);
+		}
+
+		var cpr = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
+			.ServerStartProgress(cardiacArrestPlayerRegister, CPR_TIME, interaction.Performer);
+		if (cpr != null)
+		{
+			Chat.AddActionMsgToChat(
+				interaction.Performer,
+				$"You begin performing CPR on {targetName}'s " + interaction.TargetBodyPart,
+				$"{performerName} is trying to perform CPR on {targetName}'s " + interaction.TargetBodyPart);
+		}
+	}
+
+	private void ServerDoCPR(GameObject performer, GameObject target, BodyPartType TargetBodyPart)
+	{
+		var health = target.GetComponent<LivingHealthMasterBase>();
+		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
+		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
+
+		bool hasLung = false;
+		bool hasHeart = false;
+		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart, false))
+		{
+			foreach (var bodyPartModification in BodyPart.BodyPartModifications)
+			{
+				if (bodyPartModification is Lungs lung)
+				{
+					lung.TryBreathing(node, 1);
+					hasLung = true;
+				}
+
+				if (bodyPartModification is Heart heart)
+				{
+					heart.Heartbeat(1);
+					hasHeart = true;
+				}
+			}
+		}
+
+		if (hasHeart && hasLung)
+		{
+			Chat.AddActionMsgToChat(
+				performer,
+				$"You perform CPR on {targetName}.",
+				$"{performerName} performs CPR on {targetName}.");
+			Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(
+				performer,
+				$"You perform CPR on {targetName}. It doesn't seem to work, maybe they're missing something.",
+				$"{performerName} performs CPR on {targetName} In vain.");
+		}
 	}
 }

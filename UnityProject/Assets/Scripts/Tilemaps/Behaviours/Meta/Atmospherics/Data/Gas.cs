@@ -1,46 +1,65 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using ScriptableObjects.Atmospherics;
+using TileManagement;
+using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
-	public struct Gas
+	public static class Gas
 	{
-		private static List<Gas> gases = new List<Gas>();
+		//This is here as its easier to put Gas.Gases than GasesSingleton.Instance.Gases
+		public static Dictionary<int, GasSO> Gases => GasesSingleton.Instance.Gases;
 
 		// Gas constant
 		public const float R = 8.3144598f;
 
-		public static readonly Gas Plasma = new Gas("Plasma", 200, 40f);
-		public static readonly Gas Oxygen = new Gas("Oxygen", 20, 31.9988f);
-		public static readonly Gas Nitrogen = new Gas("Nitrogen", 20, 28.0134f);
-		public static readonly Gas CarbonDioxide = new Gas("Carbon Dioxide", 30, 44.01f);
+		public static GasSO Plasma => GasesSingleton.Instance.Plasma;
+		public static GasSO Oxygen => GasesSingleton.Instance.Oxygen;
+		public static GasSO Nitrogen => GasesSingleton.Instance.Nitrogen;
+		public static GasSO CarbonDioxide => GasesSingleton.Instance.CarbonDioxide;
 
-		public readonly float MolarHeatCapacity;	//this is how many Joules are needed to raise 1 mole of the gas 1 degree Kelvin: J/K/mol
-		public readonly float MolarMass;	//this is the mass, in grams, of 1 mole of the gas
-		public readonly string Name;
-		public readonly int Index;
+		public static GasSO NitrousOxide => GasesSingleton.Instance.NitrousOxide;
+		public static GasSO Hydrogen => GasesSingleton.Instance.Hydrogen;
+		public static GasSO WaterVapor => GasesSingleton.Instance.WaterVapor;
+		public static GasSO BZ => GasesSingleton.Instance.BZ;
+		public static GasSO Miasma => GasesSingleton.Instance.Miasma;
+		public static GasSO Nitryl => GasesSingleton.Instance.Nitryl;
+		public static GasSO Tritium => GasesSingleton.Instance.Tritium;
+		public static GasSO HyperNoblium => GasesSingleton.Instance.HyperNoblium;
+		public static GasSO Stimulum => GasesSingleton.Instance.Stimulum;
+		public static GasSO Pluoxium => GasesSingleton.Instance.Pluoxium;
+		public static GasSO Freon => GasesSingleton.Instance.Freon;
+	}
 
-		public static int Count => gases.Count;
+	[Serializable]
+	public class GasData
+	{
+		//Used for quick iteration
+		public GasValues[] GasesArray = new GasValues[0];
 
-		private Gas(string name, float molarHeatCapacity, float molarMass)
+		//Used for fast look up for specific gases
+		public Dictionary<int, GasValues> GasesDict = new Dictionary<int, GasValues>();
+
+		public void RegenerateDict()
 		{
-			MolarHeatCapacity = molarHeatCapacity;
-			MolarMass = molarMass;
-			Name = name;
-			Index = Count;
+			GasesDict.Clear();
 
-			gases.Add(this);
+			for (int i = 0; i < GasesArray.Length; i++)
+			{
+				var value = GasesArray[i];
+				GasesDict.Add(value.GasSO, value);
+			}
 		}
+	}
 
-		public static Gas Get(int i)
-		{
-			return gases[i];
-		}
+	[Serializable]
+	public class GasValues
+	{
+		public GasSO GasSO;
 
-		public static IEnumerable<Gas> All => gases.ToArray();
-
-		public static implicit operator int(Gas gas)
-		{
-			return gas.Index;
-		}
+		//Moles of this gas type
+		public float Moles;
 	}
 }

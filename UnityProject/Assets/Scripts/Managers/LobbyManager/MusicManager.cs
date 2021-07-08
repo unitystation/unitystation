@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -72,15 +75,21 @@ namespace Audio.Containers
 		/// Plays a random music track.
 		/// <returns>String[] that represents the picked song's name.</returns>
 		/// </summary>
-		public String[] PlayRandomTrack()
+		public async Task<String[]> PlayRandomTrack()
 		{
 			StopMusic();
-
-			currentLobbyAudioSource.clip = audioClips.GetRandomClip();
+			if (currentLobbyAudioSource == null) Init();
+			var audioSource = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
+			if(audioSource == null)
+			{
+				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
+				return null;
+			}
+			currentLobbyAudioSource.clip = audioSource.AudioSource.clip;
 			currentLobbyAudioSource.mute = isMusicMute;
 			currentLobbyAudioSource.volume = Instance.MusicVolume;
 			currentLobbyAudioSource.Play();
-
+			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
 			return currentLobbyAudioSource.clip.name.Split('_');
 		}
 
@@ -107,7 +116,7 @@ namespace Audio.Containers
 		{
 			if (Instance.currentLobbyAudioSource != null
 			    && Instance.currentLobbyAudioSource.isPlaying
-			    || !(SunVox.sv_end_of_song((int) Slot.Music) == 1))
+			    || (SunVox.sv_end_of_song((int) Slot.Music) != 0))
 			{
 				return true;
 			}

@@ -17,8 +17,20 @@ TextureImporter:
   - first:
       213: 21300008
     second: cultblade_4
+  - first:
+      213: 2184457648898155496
+    second: items_and_weapons_cultblade_0
+  - first:
+      213: 7286515469786206488
+    second: items_and_weapons_cultblade_1
+  - first:
+      213: 8926179640925629959
+    second: items_and_weapons_cultblade_2
+  - first:
+      213: 7282922271675808173
+    second: items_and_weapons_cultblade_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -38,6 +50,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -72,6 +85,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -101,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cultblade_0
+      name: items_and_weapons_cultblade_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 8e3a57d68a0c05e10800000000000000
+      internalID: 2184457648898155496
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cultblade_1
+      name: items_and_weapons_cultblade_1
       rect:
         serializedVersion: 2
         x: 32
@@ -136,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 811def2d637ee1560800000000000000
+      internalID: 7286515469786206488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cultblade_2
+      name: items_and_weapons_cultblade_2
       rect:
         serializedVersion: 2
         x: 64
@@ -157,14 +172,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 70e22ba271920eb70800000000000000
+      internalID: 8926179640925629959
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cultblade_3
+      name: items_and_weapons_cultblade_3
       rect:
         serializedVersion: 2
         x: 96
@@ -178,29 +193,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cultblade_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300008
+      spriteID: da974023833221560800000000000000
+      internalID: 7282922271675808173
       vertices: []
       indices: 
       edges: []

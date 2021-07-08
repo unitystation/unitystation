@@ -1,41 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminTools;
+﻿using Messages.Client;
 using Mirror;
 
-public class AdminCheckAdminMessages : ClientMessage
+namespace Messages.Client.Admin
 {
-	public string PlayerId;
-	public int CurrentCount;
-
-	public override void Process()
+	public class AdminCheckAdminMessages : ClientMessage<AdminCheckAdminMessages.NetMessage>
 	{
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerGetUnreadMessages(PlayerId, CurrentCount, SentByPlayer.Connection);
-	}
-
-	public static AdminCheckAdminMessages Send(string playerId, int currentCount)
-	{
-		AdminCheckAdminMessages msg = new AdminCheckAdminMessages
+		public struct NetMessage : NetworkMessage
 		{
-			PlayerId = playerId,
-			CurrentCount = currentCount
-		};
-		msg.Send();
-		return msg;
-	}
+			public string PlayerId;
+			public int CurrentCount;
+		}
 
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		PlayerId = reader.ReadString();
-		CurrentCount = reader.ReadInt32();
-	}
+		public override void Process(NetMessage msg)
+		{
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerGetUnreadMessages(msg.PlayerId, msg.CurrentCount, SentByPlayer.Connection);
+		}
 
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(PlayerId);
-		writer.WriteInt32(CurrentCount);
+		public static NetMessage Send(string playerId, int currentCount)
+		{
+			NetMessage msg = new NetMessage
+			{
+				PlayerId = playerId,
+				CurrentCount = currentCount
+			};
+
+			Send(msg);
+			return msg;
+		}
 	}
 }

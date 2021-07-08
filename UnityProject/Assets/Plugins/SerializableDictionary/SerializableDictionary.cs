@@ -14,7 +14,7 @@ public abstract class SerializableDictionaryBase
 {
 	public abstract class Storage { }
 
-	protected class Dictionary<TKey, TValue> : System.Collections.Generic.Dictionary<TKey, TValue>
+	public class Dictionary<TKey, TValue> : System.Collections.Generic.Dictionary<TKey, TValue>
 	{
 		public Dictionary() { }
 		public Dictionary(IDictionary<TKey, TValue> dict) : base(dict) { }
@@ -25,7 +25,7 @@ public abstract class SerializableDictionaryBase
 [Serializable]
 public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : SerializableDictionaryBase, IDictionary<TKey, TValue>, IDictionary, ISerializationCallbackReceiver, IDeserializationCallback, ISerializable
 {
-	Dictionary<TKey, TValue> m_dict;
+	public Dictionary<TKey, TValue> m_dict;
 	[SerializeField]
 	TKey[] m_keys;
 	[SerializeField]
@@ -95,8 +95,18 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
 
 	public TValue this[TKey key]
 	{
-		get { return ((IDictionary<TKey, TValue>)m_dict)[key]; }
-		set { ((IDictionary<TKey, TValue>)m_dict)[key] = value; }
+		get
+		{
+			return ((IDictionary<TKey, TValue>)m_dict)[key];
+		}
+		set
+		{
+			if (key == null)
+			{
+				return;
+			}
+			((IDictionary<TKey, TValue>)m_dict)[key] = value;
+		}
 	}
 
 	public void Add(TKey key, TValue value)
@@ -229,6 +239,7 @@ public static class SerializableDictionary
 	}
 }
 
+[Serializable]
 public class SerializableDictionary<TKey, TValue> : SerializableDictionaryBase<TKey, TValue, TValue>
 {
 	public SerializableDictionary() { }

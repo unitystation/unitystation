@@ -2,8 +2,10 @@
 using UnityEngine;
 using Mirror;
 using System.Collections;
+using AddressableReferences;
+using Messages.Server;
 
-namespace Assets.Scripts.Items.Bureaucracy
+namespace Items.Bureaucracy
 {
 	public class Photocopier : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
@@ -18,8 +20,12 @@ namespace Assets.Scripts.Items.Bureaucracy
 
 		private PhotocopierState photocopierState;
 
+		[SerializeField] private GameObject paperPrefab = null;
+
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterObject registerObject;
+
+		[SerializeField] private AddressableAudioSource Copier = null;
 
 		private void Awake()
 		{
@@ -141,7 +147,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		[Server]
 		public void ToggleScannerLid()
 		{
-			scanner = scanner.ToggleScannerLid(gameObject);
+			scanner = scanner.ToggleScannerLid(gameObject, paperPrefab);
 			OnGuiRenderRequired();
 		}
 
@@ -151,7 +157,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		public void Print()
 		{
 			SyncPhotocopierState( PhotocopierState.Production);
-			SoundManager.PlayNetworkedAtPos("Copier", registerObject.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(Copier, registerObject.WorldPosition);
 			StartCoroutine(WaitForPrint());
 		}
 
@@ -159,7 +165,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		{
 			yield return WaitFor.Seconds(4f);
 			SyncPhotocopierState( PhotocopierState.Idle);
-			printer = printer.Print(scanner.ScannedText, gameObject, photocopierState == PhotocopierState.Idle);
+			printer = printer.Print(scanner.ScannedText, gameObject, photocopierState == PhotocopierState.Idle, paperPrefab);
 			OnGuiRenderRequired();
 		}
 

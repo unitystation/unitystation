@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Initialisation;
+using Messages.Server;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class TilePaths
 {
@@ -35,22 +38,11 @@ public class TilePathEntry
 	public List<LayerTile> layerTiles = new List<LayerTile>();
 }
 
-public class TileManager : MonoBehaviour
+public class TileManager : MonoBehaviour, IInitialise
 {
 	private static TileManager tileManager;
 
-	public static TileManager Instance
-	{
-		get
-		{
-			if (tileManager == null)
-			{
-				tileManager = FindObjectOfType<TileManager>();
-			}
-
-			return tileManager;
-		}
-	}
+	public static TileManager Instance => tileManager;
 
 	private int tilesToLoad = 0;
 	private int tilesLoaded = 0;
@@ -62,7 +54,9 @@ public class TileManager : MonoBehaviour
 
 	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();
 
-	private void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.TileManager;
+
+	void IInitialise.Initialise()
 	{
 #if UNITY_EDITOR
 		CacheAllAssets();
@@ -71,6 +65,39 @@ public class TileManager : MonoBehaviour
 		{
 			StartCoroutine(LoadAllTiles(true));
 		}
+	}
+
+	private void Awake()
+	{
+		if (tileManager == null)
+		{
+			tileManager = this;
+		}
+		else
+		{
+			Destroy(this);
+			return;
+		}
+
+#if UNITY_EDITOR
+		CacheAllAssets();
+#endif
+		if (!initialized) StartCoroutine(LoadAllTiles());
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	private void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		UpdateTileMessage.DelayedStuff.Clear();
 	}
 
 	[ContextMenu("Cache All Assets")]
@@ -151,6 +178,16 @@ public class TileManager : MonoBehaviour
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
 		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
-		return Instance.tiles[tileType][key];
+
+		if (Instance.tiles.TryGetValue(tileType, out var tiles) && tiles.TryGetValue(key, out var layerTile))
+		{
+			return layerTile;
+		}
+
+		Debug.LogError(tiles == null
+			? $"Could not find {tileType} dictionary"
+			: $"Could not find layerTile in {tileType} dictionary with key: {key}");
+
+		return null;
 	}
 }

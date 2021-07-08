@@ -15,44 +15,45 @@ MonoBehaviour:
   displayName: plating
   LayerType: 4
   TileType: 7
-  RequiredTiles:
-  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  floorTileType: 6
+  RequiredTiles: []
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
-  oreCategory: 0
-  HealthStates: []
   passable: 1
   mineable: 0
+  doesReflectBullet: 0
+  indestructible: 0
   passableException:
     m_keys: 01000000
     m_values: 00
   maxHealth: 100
+  damageDeflection: 0
   armor:
     Melee: 50
     Bullet: 40
     Laser: 10
-    Energy: 10
-    Bomb: 30
+    Energy: 50
+    Bomb: 40
     Rad: 100
     Fire: 80
     Acid: 50
     Magic: 0
     Bio: 50
-  hitSounds: []
-  tileDestroyedRemains: []
-  healthStates: []
-  resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 1
-    FreezeProof: 0
-  tileInteractions:
-  - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
+  tileInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
+  lootOnDespawn: {fileID: 11400000, guid: 1a4a35c7013779a469d67421e3cb501d, type: 2}
+  toTileWhenDestroyed: {fileID: 11400000, guid: 28455114dec364442b57e2ae77a4b06e,
+    type: 2}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   sprite: {fileID: 21300000, guid: fdf5da49d7a60094aa8416c767242b61, type: 3}

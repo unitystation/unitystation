@@ -2,20 +2,25 @@
   "dependencies": {
     "com.darrentsung.dtcompiletimetracker": "https://github.com/DarrenTsung/DTCompileTimeTracker.git",
     "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
-    "com.unity.2d.pixel-perfect": "2.0.4",
+    "com.unity.2d.pixel-perfect": "3.0.2",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
-    "com.unity.analytics": "3.3.5",
+    "com.unity.addressables": "1.16.15",
+    "com.unity.analytics": "3.5.3",
+    "com.unity.assetbundlebrowser": "1.7.0",
     "com.unity.editorcoroutines": "1.0.0",
-    "com.unity.ext.nunit": "1.0.0",
-    "com.unity.ide.rider": "2.0.0-preview",
-    "com.unity.ide.vscode": "1.1.4",
-    "com.unity.multiplayer-hlapi": "1.0.4",
-    "com.unity.test-framework": "1.1.11",
-    "com.unity.textmeshpro": "2.0.1",
-    "com.unity.timeline": "1.2.6",
+    "com.unity.ext.nunit": "1.0.6",
+    "com.unity.ide.rider": "3.0.3",
+    "com.unity.ide.visualstudio": "2.0.5",
+    "com.unity.ide.vscode": "1.2.3",
+    "com.unity.memoryprofiler": "0.2.9-preview.1",
+    "com.unity.multiplayer-hlapi": "1.0.8",
+    "com.unity.test-framework": "1.1.20",
+    "com.unity.textmeshpro": "3.0.3",
+    "com.unity.timeline": "1.3.6",
     "com.unity.ugui": "1.0.0",
-    "com.unity.xr.legacyinputhelpers": "2.1.1",
+    "com.unity.vectorgraphics": "2.0.0-preview.13",
+    "com.unity.xr.legacyinputhelpers": "2.1.7",
     "com.xeleh.enhancer": "https://github.com/xeleh/enhancer.git",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
@@ -52,18 +57,5 @@
   "testables": [
     "com.unity.test-framework.performance"
   ],
-  "lock": {
-    "com.darrentsung.dtcompiletimetracker": {
-      "revision": "HEAD",
-      "hash": "276095b3b212d7c33106b53d71b93b5a72d1e1d3"
-    },
-    "com.dbrizov.naughtyattributes": {
-      "revision": "upm",
-      "hash": "b46e9e8fde10448accd59ecabd09fbe296ef62f7"
-    },
-    "com.xeleh.enhancer": {
-      "revision": "HEAD",
-      "hash": "78e062bf5467bb3a4caae6315aaf74352050d116"
-    }
-  }
+  "scopedRegistries": []
 }
