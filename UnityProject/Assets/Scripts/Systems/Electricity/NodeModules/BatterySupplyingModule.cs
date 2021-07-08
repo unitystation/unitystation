@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Light2D;
 using UnityEngine;
 
 namespace Systems.Electricity.NodeModules
@@ -25,15 +27,15 @@ namespace Systems.Electricity.NodeModules
 		public bool ToggleCansupport;
 		public bool SlowResponse; //If set to true then the battery won't respond instantly to loss of power waiting one tick to update
 
-		public float PullLastDeductedTime ;
-		public float ChargLastDeductedTime;
-		private bool chargeCapacityTime = true;
-		public float PullingWatts;
-		public float ChargingWatts;
-		public float CircuitResistance;
-		public float VoltageAtChargePort;
-		public float VoltageAtSupplyPort;
-		public bool isOnForInterface;
+		[NonSerialized] public float PullLastDeductedTime ;
+		[NonSerialized] public float ChargLastDeductedTime;
+		[NonSerialized] private bool chargeCapacityTime = true;
+		[ReadOnly] public float PullingWatts;
+		[ReadOnly] public float ChargingWatts;
+		[NonSerialized] public float CircuitResistance;
+		[NonSerialized] public float VoltageAtChargePort;
+		[NonSerialized] public float VoltageAtSupplyPort;
+		[NonSerialized] public bool isOnForInterface;
 
 		public ResistanceSourceModule ResistanceSourceModule { get; private set; }
 		public TransformerModule TTransformerModule { get; private set; }
