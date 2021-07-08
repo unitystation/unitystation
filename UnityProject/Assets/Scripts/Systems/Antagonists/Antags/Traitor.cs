@@ -24,12 +24,20 @@ namespace Antagonists
 			if (player.GameObject.TryGetComponent<AiPlayer>(out var aiPlayer))
 			{
 				aiPlayer.IsMalf = true;
-				AddObjective(aiTraitorObjective);
+				AIObjectives();
 				aiPlayer.AddLaw("Accomplish your goals at all costs.", AiPlayer.LawOrder.Traitor);
 				return;
 			}
 
 			AntagManager.TryInstallPDAUplink(player, initialTC, false);
+		}
+
+		private void AIObjectives()
+		{
+			if (DMMath.Prob(GameManager.Instance.MalfAIRecieveTheirIntendedObjectiveChance))
+			{
+				AddObjective(aiTraitorObjective);
+			}
 		}
 	}
 }
