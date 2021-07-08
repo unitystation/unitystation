@@ -27,6 +27,7 @@ namespace Systems.Atmospherics
 			}
 			else
 			{
+				//Will be negative until temperature is greater than minimum burn temperature
 				temperatureScale = (temperature - AtmosDefines.PLASMA_MINIMUM_BURN_TEMPERATURE) /
 				                   (AtmosDefines.PLASMA_UPPER_TEMPERATURE - AtmosDefines.PLASMA_MINIMUM_BURN_TEMPERATURE);
 			}

@@ -11,7 +11,7 @@ namespace Systems.Atmospherics
 
 		//Plasma fire properties
 		public static readonly float OXYGEN_BURN_RATE_BASE = 1.4f;
-		public static readonly float PLASMA_BURN_RATE_DELTA = 9f;
+		public static readonly float PLASMA_BURN_RATE_DELTA = 18f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_NEEDED = 2f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_PLASMA_RATIO = 30f;
 		public static readonly float PLASMA_UPPER_TEMPERATURE = 1643.15f;

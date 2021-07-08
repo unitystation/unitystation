@@ -58,7 +58,8 @@ public class FireExposure
 	/// <returns></returns>
 	public float StandardDamage()
 	{
-		return  Mathf.Clamp(0.1f * Temperature, 0f, 20f);
+		//Fire temp is minimum 373.15k, at that temp we do 3.7315 damage
+		return  Mathf.Clamp(0.01f * Temperature, 0f, 20f);
 	}
 
 	/// <summary>

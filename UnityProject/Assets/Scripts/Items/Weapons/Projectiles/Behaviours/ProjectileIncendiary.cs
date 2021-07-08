@@ -21,25 +21,37 @@ namespace Weapons.Projectiles.Behaviours
 		[SerializeField]
 		private float fireHotspotTemperature = 700;
 
-		private Transform thisTransform;
+		[SerializeField]
+		private bool changeTemperatureOnHotspot = true;
 
-		private Vector3Int currentTileWorldPos = default;
-		private Vector3Int previousTileWorldPos = default;
+		private Transform thisTransform;
 
 		private void Awake()
 		{
 			thisTransform = transform;
 		}
 
-		public bool OnMove(Vector2 traveledDistance)
+		public bool OnMove(Vector2 traveledDistance, Vector2 previousWorldPosition)
 		{
 			if (createsHotspots == false) return false;
 
-			currentTileWorldPos = thisTransform.position.CutToInt();
-			if (currentTileWorldPos == previousTileWorldPos) return false;
-			previousTileWorldPos = currentTileWorldPos;
+			var currentTileWorldPos = thisTransform.position.RoundToInt();
+			var previousTilePos = previousWorldPosition.RoundToInt();
 
-			CreateHotSpot();
+			var amount = Mathf.RoundToInt(traveledDistance.y);
+			var xDifference = (currentTileWorldPos.x - previousTilePos.x) / amount;
+			var yDifference = (currentTileWorldPos.y - previousTilePos.y) / amount;
+
+			for (int i = 0; i < amount; i++)
+			{
+				CreateHotSpot(new Vector3Int(xDifference * i + previousTilePos.x,
+					yDifference * i + previousTilePos.y, 0));
+			}
+
+			if (amount == 0)
+			{
+				CreateHotSpot(currentTileWorldPos);
+			}
 
 			return false;
 		}
@@ -64,10 +76,10 @@ namespace Weapons.Projectiles.Behaviours
 			return true;
 		}
 
-		private void CreateHotSpot()
+		private void CreateHotSpot(Vector3Int tilePos)
 		{
-			var reactionManager = MatrixManager.AtPoint(currentTileWorldPos, true).ReactionManager;
-			reactionManager.ExposeHotspotWorldPosition(currentTileWorldPos.To2Int(), fireHotspotTemperature, true);
+			var reactionManager = MatrixManager.AtPoint(tilePos, true).ReactionManager;
+			reactionManager.ExposeHotspotWorldPosition(tilePos.To2Int(), fireHotspotTemperature, changeTemperatureOnHotspot);
 		}
 	}
 }
