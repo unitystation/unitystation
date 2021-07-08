@@ -4,29 +4,31 @@ using Messages.Server;
 using Mirror;
 using UnityEngine;
 
-public class PlayerPopulateInventoryUIMessage : ServerMessage<PlayerPopulateInventoryUIMessage.NetMessage>
+namespace Messages.Server
 {
-	public struct NetMessage : NetworkMessage
+	public class PlayerPopulateInventoryUIMessage : ServerMessage<PlayerPopulateInventoryUIMessage.NetMessage>
 	{
-		public uint NetIDOfStorage;
-	}
-
-	public override void Process(NetMessage msg)
-	{
-		LoadNetworkObject(msg.NetIDOfStorage);
-		UIManager.Instance.UI_SlotManager.RemoveAll();
-		NetworkObject.GetComponent<DynamicItemStorage>().ShowClientUI();
-	}
-
-	public static NetMessage Send(DynamicItemStorage DIM, GameObject ToWho)
-	{
-		NetMessage msg = new NetMessage
+		public struct NetMessage : NetworkMessage
 		{
-			NetIDOfStorage = DIM.netId
-		};
+			public uint NetIDOfStorage;
+		}
 
-		SendTo(ToWho, msg);
-		return msg;
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.NetIDOfStorage);
+			UIManager.Instance.UI_SlotManager.RemoveAll();
+			NetworkObject.GetComponent<DynamicItemStorage>().ShowClientUI();
+		}
+
+		public static NetMessage Send(DynamicItemStorage DIM, GameObject ToWho)
+		{
+			NetMessage msg = new NetMessage
+			{
+				NetIDOfStorage = DIM.netId
+			};
+
+			SendTo(ToWho, msg);
+			return msg;
+		}
 	}
-
 }
