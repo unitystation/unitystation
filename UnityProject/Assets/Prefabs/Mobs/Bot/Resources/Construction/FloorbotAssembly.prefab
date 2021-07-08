@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 8519986881077588824}
   - component: {fileID: 8516932054292799704}
   - component: {fileID: 8520176200339000472}
-  - component: {fileID: 7262420522021229343}
   - component: {fileID: 2276457107007812492}
   - component: {fileID: -5743939338661801347}
   m_Layer: 10
@@ -111,6 +110,8 @@ MonoBehaviour:
   hitDamage: 0
   damageType: 0
   throwDamage: 0
+  traumaDamageChance: 0
+  TraumaticDamageType: 0
   throwSpeed: 2
   throwRange: 7
   hitSound:
@@ -124,6 +125,7 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  CanBeUsedOnSelfOnHelpIntent: 0
   itemSprites:
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 0}
@@ -151,8 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!114 &8520110820658978386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  pickupAnimSpeed: 0.2
 --- !u!114 &8520728230916279596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +214,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  CurrentsortingGroup: {fileID: 0}
 --- !u!114 &8519986881077588824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +264,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -274,6 +277,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &8520176200339000472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,20 +296,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &7262420522021229343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8622575264684028204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &2276457107007812492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,4 +436,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
