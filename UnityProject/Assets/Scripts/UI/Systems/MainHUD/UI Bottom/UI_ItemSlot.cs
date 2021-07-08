@@ -378,7 +378,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// </summary>
 	public void TryItemInteract(bool swapIfEmpty = true)
 	{
-		var slotName = itemSlot.SlotIdentifier.NamedSlot;
 		// Clicked on another slot other than our own hands
 		bool IsHandSlots = false;
 		foreach (var HadnitemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())

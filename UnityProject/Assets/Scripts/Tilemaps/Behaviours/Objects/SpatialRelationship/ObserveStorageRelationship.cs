@@ -22,7 +22,7 @@ public class ObserveStorageRelationship : RangeRelationship
 		this.ObservedStorage = observedStorage;
 		this.ObserverPlayer = observer;
 		//check if the observed storage is in a player's inventory, and if so, populate the fields / event hooks
-		var rootStorage = observedStorage.ItemStorage.GetRootStorage();
+		var rootStorage = observedStorage.ItemStorage.GetRootStorageOrPlayer();
 		this.observedPlayerMove = rootStorage.GetComponent<PlayerMove>();
 		if (observedPlayerMove != null)
 		{

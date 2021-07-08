@@ -102,7 +102,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &5970802900729141845
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,7 +121,6 @@ GameObject:
   - component: {fileID: 6001070637509285921}
   - component: {fileID: 6000834892531239841}
   - component: {fileID: 6001248824644544481}
-  - component: {fileID: 4736744346245642342}
   - component: {fileID: -3445058822612490815}
   - component: {fileID: -2745594047464328484}
   - component: {fileID: -5694666669392884321}
@@ -218,10 +216,8 @@ MonoBehaviour:
   hitDamage: 12
   damageType: 0
   throwDamage: 15
-  slashChance: 35
-  slashDamage: 4
-  pierceChance: 0
-  pierceDamage: 0
+  traumaDamageChance: 0
+  TraumaticDamageType: 0
   throwSpeed: 3
   throwRange: 4
   hitSound:
@@ -238,6 +234,7 @@ MonoBehaviour:
   - chopped
   - hacked
   - cut
+  CanBeUsedOnSelfOnHelpIntent: 0
   itemSprites:
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 11400000, guid: 7b17c79f21e52db47a981330dabb2878, type: 2}
@@ -389,6 +386,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &6001248824644544481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,20 +405,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &4736744346245642342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5970802900729141845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &-3445058822612490815
 MonoBehaviour:
   m_ObjectHideFlags: 0
