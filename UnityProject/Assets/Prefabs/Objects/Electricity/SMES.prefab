@@ -109,6 +109,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
@@ -143,8 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: BladeSlice
 --- !u!114 &3432798136324343086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +178,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -191,6 +191,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &8848522590704173912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: 0
   ControllingNode: {fileID: 0}
-  StartOnStartUp: 0
+  StartOnStartUp: 1
   Previouscurrent: 0
   current: 0
   PreviousSupplyingVoltage: 0
@@ -385,6 +386,8 @@ MonoBehaviour:
   StandardChargeNumber: 1
   MaxChargingDivider: 750
   ChargingDivider: 10
+  InputLevel: 100
+  OutputLevel: 100
   CanCharge: 1
   Cansupport: 1
   ToggleCanCharge: 1
@@ -520,7 +523,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,7 +627,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1755787157714290
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,7 +731,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &8159420298327335241
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,4 +835,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
