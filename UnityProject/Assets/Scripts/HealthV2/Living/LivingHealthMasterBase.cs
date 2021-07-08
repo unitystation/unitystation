@@ -316,13 +316,20 @@ namespace HealthV2
 		//Server Side only
 		private void PeriodicUpdate()
 		{
-			foreach (var implant in RootBodyPartContainers)
+			if (IsDead == false)
 			{
-				implant.ImplantPeriodicUpdate();
+				foreach (var implant in RootBodyPartContainers)
+				{
+					implant.ImplantPeriodicUpdate();
+				}
 			}
+
 
 			fireStacksDamage();
 			CalculateRadiationDamage();
+
+			if (IsDead) return;
+
 			CalculateOverallHealth();
 		}
 
@@ -358,7 +365,7 @@ namespace HealthV2
 					return;
 				}
 
-				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 500, true);
+				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700, true);
 			}
 		}
 
@@ -990,7 +997,6 @@ namespace HealthV2
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			//TODO: Reimplemenmt
 		}
 

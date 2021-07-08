@@ -131,9 +131,7 @@ namespace Systems.Atmospherics
 				Profiler.EndSample();
 				return;
 			}
-
 			timePassed = 0;
-			reactionTick++;
 
 			//hotspot spread to adjacent tiles and damage
 			foreach (MetaDataNode node in hotspots.Values)
@@ -147,6 +145,7 @@ namespace Systems.Atmospherics
 				}
 			}
 
+			reactionTick++;
 			Profiler.EndSample();
 		}
 
@@ -192,12 +191,12 @@ namespace Systems.Atmospherics
 
 		public void DoTick()
 		{
-			if (reactionTick == 0)
+			if (reactionTick <= 3)
 			{
 				return;
 			}
 
-			reactionTick--;
+			reactionTick = 0;
 
 			//process the current hotspots, removing ones that can't sustain anymore.
 			//(but we actually perform the add / remove after this loop so we don't concurrently modify the dict)
@@ -371,14 +370,6 @@ namespace Systems.Atmospherics
 				if (!metadata.IsOccupied)
 				{
 					//atmos can pass here, so no need to check side exposure (nothing to brush up against)
-					Profiler.EndSample();
-					return;
-				}
-
-				if (metadata.PositionMatrix.IsWallAt(atWorldPosition, true) ||
-				    metadata.PositionMatrix.IsWindowAt(atWorldPosition, true))
-				{
-					//Theres a wall or window so dont need to expose it
 					Profiler.EndSample();
 					return;
 				}

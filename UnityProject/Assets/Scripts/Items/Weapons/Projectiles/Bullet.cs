@@ -83,12 +83,13 @@ namespace Weapons.Projectiles
 		/// </summary>
 		/// <param name="distanceTraveled"></param>
 		/// <param name="worldPosition"> Actual world position of the moving projectile </param>
+		/// <param name="previousWorldPosition"> Previous world position of the moving projectile</param>
 		/// <returns> Is despawning bullet? </returns>
-		public bool ProcessMove(Vector3 distanceTraveled, Vector3 worldPosition)
+		public bool ProcessMove(Vector3 distanceTraveled, Vector3 worldPosition, Vector3 previousWorldPosition)
 		{
 			foreach (var behaviour in behavioursOnMove)
 			{
-				if (behaviour.OnMove(distanceTraveled))
+				if (behaviour.OnMove(distanceTraveled, previousWorldPosition))
 				{
 					DespawnThis(new MatrixManager.CustomPhysicsHit(), worldPosition);
 					return false;
