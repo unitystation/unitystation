@@ -101,6 +101,14 @@ namespace Systems.Ai
 		private bool tryingToRestorePower;
 		private Coroutine routine;
 
+		private bool isMalf = false;
+
+		public bool IsMalf
+		{
+			get => isMalf;
+			set => isMalf = value;
+		}
+
 		//TODO make into sync list, will need to be sync as it is used in some validations client and serverside
 		private List<string> openNetworks = new List<string>()
 		{
