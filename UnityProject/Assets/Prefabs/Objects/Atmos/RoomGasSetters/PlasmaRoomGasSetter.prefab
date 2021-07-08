@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2987427711853023569, guid: 4be0b953627cfaa4d9e7713cd25f19a0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ce74acaef5b7c5d4d9ed995760ac090d,
+        type: 2}
     - target: {fileID: 6313797436603689428, guid: 4be0b953627cfaa4d9e7713cd25f19a0,
         type: 3}
       propertyPath: gasMixToSpawn
@@ -33,6 +39,17 @@ PrefabInstance:
         type: 3}
       propertyPath: gasMixToSpawn.GasData.GasesArray.Array.data[0].Moles
       value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7513611226500554652, guid: 4be0b953627cfaa4d9e7713cd25f19a0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 588f03f0b8c776b47bef432272b6ecef,
+        type: 3}
+    - target: {fileID: 7513611226500554652, guid: 4be0b953627cfaa4d9e7713cd25f19a0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7720728262316129163, guid: 4be0b953627cfaa4d9e7713cd25f19a0,
         type: 3}

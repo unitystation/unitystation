@@ -12,12 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0281757cd1f78ee42bcc890d9d959908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gasMixToSpawn:
-    GasData:
-      GasesArray: []
-    Pressure: 0
-    Volume: 2.5
-    Temperature: 293.15
+  gasMixToSpawn: {fileID: 0}
 --- !u!1001 &5865830758923697602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39,12 +34,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 588f03f0b8c776b47bef432272b6ecef,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -125,9 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: ce74acaef5b7c5d4d9ed995760ac090d,
-        type: 2}
-    m_RemovedComponents: []
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+    - {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+    - {fileID: 5971563122362279857, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &7720728262316129163 stripped
 GameObject:
