@@ -16,43 +16,56 @@ namespace UI.Systems.MainHUD.UI_Bottom
 {
 	public class UI_Ai : MonoBehaviour
 	{
-		[HideInInspector] public AiPlayer aiPlayer = null;
+		[HideInInspector]
+		public AiPlayer aiPlayer = null;
 
-		[HideInInspector] public AiMouseInputController controller = null;
+		[HideInInspector]
+		public AiMouseInputController controller = null;
 
 		//Laws Tab Stuff
-		[SerializeField] private GameObject aiLawsTab = null;
+		[SerializeField]
+		private GameObject aiLawsTab = null;
 
-		[SerializeField] private Transform aiLawsTabContents = null;
+		[SerializeField]
+		private Transform aiLawsTabContents = null;
 
-		[SerializeField] private GameObject aiLawsTabDummyLaw = null;
+		[SerializeField]
+		private GameObject aiLawsTabDummyLaw = null;
 
-		[SerializeField] private TMP_Text amountOfLawsText = null;
+		[SerializeField]
+		private TMP_Text amountOfLawsText = null;
 
 		//Slider Stuff
-		[SerializeField] private Slider powerSlider = null;
+		[SerializeField]
+		private Slider powerSlider = null;
 
-		[SerializeField] private Slider integritySlider = null;
+		[SerializeField]
+		private Slider integritySlider = null;
 
 		//Call Shuttle Stuff
-		[SerializeField] private GameObject callShuttleTab = null;
+		[SerializeField]
+		private GameObject callShuttleTab = null;
 
 		[SerializeField]
 		private TMP_InputField callReasonInputField = null;
 
 		//Camera Teleport Screen
-		[SerializeField] private TeleportWindow teleportWindow = null;
+		[SerializeField]
+		private TeleportWindow teleportWindow = null;
 
 		//Camera Save
-		[SerializeField] private GameObject cameraSaveDummy = null;
+		[SerializeField]
+		private GameObject cameraSaveDummy = null;
 
-		[SerializeField] private Transform cameraSaveContents = null;
+		[SerializeField]
+		private Transform cameraSaveContents = null;
 
 		//First is the UI button, second is the associated security camera object
 		private Dictionary<GameObject, GameObject> savedCameras = new Dictionary<GameObject, GameObject>();
 
 		//Number of cameras
-		[SerializeField] private TMP_Text numberOfCameras = null;
+		[SerializeField]
+		private TMP_Text numberOfCameras = null;
 
 		private bool focusCheck;
 
@@ -331,7 +344,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private void OnCameraClick(GameObject cameraClicked)
 		{
-			if (aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+			if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
 			aiPlayer.StartCoolDown(NetworkSide.Client);
 
 			if (savedCameras.TryGetValue(cameraClicked, out var secCame) == false) return;
