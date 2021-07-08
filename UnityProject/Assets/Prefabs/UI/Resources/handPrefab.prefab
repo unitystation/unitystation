@@ -643,7 +643,6 @@ MonoBehaviour:
   amountText: {fileID: 280823804574345808}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
-  RelatedBodyPartUISlots: {fileID: 0}
 --- !u!1 &3637055026155234450
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +739,6 @@ MonoBehaviour:
   amountText: {fileID: 8264785258385901615}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
-  RelatedBodyPartUISlots: {fileID: 0}
 --- !u!1 &3637941299951476996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,8 +1500,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8bad4e17cde7744afc331c86e5fbe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftHandActive: 0
   LeftHand: {fileID: 6405349877022171975}
   LeftHandOverlay: {fileID: 2389279833176741792}
+  RightHandActive: 0
   RightHand: {fileID: 3271493807745088081}
   RightHandOverlay: {fileID: 1003020500808509410}
   Overly: {fileID: 1461323165134144920}

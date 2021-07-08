@@ -345,15 +345,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
+  Type: 23
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 23
   boilerTurbineController: {fileID: 0}
   GUIBoilerAnnunciators:
     GUIBoilerTurbineController: {fileID: 0}

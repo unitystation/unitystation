@@ -33,6 +33,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directional: {fileID: 5662431988191537536}
+--- !u!114 &6203834163477203450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 6
+  aiInteractable: 1
 --- !u!114 &8342472905829387893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,19 +94,6 @@ MonoBehaviour:
   connectedDepartmentBatteries: []
   conType: 1
   multiMaster: 1
---- !u!114 &6203834163477203450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238849902553559639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 6
 --- !u!1 &9053875397184046594
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +201,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &3917532995848785121
 MonoBehaviour:
   m_ObjectHideFlags: 0

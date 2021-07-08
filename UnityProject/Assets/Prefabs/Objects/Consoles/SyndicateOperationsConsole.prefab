@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d621c40643c0b22d6b2ffa85605226dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TcReserve: 0
   TcIncrement: 14
+  timer: 1200
+  tcToGive: 280
 --- !u!1001 &4446479705313005294
 PrefabInstance:
   m_ObjectHideFlags: 0

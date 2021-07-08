@@ -16,18 +16,23 @@ MonoBehaviour:
   LayerType: 8
   TileType: 10
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
-  oreCategory: 0
-  HealthStates: []
   passable: 1
   mineable: 0
+  miningTime: 5
+  RadiationPassability: 1
+  doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
   passableException:
     m_keys: 
     m_values: 
   maxHealth: 0
+  damageDeflection: 0
   armor:
     Melee: 90
     Bullet: 90
@@ -39,38 +44,44 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
-  hitSounds: []
-  tileDestroyedRemains: []
-  healthStates: []
-  resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: f3cbdc8fa952d8f41b14bcf1de66e64e, type: 2}
   spawnOnDeconstruct: {fileID: 6901205439577167846, guid: 771de75cd7e11e14f826a0e520a2b70d,
     type: 3}
   spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  SoundOnDestroy: []
   PipeLayer: 1
-  PipeType: 2
+  Volume: 0.1
   CustomLogic: 1
   Connections:
     Directions:
     - Bool: 0
       pipeType: 2
       PortType: 0
+      flagLogic: 0
     - Bool: 1
       pipeType: 2
       PortType: 0
+      flagLogic: 0
     - Bool: 1
       pipeType: 2
       PortType: 0
+      flagLogic: 0
     - Bool: 0
       pipeType: 1
       PortType: 0
+      flagLogic: 0
   NetCompatible: 1
   sprite: {fileID: 21300008, guid: 9f869aea24741a04998164f8dc10ea08, type: 3}

@@ -9,18 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 171866157173137433, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: initialDescription
-      value: A fifty-credit bill. It's worth fifty credits in total.
+      propertyPath: exportCost
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 171866157173137433, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: exportCost
-      value: 50
+      propertyPath: initialDescription
+      value: A fifty-credit bill. It's worth fifty credits in total.
       objectReference: {fileID: 0}
     - target: {fileID: 328496622264291195, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
       propertyPath: m_Name
       value: SpaceCash50
+      objectReference: {fileID: 0}
+    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
@@ -90,13 +90,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5893262307858330876, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3c957359ab7a43b4d9eb9c40e2837365,
         type: 2}
     - target: {fileID: 5893262307858330876, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 3c957359ab7a43b4d9eb9c40e2837365,
         type: 2}

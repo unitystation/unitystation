@@ -15,12 +15,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3883941778682478371, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 230822445aa6ad64dbc889257a2f2f1f,
-        type: 2}
-    - target: {fileID: 3883941778682478371, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: cafbd67f00b11394badd990f65ec1ddb,
@@ -31,6 +25,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cafbd67f00b11394badd990f65ec1ddb,
         type: 2}
+    - target: {fileID: 3883941778682478371, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 230822445aa6ad64dbc889257a2f2f1f,
+        type: 2}
     - target: {fileID: 7698123779403150290, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_AssetId
@@ -40,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GiantSpiderTarantula
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
@@ -58,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -69,16 +79,6 @@ PrefabInstance:
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,

@@ -47,7 +47,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7510084489263721142, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: Resistances.LavaProof
+      propertyPath: Resistances.AcidProof
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7510084489263721142, guid: 7fd11f09765590540b2685a0dfa2b8ea,
@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7510084489263721142, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: Resistances.AcidProof
+      propertyPath: Resistances.LavaProof
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7510084489263721142, guid: 7fd11f09765590540b2685a0dfa2b8ea,
@@ -69,6 +69,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ImperatorLaserGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -87,6 +92,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -99,16 +109,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -139,16 +139,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: ef8719d64b8c8424dbbea6d60bd98809,
-        type: 2}
-    - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 80e4e7e19f99fd94693de88004fbc88c,
-        type: 2}
+      propertyPath: hitDamage
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: initialName
@@ -164,9 +157,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: hitDamage
-      value: 10
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ef8719d64b8c8424dbbea6d60bd98809,
+        type: 2}
+    - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 80e4e7e19f99fd94693de88004fbc88c,
+        type: 2}
     - target: {fileID: 8598678289473679745, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_Sprite

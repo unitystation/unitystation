@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: SurgicalDuffelBag
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 1029259830361477811, guid: 6d3ab6351590fb943aea84485346e1c0, type: 3}
   - {fileID: 4502661367026533529, guid: eaa56f4c8fd7aa64d8fa44b70ed9ccb3, type: 3}
   - {fileID: 8988438720498240350, guid: 75714a236b0522844b47ac0e27cd2487, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 1591477812037814367, guid: 89be3503e849f7841bcb2d0c12d42f5f, type: 3}
   - {fileID: 9175831555456198527, guid: c08b964edf24e5c42a6edf23e84fc920, type: 3}
   - {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
-  MergeMode: 0

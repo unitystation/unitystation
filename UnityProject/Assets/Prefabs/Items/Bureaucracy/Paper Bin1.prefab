@@ -99,6 +99,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: f0cf26da94f1b4520a902840eebe5eb8,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &5321606084769466320
 MonoBehaviour:
   m_ObjectHideFlags: 0

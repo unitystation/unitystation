@@ -15,14 +15,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4173330104228246277, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
-      propertyPath: initialDescription
-      value: The latest and greatest in custodial convenience, a trashbag that is
-        capable of holding vast quantities of garbage.
+      propertyPath: initialName
+      value: trash bag of holding
       objectReference: {fileID: 0}
     - target: {fileID: 4173330104228246277, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
-      propertyPath: initialName
-      value: trash bag of holding
+      propertyPath: initialDescription
+      value: The latest and greatest in custodial convenience, a trashbag that is
+        capable of holding vast quantities of garbage.
       objectReference: {fileID: 0}
     - target: {fileID: 4464978965926195003, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
@@ -42,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}

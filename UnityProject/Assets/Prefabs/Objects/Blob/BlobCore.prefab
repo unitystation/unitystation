@@ -189,10 +189,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 9ecbf907661d95f4bb94ece516ae5545, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &4009345905135017212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,6 +207,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
+      propertyPath: blobType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
       propertyPath: isNormal
       value: 0
       objectReference: {fileID: 0}
@@ -215,11 +220,6 @@ PrefabInstance:
       propertyPath: lightSprite
       value: 
       objectReference: {fileID: 2152900288263884504}
-    - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
-        type: 3}
-      propertyPath: blobType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: activeSprite
@@ -232,6 +232,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b3d1b159908edfa48a18c3f36a601892,
         type: 2}
+    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -249,6 +254,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -261,16 +271,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -310,18 +310,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5538826551895775827, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: willHighlight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5538826551895775827, guid: 8222ca60d13546344a9ff991f239a0b0,
-        type: 3}
       propertyPath: initialName
       value: Blob Core
       objectReference: {fileID: 0}
+    - target: {fileID: 5538826551895775827, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: willHighlight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 400
+      propertyPath: Armor.Acid
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -330,8 +330,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 90
+      propertyPath: initialIntegrity
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}

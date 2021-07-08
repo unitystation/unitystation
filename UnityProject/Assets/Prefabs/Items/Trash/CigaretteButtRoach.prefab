@@ -9,18 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
-      propertyPath: initialDescription
-      value: A manky old roach, or for non-stoners, a used rollup.
+      propertyPath: initialName
+      value: roach
       objectReference: {fileID: 0}
     - target: {fileID: 8886012489182465320, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
-      propertyPath: initialName
-      value: roach
+      propertyPath: initialDescription
+      value: A manky old roach, or for non-stoners, a used rollup.
       objectReference: {fileID: 0}
     - target: {fileID: 8946640814207148030, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9056578129770733374, guid: 76c1cf9465a29384faac0d9df2eec3c9,
         type: 3}

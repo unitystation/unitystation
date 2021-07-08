@@ -18,6 +18,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114644025392430031, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: 0962cc7b7ee82d14a975400b9762a9ca,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114644025392430031, guid: 0962cc7b7ee82d14a975400b9762a9ca,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114644025392430031, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
@@ -48,16 +58,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114644025392430031, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114644025392430031, guid: 0962cc7b7ee82d14a975400b9762a9ca,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114644025392430031, guid: 0962cc7b7ee82d14a975400b9762a9ca,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -73,23 +73,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 534051172148537817, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
-      propertyPath: initialDescription
-      value: Polygonal seeds.
-      objectReference: {fileID: 0}
-    - target: {fileID: 534051172148537817, guid: 0962cc7b7ee82d14a975400b9762a9ca,
-        type: 3}
       propertyPath: initialName
       value: pack of extradimensional orange seeds
       objectReference: {fileID: 0}
-    - target: {fileID: 1619299131167382530, guid: 0962cc7b7ee82d14a975400b9762a9ca,
+    - target: {fileID: 534051172148537817, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: initialDescription
+      value: Polygonal seeds.
       objectReference: {fileID: 0}
     - target: {fileID: 1619299131167382530, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
       propertyPath: plantData.Endurance
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619299131167382530, guid: 0962cc7b7ee82d14a975400b9762a9ca,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Extradimensional Orange Tree
       objectReference: {fileID: 0}
     - target: {fileID: 1619299131167382530, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
@@ -99,8 +99,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1619299131167382530, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Extradimensional Orange Tree
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0962cc7b7ee82d14a975400b9762a9ca, type: 3}

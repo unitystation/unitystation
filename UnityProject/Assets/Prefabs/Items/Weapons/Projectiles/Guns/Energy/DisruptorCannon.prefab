@@ -102,7 +102,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &7444271311577601390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,9 +116,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 418707f5ca3e45c47ba16bd11fbbf78f, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 016040b02af7ca64abf7dd60afd9d147, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0

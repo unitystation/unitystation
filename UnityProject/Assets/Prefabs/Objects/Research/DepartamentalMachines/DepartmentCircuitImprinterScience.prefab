@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2544166227562762479, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544166227562762479, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2544166227562762479, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544166227562762479, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2544166227562762479, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2544166227562762479, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2544166227562762479, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
         type: 3}
@@ -69,16 +69,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4569492280421364404, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
         type: 3}
-      propertyPath: machineBoardPrefab
-      value: 
-      objectReference: {fileID: 3070253818463925403, guid: cd53f49285e88c14798fcae9769f5449,
-        type: 3}
-    - target: {fileID: 4569492280421364404, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
-        type: 3}
       propertyPath: MachineParts
       value: 
       objectReference: {fileID: 11400000, guid: 98b2fe15bb4240c4ca8618a07f2062b5,
         type: 2}
+    - target: {fileID: 4569492280421364404, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 3070253818463925403, guid: cd53f49285e88c14798fcae9769f5449,
+        type: 3}
     - target: {fileID: 5187858185550088453, guid: f96ffa2f88a11e646bc2e979cbe9dfba,
         type: 3}
       propertyPath: initialName

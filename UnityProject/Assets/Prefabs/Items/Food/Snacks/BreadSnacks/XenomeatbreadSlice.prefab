@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6c8e25b90a5ac1a4abecb46e06d278df,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6c8e25b90a5ac1a4abecb46e06d278df,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: -2005470124967381117, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -145,6 +143,11 @@ PrefabInstance:
     - target: {fileID: 5011845196938696218, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: NutritionLevel
+      value: 263
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011845196938696218, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 263
       objectReference: {fileID: 0}
     - target: {fileID: 6997740245486759917, guid: d2991f5505400ab479c5262137eed380,

@@ -46,9 +46,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
   closetType: 0
 --- !u!114 &6367803473829525767
@@ -66,15 +68,24 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 0}
+  alwaysSpawnContents: 0
   lockLight: {fileID: 0}
   IsLockable: 0
+  hideLockWhenOpened: 1
   playerLimit: 3
   breakoutTime: 120
   matsOnDestroy: {fileID: 0}
   matsDroppedOnDestroy: 2
-  soundOnOpenOrClose:
+  soundOnOpen:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnClose:
+    SetLoadSetting: 0
+    AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -98,6 +109,8 @@ MonoBehaviour:
   isEmagged: 0
   weldOverlay: {fileID: 0}
   weldSprite: {fileID: 0}
+  isUnLockable: 1
+  isWeldable: 1
 --- !u!1 &8639641436648170908
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +215,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &8503951718868588636
 PrefabInstance:
   m_ObjectHideFlags: 0

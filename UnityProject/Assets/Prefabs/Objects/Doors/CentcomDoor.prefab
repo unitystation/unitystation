@@ -362,7 +362,6 @@ MonoBehaviour:
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
-  conType: 7
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -374,6 +373,7 @@ MonoBehaviour:
   openingDirection: 0
   spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
+  conType: 7
 --- !u!114 &114936201514075140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,14 +387,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114287951213915578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,6 +577,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &114506160011368158
@@ -645,6 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114120275764581544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,6 +673,7 @@ MonoBehaviour:
     Acid: 70
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -690,6 +685,8 @@ MonoBehaviour:
     LightningDamageProof: 0
   HeatResistance: 100
   ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114852647110043552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,6 +702,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
   hasSpawned: 0
 --- !u!114 &-3331040946134907951

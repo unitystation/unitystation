@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -96,18 +96,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
-      propertyPath: ammoType
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
-      propertyPath: magazineSize
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
-        type: 3}
       propertyPath: isClip
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: ammoType
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -115,6 +110,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8926349090719206047, guid: f29df69b3b938f941b3064a2cb7dc4b6,
         type: 3}
+    - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: magazineSize
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8354550959241077266, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: initalProjectile

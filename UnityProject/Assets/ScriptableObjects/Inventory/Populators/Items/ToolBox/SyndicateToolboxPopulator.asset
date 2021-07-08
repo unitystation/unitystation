@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: SyndicateToolboxPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 6834069833354749085, guid: 21a1d84ff5f5826499a52dc27b21d236, type: 3}
   - {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a, type: 3}
   - {fileID: 4212894880579998087, guid: 4ee49ace2bcf58745816b129ce7550e7, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}
   - {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}
   - {fileID: 6373161644663410599, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}
-  MergeMode: 0

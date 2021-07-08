@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
@@ -92,6 +92,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8029025623717359887, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
+      propertyPath: initialName
+      value: purple carpet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8029025623717359887, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 58f13ebb1a307b54e828722bca01ad0f,
@@ -102,10 +107,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 32c8a4e2203af0d4aa52d3b6cf672737,
         type: 2}
-    - target: {fileID: 8029025623717359887, guid: bae9e1730d4424fbfa160f045597a604,
-        type: 3}
-      propertyPath: initialName
-      value: purple carpet
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bae9e1730d4424fbfa160f045597a604, type: 3}

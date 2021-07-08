@@ -5103,6 +5103,8 @@ MonoBehaviour:
   transferAmount: 20
   maxCapacity: 3000
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  AdditionalReactions: []
+  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -5110,7 +5112,9 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
       m_values:
       - 3000
+    reagentKeys: []
   destroyOnEmpty: 0
+  ContentsSet: 0
 --- !u!1001 &7914790827376915075
 PrefabInstance:
   m_ObjectHideFlags: 0

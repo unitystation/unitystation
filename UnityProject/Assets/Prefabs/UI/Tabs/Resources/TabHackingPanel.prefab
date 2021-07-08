@@ -925,6 +925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
+  Type: 19
   OnTabClosed:
     m_PersistentCalls:
       m_Calls:
@@ -955,9 +956,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 19
   Wirecut:
     SetLoadSetting: 0
     AssetAddress: null

@@ -61,6 +61,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infiniteStorage: 0
   maximumResources: 1000000
+  UpdateGUIs:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4397833373819759390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsingSilo: 0
   usedStorage: {fileID: 0}
+  materialListGUI: {fileID: 0}
 --- !u!114 &4515876064805449849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 18
+  aiInteractable: 1
 --- !u!1001 &7881568538303212051
 PrefabInstance:
   m_ObjectHideFlags: 0

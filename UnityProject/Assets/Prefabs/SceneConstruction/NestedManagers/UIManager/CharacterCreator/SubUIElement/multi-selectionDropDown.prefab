@@ -96,7 +96,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &3087728318779941642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,6 +1126,7 @@ MonoBehaviour:
   spriteOrder:
     Orders: 00000000000000000000000000000000
   spriteHandlerNorder: {fileID: 3087728318779941642}
+  canRandomizeColors: 0
 --- !u!1 &4043889440604183277
 GameObject:
   m_ObjectHideFlags: 0

@@ -89,9 +89,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114703946515217786
 MonoBehaviour:
@@ -163,7 +165,6 @@ MonoBehaviour:
   WireEndB: 9
   WireEndA: 0
   ListCanConnectTo: 0b0000000800000001000000
-  SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 11
     DirectionReaction: 1
@@ -229,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &3912874886522507892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +246,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
   hasSpawned: 0
 --- !u!114 &1999094162665485661
@@ -259,14 +262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &4997349939610282033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +296,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -312,6 +308,8 @@ MonoBehaviour:
     LightningDamageProof: 1
   HeatResistance: 100
   ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &7688260226702700199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,4 +537,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []

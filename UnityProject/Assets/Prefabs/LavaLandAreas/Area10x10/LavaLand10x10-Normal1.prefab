@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!1 &3459657102671591616
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,6 +835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!114 &485733565537040551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,6 +983,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &2538035951629624714
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -1172,6 +1175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!1 &4881587698759629761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!114 &4973100875722005156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1421,8 +1426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974152dca9d54d57a8f2e4283fb52093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &4828984921513059207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1448,14 +1451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &1690973542957764296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1468,8 +1463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905a243a2c1a4fd79fd17a43b3c6f208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   performerStartActionMessage: 
   othersStartActionMessage: 
 --- !u!114 &1614577746372456569
@@ -1496,8 +1489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ce68dd13aa41cc94841314b4c66a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &6403152738641634855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1513,6 +1504,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
   hasSpawned: 0
 --- !u!114 &5231209230084601319
@@ -1527,8 +1519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afc5c9322044160b00462b567287636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  MatrixSync: {fileID: 0}
 --- !u!114 &6582510221315014976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1678,6 +1669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &4061017199254632763
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -1857,6 +1849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!114 &8777968589668633805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3208,7 +3201,7 @@ Tilemap:
   - m_RefCount: 6
     m_Data: {fileID: 11400000, guid: 9df4e12298fa4e849a9123c8707c5208, type: 2}
   - m_RefCount: 5
-    m_Data: {fileID: 11400000, guid: 8cce0b95f5f1d7f46bfe789aa87a4951, type: 2}
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 5
     m_Data: {fileID: 21300000, guid: b4ef1ee584848d44cac4a6a68b7f3fa7, type: 3}
@@ -3344,6 +3337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 8942748498795785884}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &572824385363437968
 TilemapCollider2D:
   m_ObjectHideFlags: 0

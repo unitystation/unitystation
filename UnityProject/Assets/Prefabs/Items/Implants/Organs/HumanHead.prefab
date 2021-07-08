@@ -17,11 +17,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &8043249252883093520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,7 +39,7 @@ MonoBehaviour:
   NamedSlotFlagged: 0
   relatedStorage: {fileID: 3173373948287869932}
   storage:
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 2
     hoverName: Head
@@ -49,7 +51,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 5
     hoverName: Face
@@ -61,7 +63,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 9
     hoverName: Eyes
@@ -73,7 +75,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 12
     hoverName: Ears
@@ -85,7 +87,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 13
     hoverName: Neck

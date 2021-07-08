@@ -16,6 +16,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 0
 --- !u!114 &3123194050341043285
@@ -60,8 +61,6 @@ MonoBehaviour:
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 0
-  conType: 0
-  connectedDoorSwitch: {fileID: 0}
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -73,6 +72,7 @@ MonoBehaviour:
   openingDirection: 0
   spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
+  conType: 0
 --- !u!114 &5759204677302852279
 MonoBehaviour:
   m_ObjectHideFlags: 0

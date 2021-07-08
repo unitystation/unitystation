@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 43
+  aiInteractable: 1
 --- !u!114 &7993706743923889274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +118,8 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
   ashPrefab: {fileID: 0}
 --- !u!1 &5035411517673045519
 GameObject:
@@ -226,7 +227,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &2245715690121042660
 PrefabInstance:
   m_ObjectHideFlags: 0

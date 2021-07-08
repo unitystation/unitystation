@@ -15,23 +15,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
-      value: 
-      objectReference: {fileID: 7140721910293485171, guid: 882b4a092eff060438657e9c0346ae7c,
-        type: 3}
-    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: c5f107ffc37acb441af494f36f7d8821,
-        type: 2}
-    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Lilies
       objectReference: {fileID: 0}
@@ -41,15 +24,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5467397216729596068, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
         type: 3}
+    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c5f107ffc37acb441af494f36f7d8821,
+        type: 2}
+    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      value: 
+      objectReference: {fileID: 7140721910293485171, guid: 882b4a092eff060438657e9c0346ae7c,
+        type: 3}
+    - target: {fileID: 8834939703312729936, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: initialName
+      value: pack of lily seeds
+      objectReference: {fileID: 0}
     - target: {fileID: 8834939703312729936, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
       propertyPath: initialDescription
       value: These seeds grow into lilies.
       objectReference: {fileID: 0}
-    - target: {fileID: 8834939703312729936, guid: 048adc7de22264941a619844198b1f44,
+    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
-      propertyPath: initialName
-      value: pack of lily seeds
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
@@ -68,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -80,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}

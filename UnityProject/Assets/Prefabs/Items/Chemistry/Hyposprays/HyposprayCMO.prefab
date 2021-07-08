@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5080599931393148512, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: Resistances.Indestructable
+      propertyPath: Resistances.FireProof
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5080599931393148512, guid: 1265e6ed7f0c58249b9a29aacc18a166,
@@ -24,13 +24,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5080599931393148512, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: Resistances.FireProof
+      propertyPath: Resistances.Indestructable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5084121085497256480, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
@@ -49,6 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -61,16 +71,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}

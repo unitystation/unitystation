@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5472888315068087760, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472888315068087760, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -43,6 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472888315068087760, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5472888315068087760, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
         type: 3}
@@ -61,16 +71,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5472888315068087760, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5472888315068087760, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5472888315068087760, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -86,15 +86,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5552237372188225478, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
         type: 3}
+      propertyPath: initialName
+      value: spaceman's trumpet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552237372188225478, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
+        type: 3}
       propertyPath: initialDescription
       value: A vivid flower that smells faintly of freshly cut grass. Touching the
         flower seems to stain the skin some time after contact, yet most other surfaces
         seem to be unaffected by this phenomenon.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552237372188225478, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
-        type: 3}
-      propertyPath: initialName
-      value: spaceman's trumpet
       objectReference: {fileID: 0}
     - target: {fileID: 6037176399531068627, guid: 829c74a1c8ff14d4f8a1261cccfb123b,
         type: 3}

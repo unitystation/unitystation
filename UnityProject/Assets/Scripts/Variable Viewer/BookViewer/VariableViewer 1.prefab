@@ -176,9 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c428450c226d624cb57d5b27d99cd96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boookID: {fileID: 117295858792322629}
   boookTitle: {fileID: 2254400759298988886}
-  boookIsEnabled: {fileID: 3077817402051635739}
   LeftArrow: {fileID: 1584508459333361111}
   RightArrow: {fileID: 7553186283213758692}
   HistoryForward: {fileID: 638913924794940128}
@@ -195,7 +193,6 @@ MonoBehaviour:
   PageEntryPrefab: {fileID: 6254890973411201155, guid: 50eba7b0e15b695429bddf355d0bd18c,
     type: 3}
   window: {fileID: 1066260595725726}
-  bookshelfWindow: {fileID: 8067702754897830083}
 --- !u!114 &1897178895696381665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2549,12 +2546,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4319156495c0f8440b3d11978e9f504d, type: 3}
---- !u!1 &8067702754897830083 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1576420294694384, guid: 4319156495c0f8440b3d11978e9f504d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8066973153996223795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7848908418509611943 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224979633078539924, guid: 4319156495c0f8440b3d11978e9f504d,

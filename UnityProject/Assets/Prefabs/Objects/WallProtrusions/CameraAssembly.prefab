@@ -20,6 +20,22 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
+--- !u!114 &1572902345613267162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8082919958197055211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf63ffa57c86cf246a13bc2b9b7feb62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  securityCameraPrefab: {fileID: 6966868441258359322, guid: c21551dd992a57349973e4b5af103ca6,
+    type: 3}
+  securityCameraItemPrefab: {fileID: 744360337639613114, guid: 2ce4a1be35b09b749b6ddb078b9adbdb,
+    type: 3}
 --- !u!114 &2652415810668124155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,22 +67,6 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 3637989580860523569}
---- !u!114 &1572902345613267162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8082919958197055211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf63ffa57c86cf246a13bc2b9b7feb62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  securityCameraPrefab: {fileID: 6966868441258359322, guid: c21551dd992a57349973e4b5af103ca6,
-    type: 3}
-  securityCameraItemPrefab: {fileID: 744360337639613114, guid: 2ce4a1be35b09b749b6ddb078b9adbdb,
-    type: 3}
 --- !u!1001 &294131310528247601
 PrefabInstance:
   m_ObjectHideFlags: 0

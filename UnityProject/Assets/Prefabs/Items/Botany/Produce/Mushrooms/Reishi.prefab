@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -85,14 +85,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3354030318127624743, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Ganoderma Lucidum: A special fungus known for its medicinal and stress
-        relieving properties.'
+      propertyPath: initialName
+      value: reishi
       objectReference: {fileID: 0}
     - target: {fileID: 3354030318127624743, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialName
-      value: reishi
+      propertyPath: initialDescription
+      value: 'Ganoderma Lucidum: A special fungus known for its medicinal and stress
+        relieving properties.'
       objectReference: {fileID: 0}
     - target: {fileID: 3480773739466297650, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}

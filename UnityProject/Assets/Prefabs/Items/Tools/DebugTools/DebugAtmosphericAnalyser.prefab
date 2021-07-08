@@ -21,8 +21,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8116177439719256906, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
         type: 3}
-      propertyPath: m_Color.r
-      value: 1
+      propertyPath: m_Color.b
+      value: 0.9315591
       objectReference: {fileID: 0}
     - target: {fileID: 8116177439719256906, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
         type: 3}
@@ -31,8 +31,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8116177439719256906, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
         type: 3}
-      propertyPath: m_Color.b
-      value: 0.9315591
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232584368753753442, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8232584368753753442, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
         type: 3}
@@ -51,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8232584368753753442, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232584368753753442, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8232584368753753442, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8232584368753753442, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8232584368753753442, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
         type: 3}

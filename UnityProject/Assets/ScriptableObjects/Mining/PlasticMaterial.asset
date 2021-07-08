@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e121b26b644f546ba7e3b9678dd3a3, type: 3}
   m_Name: PlasticMaterial
   m_EditorClassIdentifier: 
-  OrePrefab: {fileID: 0}
+  laborPoint: 0
+  oreTrait: {fileID: 0}
   displayName: Plastic
   RefinedPrefab: {fileID: 4045780705131321741, guid: a2a557b79e461674b903918737c2255a,
     type: 3}

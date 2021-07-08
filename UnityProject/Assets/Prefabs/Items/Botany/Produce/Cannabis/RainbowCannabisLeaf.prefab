@@ -21,6 +21,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3649808850160319440, guid: d5e025aa25145c744ae2e3883cd7dd39,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649808850160319440, guid: d5e025aa25145c744ae2e3883cd7dd39,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -36,6 +41,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3649808850160319440, guid: d5e025aa25145c744ae2e3883cd7dd39,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649808850160319440, guid: d5e025aa25145c744ae2e3883cd7dd39,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +58,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3649808850160319440, guid: d5e025aa25145c744ae2e3883cd7dd39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3649808850160319440, guid: d5e025aa25145c744ae2e3883cd7dd39,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3649808850160319440, guid: d5e025aa25145c744ae2e3883cd7dd39,
         type: 3}
@@ -86,13 +86,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3771942103710984646, guid: d5e025aa25145c744ae2e3883cd7dd39,
         type: 3}
-      propertyPath: initialDescription
-      value: Is it supposed to be glowing like that...?
+      propertyPath: initialName
+      value: rainbow cannabis leaf
       objectReference: {fileID: 0}
     - target: {fileID: 3771942103710984646, guid: d5e025aa25145c744ae2e3883cd7dd39,
         type: 3}
-      propertyPath: initialName
-      value: rainbow cannabis leaf
+      propertyPath: initialDescription
+      value: Is it supposed to be glowing like that...?
       objectReference: {fileID: 0}
     - target: {fileID: 7490371117361085731, guid: d5e025aa25145c744ae2e3883cd7dd39,
         type: 3}

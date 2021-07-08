@@ -163,8 +163,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!114 &114585462459452276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,15 +179,23 @@ MonoBehaviour:
   - ItemName: 
     Item: {fileID: 8444707690030103156, guid: 21cd1fd338785b8429e7daa5c2029099, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: 
     Item: {fileID: 683694994805896424, guid: 51ddc7025f52f6e4e96d4410324d2bd0, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: 
     Item: {fileID: 6842837344771801099, guid: 6c6024297e6fc674c8c32866a22c19bb, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: 
     Item: {fileID: 2243754040412388242, guid: c3f11865272b2ee40905976d69b851ad, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   HullColor: {r: 0.45882353, g: 0.3882353, b: 0.3137255, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -207,9 +213,13 @@ MonoBehaviour:
   - ItemName: 
     Item: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
     Stock: 2
+    Currency: 0
+    Price: 0
   - ItemName: 
     Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
 --- !u!114 &114969507595526308
@@ -228,9 +238,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114101716766838300
 MonoBehaviour:
@@ -261,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 0
+  aiInteractable: 1
 --- !u!114 &114965468110209590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +323,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -322,6 +336,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114994120514330062
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,23 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1984708910383285442, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
-      propertyPath: initialAmount
+      propertyPath: maxAmount
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1984708910383285442, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
-      propertyPath: maxAmount
+      propertyPath: initialAmount
       value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8690959112136766745, guid: 7f29641ac1b06c74a932d09fff95856c,
-        type: 3}
-      propertyPath: initialDescription
-      value: A slice of condensed cake made for filling people up quickly.
       objectReference: {fileID: 0}
     - target: {fileID: 8690959112136766745, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
       propertyPath: initialName
       value: pound cake slice
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690959112136766745, guid: 7f29641ac1b06c74a932d09fff95856c,
+        type: 3}
+      propertyPath: initialDescription
+      value: A slice of condensed cake made for filling people up quickly.
       objectReference: {fileID: 0}
     - target: {fileID: 8971190716498962727, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
@@ -33,6 +33,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a58253c9f8f5c4b4881ccba08323faeb,
         type: 3}
+    - target: {fileID: 8971190716498962727, guid: 7f29641ac1b06c74a932d09fff95856c,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -50,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9106953340837865231, guid: 7f29641ac1b06c74a932d09fff95856c,
         type: 3}

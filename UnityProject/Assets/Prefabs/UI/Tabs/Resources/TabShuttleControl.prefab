@@ -1260,15 +1260,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 0
+  Type: 1
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 1
   rcsLight: {fileID: 4045547224110564359}
   rcsLightOn: {fileID: 21300002, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
   rcsLightOff: {fileID: 21300000, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
@@ -1472,6 +1470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -1790,6 +1789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -4378,6 +4378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableWorkaround: 0
   ServerMethod:
     m_PersistentCalls:
       m_Calls: []

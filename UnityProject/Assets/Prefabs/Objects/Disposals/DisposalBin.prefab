@@ -104,6 +104,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
@@ -172,6 +173,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -184,6 +186,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &2759009461426029734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 25
+  aiInteractable: 1
 --- !u!114 &1330345529673600466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,10 +446,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 9d245b225417b3a42bd7c3d7102c4adf, type: 3}
-  - Texture: {fileID: 2800000, guid: 7ed7d85b62d069d4fbce8441c744dae8, type: 3}
-  - Texture: {fileID: 2800000, guid: 1bbd0a43a364374429951211a336b9b1, type: 3}
 --- !u!1 &660236585536022505
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,8 +552,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 1fbddb4bb149cd645b465be5c9f607f7, type: 3}
-  - Texture: {fileID: 2800000, guid: 76f13ebad076b2d498649d1f2dcc9e80, type: 3}
-  - Texture: {fileID: 2800000, guid: 1d592303cb31c14439d965f609473227, type: 3}
-  - Texture: {fileID: 2800000, guid: dd997d23ddd93a7469cc8ba663ff9d5e, type: 3}

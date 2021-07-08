@@ -81,14 +81,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114068128721699304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +97,8 @@ MonoBehaviour:
   - ItemName: 
     Item: {fileID: 3473599964793926758, guid: ea74204dcf18df24dbdfc6a64467c304, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -122,6 +116,8 @@ MonoBehaviour:
   - ItemName: 
     Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
 --- !u!114 &114360944403272528
@@ -140,9 +136,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114702170245798982
 MonoBehaviour:
@@ -173,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 0
+  aiInteractable: 1
 --- !u!114 &114236524552828258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114125262972053904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +221,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -229,7 +230,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114414808644966794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +250,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &4799082326472802330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &-417338057495170071
 MonoBehaviour:
   m_ObjectHideFlags: 0

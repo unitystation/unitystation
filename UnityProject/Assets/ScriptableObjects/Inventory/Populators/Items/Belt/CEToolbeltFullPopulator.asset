@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: CEToolbeltFullPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 6918947953705996213, guid: 5288f8108626e2ff1aab9bd925ff1346, type: 3}
   - {fileID: 4930866777566109869, guid: 4cc65f36e5cab72e7bad12609e155642, type: 3}
   - {fileID: 1220847361520378783, guid: 2f510f3ca2df2f0428efae07d1c8c114, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}
   - {fileID: 2905805395148660121, guid: 1d2a97390d806414381b5edafdddb3c3, type: 3}
   - {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943, type: 3}
-  MergeMode: 0

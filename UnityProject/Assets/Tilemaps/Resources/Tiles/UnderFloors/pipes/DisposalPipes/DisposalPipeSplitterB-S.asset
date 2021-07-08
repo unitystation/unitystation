@@ -16,12 +16,18 @@ MonoBehaviour:
   LayerType: 8
   TileType: 10
   RequiredTiles: []
-  floorTileType: 0
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  miningTime: 5
+  RadiationPassability: 1
+  doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
   passableException:
     m_keys: 
     m_values: 
@@ -38,13 +44,24 @@ MonoBehaviour:
     Acid: 30
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 60beb21b338960e459175e414f6016ef, type: 2}
   spawnOnDeconstruct: {fileID: 2025448082421612283, guid: f4e4f3265195dcf4faa52078e4d7fd34,
     type: 3}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
-  soundOnHit: 
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  SoundOnDestroy: []
   PipeType: 3
   DisposalPipeObjectOrientation: 3
   sprite: {fileID: 21300002, guid: ae79bc64aef45c447a44f3165cbdbd61, type: 3}

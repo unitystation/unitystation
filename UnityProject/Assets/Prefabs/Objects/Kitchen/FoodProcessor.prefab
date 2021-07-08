@@ -104,7 +104,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1000014212709224
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +290,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114319378092756998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,8 +396,9 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &-5821624160305598259
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,13 +15,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
-      propertyPath: initialDescription
-      value: Loaded with 100% pure slime. And also nicotine.
+      propertyPath: initialName
+      value: Xeno Filtered packet
       objectReference: {fileID: 0}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
-      propertyPath: initialName
-      value: Xeno Filtered packet
+      propertyPath: initialDescription
+      value: Loaded with 100% pure slime. And also nicotine.
       objectReference: {fileID: 0}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -35,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b922fc06d1bf8e947aed23990e3bd5af,
         type: 2}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}

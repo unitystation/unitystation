@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 762531255536109717, guid: d19f068f30aed4d468cdba7a0e5824a0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 762531255536109717, guid: d19f068f30aed4d468cdba7a0e5824a0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 762531255536109717, guid: d19f068f30aed4d468cdba7a0e5824a0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 762531255536109717, guid: d19f068f30aed4d468cdba7a0e5824a0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 762531255536109717, guid: d19f068f30aed4d468cdba7a0e5824a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 762531255536109717, guid: d19f068f30aed4d468cdba7a0e5824a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 762531255536109717, guid: d19f068f30aed4d468cdba7a0e5824a0,
         type: 3}
@@ -81,14 +81,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7936827020990779775, guid: d19f068f30aed4d468cdba7a0e5824a0,
         type: 3}
-      propertyPath: initialDescription
-      value: Framework made of a strange and shockingly cold metal. It doesn't seem
-        to have any bolts.
+      propertyPath: initialName
+      value: runed girder
       objectReference: {fileID: 0}
     - target: {fileID: 7936827020990779775, guid: d19f068f30aed4d468cdba7a0e5824a0,
         type: 3}
-      propertyPath: initialName
-      value: runed girder
+      propertyPath: initialDescription
+      value: Framework made of a strange and shockingly cold metal. It doesn't seem
+        to have any bolts.
       objectReference: {fileID: 0}
     - target: {fileID: 9177608314343766829, guid: d19f068f30aed4d468cdba7a0e5824a0,
         type: 3}

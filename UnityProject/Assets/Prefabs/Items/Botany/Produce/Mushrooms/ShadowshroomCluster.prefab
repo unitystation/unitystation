@@ -25,6 +25,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1233916419008462431, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
@@ -86,13 +86,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1720895015312223305, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Mycena Umbra: This species of mushroom emits shadow instead of light.'
+      propertyPath: initialName
+      value: shadowshroom cluster
       objectReference: {fileID: 0}
     - target: {fileID: 1720895015312223305, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
-      propertyPath: initialName
-      value: shadowshroom cluster
+      propertyPath: initialDescription
+      value: 'Mycena Umbra: This species of mushroom emits shadow instead of light.'
       objectReference: {fileID: 0}
     - target: {fileID: 4920848234185996460, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}

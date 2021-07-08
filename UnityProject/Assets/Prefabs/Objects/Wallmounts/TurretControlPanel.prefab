@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1534447386221712880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7510513459082912813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 40
+  aiInteractable: 1
 --- !u!114 &4076128794705490040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,6 +64,8 @@ MonoBehaviour:
   restricted: 0
   conType: 9
   turrets: []
+  isOn: 1
+  isStun: 1
 --- !u!114 &8655049364412508971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,19 +79,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directional: {fileID: 5109434447738117102}
---- !u!114 &1534447386221712880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7510513459082912813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 40
 --- !u!1001 &9124306096315654545
 PrefabInstance:
   m_ObjectHideFlags: 0

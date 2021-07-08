@@ -32,6 +32,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 130a58ba67bfc4abca31d12426a01049,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &119709610551405526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,14 +161,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0a20aeac0fc424faba17b9f38bc611c1,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5437159363360807581, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0a20aeac0fc424faba17b9f38bc611c1,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5437159363360807581, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
       propertyPath: allClothingData.Array.size

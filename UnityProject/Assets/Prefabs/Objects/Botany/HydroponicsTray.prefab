@@ -102,7 +102,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1609685257496530
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,9 +193,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114568927083047222
 MonoBehaviour:
@@ -228,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114019091986045732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,14 +243,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &1612245312422546373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +358,8 @@ MonoBehaviour:
   transferAmount: 20
   maxCapacity: 200
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  AdditionalReactions: []
+  canPourOut: 1
   initialReagentMix:
     temperature: 300
     reagents:
@@ -373,7 +369,9 @@ MonoBehaviour:
       m_values:
       - 100
       - 100
+    reagentKeys: []
   destroyOnEmpty: 0
+  ContentsSet: 0
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +406,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -416,7 +415,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114519504495500056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,7 +435,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &107955457563787986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,6 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &-5825847811397951141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,11 +485,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 3a2e910deacfcfd4facaa1e17a6c00d5, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 3964132422398169974, guid: c0cbb1853d350404685a523d617f3458,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &8465335936839843417
 MonoBehaviour:
@@ -602,7 +608,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &2821288067960047100
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +710,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &3663177110161525043
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +812,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &5226030624696872044
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,7 +914,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &8254462624725952794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,4 +1016,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []

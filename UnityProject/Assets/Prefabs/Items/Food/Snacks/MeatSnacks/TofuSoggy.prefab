@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8212293715166268992, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212293715166268992, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -31,6 +36,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212293715166268992, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8212293715166268992, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
         type: 3}
@@ -49,16 +59,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8212293715166268992, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8212293715166268992, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8212293715166268992, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -74,13 +74,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8577656395267120214, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
         type: 3}
-      propertyPath: initialDescription
-      value: You refuse to eat this strange bean curd.
+      propertyPath: initialName
+      value: soggy tofu
       objectReference: {fileID: 0}
     - target: {fileID: 8577656395267120214, guid: 2751f86e853d6dd43a2b3614c3e6c24c,
         type: 3}
-      propertyPath: initialName
-      value: soggy tofu
+      propertyPath: initialDescription
+      value: You refuse to eat this strange bean curd.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2751f86e853d6dd43a2b3614c3e6c24c, type: 3}

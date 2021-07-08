@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 23
   m_SortingOrder: 550
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,10 +100,10 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 82e2653cf678d1143b05962dab936c74, type: 2}
   PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &-5562942693660557690
 MonoBehaviour:
   m_ObjectHideFlags: 0

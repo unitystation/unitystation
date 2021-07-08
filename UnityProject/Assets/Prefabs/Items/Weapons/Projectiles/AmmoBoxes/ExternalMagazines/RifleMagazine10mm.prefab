@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
@@ -91,13 +91,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
-      propertyPath: initialDescription
-      value: A well-worn magazine fitted for the surplus rifle.
+      propertyPath: initialName
+      value: rifle magazine (10mm)
       objectReference: {fileID: 0}
     - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
-      propertyPath: initialName
-      value: rifle magazine (10mm)
+      propertyPath: initialDescription
+      value: A well-worn magazine fitted for the surplus rifle.
       objectReference: {fileID: 0}
     - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}

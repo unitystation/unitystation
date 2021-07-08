@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -43,6 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
@@ -61,16 +71,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -86,13 +86,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8488635447927663984, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
-      propertyPath: initialDescription
-      value: Goes great with a glass of warm milk.
+      propertyPath: initialName
+      value: chocolate jelly donut
       objectReference: {fileID: 0}
     - target: {fileID: 8488635447927663984, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
-      propertyPath: initialName
-      value: chocolate jelly donut
+      propertyPath: initialDescription
+      value: Goes great with a glass of warm milk.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76d59c6190d1ae34897c499233364f53, type: 3}

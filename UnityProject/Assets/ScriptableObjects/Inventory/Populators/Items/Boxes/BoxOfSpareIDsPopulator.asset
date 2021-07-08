@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: BoxOfSpareIDsPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 6945987494597785492, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}
   - {fileID: 6945987494597785492, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}
   - {fileID: 6945987494597785492, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 6945987494597785492, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}
   - {fileID: 6945987494597785492, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}
   - {fileID: 6945987494597785492, guid: 7cef0e2714d9c8c4587deef900a0b670, type: 3}
-  MergeMode: 0

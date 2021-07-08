@@ -22,15 +22,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
-      propertyPath: remarks.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
-        type: 3}
       propertyPath: spell
       value: 
       objectReference: {fileID: 11400000, guid: 5f4b8b36713a15b4384a86bc4a7f63e2,
         type: 2}
+    - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: remarks.Array.size
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
       propertyPath: remarks.Array.data[0]

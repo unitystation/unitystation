@@ -167,9 +167,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 1
   ReachableThrough: 1
+  initialPassable: 1
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114290125830698474
 MonoBehaviour:
@@ -201,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114648014532470036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,14 +217,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114331394817717546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +251,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -264,7 +260,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &-3515843423814105376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +295,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &8284725732460388252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &2248633560201570898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,12 +347,16 @@ MonoBehaviour:
   transferAmount: 50
   maxCapacity: 200
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  AdditionalReactions: []
+  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
       m_keys: []
       m_values: []
+    reagentKeys: []
   destroyOnEmpty: 0
+  ContentsSet: 0
 --- !u!82 &8790646442014020747
 AudioSource:
   m_ObjectHideFlags: 0

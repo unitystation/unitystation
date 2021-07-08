@@ -15,11 +15,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Geraniums
       objectReference: {fileID: 0}
@@ -35,15 +30,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 311f83c879f874b45ad124c1108e03f5,
         type: 2}
-    - target: {fileID: 8834939703312729936, guid: 048adc7de22264941a619844198b1f44,
+    - target: {fileID: 7750045787793175179, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into geranium
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8834939703312729936, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
       propertyPath: initialName
       value: pack of geranium seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834939703312729936, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into geranium
+      objectReference: {fileID: 0}
+    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
@@ -62,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}

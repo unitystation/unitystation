@@ -31,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -43,6 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
@@ -61,16 +71,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -86,13 +86,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314376839914366615, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
-      propertyPath: initialDescription
-      value: Mini-Mecha action figure! Collect them all! 5/13.
+      propertyPath: initialName
+      value: toy Durand
       objectReference: {fileID: 0}
     - target: {fileID: 7314376839914366615, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
-      propertyPath: initialName
-      value: toy Durand
+      propertyPath: initialDescription
+      value: Mini-Mecha action figure! Collect them all! 5/13.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d1128b30f39d0940a454d8bc868c64f, type: 3}

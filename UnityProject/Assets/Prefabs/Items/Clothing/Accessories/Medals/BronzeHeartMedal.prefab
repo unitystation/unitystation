@@ -9,14 +9,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
+      propertyPath: initialName
+      value: bronze heart medal
+      objectReference: {fileID: 0}
+    - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
       propertyPath: initialDescription
       value: A bronze heart-shaped medal awarded for sacrifice. It is often awarded
         posthumously or for severe injury in the line of duty.
       objectReference: {fileID: 0}
-    - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
+    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
-      propertyPath: initialName
-      value: bronze heart medal
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}

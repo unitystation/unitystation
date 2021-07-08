@@ -112,6 +112,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 0
   ReachableThrough: 1
   initialPassable: 0
@@ -145,9 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5817f7ff22892a44b886ff9db63642e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipMatrixMove: {fileID: 0}
-  particleFX: {fileID: 0}
-  lightSprite: {fileID: 0}
   particleRateMultiplier: 4
   engineLightIntensityMultiplier: 0.04
 --- !u!114 &114723009705901262
@@ -184,6 +182,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -196,6 +195,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114460770380257942
 MonoBehaviour:
   m_ObjectHideFlags: 0

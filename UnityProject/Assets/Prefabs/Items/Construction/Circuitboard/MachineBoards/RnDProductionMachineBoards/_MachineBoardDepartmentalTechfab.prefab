@@ -20,7 +20,12 @@ PrefabInstance:
     - target: {fileID: 8026946951644424067, guid: 3b29d0e990dce2842b1432340480ec5a,
         type: 3}
       propertyPath: m_Name
-      value: _MachineBoardDepartamentalTechfab
+      value: _MachineBoardDepartmentalTechfab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: 3b29d0e990dce2842b1432340480ec5a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: 3b29d0e990dce2842b1432340480ec5a,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: 3b29d0e990dce2842b1432340480ec5a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: 3b29d0e990dce2842b1432340480ec5a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: 3b29d0e990dce2842b1432340480ec5a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: 3b29d0e990dce2842b1432340480ec5a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: 3b29d0e990dce2842b1432340480ec5a,
         type: 3}

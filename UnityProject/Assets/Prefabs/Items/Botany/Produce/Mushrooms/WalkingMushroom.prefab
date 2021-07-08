@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 704583910835010964, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Plumus Locomotus: The beginning of the great walk.'
+      propertyPath: initialName
+      value: walking mushroom
       objectReference: {fileID: 0}
     - target: {fileID: 704583910835010964, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
-      propertyPath: initialName
-      value: walking mushroom
+      propertyPath: initialDescription
+      value: 'Plumus Locomotus: The beginning of the great walk.'
       objectReference: {fileID: 0}
     - target: {fileID: 998462650804232618, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
@@ -35,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}

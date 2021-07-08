@@ -15,11 +15,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Life Cannabis Plant
       objectReference: {fileID: 0}
@@ -29,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7a970074c48e0494493253d235066c2d,
         type: 2}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 7923984045988877427, guid: b6ade0b0156f5574ab026ab85ff564fc,
+        type: 3}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
@@ -43,20 +44,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 7923984045988877427, guid: b6ade0b0156f5574ab026ab85ff564fc,
-        type: 3}
-    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: initialDescription
-      value: I will give unto him that is munchies of the fountain of the cravings
-        of life, freely.
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: initialName
       value: pack of life cannabis seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: initialDescription
+      value: I will give unto him that is munchies of the fountain of the cravings
+        of life, freely.
       objectReference: {fileID: 0}
     - target: {fileID: 6067438808337380045, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -68,6 +68,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LifeCannabisSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -86,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -98,16 +108,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}

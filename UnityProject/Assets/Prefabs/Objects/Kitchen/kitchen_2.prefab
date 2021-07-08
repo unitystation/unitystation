@@ -162,14 +162,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114762731618527884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +178,8 @@ MonoBehaviour:
   - ItemName: 
     Item: {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   HullColor: {r: 0.81960785, g: 0.02745098, b: 0.02745098, a: 1}
   EjectObjects: 0
   EjectDirection: 3
@@ -203,6 +197,8 @@ MonoBehaviour:
   - ItemName: 
     Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   ActualCurrentPowerState: 2
   DoesntRequirePower: 1
 --- !u!114 &114392787270580666
@@ -221,9 +217,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114458678934354534
 MonoBehaviour:
@@ -254,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 0
+  aiInteractable: 1
 --- !u!114 &114682177732088168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114237837769881030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +302,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -310,7 +311,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114058516359569840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +331,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &-1285723560536332439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,3 +346,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

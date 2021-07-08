@@ -85,9 +85,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114518165931300696
 MonoBehaviour:
@@ -119,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114856740623947894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,14 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114718090502416624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +169,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -182,7 +178,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114527855772597142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +198,9 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &9166398494684673146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &-7059121599107143143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,11 +228,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 441a624c541ebf04c922208813d3d85d, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 23d78abe2740d804ca053640b8d7d10e,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &6882544262421382559
 MonoBehaviour:
@@ -249,7 +252,7 @@ MonoBehaviour:
   idleSprite: {fileID: 0}
   productionSprite: {fileID: 0}
   acceptingMaterialsSprite: {fileID: 0}
-  materialStorage: {fileID: 4596431440032544948}
+  materialStorageLink: {fileID: 0}
   autolatheProducts: {fileID: 11400000, guid: f4149bd30d5f03f4cb903a9418d550e3, type: 2}
 --- !u!114 &3389356315660204640
 MonoBehaviour:
@@ -264,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 18
+  aiInteractable: 1
 --- !u!114 &4596431440032544948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,11 +280,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
-    type: 2}
+  infiniteStorage: 0
   maximumResources: 1000000
+  UpdateGUIs:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1880078836778836
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +383,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []

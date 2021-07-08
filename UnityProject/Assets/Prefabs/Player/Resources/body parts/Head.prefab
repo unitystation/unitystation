@@ -54,6 +54,8 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
   InternalNetIDs: 
 --- !u!114 &6786496497478550902
@@ -77,8 +79,9 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &4746798274413155365
 MonoBehaviour:
   m_ObjectHideFlags: 0

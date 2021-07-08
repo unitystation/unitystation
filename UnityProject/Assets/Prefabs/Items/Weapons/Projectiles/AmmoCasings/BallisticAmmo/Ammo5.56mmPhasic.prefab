@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4788940792733346415, guid: 7f0fc409f45116c4db12e075d68024d0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4788940792733346415, guid: 7f0fc409f45116c4db12e075d68024d0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4788940792733346415, guid: 7f0fc409f45116c4db12e075d68024d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4788940792733346415, guid: 7f0fc409f45116c4db12e075d68024d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4788940792733346415, guid: 7f0fc409f45116c4db12e075d68024d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4788940792733346415, guid: 7f0fc409f45116c4db12e075d68024d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4788940792733346415, guid: 7f0fc409f45116c4db12e075d68024d0,
         type: 3}
@@ -74,13 +74,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4939222643289503865, guid: 7f0fc409f45116c4db12e075d68024d0,
         type: 3}
-      propertyPath: initialDescription
-      value: A 5.56mm phasic bullet casing.
+      propertyPath: initialName
+      value: 5.56mm phasic bullet casing
       objectReference: {fileID: 0}
     - target: {fileID: 4939222643289503865, guid: 7f0fc409f45116c4db12e075d68024d0,
         type: 3}
-      propertyPath: initialName
-      value: 5.56mm phasic bullet casing
+      propertyPath: initialDescription
+      value: A 5.56mm phasic bullet casing.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f0fc409f45116c4db12e075d68024d0, type: 3}

@@ -9,14 +9,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
+      propertyPath: initialName
+      value: fluorine bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
       propertyPath: initialDescription
       value: A small bottle of fluorine - comically reactive, it's a wonder it still
         exists in this bottle.
       objectReference: {fileID: 0}
-    - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
-      propertyPath: initialName
-      value: fluorine bottle
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}

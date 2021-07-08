@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 665930640891996721, guid: 7cbde3b57839c144e933398cfd78e132,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 665930640891996721, guid: 7cbde3b57839c144e933398cfd78e132,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -31,6 +36,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 665930640891996721, guid: 7cbde3b57839c144e933398cfd78e132,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 665930640891996721, guid: 7cbde3b57839c144e933398cfd78e132,
         type: 3}
@@ -49,16 +59,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 665930640891996721, guid: 7cbde3b57839c144e933398cfd78e132,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 665930640891996721, guid: 7cbde3b57839c144e933398cfd78e132,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 665930640891996721, guid: 7cbde3b57839c144e933398cfd78e132,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -74,15 +74,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1135968098873243687, guid: 7cbde3b57839c144e933398cfd78e132,
         type: 3}
+      propertyPath: initialName
+      value: speed loader (.357 match)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135968098873243687, guid: 7cbde3b57839c144e933398cfd78e132,
+        type: 3}
       propertyPath: initialDescription
       value: Designed to quickly reload revolvers. These rounds are manufactured
         within extremely tight tolerances, making them easy to show off trickshots
         with.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135968098873243687, guid: 7cbde3b57839c144e933398cfd78e132,
-        type: 3}
-      propertyPath: initialName
-      value: speed loader (.357 match)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cbde3b57839c144e933398cfd78e132, type: 3}

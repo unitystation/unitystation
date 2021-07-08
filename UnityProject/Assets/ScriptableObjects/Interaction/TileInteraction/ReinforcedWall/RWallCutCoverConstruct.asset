@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: RWallCutCoverConstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You begin welding the metal cover back to the frame...
   othersStartActionMessage: '{performer} begins welding the metal cover back to the
     frame...'
   seconds: 6
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: e5521a40048af4964ad58c041a5dc7f4, type: 2}
   performerFinishActionMessage: The metal cover has been welded securely to the frame.
   othersFinishActionMessage: The metal cover has been welded securely to the frame.

@@ -241,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!1 &3104689895105765892
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!114 &8763269727825329891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,8 +492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974152dca9d54d57a8f2e4283fb52093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &4974489482324225365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,14 +517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &620325211924787901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,8 +529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905a243a2c1a4fd79fd17a43b3c6f208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   performerStartActionMessage: 
   othersStartActionMessage: 
 --- !u!114 &3132802061286425353
@@ -565,8 +555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ce68dd13aa41cc94841314b4c66a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &5090121384299176760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +570,7 @@ MonoBehaviour:
   isDirty: 0
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
   hasSpawned: 0
 --- !u!114 &6942198484671942384
@@ -596,8 +585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afc5c9322044160b00462b567287636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  MatrixSync: {fileID: 0}
 --- !u!114 &-2252694094533765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1783,7 +1771,7 @@ Tilemap:
   - m_RefCount: 6
     m_Data: {fileID: 11400000, guid: 9df4e12298fa4e849a9123c8707c5208, type: 2}
   - m_RefCount: 5
-    m_Data: {fileID: 11400000, guid: 8cce0b95f5f1d7f46bfe789aa87a4951, type: 2}
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 5
     m_Data: {fileID: 21300000, guid: b4ef1ee584848d44cac4a6a68b7f3fa7, type: 3}
@@ -1919,6 +1907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &402542674257771265
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -2098,6 +2087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!114 &5169082460889592587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2305,6 +2295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &1022251775779721789
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -2466,6 +2457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!1 &8628976233469283888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,6 +2623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &786123741414924844
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -3578,6 +3571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 5772354952596011176}
+  metaTileMap: {fileID: 0}
 --- !u!114 &6450549466440727301
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RWallSupportRodsDeconstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You begin slicing through the support rods...
   othersStartActionMessage: '{performer} begins slicing through the support rods...'
   seconds: 10
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 00d99f77a27b4456e894ffd3c27fca26, type: 2}
   performerFinishActionMessage: You slice through the support rods.
   othersFinishActionMessage: '{performer} slices through the support rods.'

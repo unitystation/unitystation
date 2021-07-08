@@ -85,9 +85,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114898645669774346
 MonoBehaviour:
@@ -133,8 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!114 &114606720968377460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +169,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -181,6 +182,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114251073917058144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 0
+  aiInteractable: 1
 --- !u!114 &394345308302228078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,21 +295,33 @@ MonoBehaviour:
   - ItemName: Berry Creamsicle
     Item: {fileID: 8938376424530961626, guid: 61172890db55d3943b1a2a923ad33ce5, type: 3}
     Stock: 3
+    Currency: 0
+    Price: 0
   - ItemName: Orange Creamsicle
     Item: {fileID: 4172288064172063717, guid: 6a335e99bedd3e24eb3201c1f211f94e, type: 3}
     Stock: 3
+    Currency: 0
+    Price: 0
   - ItemName: Cornuto
     Item: {fileID: 3040265357538634785, guid: fe6948efb6cdc5147bf3997d9b3d0312, type: 3}
     Stock: 2
+    Currency: 0
+    Price: 0
   - ItemName: Jumbo ice cream pop
     Item: {fileID: 518708270638934352, guid: ab00c973ec3aabc43b432cbb78ddcdb7, type: 3}
     Stock: 3
+    Currency: 0
+    Price: 0
   - ItemName: Vanilla Icecream Sandwich
     Item: {fileID: 3486408137043295472, guid: 92ba7e6c5cff2dc49a496e870b7d4eb7, type: 3}
     Stock: 5
+    Currency: 0
+    Price: 0
   - ItemName: Strawberry Icecream Sandwich
     Item: {fileID: 3767046870115088516, guid: e4b36eb23624a964ea341ece8f412110, type: 3}
     Stock: 3
+    Currency: 0
+    Price: 0
   HullColor: {r: 0.9433962, g: 0.6007476, b: 0.72257215, a: 1}
   EjectObjects: 0
   EjectDirection: 0

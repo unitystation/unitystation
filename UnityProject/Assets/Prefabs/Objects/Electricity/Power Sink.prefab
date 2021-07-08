@@ -80,8 +80,12 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 1
+  ReachableThrough: 1
+  initialPassable: 1
+  initialCrawlPassable: 0
+  passableExclusionsToThis: []
 --- !u!114 &114703946515217786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +156,6 @@ MonoBehaviour:
   WireEndB: 9
   WireEndA: 0
   ListCanConnectTo: 08000000010000000b000000
-  SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 8
     DirectionReaction: 0
@@ -224,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +274,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -292,7 +297,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayer: 8
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 19ecc9640aa925e41b7449da71050df2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

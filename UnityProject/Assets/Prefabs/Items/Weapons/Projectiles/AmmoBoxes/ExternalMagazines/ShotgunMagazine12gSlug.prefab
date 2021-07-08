@@ -18,10 +18,21 @@ PrefabInstance:
       propertyPath: ProjectilesFired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 4522712337488153039, guid: b6e30da8af01a264a88eb7fd31299407,
+        type: 3}
     - target: {fileID: 5531796456047199634, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: m_Name
       value: ShotgunMagazine12gSlug
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
@@ -40,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}

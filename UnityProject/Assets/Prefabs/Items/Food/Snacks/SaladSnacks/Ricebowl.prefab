@@ -42,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3474923807543253704, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
@@ -106,19 +106,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f106fee9da5fe934cbe295abbd6edee0,
         type: 3}
-    - target: {fileID: 3947247151146354910, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+    - target: {fileID: 3664557313691784416, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
-      propertyPath: initialDescription
-      value: A bowl of raw rice.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3947247151146354910, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: initialName
       value: ricebowl
       objectReference: {fileID: 0}
+    - target: {fileID: 3947247151146354910, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: initialDescription
+      value: A bowl of raw rice.
+      objectReference: {fileID: 0}
     - target: {fileID: 4755138025394611660, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: NutritionLevel
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 4755138025394611660, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 7308486626998426683, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,

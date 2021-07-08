@@ -47,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -62,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
@@ -107,14 +107,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialDescription
-      value: Used to temporarily suppress violent, homicidal, or suicidal behavior
-        in patients.
+      propertyPath: initialName
+      value: pacification pill
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: initialName
-      value: pacification pill
+      propertyPath: initialDescription
+      value: Used to temporarily suppress violent, homicidal, or suicidal behavior
+        in patients.
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}

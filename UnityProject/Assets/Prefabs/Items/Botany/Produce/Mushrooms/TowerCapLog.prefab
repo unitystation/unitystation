@@ -9,23 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 4
+      propertyPath: hitDamage
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: initialDescription
-      value: It's better than bad, it's good!
+      propertyPath: throwRange
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
       propertyPath: initialName
       value: tower-cap log
-      objectReference: {fileID: 0}
-    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
-        type: 3}
-      propertyPath: hitDamage
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
@@ -39,8 +34,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
-      propertyPath: throwRange
-      value: 3
+      propertyPath: initialDescription
+      value: It's better than bad, it's good!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
@@ -69,6 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -84,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -96,16 +106,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}

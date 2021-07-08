@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 113
       objectReference: {fileID: 0}
+    - target: {fileID: 3916522603024104466, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 113
+      objectReference: {fileID: 0}
     - target: {fileID: 4710936765405548800, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: initialDescription
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -53,6 +63,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
@@ -71,16 +86,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -96,14 +101,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6243974237879006922, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6243974237879006922, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d,
         type: 2}
+    - target: {fileID: 6243974237879006922, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}

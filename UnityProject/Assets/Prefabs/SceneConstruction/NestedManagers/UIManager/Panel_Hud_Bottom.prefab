@@ -8584,7 +8584,7 @@ MonoBehaviour:
   handsArrowRectL: {fileID: 0}
   usedHandSprite: {fileID: 0}
   unusedHandSprite: {fileID: 0}
-  hasSwitchedHands: 0
+  CurrentSlot: {fileID: 0}
 --- !u!1 &8321917252363743471
 GameObject:
   m_ObjectHideFlags: 0
@@ -9953,7 +9953,8 @@ MonoBehaviour:
   thisImg: {fileID: 0}
   runWalkBorder: {fileID: 0}
   helpWindow: {fileID: 0}
-  restMessage: You try to lie down.
+  startRestMessage: You try to lie down.
+  endRestMessage: You try to stand up.
   startRunningMessage: You start running
   startWalkingMessage: You start walking
 --- !u!1 &8322377368854319345
@@ -11258,6 +11259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   retractableGroup: {fileID: 4761382559393292443}
   hideOnRetract: {fileID: 0}
+  ObjectToHide: {fileID: 0}
   openButtonImage: {fileID: 0}
   closeButtonImage: {fileID: 0}
 --- !u!1 &8322635071879192107

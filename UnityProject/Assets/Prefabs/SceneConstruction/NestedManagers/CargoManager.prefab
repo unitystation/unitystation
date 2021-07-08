@@ -43,15 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4289915e7c267bbf0a38261747963c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cargoData: {fileID: 11400000, guid: 7cae1272613faf9a89f21ea1fbc2d806, type: 2}
   Credits: 100
   ShuttleStatus: 1
-  shuttleFlyDuration: 10
   CurrentFlyTime: 0
   CentcomMessage: 
   Supplies: []
-  CurrentCategory:
-    CategoryName: 
-    Supplies: []
   CurrentOrders: []
   CurrentCart: []
+  ActiveBounties: []
+  cartSizeLimit: 20
+  cargoData: {fileID: 11400000, guid: 7cae1272613faf9a89f21ea1fbc2d806, type: 2}
+  shuttleFlyDuration: 10

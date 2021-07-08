@@ -47,13 +47,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8027356675503100844, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
-      propertyPath: initialDescription
-      value: Used in soda dispenser construction.
+      propertyPath: initialName
+      value: Soda Dispenser (Machine Board)
       objectReference: {fileID: 0}
     - target: {fileID: 8027356675503100844, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
-      propertyPath: initialName
-      value: Soda Dispenser (Machine Board)
+      propertyPath: initialDescription
+      value: Used in soda dispenser construction.
       objectReference: {fileID: 0}
     - target: {fileID: 8027356675503120609, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
@@ -73,6 +73,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -88,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -100,16 +110,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}

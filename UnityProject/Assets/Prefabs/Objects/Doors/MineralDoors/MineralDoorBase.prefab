@@ -57,8 +57,6 @@ MonoBehaviour:
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
-  conType: 0
-  connectedDoorSwitch: {fileID: 0}
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -70,6 +68,7 @@ MonoBehaviour:
   openingDirection: 1
   spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
+  conType: 0
 --- !u!114 &5000544461018017584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +85,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &7464309736552907153
@@ -270,7 +270,7 @@ PrefabInstance:
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 25
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}

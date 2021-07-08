@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1154001022260157481, guid: e3deb8cd3197c3544bb96893c2b631da,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1154001022260157481, guid: e3deb8cd3197c3544bb96893c2b631da,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1154001022260157481, guid: e3deb8cd3197c3544bb96893c2b631da,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1154001022260157481, guid: e3deb8cd3197c3544bb96893c2b631da,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1154001022260157481, guid: e3deb8cd3197c3544bb96893c2b631da,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1154001022260157481, guid: e3deb8cd3197c3544bb96893c2b631da,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1154001022260157481, guid: e3deb8cd3197c3544bb96893c2b631da,
         type: 3}
@@ -75,6 +75,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5928585136465211433, guid: e3deb8cd3197c3544bb96893c2b631da,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c82224e7868cc1942ad0b9311caf2a96,
+        type: 2}
+    - target: {fileID: 5928585136465211433, guid: e3deb8cd3197c3544bb96893c2b631da,
+        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: c82224e7868cc1942ad0b9311caf2a96,
@@ -84,12 +90,6 @@ PrefabInstance:
       propertyPath: SubCatalogue.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: b94a9a52a046da24db24204fd0cccb63,
-        type: 2}
-    - target: {fileID: 5928585136465211433, guid: e3deb8cd3197c3544bb96893c2b631da,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: c82224e7868cc1942ad0b9311caf2a96,
         type: 2}
     - target: {fileID: 7335151928407256977, guid: e3deb8cd3197c3544bb96893c2b631da,
         type: 3}

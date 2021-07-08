@@ -31,6 +31,16 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c1544516a9f78c0479969814bbe51fc4,
@@ -39,16 +49,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5190763709621519059, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5304060587062873747, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
@@ -59,6 +59,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FreezerKitchenCabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
@@ -77,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5439439281914060830, guid: b4ec918f7ea1a6044b5598bef5bdbbfe,
         type: 3}

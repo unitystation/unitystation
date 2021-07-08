@@ -43,6 +43,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -55,6 +60,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
@@ -73,16 +83,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -98,14 +98,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialDescription
-      value: A seemingly homemade packaging with an odd smell. It has a weird drawing
-        of a smiling face sticking out its tongue.
+      propertyPath: initialName
+      value: HP+ gum packet
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialName
-      value: HP+ gum packet
+      propertyPath: initialDescription
+      value: A seemingly homemade packaging with an odd smell. It has a weird drawing
+        of a smiling face sticking out its tongue.
       objectReference: {fileID: 0}
     - target: {fileID: 7827821029367866081, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}

@@ -34,7 +34,13 @@ MonoBehaviour:
   chargeType: 0
   cooldownTime: 30
   startingCharges: 10
-  castSound: 
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   range: 0
   stillRechargingMessage: The spell is still recharging
   affectedMessage: 

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isClip: 1
-  Projectile: {fileID: 3848343717668343118, guid: 1ff9dd0fc4df49c4e8e6201312a8d2f5,
+  magType: 0
+  initalProjectile: {fileID: 3848343717668343118, guid: 1ff9dd0fc4df49c4e8e6201312a8d2f5,
     type: 3}
   ProjectilesFired: 1
   ammoType: 20
@@ -45,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,6 +62,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -75,16 +85,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -100,8 +100,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: PM-9HE
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -110,8 +110,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialName
-      value: PM-9HE
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}

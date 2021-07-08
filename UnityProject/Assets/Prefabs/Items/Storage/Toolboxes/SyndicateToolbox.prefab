@@ -15,8 +15,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
+      propertyPath: hitDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
       propertyPath: initialName
       value: suspicious looking toolbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: throwDamage
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -30,16 +40,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ba8e7823eb4ebb047a7385baca9ab0b2,
         type: 2}
-    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
-        type: 3}
-      propertyPath: hitDamage
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
-        type: 3}
-      propertyPath: throwDamage
-      value: 18
-      objectReference: {fileID: 0}
     - target: {fileID: 8366562164760083938, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
       propertyPath: m_Sprite
@@ -50,6 +50,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SyndicateToolbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8573033213633377226, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8573033213633377226, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -68,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8573033213633377226, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8573033213633377226, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -80,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8573033213633377226, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8573033213633377226, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8573033213633377226, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}

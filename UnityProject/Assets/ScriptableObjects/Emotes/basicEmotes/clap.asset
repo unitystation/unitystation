@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: clap
   requiresHands: 1
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: claps!
   youText: You clap your hands together!
   failText: You do not have free hands to preform this action!
   critViewText: claps!
-  allowEmoteWhileInCrit: 1
   defaultSounds: []
   maleSounds: []
   femaleSounds: []

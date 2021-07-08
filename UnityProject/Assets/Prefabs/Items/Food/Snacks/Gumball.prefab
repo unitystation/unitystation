@@ -18,15 +18,25 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 125
       objectReference: {fileID: 0}
-    - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
+    - target: {fileID: 3855224395746198965, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialDescription
-      value: A colorful, sugary gumball.
+      propertyPath: StartingNutrients
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialName
       value: gumball
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialDescription
+      value: A colorful, sugary gumball.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
@@ -45,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
@@ -99,6 +104,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2c6dbeb3e3a0a79479284cf8b679c65c,
         type: 3}
+    - target: {fileID: 5090819686911636633, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -117,26 +127,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: b4a0dab98ad8f97dcb9efa0a3a7bee6b,
         type: 2}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 9d01032e235bf46e19981c6bf82f404e,
         type: 2}
+    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]

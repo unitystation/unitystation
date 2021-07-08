@@ -102,7 +102,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &-3362057103415789642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,11 +227,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: b6353b80914314e4eba7f19cfa358fb4,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &3675490826683128217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,7 +498,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &7590180909891276049
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,7 +600,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &8265600929450994583
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,7 +702,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &8868935868210309097
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,7 +805,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &234557215263547549
 PrefabInstance:
   m_ObjectHideFlags: 0

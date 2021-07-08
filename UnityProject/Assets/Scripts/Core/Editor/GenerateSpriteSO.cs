@@ -126,45 +126,45 @@ public class GenerateSpriteSO : EditorWindow
 		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
 		AssetDatabase.StartAssetEditing();
-
-		var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
-
-		foreach (var PSSP in stuff)
-		{
-			bool NOID = true;
-			foreach (var Entry in PSSP.Entries)
-			{
-				if (Entry.NamedSlot == NamedSlot.id)
-				{
-					NOID = false;
-				}
-
-				if (Entry.NamedSlot == NamedSlot.uniform)
-				{
-					Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
-				}
-
-				if (Entry.NamedSlot == NamedSlot.back)
-				{
-					Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
-				}
-
-				if (Entry.NamedSlot == NamedSlot.ear)
-				{
-					Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
-				}
-			}
-
-			if (NOID)
-			{
-				var ID = Spawn.GetPrefabByName("IDCardAutoInit");
-				var all = new SlotPopulatorEntry();
-				all.Prefab = ID;
-				all.NamedSlot = NamedSlot.id;
-				PSSP.Entries.Add(all);
-			}
-			EditorUtility.SetDirty( PSSP);
-		}
+		AssetDatabase.ForceReserializeAssets();
+		// var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
+		//
+		// foreach (var PSSP in stuff)
+		// {
+		// 	bool NOID = true;
+		// 	foreach (var Entry in PSSP.Entries)
+		// 	{
+		// 		if (Entry.NamedSlot == NamedSlot.id)
+		// 		{
+		// 			NOID = false;
+		// 		}
+		//
+		// 		if (Entry.NamedSlot == NamedSlot.uniform)
+		// 		{
+		// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+		// 		}
+		//
+		// 		if (Entry.NamedSlot == NamedSlot.back)
+		// 		{
+		// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+		// 		}
+		//
+		// 		if (Entry.NamedSlot == NamedSlot.ear)
+		// 		{
+		// 			Entry.ReplacementStrategy = ReplacementStrategy.DespawnOther;
+		// 		}
+		// 	}
+		//
+		// 	if (NOID)
+		// 	{
+		// 		var ID = Spawn.GetPrefabByName("IDCardAutoInit");
+		// 		var all = new SlotPopulatorEntry();
+		// 		all.Prefab = ID;
+		// 		all.NamedSlot = NamedSlot.id;
+		// 		PSSP.Entries.Add(all);
+		// 	}
+		// 	EditorUtility.SetDirty( PSSP);
+		// }
 
 		// DirSearch_ex3(Application.dataPath + "/Textures");
 		AssetDatabase.StopAssetEditing();
