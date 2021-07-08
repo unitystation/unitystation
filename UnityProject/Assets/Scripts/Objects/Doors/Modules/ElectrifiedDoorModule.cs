@@ -49,7 +49,7 @@ namespace Doors.Modules
 
 		private bool PlayerHasInsulatedGloves(GameObject mob)
 		{
-			List<ItemSlot> slots = mob.GetComponent<PlayerScript>()?.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
+			List<ItemSlot> slots = mob.GetComponent<PlayerScript>().OrNull()?.DynamicItemStorage.OrNull()?.GetNamedItemSlots(NamedSlot.hands);
 			if (slots != null)
 			{
 				foreach (ItemSlot slot in slots)
