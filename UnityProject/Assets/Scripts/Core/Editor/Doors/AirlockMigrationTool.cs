@@ -8,7 +8,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using WebSocketSharp;
 
-namespace Util
+namespace Core.Editor.Doors
 {
 	public class AirlockMigrationTool: EditorWindow
 	{
@@ -170,6 +170,7 @@ namespace Util
 					AddToLog($"There is no access module in {door.name}. Skipping!");
 				}
 				AddToLog("done!");
+				AddToLog("Remember to save changes with control+s!");
 			}
 		}
 

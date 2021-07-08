@@ -634,17 +634,16 @@ public class DynamicItemStorage : NetworkBehaviour
 	/// <param name="NewST"></param>
 	public void UpdateSlots(string oldST, string NewST)
 	{
-		StartCoroutine(WaitForInit(NewST));
-	}
-
-	private IEnumerator WaitForInit(string NewST)
-	{
-		yield return null;
-		yield return null;
-		yield return null;
+		SerialisedNetIDs = NewST;
 		ProcessChangeClient(NewST);
 	}
 
+
+	private IEnumerator WaitAFrame(string NewST)
+	{
+		yield return null;
+		ProcessChangeClient(NewST);
+	}
 
 	public void ProcessChangeClient(string NewST)
 	{
@@ -653,6 +652,12 @@ public class DynamicItemStorage : NetworkBehaviour
 		var incomingList = JsonConvert.DeserializeObject<List<uint>>(NewST);
 		foreach (var IntIn in incomingList)
 		{
+			if (NetworkIdentity.spawned.TryGetValue(IntIn, out var spawned) == false)
+			{
+				StartCoroutine(WaitAFrame(NewST));
+				return;
+			}
+
 			if (ClientUIBodyPartsToSerialise.Contains(IntIn) == false)
 			{
 				added.Add(IntIn);

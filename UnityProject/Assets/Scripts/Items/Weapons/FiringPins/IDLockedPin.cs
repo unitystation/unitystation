@@ -1,11 +1,12 @@
 using System;
+using Systems.Clearance;
 using UnityEngine;
 
 namespace Weapons
 {
 	[RequireComponent(typeof(AccessRestrictions))]
-    class IDLockedPin : PinBase
-    {
+	class IDLockedPin : PinBase
+	{
 
 		[SerializeField]
 		private bool clusmyMisfire;
@@ -21,11 +22,28 @@ namespace Weapons
 			}
 		}
 
+		private ClearanceCheckable clearanceCheckable;
+
 		[SerializeField]
 		private string deniedMessage;
 
+		private void Awake()
+		{
+			clearanceCheckable = GetComponent<ClearanceCheckable>();
+		}
+
 		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
 		{
+			if (clearanceCheckable.HasClearance(interaction.Performer))
+			{
+				CallShotServer(interaction, isSuicide);
+				return;
+			}
+
+			/* --ACCESS REWORK--
+			 *  TODO Remove the AccessRestriction check when we finish migrating!
+			 *
+			 */
 			if (AccessRestrictions.CheckAccess(interaction.Performer))
 			{
 				//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
@@ -41,16 +59,24 @@ namespace Weapons
 				// }
 
 				CallShotServer(interaction, isSuicide);
+				return;
 			}
-			else
-			{
-				Chat.AddExamineMsg(interaction.Performer, deniedMessage);
-			}
-        }
+
+			Chat.AddExamineMsg(interaction.Performer, deniedMessage);
+		}
 
 		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
+			if (clearanceCheckable.HasClearance(interaction.Performer))
+			{
+				CallShotClient(interaction, isSuicide);
+				return;
+			}
 
+			/* --ACCESS REWORK--
+			 *  TODO Remove the AccessRestriction check when we finish migrating!
+			 *
+			 */
 			if (AccessRestrictions.CheckAccess(interaction.Performer))
 			{
 				//TODO Commented out as client doesnt sync job, after mind rework see if job is now sync'd
@@ -64,5 +90,5 @@ namespace Weapons
 				CallShotClient(interaction, isSuicide);
 			}
 		}
-    }
+	}
 }

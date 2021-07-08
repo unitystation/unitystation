@@ -108,7 +108,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &404576362407937357
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +221,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &7418526098909645323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +339,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &512806237205393311
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +446,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &773641709186510069
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +550,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &2233065044779290990
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +662,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &5292488675851686727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,6 +689,7 @@ GameObject:
   - component: {fileID: 2928157364170990969}
   - component: {fileID: 3801622674961811191}
   - component: {fileID: 6636148725921946958}
+  - component: {fileID: 4541105232416038234}
   m_Layer: 18
   m_Name: modules
   m_TagString: Untagged
@@ -801,6 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721556b81b487084782d2d54ec862919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IDToggleCard: {fileID: 0}
   needsClosedToLight: 1
   boltsUpSound:
     SetLoadSetting: 0
@@ -816,6 +812,20 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+--- !u!114 &4541105232416038234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444326074182531729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b7e5ca3d7645bf909222e46af44b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredClearance: 
+  type: 0
 --- !u!114 &-2169664583946153626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,6 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 42
+  aiInteractable: 1
 --- !u!114 &2243806384905767094
 MonoBehaviour:
   m_ObjectHideFlags: 0
