@@ -230,7 +230,7 @@ namespace Objects.Atmospherics
 			EjectInsertedContainer();
 
 			var playerScript = networkTab.LastInteractedPlayer().GetComponent<PlayerScript>();
-			var bestHand = playerScript.ItemStorage.GetBestHand();
+			var bestHand = playerScript.DynamicItemStorage.GetBestHand();
 			if (bestHand != null)
 			{
 				Inventory.ServerAdd(gasContainer, bestHand);
@@ -376,6 +376,9 @@ namespace Objects.Atmospherics
 
 		public void MergeCanisterAndTank()
 		{
+			//Check for inserted tank
+			if(HasContainerInserted == false) return;
+
 			GasContainer canisterTank = GetComponent<GasContainer>();
 			GasContainer externalTank = InsertedContainer.GetComponent<GasContainer>();
 			GasMix canisterGas = canisterTank.GasMix;

@@ -98,6 +98,12 @@ public partial class Chat
 			playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
 		}
 
+		//Semi should be able to speak as health shouldnt affect them
+		if (sentByPlayer.Script.IsPlayerSemiGhost)
+		{
+			playerConsciousState = ConsciousState.CONSCIOUS;
+		}
+
 		if (playerConsciousState == ConsciousState.UNCONSCIOUS || playerConsciousState == ConsciousState.DEAD)
 		{
 			// Only the Mute modifier matters if the player cannot speak. We can skip everything else.
@@ -146,12 +152,18 @@ public partial class Chat
 		// Question
 		else if (message.EndsWith("?"))
 		{
-			chatModifiers |= ChatModifier.Question;
+			chatModifiers |= sentByPlayer.Script.PlayerState == PlayerScript.PlayerStates.Ai ?
+				ChatModifier.Query : ChatModifier.Question;
 		}
 		// Exclaim
 		else if (message.EndsWith("!"))
 		{
 			chatModifiers |= ChatModifier.Exclaim;
+		}
+		//Ai state message
+		else if (sentByPlayer.Script.PlayerState == PlayerScript.PlayerStates.Ai)
+		{
+			chatModifiers |= ChatModifier.State;
 		}
 
 		// Assign character trait speech mods
@@ -179,7 +191,8 @@ public partial class Chat
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
-		message = HighlightInGameName(message);
+		//Dont play sound here as it could be examine or action, we only play sound for someone speaking
+		message = HighlightInGameName(message, false);
 
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
@@ -277,19 +290,23 @@ public partial class Chat
 			verb = "yells,";
 			message = $"<b>{message}</b>";
 		}
+		else if ((modifiers & ChatModifier.Query) == ChatModifier.Query)
+		{
+			verb = "queries,";
+		}
 		else if ((modifiers & ChatModifier.State) == ChatModifier.State)
 		{
 			verb = "states,";
 		}
 		else if ((modifiers & ChatModifier.ColdlyState) == ChatModifier.ColdlyState)
 		{
-			verb = " coldly states,";
+			verb = "coldly states,";
 		}
-		else if (message.EndsWith("!"))
+		else if ((modifiers & ChatModifier.Exclaim) == ChatModifier.Exclaim)
 		{
 			verb = "exclaims,";
 		}
-		else if (message.EndsWith("?"))
+		else if ((modifiers & ChatModifier.Question) == ChatModifier.Question)
 		{
 			verb = "asks,";
 		}
@@ -338,7 +355,7 @@ public partial class Chat
 		return output;
 	}
 
-	private static string HighlightInGameName(string input)
+	private static string HighlightInGameName(string input, bool playSound = true)
 	{
 		if(ThemeManager.ChatHighlight == false && ThemeManager.MentionSound == false)
 		{
@@ -352,14 +369,14 @@ public partial class Chat
 		{
 			foreach (var nameSplit in PlayerManager.LocalPlayerScript.playerName.Split(' '))
 			{
-				boldedName = HighlightName(boldedName, nameSplit);
+				boldedName = HighlightName(boldedName, nameSplit, playSound);
 			}
 		}
 
 		return boldedName;
 	}
 
-	private static string HighlightName(string input, string name)
+	private static string HighlightName(string input, string name, bool playSound = true)
 	{
 		if ((ThemeManager.ChatHighlight == false && ThemeManager.MentionSound == false) || name.IsNullOrEmpty())
 		{
@@ -375,7 +392,7 @@ public partial class Chat
 				// Bold and underline it
 				output[i] = $"<u><b>{output[i]}</b></u>";
 
-				if (ThemeManager.MentionSound && playedSound == false)
+				if (ThemeManager.MentionSound && playedSound == false && playSound)
 				{
 					_ = SoundManager.Play(ThemeManager.CurrentMentionSound);
 					playedSound = true;
@@ -512,8 +529,8 @@ public partial class Chat
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
 	{
 		if (PlayerManager.PlayerScript == null) return false;
-		if (!PlayerManager.PlayerScript.IsGhost) return false;
-		if (Instance.GhostHearAll && !PlayerManager.PlayerScript.IsPlayerSemiGhost) return false;
+		if (PlayerManager.PlayerScript.IsGhost == false) return false;
+		if (Instance.GhostHearAll && PlayerManager.PlayerScript.IsPlayerSemiGhost == false) return false;
 
 		if (NetworkIdentity.spawned.ContainsKey(originator))
 		{

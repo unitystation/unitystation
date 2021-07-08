@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Cargo Supplies Crate
   m_EditorClassIdentifier: 
   OrderName: Cargo Supplies Crate
-  CreditCost: 500
+  CreditCost: 750
   Crate: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   Items:
   - {fileID: 8517905270553474336, guid: f029ac18cb79ad24c8691a3a0d6f191e, type: 3}
   - {fileID: 603719719618459706, guid: b32ca0cccde16ef428f4f164dc1f884a, type: 3}
   - {fileID: 7086413832420484247, guid: 24acfe3e8c412064ab3e3aeab2759c1d, type: 3}
+  - {fileID: 7086413832420484247, guid: 24acfe3e8c412064ab3e3aeab2759c1d, type: 3}
   - {fileID: 1004031135681812318, guid: 7540880d4dc7c4d8c9e3d3cd83ccef06, type: 3}
-  ContentSellPrice: 0
+  ContentSellPrice: 500
+  EmagOnly: 0

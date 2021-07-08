@@ -128,7 +128,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//hand needs to be empty for pickup
 		if (interaction.HandObject != null) return false;
 		//instead of the base logic, we need to use extended range check for CanApply
-		if (!Validations.CanApply(interaction, side, true, ReachRange.Standard, isPlayerClick: true)) return false;
+		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, side, true, isPlayerClick: true)) return false;
 
 		return true;
 	}
@@ -236,7 +236,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		var interaction = HandApply.ByLocalPlayer(gameObject);
 		if (interaction.TargetObject != gameObject) return null;
 		if (interaction.HandObject != null) return null;
-		if (!Validations.CanApply(interaction, NetworkSide.Client, true, ReachRange.Standard, isPlayerClick: false)) return null;
+		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, NetworkSide.Client, true, ReachRange.Standard, isPlayerClick: false)) return null;
 
 		return RightClickableResult.Create()
 				.AddElement("PickUp", RightClickInteract);
@@ -314,7 +314,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			var equipment = itemSlot.Player.GetComponent<Equipment>();
 			if (equipment == null) return;
 			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
-			CT.spriteHandler.SetPaletteOfCurrentSprite(palette, Network:false);
+			CT.spriteHandler.SetPaletteOfCurrentSprite(palette, networked:false);
 		}
 	}
 }

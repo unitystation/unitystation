@@ -10,17 +10,18 @@ using ScriptableObjects;
 
 namespace Antagonists
 {
-	[CreateAssetMenu(menuName="ScriptableObjects/Antagonist/Wizard")]
+	[CreateAssetMenu(menuName = "ScriptableObjects/Antagonist/Wizard")]
 	public class Wizard : Antagonist
 	{
-		[Tooltip("How many random spells the wizard should start with.")]
-		[SerializeField]
+		[Tooltip("How many random spells the wizard should start with.")] [SerializeField]
 		private int startingSpellCount = 1;
 
 		[SerializeField, BoxGroup("Starting Name")]
 		private bool assignRandomNameOnSpawn = true;
+
 		[SerializeField, BoxGroup("Starting Name")]
 		private StringList wizardFirstNames = default;
+
 		[SerializeField, BoxGroup("Starting Name")]
 		private StringList wizardLastNames = default;
 
@@ -46,11 +47,11 @@ namespace Antagonists
 		public static string GetIdentityPaperText(ConnectedPlayer player)
 		{
 			return $"<size=36>CERTIFICATE OF IDENTITY</size>\n\n\n" +
-					$"This slip is to certify that the bearer,\n" +
-					$"<u><b>{player.Script.playerName}</b></u>\n" +
-					"is a member of the Wizard Federation.\n\n\n\n\n\n\n\n\n\n\n\n" +
-					"Signed: <u><i>Tarkhol Mintizheth</i></u>, Wizard Fedaration Chief Recruiter\n\n" +
-					"<size=16>This certificate remains property of the Wizard Federation</size>";
+			       $"This slip is to certify that the bearer,\n" +
+			       $"<u><b>{player.Script.playerName}</b></u>\n" +
+			       "is a member of the Wizard Federation.\n\n\n\n\n\n\n\n\n\n\n\n" +
+			       "Signed: <u><i>Tarkhol Mintizheth</i></u>, Wizard Fedaration Chief Recruiter\n\n" +
+			       "<size=16>This certificate remains property of the Wizard Federation</size>";
 		}
 
 		private void GiveRandomSpells(ConnectedPlayer player)
@@ -65,6 +66,7 @@ namespace Antagonists
 				player.Script.mind.AddSpell(spell);
 				playerMsg.Append($"<b>{randomSpell.Name}</b>, ");
 			}
+
 			playerMsg.RemoveLast(", ").Append(".");
 
 			Chat.AddExamineMsgFromServer(player.GameObject, playerMsg.ToString());
@@ -72,16 +74,23 @@ namespace Antagonists
 
 		private void SetPapers(ConnectedPlayer player)
 		{
-			ItemSlot idSlot = player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.id);
-			if (idSlot.IsOccupied && idSlot.ItemObject.TryGetComponent<Paper>(out var papersPlease))
+			IEnumerable<ItemSlot> idSlots = player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id);
+			foreach (var idSlot in idSlots)
 			{
-				papersPlease.SetServerString(GetIdentityPaperText(player));
+				if (idSlot.IsOccupied && idSlot.ItemObject.TryGetComponent<Paper>(out var papersPlease))
+				{
+					papersPlease.SetServerString(GetIdentityPaperText(player));
+				}
 			}
 
-			ItemSlot storage02 = player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage02);
-			if (storage02.IsOccupied && storage02.ItemObject.TryGetComponent<Paper>(out var helpPaper))
+
+
+			IEnumerable<ItemSlot> storage02s = player.Script.DynamicItemStorage.GetPocketsSlots();
+			foreach (var storage02 in storage02s)
 			{
-				helpPaper.SetServerString(
+				if (storage02.IsOccupied && storage02.ItemObject.TryGetComponent<Paper>(out var helpPaper))
+				{
+					helpPaper.SetServerString(
 						"<align=\"center\"><size=32><b>Wizard 101</b></size></align>\n" +
 						"- Use the magic mirror to change your name.\n" +
 						"- Avoid the Whizzamazon drop-pod that falls when you purchase an artifact!\n" +
@@ -91,6 +100,7 @@ namespace Antagonists
 						"- The Blink spell has a small chance to send you into space if you use it while near space.\n" +
 						"- The wizard staff does not serve a meaningful purpose, but it does look great on you!\n" +
 						"Good luck!");
+				}
 			}
 		}
 

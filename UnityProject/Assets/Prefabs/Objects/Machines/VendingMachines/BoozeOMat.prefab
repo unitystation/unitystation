@@ -15,8 +15,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Color.r
-      value: 0.31764707
+      propertyPath: Color.b
+      value: 0.5686275
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -25,8 +25,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Color.b
-      value: 0.5686275
+      propertyPath: Color.r
+      value: 0.31764707
       objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -49,6 +49,16 @@ PrefabInstance:
       value: A technological marvel, supposedly able to mix just the mixture you'd
         like to drink the moment you ask for one.
       objectReference: {fileID: 0}
+    - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -57,12 +67,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 38
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: HullColor.r
+      propertyPath: HullColor.b
       value: 0.3372549
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -72,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.b
+      propertyPath: HullColor.r
       value: 0.3372549
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -82,8 +87,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].ItemName
-      value: Shaker
+      propertyPath: InitialVendorContent.Array.size
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -93,30 +98,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].ItemName
-      value: Drinking Glass
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
       objectReference: {fileID: 152655092904150459, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].ItemName
-      value: Shot Glass
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[2].Item
@@ -125,30 +110,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Stock
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].ItemName
-      value: Flask
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[3].Item
       value: 
       objectReference: {fileID: 684254245239768240, guid: 1f332585069499e49a1f8f8bd17f486d,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Stock
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].ItemName
-      value: Ice Cup
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[4].Item
@@ -157,30 +122,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].ItemName
-      value: Orange Juice
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[5].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 471f790894869354488a9c697f25898c,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].Stock
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].ItemName
-      value: Tomato Juice
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[6].Item
@@ -189,30 +134,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].Stock
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Lime Juice
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 7d6cb9cdb7d384c429b6e5e71887c32c,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].Stock
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].ItemName
-      value: Milk Cream
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Item
@@ -221,29 +146,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[8].Stock
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[9].ItemName
-      value: Space Cola
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[9].Item
       value: 
       objectReference: {fileID: 683694994805896424, guid: 51ddc7025f52f6e4e96d4410324d2bd0,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[9].Stock
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[10].ItemName
-      value: T-Borg's Tonic Water
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -253,30 +163,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[10].Stock
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[11].ItemName
-      value: Soda Water
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[11].Item
       value: 
       objectReference: {fileID: 2716144311691756982, guid: 5aaac2f8c1ca3594582dcaf2bb2a3558,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[11].Stock
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[12].ItemName
-      value: Sol Dry
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[12].Item
@@ -285,30 +175,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[12].Stock
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[13].ItemName
-      value: Jester Grenadine
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[13].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 6dbabf66e2dac834f9a1c98aa5e0e1da,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[13].Stock
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[14].ItemName
-      value: Menthol
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[14].Item
@@ -317,30 +187,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[14].Stock
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[15].ItemName
-      value: Magm-Ale
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[15].Item
       value: 
       objectReference: {fileID: 1094635065414597411, guid: 0c06e6afc8686d24b85639acdc03c511,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[15].Stock
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[16].ItemName
-      value: Space Beer
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[16].Item
@@ -349,30 +199,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[16].Stock
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[17].ItemName
-      value: Griffeater Gin
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[17].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 8cc87e12b58f6f74f9519327b7be322a,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[17].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[18].ItemName
-      value: Uncle Git's Secial Reserve
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[18].Item
@@ -381,29 +211,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[18].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[19].ItemName
-      value: Caccavo Guaranteed Quality Tequila
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[19].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 23136961836b11a49a42becb73116f93,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[19].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[20].ItemName
-      value: Tunguska Triple Distilled
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -413,30 +228,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[20].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[21].ItemName
-      value: Goldeneye Vermouth
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[21].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: fdff325f12f98e0449b3d785c75096c3,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[21].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[22].ItemName
-      value: Captain Pete's Cuban Spiced Rum
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[22].Item
@@ -445,30 +240,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[22].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[23].ItemName
-      value: Doublebeard's Bearded Special Wine
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[23].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 4b015210dd01e1f468872e3aba6bc9f3,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[23].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[24].ItemName
-      value: Chateau de Baton Premium Cognac
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[24].Item
@@ -477,30 +252,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[24].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[25].ItemName
-      value: Robert Robust's Coffee Liqueur
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[25].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 8d235a96771a5894b8116c79077082fb,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[25].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[26].ItemName
-      value: Jian Hard Cider
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[26].Item
@@ -509,30 +264,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[26].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[27].ItemName
-      value: Extra-Strong Absinthe
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[27].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: f59ae305481bbc4419d66c692d312e36,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[27].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[28].ItemName
-      value: Phillipes Well-Aged Grappa
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[28].Item
@@ -541,29 +276,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[28].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[29].ItemName
-      value: Ryo's Traditional Sake
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[29].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: a2464fa756de7df4faa0a2a4080881ff,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[29].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[30].ItemName
-      value: Buckin' Bronco's Applejack
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -573,30 +293,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[30].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[31].ItemName
-      value: Glass Bottle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[31].Item
       value: 
       objectReference: {fileID: 2124207949847323391, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[31].Stock
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[32].ItemName
-      value: Small Glass Bottle
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[32].Item
@@ -605,30 +305,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[32].Stock
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[33].ItemName
-      value: Duke Purple Tea
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[33].Item
       value: 
       objectReference: {fileID: 8570166896530668612, guid: 3c3a5d1ce4eae994098acb2976709701,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[33].Stock
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[34].ItemName
-      value: Fernet Bronca
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[34].Item
@@ -637,30 +317,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[34].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[35].ItemName
-      value: Ethanol Bottle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[35].Item
       value: 
       objectReference: {fileID: 7877648054047527799, guid: 1c1e7677848866543a86b27253f15c17,
         type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[35].Stock
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[36].ItemName
-      value: Eau d' Dandy Brut Champagne
-      objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[36].Item
@@ -669,24 +329,374 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[36].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[37].ItemName
-      value: Mont de Requin Trappistes Bleu
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: InitialVendorContent.Array.data[37].Item
       value: 
       objectReference: {fileID: 7305396868739561040, guid: 449e03a70664f9d4b96200cbe184b274,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Stock
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].Stock
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].Stock
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].Stock
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].Stock
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Stock
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].Stock
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[12].Stock
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[13].Stock
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[14].Stock
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[15].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[16].Stock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[17].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[19].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[20].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[21].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[22].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[23].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[24].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[25].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[26].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[27].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[28].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[29].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[30].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[31].Stock
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[32].Stock
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[33].Stock
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[34].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[35].Stock
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[36].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[37].Stock
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Shaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Drinking Glass
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Shot Glass
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Flask
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      value: Ice Cup
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      value: Orange Juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].ItemName
+      value: Tomato Juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].ItemName
+      value: Lime Juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].ItemName
+      value: Milk Cream
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[9].ItemName
+      value: Space Cola
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].ItemName
+      value: T-Borg's Tonic Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[11].ItemName
+      value: Soda Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[12].ItemName
+      value: Sol Dry
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[13].ItemName
+      value: Jester Grenadine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[14].ItemName
+      value: Menthol
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[15].ItemName
+      value: Magm-Ale
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[16].ItemName
+      value: Space Beer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[17].ItemName
+      value: Griffeater Gin
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].ItemName
+      value: Uncle Git's Secial Reserve
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[19].ItemName
+      value: Caccavo Guaranteed Quality Tequila
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[20].ItemName
+      value: Tunguska Triple Distilled
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[21].ItemName
+      value: Goldeneye Vermouth
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[22].ItemName
+      value: Captain Pete's Cuban Spiced Rum
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[23].ItemName
+      value: Doublebeard's Bearded Special Wine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[24].ItemName
+      value: Chateau de Baton Premium Cognac
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[25].ItemName
+      value: Robert Robust's Coffee Liqueur
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[26].ItemName
+      value: Jian Hard Cider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[27].ItemName
+      value: Extra-Strong Absinthe
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[28].ItemName
+      value: Phillipes Well-Aged Grappa
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[29].ItemName
+      value: Ryo's Traditional Sake
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[30].ItemName
+      value: Buckin' Bronco's Applejack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[31].ItemName
+      value: Glass Bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[32].ItemName
+      value: Small Glass Bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[33].ItemName
+      value: Duke Purple Tea
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[34].ItemName
+      value: Fernet Bronca
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[35].ItemName
+      value: Ethanol Bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[36].ItemName
+      value: Eau d' Dandy Brut Champagne
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[37].ItemName
+      value: Mont de Requin Trappistes Bleu
       objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -707,6 +717,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -722,6 +737,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -734,16 +754,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

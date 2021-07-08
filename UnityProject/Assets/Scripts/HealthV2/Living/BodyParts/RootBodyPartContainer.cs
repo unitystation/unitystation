@@ -67,6 +67,14 @@ namespace HealthV2
 		[Tooltip("Individual limbs contained within this")]
 		public List<BodyPart> ContainsLimbs = new List<BodyPart>();
 
+		[HideInInspector] public bool IsBleeding = false;
+
+		/// <summary>
+		/// How much blood does the body lose when there is lost limbs in this container?
+		/// </summary>
+		[SerializeField, Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
+		private float limbLossBleedingValue = 35f;
+
 		public RootBodyPartController RootBodyPartController;
 
 		/// <summary>
@@ -100,6 +108,8 @@ namespace HealthV2
 			}
 
 			Storage.ServerInventoryItemSlotSet += ImplantAdded;
+			//TODO Make generic version for mobs \/
+			Storage.SetRegisterPlayer(healthMaster.GetComponent<RegisterPlayer>());
 		}
 
 		public void UpdateChildren(List<uint> NewInternalNetIDs)
@@ -224,8 +234,17 @@ namespace HealthV2
 
 				i++;
 				i++;
+				i++;
 			}
 			RootBodyPartController.RequestUpdate(this);
+
+			if (implant.SetCustomisationData != "")
+			{
+				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant,
+					implant.SetCustomisationData,
+					healthMaster);
+			}
+
 		}
 
 		/// <summary>
@@ -273,7 +292,6 @@ namespace HealthV2
 			if (ItemStorage == null) ItemStorage = this.GetComponent<ItemStorage>();
 			ItemStorage.ServerDropAll();
 			PlayerSprites.livingHealthMasterBase.RootBodyPartContainers.Remove(this);
-			Destroy(gameObject); //?
 		}
 
 		public virtual void ImplantUpdate()
@@ -286,13 +304,17 @@ namespace HealthV2
 
 		/// <summary>
 		/// Updates the body part container and all contained body parts relative to their related
-		/// systems (default: blood system, radiation damage)
+		/// systems (default: blood system, radiation damage) each second.
 		/// </summary>
 		public virtual void ImplantPeriodicUpdate()
 		{
 			foreach (BodyPart prop in ContainsLimbs)
 			{
 				prop.ImplantPeriodicUpdate();
+			}
+			if(IsBleeding)
+			{
+				healthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
 			}
 		}
 
@@ -304,6 +326,7 @@ namespace HealthV2
 		public virtual void SubBodyPartRemoved(BodyPart implant)
 		{
 			RemoveSpritesNID(implant);
+			IsBleeding = true;
 		}
 
 		/// <summary>
@@ -339,16 +362,16 @@ namespace HealthV2
 			//This is so you can still hit for example the Second Head of a double-headed thing, can be changed if we find a better solution for aiming at Specific body parts
 			if (damageSplit || attackType == AttackType.Bomb || attackType == AttackType.Fire || attackType == AttackType.Rad)
 			{
-				foreach (var ContainsLimb in ContainsLimbs)
+				//We don't use foreach to avoid errors when the list gets modifed.
+				for(int limbCount = ContainsLimbs.Count - 1; limbCount >= 0; limbCount--)
 				{
-					ContainsLimb.TakeDamage(
-						damagedBy,
+					ContainsLimbs[limbCount].TakeDamage(damagedBy,
 						damage / ContainsLimbs.Count,
 						attackType,
 						damageType,
 						damageSplit,
 						armorPenetration: armorPenetration
-					);
+						);
 				}
 			}
 			else
@@ -369,6 +392,28 @@ namespace HealthV2
 		}
 
 		/// <summary>
+		/// Applies Trauma damage to a body part.
+		/// </summary>
+		public void TakeTraumaDamage(float damage, BodyPart.TramuticDamageTypes damageType)
+		{
+			foreach(BodyPart limb in ContainsLimbs)
+			{
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN))
+				{
+					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
+				}
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH))
+				{
+					limb.ApplyTraumaDamage(damage);
+				}
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.PIERCE))
+				{
+					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Removes damage from limbs. Currently heals all limbs contained in the container by the heal amount
 		/// </summary>
 		/// <param name="healingItem">The game object performing the healing</param>
@@ -382,6 +427,14 @@ namespace HealthV2
 				//yes It technically duplicates the healing but, I've would feel pretty robbed if There was a damage on one limb Of 50
 				//and I used a bandage of 50 and only healed 25,  if the healing was split across the two limbs
 				limb.HealDamage(healingItem, healAmt, (int)damageTypeToHeal);
+			}
+		}
+
+		public void HealTraumaDamage(float healAmt, BodyPart.TramuticDamageTypes typeToHeal)
+		{
+			foreach(BodyPart limb in ContainsLimbs)
+			{
+				limb.HealTraumaticDamage(healAmt, typeToHeal);
 			}
 		}
 	}

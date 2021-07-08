@@ -258,6 +258,14 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
         m_values: d0070000e8030000e8030000
       productionTime: 0.5
+    - name: Sand
+      product: {fileID: 773312911048126984, guid: 6e4200f349a2e834c93abd60c2264641,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: d0070000
+      productionTime: 0.5
   - categoryName: Security
     products:
     - name: Beanbag Slug

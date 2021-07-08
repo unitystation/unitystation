@@ -25,14 +25,17 @@ public class PlayerEffectsManager : MonoBehaviour
 
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.IsHeadless) return;
 	    UpdateManager.Add(CallbackType.UPDATE, UpdateLoop);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.IsHeadless) return;
 	    UpdateManager.Remove(CallbackType.UPDATE, UpdateLoop);
 	}
 
+	//Client and Local host only
 	private void UpdateLoop()
 	{
 	    //Checks if the player is floating and animates them up in down if they are.

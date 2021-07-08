@@ -1,15 +1,29 @@
-﻿using NaughtyAttributes;
+using AddressableReferences;
+using System.Collections.Generic;
+using Items;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Doors.Modules
 {
 	public class BoltsModule : DoorModuleBase
 	{
+		[SerializeField] private ItemTrait IDToggleCard;
+
+
 		private bool boltsDown = false;
+		public bool BoltsDown => boltsDown;
+
 		private bool boltsLights = true;
 
 		[SerializeField][Tooltip("If true, the door needs to be closed to see the bolts lights")]
 		private bool needsClosedToLight = true;
+
+		[SerializeField]
+		private AddressableAudioSource boltsUpSound= null;
+
+		[SerializeField]
+		private AddressableAudioSource boltsDownSound= null;
 
 		private bool CanShowLights
 		{
@@ -33,6 +47,10 @@ namespace Doors.Modules
 		{
 			boltsDown = state;
 
+			master.ToggleBlockAutoClose(state);
+
+			SoundManager.PlayNetworkedAtPos(boltsDown ? boltsDownSound : boltsUpSound, master.RegisterTile.WorldPositionServer, sourceObj: master.gameObject);
+
 			if (boltsDown && CanShowLights)
 			{
 				master.DoorAnimator.TurnOnBoltsLight();
@@ -41,6 +59,8 @@ namespace Doors.Modules
 			{
 				master.DoorAnimator.TurnOffAllLights();
 			}
+
+			master.UpdateGui();
 		}
 
 		/// <summary>
@@ -52,17 +72,33 @@ namespace Doors.Modules
 			boltsLights = enable;
 		}
 
-		public override ModuleSignal OpenInteraction(HandApply interaction)
+		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
+			if (interaction != null && interaction.UsedObject != null)
+			{
+				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
+				{
+					SetBoltsState(!boltsDown);
+				}
+			}
+
 			return ModuleSignal.Continue;
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction)
+		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
+			if (interaction != null && interaction.UsedObject != null)
+			{
+				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
+				{
+					SetBoltsState(!boltsDown);
+				}
+			}
+
 			return ModuleSignal.Continue;
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer)
+		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
 			return ModuleSignal.Continue;
 		}

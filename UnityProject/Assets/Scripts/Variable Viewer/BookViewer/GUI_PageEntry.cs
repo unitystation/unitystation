@@ -6,17 +6,21 @@ using System.Reflection;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
+using DatabaseAPI;
+using Messages.Client.VariableViewer;
 using Newtonsoft.Json;
 using TMPro;
 
 public class GUI_PageEntry : MonoBehaviour
 {
 
-	public TMP_Text PageID;
+	public Image TypeImage;
+
 	public TMP_Text VariableName;
-	public InputField Variable;
 
 	public GameObject DynamicSizePanel;
+
+	public GameObject FunctionButton;
 
 	public bool NotPoolble;
 
@@ -28,7 +32,6 @@ public class GUI_PageEntry : MonoBehaviour
 		get { return _Page; }
 		set
 		{
-			PageID.text = "ID > " + value.ID;
 			VariableName.text = value.VariableName;
 			//Variable.text = value.Variable;
 			//VariableType.text = " VariableType > " + value.VariableType;
@@ -38,7 +41,56 @@ public class GUI_PageEntry : MonoBehaviour
 	}
 	public void ValueSetUp()
 	{
+		if (Page.CanWrite)
+		{
+			switch (Page.VVHighlight)
+			{
+				case VVHighlight.None:
+					TypeImage.color = Color.gray;
+					break;
+				case VVHighlight.SafeToModify:
+					TypeImage.color = Color.cyan;
+					break;
+				case VVHighlight.SafeToModify100:
+					TypeImage.color = Color.green;
+					break;
+				case VVHighlight.UnsafeToModify:
+					TypeImage.color = new Color(1,0.498039f, 0);
+					break;
+				case VVHighlight.VariableChangeUpdate:
+					TypeImage.color = Color.yellow;
+					break;
+				case VVHighlight.DEBUG:
+					TypeImage.color = Color.red;
+					break;
+			}
+
+		}
+		else
+		{
+			TypeImage.color = Color.blue;
+		}
+
+		//Activate function
+
+		//FunctionButton
+		if (Page.VariableType == null)
+		{
+			FunctionButton.gameObject.SetActive(true);
+		}
+		else
+		{
+			FunctionButton.gameObject.SetActive(false);
+		}
+
 		VVUIElementHandler.ProcessElement(DynamicSizePanel, _Page);
+	}
+
+
+	public void InvokeMethod()
+	{
+		RequestInvokeFunction.Send(_Page.ID, ServerData.UserID,
+			PlayerList.Instance.AdminToken);
 	}
 
 

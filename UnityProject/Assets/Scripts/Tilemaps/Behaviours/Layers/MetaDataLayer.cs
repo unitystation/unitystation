@@ -6,6 +6,7 @@ using Chemistry.Components;
 using HealthV2;
 using UnityEngine;
 using Objects.Construction;
+using TileManagement;
 
 /// <summary>
 /// Holds and provides functionality for all the MetaDataTiles for a given matrix.
@@ -17,6 +18,7 @@ public class MetaDataLayer : MonoBehaviour
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
 	private Matrix matrix;
+	private FloorDecal existingSplat;
 
 	private void Awake()
 	{
@@ -107,99 +109,119 @@ public class MetaDataLayer : MonoBehaviour
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
 
 		bool didSplat = false;
+		bool paintBlood = false;
 
-		//Find all reagents on this tile (including current reagent) 
-		var reagentContainersList = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
+		//Find all reagents on this tile (including current reagent)
+		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
+		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
 
-		bool landedOnReagents = false;
-
-		if(reagentContainersList.Count > 0)
+		for (var i = 0; i < existingSplats.Count; i++)
 		{
-			//If there is more than one Reagent Container, loop through them
-			foreach (ReagentContainer chem in reagentContainersList)
+			if (existingSplats[i].GetComponent<ReagentContainer>())
 			{
-				//If the reagent tile is a pool/puddle/splat
-				if(chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
-				{
-					reagents.Add(chem.CurrentReagentMix);
-				}
-				//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
-				
+				existingSplat = existingSplats[i];
 			}
-			landedOnReagents = true;
 		}
-	
-		foreach (var reagent in reagents.reagents.m_dict)
+
+		//Loop though all reagent containers and add the passed in reagents
+		foreach (ReagentContainer chem in reagentContainer)
 		{
-			if (reagent.Value < 1)
+			//If the reagent tile is a pool/puddle/splat
+			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
-				continue;
+				reagents.Add(chem.CurrentReagentMix);
+			}
+			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
+		}
+
+		if(reagents.Total > 0)
+		{
+			//Force clean the tile
+			Clean(worldPosInt, localPosInt, false);
+
+			lock (reagents.reagents)
+			{
+				foreach (var reagent in reagents.reagents.m_dict)
+				{
+					switch (reagent.Key.name)
+					{
+						case "HumanBlood":
+						{
+							paintBlood = true;
+							break;
+						}
+						case "Water":
+						{
+							MakeSlipperyAt(localPosInt);
+							matrix.ReactionManager.ExtinguishHotspot(localPosInt);
+							foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
+							{
+								livingHealthBehaviour.Extinguish();
+							}
+							break;
+						}
+						case "SpaceCleaner":
+							Clean(worldPosInt, localPosInt, false);
+							didSplat = true;
+							break;
+						case "SpaceLube":
+						{
+							// ( ͡° ͜ʖ ͡°)
+							if (Get(localPosInt).IsSlippery == false)
+							{
+								EffectsFactory.WaterSplat(worldPosInt);
+								MakeSlipperyAt(localPosInt, false);
+							}
+							break;
+						}
+						default:
+							break;
+					}
+				}
 			}
 
-			switch (reagent.Key.name)
+			if (didSplat == false)
 			{
-				case "Water":
+				if (paintBlood)
 				{
-					matrix.ReactionManager.ExtinguishHotspot(localPosInt);
-
-					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
-					{
-						livingHealthBehaviour.Extinguish();
-					}
-
-					Clean(worldPosInt, localPosInt, true);
-					break;
+					PaintBlood(worldPosInt, reagents);
 				}
-				case "SpaceCleaner":
-					Clean(worldPosInt, localPosInt, false);
-					break;
-				case "SpaceLube":
+				else
 				{
-					// ( ͡° ͜ʖ ͡°)
-					if (Get(localPosInt).IsSlippery == false)
-					{
-						EffectsFactory.WaterSplat(worldPosInt);
-						MakeSlipperyAt(localPosInt, false);
-					}
-
-					break;
+					Paintsplat(worldPosInt, localPosInt, reagents);
 				}
-				default:
-				{
-					var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
-					
-					if (didSplat == false && landedOnReagents == false)
-					{
+			}
+		}
+	}
 
-						if(stateDesc == "powder")
-						{
-							EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
-						}
-						else
-						{
-							MakeSlipperyAt(localPosInt, false);
-							EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
-						}
-					}
-					else
-					{
-						//There is already a reagent here, clear its tile like you washed it and place a new effect over it (already has new reagents added)
+	public void PaintBlood(Vector3Int worldPosInt, ReagentMix reagents)
+	{
+		EffectsFactory.BloodSplat(worldPosInt, reagents);
+		BloodDry(worldPosInt);
+	}
 
-						if (stateDesc == "powder")
-						{
-							Clean(worldPosInt, localPosInt, Get(localPosInt).IsSlippery);
-							//TODO: Power should not clean but overlap... Clean because we want to move the existing reagent
-							EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
-						}
-						else
-						{
-							Clean(worldPosInt, localPosInt, true);
-							EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
-						}
-					}
-					didSplat = true;
-					break;
-				}
+	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, ReagentMix reagents)
+	{
+		switch (ChemistryUtils.GetMixStateDescription(reagents))
+		{
+			case "powder":
+			{
+				EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+				break;
+			}
+			case "liquid":
+			{
+				//TODO: Work out if reagent is "slippery" according to its viscocity (not modeled yet)
+				EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
+				break;
+			}
+			case "gas":
+				//TODO: Make gas reagents release into the atmos.
+				break;
+			default:
+			{
+				EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
+				break;
 			}
 		}
 	}
@@ -207,16 +229,15 @@ public class MetaDataLayer : MonoBehaviour
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
 		Get(localPosInt).IsSlippery = false;
-
 		var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
 		for (var i = 0; i < floorDecals.Count; i++)
 		{
 			floorDecals[i].TryClean();
 		}
-		
+
 		//check for any moppable overlays
-		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, TileChangeManager.OverlayType.Cleanable);
+		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
 
 		if (MatrixManager.IsSpaceAt(worldPosInt, true) == false && makeSlippery)
 		{
@@ -225,6 +246,40 @@ public class MetaDataLayer : MonoBehaviour
 
 			// Sets a tile to slippery
 			MakeSlipperyAt(localPosInt);
+		}
+	}
+
+	public void BloodDry(Vector3Int position)
+	{
+		var tile = Get(position, false);
+		if (tile == MetaDataNode.None || tile.IsSpace)
+		{
+			return;
+		}
+
+		if (tile.CurrentDrying != null)
+		{
+			StopCoroutine(tile.CurrentDrying);
+		}
+		tile.CurrentDrying = BloodDryUp(tile);
+		StartCoroutine(tile.CurrentDrying);
+
+	}
+
+	private IEnumerator BloodDryUp(MetaDataNode tile)
+	{
+		//Blood should take 3 mins to dry (TG STATION)
+		yield return WaitFor.Seconds(180);
+		tile.IsSlippery = false;
+
+		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
+		foreach (var decal in floorDecals)
+		{
+			if (decal.isBlood)
+			{
+				decal.color = new Color(decal.color.r / 2, decal.color.g / 2, decal.color.b / 2, decal.color.a);
+				decal.name = $"dried {decal.name}";
+			}
 		}
 	}
 

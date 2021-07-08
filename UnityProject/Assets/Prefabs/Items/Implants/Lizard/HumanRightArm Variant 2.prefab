@@ -27,6 +27,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: DismembermentChance
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: ExternalBleedingBloodLoss
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: aa188067080aaec42946935a7411dc5c,

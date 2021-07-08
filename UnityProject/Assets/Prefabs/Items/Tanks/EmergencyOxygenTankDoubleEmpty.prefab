@@ -12,6 +12,26 @@ PrefabInstance:
       propertyPath: Gases.Array.data[1]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: StoredGasMix.Pressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: StoredGasMix.Temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617888966943836785, guid: 559a6395df37aa249a2e1407680afd35,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7782571377670902918, guid: 559a6395df37aa249a2e1407680afd35,
         type: 3}
       propertyPath: m_RootOrder

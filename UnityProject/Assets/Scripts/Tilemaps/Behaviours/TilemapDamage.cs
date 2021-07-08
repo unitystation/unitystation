@@ -118,17 +118,17 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			}
 			data.RemoveTileDamage(Layer.LayerType);
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
-			tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, TileChangeManager.OverlayType.Damage);
+			tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Damage);
 
 			if (Layer.LayerType == LayerType.Floors || Layer.LayerType == LayerType.Base)
 			{
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Floors, TileChangeManager.OverlayType.Cleanable);
+				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Floors, OverlayType.Cleanable);
 			}
 
 			if (Layer.LayerType == LayerType.Walls)
 			{
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Walls, TileChangeManager.OverlayType.Cleanable);
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, TileChangeManager.OverlayType.Mining);
+				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Walls, OverlayType.Cleanable);
+				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Mining);
 			}
 
 			//Add new tile if needed
@@ -230,7 +230,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		var data = metaDataLayer.Get(cellPos);
 
-		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, TileChangeManager.OverlayType.Damage);
+		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Damage);
 		data.ResetDamage(Layer.LayerType);
 	}
 }

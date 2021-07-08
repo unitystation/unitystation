@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: items_lefthand_plantbag
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -4125167455574894558, guid: fad71073a5c0de747b627af95a9e58f0,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1590235967494784281, guid: fad71073a5c0de747b627af95a9e58f0,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -5924367894137949522, guid: fad71073a5c0de747b627af95a9e58f0,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2581466080904013081, guid: fad71073a5c0de747b627af95a9e58f0,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 13672
+  DisplayName: 

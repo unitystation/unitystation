@@ -561,7 +561,7 @@ public partial class PlayerList
 	/// </summary>
 	/// <param name="connPlayer"></param>
 	/// <returns></returns>
-	private List<JobBanEntry> ClientAskingAboutJobBans(ConnectedPlayer connPlayer)
+	public List<JobBanEntry> ClientAskingAboutJobBans(ConnectedPlayer connPlayer)
 	{
 		if (connPlayer.Equals(ConnectedPlayer.Invalid))
 		{
@@ -591,7 +591,7 @@ public partial class PlayerList
 		var index = jobBanPlayerEntry.Value.Item2;
 
 		//Check each job to see if expired
-		foreach (var jobBan in jobBanPlayerEntry.Value.Item1.jobBanEntry)
+		foreach (var jobBan in jobBanPlayerEntry.Value.Item1.jobBanEntry.ToArray())
 		{
 			var entryTime = DateTime.ParseExact(jobBan.dateTimeOfBan, "O", CultureInfo.InvariantCulture);
 			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
@@ -736,40 +736,6 @@ public partial class PlayerList
 	#endregion
 
 	#region JobBanNetMessages
-
-	public class ClientJobBanDataMessage : ClientMessage<ClientJobBanDataMessage.NetMessage>
-	{
-		public struct NetMessage : NetworkMessage
-		{
-			public string PlayerID;
-		}
-
-		public override void Process(NetMessage msg)
-		{
-			//Server Stuff here
-			var conn = PlayerList.Instance.GetByUserID(msg.PlayerID);
-
-			if (conn == null)
-			{
-				Logger.LogError("Connection was NULL", Category.Jobs);
-				return;
-			}
-
-			var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(conn);
-
-			ServerSendsJobBanDataMessage.Send(conn.Connection, jobBanEntries);
-		}
-
-		public static NetMessage Send(string playerID)
-		{
-			NetMessage msg = new NetMessage
-			{
-				PlayerID = playerID
-			};
-			Send(msg);
-			return msg;
-		}
-	}
 
 	public class ServerSendsJobBanDataMessage : ServerMessage<ServerSendsJobBanDataMessage.NetMessage>
 	{
@@ -1117,7 +1083,12 @@ public partial class PlayerList
 				{
 					reason = "Player was kicked after job ban process.";
 					StartCoroutine(KickPlayer(p, reason, false));
+					continue;
 				}
+
+				//Send update if they are still in the game
+				if(p.Connection == null) continue;
+				ServerSendsJobBanDataMessage.Send(p.Connection, ClientAskingAboutJobBans(p));
 			}
 		}
 		else

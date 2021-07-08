@@ -239,6 +239,7 @@ public static class SerializableDictionary
 	}
 }
 
+[Serializable]
 public class SerializableDictionary<TKey, TValue> : SerializableDictionaryBase<TKey, TValue, TValue>
 {
 	public SerializableDictionary() { }

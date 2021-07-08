@@ -79,7 +79,7 @@ namespace Messages.Client
 			encryptionKey.GameObject.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
 			headset.EncryptionKey = EncryptionKeyType.None;
 
-			var emptyHand = player.Script.Equipment.ItemStorage.GetEmptyHandSlot();
+			var emptyHand = player.Script.DynamicItemStorage.GetBestHand();
 			if (emptyHand != null)
 			{
 				Inventory.ServerAdd(encryptionKey.GameObject, emptyHand);

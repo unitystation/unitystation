@@ -43,6 +43,20 @@ namespace Systems.Cargo
 			mm.SetAccuracy(2);
 		}
 
+		private void OnEnable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		/// <summary>
 		/// Send Shuttle to the station.
 		/// Server only.
@@ -71,13 +85,9 @@ namespace Systems.Cargo
 			mm.AutopilotTo(destination);
 		}
 
-		private void Update()
+		//Server Side Only
+		private void UpdateMe()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
-			{
-				return;
-			}
-
 			if (moving && Vector2.Distance(transform.position, destination) < 2)    //arrived to dest
 			{
 				moving = false;

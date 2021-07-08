@@ -196,7 +196,7 @@ namespace Objects.Kitchen
 			// time in seconds = 4 * items_in_processor / manipulator tier
 			int slotsOccupied = storage.GetNextFreeIndexedSlot().SlotIdentifier.SlotIndex;
 			processTimer = (float)(TIME_PER_ITEM * slotsOccupied / manipTier);
-			AnimateProcessor(1, processTimer, shakeValue, 0.1f);
+			AnimateProcessor(1, processTimer / 8, shakeValue, 0.1f);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			playAudioLoop = true;
 
@@ -207,7 +207,7 @@ namespace Objects.Kitchen
 			if (IsOperating == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			RpcHaltProcessorAnim();
+			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
 			playAudioLoop = false;
 		}
 

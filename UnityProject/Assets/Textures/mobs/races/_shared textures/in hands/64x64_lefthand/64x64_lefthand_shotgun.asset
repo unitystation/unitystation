@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: 64x64_lefthand_shotgun
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 628739038753618940, guid: b44f4f684f1c0354080f7095ca0ed22b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5960249372521158662, guid: b44f4f684f1c0354080f7095ca0ed22b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -8286849261289916644, guid: b44f4f684f1c0354080f7095ca0ed22b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2652903041319956098, guid: b44f4f684f1c0354080f7095ca0ed22b,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 12916
+  DisplayName: 

@@ -20,6 +20,11 @@ namespace Player
 		[SyncVar]
 		private float visibilityAnimationSpeed = 1.5f;
 
+		//Antag
+		[SyncVar(hook = nameof(SyncAntagState))]
+		private bool isAntag;
+		public bool IsAntag => isAntag;
+
 		#endregion
 
 		#region OtherVariables
@@ -48,6 +53,12 @@ namespace Player
 			nightVisionState = newState;
 		}
 
+		[Server]
+		public void ServerSetAntag(bool newState)
+		{
+			isAntag = newState;
+		}
+
 		#endregion
 
 		#region Client
@@ -58,6 +69,13 @@ namespace Player
 			nightVisionState = newState;
 			cameraEffectControlScript.AdjustPlayerVisibility(nightVisionVisibility, nightVisionState ? visibilityAnimationSpeed : 0.1f);
 			cameraEffectControlScript.ToggleNightVisionEffectState(nightVisionState);
+		}
+
+		[Client]
+		private void SyncAntagState(bool oldState, bool newState)
+		{
+			isAntag = newState;
+			GetComponent<PlayerScript>().ActivateAntagAction(newState);
 		}
 
 		#endregion

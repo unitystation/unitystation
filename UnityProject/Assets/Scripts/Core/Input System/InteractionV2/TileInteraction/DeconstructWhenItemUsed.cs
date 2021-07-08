@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using TileManagement;
 
 /// <summary>
 /// Deconstruct the tile and spawn its deconstruction object (if defined) and (optionally) additional objects when an item with a particular
@@ -39,7 +40,6 @@ public class DeconstructWhenItemUsed : TileInteraction
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (requiredTrait == CommonTraits.Instance.Wrench && interaction.Intent != Intent.Harm) return false;
 		if (requiredTrait == CommonTraits.Instance.Welder)
 		{
 			return Validations.HasUsedActiveWelder(interaction);
@@ -59,7 +59,7 @@ public class DeconstructWhenItemUsed : TileInteraction
 			{
 
 				interaction.TileChangeManager.RemoveTile(interaction.TargetCellPos, interaction.BasicTile.LayerType);
-				interaction.TileChangeManager.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, TileChangeManager.OverlayType.Cleanable);
+				interaction.TileChangeManager.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);
 
 				//spawn things that need to be spawned
 				if (interaction.BasicTile.SpawnOnDeconstruct != null &&

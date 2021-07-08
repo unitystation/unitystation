@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Input_System.InteractionV2.Interactions;
 using Mirror;
 using ScriptableObjects;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Objects.Wallmounts
 	/// Escape Shuttle channel is a priority one and will overtake other channels.
 	/// </summary>
 	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster,
-			IRightClickable, ICheckedInteractable<ContextMenuApply>
+			IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<AiActivate>
 	{
 		public static readonly int MAX_CHARS_PER_PAGE = 18;
 
@@ -492,6 +493,46 @@ namespace Objects.Wallmounts
 		}
 
 		#endregion Interaction-ContextMenu
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			switch (interaction.ClickType)
+			{
+				//StopTimer
+				case AiActivate.ClickTypes.CtrlClick:
+					currentTimerSeconds = 0;
+					break;
+				//AddTime
+				case AiActivate.ClickTypes.NormalClick:
+					if (!countingDown)
+					{
+						StartCoroutine(TickTimer());
+					}
+					currentTimerSeconds += 60;
+					break;
+				//RemoveTime
+				case AiActivate.ClickTypes.ShiftClick:
+					currentTimerSeconds -= 60;
+					if (currentTimerSeconds < 0)
+					{
+						currentTimerSeconds = 0;
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		#endregion
 	}
 
 	public enum StatusDisplayChannel

@@ -6,19 +6,21 @@ using Mirror;
 using Antagonists;
 using Systems.Spells;
 using HealthV2;
+using Player;
 using UI.Action;
 using ScriptableObjects.Systems.Spells;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
+/// SERVER SIDE VALID ONLY, is not sync'd
 /// </summary>
 public class Mind
 {
 	public Occupation occupation;
 	public PlayerScript ghost;
 	public PlayerScript body;
-	private SpawnedAntag Antag;
-	public bool IsAntag => Antag != null;
+	private SpawnedAntag antag;
+	public bool IsAntag => antag != null;
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
@@ -102,7 +104,12 @@ public class Mind
 		Spells.Clear();
 		playerScript.mind = this;
 		body = playerScript;
-		bodyMobID = playerScript.GetComponent<LivingHealthMasterBase>().mobID;
+
+		if (playerScript.TryGetComponent<LivingHealthMasterBase>(out var health))
+		{
+			bodyMobID = health.mobID;
+		}
+
 		if (occupation != null)
 		{
 			foreach (var spellData in occupation.Spells)
@@ -124,8 +131,9 @@ public class Mind
 	/// </summary>
 	public void SetAntag(SpawnedAntag newAntag)
 	{
-		Antag = newAntag;
+		antag = newAntag;
 		ShowObjectives();
+		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
 	}
 
 	/// <summary>
@@ -133,7 +141,8 @@ public class Mind
 	/// </summary>
 	public void RemoveAntag()
 	{
-		Antag = null;
+		antag = null;
+		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
 	}
 
 	public GameObject GetCurrentMob()
@@ -204,7 +213,7 @@ public class Mind
 	{
 		if (IsAntag == false) return;
 
-		Chat.AddExamineMsgFromServer(GetCurrentMob(), Antag.GetObjectivesForPlayer());
+		Chat.AddExamineMsgFromServer(GetCurrentMob(), antag.GetObjectivesForPlayer());
 	}
 
 	/// <summary>
@@ -212,7 +221,7 @@ public class Mind
 	/// </summary>
 	public SpawnedAntag GetAntag()
 	{
-		return Antag;
+		return antag;
 	}
 
 	/// <summary>
@@ -223,7 +232,7 @@ public class Mind
 	{
 		if (IsAntag == false) return false;
 
-		return Antag.Antagonist is T;
+		return antag.Antagonist is T;
 	}
 
 	public void AddSpell(Spell spell)

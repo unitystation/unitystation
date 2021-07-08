@@ -219,7 +219,7 @@ public class PlayerHealthUI : MonoBehaviour
 		{
 			var Player = BbodyPart.HealthMaster as PlayerHealthV2;
 			if (Player == null) return false;
-			return PlayerManager.LocalPlayerScript == Player.PlayerScript;
+			return PlayerManager.LocalPlayerScript == Player.PlayerScriptOwner;
 		}
 	}
 }

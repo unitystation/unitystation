@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using Items;
 using UnityEngine;
 
 namespace Doors.Modules
@@ -17,12 +19,12 @@ namespace Doors.Modules
 		private int pressureThresholdWarning = 120;
 		private bool warningActive;
 
-		public override ModuleSignal OpenInteraction(HandApply interaction)
+		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			return ModuleSignal.Continue;
 		}
 
-		private ModuleSignal TryPressureWarning()
+		private ModuleSignal TryPressureWarning( HashSet<DoorProcessingStates> States)
 		{
 			//If the door isn't powered, we skip this check. We don't have the power to scan pressure.
 			if (!master.HasPower)
@@ -31,6 +33,11 @@ namespace Doors.Modules
 			}
 
 			if (warningActive)
+			{
+				return ModuleSignal.Continue;
+			}
+
+			if (States.Contains(DoorProcessingStates.SoftwareHacked))
 			{
 				return ModuleSignal.Continue;
 			}
@@ -45,14 +52,15 @@ namespace Doors.Modules
 			return ModuleSignal.ContinueWithoutDoorStateChange;
 		}
 
-		public override ModuleSignal ClosedInteraction(HandApply interaction)
+		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return TryPressureWarning();
+
+			return TryPressureWarning (States);
 		}
 
-		public override ModuleSignal BumpingInteraction(GameObject byPlayer)
+		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			return TryPressureWarning();
+			return TryPressureWarning( States);
 		}
 
 		public override bool CanDoorStateChange()

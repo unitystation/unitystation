@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vulpkanin_hair_kleeia
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -6144413086005487926, guid: d0a2f753c0a170e48b73077c220231b5,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1377321435590857165, guid: d0a2f753c0a170e48b73077c220231b5,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 881716862675899703, guid: d0a2f753c0a170e48b73077c220231b5,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 822674778396716514, guid: d0a2f753c0a170e48b73077c220231b5,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 15483
+  DisplayName: Kleeia

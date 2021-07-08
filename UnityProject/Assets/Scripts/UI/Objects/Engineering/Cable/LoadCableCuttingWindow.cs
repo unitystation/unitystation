@@ -60,8 +60,8 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	{
 		// check only if object in player's hand has changed
 		// disable window if item is not wirecutter
-		if (itemInHand != UIManager.Hands.CurrentSlot.ItemObject
-			&& !Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter))
+		if (itemInHand != PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject
+			&& !Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Wirecutter))
 		{
 			return false;
 		}
@@ -78,7 +78,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	public void OpenCableCuttingWindow()
 	{
 		// get mouse position
-		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+		Vector3 mousePosition = MouseUtils.MouseToWorldPos();
 		// round mouse position
 		Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
 		targetWorldPosition = roundedMousePosition;
@@ -114,7 +114,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 		cableCuttingWindow.SetWindowActive(true);
 
 		isWindowActive = true;
-		itemInHand = UIManager.Hands.CurrentSlot.ItemObject;
+		itemInHand = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject;
 	}
 
 	/// <summary>

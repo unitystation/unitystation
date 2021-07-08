@@ -82,12 +82,16 @@ namespace Objects.Engineering
 
 		private void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(FieldGenUpdate, 1f);
 			integrity.OnWillDestroyServer.AddListener(OnDestroySelf);
 		}
 
 		private void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FieldGenUpdate);
 			integrity.OnWillDestroyServer.RemoveListener(OnDestroySelf);
 		}
@@ -108,11 +112,10 @@ namespace Objects.Engineering
 
 		/// <summary>
 		/// Field Gen Update loop, runs every 1 second
+		/// Server Side Only
 		/// </summary>
 		private void FieldGenUpdate()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-
 			if(isOn == false && alwaysOn == false) return;
 
 			//Lose energy every second
@@ -342,8 +345,6 @@ namespace Objects.Engineering
 
 		private void OnDestroySelf(DestructionInfo info)
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-
 			RemoveAllShields();
 		}
 
@@ -489,7 +490,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 

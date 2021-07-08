@@ -1,10 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Mirror;
 using UnityEngine;
-using Objects;
 using Random = UnityEngine.Random;
 using System.Text;
 using Items;
@@ -23,12 +23,12 @@ public static class SweetExtensions
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.GetComponent<ItemAttributesV2>();
+		return go.OrNull()?.GetComponent<ItemAttributesV2>();
 	}
 
 	public static ObjectAttributes Object(this GameObject go)
 	{
-		return go.GetComponent<ObjectAttributes>();
+		return go.OrNull()?.GetComponent<ObjectAttributes>();
 	}
 
 	/// <summary>
@@ -91,7 +91,15 @@ public static class SweetExtensions
 			}
 			else
 			{
-				return go.GetComponent<NetworkIdentity>().netId;
+				matrix = go.GetComponentInChildren<Matrix>();
+				if (matrix != null)
+				{
+					return matrix.NetworkedMatrix.MatrixSync.netId;
+				}
+				else
+				{
+					return go.GetComponent<NetworkIdentity>().netId;
+				}
 			}
 		}
 		else
@@ -466,6 +474,14 @@ public static class SweetExtensions
 	}
 
 	/// <summary>
+	/// See <see cref="Mathf.Clamp(float, float, float)"/>
+	/// </summary>
+	public static float Clamp(this float value, float minValue, float maxValue)
+	{
+		return Mathf.Clamp(value, minValue, maxValue);
+	}
+
+	/// <summary>
 	/// See if two colours are approximately the same
 	/// </summary>
 	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true)
@@ -481,5 +497,43 @@ public static class SweetExtensions
 		return Mathf.Approximately(a.b, b.b) &&
 			   Mathf.Approximately(a.r, b.r) &&
 		       Mathf.Approximately(a.g, b.g);
+	}
+
+
+	public static string Truncate(this string value, int maxLength)
+	{
+		if (string.IsNullOrEmpty(value)) return value;
+		return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+  }
+
+	/// <summary>
+	/// <para>Get specific type from a list.</para>
+	/// Credit to <see href="https://coderethinked.com/get-only-specific-types-from-list/">Karthik Chintala</see>.
+	/// </summary>
+	public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)
+	{
+		if (source == null) return null;
+		return OfTypeIterator<TResult>(source);
+	}
+
+	private static IEnumerable<TResult> OfTypeIterator<TResult>(IEnumerable source)
+	{
+		foreach (object obj in source)
+		{
+			if (obj is TResult) yield return (TResult)obj;
+		}
+	}
+
+	/// <summary>
+	/// Rounds float to largest eg 1.1 => 2, -0.1 => -1
+	/// </summary>
+	public static int RoundToLargestInt(this float source)
+	{
+		if (source < 0)
+		{
+			return Mathf.FloorToInt(source);
+		}
+
+		return Mathf.CeilToInt(source);
 	}
 }

@@ -52,11 +52,15 @@ namespace Systems.Radiation
 
 		private void OnEnable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(RequestPulse, 5);
 		}
 
 		private void OnDisable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RequestPulse);
 		}
 

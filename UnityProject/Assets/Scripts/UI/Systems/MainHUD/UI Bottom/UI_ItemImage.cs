@@ -81,7 +81,7 @@ public class UI_ItemImage
 			var image = ConnectFreeImageToHandler(handler);
 
 			// check if handler is hidden
-			image.gameObject.SetActive(!handler.IsHiden);
+			image.gameObject.SetActive(!handler.IsHidden);
 
 			// set sprite
 			var sprite = handler.CurrentSprite;

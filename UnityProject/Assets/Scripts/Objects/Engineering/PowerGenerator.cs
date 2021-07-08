@@ -56,19 +56,20 @@ namespace Objects.Engineering
 			securable = GetComponent<WrenchSecurable>();
 			baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
+			var itemStorage = GetComponent<ItemStorage>();
+			itemSlot = itemStorage.GetIndexedItemSlot(0);
+			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			var itemStorage = GetComponent<ItemStorage>();
-			itemSlot = itemStorage.GetIndexedItemSlot(0);
-			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
 			if (startAsOn)
 			{
 				fuelAmount = fuelPerSheet;
 				TryToggleOn();
 			}
 		}
+
 
 		private void OnDisable()
 		{

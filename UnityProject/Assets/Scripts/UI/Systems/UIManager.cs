@@ -19,14 +19,14 @@ public class UIManager : MonoBehaviour, IInitialise
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
-	public BookshelfViewer BookshelfViewer;
+	public UI_BooksInBookshelf UI_BooksInBookshelf;
+	public LibraryUI LibraryUI;
 	public GUI_TextInputDialog TextInputDialog;
 	public ControlAction actionControl;
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
 	public PanelHudBottomController panelHudBottomController;
-	public Hands hands;
 	public ControlInternals internalControls;
 	public PlayerExaminationWindowUI playerExaminationWindow;
 	public ControlIntent intentControl;
@@ -60,6 +60,10 @@ public class UIManager : MonoBehaviour, IInitialise
 	public SurgeryDialogue SurgeryDialogue;
 
 	public CrayonUI CrayonUI;
+
+	public UI_SlotManager UI_SlotManager;
+	
+	public GeneralInputField GeneralInputField;
 
 	public static bool PreventChatInput
 	{
@@ -151,8 +155,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 
 	public static PlayerExaminationWindowUI PlayerExaminationWindow => Instance.playerExaminationWindow;
-
-	public static Hands Hands => Instance.hands;
 
 	public static ControlIntent Intent => Instance.intentControl;
 
@@ -398,7 +400,6 @@ public class UIManager : MonoBehaviour, IInitialise
 		}
 
 		StorageHandler.CloseStorageUI();
-		Hands.SetHand(true);
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);

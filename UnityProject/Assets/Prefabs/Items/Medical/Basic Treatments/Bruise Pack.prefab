@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healType: 0
+  StopsExternalBleeding: 0
+  HealsTraumaDamage: 1
+  TraumaDamageToHeal: 20
+  DamageTypeToHeal: 12
 --- !u!1001 &5006578600938051199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147,6 +151,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e3f6a6f89fd24b045b33f962f2e4fab0,
         type: 2}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: CanBeUsedOnSelfOnHelpIntent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: initialTraits.Array.data[0]

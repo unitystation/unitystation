@@ -21,7 +21,7 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			if (usedSlot == null || usedSlot.ItemObject == null) return;
 

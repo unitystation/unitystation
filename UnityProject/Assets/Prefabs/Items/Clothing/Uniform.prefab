@@ -1,5 +1,78 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2299321045887744718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658995992363608162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: dc49f276729982241a7ab292ab82b267,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 36ebdedb5338a498787598f0dbc0490c,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    MergeMode: 0
+    Contents: []
+--- !u!114 &2460845081740100905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658995992363608162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2e4d3e84f428247b94afb857959b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NamedSlotFlagged: 64
+  relatedStorage: {fileID: 2299321045887744718}
+  storage:
+  - ClientIntractable: 0
+    SlotArea: 0
+    namedSlot: 16
+    hoverName: Pocket
+    DropContents: 0
+    placeholderSprite: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+  - ClientIntractable: 0
+    SlotArea: 0
+    namedSlot: 17
+    hoverName: Pocket
+    DropContents: 0
+    placeholderSprite: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+  - ClientIntractable: 0
+    SlotArea: 3
+    namedSlot: 15
+    hoverName: ID
+    DropContents: 0
+    placeholderSprite: {fileID: 21300000, guid: 81daf95950762ba44ac44779892e043d,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
 --- !u!114 &8215174308799955191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,7 +86,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 6
-  armoredBodyParts: []
+  armoredBodyParts:
+  - armoringBodyPartType: 1
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+  - armoringBodyPartType: 3
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+  - armoringBodyPartType: 2
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+  - armoringBodyPartType: 5
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+  - armoringBodyPartType: 4
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+  - armoringBodyPartType: 6
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
 --- !u!1001 &7586200644617787968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,6 +177,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2917169708539712446, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 1449145570125458988}
     - target: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: m_Name
@@ -124,6 +280,12 @@ PrefabInstance:
 --- !u!1 &4658995992363608162 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+    type: 3}
+  m_PrefabInstance: {fileID: 7586200644617787968}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &1449145570125458988 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 9033094390735762540, guid: 6b5f74a79e023479cb5b30a2879621da,
     type: 3}
   m_PrefabInstance: {fileID: 7586200644617787968}
   m_PrefabAsset: {fileID: 0}

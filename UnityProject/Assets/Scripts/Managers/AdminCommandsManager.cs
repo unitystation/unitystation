@@ -227,7 +227,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(adminId, adminToken, sender) == false) return;
 
-			GameManager.Instance.CentComm.MakeCommandReport(text, CentComm.UpdateSound.Notice);
+			GameManager.Instance.CentComm.MakeCommandReport(text);
 
 			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT.");
 		}
@@ -291,6 +291,8 @@ namespace AdminCommands
 			{
 				foreach (ConnectedPlayer player in players)
 				{
+					if(player.Script.IsGhost || player.Script.playerHealth == null) continue;
+
 					string message =
 						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
 					Logger.Log(message, Category.Admin);

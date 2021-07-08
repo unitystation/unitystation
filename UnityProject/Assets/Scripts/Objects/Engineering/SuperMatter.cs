@@ -11,6 +11,7 @@ using HealthV2;
 using Light2D;
 using Messages.Server;
 using Mirror;
+using ScriptableObjects.Atmospherics;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles;
@@ -54,18 +55,7 @@ namespace Objects.Engineering
 		#region HeatPenaltyDefines
 
 		// Higher == Bigger heat and waste penalty from having the crystal surrounded by this gas. Negative numbers reduce penalty.
-		private Dictionary<Gas, float> heatPenaltyDefines = new Dictionary<Gas, float>
-		{
-			{Gas.Plasma, 15},
-			{Gas.Oxygen, 1},
-			{Gas.Pluoxium, -1},
-			{Gas.Tritium, 10},
-			{Gas.CarbonDioxide, 0.1f},
-			{Gas.Nitrogen, -1.5f},
-			{Gas.BZ, 5},
-			{Gas.WaterVapor, 8},
-			{Gas.Freon, -10}
-		};
+		private Dictionary<GasSO, float> heatPenaltyDefines;
 
 		#endregion
 
@@ -74,27 +64,14 @@ namespace Objects.Engineering
 		//All of these get divided by 10-bzcomp * 5 before having 1 added and being multiplied with power to determine rads
 		//Keep the negative values here above -10 and we won't get negative rads
 		//Higher == Bigger bonus to power generation.
-		private Dictionary<Gas, float> transmitDefines = new Dictionary<Gas, float>
-		{
-			{Gas.Oxygen, 1.5f},
-			{Gas.Plasma, 4},
-			{Gas.BZ, -2},
-			{Gas.Tritium, 30},
-			{Gas.Pluoxium, -5},
-			{Gas.WaterVapor, -9}
-		};
+		private Dictionary<GasSO, float> transmitDefines;
 
 		#endregion
 
 		#region HeatResistanceDefines
 
 		//Higher == Gas makes the crystal more resistant against heat damage.
-		private Dictionary<Gas, float> heatResistanceDefines = new Dictionary<Gas, float>
-		{
-			{Gas.NitrousOxide, 6},
-			{Gas.Pluoxium, 3},
-			{Gas.WaterVapor, 10}
-		};
+		private Dictionary<GasSO, float> heatResistanceDefines;
 
 		#endregion
 
@@ -275,7 +252,7 @@ namespace Objects.Engineering
 
 		private RegisterTile registerTile;
 
-		private GasMix removeMix = GasMix.NewGasMix(GasMixes.EmptyTile);
+		private GasMix removeMix = new GasMix();
 
 		private bool finalCountdown; //uh oh
 		private int finalCountdownTime = 30; //30 seconds
@@ -292,6 +269,36 @@ namespace Objects.Engineering
 			registerTile = GetComponent<RegisterTile>();
 			emitterBulletName = emitterBulletPrefab.GetComponent<Bullet>().visibleName;
 			mask = LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC");
+
+			heatResistanceDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.NitrousOxide, 6},
+				{Gas.Pluoxium, 3},
+				{Gas.WaterVapor, 10}
+			};
+
+			transmitDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.Oxygen, 1.5f},
+				{Gas.Plasma, 4},
+				{Gas.BZ, -2},
+				{Gas.Tritium, 30},
+				{Gas.Pluoxium, -5},
+				{Gas.WaterVapor, -9}
+			};
+
+			heatPenaltyDefines = new Dictionary<GasSO, float>
+			{
+				{Gas.Plasma, 15},
+				{Gas.Oxygen, 1},
+				{Gas.Pluoxium, -1},
+				{Gas.Tritium, 10},
+				{Gas.CarbonDioxide, 0.1f},
+				{Gas.Nitrogen, -1.5f},
+				{Gas.BZ, 5},
+				{Gas.WaterVapor, 8},
+				{Gas.Freon, -10}
+			};
 		}
 
 		public override void OnStartClient()
@@ -867,12 +874,12 @@ namespace Objects.Engineering
 
 		private void Explode()
 		{
-			SendMessageToAllPlayers("</color=red>You feel reality distort for a moment...<color>");
+			SendMessageToAllPlayers("<color=red>You feel reality distort for a moment...</color>");
 
 			if (combinedGas > MolePenaltyThreshold)
 			{
 				//Spawns a singularity which can eat the crystal...
-				SendMessageToAllPlayers("</color=red>A horrible screeching fills your ears, and a wave of dread washes over you...<color>");
+				SendMessageToAllPlayers("<color=red>A horrible screeching fills your ears, and a wave of dread washes over you...</color>");
 				Spawn.ServerPrefab(singularity, registerTile.WorldPosition, transform.parent);
 
 				//Dont explode if singularity is spawned
@@ -1151,7 +1158,7 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.HandApply(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//Dont destroy wrench, it is used to unwrench crystal
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;

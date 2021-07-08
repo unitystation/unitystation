@@ -24,12 +24,9 @@ namespace HealthV2
 			set
 			{
 				healthMaster = value;
-				for (int i = ContainBodyParts.Count; i >= 0; i--)
+				foreach (var bodyPart in ContainBodyParts)
 				{
-					if (i < ContainBodyParts.Count)
-					{
-						SetUpBodyPart(ContainBodyParts[i]);
-					}
+					SetUpBodyPart(bodyPart);
 				}
 				HealthMasterSet();
 			}
@@ -95,6 +92,12 @@ namespace HealthV2
 		[Tooltip("The prefab sprites for this")]
 		public BodyPartSprites SpritePrefab;
 
+		[Tooltip("The body part's pickable item's sprites.")]
+		public SpriteHandler BodyPartItemSprite;
+
+		[Tooltip("Does this body part share the same color as the player's skintone when it deattatches from his body?")]
+		public bool BodyPartItemInheritsSkinColor = false;
+
 		/// <summary>
 		/// Boolean for whether the sprites for the body part have been set, returns true when they are
 		/// </summary>
@@ -134,8 +137,17 @@ namespace HealthV2
 		[Tooltip("Should clothing be hidden on this?")]
 		public ClothingHideFlags ClothingHide;
 
+		/// <summary>
+		/// What is this BodyPart's sprite's tone if it shared a skin tone with the player?
+		/// </summary>
+		[HideInInspector] public Color Tone = Color.white;
+
 		[System.NonSerialized]
 		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
+
+		public string SetCustomisationData;
+
+		private bool SystemSetup = false;
 
 		/// <summary>
 		/// Initializes the body part
@@ -163,11 +175,15 @@ namespace HealthV2
 
 				BodySpriteSet = true;
 			}
+
 			UpdateIcons();
+			SetUpSystemsThis();
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
 				bodyPartModification.HealthMasterSet();
 			}
+			//TODO Make this generic \/ for mobs
+			Storage.SetRegisterPlayer(healthMaster?.GetComponent<RegisterPlayer>());
 		}
 
 		/// <summary>
@@ -202,7 +218,6 @@ namespace HealthV2
 			health = maxHealth;
 			DamageInitialisation();
 			UpdateSeverity();
-			Initialisation();
 
 			BodyPartModifications = this.GetComponents<BodyPartModification>().ToList();
 
@@ -213,14 +228,7 @@ namespace HealthV2
 			}
 		}
 
-		/// <summary>
-		/// Overridable method for variant body parts to use for their non-systems based initialisation
-		/// </summary>
-		public virtual void Initialisation()
-		{
-		}
-
-		public virtual void ImplantUpdate()
+		public void ImplantUpdate()
 		{
 			foreach (BodyPart prop in ContainBodyParts)
 			{
@@ -234,7 +242,6 @@ namespace HealthV2
 		/// </summary>
 		public virtual void ImplantPeriodicUpdate()
 		{
-			//TODOH backwards for i
 			foreach (BodyPart prop in ContainBodyParts)
 			{
 				prop.ImplantPeriodicUpdate();
@@ -245,6 +252,10 @@ namespace HealthV2
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
 				bodyPartModification.ImplantPeriodicUpdate();
+				if (IsBleedingInternally)
+				{
+					bodyPartModification.InternalDamageLogic();
+				}
 			}
 		}
 
@@ -285,18 +296,54 @@ namespace HealthV2
 
 		/// <summary>
 		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
+		/// Will check if the this body part causes death upon removal and will tint it's Item Sprite to the character's skinTone if allowed.
 		/// </summary>
+		[ContextMenu("Debug - Drop this Body Part")]
 		public virtual void RemoveFromBodyThis()
 		{
-			if(DeathOnRemoval)
-			{
-				healthMaster.Death();
-			}
-			var parent = this.GetParent();
+			if (BodyPartRemovalChecks() == false) return;
+			dynamic parent = this.GetParent();
 			if (parent != null)
 			{
 				parent.RemoveSpecifiedFromThis(this.gameObject);
 			}
+		}
+
+
+		/// <summary>
+		/// Checks if it's possible to remove this body part and runs any logic
+		/// required upon it's removal.
+		/// </summary>
+		/// <returns>True if allowed to remove. Flase if gibbing.</returns>
+		private bool BodyPartRemovalChecks()
+		{
+			//Checks if the body part is not an internal organ and if that part shares a skin tone.
+			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
+			{
+				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
+				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
+				BodyPartItemSprite.OrNull()?.SetColor(Tone);
+			}
+			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
+			{
+				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
+			}
+			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
+			if(IsBleedingExternally)
+			{
+				StopExternalBleeding();
+			}
+			if (gibsEntireBodyOnRemoval)
+			{
+				healthMaster.Gib();
+				return false;
+			}
+			//If this body part is necessary for a character existence, kill them upon removal.
+			if(DeathOnRemoval)
+			{
+				healthMaster.Death();
+			}
+			return true;
 		}
 
 		/// <summary>
@@ -326,6 +373,7 @@ namespace HealthV2
 		/// </summary>
 		/// <returns>A body part that contains it OR a body part container that contains it OR null if it is not
 		/// contained in anything</returns>
+		///TODO change to some type of inheritance/Interface model
 		public dynamic GetParent()
 		{
 			if (ContainedIn != null)
@@ -378,7 +426,6 @@ namespace HealthV2
 		public void SetUpBodyPart(BodyPart implant)
 		{
 			implant.HealthMaster = HealthMaster;
-			if (HealthMaster == null) return;
 			HealthMaster.AddNewImplant(implant);
 			SubBodyPartAdded(implant);
 
@@ -389,11 +436,19 @@ namespace HealthV2
 		/// </summary>
 		public virtual void SetUpSystems()
 		{
-			if (HealthMaster == null) return;
 			foreach (BodyPart prop in ContainBodyParts)
 			{
 				prop.SetUpSystems();
 			}
+
+			SetUpSystemsThis();
+		}
+
+
+		public void SetUpSystemsThis()
+		{
+			if (SystemSetup) return;
+			SystemSetup = true;
 			BloodInitialise();
 			foreach (var bodyPartModification in BodyPartModifications)
 			{

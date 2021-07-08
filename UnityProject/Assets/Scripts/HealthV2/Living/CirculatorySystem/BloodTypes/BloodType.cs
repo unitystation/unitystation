@@ -24,6 +24,13 @@ namespace HealthV2
 		///</summary>
 		public float BloodGasCapability;
 
+
+		public float GetGasCapacityOfnonMeanCarrier(ReagentMix reagentMix)
+		{
+			return reagentMix[this] * BloodGasCapability;
+		}
+
+
 		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			if (reagent == CirculatedReagent || reagent == null)

@@ -203,9 +203,9 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ToggleWalkRun,   () => { UIManager.Intent.OnClickRunWalk(); }},
 
 		{  KeyAction.Point, 		() => { MouseInputController.Point(); }},
-		{  KeyAction.HandSwap, 		() => { UIManager.Hands.Swap(); }},
-		{  KeyAction.HandActivate,	() => { UIManager.Hands.Activate(); }},
-		{  KeyAction.HandEquip, 	() => { UIManager.Hands.Equip(); }},
+		{  KeyAction.HandSwap, 		() => { HandsController.SwapHand(); }},
+		{  KeyAction.HandActivate,	() => { HandsController.Activate(); }},
+		{  KeyAction.HandEquip, 	() => {  HandsController.Equip(); }},
 
 		// Intents
 		{ KeyAction.IntentLeft,		() => { UIManager.Intent.CycleIntent(true); }},
@@ -232,12 +232,13 @@ public class KeyboardInputManager : MonoBehaviour
 		//{ KeyAction.TargetGroin, 	() => { UIManager.ZoneSelector.CycleZone(BodyPartType.Groin); }},
 
 		// UI
-		{ KeyAction.OpenBackpack, 	() => { UIManager.Instance.panelHudBottomController.backpackItemSlot.TryItemInteract(swapIfEmpty: false); }},
-		{ KeyAction.OpenPDA, 		() => { UIManager.Instance.panelHudBottomController.PDAItemSlot.TryItemInteract(swapIfEmpty: false); }},
-		{ KeyAction.OpenBelt, 		() => { UIManager.Instance.panelHudBottomController.beltItemSlot.TryItemInteract(swapIfEmpty: false); }},
+		//{ KeyAction.OpenBackpack, 	() => { UIManager.Instance.panelHudBottomController.backpackItemSlot.TryItemInteract(swapIfEmpty: false); }},
+		{ KeyAction.OpenBackpack, 	() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.back, false); }},
+		{ KeyAction.OpenPDA, 		() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.id, false); }},
+		{ KeyAction.OpenBelt, 		() => {  PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.belt, false);}},
 
-		{ KeyAction.PocketOne, 		() => { UIManager.Instance.panelHudBottomController.TryInteractWithPocket(1); }},
-		{ KeyAction.PocketTwo, 		() => { UIManager.Instance.panelHudBottomController.TryInteractWithPocket(2); }},
-		{ KeyAction.PocketThree, 	() => { UIManager.Instance.panelHudBottomController.TryInteractWithPocket(3); }}
+		{ KeyAction.PocketOne, 		() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.storage01);}},
+		{ KeyAction.PocketTwo, 		() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.storage02);}},
+		{ KeyAction.PocketThree, 	() => { PlayerManager.LocalPlayerScript.DynamicItemStorage.TryItemInteract(NamedSlot.suitStorage); }}
 	};
 }

@@ -46,6 +46,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		QueueChanges.Clear();
 		NewClientChanges.Clear();
 		PresentSprites.Clear();
+		SpriteUpdateMessage.UnprocessedData.Clear();
 	}
 
 	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
@@ -179,27 +180,34 @@ public class SpriteHandlerManager : NetworkBehaviour
 		QueueChanges.Clear();
 	}
 
-	public static NetworkIdentity GetRecursivelyANetworkBehaviour(GameObject gameObject)
+	//Ignore startingGameObject when calling externally, as its used internally in this functions recursion
+	public static NetworkIdentity GetRecursivelyANetworkBehaviour(GameObject gameObject, GameObject startingGameObject = null)
 	{
 		if (gameObject == null)
 		{
 			return null;
 		}
+
 		var Net = gameObject.GetComponent<NetworkIdentity>();
 		if (Net != null)
 		{
 			return (Net);
 		}
-		else if (gameObject.transform.parent != null)
+
+		if (startingGameObject == null)
 		{
-			return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject);
+			startingGameObject = gameObject;
 		}
-		else
+
+		if (gameObject.transform.parent != null)
 		{
-			Logger.LogError("Was unable to find A NetworkBehaviour for? yeah Youll have to look at this stack trace",
-				Category.Sprites);
-			return null;
+			return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject, startingGameObject);
 		}
+
+		Logger.LogError($"Was unable to find A NetworkBehaviour for {startingGameObject.ExpensiveName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.ExpensiveName()}" +
+		                $"Parent Parent: {startingGameObject.transform.parent.OrNull()?.parent.OrNull()?.gameObject.ExpensiveName()}",
+			Category.Sprites);
+		return null;
 	}
 
 	public static List<SpriteChange> PooledSpriteChange = new List<SpriteChange>();
@@ -231,9 +239,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 		public bool PushTexture = false;
 		public bool Empty = false;
 		public bool PushClear = false;
-		public bool ClearPallet = false;
+		public bool ClearPalette = false;
 		public Color? SetColour = null;
-		public List<Color> Pallet = null;
+		public List<Color> Palette = null;
 		public bool AnimateOnce = false;
 
 		public void Clean()
@@ -244,9 +252,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 			PushTexture = false;
 			Empty = false;
 			PushClear = false;
-			ClearPallet = false;
+			ClearPalette = false;
 			SetColour = null;
-			Pallet = null;
+			Palette = null;
 			AnimateOnce = false;
 		}
 
@@ -281,10 +289,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 				Empty = spriteChange.Empty;
 			}
 
-			if (spriteChange.ClearPallet)
+			if (spriteChange.ClearPalette)
 			{
-				if (Pallet != null) Pallet = null;
-				ClearPallet = spriteChange.ClearPallet;
+				if (Palette != null) Palette = null;
+				ClearPalette = spriteChange.ClearPalette;
 			}
 
 			if (spriteChange.PushClear)
@@ -304,10 +312,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 				SetColour = spriteChange.SetColour;
 			}
 
-			if (spriteChange.Pallet != null)
+			if (spriteChange.Palette != null)
 			{
-				if (ClearPallet) ClearPallet = false;
-				Pallet = spriteChange.Pallet;
+				if (ClearPalette) ClearPalette = false;
+				Palette = spriteChange.Palette;
 			}
 
 			if (pool)

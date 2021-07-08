@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Clearance;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
@@ -14,7 +15,11 @@ namespace Items.PDA
 	[RequireComponent(typeof(ItemLightControl))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
-	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, IServerInventoryMove
+	public class PDALogic : NetworkBehaviour,
+		ICheckedInteractable<HandApply>,
+		ICheckedInteractable<InventoryApply>,
+		IServerInventoryMove,
+		IClearanceProvider
 	{
 		// TODO: consider moving uplink code into its own class (perhaps compatible with pen, headset uplinks)
 
@@ -436,7 +441,7 @@ namespace Items.PDA
 
 			if (cost > UplinkTC) return;
 
-			var result = Spawn.ServerPrefab(objectRequested);
+			var result = Spawn.ServerPrefab(objectRequested,GetComponent<Pickupable>().ItemSlot.Player.WorldPosition);
 			if (result.Successful)
 			{
 				UplinkTC -= cost;
@@ -480,7 +485,7 @@ namespace Items.PDA
 			var bestSlot = GetBestSlot(slot.ItemObject);
 			if (!Inventory.ServerTransfer(slot, bestSlot))
 			{
-				Inventory.ServerDrop(IDSlot);
+				Inventory.ServerDrop(slot);
 			}
 		}
 
@@ -492,7 +497,7 @@ namespace Items.PDA
 				return default;
 			}
 
-			var playerStorage = player.Script.ItemStorage;
+			var playerStorage = player.Script.DynamicItemStorage;
 			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
@@ -527,6 +532,12 @@ namespace Items.PDA
 		{
 			if (HasAccess(access)) return;
 			accessSyncList.Add((int)access);
+		}
+
+		// All the methods above will be obsolete as soon as we migrate
+		public IEnumerable<Clearance> GetClearance()
+		{
+			return IDCard.OrNull()?.GetComponent<IClearanceProvider>()?.GetClearance();
 		}
 
 		#endregion IDAccess

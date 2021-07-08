@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace HealthV2
 {
 	public class Stomach : BodyPartModification
 	{
-		public ReagentContainer StomachContents = null;
+		[NonSerialized] public ReagentContainer StomachContents;
 
 		public float DigesterAmountPerSecond = 1;
 
@@ -19,6 +20,9 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
+
+			StomachContents = GetComponentInChildren<ReagentContainer>();
+
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)
 			{
@@ -49,11 +53,17 @@ namespace HealthV2
 
 			if (AllFat)
 			{
-				var Parent = RelatedPart.GetParent();
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
-				BodyFats.Add(Added);
-				Parent.Storage.ServerTryAdd(Added.gameObject);
+				StartCoroutine(DelayAddFat());
 			}
+		}
+
+		private IEnumerator DelayAddFat()
+		{
+			yield return null;
+			var Parent = RelatedPart.GetParent();
+			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+			BodyFats.Add(Added);
+			Parent.Storage.ServerTryAdd(Added.gameObject);
 		}
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
@@ -61,15 +71,6 @@ namespace HealthV2
 			base.RemovedFromBody(livingHealthMasterBase);
 			BodyFats.Clear();
 
-		}
-
-		public override void HealthMasterSet()
-		{
-			base.HealthMasterSet();
-			var Parent = RelatedPart.GetParent();
-			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
-			BodyFats.Add(Added);
-			Parent.Storage.ServerTryAdd(Added.gameObject);
 		}
 	}
 }

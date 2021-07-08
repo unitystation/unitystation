@@ -93,14 +93,29 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 						NetworkSide.Client, RotationEvent.Register));
 				}
 
-				if (isServer && TryGetComponent<ItemStorage>(out var itemStorage))
+				if (isServer)
 				{
-					foreach (var itemSlot in itemStorage.GetItemSlots())
+					if (TryGetComponent<ItemStorage>(out var itemStorage))
 					{
-						if (itemSlot.Item)
+						foreach (var itemSlot in itemStorage.GetItemSlots())
 						{
-							var itemSlotRegisterItem = itemSlot.Item.GetComponent<RegisterItem>();
-							itemSlotRegisterItem.matrix = matrix;
+							if (itemSlot.Item)
+							{
+								var itemSlotRegisterItem = itemSlot.Item.GetComponent<RegisterItem>();
+								itemSlotRegisterItem.matrix = matrix;
+							}
+						}
+					}
+
+					if (TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage))
+					{
+						foreach (var itemSlot in dynamicItemStorage.GetItemSlots())
+						{
+							if (itemSlot.Item)
+							{
+								var itemSlotRegisterItem = itemSlot.Item.GetComponent<RegisterItem>();
+								itemSlotRegisterItem.matrix = matrix;
+							}
 						}
 					}
 				}
@@ -234,6 +249,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private IMatrixRotation[] matrixRotationHooks;
 
 	private CustomNetTransform cnt;
+
+	public CustomNetTransform customNetTransform => cnt;
 
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;

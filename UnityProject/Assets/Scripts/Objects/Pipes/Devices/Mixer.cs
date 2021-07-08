@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Pipes
 
 		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
-		public int MaxPressure = 10000;
+		public int MaxPressure = 9999;
 		private float TransferMoles = 500f;
 
 		public float ToTakeFromInputOne = 0.5f;
@@ -47,6 +48,12 @@ namespace Pipes
 		}
 
 		public override void Interaction(HandApply interaction)
+		{
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Mixer, TabAction.Open);
+		}
+
+		//Ai interaction
+		public override void AiInteraction(AiActivate interaction)
 		{
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Mixer, TabAction.Open);
 		}

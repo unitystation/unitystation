@@ -38,6 +38,10 @@ namespace UI.CharacterCreator
 			characterView.dirChangeEvent.RemoveListener(OnDirChange);
 		}
 
+		private void OnDestroy()
+		{
+			characterView.dirChangeEvent.RemoveListener(OnDirChange);
+		}
 		public void OnDirChange()
 		{
 			currentDir = characterView.currentDir;
@@ -71,7 +75,7 @@ namespace UI.CharacterCreator
 			// It's possible that UpdateSprite gets called before Awake
 			// so try to grab the image here just in case that happens
 			if(sprites != null || TryGetComponent(out sprites))
-				sprites.ChangeSpriteVariant(referenceOffset , NetWork:false);
+				sprites.ChangeSpriteVariant(referenceOffset , networked:false);
 		}
 	}
 }

@@ -724,49 +724,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 4692177491394706899}
---- !u!114 &9158331600152464318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686069471335676681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab9251baec3e44140a15e4fc5a7bc8cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  startingStage: 0
-  teslaPoints: 150
-  maximumPoints: 3250
-  pointLossRate: 4
-  preventDowngrade: 0
-  zeroPointDeath: 1
-  orbitingBalls:
-  - {fileID: 8794419188578605167}
-  - {fileID: 4563353910097466322}
-  - {fileID: 7185877768737720660}
-  - {fileID: 9133152852355986278}
-  - {fileID: 1247032518108266173}
-  - {fileID: 4083645607645159274}
-  arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
-  layerTilesToIgnore:
-  - {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
-  - {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
-  arcCount: 1
-  duration: 0.5
-  damage: 7
-  primaryRange: 8
-  secondaryRange: 4
-  lightningSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/SuperMatter.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1 &5478954080418723350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1280,6 +1237,64 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+--- !u!114 &5436240715850702555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686069471335676681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 32
+  type: 0
+  priority: 0
+--- !u!114 &9158331600152464318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686069471335676681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9251baec3e44140a15e4fc5a7bc8cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  startingStage: 0
+  teslaPoints: 150
+  maximumPoints: 3250
+  pointLossRate: 4
+  preventDowngrade: 0
+  zeroPointDeath: 1
+  orbitingBalls:
+  - {fileID: 8794419188578605167}
+  - {fileID: 4563353910097466322}
+  - {fileID: 7185877768737720660}
+  - {fileID: 9133152852355986278}
+  - {fileID: 1247032518108266173}
+  - {fileID: 4083645607645159274}
+  arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
+  layerTilesToIgnore:
+  - {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
+  - {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
+  arcCount: 1
+  duration: 0.5
+  damage: 7
+  primaryRange: 8
+  secondaryRange: 4
+  lightningSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SuperMatter.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1 &9007031484790628963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,6 +1437,21 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1964781063
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Sprite
@@ -1530,6 +1560,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 8053698836628426681}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
@@ -1616,6 +1651,12 @@ PrefabInstance:
 --- !u!1 &4686069471335676681 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 8884009795189538112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &8053698836628426681 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 8884009795189538112}
   m_PrefabAsset: {fileID: 0}

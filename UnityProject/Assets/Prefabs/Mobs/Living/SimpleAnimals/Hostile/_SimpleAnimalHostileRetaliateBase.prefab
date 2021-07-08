@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: 
-  knockedDownRotation: 90
+  deathSounds: []
+  randomSounds: []
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0
 --- !u!1001 &7567440308736191088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,9 +93,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9122004212597972209, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
-      propertyPath: attackSound.AssetAddress
-      value: null
-      objectReference: {fileID: 0}
+      propertyPath: mobAI
+      value: 
+      objectReference: {fileID: 373543564461835312}
     m_RemovedComponents:
     - {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}

@@ -88,9 +88,13 @@ namespace Objects.Disposals
 
 		private void TryWrench()
 		{
-			if (VerboseFloorExists() == false) return;
-			if (VerbosePlatingExposed() == false) return;
-			if (VerbosePipeExists()) return;
+			if (Anchored == false)
+			{
+				// Try anchor
+				if (VerboseFloorExists() == false) return;
+				if (VerbosePlatingExposed() == false) return;
+				if (VerbosePipeExists()) return;
+			}
 
 			Wrench();
 		}

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Core.Input_System.InteractionV2.Interactions;
 using HealthV2;
 using Messages.Client.NewPlayer;
 using Messages.Server;
@@ -12,7 +13,7 @@ using Objects.Wallmounts;
 
 namespace Doors
 {
-	public class DoorController : NetworkBehaviour, ISetMultitoolSlave
+	public class DoorController : NetworkBehaviour, ISetMultitoolSlave, ICheckedInteractable<AiActivate>
 	{
 		public enum OpeningDirection
 		{
@@ -658,6 +659,33 @@ namespace Doors
 			if (statusDisplay)
 			{
 				statusDisplay.LinkDoor(this);
+			}
+		}
+
+		#endregion
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			//Try open/close
+			if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
+			{
+				if (IsClosed)
+				{
+					TryOpen();
+				}
+				else
+				{
+					TryClose();
+				}
 			}
 		}
 

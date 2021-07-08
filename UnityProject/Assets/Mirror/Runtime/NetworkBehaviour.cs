@@ -188,7 +188,7 @@ namespace Mirror
 
             if (ClientScene.readyConnection == null)
             {
-                Debug.LogError("Send command attempted with no client running [client=" + connectionToServer + "].");
+                //Debug.LogError("Send command attempted with no client running [client=" + connectionToServer + "].");
                 return;
             }
 

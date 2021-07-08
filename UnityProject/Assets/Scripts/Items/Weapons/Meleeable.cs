@@ -53,9 +53,13 @@ namespace Systems.Interaction
 			// note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
 			// clientPredictInteraction on clientside
 			if (side == NetworkSide.Client && Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side))) return false;
-
+			
+			bool LocalItemCheck()
+			{
+				return interaction.HandObject.OrNull()?.Item().CanBeUsedOnSelfOnHelpIntent ?? false;
+			}
 			// not punching unless harm intent
-			if (interaction.Intent != Intent.Harm) return false;
+			if (interaction.Intent != Intent.Harm && !LocalItemCheck()) return false;
 
 			// if attacking tiles, only some layers are allowed to be attacked
 			if (interactableTiles != null)

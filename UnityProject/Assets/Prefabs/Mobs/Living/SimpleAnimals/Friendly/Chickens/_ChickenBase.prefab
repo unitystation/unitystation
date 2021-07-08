@@ -1,5 +1,28 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8180421202839227997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7871031768158401281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4497ffd350d542aaa0dbd389f722acb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  veryGoodMood:
+  - It looks incredibly happy and healthy!
+  goodMood:
+  - It looks happy.
+  - It looks healthy.
+  normalMood:
+  - 
+  badMood:
+  - It looks kind of sad.
+  - It looks stressed out.
+  - It looks badly treated.
 --- !u!114 &26550565248386917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,8 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b4b64e6207463f90c2fd542e2cb2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobName: Chicken
-  knockedDownRotation: 90
+  mobName: chicken
   minTimeBetweenRandomActions: 60
   maxTimeBetweenRandomActions: 120
   doRandomActionWhenInTask: 1
@@ -55,29 +77,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5d82fb72d52483fb520cc8b26639c0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-8180421202839227997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7871031768158401281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4497ffd350d542aaa0dbd389f722acb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  veryGoodMood:
-  - It looks incredibly happy and healthy!
-  goodMood:
-  - It looks happy.
-  - It looks healthy.
-  normalMood:
-  - 
-  badMood:
-  - It looks kind of sad.
-  - It looks stressed out.
-  - It looks badly treated.
 --- !u!1001 &376518942892139410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -425,6 +424,7 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents:
     - {fileID: 4275609206241353299, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
+    - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
 --- !u!1 &7871031768158401281 stripped
 GameObject:

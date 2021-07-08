@@ -65,7 +65,7 @@ namespace Objects.Medical
 		{
 			if (side == NetworkSide.Server && IsClosed)
 				return false;
-			if (!Validations.CanInteract(interaction.Performer, side))
+			if (!Validations.CanInteract(interaction.PerformerPlayerScript, side))
 				return false;
 			if (!Validations.IsAdjacent(interaction.Performer, interaction.DroppedObject))
 				return false;

@@ -17,19 +17,21 @@ namespace Items
 	[RequireComponent(typeof(RegisterItem))] //Registry with subsistence
 	public class ItemAttributesV2 : Attributes, IServerSpawn
 	{
+		[Header("Item Info")]
+
 		[SerializeField]
 		[Tooltip("Initial traits of this item on spawn.")]
 		private List<ItemTrait> initialTraits = null;
 		public List<ItemTrait> InitialTraits => initialTraits;
 
 		/// <summary>
-        /// Sizes:
-        /// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
-        /// Small - Pocket-sized items. You could hold a couple in one hand, but ten would be a hassle without a bag. Apple, phone, drinking glass etc.
-        /// Medium - default size. Fairly bulky but stuff you could carry in one hand and stuff into a backpack. Most tools would fit this size.
-        /// Large - particularly long or bulky items that would need a specialised bag to carry them. A shovel, a snowboard etc.
-        /// Huge - Think, like, a fridge. Absolute unit. You aren't stuffing this into anything less than a shipping crate.
-        /// </summary>
+		/// Sizes:
+		/// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
+		/// Small - Pocket-sized items. You could hold a couple in one hand, but ten would be a hassle without a bag. Apple, phone, drinking glass etc.
+		/// Medium - default size. Fairly bulky but stuff you could carry in one hand and stuff into a backpack. Most tools would fit this size.
+		/// Large - particularly long or bulky items that would need a specialised bag to carry them. A shovel, a snowboard etc.
+		/// Huge - Think, like, a fridge. Absolute unit. You aren't stuffing this into anything less than a shipping crate.
+		/// </summary>
 		[Tooltip("Size of this item when spawned. Is medium by default, which you should change if needed.")]
 		[SerializeField]
 		private ItemSize initialSize = ItemSize.Medium;
@@ -44,6 +46,8 @@ namespace Items
 		/// Current size
 		/// </summary>
 		public ItemSize Size => size;
+
+		[Header("Item Damage")]
 
 		[Tooltip("Damage when we click someone with harm intent")]
 		[Range(0, 100)]
@@ -93,6 +97,22 @@ namespace Items
 			get => throwDamage;
 			set => throwDamage = value;
 		}
+
+		[SerializeField,
+		Range(0, 100),
+		Tooltip("How likely is this item going to cause tramuatic damage? 0% to disable this.")]
+		private float traumaDamageChance = 0;
+
+		public float TraumaDamageChance
+		{
+			get => traumaDamageChance;
+			set => traumaDamageChance = value;
+		}
+
+		[EnumFlag]
+		public HealthV2.BodyPart.TramuticDamageTypes TraumaticDamageType;
+
+		[Header("Sprites/Sounds/Flags/Misc.")]
 
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]
 		[SerializeField]
@@ -165,6 +185,8 @@ namespace Items
 		private HashSet<ItemTrait> traits = new HashSet<ItemTrait>();
 
 		private bool hasInit;
+
+		public bool CanBeUsedOnSelfOnHelpIntent = false;
 
 
 		public ItemsSprites ItemSprites => itemSprites;

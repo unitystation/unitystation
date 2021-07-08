@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: belt_biobag
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1126084552673650829, guid: c955f0566a61728438b6101274395097,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5720360862475698081, guid: c955f0566a61728438b6101274395097,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4440386737948132219, guid: c955f0566a61728438b6101274395097,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -531035702726480569, guid: c955f0566a61728438b6101274395097,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 715
+  DisplayName: 

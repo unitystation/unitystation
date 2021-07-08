@@ -147,6 +147,9 @@ namespace UI.Objects.Security
 					record.Status = SecurityStatus.Arrest;
 					break;
 				case SecurityStatus.Arrest:
+					record.Status = SecurityStatus.Criminal;
+					break;
+				case SecurityStatus.Criminal:
 					record.Status = SecurityStatus.Parole;
 					break;
 				case SecurityStatus.Parole:
