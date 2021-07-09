@@ -72,6 +72,7 @@ namespace Objects.Engineering
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+			outputEnabled = batterySupplyingModule.StartOnStartUp;
 			UpdateMe();
 			UpdateManager.Add(UpdateMe, indicatorUpdatePeriod);
 		}
