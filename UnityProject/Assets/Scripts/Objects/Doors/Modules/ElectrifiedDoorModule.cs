@@ -19,6 +19,10 @@ namespace Doors.Modules
 
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
+			if (interaction == null)
+			{
+				return ModuleSignal.Continue;
+			}
 			return CanElectricute(interaction.Performer);
 		}
 
