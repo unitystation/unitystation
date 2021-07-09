@@ -26,6 +26,7 @@ public class Mind
 	public bool DenyCloning;
 	public int bodyMobID;
 	public FloorSounds StepSound;
+	public FloorSounds SecondaryStepSound;
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 	public bool IsSpectator => occupation == null || body == null;
@@ -103,6 +104,7 @@ public class Mind
 	public void SetNewBody(PlayerScript playerScript)
 	{
 		Spells.Clear();
+		ClearOldBody();
 		playerScript.mind = this;
 		body = playerScript;
 
@@ -125,6 +127,14 @@ public class Mind
 			}
 		}
 		StopGhosting();
+	}
+
+	private void ClearOldBody()
+	{
+		if (body)
+		{
+			body.mind = null;
+		}
 	}
 
 	/// <summary>
