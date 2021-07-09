@@ -14,7 +14,7 @@ public class EmptyItemList : NetUIDynamicList
 	{
 		for (int i = 0; i < count; i++)
 		{
-			AttemptAdd();
+			Add();
 		}
 		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
 		UpdatePeepers();
@@ -24,7 +24,7 @@ public class EmptyItemList : NetUIDynamicList
 	{
 		while (count > Entries.Length)
 		{
-			AttemptAdd();
+			Add();
 		}
 
 		while (count < Entries.Length)
@@ -35,33 +35,15 @@ public class EmptyItemList : NetUIDynamicList
 		UpdatePeepers();
 	}
 
-	public bool AddItem()
+	public DynamicEntry AddItem()
 	{
-		if(!AttemptAdd())
-		{
-			return false;
-		}
+		var newEntry = Add();
 
 		//rescan elements  and notify
 		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
 		UpdatePeepers();
 
-		return true;
+		return newEntry;
 	}
 
-	private bool AttemptAdd()
-	{
-		//add new entry
-		var newEntry = Add();
-		if (!newEntry)
-		{
-			Logger.LogWarningFormat("Problems adding {0}", Category.ItemSpawn,
-				newEntry);
-			return false;
-		}
-		Logger.LogFormat("ItemList: Item add success! newEntry={0}", Category.ItemSpawn,
-			newEntry);
-		return true;
-
-	}
 }
