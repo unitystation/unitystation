@@ -52,6 +52,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 631539b60b543b949ba14ad640e416ed, type: 3}
@@ -3943,5 +3945,6 @@ SpriteAtlas:
   - hair_sidetail2_1
   - hair_sidetail2_2
   - hair_sidetail2_3
+  m_RenderDataMap: {}
   m_Tag: MobsShared
   m_IsVariant: 0

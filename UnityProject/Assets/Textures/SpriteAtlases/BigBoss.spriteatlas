@@ -52,6 +52,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: d3b104bfa3d8b57489aa9e1b261d08a0, type: 3}
@@ -787,5 +789,6 @@ SpriteAtlas:
   - miner_death_3
   - miner_death_0
   - miner_death_1
+  m_RenderDataMap: {}
   m_Tag: BigBoss
   m_IsVariant: 0

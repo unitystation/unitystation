@@ -23,6 +23,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _ColorMask: 15
     - _Stencil: 0
@@ -52,6 +53,7 @@ MonoBehaviour:
   materialHashCode: 0
   m_Version: 1.1.0
   m_FaceInfo:
+    m_FaceIndex: 0
     m_FamilyName: 
     m_StyleName: 
     m_PointSize: 0
@@ -655,6 +657,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
+    m_Ints: []
     m_Floats: []
     m_Colors: []
   m_BuildTextureStacks: []

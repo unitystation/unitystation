@@ -28,7 +28,8 @@ namespace IgnoranceTransport
         /// </summary>
         public static readonly string[] DoNotRemoveTheseSymbols = new string[]
         {
-            "IGNORANCE_NO_UPNP"
+            "IGNORANCE_NO_UPNP",
+            "IGNORANCE_MIRROR_POLLING"
         };
 
         /// <summary>

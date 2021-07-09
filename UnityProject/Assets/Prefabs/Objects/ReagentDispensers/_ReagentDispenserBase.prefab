@@ -12,14 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseStandardExamine: 1
-  ExamineAmount: 0
-  ExamineContent: 1
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 2
-  possibleTransferAmounts: []
-  transferAmount: 20
   maxCapacity: 1000
   reactionSet: {fileID: 0}
   AdditionalReactions: []
@@ -34,6 +26,14 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 1
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 2
+  possibleTransferAmounts: []
+  transferAmount: 20
 --- !u!1001 &5204561729561078346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44,7 +44,7 @@ PrefabInstance:
     - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 39da184d881f73c48b25ae5921795c55
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}

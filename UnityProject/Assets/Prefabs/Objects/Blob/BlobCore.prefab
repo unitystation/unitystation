@@ -43,6 +43,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -134,6 +135,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -351,7 +353,7 @@ PrefabInstance:
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6900836707b2b9b44b1d402b18158c31
       objectReference: {fileID: 0}
     - target: {fileID: 7649593002434359225, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}

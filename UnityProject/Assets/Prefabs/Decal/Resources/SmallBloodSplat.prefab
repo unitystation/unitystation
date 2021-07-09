@@ -157,7 +157,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: 07ae9a1b034f5124498e550fffcea7e8
   hasSpawned: 0
 --- !u!114 &1341085971131883873
 MonoBehaviour:
@@ -185,14 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseStandardExamine: 1
-  ExamineAmount: 2
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
   maxCapacity: 10
   reactionSet: {fileID: 0}
   AdditionalReactions: []
@@ -205,6 +197,14 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  UseStandardExamine: 1
+  ExamineAmount: 2
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,6 +248,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

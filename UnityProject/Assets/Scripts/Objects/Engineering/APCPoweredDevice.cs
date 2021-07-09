@@ -5,6 +5,9 @@ using Mirror;
 using UnityEngine.Serialization;
 using Objects.Engineering;
 using UnityEngine.Events;
+#if Unity_Editor
+using UnityEditor;
+#endif
 
 namespace Systems.Electricity
 {
@@ -90,8 +93,9 @@ namespace Systems.Electricity
 		{
 #if Unity_Editor
 		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
-#endif
 
+#endif
+			if (Application.isPlaying == false) return;
 			EnsureInit();
 		}
 

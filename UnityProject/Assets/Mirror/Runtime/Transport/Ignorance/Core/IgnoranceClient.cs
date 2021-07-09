@@ -90,7 +90,7 @@ namespace IgnoranceTransport
         private void ThreadWorker(Object parameters)
         {
             if (Verbosity > 0)
-                Debug.Log("Client Worker Thread: Startup");
+                Debug.Log("Ignorance Client: Initializing. Please stand by...");
 
             ThreadParamInfo setupInfo;
             Address clientAddress = new Address();
@@ -106,18 +106,18 @@ namespace IgnoranceTransport
             }
             else
             {
-                Debug.LogError("Thread worker startup failure: Invalid thread parameters. Aborting.");
+                Debug.LogError("Ignorance Client: Startup failure: Invalid thread parameters. Aborting.");
                 return;
             }
 
             // Attempt to initialize ENet inside the thread.
             if (Library.Initialize())
             {
-                Debug.Log("Client Worker Thread: Initialized ENet.");
+                Debug.Log("Ignorance Client: ENet initialized.");
             }
             else
             {
-                Debug.LogError("Client Worker Thread: Failed to initialize ENet. This threads' fucked.");
+                Debug.LogError("Ignorance Client: Failed to initialize ENet. This threads' fucked.");
                 return;
             }
 
@@ -176,7 +176,7 @@ namespace IgnoranceTransport
                         int ret = clientPeer.Send(outgoingPacket.Channel, ref outgoingPacket.Payload);
 
                         if (ret < 0 && setupInfo.Verbosity > 0)
-                            Debug.LogWarning($"Client Worker Thread: Failed sending a packet to Peer {outgoingPacket.NativePeerId}, error code {ret}");
+                            Debug.LogWarning($"Ignorance Client: ENet error code {ret} while sending packet to Peer {outgoingPacket.NativePeerId}.");
                     }
 
                     // Step 2:
@@ -234,7 +234,7 @@ namespace IgnoranceTransport
                                 if (!incomingPacket.IsSet)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Client Worker Thread: A receive event did not supply us with a packet to work with. This should never happen.");
+                                        Debug.LogWarning($"Ignorance Client: A receive event did not supply us with a packet to work with. This should never happen.");
                                     break;
                                 }
 
@@ -244,7 +244,7 @@ namespace IgnoranceTransport
                                 if (incomingPacketLength > setupInfo.PacketSizeLimit)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Client Worker Thread: Received a packet too large, {incomingPacketLength} bytes while our limit is {setupInfo.PacketSizeLimit} bytes.");
+                                        Debug.LogWarning($"Ignorance Client: Incoming packet is too big. My limit is {setupInfo.PacketSizeLimit} byte(s) whilest this packet is {incomingPacketLength} bytes.");
 
                                     incomingPacket.Dispose();
                                     break;
@@ -263,18 +263,26 @@ namespace IgnoranceTransport
                     }
                 }
 
+                Debug.Log("Ignorance Server: Shutdown commencing, disconnecting and flushing connection.");
+
                 // Flush the client and disconnect.
                 clientPeer.Disconnect(0);
                 clientENetHost.Flush();
+
+                // Fix for client stuck in limbo, since the disconnection event may not be fired until next loop.
+                ConnectionEvents.Enqueue(new IgnoranceConnectionEvent()
+                {
+                    WasDisconnect = true
+                });
             }
 
             // Deinitialize
             Library.Deinitialize();
             if (setupInfo.Verbosity > 0)
-                Debug.Log("Client Worker Thread: Shutdown.");
+                Debug.Log("Ignorance Client: Shutdown complete.");
         }
 
-        // TODO: Optimize struct layout.
+
         private struct ThreadParamInfo
         {
             public int Channels;

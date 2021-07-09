@@ -19,7 +19,7 @@ namespace Doors.Modules
 
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			return CanElectricute(interaction.Performer);
+			return CanElectricute(interaction?.Performer);
 		}
 
 		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)

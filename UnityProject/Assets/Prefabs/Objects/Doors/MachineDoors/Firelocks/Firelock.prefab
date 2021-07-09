@@ -42,6 +42,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -124,6 +125,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -349,6 +351,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -511,7 +514,7 @@ PrefabInstance:
     - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a075086024d70074e8747c26b57dfa7f
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}

@@ -49,7 +49,7 @@ namespace IgnoranceTransport
         public IgnoranceChannelTypes[] Channels;
 
         [Header("Low-level Tweaking")]
-        [Tooltip("Used internally to keep allocations to a minimum with ArrayPool. Don't touch this unless you know what you're doing.")]
+        [Tooltip("Used internally to keep allocations to a minimum. This is how much memory will be consumed by the packet buffer on startup, and then reused.")]
         public int PacketBufferCapacity = 4096;
 
         [Tooltip("For UDP based protocols, it's best to keep your data under the safe MTU of 1200 bytes. You can increase this, however beware this may open you up to allocation attacks.")]
@@ -107,6 +107,7 @@ namespace IgnoranceTransport
 				// Set the communication port to the one specified.
                 port = uri.Port;
 
+            // Pass onwards to the proper handler.
             ClientConnect(uri.Host);
         }
 
@@ -120,14 +121,21 @@ namespace IgnoranceTransport
 			// TODO: Figure this one out to see if it's related to a race condition.
 			// Maybe experiment with a while loop to pause main thread when disconnecting, 
 			// since client might not stop on a dime.			
-			while(Client.IsAlive) ;
+			// while(Client.IsAlive) ;
+            // v1.4.0b1: Probably fixed in IgnoranceClient.cs; need further testing.
 			
-			//
             // ignoreDataPackets = true;
             ClientState = ConnectionState.Disconnected;
         }
 
+#if !MIRROR_37_0_OR_NEWER
         public override void ClientSend(int channelId, ArraySegment<byte> segment)
+#else
+        // v1.4.0b6: Mirror rearranged the ClientSend params, so we need to apply a fix for that or
+        // we end up using the obsoleted version. The obsolete version isn't a fatal error, but
+        // it's best to stick with the new structures.
+        public override void ClientSend(ArraySegment<byte> segment, int channelId)
+#endif
         {
             if (Client == null)
             {
@@ -141,17 +149,18 @@ namespace IgnoranceTransport
                 return;
             }
 
-            // Packet Struct
+            // Create our struct...
             Packet clientOutgoingPacket = default;
             int byteCount = segment.Count;
             int byteOffset = segment.Offset;
+            // Set our desired flags...
             PacketFlags desiredFlags = (PacketFlags)Channels[channelId];
 
-            // Warn if over recommended MTU
+            // Warn if over recommended MTU...
             bool flagsSet = (desiredFlags & ReliableOrUnreliableFragmented) > 0;
 
             if (LogType != IgnoranceLogType.Nothing && byteCount > 1200 && !flagsSet)
-                Debug.LogWarning($"Warning: Server trying to send a Unreliable packet bigger than the recommended ENet 1200 byte MTU ({byteCount} > 1200). ENet will force Reliable Fragmented delivery.");
+                Debug.LogWarning($"Warning: Client trying to send a Unreliable packet bigger than the recommended ENet 1200 byte MTU ({byteCount} > 1200). ENet will force Reliable Fragmented delivery.");
 
             // Create the packet.
             clientOutgoingPacket.Create(segment.Array, byteOffset, byteCount + byteOffset, desiredFlags);
@@ -164,20 +173,27 @@ namespace IgnoranceTransport
                 Payload = clientOutgoingPacket
             };
 
+            // Pass the packet onto the thread for dispatch.
             Client.Outgoing.Enqueue(dispatchPacket);
         }
 
         public override bool ServerActive()
         {
+            // Very simple check.
             return Server != null && Server.IsAlive;
         }
 
-        public override bool ServerDisconnect(int connectionId)
+#if !MIRROR_37_0_OR_NEWER
+        // Workaround for legacy Mirror versions.
+        public override bool ServerDisconnect(int connectionId) => ServerDisconnectLegacy(connectionId);
+#else
+        public override void ServerDisconnect(int connectionId)
         {
             if (Server == null)
             {
-                Debug.LogError("Server object is null, this shouldn't really happen but it did...");
-                return false;
+                Debug.LogError("Cannot enqueue kick packet; our Server object is null. Something has gone wrong.");
+                // Return here because otherwise we will get a NRE when trying to enqueue the kick packet.
+                return;
             }
 
             IgnoranceCommandPacket kickPacket = new IgnoranceCommandPacket
@@ -186,10 +202,10 @@ namespace IgnoranceTransport
                 PeerId = (uint)connectionId - 1 // ENet's native peer ID will be ConnID - 1
             };
 
+            // Pass the packet onto the thread for dispatch.
             Server.Commands.Enqueue(kickPacket);
-
-            return true;
         }
+#endif
 
         public override string ServerGetClientAddress(int connectionId)
         {
@@ -199,13 +215,20 @@ namespace IgnoranceTransport
             return "(unavailable)";
         }
 
+#if !MIRROR_37_0_OR_NEWER
         public override void ServerSend(int connectionId, int channelId, ArraySegment<byte> segment)
+#else
+        // v1.4.0b6: Mirror rearranged the ServerSend params, so we need to apply a fix for that or
+        // we end up using the obsoleted version. The obsolete version isn't a fatal error, but
+        // it's best to stick with the new structures.
+        public override void ServerSend(int connectionId, ArraySegment<byte> segment, int channelId)
+#endif
         {
             // Debug.Log($"ServerSend({connectionId}, {channelId}, <{segment.Count} byte segment>)");
 
             if (Server == null)
             {
-                Debug.LogError("Server object is null, this shouldn't really happen but it did...");
+                Debug.LogError("Cannot enqueue data packet; our Server object is null. Something has gone wrong.");
                 return;
             }
 
@@ -245,7 +268,7 @@ namespace IgnoranceTransport
         public override void ServerStart()
         {
             if (LogType != IgnoranceLogType.Nothing)
-                Debug.Log("Ignorance Server instance is starting up...");
+                Debug.Log("Ignorance Server Instance starting up...");
 
             InitializeServerBackend();
 
@@ -257,12 +280,11 @@ namespace IgnoranceTransport
             if (Server != null)
             {
                 if (LogType != IgnoranceLogType.Nothing)
-                    Debug.Log("Ignorance Server instance is shutting down...");
+                    Debug.Log("Ignorance Server Instance shutting down...");
 
                 Server.Stop();
             }
 
-            // ENetPeerToMirrorLookup.Clear();
             ConnectionLookupDict.Clear();
         }
 
@@ -280,7 +302,7 @@ namespace IgnoranceTransport
 
         public override void Shutdown()
         {
-
+            // TODO: Nothing needed here?
         }
 
         // Check to ensure channels 0 and 1 mimic LLAPI. Override this at your own risk.
@@ -312,7 +334,8 @@ namespace IgnoranceTransport
             }
 
             // ENet only supports a maximum of 32MB packet size.
-            if (MaxAllowedPacketSize > 33554432) MaxAllowedPacketSize = 33554432;
+            if (MaxAllowedPacketSize > 33554432)
+                MaxAllowedPacketSize = 33554432;
         }
 
         private void InitializeServerBackend()
@@ -326,18 +349,21 @@ namespace IgnoranceTransport
             // Set up the new IgnoranceServer reference.
             if (serverBindsAll)
                 // MacOS is special. It's also a massive thorn in my backside.
-                Server.BindAddress = IgnoranceInternals.BindAllFuckingAppleMacs;
+                Server.BindAddress = IgnoranceInternals.BindAllMacs;
             else
                 // Use the supplied bind address.
                 Server.BindAddress = serverBindAddress;
 
+            // Sets port, maximum peers, max channels, the server poll time, maximum packet size and verbosity.
             Server.BindPort = port;
             Server.MaximumPeers = serverMaxPeerCapacity;
             Server.MaximumChannels = Channels.Length;
             Server.PollTime = serverMaxNativeWaitTime;
             Server.MaximumPacketSize = MaxAllowedPacketSize;
+            Server.Verbosity = (int)LogType;
 
             // Initializes the packet buffer.
+            // Allocates once, that's it.
             if (InternalPacketBuffer == null)
                 InternalPacketBuffer = new byte[PacketBufferCapacity];
         }
@@ -350,6 +376,7 @@ namespace IgnoranceTransport
                 Client = new IgnoranceClient();
             }
 
+            // Sets address, port, channels to expect, verbosity, the server poll time and maximum packet size.
             Client.ConnectAddress = cachedConnectionAddress;
             Client.ConnectPort = port;
             Client.ExpectedChannels = Channels.Length;
@@ -358,6 +385,7 @@ namespace IgnoranceTransport
             Client.Verbosity = (int)LogType;
 
             // Initializes the packet buffer.
+            // Allocates once, that's it.
             if (InternalPacketBuffer == null)
                 InternalPacketBuffer = new byte[PacketBufferCapacity];
         }
@@ -375,12 +403,9 @@ namespace IgnoranceTransport
                 adjustedConnectionId = (int)connectionEvent.NativePeerId + 1;
 
                 if (LogType == IgnoranceLogType.Verbose)
-                    Debug.Log($"Processing a server connection event from ENet native peer {connectionEvent.NativePeerId}.");
+                    Debug.Log($"Processing a server connection event from ENet native peer {connectionEvent.NativePeerId}. This peer would be Mirror ConnID {adjustedConnectionId}.");
 
-                // Nah mate, just a regular connection.
-                if (LogType == IgnoranceLogType.Verbose)
-                    Debug.Log($"ProcessServerPackets fired; handling connection event from native peer {connectionEvent.NativePeerId}. This peer would be Mirror ConnID {adjustedConnectionId}.");
-
+                // TODO: Investigate ArgumentException: An item with the same key has already been added. Key: <id>
                 ConnectionLookupDict.Add(adjustedConnectionId, new PeerConnectionData
                 {
                     NativePeerId = connectionEvent.NativePeerId,
@@ -446,7 +471,39 @@ namespace IgnoranceTransport
             IgnoranceCommandPacket commandPacket;
             IgnoranceClientStats clientStats;
             Packet payload;
+            IgnoranceConnectionEvent connectionEvent;
 
+            // Handle connection events.
+            while (Client.ConnectionEvents.TryDequeue(out connectionEvent))
+            {
+                if (LogType == IgnoranceLogType.Verbose)
+                    Debug.Log($"ProcessClientConnectionEvents fired: processing a client ConnectionEvents queue item.");
+
+                if (connectionEvent.WasDisconnect)
+                {
+                    // Disconnected from server.
+                    ClientState = ConnectionState.Disconnected;
+
+                    if (LogType != IgnoranceLogType.Nothing)
+                        Debug.Log($"Ignorance Client has been disconnected from server.");
+
+                    ignoreDataPackets = true;
+                    OnClientDisconnected?.Invoke();
+                }
+                else
+                {
+                    // Connected to server.
+                    ClientState = ConnectionState.Connected;
+
+                    if (LogType != IgnoranceLogType.Nothing)
+                        Debug.Log($"Ignorance Client successfully connected to server at address {connectionEvent.IP}:{connectionEvent.Port}");
+
+                    ignoreDataPackets = false;
+                    OnClientConnected?.Invoke();
+                }
+            }
+
+            // Now handle the incoming messages.
             while (Client.Incoming.TryDequeue(out incomingPacket))
             {
                 // Temporary fix: if ENet thread is too fast for Mirror, then ignore the packet.
@@ -468,6 +525,7 @@ namespace IgnoranceTransport
                 // Copy to working buffer and dispose of it.
                 if (length > InternalPacketBuffer.Length)
                 {
+                    // Unity's favourite: A fresh 'n' tasty GC Allocation!
                     byte[] oneFreshNTastyGcAlloc = new byte[length];
 
                     payload.CopyTo(oneFreshNTastyGcAlloc);
@@ -507,46 +565,16 @@ namespace IgnoranceTransport
             }
         }
 
-        private void ProcessClientConnectionEvents()
-        {
-            IgnoranceConnectionEvent connectionEvent;
-
-            // Step 2: Handle connection events.
-            while (Client.ConnectionEvents.TryDequeue(out connectionEvent))
-            {
-                if (LogType == IgnoranceLogType.Verbose)
-                    Debug.Log($"ProcessClientConnectionEvents fired: processing a client ConnectionEvents queue item.");
-
-                if (connectionEvent.WasDisconnect)
-                {
-                    // Disconnected from server.
-                    ClientState = ConnectionState.Disconnected;
-
-                    if (LogType != IgnoranceLogType.Nothing)
-                        Debug.Log($"Client has been disconnected from server.");
-
-                    ignoreDataPackets = true;
-                    OnClientDisconnected?.Invoke();
-                }
-                else
-                {
-                    // Connected to server.
-                    ClientState = ConnectionState.Connected;
-
-                    if (LogType != IgnoranceLogType.Nothing)
-                        Debug.Log($"Client successfully connected to server: {connectionEvent.IP}:{connectionEvent.Port}");
-
-                    ignoreDataPackets = false;
-                    OnClientConnected?.Invoke();
-                }
-            }
-        }
         #region Main Thread Processing and Polling
+        // Ignorance 1.4.0b5: To use Mirror's polling or not use Mirror's polling, that is up to the developer to decide
+#if !IGNORANCE_MIRROR_POLLING
         // IMPORTANT: Set Ignorance' execution order before everything else. Yes, that's -32000 !!
         // This ensures it has priority over other things.
 
         // FixedUpdate can be called many times per frame.
         // Once we've handled stuff, we set a flag so that we don't poll again for this frame.
+
+        private bool fixedUpdateCompletedWork;
         public void FixedUpdate()
         {
             if (!enabled) return;
@@ -583,7 +611,6 @@ namespace IgnoranceTransport
             // Process Client Events...
             if (Client.IsAlive)
             {
-                ProcessClientConnectionEvents();
                 ProcessClientPackets();
 
                 if (ClientState == ConnectionState.Connected && clientStatusUpdateInterval > -1)
@@ -598,7 +625,54 @@ namespace IgnoranceTransport
                 }
             }
         }
+#else
+        // This section will be compiled in instead if you enable IGNORANCE_MIRROR_POLLING.
+
+        public override void ServerEarlyUpdate() {
+            // This is used by Mirror to consume the incoming server packets.
+            if (!enabled) return;
+
+            // Process Server Events...
+            if (Server.IsAlive)
+                ProcessServerPackets();
+        }
+
+        public override void ClientEarlyUpdate() {
+            // This is used by Mirror to consume the incoming client packets.
+            if(!enabled) return;
+
+            if(Client.IsAlive)
+            {
+                ProcessClientPackets();
+
+                if (ClientState == ConnectionState.Connected && clientStatusUpdateInterval > -1)
+                {
+                    statusUpdateTimer += Time.deltaTime;
+
+                    if (statusUpdateTimer >= clientStatusUpdateInterval)
+                    {
+                        Client.Commands.Enqueue(new IgnoranceCommandPacket { Type = IgnoranceCommandType.ClientRequestsStatusUpdate });
+                        statusUpdateTimer = 0f;
+                    }
+                }
+            }
+                
+        }
+
+        /*
+        public override void ClientLateUpdate() {
+            // This is used by Mirror to send out the outgoing client packets.
+            if (!enabled) return;
+        }
+
+        public override void ServerLateUpdate() {
+            // This is used by Mirror to send out the outgoing server packets.
+            if (!enabled) return;
+        }
+        */
+#endif
         #endregion
+
         #region Debug
         private void OnGUI()
         {
@@ -628,8 +702,6 @@ namespace IgnoranceTransport
         }
 
         #region Internals
-        private bool fixedUpdateCompletedWork;
-
         private bool ignoreDataPackets;
         private string cachedConnectionAddress = string.Empty;
         private IgnoranceServer Server = new IgnoranceServer();
@@ -643,6 +715,30 @@ namespace IgnoranceTransport
         private const PacketFlags ReliableOrUnreliableFragmented = PacketFlags.Reliable | PacketFlags.UnreliableFragmented;
 
         private float statusUpdateTimer = 0f;
+        #endregion
+
+        #region Legacy Overrides
+#if !MIRROR_37_0_OR_NEWER
+        public bool ServerDisconnectLegacy(int connectionId)
+        {
+            if (Server == null)
+            {
+                Debug.LogError("Cannot enqueue kick packet; our Server object is null. Something has gone wrong.");
+                // Return here because otherwise we will get a NRE when trying to enqueue the kick packet.
+                return false;
+            }
+
+            IgnoranceCommandPacket kickPacket = new IgnoranceCommandPacket
+            {
+                Type = IgnoranceCommandType.ServerKickPeer,
+                PeerId = (uint)connectionId - 1 // ENet's native peer ID will be ConnID - 1
+            };
+
+            // Pass the packet onto the thread for dispatch.
+            Server.Commands.Enqueue(kickPacket);
+            return true;
+        }
+#endif
         #endregion
 #endif
 
