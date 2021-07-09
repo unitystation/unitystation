@@ -29,7 +29,7 @@ namespace UI.Items.PDA
 			{
 				if (isNukie || uplinkItem.IsNukeOps == false)
 				{
-					var entry = dynamicList.AddItem();;
+					var entry = dynamicList.AddItem();
 					entry.GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(uplinkItem);
 				}
 			}
