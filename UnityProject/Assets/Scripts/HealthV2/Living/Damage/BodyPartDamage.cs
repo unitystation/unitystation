@@ -304,11 +304,13 @@ namespace HealthV2
 			CHARRED
 		}
 
+		[Flags]
 		public enum TramuticDamageTypes
 		{
-			SLASH,
-			PIERCE,
-			BURN
+			NONE = 0,
+			SLASH = 1 << 0,
+			PIERCE = 1 << 1,
+			BURN = 1 << 2
 		}
 
 		public void DamageInitialisation()
