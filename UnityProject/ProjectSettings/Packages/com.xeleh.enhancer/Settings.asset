@@ -18,10 +18,10 @@ MonoBehaviour:
     autoEnable: 1
   sidebar:
     foldout: 1
-    enabled: 0
-    dockingSide: 1
+    enabled: 1
+    dockingSide: 0
     backColor: {r: 1, g: 1, b: 1, a: 1}
-    verticalPadding: 8
+    verticalPadding: 0
     items:
     - icon: {fileID: 2800000, guid: 35001c30dca274d6baf7a5b7b5352da7, type: 3}
       function: 1
