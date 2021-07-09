@@ -169,7 +169,7 @@ namespace Objects
 				}
 
 				minTemperature = Mathf.Max(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN -
-				                           (initalMinTemperature + minTempRating * 15), 2.7f);
+				                           (initalMinTemperature + minTempRating * 15), AtmosDefines.SPACE_TEMPERATURE);
 				targetTemperature = minTemperature;
 			}
 			else
@@ -230,7 +230,7 @@ namespace Objects
 				}
 
 				minTemperature = Mathf.Max(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN -
-				                           (initalMinTemperature + minTempRating * 15), 2.7f);
+				                           (initalMinTemperature + minTempRating * 15), AtmosDefines.SPACE_TEMPERATURE);
 				targetTemperature = minTemperature;
 			}
 			else

@@ -9,16 +9,35 @@ namespace Systems.Atmospherics
 		public static readonly float MINIMUM_MOLE_COUNT	= 0.01f;
 		public static readonly float FIRE_MINIMUM_TEMPERATURE_TO_EXIST	= 373.15f;
 
+		//Conductivity
+		public static readonly float MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER	= 0.5f;
+		public static readonly float MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION	= 373.15f;
+		public static readonly float MINIMUM_TEMPERATURE_START_SUPERCONDUCTION	= 693.15f;
+
+		public static readonly float M_CELL_WITH_RATIO	= MOLES_CELLSTANDARD * 0.005f;
+
+		//moles in a 2.5 m^3 cell at 101.325 Pa and 20 degC (103 or so)
+		public static readonly float MOLES_CELLSTANDARD	= ONE_ATMOSPHERE * CELL_VOLUME / (293.15f * Gas.R);
+		public static readonly float ONE_ATMOSPHERE	= 101.325f;
+
+		//liters in a cell
+		public static readonly float CELL_VOLUME	= 2500f;
+
+		public static readonly float SPACE_TEMPERATURE	= 2.7f;
+		public static readonly float SPACE_HEAT_CAPACITY	= 700000f;
+		public static readonly float SPACE_THERMAL_CONDUCTIVITY	= 0.4f;
+
 		//Plasma fire properties
 		public static readonly float OXYGEN_BURN_RATE_BASE = 1.4f;
-		public static readonly float PLASMA_BURN_RATE_DELTA = 15f;
+		public static readonly float PLASMA_BURN_RATE_DELTA = 9f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_NEEDED = 2f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_PLASMA_RATIO = 30f;
 		public static readonly float PLASMA_UPPER_TEMPERATURE = 1643.15f;
 		public static readonly float PLASMA_MINIMUM_BURN_TEMPERATURE = 373.15f;
 		public static readonly int PLASMA_OXYGEN_FULLBURN = 10;
 		public static readonly float FIRE_CARBON_ENERGY_RELEASED = 100000f;	//Amount of heat released per mole of burnt carbon into the tile
-		public static readonly float FIRE_HYDROGEN_ENERGY_RELEASED = 280000f;  //Amount of heat released per mole of burnt hydrogen and/or tritium(hydrogen isotope)
+		public static readonly float FIRE_HYDROGEN_ENERGY_RELEASED = 2800000f;  //Amount of heat released per mole of burnt hydrogen and/or tritium(hydrogen isotope)
+		public static readonly float FIRE_HYDROGEN_ENERGY_WEAK = 280000f;
 
 		public static readonly float FIRE_PLASMA_ENERGY_RELEASED = 3000000f;	//Amount of heat released per mole of burnt plasma into the tile
 //General assmos defines.
@@ -36,8 +55,8 @@ namespace Systems.Atmospherics
 
 		public static readonly float NITRYL_FORMATION_ENERGY = 100000f;
 		public static readonly float NITROUS_FORMATION_ENERGY = 10000f;
-		public static readonly float TRITIUM_BURN_OXY_FACTOR = 200f;
-		public static readonly float TRITIUM_BURN_TRIT_FACTOR = 5f;
+		public static readonly float TRITIUM_BURN_OXY_FACTOR = 100f;
+		public static readonly float TRITIUM_BURN_TRIT_FACTOR = 10f;
 		public static readonly float TRITIUM_BURN_RADIOACTIVITY_FACTOR = 50000f; 	//The neutrons gotta go somewhere. Completely arbitrary number.
 		public static readonly float TRITIUM_MINIMUM_RADIATION_ENERGY = 0.1f;  	//minimum 0.01 moles trit or 10 moles oxygen to start producing rads
 		public static readonly float MINIMUM_TRIT_OXYBURN_ENERGY = 2000000f;	//This is calculated to help prevent singlecap bombs(Overpowered tritium/oxygen single tank bombs)

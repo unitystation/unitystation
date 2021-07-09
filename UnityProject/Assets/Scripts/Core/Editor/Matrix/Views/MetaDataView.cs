@@ -31,6 +31,8 @@ public class MetaDataView : BasicView
 		localChecks.Add(new AirlockCheck());
 		localChecks.Add(new SlipperyCheck());
 		localChecks.Add(new AtmosUpdateCheck());
+		localChecks.Add(new ThermalConductivity());
+		localChecks.Add(new HeatCapacity());
 	}
 
 	public override void DrawContent()
@@ -179,7 +181,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.GasMix.Temperature:0.###}", p, false);
+				GizmoUtils.DrawText($"{(node.IsOccupied ? node.ConductivityTemperature : node.GasMix.Temperature):0.###}", p, false);
 			}
 		}
 	}
@@ -264,6 +266,38 @@ public class MetaDataView : BasicView
 		}
 	}
 
+	private class ThermalConductivity : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Thermal Conductivity";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = LocalToWorld(source, position);
+				GizmoUtils.DrawText($"{node.ThermalConductivity:0.###}", p, false);
+			}
+		}
+	}
+
+	private class HeatCapacity : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Heat Capacity";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = LocalToWorld(source, position);
+				GizmoUtils.DrawText($"{node.HeatCapacity:0.###}", p, false);
+			}
+		}
+	}
+
 	private class AirlockCheck : Check<MetaDataLayer>
 	{
 		public override string Label { get; } = "Closed Airlock";
@@ -271,7 +305,7 @@ public class MetaDataView : BasicView
 		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
 		{
 			MetaDataNode node = source.Get(position, false);
-			if (node.IsClosedAirlock)
+			if (node.IsIsolatedNode)
 			{
 				GizmoUtils.DrawCube( position, Color.blue, true );
 			}
