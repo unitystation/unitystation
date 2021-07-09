@@ -8,6 +8,7 @@ using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects;
+using ScriptableObjects.Audio;
 
 public partial class PlayerSync
 {
@@ -585,14 +586,13 @@ public partial class PlayerSync
 			return state;
 		}
 
-		PlayerState nextState = NextState(state, action, true);
+		var nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
-		if (!playerScript.IsGhost)
-		{
-			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-			FootstepSounds.PlayerFootstepAtPosition(nextState.WorldPosition, this);
-		}
+		if (playerScript.IsGhost) return nextState;
+
+		playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
+		FootstepSounds.PlayerFootstepAtPosition(nextState.WorldPosition, this);
 
 		return nextState;
 	}
