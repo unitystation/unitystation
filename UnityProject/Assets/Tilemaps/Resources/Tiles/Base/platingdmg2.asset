@@ -16,7 +16,7 @@ MonoBehaviour:
   LayerType: 4
   TileType: 7
   RequiredTiles: []
-  floorTileSounds: {fileID: 0}
+  floorTileSounds: {fileID: 11400000, guid: b6656d824eea91648b8ada5f88db78ca, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
   tileInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
-  lootOnDespawn: {fileID: 11400000, guid: 1a4a35c7013779a469d67421e3cb501d, type: 2}
+  lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 0}
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}

@@ -381,10 +381,12 @@ namespace UI.Objects.Chemistry
 			productList.Clear();
 			foreach (GameObject listItemin in ChemMaster.ChemMasterProducts)
 			{
-				if (listItemin != null) productList.AddItem();
-				GUI_ChemProductEntry thing = productList.Entries[ChemMaster.ChemMasterProducts.IndexOf(listItemin)]
-					as GUI_ChemProductEntry;
-				thing.ReInit(GetComponent<GUI_ChemMaster>());
+				if (listItemin == null)
+				{
+					continue;
+				}
+				var thing = productList.AddItem().GetComponent<GUI_ChemProductEntry>();
+				thing.ReInit(this);
 			}
 		}
 
