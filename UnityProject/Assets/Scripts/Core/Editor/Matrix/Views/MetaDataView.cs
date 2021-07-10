@@ -181,7 +181,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{(node.IsOccupied ? node.ConductivityTemperature : node.GasMix.Temperature):0.###}", p, false);
+				GizmoUtils.DrawText($"{(node.IsOccupied && node.IsIsolatedNode == false ? node.ConductivityTemperature : node.GasMix.Temperature):0.###}", p, false);
 			}
 		}
 	}
