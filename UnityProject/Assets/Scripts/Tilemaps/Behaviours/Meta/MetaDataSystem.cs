@@ -97,13 +97,6 @@ public class MetaDataSystem : SubsystemBehaviour
 				node.ThermalConductivity = AtmosDefines.SPACE_THERMAL_CONDUCTIVITY;
 				node.HeatCapacity =  AtmosDefines.SPACE_HEAT_CAPACITY;
 			}
-			else if (node.Type == NodeType.Room)
-			{
-				//TODO These are not used as we dont transfer heat from room tiles to room tiles using this system,
-				//TODO normal gas mix equalising does it instead
-				node.ThermalConductivity = 0.04f;
-				node.HeatCapacity =  10000f;
-			}
 		}
 		else
 		{
@@ -116,11 +109,13 @@ public class MetaDataSystem : SubsystemBehaviour
 				node.ThermalConductivity = 0.001f;
 				node.HeatCapacity =  10000f;
 			}
-			else if (matrix.MetaTileMap.GetTile(localPosition, true) is BasicTile tile && tile != null)
-			{
-				node.HeatCapacity = tile.TileHeatCapacity;
-				node.ThermalConductivity = tile.TileThermalConductivity;
-			}
+		}
+
+		if (node.IsIsolatedNode == false && node.Type != NodeType.Space &&
+		    matrix.MetaTileMap.GetTile(localPosition, true) is BasicTile tile && tile != null)
+		{
+			node.HeatCapacity = tile.HeatCapacity;
+			node.ThermalConductivity = tile.ThermalConductivity;
 		}
 
 		SetupNeighbors(node);
@@ -155,8 +150,8 @@ public class MetaDataSystem : SubsystemBehaviour
 			}
 			else if (matrix.MetaTileMap.GetTile(position, true) is BasicTile tile && tile != null)
 			{
-				node.HeatCapacity = tile.TileHeatCapacity;
-				node.ThermalConductivity = tile.TileThermalConductivity;
+				node.HeatCapacity = tile.HeatCapacity;
+				node.ThermalConductivity = tile.ThermalConductivity;
 			}
 
 			SetupNeighbors(node);

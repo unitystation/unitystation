@@ -40,10 +40,10 @@ public abstract class BasicTile : LayerTile
 	public float RadiationPassability = 1;
 
 	[Range(0f, 1f)] [Tooltip("ThermalConductivity 0 = 100% Conductivity")] [SerializeField]
-	public float TileThermalConductivity = 0;
+	public float ThermalConductivity = 0.05f;
 
 	[Range(0f, 1000000f)] [Tooltip("Heat Capacity 0 to 1000000")] [SerializeField]
-	public float TileHeatCapacity = 312500;
+	public float HeatCapacity = 10000;
 
 	/// <summary>
 	/// Can this tile be mined?
