@@ -22,8 +22,7 @@ namespace UI.Objects.Cargo
 			{
 				if (cargoOrder.EmagOnly == false || cargoGUI.cargoConsole.Emagged)
 				{
-					orderList.AddItem();
-					var item = (GUI_CargoItem)orderList.Entries[orderList.Entries.Length-1];
+					var item = orderList.AddItem().GetComponent<GUI_CargoItem>();
 					item.SetValues(cargoOrder);
 				}
 			}
