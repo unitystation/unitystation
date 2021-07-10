@@ -67,6 +67,12 @@ namespace Systems.Atmospherics
 
 			node.AddNeighborsToList(ref nodes);
 
+			//Conduct heat from this nodes gas mix to this nodes tile
+			if (node.IsOccupied == false || node.IsIsolatedNode)
+			{
+				ConductFromOpenToSolid(node, meanGasMix);
+			}
+
 			//Gases are frozen within walls and isolated tiles (closed airlocks) so dont do gas equalising
 			if (node.IsOccupied == false && node.IsIsolatedNode == false)
 			{
@@ -84,7 +90,7 @@ namespace Systems.Atmospherics
 				}
 			}
 
-			//Check to see if we need to do conductivity
+			//Check to see if we need to do conductivity to other adjacent tiles
 			Conductivity(node);
 
 			//Only allow open tiles or isolated tiles to do reactions
@@ -109,25 +115,6 @@ namespace Systems.Atmospherics
 			CalcMeanGasMix();
 
 			MetaDataNode node;
-
-			//Try to do Open to Solid heat conducting first
-			if (meanGasMix.Temperature >= AtmosDefines.MINIMUM_TEMPERATURE_START_SUPERCONDUCTION)
-			{
-				for (var i = 0; i < nodes.Count; i++)
-				{
-					node = nodes[i];
-
-					//If the node is occupied try conducting, dont do isolated tiles (Airlocks)
-					if (node.IsOccupied && node.IsIsolatedNode == false)
-					{
-						ConductFromOpenToSolid(node, meanGasMix);
-					}
-					else if (node.IsIsolatedNode)
-					{
-						ConductFromOpenToIsolated(node, meanGasMix);
-					}
-				}
-			}
 
 			//Then equalise the open gas mixes
 			for (var i = 0; i < nodes.Count; i++)
@@ -161,7 +148,7 @@ namespace Systems.Atmospherics
 			if(currentNode.StartingSuperConduct == false && currentNode.AllowedToSuperConduct == false) return;
 
 			//Starting node must have higher temperature
-			if ((currentNode.IsIsolatedNode ? currentNode.GasMix.Temperature : currentNode.ConductivityTemperature) < (currentNode.StartingSuperConduct
+			if (currentNode.ConductivityTemperature < (currentNode.StartingSuperConduct
 				? AtmosDefines.MINIMUM_TEMPERATURE_START_SUPERCONDUCTION
 				: AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION))
 			{
@@ -176,53 +163,15 @@ namespace Systems.Atmospherics
 
 			currentNode.AllowedToSuperConduct = true;
 
-			//Airlocks conductivity is done by gasmix
-			if (currentNode.IsIsolatedNode)
-			{
-				IsolatedConductivity(currentNode);
-
-				//Check to see whether we should disable the node
-				if (currentNode.GasMix.Temperature < AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION)
-				{
-					//Disable node if it fails temperature check
-					currentNode.AllowedToSuperConduct = false;
-					currentNode.StartingSuperConduct = false;
-				}
-
-				return;
-			}
-
 			//Solid conductivity is done by meta data node variables, as walls dont have functioning gas mix
 			SolidConductivity(currentNode);
 
 			//Check to see whether we should disable the node
-			if ((currentNode.IsIsolatedNode ? currentNode.GasMix.Temperature : currentNode.ConductivityTemperature) < AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION)
+			if (currentNode.ConductivityTemperature < AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION)
 			{
 				//Disable node if it fails temperature check
 				currentNode.AllowedToSuperConduct = false;
 				currentNode.StartingSuperConduct = false;
-			}
-		}
-
-		private void IsolatedConductivity(MetaDataNode currentNode)
-		{
-			for (var i = 0; i < nodes.Count; i++)
-			{
-				MetaDataNode node = nodes[i];
-
-				//Dont spread heat to self
-				if(node == currentNode) continue;
-
-				//Share temperature between Isolated and Open or Isolated and Isolated
-				if (node.IsOccupied == false || node.IsIsolatedNode)
-				{
-					ConductFromOpenToIsolated(node, currentNode.GasMix, false);
-				}
-				//Share temperature between Open and Solid
-				else if (node.IsOccupied && node.IsIsolatedNode == false)
-				{
-					ConductFromOpenToSolid(node, currentNode.GasMix);
-				}
 			}
 		}
 
@@ -237,15 +186,8 @@ namespace Systems.Atmospherics
 
 				var tempDelta = currentNode.ConductivityTemperature;
 
-				//Share temperature between Solid and Open
-				//Isolated will be done here too as they use their gas mix like Open
-				if (node.IsOccupied == false || node.IsIsolatedNode)
-				{
-					tempDelta -= node.GasMix.Temperature;
-					ConductFromSolidToOpen(currentNode, node, tempDelta);
-				}
 				//Radiate temperature between Solid and Space
-				else if(node.IsSpace)
+				if(node.IsSpace)
 				{
 					if(currentNode.ConductivityTemperature <= TemperatureUtils.ZERO_CELSIUS_IN_KELVIN) continue;
 
@@ -297,86 +239,18 @@ namespace Systems.Atmospherics
 
 			if (solidNode.AllowedToSuperConduct == false)
 			{
+				solidNode.AllowedToSuperConduct = true;
+
+				//Allow this node to trigger other tiles super conduction
 				solidNode.StartingSuperConduct = true;
 			}
 
 			AtmosManager.Update(solidNode);
 		}
 
-		/// <summary>
-		/// Used to transfer heat between an Isolated tile and a Open tile
-		/// Uses GasMix from MetaDataNode for Isolated node and GasMix values for Open node
-		/// </summary>
-		private void ConductFromOpenToIsolated(MetaDataNode isolatedNode, GasMix fromMeanGasMix, bool doConduction = true)
-		{
-			var tempDelta = isolatedNode.GasMix.Temperature - fromMeanGasMix.Temperature;
-
-			if (Mathf.Abs(tempDelta) <= AtmosDefines.MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER) return;
-
-			if (fromMeanGasMix.WholeHeatCapacity <= AtmosConstants.MINIMUM_HEAT_CAPACITY) return;
-
-			if(isolatedNode.GasMix.WholeHeatCapacity <= AtmosConstants.MINIMUM_HEAT_CAPACITY) return;
-
-			//The larger the combined capacity the less is shared, very slow
-			var heat = isolatedNode.ThermalConductivity * tempDelta *
-			           (isolatedNode.GasMix.WholeHeatCapacity * fromMeanGasMix.WholeHeatCapacity /
-			            (isolatedNode.GasMix.WholeHeatCapacity + fromMeanGasMix.WholeHeatCapacity));
-
-			isolatedNode.GasMix.SetTemperature(Mathf.Max(
-				isolatedNode.GasMix.Temperature - (heat / isolatedNode.GasMix.WholeHeatCapacity),
-				AtmosDefines.SPACE_TEMPERATURE));
-
-			fromMeanGasMix.SetTemperature(Mathf.Max(
-				fromMeanGasMix.Temperature + (heat / fromMeanGasMix.WholeHeatCapacity),
-				AtmosDefines.SPACE_TEMPERATURE));
-
-			if (doConduction)
-			{
-				//Do atmos update for the this closed Open node if temperature is allowed so it can do conduction
-				//This is checking for the start temperature as this is how the cycle will begin
-				if (isolatedNode.GasMix.Temperature < AtmosDefines.MINIMUM_TEMPERATURE_START_SUPERCONDUCTION) return;
-
-				if (isolatedNode.AllowedToSuperConduct == false)
-				{
-					isolatedNode.StartingSuperConduct = true;
-				}
-			}
-
-			AtmosManager.Update(isolatedNode);
-		}
-
 		#endregion
 
 		#region Solid To ...
-
-		/// <summary>
-		/// Used to transfer heat between an Solid tile and a Open tile
-		/// Uses data from MetaDataNode for solid node and GasMix values for Open node
-		/// </summary>
-		private void ConductFromSolidToOpen(MetaDataNode currentNode, MetaDataNode openNode, float tempDelta)
-		{
-			if (Mathf.Abs(tempDelta) <= AtmosDefines.MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER) return;
-
-			if (openNode.GasMix.WholeHeatCapacity <= AtmosConstants.MINIMUM_HEAT_CAPACITY) return;
-
-			if(currentNode.HeatCapacity <= AtmosConstants.MINIMUM_HEAT_CAPACITY) return;
-
-			//The larger the combined capacity the less is shared
-			var heat = openNode.ThermalConductivity * tempDelta *
-			           (currentNode.HeatCapacity * openNode.GasMix.WholeHeatCapacity /
-			            (currentNode.HeatCapacity + openNode.GasMix.WholeHeatCapacity));
-
-			currentNode.ConductivityTemperature = Mathf.Max(
-				currentNode.ConductivityTemperature - (heat / openNode.HeatCapacity),
-				AtmosDefines.SPACE_TEMPERATURE);
-
-			openNode.GasMix.SetTemperature(Mathf.Max(
-				openNode.GasMix.Temperature + (heat / openNode.GasMix.WholeHeatCapacity),
-				AtmosDefines.SPACE_TEMPERATURE));
-
-			//Do atmos update on Open node so that the node will start to share temperature around itself
-			AtmosManager.Update(openNode);
-		}
 
 		/// <summary>
 		/// Used to transfer heat between an Solid tile and Space
