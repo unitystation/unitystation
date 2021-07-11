@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb3d991429324798b156b16a89b924b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  processingContainer: {fileID: 2946524048102392485}
   Alcohols: {fileID: 11400000, guid: b9adb4f35ed62f745b31648d615dada0, type: 2}
   ethanolReagent: {fileID: 11400000, guid: 04af0125ed6e69723a72d56c754e56a8, type: 2}
   Toxins:
@@ -128,6 +129,38 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 143a0045ccc01b1288106b4252eea6c4, type: 2}
   processAmount: 0.1
   flushMultiplier: 2
+--- !u!114 &2946524048102392485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3419287765834980474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
+  maxCapacity: 0.5
+  reactionSet: {fileID: 0}
+  AdditionalReactions: []
+  canPourOut: 1
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
 --- !u!1001 &7994835678340444955
 PrefabInstance:
   m_ObjectHideFlags: 0

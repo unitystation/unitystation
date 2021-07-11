@@ -426,6 +426,7 @@ namespace HealthV2
 		public void SetUpBodyPart(BodyPart implant)
 		{
 			implant.HealthMaster = HealthMaster;
+			if (HealthMaster == null) return;
 			HealthMaster.AddNewImplant(implant);
 			SubBodyPartAdded(implant);
 
