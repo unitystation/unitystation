@@ -8,7 +8,7 @@ namespace Systems.Atmospherics
 	{
 		public static readonly float MINIMUM_MOLE_COUNT	= 0.01f;
 		public static readonly float FIRE_MINIMUM_TEMPERATURE_TO_EXIST	= 373.15f;
-
+		
 		//Conductivity
 		public static readonly float MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER	= 0.5f;
 		public static readonly float MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION	= 373.15f;
@@ -26,10 +26,10 @@ namespace Systems.Atmospherics
 		public static readonly float SPACE_TEMPERATURE	= 2.7f;
 		public static readonly float SPACE_HEAT_CAPACITY	= 700000f;
 		public static readonly float SPACE_THERMAL_CONDUCTIVITY	= 0.4f;
-
+		
 		//Plasma fire properties
 		public static readonly float OXYGEN_BURN_RATE_BASE = 1.4f;
-		public static readonly float PLASMA_BURN_RATE_DELTA = 9f;
+		public static readonly float PLASMA_BURN_RATE_DELTA = 15f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_NEEDED = 2f;
 		public static readonly float PLASMA_MINIMUM_OXYGEN_PLASMA_RATIO = 30f;
 		public static readonly float PLASMA_UPPER_TEMPERATURE = 1643.15f;
@@ -55,8 +55,8 @@ namespace Systems.Atmospherics
 
 		public static readonly float NITRYL_FORMATION_ENERGY = 100000f;
 		public static readonly float NITROUS_FORMATION_ENERGY = 10000f;
-		public static readonly float TRITIUM_BURN_OXY_FACTOR = 100f;
-		public static readonly float TRITIUM_BURN_TRIT_FACTOR = 10f;
+		public static readonly float TRITIUM_BURN_OXY_FACTOR = 200f;
+		public static readonly float TRITIUM_BURN_TRIT_FACTOR = 5f;
 		public static readonly float TRITIUM_BURN_RADIOACTIVITY_FACTOR = 50000f; 	//The neutrons gotta go somewhere. Completely arbitrary number.
 		public static readonly float TRITIUM_MINIMUM_RADIATION_ENERGY = 0.1f;  	//minimum 0.01 moles trit or 10 moles oxygen to start producing rads
 		public static readonly float MINIMUM_TRIT_OXYBURN_ENERGY = 2000000f;	//This is calculated to help prevent singlecap bombs(Overpowered tritium/oxygen single tank bombs)
