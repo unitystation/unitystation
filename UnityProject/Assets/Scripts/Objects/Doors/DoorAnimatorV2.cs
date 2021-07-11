@@ -48,6 +48,9 @@ namespace Doors
 
 		[SerializeField, Tooltip("Time this door's denied animation takes")]
 		private float deniedAnimationTime = 0.6f;
+
+		[SerializeField, Tooltip("Time this door's warning animation takes")]
+		private float warningAnimationTime = 0.6f;
 		#endregion
 
 		[SerializeField, Tooltip("Sound that plays when opening this door")]
@@ -154,7 +157,7 @@ namespace Doors
 				overlayFillHandler.ChangeSprite((int) DoorFrame.Closing, false);
 				doorBaseHandler.ChangeSprite((int) DoorFrame.Closing, false);
 				ClientPlaySound(closingSFX);
-				yield return WaitFor.Seconds(openingAnimationTime);
+				yield return WaitFor.Seconds(closingAnimationTime);
 			}
 
 			//Change to closed sprite after it is done closing
@@ -189,9 +192,14 @@ namespace Doors
 
 		public IEnumerator PlayPressureWarningAnimation()
 		{
+			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
+			overlayLightsHandler.ChangeSprite((int)Lights.PressureWarning);
 			ClientPlaySound(warningSFX);
+			yield return WaitFor.Seconds(warningAnimationTime);
+
+			if (previousLightSprite == -1) previousLightSprite = 0;
+			overlayLightsHandler.ChangeSprite(previousLightSprite);
 			AnimationFinished?.Invoke();
-			yield break;
 		}
 
 		private void ClientPlaySound(AddressableAudioSource sound)
