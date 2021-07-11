@@ -36,6 +36,7 @@ MonoBehaviour:
   DeathOnRemoval: 0
   ClothingHide: 0
   Tone: {r: 1, g: 1, b: 1, a: 1}
+  SetCustomisationData: 
   efficiency: 1
   TotalModified: 1
   SurgeryProcedureBase:
@@ -92,8 +93,12 @@ MonoBehaviour:
   spillChanceWhenCutPresent: 0.5
   CanBleedInternally: 0
   CanBleedExternally: 0
+  gibsEntireBodyOnRemoval: 0
   MinMaxInternalBleedingValues: {x: 5, y: 20}
   maximumInternalBleedDamage: 100
+  InternalBleedingBloodLoss: 12
+  ExternalBleedingBloodLoss: 6
+  baseTraumaDamageMultiplier: 0.25
   bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
   bodyPartAshesAboveThisDamage: 125
   BodyPartReadableName: '[Default Part Name]'
@@ -120,8 +125,8 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &8113072997116454967
@@ -144,7 +149,7 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
-  maxCapacity: 0.5
+  maxCapacity: 50
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   canPourOut: 1
