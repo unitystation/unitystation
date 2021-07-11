@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Items;
 using Items.Cargo.Wrapping;
 using Objects;
+using Objects.Atmospherics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -343,6 +345,22 @@ namespace Systems.Cargo
 						break;
 					}
 				}
+			}
+
+			//Add value of mole inside gas container
+			var gasContainer = item.GetComponent<GasContainer>();
+			if (gasContainer)
+			{
+				var stringBuilder = new StringBuilder();
+				stringBuilder.Append(export.ExportMessage);
+
+				foreach (var gas in gasContainer.GasMix.GasesArray)
+				{
+					stringBuilder.AppendLine($"Exported {gas.Moles} moles of {gas.GasSO.Name} for {(int)gas.Moles * gas.GasSO.ExportPrice} credits");
+					export.TotalValue += (int)gas.Moles * gas.GasSO.ExportPrice;
+				}
+
+				export.ExportMessage = stringBuilder.ToString();
 			}
 
 			var playerScript = item.GetComponent<PlayerScript>();

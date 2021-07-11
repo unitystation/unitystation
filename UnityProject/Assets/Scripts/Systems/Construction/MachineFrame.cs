@@ -386,8 +386,8 @@ namespace Objects.Construction
 				}
 
 				//Send circuit board data to the new machine
-				spawnedObject.SetBasicPartsUsed(basicPartsUsed);
 				spawnedObject.SetPartsInFrame(partsInFrame);
+				spawnedObject.SetBasicPartsUsed(basicPartsUsed);
 				spawnedObject.SetMachineParts(machineParts);
 
 				//Restoring previous vendor content if possible

@@ -147,7 +147,7 @@ public class DoubleHandController : MonoBehaviour
 
 	public void ActivateLeftHand()
 	{
-		if (LeftHandOverlay.activeSelf == false)
+		if (LeftHandOverlay.OrNull()?.activeSelf == false)
 		{
 			LeftHandOverlay.SetActive(true);
 			RelatedHandsController.SetActiveHand(this, NamedSlot.leftHand);

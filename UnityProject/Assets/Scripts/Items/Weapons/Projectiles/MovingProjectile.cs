@@ -67,7 +67,7 @@ namespace Weapons.Projectiles
 
 		private bool ProcessMovement(Vector2 distanceToTravel)
 		{
-			return projectile.ProcessMove(distanceToTravel, thisTransform.position);
+			return projectile.ProcessMove(distanceToTravel, thisTransform.position, previousPosition);
 		}
 
 		private void SimulateCollision()

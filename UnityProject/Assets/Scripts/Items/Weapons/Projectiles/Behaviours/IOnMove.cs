@@ -13,7 +13,8 @@ namespace Weapons.Projectiles.Behaviours
 		/// Called every update. Return true to stop the projectile.
 		/// </summary>
 		/// <param name="traveledDistance"></param>
+		/// <param name="previousWorldPosition"></param>
 		/// <returns> Used in bullet to request despawn </returns>
-		bool OnMove(Vector2 traveledDistance);
+		bool OnMove(Vector2 traveledDistance, Vector2 previousWorldPosition);
 	}
 }

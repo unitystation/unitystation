@@ -104,11 +104,12 @@ public class TileList
 	{
 		TempRegisterTiles.Clear();
 		TempRegisterTiles.AddRange(Get(localPosition));
-		foreach (var registerTile in TempRegisterTiles)
+
+		for (int i = TempRegisterTiles.Count - 1; i >= 0; i--)
 		{
-			if (registerTile != null) //explosions can delete many objects in this tile!
+			if (TempRegisterTiles[i] != null) //explosions can delete many objects in this tile!
 			{
-				action.Invoke(registerTile);
+				action.Invoke(TempRegisterTiles[i]);
 			}
 		}
 	}

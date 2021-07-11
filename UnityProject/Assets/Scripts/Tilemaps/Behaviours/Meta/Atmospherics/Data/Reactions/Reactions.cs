@@ -11,24 +11,5 @@ namespace Systems.Atmospherics
 		public const float MinimumOxygenContact = 0.009f;
 		public const float BurningDelta = 0.5f;
 		public const float EnergyPerMole = 30000;
-
-
-		private static List<Reaction> reactions = new List<Reaction>();
-
-		static Reactions()
-		{
-			reactions.Add(new PlasmaFireReaction());
-		}
-
-		public static void React(GasMix gasMix, Matrix matrix)
-		{
-			foreach (Reaction reaction in reactions)
-			{
-				if (reaction.Satisfies(gasMix))
-				{
-					reaction.React(gasMix, Vector3.zero, matrix);
-				}
-			}
-		}
 	}
 }

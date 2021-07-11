@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8678143530818271229}
   - component: {fileID: 5032005072641648648}
   m_Layer: 11
-  m_Name: Freezer
+  m_Name: DepreciatedFreezer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,9 +82,11 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
   ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
   passableExclusionsToThis: []
 --- !u!114 &114586167594770278
 MonoBehaviour:
@@ -116,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114837746968723888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,14 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114018429479872388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +166,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -179,7 +175,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114963427405820402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,10 +192,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &8678143530818271229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &5032005072641648648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,11 +225,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 3e13e554e4a9a77488f9c82a22ec05a5, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 5967373569650379141, guid: 837c89c8d01f2f1448f8d9eab06080dd,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!1 &1941829748320182
 GameObject:
@@ -237,6 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4881494772173230}
   - component: {fileID: 212477875683415970}
+  - component: {fileID: 5992955650579525618}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -309,3 +313,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5992955650579525618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941829748320182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 7b60e624c76e3db49a8c55ea210ec4e6, type: 2}
+  - {fileID: 11400000, guid: 9acd88ac94dc4dd46ae1bcff0e001963, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 7b60e624c76e3db49a8c55ea210ec4e6, type: 2}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []

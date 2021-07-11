@@ -695,7 +695,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		{
 			if (NetworkIdentity.spawned.TryGetValue(addInt, out var spawned) == false)
 			{
-				Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet?");
+				Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 				continue;
 			}
 
@@ -706,7 +706,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		{
 			if (NetworkIdentity.spawned.TryGetValue(addInt, out var spawned) == false)
 			{
-				Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet?");
+				Logger.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 				continue;
 			}
 
