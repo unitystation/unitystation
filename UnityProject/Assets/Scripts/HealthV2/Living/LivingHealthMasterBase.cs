@@ -144,7 +144,7 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public List<BodyPart> ImplantList = new List<BodyPart>();
+		public HashSet<BodyPart> ImplantList = new HashSet<BodyPart>();
 
 		/// <summary>
 		/// A list of all body part containers of the creature.
