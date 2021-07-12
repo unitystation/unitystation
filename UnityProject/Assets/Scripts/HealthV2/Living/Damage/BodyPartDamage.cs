@@ -326,6 +326,7 @@ namespace HealthV2
 		/// <param name="damageType">The type of damage</param>
 		public void AffectDamage(float damage, int damageType)
 		{
+			if (damage == 0) return;
 			float toDamage = Damages[damageType] + damage;
 
 			if (toDamage < 0) toDamage = 0;

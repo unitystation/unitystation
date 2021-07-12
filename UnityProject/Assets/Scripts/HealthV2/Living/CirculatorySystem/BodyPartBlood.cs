@@ -11,7 +11,6 @@ namespace HealthV2
 	/// Handles the body part's usage of the blood stream.
 	public partial class BodyPart
 	{
-
 		/// <summary>
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
 		/// </summary>
@@ -19,16 +18,18 @@ namespace HealthV2
 		public Modifier HungerModifier = new Modifier();
 
 
-		[Tooltip("Is this connected to the blood stream at all?")]
-		[SerializeField] private bool isBloodCirculated = true;
+		[Tooltip("Is this connected to the blood stream at all?")] [SerializeField]
+		private bool isBloodCirculated = true;
+
 		/// <summary>
 		/// Flag that is true if the body part is connected to the blood stream. If this is false
 		/// it will be ignored by circulatory organs (the heart).
 		/// </summary>
 		public bool IsBloodCirculated => isBloodCirculated;
 
-		[Tooltip("Does this consume reagents from its blood?")]
-		[SerializeField] private bool isBloodReagentConsumed = false;
+		[Tooltip("Does this consume reagents from its blood?")] [SerializeField]
+		private bool isBloodReagentConsumed = false;
+
 		/// <summary>
 		/// Flag that is true if the body part consumes reagents (eg oxygen) from the blood
 		/// </summary>
@@ -67,11 +68,12 @@ namespace HealthV2
 		/// <summary>
 		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
 		/// </summary>
-		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick?")]
-		[SerializeField] private float bloodReagentConsumed = 0.00002f;
+		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick?")] [SerializeField]
+		private float bloodReagentConsumed = 0.00002f;
 
-		[Tooltip("How much blood reagent does this request per blood pump event?")]
-		[SerializeField] private float bloodThroughput = 0.015f; //This will need to be reworked when heartrate gets finished
+		[Tooltip("How much blood reagent does this request per blood pump event?")] [SerializeField]
+		private float bloodThroughput = 0.015f; //This will need to be reworked when heartrate gets finished
+
 		/// <summary>
 		/// The amount of blood ReagentMix this body part will remove and add each blood pump event
 		/// Essentially controls the rate of blood flow through the organ
@@ -81,8 +83,8 @@ namespace HealthV2
 		/// <summary>
 		/// The nutriment reagent that this part consumes in order to perform tasks
 		/// </summary>
-		[Tooltip("What does this live off?")]
-		[SerializeField] public Reagent Nutriment;
+		[Tooltip("What does this live off?")] [SerializeField]
+		public Reagent Nutriment;
 
 		/// <summary>
 		/// The amount of of nutriment to consumed each tick as part of passive metabolism
@@ -102,6 +104,15 @@ namespace HealthV2
 		public HashSet<MetabolismReaction> MetabolismReactions = new HashSet<MetabolismReaction>();
 
 		/// <summary>
+		/// The National toxins that the body part makes ( give these to the liver to filter ) E.G Toxin
+		/// </summary>
+		[Tooltip("What reagent does this expel as waste?")]
+		public Chemistry.Reagent NaturalToxinReagent;
+
+
+		public float ToxinGeneration = 0.0002f;
+
+		/// <summary>
 		/// Initializes the body part as part of the circulatory system
 		/// </summary>
 		public void BloodInitialise()
@@ -111,18 +122,20 @@ namespace HealthV2
 			{
 				if (isBloodCirculated)
 				{
-					HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix, BloodStoredMax);
+					HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix,
+						BloodStoredMax);
 					//BloodContainer.CurrentReagentMix.Add(Nutriment, 0.01f);
 				}
+
 				BloodContainer.ContentsSet = true;
 			}
+
 			if (bloodType == null)
 			{
 				bloodType = HealthMaster.CirculatorySystem.BloodType;
 			}
 
 			AddModifier(HungerModifier);
-
 		}
 
 		/// <summary>
@@ -134,9 +147,15 @@ namespace HealthV2
 			ConsumeReagents();
 			ConsumeNutriments();
 			MetaboliseReactions();
+			NaturalToxicity();
 			//Assuming it's changed in this update since none of them use the Inbuilt functions
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
+		}
+
+		protected virtual void NaturalToxicity()
+		{
+			BloodContainer.CurrentReagentMix.Add(NaturalToxinReagent, ToxinGeneration);
 		}
 
 		protected virtual void MetaboliseReactions()
@@ -145,8 +164,9 @@ namespace HealthV2
 			float ReagentsProcessed = (ReagentMetabolism * TotalModified) / MetabolismReactions.Count;
 			foreach (var Reaction in MetabolismReactions)
 			{
-				Reaction.React(this, BloodContainer.CurrentReagentMix,  ReagentsProcessed);
+				Reaction.React(this, BloodContainer.CurrentReagentMix, ReagentsProcessed);
 			}
+
 			MetabolismReactions.Clear();
 		}
 
@@ -175,6 +195,7 @@ namespace HealthV2
 				var ratioNativeBlood = bloodCap / (bloodCap + foreignCap);
 				bloodSaturation = BloodContainer[requiredReagent] * ratioNativeBlood / bloodCap;
 			}
+
 			var info = HealthMaster.CirculatorySystem.BloodInfo;
 			float damage;
 			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
@@ -204,12 +225,15 @@ namespace HealthV2
 			{
 				if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
 				{
-					OxyHeal(BloodContainer.CurrentReagentMix, BloodContainer[requiredReagent] * (bloodSaturation - info.BLOOD_REAGENT_SATURATION_OKAY));
+					OxyHeal(BloodContainer.CurrentReagentMix,
+						BloodContainer[requiredReagent] * (bloodSaturation - info.BLOOD_REAGENT_SATURATION_OKAY));
 				}
+
 				//We already consumed some earlier as well
 				damage = -1;
 			}
-			AffectDamage(damage, (int)DamageType.Oxy);
+
+			AffectDamage(damage, (int) DamageType.Oxy);
 		}
 
 		/// <summary>
@@ -221,7 +245,7 @@ namespace HealthV2
 		{
 			if (Oxy <= 0) return;
 			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumed);
-			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumed, (int)DamageType.Oxy);
+			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumed, (int) DamageType.Oxy);
 		}
 
 		/// <summary>
@@ -240,6 +264,7 @@ namespace HealthV2
 					availableNutriment -= toConsume;
 					NutrimentHeal(toConsume);
 				}
+
 				if (availableNutriment < PassiveConsumptionNutriment * 7)
 				{
 					HungerModifier.Multiplier = 0.75f;
@@ -249,6 +274,7 @@ namespace HealthV2
 				{
 					HungerModifier.Multiplier = 1f;
 				}
+
 				BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
 			}
 			else
@@ -268,8 +294,8 @@ namespace HealthV2
 
 			for (int i = 0; i < Damages.Length; i++)
 			{
-				if ((int)DamageType.Oxy == i) continue;
-				HealDamage(null, (float)(Damages[i] / DamageMultiplier), i);
+				if ((int) DamageType.Oxy == i) continue;
+				HealDamage(null, (float) (Damages[i] / DamageMultiplier), i);
 			}
 		}
 
@@ -303,6 +329,7 @@ namespace HealthV2
 			{
 				bloodIn.TransferTo(BloodContainer.CurrentReagentMix, bloodIn.Total);
 			}
+
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
 			BloodWasPumped();
