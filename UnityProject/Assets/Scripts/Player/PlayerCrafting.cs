@@ -5,10 +5,14 @@ using UnityEngine;
 
 namespace Player
 {
+	/// <summary>
+	/// A class that deals with the processing of crafting items by a player.
+	/// </summary>
 	[RequireComponent(typeof(PlayerScript))]
 	public class PlayerCrafting : MonoBehaviour
 	{
-		[SerializeField] private List<RecipeV2>[] knownRecipesByCategory =
+		[SerializeField] [Tooltip("Default recipes known to a player.")]
+		private List<RecipeV2>[] knownRecipesByCategory =
 		{
 			// see enum CraftingCategory
 			new List<RecipeV2>(),
@@ -16,6 +20,9 @@ namespace Player
 			new List<RecipeV2>()
 		};
 
+		/// <summary>
+		/// The list of currently known recipes for a player by category.
+		/// </summary>
 		public List<RecipeV2>[] KnownRecipesByCategory => knownRecipesByCategory;
 
 		private PlayerScript playerScript;
@@ -38,11 +45,43 @@ namespace Player
 			directional = GetComponent<Directional>();
 		}
 
+		/// <summary>
+		/// Checks if a player already knows the recipe.
+		/// </summary>
+		/// <param name="recipe">The recipe to check.</param>
+		/// <returns>True, if a player already knows the recipe, false otherwise.</returns>
+		public bool KnowRecipe(RecipeV2 recipe)
+		{
+			return KnownRecipesByCategory[(int) recipe.Category].Contains(recipe);
+		}
+
+		/// <summary>
+		/// Adds the recipe to the KnownRecipesByCategory[] if it doesn't already contains the recipe.
+		/// </summary>
+		/// <param name="recipe">The recipe to add.</param>
 		public void LearnRecipe(RecipeV2 recipe)
 		{
+			if (KnowRecipe(recipe))
+			{
+				return;
+			}
 			KnownRecipesByCategory[(int) recipe.Category].Add(recipe);
 		}
 
+		/// <summary>
+		/// Removes the recipe from the KnownRecipesByCategory[]
+		/// </summary>
+		/// <param name="recipe">The recipe to remove.</param>
+		public void ForgetRecipe(RecipeV2 recipe)
+		{
+			KnownRecipesByCategory[(int) recipe.Category].Remove(recipe);
+		}
+
+		/// <summary>
+		/// Checks if a player able to craft according to the recipe(ignoring its ingredients, tools, etc).
+		/// </summary>
+		/// <param name="recipe">The recipe to check.</param>
+		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
 		public bool IsPlayerAbleToCraft(RecipeV2 recipe)
 		{
 			return !PlayerScript.playerMove.IsCuffed
@@ -55,11 +94,25 @@ namespace Player
 			       && KnownRecipesByCategory[(int) recipe.Category].Contains(recipe);
 		}
 
+		/// <summary>
+		/// Checks if a player able to craft according to the recipe(including its ingredients, tools, etc).
+		/// Will get the possible ingredients from a tile that a player is directed to.
+		/// Will get the possible tools from a player's hands.
+		/// </summary>
+		/// <param name="recipe">The recipe to check.</param>
+		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
 		public bool CanCraft(RecipeV2 recipe)
 		{
 			return CanCraft(recipe, GetPossibleIngredients(), GetPossibleTools());
 		}
 
+		/// <summary>
+		/// Checks if a player able to craft the recipe(including its ingredients, tools, etc).
+		/// </summary>
+		/// <param name="recipe">The recipe to check.</param>
+		/// <param name="possibleIngredients"></param>
+		/// <param name="possibleTools"></param>
+		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
 		public bool CanCraft(
 			RecipeV2 recipe,
 			List<ItemAttributesV2> possibleIngredients,
@@ -69,6 +122,10 @@ namespace Player
 			return IsPlayerAbleToCraft(recipe) && recipe.CanBeCrafted(possibleIngredients, possibleTools);
 		}
 
+		/// <summary>
+		/// Gets all reachable items from a tile that a player is directed to.
+		/// </summary>
+		/// <returns>All reachable items from a tile that a player is directed to.</returns>
 		private List<ItemAttributesV2> GetPossibleIngredients()
 		{
 			Vector3Int ingredientsSourceVector = playerScript.WorldPos;
@@ -93,6 +150,10 @@ namespace Player
 			return possibleIngredients;
 		}
 
+		/// <summary>
+		/// Gets all tools that a player holds in his hands.
+		/// </summary>
+		/// <returns></returns>
 		private List<ItemAttributesV2> GetPossibleTools()
 		{
 			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
@@ -107,6 +168,10 @@ namespace Player
 			return possibleTools;
 		}
 
+		/// <summary>
+		/// Tries to start a crafting action
+		/// </summary>
+		/// <param name="recipe">The recipe to try to craft.</param>
 		public void TryToStartCrafting(RecipeV2 recipe)
 		{
 			if (!CanCraft(recipe))
@@ -125,6 +190,10 @@ namespace Player
 			).ServerStartProgress(playerScript.registerTile, recipe.CraftingTime, playerScript.gameObject);
 		}
 
+		/// <summary>
+		/// Tries to finish a crafting action.
+		/// </summary>
+		/// <param name="recipe">The recipe to try to finish crafting.</param>
 		public void TryToFinishCrafting(RecipeV2 recipe)
 		{
 			List<ItemAttributesV2> possibleIngredients = GetPossibleIngredients();
@@ -139,11 +208,9 @@ namespace Player
 			}
 
 			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript.gameObject);
-
-			return;
 		}
 	}
-
+	
 	public enum CraftingCategory
 	{
 		Weapons = 0,
