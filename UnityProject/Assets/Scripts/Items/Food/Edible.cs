@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
@@ -123,10 +125,24 @@ namespace Items.Food
 				//No stomachs?!
 				return;
 			}
-			FoodContents.Divide(Stomachs.Count);
+
+			ReagentMix incomingFood = new ReagentMix();
+			FoodContents.CurrentReagentMix.TransferTo(incomingFood, FoodContents.CurrentReagentMix.Total);
+
+			ReagentContainer[] childContainers = GetComponentsInChildren<ReagentContainer>();
+
+			if (childContainers.Length > 0)
+			{
+				for (int i = childContainers.Length - 1; i >= 0; i--)
+				{
+					childContainers[i].CurrentReagentMix.TransferTo(incomingFood, childContainers[i].ReagentMixTotal);
+				}
+			}
+
+			incomingFood.Divide(Stomachs.Count);
 			foreach (var Stomach in Stomachs)
 			{
-				Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				Stomach.StomachContents.Add(incomingFood.Clone());
 			}
 
 
