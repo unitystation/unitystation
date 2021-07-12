@@ -26,6 +26,12 @@ namespace Player
 
 		public Directional Directional => directional;
 
+		private StandardProgressActionConfig craftProgressActionConfig = new StandardProgressActionConfig(
+			StandardProgressActionType.Craft
+		);
+
+		public StandardProgressActionConfig CraftProgressActionConfig => craftProgressActionConfig;
+
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
@@ -51,11 +57,44 @@ namespace Player
 
 		public bool CanCraft(RecipeV2 recipe)
 		{
-			if (!IsPlayerAbleToCraft(recipe))
+			return CanCraft(recipe, GetPossibleIngredients(), GetPossibleTools());
+		}
+
+		public bool CanCraft(
+			RecipeV2 recipe,
+			List<ItemAttributesV2> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
+			return IsPlayerAbleToCraft(recipe) && recipe.CanBeCrafted(possibleIngredients, possibleTools);
+		}
+
+		private List<ItemAttributesV2> GetPossibleIngredients()
+		{
+			Vector3Int ingredientsSourceVector = playerScript.WorldPos;
+			List<ItemAttributesV2> possibleIngredients = new List<ItemAttributesV2>();
+			// it's unlikely that it will be null, but we are not immune from this case
+			if (directional != null)
 			{
-				return false;
+				ingredientsSourceVector = PlayerScript.WorldPos + (Vector3Int) directional.CurrentDirection.VectorInt;
 			}
 
+			// no one knows how to craft through walls yet, so let's ignore the things behind the wall or something else
+			if (Validations.IsReachableByPositions(
+				playerScript.WorldPos,
+				ingredientsSourceVector,
+				true,
+				context: playerScript.gameObject
+			))
+			{
+				possibleIngredients = MatrixManager.GetAt<ItemAttributesV2>(ingredientsSourceVector, true);
+			}
+
+			return possibleIngredients;
+		}
+
+		private List<ItemAttributesV2> GetPossibleTools()
+		{
 			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
 			foreach (ItemSlot handSlot in playerScript.DynamicItemStorage.GetHandSlots())
 			{
@@ -65,56 +104,43 @@ namespace Player
 				}
 			}
 
-			Vector3Int ingredientsSourceVector = playerScript.WorldPos;
-			List<ItemAttributesV2> possibleIngredients;
-			// it's unlikely that it will be null, but we are not immune from this case
-			if (directional != null)
-			{
-				ingredientsSourceVector = PlayerScript.WorldPos + (Vector3Int) directional.CurrentDirection.VectorInt;
-			}
-
-			possibleIngredients = MatrixManager.GetAt<ItemAttributesV2>(ingredientsSourceVector, true);
-
-			// no one knows how to craft through walls yet, so let's ignore the things behind the wall or something else
-			for (int i = possibleIngredients.Count - 1; i >= 0; i--)
-			{
-				if (!Validations.IsReachableByPositions(
-					playerScript.WorldPos,
-					ingredientsSourceVector,
-					true,
-					context: playerScript.gameObject
-				))
-				{
-					// sadly we can't get the elements as a LinkedList to make this algorithm more efficient
-					possibleIngredients.RemoveAt(i);
-				}
-			}
-
-			return recipe.CanBeCrafted(possibleIngredients, possibleTools);
+			return possibleTools;
 		}
 
-		public bool TryToStartCrafting(RecipeV2 recipe)
+		public void TryToStartCrafting(RecipeV2 recipe)
 		{
 			if (!CanCraft(recipe))
 			{
-				// feedback for a player?
+				return;
 			}
 
-			// start crafting action?
+			Chat.AddExamineMsgFromServer(
+				playerScript.gameObject,
+				$"You are trying to craft {recipe.RecipeName}..."
+			);
 
-			return true;
+			StandardProgressAction.Create(
+				craftProgressActionConfig,
+				() => TryToFinishCrafting(recipe)
+			).ServerStartProgress(playerScript.registerTile, recipe.CraftingTime, playerScript.gameObject);
 		}
 
-		public bool TryToFinishCrafting(RecipeV2 recipe)
+		public void TryToFinishCrafting(RecipeV2 recipe)
 		{
-			if (!CanCraft(recipe))
+			List<ItemAttributesV2> possibleIngredients = GetPossibleIngredients();
+			List<ItemAttributesV2> possibleTools = GetPossibleTools();
+			if (!CanCraft(recipe, possibleIngredients, possibleTools))
 			{
-				// feedback for a player?
+				Chat.AddExamineMsgFromServer(
+					playerScript.gameObject,
+					$"Wait, where's mine... Oh, forget it, I can't craft it anymore."
+				);
+				return;
 			}
 
-			// recipe.CompleteCrafting()?
+			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript.gameObject);
 
-			return true;
+			return;
 		}
 	}
 

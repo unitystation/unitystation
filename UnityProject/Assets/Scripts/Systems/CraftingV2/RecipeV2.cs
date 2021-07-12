@@ -38,6 +38,11 @@ public class RecipeV2 : ScriptableObject
 
 	public List<RecipeV2> ChildrenRecipes => childrenRecipes;
 
+	[SerializeField]
+	private string recipeName = "Undefined";
+
+	public string RecipeName => recipeName;
+
 	[SerializeField] [Min(0)]
 	private float craftingTime;
 
@@ -120,6 +125,15 @@ public class RecipeV2 : ScriptableObject
 			return;
 		}
 
+		UnsafelyCraft(possibleIngredients, possibleTools, crafterGameObject);
+	}
+
+	public void UnsafelyCraft(
+		List<ItemAttributesV2> possibleIngredients,
+		List<ItemAttributesV2> possibleTools,
+		GameObject crafterGameObject
+	)
+	{
 		foreach (IngredientV2 requiredIngredient in requiredIngredients)
 		{
 			int usedIngredientsCounter = 0;
