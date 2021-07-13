@@ -35,7 +35,7 @@ public static class MouseUtils
 	/// </summary>
 	public static Vector3 MouseToWorldPos()
 	{
-		var worldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt();
+		var worldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 		worldPos.z = 0;
 		return worldPos;
 	}
