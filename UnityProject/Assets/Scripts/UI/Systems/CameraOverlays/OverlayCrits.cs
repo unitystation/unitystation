@@ -68,6 +68,20 @@ using System.Collections;
 
 		void AdjustShroud(float state)
 		{
+			if (PlayerManager.LocalPlayerScript.OrNull()?.mind != null)
+			{
+				if (PlayerManager.LocalPlayerScript.mind.IsGhosting)
+				{
+					state = 1;
+				}
+			}
+
+			if (state <= -1)
+			{
+				//is Dead do not show overly
+				state = 1;
+			}
+
 
 			//_Color A 0.0 to 0.60
 			//0.0 = 0.5 to 0.60 = -0.66
