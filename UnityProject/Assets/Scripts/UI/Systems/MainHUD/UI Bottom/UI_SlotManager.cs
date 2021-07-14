@@ -31,6 +31,7 @@ public class UI_SlotManager : MonoBehaviour
 		EventManager.AddHandler(Event.LoggedOut, RemoveAll);
 		EventManager.AddHandler(Event.PlayerSpawned, RemoveAll);
 		EventManager.AddHandler(Event.RoundEnded, RemoveAll);
+		EventManager.AddHandler(Event.PreRoundStarted, RemoveAll);
 	}
 
 	public void AddContainer(IDynamicItemSlotS bodyPartUISlots)
