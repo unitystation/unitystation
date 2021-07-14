@@ -121,12 +121,13 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
-		if (!interaction.IsAltClick) return false;
-
-		if (interaction.UsedObject == null)
+		if (PlayerManager.PlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) || interaction.IsAltClick)
 		{
-			// nothing in hand, just open / close the backpack
-			return Interact(HandActivate.ByLocalPlayer());
+			if (interaction.UsedObject == null)
+			{
+				// nothing in hand, just open / close the backpack
+				return Interact(HandActivate.ByLocalPlayer());
+			}
 		}
 
 		return false;
