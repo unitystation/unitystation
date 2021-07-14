@@ -9,7 +9,7 @@ public class CirculatoryInfo : ScriptableObject
 	[Tooltip("Maximum amount of blood in the system.")]
 	public float BLOOD_MAX = 700;
 	public float BLOOD_SLIME_SPLIT = 350;
-	[Tooltip("The normal amount of blood in the body. 5000mL is the human average.")]
+	[Tooltip("The normal amount of blood in the body.")]
 	public float BLOOD_NORMAL = 500; //Normal blood in the body. 5L for a human.
 	[Tooltip("Below this, you'll start to feel symptoms, like being light headed.")]
 	public float BLOOD_SAFE = 375; //Below this, you'll start to feel symptoms, like being light headed.
