@@ -139,20 +139,19 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			if (HealthPercentage > -0.66f)
 			{
 				CurrentSpriteSet = 3;
-				overlayCrits.SetState(HealthPercentage);
 			}
 			else if (HealthPercentage > -1)
 			{
 				// crit state has 2 sprite sets (blinking)
 				// so next state is 6 instead of 5
 				CurrentSpriteSet = 4;
-				overlayCrits.SetState(HealthPercentage);
 			}
 			else
 			{
 				CurrentSpriteSet = 6;
-				overlayCrits.SetState(HealthPercentage);
+
 			}
+			overlayCrits.SetState(HealthPercentage);
 		}
 
 
