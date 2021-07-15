@@ -135,6 +135,7 @@ namespace Systems.Spawns
 
 			{ JobType.CENTCOMM_COMMANDER, SpawnPointCategory.CentCommCommander },
 			{ JobType.CENTCOMM_OFFICER, SpawnPointCategory.CentComm },
+			{ JobType.REDSHIELD_OFFICER, SpawnPointCategory.CentComm },
 			{ JobType.CENTCOMM_INTERN, SpawnPointCategory.CentComm },
 			{ JobType.ERT_COMMANDER, SpawnPointCategory.EmergencyResponseTeam },
 			{ JobType.ERT_SECURITY, SpawnPointCategory.EmergencyResponseTeam },
