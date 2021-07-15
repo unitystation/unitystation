@@ -493,8 +493,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.Broadcast(Event.RoundEnded, true);
 		counting = false;
 
-		GameMode.EndRound();
 		StartCoroutine(WaitForRoundRestart());
+		GameMode.EndRoundReport();
 
 		_ = SoundManager.PlayNetworked(endOfRoundSounds.GetRandomClip());
 	}

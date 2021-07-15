@@ -386,7 +386,7 @@ namespace GameModes
 		/// <summary>
 		/// End the round and display any relevant reports
 		/// </summary>
-		public virtual void EndRound()
+		public void EndRoundReport()
 		{
 			Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
 			StationObjectiveManager.Instance.ShowStationStatusReport();
