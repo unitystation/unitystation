@@ -75,7 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StomachContents: {fileID: 0}
   DigesterAmountPerSecond: 1
   BodyFats: []
   BodyFatToInstantiate: {fileID: 5722168868389364961, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
@@ -93,11 +92,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 64dcf963a85219640a1f5875fa7c43b7,
         type: 2}
-    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -188,6 +182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyPartType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
