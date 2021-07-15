@@ -4,6 +4,8 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Systems.Clothing;
+using NaughtyAttributes;
+using Unity.Collections;
 
 namespace Items
 {
@@ -195,7 +197,7 @@ namespace Items
 		[SerializeField]
 		private ItemsSprites itemSprites;
 
-		[SerializeField] [Tooltip("Recipes that have this item as an ingredient.")]
+		[SerializeField, NaughtyAttributes.ReadOnly] [Tooltip("Recipes that have this item as an ingredient.")]
 		private List<RelatedRecipe> relatedRecipes = new List<RelatedRecipe>();
 
 		/// <summary>
