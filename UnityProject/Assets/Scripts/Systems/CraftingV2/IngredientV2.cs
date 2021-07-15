@@ -1,5 +1,4 @@
 ﻿using System;
-using Items;
 using UnityEngine;
 
 /// <summary>
@@ -8,20 +7,19 @@ using UnityEngine;
 [Serializable]
 public class IngredientV2
 {
-
 	[SerializeField] [Min(1)] [Tooltip("The amount of required items.")]
 	private int requiredAmount = 1;
 
 	/// <summary>
 	/// The amount of required items.
 	/// </summary>
-	public int RequiredAmount => requiredAmount;
+	public int RequiredAmount { get; set; }
 
-	[SerializeField] [Tooltip("The required item.")]
-	private ItemAttributesV2 requiredItem;
+	[SerializeField] [Tooltip("The required item. Includes all of its children (prefab variants).")]
+	private GameObject requiredItem;
 
 	/// <summary>
-	/// The required item.
+	/// The required item. Includes all of its children (prefab variants).
 	/// </summary>
-	public ItemAttributesV2 RequiredItem => requiredItem;
+	public GameObject RequiredItem => requiredItem;
 }

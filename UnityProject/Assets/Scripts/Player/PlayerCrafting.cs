@@ -12,18 +12,12 @@ namespace Player
 	public class PlayerCrafting : MonoBehaviour
 	{
 		[SerializeField] [Tooltip("Default recipes known to a player.")]
-		private List<RecipeV2>[] knownRecipesByCategory =
-		{
-			// see enum CraftingCategory
-			new List<RecipeV2>(),
-			new List<RecipeV2>(),
-			new List<RecipeV2>()
-		};
+		private List<List<RecipeV2>> knownRecipesByCategory = new List<List<RecipeV2>>();
 
 		/// <summary>
 		/// The list of currently known recipes for a player by category.
 		/// </summary>
-		public List<RecipeV2>[] KnownRecipesByCategory => knownRecipesByCategory;
+		public List<List<RecipeV2>> KnownRecipesByCategory => knownRecipesByCategory;
 
 		private PlayerScript playerScript;
 
@@ -202,7 +196,7 @@ namespace Player
 			{
 				Chat.AddExamineMsgFromServer(
 					playerScript.gameObject,
-					$"Wait, where's mine... Oh, forget it, I can't craft it anymore."
+					"Wait, where's mine... Oh, forget it, I can't craft it anymore."
 				);
 				return;
 			}
@@ -210,7 +204,7 @@ namespace Player
 			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript.gameObject);
 		}
 	}
-	
+
 	public enum CraftingCategory
 	{
 		Weapons = 0,

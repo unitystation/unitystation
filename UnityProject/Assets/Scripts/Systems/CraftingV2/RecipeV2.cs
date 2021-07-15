@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Items;
 using Player;
 using UnityEngine;
@@ -122,24 +123,53 @@ public class RecipeV2 : ScriptableObject
 	/// <returns>True if there are enough ingredients for crafting, false otherwise.</returns>
 	private bool CheckPossibleIngredients(List<ItemAttributesV2> possibleIngredients)
 	{
-		foreach (IngredientV2 requiredIngredient in RequiredIngredients)
+		for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 		{
 			int countedAmount = 0;
-			for (int i = 0; i < possibleIngredients.Count; i++)
+			foreach (ItemAttributesV2 possibleIngredient in possibleIngredients)
 			{
-				if (requiredIngredient.RequiredItem.InitialName != possibleIngredients[i].InitialName)
+				foreach (RelatedRecipe relatedRecipe in possibleIngredient.RelatedRecipes)
 				{
-					continue;
+					// is it not an ingredient in this recipe?
+					if (relatedRecipe.Recipe != this)
+					{
+						continue;
+					}
+
+					// is the ingredient included in this recipe, but we are still processing another ingredient?
+					if (reqIngIndex != relatedRecipe.IngredientIndex)
+					{
+						continue;
+					}
+
+					// okay, this is what we're looking for. We "use" this ingredient
+					if (possibleIngredient.TryGetComponent(out Stackable stackable))
+					{
+						countedAmount = Math.Min(
+							countedAmount + stackable.Amount,
+							RequiredIngredients[reqIngIndex].RequiredAmount
+						);
+					}
+					else
+					{
+						countedAmount++;
+					}
+
+					break;
 				}
 
-				if (++countedAmount == requiredIngredient.RequiredAmount)
+				// do we have enough ingredients of this type when "using" the possibleIngredient?
+				if (countedAmount == RequiredIngredients[reqIngIndex].RequiredAmount)
 				{
+					// yes, so let's search for another requiredIngredient
 					break;
 				}
 			}
 
-			if (countedAmount != requiredIngredient.RequiredAmount)
+			// did we looked through all the possibleIngredients, but did not find enough necessary ones?
+			if (countedAmount != RequiredIngredients[reqIngIndex].RequiredAmount)
 			{
+				// yes, so crafting according to the recipe is impossible
 				return false;
 			}
 		}
@@ -179,19 +209,57 @@ public class RecipeV2 : ScriptableObject
 		GameObject crafterGameObject
 	)
 	{
-		foreach (IngredientV2 requiredIngredient in requiredIngredients)
+		for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 		{
 			int usedIngredientsCounter = 0;
 			foreach (ItemAttributesV2 possibleIngredient in possibleIngredients)
 			{
-				if (requiredIngredient.RequiredItem.InitialName != possibleIngredient.InitialName)
+				foreach (RelatedRecipe relatedRecipe in possibleIngredient.RelatedRecipes)
 				{
-					continue;
+					// is it not an ingredient in this recipe?
+					if (relatedRecipe.Recipe != this)
+					{
+						continue;
+					}
+
+					// is the ingredient included in this recipe, but we are still processing another ingredient?
+					if (reqIngIndex != relatedRecipe.IngredientIndex)
+					{
+						continue;
+					}
+
+					// okay, this is what we're looking for. We use this ingredient
+					if (possibleIngredient.TryGetComponent(out Stackable stackable))
+					{
+						if (
+							usedIngredientsCounter + stackable.Amount
+							<= RequiredIngredients[reqIngIndex].RequiredAmount
+						)
+						{
+							stackable.ServerConsume(stackable.Amount);
+						}
+						else
+						{
+							stackable.ServerConsume(
+								usedIngredientsCounter
+								+ stackable.Amount
+								- RequiredIngredients[reqIngIndex].RequiredAmount
+							);
+						}
+						usedIngredientsCounter = Math.Min(
+							usedIngredientsCounter + stackable.Amount,
+							RequiredIngredients[reqIngIndex].RequiredAmount
+						);
+					}
+					else
+					{
+						usedIngredientsCounter++;
+						_ = Despawn.ServerSingle(possibleIngredient.gameObject);
+					}
+
+					break;
 				}
-
-				_ = Despawn.ServerSingle(possibleIngredient.gameObject);
-
-				if (++usedIngredientsCounter >= requiredIngredient.RequiredAmount)
+				if (usedIngredientsCounter == RequiredIngredients[reqIngIndex].RequiredAmount)
 				{
 					break;
 				}
