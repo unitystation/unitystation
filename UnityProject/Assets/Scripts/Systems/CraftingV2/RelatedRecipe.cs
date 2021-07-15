@@ -1,5 +1,10 @@
-﻿public class RelatedRecipe
+﻿using System;
+using UnityEngine;
+
+[Serializable]
+public class RelatedRecipe
 {
+	[SerializeField]
 	private RecipeV2 recipe;
 
 	public RecipeV2 Recipe
@@ -8,6 +13,7 @@
 		set => recipe = value;
 	}
 
+	[SerializeField]
 	private int ingredientIndex;
 
 	public int IngredientIndex

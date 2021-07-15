@@ -73,11 +73,9 @@ namespace Systems.CraftingV2
 					ClearRelatedRecipes((RecipeV2) target);
 					serializedObject.ApplyModifiedProperties();
 					ReAddRelatedRecipes((RecipeV2) target);
+					return;
 				}
-				else
-				{
-					serializedObject.ApplyModifiedProperties();
-				}
+				serializedObject.ApplyModifiedProperties();
 			}
 		}
 
@@ -93,8 +91,14 @@ namespace Systems.CraftingV2
 			{
 				if (ingredient.RequiredItem.gameObject.TryGetComponent(out ItemAttributesV2 itemAttributes))
 				{
-					itemAttributes.RelatedRecipes.Clear();
-					// serialize?
+					for (int i = itemAttributes.RelatedRecipes.Count - 1; i >= 0; i--)
+					{
+						if (itemAttributes.RelatedRecipes[i].Recipe == recipe)
+						{
+							itemAttributes.RelatedRecipes.RemoveAt(i);
+						}
+					}
+					PrefabUtility.SavePrefabAsset(itemAttributes.gameObject);
 				}
 			}
 		}
@@ -110,7 +114,7 @@ namespace Systems.CraftingV2
 				)
 				{
 					itemAttributes.RelatedRecipes.Add(new RelatedRecipe(recipe, i));
-					// serialize?
+					PrefabUtility.SavePrefabAsset(itemAttributes.gameObject);
 				}
 			}
 		}
