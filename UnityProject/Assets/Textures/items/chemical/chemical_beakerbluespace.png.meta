@@ -14,8 +14,23 @@ TextureImporter:
   - first:
       213: 21300006
     second: beakerbluespace_3
+  - first:
+      213: 3080587798649157016
+    second: chemical_beakerbluespace_0
+  - first:
+      213: -3903488280222452351
+    second: chemical_beakerbluespace_1
+  - first:
+      213: 111342108458207556
+    second: chemical_beakerbluespace_2
+  - first:
+      213: -4836042156101517195
+    second: chemical_beakerbluespace_3
+  - first:
+      213: 1160335281516030405
+    second: chemical_beakerbluespace_4
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -35,6 +50,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -69,6 +85,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -98,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: beakerbluespace_0
+      name: chemical_beakerbluespace_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 895b2edf74270ca20800000000000000
+      internalID: 3080587798649157016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: beakerbluespace_1
+      name: chemical_beakerbluespace_1
       rect:
         serializedVersion: 2
         x: 32
@@ -133,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 185b078371604d9c0800000000000000
+      internalID: -3903488280222452351
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: beakerbluespace_2
+      name: chemical_beakerbluespace_2
       rect:
         serializedVersion: 2
         x: 64
@@ -154,14 +172,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 449c137ce019b8100800000000000000
+      internalID: 111342108458207556
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: beakerbluespace_3
+      name: chemical_beakerbluespace_3
       rect:
         serializedVersion: 2
         x: 96
@@ -175,8 +193,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: 57041ce084de2ecb0800000000000000
+      internalID: -4836042156101517195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chemical_beakerbluespace_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c9ad137ac65a1010800000000000000
+      internalID: 1160335281516030405
       vertices: []
       indices: 
       edges: []
