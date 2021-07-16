@@ -68,6 +68,7 @@ namespace Doors
 		public bool IsPerformingAction => isPerformingAction;
 		public bool HasPower => APCPoweredDevice.IsOn(apc.State);
 
+
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
 		private SpriteRenderer spriteRenderer;
@@ -146,6 +147,15 @@ namespace Doors
 				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
 				{
 					canOpen = false;
+				}
+
+				if(signal == ModuleSignal.ContinueRegardlessOfOtherModulesStates)
+				{
+					//(Max): This is to prevent some modules breaking some door behavior and rendering them un-useable.
+					//Only use this signal if you're module's logic is being interrupted by other
+					//modules that are sending ContinueWithoutDoorStateChange as a signal.
+					canOpen = true;
+					break;
 				}
 
 				if (signal == ModuleSignal.SkipRemaining || signal == ModuleSignal.Break)
@@ -492,6 +502,7 @@ namespace Doors
 			return true;
 		}
 
+
 		public void StartInputCoolDown()
 		{
 			allowInput = false;
@@ -676,7 +687,11 @@ namespace Doors
 				if(module is BoltsModule bolts)
 				{
 					valuesToSend.Add(new ElementValue() { Id = "BoltLabel", Value = Encoding.UTF8.GetBytes(bolts.BoltsDown ? "Bolted" : "Unbolted") });
-					break;
+				}
+
+				if (module is ElectrifiedDoorModule electric)
+				{
+					valuesToSend.Add(new ElementValue() { Id = "ShockStateLabel", Value = Encoding.UTF8.GetBytes(electric.IsElectrecuted ? "DANGER" : "SAFE") });
 				}
 			}
 

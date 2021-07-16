@@ -106,47 +106,55 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		float maxHealth = PlayerManager.LocalPlayerScript.playerHealth.MaxHealth;
 		overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
 
-		if (overallHealthCache >= maxHealth)
+		float HealthPercentage = overallHealthCache / maxHealth;
+		for (int i = 0; i < 1; i++)
 		{
-			CurrentSpriteSet = 0;
-			overlayCrits.SetState(OverlayState.normal);
+			if (HealthPercentage >= 1)
+			{
+				CurrentSpriteSet = 0;
+				overlayCrits.SetState(HealthPercentage);
+				break;
+			}
+			else if (HealthPercentage >= 0.66f)
+			{
+				CurrentSpriteSet = 1;
+				overlayCrits.SetState(HealthPercentage);
+				break;
+			}
+			else if (HealthPercentage >= 0.33f)
+			{
+				CurrentSpriteSet = 2;
+				overlayCrits.SetState(HealthPercentage);
+				break;
+			}
+			else if (HealthPercentage > 0)
+			{
+				CurrentSpriteSet = 3;
+				overlayCrits.SetState(HealthPercentage);
+				break;
+			}
+
+			HealthPercentage = overallHealthCache / 100f;
+
+			if (HealthPercentage > -0.66f)
+			{
+				CurrentSpriteSet = 3;
+			}
+			else if (HealthPercentage > -1)
+			{
+				// crit state has 2 sprite sets (blinking)
+				// so next state is 6 instead of 5
+				CurrentSpriteSet = 4;
+			}
+			else
+			{
+				CurrentSpriteSet = 6;
+
+			}
+			overlayCrits.SetState(HealthPercentage);
 		}
-		else if (overallHealthCache >= maxHealth*(2/3))
-		{
-			CurrentSpriteSet = 1;
-			overlayCrits.SetState(OverlayState.normal);
-		}
-		else if (overallHealthCache <= maxHealth*(2/3) &&
-			overallHealthCache > maxHealth/3)
-		{
-			CurrentSpriteSet = 2;
-			overlayCrits.SetState(OverlayState.injured);
-		}
-		else if (overallHealthCache <= maxHealth/3 &&
-			overallHealthCache > 0)
-		{
-			CurrentSpriteSet = 3;
-			overlayCrits.SetState(OverlayState.injured);
-		}
-		else if (overallHealthCache <= 0 &&
-			overallHealthCache > -15)
-		{
-			CurrentSpriteSet = 3;
-			overlayCrits.SetState(OverlayState.unconscious);
-		}
-		else if (overallHealthCache <= -15 &&
-			overallHealthCache > -100)
-		{
-			// crit state has 2 sprite sets (blinking)
-			// so next state is 6 instead of 5
-			CurrentSpriteSet = 4;
-			overlayCrits.SetState(OverlayState.crit);
-		}
-		else if (overallHealthCache <= -100)
-		{
-			CurrentSpriteSet = 6;
-			overlayCrits.SetState(OverlayState.death);
-		}
+
+
 
 		// crit state has 2 sprite sets (blinking)
 		if (CurrentSpriteSet != 4 && CurrentSpriteSet != 5)

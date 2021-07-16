@@ -17,6 +17,7 @@ namespace Systems.Atmospherics
 		private float PushMultiplier = 5;
 
 		private GameObject fireLight = null;
+		public GameObject FireLightPrefab => fireLight;
 
 		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
 
@@ -102,15 +103,7 @@ namespace Systems.Atmospherics
 				{
 					addedHotspot.node.Hotspot = addedHotspot;
 					hotspots.TryAdd(addedHotspot.node.Position, addedHotspot.node);
-					tileChangeManager.AddOverlay(
-						new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
-						TileType.Effects, "Fire");
-
-					if (fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
-
-					var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
-
-					fireLightDictionary.Add(addedHotspot.node.Position, fireLightSpawn.GameObject);
+					addedHotspot.OnCreation();
 				}
 			}
 
@@ -122,37 +115,23 @@ namespace Systems.Atmospherics
 				    // could happen if multiple things try to remove a hotspot to the same tile)
 				    affectedNode.HasHotspot)
 				{
+					affectedNode.Hotspot.OnRemove();
 					affectedNode.Hotspot = null;
-					tileChangeManager.RemoveOverlaysOfType(
-						new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
-						LayerType.Effects, OverlayType.Fire);
 					hotspots.TryRemove(removedHotspot, out var value);
-
-					if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
-
-					var fireObject = fireLightDictionary[affectedNode.Position];
-
-					if (fireObject != null)
-					{
-						_ = Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
-					}
-
-					fireLightDictionary.Remove(affectedNode.Position);
 				}
 			}
 
 			hotspotsToAdd.Clear();
 			hotspotsToRemove.Clear();
 
+			//Do hotspot checks every 0.5 seconds
 			timePassed += Time.deltaTime;
 			if (timePassed < 0.5)
 			{
 				Profiler.EndSample();
 				return;
 			}
-
 			timePassed = 0;
-			reactionTick++;
 
 			//hotspot spread to adjacent tiles and damage
 			foreach (MetaDataNode node in hotspots.Values)
@@ -166,6 +145,7 @@ namespace Systems.Atmospherics
 				}
 			}
 
+			reactionTick++;
 			Profiler.EndSample();
 		}
 
@@ -211,35 +191,40 @@ namespace Systems.Atmospherics
 
 		public void DoTick()
 		{
-			if (reactionTick == 0)
+			if (reactionTick <= 3)
 			{
 				return;
 			}
 
-			reactionTick--;
+			reactionTick = 0;
 
 			//process the current hotspots, removing ones that can't sustain anymore.
 			//(but we actually perform the add / remove after this loop so we don't concurrently modify the dict)
 			foreach (MetaDataNode node in hotspots.Values)
 			{
-				if (node.Hotspot != null)
+				if (IsAllowedHotSpot(node))
 				{
-					if (PlasmaFireReaction.CanHoldHotspot(node.GasMix))
-					{
-						node.Hotspot.Process();
-					}
-					else
-					{
-						RemoveHotspot(node);
-					}
+					node.Hotspot.Process();
+				}
+				else
+				{
+					RemoveHotspot(node);
 				}
 			}
 		}
 
+		/// <summary>
 		/// Same as ExposeHotspot but allows providing a world position and handles the conversion
-		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition)
+		/// </summary>
+		/// <param name="tileWorldPosition">World position</param>
+		/// <param name="exposeTemperature">The temperature the hotspot will think it is for validation, leave to -1 for
+		/// the current gas mix temperature</param>
+		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
+		/// is greater than the current gas mix temperature when true</param>
+		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float exposeTemperature = -1f, bool changeTemp = false)
 		{
-			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)));
+			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)),
+				exposeTemperature, changeTemp);
 		}
 
 		public void RemoveHotspot(MetaDataNode node)
@@ -256,38 +241,101 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		public void ExposeHotspot(Vector3Int localPosition)
+		/// <summary>
+		/// Creates a hotspot if the tile is hot enough
+		/// </summary>
+		/// <param name="localPosition">Local position on the matrix</param>
+		/// <param name="exposeTemperature">The temperature the hotspot will think it is for validation, leave to -1 for
+		/// the current gas mix temperature</param>
+		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
+		/// is greater than the current gas mix temperature when true</param>
+		/// <param name="doExposure">Do exposure on the tiles, do not do for non main thread calls</param>
+		public void ExposeHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false, bool doExposure = true)
 		{
-			if (!hotspots.ContainsKey(localPosition) || hotspots[localPosition].Hotspot == null)
+			//Try add new hotspot if we dont already have one or is null
+			if (hotspots.TryGetValue(localPosition, out var hotspot) == false || hotspot.HasHotspot == false)
 			{
 				Profiler.BeginSample("MarkForAddition");
-				MetaDataNode node = metaDataLayer.Get(localPosition);
-				GasMix gasMix = node.GasMix;
 
-				if (PlasmaFireReaction.CanHoldHotspot(gasMix))
-				{
-					// igniting
-					//addition will be done later in Update
-					hotspotsToAdd.Add(new Hotspot(node));
-				}
+				InternalTryAddHotspot(localPosition, exposeTemperature, changeTemp);
 
 				Profiler.EndSample();
+
+				//Return here as InternalTryAddHotspot only adds it to the queue for new hotspots
+				//So hotspot wont be available for next section yet
+				return;
 			}
 
-			if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
+			//Only do expose if allowed
+			if(doExposure == false) return;
+
+			//If we already have hotspot expose everything on this tile
+			Expose(localPosition, localPosition);
+
+			//Expose impassable things on the adjacent tiles too
+			Expose(localPosition, localPosition + Vector3Int.right);
+			Expose(localPosition, localPosition + Vector3Int.left);
+			Expose(localPosition, localPosition + Vector3Int.up);
+			Expose(localPosition, localPosition + Vector3Int.down);
+		}
+
+		private void InternalTryAddHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false)
+		{
+			MetaDataNode node = metaDataLayer.Get(localPosition, false);
+
+			if(IsAllowedHotSpot(node, exposeTemperature, changeTemp) == false) return;
+
+			//Igniting
+			//Addition will be done later in Update
+			hotspotsToAdd.Add(new Hotspot(node));
+		}
+
+		private bool IsAllowedHotSpot(MetaDataNode node, float exposeTemperature = -1f, bool changeTemp = false)
+		{
+			//Only need to check stuff which has nodes as we are checking gas contents afterwards
+			if(node == null) return false;
+
+			GasMix gasMix = node.GasMix;
+
+			if (exposeTemperature < 0)
 			{
-				//expose everything on this tile
-				Expose(localPosition, localPosition);
-
-				//expose impassable things on the adjacent tile
-				Expose(localPosition, localPosition + Vector3Int.right);
-				Expose(localPosition, localPosition + Vector3Int.left);
-				Expose(localPosition, localPosition + Vector3Int.up);
-				Expose(localPosition, localPosition + Vector3Int.down);
+				exposeTemperature = gasMix.Temperature;
 			}
+			else if(changeTemp)
+			{
+				//Set temperature if required
+				gasMix.SetTemperature(exposeTemperature);
+			}
+
+			//Minimum temperature requirement
+			if(exposeTemperature < AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST) return false;
+
+			//Minimum oxygen requirement
+			if(gasMix.GetMoles(Gas.Oxygen) < 0.5f) return false;
+
+			//Minimum plasma/tritium requirement
+			if (gasMix.GetMoles(Gas.Plasma) < 0.5f && gasMix.GetMoles(Gas.Tritium) < 0.5f)
+			{
+				return false;
+			}
+
+			//Passed all checks, this position is allowed a hotspot
+			return true;
 		}
 
 		private void Expose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)
+		{
+			try
+			{
+				InternalExpose(hotspotPosition, atLocalPosition);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
+		}
+
+		private void InternalExpose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)
 		{
 			Profiler.BeginSample("ExposureInit");
 			var isSideExposure = hotspotPosition != atLocalPosition;

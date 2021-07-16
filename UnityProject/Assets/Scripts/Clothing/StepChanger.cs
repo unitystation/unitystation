@@ -1,115 +1,93 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using ScriptableObjects.Audio;
+using UnityEngine;
 
-/// <summary>
-/// Handles the change of StepType when players equip or unequip this item
-/// </summary>
-public class StepChanger : MonoBehaviour, IServerInventoryMove
+namespace Clothing
 {
-	[SerializeField] private FloorSounds SoundChange;
-
-	private RegisterPlayer Player;
-
-	public void OnInventoryMoveServer(InventoryMove info)
+	/// <summary>
+	/// Handles the change of StepType when players equip or unequip this item
+	/// </summary>
+	public class StepChanger : MonoBehaviour, IServerInventoryMove
 	{
-		// NamedSlot slot = wearType == WearType.hardsuit ? NamedSlot.outerwear : NamedSlot.feet;
+		[Expandable]
+		[SerializeField]
+		[Tooltip("Pack of sounds that this StepChanger will replace")]
+		private FloorSounds soundChange;
 
-		//Wearing
-		if (info.ToSlot != null && info.ToRootPlayer)
+		[SerializeField][Tooltip("Slot where this StepChanger should take effect.")]
+		private NamedSlot slot = NamedSlot.feet;
+
+		[SerializeField]
+		[Tooltip("If true, this step changer " +
+		         "will have priority over other step changers when putting on (Hardsuits for example)")]
+		private bool hasPriority;
+
+		private Mind mind;
+
+		private bool IsPuttingOn(InventoryMove info)
 		{
-			var toPlayer = info.ToPlayer;
-
-			if (toPlayer == null)
-			{
-				return;
-			}
-
-			var mind = toPlayer.PlayerScript.mind;
-
-			if (mind != null && mind.StepSound == SoundChange)
-			{
-				mind.StepSound = null;
-			}
+			return info.ToSlot != null &&
+			       info.ToSlot.NamedSlot == slot &&
+			       info.ToRootPlayer;
 		}
 
-		//taking off
-		if (info.FromSlot != null && info.FromPlayer)
+		private bool IsTakingOff(InventoryMove info)
 		{
-			var fromPlayer = info.FromPlayer;
-
-			if (fromPlayer == null)
-			{
-				return;
-			}
-
-			var mind = fromPlayer.PlayerScript.mind;
-
-			if (mind != null && mind.StepSound == null)
-			{
-				Player = info.ToPlayer;
-				mind.StepSound = SoundChange;
-			}
+			return info.FromSlot != null &&
+			       info.FromSlot.NamedSlot == slot &&
+			       info.FromPlayer;
 		}
 
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if (soundChange == null) return;
 
+			if (IsPuttingOn(info))
+			{
+				mind = info.ToPlayer.OrNull()?.PlayerScript.OrNull()?.mind;
+				if (mind is null) return;
 
-		//Wearing
-		// if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
-		// {
-			// var mind = info.ToRootPlayer.PlayerScript.mind;
-			// if(mind != null && info.ToSlot.NamedSlot == slot)
-			// {
-				// TryChange(mind, info.ToSlot.NamedSlot, info.ToPlayer);
-			// }
-		// }
-		//taking off
-		// if (info.FromSlot != null && info.FromSlot?.NamedSlot != null)
-		// {
-			// var mind = info.FromPlayer.PlayerScript.mind;
-			// if(mind != null && info.FromSlot.NamedSlot == slot)
-			// {
-				// TryChange(mind, info.FromSlot.NamedSlot, info.FromPlayer, true);
-			// }
-		// }
-	}
+				if (hasPriority == false)
+				{
+					mind.SecondaryStepSound = soundChange;
+					if (mind.StepSound) return;
+				}
 
-	private void TryChange(Mind mind, NamedSlot? changeSlot, RegisterPlayer player, bool removing = false)
-	{
-		// if (!HasHardsuit(mind, changeSlot))
-		// {
-		// 	if (removing && changeSlot == NamedSlot.outerwear)
-		// 	{
-		// 		WearType feet = WearType.barefoot;
-		// 		var tryGetItem = player.PlayerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet).Item;
-		// 		if (tryGetItem != null)
-		// 		{
-		// 			var stepChanger = tryGetItem.GetComponent<StepChanger>();
-		// 			if (stepChanger != null)
-		// 			{
-		// 				feet = stepChanger.wearType;
-		// 			}
-		// 		}
-		//
-		// 		mind.stepType = (StepType)feet;
-		// 		return;
-		// 	}
-		//
-		// 	if (removing && changeSlot == NamedSlot.feet)
-		// 	{
-		// 		mind.stepType = StepType.Barefoot;
-		// 		return;
-		// 	}
-		//
-		// 	mind.stepType = (StepType)wearType;
-		// }
-	}
+				mind.StepSound = soundChange;
+			}
 
-	// private bool HasHardsuit(Mind mind, NamedSlot? changeSlot) => mind.stepType == StepType.Suit && changeSlot != NamedSlot.outerwear;
+			if (IsTakingOff(info))
+			{
+				mind = info.FromPlayer.OrNull()?.PlayerScript.OrNull()?.mind;
+				if (mind is null) return;
 
-	private enum WearType
-	{
-		barefoot = StepType.Barefoot,
-		shoes = StepType.Shoes,
-		// clownshoes = StepType.Clown,
-		// hardsuit = StepType.Suit
+				HandleTakingOff();
+			}
+		}
+		/// <summary>
+		/// Stupid logic to handle all possible interaction combinations with clownshoes and hardsuits
+		/// </summary>
+		private void HandleTakingOff()
+		{
+			switch (hasPriority)
+			{
+				case true when mind.SecondaryStepSound:
+					mind.StepSound = mind.SecondaryStepSound;
+					return;
+				case true:
+					mind.StepSound = null;
+					return;
+				case false when mind.StepSound == soundChange:
+					mind.StepSound = null;
+					return;
+				case false when mind.StepSound != soundChange:
+					if (mind.SecondaryStepSound == soundChange)
+					{
+						mind.SecondaryStepSound = null;
+					}
+
+					return;
+			}
+		}
 	}
 }

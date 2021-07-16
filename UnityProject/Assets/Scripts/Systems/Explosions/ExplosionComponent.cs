@@ -74,7 +74,7 @@ namespace Systems.Explosions
 				if (IsPastWall(explosionCenter2d, tilePos2d, distance))
 				{
 					// Heat the air
-					matrix.ReactionManager.ExposeHotspotWorldPosition(tilePos2d);
+					matrix.ReactionManager.ExposeHotspotWorldPosition(tilePos2d, 1000);
 
 					// Calculate damage from explosion
 					int damage = CalculateDamage(tilePos2d, explosionCenter2d);

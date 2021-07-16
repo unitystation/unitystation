@@ -14,63 +14,93 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Barefoot:
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/hardbarefoot1.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepHardBarefoot1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/hardbarefoot2.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepHardBarefoot2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/hardbarefoot3.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepHardBarefoot3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/hardbarefoot4.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepHardBarefoot4.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/hardbarefoot5.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepHardBarefoot5.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  Claw: []
+  Claw:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/claw/FootstepHardClaw1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/claw/FootstepHardClaw2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/claw/FootstepHardClaw3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/claw/FootstepHardClaw4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   Shoes:
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/floor1.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepFloor1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/floor2.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepFloor2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/floor3.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepFloor3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/floor4.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepFloor4.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/footsteps/floor/floor5.prefab
+    AssetAddress: Assets/Prefabs/footsteps/floor/FootstepFloor5.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

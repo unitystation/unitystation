@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 114577415631634126}
   - component: {fileID: 114883521337486670}
   - component: {fileID: 114738972662350094}
-  - component: {fileID: 1397050043076861577}
   - component: {fileID: -6201661749900855812}
   - component: {fileID: 1373280397285383934}
   - component: {fileID: 6104600676241079028}
@@ -84,6 +83,8 @@ MonoBehaviour:
   hitDamage: 0
   damageType: 0
   throwDamage: 0
+  traumaDamageChance: 0
+  TraumaticDamageType: 0
   throwSpeed: 2
   throwRange: 7
   hitSound:
@@ -97,6 +98,7 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  CanBeUsedOnSelfOnHelpIntent: 0
   itemSprites:
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 11400000, guid: 0b395bda1e929674e9fec2099782a493, type: 2}
@@ -172,6 +174,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  CurrentsortingGroup: {fileID: 6104600676241079028}
 --- !u!114 &114577415631634126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +224,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -233,6 +237,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,20 +256,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &1397050043076861577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011433845357754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &-6201661749900855812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,4 +406,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []

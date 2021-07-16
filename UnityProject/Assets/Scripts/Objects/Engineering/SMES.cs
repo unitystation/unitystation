@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Systems.Electricity.NodeModules;
+using Systems.Explosions;
 using Core.Input_System.InteractionV2.Interactions;
 using Mirror;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Objects.Engineering
 		[Range(1, 20)]
 		private int indicatorUpdatePeriod = 5;
 		private RegisterTile registerTile;
+		private ObjectBehaviour objectBehaviour;
 
 		private ElectricalNodeControl electricalNodeControl;
 		private BatterySupplyingModule batterySupplyingModule;
@@ -64,6 +66,7 @@ namespace Objects.Engineering
 			outputEnabledIndicator = transform.GetChild(2).GetComponent<SpriteHandler>();
 			chargeLevelIndicator = transform.GetChild(3).GetComponent<SpriteHandler>();
 			registerTile = GetComponent<RegisterTile>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
 
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			batterySupplyingModule = GetComponent<BatterySupplyingModule>();
@@ -72,6 +75,7 @@ namespace Objects.Engineering
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+			outputEnabled = batterySupplyingModule.StartOnStartUp;
 			UpdateMe();
 			UpdateManager.Add(UpdateMe, indicatorUpdatePeriod);
 		}
@@ -242,23 +246,10 @@ namespace Objects.Engineering
 
 		private void TrySpark()
 		{
+			//Not already doing an effect
+			if (currentSparkEffect != null) return;
 
-			//75% chance to do effect and not already doing an effect
-			if(DMMath.Prob(25) || currentSparkEffect != null) return;
-
-			var worldPos = registerTile.WorldPositionServer;
-
-			var result = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, worldPos, gameObject.transform.parent);
-			if (result.Successful)
-			{
-				currentSparkEffect = result.GameObject;
-
-				//Try start fire if possible
-				var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
-				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int());
-
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: gameObject);
-			}
+			currentSparkEffect = SparkUtil.TrySpark(objectBehaviour);
 		}
 	}
 }

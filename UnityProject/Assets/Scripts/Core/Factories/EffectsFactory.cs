@@ -17,6 +17,13 @@ public static class EffectsFactory
 	private static GameObject medXenoBloodTile;
 	private static GameObject largeXenoBloodTile;
 
+	[SerializeField]
+	private static float SmallBleedThreshold = 5f;
+
+	[SerializeField]
+	private static float MedBleedThreshold = 15f;
+
+
 
 	private static void EnsureInit()
 	{
@@ -44,12 +51,12 @@ public static class EffectsFactory
 		string sizeDesc;
 
 
-		if (bloodReagents.Total < 0.1f)
+		if (bloodReagents.Total < SmallBleedThreshold)
 		{
 			chosenTile = smallBloodTile;
 			sizeDesc = "drop";
 		}
-		else if(bloodReagents.Total > 0.1f && bloodReagents.Total < 0.3f)
+		else if(bloodReagents.Total > SmallBleedThreshold && bloodReagents.Total < MedBleedThreshold)
 		{
 			chosenTile = mediumBloodTile;
 			sizeDesc = "splat";

@@ -28,6 +28,9 @@ namespace ScriptableObjects.Atmospherics
 		//Used to know what the reagent of this gas is
 		public Reagent AssociatedReagent;
 
+		[Tooltip("Export price of this gas per mole")]
+		public int ExportPrice = 0;
+
 		//Generated when added to dictionary
 		//Doesnt need to be public as GasSO is turned into index automatically when needed, see below
 		private int Index;

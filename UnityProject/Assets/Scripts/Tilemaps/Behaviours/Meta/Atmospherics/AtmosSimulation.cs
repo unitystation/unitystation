@@ -234,7 +234,7 @@ namespace Systems.Atmospherics
 				//If too much Hyper-Noblium theres no reactions!!!
 				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;
 
-				gasReaction.Reaction.React(gasMix, node.Position, node.PositionMatrix);
+				gasReaction.Reaction.React(gasMix, node);
 			}
 		}
 

@@ -14,7 +14,7 @@ namespace HealthV2
 		/// <summary>
 		///ReagentContainer which the liver uses to hold reagents it will process. Reagents like alcohol will be broken down into their ethanol reagent via ReactionSet
 		/// </summary>
-		private ReagentContainer processingContainer;
+		[SerializeField] public ReagentContainer processingContainer;
 
 		/// <summary>
 		/// Alcoholic reagents that the liver will process, override to define what the liver will accept to break down
@@ -45,18 +45,13 @@ namespace HealthV2
 		/// </summary>
 		[SerializeField] private float flushMultiplier = 2;
 
-		public override void SetUpSystems()
-		{
-			base.SetUpSystems();
-			processingContainer = GetComponent<ReagentContainer>();
-		}
 
 		public override void ImplantPeriodicUpdate()
 		{
 			//Liver has failed or just generally unable to process things, so don't let it.
 			if (RelatedPart.TotalModified == 0) return;
 
-			float tickPullProcessingAmnt = RelatedPart.TotalModified *=processAmount;
+			float tickPullProcessingAmnt =  RelatedPart.TotalModified *  processAmount;
 			float tickClearAmount = tickPullProcessingAmnt * flushMultiplier;
 
 			ReagentContainerBody blood = RelatedPart.BloodContainer;
@@ -98,7 +93,7 @@ namespace HealthV2
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 			}
 			tempArray.Clear();
-			
+
 			//calculate what's going to be removed, seeing as processing will happen in the reactionset
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
@@ -119,22 +114,6 @@ namespace HealthV2
 			}
 
 			//remove what's going to be removed
-			foreach (Tuple<Reagent,float> reagent in tempArray)
-			{
-				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-			}
-			tempArray.Clear();
-
-			//put that thing back where it came from or so help me
-			lock (processingContainer.CurrentReagentMix.reagents)
-			{
-				foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
-				{
-					tempArray.Add(new Tuple<Reagent, float>(reagent, processingContainer.CurrentReagentMix[reagent]));
-				}
-			}
-
-			//the liver is merely an avenue, a pitstop, not a home.
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);

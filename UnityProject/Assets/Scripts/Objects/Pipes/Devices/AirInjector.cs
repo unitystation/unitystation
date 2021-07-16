@@ -68,7 +68,7 @@ namespace Objects.Atmospherics
 			}
 		}
 
-		public override void Interaction(HandApply interaction)
+		public override void HandApplyInteraction(HandApply interaction)
 		{
 			if (interaction.HandSlot.IsOccupied) return;
 

@@ -17,7 +17,11 @@ namespace Messages.Client
 		{
 			if (SentByPlayer != ConnectedPlayer.Invalid)
 			{
-				Chat.AddChatMsgToChat(SentByPlayer, msg.ChatMessageText, msg.Channels);
+				msg.Channels &= SentByPlayer.Script.GetAvailableChannelsMask(true);
+				if (msg.Channels != ChatChannel.None)
+				{
+					Chat.AddChatMsgToChat(SentByPlayer, msg.ChatMessageText, msg.Channels);
+				}
 			}
 		}
 

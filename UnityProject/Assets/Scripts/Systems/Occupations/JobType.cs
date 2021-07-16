@@ -66,6 +66,7 @@ public enum JobType
 	WIZARD = 54,
 	BLOB = 55,
 	ANCIENT_ENGINEER = 56,
+	REDSHIELD_OFFICER = 57,
 }
 
 public static class JobCategories
@@ -82,6 +83,7 @@ public static class JobCategories
 		JobType.ERT_ENGINEER,
 		JobType.ERT_CHAPLAIN,
 		JobType.ERT_JANITOR,
-		JobType.ERT_CLOWN
+		JobType.ERT_CLOWN,
+		JobType.REDSHIELD_OFFICER
 	};
 }

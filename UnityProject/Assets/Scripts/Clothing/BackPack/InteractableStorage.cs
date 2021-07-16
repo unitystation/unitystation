@@ -121,12 +121,13 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
-		if (interaction.TargetSlot.ItemStorage.Player.gameObject != PlayerManager.LocalPlayer && !interaction.IsAltClick) return false;
-
-		if (interaction.UsedObject == null)
+		if (PlayerManager.PlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) || interaction.IsAltClick)
 		{
-			// nothing in hand, just open / close the backpack
-			return Interact(HandActivate.ByLocalPlayer());
+			if (interaction.UsedObject == null)
+			{
+				// nothing in hand, just open / close the backpack
+				return Interact(HandActivate.ByLocalPlayer());
+			}
 		}
 
 		return false;
@@ -509,7 +510,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			// if we are observing a storage not in our inventory (such as another player's top
 			// level inventory or a storage within their inventory, or a box/backpack sitting on the ground), we must stop observing when it
 			// becomes unobservable for whatever reason (such as the owner becoming unobservable)
-			var rootStorage = itemStorage.GetRootStorage();
+			var rootStorage = itemStorage.GetRootStorageOrPlayer();
 			if (interaction.Performer != rootStorage.gameObject)
 			{
 				// stop observing when it becomes unobservable for whatever reason
@@ -540,6 +541,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		// stop owner observing if it's dropped from the owner's storage
 		var toRootPlayer = info.ToRootPlayer;
 		// no need to do anything, hasn't moved into player inventory
+
+		if (toRootPlayer != null)
+		{
+			itemStorage.ServerAddObserverPlayer(toRootPlayer.gameObject);
+		}
+
 		if (fromRootPlayer == toRootPlayer) return;
 
 		// make sure it's closed and any children as well
@@ -547,6 +554,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			ObserveInteractableStorageMessage.Send(fromRootPlayer.gameObject, this, false);
 		}
+
+
+
 	}
 
 	// TODO: this should be merged into a new AlertUI action system once it's implemented

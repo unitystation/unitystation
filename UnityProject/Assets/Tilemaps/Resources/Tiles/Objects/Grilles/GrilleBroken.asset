@@ -47,11 +47,10 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 433fa20f26ef08d4a844cf98c3a923f3, type: 2}
-  - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
+  - {fileID: 11400000, guid: 56d4fa73fb766d54383a8a2453c9d619, type: 2}
   - {fileID: 11400000, guid: 894695c059ed5e64da8e5ad42c196d22, type: 2}
-  spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
-    type: 3}
-  spawnAmountOnDeconstruct: 1
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 0}
   spawnOnDestroy: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
@@ -63,5 +62,11 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  SoundOnDestroy: []
+  SoundOnDestroy:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   sprite: {fileID: 21300000, guid: 2f1b3e8d6fb118b41889deb99ae48c0d, type: 3}

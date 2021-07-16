@@ -144,7 +144,7 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public List<BodyPart> ImplantList = new List<BodyPart>();
+		public HashSet<BodyPart> ImplantList = new HashSet<BodyPart>();
 
 		/// <summary>
 		/// A list of all body part containers of the creature.
@@ -316,13 +316,20 @@ namespace HealthV2
 		//Server Side only
 		private void PeriodicUpdate()
 		{
-			foreach (var implant in RootBodyPartContainers)
+			if (IsDead == false)
 			{
-				implant.ImplantPeriodicUpdate();
+				foreach (var implant in RootBodyPartContainers)
+				{
+					implant.ImplantPeriodicUpdate();
+				}
 			}
+
 
 			fireStacksDamage();
 			CalculateRadiationDamage();
+
+			if (IsDead) return;
+
 			CalculateOverallHealth();
 		}
 
@@ -355,9 +362,10 @@ namespace HealthV2
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
 					healthStateController.SetFireStacks(0);
+					return;
 				}
 
-				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700, true);
 			}
 		}
 
@@ -989,7 +997,6 @@ namespace HealthV2
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			//TODO: Reimplemenmt
 		}
 
