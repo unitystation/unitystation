@@ -7,24 +7,16 @@ public class RelatedRecipe
 	[SerializeField]
 	private RecipeV2 recipe;
 
-	public RecipeV2 Recipe
-	{
-		get => recipe;
-		set => recipe = value;
-	}
+	public RecipeV2 Recipe => recipe;
 
 	[SerializeField]
 	private int ingredientIndex;
 
-	public int IngredientIndex
-	{
-		get => ingredientIndex;
-		set => ingredientIndex = value;
-	}
+	public int IngredientIndex => ingredientIndex;
 
 	public RelatedRecipe(RecipeV2 recipe, int ingredientIndex)
 	{
-		Recipe = recipe;
-		IngredientIndex = ingredientIndex;
+		this.recipe = recipe;
+		this.ingredientIndex = ingredientIndex;
 	}
 }

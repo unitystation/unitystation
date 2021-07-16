@@ -5,7 +5,7 @@ using UnityEngine;
 /// A pair of values: The ingredient itself as ItemAttributesV2 and its quantity
 /// </summary>
 [Serializable]
-public class IngredientV2
+public class IngredientV2 : ICloneable
 {
 	[SerializeField] [Min(1)] [Tooltip("The amount of required items.")]
 	private int requiredAmount = 1;
@@ -13,7 +13,7 @@ public class IngredientV2
 	/// <summary>
 	/// The amount of required items.
 	/// </summary>
-	public int RequiredAmount { get; set; }
+	public int RequiredAmount => requiredAmount;
 
 	[SerializeField] [Tooltip("The required item. Includes all of its children (prefab variants).")]
 	private GameObject requiredItem;
@@ -22,4 +22,9 @@ public class IngredientV2
 	/// The required item. Includes all of its children (prefab variants).
 	/// </summary>
 	public GameObject RequiredItem => requiredItem;
+
+	public object Clone()
+	{
+		return new IngredientV2 {requiredAmount = requiredAmount, requiredItem = requiredItem};
+	}
 }

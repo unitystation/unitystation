@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Systems.CraftingV2;
+using Chemistry.Components;
 using Items;
 using Player;
 using UnityEngine;
@@ -17,6 +19,10 @@ public class RecipeV2 : ScriptableObject
 	/// Items that will be necessary and used for crafting. They will be deleted.
 	/// </summary>
 	public List<IngredientV2> RequiredIngredients => requiredIngredients;
+
+	[SerializeField] private List<IngredientReagent> requiredReagents = new List<IngredientReagent>();
+
+	public List<IngredientReagent> RequiredReagents => requiredReagents;
 
 	[Tooltip("What tools(item traits) should be present when creating a thing according to a recipe.")] [SerializeField]
 	private List<ItemTrait> requiredToolTraits;
@@ -66,15 +72,19 @@ public class RecipeV2 : ScriptableObject
 	/// </summary>
 	public float CraftingTime => craftingTime;
 
+	private bool isSimple = false;
+
 	/// <summary>
 	/// Such recipes can be made simply by clicking one item on another, without calling the crafting menu.
 	/// For example, roll out the dough with a rolling pin.
 	/// In the crafting menu, these items will be at the bottom in the hidden list.
+	/// See Awake().
 	/// </summary>
-	/// <returns>True if no more than two items participate in the recipe, false otherwise.</returns>
-	public bool IsSimple()
+	private bool IsSimple => IsSimple;
+
+	private void Awake()
 	{
-		return RequiredIngredients.Count + RequiredToolTraits.Count == 2;
+		isSimple = requiredIngredients.Count == 1;
 	}
 
 	/// <summary>
@@ -85,7 +95,31 @@ public class RecipeV2 : ScriptableObject
 	/// <returns>True if there are enough ingredients and tools for crafting, false otherwise.</returns>
 	public bool CanBeCrafted(List<ItemAttributesV2> possibleIngredients, List<ItemAttributesV2> possibleTools)
 	{
-		return CheckPossibleIngredients(possibleIngredients) && CheckPossibleTools(possibleTools);
+		return CheckPossibleIngredients(possibleIngredients)
+		       && CheckPossibleTools(possibleTools)
+		       && CheckPossibleReagents(possibleIngredients);
+	}
+
+	private bool CheckPossibleReagents(List<ItemAttributesV2> possibleReagentContainers)
+	{
+		foreach (IngredientReagent requiredReagent in requiredReagents)
+		{
+			float foundAmount = 0;
+			foreach (ItemAttributesV2 possibleReagentContainer in possibleReagentContainers)
+			{
+				if (possibleReagentContainer.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
+				{
+					foundAmount += reagentContainer.AmountOfReagent(requiredReagent.RequiredReagent);
+				}
+			}
+
+			if (foundAmount < requiredReagent.RequiredAmount)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/// <summary>
@@ -209,6 +243,13 @@ public class RecipeV2 : ScriptableObject
 		GameObject crafterGameObject
 	)
 	{
+		UseReagents(possibleIngredients);
+		UseIngredients(possibleIngredients);
+		CompleteCrafting(crafterGameObject);
+	}
+
+	private void UseIngredients(List<ItemAttributesV2> possibleIngredients)
+	{
 		for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 		{
 			int usedIngredientsCounter = 0;
@@ -229,44 +270,72 @@ public class RecipeV2 : ScriptableObject
 					}
 
 					// okay, this is what we're looking for. We use this ingredient
-					if (possibleIngredient.TryGetComponent(out Stackable stackable))
-					{
-						if (
-							usedIngredientsCounter + stackable.Amount
-							<= RequiredIngredients[reqIngIndex].RequiredAmount
-						)
-						{
-							stackable.ServerConsume(stackable.Amount);
-						}
-						else
-						{
-							stackable.ServerConsume(
-								usedIngredientsCounter
-								+ stackable.Amount
-								- RequiredIngredients[reqIngIndex].RequiredAmount
-							);
-						}
-						usedIngredientsCounter = Math.Min(
-							usedIngredientsCounter + stackable.Amount,
-							RequiredIngredients[reqIngIndex].RequiredAmount
-						);
-					}
-					else
-					{
-						usedIngredientsCounter++;
-						_ = Despawn.ServerSingle(possibleIngredient.gameObject);
-					}
-
+					usedIngredientsCounter = UseIngredient(reqIngIndex, possibleIngredient, usedIngredientsCounter);
 					break;
 				}
+
 				if (usedIngredientsCounter == RequiredIngredients[reqIngIndex].RequiredAmount)
 				{
 					break;
 				}
 			}
 		}
+	}
 
-		CompleteCrafting(crafterGameObject);
+	private void UseReagents(List<ItemAttributesV2> possibleIngredients)
+	{
+		foreach (IngredientReagent requiredReagent in RequiredReagents)
+		{
+			float amountUsed = 0;
+			foreach (ItemAttributesV2 possibleIngredient in possibleIngredients)
+			{
+				if (possibleIngredient.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
+				{
+					amountUsed += reagentContainer.Subtract(
+						requiredReagent.RequiredReagent, requiredReagent.RequiredAmount - amountUsed
+					);
+				}
+
+				if (amountUsed >= requiredReagent.RequiredAmount)
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	private int UseIngredient(int reqIngIndex, ItemAttributesV2 possibleIngredient, int usedIngredientsCounter)
+	{
+		if (possibleIngredient.TryGetComponent(out Stackable stackable))
+		{
+			if (
+				usedIngredientsCounter + stackable.Amount
+				<= RequiredIngredients[reqIngIndex].RequiredAmount
+			)
+			{
+				stackable.ServerConsume(stackable.Amount);
+			}
+			else
+			{
+				stackable.ServerConsume(
+					usedIngredientsCounter
+					+ stackable.Amount
+					- RequiredIngredients[reqIngIndex].RequiredAmount
+				);
+			}
+
+			usedIngredientsCounter = Math.Min(
+				usedIngredientsCounter + stackable.Amount,
+				RequiredIngredients[reqIngIndex].RequiredAmount
+			);
+		}
+		else
+		{
+			usedIngredientsCounter++;
+			_ = Despawn.ServerSingle(possibleIngredient.gameObject);
+		}
+
+		return usedIngredientsCounter;
 	}
 
 	/// <summary>
