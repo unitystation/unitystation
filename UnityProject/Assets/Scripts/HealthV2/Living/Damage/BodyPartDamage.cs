@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace HealthV2
@@ -17,7 +18,7 @@ namespace HealthV2
 		/// <summary>
 		/// The armor of the body part itself, ignoring the clothing (for example the xenomorph's exoskeleton).
 		/// </summary>
-		[Tooltip("The armor of the body part itself, ignoring the clothing.")]
+		[HorizontalLine] [Tooltip("The armor of the body part itself, ignoring the clothing.")]
 		public Armor SelfArmor = new Armor();
 
 		/// The amount damage taken by body parts contained within this body part is modified by
@@ -41,13 +42,13 @@ namespace HealthV2
 		/// <summary>
 		/// Affects how much damage contributes to the efficiency of the body part, currently unimplemented
 		/// </summary>
-		public float DamageEfficiencyMultiplier = 1;
+		[HideInInspector] public float DamageEfficiencyMultiplier = 1;
 
 		/// <summary>
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
 		/// </summary>
 		[Tooltip("Modifier to reduce efficiency with as damage is taken")]
-		public Modifier DamageModifier = new Modifier();
+		[HideInInspector] public Modifier DamageModifier = new Modifier();
 
 		/// <summary>
 		/// The body part's maximum health
@@ -67,7 +68,7 @@ namespace HealthV2
 		/// <summary>
 		/// Stores how severely the body part is damage for purposes of examine
 		/// </summary>
-		public DamageSeverity Severity = DamageSeverity.LightModerate;
+		[HideInInspector] public DamageSeverity Severity = DamageSeverity.LightModerate;
 
 		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
