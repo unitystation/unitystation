@@ -326,17 +326,6 @@ namespace TileManagement
 				{
 					return false;
 				}
-
-				// if ((TileLcation.Tile as BasicTile).IsAtmosPassable() == false)
-				// {
-				// return false;
-				// }
-
-				// if (!SolidLayersValues[i].IsPassableAt(origin, to, isServer, collisionType: collisionType,
-				// inclPlayers: inclPlayers, context: context, excludeTiles))
-				// {
-				// return false;
-				// }
 			}
 
 			return true;
@@ -378,18 +367,36 @@ namespace TileManagement
 					return false;
 				}
 			}
-
 			return true;
-			// for (var i = 0; i < LayersValues.Length; i++)
-			// {
-			// if (!LayersValues[i].IsAtmosPassableAt(origin, to, isServer))
-			// {
-			// return false;
-			// }
-			// }
-
-			// return true;
 		}
+
+		public bool IsConstructable(Vector3Int position)
+		{
+			TileLocation tileLocation = null;
+			var canConstruct = false;
+			foreach (var layer in LayersValues)
+			{
+				if (layer.LayerType == LayerType.Objects)
+					continue;
+
+				lock (PresentTiles)
+				{
+					PresentTiles[layer].TryGetValue(position, out tileLocation);
+				}
+
+				if (tileLocation?.Tile == null)
+					continue;
+
+				if ((tileLocation.Tile as BasicTile)?.constructable == false)
+				{
+					canConstruct = false;
+					break;
+				}
+				canConstruct = true;
+			}
+			return canConstruct;
+		}
+
 
 		public bool IsSpaceAt(Vector3Int position, bool isServer)
 		{
@@ -409,18 +416,7 @@ namespace TileManagement
 					return false;
 				}
 			}
-
 			return true;
-
-			// for (var i = 0; i < LayersValues.Length; i++)
-			// {
-			// if (!LayersValues[i].IsSpaceAt(position, isServer))
-			// {
-			// return false;
-			// }
-			// }
-
-			// return true;
 		}
 
 		public bool IsTableAt(Vector3Int position)
@@ -429,12 +425,7 @@ namespace TileManagement
 			{
 				return layer.GetTile(position);
 			}
-
 			return false;
-
-			// var ObjectTile = ObjectLayer.GetTile(position);
-			// if (ObjectTile == null) return false;
-			// return ObjectTile.TileType == TileType.Table;
 		}
 
 		public bool IsTileTypeAt(Vector3Int position, TileType tileType)
@@ -672,20 +663,7 @@ namespace TileManagement
 					break;
 				}
 			}
-
 			return TileLcation?.Tile;
-			// for (var i = 0; i < LayersValues.Length; i++)
-			// {
-			// LayerTile tile = LayersValues[i].GetTile(cellPosition);
-			// if (tile != null)
-			// {
-			// if (ignoreEffectsLayer && tile.LayerType == LayerType.Effects) continue;
-
-			// return tile;
-			// }
-			// }
-
-			// return null;
 		}
 
 		/// <summary>
@@ -713,21 +691,7 @@ namespace TileManagement
 					break;
 				}
 			}
-
 			return TileLcation?.Tile;
-
-			// for (var i = 0; i < LayersValues.Length; i++)
-			// {
-			// LayerTile tile = LayersValues[i].GetTile(cellPosition);
-			// if (tile != null)
-			// {
-			// if (LTSUtil.IsLayerIn(ExcludedLayers, tile.LayerType)) continue;
-
-			// return tile;
-			// }
-			// }
-
-			// return null;
 		}
 
 
@@ -864,18 +828,7 @@ namespace TileManagement
 					break;
 				}
 			}
-
 			return TileLcation?.Tile;
-
-			// for (var i = 0; i < LayersValues.Length; i++)
-			// {
-			// if (LayersValues[i].HasTile(position, isServer))
-			// {
-			// return true;
-			// }
-			// }
-
-			// return false;
 		}
 
 		/// <summary>

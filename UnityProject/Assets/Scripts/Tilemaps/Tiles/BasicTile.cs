@@ -37,6 +37,9 @@ public abstract class BasicTile : LayerTile
 	[Tooltip("How long does it take to mine this tile?")] [SerializeField] [ShowIf(nameof(mineable))]
 	private float miningTime = 5f;
 
+	[Tooltip("Can a player construct above this tile?")]
+	public bool constructable;
+
 	[Range(0.0f, 1f)] [Tooltip("RadiationPassability 0 = 100% Resistant")] [SerializeField]
 	public float RadiationPassability = 1;
 
@@ -195,7 +198,6 @@ public abstract class BasicTile : LayerTile
 	{
 		return IsAtmosPassable() && !isSealed;
 	}
-
 
 	//yeah,This needs to be moved out into its own class
 	public virtual bool AreUnderfloorSame(Matrix4x4 thisTransformMatrix, BasicTile basicTile, Matrix4x4 TransformMatrix)
