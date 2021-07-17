@@ -92,7 +92,7 @@ jobs:
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v2
+        uses: webbertakken/unity-test-runner@v1.6
         with:
           customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
