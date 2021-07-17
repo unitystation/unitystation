@@ -202,6 +202,69 @@ namespace Systems.Atmospherics
 				}
 			}
 		}
+		
+		#region Conductivity
+
+		private void Conductivity(MetaDataNode currentNode)
+		{
+			//Only allow conducting if we are the starting node or we are allowed to
+			if(currentNode.StartingSuperConduct == false && currentNode.AllowedToSuperConduct == false) return;
+
+			//Starting node must have higher temperature
+			if (currentNode.ConductivityTemperature < (currentNode.StartingSuperConduct
+				? AtmosDefines.MINIMUM_TEMPERATURE_START_SUPERCONDUCTION
+				: AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION))
+			{
+
+				//Disable node if it fails temperature check
+				currentNode.AllowedToSuperConduct = false;
+				currentNode.StartingSuperConduct = false;
+				return;
+			}
+
+			if (currentNode.HeatCapacity < AtmosDefines.M_CELL_WITH_RATIO) return;
+
+			currentNode.AllowedToSuperConduct = true;
+
+			//Solid conductivity is done by meta data node variables, as walls dont have functioning gas mix
+			SolidConductivity(currentNode);
+
+			//Check to see whether we should disable the node
+			if (currentNode.ConductivityTemperature < AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION)
+			{
+				//Disable node if it fails temperature check
+				currentNode.AllowedToSuperConduct = false;
+				currentNode.StartingSuperConduct = false;
+			}
+		}
+
+		private void SolidConductivity(MetaDataNode currentNode)
+		{
+			for (var i = 0; i < nodes.Count; i++)
+			{
+				MetaDataNode node = nodes[i];
+
+				//Dont spread heat to self
+				if(node == currentNode) continue;
+
+				var tempDelta = currentNode.ConductivityTemperature;
+
+				//Radiate temperature between Solid and Space
+				if(node.IsSpace)
+				{
+					if(currentNode.ConductivityTemperature <= TemperatureUtils.ZERO_CELSIUS_IN_KELVIN) continue;
+
+					tempDelta -= AtmosDefines.SPACE_TEMPERATURE;
+					RadiateTemperatureToSpace(currentNode, node, tempDelta);
+				}
+				//Share temperature between Solid and Solid
+				else
+				{
+					tempDelta -= node.ThermalConductivity;
+					ConductFromSolidToSolid(currentNode, node, tempDelta);
+				}
+			}
+		}
 
 		#region Open To ....
 
