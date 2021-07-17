@@ -13,12 +13,12 @@ using UnityEngine;
 public class RecipeV2 : ScriptableObject
 {
 	[Tooltip("Items that will be necessary, used and deleted for crafting.")] [SerializeField]
-	private List<IngredientV2> requiredIngredients = new List<IngredientV2>();
+	private List<RecipeIngredient> requiredIngredients = new List<RecipeIngredient>();
 
 	/// <summary>
 	/// Items that will be necessary and used for crafting. They will be deleted.
 	/// </summary>
-	public List<IngredientV2> RequiredIngredients => requiredIngredients;
+	public List<RecipeIngredient> RequiredIngredients => requiredIngredients;
 
 	[SerializeField] private List<IngredientReagent> requiredReagents = new List<IngredientReagent>();
 
@@ -93,19 +93,19 @@ public class RecipeV2 : ScriptableObject
 	/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 	/// <param name="possibleTools">Tools that might be used for crafting.</param>
 	/// <returns>True if there are enough ingredients and tools for crafting, false otherwise.</returns>
-	public bool CanBeCrafted(List<ItemAttributesV2> possibleIngredients, List<ItemAttributesV2> possibleTools)
+	public bool CanBeCrafted(List<CraftingIngredient> possibleIngredients, List<ItemAttributesV2> possibleTools)
 	{
 		return CheckPossibleIngredients(possibleIngredients)
 		       && CheckPossibleTools(possibleTools)
 		       && CheckPossibleReagents(possibleIngredients);
 	}
 
-	private bool CheckPossibleReagents(List<ItemAttributesV2> possibleReagentContainers)
+	private bool CheckPossibleReagents(List<CraftingIngredient> possibleReagentContainers)
 	{
 		foreach (IngredientReagent requiredReagent in requiredReagents)
 		{
 			float foundAmount = 0;
-			foreach (ItemAttributesV2 possibleReagentContainer in possibleReagentContainers)
+			foreach (CraftingIngredient possibleReagentContainer in possibleReagentContainers)
 			{
 				if (possibleReagentContainer.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
 				{
@@ -155,12 +155,12 @@ public class RecipeV2 : ScriptableObject
 	/// </summary>
 	/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 	/// <returns>True if there are enough ingredients for crafting, false otherwise.</returns>
-	private bool CheckPossibleIngredients(List<ItemAttributesV2> possibleIngredients)
+	private bool CheckPossibleIngredients(List<CraftingIngredient> possibleIngredients)
 	{
 		for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 		{
 			int countedAmount = 0;
-			foreach (ItemAttributesV2 possibleIngredient in possibleIngredients)
+			foreach (CraftingIngredient possibleIngredient in possibleIngredients)
 			{
 				foreach (RelatedRecipe relatedRecipe in possibleIngredient.RelatedRecipes)
 				{
@@ -218,7 +218,7 @@ public class RecipeV2 : ScriptableObject
 	/// <param name="possibleTools">Tools that might be used for crafting.</param>
 	/// <param name="crafterGameObject">The game object that crafting according to the recipe.</param>
 	public void TryToCraft(
-		List<ItemAttributesV2> possibleIngredients,
+		List<CraftingIngredient> possibleIngredients,
 		List<ItemAttributesV2> possibleTools,
 		GameObject crafterGameObject
 	)
@@ -238,7 +238,7 @@ public class RecipeV2 : ScriptableObject
 	/// <param name="possibleTools">Tools that might be used for crafting.</param>
 	/// <param name="crafterGameObject">The game object that crafting according to the recipe.</param>
 	public void UnsafelyCraft(
-		List<ItemAttributesV2> possibleIngredients,
+		List<CraftingIngredient> possibleIngredients,
 		List<ItemAttributesV2> possibleTools,
 		GameObject crafterGameObject
 	)
@@ -248,12 +248,12 @@ public class RecipeV2 : ScriptableObject
 		CompleteCrafting(crafterGameObject);
 	}
 
-	private void UseIngredients(List<ItemAttributesV2> possibleIngredients)
+	private void UseIngredients(List<CraftingIngredient> possibleIngredients)
 	{
 		for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 		{
 			int usedIngredientsCounter = 0;
-			foreach (ItemAttributesV2 possibleIngredient in possibleIngredients)
+			foreach (CraftingIngredient possibleIngredient in possibleIngredients)
 			{
 				foreach (RelatedRecipe relatedRecipe in possibleIngredient.RelatedRecipes)
 				{
@@ -282,12 +282,12 @@ public class RecipeV2 : ScriptableObject
 		}
 	}
 
-	private void UseReagents(List<ItemAttributesV2> possibleIngredients)
+	private void UseReagents(List<CraftingIngredient> possibleIngredients)
 	{
 		foreach (IngredientReagent requiredReagent in RequiredReagents)
 		{
 			float amountUsed = 0;
-			foreach (ItemAttributesV2 possibleIngredient in possibleIngredients)
+			foreach (CraftingIngredient possibleIngredient in possibleIngredients)
 			{
 				if (possibleIngredient.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
 				{
@@ -304,7 +304,7 @@ public class RecipeV2 : ScriptableObject
 		}
 	}
 
-	private int UseIngredient(int reqIngIndex, ItemAttributesV2 possibleIngredient, int usedIngredientsCounter)
+	private int UseIngredient(int reqIngIndex, CraftingIngredient possibleIngredient, int usedIngredientsCounter)
 	{
 		if (possibleIngredient.TryGetComponent(out Stackable stackable))
 		{

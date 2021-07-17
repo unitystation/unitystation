@@ -5,7 +5,7 @@ using UnityEngine;
 /// A pair of values: The ingredient itself as ItemAttributesV2 and its quantity
 /// </summary>
 [Serializable]
-public class IngredientV2 : ICloneable
+public class RecipeIngredient : ICloneable
 {
 	[SerializeField] [Min(1)] [Tooltip("The amount of required items.")]
 	private int requiredAmount = 1;
@@ -25,6 +25,6 @@ public class IngredientV2 : ICloneable
 
 	public object Clone()
 	{
-		return new IngredientV2 {requiredAmount = requiredAmount, requiredItem = requiredItem};
+		return new RecipeIngredient {requiredAmount = requiredAmount, requiredItem = requiredItem};
 	}
 }

@@ -20,7 +20,7 @@ namespace Systems.CraftingV2
 		private SerializedProperty spChildrenRecipes;
 
 		private RecipeV2 recipe;
-		private List<IngredientV2> LastSerializedIngredients = new List<IngredientV2>();
+		private List<RecipeIngredient> LastSerializedIngredients = new List<RecipeIngredient>();
 
 		private void OnEnable()
 		{
@@ -35,9 +35,9 @@ namespace Systems.CraftingV2
 
 			recipe = (RecipeV2) target;
 
-			foreach (IngredientV2 requiredIngredient in ((RecipeV2) target).RequiredIngredients)
+			foreach (RecipeIngredient requiredIngredient in ((RecipeV2) target).RequiredIngredients)
 			{
-				LastSerializedIngredients.Add((IngredientV2) requiredIngredient.Clone());
+				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
 			}
 		}
 
@@ -96,30 +96,30 @@ namespace Systems.CraftingV2
 		private void UpdateLastSerializedIngredients()
 		{
 			LastSerializedIngredients.Clear();
-			foreach (IngredientV2 requiredIngredient in recipe.RequiredIngredients)
+			foreach (RecipeIngredient requiredIngredient in recipe.RequiredIngredients)
 			{
-				LastSerializedIngredients.Add((IngredientV2) requiredIngredient.Clone());
+				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
 			}
 		}
 
 		private void ClearRelatedRecipes()
 		{
-			foreach (IngredientV2 ingredient in recipe.RequiredIngredients)
+			foreach (RecipeIngredient recipeIngredient in recipe.RequiredIngredients)
 			{
-				if (ingredient.RequiredItem == null)
+				if (recipeIngredient.RequiredItem == null)
 				{
 					continue;
 				}
-				if (ingredient.RequiredItem.gameObject.TryGetComponent(out ItemAttributesV2 itemAttributes))
+				if (recipeIngredient.RequiredItem.gameObject.TryGetComponent(out CraftingIngredient craftingIngredient))
 				{
-					for (int i = itemAttributes.RelatedRecipes.Count - 1; i >= 0; i--)
+					for (int i = craftingIngredient.RelatedRecipes.Count - 1; i >= 0; i--)
 					{
-						if (itemAttributes.RelatedRecipes[i].Recipe == recipe)
+						if (craftingIngredient.RelatedRecipes[i].Recipe == recipe)
 						{
-							itemAttributes.RelatedRecipes.RemoveAt(i);
+							craftingIngredient.RelatedRecipes.RemoveAt(i);
 						}
 					}
-					PrefabUtility.SavePrefabAsset(itemAttributes.gameObject);
+					PrefabUtility.SavePrefabAsset(craftingIngredient.gameObject);
 				}
 			}
 		}
@@ -134,12 +134,12 @@ namespace Systems.CraftingV2
 				}
 				if (
 					recipe.RequiredIngredients[i].RequiredItem.gameObject.TryGetComponent(
-						out ItemAttributesV2 itemAttributes
+						out CraftingIngredient craftingIngredient
 					)
 				)
 				{
-					itemAttributes.RelatedRecipes.Add(new RelatedRecipe(recipe, i));
-					PrefabUtility.SavePrefabAsset(itemAttributes.gameObject);
+					craftingIngredient.RelatedRecipes.Add(new RelatedRecipe(recipe, i));
+					PrefabUtility.SavePrefabAsset(craftingIngredient.gameObject);
 				}
 			}
 		}

@@ -197,14 +197,6 @@ namespace Items
 		[SerializeField]
 		private ItemsSprites itemSprites;
 
-		[SerializeField, NaughtyAttributes.ReadOnly] [Tooltip("Recipes that have this item as an ingredient.")]
-		private List<RelatedRecipe> relatedRecipes = new List<RelatedRecipe>();
-
-		/// <summary>
-		/// Recipes that have this item as an ingredient.
-		/// </summary>
-		public List<RelatedRecipe> RelatedRecipes => relatedRecipes;
-
 		#region Lifecycle
 
 		private void Awake()

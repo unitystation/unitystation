@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Systems.CraftingV2;
 using Items;
 using UnityEngine;
 
@@ -109,7 +110,7 @@ namespace Player
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
 		public bool CanCraft(
 			RecipeV2 recipe,
-			List<ItemAttributesV2> possibleIngredients,
+			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
 		)
 		{
@@ -120,10 +121,10 @@ namespace Player
 		/// Gets all reachable items from a tile that a player is directed to.
 		/// </summary>
 		/// <returns>All reachable items from a tile that a player is directed to.</returns>
-		private List<ItemAttributesV2> GetPossibleIngredients()
+		private List<CraftingIngredient> GetPossibleIngredients()
 		{
 			Vector3Int ingredientsSourceVector = playerScript.WorldPos;
-			List<ItemAttributesV2> possibleIngredients = new List<ItemAttributesV2>();
+			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
 			// it's unlikely that it will be null, but we are not immune from this case
 			if (directional != null)
 			{
@@ -138,7 +139,7 @@ namespace Player
 				context: playerScript.gameObject
 			))
 			{
-				possibleIngredients = MatrixManager.GetAt<ItemAttributesV2>(ingredientsSourceVector, true);
+				possibleIngredients = MatrixManager.GetAt<CraftingIngredient>(ingredientsSourceVector, true);
 			}
 
 			return possibleIngredients;
@@ -190,7 +191,7 @@ namespace Player
 		/// <param name="recipe">The recipe to try to finish crafting.</param>
 		public void TryToFinishCrafting(RecipeV2 recipe)
 		{
-			List<ItemAttributesV2> possibleIngredients = GetPossibleIngredients();
+			List<CraftingIngredient> possibleIngredients = GetPossibleIngredients();
 			List<ItemAttributesV2> possibleTools = GetPossibleTools();
 			if (!CanCraft(recipe, possibleIngredients, possibleTools))
 			{
