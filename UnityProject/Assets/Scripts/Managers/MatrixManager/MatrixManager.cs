@@ -469,6 +469,18 @@ public partial class MatrixManager : MonoBehaviour
 		return true;
 	}
 
+	public static bool IsConstructable(Vector3Int worldPos)
+	{
+		foreach (var matrixInfo in Instance.ActiveMatrices)
+		{
+			if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
