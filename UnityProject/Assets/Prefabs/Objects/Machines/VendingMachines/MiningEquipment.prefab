@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 494203577807957586, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 5779498140240239309}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
@@ -268,6 +273,12 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[8].ItemName
       value: Havanian Cigar Case
       objectReference: {fileID: 0}
+    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 563700666a7b1124390c6f9ff0986197,
+        type: 2}
     - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_Sprite
@@ -336,3 +347,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
+--- !u!210 &5779498140240239309 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 5821560771589487274, guid: 2f2954acc32d9d3468c620e34a625966,
+    type: 3}
+  m_PrefabInstance: {fileID: 71688443645419623}
+  m_PrefabAsset: {fileID: 0}

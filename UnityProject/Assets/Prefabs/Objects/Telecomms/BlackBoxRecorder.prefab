@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: wattusage
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 090f4d2bd69a44e4785b2e63139df052,
+        type: 2}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 7751116792912395922, guid: 26ce58f34ac79cc42b2d20599e91ba04,
+        type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Sprite
@@ -133,6 +145,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: e1ad8de4f68a56b47873e091a2bcecd1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: exportCost
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

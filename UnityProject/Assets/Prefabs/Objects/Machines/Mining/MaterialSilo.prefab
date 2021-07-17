@@ -67,6 +67,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 67e2b14ddf7671f4d8be895a448f9a77,
+        type: 2}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 3584815683771902604, guid: c49ae378974335145b473af38d47bc4d,
+        type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Size.x
@@ -159,6 +171,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 60ca8a399a7aa194dae1560980333f3b
       objectReference: {fileID: 0}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 6121050030887182365}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName
@@ -175,6 +192,12 @@ PrefabInstance:
 --- !u!1 &8808594067259233453 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7828612527874871569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &6121050030887182365 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 7828612527874871569}
   m_PrefabAsset: {fileID: 0}

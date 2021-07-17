@@ -29,7 +29,7 @@ namespace Pipes
 			base.OnSpawnServer(info);
 		}
 
-		public override void Interaction(HandApply interaction)
+		public override void HandApplyInteraction(HandApply interaction)
 		{
 			ToggleState();
 		}

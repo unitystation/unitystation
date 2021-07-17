@@ -11,7 +11,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			if (gasMix.GetMoles(Gas.WaterVapor) != 0 && gasMix.GetMoles(Gas.WaterVapor) / gasMix.Moles > 0.1)
 			{

@@ -12,7 +12,7 @@ namespace Systems.Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public void React(GasMix gasMix, Vector3 tilePos, Matrix matrix)
+		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			var energyReleased = 0f;
 			var oldHeatCap = gasMix.WholeHeatCapacity;
@@ -55,7 +55,7 @@ namespace Systems.Atmospherics
 
 					if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && rnd.Next(0, 2) == 0)
 					{
-						SpawnSafeThread.SpawnPrefab(tilePos, AtmosManager.Instance.hotIce);
+						SpawnSafeThread.SpawnPrefab(node.Position, AtmosManager.Instance.hotIce);
 					}
 
 					energyReleased += AtmosDefines.FIRE_FREON_ENERGY_RELEASED * freonBurnRate;

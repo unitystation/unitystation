@@ -13,7 +13,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		public float CurrentDistance => currentDistance;
 
-		public bool OnMove(Vector2 traveledDistance)
+		public bool OnMove(Vector2 traveledDistance, Vector2 previousWorldPosition)
 		{
 			return AddDistance(traveledDistance.magnitude);
 		}

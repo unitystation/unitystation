@@ -49,7 +49,7 @@ namespace Pipes
 
 		private string ReadMeter()
 		{
-			if (metaDataNode.PipeData.Count > 0)
+			if (metaDataNode?.PipeData?.Count > 0)
 			{
 				var gasInfo = metaDataNode.PipeData[0].pipeData.GetMixAndVolume;
 				string pressure = gasInfo.Density().y.ToString("#.00");

@@ -1060,7 +1060,6 @@ MonoBehaviour:
   RTT: 0
   maxHealth: 100
   brain: {fileID: 0}
-  ImplantList: []
   RootBodyPartContainers: []
   PlayerScriptOwner: {fileID: 114617133355526680}
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
@@ -1091,6 +1090,7 @@ MonoBehaviour:
       m_keys: []
       m_values: []
     reagentKeys: []
+  StartingBlood: 500
   bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
 --- !u!114 &4232843736106124361
 MonoBehaviour:
@@ -1106,6 +1106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBreathAnywhere: 0
   tickRate: 1
+  GasMultiplier: 100
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8136,7 +8137,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -379,6 +379,65 @@ PrefabInstance:
       value: An 18th-century multi-purpose trenchcoat. Someone who wears this means
         serious business.
       objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].SlotArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].SlotArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].hoverName
+      value: Pocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].namedSlot
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].hoverName
+      value: Pocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].namedSlot
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[1].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+        type: 3}
+    - target: {fileID: 4247485008670982582, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: storage.Array.data[2].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+        type: 3}
+    - target: {fileID: 4279701593722495436, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: aa8fbe26ddc59ba45b15ea5dc9d24158,
+        type: 2}
+    - target: {fileID: 4279701593722495436, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: ecc7c8df4e403e241806904560c9bd11,
+        type: 2}
     - target: {fileID: 7325966862900394647, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: PresentSpriteSet

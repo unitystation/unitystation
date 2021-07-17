@@ -305,8 +305,8 @@ public partial class MatrixManager
 			ApplyWireDamage( i.Matrix2, cellPos2 );
 
 			//Heat shit up
-			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1 );
-			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2 );
+			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 500);
+			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, 500);
 
 			//Other
 			foreach ( var layer in layersToRemove )

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBurningOnSpawn: 0
+  hotspotTemperature: 700
+  changeGasMixTemp: 1
 --- !u!114 &4591132913751966026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,6 +54,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 1
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+  transferMode: 3
+  possibleTransferAmounts: []
+  transferAmount: 100
   maxCapacity: 20
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
@@ -66,15 +77,6 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
-  UseStandardExamine: 1
-  ExamineAmount: 1
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist:
-  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-  transferMode: 3
-  possibleTransferAmounts: []
-  transferAmount: 100
 --- !u!1 &7095945559787729905
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +120,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -178,6 +179,7 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &9166176503069144041
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +223,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -281,6 +282,7 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &1694231013772067744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -470,7 +472,7 @@ PrefabInstance:
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_AssetId
-      value: b735ab74dab174a4f90c79558cd51e43
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

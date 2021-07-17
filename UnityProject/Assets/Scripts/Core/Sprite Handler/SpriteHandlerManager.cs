@@ -124,7 +124,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 		var Newtem = new Dictionary<SpriteHandler, SpriteHandlerManager.SpriteChange>();
 		foreach (var SH in Specifyed)
 		{
-			Newtem[SH] = NewClientChanges[SH];
+			if (NewClientChanges.ContainsKey(SH))
+			{
+				Newtem[SH] = NewClientChanges[SH];
+			}
 		}
 		SpriteUpdateMessage.SendToSpecified(requestedBy, Newtem);
 	}

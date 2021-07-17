@@ -16,12 +16,12 @@ MonoBehaviour:
   MaxWalkingDebuff: -1.5
   MaxCrawlDebuff: -0.2
   RelatedStomach: {fileID: 0}
-  ReleaseNutrimentAtPercent: 0.2
-  AbsorbNutrimentAtPercent: 0.35
-  ReleaseAmount: 1
-  MaxAmount: 500
-  AbsorbedAmount: 100
-  DebuffCutInPoint: 100
+  ReleaseNutrimentAtPer1UBloodFlow: 0.005
+  AbsorbNutrimentAtPer1UBloodFlow: 0.01
+  ReleaseAmount: 10
+  MaxAmount: 1000
+  AbsorbedAmount: 500
+  DebuffCutInPoint: 500
   WasApplyingDebuff: 0
   isFreshBlood: 0
 --- !u!1001 &604480131879869523
@@ -37,11 +37,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: db63225c93a3fb44287a6c6a21275810,
         type: 2}
-    - target: {fileID: 2392288886832539726, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -132,6 +127,16 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyPartType
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: CanGetHungry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: bloodThroughput
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

@@ -144,7 +144,7 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public List<BodyPart> ImplantList = new List<BodyPart>();
+		public HashSet<BodyPart> ImplantList = new HashSet<BodyPart>();
 
 		/// <summary>
 		/// A list of all body part containers of the creature.
@@ -199,21 +199,21 @@ namespace HealthV2
 
 		public HungerState CalculateHungerState()
 		{
-			//hummm
-			// if (MaxNutrimentLevel < NutrimentLevel)
-			// {
-			// return HungerState.Full;
-			// }
-			// else if (NutrimentLevel != 0)
-			// {
-			// return HungerState.Normal;
-			// }
-			// else if (NutrimentLevel == 0)
-			// {
-			// return HungerState.Starving;
-			// }
 
-			return HungerState.Normal;
+			var State = HungerState.Normal;
+			foreach (var bodyPart in ImplantList)
+			{
+				if (bodyPart.HungerState == HungerState.Malnourished || bodyPart.HungerState == HungerState.Starving) //TODO Add the other states
+				{
+					State = bodyPart.HungerState;
+					if (State == HungerState.Starving)
+					{
+						break;
+					}
+				}
+			}
+
+			return State;
 		}
 
 		/// <summary>
@@ -310,19 +310,27 @@ namespace HealthV2
 			{
 				implant.ImplantUpdate();
 			}
+
 			//do Separate delayed blood update
 		}
 
 		//Server Side only
 		private void PeriodicUpdate()
 		{
-			foreach (var implant in RootBodyPartContainers)
+			if (IsDead == false)
 			{
-				implant.ImplantPeriodicUpdate();
+				foreach (var implant in RootBodyPartContainers)
+				{
+					implant.ImplantPeriodicUpdate();
+				}
 			}
+
 
 			fireStacksDamage();
 			CalculateRadiationDamage();
+
+			if (IsDead) return;
+
 			CalculateOverallHealth();
 		}
 
@@ -355,9 +363,11 @@ namespace HealthV2
 				if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 				{
 					healthStateController.SetFireStacks(0);
+					return;
 				}
 
-				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700,
+					true);
 			}
 		}
 
@@ -480,7 +490,7 @@ namespace HealthV2
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
 			}
 
-			if (brain == null ||  brain.RelatedPart.Health < -100)
+			if (brain == null || brain.RelatedPart.Health < -100)
 			{
 				currentHealth -= 200;
 				healthStateController.SetOverallHealth(currentHealth);
@@ -495,6 +505,7 @@ namespace HealthV2
 
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
+			healthStateController.SetHunger(HungerState);
 
 			if (currentHealth < -100)
 			{
@@ -729,7 +740,8 @@ namespace HealthV2
 		/// <param name="damage">The Trauma damage value</param>
 		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
 		[Server]
-		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, BodyPart.TramuticDamageTypes damageType)
+		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage,
+			BodyPart.TramuticDamageTypes damageType)
 		{
 			RootBodyPartContainer aimedPartContainer = null;
 			foreach (RootBodyPartContainer container in RootBodyPartContainers)
@@ -740,9 +752,10 @@ namespace HealthV2
 				}
 			}
 
-			if(aimedPartContainer == null)
+			if (aimedPartContainer == null)
 			{
-				Logger.LogError($"[LivingHealthBase/{name}] - Unable to find body part container. Skipping Trauma Damage.");
+				Logger.LogError(
+					$"[LivingHealthBase/{name}] - Unable to find body part container. Skipping Trauma Damage.");
 				return;
 			}
 
@@ -862,7 +875,6 @@ namespace HealthV2
 			{
 				bodyPart.ResetDamage();
 			}
-
 		}
 
 
@@ -874,11 +886,11 @@ namespace HealthV2
 		/// <returns></returns>
 		public bool HasTraumaDamage(BodyPartType partType)
 		{
-			foreach(var container in RootBodyPartContainers)
+			foreach (var container in RootBodyPartContainers)
 			{
-				if(container.BodyPartType == partType)
+				if (container.BodyPartType == partType)
 				{
-					foreach(BodyPart part in container.ContainsLimbs)
+					foreach (BodyPart part in container.ContainsLimbs)
 					{
 						if (part.GetCurrentBurnDamage() > 0) return true;
 						if (part.GetCurrentSlashDamage() > 0) return true;
@@ -886,14 +898,16 @@ namespace HealthV2
 					}
 				}
 			}
+
 			return false;
 		}
 
-		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, BodyPart.TramuticDamageTypes typeToHeal)
+		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal,
+			BodyPart.TramuticDamageTypes typeToHeal)
 		{
-			foreach(var container in RootBodyPartContainers)
+			foreach (var container in RootBodyPartContainers)
 			{
-				if(container.BodyPartType == targetBodyPartToHeal)
+				if (container.BodyPartType == targetBodyPartToHeal)
 				{
 					container.HealTraumaDamage(healAmount, typeToHeal);
 				}
@@ -907,7 +921,8 @@ namespace HealthV2
 		{
 			Extinguish(); //Remove any fire on them.
 			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
-			healthStateController.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
+			healthStateController
+				.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
 			foreach (var BodyPart in ImplantList) //Restart their heart.
 			{
 				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
@@ -921,6 +936,7 @@ namespace HealthV2
 					}
 				}
 			}
+
 			CalculateOverallHealth(); //This makes the player alive and concision.
 			player.playerMove.allowInput = true; //Let them interact with the world again.
 		}
@@ -960,9 +976,10 @@ namespace HealthV2
 		public virtual void Gib()
 		{
 			Death();
-			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Slip, gameObject.transform.position, gameObject); //TODO: replace with gibbing noise
+			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Slip, gameObject.transform.position,
+				gameObject); //TODO: replace with gibbing noise
 			CirculatorySystem.Bleed(GetTotalBlood());
-			foreach(RootBodyPartContainer container in RootBodyPartContainers.ToArray())
+			foreach (RootBodyPartContainer container in RootBodyPartContainers.ToArray())
 			{
 				container.RemoveLimbs();
 			}
@@ -984,12 +1001,11 @@ namespace HealthV2
 				{
 					HV2.PlayerScriptOwner.playerMove.allowInput = false;
 				}
-
 			}
+
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			//TODO: Reimplemenmt
 		}
 
@@ -1047,7 +1063,6 @@ namespace HealthV2
 		}
 
 		#region Examine
-
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
@@ -1115,7 +1130,8 @@ namespace HealthV2
 			//Alive but not in body
 			if (script != null && script.HasSoul == false)
 			{
-				healthString.Append($"<color=#b495bf>\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. {theyPronoun} may snap out of it soon.</color>");
+				healthString.Append(
+					$"<color=#b495bf>\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. {theyPronoun} may snap out of it soon.</color>");
 			}
 
 			return healthString.ToString();

@@ -541,7 +541,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 				SyncFireStacks(fireStacks, 0);
 			}
 
-			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition());
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700);
 		}
 
 		CalculateRadiationDamage();

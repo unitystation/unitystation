@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099030289814701161, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -77,5 +82,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StechkinPistolMagazine9mmIncendiary
       objectReference: {fileID: 0}
+    - target: {fileID: 7544903932459635324, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 6113211322604708707, guid: ba50a3735a8f0b94a8cff8d24c324f24,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 623189688b8953843aa87c899f5b0c31, type: 3}

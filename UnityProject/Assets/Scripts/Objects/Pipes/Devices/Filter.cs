@@ -105,7 +105,7 @@ namespace Pipes
 			}
 		}
 
-		public override void Interaction(HandApply interaction)
+		public override void HandApplyInteraction(HandApply interaction)
 		{
 			TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType.Filter, TabAction.Open );
 		}

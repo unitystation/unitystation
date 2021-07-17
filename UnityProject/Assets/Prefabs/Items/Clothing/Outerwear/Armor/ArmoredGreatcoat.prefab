@@ -349,6 +349,65 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: f7b1874a6ebd85a439111098540d72d7
       objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[1].SlotArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[2].SlotArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[1].hoverName
+      value: Pocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[1].namedSlot
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[2].hoverName
+      value: Pocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[2].namedSlot
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[1].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+        type: 3}
+    - target: {fileID: 4355857236228022228, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: storage.Array.data[2].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+        type: 3}
+    - target: {fileID: 4460122614929473454, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: aa8fbe26ddc59ba45b15ea5dc9d24158,
+        type: 2}
+    - target: {fileID: 4460122614929473454, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: ecc7c8df4e403e241806904560c9bd11,
+        type: 2}
     - target: {fileID: 7145545764318209269, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: PresentSpriteSet

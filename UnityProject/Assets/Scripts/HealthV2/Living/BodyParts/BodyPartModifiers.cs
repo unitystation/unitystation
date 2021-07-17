@@ -12,14 +12,6 @@ namespace HealthV2
 	public partial class BodyPart
 	{
 		/// <summary>
-		/// This should be utilized in most implants so as to make changing the effectiveness of it easy.
-		/// Some organs wont boil down to just one efficiency score, so you'll have to keep that in mind.
-		/// </summary>
-		[Tooltip("This is a generic variable representing the 'efficieny' of the implant." +
-				 "Can be modified by implant modifiers.")]
-		[SerializeField] protected float efficiency = 1;
-
-		/// <summary>
 		/// Event that fires when the body part's modifier total changes
 		/// </summary>
 		public event Action ModifierChange;
@@ -29,13 +21,13 @@ namespace HealthV2
 		/// thus a low TotalModified means the part is less effective, high means it is more effective
 		/// </summary>
 		[Tooltip("The total amount that modifiers are affecting this part's efficiency by")]
-		public float TotalModified = 1;
+		[HideInInspector] public float TotalModified = 1;
 
 		/// <summary>
 		/// The list of all modifiers currently applied to this part
 		/// </summary>
 		[Tooltip("All modifiers applied to this")]
-		public List<Modifier> AppliedModifiers = new List<Modifier>();
+		[HideInInspector] public List<Modifier> AppliedModifiers = new List<Modifier>();
 
 		/// <summary>
 		/// Updates the body part's TotalModified value based off of the modifiers being applied to it
