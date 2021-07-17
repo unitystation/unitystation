@@ -37,7 +37,7 @@ namespace Pipes
 
 
 		[NonSerialized] public List<PipeData> ConnectedPipes = new List<PipeData>();
-		public List<PipeData> Outputs = new List<PipeData>(); //Make sure to redirect to net if there is existence
+		[NonSerialized] public List<PipeData> Outputs = new List<PipeData>(); //Make sure to redirect to net if there is existence
 
 		public PipeNode pipeNode;
 		public MonoPipe MonoPipe;
