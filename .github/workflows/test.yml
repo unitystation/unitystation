@@ -71,7 +71,7 @@ jobs:
 
       # Cache the library directory to speed up builds
       - name: Cache library directory
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2
         with:
           path: ${{ matrix.projectPath }}/Library
           key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
