@@ -122,7 +122,8 @@ namespace GameModes
 
 		[Tooltip("The chance for for every possible mid round antag to spawn after start" +
 		         "E.G If the gamemode needs another antag say we need two but only have one currently, " +
-		         "then every time a player joins they will roll this chance for it." +
+		         "then every time a player joins they will roll this chance for it. " +
+		         "It is multiplied by the amount of open antag slots." +
 		         "This stops the players from guessing by player numbers when they should join to get the antag")]
 		[SerializeField]
 		private int midRoundAntagsChance = 25;
