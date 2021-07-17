@@ -67,7 +67,7 @@ jobs:
     steps:
       # Checkout repository (required to test local actions)
       - name: Checkout repository
-        uses: actions/checkout@v2.1.5
+        uses: actions/checkout@v2
 
       # Cache the library directory to speed up builds
       - name: Cache library directory
