@@ -91,8 +91,12 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
+  ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
+  passableExclusionsToThis: []
 --- !u!114 &114703946515217786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,8 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: BladeSlice
 --- !u!114 &114500746951952046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +171,6 @@ MonoBehaviour:
   ElectricalNodeControl: {fileID: 3451459747492305769}
   BatterySupplyingModule: {fileID: 7874108366048478862}
   isOn: 1
-  currentCharge: 0
 --- !u!114 &114421102744754910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +225,6 @@ MonoBehaviour:
   WireEndB: 10
   WireEndA: 9
   ListCanConnectTo: 09000000
-  SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 9
     DirectionReaction: 0
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: 0
   ControllingNode: {fileID: 0}
-  StartOnStartUp: 0
+  StartOnStartUp: 1
   Previouscurrent: 0
   current: 0
   PreviousSupplyingVoltage: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   InternalResistance: 0
   PreviousProducingWatts: 0
   ProducingWatts: 0
-  MaximumCurrentSupport: 20
+  MaximumCurrentSupport: 30
   MinimumSupportVoltage: 216
   StandardSupplyingVoltage: 240
   CapacityMax: 3456000
@@ -295,9 +295,10 @@ MonoBehaviour:
   ExtraChargeCutOff: 240
   IncreasedChargeVoltage: 241
   StandardChargeNumber: 6
-  ChargeSteps: 0.1
   MaxChargingDivider: 120
   ChargingDivider: 10
+  InputLevel: 100
+  OutputLevel: 100
   CanCharge: 1
   Cansupport: 1
   ToggleCanCharge: 1
@@ -346,6 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114006907476957006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,10 +360,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &-476175051414813368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +381,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialIntegrity: 100
-  soundOnHit: 
+  soundOnHit:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -390,6 +400,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -398,7 +409,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &-6614577757191591987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &1421609777951089046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,11 +441,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 017b3c9cd22f04f4bb668954764b1381, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 1002c0247e412884e91c857ce6e51d9c,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!1 &1744594665423798
 GameObject:
@@ -499,7 +515,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: b9d3891b95a39a84598734922347a87f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -581,7 +597,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 21300022, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -663,7 +679,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 13
   m_Sprite: {fileID: 21300012, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -745,7 +761,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 12
   m_Sprite: {fileID: 21300028, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

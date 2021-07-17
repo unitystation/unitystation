@@ -26,6 +26,7 @@ namespace Pipes
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
+			Logger.Log(toShow);
 		}
 	}
 }

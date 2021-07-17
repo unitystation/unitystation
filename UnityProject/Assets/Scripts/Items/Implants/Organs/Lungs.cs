@@ -192,7 +192,7 @@ public class Lungs : BodyPartModification
 			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
 
 			// n = PV/RT
-			float gasMoles = breathGasMix.GetPressure(gas) * LungSize / ( 8.314f * breathGasMix.Temperature);
+			float gasMoles = breathGasMix.GetMoles(gas);
 
 			// Get as much as we need, or as much as in the lungs, whichever is lower
 			Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
@@ -214,7 +214,7 @@ public class Lungs : BodyPartModification
 				}
 			}
 
-			if(molesRecieved.Approx(0) == false)
+			if(molesRecieved > 0)
 			{
 				toInhale.Add(gasReagent, molesRecieved * efficiency);
 			}

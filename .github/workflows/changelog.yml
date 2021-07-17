@@ -2,7 +2,6 @@ name: pr2changelog
 on:
     pull_request_target:
         branches:
-            - master
             - develop
         types:
             - closed
@@ -29,7 +28,7 @@ jobs:
                     categories: Fix;New;Improvement;Balance
 
     after_merge:
-        if: github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
+        if: github.event.pull_request.merged == true
 
         name: changelog generator
         runs-on: ubuntu-latest

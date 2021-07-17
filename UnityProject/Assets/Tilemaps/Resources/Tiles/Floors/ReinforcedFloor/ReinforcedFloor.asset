@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: ReinforcedFloor
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: reinforced floor
   LayerType: 3
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  floorTileSounds: {fileID: 0}
+  floorTileSounds: {fileID: 11400000, guid: b6656d824eea91648b8ada5f88db78ca, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
@@ -28,6 +28,8 @@ MonoBehaviour:
   RadiationPassability: 1
   ThermalConductivity: 0.05
   HeatCapacity: 0
+  constructable: 1
+  RadiationPassability: 1
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0

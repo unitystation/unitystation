@@ -41,7 +41,7 @@ public class ProfileManager : MonoBehaviour
 		runningProfile = true;
 
 		Directory.CreateDirectory("Profiles");
-		Profiler.SetAreaEnabled(ProfilerArea.CPU, true);
+		Profiler.SetAreaEnabled(ProfilerArea.Memory, true);
 		Profiler.logFile = "Profiles/" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
 		Profiler.enableBinaryLog = true;
 		Profiler.enableAllocationCallstacks = true;

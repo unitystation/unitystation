@@ -76,9 +76,9 @@ public class ItemSlot
 	/// </summary>
 	public RegisterPlayer RootPlayer()
 	{
-		var root = GetRootStorage();
+		var root = GetRootStorageOrPlayer();
 		if (root == null) return null;
-		return root.Player;
+		return root.GetComponent<RegisterPlayer>();
 	}
 
 	/// <summary>
@@ -225,9 +225,9 @@ public class ItemSlot
 	/// Gets the top-level ItemStorage containing this slot. I.e. if this
 	/// is inside a crate in a backpack, will return the crate ItemStorage.
 	/// </summary>
-	public ItemStorage GetRootStorage()
+	public GameObject GetRootStorageOrPlayer()
 	{
-		return itemStorage.GetRootStorage();
+		return itemStorage.GetRootStorageOrPlayer();
 	}
 
 	public override string ToString()

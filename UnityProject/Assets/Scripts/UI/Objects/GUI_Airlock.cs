@@ -1,6 +1,8 @@
-﻿using Doors;
+﻿using System.Linq;
+using Doors;
 using Doors.Modules;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Objects
 {
@@ -11,6 +13,13 @@ namespace UI.Objects
 
 		[SerializeField]
 		private NetLabel labelBolts = null;
+
+		[SerializeField] private NetLabel labelSafety = null;
+
+		[SerializeField] private Image safetyImage;
+		[SerializeField] private Color safetyImageColorWhenSAFE;
+		[SerializeField] private Color safetyImageColorWhenHARM;
+		[SerializeField] private Color safetyImageColorWhenNOPOWER;
 
 		private DoorMasterController doorMasterController;
 		private DoorMasterController DoorMasterController {
@@ -24,19 +33,56 @@ namespace UI.Objects
 
 		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 		{
+			bool foundBolts = false;
 			labelOpen.Value = DoorMasterController.IsClosed ? "Closed" : "Open";
 
 			foreach (var module in DoorMasterController.ModulesList)
 			{
 				if(module is BoltsModule bolts)
 				{
-
 					labelBolts.Value = bolts.BoltsDown ? "Bolted" : "Unbolted";
-					return;
+					foundBolts = true;
+				}
+				if (module is ElectrifiedDoorModule electric)
+				{
+					labelSafety.Value = electric.IsElectrecuted ? "DANGER" : "SAFE";
+					UpdateSafetyStatusUI(electric);
 				}
 			}
 
-			labelBolts.Value = "No Bolt Module";
+			if(!foundBolts) labelBolts.Value = "No Bolt Module";
+		}
+
+		public void OnToggleAirLockSafety()
+		{
+			foreach (var module in DoorMasterController.ModulesList)
+			{
+				if (module is ElectrifiedDoorModule electric)
+				{
+					if(doorMasterController.HasPower) electric.IsElectrecuted = !electric.IsElectrecuted;
+					doorMasterController.UpdateGui();
+					UpdateSafetyStatusUI(electric);
+					break;
+				}
+			}
+		}
+
+		private void UpdateSafetyStatusUI(ElectrifiedDoorModule door)
+		{
+			//(Max): This is broken for some reason and doesn't work.
+			if (doorMasterController.HasPower == false)
+			{
+				safetyImage.color = safetyImageColorWhenNOPOWER;
+				return;
+			}
+			if (door.IsElectrecuted)
+			{
+				safetyImage.color = safetyImageColorWhenHARM;
+			}
+			else
+			{
+				safetyImage.color = safetyImageColorWhenSAFE;
+			}
 		}
 
 		public void OnToggleOpenDoor()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
+using NaughtyAttributes;
 using Items;
  using Messages.Server.HealthMessages;
 
@@ -20,9 +21,11 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	public bool StopsExternalBleeding = false;
 	public bool HealsTraumaDamage = false;
 
-	[Range(0,100)] public float TraumaDamageToHeal = 20;
+	[Range(0,100), EnableIf("HealsTraumaDamage")]
+	public float TraumaDamageToHeal = 20;
 
-	public BodyPart.TramuticDamageTypes DamageTypeToHeal;
+	[SerializeField, EnableIf("HealsTraumaDamage")]
+	protected BodyPart.TramuticDamageTypes TraumaTypeToHeal;
 
 	protected Stackable stackable;
 
@@ -98,9 +101,9 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (livingHealthMasterBase.HasTraumaDamage(interaction.TargetBodyPart))
 		{
-			livingHealthMasterBase.HealTraumaDamage(TraumaDamageToHeal, interaction.TargetBodyPart, DamageTypeToHeal);
+			livingHealthMasterBase.HealTraumaDamage(TraumaDamageToHeal, interaction.TargetBodyPart, TraumaTypeToHeal);
 			Chat.AddActionMsgToChat(interaction,
-			$"You apply the {name} to {livingHealthMasterBase.PlayerScriptOwner.visibleName}",
+			$"You apply the {gameObject.ExpensiveName()} to {livingHealthMasterBase.PlayerScriptOwner.visibleName}",
 			$"{interaction.Performer.ExpensiveName()} applies {name} to {livingHealthMasterBase.PlayerScriptOwner.visibleName}.");
 		}
 	}

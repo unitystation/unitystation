@@ -16,7 +16,7 @@ MonoBehaviour:
   LayerType: 4
   TileType: 7
   RequiredTiles: []
-  floorTileSounds: {fileID: 0}
+  floorTileSounds: {fileID: 11400000, guid: 33b708d1a18305241a84871025e97c36, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 0
@@ -24,6 +24,7 @@ MonoBehaviour:
   passable: 1
   mineable: 0
   miningTime: 5
+  constructable: 1
   RadiationPassability: 1
   doesReflectBullet: 0
   indestructible: 0

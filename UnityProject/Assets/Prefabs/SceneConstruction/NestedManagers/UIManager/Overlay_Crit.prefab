@@ -49,30 +49,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3033b5d39951d430299684ac3cd06d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  critcalSettings:
-    holeRadius: 0.03
-    holeShape: 2
-    shroudActive: 1
-    shroudColor: {r: 0.509434, g: 0, b: 0, a: 0.6039216}
   currentState: 0
   holeMat: {fileID: 2100000, guid: ecc97e9b19bc34985b4b01b0121c9683, type: 2}
-  injuredSettings:
-    holeRadius: 0.38
-    holeShape: 3.2
-    shroudActive: 1
-    shroudColor: {r: 0.50980395, g: 0, b: 0, a: 0.19215687}
-  normalSettings:
-    holeRadius: 0
-    holeShape: 0
-    shroudActive: 0
-    shroudColor: {r: 0, g: 0, b: 0, a: 1}
   shroud: {fileID: 5288348493137659960}
   shroudImg: {fileID: 5470271345630498554}
-  unconsciousSettings:
-    holeRadius: 0.06
-    holeShape: 1
-    shroudActive: 1
-    shroudColor: {r: 0.509434, g: 0, b: 0, a: 0.3764706}
+  shroudColor: {r: 0.50980395, g: 0, b: 0, a: 0}
+  Radius: 5
+  Epow: 1.5
 --- !u!1 &5367048007662142620
 GameObject:
   m_ObjectHideFlags: 0

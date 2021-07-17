@@ -31,6 +31,7 @@ public class UI_SlotManager : MonoBehaviour
 		EventManager.AddHandler(Event.LoggedOut, RemoveAll);
 		EventManager.AddHandler(Event.PlayerSpawned, RemoveAll);
 		EventManager.AddHandler(Event.RoundEnded, RemoveAll);
+		EventManager.AddHandler(Event.PreRoundStarted, RemoveAll);
 	}
 
 	public void AddContainer(IDynamicItemSlotS bodyPartUISlots)
@@ -136,7 +137,7 @@ public class UI_SlotManager : MonoBehaviour
 
 	public void RemoveAll()
 	{
-		if (gameObject == null) return;
+		if (this == null) return;
 		foreach (var Inslots in BodyPartToSlot.Keys.ToArray())
 		{
 			foreach (var Characteristics in Inslots.Storage)
