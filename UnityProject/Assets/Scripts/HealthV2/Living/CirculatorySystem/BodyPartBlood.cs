@@ -15,11 +15,13 @@ namespace HealthV2
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
 		/// </summary>
 		[Tooltip("Modifier to reduce efficiency when the character gets hungry")]
-		public Modifier HungerModifier = new Modifier();
+		[NonSerialized] public Modifier HungerModifier = new Modifier();
 
-
+		[HorizontalLine]
 		[Tooltip("Is this connected to the blood stream at all?")] [SerializeField]
 		private bool isBloodCirculated = true;
+
+		public bool CanGetHungry = true;
 
 		/// <summary>
 		/// Flag that is true if the body part is connected to the blood stream. If this is false
@@ -39,7 +41,7 @@ namespace HealthV2
 		/// The reagent that is used by this body part, eg oxygen.
 		/// </summary>
 		[Tooltip("What type of blood does this body part work with?")]
-		public BloodType bloodType = null;
+		[NonSerialized]	public BloodType bloodType = null;
 
 		/// <summary>
 		/// The reagent that is used by this body part, eg oxygen.
@@ -68,11 +70,11 @@ namespace HealthV2
 		/// <summary>
 		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
 		/// </summary>
-		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick?")] [SerializeField]
+		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick? For every 1u of blood flow")] [SerializeField]
 		private float bloodReagentConsumed = 0.00002f;
 
 		[Tooltip("How much blood reagent does this request per blood pump event?")] [SerializeField]
-		private float bloodThroughput = 0.015f; //This will need to be reworked when heartrate gets finished
+		private float bloodThroughput = 5f; //This will need to be reworked when heartrate gets finished
 
 		/// <summary>
 		/// The amount of blood ReagentMix this body part will remove and add each blood pump event
@@ -89,16 +91,16 @@ namespace HealthV2
 		/// <summary>
 		/// The amount of of nutriment to consumed each tick as part of passive metabolism
 		/// </summary>
-		[Tooltip("How much nutriment does this passively consume to each tick?")]
+		[Tooltip("How much nutriment does this passively consume to each tick? For every 1u of blood flow")]
 		public float PassiveConsumptionNutriment = 0.0005f;
 
 		/// <summary>
 		/// The amount of of nutriment to consume in order to perform work, eg heal damage or replenish blood supply
 		/// </summary>
-		[Tooltip("How much nutriment does this consume to perform work?")]
+		[Tooltip("How much nutriment does this consume to perform work? For every 1u of blood flow")]
 		public float ConsumptionNutriment = 0.002f;
 
-
+		[Tooltip("How many metabolic reactions can happen inside of this body part Per tick per 1u of blood flow ")]
 		public float ReagentMetabolism = 0.2f;
 
 		public HashSet<MetabolismReaction> MetabolismReactions = new HashSet<MetabolismReaction>();
@@ -109,8 +111,11 @@ namespace HealthV2
 		[Tooltip("What reagent does this expel as waste?")]
 		public Chemistry.Reagent NaturalToxinReagent;
 
+		[Tooltip("How much natural toxicity does this body part generate Per tick per 1u of blood flow ")]
+		public float ToxinGeneration = 0.002f;
 
-		public float ToxinGeneration = 0.0002f;
+
+		public HungerState HungerState = HungerState.Normal;
 
 		/// <summary>
 		/// Initializes the body part as part of the circulatory system
@@ -145,7 +150,11 @@ namespace HealthV2
 		{
 			if (isBloodCirculated == false) return;
 			ConsumeReagents();
-			ConsumeNutriments();
+			if (CanGetHungry)
+			{
+				ConsumeNutriments();
+			}
+
 			MetaboliseReactions();
 			NaturalToxicity();
 			//Assuming it's changed in this update since none of them use the Inbuilt functions
@@ -155,13 +164,13 @@ namespace HealthV2
 
 		protected virtual void NaturalToxicity()
 		{
-			BloodContainer.CurrentReagentMix.Add(NaturalToxinReagent, ToxinGeneration);
+			BloodContainer.CurrentReagentMix.Add(NaturalToxinReagent, ToxinGeneration * BloodThroughput);
 		}
 
 		protected virtual void MetaboliseReactions()
 		{
 			if (MetabolismReactions.Count == 0) return;
-			float ReagentsProcessed = (ReagentMetabolism * TotalModified) / MetabolismReactions.Count;
+			float ReagentsProcessed = (ReagentMetabolism * bloodThroughput * TotalModified) / MetabolismReactions.Count;
 			foreach (var Reaction in MetabolismReactions)
 			{
 				Reaction.React(this, BloodContainer.CurrentReagentMix, ReagentsProcessed);
@@ -175,18 +184,8 @@ namespace HealthV2
 		/// </summary>
 		protected virtual void ConsumeReagents()
 		{
-			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
-			if (!isBloodReagentConsumed) return;
 
-			float consumed = BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumed);
-
-			// Adds waste product (eg CO2) if any, currently always 1:1, could add code to change the ratio
-			if (wasteReagent)
-			{
-				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed);
-			}
-
-			//Heal if blood saturation post consumption is fine, otherwise do damage
+			//Heal if blood saturation consumption is fine, otherwise do damage
 			float bloodSaturation = 0;
 			float bloodCap = bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
 			if (bloodCap > 0)
@@ -195,6 +194,19 @@ namespace HealthV2
 				var ratioNativeBlood = bloodCap / (bloodCap + foreignCap);
 				bloodSaturation = BloodContainer[requiredReagent] * ratioNativeBlood / bloodCap;
 			}
+
+			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
+			if (!isBloodReagentConsumed) return;
+
+			float consumed = BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumed * bloodThroughput);
+
+			// Adds waste product (eg CO2) if any, currently always 1:1, could add code to change the ratio
+			if (wasteReagent)
+			{
+				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed);
+			}
+
+
 
 			var info = HealthMaster.CirculatorySystem.BloodInfo;
 			float damage;
@@ -215,7 +227,7 @@ namespace HealthV2
 					damage = 1;
 				}
 			}
-			else if (bloodSaturation > 1)
+			else if (bloodSaturation > 2)
 			{
 				//There is more oxygen in the organ than the blood can hold
 				//Blood might be oversaturated, we might have the wrong blood, maybe do something here
@@ -244,8 +256,8 @@ namespace HealthV2
 		public void OxyHeal(ReagentMix reagentMix, float amount)
 		{
 			if (Oxy <= 0) return;
-			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumed);
-			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumed, (int) DamageType.Oxy);
+			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumed * bloodThroughput);
+			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumed * bloodThroughput, (int) DamageType.Oxy);
 		}
 
 		/// <summary>
@@ -255,24 +267,26 @@ namespace HealthV2
 		{
 			float availableNutriment = BloodContainer.CurrentReagentMix.Subtract(Nutriment, Single.MaxValue);
 
-			if (availableNutriment > PassiveConsumptionNutriment)
+			if (availableNutriment > PassiveConsumptionNutriment * bloodThroughput)
 			{
-				availableNutriment -= PassiveConsumptionNutriment;
+				availableNutriment -= PassiveConsumptionNutriment * bloodThroughput;
 				if (TotalDamageWithoutOxy > 0)
 				{
-					float toConsume = Mathf.Min(ConsumptionNutriment, availableNutriment);
+					float toConsume = Mathf.Min(ConsumptionNutriment * bloodThroughput, availableNutriment);
 					availableNutriment -= toConsume;
 					NutrimentHeal(toConsume);
 				}
 
-				if (availableNutriment < PassiveConsumptionNutriment * 7)
+				if (availableNutriment < PassiveConsumptionNutriment * bloodThroughput * 7)
 				{
 					HungerModifier.Multiplier = 0.75f;
+					HungerState = HungerState.Malnourished;
 					// Is Hungry
 				}
 				else
 				{
 					HungerModifier.Multiplier = 1f;
+					HungerState = HungerState.Normal;
 				}
 
 				BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
@@ -280,6 +294,7 @@ namespace HealthV2
 			else
 			{
 				HungerModifier.Multiplier = 0.5f;
+				HungerState = HungerState.Starving;
 				// Is Starving
 			}
 		}

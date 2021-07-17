@@ -20,10 +20,16 @@ public class BodyPartSprites : NetworkBehaviour
 
 	public SpriteOrder SpriteOrder;
 
+	[SyncVar(hook = nameof(UpdateHideDlags))]
 	public ClothingHideFlags ClothingHide;
 
 	[SyncVar(hook = nameof(UpdateData))]
 	private string Data;
+
+	public void UpdateHideDlags(ClothingHideFlags OLd, ClothingHideFlags newOne)
+	{
+		ClothingHide = newOne;
+	}
 
 	public void UpdateData(string InOld, string InNew)
 	{
