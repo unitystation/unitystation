@@ -245,7 +245,7 @@ namespace GameModes
 				//E.g if traitor with two open slots it will be 25 * 2 = 50% chance on spawn to get the antag
 				//This prevents midround players from guessing when they can join the game to guarantee antag status
 				var percentage = midRoundAntagsChance * (expectedAntagCount - AntagManager.Instance.AntagCount);
-				if (DMMath.Prob(Mathf.Clamp(percentage, 1, 100)))
+				if (DMMath.Prob(percentage))
 				{
 					return true;
 				}
