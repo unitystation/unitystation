@@ -473,12 +473,12 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		foreach (var matrixInfo in Instance.ActiveMatrices)
 		{
-			if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)) == false)
+			if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
 			{
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
