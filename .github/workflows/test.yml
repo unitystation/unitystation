@@ -67,7 +67,7 @@ jobs:
     steps:
       # Checkout repository (required to test local actions)
       - name: Checkout repository
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v2.1.5
 
       # Cache the library directory to speed up builds
       - name: Cache library directory
@@ -115,7 +115,7 @@ jobs:
       # Upload test results
       - name: Upload Test Results
         if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: Test results
           path: ./testReports/${{ matrix.targetPlatform }}
