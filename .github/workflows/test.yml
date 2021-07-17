@@ -31,23 +31,23 @@ jobs:
   #   - Replace UnityLicense.ulf in the Tools directory with it.
   #   - Make sure LICENSE_FILE_PATH in the 'Setup license' step still points to it.
 
-  # # Request license file job
-  # requestManualActivationFile:
-  #   name: Request manual activation file
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     # Request manual activation file
-  #     - name: Request manual activation file
-  #       uses: webbertakken/unity-request-manual-activation-file@v1.1
-  #       id: getManualLicenseFile
-  #       with:
-  #         unityVersion: 2020.1.6f1
-  #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
-  #     - name: Expose as artifact
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-  #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+  # Request license file job
+  requestManualActivationFile:
+    name: Request manual activation file
+    runs-on: ubuntu-latest
+    steps:
+      # Request manual activation file
+      - name: Request manual activation file
+        uses: webbertakken/unity-request-manual-activation-file@v1.1
+        id: getManualLicenseFile
+        with:
+          unityVersion: 2020.1.6f1
+       # Upload artifact (Unity_v20XX.X.XXXX.alf)
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
 
   # Perform unit testing
   performTest:
