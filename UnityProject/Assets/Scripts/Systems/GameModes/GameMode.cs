@@ -241,7 +241,6 @@ namespace GameModes
 
 			if (AntagManager.Instance.AntagCount < expectedAntagCount)
 			{
-
 				//We times the percentage based on the amount of open antag spaces
 				//E.g if traitor with two open slots it will be 25 * 2 = 50% chance on spawn to get the antag
 				//This prevents midround players from guessing when they can join the game to guarantee antag status
