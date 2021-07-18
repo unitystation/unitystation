@@ -220,7 +220,7 @@ namespace Systems.Atmospherics
 		/// <param name="exposeTemperature">The temperature the hotspot will think it is for validation, leave to -1 for
 		/// the current gas mix temperature</param>
 		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
-		/// is greater than the current gas mix temperature when true</param>
+		/// is greater than the current gas mix temperature when true and only if the tile is on fire</param>
 		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float exposeTemperature = -1f, bool changeTemp = false)
 		{
 			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)),
@@ -248,7 +248,7 @@ namespace Systems.Atmospherics
 		/// <param name="exposeTemperature">The temperature the hotspot will think it is for validation, leave to -1 for
 		/// the current gas mix temperature</param>
 		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
-		/// is greater than the current gas mix temperature when true</param>
+		/// is greater than the current gas mix temperature when true and only if the tile is on fire</param>
 		/// <param name="doExposure">Do exposure on the tiles, do not do for non main thread calls</param>
 		public void ExposeHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false, bool doExposure = true)
 		{
