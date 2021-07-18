@@ -13,12 +13,12 @@ namespace Player
 	public class PlayerCrafting : MonoBehaviour
 	{
 		[SerializeField] [Tooltip("Default recipes known to a player.")]
-		private List<List<RecipeV2>> knownRecipesByCategory = new List<List<RecipeV2>>();
+		private List<List<CraftingRecipe>> knownRecipesByCategory = new List<List<CraftingRecipe>>();
 
 		/// <summary>
 		/// The list of currently known recipes for a player by category.
 		/// </summary>
-		public List<List<RecipeV2>> KnownRecipesByCategory => knownRecipesByCategory;
+		public List<List<CraftingRecipe>> KnownRecipesByCategory => knownRecipesByCategory;
 
 		private PlayerScript playerScript;
 
@@ -45,7 +45,7 @@ namespace Player
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
 		/// <returns>True, if a player already knows the recipe, false otherwise.</returns>
-		public bool KnowRecipe(RecipeV2 recipe)
+		public bool KnowRecipe(CraftingRecipe recipe)
 		{
 			return KnownRecipesByCategory[(int) recipe.Category].Contains(recipe);
 		}
@@ -54,7 +54,7 @@ namespace Player
 		/// Adds the recipe to the KnownRecipesByCategory[] if it doesn't already contains the recipe.
 		/// </summary>
 		/// <param name="recipe">The recipe to add.</param>
-		public void LearnRecipe(RecipeV2 recipe)
+		public void LearnRecipe(CraftingRecipe recipe)
 		{
 			if (KnowRecipe(recipe))
 			{
@@ -67,7 +67,7 @@ namespace Player
 		/// Removes the recipe from the KnownRecipesByCategory[]
 		/// </summary>
 		/// <param name="recipe">The recipe to remove.</param>
-		public void ForgetRecipe(RecipeV2 recipe)
+		public void ForgetRecipe(CraftingRecipe recipe)
 		{
 			KnownRecipesByCategory[(int) recipe.Category].Remove(recipe);
 		}
@@ -77,7 +77,7 @@ namespace Player
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
-		public bool IsPlayerAbleToCraft(RecipeV2 recipe)
+		public bool IsPlayerAbleToCraft(CraftingRecipe recipe)
 		{
 			return !PlayerScript.playerMove.IsCuffed
 			       && !PlayerScript.playerMove.IsTrapped
@@ -96,7 +96,7 @@ namespace Player
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
-		public bool CanCraft(RecipeV2 recipe)
+		public bool CanCraft(CraftingRecipe recipe)
 		{
 			return CanCraft(recipe, GetPossibleIngredients(), GetPossibleTools());
 		}
@@ -109,7 +109,7 @@ namespace Player
 		/// <param name="possibleTools"></param>
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
 		public bool CanCraft(
-			RecipeV2 recipe,
+			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
 		)
@@ -167,7 +167,7 @@ namespace Player
 		/// Tries to start a crafting action
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
-		public void TryToStartCrafting(RecipeV2 recipe)
+		public void TryToStartCrafting(CraftingRecipe recipe)
 		{
 			if (!CanCraft(recipe))
 			{
@@ -189,7 +189,7 @@ namespace Player
 		/// Tries to finish a crafting action.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to finish crafting.</param>
-		public void TryToFinishCrafting(RecipeV2 recipe)
+		public void TryToFinishCrafting(CraftingRecipe recipe)
 		{
 			List<CraftingIngredient> possibleIngredients = GetPossibleIngredients();
 			List<ItemAttributesV2> possibleTools = GetPossibleTools();

@@ -1,22 +1,22 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public class RelatedRecipe
+namespace Systems.CraftingV2
 {
-	[SerializeField]
-	private RecipeV2 recipe;
-
-	public RecipeV2 Recipe => recipe;
-
-	[SerializeField]
-	private int ingredientIndex;
-
-	public int IngredientIndex => ingredientIndex;
-
-	public RelatedRecipe(RecipeV2 recipe, int ingredientIndex)
+	[Serializable]
+	public class RelatedRecipe
 	{
-		this.recipe = recipe;
-		this.ingredientIndex = ingredientIndex;
+		[SerializeField] private int ingredientIndex;
+		[SerializeField] private CraftingRecipe recipe;
+
+		public RelatedRecipe(CraftingRecipe recipe, int ingredientIndex)
+		{
+			this.recipe = recipe;
+			this.ingredientIndex = ingredientIndex;
+		}
+
+		public CraftingRecipe Recipe => recipe;
+
+		public int IngredientIndex => ingredientIndex;
 	}
 }

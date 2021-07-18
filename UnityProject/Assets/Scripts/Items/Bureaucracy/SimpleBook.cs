@@ -66,7 +66,7 @@ namespace Items.Bureaucracy
 				Chat.AddExamineMsgFromServer(player.GameObject, $"It seems you can't read this book... has someone claimed it?");
 				return false;
 			}
-			
+
 			return true;
 		}
 
@@ -98,8 +98,16 @@ namespace Items.Bureaucracy
 				return;
 			}
 
-			StandardProgressActionConfig cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false);
-			StandardProgressAction.Create(cfg, ReadPage).ServerStartProgress(player.GameObject.RegisterTile(), timeToReadPage, player.GameObject);
+			StandardProgressActionConfig cfg = new StandardProgressActionConfig(
+				StandardProgressActionType.Construction,
+				false,
+				false
+			);
+			StandardProgressAction.Create(cfg, ReadPage).ServerStartProgress(
+				player.GameObject.RegisterTile(),
+				timeToReadPage,
+				player.GameObject
+			);
 
 			void ReadPage()
 			{
