@@ -15,6 +15,8 @@ MonoBehaviour:
   createsHotspots: 1
   setsMobsOnFire: 1
   fireStacksToGive: 4
+  fireHotspotTemperature: 700
+  changeTemperatureOnHotspot: 1
 --- !u!1001 &2793136468160414892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +24,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -39,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}

@@ -14,6 +14,9 @@ public class DirectionalRotatesParent : MonoBehaviour
 	[SerializeField]
 	private OrientationEnum prefabChildrenOrientation = OrientationEnum.Down;
 
+	[SerializeField]
+	private bool forceChildrenOpposite;
+
 	public OrientationEnum MappedOrientation
 	{
 		get { return prefabChildrenOrientation; }
@@ -31,6 +34,14 @@ public class DirectionalRotatesParent : MonoBehaviour
 		//the prefab sprite orientation
 		var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(newDir);
 		transform.rotation = offset.Quaternion;
+
+		if (forceChildrenOpposite)
+		{
+			foreach (Transform child in transform)
+			{
+				child.rotation = Quaternion.Euler(newDir.Vector);
+			}
+		}
 	}
 
 	//changes the rendered sprite in editor based on the value set in Directional
@@ -43,6 +54,14 @@ public class DirectionalRotatesParent : MonoBehaviour
 			var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(dir);
 
 			transform.rotation = offset.Quaternion;
+
+			if (forceChildrenOpposite)
+			{
+				foreach (Transform child in transform)
+				{
+					child.rotation = Quaternion.Euler(dir.Vector);
+				}
+			}
 		}
 	}
 

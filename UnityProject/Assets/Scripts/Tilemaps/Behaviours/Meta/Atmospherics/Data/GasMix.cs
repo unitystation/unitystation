@@ -168,6 +168,8 @@ namespace Systems.Atmospherics
 
 			foreach (var gas in source.GasesArray)
 			{
+				if(gas.GasSO == null) continue;
+
 				var sourceMoles = source.GetMoles(gas.GasSO);
 				if (CodeUtilities.IsEqual(sourceMoles, 0)) continue;
 

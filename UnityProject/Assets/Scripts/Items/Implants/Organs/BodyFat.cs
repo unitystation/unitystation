@@ -37,11 +37,11 @@ namespace HealthV2
 
 		public Stomach RelatedStomach;
 
-		public float ReleaseNutrimentAtPercent = 0.20f;
+		public float ReleaseNutrimentAtPer1UBloodFlow = 0.005f;
 
-		public float AbsorbNutrimentAtPercent = 0.35f;
+		public float AbsorbNutrimentAtPer1UBloodFlow  = 0.01f;
 
-		public float ReleaseAmount = 1f;
+		public float ReleaseAmount = 5f;
 
 		public float MaxAmount = 500;
 
@@ -61,7 +61,7 @@ namespace HealthV2
 			// Logger.Log("Absorbing >" + Absorbing);
 			float NutrimentPercentage = (RelatedPart.BloodContainer[RelatedPart.Nutriment] / RelatedPart.BloodContainer.ReagentMixTotal);
 			//Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
-			if (NutrimentPercentage < ReleaseNutrimentAtPercent)
+			if (NutrimentPercentage < ReleaseNutrimentAtPer1UBloodFlow * RelatedPart.BloodThroughput)
 			{
 				float ToRelease = ReleaseAmount;
 				if (ToRelease > AbsorbedAmount)
@@ -74,7 +74,7 @@ namespace HealthV2
 				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
-			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentAtPercent && AbsorbedAmount < MaxAmount)
+			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentAtPer1UBloodFlow *  RelatedPart.BloodThroughput && AbsorbedAmount < MaxAmount)
 			{
 				float ToAbsorb = RelatedPart.BloodContainer[RelatedPart.Nutriment];
 				if (AbsorbedAmount + ToAbsorb > MaxAmount)
@@ -102,6 +102,15 @@ namespace HealthV2
 				{
 					playerHealthV2.PlayerMove.UpdateSpeeds();
 				}
+			}
+
+			if (AbsorbedAmount == 0)
+			{
+				RelatedPart.HungerState = HungerState.Malnourished;
+			}
+			else
+			{
+				RelatedPart.HungerState = HungerState.Normal;
 			}
 		}
 

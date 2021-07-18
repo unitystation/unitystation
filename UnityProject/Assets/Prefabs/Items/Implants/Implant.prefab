@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
   Storage: {fileID: 2719098251223779414}
   BodyPartType: 0
-  containBodyParts: []
   isDimorphic: 0
   Root: {fileID: 0}
   ContainedIn: {fileID: 0}
@@ -36,24 +34,28 @@ MonoBehaviour:
   DeathOnRemoval: 0
   ClothingHide: 0
   Tone: {r: 1, g: 1, b: 1, a: 1}
-  efficiency: 1
+  SetCustomisationData: 
   TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
   - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   isBloodCirculated: 1
+  CanGetHungry: 1
   isBloodReagentConsumed: 1
-  bloodType: {fileID: 0}
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  wasteReagent: {fileID: 0}
-  BloodContainer: {fileID: 0}
-  bloodReagentConsumed: 0.00002
-  bloodThroughput: 0.015
+  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
+  BloodContainer: {fileID: 8113072997116454967}
+  bloodReagentConsumed: 0.005
+  bloodThroughput: 5
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  PassiveConsumptionNutriment: 0.0005
-  ConsumptionNutriment: 0.002
+  PassiveConsumptionNutriment: 0.005
+  ConsumptionNutriment: 0.01
   ReagentMetabolism: 0.2
+  NaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+    type: 2}
+  ToxinGeneration: 0.002
+  HungerState: 1
   SelfArmor:
     Melee: 0
     Bullet: 0
@@ -92,8 +94,12 @@ MonoBehaviour:
   spillChanceWhenCutPresent: 0.5
   CanBleedInternally: 0
   CanBleedExternally: 0
+  gibsEntireBodyOnRemoval: 0
   MinMaxInternalBleedingValues: {x: 5, y: 20}
   maximumInternalBleedDamage: 100
+  InternalBleedingBloodLoss: 12
+  ExternalBleedingBloodLoss: 6
+  baseTraumaDamageMultiplier: 0.25
   bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
   bodyPartAshesAboveThisDamage: 125
   BodyPartReadableName: '[Default Part Name]'
@@ -120,8 +126,8 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &8113072997116454967
@@ -144,7 +150,7 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
-  maxCapacity: 0.5
+  maxCapacity: 30
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   canPourOut: 1

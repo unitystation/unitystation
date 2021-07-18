@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Clothing;
+using NaughtyAttributes;
 using UI.CharacterCreator;
 
 namespace HealthV2
@@ -14,7 +15,7 @@ namespace HealthV2
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
-		[SerializeField]
+		[NonSerialized]
 		[Tooltip("The Health Master associated with this part, will find from parents if not set in editor")]
 		protected LivingHealthMasterBase healthMaster = null;
 
@@ -35,6 +36,7 @@ namespace HealthV2
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
+		[HorizontalLine]
 		[Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage Storage = null;
 
@@ -44,11 +46,7 @@ namespace HealthV2
 		[Tooltip("The category that this body part falls under for targeting purposes")]
 		[SerializeField] public BodyPartType BodyPartType;
 
-		/// <summary>
-		/// The list of body parts contained within this body part
-		/// </summary>
-		[Tooltip("List of body parts contained within this")]
-		[SerializeField] private List<BodyPart> containBodyParts = new List<BodyPart>();
+		[HideInInspector] private List<BodyPart> containBodyParts = new List<BodyPart>();
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
 		/// <summary>
@@ -61,13 +59,13 @@ namespace HealthV2
 		/// The body part 'container' to which this body part belongs, (eg legs group, arms group), if any
 		/// </summary>
 		[Tooltip("The 'container' to which this belongs (legs group, arms group, etc), if any")]
-		public RootBodyPartContainer Root;
+		[HideInInspector] public RootBodyPartContainer Root;
 
 		/// <summary>
 		/// The body part in which this body part is contained, if any
 		/// </summary>
 		[Tooltip("The body part in which this body part is contained, if any")]
-		public BodyPart ContainedIn;
+		[HideInInspector] public BodyPart ContainedIn;
 
 		[SerializeField]
 		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents. " +
@@ -246,8 +244,7 @@ namespace HealthV2
 			{
 				prop.ImplantPeriodicUpdate();
 			}
-			BloodUpdate();
-			CalculateRadiationDamage();
+
 
 			foreach (var bodyPartModification in BodyPartModifications)
 			{
@@ -257,6 +254,8 @@ namespace HealthV2
 					bodyPartModification.InternalDamageLogic();
 				}
 			}
+			BloodUpdate();
+			CalculateRadiationDamage();
 		}
 
 		#region BodyPartStorage
@@ -426,6 +425,7 @@ namespace HealthV2
 		public void SetUpBodyPart(BodyPart implant)
 		{
 			implant.HealthMaster = HealthMaster;
+			if (HealthMaster == null) return;
 			HealthMaster.AddNewImplant(implant);
 			SubBodyPartAdded(implant);
 

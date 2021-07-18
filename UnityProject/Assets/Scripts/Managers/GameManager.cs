@@ -190,13 +190,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
-		EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
+		EventManager.AddHandler(Event.ScenesLoadedServer, OnRoundStart);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
-		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
+		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnRoundStart);
 	}
 
 	///<summary>
@@ -493,8 +493,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.Broadcast(Event.RoundEnded, true);
 		counting = false;
 
-		GameMode.EndRound();
 		StartCoroutine(WaitForRoundRestart());
+		GameMode.EndRoundReport();
 
 		_ = SoundManager.PlayNetworked(endOfRoundSounds.GetRandomClip());
 	}

@@ -31,6 +31,7 @@ namespace HealthV2
 		public float temperature => healthStateController.Temperature;
 		public float pressure => healthStateController.Pressure;
 
+
 		private void Awake()
 		{
 			circulatorySystem = GetComponent<CirculatorySystemBase>();
@@ -117,7 +118,7 @@ namespace HealthV2
 				{
 					blood.Add(Reagent.Key, Reagent.Value);
 					if (!canBreathAnywhere)
-						atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+						atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value );
 				}
 			}
 		}

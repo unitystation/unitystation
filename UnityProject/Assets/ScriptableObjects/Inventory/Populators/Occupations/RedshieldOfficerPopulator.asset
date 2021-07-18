@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: RedshieldOfficerPopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 12
+    Prefab: {fileID: 3866854686736633298, guid: 760ad04c7b18eab4685694f1f5de66e9,
+      type: 3}
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 1
+    Prefab: {fileID: 5316882905438950620, guid: 725d217f992b8d247b2f034c4a69136a,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 6
+    Prefab: {fileID: 3011710637427380133, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+      type: 3}
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 11
+    Prefab: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 3
+    Prefab: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 9
+    Prefab: {fileID: 3183123304414575785, guid: 0bcb9423721f44a418353bfcc987a1b9,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 10
+    Prefab: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935,
+      type: 3}
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 0
+    Prefab: {fileID: 3630185853609166337, guid: 87f3ae414da12c240addea367416f45c,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 2
+    Prefab: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 16
+    Prefab: {fileID: 2626574395781294155, guid: 4db12a6785da27f469cc7d36b637c2cd,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - IndexSlot: 0
+    IfOccupiedFindEmptyIndexSlot: 1
+    UesIndex: 0
+    NamedSlot: 15
+    Prefab: {fileID: 4303657253753073484, guid: a964a6c1326a47c40a104866a6ebce52,
+      type: 3}
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  skirtVariant: {fileID: 8666235253663602016, guid: a4e8364883b2aee4d90835ec0b5963ed,
+    type: 3}
+  duffelVariant: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57,
+    type: 3}
+  satchelVariant: {fileID: 4491607388275499144, guid: 1ed809e1bad45b44ea65b44c81764ca9,
+    type: 3}

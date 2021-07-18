@@ -9,19 +9,18 @@ using System.Collections;
 	/// </summary>
 	public class OverlayCrits : MonoBehaviour
 	{
-		public ShroudPreference critcalSettings;
-
 		public OverlayState currentState;
 		public Material holeMat;
-		public ShroudPreference injuredSettings;
-
-		public ShroudPreference normalSettings;
 		public RectTransform shroud;
 		public Image shroudImg;
-		public ShroudPreference unconsciousSettings;
 
 		private bool MonitorTarget = false;
 		private Vector3 positionCache = Vector3.zero;
+
+		public Color shroudColor;
+		public float Radius = 5;
+
+		public float Epow = 2;
 
 		void LateUpdate()
 		{
@@ -36,47 +35,91 @@ using System.Collections;
 			}
 		}
 
-		public void SetState(OverlayState state)
-		{
-			switch (state)
-			{
-				case OverlayState.normal:
-					StartCoroutine(AdjustShroud(normalSettings));
-					break;
-				case OverlayState.injured:
-					StartCoroutine(AdjustShroud(injuredSettings));
-					break;
-				case OverlayState.unconscious:
-					StartCoroutine(AdjustShroud(unconsciousSettings));
-					break;
-				case OverlayState.crit:
-					StartCoroutine(AdjustShroud(critcalSettings));
-					break;
-				case OverlayState.death:
-					StartCoroutine(AdjustShroud(normalSettings));
-					break;
-			}
+		 public void SetState(OverlayState state)
+		 {
+			 switch (state)
+			 {
+			 	case OverlayState.normal:
+				    SetState(1f);
+			 		break;
+			 	case OverlayState.injured:
+				    SetState(0.50f);
+			 		break;
+			 	case OverlayState.unconscious:
+				    SetState(-0.25f);
+			 		break;
+			 	case OverlayState.crit:
+				    SetState(-0.75f);
+			 		break;
+			 	case OverlayState.death:
+				    SetState(-1.1f);
+			 		break;
+			 }
 			currentState = state;
+		 }
+
+
+
+		public void SetState(float state)
+		{
+			AdjustShroud( state);
+
 		}
 
-		IEnumerator AdjustShroud(ShroudPreference pref)
+		void AdjustShroud(float state)
 		{
-			yield return WaitFor.Seconds(.1f);
-			if (!pref.shroudActive)
+			if (PlayerManager.LocalPlayerScript.OrNull()?.mind != null)
 			{
-
-				shroudImg.enabled = false;
-				MonitorTarget = false;
-				yield break;
+				if (PlayerManager.LocalPlayerScript.mind.IsGhosting)
+				{
+					state = 1;
+				}
 			}
 
-			MonitorTarget = true;
-			holeMat.SetColor("_Color", pref.shroudColor);
-			holeMat.SetFloat("_Radius", pref.holeRadius);
-			holeMat.SetFloat("_Shape", pref.holeShape);
+			if (state <= -1)
+			{
+				//is Dead do not show overly
+				state = 1;
+			}
+
+
+			//_Color A 0.0 to 0.60
+			//0.0 = 0.5 to 0.60 = -0.66
+
+			if (state < 0.5f)
+			{
+				var PercentagePower = Mathf.Abs(((state+0.66f)/(1.16f)));
+				PercentagePower = Mathf.Clamp(PercentagePower, 0, 1);
+				// )
+				shroudColor.a = Mathf.Lerp(0.60f , 0.0f, Mathf.Pow(PercentagePower, (float)Math.E * Epow));
+			}
+			else
+			{
+				shroudColor.a = 0;
+			}
+
+			//_Radius, 1 to 0
+			// 1 = 0.5 to  0  = -0.66
+
+			if (state < 0.5f)
+			{
+				var PercentagePower = Mathf.Clamp(((state + 0.66f) / (1.16f)), 0f, 1f);
+				Radius = Mathf.Lerp(0f, 1f, Mathf.Pow(PercentagePower,(float)Math.E * Epow));
+			}
+			else
+			{
+				Radius = 5;
+			}
+
+
+			holeMat.SetColor("_Color", shroudColor);
+			holeMat.SetFloat("_Radius", Radius);
+			holeMat.SetFloat("_Shape", 1f);
 
 			shroudImg.enabled = true;
 		}
+
+
 	}
 
 	[Serializable]
