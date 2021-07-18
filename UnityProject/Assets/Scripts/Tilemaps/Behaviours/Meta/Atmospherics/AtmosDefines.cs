@@ -8,7 +8,7 @@ namespace Systems.Atmospherics
 	{
 		public static readonly float MINIMUM_MOLE_COUNT	= 0.01f;
 		public static readonly float FIRE_MINIMUM_TEMPERATURE_TO_EXIST	= 373.15f;
-
+		
 		//Conductivity
 		public static readonly float MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER	= 0.5f;
 		public static readonly float MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION	= 373.15f;
