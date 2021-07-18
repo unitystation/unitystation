@@ -13,6 +13,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new RoomCheck());
 		localChecks.Add(new PressureCheck());
 		localChecks.Add(new TemperatureCheck());
+		localChecks.Add(new SolidTemperatureCheck());
 		localChecks.Add(new MolesCheck());
 		localChecks.Add(new VolumeCheck());
 		localChecks.Add(new ExistCheck());
@@ -172,7 +173,7 @@ public class MetaDataView : BasicView
 
 	private class TemperatureCheck : Check<MetaDataLayer>
 	{
-		public override string Label { get; } = "Temperature";
+		public override string Label { get; } = "Gas Temperature";
 
 		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
 		{
@@ -181,7 +182,25 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{(node.IsOccupied && node.IsIsolatedNode == false ? node.ConductivityTemperature : node.GasMix.Temperature):0.###}", p, false);
+				GizmoUtils.DrawText($"{(node.GasMix.Temperature):0.##}", p, false);
+			}
+		}
+	}
+
+	private class SolidTemperatureCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Solid Temperature";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = LocalToWorld(source, position);
+
+				p.y -= 0.2f;
+				GizmoUtils.DrawText($"{(node.ConductivityTemperature):0.##}", p, false);
 			}
 		}
 	}

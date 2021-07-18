@@ -73,11 +73,18 @@ public class MetaDataNode : IGasMixContainer
 	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
 	public HashSet<GasSO> GasOverlayData => gasOverlayData;
 
-	//Conductivity Stuff
+	//Conductivity Stuff//
+
+	//Temperature of the solid node
 	public float ConductivityTemperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
+	//How easily the node conducts 0-1
 	public float ThermalConductivity = 0f;
+	//Heat capacity of the node, also effects conducting speed
 	public float HeatCapacity = 0f;
+
+	//If this node started the conductivity
 	public bool StartingSuperConduct;
+	//If this node is allowed to share temperature to surrounding nodes
 	public bool AllowedToSuperConduct;
 
 	public void AddGasOverlay(GasSO gas)

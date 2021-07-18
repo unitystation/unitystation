@@ -257,7 +257,7 @@ namespace Systems.Atmospherics
 			{
 				Profiler.BeginSample("MarkForAddition");
 
-				InternalTryAddHotspot(localPosition, exposeTemperature, changeTemp);
+				InternalTryAddHotspot(localPosition, exposeTemperature);
 
 				Profiler.EndSample();
 
@@ -266,7 +266,13 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			//Only do expose if allowed
+			//If we are already a hotspot try to increase temperature if allowed to
+			if (changeTemp && hotspot.GasMix.Temperature < exposeTemperature)
+			{
+				hotspot.GasMix.SetTemperature(exposeTemperature);
+			}
+
+			//Only do expose if allowed, prevents thread errors when being called off of main thread
 			if(doExposure == false) return;
 
 			//If we already have hotspot expose everything on this tile
@@ -279,18 +285,18 @@ namespace Systems.Atmospherics
 			Expose(localPosition, localPosition + Vector3Int.down);
 		}
 
-		private void InternalTryAddHotspot(Vector3Int localPosition, float exposeTemperature = -1f, bool changeTemp = false)
+		private void InternalTryAddHotspot(Vector3Int localPosition, float exposeTemperature = -1f)
 		{
 			MetaDataNode node = metaDataLayer.Get(localPosition, false);
 
-			if(IsAllowedHotSpot(node, exposeTemperature, changeTemp) == false) return;
+			if(IsAllowedHotSpot(node, exposeTemperature) == false) return;
 
 			//Igniting
 			//Addition will be done later in Update
 			hotspotsToAdd.Add(new Hotspot(node));
 		}
 
-		private bool IsAllowedHotSpot(MetaDataNode node, float exposeTemperature = -1f, bool changeTemp = false)
+		private bool IsAllowedHotSpot(MetaDataNode node, float exposeTemperature = -1f)
 		{
 			//Only need to check stuff which has nodes as we are checking gas contents afterwards
 			if(node == null) return false;
@@ -300,11 +306,6 @@ namespace Systems.Atmospherics
 			if (exposeTemperature < 0)
 			{
 				exposeTemperature = gasMix.Temperature;
-			}
-			else if(changeTemp)
-			{
-				//Set temperature if required
-				gasMix.SetTemperature(exposeTemperature);
 			}
 
 			//Minimum temperature requirement
