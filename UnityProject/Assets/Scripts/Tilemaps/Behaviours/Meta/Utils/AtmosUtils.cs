@@ -59,10 +59,12 @@ namespace Systems.Atmospherics
 				}
 
 				//Check if the moles are different. (e.g. CO2 is different from breathing)
+				//Check current node then check neighbor so we dont miss a gas if its only on one of the nodes
+
+				//Current node
 				//Only need to check if false
 				if (result == false)
 				{
-					//Check current node then check neighbor so we dont miss a gas if its only on one of the nodes
 					foreach (var gas in node.GasMix.GasesArray)
 					{
 						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
@@ -71,9 +73,17 @@ namespace Systems.Atmospherics
 						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 						{
 							result = true;
+
+							//We break not return here so we can still work out wind direction
+							break;
 						}
 					}
+				}
 
+				//Neighbor node
+				//Only need to check if false
+				if (result == false)
+				{
 					foreach (var gas in neighbor.GasMix.GasesArray)
 					{
 						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
@@ -82,6 +92,9 @@ namespace Systems.Atmospherics
 						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 						{
 							result = true;
+
+							//We break not return here so we can still work out wind direction
+							break;
 						}
 					}
 				}
