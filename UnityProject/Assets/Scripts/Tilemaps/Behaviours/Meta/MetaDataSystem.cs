@@ -145,7 +145,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			if (matrix.GetFirst<RegisterDoor>(position, true))
 			{
 				node.IsIsolatedNode = true;
-				node.ThermalConductivity = 0.001f;
+				node.ThermalConductivity = 0.0001f;
 				node.HeatCapacity =  10000f;
 			}
 			else if (matrix.MetaTileMap.GetTile(position, true) is BasicTile tile && tile != null)
