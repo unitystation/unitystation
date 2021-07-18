@@ -80,7 +80,7 @@ public class RecipeV2 : ScriptableObject
 	/// In the crafting menu, these items will be at the bottom in the hidden list.
 	/// See Awake().
 	/// </summary>
-	private bool IsSimple => IsSimple;
+	private bool IsSimple => isSimple;
 
 	private void Awake()
 	{
