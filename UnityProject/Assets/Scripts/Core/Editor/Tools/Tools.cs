@@ -36,7 +36,7 @@ public class Tools : Editor
 		Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
 	}
 
-	[MenuItem("Networking/Set all sceneids to 0")]
+	[MenuItem("Mapping/Set all sceneids to 0")]
 	private static void SetAllSceneIdsToNull()
 	{
 		var allNets = FindObjectsOfType<NetworkIdentity>();
