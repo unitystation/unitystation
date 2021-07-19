@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
 using Chemistry.Components;
 using Items;
-using JetBrains.Annotations;
 using Player;
 using UnityEngine;
 
@@ -41,7 +40,7 @@ namespace Systems.CraftingV2
 		[Tooltip("The resulting items after crafting.")] [SerializeField]
 		private List<GameObject> result;
 
-		[SerializeField, ItemNotNull]
+		[SerializeField]
 		private List<IResultHandler> resultHandlers = new List<IResultHandler>();
 
 		private bool isSimple;
