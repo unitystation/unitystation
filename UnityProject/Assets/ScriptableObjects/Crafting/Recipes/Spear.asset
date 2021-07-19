@@ -12,12 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
+  category: 0
+  childrenRecipes: []
+  craftingTime: 4
+  recipeName: Result
   requiredIngredients:
   - requiredAmount: 1
-    requiredItem: {fileID: 0}
+    requiredItem: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+      type: 3}
   - requiredAmount: 1
-    requiredItem: {fileID: 0}
-  - requiredAmount: 0
-    requiredItem: {fileID: 0}
-  toolTraitsRequired: []
+    requiredItem: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+      type: 3}
+  - requiredAmount: 15
+    requiredItem: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
   result: []
+  resultHandlers:
+  - {fileID: 11400000, guid: eb5a98c035b006e4c8c258e453e20a64, type: 2}
