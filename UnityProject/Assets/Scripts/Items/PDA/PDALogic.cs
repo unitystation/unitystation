@@ -537,7 +537,9 @@ namespace Items.PDA
 		// All the methods above will be obsolete as soon as we migrate
 		public IEnumerable<Clearance> GetClearance()
 		{
-			return IDCard.OrNull()?.GetComponent<IClearanceProvider>()?.GetClearance();
+			var idClearance = IDCard.OrNull()?.GetComponent<IClearanceProvider>();
+
+			return idClearance?.GetClearance();
 		}
 
 		#endregion IDAccess
