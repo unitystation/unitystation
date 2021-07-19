@@ -39,6 +39,8 @@ namespace Systems.CraftingV2
 		[Tooltip("The resulting items after crafting.")] [SerializeField]
 		private List<GameObject> result;
 
+		private bool isSimple;
+
 		/// <summary>
 		///     Items that will be necessary and used for crafting. They will be deleted.
 		/// </summary>
@@ -82,11 +84,11 @@ namespace Systems.CraftingV2
 		///     In the crafting menu, these items will be at the bottom in the hidden list.
 		///     See Awake().
 		/// </summary>
-		private bool IsSimple { get; set; }
+		private bool IsSimple => isSimple;
 
 		private void Awake()
 		{
-			IsSimple = requiredIngredients.Count == 1;
+			isSimple = requiredIngredients.Count == 1;
 		}
 
 		/// <summary>
@@ -109,9 +111,14 @@ namespace Systems.CraftingV2
 				float foundAmount = 0;
 				foreach (var possibleReagentContainer in possibleReagentContainers)
 					if (possibleReagentContainer.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
+					{
 						foundAmount += reagentContainer.AmountOfReagent(requiredReagent.RequiredReagent);
+					}
 
-				if (foundAmount < requiredReagent.RequiredAmount) return false;
+				if (foundAmount < requiredReagent.RequiredAmount)
+				{
+					return false;
+				}
 			}
 
 			return true;
@@ -134,7 +141,10 @@ namespace Systems.CraftingV2
 						break;
 					}
 
-				if (!foundRequiredToolTrait) return false;
+				if (!foundRequiredToolTrait)
+				{
+					return false;
+				}
 			}
 
 			return true;
@@ -155,33 +165,48 @@ namespace Systems.CraftingV2
 					foreach (var relatedRecipe in possibleIngredient.RelatedRecipes)
 					{
 						// is it not an ingredient in this recipe?
-						if (relatedRecipe.Recipe != this) continue;
+						if (relatedRecipe.Recipe != this)
+						{
+							continue;
+						}
 
 						// is the ingredient included in this recipe, but we are still processing another ingredient?
-						if (reqIngIndex != relatedRecipe.IngredientIndex) continue;
+						if (reqIngIndex != relatedRecipe.IngredientIndex)
+						{
+							continue;
+						}
 
 						// okay, this is what we're looking for. We "use" this ingredient
 						if (possibleIngredient.TryGetComponent(out Stackable stackable))
+						{
 							countedAmount = Math.Min(
 								countedAmount + stackable.Amount,
 								RequiredIngredients[reqIngIndex].RequiredAmount
 							);
+						}
+
 						else
+						{
 							countedAmount++;
+						}
 
 						break;
 					}
 
 					// do we have enough ingredients of this type when "using" the possibleIngredient?
 					if (countedAmount == RequiredIngredients[reqIngIndex].RequiredAmount)
+					{
 						// yes, so let's search for another requiredIngredient
 						break;
+					}
 				}
 
 				// did we looked through all the possibleIngredients, but did not find enough necessary ones?
 				if (countedAmount != RequiredIngredients[reqIngIndex].RequiredAmount)
+				{
 					// yes, so crafting according to the recipe is impossible
 					return false;
+				}
 			}
 
 			return true;
@@ -199,7 +224,10 @@ namespace Systems.CraftingV2
 			GameObject crafterGameObject
 		)
 		{
-			if (!CanBeCrafted(possibleIngredients, possibleTools)) return;
+			if (!CanBeCrafted(possibleIngredients, possibleTools))
+			{
+				return;
+			}
 
 			UnsafelyCraft(possibleIngredients, possibleTools, crafterGameObject);
 		}
@@ -231,17 +259,26 @@ namespace Systems.CraftingV2
 					foreach (var relatedRecipe in possibleIngredient.RelatedRecipes)
 					{
 						// is it not an ingredient in this recipe?
-						if (relatedRecipe.Recipe != this) continue;
+						if (relatedRecipe.Recipe != this)
+						{
+							continue;
+						}
 
 						// is the ingredient included in this recipe, but we are still processing another ingredient?
-						if (reqIngIndex != relatedRecipe.IngredientIndex) continue;
+						if (reqIngIndex != relatedRecipe.IngredientIndex)
+						{
+							continue;
+						}
 
 						// okay, this is what we're looking for. We use this ingredient
 						usedIngredientsCounter = UseIngredient(reqIngIndex, possibleIngredient, usedIngredientsCounter);
 						break;
 					}
 
-					if (usedIngredientsCounter == RequiredIngredients[reqIngIndex].RequiredAmount) break;
+					if (usedIngredientsCounter == RequiredIngredients[reqIngIndex].RequiredAmount)
+					{
+						break;
+					}
 				}
 			}
 		}
@@ -254,11 +291,16 @@ namespace Systems.CraftingV2
 				foreach (var possibleIngredient in possibleIngredients)
 				{
 					if (possibleIngredient.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
+					{
 						amountUsed += reagentContainer.Subtract(
 							requiredReagent.RequiredReagent, requiredReagent.RequiredAmount - amountUsed
 						);
+					}
 
-					if (amountUsed >= requiredReagent.RequiredAmount) break;
+					if (amountUsed >= requiredReagent.RequiredAmount)
+					{
+						break;
+					}
 				}
 			}
 		}
@@ -271,13 +313,17 @@ namespace Systems.CraftingV2
 					usedIngredientsCounter + stackable.Amount
 					<= RequiredIngredients[reqIngIndex].RequiredAmount
 				)
+				{
 					stackable.ServerConsume(stackable.Amount);
+				}
 				else
+				{
 					stackable.ServerConsume(
 						usedIngredientsCounter
 						+ stackable.Amount
 						- RequiredIngredients[reqIngIndex].RequiredAmount
 					);
+				}
 
 				usedIngredientsCounter = Math.Min(
 					usedIngredientsCounter + stackable.Amount,
@@ -300,7 +346,9 @@ namespace Systems.CraftingV2
 		private void CompleteCrafting(GameObject crafterGameObject)
 		{
 			foreach (var resultedGameObject in Result)
+			{
 				Spawn.ServerPrefab(resultedGameObject, crafterGameObject.WorldPosServer());
+			}
 		}
 	}
 }

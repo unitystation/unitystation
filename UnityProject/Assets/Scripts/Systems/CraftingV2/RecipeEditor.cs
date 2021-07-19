@@ -32,7 +32,9 @@ namespace Systems.CraftingV2
 			recipe = (CraftingRecipe) target;
 
 			foreach (var requiredIngredient in ((CraftingRecipe) target).RequiredIngredients)
+			{
 				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
+			}
 		}
 
 		public override void OnInspectorGUI()
@@ -64,13 +66,18 @@ namespace Systems.CraftingV2
 			var updateIsUnnecessary = LastSerializedIngredients.Count == recipe.RequiredIngredients.Count;
 			if (updateIsUnnecessary)
 				for (var i = 0; i < LastSerializedIngredients.Count; i++)
+				{
 					if (LastSerializedIngredients[i].RequiredItem != recipe.RequiredIngredients[i].RequiredItem)
 					{
 						updateIsUnnecessary = false;
 						break;
 					}
+				}
 
-			if (updateIsUnnecessary) return;
+			if (updateIsUnnecessary)
+			{
+				return;
+			}
 
 			ClearRelatedRecipes();
 			ReAddRelatedRecipes();
@@ -81,19 +88,29 @@ namespace Systems.CraftingV2
 		{
 			LastSerializedIngredients.Clear();
 			foreach (var requiredIngredient in recipe.RequiredIngredients)
+			{
 				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
+			}
 		}
 
 		private void ClearRelatedRecipes()
 		{
 			foreach (var recipeIngredient in recipe.RequiredIngredients)
 			{
-				if (recipeIngredient.RequiredItem == null) continue;
+				if (recipeIngredient.RequiredItem == null)
+				{
+					continue;
+				}
 				if (recipeIngredient.RequiredItem.gameObject.TryGetComponent(out CraftingIngredient craftingIngredient))
 				{
 					for (var i = craftingIngredient.RelatedRecipes.Count - 1; i >= 0; i--)
+					{
 						if (craftingIngredient.RelatedRecipes[i].Recipe == recipe)
+						{
 							craftingIngredient.RelatedRecipes.RemoveAt(i);
+						}
+					}
+
 					PrefabUtility.SavePrefabAsset(craftingIngredient.gameObject);
 				}
 			}
@@ -103,7 +120,10 @@ namespace Systems.CraftingV2
 		{
 			for (var i = 0; i < recipe.RequiredIngredients.Count; i++)
 			{
-				if (recipe.RequiredIngredients[i].RequiredItem == null) continue;
+				if (recipe.RequiredIngredients[i].RequiredItem == null)
+				{
+					continue;
+				}
 				if (
 					recipe.RequiredIngredients[i].RequiredItem.gameObject.TryGetComponent(
 						out CraftingIngredient craftingIngredient
