@@ -164,21 +164,46 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Tries to start a crafting action
+		/// Tries to start a crafting action.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
 		public void TryToStartCrafting(CraftingRecipe recipe)
 		{
-			if (!CanCraft(recipe))
+			TryToStartCrafting(recipe, GetPossibleIngredients(), GetPossibleTools());
+		}
+
+		public void TryToStartCrafting(
+			CraftingRecipe recipe,
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
+			if (!CanCraft(recipe, possibleIngredients, possibleTools))
 			{
 				return;
 			}
 
-			Chat.AddExamineMsgFromServer(
-				playerScript.gameObject,
-				$"You are trying to craft {recipe.RecipeName}..."
-			);
+			StartCrafting(recipe, possibleIngredients, possibleTools);
+		}
 
+		private void StartCrafting(
+			CraftingRecipe recipe,
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
+			if (recipe.CraftingTime >= 1) {
+				Chat.AddExamineMsgFromServer(
+					playerScript.gameObject,
+					$"You are trying to craft {recipe.RecipeName}..."
+				);
+			}
+
+			if (recipe.CraftingTime <= float.Epsilon)
+			{
+				FinishCrafting(recipe, possibleIngredients, possibleTools);
+				return;
+			}
 			StandardProgressAction.Create(
 				craftProgressActionConfig,
 				() => TryToFinishCrafting(recipe)
@@ -191,8 +216,15 @@ namespace Player
 		/// <param name="recipe">The recipe to try to finish crafting.</param>
 		public void TryToFinishCrafting(CraftingRecipe recipe)
 		{
-			List<CraftingIngredient> possibleIngredients = GetPossibleIngredients();
-			List<ItemAttributesV2> possibleTools = GetPossibleTools();
+			TryToFinishCrafting(recipe, GetPossibleIngredients(), GetPossibleTools());
+		}
+
+		public void TryToFinishCrafting(
+			CraftingRecipe recipe,
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
 			if (!CanCraft(recipe, possibleIngredients, possibleTools))
 			{
 				Chat.AddExamineMsgFromServer(
@@ -201,6 +233,20 @@ namespace Player
 				);
 				return;
 			}
+
+			FinishCrafting(recipe, possibleIngredients, possibleTools);
+		}
+
+		private void FinishCrafting(
+			CraftingRecipe recipe,
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
+			Chat.AddExamineMsgFromServer(
+				playerScript.gameObject,
+				$"You made the {recipe.RecipeName}!"
+			);
 
 			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript.gameObject);
 		}

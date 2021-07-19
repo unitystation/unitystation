@@ -58,6 +58,7 @@ namespace Systems.CraftingV2
 			{
 				serializedObject.ApplyModifiedProperties();
 				UpdateRelatedRecipes();
+				UpdateLastSerializedIngredients();
 			}
 		}
 
@@ -87,9 +88,10 @@ namespace Systems.CraftingV2
 				return;
 			}
 
-			ClearRelatedRecipes();
-			ReAddRelatedRecipes();
-			UpdateLastSerializedIngredients();
+			bool updateHasSimpleRelatedRecipe = recipe.RequiredIngredients.Count + recipe.RequiredToolTraits.Count == 2;
+
+			ClearRelatedRecipes(updateHasSimpleRelatedRecipe);
+			ReAddRelatedRecipes(updateHasSimpleRelatedRecipe);
 		}
 
 		private void UpdateLastSerializedIngredients()
@@ -101,7 +103,7 @@ namespace Systems.CraftingV2
 			}
 		}
 
-		private void ClearRelatedRecipes()
+		private void ClearRelatedRecipes(bool updateHasSimpleRelatedRecipe)
 		{
 			foreach (RecipeIngredient recipeIngredient in recipe.RequiredIngredients)
 			{
@@ -119,12 +121,17 @@ namespace Systems.CraftingV2
 						}
 					}
 
+					if (updateHasSimpleRelatedRecipe)
+					{
+						craftingIngredient.UpdateHasSimpleRelatedRecipe();
+					}
+
 					PrefabUtility.SavePrefabAsset(craftingIngredient.gameObject);
 				}
 			}
 		}
 
-		private void ReAddRelatedRecipes()
+		private void ReAddRelatedRecipes(bool updateHasSimpleRelatedRecipe)
 		{
 			for (int i = 0; i < recipe.RequiredIngredients.Count; i++)
 			{

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
 using Chemistry.Components;
 using Items;
+using NaughtyAttributes;
 using Player;
+using UnityEditor;
 using UnityEngine;
 
 namespace Systems.CraftingV2
@@ -42,8 +44,6 @@ namespace Systems.CraftingV2
 
 		[SerializeField]
 		private List<IResultHandler> resultHandlers = new List<IResultHandler>();
-
-		private bool isSimple;
 
 		/// <summary>
 		///     Items that will be necessary and used for crafting. They will be deleted.
@@ -88,13 +88,10 @@ namespace Systems.CraftingV2
 		///     Such recipes can be made simply by clicking one item on another, without calling the crafting menu.
 		///     For example, roll out the dough with a rolling pin.
 		///     In the crafting menu, these items will be at the bottom in the hidden list.
-		///     See Awake().
 		/// </summary>
-		private bool IsSimple => isSimple;
-
-		private void Awake()
+		public bool IsSimple
 		{
-			isSimple = requiredIngredients.Count == 1;
+			get => RequiredIngredients.Count + RequiredToolTraits.Count == 2;
 		}
 
 		/// <summary>
