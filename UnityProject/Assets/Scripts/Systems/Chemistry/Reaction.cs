@@ -13,9 +13,13 @@ namespace Chemistry
 		public bool useExactAmounts = false;
 		public DictionaryReagentInt catalysts;
 		public DictionaryReagentInt inhibitors;
+		[HideInInspector]
 		public bool hasMinTemp;
+		[HideInInspector]
 		public float serializableTempMin;
+		[HideInInspector]
 		public bool hasMaxTemp;
+		[HideInInspector]
 		public float serializableTempMax;
 		public DictionaryReagentInt results;
 		public Effect[] effects;
