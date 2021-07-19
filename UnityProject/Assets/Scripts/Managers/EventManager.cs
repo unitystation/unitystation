@@ -30,6 +30,7 @@ public enum Event
 	PreRoundStarted,
 	MatrixManagerInit,
 	BlobSpawned,
+	ScenesLoadedServer
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

@@ -60,6 +60,12 @@ namespace HealthV2
 		[SyncVar(hook = nameof(SyncHealthDoll))]
 		private string healthDollData;
 
+		[SyncVar(hook = nameof(SyncHungerState))]
+		private HungerState hungerState;
+
+		public HungerState HungerState => hungerState;
+
+
 		private bool DollDataChanged = false;
 
 		#endregion
@@ -87,6 +93,14 @@ namespace HealthV2
 		#region ServerSetValue
 
 		//Holds all methods which the server will use to change a health value, will then sync change to client
+
+		[Server]
+		public void SetHunger(HungerState newHungerState)
+		{
+			hungerState = newHungerState;
+		}
+
+
 
 		[Server]
 		public void SetOverallHealth(float newHealth)
@@ -210,6 +224,14 @@ namespace HealthV2
 		{
 			pressure = newPressure;
 		}
+
+		[Client]
+		private void SyncHungerState(HungerState oldHungerState, HungerState newHungerState)
+		{
+			hungerState = newHungerState;
+		}
+
+
 
 		[Client]
 		private void SyncHealthDoll(string oldDollData, string newDollData)

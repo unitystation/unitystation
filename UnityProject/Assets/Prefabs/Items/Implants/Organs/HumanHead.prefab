@@ -17,11 +17,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &8043249252883093520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,7 +39,7 @@ MonoBehaviour:
   NamedSlotFlagged: 0
   relatedStorage: {fileID: 3173373948287869932}
   storage:
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 2
     hoverName: Head
@@ -49,7 +51,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 5
     hoverName: Face
@@ -61,7 +63,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 9
     hoverName: Eyes
@@ -73,7 +75,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 12
     hoverName: Ears
@@ -85,7 +87,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
-  - ClientIntractable: 0
+  - NotPresentOnUI: 0
     SlotArea: 4
     namedSlot: 13
     hoverName: Neck
@@ -208,7 +210,7 @@ PrefabInstance:
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: bloodThroughput
-      value: 0.015
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -465,11 +467,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5166433732684877445, guid: e241039a7933eb347bd1a9bb67a9078a,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8234622556944347693, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}

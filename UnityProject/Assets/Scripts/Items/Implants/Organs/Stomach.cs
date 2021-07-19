@@ -34,10 +34,6 @@ namespace HealthV2
 				var Digesting = StomachContents.TakeReagents(ToDigest);
 
 				RelatedPart.BloodContainer.Add(Digesting);
-
-				//healthMaster.NutrimentLevel += Digesting[Nutriment];
-				//What to do with non Digesting content, put back in stomach?
-
 			}
 
 			bool AllFat = true;

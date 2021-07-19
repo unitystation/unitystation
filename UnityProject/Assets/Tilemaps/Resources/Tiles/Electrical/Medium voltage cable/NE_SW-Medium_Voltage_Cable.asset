@@ -23,8 +23,12 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
+  miningTime: 5
+  constructable: 1
+  RadiationPassability: 1
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 0
   passableException:
     m_keys: 
     m_values: 
@@ -41,12 +45,16 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: a357998b2bd41c0489e7b22914e697e5, type: 2}
   spawnOnDeconstruct: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
     AssetAddress: null
@@ -54,6 +62,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  SoundOnDestroy: []
   CanConnectTo: 0100000003000000020000000600000007000000040000000d00000010000000140000000500000015000000
   PowerType: 1
   WireEndB: 2
