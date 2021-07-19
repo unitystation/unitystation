@@ -15,7 +15,7 @@ namespace Systems.CraftingV2
 
 		private void LearnRecipes(ConnectedPlayer player)
 		{
-			foreach (var recipe in containsRecipes)
+			foreach (CraftingRecipe recipe in containsRecipes)
 			{
 				player.Script.PlayerCrafting.LearnRecipe(recipe);
 			}

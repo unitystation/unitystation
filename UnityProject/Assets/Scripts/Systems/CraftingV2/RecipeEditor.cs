@@ -17,6 +17,7 @@ namespace Systems.CraftingV2
 		private SerializedProperty spRequiredReagents;
 		private SerializedProperty spRequiredToolTraits;
 		private SerializedProperty spResult;
+		private SerializedProperty spResultHandlers;
 
 		private void OnEnable()
 		{
@@ -28,10 +29,11 @@ namespace Systems.CraftingV2
 			spRequiredReagents = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredReagents)));
 			spResult = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Result)));
 			spChildrenRecipes = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.ChildrenRecipes)));
+			spResultHandlers = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.ResultHandlers)));
 
 			recipe = (CraftingRecipe) target;
 
-			foreach (var requiredIngredient in ((CraftingRecipe) target).RequiredIngredients)
+			foreach (RecipeIngredient requiredIngredient in ((CraftingRecipe) target).RequiredIngredients)
 			{
 				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
 			}
@@ -50,8 +52,13 @@ namespace Systems.CraftingV2
 			EditorGUILayout.PropertyField(spRequiredReagents);
 			EditorGUILayout.PropertyField(spResult);
 			EditorGUILayout.PropertyField(spChildrenRecipes);
+			EditorGUILayout.PropertyField(spResultHandlers);
 
-			if (EditorGUI.EndChangeCheck()) UpdateRelatedRecipes();
+			if (EditorGUI.EndChangeCheck())
+			{
+				serializedObject.ApplyModifiedProperties();
+				UpdateRelatedRecipes();
+			}
 		}
 
 		// SampleText => sampleText
@@ -62,10 +69,10 @@ namespace Systems.CraftingV2
 
 		private void UpdateRelatedRecipes()
 		{
-			serializedObject.ApplyModifiedProperties();
-			var updateIsUnnecessary = LastSerializedIngredients.Count == recipe.RequiredIngredients.Count;
+			bool updateIsUnnecessary = LastSerializedIngredients.Count == recipe.RequiredIngredients.Count;
 			if (updateIsUnnecessary)
-				for (var i = 0; i < LastSerializedIngredients.Count; i++)
+			{
+				for (int i = 0; i < LastSerializedIngredients.Count; i++)
 				{
 					if (LastSerializedIngredients[i].RequiredItem != recipe.RequiredIngredients[i].RequiredItem)
 					{
@@ -73,6 +80,7 @@ namespace Systems.CraftingV2
 						break;
 					}
 				}
+			}
 
 			if (updateIsUnnecessary)
 			{
@@ -87,7 +95,7 @@ namespace Systems.CraftingV2
 		private void UpdateLastSerializedIngredients()
 		{
 			LastSerializedIngredients.Clear();
-			foreach (var requiredIngredient in recipe.RequiredIngredients)
+			foreach (RecipeIngredient requiredIngredient in recipe.RequiredIngredients)
 			{
 				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
 			}
@@ -95,7 +103,7 @@ namespace Systems.CraftingV2
 
 		private void ClearRelatedRecipes()
 		{
-			foreach (var recipeIngredient in recipe.RequiredIngredients)
+			foreach (RecipeIngredient recipeIngredient in recipe.RequiredIngredients)
 			{
 				if (recipeIngredient.RequiredItem == null)
 				{
@@ -103,7 +111,7 @@ namespace Systems.CraftingV2
 				}
 				if (recipeIngredient.RequiredItem.gameObject.TryGetComponent(out CraftingIngredient craftingIngredient))
 				{
-					for (var i = craftingIngredient.RelatedRecipes.Count - 1; i >= 0; i--)
+					for (int i = craftingIngredient.RelatedRecipes.Count - 1; i >= 0; i--)
 					{
 						if (craftingIngredient.RelatedRecipes[i].Recipe == recipe)
 						{
@@ -118,7 +126,7 @@ namespace Systems.CraftingV2
 
 		private void ReAddRelatedRecipes()
 		{
-			for (var i = 0; i < recipe.RequiredIngredients.Count; i++)
+			for (int i = 0; i < recipe.RequiredIngredients.Count; i++)
 			{
 				if (recipe.RequiredIngredients[i].RequiredItem == null)
 				{

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Systems.CraftingV2.ResultHandlers;
 using Chemistry.Components;
 using Items;
+using JetBrains.Annotations;
 using Player;
 using UnityEngine;
 
@@ -38,6 +40,9 @@ namespace Systems.CraftingV2
 
 		[Tooltip("The resulting items after crafting.")] [SerializeField]
 		private List<GameObject> result;
+
+		[SerializeField, ItemNotNull]
+		private List<IResultHandler> resultHandlers = new List<IResultHandler>();
 
 		private bool isSimple;
 
@@ -78,6 +83,8 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public float CraftingTime => craftingTime;
 
+		public List<IResultHandler> ResultHandlers => resultHandlers;
+
 		/// <summary>
 		///     Such recipes can be made simply by clicking one item on another, without calling the crafting menu.
 		///     For example, roll out the dough with a rolling pin.
@@ -106,10 +113,10 @@ namespace Systems.CraftingV2
 
 		private bool CheckPossibleReagents(List<CraftingIngredient> possibleReagentContainers)
 		{
-			foreach (var requiredReagent in requiredReagents)
+			foreach (RecipeIngredientReagent requiredReagent in requiredReagents)
 			{
 				float foundAmount = 0;
-				foreach (var possibleReagentContainer in possibleReagentContainers)
+				foreach (CraftingIngredient possibleReagentContainer in possibleReagentContainers)
 					if (possibleReagentContainer.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
 					{
 						foundAmount += reagentContainer.AmountOfReagent(requiredReagent.RequiredReagent);
@@ -131,10 +138,10 @@ namespace Systems.CraftingV2
 		/// <returns>True if there are enough tools for crafting, false otherwise.</returns>
 		private bool CheckPossibleTools(List<ItemAttributesV2> possibleTools)
 		{
-			foreach (var itemTrait in requiredToolTraits)
+			foreach (ItemTrait itemTrait in requiredToolTraits)
 			{
-				var foundRequiredToolTrait = false;
-				foreach (var possibleTool in possibleTools)
+				bool foundRequiredToolTrait = false;
+				foreach (ItemAttributesV2 possibleTool in possibleTools)
 					if (possibleTool.HasTrait(itemTrait))
 					{
 						foundRequiredToolTrait = true;
@@ -157,12 +164,12 @@ namespace Systems.CraftingV2
 		/// <returns>True if there are enough ingredients for crafting, false otherwise.</returns>
 		private bool CheckPossibleIngredients(List<CraftingIngredient> possibleIngredients)
 		{
-			for (var reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
+			for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 			{
-				var countedAmount = 0;
-				foreach (var possibleIngredient in possibleIngredients)
+				int countedAmount = 0;
+				foreach (CraftingIngredient possibleIngredient in possibleIngredients)
 				{
-					foreach (var relatedRecipe in possibleIngredient.RelatedRecipes)
+					foreach (RelatedRecipe relatedRecipe in possibleIngredient.RelatedRecipes)
 					{
 						// is it not an ingredient in this recipe?
 						if (relatedRecipe.Recipe != this)
@@ -245,18 +252,18 @@ namespace Systems.CraftingV2
 		)
 		{
 			UseReagents(possibleIngredients);
-			UseIngredients(possibleIngredients);
-			CompleteCrafting(crafterGameObject);
+			CompleteCrafting(crafterGameObject, UseIngredients(possibleIngredients));
 		}
 
-		private void UseIngredients(List<CraftingIngredient> possibleIngredients)
+		private List<CraftingIngredient> UseIngredients(List<CraftingIngredient> possibleIngredients)
 		{
-			for (var reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
+			List<CraftingIngredient> usedIngredients = new List<CraftingIngredient>();
+			for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 			{
-				var usedIngredientsCounter = 0;
-				foreach (var possibleIngredient in possibleIngredients)
+				int usedIngredientsCounter = 0;
+				foreach (CraftingIngredient possibleIngredient in possibleIngredients)
 				{
-					foreach (var relatedRecipe in possibleIngredient.RelatedRecipes)
+					foreach (RelatedRecipe relatedRecipe in possibleIngredient.RelatedRecipes)
 					{
 						// is it not an ingredient in this recipe?
 						if (relatedRecipe.Recipe != this)
@@ -272,6 +279,7 @@ namespace Systems.CraftingV2
 
 						// okay, this is what we're looking for. We use this ingredient
 						usedIngredientsCounter = UseIngredient(reqIngIndex, possibleIngredient, usedIngredientsCounter);
+						usedIngredients.Add(possibleIngredient);
 						break;
 					}
 
@@ -281,14 +289,16 @@ namespace Systems.CraftingV2
 					}
 				}
 			}
+
+			return usedIngredients;
 		}
 
 		private void UseReagents(List<CraftingIngredient> possibleIngredients)
 		{
-			foreach (var requiredReagent in RequiredReagents)
+			foreach (RecipeIngredientReagent requiredReagent in RequiredReagents)
 			{
 				float amountUsed = 0;
-				foreach (var possibleIngredient in possibleIngredients)
+				foreach (CraftingIngredient possibleIngredient in possibleIngredients)
 				{
 					if (possibleIngredient.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
 					{
@@ -343,11 +353,19 @@ namespace Systems.CraftingV2
 		///     Completes crafting the recipe, spawns the Result.
 		/// </summary>
 		/// <param name="crafterGameObject"></param>
-		private void CompleteCrafting(GameObject crafterGameObject)
+		private void CompleteCrafting(GameObject crafterGameObject, List<CraftingIngredient> usedIngredients)
 		{
-			foreach (var resultedGameObject in Result)
+			List<GameObject> spawnedResult = new List<GameObject>();
+			foreach (GameObject resultedGameObject in Result)
 			{
-				Spawn.ServerPrefab(resultedGameObject, crafterGameObject.WorldPosServer());
+				spawnedResult.Add(
+					Spawn.ServerPrefab(resultedGameObject, crafterGameObject.WorldPosServer()).GameObject
+				);
+			}
+
+			foreach (IResultHandler resultHandler in ResultHandlers)
+			{
+				resultHandler.OnCraftingCompleted(spawnedResult, usedIngredients);
 			}
 		}
 	}
