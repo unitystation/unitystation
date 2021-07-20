@@ -12,7 +12,7 @@ public class PlayerHealthUI : MonoBehaviour
 	public UI_PressureAlert pressureAlert;
 	public GameObject oxygenAlert;
 	public UI_TemperatureAlert temperatureAlert;
-	public GameObject hungerAlert;
+	public SpriteHandler hungerAlert;
 	public UI_HeartMonitor heartMonitor;
 	public List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
 
@@ -134,19 +134,28 @@ public class PlayerHealthUI : MonoBehaviour
 		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
 
 		SetSpecificVisibility(false, toxinAlert);
-		// if (PlayerManager.LocalPlayerScript?.playerHealth?.Metabolism?.IsHungry != null)
-		// {
-			// SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
-		// }
 
+		switch (PlayerManager.LocalPlayerScript.playerHealth.HealthStateController.HungerState)
+		{
 
-		//TODO: Reimplement metabolism stuff.
-		//SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
+			case HungerState.Normal:
+				hungerAlert.gameObject.SetActive(false);
+				hungerAlert.PushClear();
+				break;
+			case HungerState.Malnourished:
+				hungerAlert.gameObject.SetActive(true);
+				hungerAlert.ChangeSprite(0);
+				break;
+			case HungerState.Starving:
+				hungerAlert.gameObject.SetActive(true);
+				hungerAlert.ChangeSprite(1);
+				break;
+			default:
+				hungerAlert.gameObject.SetActive(false);
+				hungerAlert.PushClear();
+				break;
+		}
 
-		// if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
-		// {
-			// oxygenButton.interactable = true;
-		// }
 
 		// if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
 		// {

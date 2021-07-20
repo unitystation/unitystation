@@ -87,7 +87,10 @@ namespace Systems.Atmospherics
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f && (gasMix.Temperature <= AtmosDefines.FUSION_MAXIMUM_TEMPERATURE || reactionEnergy <= 0))
 				{
-					gasMix.SetTemperature(Mathf.Clamp(((gasMix.Temperature * oldHeatCap + reactionEnergy) / newHeatCap), 2.7f, Single.PositiveInfinity));
+					gasMix.SetTemperature(
+						Mathf.Clamp(((gasMix.Temperature * oldHeatCap + reactionEnergy) / newHeatCap),
+							AtmosDefines.SPACE_TEMPERATURE,
+							Single.PositiveInfinity));
 				}
 			}
 		}

@@ -19,7 +19,7 @@ public class BodyHealthEffect : MetabolismReaction
 
 	public bool CanOverdose = true;
 
-	[ShowIf("CanOverdose")] public float PercentageBloodOverdose = 0.5f;
+	[ShowIf("CanOverdose")] public float PercentageBloodOverdose = 0.25f;
 	[ShowIf("CanOverdose")] public float OverdoseDamageMultiplier = 1;
 
 	public bool MultiEffect = false;

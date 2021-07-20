@@ -38,7 +38,9 @@ namespace Systems.Atmospherics
 
 			if (energyUsed > 0)
 			{
-				gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed)/gasMix.WholeHeatCapacity, 2.7f));
+				gasMix.SetTemperature(
+					Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed) / gasMix.WholeHeatCapacity,
+					AtmosDefines.SPACE_TEMPERATURE));
 			}
 		}
 	}

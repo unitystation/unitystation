@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace HealthV2
 {
 	public partial class BodyPart
 	{
+		[HorizontalLine]
 		public List<SurgeryProcedureBase> SurgeryProcedureBase = new List<SurgeryProcedureBase>();
 
 

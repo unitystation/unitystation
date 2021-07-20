@@ -19,71 +19,82 @@ namespace Systems.Atmospherics
 			for (var i = 0; i < neighbors.Length; i++)
 			{
 				MetaDataNode neighbor = neighbors[i];
-				if (neighbor != null)
+				if (neighbor == null) continue;
+
+				//We only need to check open tiles
+				if (neighbor.IsOccupied) continue;
+
+				float pressureDifference = node.GasMix.Pressure - neighbor.GasMix.Pressure;
+				float absoluteDifference = Mathf.Abs(pressureDifference);
+
+				//Check to see if theres a large pressure difference
+				if (absoluteDifference > AtmosConstants.MinPressureDifference)
 				{
-					float pressureDifference = node.GasMix.Pressure - neighbor.GasMix.Pressure;
-					float absoluteDifference = Mathf.Abs(pressureDifference);
-					if (absoluteDifference > AtmosConstants.MinPressureDifference)
+					result = true;
+
+					if (absoluteDifference > windForce)
 					{
-						result = true;
+						windForce = absoluteDifference;
+					}
 
-						if (!neighbor.IsOccupied)
+					int neighborOffsetX = (neighbor.Position.x - node.Position.x);
+					int neighborOffsetY = (neighbor.Position.y - node.Position.y);
+
+					if (pressureDifference > 0)
+					{
+						windDirection.x += neighborOffsetX;
+						windDirection.y += neighborOffsetY;
+					}
+					else if (pressureDifference < 0)
+					{
+						windDirection.x -= neighborOffsetX;
+						windDirection.y -= neighborOffsetY;
+					}
+
+					clampVector.x -= neighborOffsetX;
+					clampVector.y -= neighborOffsetY;
+
+					//We continue here so we can calculate the whole wind direction from all possible nodes
+					continue;
+				}
+
+				//Check if the moles are different. (e.g. CO2 is different from breathing)
+				//Check current node then check neighbor so we dont miss a gas if its only on one of the nodes
+
+				//Current node
+				//Only need to check if false
+				if (result == false)
+				{
+					foreach (var gas in node.GasMix.GasesArray)
+					{
+						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+
+						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 						{
-							if (absoluteDifference > windForce)
-							{
-								windForce = absoluteDifference;
-							}
+							result = true;
 
-							int neighborOffsetX = (neighbor.Position.x - node.Position.x);
-							int neighborOffsetY = (neighbor.Position.y - node.Position.y);
-
-							if (pressureDifference > 0)
-							{
-								windDirection.x += neighborOffsetX;
-								windDirection.y += neighborOffsetY;
-							}
-							else if (pressureDifference < 0)
-							{
-								windDirection.x -= neighborOffsetX;
-								windDirection.y -= neighborOffsetY;
-							}
-
-							clampVector.x -= neighborOffsetX;
-							clampVector.y -= neighborOffsetY;
+							//We break not return here so we can still work out wind direction
+							break;
 						}
 					}
-					else
+				}
+
+				//Neighbor node
+				//Only need to check if false
+				if (result == false)
+				{
+					foreach (var gas in neighbor.GasMix.GasesArray)
 					{
+						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
 
-						//Check if the moles are different. (e.g. CO2 is different from breathing)
-
-						//Check current node then check neighbor so we dont miss a gas if its only on one of the nodes
-						foreach (var gas in node.GasMix.GasesArray)
+						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 						{
-							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+							result = true;
 
-							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
-							{
-								result = true;
-								break;
-							}
-						}
-
-						//Only need to check if false
-						if (result == false)
-						{
-							foreach (var gas in neighbor.GasMix.GasesArray)
-							{
-								float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-								float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
-
-								if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
-								{
-									result = true;
-									break;
-								}
-							}
+							//We break not return here so we can still work out wind direction
+							break;
 						}
 					}
 				}
@@ -135,7 +146,7 @@ namespace Systems.Atmospherics
 				return pressure * volume / (Gas.R * moles) * 1000;
 			}
 
-			return 2.7f; //space radiation
+			return AtmosDefines.SPACE_TEMPERATURE; //space radiation
 		}
 
 		/// <summary>

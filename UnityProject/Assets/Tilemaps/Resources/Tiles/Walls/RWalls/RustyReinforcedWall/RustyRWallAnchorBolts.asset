@@ -24,9 +24,13 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 0
   mineable: 0
+  miningTime: 5
   RadiationPassability: 0.15
+  ThermalConductivity: 0
+  HeatCapacity: 312500
   doesReflectBullet: 0
   indestructible: 0
+  ExplosionImpassable: 0
   passableException:
     m_keys: 
     m_values: 
@@ -43,6 +47,7 @@ MonoBehaviour:
     Acid: 90
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: d0e702dfe483f094b992064c970866ff, type: 2}
   - {fileID: 11400000, guid: f3311d87312fa6140a735a15bd461d7f, type: 2}
@@ -60,4 +65,5 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: f4447399673382f4091dc10efcb7d5c5, type: 3}

@@ -50,8 +50,16 @@ namespace Objects.Drawers
 			 *  TODO Remove the AccessRestriction check when we finish migrating!
 			 *
 			 */
-			if (!accessRestrictions.CheckAccess(PlayerManager.LocalPlayer) ||
-			    !clearanceCheckable.HasClearance(PlayerManager.LocalPlayer)) return result;
+
+			if (accessRestrictions)
+			{
+				if (accessRestrictions.CheckAccess(PlayerManager.LocalPlayer) == false) return result;
+			}
+			else if (clearanceCheckable)
+			{
+				if (clearanceCheckable.HasClearance(PlayerManager.LocalPlayer) == false) return result;
+			}
+
 			var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
 			if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;
 
