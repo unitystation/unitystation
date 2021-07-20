@@ -173,9 +173,8 @@ namespace Objects.Engineering
 			 */
 			if (accessRestrictions.CheckAccessCard(interaction.HandObject))
 			{
-				isLocked = !isLocked;
 				ToggleEmitter();
-				return;
+				return; //we found access, skip clearance check
 			}
 
 			if (clearanceCheckable.HasClearance(interaction.Performer))
