@@ -30,7 +30,9 @@ namespace Systems.Atmospherics
 
 			gasMix.AddGas(Gas.HyperNoblium, reactionEfficiency);
 
-			gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed)/gasMix.WholeHeatCapacity, 2.7f));
+			gasMix.SetTemperature(
+				Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed) / gasMix.WholeHeatCapacity,
+				AtmosDefines.SPACE_TEMPERATURE));
 		}
 	}
 }

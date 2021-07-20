@@ -27,7 +27,7 @@ namespace Systems.Atmospherics
 			}
 			else
 			{
-				//Will be negative until temperature is greater than minimum burn temperature
+				//Will be decimal until PLASMA_UPPER_TEMPERATURE is reached
 				temperatureScale = (temperature - AtmosDefines.PLASMA_MINIMUM_BURN_TEMPERATURE) /
 				                   (AtmosDefines.PLASMA_UPPER_TEMPERATURE - AtmosDefines.PLASMA_MINIMUM_BURN_TEMPERATURE);
 			}
@@ -66,7 +66,8 @@ namespace Systems.Atmospherics
 					}
 					else
 					{
-						gasMix.AddGas(Gas.CarbonDioxide, plasmaBurnRate);
+						gasMix.AddGas(Gas.CarbonDioxide, plasmaBurnRate * 0.75f);
+						gasMix.AddGas(Gas.WaterVapor, plasmaBurnRate * 0.25f);
 					}
 
 					energyReleased += AtmosDefines.FIRE_PLASMA_ENERGY_RELEASED * plasmaBurnRate;

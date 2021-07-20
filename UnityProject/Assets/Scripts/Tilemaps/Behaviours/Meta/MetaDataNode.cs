@@ -73,6 +73,20 @@ public class MetaDataNode : IGasMixContainer
 	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
 	public HashSet<GasSO> GasOverlayData => gasOverlayData;
 
+	//Conductivity Stuff//
+
+	//Temperature of the solid node
+	public float ConductivityTemperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
+	//How easily the node conducts 0-1
+	public float ThermalConductivity = 0f;
+	//Heat capacity of the node, also effects conducting speed
+	public float HeatCapacity = 0f;
+
+	//If this node started the conductivity
+	public bool StartingSuperConduct;
+	//If this node is allowed to share temperature to surrounding nodes
+	public bool AllowedToSuperConduct;
+
 	public void AddGasOverlay(GasSO gas)
 	{
 		gasOverlayData.Add(gas);
@@ -171,10 +185,10 @@ public class MetaDataNode : IGasMixContainer
 	public bool IsRoom => Type == NodeType.Room;
 
 	/// <summary>
-	/// Does this tile contain a closed airlock/shutters?
+	/// Does this tile contain a closed airlock/shutters? Prevents gas exchange to adjacent tiles
 	/// (used for gas freezing)
 	/// </summary>
-	public bool IsClosedAirlock { get; set; }
+	public bool IsIsolatedNode { get; set; }
 
 	/// <summary>
 	/// Is this tile occupied by something impassable (airtight!)
