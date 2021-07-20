@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using Random = UnityEngine.Random;
 using UI.Action;
 using AddressableReferences;
+using UI.Items.PDA;
 
 namespace Items.PDA
 {
@@ -55,6 +56,8 @@ namespace Items.PDA
 		[Tooltip("The overlay to be used in the GUI")]
 		[BoxGroup("GUI")]
 		public int OVERLAY;
+
+		public GUI_PDA PDAGui;
 
 		[Tooltip("How long the delay before the owner is informed of the uplink code " +
 			"(intedned to reduce information overload - likely just received objectives)")]
@@ -356,6 +359,7 @@ namespace Items.PDA
 						$"After a moment it disappears, your Telecrystal counter ticks up a second later";
 
 					Chat.AddExamineMsgFromServer(player, uplinkMessage);
+					PDAGui.uplinkPage.UpdateTCCounter();
 				}
 			}
 		}
