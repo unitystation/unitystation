@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -36,6 +37,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	[HideInInspector]
 	public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
 
+	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new Dictionary<GameObject, int>();
+
 	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
 	private const double minCoolDown = 1f;
 
@@ -47,6 +50,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void Awake()
 	{
+		if (IndexLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsIndex).Start();
+		}
+
+
 		if (Instance == null)
 		{
 			Instance = this;
@@ -56,6 +65,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			Destroy(gameObject);
 		}
 	}
+
+	public void SetUpSpawnablePrefabsIndex()
+	{
+		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
+		{
+			IndexLookupSpawnablePrefabs[allSpawnablePrefabs[i]] = i;
+		}
+	}
+
 	public InitialisationSystems Subsystem => InitialisationSystems.CustomNetworkManager;
 
 	void IInitialise.Initialise()

@@ -45,7 +45,7 @@ namespace Mirror
 	    /// <summary>
 	    /// CUSTOM UNITYSTATION CODE
 	    /// </summary>
-	    public bool isDirty;
+	    [NonSerialized]  public bool isDirty;
 
         /// <summary>Returns true if running as a client and this object was spawned by a server.</summary>
         //
@@ -1259,8 +1259,6 @@ namespace Mirror
                     comp.ClearAllDirtyBits();
                 }
             }
-            //CUSTOM UNITYSTATION CODE//
-            isDirty = false;
         }
 
         void ResetSyncObjects()

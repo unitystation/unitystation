@@ -291,7 +291,6 @@ namespace HealthV2
 		/// <param name="implant"></param>
 		public void AddNewImplant(BodyPart implant)
 		{
-			implant.HealthMaster = this;
 			ImplantList.Add(implant);
 		}
 

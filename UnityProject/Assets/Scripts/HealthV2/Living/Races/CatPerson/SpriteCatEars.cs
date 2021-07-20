@@ -15,6 +15,13 @@ public class SpriteCatEars : BodyPartSprites
 		OverlySpriteHandler.PushTexture();
 	}
 
+	public override void SetName(string Name)
+	{
+		this.gameObject.name = Name;
+		baseSpriteHandler.name = Name;
+		OverlySpriteHandler.name = Name + "_" + "Overly";
+	}
+
 	public override void OnDirectionChange(Orientation direction)
 	{
 		int referenceOffset = 0;

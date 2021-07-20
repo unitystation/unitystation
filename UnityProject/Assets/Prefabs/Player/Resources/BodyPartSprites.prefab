@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5675696822478708226}
   - component: {fileID: 8495837738996047739}
-  - component: {fileID: 1183852044112758862}
   m_Layer: 8
   m_Name: BodyPartSprites
   m_TagString: Untagged
@@ -45,32 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6032472b5f79e754ba142c8cb7921518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   baseSpriteHandler: {fileID: 1879030153370423799}
   BodyPartType: -1
+  ParentContainer: {fileID: 0}
   spriteRenderer: {fileID: 5026448041578801434}
   SpriteOrder:
     Orders: 00000000000000000000000000000000
   ClothingHide: 0
---- !u!114 &1183852044112758862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2698320114865596327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDirty: 0
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7f846789e62ac004499611e9c1417efa
-  hasSpawned: 0
+  Data: 
+  referenceOffset: 0
 --- !u!1 &5130866519076960480
 GameObject:
   m_ObjectHideFlags: 0
