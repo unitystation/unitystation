@@ -114,6 +114,8 @@ namespace HealthV2
 
 		public bool CanBleedExternally = false;
 
+		[SerializeField] private bool canBeBroken = false;
+
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
 		private bool isBleedingInternally = false;
@@ -304,13 +306,22 @@ namespace HealthV2
 			CHARRED
 		}
 
+		public enum BluntDamageLevels
+		{
+			NONE,
+			JointDislocation,
+			HairlineFracture,
+			CompoundFracture
+		}
+
 		[Flags]
 		public enum TramuticDamageTypes
 		{
 			NONE = 0,
 			SLASH = 1 << 0,
 			PIERCE = 1 << 1,
-			BURN = 1 << 2
+			BURN = 1 << 2,
+			BLUNT = 1 << 3
 		}
 
 		public void DamageInitialisation()
@@ -573,6 +584,7 @@ namespace HealthV2
 			{
 				if (damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
 				if (damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
+				if (damageType == TramuticDamageTypes.BLUNT) { TakeBluntDamage(tramuaDamage); }
 				CheckCutSize();
 			}
 			//Burn damage checks for it's own armor damage type.
@@ -799,6 +811,74 @@ namespace HealthV2
 			{
 				currentBurnDamage += burnDamage;
 				CheckBurnDamageLevels();
+			}
+		}
+
+
+		/// <summary>
+		/// Damages all bones that are inside of a body part, if the body part itself can be broken (like a cybernatic arm) then
+		/// the function will opt to damage both the arm AND it's contents.
+		/// </summary>
+		private void TakeBluntDamage(float bluntDamage)
+		{
+			void logic()
+			{
+				foreach (ItemSlot part in Storage.GetItemSlots())
+				{
+					if (part.ItemObject.GetComponent<BodyPart>().OrNull())
+					{
+						BodyPart bone = part.ItemObject.GetComponent<BodyPart>();
+						if (bone.canBeBroken)
+						{
+							bone.health -= MultiplyTraumaDamage(bluntDamage);
+							bone.BreakableIntigrityCheck();
+						}
+					}
+				}
+			}
+			if(SelfArmor.Melee < bluntDamage && this.canBeBroken == false)
+			{
+				logic();
+			}
+			else if(SelfArmor.Bullet < bluntDamage && this.canBeBroken == false)
+			{
+				logic();
+			}
+			else
+			{
+				this.health -= MultiplyTraumaDamage(bluntDamage);
+				logic();
+			}
+			BreakableIntigrityCheck();
+		}
+
+		private void BreakableIntigrityCheck()
+		{
+			if (canBeBroken)
+			{
+				void logic(BluntDamageLevels stage)
+				{
+					foreach (var bodyPartModification in BodyPartModifications)
+					{
+						bodyPartModification.BodyPartBreakLogic(stage);
+					}
+				}
+				if (health < 25)
+				{
+					logic(BluntDamageLevels.CompoundFracture);
+				}
+				else if (health < 55)
+				{
+					logic(BluntDamageLevels.HairlineFracture);
+				}
+				else if (health < 75)
+				{
+					logic(BluntDamageLevels.JointDislocation);
+				}
+				else
+				{
+					logic(BluntDamageLevels.NONE);
+				}
 			}
 		}
 

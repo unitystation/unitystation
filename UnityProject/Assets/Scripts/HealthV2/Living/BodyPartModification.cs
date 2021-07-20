@@ -20,6 +20,7 @@ namespace HealthV2
 		{
 			RelatedPart.InternalBleedingLogic();
 		}
+		public virtual void BodyPartBreakLogic(BodyPart.BluntDamageLevels stage){}
 	}
 
 }
