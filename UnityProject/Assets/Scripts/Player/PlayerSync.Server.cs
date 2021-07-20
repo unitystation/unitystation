@@ -519,7 +519,7 @@ public partial class PlayerSync
 
 		if (!playerScript.playerHealth || !playerScript.registerTile.IsLayingDown)
 		{
-			SpeedServer = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			SpeedServer = ActionSpeed(action);
 		}
 
 		//we only lerp back if the client thinks it's passable  but server does not...if client

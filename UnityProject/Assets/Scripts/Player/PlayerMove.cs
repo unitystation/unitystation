@@ -468,19 +468,30 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	public void UpdateSpeeds()
 	{
-		RunSpeed = 0;
-		WalkSpeed = 0;
-		CrawlSpeed = 0;
+		float newRunSpeed = 0;
+		float newWalkSpeed = 0;
+		float newCrawlSpeed = 0;
 		foreach (var MovementAffect in MovementAffects)
 		{
-			RunSpeed += MovementAffect.RunningAdd;
-			WalkSpeed += MovementAffect.WalkingAdd;
-			CrawlSpeed+= MovementAffect.CrawlAdd;
+			newRunSpeed += MovementAffect.RunningAdd;
+			newWalkSpeed += MovementAffect.WalkingAdd;
+			newCrawlSpeed += MovementAffect.CrawlAdd;
 		}
-
-		if (RunSpeed < 0) RunSpeed = 0;
-		if (WalkSpeed < 0) WalkSpeed = 0;
-		if (CrawlSpeed < 0) CrawlSpeed = 0;
+		if (newRunSpeed < 0)
+		{
+			newRunSpeed = 0;
+		}
+		if (newWalkSpeed < 0)
+		{
+			newWalkSpeed = 0;
+		}
+		if (newCrawlSpeed < 0)
+		{
+			newCrawlSpeed = 0;
+		}
+ 		RunSpeed = newRunSpeed;
+		WalkSpeed = newWalkSpeed;
+		CrawlSpeed = newCrawlSpeed;
 	}
 
 	private void SyncRunSpeed(float oldSpeed, float newSpeed)
