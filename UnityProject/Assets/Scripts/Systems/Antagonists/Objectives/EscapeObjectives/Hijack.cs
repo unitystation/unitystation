@@ -14,6 +14,27 @@ namespace Antagonists
 		/// The shuttles that will be checked for this objective
 		/// </summary>
 		private List<EscapeShuttle> ValidShuttles = new List<EscapeShuttle>();
+		
+		/// <summary>
+		/// Number of players needed in game for the objective to be possible
+		/// </summary>
+		[SerializeField]
+		private int numberOfPlayersRequired = 20;
+		
+		/// <summary>
+		/// If the objective allowed to be given to the antag
+		/// </summary>
+		protected override bool IsPossibleInternal(PlayerScript candidate)
+		{
+			if ((GameManager.Instance.CurrentRoundState == RoundState.PreRound ?
+				    PlayerList.Instance.ReadyPlayers.Count : PlayerList.Instance.InGamePlayers.Count)
+			    >= numberOfPlayersRequired)
+			{
+				return true;
+			}
+
+			return false;
+		}
 
 		/// <summary>
 		/// Populate the list of valid escape shuttles
