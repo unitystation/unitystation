@@ -1,21 +1,21 @@
 fileFormatVersion: 2
-guid: e52b263d063c16e458b76b4a7cb87a0e
+guid: d930a913da35ef44fa2b4f0f43edd947
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2695806704930062029
-    second: paramedic_d_0
+      213: 983707441332826781
+    second: w_shoes_0
   - first:
-      213: 7112400383844410900
-    second: paramedic_d_1
+      213: -5528953106397203625
+    second: w_shoes_1
   - first:
-      213: 7041666970729562829
-    second: paramedic_d_2
+      213: -7399019438951041729
+    second: w_shoes_2
   - first:
-      213: -5307878407746938400
-    second: paramedic_d_3
+      213: -8174725541926175715
+    second: w_shoes_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -35,6 +35,7 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -69,6 +70,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -98,7 +101,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: paramedic_d_0
+      name: w_shoes_0
       rect:
         serializedVersion: 2
         x: 0
@@ -113,13 +116,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 2695806704930062029
+      internalID: 983707441332826781
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: paramedic_d_1
+      name: w_shoes_1
       rect:
         serializedVersion: 2
         x: 32
@@ -134,13 +137,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 7112400383844410900
+      internalID: -5528953106397203625
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: paramedic_d_2
+      name: w_shoes_2
       rect:
         serializedVersion: 2
         x: 64
@@ -155,13 +158,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 7041666970729562829
+      internalID: -7399019438951041729
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: paramedic_d_3
+      name: w_shoes_3
       rect:
         serializedVersion: 2
         x: 96
@@ -176,7 +179,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: -5307878407746938400
+      internalID: -8174725541926175715
       vertices: []
       indices: 
       edges: []
