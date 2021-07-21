@@ -36,7 +36,9 @@ namespace Systems.Atmospherics
 			gasMix.RemoveGas(Gas.NitrousOxide, reactionEfficiency);
 			gasMix.RemoveGas(Gas.Plasma, 2 * reactionEfficiency);
 
-			gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap + energyReleased)/gasMix.WholeHeatCapacity, 2.7f));
+			gasMix.SetTemperature(
+				Mathf.Max((gasMix.Temperature * oldHeatCap + energyReleased) / gasMix.WholeHeatCapacity,
+				AtmosDefines.SPACE_TEMPERATURE));
 		}
 	}
 }

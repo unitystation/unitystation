@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Systems.Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
@@ -83,25 +84,42 @@ public class MetaDataSystem : SubsystemBehaviour
 		MetaUtils.RemoveFromNeighbors(node);
 		externalNodes.TryRemove(node, out MetaDataNode nothing);
 
-		node.IsClosedAirlock = false;
+		node.IsIsolatedNode = false;
 
 		// If the node is atmos passable (i.e. space or room), we need to setup its neighbors again, otherwise it's occupied and does need a neighbor check
 		if (metaTileMap.IsAtmosPassableAt(localPosition, true))
 		{
 			node.ClearNeighbors();
 			node.Type = metaTileMap.IsSpaceAt(localPosition, true) ? NodeType.Space : NodeType.Room;
-			SetupNeighbors(node);
-			MetaUtils.AddToNeighbors(node);
+
+			if (node.Type == NodeType.Space)
+			{
+				node.ThermalConductivity = AtmosDefines.SPACE_THERMAL_CONDUCTIVITY;
+				node.HeatCapacity =  AtmosDefines.SPACE_HEAT_CAPACITY;
+			}
 		}
 		else
 		{
 			node.Type = NodeType.Occupied;
 			if (matrix.GetFirst<RegisterDoor>(localPosition, true))
 			{
-				node.IsClosedAirlock = true;
+				node.IsIsolatedNode = true;
+
+				//TODO hard coded these values, might be better to put them in register door?
+				node.ThermalConductivity = 0.001f;
+				node.HeatCapacity =  10000f;
 			}
 		}
 
+		if (node.IsIsolatedNode == false && node.Type != NodeType.Space &&
+		    matrix.MetaTileMap.GetTile(localPosition, true) is BasicTile tile && tile != null)
+		{
+			node.HeatCapacity = tile.HeatCapacity;
+			node.ThermalConductivity = tile.ThermalConductivity;
+		}
+
+		SetupNeighbors(node);
+		MetaUtils.AddToNeighbors(node);
 	}
 
 	private void LocateRooms()
@@ -126,7 +144,14 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			if (matrix.GetFirst<RegisterDoor>(position, true))
 			{
-				node.IsClosedAirlock = true;
+				node.IsIsolatedNode = true;
+				node.ThermalConductivity = 0.0001f;
+				node.HeatCapacity =  10000f;
+			}
+			else if (matrix.MetaTileMap.GetTile(position, true) is BasicTile tile && tile != null)
+			{
+				node.HeatCapacity = tile.HeatCapacity;
+				node.ThermalConductivity = tile.ThermalConductivity;
 			}
 
 			SetupNeighbors(node);
@@ -220,8 +245,6 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void SetupNeighbors(MetaDataNode node)
 	{
-		Vector3 nodeWorldPosition = MatrixManager.LocalToWorldInt(node.Position, MatrixManager.Get(matrix.Id));
-
 		// Look in every direction for neighboring tiles.
 		foreach (Vector3Int dir in MetaUtils.Directions)
 		{
@@ -250,13 +273,9 @@ public class MetaDataSystem : SubsystemBehaviour
 						{
 							// Check if atmos can pass to the neighboring position
 							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
-							Vector3Int nodeLocalPosition = MatrixManager.WorldToLocalInt(nodeWorldPosition, matrixInfo);
 
-							if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition, true))
-							{
-								// add node of other matrix to the neighbors of the current node
-								node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition), dir);
-							}
+							// add node of other matrix to the neighbors of the current node
+							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition), dir);
 
 							// skip other checks for neighboring tile on local tilemap, to prevent the space tile to be added as a neighbor
 							continue;
@@ -265,21 +284,26 @@ public class MetaDataSystem : SubsystemBehaviour
 				}
 			}
 
-			// If neighboring tile on local tilemap is atmos passable, add it as a neighbor
-			if (metaTileMap.IsAtmosPassableAt(node.Position, neighbor, true))
+			MetaDataNode neighborNode = metaDataLayer.Get(neighbor);
+
+			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
-				MetaDataNode neighborNode = metaDataLayer.Get(neighbor);
-
-				if (metaTileMap.IsSpaceAt(neighbor, true))
-				{
-					neighborNode.Type = NodeType.Space;
-				}
-
-				node.AddNeighbor(neighborNode, dir);
+				neighborNode.Type = NodeType.Space;
 			}
+
+			if (neighborNode.Type == NodeType.Space)
+			{
+				neighborNode.ThermalConductivity = 0.4f;
+				neighborNode.HeatCapacity =  700000f;
+			}
+			else if (neighborNode.Type == NodeType.Room)
+			{
+				neighborNode.ThermalConductivity = 0.04f;
+				neighborNode.HeatCapacity =  10000f;
+			}
+
+			node.AddNeighbor(neighborNode, dir);
 		}
-
-
 	}
 
 	private void ServerUpdateMe()

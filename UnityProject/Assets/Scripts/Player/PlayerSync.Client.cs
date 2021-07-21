@@ -381,14 +381,7 @@ public partial class PlayerSync
 	{
 		if ( !playerScript.IsGhost )
 		{
-			if ( !playerScript.registerTile.IsLayingDown )
-			{
-				SpeedClient = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
-			}
-			else
-			{
-				SpeedClient = playerMove.CrawlSpeed;
-			}
+			SpeedClient = ActionSpeed(action);
 		}
 
 		var nextState = NextState(state, action, isReplay);
