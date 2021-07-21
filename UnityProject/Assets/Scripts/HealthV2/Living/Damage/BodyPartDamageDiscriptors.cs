@@ -113,11 +113,11 @@ namespace HealthV2
 					break;
 			}
 
-			report = TranslateTags(report);
+			report = TranslateTextTags(report);
 			return report;
 		}
 
-		public string TranslateTags(string txt)
+		public string TranslateTextTags(string txt)
 		{
 			var finalText = txt;
 			if (finalText.Contains("{readableName}"))  { txt.Replace("{readableName}", BodyPartReadableName); }

@@ -34,15 +34,15 @@ namespace HealthV2
 				case BodyPart.BluntDamageLevels.NONE:
 					break;
 				case BodyPart.BluntDamageLevels.JointDislocation:
-					txtToPlayers = RelatedPart.TranslateTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGEONE);
+					txtToPlayers = RelatedPart.TranslateTextTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGEONE);
 					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, txtToPlayers, txtToPlayers);
 					break;
 				case BodyPart.BluntDamageLevels.HairlineFracture:
-					txtToPlayers = RelatedPart.TranslateTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGETWO);
+					txtToPlayers = RelatedPart.TranslateTextTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGETWO);
 					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, txtToPlayers, txtToPlayers);
 					break;
 				case BodyPart.BluntDamageLevels.CompoundFracture:
-					txtToPlayers = RelatedPart.TranslateTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGETHREE);
+					txtToPlayers = RelatedPart.TranslateTextTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGETHREE);
 					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, txtToPlayers, txtToPlayers);
 					break;
 			}
