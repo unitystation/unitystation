@@ -86,8 +86,7 @@ public class DrinkableContainer : Consumable
 		// Play sound
 		if (item && drinkSound != null)
 		{
-			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, audioSourceParameters,
-				sourceObj: eater.gameObject);
+			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, audioSourceParameters, sourceObj: eater.gameObject);
 		}
 	}
 
