@@ -57,7 +57,7 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &7920396435213484253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0

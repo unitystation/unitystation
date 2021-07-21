@@ -24,9 +24,10 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  constructable: 0
   RadiationPassability: 1
-  TileThermalConductivity: 0.05
-  TileHeatCapacity: 312500
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0

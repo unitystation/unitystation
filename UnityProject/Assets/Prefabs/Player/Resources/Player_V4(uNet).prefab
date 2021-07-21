@@ -563,7 +563,6 @@ MonoBehaviour:
   ToInstantiateSpriteCustomisation: {fileID: 7987984179268195915, guid: 8e0d016d897a86947a17dcc45971c4c1,
     type: 3}
   CustomisationSprites: {fileID: 975496025995574624}
-  InternalNetIDs: 
   RootBodyPartsLoaded: 0
   OverlaySprites: {fileID: 9164488584065593561}
 --- !u!114 &114413669770135258
@@ -922,7 +921,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
@@ -1106,7 +1104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBreathAnywhere: 0
   tickRate: 1
-  GasMultiplier: 100
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7843,7 +7840,7 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &8271366125234986503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7925,7 +7922,7 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &4508263270075214926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8038,7 +8035,7 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &3010957235167502249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8349,7 +8346,7 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &6433378785423412763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8539,7 +8536,7 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &9114892414776758325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8621,7 +8618,7 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &3506449732822759296
 MonoBehaviour:
   m_ObjectHideFlags: 0

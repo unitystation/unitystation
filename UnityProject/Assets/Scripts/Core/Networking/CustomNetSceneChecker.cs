@@ -28,6 +28,8 @@ public class CustomNetSceneChecker : NetworkVisibility
 		{
 			observers.Add(player.Connection);
 		}
+
+
 		return;
 		//CUSTOM UNITYSTATION CODE//
 		// foreach (var obs in NetworkServer.observerSceneList)

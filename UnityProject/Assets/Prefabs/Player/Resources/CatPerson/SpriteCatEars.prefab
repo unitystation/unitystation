@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716b04978ca11484f9415d29517c600e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   baseSpriteHandler: {fileID: 1286611255038373546}
   BodyPartType: 0
+  ParentContainer: {fileID: 0}
   spriteRenderer: {fileID: 5622979681401935431}
   SpriteOrder:
     Orders: 14000000140000001400000014000000
   ClothingHide: 0
+  Data: 
+  referenceOffset: 0
   OverlySpriteHandler: {fileID: 8378186601239540787}
 --- !u!1 &7060390259241769481
 GameObject:
