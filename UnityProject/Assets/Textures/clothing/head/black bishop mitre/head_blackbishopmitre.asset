@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: head_blackbishopmitre
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -7193531366909963068, guid: cdda55757a4592447b95f35e78f96925,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6177133225167908878, guid: cdda55757a4592447b95f35e78f96925,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3131318933566607429, guid: cdda55757a4592447b95f35e78f96925,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5442182825489199266, guid: cdda55757a4592447b95f35e78f96925,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 23299
+  DisplayName: 
