@@ -152,6 +152,13 @@ namespace HealthV2
 		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
 		private SlashDamageLevel currentSlashDamageLevel = SlashDamageLevel.NONE;
 		private BurnDamageLevels currentBurnDamageLevel = BurnDamageLevels.NONE;
+		private BluntDamageLevels currentBluntDamageLevel = BluntDamageLevels.NONE;
+
+		public BluntDamageLevels CurrentBluntDamageLevel
+		{
+			get => currentBluntDamageLevel;
+			set => currentBluntDamageLevel = value;
+		}
 
 		/// <summary>
 		/// Toxin damage taken

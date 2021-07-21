@@ -20,7 +20,38 @@ namespace HealthV2
 		{
 			RelatedPart.InternalBleedingLogic();
 		}
-		public virtual void BodyPartBreakLogic(BodyPart.BluntDamageLevels stage){}
+
+		/// <summary>
+		/// Whenever a bodyPart breaks this logic is called to display information to players and add in debuffs.
+		/// By default this function's base only handles chat messages.
+		/// </summary>
+		/// <param name="stage"></param>
+		public virtual void BodyPartBreakLogic(BodyPart.BluntDamageLevels stage)
+		{
+			string txtToPlayers;
+			switch (stage)
+			{
+				case BodyPart.BluntDamageLevels.NONE:
+					break;
+				case BodyPart.BluntDamageLevels.JointDislocation:
+					txtToPlayers = RelatedPart.TranslateTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGEONE);
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, txtToPlayers, txtToPlayers);
+					break;
+				case BodyPart.BluntDamageLevels.HairlineFracture:
+					txtToPlayers = RelatedPart.TranslateTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGETWO);
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, txtToPlayers, txtToPlayers);
+					break;
+				case BodyPart.BluntDamageLevels.CompoundFracture:
+					txtToPlayers = RelatedPart.TranslateTags(RelatedPart.BodyPartBreakVisibleTextOnSTAGETHREE);
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, txtToPlayers, txtToPlayers);
+					break;
+			}
+		}
+		/// <summary>
+		/// Logic for when a body part is broken and is getting an interaction.
+		/// (I.E : Player drops items when picking up with broken arms.)
+		/// </summary>
+		public virtual void BodyPartBrokenInteractionLogic() { }
 	}
 
 }

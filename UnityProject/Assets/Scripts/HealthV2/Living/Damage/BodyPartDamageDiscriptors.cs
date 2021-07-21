@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 
 namespace HealthV2
@@ -23,6 +24,15 @@ namespace HealthV2
 		private string pireceDamageDescOnLARGE= "{readableName} suffers from a Ruptured Cavity.";
 		[SerializeField] private string internalDamageDesc	 = "This {readableName} is suffering from internal damage.";
 		[SerializeField] private string externalBleedingDesc = "This {readableName} is bleeding due to an open wound.";
+
+		[ShowIf("canBeBroken")]
+		public string BodyPartBreakVisibleTextOnSTAGEONE;
+		[ShowIf("canBeBroken")]
+		public string BodyPartBreakVisibleTextOnSTAGETWO;
+		[ShowIf("canBeBroken")]
+		public string BodyPartBreakVisibleTextOnSTAGETHREE;
+		[ShowIf("canBeBroken")]
+		public string BodyPartBreakVisibleTextOnHEAL;
 
 		public string GetFullBodyPartDamageDescReport()
 		{
@@ -107,9 +117,12 @@ namespace HealthV2
 			return report;
 		}
 
-		private string TranslateTags(string txt)
+		public string TranslateTags(string txt)
 		{
-			return txt.Replace("{readableName}", BodyPartReadableName);
+			var finalText = txt;
+			if (finalText.Contains("{readableName}"))  { txt.Replace("{readableName}", BodyPartReadableName); }
+			if (finalText.Contains("{bodyPartOwner}")) { txt.Replace("{bodyPartOwner}", healthMaster.PlayerScriptOwner.visibleName); }
+			return finalText;
 		}
 	}
 }

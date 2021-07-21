@@ -15,6 +15,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
+      propertyPath: canBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
       propertyPath: spillChanceWhenCutPresent
       value: 1
       objectReference: {fileID: 0}
@@ -22,6 +27,22 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyPartDisembowlLogicOnCutSize
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: BodyPartBreakVisibleTextOnSTAGEONE
+      value: 'A small dent can be visible on {bodyPartOwner} ''s {readableName}. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: BodyPartBreakVisibleTextOnSTAGETWO
+      value: '{bodyPartOwner} ''s {readableName}  becomes broken and wires start
+        to escape it''s electronic scanners.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: BodyPartBreakVisibleTextOnSTAGETHREE
+      value: '{bodyPartOwner} ''s {readableName}  has been crushed.'
       objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}

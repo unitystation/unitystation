@@ -120,6 +120,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: canBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: BodyPartType
       value: -1
       objectReference: {fileID: 0}
@@ -127,6 +132,28 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyPartReadableName
       value: Bone
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: BodyPartBreakVisibleTextOnHEAL
+      value: '{bodyPartOwner} groans as their {readableName} gets snapped back into
+        place.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: BodyPartBreakVisibleTextOnSTAGEONE
+      value: an audible crack can be heard from {bodyPartOwner} as their joint dislocates.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: BodyPartBreakVisibleTextOnSTAGETWO
+      value: '{bodyPartOwner} screams as their {readableName} almost snaps in half.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: BodyPartBreakVisibleTextOnSTAGETHREE
+      value: '{bodyPartOwner} lets out a painful agonizing cry as their {readableName}
+        snaps and renders itself unuseable.'
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -4791504671035111961, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
