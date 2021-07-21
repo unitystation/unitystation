@@ -832,7 +832,7 @@ namespace HealthV2
 			{
 				foreach (ItemSlot part in Storage.GetItemSlots())
 				{
-					if (part.ItemObject.GetComponent<BodyPart>().OrNull())
+					if (part.ItemObject?.OrNull().GetComponent<BodyPart>()?.OrNull())
 					{
 						BodyPart bone = part.ItemObject.GetComponent<BodyPart>();
 						if (bone.canBeBroken)
@@ -872,14 +872,17 @@ namespace HealthV2
 				}
 				if (health < 25)
 				{
+					currentBluntDamageLevel = BluntDamageLevels.CompoundFracture;
 					logic(BluntDamageLevels.CompoundFracture);
 				}
 				else if (health < 55)
 				{
+					currentBluntDamageLevel = BluntDamageLevels.HairlineFracture;
 					logic(BluntDamageLevels.HairlineFracture);
 				}
 				else if (health < 75)
 				{
+					currentBluntDamageLevel = BluntDamageLevels.JointDislocation;
 					logic(BluntDamageLevels.JointDislocation);
 				}
 				else

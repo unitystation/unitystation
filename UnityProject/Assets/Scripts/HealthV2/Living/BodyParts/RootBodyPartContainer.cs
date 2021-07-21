@@ -410,6 +410,10 @@ namespace HealthV2
 				{
 					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
 				}
+				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.BLUNT))
+				{
+					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BLUNT);
+				}
 			}
 		}
 
