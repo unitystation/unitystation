@@ -24,22 +24,27 @@ public class CustomNetSceneChecker : NetworkVisibility
 
 	public override void OnRebuildObservers(HashSet<NetworkConnection> observers, bool initialize)
 	{
-		//CUSTOM UNITYSTATION CODE//
-		foreach (var obs in NetworkServer.observerSceneList)
+		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
-			if (obs.Key == null) continue;
-			if (gameObject.scene == SceneManager.GetActiveScene())
-			{
-				observers.Add(obs.Key);
-			}
-			else
-			{
-				if (obs.Value.Contains(gameObject.scene))
-				{
-					observers.Add(obs.Key);
-				}
-			}
+			observers.Add(player.Connection);
 		}
+		return;
+		//CUSTOM UNITYSTATION CODE//
+		// foreach (var obs in NetworkServer.observerSceneList)
+		// {
+		// 	if (obs.Key == null) continue;
+		// 	if (gameObject.scene == SceneManager.GetActiveScene())
+		// 	{
+		// 		observers.Add(obs.Key);
+		// 	}
+		// 	else
+		// 	{
+		// 		if (obs.Value.Contains(gameObject.scene))
+		// 		{
+		// 			observers.Add(obs.Key);
+		// 		}
+		// 	}
+		// }
 	}
 
 	public override void OnSetHostVisibility(bool visible)
