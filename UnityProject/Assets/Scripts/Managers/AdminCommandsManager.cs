@@ -194,7 +194,7 @@ namespace AdminCommands
 				var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
 				CentComm.MakeShuttleCallAnnouncement(minutes, text, true);
 
-				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle.");
+				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle. \n {text}");
 			}
 		}
 
@@ -209,7 +209,7 @@ namespace AdminCommands
 
 			CentComm.MakeShuttleRecallAnnouncement(text);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle.");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -219,7 +219,7 @@ namespace AdminCommands
 
 			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Notice);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT.");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -229,7 +229,7 @@ namespace AdminCommands
 
 			GameManager.Instance.CentComm.MakeCommandReport(text);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT.");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
