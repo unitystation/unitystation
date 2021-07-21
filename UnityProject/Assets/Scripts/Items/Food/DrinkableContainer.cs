@@ -21,7 +21,8 @@ public class DrinkableContainer : Consumable
 	private ReagentContainer container;
 	private ItemAttributesV2 itemAttributes;
 	private RegisterItem item;
-
+	
+	private AudioSourceParameters audioSourceParameters = new AudioSourceParameters(spatialBlend: 1f);
 
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -85,7 +86,8 @@ public class DrinkableContainer : Consumable
 		// Play sound
 		if (item && drinkSound != null)
 		{
-			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, sourceObj: eater.gameObject);
+			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, audioSourceParameters,
+				sourceObj: eater.gameObject);
 		}
 	}
 
