@@ -49,7 +49,7 @@ namespace Tests.Asset
 							            " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
 						}
 
-						if (manager.allSpawnablePrefabs.Contains(asset) == false)
+						if (manager.allSpawnablePrefabs.Contains(asset) == false && manager.playerPrefab != asset)
 						{
 							failed = true;
 							report.AppendLine($"{asset} needs to be in the allSpawnablePrefabs list and has been added." +
