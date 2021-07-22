@@ -156,7 +156,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
 			if(asset == null) continue;
 
-			if (asset.TryGetComponent<NetworkIdentity>(out _))
+			if (asset.TryGetComponent<NetworkIdentity>(out _) && playerPrefab != asset)
 			{
 				spawnPrefabs.Add(asset);
 			}
