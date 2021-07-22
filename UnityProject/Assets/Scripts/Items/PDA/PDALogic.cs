@@ -359,7 +359,10 @@ namespace Items.PDA
 						$"After a moment it disappears, your Telecrystal counter ticks up a second later";
 
 					Chat.AddExamineMsgFromServer(player, uplinkMessage);
-					PDAGui.uplinkPage.UpdateTCCounter();
+					if (PDAGui)
+					{
+						PDAGui.uplinkPage.UpdateTCCounter();
+					}
 				}
 			}
 		}
