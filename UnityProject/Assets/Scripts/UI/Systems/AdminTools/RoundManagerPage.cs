@@ -87,13 +87,14 @@ public class RoundManagerPage : AdminPage
 	private void GenerateDropDownOptionsMap(AdminPageRefreshData adminPageData)
 	{
 		//generate the drop down options:
-		var optionData = new List<Dropdown.OptionData>();
-
-		//Add random entry:
-		optionData.Add(new Dropdown.OptionData
+		var optionData = new List<Dropdown.OptionData>
 		{
-			text = "Random"
-		});
+			//Add random entry:
+			new Dropdown.OptionData
+			{
+				text = "Random"
+			}
+		};
 
 		foreach (var mapName in SubSceneManager.Instance.MainStationList.MainStations)
 		{
@@ -118,13 +119,14 @@ public class RoundManagerPage : AdminPage
 	private void GenerateDropDownOptionsAwaySite(AdminPageRefreshData adminPageData)
 	{
 		//generate the drop down options:
-		var optionData = new List<Dropdown.OptionData>();
-
-		//Add random entry:
-		optionData.Add(new Dropdown.OptionData
+		var optionData = new List<Dropdown.OptionData>
 		{
-			text = "Random"
-		});
+			//Add random entry:
+			new Dropdown.OptionData
+			{
+				text = "Random"
+			}
+		};
 
 		foreach (var awaySiteName in SubSceneManager.Instance.awayWorldList.AwayWorlds)
 		{

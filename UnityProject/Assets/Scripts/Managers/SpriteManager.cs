@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-public enum DepartmentBatterySprite
+﻿public enum DepartmentBatterySprite
 {
 	Default,
 	Engineering,

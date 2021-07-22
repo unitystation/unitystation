@@ -19,7 +19,7 @@ namespace Items.Magical
 					"You suddenly feel very solid!",
 					$"{player.GameObject.ExpensiveName()} goes very still! {player.Script.characterSettings.TheyPronoun(player.Script)}'s been petrified!");
 
-			player.Script.playerMove.allowInput = false;
+			player.Script.PlayerMove.allowInput = false;
 			// Piggy-back off IsMiming property to prevent the player from speaking.
 			// TODO: convert to player trait when we have that system.
 			player.Script.mind.IsMiming = true;
@@ -37,7 +37,7 @@ namespace Items.Magical
 			yield return WaitFor.Seconds(petrifyTime);
 			if (script == null || script.mind == null) yield break;
 
-			script.playerMove.allowInput = true;
+			script.PlayerMove.allowInput = true;
 			script.mind.IsMiming = false;
 
 			Chat.AddExamineMsgFromServer(script.gameObject, "You feel yourself again.");

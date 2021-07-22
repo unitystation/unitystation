@@ -6,29 +6,8 @@ using Messages.Server.AdminTools;
 using UnityEngine.Profiling;
 using UnityEngine.Profiling.Memory.Experimental;
 
-public class ProfileManager : MonoBehaviour
+public class ProfileManager : SingletonManager<ProfileManager>
 {
-	private static ProfileManager profileManager;
-	public static ProfileManager Instance
-	{
-		get
-		{
-			if (!profileManager)
-			{
-				profileManager = FindObjectOfType<ProfileManager>();
-			}
-			return profileManager;
-		}
-	}
-
-	private void Awake()
-	{
-		if (profileManager == null)
-		{
-			profileManager = this;
-		}
-	}
-
 	public static bool runningProfile;
 	public static bool runningMemoryProfile;
 

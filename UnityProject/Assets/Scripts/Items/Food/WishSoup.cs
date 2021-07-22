@@ -25,7 +25,7 @@ namespace Items.Food
 
 			if (FeedNutrients)
 			{
-				var Stomachs = eater.playerHealth.GetStomachs();
+				var Stomachs = eater.PlayerHealth.GetStomachs();
 				if (Stomachs.Count == 0)
 				{
 					//No stomachs?!

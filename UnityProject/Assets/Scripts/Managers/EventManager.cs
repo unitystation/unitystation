@@ -4,7 +4,6 @@ using Messages.Server;
 using UnityEngine;
 using UnityEngine.Events;
 
-
 public class UIEvent : UnityEvent<GameObject> { }
 
 // For simple broadcasts:
@@ -34,25 +33,11 @@ public enum Event
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
-public class EventManager : MonoBehaviour
+public class EventManager : SingletonManager<EventManager>
 {
 	// Stores the delegates that get called when an event is fired (Simple Events)
 	private static readonly Dictionary<Event, Action> eventTable
 		= new Dictionary<Event, Action>();
-
-	private static EventManager eventManager;
-
-	public static EventManager Instance
-	{
-		get
-		{
-			if (!eventManager)
-			{
-				eventManager = FindObjectOfType<EventManager>();
-			}
-			return eventManager;
-		}
-	}
 
 	public static void UpdateLights() { }
 
@@ -175,10 +160,6 @@ public class EventManager : MonoBehaviour
 				category = Category.Unknown;
 				break;
 		}
-
-
 		Logger.LogTrace(msg, category);
-
-
 	}
 }

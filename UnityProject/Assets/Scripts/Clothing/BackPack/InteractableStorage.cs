@@ -401,10 +401,10 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 							return;
 						}
 						if (PlayerManager.PlayerScript == null) return;
-						if (Validations.IsInReachDistanceByPositions(PlayerManager.PlayerScript.registerTile.WorldPosition ,interaction.WorldPositionTarget) == false) return;
-						if (MatrixManager.IsPassableAtAllMatricesOneTile( interaction.WorldPositionTarget.RoundToInt(), CustomNetworkManager.Instance._isServer) == false) return;
+						if (Validations.IsInReachDistanceByPositions(PlayerManager.PlayerScript.RegisterTile.WorldPosition ,interaction.WorldPositionTarget) == false) return;
+						if (MatrixManager.IsPassableAtAllMatricesOneTile( interaction.WorldPositionTarget.RoundToInt(), CustomNetworkManager.Instance.isServer) == false) return;
 
-							PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
+							PlayerManager.PlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
 
 
@@ -428,7 +428,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			if (slots == null)
 			{
-				if (!CustomNetworkManager.Instance._isServer)
+				if (!CustomNetworkManager.Instance.isServer)
 				{
 					Chat.AddExamineMsgToClient("It's already empty!");
 				}
@@ -438,10 +438,10 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			if (PlayerManager.PlayerScript == null) return false;
 
-			PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
+			PlayerManager.PlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 				.ItemStorageNetID, TransformState.HiddenPos);
 
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.ExpensiveName()}.");
 			}
@@ -563,15 +563,15 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	// Client only method
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
-		if (CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
+		if (CustomNetworkManager.Instance.isServer && GameData.IsHeadlessServer)
 			return;
 
 		if (canClickPickup)
 		{
 			// Show the 'switch pickup mode' action button if this is in either of the players hands
-			var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
+			var pna = PlayerManager.LocalPlayerScript.PlayerNetworkActions;
 			bool showAlert = false;
-			foreach (var itemSlot in pna.itemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+			foreach (var itemSlot in pna.ItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
 			{
 				if (itemSlot.ItemObject == gameObject)
 				{
@@ -582,7 +582,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			if (showAlert == false)
 			{
-				foreach (var itemSlot in pna.itemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+				foreach (var itemSlot in pna.ItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
 				{
 					if (itemSlot.ItemObject == gameObject)
 					{
@@ -598,6 +598,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void CallActionClient()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+		PlayerManager.PlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
 	}
 }

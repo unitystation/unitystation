@@ -85,12 +85,12 @@ namespace Clothing
 
 		void ApplyDebuff()
 		{
-			player.playerMove.AddModifier(this);
+			player.PlayerMove.AddModifier(this);
 		}
 
 		void RemoveDebuff()
 		{
-			player.playerMove.RemoveModifier(this);
+			player.PlayerMove.RemoveModifier(this);
 		}
 	}
 }

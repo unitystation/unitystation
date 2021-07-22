@@ -51,7 +51,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
 		public static void RunDamageSelf(string bodyPartString, int burnDamage, int bruteDamage)
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
@@ -81,7 +81,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("restart-round", "restarts the round immediately. Server only cmd.")]
 		public static void RunRestartRound()
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
@@ -99,7 +99,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("end-round", "ends the round, triggering normal round end logic, letting people see their greentext. Server only cmd.")]
 		public static void RunEndRound()
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
@@ -116,7 +116,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("start-now", "Bypass start countdown and start immediately. Server only cmd.")]
 		public static void StartNow()
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
@@ -141,7 +141,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
 		public static void CallEscapeShuttle()
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
@@ -271,9 +271,9 @@ namespace IngameDebugConsole
 		[ConsoleMethod("suicide", "Kill local player (Server only)")]
 		private static void KillLocalPlayer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
-				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamageToRandom(null, 99999f, AttackType.Internal, DamageType.Brute);
+				PlayerManager.LocalPlayerScript.PlayerHealth.ApplyDamageToRandom(null, 99999f, AttackType.Internal, DamageType.Brute);
 			}
 		}
 #if UNITY_EDITOR
@@ -282,7 +282,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("respawn", "Respawn local player (Server only)")]
 		private static void RespawnLocalPlayer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				PlayerSpawn.ServerRespawnPlayer(PlayerManager.LocalPlayerScript.mind);
 			}
@@ -295,7 +295,7 @@ namespace IngameDebugConsole
 #endif
 		private static void CrashIntoStation()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				StopLastCrashed();
 
@@ -344,7 +344,7 @@ namespace IngameDebugConsole
 #endif
 		private static void StopLastCrashed()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				if ( lastUsedMatrix != null )
 				{
@@ -359,7 +359,7 @@ namespace IngameDebugConsole
 #endif
 		private static void MakeEvaReady()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
@@ -407,7 +407,7 @@ namespace IngameDebugConsole
 #endif
 		private static void MakeAA()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
@@ -425,7 +425,7 @@ namespace IngameDebugConsole
 #endif
 		private static void GiveGloves()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
@@ -444,10 +444,10 @@ namespace IngameDebugConsole
 #endif
 		private static void Incinerate()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				var playerScript = PlayerManager.LocalPlayerScript;
-				var matrix = MatrixManager.Get(playerScript.registerTile.Matrix);
+				var matrix = MatrixManager.Get(playerScript.RegisterTile.Matrix);
 
 				foreach (var worldPos in playerScript.WorldPos.BoundsAround().allPositionsWithin)
 				{
@@ -465,12 +465,12 @@ namespace IngameDebugConsole
 #endif
 		private static void HealUp()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				var playerScript = PlayerManager.LocalPlayerScript;
-				var health = playerScript.playerHealth;
+				var health = playerScript.PlayerHealth;
 				health.ResetDamageAll();
-				playerScript.registerTile.ServerStandUp();
+				playerScript.RegisterTile.ServerStandUp();
 			}
 		}
 
@@ -479,7 +479,7 @@ namespace IngameDebugConsole
 #endif
 		private static void SpawnRods()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				Spawn.ServerPrefab("Rods", PlayerManager.LocalPlayerScript.WorldPos + Vector3Int.up, cancelIfImpassable: true);
 			}
@@ -489,9 +489,9 @@ namespace IngameDebugConsole
 #endif
 		private static void SlipPlayer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
-				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
+				PlayerManager.LocalPlayerScript.RegisterTile.ServerSlip( true );
 			}
 		}
 		// TODO: Removing this capability at the moment because some antags require an actual spawn (such as
@@ -511,7 +511,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("antag-status", "System wide message, reports the status of all antag objectives to ALL players. Server only command")]
 		public static void ShowAntagObjectives()
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
@@ -523,7 +523,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("antag-remind", "Remind all antags of their own objectives. Server only command")]
 		public static void RemindAntagObjectives()
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;
@@ -537,7 +537,7 @@ namespace IngameDebugConsole
 #endif
 		private static void PlayStrandedEnding()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				//blow up the engines to trigger stranded ending for everyone
 				var escapeShuttle = GameObject.FindObjectOfType<EscapeShuttle>();
@@ -555,7 +555,7 @@ namespace IngameDebugConsole
 #endif
 		private static void SpamChat()
 		{
-			if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+			if (!Application.isPlaying || !CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}
@@ -600,7 +600,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("add-admin", "Promotes a user to admin using a user's account ID\nUsage: add-admin <account-id>")]
 		public static void AddAdmin(string userIDToPromote)
 		{
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.Instance.isServer == false)
 			{
 				Logger.Log("Can only execute command from server.", Category.DebugConsole);
 				return;

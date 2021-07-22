@@ -17,7 +17,7 @@ namespace Messages.Server.VariableViewer
 		public override void Process(NetMessage msg)
 		{
 
-			if (CustomNetworkManager.Instance._isServer) return;
+			if (CustomNetworkManager.Instance.isServer) return;
 			LoadNetworkObject(msg.GameObject);
 			if (NetworkObject != null)
 			{

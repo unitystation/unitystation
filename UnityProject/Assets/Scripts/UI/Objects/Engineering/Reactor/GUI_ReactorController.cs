@@ -42,13 +42,13 @@ namespace UI.Objects.Engineering
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.Instance.isServer == false) return;
 			UpdateManager.Add(Refresh, 1);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.Instance.isServer == false) return;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Refresh);
 		}
 

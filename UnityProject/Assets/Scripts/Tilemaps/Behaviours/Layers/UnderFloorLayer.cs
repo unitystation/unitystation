@@ -93,7 +93,7 @@ public class UnderFloorLayer : Layer
 	public IEnumerable<T> GetAllTilesByType<T>(Vector3Int position) where T : LayerTile
 	{
 		List<T> tiles = new List<T>();
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			if (!TileStore.ContainsKey((Vector2Int) position)) return tiles;
 
@@ -122,7 +122,7 @@ public class UnderFloorLayer : Layer
 
 	public override LayerTile GetTile(Vector3Int position)
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			if (TileStore.ContainsKey((Vector2Int) position) == false)
 			{
@@ -173,7 +173,7 @@ public class UnderFloorLayer : Layer
 		var isServer = false;
 		if (CustomNetworkManager.Instance != null)
 		{
-			isServer = CustomNetworkManager.Instance._isServer;
+			isServer = CustomNetworkManager.Instance.isServer;
 		}
 		else
 		{

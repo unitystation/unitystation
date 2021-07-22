@@ -293,7 +293,7 @@ namespace Objects.Lighting
 			if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
 					!Validations.HasItemTrait(handSlot.ItemObject, CommonTraits.Instance.BlackGloves)))
 			{
-				var playerHealth = interaction.PerformerPlayerScript.playerHealth;
+				var playerHealth = interaction.PerformerPlayerScript.PlayerHealth;
 				var burntBodyPart = interaction.HandSlot.NamedSlot == NamedSlot.leftHand ? BodyPartType.LeftArm : BodyPartType.RightArm;
 				playerHealth.ApplyDamageToBodyPart(gameObject, 10f, AttackType.Energy, DamageType.Burn, burntBodyPart);
 

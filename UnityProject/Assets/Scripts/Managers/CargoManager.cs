@@ -12,10 +12,8 @@ using UnityEngine.SceneManagement;
 
 namespace Systems.Cargo
 {
-	public class CargoManager : MonoBehaviour
+	public class CargoManager : SingletonManager<CargoManager>
 	{
-		public static CargoManager Instance;
-
 		public int Credits;
 		public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
 		public float CurrentFlyTime;
@@ -43,27 +41,9 @@ namespace Systems.Cargo
 
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
-		private void Awake()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
+		private void OnEnable() => SceneManager.activeSceneChanged += OnRoundRestart;
 
-		private void OnEnable()
-		{
-			SceneManager.activeSceneChanged += OnRoundRestart;
-		}
-
-		private void OnDisable()
-		{
-			SceneManager.activeSceneChanged -= OnRoundRestart;
-		}
+		private void OnDisable() => SceneManager.activeSceneChanged -= OnRoundRestart;
 
 		/// <summary>
 		/// Checks for any Lifeforms (dead or alive) that might be aboard the shuttle
@@ -105,7 +85,7 @@ namespace Systems.Cargo
 		/// </summary>
 		public void CallShuttle()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}
@@ -116,7 +96,7 @@ namespace Systems.Cargo
 				return;
 			}
 
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				CurrentFlyTime = shuttleFlyDuration;
 				//It works so - shuttle stays in centcomDest until timer is done,
@@ -181,7 +161,7 @@ namespace Systems.Cargo
 		/// </summary>
 		public void OnShuttleArrival()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}
@@ -366,7 +346,7 @@ namespace Systems.Cargo
 			var playerScript = item.GetComponent<PlayerScript>();
 			if (playerScript != null)
 			{
-				playerScript.playerHealth.ServerGibPlayer();
+				playerScript.PlayerHealth.ServerGibPlayer();
 			}
 
 			DespawnItem(item, alreadySold);
@@ -432,7 +412,7 @@ namespace Systems.Cargo
 
 		public void AddToCart(CargoOrderSO orderToAdd)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}
@@ -448,7 +428,7 @@ namespace Systems.Cargo
 
 		public void RemoveFromCart(CargoOrderSO orderToRemove)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}
@@ -469,7 +449,7 @@ namespace Systems.Cargo
 
 		public void ConfirmCart()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}
@@ -487,7 +467,7 @@ namespace Systems.Cargo
 
 		public int GetSellPrice(PushPull item)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return 0;
 			}

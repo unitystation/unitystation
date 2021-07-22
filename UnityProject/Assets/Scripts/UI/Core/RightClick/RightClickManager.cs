@@ -22,7 +22,7 @@ using UI;
 ///
 /// Refer to documentation at https://github.com/unitystation/unitystation/wiki/Right-Click-Menu
 /// </summary>
-public class RightClickManager : MonoBehaviour
+public class RightClickManager : SingletonManager<RightClickMenuController>
 {
 	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.7f);
 
@@ -51,24 +51,6 @@ public class RightClickManager : MonoBehaviour
 		public List<MethodInfo> AttributedMethods;
 	}
 
-	[SerializeField]
-	private RightClickMenuController menuControllerPrefab = default;
-
-	private RightClickMenuController menuController;
-
-	public RightClickMenuController MenuController
-	{
-		get
-		{
-			if (menuController == null)
-			{
-				menuController = Instantiate(menuControllerPrefab, transform);
-			}
-
-			return menuController;
-		}
-	}
-
 	private void Awake()
 	{
 		// cache all known usages of the RightClickMethod annotation
@@ -81,10 +63,7 @@ public class RightClickManager : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
-	private void OnEnable()
-	{
-		lightingSystem = Camera.main.GetComponent<LightingSystem>();
-	}
+	private void OnEnable() => lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 	private void GetRightClickAttributedMethods()
 	{
@@ -139,7 +118,7 @@ public class RightClickManager : MonoBehaviour
 				}
 			}
 
-			MenuController.SetupMenu(options, branchPosition);
+			Instance.SetupMenu(options, branchPosition);
 		}
 	}
 
@@ -261,7 +240,7 @@ public class RightClickManager : MonoBehaviour
 
 				if (!string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
 				{
-					Action VVAction = () => RequestBookshelfNetMessage.Send(curObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+					void VVAction() => RequestBookshelfNetMessage.Send(curObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 					subMenus.Add(VariableViewerOption.AsMenu(VVAction));
 				}
 			}
@@ -277,11 +256,8 @@ public class RightClickManager : MonoBehaviour
 
 	//creates sub menu items for the specified component, hooking them up the the corresponding method on the
 	//actual component
-	private IEnumerable<RightClickMenuItem> CreateSubMenuOptions(RightClickAttributedComponent attributedType, Component actualComponent)
-	{
-		return attributedType.AttributedMethods
+	private IEnumerable<RightClickMenuItem> CreateSubMenuOptions(RightClickAttributedComponent attributedType, Component actualComponent) => attributedType.AttributedMethods
 			.Select(m => CreateSubMenuOption(m, actualComponent));
-	}
 
 	private RightClickMenuItem CreateSubMenuOption(MethodInfo forMethod, Component actualComponent)
 	{

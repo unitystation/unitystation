@@ -30,9 +30,9 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			return !Owner.body.playerHealth.IsDead &&
+			return !Owner.body.PlayerHealth.IsDead &&
 				ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-					&& Owner.body.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters);
+					&& Owner.body.RegisterTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters);
 		}
 	}
 }

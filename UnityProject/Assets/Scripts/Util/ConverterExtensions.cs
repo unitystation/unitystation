@@ -145,13 +145,13 @@ public static class ConverterExtensions
 	public static Vector3 ToLocal(this Vector3 worldPos)
 	{
 		return MatrixManager.WorldToLocal(worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance.isServer));
 	}
 
 	public static Vector3 ToWorld(this Vector3 localPos)
 	{
 		return MatrixManager.LocalToWorld(localPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance.isServer));
 	}
 
 

@@ -89,8 +89,8 @@ public class PlayerHealthUI : MonoBehaviour
 			EnableAlwaysVisible();
 		}
 
-		float temperature = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.temperature;
-		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.pressure;
+		float temperature = PlayerManager.LocalPlayerScript.PlayerHealth.RespiratorySystem.temperature;
+		float pressure = PlayerManager.LocalPlayerScript.PlayerHealth.RespiratorySystem.pressure;
 
 		if (temperature < 110)
 		{
@@ -131,11 +131,11 @@ public class PlayerHealthUI : MonoBehaviour
 			pressureAlert.SetPressureSprite(pressure);
 		}
 
-		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
+		SetSpecificVisibility(PlayerManager.LocalPlayerScript.PlayerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
 
 		SetSpecificVisibility(false, toxinAlert);
 
-		switch (PlayerManager.LocalPlayerScript.playerHealth.HealthStateController.HungerState)
+		switch (PlayerManager.LocalPlayerScript.PlayerHealth.HealthStateController.HungerState)
 		{
 
 			case HungerState.Normal:

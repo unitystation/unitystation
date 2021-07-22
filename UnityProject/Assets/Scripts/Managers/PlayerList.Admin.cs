@@ -1,18 +1,18 @@
-﻿using System;
+﻿using DatabaseAPI;
+using DiscordWebhook;
+using Messages.Client;
+using Messages.Server;
+using Messages.Server.AdminTools;
+using Mirror;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using DatabaseAPI;
-using Mirror;
-using UnityEngine;
-using DiscordWebhook;
-using Messages.Client;
-using Messages.Server;
-using Messages.Server.AdminTools;
-using Newtonsoft.Json;
 using UI;
+using UnityEngine;
 
 /// <summary>
 /// Admin Controller for players
@@ -42,10 +42,11 @@ public partial class PlayerList
 
 	//does the client think he's an admin
 	public bool IsClientAdmin;
+
 	public string MentorToken { get; private set; }
 
 	[Server]
-	void InitAdminController()
+	private void InitAdminController()
 	{
 		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
 		mentorsPath = Path.Combine(Application.streamingAssetsPath, "admin", "mentors.txt");
@@ -78,24 +79,30 @@ public partial class PlayerList
 			File.WriteAllText(jobBanPath, JsonUtility.ToJson(new JobBanList()));
 		}
 
-		adminListWatcher = new FileSystemWatcher();
-		adminListWatcher.Path = Path.GetDirectoryName(adminsPath);
-		adminListWatcher.Filter = Path.GetFileName(adminsPath);
-		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		adminListWatcher = new FileSystemWatcher
+		{
+			Path = Path.GetDirectoryName(adminsPath),
+			Filter = Path.GetFileName(adminsPath),
+			NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+		};
 		adminListWatcher.Changed += LoadCurrentAdmins;
 		adminListWatcher.EnableRaisingEvents = true;
 
-		mentorListWatcher = new FileSystemWatcher();
-		mentorListWatcher.Path = Path.GetDirectoryName(mentorsPath);
-		mentorListWatcher.Filter = Path.GetFileName(mentorsPath);
-		mentorListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		mentorListWatcher = new FileSystemWatcher
+		{
+			Path = Path.GetDirectoryName(mentorsPath),
+			Filter = Path.GetFileName(mentorsPath),
+			NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+		};
 		mentorListWatcher.Changed += LoadCurrentMentors;
 		mentorListWatcher.EnableRaisingEvents = true;
 
-		WhiteListWatcher = new FileSystemWatcher();
-		WhiteListWatcher.Path = Path.GetDirectoryName(whiteListPath);
-		WhiteListWatcher.Filter = Path.GetFileName(whiteListPath);
-		WhiteListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		WhiteListWatcher = new FileSystemWatcher
+		{
+			Path = Path.GetDirectoryName(whiteListPath),
+			Filter = Path.GetFileName(whiteListPath),
+			NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+		};
 		WhiteListWatcher.Changed += LoadWhiteList;
 		WhiteListWatcher.EnableRaisingEvents = true;
 
@@ -106,60 +113,30 @@ public partial class PlayerList
 		LoadJobBanList();
 	}
 
-	void LoadBanList()
-	{
-		StartCoroutine(LoadBans());
-	}
-	void LoadWhiteList(object source, FileSystemEventArgs e)
-	{
-		LoadWhiteList();
-	}
+	private void LoadBanList() => StartCoroutine(LoadBans());
+	private void LoadWhiteList(object source, FileSystemEventArgs e) => LoadWhiteList();
+	private void LoadWhiteList() => StartCoroutine(LoadWhiteListed());
+	private void LoadCurrentAdmins(object source, FileSystemEventArgs e) => LoadCurrentAdmins();
+	private void LoadCurrentAdmins() => StartCoroutine(LoadAdmins());
+	private void LoadCurrentMentors(object source, FileSystemEventArgs e) => LoadCurrentMentors();
+	private void LoadCurrentMentors() => StartCoroutine(LoadMentors());
+	private void LoadJobBanList() => StartCoroutine(LoadJobBans());
 
-	void LoadWhiteList()
-	{
-		StartCoroutine(LoadWhiteListed());
-	}
-
-	void LoadCurrentAdmins(object source, FileSystemEventArgs e)
-	{
-		LoadCurrentAdmins();
-	}
-
-	void LoadCurrentAdmins()
-	{
-		StartCoroutine(LoadAdmins());
-	}
-
-	void LoadCurrentMentors(object source, FileSystemEventArgs e)
-	{
-		LoadCurrentMentors();
-	}
-
-	void LoadCurrentMentors()
-	{
-		StartCoroutine(LoadMentors());
-	}
-
-	void LoadJobBanList()
-	{
-		StartCoroutine(LoadJobBans());
-	}
-
-	IEnumerator LoadJobBans()
+	private IEnumerator LoadJobBans()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		jobBanList = JsonUtility.FromJson<JobBanList>(File.ReadAllText(jobBanPath));
 	}
 
-	IEnumerator LoadBans()
+	private IEnumerator LoadBans()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		banList = JsonUtility.FromJson<BanList>(File.ReadAllText(banPath));
 	}
 
-	IEnumerator LoadWhiteListed()
+	private IEnumerator LoadWhiteListed()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
@@ -167,7 +144,7 @@ public partial class PlayerList
 		whiteListUsers = new List<string>(File.ReadAllLines(whiteListPath));
 	}
 
-	IEnumerator LoadAdmins()
+	private IEnumerator LoadAdmins()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
@@ -175,7 +152,7 @@ public partial class PlayerList
 		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
 	}
 
-	IEnumerator LoadMentors()
+	private IEnumerator LoadMentors()
 	{
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
@@ -186,7 +163,6 @@ public partial class PlayerList
 	[Server]
 	public GameObject GetAdmin(string userID, string token)
 	{
-
 		if (string.IsNullOrEmpty(userID))
 		{
 			//allow null admin when doing offline testing
@@ -227,21 +203,14 @@ public partial class PlayerList
 	}
 
 	[Server]
-	public bool IsAdmin(ConnectedPlayer player)
-	{
-		return IsAdmin(player.UserId);
-	}
+	public bool IsAdmin(ConnectedPlayer player) => IsAdmin(player.UserId);
 
 	[Server]
-	public bool IsAdmin(string userID)
-	{
-		return adminUsers.Contains(userID);
-	}
+	public bool IsAdmin(string userID) => adminUsers.Contains(userID);
 
 	[Server]
 	public GameObject GetMentor(string userID, string token)
 	{
-
 		if (string.IsNullOrEmpty(userID))
 		{
 			//allow null mentor when doing offline testing
@@ -282,10 +251,7 @@ public partial class PlayerList
 	}
 
 	[Server]
-	public bool IsMentor(string userID)
-	{
-		return mentorUsers.Contains(userID);
-	}
+	public bool IsMentor(string userID) => mentorUsers.Contains(userID);
 
 	public async Task<bool> ValidatePlayer(string unverifiedClientId, string unverifiedUsername,
 		string unverifiedUserid, int unverifiedClientVersion, ConnectedPlayer unverifiedConnPlayer,
@@ -333,7 +299,7 @@ public partial class PlayerList
 		}
 
 		//check if they are already logged in, skip this check if offline mode is enable or if not a release build.
-		if (BuildPreferences.isForRelease)
+		if (BuildPreferences.IsForRelease)
 		{
 			var otherUser = GetByUserID(unverifiedUserid);
 			if (otherUser != null)
@@ -394,7 +360,6 @@ public partial class PlayerList
 		var Userid = unverifiedUserid;
 		var Token = unverifiedToken;
 
-
 		//Adds server to admin list if not already in it.
 		if (Userid == ServerData.UserID && !adminUsers.Contains(Userid))
 		{
@@ -431,7 +396,6 @@ public partial class PlayerList
 			return false;
 		}
 
-
 		//banlist checking:
 		var banEntry = banList?.CheckForEntry(Userid, unverifiedConnPlayer.Connection.address, unverifiedClientId);
 		if (banEntry != null)
@@ -462,10 +426,7 @@ public partial class PlayerList
 		return true;
 	}
 
-	void SaveBanList()
-	{
-		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
-	}
+	private void SaveBanList() => File.WriteAllText(banPath, JsonUtility.ToJson(banList));
 
 	#region JobBans
 
@@ -652,10 +613,7 @@ public partial class PlayerList
 		Logger.Log($"{connPlayer.Username} job ban for {jobBanEntry.job} has expired.", Category.Admin);
 	}
 
-	void SaveJobBanList()
-	{
-		File.WriteAllText(jobBanPath, JsonUtility.ToJson(jobBanList));
-	}
+	private void SaveJobBanList() => File.WriteAllText(jobBanPath, JsonUtility.ToJson(jobBanList));
 
 	/// <summary>
 	/// Client Side check
@@ -733,7 +691,7 @@ public partial class PlayerList
 		return null;
 	}
 
-	#endregion
+	#endregion JobBans
 
 	#region JobBanNetMessages
 
@@ -744,11 +702,9 @@ public partial class PlayerList
 			public string JobBanEntries;
 		}
 
-		public override void Process(NetMessage msg)
-		{
+		public override void Process(NetMessage msg) =>
 			//client Stuff here
 			PlayerList.Instance.clientSideBanEntries = JsonConvert.DeserializeObject<List<JobBanEntry>>(msg.JobBanEntries);
-		}
 
 		public static NetMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
 		{
@@ -807,7 +763,7 @@ public partial class PlayerList
 		}
 	}
 
-	#endregion
+	#endregion JobBanNetMessages
 
 	#region AdminChecks
 
@@ -841,7 +797,7 @@ public partial class PlayerList
 		}
 	}
 
-	void CheckForLoggedOffAdmin(string userid, string userName)
+	private void CheckForLoggedOffAdmin(string userid, string userName)
 	{
 		if (loggedInAdmins.ContainsKey(userid))
 		{
@@ -889,7 +845,8 @@ public partial class PlayerList
 			AdminEnableMessage.SendMessage(user, newToken);
 		}
 	}
-	#endregion
+
+	#endregion AdminChecks
 
 	#region Kick/Ban
 
@@ -907,7 +864,7 @@ public partial class PlayerList
 
 				Logger.Log(message, Category.Admin);
 
-				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes,adminPlayer));
+				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes, adminPlayer));
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
@@ -970,7 +927,7 @@ public partial class PlayerList
 		}
 	}
 
-	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
+	private IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
 		bool ban = false, int banLengthInMinutes = 0, ConnectedPlayer adminPlayer = null)
 	{
 		Logger.Log("Processing KickPlayer/ban for " + "\n"
@@ -1087,7 +1044,7 @@ public partial class PlayerList
 				}
 
 				//Send update if they are still in the game
-				if(p.Connection == null) continue;
+				if (p.Connection == null) continue;
 				ServerSendsJobBanDataMessage.Send(p.Connection, ClientAskingAboutJobBans(p));
 			}
 		}
@@ -1097,7 +1054,7 @@ public partial class PlayerList
 		}
 	}
 
-	IEnumerator JobBanPlayer(ConnectedPlayer connPlayer, string reason, bool isPermaBool, int banLengthInMinutes, JobType jobType, ConnectedPlayer admin)
+	private IEnumerator JobBanPlayer(ConnectedPlayer connPlayer, string reason, bool isPermaBool, int banLengthInMinutes, JobType jobType, ConnectedPlayer admin)
 	{
 		if (jobBanList == null)
 		{
@@ -1171,7 +1128,8 @@ public partial class PlayerList
 
 		SaveJobBanList();
 	}
-	#endregion
+
+	#endregion Kick/Ban
 }
 
 [Serializable]
@@ -1192,6 +1150,7 @@ public class BanList
 		return null;
 	}
 }
+
 [Serializable]
 public class BanEntry
 {
@@ -1236,6 +1195,7 @@ public class JobBanList
 		return (null, 0);
 	}
 }
+
 [Serializable]
 public class JobBanPlayerEntry
 {

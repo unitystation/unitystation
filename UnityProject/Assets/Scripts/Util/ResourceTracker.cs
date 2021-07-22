@@ -9,6 +9,6 @@ public class ResourceTracker : MonoBehaviour
 
 	public void GatherData()
 	{
-		PlayerTextureData.getClothingDatas(DataRaceData);
+		PlayerTextureData.GetClothingDatas(DataRaceData);
 	}
 }

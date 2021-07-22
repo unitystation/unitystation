@@ -49,7 +49,7 @@ namespace UI.Objects.Command
 
 		protected override void InitServer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}

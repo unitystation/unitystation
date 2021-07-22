@@ -27,10 +27,10 @@ namespace Messages.Client.Admin
 			if (deadPlayer == null || deadPlayer.Script == null) return;
 
 			//Wasn't so dead, let's kill them
-			if (deadPlayer.Script.playerHealth != null &&
-			    deadPlayer.Script.playerHealth.IsDead == false)
+			if (deadPlayer.Script.PlayerHealth != null &&
+			    deadPlayer.Script.PlayerHealth.IsDead == false)
 			{
-				deadPlayer.Script.playerHealth.ApplyDamageAll(
+				deadPlayer.Script.PlayerHealth.ApplyDamageAll(
 					player,
 					200,
 					AttackType.Internal,
@@ -50,13 +50,13 @@ namespace Messages.Client.Admin
 			switch (respawnType)
 			{
 				case RespawnType.Normal:
-					deadPlayer.Script.playerNetworkActions.ServerRespawnPlayer(occupation);
+					deadPlayer.Script.PlayerNetworkActions.ServerRespawnPlayer(occupation);
 					break;
 				case RespawnType.Special:
-					deadPlayer.Script.playerNetworkActions.ServerRespawnPlayerSpecial(occupation);
+					deadPlayer.Script.PlayerNetworkActions.ServerRespawnPlayerSpecial(occupation);
 					break;
 				case RespawnType.Antag:
-					deadPlayer.Script.playerNetworkActions.ServerRespawnPlayerAntag(deadPlayer, occupation);
+					deadPlayer.Script.PlayerNetworkActions.ServerRespawnPlayerAntag(deadPlayer, occupation);
 					break;
 			}
 		}

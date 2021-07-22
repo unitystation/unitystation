@@ -127,13 +127,14 @@ public class EventsManagerPage : AdminPage
 	private void GenerateDropDownOptionsEventList(InGameEventType eventType)
 	{
 		//generate the drop down options:
-		var optionData = new List<Dropdown.OptionData>();
-
-		//Add random entry:
-		optionData.Add(new Dropdown.OptionData
+		var optionData = new List<Dropdown.OptionData>
 		{
-			text = "Random"
-		});
+			//Add random entry:
+			new Dropdown.OptionData
+			{
+				text = "Random"
+			}
+		};
 
 		var list = InGameEventsManager.Instance.GetListFromEnum(eventType);
 

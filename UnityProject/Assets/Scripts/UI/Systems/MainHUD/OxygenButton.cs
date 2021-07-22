@@ -34,7 +34,7 @@ namespace UI
 		public void OxygenSelect()
 		{
 			if (PlayerManager.LocalPlayer == null) return;
-			if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit) return;
+			if (PlayerManager.LocalPlayerScript.PlayerHealth.IsCrit) return;
 
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 

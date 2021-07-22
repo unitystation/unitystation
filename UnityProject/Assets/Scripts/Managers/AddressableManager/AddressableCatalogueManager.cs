@@ -9,30 +9,23 @@ using Initialisation;
 using Messages.Client.Addressable;
 using Messages.Server.Addressable;
 using Mirror;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
-using UnityEngine.ResourceManagement.Util;
 
-public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
+public class AddressableCatalogueManager : NetworkSingletonManager<AddressableCatalogueManager>, IInitialise
 {
 	//TODO
 	//Cleanup errors
 	//think about builds and versioning
 	public AddressableDownloadPopUp AddressableDownloadPopUp;
 
-
-	public static AddressableCatalogueManager Instance;
-
 	public InitialisationSystems Subsystem => InitialisationSystems.Addressables;
 
 	void IInitialise.Initialise()
 	{
-		Instance = this;
 		FinishLoaded = false;
 		Addressables.InitializeAsync();
 
@@ -54,12 +47,10 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 		LoadCatalogue(cool);
 	}
 
-
 	public int ToloadeCount = 0;
 	public int CompletedLoad = 0;
 
 	public class LoadCounter
-
 	{
 		public int GetTo;
 		public int Current;
@@ -171,11 +162,9 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 	}
 
 	[Server]
-	public static void ClientRequestCatalogue(GameObject PlayerGameObject)
-	{
-//TODO Need spam Protection
+	public static void ClientRequestCatalogue(GameObject PlayerGameObject) =>
+		//TODO Need spam Protection
 		SendCataloguesToClient.Send(ServerData.ServerConfig.AddressableCatalogues, PlayerGameObject);
-	}
 
 	public IEnumerator WaitForLoad()
 	{
@@ -189,26 +178,24 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 		StartCoroutine(WaitForLoad());
 	}
 
-	public static void LoadCataloguesFromServer(List<string> toLoad)
-	{
-//Can add some checks here
+	public static void LoadCataloguesFromServer(List<string> toLoad) =>
+		//Can add some checks here
 		LoadCatalogue(toLoad);
-	}
 
 	public static List<string> GetCataloguePath()
 	{
 		var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 		//path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
-		path = path + "/AddressablePackingProjects";
+		path += "/AddressablePackingProjects";
 		//Logger.Log(path);
-		var Directories = System.IO.Directory.GetDirectories(path);
+		var Directories = Directory.GetDirectories(path);
 		var FoundFiles = new List<string>();
 		foreach (var Directori in Directories)
 		{
 			var newpath = Directori + "/ServerData";
-			if (System.IO.Directory.Exists(newpath))
+			if (Directory.Exists(newpath))
 			{
-				var Files = System.IO.Directory.GetFiles(newpath);
+				var Files = Directory.GetFiles(newpath);
 
 				string FoundFile = "";
 				foreach (var File in Files)
@@ -243,12 +230,12 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 	public static List<string> GetCataloguePathStreamingAssets()
 	{
 		var pathss = Application.streamingAssetsPath + "/AddressableCatalogues";
-		var Directories = System.IO.Directory.GetDirectories(pathss);
+		var Directories = Directory.GetDirectories(pathss);
 		var Catalogues = new List<string>();
 		foreach (var Directorie in Directories)
 		{
 			var newpaths = Directorie.Replace(@"\", "/");
-			var newDirectories = System.IO.Directory.GetFiles(newpaths);
+			var newDirectories = Directory.GetFiles(newpaths);
 
 			foreach (var pathST in newDirectories)
 			{
@@ -256,7 +243,6 @@ public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
 				{
 					Catalogues.Add(pathST);
 				}
-
 			}
 		}
 

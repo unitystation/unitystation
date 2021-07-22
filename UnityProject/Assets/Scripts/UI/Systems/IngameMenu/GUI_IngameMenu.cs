@@ -135,9 +135,9 @@ namespace UI
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
 			if (PlayerManager.PlayerScript == null) return;
-			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+			if (PlayerManager.PlayerScript.PlayerNetworkActions == null) return;
 
-			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateRestartVote();
+			PlayerManager.PlayerScript.PlayerNetworkActions.CmdInitiateRestartVote();
 
 			CloseMenuPanel();
 		}
@@ -189,7 +189,7 @@ namespace UI
 		private void StopNetworking()
 		{
 			// Check if a host or regular client is shutting down
-			if (networkManager._isServer)
+			if (networkManager.isServer)
 			{
 				networkManager.StopHost();
 				Logger.Log("Stopping host", Category.Connections);

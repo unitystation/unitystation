@@ -173,7 +173,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddAdminPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		TrySendingTTS(message);
 
 		ChatUI.Instance.AddAdminPrivEntry(message);
 	}
@@ -181,7 +181,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddMentorPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		TrySendingTTS(message);
 
 		ChatUI.Instance.AddMentorPrivEntry(message);
 	}
@@ -191,7 +191,7 @@ public class ChatRelay : NetworkBehaviour
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
-		trySendingTTS(message);
+		TrySendingTTS(message);
 
 		if (PlayerManager.LocalPlayerScript == null)
 		{
@@ -219,7 +219,7 @@ public class ChatRelay : NetworkBehaviour
 	/// Messages must also contain at least one letter from the alphabet.
 	/// </summary>
 	/// <param name="message">The message to try to vocalize.</param>
-	private void trySendingTTS(string message)
+	private void TrySendingTTS(string message)
 	{
 		if (UIManager.Instance.ttsToggle)
 		{

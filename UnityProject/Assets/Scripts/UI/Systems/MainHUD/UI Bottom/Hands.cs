@@ -63,9 +63,9 @@ public class Hands : MonoBehaviour
 
 
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(gamebodypPart.NetId(), namedSlot);
-		PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = gamebodypPart;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CurrentActiveHand = namedSlot;
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSetActiveHand(gamebodypPart.NetId(), namedSlot);
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.activeHand = gamebodypPart;
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CurrentActiveHand = namedSlot;
 
 		// If player was using both hands - flip images back
 		if (UsingBothHands)
@@ -215,7 +215,7 @@ public class Hands : MonoBehaviour
 		if (PlayerManager.LocalPlayerScript == null) return false;
 
 		// TODO tidy up this if statement once it's working correctly
-		if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+		if (!PlayerManager.LocalPlayerScript.PlayerMove.allowInput ||
 				PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			Logger.Log("Invalid player, cannot perform action!", Category.Interaction);

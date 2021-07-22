@@ -17,11 +17,11 @@ public class RequestRest : ClientMessage<RequestRest.NetMessage>
 	{
 		if (msg.LayDown)
 		{
-			SentByPlayer.Script.registerTile.ServerLayDown();
+			SentByPlayer.Script.RegisterTile.ServerLayDown();
 		}
 		else
 		{
-			SentByPlayer.Script.registerTile.ServerStandUp(true, 0.3f);
+			SentByPlayer.Script.RegisterTile.ServerStandUp(true, 0.3f);
 		}
 	}
 

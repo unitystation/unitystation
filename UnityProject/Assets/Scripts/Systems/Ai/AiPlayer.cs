@@ -156,7 +156,7 @@ namespace Systems.Ai
 			//Set up laws
 			SetRandomDefaultLawSet();
 
-			var newVesselObject = Spawn.ServerPrefab(corePrefab, playerScript.registerTile.WorldPosition, transform.parent).GameObject;
+			var newVesselObject = Spawn.ServerPrefab(corePrefab, playerScript.RegisterTile.WorldPosition, transform.parent).GameObject;
 
 			if (newVesselObject == null)
 			{

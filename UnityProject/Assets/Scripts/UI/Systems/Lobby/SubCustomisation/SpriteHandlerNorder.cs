@@ -31,7 +31,7 @@ public class SpriteHandlerNorder : NetworkBehaviour
 	public void UpdateData(string InOld, string InNew)
 	{
 		Data = InNew;
-		if (CustomNetworkManager.Instance._isServer) return;
+		if (CustomNetworkManager.Instance.isServer) return;
 		spriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
 		SpriteOrder.Orders.RemoveRange(0, 4);
 	}

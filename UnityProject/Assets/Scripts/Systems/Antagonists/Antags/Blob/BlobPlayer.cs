@@ -242,15 +242,9 @@ namespace Blob
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
 		}
 
-		private void OnEnable()
-		{
-			UpdateManager.Add(PeriodicUpdate, 1f);
-		}
+		private void OnEnable() => UpdateManager.Add(PeriodicUpdate, 1f);
 
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-		}
+		private void OnDisable() => UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 
 		private void Awake()
 		{
@@ -391,10 +385,7 @@ namespace Blob
 		}
 
 		[Command]
-		public void CmdTeleportToNode()
-		{
-			TeleportToNode();
-		}
+		public void CmdTeleportToNode() => TeleportToNode();
 
 		private void TeleportToNode()
 		{
@@ -547,10 +538,7 @@ namespace Blob
 		}
 
 		[TargetRpc]
-		private void TargetRpcTurnOffLight(NetworkConnection target)
-		{
-			overmindLightObject.SetActive(false);
-		}
+		private void TargetRpcTurnOffLight(NetworkConnection target) => overmindLightObject.SetActive(false);
 
 		#endregion
 
@@ -925,10 +913,7 @@ namespace Blob
 
 		#region Effects
 
-		private void PlayAttackEffect(Vector3 worldPos)
-		{
-			Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
-		}
+		private void PlayAttackEffect(Vector3 worldPos) => Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
 
 		#endregion
 
@@ -1112,10 +1097,7 @@ namespace Blob
 		#region RemoveBlob
 
 		[Command]
-		public void CmdRemoveBlob(Vector3Int worldPos)
-		{
-			InternalRemoveBlob(worldPos);
-		}
+		public void CmdRemoveBlob(Vector3Int worldPos) => InternalRemoveBlob(worldPos);
 
 		private void InternalRemoveBlob(Vector3Int worldPos)
 		{
@@ -1247,7 +1229,7 @@ namespace Blob
 
 			rapidExpand = true;
 
-			foreach (var objective in playerScript.mind.GetAntag().Objectives)
+			foreach (var objective in playerScript.mind.Antag.Objectives)
 			{
 				objective.SetAsComplete();
 			}

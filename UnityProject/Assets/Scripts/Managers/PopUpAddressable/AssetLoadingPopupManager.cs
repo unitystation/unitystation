@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AssetLoadingPopupManager : MonoBehaviour
+public class AssetLoadingPopupManager : SingletonManager<AssetLoadingPopupManager>
 {
 	[SerializeField] private GameObject popupPrefab = default;
 	[SerializeField] private RectTransform popupHolder = default;

@@ -44,7 +44,7 @@ namespace Objects
 				sameSquare = false;
 
 				bool canPush = false;
-				var playerPushPull = playerScript.pushPull;
+				var playerPushPull = playerScript.PushPull;
 				if (side == NetworkSide.Server)
 				{
 					canPush = playerPushPull.CanPushServer((Vector3Int)playerWorldPos, dir);
@@ -102,7 +102,7 @@ namespace Objects
 
 			if (sameSquare == false)
 			{
-				playerScript.pushPull.QueuePush(dir, forcePush: allowImpassable);
+				playerScript.PushPull.QueuePush(dir, forcePush: allowImpassable);
 			}
 
 			BucklePlayer(playerScript);
@@ -115,7 +115,7 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Click01, gameObject.WorldPosServer(), sourceObj: gameObject);
 
-			playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
+			playerScript.PlayerMove.ServerBuckle(gameObject, OnUnbuckle);
 
 			//if this is a directional sprite, we render it in front of the player
 			//when they are buckled

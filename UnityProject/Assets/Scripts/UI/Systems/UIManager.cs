@@ -15,9 +15,8 @@ using UI.Core.Windows;
 using UI.Windows;
 using UI;
 
-public class UIManager : MonoBehaviour, IInitialise
+public class UIManager : SingletonManager<UIManager>, IInitialise
 {
-	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
 	public UI_BooksInBookshelf UI_BooksInBookshelf;
 	public LibraryUI LibraryUI;
@@ -36,7 +35,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public Text pingDisplay;
 	[SerializeField]
 	[Tooltip("Text displaying the game's version number.")]
-	public Text versionDisplay;
+	private Text versionDisplay;
 	public GUI_Info infoWindow;
 	public TeleportWindow teleportWindow;
 	[SerializeField] private GhostRoleWindow ghostRoleWindow = default;
@@ -67,8 +66,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static bool PreventChatInput
 	{
-		get { return uiManager.preventChatInput; }
-		set { uiManager.preventChatInput = value; }
+		get { return Instance.preventChatInput; }
+		set { Instance.preventChatInput = value; }
 	}
 
 	//map from progress bar id to actual progress bar component.
@@ -113,19 +112,6 @@ public class UIManager : MonoBehaviour, IInitialise
 	}
 
 	private bool isMouseInteractionDisabled;
-
-	public static UIManager Instance
-	{
-		get
-		{
-			if (!uiManager)
-			{
-				uiManager = FindObjectOfType<UIManager>();
-			}
-
-			return uiManager;
-		}
-	}
 
 #if UNITY_ANDROID || UNITY_IOS //|| UNITY_EDITOR
 	public static bool UseGamePad = true;
@@ -215,7 +201,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			//update the intent of the player on server so server knows we are swappable or not
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
+				PlayerManager.LocalPlayerScript.PlayerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
 			}
 		}
 	}
@@ -532,9 +518,9 @@ public class UIManager : MonoBehaviour, IInitialise
 	public void PlayStrandedAnimation()
 	{
 		//turning off all the UI except for the right panel
-		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
-		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
+		PlayerHealthUI.SetActive(false);
+		Display.hudBottomHuman.SetActive(false);
+		Display.hudBottomGhost.SetActive(false);
 		ChatUI.Instance.CloseChatWindow();
 
 		//play the ending video and wait for it
@@ -574,14 +560,14 @@ public class UIManager : MonoBehaviour, IInitialise
 		Camera.main.orthographicSize = originalZoom;
 		//turn everything back on
 		yield return null;
-		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		PlayerHealthUI.gameObject.SetActive(true);
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			UIManager.Display.hudBottomGhost.gameObject.SetActive(true);
+			Display.hudBottomGhost.SetActive(true);
 		}
 		else
 		{
-			UIManager.Display.hudBottomHuman.gameObject.SetActive(true);
+			Display.hudBottomHuman.SetActive(true);
 		}
 
 		ChatUI.Instance.OpenChatWindow();

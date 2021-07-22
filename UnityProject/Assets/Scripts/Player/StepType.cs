@@ -3,8 +3,8 @@
 /// </summary>
 public enum StepType
 {
-	None,
-	Barefoot,
-	Claw,
-	Shoes,
+    None,
+    Barefoot,
+    Claw,
+    Shoes,
 }

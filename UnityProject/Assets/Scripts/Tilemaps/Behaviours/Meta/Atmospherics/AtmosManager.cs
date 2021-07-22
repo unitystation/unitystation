@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Pipes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects.Wallmounts;
-using System.Collections.Concurrent;
 
 namespace Systems.Atmospherics
 {
-	public class AtmosManager : MonoBehaviour
+	public class AtmosManager : SingletonManager<AtmosManager>
 	{
 		/// <summary>
 		/// Time it takes per update in milliseconds
@@ -29,8 +27,6 @@ namespace Systems.Atmospherics
 		public static int currentTick;
 		private const int Steps = 1;
 
-		public static AtmosManager Instance;
-
 		public bool StopPipes = false;
 
 		public GameObject fireLight = null;
@@ -38,18 +34,7 @@ namespace Systems.Atmospherics
 		public GameObject iceShard = null;
 		public GameObject hotIce = null;
 
-		private void Awake()
-		{
-			processPipeDelegator = ProcessPipe;
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
+		private void Awake() => processPipeDelegator = ProcessPipe;
 
 		private void Update()
 		{
@@ -78,20 +63,11 @@ namespace Systems.Atmospherics
 			currentTick = ++currentTick % Steps;
 		}
 
-		private void ProcessPipe(PipeData pipeData)
-		{
-			pipeData.TickUpdate();
-		}
+		private void ProcessPipe(PipeData pipeData) => pipeData.TickUpdate();
 
-		public void AddPipe(PipeData pipeData)
-		{
-			pipeList.Add(pipeData);
-		}
+		public void AddPipe(PipeData pipeData) => pipeList.Add(pipeData);
 
-		public void RemovePipe(PipeData pipeData)
-		{
-			pipeList.Remove(pipeData);
-		}
+		public void RemovePipe(PipeData pipeData) => pipeList.Remove(pipeData);
 
 		void OnEnable()
 		{
@@ -123,14 +99,11 @@ namespace Systems.Atmospherics
 			StopSimulation();
 		}
 
-		private void OnApplicationQuit()
-		{
-			StopSimulation();
-		}
+		private void OnApplicationQuit() => StopSimulation();
 
 		public void StartSimulation()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
+			if (!CustomNetworkManager.Instance.isServer) return;
 
 			Running = true;
 
@@ -143,22 +116,16 @@ namespace Systems.Atmospherics
 
 		public void StopSimulation()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
+			if (!CustomNetworkManager.Instance.isServer) return;
 
 			Running = false;
 
 			AtmosThread.Stop();
 		}
 
-		public static void SetInternalSpeed()
-		{
-			AtmosThread.SetSpeed((int)Instance.Speed);
-		}
+		public static void SetInternalSpeed() => AtmosThread.SetSpeed((int)Instance.Speed);
 
-		public static void Update(MetaDataNode node)
-		{
-			AtmosThread.Enqueue(node);
-		}
+		public static void Update(MetaDataNode node) => AtmosThread.Enqueue(node);
 
 		void OnSceneChange(Scene oldScene, Scene newScene)
 		{

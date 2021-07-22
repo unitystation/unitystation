@@ -273,7 +273,7 @@ public static class PlayerSpawn
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
 		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerRejoined, settings, oldGhost != null);
-		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
+		body.GetComponent<PlayerScript>().PlayerNetworkActions.ReenterBodyUpdates();
 
 		if (oldGhost)
 		{
@@ -295,7 +295,7 @@ public static class PlayerSpawn
 		var settings = ps.characterSettings;
 		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined, settings);
 		ps = body.GetComponent<PlayerScript>();
-		ps.playerNetworkActions.ReenterBodyUpdates();
+		ps.PlayerNetworkActions.ReenterBodyUpdates();
 		ps.mind.ResendSpellActions();
 	}
 
@@ -359,7 +359,7 @@ public static class PlayerSpawn
 		//be upright w.r.t.  localRotation, NOT world rotation
 		var ghost = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
-		ghost.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
+		ghost.GetComponent<PlayerScript>().RegisterTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		forMind.Ghosting(ghost);
 
@@ -392,7 +392,7 @@ public static class PlayerSpawn
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 		var newPlayer = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation, parentTransform);
-		newPlayer.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
+		newPlayer.GetComponent<PlayerScript>().RegisterTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		//Create the mind without a job refactor this to make it as a ghost mind
 		Mind.Create(newPlayer);
@@ -452,7 +452,7 @@ public static class PlayerSpawn
 		//be upright w.r.t.  localRotation, NOT world rotation
 		var player = UnityEngine.Object.Instantiate(playerPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
-		player.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
+		player.GetComponent<PlayerScript>().RegisterTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		return player;
 	}

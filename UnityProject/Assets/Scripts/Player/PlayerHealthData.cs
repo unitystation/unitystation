@@ -1,68 +1,63 @@
-﻿using System.Collections;
+﻿using System;
+using HealthV2;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.SceneManagement;
-using System.IO;
-using System;
-using HealthV2;
 
 [CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/PlayerHealthData", order = 1)]
 public class PlayerHealthData : ScriptableObject
 {
-	public RaceHealthData Base;
+    public RaceHealthData Base;
 }
 
-[System.Serializable]
+[Serializable]
 public class ObjectList
 {
-	public List<GameObject> Elements = new List<GameObject>();
+    public List<GameObject> Elements = new List<GameObject>();
 }
 
-[System.Serializable]
+[Serializable]
 public class RaceHealthData
 {
-	public ObjectList Head;
-	public ObjectList Torso;
-	public ObjectList ArmRight;
-	public ObjectList ArmLeft;
-	public ObjectList LegRight;
-	public ObjectList LegLeft;
+    public ObjectList Head;
+    public ObjectList Torso;
+    public ObjectList ArmRight;
+    public ObjectList ArmLeft;
+    public ObjectList LegRight;
+    public ObjectList LegLeft;
 
-	public List<CustomisationAllowedSetting> CustomisationSettings = new List<CustomisationAllowedSetting>();
+    public List<CustomisationAllowedSetting> CustomisationSettings = new List<CustomisationAllowedSetting>();
 
-	public BodyTypeSettings bodyTypeSettings = new BodyTypeSettings();
+    public BodyTypeSettings bodyTypeSettings = new BodyTypeSettings();
 
-	public List<Color> SkinColours = new List<Color>();
+    public List<Color> SkinColours = new List<Color>();
 
+    public BloodType BloodType;
 
-	public BloodType BloodType;
+    public ImplantProcedure RootImplantProcedure;
 
-	public ImplantProcedure RootImplantProcedure;
-
-	public List<HealthV2.BodyPart> BodyPartsThatShareTheSkinTone = new List<HealthV2.BodyPart>();
+    public List<BodyPart> BodyPartsThatShareTheSkinTone = new List<BodyPart>();
 }
 
-
-[System.Serializable]
+[Serializable]
 public class CustomisationAllowedSetting
 {
-	public CustomisationGroup CustomisationGroup;
-	public List<PlayerCustomisationData> Blacklist = new List<PlayerCustomisationData>();
+    public CustomisationGroup CustomisationGroup;
+    public List<PlayerCustomisationData> Blacklist = new List<PlayerCustomisationData>();
 }
 
-[System.Serializable]
+[Serializable]
 public class BodyTypeSettings
 {
-	public List<BodyTypeName> AvailableBodyTypes = new List<BodyTypeName>();
+    public List<BodyTypeName> AvailableBodyTypes = new List<BodyTypeName>();
 }
 
-[System.Serializable]
+[Serializable]
 public class BodyTypeName
 {
-	public BodyType bodyType;
-	public string Name;
+    public BodyType bodyType;
+    public string Name;
 }
+
 /*public enum BodyPartSpriteName
 {
 	Null,

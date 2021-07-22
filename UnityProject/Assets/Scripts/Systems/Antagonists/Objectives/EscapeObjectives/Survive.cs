@@ -20,7 +20,7 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			return !Owner.body.playerHealth.IsDead;
+			return !Owner.body.PlayerHealth.IsDead;
 		}
 	}
 }

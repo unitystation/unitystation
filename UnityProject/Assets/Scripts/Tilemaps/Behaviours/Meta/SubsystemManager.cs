@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Initialisation;
 using UnityEngine;
-using Mirror;
 
 public class SubsystemManager : MonoBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
 	private bool initialized;
 
-	private void Start()
-	{
-		LoadManager.RegisterAction(Init);
-	}
+	private void Start() => LoadManager.RegisterAction(Init);
 
 	void Init()
 	{
@@ -39,10 +34,7 @@ public class SubsystemManager : MonoBehaviour
 		initialized = true;
 	}
 
-	public void Register(SubsystemBehaviour system)
-	{
-		systems.Add(system);
-	}
+	public void Register(SubsystemBehaviour system) => systems.Add(system);
 
 	public void UpdateAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 	{

@@ -148,8 +148,7 @@ namespace IngameDebugConsole
 		/// </summary>
 		public void OnCollapsedLogEntryAtIndexUpdated( int index )
 		{
-			DebugLogItem logItem;
-			if( logItemsAtIndices.TryGetValue( index, out logItem ) )
+			if (logItemsAtIndices.TryGetValue(index, out DebugLogItem logItem))
 				logItem.ShowCount();
 		}
 

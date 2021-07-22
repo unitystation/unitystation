@@ -43,8 +43,8 @@ namespace Systems.MobAIs
 			ServerDoLerpAnimation(dir);
 
 			if (PlayerManager.LocalPlayerScript != null
-				&& PlayerManager.LocalPlayerScript.playerHealth != null
-				&& PlayerManager.LocalPlayerScript.playerHealth == targetHealthV2 ||
+				&& PlayerManager.LocalPlayerScript.PlayerHealth != null
+				&& PlayerManager.LocalPlayerScript.PlayerHealth == targetHealthV2 ||
 				rtt < 0.02f)
 			{
 				//Wait until the end of the frame

@@ -9,6 +9,6 @@ public class AGhost : MonoBehaviour
 		if (PlayerManager.LocalPlayerScript == null) return;
 		var adminId = DatabaseAPI.ServerData.UserID;
 		var adminToken = PlayerList.Instance.AdminToken;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(adminId, adminToken);
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdAGhost(adminId, adminToken);
 	}
 }

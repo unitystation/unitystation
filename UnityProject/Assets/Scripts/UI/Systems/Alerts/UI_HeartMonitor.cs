@@ -99,12 +99,12 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	private void CheckHealth()
 	{
-		if (PlayerManager.LocalPlayerScript.playerHealth.OverallHealth == overallHealthCache)
+		if (PlayerManager.LocalPlayerScript.PlayerHealth.OverallHealth == overallHealthCache)
 		{
 			return;
 		}
-		float maxHealth = PlayerManager.LocalPlayerScript.playerHealth.MaxHealth;
-		overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
+		float maxHealth = PlayerManager.LocalPlayerScript.PlayerHealth.MaxHealth;
+		overallHealthCache = PlayerManager.LocalPlayerScript.PlayerHealth.OverallHealth;
 
 		float HealthPercentage = overallHealthCache / maxHealth;
 		for (int i = 0; i < 1; i++)

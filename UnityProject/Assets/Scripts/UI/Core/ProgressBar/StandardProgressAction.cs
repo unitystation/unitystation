@@ -137,7 +137,7 @@ public class StandardProgressAction : IProgressAction
 		}
 
 		//is this cross matrix? if so, don't start progress if either matrix is moving
-		var performerMatrix = playerScript.registerTile.Matrix;
+		var performerMatrix = playerScript.RegisterTile.Matrix;
 		crossMatrix = performerMatrix != info.Target.TargetMatrixInfo.Matrix;
 		if (crossMatrix && (performerMatrix.IsMovingServer || info.Target.TargetMatrixInfo.Matrix.IsMovingServer))
 		{
@@ -177,17 +177,17 @@ public class StandardProgressAction : IProgressAction
 		eventRegistry.Register(activeSlot?.OnSlotContentsChangeServer, OnSlotContentsChanged);
 		usedSlot = activeSlot;
 		//interrupt if cuffed
-		eventRegistry.Register(playerScript.playerMove.OnCuffChangeServer, OnCuffChange);
+		eventRegistry.Register(playerScript.PlayerMove.OnCuffChangeServer, OnCuffChange);
 		//interrupt if slipped
-		eventRegistry.Register(playerScript.registerTile.OnSlipChangeServer, OnSlipChange);
+		eventRegistry.Register(playerScript.RegisterTile.OnSlipChangeServer, OnSlipChange);
 		//interrupt if conscious state changes
-		eventRegistry.Register(playerScript.playerHealth.OnConsciousStateChangeServer, OnConsciousStateChange);
-		initialConsciousState = playerScript.playerHealth.ConsciousState;
+		eventRegistry.Register(playerScript.PlayerHealth.OnConsciousStateChangeServer, OnConsciousStateChange);
+		initialConsciousState = playerScript.PlayerHealth.ConsciousState;
 		//interrupt if player moves at all
-		eventRegistry.Register(playerScript.registerTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
+		eventRegistry.Register(playerScript.RegisterTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		//interrupt if player turns away and turning is not allowed
-		eventRegistry.Register(playerScript.playerDirectional.OnDirectionChange, OnDirectionChanged);
-		initialDirection = playerScript.playerDirectional.CurrentDirection;
+		eventRegistry.Register(playerScript.PlayerDirectional.OnDirectionChange, OnDirectionChanged);
+		initialDirection = playerScript.PlayerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
 		{
@@ -197,7 +197,7 @@ public class StandardProgressAction : IProgressAction
 				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 
-			var performerMatrix = playerScript.registerTile.Matrix;
+			var performerMatrix = playerScript.RegisterTile.Matrix;
 			if (performerMatrix.MatrixMove != null)
 			{
 				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
@@ -261,15 +261,15 @@ public class StandardProgressAction : IProgressAction
 	private bool CanPlayerStillProgress()
 	{
 		//note: doesn't check cross matrix situations.
-		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
-		       playerScript.playerMove.IsCuffed == false &&
-		       playerScript.registerTile.IsSlippingServer == false &&
-			   playerScript.playerNetworkActions.IsRolling == false &&
+		return playerScript.PlayerHealth.ConsciousState == initialConsciousState &&
+		       playerScript.PlayerMove.IsCuffed == false &&
+		       playerScript.RegisterTile.IsSlippingServer == false &&
+			   playerScript.PlayerNetworkActions.IsRolling == false &&
 		       (progressActionConfig.AllowTurning ||
-		        playerScript.playerDirectional.CurrentDirection != initialDirection) &&
+		        playerScript.PlayerDirectional.CurrentDirection != initialDirection) &&
 		       playerScript.PlayerSync.IsMoving == false &&
 		       //make sure we're still in range
-		       Validations.IsInReachDistanceByPositions(playerScript.registerTile.WorldPositionServer,
+		       Validations.IsInReachDistanceByPositions(playerScript.RegisterTile.WorldPositionServer,
 			       startProgressInfo.Target.TargetWorldPosition);
 	}
 

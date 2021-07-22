@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
-using TileManagement;
 
 namespace Systems.Atmospherics
 {
 	/// <summary>
 	/// Handles performing the various reactions that can occur in atmospherics simulation.
 	/// </summary>
-	public class ReactionManager : MonoBehaviour
+	public class ReactionManager : SingletonManager<ReactionManager>
 	{
 		private float RollingAverageN = 20;
 		private float PushMultiplier = 5;
@@ -180,7 +179,7 @@ namespace Systems.Atmospherics
 				}
 			}
 
-			windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
+			windyNode.WindForce *= ((RollingAverageN - 1) / RollingAverageN);
 			if (windyNode.WindForce < 0.5f * (1f / PushMultiplier))
 			{
 				winds.Remove(windyNode);
@@ -221,17 +220,12 @@ namespace Systems.Atmospherics
 		/// the current gas mix temperature</param>
 		/// <param name="changeTemp">Will change temperature of tile to the exposeTemperature if this temperature
 		/// is greater than the current gas mix temperature when true and only if the tile is on fire</param>
-		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float exposeTemperature = -1f, bool changeTemp = false)
-		{
-			ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)),
+		public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float exposeTemperature = -1f, bool changeTemp = false) => ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)),
 				exposeTemperature, changeTemp);
-		}
 
-		public void RemoveHotspot(MetaDataNode node)
-		{
+		public void RemoveHotspot(MetaDataNode node) =>
 			//removal will be processed later in update
 			hotspotsToRemove.Add(node.Position);
-		}
 
 		public void ExtinguishHotspot(Vector3Int localPosition)
 		{

@@ -5,12 +5,8 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public partial class SubSceneManager : NetworkBehaviour
+public partial class SubSceneManager : NetworkSingletonManager<SubSceneManager>
 {
-	private static SubSceneManager subSceneManager;
-
-	public static SubSceneManager Instance;
-
 	public AwayWorldListSO awayWorldList;
 	[SerializeField] private MainStationListSO mainStationList = null;
 	[SerializeField] private AsteroidListSO asteroidList = null;
@@ -27,22 +23,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	public Scene SyndicateScene { get; private set; }
 	public bool WizardLoaded { get; private set; }
 
-	void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
-
-	void Update()
-	{
-		MonitorServerSceneListOnClient();
-	}
+	void Update() => MonitorServerSceneListOnClient();
 
 	/// <summary>
 	/// General subscene loader
@@ -80,10 +61,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	}
 
 	//TODO Update mirror
-	public static void ManuallyLoadScene(string ToLoad)
-	{
-		Instance.StartCoroutine(Instance.WaitLoad(ToLoad));
-	}
+	public static void ManuallyLoadScene(string ToLoad) => Instance.StartCoroutine(Instance.WaitLoad(ToLoad));
 
 	IEnumerator WaitLoad(string ToLoad)
 	{
@@ -112,21 +90,15 @@ public enum SceneType
 	AdditionalScenes
 }
 
-[System.Serializable]
+[Serializable]
 public struct SceneInfo : IEquatable<SceneInfo>
 {
 	public string SceneName;
 	public SceneType SceneType;
 
-	public bool Equals(SceneInfo other)
-	{
-		return SceneName == other.SceneName && SceneType == other.SceneType;
-	}
+	public bool Equals(SceneInfo other) => SceneName == other.SceneName && SceneType == other.SceneType;
 
-	public override bool Equals(object obj)
-	{
-		return obj is SceneInfo other && Equals(other);
-	}
+	public override bool Equals(object obj) => obj is SceneInfo other && Equals(other);
 
 	public override int GetHashCode()
 	{
@@ -137,7 +109,7 @@ public struct SceneInfo : IEquatable<SceneInfo>
 	}
 }
 
-[System.Serializable]
+[Serializable]
 public class ScenesSyncList : SyncList<SceneInfo>
 {
 }

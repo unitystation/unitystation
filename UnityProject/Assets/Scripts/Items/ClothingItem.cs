@@ -89,7 +89,7 @@ public class ClothingItem : MonoBehaviour
 				if (unequippedClothing != null)
 				{
 					if (unequippedClothing)
-						thisPlayerScript.playerSprites.OnClothingEquipped(unequippedClothing, false);
+						thisPlayerScript.PlayerSprites.OnClothingEquipped(unequippedClothing, false);
 				}
 			}
 
@@ -118,7 +118,7 @@ public class ClothingItem : MonoBehaviour
 				// But for the others, we call the OnClothingEquipped event.
 				if (equippedClothing)
 				{
-					thisPlayerScript.playerSprites.OnClothingEquipped(equippedClothing, true);
+					thisPlayerScript.PlayerSprites.OnClothingEquipped(equippedClothing, true);
 				}
 			}
 		}

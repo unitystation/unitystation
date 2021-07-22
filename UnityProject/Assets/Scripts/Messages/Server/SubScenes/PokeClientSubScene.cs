@@ -12,7 +12,7 @@ namespace Messages.Server.SubScenes
 
 		public override void Process(NetMessage msg)
 		{
-			if (CustomNetworkManager.Instance._isServer) return;
+			if (CustomNetworkManager.Instance.isServer) return;
 
 			SubSceneManager.ManuallyLoadScene(msg.ToLoadSceneName);
 		}

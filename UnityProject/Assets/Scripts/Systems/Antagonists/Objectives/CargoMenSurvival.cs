@@ -31,7 +31,7 @@ namespace Antagonists
 					if (p.Job == rebeljob)
 					{
 						allRebels++;
-						if (p.Script.playerHealth != null && !p.Script.playerHealth.IsDead)
+						if (p.Script.PlayerHealth != null && !p.Script.PlayerHealth.IsDead)
 						{
 							allAliveRebels++;
 						}

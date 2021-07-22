@@ -344,7 +344,7 @@ namespace Objects.Disposals
 			{
 				if (interaction.UsedObject.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					if (playerScript.registerTile.Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject))
+					if (playerScript.RegisterTile.Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject))
 					{
 						playerScript.PlayerSync.SetPosition(targetObjectWorldPos);
 					}

@@ -10,11 +10,8 @@ using Object = UnityEngine.Object;
 /// <summary>
 /// For server.
 /// </summary>
-public class NetworkTabManager : MonoBehaviour {
-
-	private static NetworkTabManager networkTabManager;
-	public static NetworkTabManager Instance => networkTabManager;
-
+public class NetworkTabManager : SingletonManager<NetworkTabManager>
+{
 	[SerializeField]
 	private GameObjectList netTabs = null;
 	public GameObjectList NetTabs => netTabs;
@@ -38,32 +35,11 @@ public class NetworkTabManager : MonoBehaviour {
 		return info.Peepers.ToList();
 	}
 
-	private void Awake()
-	{
-		if (networkTabManager == null)
-		{
-			networkTabManager = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
-	}
+	private void OnEnable() => SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
-	}
+	private void OnDisable() => SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
-	}
-
-	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
-	{
-		Instance.ResetManager();
-	}
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene) => Instance.ResetManager();
 
 	void ResetManager()
 	{
@@ -203,7 +179,7 @@ public struct NetTabDescriptor
 
 		var tabObject = Object.Instantiate(toInstantiate, parent);
 		NetTab netTab = tabObject.GetComponent<NetTab>();
-		netTab.Provider = provider.gameObject;
+		netTab.Provider = provider;
 		netTab.ProviderRegisterTile = provider.RegisterTile();
 		return netTab;
 	}

@@ -93,7 +93,7 @@ namespace Systems.Electricity
 
 		public void StartSim()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
+			if (!CustomNetworkManager.Instance.isServer) return;
 
 
 			roundStartedServer = true;
@@ -111,7 +111,7 @@ namespace Systems.Electricity
 
 		public void StopSim()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
+			if (!CustomNetworkManager.Instance.isServer) return;
 
 			Running = false;
 			electricalSync.StopSim();

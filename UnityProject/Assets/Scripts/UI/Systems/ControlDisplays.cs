@@ -92,7 +92,7 @@ namespace UI
 			{
 				SetUi(hudBottomAi);
 			}
-			else if (PlayerManager.LocalPlayerScript.playerHealth == null)
+			else if (PlayerManager.LocalPlayerScript.PlayerHealth == null)
 			{
 				SetUi(hudBottomGhost.gameObject);
 			}

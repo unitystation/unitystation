@@ -68,7 +68,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
-			if (source.HasObject(position, CustomNetworkManager.Instance._isServer))
+			if (source.HasObject(position, CustomNetworkManager.Instance.isServer))
 			{
 				GizmoUtils.DrawCube(position, Color.magenta);
 			}

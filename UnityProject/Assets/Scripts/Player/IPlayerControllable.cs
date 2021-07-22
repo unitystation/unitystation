@@ -5,10 +5,10 @@
 /// </summary>
 public interface IPlayerControllable
 {
-	/// <summary>
-	/// Received Player movement actions via PlayerManager when it is
-	/// set to the local MovementControllable
-	/// </summary>
-	/// <param name="moveActions"></param>
-	void ReceivePlayerMoveAction(PlayerAction moveActions);
+    /// <summary>
+    /// Received Player movement actions via PlayerManager when it is
+    /// set to the local MovementControllable
+    /// </summary>
+    /// <param name="moveActions"></param>
+    void ReceivePlayerMoveAction(PlayerAction moveActions);
 }

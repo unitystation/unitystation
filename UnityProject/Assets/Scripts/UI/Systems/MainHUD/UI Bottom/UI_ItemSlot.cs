@@ -227,7 +227,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 		// If player is cuffed, a special icon appears on his hand slots, exit without changing it.
 		if ((namedSlot == NamedSlot.leftHand || namedSlot == NamedSlot.rightHand) &&
-		    PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
+		    PlayerManager.LocalPlayerScript.PlayerMove.IsCuffed)
 		{
 			return;
 		}
@@ -334,7 +334,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		if (PlayerManager.LocalPlayerScript == null) return false;
 
 		// TODO tidy up this if statement once it's working correctly
-		if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+		if (!PlayerManager.LocalPlayerScript.PlayerMove.allowInput ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			Logger.Log("Invalid player, cannot perform action!", Category.Interaction);

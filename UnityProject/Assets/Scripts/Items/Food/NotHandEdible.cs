@@ -75,7 +75,7 @@ namespace Items
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+			var eaterHungerState = eater.PlayerHealth.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			// Check if eater can eat anything
@@ -88,7 +88,7 @@ namespace Items
 					{
 						ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
 						Eat(eater, feeder);
-					}).ServerStartProgress(eater.registerTile, 3f, feeder.gameObject);
+					}).ServerStartProgress(eater.RegisterTile, 3f, feeder.gameObject);
 					return;
 				}
 
@@ -101,7 +101,7 @@ namespace Items
 			//TODO: Reimplement metabolism.
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			var Stomachs = eater.playerHealth.GetStomachs();
+			var Stomachs = eater.PlayerHealth.GetStomachs();
 			if (Stomachs.Count == 0)
 			{
 				//No stomachs?!

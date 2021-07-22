@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEditor;
 using Random = UnityEngine.Random;
 using Objects.Science;
 using TileManagement;
 
 namespace Systems.Scenes
 {
-	public class LavaLandManager : MonoBehaviour
+	public class LavaLandManager : SingletonManager<LavaLandManager>
 	{
-		private static LavaLandManager instance;
-		public static LavaLandManager Instance => instance;
-
 		public List<LavaLandRandomAreaSO> areaSOs = new List<LavaLandRandomAreaSO>();
 
 		private List<LavaLandData> dataList = new List<LavaLandData>();
@@ -54,33 +49,15 @@ namespace Systems.Scenes
 		[HideInInspector]
 		public QuantumPad LavaLandBase2Connector;
 
-		private void Awake()
-		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
+		private void OnEnable() => EventManager.AddHandler(Event.ScenesLoadedServer, SpawnLavaLand);
 
-		private void OnEnable()
-		{
-			EventManager.AddHandler(Event.ScenesLoadedServer, SpawnLavaLand);
-		}
-
-		private void OnDisable()
-		{
-			EventManager.RemoveHandler(Event.ScenesLoadedServer, SpawnLavaLand);
-		}
+		private void OnDisable() => EventManager.RemoveHandler(Event.ScenesLoadedServer, SpawnLavaLand);
 
 		public void SpawnLavaLand()
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			if (MatrixManager.Instance.lavaLandMatrix == null) return;
+			if (MatrixManager.Instance.LavaLandMatrix == null) return;
 
 			StartCoroutine(SpawnLavaLandCo());
 		}
@@ -95,11 +72,11 @@ namespace Systems.Scenes
 				script.DoSim();
 			}
 			yield return null;
-			tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
+			tileChangeManager = MatrixManager.Instance.LavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
 
 			GenerateStructures();
 			yield return null;
-			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
+			MatrixManager.Instance.LavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
 
 			SetQuantumPads();
 

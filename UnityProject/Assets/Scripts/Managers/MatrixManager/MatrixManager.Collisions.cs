@@ -35,7 +35,7 @@ public partial class MatrixManager
 
 	private void InitCollisions(MatrixInfo matrixInfo)
 	{
-		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+		if (!Application.isPlaying || !CustomNetworkManager.Instance.isServer)
 		{
 			return;
 		}
@@ -189,7 +189,7 @@ public partial class MatrixManager
 
 	private void Update()
 	{
-		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+		if (!Application.isPlaying || !CustomNetworkManager.Instance.isServer)
 		{
 			return;
 		}

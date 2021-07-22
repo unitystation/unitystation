@@ -197,7 +197,7 @@ namespace AdminTools
 				}
 				else
 				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGetAdminOverlayFullUpdate(ServerData.UserID, PlayerList.Instance.AdminToken);
+					PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdGetAdminOverlayFullUpdate(ServerData.UserID, PlayerList.Instance.AdminToken);
 					overlayToggleButton.image.color = selectedColor;
 				}
 			}

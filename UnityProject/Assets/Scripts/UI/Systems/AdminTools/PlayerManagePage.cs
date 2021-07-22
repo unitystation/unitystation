@@ -133,7 +133,7 @@ namespace AdminTools
 		{
 			if (!PlayerManager.LocalPlayerScript.IsGhost)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
 			}
 
 			RequestAdminTeleport.Send(

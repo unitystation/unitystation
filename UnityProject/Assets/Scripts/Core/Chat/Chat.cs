@@ -174,7 +174,7 @@ public partial class Chat : MonoBehaviour
 		// Check if the player is allowed to talk:
 		if (player != null)
 		{
-			if (player.playerHealth != null)
+			if (player.PlayerHealth != null)
 			{
 				if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
 				{
@@ -182,9 +182,9 @@ public partial class Chat : MonoBehaviour
 					return;
 				}
 
-				if (player.playerHealth.IsCrit)
+				if (player.PlayerHealth.IsCrit)
 				{
-					if (!player.playerHealth.IsDead)
+					if (!player.PlayerHealth.IsDead)
 					{
 						return;
 					}
@@ -193,10 +193,10 @@ public partial class Chat : MonoBehaviour
 						chatEvent.channels = ChatChannel.Ghost;
 					}
 				}
-				else if (!player.playerHealth.IsDead && !player.IsGhost)
+				else if (!player.PlayerHealth.IsDead && !player.IsGhost)
 				{
 					//Control the chat bubble
-					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
+					player.PlayerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
 				}
 			}
 		}

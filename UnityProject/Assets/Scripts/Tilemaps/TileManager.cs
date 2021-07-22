@@ -38,12 +38,8 @@ public class TilePathEntry
 	public List<LayerTile> layerTiles = new List<LayerTile>();
 }
 
-public class TileManager : MonoBehaviour, IInitialise
+public class TileManager : SingletonManager<TileManager>, IInitialise
 {
-	private static TileManager tileManager;
-
-	public static TileManager Instance => tileManager;
-
 	private int tilesToLoad = 0;
 	private int tilesLoaded = 0;
 	public static int TilesToLoad => Instance.tilesToLoad;
@@ -69,31 +65,15 @@ public class TileManager : MonoBehaviour, IInitialise
 
 	private void Awake()
 	{
-		if (tileManager == null)
-		{
-			tileManager = this;
-		}
-		else
-		{
-			Destroy(this);
-			return;
-		}
-
 #if UNITY_EDITOR
 		CacheAllAssets();
 #endif
 		if (!initialized) StartCoroutine(LoadAllTiles());
 	}
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnSceneChange;
-	}
+	private void OnEnable() => SceneManager.activeSceneChanged += OnSceneChange;
 
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnSceneChange;
-	}
+	private void OnDisable() => SceneManager.activeSceneChanged -= OnSceneChange;
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{

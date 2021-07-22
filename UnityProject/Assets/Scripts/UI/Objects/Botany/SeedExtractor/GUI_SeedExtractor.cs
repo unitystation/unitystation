@@ -55,7 +55,7 @@ namespace UI.Objects.Botany
 		/// </summary>
 		private void GenerateContentList()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}
@@ -77,7 +77,7 @@ namespace UI.Objects.Botany
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (!CustomNetworkManager.Instance._isServer || !inited)
+			if (!CustomNetworkManager.Instance.isServer || !inited)
 			{
 				return;
 			}

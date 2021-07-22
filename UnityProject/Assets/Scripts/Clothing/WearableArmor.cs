@@ -42,7 +42,7 @@ namespace Clothing
 			//Wearing
 			if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
 			{
-				playerHealthV2 = info.ToRootPlayer?.PlayerScript.playerHealth;
+				playerHealthV2 = info.ToRootPlayer?.PlayerScript.PlayerHealth;
 
 				if (playerHealthV2 != null && info.ToSlot.NamedSlot == slot)
 				{
@@ -53,7 +53,7 @@ namespace Clothing
 			//taking off
 			if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
 			{
-				playerHealthV2 = info.FromRootPlayer?.PlayerScript.playerHealth;
+				playerHealthV2 = info.FromRootPlayer?.PlayerScript.PlayerHealth;
 
 				if (playerHealthV2 != null && info.FromSlot.NamedSlot == slot)
 				{

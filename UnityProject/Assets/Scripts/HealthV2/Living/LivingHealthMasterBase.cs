@@ -938,7 +938,7 @@ namespace HealthV2
 			}
 
 			CalculateOverallHealth(); //This makes the player alive and concision.
-			player.playerMove.allowInput = true; //Let them interact with the world again.
+			player.PlayerMove.allowInput = true; //Let them interact with the world again.
 		}
 
 		/// <summary>
@@ -997,9 +997,9 @@ namespace HealthV2
 			var HV2 = (this as PlayerHealthV2);
 			if (HV2 != null)
 			{
-				if (HV2.PlayerScriptOwner.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				if (HV2.PlayerScriptOwner.OrNull()?.PlayerMove.OrNull()?.allowInput != null)
 				{
-					HV2.PlayerScriptOwner.playerMove.allowInput = false;
+					HV2.PlayerScriptOwner.PlayerMove.allowInput = false;
 				}
 			}
 

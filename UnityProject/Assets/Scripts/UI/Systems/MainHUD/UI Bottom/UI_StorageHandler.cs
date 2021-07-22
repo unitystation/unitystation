@@ -122,7 +122,7 @@ namespace UI
 		/// </summary>
 		public void DropOtherPlayerAll()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDisrobe(CurrentOpenStorage.gameObject);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDisrobe(CurrentOpenStorage.gameObject);
 		}
 
 		public void CloseStorageUI()

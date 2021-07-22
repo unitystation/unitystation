@@ -2,11 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Systems;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DatabaseAPI;
@@ -14,16 +12,13 @@ using DiscordWebhook;
 using Mirror;
 using GameConfig;
 using Initialisation;
-using AddressableReferences;
 using Audio.Containers;
 using Managers;
 using Messages.Server;
 using Tilemaps.Behaviours.Layers;
 
-public partial class GameManager : MonoBehaviour, IInitialise
+public partial class GameManager : SingletonManager<GameManager>, IInitialise
 {
-
-	public static GameManager Instance;
 	public bool counting;
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
@@ -146,19 +141,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Awake()
 	{
-		if (Instance == null)
+		if (SceneManager.GetActiveScene().name != "Lobby")
 		{
-			Instance = this;
-			//if loading directly to outpost station, need to call pre round start once CustomNetworkManager
-			//starts because no scene change occurs to trigger it
-			if (SceneManager.GetActiveScene().name != "Lobby")
-			{
-				loadedDirectlyToStation = true;
-			}
-		}
-		else
-		{
-			Destroy(this);
+			loadedDirectlyToStation = true;
 		}
 	}
 
@@ -253,7 +238,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
 
 			bool failedChecks =
-				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
+				Vector3.Distance(proposedPosition, MatrixManager.Instance.SpaceMatrix.transform.parent.transform.position) <
 				minDistanceBetweenSpaceBodies;
 
 			//Make sure it is away from the middle of space matrix
@@ -304,7 +289,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
-		if (CustomNetworkManager.Instance._isServer && newScene.name != "Lobby")
+		if (CustomNetworkManager.Instance.isServer && newScene.name != "Lobby")
 		{
 			PreRoundStart();
 		}
@@ -330,7 +315,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (string.IsNullOrEmpty(currentTime)) return;
 
-		if (!CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.Instance.isServer)
 		{
 			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
 			counting = true;
@@ -385,7 +370,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void PreRoundStart()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.Instance.isServer == false) return;
 
 		// Clear up any space bodies
 		SpaceBodies.Clear();
@@ -400,7 +385,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	void OnRoundStart()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			// Execute server-side OnSpawn hooks for mapped objects
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
@@ -433,7 +418,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		waitForStart = false;
 
 		// Only do this stuff on the server
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.Instance.isServer == false) return;
 
 		//Clear jobs for next round
 		if (CrewManifestManager.Instance != null)
@@ -473,7 +458,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void EndRound()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.Instance.isServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started)
 		{
@@ -529,7 +514,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[Server]
 	public void CheckPlayerCount()
 	{
-		if (CustomNetworkManager.Instance._isServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
+		if (CustomNetworkManager.Instance.isServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
 		{
 			StartCountdown();
 		}
@@ -735,7 +720,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void RestartRound()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.Instance.isServer == false) return;
 
 		if (CurrentRoundState == RoundState.Restarting)
 		{

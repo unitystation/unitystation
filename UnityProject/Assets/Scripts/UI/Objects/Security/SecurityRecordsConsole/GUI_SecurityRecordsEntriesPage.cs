@@ -75,7 +75,7 @@ namespace UI.Objects.Security
 
 		public void UpdateTab()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				return;
 			}

@@ -60,7 +60,7 @@ public class TableInteractionClimb : TileInteraction
 			{
 				List<TileType> excludeTiles = new List<TileType>() { TileType.Table };
 
-				if (playerScript.registerTile.Matrix.IsPassableAtOneMatrixOneTile(interaction.TargetCellPos, true, true, null, excludeTiles))
+				if (playerScript.RegisterTile.Matrix.IsPassableAtOneMatrixOneTile(interaction.TargetCellPos, true, true, null, excludeTiles))
 				{
 					playerScript.PlayerSync.SetPosition(interaction.WorldPositionTarget);
 				}

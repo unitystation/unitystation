@@ -11,17 +11,9 @@ using UnityEngine.Serialization;
 ///     Handling the updates from a single point decreases cpu time
 ///     and increases performance
 /// </summary>
-public class UpdateManager : MonoBehaviour
+public class UpdateManager : SingletonManager<UpdateManager>
 {
-
 	public static float CashedDeltaTime = 0;
-
-	private static UpdateManager instance;
-
-	public static UpdateManager Instance
-	{
-		get { return instance; }
-	}
 
 	private Dictionary<CallbackType, CallbackCollection> collections;
 
@@ -55,10 +47,7 @@ public class UpdateManager : MonoBehaviour
 	[Tooltip("For the editor to show more detailed logging in the profiler")]
 	public bool Profile = false;
 
-	public static bool IsInitialized
-	{
-		get { return instance != null; }
-	}
+	public static bool IsInitialized => Instance != null;
 
 	private class NamedAction
 	{
@@ -78,30 +67,16 @@ public class UpdateManager : MonoBehaviour
 
 	private void Awake()
 	{
-		if (instance != null)
-		{
-			Destroy(gameObject);
-			return;
-		}
-
 		collections = new Dictionary<CallbackType, CallbackCollection>(3, new CallbackTypeComparer());
 		foreach (CallbackType callbackType in Enum.GetValues(typeof(CallbackType)))
 		{
 			collections.Add(callbackType, new CallbackCollection());
 		}
-
-		instance = this;
 	}
 
-	public static void Add(CallbackType type, Action action)
-	{
-		instance.AddCallbackInternal(type, action);
-	}
+	public static void Add(CallbackType type, Action action) => Instance.AddCallbackInternal(type, action);
 
-	public static void SafeAdd(CallbackType type, Action action)
-	{
-		instance.threadSafeAddQueue.Enqueue(new Tuple<CallbackType, Action>(type, action));
-	}
+	public static void SafeAdd(CallbackType type, Action action) => Instance.threadSafeAddQueue.Enqueue(new Tuple<CallbackType, Action>(type, action));
 
 	public static void Add(Action action, float timeInterval)
 	{
@@ -113,23 +88,20 @@ public class UpdateManager : MonoBehaviour
 		Instance.periodicUpdateActions.Add(timedUpdate);
 	}
 
-	public static void SafeAdd(Action action, float timeInterval)
-	{
-		instance.threadSafeAddPeriodicQueue.Enqueue(new Tuple<Action, float>(action, timeInterval));
-	}
+	public static void SafeAdd(Action action, float timeInterval) => Instance.threadSafeAddPeriodicQueue.Enqueue(new Tuple<Action, float>(action, timeInterval));
 
 	public static void Add(ManagedNetworkBehaviour networkBehaviour)
 	{
-		instance.AddCallbackInternal(CallbackType.UPDATE, networkBehaviour.UpdateMe);
-		instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
-		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
+		Instance.AddCallbackInternal(CallbackType.UPDATE, networkBehaviour.UpdateMe);
+		Instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
+		Instance.AddCallbackInternal(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
 	}
 
 	public static void Add(ManagedBehaviour managedBehaviour)
 	{
-		instance.AddCallbackInternal(CallbackType.UPDATE, managedBehaviour.UpdateMe);
-		instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, managedBehaviour.FixedUpdateMe);
-		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, managedBehaviour.LateUpdateMe);
+		Instance.AddCallbackInternal(CallbackType.UPDATE, managedBehaviour.UpdateMe);
+		Instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, managedBehaviour.FixedUpdateMe);
+		Instance.AddCallbackInternal(CallbackType.LATE_UPDATE, managedBehaviour.LateUpdateMe);
 	}
 
 	public static void Remove(CallbackType type, Action action)
@@ -254,8 +226,7 @@ public class UpdateManager : MonoBehaviour
 
 	private void RemoveCallbackInternal(CallbackCollection collection, Action callback)
 	{
-		NamedAction namedAction;
-		if (collection.ActionDictionary.TryGetValue(callback, out namedAction))
+		if (collection.ActionDictionary.TryGetValue(callback, out NamedAction namedAction))
 		{
 			namedAction.WaitingForRemove = true;
 			collection.ActionDictionary.Remove(callback);
@@ -363,12 +334,6 @@ public class UpdateManager : MonoBehaviour
 		}
 	}
 
-	private void OnDestroy()
-	{
-		if (instance == this)
-			instance = null;
-	}
-
 	public class TimedUpdate
 	{
 		public float TimeDelayPreUpdate = 0;
@@ -387,7 +352,7 @@ public class UpdateManager : MonoBehaviour
 			TimeDelayPreUpdate = 0;
 			TimeTitleNext = 0;
 			Action = null;
-			UpdateManager.instance.pooledTimedUpdates.Add(this);
+			UpdateManager.Instance.pooledTimedUpdates.Add(this);
 		}
 	}
 

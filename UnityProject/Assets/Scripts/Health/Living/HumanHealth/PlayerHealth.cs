@@ -155,7 +155,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 
 	protected override void OnDeathActions()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
 
@@ -258,7 +258,7 @@ public class PlayerHealth : LivingHealthBehaviour, IRightClickable
 			Inventory.ServerDrop(slot);
 		}
 
-		PlayerMove.PlayerScript.pushPull.VisibleState = false;
+		PlayerMove.PlayerScript.PushPull.VisibleState = false;
 		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
 

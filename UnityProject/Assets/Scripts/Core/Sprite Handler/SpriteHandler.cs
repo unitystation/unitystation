@@ -473,7 +473,7 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.Instance.isServer == false) return;
 
 		SpriteHandlerManager.SpriteChange spriteChange = null;
 

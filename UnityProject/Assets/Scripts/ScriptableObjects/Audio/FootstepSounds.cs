@@ -24,7 +24,7 @@ namespace ScriptableObjects.Audio
 		public static void PlayerFootstepAtPosition(Vector3 worldPos,
 			PlayerSync playerSync)
 		{
-			if (playerSync.playerScript.registerTile.IsLayingDown == false)
+			if (playerSync.playerScript.RegisterTile.IsLayingDown == false)
 			{
 				var stepType = GetFootStepType(playerSync);
 				playerSync.Step = !playerSync.Step;

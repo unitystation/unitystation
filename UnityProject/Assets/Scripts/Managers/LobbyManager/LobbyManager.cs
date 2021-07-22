@@ -4,26 +4,13 @@ using UI.CharacterCreator;
 
 namespace Lobby
 {
-	public class LobbyManager : MonoBehaviour
+	public class LobbyManager : SingletonManager<LobbyManager>
 	{
-		public static LobbyManager Instance;
 		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
 		public Toggle hostToggle;
 
 		public GUI_LobbyDialogue lobbyDialogue;
-
-		private void Awake()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
 
 		private void Start()
 		{
@@ -39,10 +26,7 @@ namespace Lobby
 			CustomNetworkManager.Instance?.OnClientDisconnected?.RemoveListener(OnClientDisconnect);
 		}
 
-		public void OnClientDisconnect()
-		{
-			lobbyDialogue.OnClientDisconnect();
-		}
+		public void OnClientDisconnect() => lobbyDialogue.OnClientDisconnect();
 
 		private void DetermineUIScale()
 		{

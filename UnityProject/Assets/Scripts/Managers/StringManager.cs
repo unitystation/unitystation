@@ -1,23 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Initialisation;
 using UnityEngine;
 
-public class StringManager : MonoBehaviour, IInitialise
+public class StringManager : SingletonManager<StringManager>, IInitialise
 {
-	private static StringManager stringManager;
-	public static StringManager Instance
-	{
-		get
-		{
-			if (stringManager == null)
-			{
-				stringManager = FindObjectOfType<StringManager>();
-			}
-			return stringManager;
-		}
-	}
-
 	/// <summary>
 	/// The PlayerPref key for ChatBubble preference.
 	/// Use PlayerPrefs.GetInt(chatBubblePref) to determine the players
@@ -44,15 +30,9 @@ public class StringManager : MonoBehaviour, IInitialise
 		}
 	}
 
-	public static string GetRandomMaleName()
-	{
-		return GetRandomName(Gender.Male);
-	}
+	public static string GetRandomMaleName() => GetRandomName(Gender.Male);
 
-	public static string GetRandomFemaleName()
-	{
-		return GetRandomName(Gender.Female);
-	}
+	public static string GetRandomFemaleName() => GetRandomName(Gender.Female);
 
 	/// <summary>
 	/// Combines a random first and last name depending on gender, uses both male and female names if gender is NonBinary

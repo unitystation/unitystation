@@ -9,7 +9,7 @@ using UI.CharacterCreator;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
-public partial class PlayerList : NetworkBehaviour
+public partial class PlayerList : NetworkSingletonManager<PlayerList>
 {
 	//ConnectedPlayer list, server only
 	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
@@ -18,7 +18,6 @@ public partial class PlayerList : NetworkBehaviour
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
 
-	public static PlayerList Instance;
 	public int ConnectionCount => loggedIn.Count;
 	public int OfflineConnCount => loggedOff.Count;
 	public List<ConnectedPlayer> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
@@ -48,32 +47,11 @@ public partial class PlayerList : NetworkBehaviour
 	/// </summary>
 	public static int LastRoundPlayerCount = 0;
 
-	private void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
+	void OnEnable() => EventManager.AddHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
 
-	void OnEnable()
-	{
-		EventManager.AddHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
-	}
+	void OnDisable() => EventManager.RemoveHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
 
-	void OnDisable()
-	{
-		EventManager.RemoveHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
-	}
-
-	private void SetEndOfRoundPlayerCount()
-	{
-		LastRoundPlayerCount = Instance.ConnectionCount;
-	}
+	private void SetEndOfRoundPlayerCount() => LastRoundPlayerCount = Instance.ConnectionCount;
 
 	public override void OnStartServer()
 	{
@@ -112,10 +90,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// <summary>
 	/// Get all players currently located on provided matrix
 	/// </summary>
-	public List<ConnectedPlayer> GetPlayersOnMatrix(MatrixInfo matrix)
-	{
-		return InGamePlayers.FindAll(p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix?.Id);
-	}
+	public List<ConnectedPlayer> GetPlayersOnMatrix(MatrixInfo matrix) => InGamePlayers.FindAll(p => (p.Script != null) && p.Script.RegisterTile.Matrix.Id == matrix?.Id);
 
 	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
 	{
@@ -124,15 +99,12 @@ public partial class PlayerList : NetworkBehaviour
 			players = InGamePlayers;
 		}
 
-		return players.FindAll(p => !p.Script.IsGhost && p.Script.playerMove.allowInput);
+		return players.FindAll(p => !p.Script.IsGhost && p.Script.PlayerMove.allowInput);
 	}
 
 	/// Don't do this unless you realize the consequences
 	[Server]
-	public void Clear()
-	{
-		loggedIn.Clear();
-	}
+	public void Clear() => loggedIn.Clear();
 
 	/// <summary>
 	/// Set this user's controlled game object to newGameObject (which may be a ghost or a body)
@@ -207,10 +179,7 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public bool ContainsConnection(NetworkConnection connection)
-	{
-		return !Get(connection).Equals(ConnectedPlayer.Invalid);
-	}
+	public bool ContainsConnection(NetworkConnection connection) => !Get(connection).Equals(ConnectedPlayer.Invalid);
 
 	[Server]
 	public ConnectedPlayer GetLoggedOffClient(string clientID, string userId)
@@ -234,16 +203,10 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public bool ContainsGameObject(GameObject gameObject)
-	{
-		return !Get(gameObject).Equals(ConnectedPlayer.Invalid);
-	}
+	public bool ContainsGameObject(GameObject gameObject) => !Get(gameObject).Equals(ConnectedPlayer.Invalid);
 
 	[Server]
-	public ConnectedPlayer Get(NetworkConnection byConnection)
-	{
-		return GetInternalLoggedIn(player => player.Connection == byConnection);
-	}
+	public ConnectedPlayer Get(NetworkConnection byConnection) => GetInternalLoggedIn(player => player.Connection == byConnection);
 
 	[Server]
 	public ConnectedPlayer Get(string byName, bool includeOffline = false)
@@ -276,16 +239,10 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public ConnectedPlayer GetByUserID(string byUserID)
-	{
-		return GetInternalLoggedIn(player => player.UserId == byUserID);
-	}
+	public ConnectedPlayer GetByUserID(string byUserID) => GetInternalLoggedIn(player => player.UserId == byUserID);
 
 	[Server]
-	public ConnectedPlayer GetByConnection(NetworkConnection connection)
-	{
-		return GetInternalLoggedIn(player => player.Connection == connection);
-	}
+	public ConnectedPlayer GetByConnection(NetworkConnection connection) => GetInternalLoggedIn(player => player.Connection == connection);
 
 	[Server]
 	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline = false)
@@ -303,10 +260,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// Get all players with specific state, logged in and logged off
 	/// </summary>
 	[Server]
-	public List<ConnectedPlayer> GetAllByPlayersOfState(PlayerScript.PlayerStates state)
-	{
-		return GetAllPlayers().Where(player => player.Script.PlayerState == state).ToList();
-	}
+	public List<ConnectedPlayer> GetAllByPlayersOfState(PlayerScript.PlayerStates state) => GetAllPlayers().Where(player => player.Script.PlayerState == state).ToList();
 
 	/// <summary>
 	/// Get all in game players, logged in and logged off
@@ -524,10 +478,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// Clears the list of ready players
 	/// </summary>
 	[Server]
-	public void ClearReadyPlayers()
-	{
-		ReadyPlayers.Clear();
-	}
+	public void ClearReadyPlayers() => ReadyPlayers.Clear();
 
 	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)
 	{

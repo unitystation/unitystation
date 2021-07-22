@@ -68,7 +68,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
 		if (playerMove.allowInput == false) return;
 		if (playerScript.IsGhost) return;
-		if (playerScript.playerHealth.serverPlayerConscious == false) return;
+		if (playerScript.PlayerHealth.serverPlayerConscious == false) return;
 
 		if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 		{
@@ -84,7 +84,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		float damage = fistDamage;
 		DamageType damageType = DamageType.Brute;
 		AddressableAudioSource weaponSound = meleeSounds.PickRandom();
-		GameObject weapon = playerScript.playerNetworkActions.GetActiveHandItem();
+		GameObject weapon = playerScript.PlayerNetworkActions.GetActiveHandItem();
 		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
 
 		if (weaponAttributes != null)
@@ -219,7 +219,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 	[Command]
 	private void CmdRequestInputActivation()
 	{
-		if (playerScript.playerHealth.serverPlayerConscious)
+		if (playerScript.PlayerHealth.serverPlayerConscious)
 		{
 			playerMove.allowInput = true;
 		}

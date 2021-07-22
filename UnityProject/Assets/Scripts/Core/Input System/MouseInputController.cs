@@ -325,9 +325,9 @@ public class MouseInputController : MonoBehaviour
 	private void TrySlide()
 	{
 		if (PlayerManager.PlayerScript.IsGhost ||
-		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		    PlayerManager.PlayerScript.PlayerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		PlayerManager.PlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
+		PlayerManager.PlayerScript.PlayerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
 	}
 
 	private bool CheckClick()
@@ -368,7 +368,7 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			// If we're dragging something, try to move it.
-			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
+			if (PlayerManager.LocalPlayerScript.PushPull.IsPullingSomethingClient)
 			{
 				TrySlide();
 				return false;
@@ -521,7 +521,7 @@ public class MouseInputController : MonoBehaviour
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
 		if (!clickedObject) return;
 		if (PlayerManager.PlayerScript.IsGhost ||
-		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		    PlayerManager.PlayerScript.PlayerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
 
 		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
@@ -529,7 +529,7 @@ public class MouseInputController : MonoBehaviour
 			clickedObject = networkedMatrix.MatrixSync.gameObject;
 		}
 
-		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
+		PlayerManager.PlayerScript.PlayerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 
 	/// <summary>
@@ -614,7 +614,7 @@ public class MouseInputController : MonoBehaviour
 			//so target is still correct when lerping on a matrix (since registered world position is rounded)
 			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdThrow(
 				targetVector, (int) UIManager.DamageZone);
 
 			//Disabling throw button

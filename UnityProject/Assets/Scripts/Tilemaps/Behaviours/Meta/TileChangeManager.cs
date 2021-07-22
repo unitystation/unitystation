@@ -2,12 +2,10 @@
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
-using Messages.Client.NewPlayer;
 using Messages.Server;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
-using Objects;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
 
@@ -91,7 +89,6 @@ public class TileChangeManager : MonoBehaviour
 			AddToChangeList(cellPosition, tileType: tileType, tileName: tileName, transformMatrix : transformMatrix , color: color);
 		}
 	}
-
 
 	[Server]
 	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
@@ -266,16 +263,10 @@ public class TileChangeManager : MonoBehaviour
 	}
 
 	[Server]
-	public List<OverlayTile> GetAllOverlayTiles(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType)
-	{
-		return metaTileMap.GetOverlayTilesByType(cellPosition, layerType, overlayType);
-	}
+	public List<OverlayTile> GetAllOverlayTiles(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType) => metaTileMap.GetOverlayTilesByType(cellPosition, layerType, overlayType);
 
 	[Server]
-	public bool HasOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
-	{
-		return metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
-	}
+	public bool HasOverlay(Vector3Int cellPosition, OverlayTile overlayTile) => metaTileMap.HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
 
 	[Server]
 	public bool HasOverlay(Vector3Int cellPosition, TileType tileType, string overlayName)
@@ -287,10 +278,7 @@ public class TileChangeManager : MonoBehaviour
 	}
 
 	[Server]
-	public bool HasOverlayOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType)
-	{
-		return metaTileMap.HasOverlayOfType(cellPosition, layerType, overlayType);
-	}
+	public bool HasOverlayOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType) => metaTileMap.HasOverlayOfType(cellPosition, layerType, overlayType);
 
 	/// <summary>
 	/// Gets the colour of the first tile of this type
@@ -308,10 +296,7 @@ public class TileChangeManager : MonoBehaviour
 
 
 	[Server]
-	public LayerTile GetLayerTile(Vector3Int cellPosition, LayerType layerType)
-	{
-		return metaTileMap.GetTile(cellPosition, layerType);
-	}
+	public LayerTile GetLayerTile(Vector3Int cellPosition, LayerType layerType) => metaTileMap.GetTile(cellPosition, layerType);
 
 	public void InternalRemoveTile(Vector3 position, LayerType layerType)
 	{
@@ -389,14 +374,11 @@ public class TileChangeManager : MonoBehaviour
 	}
 
 	private bool IsDifferent(Vector3Int position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
-		Color? color = null)
-	{
-		return metaTileMap.IsDifferent(position, layerTile, layerTile.LayerType, transformMatrix, color);
-	}
+		Color? color = null) => metaTileMap.IsDifferent(position, layerTile, layerTile.LayerType, transformMatrix, color);
 
 }
 
-[System.Serializable]
+[Serializable]
 public class TileChangeList
 {
 	public List<TileChangeEntry> List = new List<TileChangeEntry>();
@@ -410,7 +392,7 @@ public class TileChangeList
 	}
 }
 
-[System.Serializable]
+[Serializable]
 public class TileChangeEntry
 {
 	public Vector3Int Position;
@@ -427,6 +409,4 @@ public class TileChangeEntry
 
 }
 
-public class TileChangeEvent : UnityEvent<Vector3Int, GenericTile>
-{
-}
+public class TileChangeEvent : UnityEvent<Vector3Int, GenericTile> { }

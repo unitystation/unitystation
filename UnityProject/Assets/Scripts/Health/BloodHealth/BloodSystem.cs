@@ -266,7 +266,7 @@ public class BloodSystem : MonoBehaviour
 
 	public void UpdateClientBloodStats(int heartRate, float bloodVolume, float _oxygenDamage, float _toxinLevel)
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			return;
 		}

@@ -20,8 +20,8 @@ namespace UI
 		private int ActionTypeCount;
 		private List<GameObject> KeybindItemList = new List<GameObject>();
 		private Dictionary<ActionType, GameObject> KeybindHeadingDict = new Dictionary<ActionType, GameObject>();
-		private KeybindManager keybindManager => Instance;
-		private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
+		private KeybindManager KeybindManager => KeybindManager.Instance;
+		private ModalPanelManager ModalPanelManager => ModalPanelManager.Instance;
 
 		void Awake()
 		{
@@ -46,7 +46,7 @@ namespace UI
 
 		void OnEnable()
 		{
-			tempKeybinds = keybindManager.userKeybinds.Clone();
+			tempKeybinds = KeybindManager.userKeybinds.Clone();
 			PopulateKeybindScrollView();
 		}
 
@@ -55,11 +55,11 @@ namespace UI
 		[System.Obsolete("Changing a key now auto saves it")]
 		public void SaveButton()
 		{
-			modalPanelManager.Confirm(
+			ModalPanelManager.Confirm(
 				"Are you sure?",
 				() =>
 				{
-					keybindManager.SaveKeybinds(tempKeybinds);
+					KeybindManager.SaveKeybinds(tempKeybinds);
 				},
 				"Save And Close"
 			);
@@ -68,12 +68,12 @@ namespace UI
 		// Broadcast message from options
 		public void ResetDefaults()
 		{
-			modalPanelManager.Confirm(
+			ModalPanelManager.Confirm(
 				"Are you sure?",
 				() =>
 				{
-					keybindManager.ResetKeybinds();
-					tempKeybinds = keybindManager.userKeybinds.Clone();
+					KeybindManager.ResetKeybinds();
+					tempKeybinds = KeybindManager.userKeybinds.Clone();
 					PopulateKeybindScrollView();
 				},
 				"Reset"
@@ -96,7 +96,7 @@ namespace UI
 				// Destroy all items in list if it already exists
 				foreach (GameObject item in KeybindItemList)
 				{
-					Destroy(item.gameObject);
+					Destroy(item);
 				}
 				KeybindItemList.Clear();
 			}
@@ -111,7 +111,7 @@ namespace UI
 				if (!tempKeybinds.ContainsKey(action)) continue;
 
 				DualKeyCombo actionKeybind = tempKeybinds[action];
-				KeybindMetadata actionMetadata = keybindManager.keyActionMetadata[action];
+				KeybindMetadata actionMetadata = KeybindManager.keyActionMetadata[action];
 
 				// Only add the action if it can be rebound
 				if (!actionMetadata.Rebindable) continue;
@@ -149,7 +149,7 @@ namespace UI
 			UIManager.IsInputFocus = true;
 			while (capturedKeyCombo == KeyCombo.None)
 			{
-				capturedKeyCombo = keybindManager.CaptureKeyCombo();
+				capturedKeyCombo = KeybindManager.CaptureKeyCombo();
 				yield return null;
 			}
 			KeyCapturePanel.SetActive(false);
@@ -173,7 +173,7 @@ namespace UI
 			{
 				// No conflicts found so set the new keybind and refresh the view
 				tempKeybinds.Set(selectedAction, capturedKeyCombo, isPrimary);
-				keybindManager.SaveKeybinds(tempKeybinds);
+				KeybindManager.SaveKeybinds(tempKeybinds);
 				// Make sure the player can move around again
 				UIManager.IsInputFocus = false;
 				PopulateKeybindScrollView();
@@ -182,24 +182,24 @@ namespace UI
 			else if (conflictingAction == selectedAction)
 			{
 				// Get the metadata for the keybind
-				conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
+				conflictingKeybindMetadata = KeybindManager.keyActionMetadata[conflictingAction];
 				// Inform the user
-				modalPanelManager.Inform("\nThis combination is already being used by:\n" + conflictingKeybindMetadata.Name);
+				ModalPanelManager.Inform("\nThis combination is already being used by:\n" + conflictingKeybindMetadata.Name);
 				UIManager.IsInputFocus = false;
 			}
 			// Conflict with any other action
 			else
 			{
-				conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
+				conflictingKeybindMetadata = KeybindManager.keyActionMetadata[conflictingAction];
 				// Check if the user wants to change the keybind
-				modalPanelManager.Confirm(
+				ModalPanelManager.Confirm(
 					"Warning!\n\nThis combination is already being used by:\n" + conflictingKeybindMetadata.Name + "\nAre you sure you want to override it?",
 					() =>
 					{
 					// User confirms they want to change the keybind
 					tempKeybinds.Set(selectedAction, capturedKeyCombo, isPrimary);
 						tempKeybinds.Remove(conflictingAction, isConflictPrimary);
-						keybindManager.SaveKeybinds(tempKeybinds);
+						KeybindManager.SaveKeybinds(tempKeybinds);
 						UIManager.IsInputFocus = false;
 						PopulateKeybindScrollView();
 					},
@@ -220,7 +220,7 @@ namespace UI
 		public void RemoveKeybind(KeyAction selectedAction, bool isPrimary)
 		{
 			tempKeybinds.Remove(selectedAction, isPrimary);
-			keybindManager.SaveKeybinds(tempKeybinds);
+			KeybindManager.SaveKeybinds(tempKeybinds);
 		}
 
 		#endregion

@@ -5,38 +5,15 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Serverside radio management tool. Clients cannot send radio messages! If you wish to send a radio message, call it on the server!
 /// </summary>
-public class RadioManager : MonoBehaviour
+public class RadioManager : SingletonManager<RadioManager>
 {
-	private static RadioManager radioManager;
-
-
-	public static RadioManager Instance
-	{
-		get
-		{
-			if (!radioManager)
-			{
-				radioManager = FindObjectOfType<RadioManager>();
-			}
-
-			return radioManager;
-		}
-	}
-
 	private RadioMessager LastRadioMessager = null;
-
 
 	private List<RadioReceiver> receivers = new List<RadioReceiver>();
 
-	public void RegisterReceiver(RadioReceiver rec)
-	{
-		receivers.Add(rec);
-	}
+	public void RegisterReceiver(RadioReceiver rec) => receivers.Add(rec);
 
-	public void RemoveReceiver(RadioReceiver rec)
-	{
-		receivers.Remove(rec);
-	}
+	public void RemoveReceiver(RadioReceiver rec) => receivers.Remove(rec);
 
 	/// <summary>
 	/// Check if a receiver can receive a signal from a messager. Probably a better way to do this.
@@ -62,14 +39,14 @@ public class RadioManager : MonoBehaviour
 		//Prevent a receiver picking up a signal if it was the one that sent it.
 		if (rec.gameObject.Equals(originator.gameObject)) return false;
 
-		if (signal.broadRange)
+		if (signal.BroadRange)
 		{
 			if (rec.UseFrequencyRange)
 			{
-				if (signal.frequencyMin >= rec.MinFrequency || signal.frequencyMax <= rec.MaxFrequency)
+				if (signal.FrequencyMin >= rec.MinFrequency || signal.FrequencyMax <= rec.MaxFrequency)
 				{
 					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
-					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
+					if (signal.Intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
 					}
@@ -77,10 +54,10 @@ public class RadioManager : MonoBehaviour
 			}
 			else
 			{
-				if (signal.frequencyMin < rec.Frequency && signal.frequencyMax > rec.Frequency)
+				if (signal.FrequencyMin < rec.Frequency && signal.FrequencyMax > rec.Frequency)
 				{
 					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
-					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
+					if (signal.Intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
 					}
@@ -92,10 +69,10 @@ public class RadioManager : MonoBehaviour
 		{
 			if (rec.UseFrequencyRange)
 			{
-				if (signal.frequency >= rec.MinFrequency && signal.frequency <= rec.MaxFrequency)
+				if (signal.Frequency >= rec.MinFrequency && signal.Frequency <= rec.MaxFrequency)
 				{
 					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
-					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
+					if (signal.Intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
 					}
@@ -104,10 +81,10 @@ public class RadioManager : MonoBehaviour
 			else
 			{
 				//Have to use an epsilon check here, since floats are imperfect.
-				if (Mathf.Abs(signal.frequency - rec.Frequency) < 0.01)
+				if (Mathf.Abs(signal.Frequency - rec.Frequency) < 0.01)
 				{
 					float distance = Vector3.Distance(rec.RegisterTitle.WorldPosition, originator.RegisterTitle.WorldPosition);
-					if (signal.intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
+					if (signal.Intensity / (Mathf.Pow(distance, 2)) >= rec.Sensitivity)
 					{
 						return true;
 					}
@@ -129,10 +106,7 @@ public class RadioManager : MonoBehaviour
 		}
 	}
 
-	public void SendRadioSignalFromLocation(RadioSignal signal, Vector2 origin)
-	{
-
-	}
+	public void SendRadioSignalFromLocation(RadioSignal signal, Vector2 origin)	{ }
 }
 
 /// <summary>
@@ -141,32 +115,32 @@ public class RadioManager : MonoBehaviour
 /// </summary>
 public class RadioSignal
 {
-	public float frequency { get; private set; }
-	public float frequencyMin { get; private set; }
-	public float frequencyMax { get; private set; }
-	public float amplitude { get; private set; }
-	public float intensity { get; private set; }
-	public bool broadRange { get; private set; }
-	public string message { get; private set; }
+	public float Frequency { get; private set; }
+	public float FrequencyMin { get; private set; }
+	public float FrequencyMax { get; private set; }
+	public float Amplitude { get; private set; }
+	public float Intensity { get; private set; }
+	public bool BroadRange { get; private set; }
+	public string Message { get; private set; }
 
 	//Message is null by default. For signals that only care about I/O.
 	public RadioSignal(float frequency, float amplitude, float intensity, string message = null)
 	{
-		this.frequency = frequency;
-		this.amplitude = amplitude;
-		this.intensity = intensity;
-		this.broadRange = false;
-		this.message = message;
+		this.Frequency = frequency;
+		this.Amplitude = amplitude;
+		this.Intensity = intensity;
+		this.BroadRange = false;
+		this.Message = message;
 	}
 
 	public RadioSignal(float frequencyMin, float frequencyMax, float amplitude, float intensity, string message = null)
 	{
-		this.frequencyMin = frequencyMin;
-		this.frequencyMax = frequencyMax;
-		this.amplitude = amplitude;
-		this.intensity = intensity;
-		this.broadRange = true;
-		this.message = message;
+		this.FrequencyMin = frequencyMin;
+		this.FrequencyMax = frequencyMax;
+		this.Amplitude = amplitude;
+		this.Intensity = intensity;
+		this.BroadRange = true;
+		this.Message = message;
 	}
 }
 

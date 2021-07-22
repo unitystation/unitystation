@@ -1,4 +1,3 @@
-using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +6,6 @@ namespace Systems.Atmospherics
 	[CustomEditor(typeof(AtmosManager))]
 	public class AtmosManagerEditor : Editor
 	{
-
 		public override void OnInspectorGUI()
 		{
 			AtmosManager atmosManager = (AtmosManager)target;

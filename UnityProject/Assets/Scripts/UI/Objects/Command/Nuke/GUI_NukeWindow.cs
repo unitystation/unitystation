@@ -107,7 +107,7 @@ namespace UI.Objects.Command
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				infoNukeDisplay = (NetUIElement<string>)this["NukeInfoDisplay"];
 				codeDisplay = (NetUIElement<string>)this["NukeCodeDisplay"];
@@ -116,7 +116,7 @@ namespace UI.Objects.Command
 
 		protected override void InitServer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}

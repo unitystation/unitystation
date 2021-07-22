@@ -60,9 +60,9 @@ namespace Messages.Server.AdminTools
 				if (player.Connection != null)
 				{
 					entry.ipAddress = player.Connection.address;
-					if (player.Script != null && player.Script.playerHealth != null)
+					if (player.Script != null && player.Script.PlayerHealth != null)
 					{
-						entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
+						entry.isAlive = player.Script.PlayerHealth.ConsciousState != ConsciousState.DEAD;
 					}
 					else
 					{

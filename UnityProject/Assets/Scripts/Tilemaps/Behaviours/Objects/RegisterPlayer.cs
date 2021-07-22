@@ -189,7 +189,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
-			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.CrawlSpeed;
+			playerScript.PlayerSync.SpeedServer = playerScript.PlayerMove.CrawlSpeed;
 			//lock current direction
 			playerDirectional.LockDirection = true;
 		}
@@ -202,7 +202,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirection = false;
-			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.RunSpeed;
+			playerScript.PlayerSync.SpeedServer = playerScript.PlayerMove.RunSpeed;
 		}
 	}
 
@@ -227,7 +227,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		if (!IsLayingDown) return;
 
 		// Can't help a player up if they're rolling
-		if (playerScript.playerNetworkActions.IsRolling) return;
+		if (playerScript.PlayerNetworkActions.IsRolling) return;
 
 		// Check if lying down because of stun. If stunned, there is a chance helping can fail.
 		if (IsSlippingServer && Random.Range(0, 100) > HELP_CHANCE) return;
@@ -265,11 +265,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		// Don't slip while the players hunger state is Strarving
 		// Don't slip if you got no legs (HealthV2)
 		if (IsSlippingServer
-			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
-			|| playerScript.playerHealth.IsCrit
-			|| playerScript.playerHealth.IsSoftCrit
-			|| playerScript.playerHealth.IsDead
-			|| playerScript.playerHealth.HungerState == HungerState.Starving)
+			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.PlayerMove.WalkSpeed
+			|| playerScript.PlayerHealth.IsCrit
+			|| playerScript.PlayerHealth.IsSoftCrit
+			|| playerScript.PlayerHealth.IsDead
+			|| playerScript.PlayerHealth.HungerState == HungerState.Starving)
 		{
 			return;
 		}
@@ -278,7 +278,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
-		playerScript.pushPull.ServerStopPulling();
+		playerScript.PushPull.ServerStopPulling();
 	}
 
 	/// <summary>
@@ -306,7 +306,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				Inventory.ServerDrop(itemSlot);
 			}
 		}
-		playerScript.playerMove.allowInput = false;
+		playerScript.PlayerMove.allowInput = false;
 
 		this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
 	}
@@ -328,17 +328,17 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		IsSlippingServer = false;
 
 		// Do not raise up a dead body
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
+		if (playerScript.PlayerHealth.ConsciousState == ConsciousState.CONSCIOUS)
 		{
 			ServerCheckStandingChange( false);
 		}
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
-			 || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
+		if (playerScript.PlayerHealth.ConsciousState == ConsciousState.CONSCIOUS
+			 || playerScript.PlayerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
-			playerScript.playerMove.allowInput = true;
+			playerScript.PlayerMove.allowInput = true;
 		}
 	}
 	// <summary>

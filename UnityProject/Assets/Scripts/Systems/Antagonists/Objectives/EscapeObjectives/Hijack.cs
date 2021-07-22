@@ -58,7 +58,7 @@ namespace Antagonists
 
 			//Shuttle must be functional and player be on it
 			if (!ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-				&& Owner.body.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters))
+				&& Owner.body.RegisterTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters))
 			{
 				return false;
 			}
@@ -72,7 +72,7 @@ namespace Antagonists
 				//TODO add check to ignore alive ghost critters, eg drones
 
 				//The other players must not be on same shuttle to pass checks
-				if (player.Script.registerTile.Matrix.Id == Owner.body.registerTile.Matrix.Id)
+				if (player.Script.RegisterTile.Matrix.Id == Owner.body.RegisterTile.Matrix.Id)
 				{
 					return false;
 				}

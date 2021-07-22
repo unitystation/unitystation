@@ -31,7 +31,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			//As they might want to change matrix
 			if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
 			    && !metaTileMap.HasTile(cellPos, LayerType.Base)
-			    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
+			    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance.isServer)
 			)
 			{
 				foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))

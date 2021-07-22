@@ -29,7 +29,7 @@ public class ControlAction : MonoBehaviour
 			return;
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResist();
 
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Resist Button", Category.UserInput);
@@ -59,7 +59,7 @@ public class ControlAction : MonoBehaviour
 			Throw();
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.ItemStorage.gameObject.NetId(),
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropItem(currentSlot.ItemStorage.gameObject.NetId(),
 			currentSlot.NamedSlot.GetValueOrDefault( NamedSlot.none ));
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		Logger.Log("Drop Button", Category.UserInput);
@@ -110,9 +110,9 @@ public class ControlAction : MonoBehaviour
 		if (pullImage && pullImage.enabled)
 		{
 			PlayerScript ps = PlayerManager.LocalPlayerScript;
-			if (ps.pushPull != null)
+			if (ps.PushPull != null)
 			{
-				ps.pushPull.CmdStopPulling();
+				ps.PushPull.CmdStopPulling();
 			}
 		}
 	}

@@ -65,7 +65,7 @@ namespace UI
 			}
 
 			// Connecting as client
-			if (screen_ConnectTo.activeInHierarchy || BuildPreferences.isForRelease)
+			if (screen_ConnectTo.activeInHierarchy || BuildPreferences.IsForRelease)
 			{
 				ConnectToServer();
 				gameObject.SetActive(false);
@@ -97,7 +97,7 @@ namespace UI
 
 		private void ConnectToServer()
 		{
-			if (BuildPreferences.isForRelease)
+			if (BuildPreferences.IsForRelease)
 			{
 				networkManager.networkAddress = GameScreenManager.Instance.serverIP;
 				networkManager.StartClient();

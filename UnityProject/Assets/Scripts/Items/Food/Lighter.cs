@@ -103,7 +103,7 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 					var bodyPart = isLeftHand ? BodyPartType.LeftArm : BodyPartType.RightArm;
 
 					// AttackType.Fire will set character on fire
-					player.playerHealth?.
+					player.PlayerHealth?.
 						ApplyDamageToBodyPart(gameObject, 5f, AttackType.Energy, DamageType.Burn, bodyPart);
 
 					var they = player.characterSettings.TheyPronoun(player);

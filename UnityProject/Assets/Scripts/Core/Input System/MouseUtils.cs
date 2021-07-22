@@ -56,7 +56,7 @@ public static class MouseUtils
 	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null,
 		Func<GameObject, bool> gameObjectFilter = null)
 	{
-		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance._isServer)
+		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance.isServer)
 			.Matrix;
 		if (!matrix)
 		{

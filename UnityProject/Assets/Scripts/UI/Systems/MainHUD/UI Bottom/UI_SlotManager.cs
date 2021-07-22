@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using UnityEngine;
 
-public class UI_SlotManager : MonoBehaviour
+public class UI_SlotManager : SingletonManager<UI_SlotManager>
 {
 	public List<UI_DynamicItemSlot> OpenSlots = new List<UI_DynamicItemSlot>();
 
@@ -20,7 +18,6 @@ public class UI_SlotManager : MonoBehaviour
 	public GameObject BeltPDABackpack;
 
 	public GameObject Clothing;
-
 
 	public GameObject SlotPrefab;
 

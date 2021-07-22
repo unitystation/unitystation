@@ -38,7 +38,7 @@ namespace Systems.Radiation
 
 		public void StopSim()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
+			if (!CustomNetworkManager.Instance.isServer) return;
 
 			Running = false;
 			Reset();
@@ -46,7 +46,7 @@ namespace Systems.Radiation
 
 		public void StartSim()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
+			if (!CustomNetworkManager.Instance.isServer) return;
 
 			Running = true;
 			SetSpeed((int) MSSpeed);

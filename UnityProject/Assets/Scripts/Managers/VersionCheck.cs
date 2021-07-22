@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 namespace Core
 {
-	public class VersionCheck : MonoBehaviour
+	public class VersionCheck : SingletonManager<VersionCheck>
 	{
 		private const string VERSION_NUMBER = "0.1.3";
 		private const string urlCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
-		private static VersionCheck versionCheck;
 		public GameObject errorWindow;
 
 		public GameObject loginWindow;
@@ -18,16 +17,6 @@ namespace Core
 
 		public Text versionText;
 		public Text yourVerText;
-
-		public static VersionCheck Instance {
-			get {
-				if (versionCheck == false)
-				{
-					versionCheck = FindObjectOfType<VersionCheck>();
-				}
-				return versionCheck;
-			}
-		}
 
 		private void Start()
 		{

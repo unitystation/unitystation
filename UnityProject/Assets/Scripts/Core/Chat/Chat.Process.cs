@@ -93,9 +93,9 @@ public partial class Chat
 			return (message, chatModifiers);
 		}
 
-		if (sentByPlayer.Script.playerHealth != null)
+		if (sentByPlayer.Script.PlayerHealth != null)
 		{
-			playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
+			playerConsciousState = sentByPlayer.Script.PlayerHealth.ConsciousState;
 		}
 
 		//Semi should be able to speak as health shouldnt affect them
@@ -565,7 +565,7 @@ public partial class Chat
 
 	private static bool IsServer()
 	{
-		if (!CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.Instance.isServer)
 		{
 			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
 			return false;

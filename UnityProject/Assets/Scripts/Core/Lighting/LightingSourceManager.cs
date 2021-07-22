@@ -9,15 +9,9 @@ namespace Core.Lighting
 		private LightingRoom lightingRoomParent;
 		public Dictionary<Vector2, LightSource> lights = new Dictionary<Vector2, LightSource>();
 
-		private void Awake()
-		{
-			lightingRoomParent = GetComponentInParent<LightingRoom>();
-		}
+		private void Awake() => lightingRoomParent = GetComponentInParent<LightingRoom>();
 
-		private void Start()
-		{
-			LoadAllLights();
-		}
+		private void Start() => LoadAllLights();
 
 		private void LoadAllLights()
 		{

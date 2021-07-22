@@ -1,24 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AssetManager : MonoBehaviour
+public class AssetManager : SingletonManager<AssetManager>
 {
 	[SerializeField] private AssetLoadingPopupManager _assetLoadingPopupManager = default;
-	private static AssetManager _assetManager;
 	private int amountOfAddressablesToLoad = 0;
-
-	public static AssetManager Instance
-	{
-		get
-		{
-			if (_assetManager == null)
-			{
-				_assetManager = FindObjectOfType<AssetManager>();
-			}
-
-			return _assetManager;
-		}
-	}
 
 	public void AddLoadingAssetHandle(AsyncOperationHandle handle, string path)
 	{

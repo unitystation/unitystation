@@ -53,7 +53,7 @@ namespace Systems.Spells.Wizard
 			TeleportWindow.gameObject.SetActive(false);
 
 			// We piggyback off aim click instead of using base.CallActionClient();
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, position);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, position);
 		}
 
 		private void ClientTeleportDestinationSelected(TeleportInfo info)

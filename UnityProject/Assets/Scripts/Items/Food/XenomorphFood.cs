@@ -34,7 +34,7 @@ namespace Items.Food
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
 			// Show eater message
-			var eaterHungerState = eater.playerHealth.HungerState;
+			var eaterHungerState = eater.PlayerHealth.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 			// Check if eater can eat anything
@@ -45,7 +45,7 @@ namespace Items.Food
 				{
 					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
 					Eat(eater, feeder);
-				}).ServerStartProgress(eater.registerTile, 3f, feeder.gameObject);
+				}).ServerStartProgress(eater.RegisterTile, 3f, feeder.gameObject);
 				return;
 			}
 			else
@@ -59,7 +59,7 @@ namespace Items.Food
 			// TODO: missing sound?
 			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			var stomachs = eater.playerHealth.GetStomachs();
+			var stomachs = eater.PlayerHealth.GetStomachs();
 			if (stomachs.Count == 0)
 			{
 				//No stomachs?!
@@ -71,7 +71,7 @@ namespace Items.Food
 				stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
 			}
 
-			_ = Pregnancy(eater.playerHealth);
+			_ = Pregnancy(eater.PlayerHealth);
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			Inventory.ServerDespawn(feederSlot);
 		}

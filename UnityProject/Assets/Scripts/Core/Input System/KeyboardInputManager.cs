@@ -1,12 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static KeybindManager;
 
-public class KeyboardInputManager : MonoBehaviour
+public class KeyboardInputManager : SingletonManager<KeyboardInputManager>
 {
-	public static KeyboardInputManager Instance;
-	private KeybindManager keybindManager => KeybindManager.Instance;
+	private KeybindManager KeybindManager => KeybindManager.Instance;
 
 	public enum KeyEventType
 	{
@@ -14,22 +12,8 @@ public class KeyboardInputManager : MonoBehaviour
 		Up,
 		Hold
 	}
-	void Awake ()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
 
-	void Update()
-	{
-		CheckKeyboardInput();
-	}
+	void Update() => CheckKeyboardInput();
 
 	void CheckKeyboardInput()
 	{
@@ -56,7 +40,7 @@ public class KeyboardInputManager : MonoBehaviour
 	{
 		var triggeredKeybinds = new Dictionary<KeyAction, KeyCombo>();
 		// Perform the checks for all key actions which have functions defined here
-		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
+		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in KeybindManager.userKeybinds)
 		{
 			if (!keyActionFunctions.ContainsKey(entry.Key)) continue;
 			if (CheckComboEvent(entry.Value.PrimaryCombo))
@@ -100,10 +84,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	/// <param name="moveAction">The action to check</param>
 	/// <param name="keyEventType">The type of key event to check for</param>
-	public static bool CheckMoveAction(MoveAction moveAction)
-	{
-		return Instance.CheckKeyAction((KeyAction) moveAction, KeyEventType.Hold);
-	}
+	public static bool CheckMoveAction(MoveAction moveAction) => Instance.CheckKeyAction((KeyAction)moveAction, KeyEventType.Hold);
 
 	/// <summary>
 	/// Check if either of the key combos for the selected action have been pressed
@@ -112,7 +93,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <param name="keyEventType">The type of key event to check for</param>
 	public bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
 	{
-		DualKeyCombo action = keybindManager.userKeybinds[keyAction];
+		DualKeyCombo action = KeybindManager.userKeybinds[keyAction];
 		return CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType);
 	}
 
@@ -131,18 +112,12 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <summary>
 	/// Check if enter (the return or numpad enter keys) has been pressed
 	/// </summary>
-	public static bool IsEnterPressed()
-	{
-		return CommonInput.GetKeyDown(KeyCode.Return) || CommonInput.GetKeyDown(KeyCode.KeypadEnter);
-	}
+	public static bool IsEnterPressed() => CommonInput.GetKeyDown(KeyCode.Return) || CommonInput.GetKeyDown(KeyCode.KeypadEnter);
 
 	/// <summary>
 	/// Check if escape has been pressed
 	/// </summary>
-	public static bool IsEscapePressed()
-	{
-		return CommonInput.GetKeyDown(KeyCode.Escape);
-	}
+	public static bool IsEscapePressed() => CommonInput.GetKeyDown(KeyCode.Escape);
 
 	/// <summary>
 	/// Check if the left or right control or command keys have been pressed
@@ -156,18 +131,12 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <summary>
 	/// Checks if the left or right shift key has been pressed
 	/// </summary>
-	public static bool IsShiftPressed()
-	{
-		return CommonInput.GetKey(KeyCode.LeftShift) || CommonInput.GetKey(KeyCode.RightShift);
-	}
+	public static bool IsShiftPressed() => CommonInput.GetKey(KeyCode.LeftShift) || CommonInput.GetKey(KeyCode.RightShift);
 
 	/// <summary>
 	/// Checks if the left or right alt key has been pressed (AltGr sends RightAlt)
 	/// </summary>
-	public static bool IsAltPressed()
-	{
-		return CommonInput.GetKey(KeyCode.LeftAlt) || CommonInput.GetKey(KeyCode.RightAlt);
-	}
+	public static bool IsAltPressed() => CommonInput.GetKey(KeyCode.LeftAlt) || CommonInput.GetKey(KeyCode.RightAlt);
 
 	private bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
 	{

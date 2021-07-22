@@ -457,7 +457,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		//check if our local player can reach this
-		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		var initiator = PlayerManager.LocalPlayerScript.PushPull;
 		if (initiator == null) return null;
 		//if it's pulled by us
 		if (IsPulledByClient(initiator))
@@ -721,7 +721,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 
 	public void TryPullThis()
 	{
-		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		var initiator = PlayerManager.LocalPlayerScript.PushPull;
 		//client pre-validation
 		if (Validations.IsReachableByRegisterTiles(initiator.registerTile, this.registerTile, false, context: gameObject) && initiator != this)
 		{

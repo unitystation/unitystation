@@ -102,7 +102,7 @@ public class ControlInternals : TooltipMonoBehaviour
 		if (PlayerManager.LocalPlayer == null)
 			return;
 
-		if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
+		if (PlayerManager.LocalPlayerScript.PlayerHealth.IsCrit)
 			return;
 
 		SoundManager.Play(SingletonSOSounds.Instance.Click01);

@@ -96,7 +96,7 @@ namespace HealthV2
 			}
 
 			base.Gib();
-			PlayerMove.PlayerScript.pushPull.VisibleState = false;
+			PlayerMove.PlayerScript.PushPull.VisibleState = false;
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
 
@@ -118,7 +118,7 @@ namespace HealthV2
 		/// </summary>
 		protected override void OnDeathActions()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				ConnectedPlayer player = PlayerList.Instance.Get(gameObject, true);
 

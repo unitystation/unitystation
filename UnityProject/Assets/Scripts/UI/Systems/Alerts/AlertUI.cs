@@ -34,7 +34,7 @@ namespace UI
 		// called when the buckled button is clicked
 		public void OnClickCuffed()
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+			PlayerManager.PlayerScript.PlayerNetworkActions.CmdTryUncuff();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
@@ -43,7 +43,7 @@ namespace UI
 		/// </summary>
 		public void OnClickSwitchPickupMode()
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+			PlayerManager.PlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 		}
 
@@ -86,9 +86,9 @@ namespace UI
 		{
 			shouldHideAllButtons = false;
 
-			buckled.SetActive(PlayerManager.LocalPlayerScript.playerMove.IsBuckled);
+			buckled.SetActive(PlayerManager.LocalPlayerScript.PlayerMove.IsBuckled);
 
-			cuffed.SetActive(PlayerManager.LocalPlayerScript.playerMove.IsCuffed);
+			cuffed.SetActive(PlayerManager.LocalPlayerScript.PlayerMove.IsCuffed);
 
 			// TODO: check if player spawns with something where pickupMode should be shown
 			pickupMode.SetActive(false);

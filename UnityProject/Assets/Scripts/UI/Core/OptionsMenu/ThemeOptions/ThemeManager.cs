@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using AddressableReferences;
 using Initialisation;
 using UnityEngine;
@@ -14,21 +12,8 @@ namespace Unitystation.Options
     /// Handles everything to do with Themes
     /// Add a ThemeHandler to your customizable UI elements
     /// </summary>
-    public class ThemeManager : MonoBehaviour, IInitialise
+    public class ThemeManager : SingletonManager<ThemeManager>, IInitialise
     {
-        private static ThemeManager themeManager;
-        public static ThemeManager Instance
-        {
-            get
-            {
-                if (themeManager == null)
-                {
-                    themeManager = FindObjectOfType<ThemeManager>();
-                }
-                return themeManager;
-            }
-        }
-
         [SerializeField]
         private List<AddressableAudioSource> mentionSounds = new List<AddressableAudioSource>();
 
@@ -238,12 +223,14 @@ namespace Unitystation.Options
                 var settings = (YamlMappingNode) entry.Value;
                 foreach (var c in settings.Children)
                 {
-                    var cfg = new ThemeConfig();
-                    cfg.themeType = theme;
-                    cfg.themeName = ((YamlScalarNode) c.Key).Value;
+					var cfg = new ThemeConfig
+					{
+						themeType = theme,
+						themeName = ((YamlScalarNode)c.Key).Value
+					};
 
-                    //check to see if that name is already in use:
-                    var index = configs[theme].FindIndex(x => x.themeName == cfg.themeName);
+					//check to see if that name is already in use:
+					var index = configs[theme].FindIndex(x => x.themeName == cfg.themeName);
                     if (index == -1)
                     {
                         //Get all the setting values for this config
@@ -255,7 +242,7 @@ namespace Unitystation.Options
                             {
                                 if (!ColorUtility.TryParseHtmlString(kvp.Value.ToString(), out cfg.imageColor))
                                 {
-                                    Logger.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
+                                    Logger.LogError($"Failed to parse html color {kvp.Value}", Category.Themes);
                                 }
                             }
 
@@ -263,7 +250,7 @@ namespace Unitystation.Options
                             {
                                 if (!ColorUtility.TryParseHtmlString(kvp.Value.ToString(), out cfg.textColor))
                                 {
-                                    Logger.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
+                                    Logger.LogError($"Failed to parse html color {kvp.Value}", Category.Themes);
                                 }
                             }
                         }
@@ -271,7 +258,7 @@ namespace Unitystation.Options
                     }
                     else
                     {
-                        Logger.LogError($"There is already a config named {cfg.themeName} in {theme.ToString()}", Category.Themes);
+                        Logger.LogError($"There is already a config named {cfg.themeName} in {theme}", Category.Themes);
                     }
                 }
             }

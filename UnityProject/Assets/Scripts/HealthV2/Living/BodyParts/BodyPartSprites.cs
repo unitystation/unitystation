@@ -34,7 +34,7 @@ public class BodyPartSprites : NetworkBehaviour
 	public void UpdateData(string InOld, string InNew)
 	{
 		Data = InNew;
-		if (CustomNetworkManager.Instance._isServer) return;
+		if (CustomNetworkManager.Instance.isServer) return;
 		SpriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
 		SpriteOrder.Orders.RemoveRange(0, 4);
 	}

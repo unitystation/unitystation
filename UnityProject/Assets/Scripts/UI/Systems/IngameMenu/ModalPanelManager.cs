@@ -2,25 +2,13 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class ModalPanelManager : MonoBehaviour {
+public class ModalPanelManager : SingletonManager<ModalPanelManager>
+{
 	public GameObject ModalPanelObject;
 	public Text ModalTitle;
 	public Button Button1;
 	public Button Button2;
 	public Button Button3;
-
-	public static ModalPanelManager Instance;
-	private void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
 
 	/// <summary>
 	/// Brings up a panel with a choice of two buttons.
@@ -129,8 +117,5 @@ public class ModalPanelManager : MonoBehaviour {
 		}
 	}
 
-	void ClosePanel()
-	{
-		ModalPanelObject.SetActive(false);
-	}
+	void ClosePanel() => ModalPanelObject.SetActive(false);
 }

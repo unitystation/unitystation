@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AddressableReferences;
 using Initialisation;
 using Map;
@@ -12,7 +11,6 @@ using Objects.Wallmounts;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
 
 namespace Managers
 {
@@ -86,7 +84,7 @@ namespace Managers
 		{
 			yield return WaitFor.EndOfFrame; //OnStartServer starts one frame after OnRoundStart
 			//Server only:
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.Instance.isServer)
 			{
 				yield break;
 			}

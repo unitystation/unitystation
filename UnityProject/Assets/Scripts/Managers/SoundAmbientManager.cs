@@ -9,22 +9,8 @@ using Messages.Server.SoundMessages;
 
 namespace Audio.Managers
 {
-	public class SoundAmbientManager : MonoBehaviour, IInitialise
+	public class SoundAmbientManager : SingletonManager<SoundAmbientManager>, IInitialise
 	{
-		private static SoundAmbientManager soundAmbientManager;
-		public static SoundAmbientManager Instance
-		{
-			get
-			{
-				if (soundAmbientManager == null)
-				{
-					soundAmbientManager = FindObjectOfType<SoundAmbientManager>();
-				}
-
-				return soundAmbientManager;
-			}
-		}
-
 		/// <summary>
 		/// Cache of audioSources on the Manager
 		/// </summary>
@@ -38,10 +24,7 @@ namespace Audio.Managers
 
 		#region Initialization
 
-		private void Awake()
-		{
-			SetVolumeWithPlayerPrefs();
-		}
+		private void Awake() => SetVolumeWithPlayerPrefs();
 
 		private void SetVolumeWithPlayerPrefs()
 		{

@@ -7,29 +7,13 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Handles ChatBubbles and displays them in ScreenSpace
 /// </summary>
-public class ChatBubbleManager : MonoBehaviour, IInitialise
+public class ChatBubbleManager : SingletonManager<ChatBubbleManager>, IInitialise
 {
-	private static ChatBubbleManager chatBubbleManager;
-
-	public static ChatBubbleManager Instance
-	{
-		get
-		{
-			if (chatBubbleManager == null)
-			{
-				chatBubbleManager = FindObjectOfType<ChatBubbleManager>();
-			}
-
-			return chatBubbleManager;
-		}
-	}
-
 	private List<ChatBubble> chatBubblePool = new List<ChatBubble>();
 	private List<ActionText> actionPool = new List<ActionText>();
 	[SerializeField] private GameObject chatBubblePrefab = null;
 	[SerializeField] private GameObject ActionPrefab = null;
 	[SerializeField] private int initialPoolSize = 10;
-
 
 	public InitialisationSystems Subsystem => InitialisationSystems.ChatBubbleManager;
 
@@ -101,7 +85,6 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 		GetChatBubbleActionText().SetUp(msg, recipient);
 	}
 
-
 	ActionText GetChatBubbleActionText()
 	{
 		var index = actionPool.FindIndex(x => x.OrNull()?.gameObject.activeInHierarchy == false);
@@ -125,7 +108,6 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 		obj.SetActive(false);
 		return obj.GetComponent<ActionText>();
 	}
-
 
 	ChatBubble GetChatBubbleFromPool()
 	{
@@ -152,15 +134,9 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 		return obj.GetComponent<ChatBubble>();
 	}
 
-	void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnSceneChange;
-	}
+	void OnDisable() => SceneManager.activeSceneChanged -= OnSceneChange;
 
-	void OnSceneChange(Scene oldScene, Scene newScene)
-	{
-		ResetAll();
-	}
+	void OnSceneChange(Scene oldScene, Scene newScene) => ResetAll();
 
 	void ResetAll()
 	{

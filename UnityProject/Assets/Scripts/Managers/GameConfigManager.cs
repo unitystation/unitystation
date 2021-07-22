@@ -10,35 +10,15 @@ namespace GameConfig
 	/// <summary>
 	/// Config for in game stuff
 	/// </summary>
-	public class GameConfigManager : MonoBehaviour
+	public class GameConfigManager : SingletonManager<GameConfigManager>
 	{
-		private static GameConfigManager instance;
-		public static GameConfigManager Instance => instance;
-
 		private GameConfig config;
 
-		public static GameConfig GameConfig
-		{
-			get
-			{
-				return Instance.config;
-			}
-		}
+		public static GameConfig GameConfig => Instance.config;
 
-		private void Awake()
-		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-
+		private void Awake() =>
 			//Load in awake so other scripts can get data in their start.
 			AttemptConfigLoad();
-		}
 
 		private void AttemptConfigLoad()
 		{

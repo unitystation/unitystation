@@ -11,10 +11,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class GameData : MonoBehaviour
+public class GameData : SingletonManager<GameData>
 {
-	private static GameData gameData;
-
 	[Tooltip(
 		"Only use this when offline or you can't reach the auth server! Allows the game to still work in that situation and " +
 		" allows skipping login. Host player will also be given admin privs." +
@@ -31,7 +29,7 @@ public class GameData : MonoBehaviour
 	/// Is offline mode enabled, allowing login skip / working without connection to server.?
 	/// Disabled always for release builds.
 	/// </summary>
-	public bool OfflineMode => (!BuildPreferences.isForRelease && offlineMode) || forceOfflineMode;
+	public bool OfflineMode => (!BuildPreferences.IsForRelease && offlineMode) || forceOfflineMode;
 
 	public bool testServer;
 	private RconManager rconManager;
@@ -51,19 +49,6 @@ public class GameData : MonoBehaviour
 
 	public static int BuildNumber { get; private set; }
 	public static string ForkName { get; private set; }
-
-	public static GameData Instance
-	{
-		get
-		{
-			if (!gameData)
-			{
-				gameData = FindObjectOfType<GameData>();
-			}
-
-			return gameData;
-		}
-	}
 
 	public bool DevBuild = false;
 
@@ -142,7 +127,7 @@ public class GameData : MonoBehaviour
 			//Reset stuff
 			CheckHeadlessState();
 
-			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
+			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance.isServer)
 			{
 				GameManager.Instance.ResetRoundTime();
 			}
@@ -226,9 +211,11 @@ public class GameData : MonoBehaviour
 		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
 		GameScreenManager.Instance.serverIP = ip;
 
-		var refreshToken = new RefreshToken();
-		refreshToken.refreshToken = token;
-		refreshToken.userID = uid;
+		var refreshToken = new RefreshToken
+		{
+			refreshToken = token,
+			userID = uid
+		};
 
 		var response = await ServerData.ValidateToken(refreshToken);
 

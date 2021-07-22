@@ -5,24 +5,23 @@ public class ChatIcon : MonoBehaviour
 {
 	// indexes for sprite handler
 	private const int TypingSprite = 0;
+
 	private const int QuestionSprite = 1;
 	private const int ExclaimSprite = 2;
 	private const int TalkSprite = 3;
 
 	[SerializeField]
 	private SpriteHandler spriteHandler = null;
+
 	[Tooltip("Time after which chat icon disapear")]
 	public float IconTimeout = 3f;
+
 	[Tooltip("The max time of non-stop typing. After this point, player might be disconected")]
 	public float TypingTimeout = 20f;
 
 	private Coroutine coWaitToTurnOff;
 
-	// Use this for initialization
-	private void Start()
-	{
-		spriteHandler.gameObject.SetActive(false);
-	}
+	private void Start() => spriteHandler.gameObject.SetActive(false);
 
 	public void ToggleTypingIcon(bool toggle)
 	{
@@ -70,9 +69,11 @@ public class ChatIcon : MonoBehaviour
 			case ChatModifier.Exclaim:
 				spriteHandler.ChangeSprite(ExclaimSprite);
 				break;
+
 			case ChatModifier.Question:
 				spriteHandler.ChangeSprite(QuestionSprite);
 				break;
+
 			default:
 				spriteHandler.ChangeSprite(TalkSprite);
 				break;

@@ -23,7 +23,7 @@ public class ShuttleStartAutoMove : MonoBehaviour
 
 	void DoAutoMove()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			var matrixMove = GetComponent<MatrixMove>();
 			if (matrixMove != null)

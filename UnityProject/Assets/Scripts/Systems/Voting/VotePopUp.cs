@@ -52,7 +52,7 @@ namespace UI
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
-				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
+				PlayerManager.PlayerScript.PlayerNetworkActions.CmdRegisterVote(true);
 			}
 
 			buttonPresses++;
@@ -66,7 +66,7 @@ namespace UI
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
-				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
+				PlayerManager.PlayerScript.PlayerNetworkActions.CmdRegisterVote(false);
 			}
 			buttonPresses++;
 			yesBtn.interactable = true;
@@ -79,7 +79,7 @@ namespace UI
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
-				PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);
+				PlayerManager.PlayerScript.PlayerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);
 			}
 			buttonPresses++;
 			ToggleButtons(false);

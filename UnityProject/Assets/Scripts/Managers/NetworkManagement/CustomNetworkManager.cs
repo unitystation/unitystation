@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -15,7 +14,7 @@ using UnityEditor;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
-	public static bool IsServer => Instance._isServer;
+	public static bool IsServer => Instance.isServer;
 
 	// NetworkManager.isHeadless is removed in latest versions of Mirror,
 	// so we assume headless would be running in batch mode.
@@ -23,7 +22,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public static CustomNetworkManager Instance;
 
-	[HideInInspector] public bool _isServer;
+	[HideInInspector] public bool isServer;
 	[HideInInspector] private ServerConfig config;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
@@ -180,7 +179,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartServer()
 	{
-		_isServer = true;
+		isServer = true;
 		base.OnStartServer();
 		NetworkManagerExtensions.RegisterServerHandlers();
 		// Fixes loading directly into the station scene
@@ -305,7 +304,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			//Set up for headless mode stuff here
 			//Useful for turning on and off components
-			_isServer = true;
+			isServer = true;
 		}
 	}
 

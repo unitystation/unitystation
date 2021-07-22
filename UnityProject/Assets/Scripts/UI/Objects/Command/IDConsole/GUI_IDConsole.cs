@@ -56,7 +56,7 @@ public class GUI_IDConsole : NetTab
 	public override void OnEnable()
 	{
 		base.OnEnable();
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			StartCoroutine(ServerWaitForProvider());
 		}

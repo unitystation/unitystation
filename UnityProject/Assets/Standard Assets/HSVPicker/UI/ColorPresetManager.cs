@@ -11,14 +11,13 @@ namespace Assets.HSVPicker
 
         public static  ColorPresetList Get(string listId = "default")
         {
-            ColorPresetList preset;
-            if (!_presets.TryGetValue(listId, out preset))
-            {
-                preset = new ColorPresetList(listId);
-                _presets.Add(listId, preset);
-            }
+			if (!_presets.TryGetValue(listId, out ColorPresetList preset))
+			{
+				preset = new ColorPresetList(listId);
+				_presets.Add(listId, preset);
+			}
 
-            return preset;
+			return preset;
         }
 
 

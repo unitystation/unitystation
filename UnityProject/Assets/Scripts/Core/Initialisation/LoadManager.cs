@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Initialisation
 {
-	public class LoadManager : MonoBehaviourSingleton<LoadManager>
+	public class LoadManager : SingletonManager<LoadManager>
 	{
 		[ReorderableList] public List<MonoBehaviour> GamesStartInitialiseSystems = new List<MonoBehaviour>();
 
@@ -16,7 +16,6 @@ namespace Initialisation
 		public Stopwatch stopwatch = new Stopwatch();
 
 		public static Queue<Action> QueueInitialise = new Queue<Action>();
-
 
 		//ServerData Awake moved to Start
 		//OptionsMenu Awake moved to Start
@@ -33,10 +32,7 @@ namespace Initialisation
 		//Otherwise
 		//call Manager with function and what to Load before
 
-		public static void RegisterAction(Action InAction)
-		{
-			QueueInitialise.Enqueue(InAction);
-		}
+		public static void RegisterAction(Action InAction) => QueueInitialise.Enqueue(InAction);
 
 		public void Update()
 		{
@@ -44,8 +40,7 @@ namespace Initialisation
 			{
 				var ToProcess = GamesStartInitialiseSystems[0];
 				GamesStartInitialiseSystems.RemoveAt(0);
-				var InInterface = ToProcess as IInitialise;
-				if (InInterface == null) return;
+				if (!(ToProcess is IInitialise InInterface)) return;
 				InInterface.Initialise();
 			}
 
@@ -54,12 +49,11 @@ namespace Initialisation
 				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
 				stopwatch.Reset();
 				stopwatch.Start();
-				Action QueueAction = null;
 				while (stopwatch.ElapsedMilliseconds < TargetMSprefFrame)
 				{
 					if (QueueInitialise.Count > 0)
 					{
-						QueueAction = QueueInitialise.Dequeue();
+						Action QueueAction = QueueInitialise.Dequeue();
 						QueueAction.Invoke();
 					}
 					else

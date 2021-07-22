@@ -150,7 +150,7 @@ namespace ScriptableObjects.RP
 		/// </summary>
 		protected bool CheckHandState(GameObject player)
 		{
-			return !player.GetComponent<PlayerScript>().playerMove.IsCuffed && Validations.HasBothHands(player);
+			return !player.GetComponent<PlayerScript>().PlayerMove.IsCuffed && Validations.HasBothHands(player);
 		}
 
 		/// <summary>

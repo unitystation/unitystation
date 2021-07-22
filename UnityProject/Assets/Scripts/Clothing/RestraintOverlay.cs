@@ -60,12 +60,12 @@ namespace UI.Items
 				StopCoroutine(uncuffCoroutine);
 
 			float resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
-			healthCache = thisPlayerScript.playerHealth.OverallHealth;
-			positionCache = thisPlayerScript.registerTile.LocalPositionServer;
+			healthCache = thisPlayerScript.PlayerHealth.OverallHealth;
+			positionCache = thisPlayerScript.RegisterTile.LocalPositionServer;
 			if (!CanUncuff()) return;
 
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Unbuckle, false, false, true), TryUncuff);
-			bar.ServerStartProgress(thisPlayerScript.registerTile, resistTime, thisPlayerScript.gameObject);
+			bar.ServerStartProgress(thisPlayerScript.RegisterTile, resistTime, thisPlayerScript.gameObject);
 			Chat.AddActionMsgToChat(
 				thisPlayerScript.gameObject,
 				$"You are attempting to remove the cuffs. This takes up to {resistTime:0} seconds",
@@ -76,7 +76,7 @@ namespace UI.Items
 		{
 			if (CanUncuff())
 			{
-				thisPlayerScript.playerMove.Uncuff();
+				thisPlayerScript.PlayerMove.Uncuff();
 				Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 					thisPlayerScript.playerName + " has removed their cuffs");
 			}
@@ -84,14 +84,14 @@ namespace UI.Items
 
 		private bool CanUncuff()
 		{
-			PlayerHealthV2 playerHealth = thisPlayerScript.playerHealth;
+			PlayerHealthV2 playerHealth = thisPlayerScript.PlayerHealth;
 
 			if (playerHealth == null ||
 				playerHealth.ConsciousState == ConsciousState.DEAD ||
 				playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
 				playerHealth.OverallHealth != healthCache ||
-				thisPlayerScript.registerTile.IsSlippingServer ||
-				positionCache != thisPlayerScript.registerTile.LocalPositionServer)
+				thisPlayerScript.RegisterTile.IsSlippingServer ||
+				positionCache != thisPlayerScript.RegisterTile.LocalPositionServer)
 			{
 				return false;
 			}
@@ -101,7 +101,7 @@ namespace UI.Items
 
 		public void CallActionClient()
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+			PlayerManager.PlayerScript.PlayerNetworkActions.CmdTryUncuff();
 		}
 	}
 }

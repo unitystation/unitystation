@@ -74,14 +74,14 @@ namespace Objects.Engineering
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.Instance.isServer == false) return;
 
 			UpdateManager.Add(CycleUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.Instance.isServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}

@@ -1,5 +1,4 @@
-﻿using System;
-using CameraEffects;
+﻿using CameraEffects;
 using Mirror;
 using UnityEngine;
 
@@ -9,75 +8,72 @@ namespace Player
 	/// Class which contains sync vars which are only sent to the client controlling this player
 	/// </summary>
 	public class PlayerOnlySyncValues : NetworkBehaviour
-	{
-		#region SyncVars
+    {
+        #region SyncVars
 
-		//NightVision
-		[SyncVar(hook = nameof(SyncNightVision))]
-		private bool nightVisionState;
-		[SyncVar]
-		private Vector3 nightVisionVisibility = new Vector3(10.5f, 10.5f, 21);
-		[SyncVar]
-		private float visibilityAnimationSpeed = 1.5f;
+        //NightVision
+        [SyncVar(hook = nameof(SyncNightVision))]
+        private bool nightVisionState;
 
-		//Antag
-		[SyncVar(hook = nameof(SyncAntagState))]
-		private bool isAntag;
-		public bool IsAntag => isAntag;
+        [SyncVar]
+        private Vector3 nightVisionVisibility = new Vector3(10.5f, 10.5f, 21);
 
-		#endregion
+        [SyncVar]
+        private float visibilityAnimationSpeed = 1.5f;
 
-		#region OtherVariables
+        //Antag
+        [SyncVar(hook = nameof(SyncAntagState))]
+        private bool isAntag;
 
-		//NightVision
-		private CameraEffectControlScript cameraEffectControlScript;
+        public bool IsAntag => isAntag;
 
-		#endregion
+        #endregion SyncVars
+
+        #region OtherVariables
+
+        //NightVision
+        private CameraEffectControlScript cameraEffectControlScript;
+
+		#endregion OtherVariables
 
 		#region LifeCycle
 
-		private void Awake()
-		{
-			cameraEffectControlScript = Camera.main.OrNull()?.GetComponent<CameraEffectControlScript>();
-		}
+		private void Awake() => cameraEffectControlScript = Camera.main.OrNull()?.GetComponent<CameraEffectControlScript>();
 
-		#endregion
+		#endregion LifeCycle
 
 		#region Server
 
 		[Server]
-		public void ServerSetNightVision(bool newState, Vector3 visibility, float speed)
-		{
-			nightVisionVisibility = visibility;
-			visibilityAnimationSpeed = speed;
-			nightVisionState = newState;
-		}
+        public void ServerSetNightVision(bool newState, Vector3 visibility, float speed)
+        {
+            nightVisionVisibility = visibility;
+            visibilityAnimationSpeed = speed;
+            nightVisionState = newState;
+        }
 
 		[Server]
-		public void ServerSetAntag(bool newState)
-		{
-			isAntag = newState;
-		}
+		public void ServerSetAntag(bool newState) => isAntag = newState;
 
-		#endregion
+		#endregion Server
 
 		#region Client
 
 		[Client]
-		private void SyncNightVision(bool oldState, bool newState)
-		{
-			nightVisionState = newState;
-			cameraEffectControlScript.AdjustPlayerVisibility(nightVisionVisibility, nightVisionState ? visibilityAnimationSpeed : 0.1f);
-			cameraEffectControlScript.ToggleNightVisionEffectState(nightVisionState);
-		}
+        private void SyncNightVision(bool oldState, bool newState)
+        {
+            nightVisionState = newState;
+            cameraEffectControlScript.AdjustPlayerVisibility(nightVisionVisibility, nightVisionState ? visibilityAnimationSpeed : 0.1f);
+            cameraEffectControlScript.ToggleNightVisionEffectState(nightVisionState);
+        }
 
-		[Client]
-		private void SyncAntagState(bool oldState, bool newState)
-		{
-			isAntag = newState;
-			GetComponent<PlayerScript>().ActivateAntagAction(newState);
-		}
+        [Client]
+        private void SyncAntagState(bool oldState, bool newState)
+        {
+            isAntag = newState;
+            GetComponent<PlayerScript>().ActivateAntagAction(newState);
+        }
 
-		#endregion
-	}
+        #endregion Client
+    }
 }

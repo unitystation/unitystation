@@ -9,7 +9,7 @@ namespace UI.Action
 	/// <summary>
 	/// Used to set the action From the client
 	/// </summary>
-	public class UIActionManager : MonoBehaviour
+	public class UIActionManager : SingletonManager<UIActionManager>
 	{
 		public GameObject Panel;
 		public GameObject TooltipPrefab;
@@ -18,18 +18,6 @@ namespace UI.Action
 			? tooltipInstance = Instantiate(TooltipPrefab, transform.parent).GetComponent<ActionTooltip>()
 			: tooltipInstance;
 		private ActionTooltip tooltipInstance;
-
-		private static UIActionManager uIActionManager;
-		public static UIActionManager Instance {
-			get {
-				if (!uIActionManager)
-				{
-					uIActionManager = FindObjectOfType<UIActionManager>();
-				}
-
-				return uIActionManager;
-			}
-		}
 
 		/// <summary>
 		/// Returns true if an action that is aimable is active.
@@ -49,7 +37,6 @@ namespace UI.Action
 		/// </summary>
 		public static void ToggleLocal(IActionGUI iActionGUI, bool show)
 		{
-
 			if (show)
 			{
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
@@ -68,10 +55,7 @@ namespace UI.Action
 		/// <summary>
 		/// Set the action button visibility for the given player, with network sync
 		/// </summary>
-		public static void Toggle(IActionGUI iActionGUI, bool show, GameObject recipient)
-		{
-			SetActionUIMessage.SetAction(recipient, iActionGUI, show);
-		}
+		public static void Toggle(IActionGUI iActionGUI, bool show, GameObject recipient) => SetActionUIMessage.SetAction(recipient, iActionGUI, show);
 
 		public static bool HasActionData(ActionData actionData, [CanBeNull] out IActionGUI actionInstance)
 		{
@@ -129,7 +113,6 @@ namespace UI.Action
 			}
 			else
 			{
-
 				Logger.Log("iActionGUI Not present", Category.UI);
 			}
 		}
@@ -143,7 +126,6 @@ namespace UI.Action
 			}
 			else
 			{
-
 				Logger.Log("iActionGUI Not present", Category.UI);
 			}
 		}
@@ -179,10 +161,7 @@ namespace UI.Action
 			}
 		}
 
-		public static void SetCooldown(IActionGUI iActionGUI, float cooldown, GameObject recipient)
-		{
-			SetActionUIMessage.SetAction(recipient, iActionGUI, cooldown);
-		}
+		public static void SetCooldown(IActionGUI iActionGUI, float cooldown, GameObject recipient) => SetActionUIMessage.SetAction(recipient, iActionGUI, cooldown);
 
 		public static void Show(IActionGUI iActionGUI)
 		{
@@ -234,35 +213,17 @@ namespace UI.Action
 			DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
 		}
 
-		public void OnPlayerDie()
-		{
-			CheckEvent(Event.PlayerDied);
-		}
+		public void OnPlayerDie() => CheckEvent(Event.PlayerDied);
 
-		public void OnPlayerSpawn()
-		{
-			CheckEvent(Event.PlayerSpawned);
-		}
+		public void OnPlayerSpawn() => CheckEvent(Event.PlayerSpawned);
 
-		public void LoggedOut()
-		{
-			CheckEvent(Event.LoggedOut);
-		}
+		public void LoggedOut() => CheckEvent(Event.LoggedOut);
 
-		public void RoundStarted()
-		{
-			CheckEvent(Event.RoundStarted);
-		}
+		public void RoundStarted() => CheckEvent(Event.RoundStarted);
 
-		public void GhostSpawned()
-		{
-			CheckEvent(Event.GhostSpawned);
-		}
+		public void GhostSpawned() => CheckEvent(Event.GhostSpawned);
 
-		public void PlayerRejoined()
-		{
-			CheckEvent(Event.PlayerRejoined);
-		}
+		public void PlayerRejoined() => CheckEvent(Event.PlayerRejoined);
 
 		public void CheckEvent(Event Event)
 		{
@@ -296,7 +257,6 @@ namespace UI.Action
 			EventManager.AddHandler(Event.RoundStarted, RoundStarted);
 			EventManager.AddHandler(Event.GhostSpawned, GhostSpawned);
 			EventManager.AddHandler(Event.PlayerRejoined, PlayerRejoined);
-
 		}
 
 		private void OnDisable()

@@ -13,15 +13,13 @@ using UnityEngine.SceneManagement;
 /// Manager that allows to play sounds.
 /// Should they be local (single client) or networked across one or more client.
 /// </summary>
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonManager<SoundManager>
 {
 	public AudioMixerGroup DefaultMixer;
 
 	public AudioMixerGroup MuffledMixer;
 
 	private static LayerMask layerMask;
-
-	private static SoundManager soundManager;
 
 	[SerializeField] private GameObject soundSpawnPrefab = null;
 
@@ -45,25 +43,9 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public Dictionary<string, List<SoundSpawn>> NonplayingSounds = new Dictionary<string, List<SoundSpawn>>();
 
-	public static SoundManager Instance
-	{
-		get
-		{
-			if (!soundManager)
-			{
-				soundManager = FindObjectOfType<SoundManager>();
-			}
-
-			return soundManager;
-		}
-	}
-
 	#region Lifecycle
 
-	private void Awake()
-	{
-		Init();
-	}
+	private void Awake() => Init();
 
 	private void Init()
 	{
@@ -80,15 +62,9 @@ public class SoundManager : MonoBehaviour
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 	}
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnSceneChange;
-	}
+	private void OnEnable() => SceneManager.activeSceneChanged += OnSceneChange;
 
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnSceneChange;
-	}
+	private void OnDisable() => SceneManager.activeSceneChanged -= OnSceneChange;
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
@@ -510,7 +486,7 @@ public class SoundManager : MonoBehaviour
 			    LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
 			    .ItHit)
 			{
-				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				source.AudioSource.outputAudioMixerGroup = Instance.MuffledMixer;
 			}
 		if (polyphonic)
 		{

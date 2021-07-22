@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Mirror;
 using UnityEngine.UI;
 
 namespace IngameDebugConsole
@@ -31,10 +30,8 @@ namespace IngameDebugConsole
 	/// There can be a lot of debug entries in the system but there will only be a handful of log items
 	/// to show their properties on screen (these log items are recycled as the list is scrolled)
 	/// </remarks>
-	public class DebugLogManager : MonoBehaviour
+	public class DebugLogManager : SingletonManager<DebugLogManager>
 	{
-		private static DebugLogManager instance = null;
-
 		/// <summary>
 		/// Debug console will persist between scenes
 		/// </summary>
@@ -193,52 +190,38 @@ namespace IngameDebugConsole
 
 		private void OnEnable()
 		{
-			// Only one instance of debug console is allowed
-			if (instance == null)
-			{
-				instance = this;
-				pooledLogItems = new List<DebugLogItem>();
+			pooledLogItems = new List<DebugLogItem>();
 
-				canvasTR = (RectTransform)transform;
+			canvasTR = (RectTransform)transform;
 
-				// Associate sprites with log types
-				logSpriteRepresentations = new Dictionary<LogType, Sprite>
-				{ { LogType.Log, infoLog },
-					{ LogType.Warning, warningLog },
-					{ LogType.Error, errorLog },
-					{ LogType.Exception, errorLog },
-					{ LogType.Assert, errorLog }
-				};
+			// Associate sprites with log types
+			logSpriteRepresentations = new Dictionary<LogType, Sprite>
+			{ { LogType.Log, infoLog },
+				{ LogType.Warning, warningLog },
+				{ LogType.Error, errorLog },
+				{ LogType.Exception, errorLog },
+				{ LogType.Assert, errorLog }
+			};
 
-				// Set initial button colors
-				collapseButton.color = isCollapseOn ? collapseButtonSelectedColor : collapseButtonNormalColor;
-				filterInfoButton.color = (logFilter & DebugLogFilter.Info) == DebugLogFilter.Info
-						? filterButtonsSelectedColor : filterButtonsNormalColor;
-				filterWarningButton.color = (logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning
-						? filterButtonsSelectedColor : filterButtonsNormalColor;
-				filterErrorButton.color = (logFilter & DebugLogFilter.Error) == DebugLogFilter.Error
-						? filterButtonsSelectedColor : filterButtonsNormalColor;
+			// Set initial button colors
+			collapseButton.color = isCollapseOn ? collapseButtonSelectedColor : collapseButtonNormalColor;
+			filterInfoButton.color = (logFilter & DebugLogFilter.Info) == DebugLogFilter.Info
+					? filterButtonsSelectedColor : filterButtonsNormalColor;
+			filterWarningButton.color = (logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning
+					? filterButtonsSelectedColor : filterButtonsNormalColor;
+			filterErrorButton.color = (logFilter & DebugLogFilter.Error) == DebugLogFilter.Error
+					? filterButtonsSelectedColor : filterButtonsNormalColor;
 
-				collapsedLogEntries = new List<DebugLogEntry>(128);
-				collapsedLogEntriesMap = new Dictionary<DebugLogEntry, int>(128);
-				uncollapsedLogEntriesIndices = new DebugLogIndexList();
-				indicesOfListEntriesToShow = new DebugLogIndexList();
+			collapsedLogEntries = new List<DebugLogEntry>(128);
+			collapsedLogEntriesMap = new Dictionary<DebugLogEntry, int>(128);
+			uncollapsedLogEntriesIndices = new DebugLogIndexList();
+			indicesOfListEntriesToShow = new DebugLogIndexList();
 
-				recycledListView.Initialize(this, collapsedLogEntries, indicesOfListEntriesToShow, logItemPrefab.Transform.sizeDelta.y);
-				recycledListView.SetCollapseMode(isCollapseOn);
-				recycledListView.UpdateItemsInTheList(true);
+			recycledListView.Initialize(this, collapsedLogEntries, indicesOfListEntriesToShow, logItemPrefab.Transform.sizeDelta.y);
+			recycledListView.SetCollapseMode(isCollapseOn);
+			recycledListView.UpdateItemsInTheList(true);
 
-				nullPointerEventData = new PointerEventData(null);
-
-				// If it is a singleton object, don't destroy it between scene changes
-				if (singleton)
-					DontDestroyOnLoad(gameObject);
-			}
-			else if (this != instance)
-			{
-				Destroy(gameObject);
-				return;
-			}
+			nullPointerEventData = new PointerEventData(null);
 
 			// Intercept debug entries
 			Application.logMessageReceived -= ReceivedLog;
@@ -265,10 +248,7 @@ namespace IngameDebugConsole
 			}
 		}
 
-		void Start()
-		{
-			popupManager.Hide();
-		}
+		void Start() => popupManager.Hide();
 
 		private void OnDisable()
 		{
@@ -282,10 +262,7 @@ namespace IngameDebugConsole
 		/// <summary>
 		/// Window is resized, update the list
 		/// </summary>
-		private void OnRectTransformDimensionsChange()
-		{
-			screenDimensionsChanged = true;
-		}
+		private void OnRectTransformDimensionsChange() => screenDimensionsChanged = true;
 
 		/// <summary>
 		/// If snapToBottom is enabled, force the scrollbar to the bottom
@@ -378,8 +355,7 @@ namespace IngameDebugConsole
 			DebugLogEntry logEntry = new DebugLogEntry(logString, stackTrace, null);
 
 			// Check if this entry is a duplicate (i.e. has been received before)
-			int logEntryIndex;
-			bool isEntryInCollapsedEntryList = collapsedLogEntriesMap.TryGetValue(logEntry, out logEntryIndex);
+			bool isEntryInCollapsedEntryList = collapsedLogEntriesMap.TryGetValue(logEntry, out int logEntryIndex);
 			if (isEntryInCollapsedEntryList == false)
 			{
 				// It is not a duplicate,
@@ -459,18 +435,12 @@ namespace IngameDebugConsole
 		/// Value of snapToBottom is changed (user scrolled the list manually)
 		/// </summary>
 		/// <param name="snapToBottom">Set whether scrollbar will stay at bottom</param>
-		public void SetSnapToBottom(bool snapToBottom)
-		{
-			this.snapToBottom = snapToBottom;
-		}
+		public void SetSnapToBottom(bool snapToBottom) => this.snapToBottom = snapToBottom;
 
 		/// <summary>
 		/// Make sure the scroll bar of the scroll rect is adjusted properly
 		/// </summary>
-		public void ValidateScrollPosition()
-		{
-			logItemsScrollRect.OnScroll(nullPointerEventData);
-		}
+		public void ValidateScrollPosition() => logItemsScrollRect.OnScroll(nullPointerEventData);
 
 		/// <summary>
 		/// Show the log window
@@ -503,10 +473,7 @@ namespace IngameDebugConsole
 		/// <summary>
 		/// Hide button is clicked
 		/// </summary>
-		public void HideButtonPressed()
-		{
-			Hide();
-		}
+		public void HideButtonPressed() => Hide();
 
 		/// <summary>
 		/// Clear button is clicked
@@ -553,7 +520,7 @@ namespace IngameDebugConsole
 		/// </summary>
 		public void FilterLogButtonPressed()
 		{
-			logFilter = logFilter ^ DebugLogFilter.Info;
+			logFilter ^= DebugLogFilter.Info;
 
 			if ((logFilter & DebugLogFilter.Info) == DebugLogFilter.Info)
 				filterInfoButton.color = filterButtonsSelectedColor;
@@ -568,7 +535,7 @@ namespace IngameDebugConsole
 		/// </summary>
 		public void FilterWarningButtonPressed()
 		{
-			logFilter = logFilter ^ DebugLogFilter.Warning;
+			logFilter ^= DebugLogFilter.Warning;
 
 			if ((logFilter & DebugLogFilter.Warning) == DebugLogFilter.Warning)
 				filterWarningButton.color = filterButtonsSelectedColor;
@@ -583,7 +550,7 @@ namespace IngameDebugConsole
 		/// </summary>
 		public void FilterErrorButtonPressed()
 		{
-			logFilter = logFilter ^ DebugLogFilter.Error;
+			logFilter ^= DebugLogFilter.Error;
 
 			if ((logFilter & DebugLogFilter.Error) == DebugLogFilter.Error)
 				filterErrorButton.color = filterButtonsSelectedColor;

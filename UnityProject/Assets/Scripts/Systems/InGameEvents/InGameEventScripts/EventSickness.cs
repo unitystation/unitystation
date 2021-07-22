@@ -56,9 +56,9 @@ namespace InGameEvents
 
 			foreach (ConnectedPlayer player in PlayerList.Instance.AllPlayers.PickRandom(sicknessEventParameters.PlayerToInfect).ToList())
 			{
-				if (player.Script != null && player.Script.playerHealth != null)
+				if (player.Script != null && player.Script.PlayerHealth != null)
 				{
-					player.Script.playerHealth.AddSickness(sickness);
+					player.Script.PlayerHealth.AddSickness(sickness);
 				}
 			}
 		}

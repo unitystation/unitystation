@@ -80,7 +80,7 @@ namespace Messages.Client
 			//build and consume
 			void ProgressComplete()
 			{
-				var spawnedObj = entry.ServerBuild(SpawnDestination.At(SentByPlayer.Script.registerTile), hasConstructionMenu);
+				var spawnedObj = entry.ServerBuild(SpawnDestination.At(SentByPlayer.Script.RegisterTile), hasConstructionMenu);
 				if (spawnedObj)
 				{
 					var conveyorBelt = spawnedObj.GetComponent<ConveyorBelt>();
@@ -94,7 +94,7 @@ namespace Messages.Client
 			Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You begin building the {entry.Name}...",
 				$"{SentByPlayer.GameObject.ExpensiveName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(SentByPlayer.GameObject, usedSlot.ItemObject,
-				ActionTarget.Tile(SentByPlayer.Script.registerTile.WorldPositionServer), entry.BuildTime,
+				ActionTarget.Tile(SentByPlayer.Script.RegisterTile.WorldPositionServer), entry.BuildTime,
 				ProgressComplete);
 		}
 

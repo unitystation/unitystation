@@ -2,69 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 
+public class EventController<K, V>
+{
+	private readonly Dictionary<int, Event> events = new Dictionary<int, Event>();
 
-	public class EventController<K, V>
+	private readonly Func<K, int> hashFunction;
+
+	public EventController(Func<K, int> hashFunction = null)
 	{
-		private readonly Dictionary<int, Event> events = new Dictionary<int, Event>();
+		this.hashFunction = hashFunction;
+	}
 
-		private readonly Func<K, int> hashFunction;
+	public void AddListener(K eventKey, UnityAction<V> listener)
+	{
+		Event _event;
 
-		public EventController(Func<K, int> hashFunction = null)
+		int hashKey = calculateHash(eventKey);
+		if (!events.TryGetValue(hashKey, out _event))
 		{
-			this.hashFunction = hashFunction;
+			_event = new Event();
+			events[hashKey] = _event;
 		}
 
-		public void AddListener(K eventKey, UnityAction<V> listener)
+		_event.AddListener(listener);
+	}
+
+	public void RemoveListener(K eventKey, UnityAction<V> listener)
+	{
+		int hashKey = calculateHash(eventKey);
+		if (events.ContainsKey(hashKey))
 		{
-			Event _event;
-
-			int hashKey = calculateHash(eventKey);
-			if (!events.TryGetValue(hashKey, out _event))
-			{
-				_event = new Event();
-				events[hashKey] = _event;
-			}
-
-			_event.AddListener(listener);
-		}
-
-		public void RemoveListener(K eventKey, UnityAction<V> listener)
-		{
-			int hashKey = calculateHash(eventKey);
-			if (events.ContainsKey(hashKey))
-			{
-				events[hashKey].RemoveListener(listener);
-			}
-		}
-
-		public void TriggerEvent(K eventKey, V value)
-		{
-			int hashKey = calculateHash(eventKey);
-
-			if (events.ContainsKey(hashKey))
-			{
-				events[hashKey].Invoke(value);
-			}
-		}
-
-		public void Clear()
-		{
-			foreach (Event v in events.Values)
-			{
-				v.RemoveAllListeners();
-			}
-		}
-
-		private int calculateHash(K eventKey)
-		{
-			if (hashFunction == null)
-			{
-				return eventKey.GetHashCode();
-			}
-			return hashFunction(eventKey);
-		}
-
-		private class Event : UnityEvent<V>
-		{
+			events[hashKey].RemoveListener(listener);
 		}
 	}
+
+	public void TriggerEvent(K eventKey, V value)
+	{
+		int hashKey = calculateHash(eventKey);
+
+		if (events.ContainsKey(hashKey))
+		{
+			events[hashKey].Invoke(value);
+		}
+	}
+
+	public void Clear()
+	{
+		foreach (Event v in events.Values)
+		{
+			v.RemoveAllListeners();
+		}
+	}
+
+	private int calculateHash(K eventKey)
+	{
+		if (hashFunction == null)
+		{
+			return eventKey.GetHashCode();
+		}
+		return hashFunction(eventKey);
+	}
+
+	private class Event : UnityEvent<V>	{}
+}

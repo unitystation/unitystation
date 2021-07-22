@@ -71,7 +71,7 @@ namespace Clothing
 			}
 
 			player.ServerStun(coitusTime, true);
-			StartCoroutine(Coitus(player.PlayerScript.playerHealth));
+			StartCoroutine(Coitus(player.PlayerScript.PlayerHealth));
 		}
 
 		private void OnReleasing()
@@ -148,10 +148,10 @@ namespace Clothing
 		public void OnInventoryMoveClient(ClientInventoryMove info)
 		{
 			var playerScript = PlayerManager.LocalPlayerScript;
-			if ((CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
+			if ((CustomNetworkManager.Instance.isServer && GameData.IsHeadlessServer)
 			    || playerScript == null
-			    || playerScript.playerNetworkActions == null
-			    || playerScript.playerHealth == null)
+			    || playerScript.PlayerNetworkActions == null
+			    || playerScript.PlayerHealth == null)
 			{
 				return;
 			}

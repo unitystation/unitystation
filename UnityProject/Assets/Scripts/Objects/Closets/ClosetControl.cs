@@ -816,7 +816,7 @@ namespace Objects
 			var playerScript = player.GetComponent<PlayerScript>();
 
 			player.VisibleState = false;
-			playerScript.playerMove.IsTrapped = true;
+			playerScript.PlayerMove.IsTrapped = true;
 			player.parentContainer = PushPull;
 
 			//Start tracking closet

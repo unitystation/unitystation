@@ -1,12 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using Objects.Machines;
 
-public class CraftingManager : MonoBehaviour
+public class CraftingManager : SingletonManager<CraftingManager>
 {
-	private static CraftingManager craftingManager;
 	[SerializeField] private CraftingDatabase meals = new CraftingDatabase();
 	[SerializeField] private CraftingDatabase cuts = new CraftingDatabase();
 	[SerializeField] private CraftingDatabase logs = new CraftingDatabase();
@@ -14,7 +11,6 @@ public class CraftingManager : MonoBehaviour
 	[SerializeField] private CraftingDatabase simplemeal = new CraftingDatabase();
 	[SerializeField] private GrinderDatabase grind = new GrinderDatabase();
 	[SerializeField] private CraftingDatabase mix = new CraftingDatabase();
-
 
 	[SerializeField]
 	private List<MaterialSheet> MaterialSheetList;
@@ -35,19 +31,6 @@ public class CraftingManager : MonoBehaviour
 		foreach (var material in MaterialSheetList)
 		{
 			MaterialSheetData.Add(material.materialTrait, material);
-		}
-	}
-
-	public static CraftingManager Instance
-	{
-		get
-		{
-			if (!craftingManager)
-			{
-				craftingManager = FindObjectOfType<CraftingManager>();
-			}
-
-			return craftingManager;
 		}
 	}
 

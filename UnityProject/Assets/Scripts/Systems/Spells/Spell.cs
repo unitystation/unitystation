@@ -45,7 +45,7 @@ namespace Systems.Spells
 		public virtual void CallActionClient()
 		{
 			UIAction action = UIActionManager.Instance.DicIActionGUI[this];
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 
 		public void CallActionServer(ConnectedPlayer SentByPlayer, Vector3 clickPosition)
@@ -212,7 +212,7 @@ namespace Systems.Spells
 				return false;
 			}
 
-			if (caster.Script.IsDeadOrGhost || caster.Script.playerHealth.IsCrit)
+			if (caster.Script.IsDeadOrGhost || caster.Script.PlayerHealth.IsCrit)
 			{
 				return false;
 			}

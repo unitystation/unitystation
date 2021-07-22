@@ -10,10 +10,8 @@ namespace Systems
 	/// <summary>
 	/// Contains a list of all mainstation crewmembers, including traitors and silicons but not, for example, fugitives or wizards.
 	/// </summary>
-	public class CrewManifestManager : MonoBehaviour
+	public class CrewManifestManager : SingletonManager<CrewManifestManager>
 	{
-		public static CrewManifestManager Instance;
-
 		/// <summary>
 		/// A list of all mainstation crewmembers, including traitors and silicons but not, for example, fugitives or wizards.
 		/// <para>ServerSide Only</para>
@@ -34,27 +32,9 @@ namespace Systems
 
 		#region Lifecycle
 
-		private void Awake()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
+		private void OnEnable() => SceneManager.activeSceneChanged += OnRoundRestart;
 
-		private void OnEnable()
-		{
-			SceneManager.activeSceneChanged += OnRoundRestart;
-		}
-
-		private void OnDisable()
-		{
-			SceneManager.activeSceneChanged -= OnRoundRestart;
-		}
+		private void OnDisable() => SceneManager.activeSceneChanged -= OnRoundRestart;
 
 		void OnRoundRestart(Scene scene, Scene newScene)
 		{
@@ -97,19 +77,20 @@ namespace Systems
 		/// </summary>
 		public SecurityRecord GenerateSecurityRecord(PlayerScript script, JobType jobType)
 		{
-			SecurityRecord record = new SecurityRecord();
-
-			record.EntryName = script.playerName;
-			record.Age = script.characterSettings.Age.ToString();
-			record.Rank = script.mind.occupation.JobType.JobString();
-			record.Occupation = OccupationList.Instance.Get(jobType);
-			record.Sex = script.characterSettings.BodyType.ToString();
-			record.Species = script.characterSettings.Species.ToString();
-			//I don't know what to put in ID and Fingerprints
-			record.ID = $"{UnityEngine.Random.Range(111, 999).ToString()}-{UnityEngine.Random.Range(111, 999).ToString()}";
-			record.Fingerprints = UnityEngine.Random.Range(111111, 999999).ToString();
-			//Photo stuff
-			record.characterSettings = script.characterSettings;
+			SecurityRecord record = new SecurityRecord
+			{
+				EntryName = script.playerName,
+				Age = script.characterSettings.Age.ToString(),
+				Rank = script.mind.occupation.JobType.JobString(),
+				Occupation = OccupationList.Instance.Get(jobType),
+				Sex = script.characterSettings.BodyType.ToString(),
+				Species = script.characterSettings.Species.ToString(),
+				//I don't know what to put in ID and Fingerprints
+				ID = $"{Random.Range(111, 999)}-{Random.Range(111, 999)}",
+				Fingerprints = Random.Range(111111, 999999).ToString(),
+				//Photo stuff
+				characterSettings = script.characterSettings
+			};
 
 			return record;
 		}
@@ -138,10 +119,7 @@ namespace Systems
 		/// <summary>
 		/// Sets the data to the job list
 		/// </summary>
-		public void SetJobList(Dictionary<JobType, int> newData)
-		{
-			Jobs = newData;
-		}
+		public void SetJobList(Dictionary<JobType, int> newData) => Jobs = newData;
 
 		[Server]
 		private void ServerAddJob(JobType job)
@@ -165,20 +143,13 @@ namespace Systems
 		/// Server clears the list and updates clients
 		/// </summary>
 		[Server]
-		public void ServerClearList()
-		{
-			//Tell clients to clear
-			SetJobCountsMessage.SendClearMessage();
-		}
+		public void ServerClearList() => SetJobCountsMessage.SendClearMessage();
 
 		/// <summary>
 		/// Client clears the list and updates clients
 		/// </summary>
 		[Client]
-		public void ClientClearList()
-		{
-			Jobs.Clear();
-		}
+		public void ClientClearList() => Jobs.Clear();
 
 		/// <summary>
 		/// Gets how many of a specific job there is, only crew jobs

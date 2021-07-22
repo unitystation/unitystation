@@ -1,189 +1,184 @@
-﻿using System;
-using System.Collections;
+﻿using Mirror;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
 [Serializable]
 public class PlayerLightData
 {
-	public float Intensity = 0.0f;
-	public Color Colour;
-	//todo Make it so badmins can Mess around with the sprite so It can be set to anything they desire
-	//public Sprite Sprite;
-	public EnumSpriteLightData EnumSprite;
-	public float Size = 12;
+    public float Intensity = 0.0f;
+    public Color Colour;
 
+    //todo Make it so badmins can Mess around with the sprite so It can be set to anything they desire
+    //public Sprite Sprite;
+    public EnumSpriteLightData EnumSprite;
+
+    public float Size = 12;
 }
 
 public enum EnumSpriteLightData
 {
-	Default,
-	Square,
-	Clown,
+    Default,
+    Square,
+    Clown,
 }
 
 [RequireComponent(typeof(Pickupable))]
 public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 {
-	[Tooltip("Controls the light the player emits if they have this object equipped.")]
-	public LightEmissionPlayer LightEmission;
+    [Tooltip("Controls the light the player emits if they have this object equipped.")]
+    public LightEmissionPlayer LightEmission;
 
-	[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
-	public GameObject objectLightEmission;
+    [Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
+    public GameObject objectLightEmission;
 
-	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
-		NamedSlot.leftHand,
-		NamedSlot.rightHand,
-		NamedSlot.suitStorage,
-		NamedSlot.belt,
-		NamedSlot.back,
-		NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03, NamedSlot.storage04,
-		NamedSlot.storage05, NamedSlot.storage06, NamedSlot.storage07, NamedSlot.storage08,
-		NamedSlot.storage09, NamedSlot.storage10,
-		NamedSlot.suitStorage,
-		NamedSlot.head,
-		NamedSlot.id // PDA in ID slot
+    public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
+        NamedSlot.leftHand,
+        NamedSlot.rightHand,
+        NamedSlot.suitStorage,
+        NamedSlot.belt,
+        NamedSlot.back,
+        NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03, NamedSlot.storage04,
+        NamedSlot.storage05, NamedSlot.storage06, NamedSlot.storage07, NamedSlot.storage08,
+        NamedSlot.storage09, NamedSlot.storage10,
+        NamedSlot.suitStorage,
+        NamedSlot.head,
+        NamedSlot.id // PDA in ID slot
 	};
 
-	public float Intensity;
+    public float Intensity;
 
-	[SerializeField]
-	private Color Colour = default;
+    [SerializeField]
+    private Color Colour = default;
 
-	//public Sprite Sprite;
-	public EnumSpriteLightData EnumSprite;
-	public float Size;
+    //public Sprite Sprite;
+    public EnumSpriteLightData EnumSprite;
 
-	[SyncVar(hook = nameof(SyncState))]
-	public bool IsOn = true;
+    public float Size;
 
-	private float CachedIntensity = 0.5f;
+    [SyncVar(hook = nameof(SyncState))]
+    public bool IsOn = true;
 
-	public PlayerLightData PlayerLightData;
+    private float CachedIntensity = 0.5f;
 
-	private Light2D.LightSprite objectLightSprite;
+    public PlayerLightData PlayerLightData;
 
-	private void Awake()
-	{
-		if (objectLightEmission == null)
-		{
-			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
-			return;
-		}
+    private Light2D.LightSprite objectLightSprite;
 
-		objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
-	}
+    private void Awake()
+    {
+        if (objectLightEmission == null)
+        {
+            Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+            return;
+        }
 
-	private void Start()
-	{
-		PlayerLightData = new PlayerLightData()
-		{
-			Intensity = Intensity,
-			Colour = Colour,
-			EnumSprite = EnumSprite,
-			Size = Size,
-		};
-	}
+        objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
+    }
 
+    private void Start()
+    {
+        PlayerLightData = new PlayerLightData()
+        {
+            Intensity = Intensity,
+            Colour = Colour,
+            EnumSprite = EnumSprite,
+            Size = Size,
+        };
+    }
 
-	public void OnInventoryMoveServer(InventoryMove info)
-	{
-		//was it transferred from a player's visible inventory?
-		if (info.FromPlayer != null && LightEmission != null)
-		{
-			LightEmission.RemoveLight(PlayerLightData);
-			LightEmission = null;
-		}
+    public void OnInventoryMoveServer(InventoryMove info)
+    {
+        //was it transferred from a player's visible inventory?
+        if (info.FromPlayer != null && LightEmission != null)
+        {
+            LightEmission.RemoveLight(PlayerLightData);
+            LightEmission = null;
+        }
 
-		if (info.ToPlayer != null)
-		{
-			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
-			{
-				LightEmission = info.ToPlayer.GetComponent<LightEmissionPlayer>();
-				if (!IsOn) return;
-				LightEmission.AddLight(PlayerLightData);
-			}
-		}
-	}
+        if (info.ToPlayer != null)
+        {
+            if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
+            {
+                LightEmission = info.ToPlayer.GetComponent<LightEmissionPlayer>();
+                if (!IsOn) return;
+                LightEmission.AddLight(PlayerLightData);
+            }
+        }
+    }
 
-	/// <summary>
-	/// Allows you to toggle the light
-	/// </summary>
-	public void Toggle(bool on)
-	{
-		if (IsOn == on) return;
-		if (LightEmission == null)
-		{
-			Logger.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
-			return;
-		}
+    /// <summary>
+    /// Allows you to toggle the light
+    /// </summary>
+    public void Toggle(bool on)
+    {
+        if (IsOn == on) return;
+        if (LightEmission == null)
+        {
+            Logger.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
+            return;
+        }
 
-		IsOn = on; // Will trigger SyncState.
-		UpdateLights();
-	}
-	/// <summary>
-	/// Changes the intensity of the light, must be higher than -1
-	/// </summary>
-	/// <param name="intensity"></param>
-	public void SetIntensity(float intensity = -1)
-	{
-		if (PlayerLightData == null)
-		{
-			Logger.LogError("PlayerLightData returned Null please check scripts", Category.Lighting);
-			return;
-		}
-		if (IsOn && intensity > -1)
-		{
-			//caches the intensity just incase and sets intensity
-			CachedIntensity = intensity;
-			PlayerLightData.Intensity = intensity;
-		}
-		else
-		{
-			//Sets the cached intensity so it the light will be set to that intensity when it is toggled on
-			if(intensity <= -1) return;
-			CachedIntensity = intensity;
-		}
-	}
+        IsOn = on; // Will trigger SyncState.
+        UpdateLights();
+    }
 
-	/// <summary>
-	/// Set the color for this GameObject's Light2D object's LightSprite component world color.
-	/// </summary>
-	/// <param name="color"></param>
-	public void SetColor(Color color)
-	{
-		Colour = color;
-		PlayerLightData.Colour = color;
-		objectLightSprite.Color = color;
-	}
+    /// <summary>
+    /// Changes the intensity of the light, must be higher than -1
+    /// </summary>
+    /// <param name="intensity"></param>
+    public void SetIntensity(float intensity = -1)
+    {
+        if (PlayerLightData == null)
+        {
+            Logger.LogError("PlayerLightData returned Null please check scripts", Category.Lighting);
+            return;
+        }
+        if (IsOn && intensity > -1)
+        {
+            //caches the intensity just incase and sets intensity
+            CachedIntensity = intensity;
+            PlayerLightData.Intensity = intensity;
+        }
+        else
+        {
+            //Sets the cached intensity so it the light will be set to that intensity when it is toggled on
+            if (intensity <= -1) return;
+            CachedIntensity = intensity;
+        }
+    }
 
-	private void SyncState(bool oldState, bool newState)
-	{
-		objectLightEmission.SetActive(newState);
-	}
+    /// <summary>
+    /// Set the color for this GameObject's Light2D object's LightSprite component world color.
+    /// </summary>
+    /// <param name="color"></param>
+    public void SetColor(Color color)
+    {
+        Colour = color;
+        PlayerLightData.Colour = color;
+        objectLightSprite.Color = color;
+    }
+
+	private void SyncState(bool oldState, bool newState) => objectLightEmission.SetActive(newState);
 
 	private void UpdateLights()
-	{
-		if (IsOn)
-		{
-			PlayerLightData.Intensity = CachedIntensity;
-			LightEmission.AddLight(PlayerLightData);
-			LightToggleIntensity();
-			objectLightEmission.SetActive(true);
-		}
-		else
-		{
-			LightEmission.RemoveLight(PlayerLightData);
-			objectLightEmission.SetActive(false);
-		}
-	}
+    {
+        if (IsOn)
+        {
+            PlayerLightData.Intensity = CachedIntensity;
+            LightEmission.AddLight(PlayerLightData);
+            LightToggleIntensity();
+            objectLightEmission.SetActive(true);
+        }
+        else
+        {
+            LightEmission.RemoveLight(PlayerLightData);
+            objectLightEmission.SetActive(false);
+        }
+    }
 
 	/// <summary>
 	/// Called when the light is toggled on so that it can set the intensity
 	/// </summary>
-	private void LightToggleIntensity()
-	{
-		PlayerLightData.Intensity = CachedIntensity;
-	}
+	private void LightToggleIntensity() => PlayerLightData.Intensity = CachedIntensity;
 }

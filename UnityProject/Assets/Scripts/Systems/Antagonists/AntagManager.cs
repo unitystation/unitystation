@@ -12,13 +12,8 @@ using UnityEngine.SceneManagement;
 
 namespace Antagonists
 {
-	public class AntagManager : MonoBehaviour
+	public class AntagManager : SingletonManager<AntagManager>
 	{
-		/// <summary>
-		/// The main static instance of this manager, use it for all operations
-		/// </summary>
-		public static AntagManager Instance;
-
 		[SerializeField] [Tooltip("Stores all antag and objective data.")]
 		private AntagData antagData = null;
 
@@ -43,18 +38,6 @@ namespace Antagonists
 
 		public GameObject blobPlayerViewer = null;
 
-		private void Awake()
-		{
-			if ( Instance == null )
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(gameObject);
-			}
-		}
-
 		void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnSceneChange;
@@ -72,10 +55,7 @@ namespace Antagonists
 			SyndiNukeCode = Nuke.CodeGenerator();
 		}
 
-		void OnRoundEnd()
-		{
-			ResetAntags();
-		}
+		void OnRoundEnd() => ResetAntags();
 
 		/// <summary>
 		/// Returns the number of active antags
@@ -134,7 +114,7 @@ namespace Antagonists
 			List<Objective> objectives = antagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
 			// Set the antag
 			var spawnedAntag = SpawnedAntag.Create(chosenAntag, connectedPlayer.Script.mind, objectives);
-			connectedPlayer.Script.mind.SetAntag(spawnedAntag);
+			connectedPlayer.Script.mind.Antag = spawnedAntag;
 			return spawnedAntag;
 		}
 

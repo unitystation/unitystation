@@ -150,7 +150,7 @@ public class ConnectedPlayer
 	private static void TrySendUpdate()
 	{
 		if ( CustomNetworkManager.Instance != null
-		     && CustomNetworkManager.Instance._isServer
+		     && CustomNetworkManager.Instance.isServer
 		     && PlayerList.Instance != null )
 		{
 			UpdateConnectedPlayersMessage.Send();

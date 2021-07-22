@@ -73,11 +73,11 @@ public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove, PlayerMove.I
 	{
 		if (info.ToRootPlayer != null)
 		{
-			playerMove = info.ToRootPlayer.PlayerScript.playerMove;
+			playerMove = info.ToRootPlayer.PlayerScript.PlayerMove;
 		}
 		else if (info.FromRootPlayer != null)
 		{
-			playerMove = info.FromRootPlayer.PlayerScript.playerMove;
+			playerMove = info.FromRootPlayer.PlayerScript.PlayerMove;
 		}
 
 		if (isOn)
@@ -118,13 +118,13 @@ public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove, PlayerMove.I
 	{
 		itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
 		playerMove.AddModifier(this);
-		playerMove.PlayerScript.pushPull.ServerSetPushable(false);
+		playerMove.PlayerScript.PushPull.ServerSetPushable(false);
 	}
 
 	private void RemoveEffect()
 	{
 		itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
 		playerMove.RemoveModifier(this);
-		playerMove.PlayerScript.pushPull.ServerSetPushable(true);
+		playerMove.PlayerScript.PushPull.ServerSetPushable(true);
 	}
 }

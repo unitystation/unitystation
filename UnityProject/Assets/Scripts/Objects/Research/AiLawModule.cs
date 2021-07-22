@@ -133,7 +133,7 @@ namespace Objects.Research
 
 		private void OnClientInput(string input)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledDynamicInput(gameObject, input);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdFilledDynamicInput(gameObject, input);
 		}
 
 		public void OnInputFilled(string input, PlayerScript player)

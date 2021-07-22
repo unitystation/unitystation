@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Initialisation;
-using UnityEngine;
 
-public class VariableViewerManager : MonoBehaviour, IInitialise
+public class VariableViewerManager : SingletonManager<VariableViewerManager>, IInitialise
 {
 	public List<PageElement> AvailableElementsToInitialise;
 
@@ -16,10 +14,7 @@ public class VariableViewerManager : MonoBehaviour, IInitialise
 		VVUIElementHandler.Initialise(AvailableElementsToInitialise);
 	}
 
-	void OnEnable()
-	{
-		EventManager.AddHandler(Event.RoundEnded, Librarian.Reset);
-	}
+	void OnEnable() => EventManager.AddHandler(Event.RoundEnded, Librarian.Reset);
 
 	void OnDisable()
 	{

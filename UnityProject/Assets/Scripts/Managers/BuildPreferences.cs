@@ -4,7 +4,7 @@ using System.IO;
 [ExecuteInEditMode]
 public class BuildPreferences
 {
-    public static bool isForRelease
+    public static bool IsForRelease
     {
         get
         {
@@ -21,7 +21,7 @@ public class BuildPreferences
         }
     }
 
-    public static bool isSteamServer
+    public static bool IsSteamServer
     {
         get
         {
@@ -44,10 +44,12 @@ public class BuildPreferences
     public static void SetRelease(bool isOn)
     {
         string filePath = Application.dataPath + "/Resources/";
-        var buildPrefs = new BuildPrefs();
-        buildPrefs.isForRelease = isOn;
-        buildPrefs.isSteamServer = isOn;
-        var json = JsonUtility.ToJson(buildPrefs);
+		var buildPrefs = new BuildPrefs
+		{
+			isForRelease = isOn,
+			isSteamServer = isOn
+		};
+		var json = JsonUtility.ToJson(buildPrefs);
         File.WriteAllText(filePath + "BuildPrefs.json", json);
     }
 }

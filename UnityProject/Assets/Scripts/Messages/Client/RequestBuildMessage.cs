@@ -77,7 +77,7 @@ namespace Messages.Client
 			//build and consume
 			void ProgressComplete()
 			{
-				if (entry.ServerBuild(SpawnDestination.At(SentByPlayer.Script.registerTile), hasConstructionMenu))
+				if (entry.ServerBuild(SpawnDestination.At(SentByPlayer.Script.RegisterTile), hasConstructionMenu))
 				{
 					Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You finish building the {entry.Name}.",
 						$"{SentByPlayer.GameObject.ExpensiveName()} finishes building the {entry.Name}.");
@@ -87,7 +87,7 @@ namespace Messages.Client
 			Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You begin building the {entry.Name}...",
 				$"{SentByPlayer.GameObject.ExpensiveName()} begins building the {entry.Name}...");
 			ToolUtils.ServerUseTool(SentByPlayer.GameObject, usedSlot.ItemObject,
-				ActionTarget.Tile(SentByPlayer.Script.registerTile.WorldPositionServer), entry.BuildTime,
+				ActionTarget.Tile(SentByPlayer.Script.RegisterTile.WorldPositionServer), entry.BuildTime,
 				ProgressComplete);
 		}
 

@@ -93,7 +93,7 @@ namespace UI.Items
 		//Request an edit from server:
 		public void OnTextEditEnd()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject,
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestPaperEdit(Provider.gameObject,
 				textField.text);
 			UIManager.IsInputFocus = false;
 			UIManager.PreventChatInput = false;

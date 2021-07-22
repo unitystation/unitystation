@@ -90,22 +90,9 @@ public enum MoveAction
 	MoveRight = KeyAction.MoveRight
 }
 
-public class KeybindManager : MonoBehaviour {
-	public static KeybindManager Instance;
-
-	private void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-
-		LoadKeybinds();
-	}
+public class KeybindManager : SingletonManager<KeybindManager>
+{
+	private void Awake() => LoadKeybinds();
 
 	/// <summary>
 	/// All valid modfier keys
@@ -185,7 +172,7 @@ public class KeybindManager : MonoBehaviour {
 				return true;
 			}
 
-			if (object.ReferenceEquals(a, null) || object.ReferenceEquals(b, null))
+			if (a is null || b is null)
 			{
 				return false;
 			}
@@ -535,7 +522,7 @@ public class KeybindManager : MonoBehaviour {
 					if (newModKey1 == KeyCode.None)
 					{
 						// ModKey1 hasn't been assigned yet
-						newModKey1 = validateModKey(modKey);
+						newModKey1 = ValidateModKey(modKey);
 						if (newModKey1 == KeyCode.AltGr)
 						{
 							// Since AltGr is a strange key which sends AltGr, LeftControl and RightAlt at the same time
@@ -547,7 +534,7 @@ public class KeybindManager : MonoBehaviour {
 					{
 						// ModKey2 hasn't been assigned yet
 						// Assign it then stop checking since all modkeys assigned
-						newModKey2 = validateModKey(modKey);
+						newModKey2 = ValidateModKey(modKey);
 						break;
 					}
 				}
@@ -557,7 +544,7 @@ public class KeybindManager : MonoBehaviour {
 		// Return the new key combination
 		return new KeyCombo(newKey, newModKey1, newModKey2);
 	}
-	private KeyCode validateModKey(KeyCode modKey)
+	private KeyCode ValidateModKey(KeyCode modKey)
 	{
 		// Will treat left and right mod keys the same so just store as left version
 		switch (modKey)

@@ -57,14 +57,14 @@ public class PlayerAlertView : ChatEntryView
 				if (!PlayerManager.PlayerScript.IsGhost)
 				{
 					teleportButton.interactable = false;
-					PlayerManager.PlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+					PlayerManager.PlayerScript.PlayerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
 					cancelSource = new CancellationTokenSource();
 					StartCoroutine(GhostWait(target.gameObject, cancelSource.Token));
 
 				}
 				else
 				{
-					PlayerManager.PlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
+					PlayerManager.PlayerScript.PlayerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
 				}
 			}
 		}
@@ -87,7 +87,7 @@ public class PlayerAlertView : ChatEntryView
 		teleportButton.interactable = true;
 		if (PlayerManager.PlayerScript != null && target != null && PlayerManager.PlayerScript.IsGhost)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
+			PlayerManager.PlayerScript.PlayerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
 		}
 	}
 

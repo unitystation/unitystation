@@ -10,13 +10,12 @@ namespace Health.Sickness
 	/// <summary>
 	/// Sickness subsystem manager
 	/// </summary>
-	public class SicknessManager : MonoBehaviour
+	public class SicknessManager : SingletonManager<SicknessManager>
 	{
 		public List<Sickness> Sicknesses;
 
 		private List<MobSickness> sickPlayers;
 
-		private static SicknessManager sicknessManager;
 		private Thread sicknessThread;
 		private float startedTime;
 		private System.Random random;
@@ -24,19 +23,6 @@ namespace Health.Sickness
 
 		[SerializeField]
 		private GameObject contagionPrefab = null;
-
-		public static SicknessManager Instance
-		{
-			get
-			{
-				if (!sicknessManager)
-				{
-					sicknessManager = FindObjectOfType<SicknessManager>();
-				}
-
-				return sicknessManager;
-			}
-		}
 
 		private void OnEnable()
 		{
@@ -73,8 +59,7 @@ namespace Health.Sickness
 			startedTime = Time.time;
 
 			// Process all enqueued symptoms individually, not bound to the current frame
-			SymptomManifestation symptomManifestation;
-			while (blockingCollectionSymptoms.TryTake(out symptomManifestation))
+			while (blockingCollectionSymptoms.TryTake(out SymptomManifestation symptomManifestation))
 				TriggerStageSymptom(symptomManifestation);
 		}
 
@@ -131,7 +116,7 @@ namespace Health.Sickness
 						SicknessStage sicknessStage = sickness.SicknessStages[stage];
 
 						// Since many symptoms need to be called within the main thread, we invoke it
-						sicknessManager.blockingCollectionSymptoms.Add(new SymptomManifestation(sicknessAffliction, stage, playerHealth));
+						blockingCollectionSymptoms.Add(new SymptomManifestation(sicknessAffliction, stage, playerHealth));
 
 						if (sicknessStage.RepeatSymptom)
 						{
@@ -289,18 +274,12 @@ namespace Health.Sickness
 		/// <summary>
 		/// This will remove the sickness from the player, healing him.
 		/// </summary>
-		private void PerformSymptomWellbeing(SymptomManifestation symptomManifestation)
-		{
-			symptomManifestation.MobHealth.RemoveSickness(symptomManifestation.SicknessAffliction.Sickness);
-		}
+		private void PerformSymptomWellbeing(SymptomManifestation symptomManifestation) => symptomManifestation.MobHealth.RemoveSickness(symptomManifestation.SicknessAffliction.Sickness);
 
 		/// <summary>
 		/// This will remove the sickness from the player, healing him.  This will also make him immune for the current round.
 		/// </summary>
-		private void PerformSymptomImmune(SymptomManifestation symptomManifestation)
-		{
-			symptomManifestation.MobHealth.ImmuneSickness(symptomManifestation.SicknessAffliction.Sickness);
-		}
+		private void PerformSymptomImmune(SymptomManifestation symptomManifestation) => symptomManifestation.MobHealth.ImmuneSickness(symptomManifestation.SicknessAffliction.Sickness);
 
 		/// <summary>
 		/// This will spawn a contagion spot with the specific sickness in it
@@ -359,9 +338,6 @@ namespace Health.Sickness
 			}
 		}
 
-		private void OnDestroy()
-		{
-			blockingCollectionSymptoms?.Dispose();
-		}
+		private void OnDestroy() => blockingCollectionSymptoms?.Dispose();
 	}
 }

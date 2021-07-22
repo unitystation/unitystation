@@ -19,7 +19,7 @@ namespace Items.Atmospherics
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			var metaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.registerTile.WorldPositionServer, true).MetaDataLayer;
+			var metaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.RegisterTile.WorldPositionServer, true).MetaDataLayer;
 			if (metaDataLayer != null)
 			{
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());

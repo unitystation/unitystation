@@ -18,34 +18,9 @@ namespace AdminCommands
 	/// <summary>
 	/// Admin Commands manager, stores admin commands, so commands can be run in lobby etc, as its not tied to player object.
 	/// </summary>
-	public class AdminCommandsManager : NetworkBehaviour
+	public class AdminCommandsManager : NetworkSingletonManager<AdminCommandsManager>
 	{
 		[SerializeField] private ScriptableObjects.GhostRoleData deathsquadRole = default;
-
-		private static AdminCommandsManager instance;
-
-		public static AdminCommandsManager Instance
-		{
-			get
-			{
-				if (instance == null)
-				{
-					instance = FindObjectOfType<AdminCommandsManager>();
-				}
-
-				return instance;
-			}
-
-			set { instance = value; }
-		}
-
-		private void Awake()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-		}
 
 		/// <summary>
 		/// Checks whether the adminId and adminToken are valid
@@ -291,7 +266,7 @@ namespace AdminCommands
 			{
 				foreach (ConnectedPlayer player in players)
 				{
-					if(player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) continue;
+					if(player?.Script == null || player.Script.IsGhost || player.Script.PlayerHealth == null) continue;
 
 					string message =
 						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
@@ -299,7 +274,7 @@ namespace AdminCommands
 
 					LogAdminAction(message);
 
-					player.Script.playerHealth.ServerGibPlayer();
+					player.Script.PlayerHealth.ServerGibPlayer();
 				}
 			}
 		}
@@ -326,7 +301,7 @@ namespace AdminCommands
 					PlayerScript playerScript = player.Script;
 					Mind playerMind = playerScript.mind;
 					var playerBody = playerMind.body;
-					HealthV2.PlayerHealthV2 health = playerBody.playerHealth;
+					HealthV2.PlayerHealthV2 health = playerBody.PlayerHealth;
 					string message = "";
 
 					//Does this player have a body that can be healed?
@@ -335,7 +310,7 @@ namespace AdminCommands
 						if(health.IsDead == false) //If player is not dead; simply heal all his damage and that's all.
 						{
 							health.ResetDamageAll();
-							playerScript.registerTile.ServerStandUp();
+							playerScript.RegisterTile.ServerStandUp();
 						}
 						else //If not, start reviving the player.
 						{
@@ -350,7 +325,7 @@ namespace AdminCommands
 								return;
 							}
 							health.RevivePlayerToFullHealth(playerScript);
-							playerScript.registerTile.ServerStandUp();
+							playerScript.RegisterTile.ServerStandUp();
 						}
 						message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Healed up Username: {player.Username} ({player.Name})";
 					}

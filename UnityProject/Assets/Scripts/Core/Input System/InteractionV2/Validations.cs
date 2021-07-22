@@ -131,10 +131,10 @@ public static class Validations
 		if (playerScript == null) return false;
 		if (isPlayerClick && CanInteractByCoolDownState(playerScript.gameObject) == false) return false;
 
-		if ((allowCuffed == false && playerScript.playerMove.IsCuffed) ||
+		if ((allowCuffed == false && playerScript.PlayerMove.IsCuffed) ||
 		    playerScript.IsGhost ||
-		    playerScript.playerMove.allowInput == false||
-		    CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side) == false)
+		    playerScript.PlayerMove.allowInput == false||
+		    CanInteractByConsciousState(playerScript.PlayerHealth, allowSoftCrit, side) == false)
 		{
 			return false;
 		}
@@ -208,7 +208,7 @@ public static class Validations
 	{
 		if (playerScript == null) return false;
 
-		var playerObjBehavior = playerScript.pushPull;
+		var playerObjBehavior = playerScript.PushPull;
 
 		if (CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick) == false)
 		{
@@ -304,7 +304,7 @@ public static class Validations
 			}
 
 			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
-				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.registerTile.WorldPositionServer} " +
+				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.RegisterTile.WorldPositionServer} " +
 								  $"(floating={isFloating})", Category.Exploits);
 		}
 
@@ -332,7 +332,7 @@ public static class Validations
 			//Use the smart range check which works better on moving matrices
 			if (regTarget != null)
 			{
-				result = IsReachableByRegisterTiles(playerScript.registerTile, regTarget, side == NetworkSide.Server, context: target);
+				result = IsReachableByRegisterTiles(playerScript.RegisterTile, regTarget, side == NetworkSide.Server, context: target);
 			}
 			else
 			{
@@ -675,17 +675,17 @@ public static class Validations
 		if (side == NetworkSide.Client)
 		{
 			//we don't know their exact health state and whether they are slipping, but we can guess if they're downed we can do this
-			var registerPlayer = playerScript.registerTile;
-			var playerMove = playerScript.playerMove;
+			var registerPlayer = playerScript.RegisterTile;
+			var playerMove = playerScript.PlayerMove;
 			if (registerPlayer == null || playerMove == null) return false;
 			return registerPlayer.IsLayingDown || playerMove.IsCuffed;
 		}
 		else
 		{
 			//find their exact conscious state, slipping state, cuffed state
-			var playerHealth = playerScript.playerHealth;
-			var registerPlayer = playerScript.registerTile;
-			var playerMove = playerScript.playerMove;
+			var playerHealth = playerScript.PlayerHealth;
+			var registerPlayer = playerScript.RegisterTile;
+			var playerMove = playerScript.PlayerMove;
 			if (playerHealth == null || playerMove == null || registerPlayer == null) return false;
 			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS || registerPlayer.IsSlippingServer || playerMove.IsCuffed;
 		}

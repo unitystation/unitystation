@@ -20,7 +20,7 @@ namespace UI.Objects.Security
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance.isServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}

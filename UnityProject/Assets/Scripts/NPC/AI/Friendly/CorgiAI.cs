@@ -76,7 +76,7 @@ namespace Systems.MobAIs
 			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 
 			if (speaker.Script == null) return;
-			if (speaker.Script.playerNetworkActions == null) return;
+			if (speaker.Script.PlayerNetworkActions == null) return;
 
 			if (speaker.Job == JobType.CAPTAIN || speaker.Job == JobType.HOP)
 			{

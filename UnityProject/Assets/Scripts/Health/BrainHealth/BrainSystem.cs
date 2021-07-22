@@ -45,7 +45,7 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
 
 		//Server only
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			//Spawn a brain and connect the brain to this living entity
 			brain = new Brain();
@@ -104,7 +104,7 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 	/// </summary>
 	public void UpdateClientBrainStats(bool isHusk, int brainDmgAmt)
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance.isServer)
 		{
 			return;
 		}

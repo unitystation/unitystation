@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Client.SpriteMessages;
 using Messages.Server.SpritesMessages;
@@ -7,11 +6,8 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SpriteHandlerManager : NetworkBehaviour
+public class SpriteHandlerManager : NetworkSingletonManager<SpriteHandlerManager>
 {
-	private static SpriteHandlerManager spriteHandlerManager;
-	public static SpriteHandlerManager Instance => spriteHandlerManager;
-
 	public static Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>> PresentSprites =
 		new Dictionary<NetworkIdentity, Dictionary<string, SpriteHandler>>();
 
@@ -19,27 +15,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public Dictionary<SpriteHandler, SpriteChange> NewClientChanges = new Dictionary<SpriteHandler, SpriteChange>();
 
-	private void Awake()
-	{
-		if (spriteHandlerManager == null)
-		{
-			spriteHandlerManager = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
-	}
+	private void OnEnable() => SceneManager.activeSceneChanged += OnRoundRestart;
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnRoundRestart;
-	}
-
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnRoundRestart;
-	}
+	private void OnDisable() => SceneManager.activeSceneChanged -= OnRoundRestart;
 
 	void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
@@ -114,10 +92,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		PresentSprites[networkIdentity][spriteHandler.name] = spriteHandler;
 	}
 
-	public void UpdateNewPlayer(NetworkConnection requestedBy)
-	{
-		SpriteUpdateMessage.SendToSpecified(requestedBy, NewClientChanges);
-	}
+	public void UpdateNewPlayer(NetworkConnection requestedBy) => SpriteUpdateMessage.SendToSpecified(requestedBy, NewClientChanges);
 
 	public void ClientRequestForceUpdate(List<SpriteHandler> Specifyed ,NetworkConnection requestedBy)
 	{
