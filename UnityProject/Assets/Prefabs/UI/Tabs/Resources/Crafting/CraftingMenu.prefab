@@ -89,7 +89,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8741946697922882598}
   - component: {fileID: 449541594741429880}
-  - component: {fileID: 4154125530764495723}
   - component: {fileID: 6683204214564421493}
   m_Layer: 0
   m_Name: CraftingMenu
@@ -132,51 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disableDrag: 0
   resetPositionOnDisable: 1
---- !u!114 &4154125530764495723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627735686710330990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 449541594741429880}
-          m_TargetAssemblyTypeName: WindowDrag, Assets
-          m_MethodName: OnDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 13
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 449541594741429880}
-          m_TargetAssemblyTypeName: WindowDrag, Assets
-          m_MethodName: BeginDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &6683204214564421493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c99d24ffe14ac49580fd38138fe2c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  categoryButtonsPrefabs:
+  - {fileID: 2684054950777558944, guid: 426ac959694509e4596d4920a821ae2b, type: 3}
+  - {fileID: 8766509566977840, guid: a395c4e4de7eb474abc2203addd537ee, type: 3}
+  - {fileID: 512713397735610836, guid: a1f4979362b90bd42b904fddf69bd977, type: 3}
+  categoriesLayoutGameObject: {fileID: 2335606654722045869}
+  recipesLayoutGameObject: {fileID: 8143616695740696181}
 --- !u!1 &1376515368703121164
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,12 +352,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 3
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -1180,6 +1140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2398576152249118322}
+  - component: {fileID: 5001770491419933734}
   m_Layer: 0
   m_Name: Header
   m_TagString: Untagged
@@ -1209,6 +1170,51 @@ RectTransform:
   m_AnchoredPosition: {x: 480, y: 0}
   m_SizeDelta: {x: 960, y: 50}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &5001770491419933734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7053534234695714165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 449541594741429880}
+          m_TargetAssemblyTypeName: WindowDrag, Assets
+          m_MethodName: BeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 5
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 449541594741429880}
+          m_TargetAssemblyTypeName: WindowDrag, Assets
+          m_MethodName: OnDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7146023691977376005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,10 +1277,10 @@ MonoBehaviour:
   m_Content: {fileID: 1548506902840182297}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
-  m_DecelerationRate: 0.135
+  m_DecelerationRate: 0.5
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 1548506902840182297}
   m_HorizontalScrollbar: {fileID: 0}
@@ -1562,13 +1568,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 0}
+  m_Content: {fileID: 8474830203280097098}
   m_Horizontal: 1
-  m_Vertical: 1
-  m_MovementType: 1
+  m_Vertical: 0
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
-  m_DecelerationRate: 0.135
+  m_DecelerationRate: 0.5
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 8474830203280097098}
   m_HorizontalScrollbar: {fileID: 7429037777243150098}

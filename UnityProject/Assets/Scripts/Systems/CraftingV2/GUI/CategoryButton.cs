@@ -42,13 +42,11 @@ namespace Systems.CraftingV2.GUI
 
 		public void OnPressed()
 		{
-			gameObject.SetActive(true);
 			backgroundImageComponent.color = onPressedColor;
 		}
 
 		public void OnUnpressed()
 		{
-			gameObject.SetActive(false);
 			backgroundImageComponent.color = onUnpressedColor;
 		}
 	}
