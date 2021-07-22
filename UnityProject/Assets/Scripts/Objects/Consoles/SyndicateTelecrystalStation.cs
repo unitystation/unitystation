@@ -37,6 +37,7 @@ namespace SyndicateOps
 				{
 					var amount = Math.Min(TransferAmount, SyndicateOpConsole.Instance.TcReserve);
 					pdaComp.UplinkTC += amount;
+					pdaComp.UpdateTCCountGui();
 					SyndicateOpConsole.Instance.TcReserve -= amount;
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You successfully transfer {amount} telecrystals into the {interaction.TargetObject.ExpensiveName()}");
 				}
