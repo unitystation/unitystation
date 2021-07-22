@@ -4,7 +4,7 @@ using static KeybindManager;
 
 public class KeyboardInputManager : SingletonManager<KeyboardInputManager>
 {
-	private KeybindManager KeybindManager => KeybindManager.Instance;
+	private KeybindManager KeybindManagerInstance => KeybindManager.Instance;
 
 	public enum KeyEventType
 	{
@@ -40,7 +40,7 @@ public class KeyboardInputManager : SingletonManager<KeyboardInputManager>
 	{
 		var triggeredKeybinds = new Dictionary<KeyAction, KeyCombo>();
 		// Perform the checks for all key actions which have functions defined here
-		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in KeybindManager.userKeybinds)
+		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in KeybindManagerInstance.userKeybinds)
 		{
 			if (!keyActionFunctions.ContainsKey(entry.Key)) continue;
 			if (CheckComboEvent(entry.Value.PrimaryCombo))
@@ -93,7 +93,7 @@ public class KeyboardInputManager : SingletonManager<KeyboardInputManager>
 	/// <param name="keyEventType">The type of key event to check for</param>
 	public bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
 	{
-		DualKeyCombo action = KeybindManager.userKeybinds[keyAction];
+		DualKeyCombo action = KeybindManagerInstance.userKeybinds[keyAction];
 		return CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType);
 	}
 
