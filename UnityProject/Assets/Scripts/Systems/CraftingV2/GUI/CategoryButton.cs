@@ -1,28 +1,55 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Systems.CraftingV2.GUI
 {
 	public class CategoryButton : MonoBehaviour, IPointerDownHandler
 	{
 		[SerializeField]
-		private GameObject selectedLine = null;
-		[SerializeField]
-		[Tooltip("This is the actual window that contains all of the" +
-		         " GUI buttons/inputs for this particular settings option")]
-		private GameObject contentWindow = null;
-		public bool IsActive => selectedLine.activeSelf;
+		private CategoryAndIcon categoryAndIcon;
+
+		[SerializeField] private Color onPressedColor;
+
+		[SerializeField] private Color onUnpressedColor;
+
+		[SerializeField] private GameObject categoryIconImageGameObject;
+
+		[SerializeField] private GameObject backgroundImageGameObject;
+
+		private Image backgroundImageComponent;
+
+		private Image categoryIconImageComponent;
+
+		public CategoryAndIcon CategoryAndIcon => categoryAndIcon;
+
+		public void Awake()
+		{
+			backgroundImageComponent = backgroundImageGameObject.GetComponent<Image>();
+			categoryIconImageComponent = categoryIconImageGameObject.GetComponent<Image>();
+			backgroundImageComponent.color = onUnpressedColor;
+			if (categoryAndIcon.CategoryIcon != null)
+			{
+				categoryIconImageComponent.sprite = categoryAndIcon.CategoryIcon;
+			}
+		}
 
 		public void OnPointerDown(PointerEventData data)
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			CraftingMenu.Instance.ChooseCategory(this);
+			CraftingMenu.Instance.ChangeCategory(this);
 		}
 
-		public void Toggle(bool activeState)
+		public void OnPressed()
 		{
-			selectedLine.SetActive(activeState);
-			if (contentWindow) contentWindow.SetActive(activeState);
+			gameObject.SetActive(true);
+			backgroundImageComponent.color = onPressedColor;
+		}
+
+		public void OnUnpressed()
+		{
+			gameObject.SetActive(false);
+			backgroundImageComponent.color = onUnpressedColor;
 		}
 	}
 }

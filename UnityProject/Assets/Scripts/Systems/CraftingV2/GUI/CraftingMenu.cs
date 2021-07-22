@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using HealthV2;
-using Initialisation;
-using Player;
+﻿using Player;
 using UnityEngine;
 
 namespace Systems.CraftingV2.GUI
 {
-	public class CraftingMenu : MonoBehaviour, IInitialise
+	public class CraftingMenu : MonoBehaviour
 	{
 		public static CraftingMenu Instance;
-		//All the nav buttons in the left column
+		// All the nav buttons in the left column
 		private CategoryButton[] categoryButtons;
+		private CategoryButton chosenCategory;
 
 		void Awake()
 		{
@@ -24,33 +22,21 @@ namespace Systems.CraftingV2.GUI
 			}
 		}
 
-		public InitialisationSystems Subsystem { get; }
-
-		void IInitialise.Initialise()
+		private void SelectCategory(CategoryButton categoryButton)
 		{
-			Init();
+			categoryButton.OnPressed();
+			chosenCategory = categoryButton;
 		}
 
-
-		void Init()
+		private void DeselectCategory(CategoryButton categoryButton)
 		{
-			categoryButtons = GetComponentsInChildren<CategoryButton>(true);
-			this.SetActive(false);
+			categoryButton.OnUnpressed();
 		}
 
-		public void ChooseCategory(CategoryButton button)
+		public void ChangeCategory(CategoryButton categoryButton)
 		{
-			foreach (CategoryButton categoryButton in categoryButtons)
-			{
-				if (categoryButton == button)
-				{
-					categoryButton.Toggle(true);
-				}
-				else
-				{
-					categoryButton.Toggle(false);
-				}
-			}
+			DeselectCategory(chosenCategory);
+			SelectCategory(categoryButton);
 		}
 
 		/// <summary>
@@ -58,7 +44,8 @@ namespace Systems.CraftingV2.GUI
 		/// </summary>
 		public void Open(PlayerCrafting playerCrafting)
 		{
-//			ChooseCategory(categoryButtons[0]);
+			Init(playerCrafting);
+			Refresh(playerCrafting);
 			this.SetActive(true);
 		}
 
@@ -68,6 +55,27 @@ namespace Systems.CraftingV2.GUI
 		public void Close()
 		{
 			this.SetActive(false);
+		}
+
+		public void Init(PlayerCrafting playerCrafting)
+		{
+			/*
+			if (categoryButtons == null)
+			{
+				categoryButtons = new CategoryButton[playerCrafting.KnownRecipesByCategory.Count];
+			}
+
+			for (int i = 0; i < categoryButtons.Length; i++)
+			{
+				categoryButtons[i] = new CategoryButton(i.ToString());
+			}
+			*/
+			//SelectCategory(categoryButtons[0]);
+		}
+
+		public void Refresh(PlayerCrafting playerCrafting)
+		{
+
 		}
 	}
 }

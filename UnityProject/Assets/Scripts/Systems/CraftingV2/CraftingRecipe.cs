@@ -16,7 +16,7 @@ namespace Systems.CraftingV2
 	[CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/Crafting/Recipe")]
 	public class CraftingRecipe : ScriptableObject
 	{
-		[SerializeField] private CraftingCategory category = CraftingCategory.Misc;
+		[SerializeField] private RecipeCategory category = RecipeCategory.Misc;
 
 		[SerializeField]
 		[Tooltip("Similar recipes to this one. For example, a plasma spear is a subtype of a glass shard spear")]
@@ -65,7 +65,7 @@ namespace Systems.CraftingV2
 		/// <summary>
 		///     Recipe's category. See PlayerCrafting.KnownRecipesByCategory
 		/// </summary>
-		public CraftingCategory Category => category;
+		public RecipeCategory Category => category;
 
 		/// <summary>
 		///     Similar recipes to this one. For example, a plasma spear is a subtype of a glass shard spear.

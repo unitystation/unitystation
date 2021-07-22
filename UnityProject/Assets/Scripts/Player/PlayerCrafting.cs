@@ -251,11 +251,4 @@ namespace Player
 			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript.gameObject);
 		}
 	}
-
-	public enum CraftingCategory
-	{
-		Weapons = 0,
-		Food = 1,
-		Misc = 2
-	}
 }
