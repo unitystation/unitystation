@@ -6,6 +6,7 @@ using Items;
 using ScriptableObjects;
 using UnityEngine;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using WebSocketSharp;
 
 [RequireComponent(typeof(ItemAttributesV2))]
@@ -21,7 +22,7 @@ public class DrinkableContainer : Consumable
 	private ReagentContainer container;
 	private ItemAttributesV2 itemAttributes;
 	private RegisterItem item;
-	
+
 	private AudioSourceParameters audioSourceParameters = new AudioSourceParameters(spatialBlend: 1f);
 
 	private static readonly StandardProgressActionConfig ProgressConfig
