@@ -11,7 +11,8 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 17b40d3475b24fc4c81408de72ce1acd,
+        type: 2}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: DismembermentChance
@@ -102,8 +103,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 136268980613973500, guid: 97c945e35965b8b448d2c56c149c3cca,
+      objectReference: {fileID: 7334412258337546425, guid: e7ad8ee8cecfc874f97a815de5160601,
         type: 3}
+    - target: {fileID: 7585268129894669505, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7647544448111186473, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_AssetId
