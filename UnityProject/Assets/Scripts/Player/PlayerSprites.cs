@@ -294,6 +294,7 @@ public class PlayerSprites : MonoBehaviour
 				{
 					SpriteHandlerNorder.SpriteHandler.SetSpriteSO(Sprite_s.SpriteEquipped);
 					SpriteHandlerNorder.SetSpriteOrder(new SpriteOrder(Customisation.CustomisationGroup.SpriteOrder));
+					newone.Data = JsonConvert.SerializeObject(new SpriteOrder(SpriteHandlerNorder.SpriteOrder));
 					Color setColor = Color.black;
 					ColorUtility.TryParseHtmlString(externalCustomisation.SerialisedValue.Colour, out setColor);
 					setColor.a = 1;
@@ -606,7 +607,15 @@ public class PlayerSprites : MonoBehaviour
 			{
 				if (CustomNetworkManager.Instance.allSpawnablePrefabs.Count > ID.Int)
 				{
-					var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int]).transform;
+					var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int],this.gameObject.transform).transform;
+					var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(OB.gameObject);
+					var Handlers = OB.GetComponentsInChildren<SpriteHandler>();
+
+					foreach (var SH in Handlers)
+					{
+						SpriteHandlerManager.UnRegisterHandler(Net, SH);
+					}
+
 					OB.SetParent(this.transform);
 					OB.name = ID.Name;
 					OB.localScale = Vector3.one;
@@ -619,6 +628,12 @@ public class PlayerSprites : MonoBehaviour
 					if (OpenSprites.Contains(SNO) == false)
 					{
 						OpenSprites.Add(SNO);
+					}
+
+					foreach (var SH in Handlers)
+					{
+						SHS.Add(SH);
+						SpriteHandlerManager.RegisterHandler(Net, SH);
 					}
 				}
 			}
@@ -648,6 +663,18 @@ public class PlayerSprites : MonoBehaviour
 				}
 			}
 		}
+
+		foreach (var SNO in OpenSprites)
+		{
+			foreach (var internalNetID in NewInternalNetIDs)
+			{
+				if (internalNetID.Name == SNO.name)
+				{
+					SNO.UpdateData(internalNetID.Data);
+				}
+			}
+		}
+
 		InternalNetIDs = NewInternalNetIDs;
 
 	}

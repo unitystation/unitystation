@@ -39,6 +39,7 @@ public class BodyPartSprites : MonoBehaviour
 
 	public void UpdateData(string InNew)
 	{
+		if (string.IsNullOrEmpty(InNew)) return;
 		Data = InNew;
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -46,6 +47,10 @@ public class BodyPartSprites : MonoBehaviour
 			return;
 		}
 		SpriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
+		if (SpriteOrder == null)
+		{
+			Logger.Log("o3o");
+		}
 		SpriteOrder.Orders.RemoveRange(0, 4);
 		if (SpriteOrder != null)
 		{
