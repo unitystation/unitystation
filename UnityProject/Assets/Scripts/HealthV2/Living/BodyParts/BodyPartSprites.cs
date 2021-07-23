@@ -47,10 +47,6 @@ public class BodyPartSprites : MonoBehaviour
 			return;
 		}
 		SpriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
-		if (SpriteOrder == null)
-		{
-			Logger.Log("o3o");
-		}
 		SpriteOrder.Orders.RemoveRange(0, 4);
 		if (SpriteOrder != null)
 		{
