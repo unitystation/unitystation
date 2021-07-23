@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Systems.CraftingV2.GUI
 {
-	public class CategoryButton : MonoBehaviour, IPointerDownHandler
+	public class CategoryButtonScript : MonoBehaviour, IPointerDownHandler
 	{
 		[SerializeField]
 		private CategoryAndIcon categoryAndIcon;

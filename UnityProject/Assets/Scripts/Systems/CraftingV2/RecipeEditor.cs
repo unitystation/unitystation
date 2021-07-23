@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace Systems.CraftingV2
 {
 	[CustomEditor(typeof(CraftingRecipe))]
 	public class RecipeEditor : Editor
 	{
-		private readonly List<RecipeIngredient> LastSerializedIngredients = new List<RecipeIngredient>();
+		private readonly List<RecipeIngredient> lastSerializedIngredients = new List<RecipeIngredient>();
+
+		private int lastSerializedResultCount;
 
 		private CraftingRecipe recipe;
 		private SerializedProperty spCategory;
-		private SerializedProperty spChildrenRecipes;
 		private SerializedProperty spCraftingTime;
 		private SerializedProperty spRecipeName;
+		private SerializedProperty spRecipeIcon;
 		private SerializedProperty spRequiredIngredients;
 		private SerializedProperty spRequiredReagents;
 		private SerializedProperty spRequiredToolTraits;
@@ -22,20 +25,20 @@ namespace Systems.CraftingV2
 		private void OnEnable()
 		{
 			spRecipeName = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeName)));
+			spRecipeIcon = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeIcon)));
 			spCategory = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Category)));
 			spCraftingTime = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.CraftingTime)));
 			spRequiredIngredients = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredIngredients)));
 			spRequiredToolTraits = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredToolTraits)));
 			spRequiredReagents = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredReagents)));
 			spResult = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Result)));
-			spChildrenRecipes = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.ChildrenRecipes)));
 			spResultHandlers = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.ResultHandlers)));
 
 			recipe = (CraftingRecipe) target;
 
 			foreach (RecipeIngredient requiredIngredient in ((CraftingRecipe) target).RequiredIngredients)
 			{
-				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
+				lastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
 			}
 		}
 
@@ -45,18 +48,19 @@ namespace Systems.CraftingV2
 			EditorGUI.BeginChangeCheck();
 
 			EditorGUILayout.PropertyField(spRecipeName);
+			EditorGUILayout.PropertyField(spRecipeIcon);
 			EditorGUILayout.PropertyField(spCategory);
 			EditorGUILayout.PropertyField(spCraftingTime);
 			EditorGUILayout.PropertyField(spRequiredIngredients);
 			EditorGUILayout.PropertyField(spRequiredToolTraits);
 			EditorGUILayout.PropertyField(spRequiredReagents);
 			EditorGUILayout.PropertyField(spResult);
-			EditorGUILayout.PropertyField(spChildrenRecipes);
 			EditorGUILayout.PropertyField(spResultHandlers);
 
 			if (EditorGUI.EndChangeCheck())
 			{
 				serializedObject.ApplyModifiedProperties();
+				UpdateRecipeIcon();
 				UpdateRelatedRecipes();
 				UpdateLastSerializedIngredients();
 			}
@@ -68,14 +72,34 @@ namespace Systems.CraftingV2
 			return char.ToLowerInvariant(text[0]) + text.Substring(1);
 		}
 
+		private void UpdateRecipeIcon()
+		{
+			if (
+				lastSerializedResultCount == 0
+				&& recipe.Result.Count > 0
+				&& recipe.Result[0].TryGetComponent(out SpriteRenderer spriteRenderer)
+			)
+			{
+				recipe.RecipeIcon = spriteRenderer.sprite;
+				lastSerializedResultCount = recipe.Result.Count;
+				EditorUtility.SetDirty(recipe);
+			}
+			else if (lastSerializedResultCount > 0 && recipe.Result.Count == 0)
+			{
+				recipe.RecipeIcon = null;
+				lastSerializedResultCount = recipe.Result.Count;
+				EditorUtility.SetDirty(recipe);
+			}
+		}
+
 		private void UpdateRelatedRecipes()
 		{
-			bool updateIsUnnecessary = LastSerializedIngredients.Count == recipe.RequiredIngredients.Count;
+			bool updateIsUnnecessary = lastSerializedIngredients.Count == recipe.RequiredIngredients.Count;
 			if (updateIsUnnecessary)
 			{
-				for (int i = 0; i < LastSerializedIngredients.Count; i++)
+				for (int i = 0; i < lastSerializedIngredients.Count; i++)
 				{
-					if (LastSerializedIngredients[i].RequiredItem != recipe.RequiredIngredients[i].RequiredItem)
+					if (lastSerializedIngredients[i].RequiredItem != recipe.RequiredIngredients[i].RequiredItem)
 					{
 						updateIsUnnecessary = false;
 						break;
@@ -96,10 +120,10 @@ namespace Systems.CraftingV2
 
 		private void UpdateLastSerializedIngredients()
 		{
-			LastSerializedIngredients.Clear();
+			lastSerializedIngredients.Clear();
 			foreach (RecipeIngredient requiredIngredient in recipe.RequiredIngredients)
 			{
-				LastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
+				lastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
 			}
 		}
 

@@ -19,16 +19,16 @@ namespace Systems.CraftingV2
 		[SerializeField] private RecipeCategory category = RecipeCategory.Misc;
 
 		[SerializeField]
-		[Tooltip("Similar recipes to this one. For example, a plasma spear is a subtype of a glass shard spear")]
-		private List<CraftingRecipe> childrenRecipes = new List<CraftingRecipe>();
-
-		[SerializeField]
 		[Min(0)]
 		[Tooltip("The standard time that will be spent on crafting according to this recipe.")]
 		private float craftingTime;
 
 		[SerializeField] [Tooltip("The name of the recipe.")]
 		private string recipeName = "Undefined";
+
+		[SerializeField] private Sprite recipeIcon;
+
+		[SerializeField] private string recipeDescription = "";
 
 		[Tooltip("Items that will be necessary, used and deleted for crafting.")] [SerializeField]
 		private List<RecipeIngredient> requiredIngredients = new List<RecipeIngredient>();
@@ -68,14 +68,13 @@ namespace Systems.CraftingV2
 		public RecipeCategory Category => category;
 
 		/// <summary>
-		///     Similar recipes to this one. For example, a plasma spear is a subtype of a glass shard spear.
-		/// </summary>
-		public List<CraftingRecipe> ChildrenRecipes => childrenRecipes;
-
-		/// <summary>
 		///     The name of the recipe. The name of the result is not used, since there can be many results.
 		/// </summary>
 		public string RecipeName => recipeName;
+
+		public Sprite RecipeIcon { get; set; }
+
+		public string RecipeDescription => recipeDescription;
 
 		/// <summary>
 		///     The standard time that will be spent on crafting according to this recipe.
