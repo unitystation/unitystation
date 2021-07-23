@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/07/23: **[Fix]** Fixes the bug where oil immediately turns to ash. by [DavidHearn](https://github.com/DavidHearn) in PR #[7093](https://github.com/unitystation/unitystation/pull/7093)
 * 2021/07/15: **[New]** Pogstation now has multiple firelocks in its main halls and a few of its misc. rooms. by [PetMudstone](https://github.com/PetMudstone) in PR #[7055](https://github.com/unitystation/unitystation/pull/7055)
 * 2021/6/29: UI slots are now determined by what clothing and body parts you have by [Bod9001](https://github.com/Bod9001) in PR #[6530](https://github.com/unitystation/unitystation/pull/6530)
 * 2021/6/29: [New] Added Ai Core Frame construction by [ThatDan123](https://github.com/ThatDan123) in PR #[6626](https://github.com/unitystation/unitystation/pull/6626)
