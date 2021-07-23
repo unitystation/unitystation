@@ -24,7 +24,7 @@ namespace UI.Items.PDA
 		public Image BackgroundOverlay = null;
 
 		[Tooltip("Put the overlay images here")]
-		[SerializeField] 
+		[SerializeField]
 		List<Sprite> overlays = default;
 
 		[Header("Assign the PDA's main pages here")]
@@ -55,6 +55,7 @@ namespace UI.Items.PDA
 			Background.color = PDA.UIBG;
 			BackgroundOverlay.sprite = overlays[PDA.OVERLAY];
 			BackgroundOverlay.color = PDA.UIOVER;
+			PDA.PDAGui = this;
 			OpenPage(MainPage);
 		}
 

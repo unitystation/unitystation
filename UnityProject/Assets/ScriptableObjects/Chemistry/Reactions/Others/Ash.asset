@@ -23,6 +23,10 @@ MonoBehaviour:
   inhibitors:
     m_keys: []
     m_values: 
+  hasMinTemp: 1
+  serializableTempMin: 480
+  hasMaxTemp: 0
+  serializableTempMax: 0
   results:
     m_keys:
     - {fileID: 11400000, guid: 0196cc8cc2de8818b9d56bdb11582c6c, type: 2}
