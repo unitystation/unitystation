@@ -1351,7 +1351,7 @@ namespace Mirror
                 foreach (NetworkConnection conn in newObservers)
                 {
                     if (conn != null && conn.isReady)
-                        identity.observers.Add(conn.connectionId, conn);
+                        identity.observers[conn.connectionId] = conn;
                 }
             }
 
