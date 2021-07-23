@@ -41,8 +41,10 @@ namespace Tests.Chemistry
 			tempReaction.inhibitors = new DictionaryReagentInt { };
 			tempReaction.results = new DictionaryReagentInt {[c] = 1};
 			tempReaction.effects = new global::Chemistry.Effect[0];
-			tempReaction.tempMin = 200;
-			tempReaction.tempMax = 300;
+			tempReaction.hasMinTemp = true;
+			tempReaction.serializableTempMin = 200;
+			tempReaction.hasMaxTemp = true;
+			tempReaction.serializableTempMax = 300;
 
 			// Non temperature dependant reaction, should always occur
 			yield return new object[]

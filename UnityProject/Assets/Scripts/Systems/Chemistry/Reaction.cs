@@ -13,13 +13,25 @@ namespace Chemistry
 		public bool useExactAmounts = false;
 		public DictionaryReagentInt catalysts;
 		public DictionaryReagentInt inhibitors;
-		public float? tempMin;
-		public float? tempMax;
+		[HideInInspector]
+		public bool hasMinTemp;
+		[HideInInspector]
+		public float serializableTempMin;
+		[HideInInspector]
+		public bool hasMaxTemp;
+		[HideInInspector]
+		public float serializableTempMax;
 		public DictionaryReagentInt results;
 		public Effect[] effects;
 
+		public float? tempMin;
+		public float? tempMax;
+
 		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
+            tempMin = hasMinTemp ? (float?)serializableTempMin : null;
+			tempMax = hasMaxTemp ? (float?)serializableTempMax : null;
+
 			if (tempMin != null && reagentMix.Temperature <= tempMin ||
 			    tempMax != null && reagentMix.Temperature >= tempMax)
 			{
