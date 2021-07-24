@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 32
+  aiInteractable: 1
 --- !u!114 &8847796060487267526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 3001811145825185215}
+    - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
@@ -120,6 +126,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3ce47bba9f0da4b43a0bbd89210486f3,
         type: 2}
+    - target: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1618464505
+      objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_RootOrder
@@ -176,6 +192,12 @@ PrefabInstance:
 --- !u!1 &532740209742371087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8312543595778916565}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &3001811145825185215 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
     type: 3}
   m_PrefabInstance: {fileID: 8312543595778916565}
   m_PrefabAsset: {fileID: 0}

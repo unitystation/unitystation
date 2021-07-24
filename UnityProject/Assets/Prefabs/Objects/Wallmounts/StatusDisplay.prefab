@@ -1,5 +1,42 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!222 &6514531138547576961
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826008233054429714}
+  m_CullTransparentMesh: 0
+--- !u!114 &8622336101324248381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826008233054429714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565edd107a0f4d95b9b8e032eaa654b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  textField: {fileID: 8315174962581895961}
+  stateSync: 0
+  hasCables: 1
+  MonitorSpriteHandler: {fileID: 6559413761007306952}
+  DisplaySpriteHandler: {fileID: 1852327771054836181}
+  openEmpty: {fileID: 21300000, guid: dd877a0b53912f6448b02714240bd9b2, type: 3}
+  openCabled: {fileID: 21300000, guid: ffe91d76691c7b240a3c58915e2b3594, type: 3}
+  closedOff: {fileID: 21300000, guid: 04bf384246499214baf7542e07b7019e, type: 3}
+  joeNews: {fileID: 11400000, guid: 0627b5d10aa2ee24988d240b94b47ec2, type: 2}
+  doorControllers: []
+  centComm: {fileID: 0}
+  currentTimerSeconds: 0
+  countingDown: 0
+  channel: 1
+  conType: 7
 --- !u!1 &1757062059131953751
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,44 +139,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
---- !u!222 &6514531138547576961
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826008233054429714}
-  m_CullTransparentMesh: 0
---- !u!114 &8622336101324248381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826008233054429714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 565edd107a0f4d95b9b8e032eaa654b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  textField: {fileID: 8315174962581895961}
-  stateSync: 0
-  hasCables: 1
-  MonitorSpriteHandler: {fileID: 6559413761007306952}
-  DisplaySpriteHandler: {fileID: 1852327771054836181}
-  openEmpty: {fileID: 21300000, guid: dd877a0b53912f6448b02714240bd9b2, type: 3}
-  openCabled: {fileID: 21300000, guid: ffe91d76691c7b240a3c58915e2b3594, type: 3}
-  closedOff: {fileID: 21300000, guid: 04bf384246499214baf7542e07b7019e, type: 3}
-  joeNews: {fileID: 11400000, guid: 0627b5d10aa2ee24988d240b94b47ec2, type: 2}
-  doorControllers: []
-  centComm: {fileID: 0}
-  currentTimerSeconds: 0
-  countingDown: 0
-  channel: 1
-  conType: 7
 --- !u!1 &6551633036436676155
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +389,21 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1618464505
+      objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -423,6 +437,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 4006928101237905058}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
@@ -448,6 +467,12 @@ GameObject:
 --- !u!4 &1820295489573889224 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1138831192995129262}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &4006928101237905058 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 1138831192995129262}
   m_PrefabAsset: {fileID: 0}
