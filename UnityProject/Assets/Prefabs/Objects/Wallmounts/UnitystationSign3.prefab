@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114881631371079200}
   - component: {fileID: 6940342393076514312}
   - component: {fileID: -8269195091269968629}
+  - component: {fileID: -4302952046954039534}
   m_Layer: 19
   m_Name: UnitystationSign3
   m_TagString: Untagged
@@ -104,6 +105,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 1
@@ -186,8 +188,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound: 
 --- !u!114 &114923429385349424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +222,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -234,6 +235,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114881631371079200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +288,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!210 &-4302952046954039534
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011522901538}
+  m_Enabled: 1
+  m_SortingLayerID: 1855317293
+  m_SortingLayer: 18
+  m_SortingOrder: 0
 --- !u!1 &1000013907114358
 GameObject:
   m_ObjectHideFlags: 0
