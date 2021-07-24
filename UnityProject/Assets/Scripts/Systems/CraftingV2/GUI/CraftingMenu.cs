@@ -24,7 +24,7 @@ namespace Systems.CraftingV2.GUI
 
 		[SerializeField] private GameObject chosenRecipeNameGameObject;
 
-		[SerializeField] private GameObject chosenRecipeDescriptionGaMeObject;
+		[SerializeField] private GameObject chosenRecipeDescriptionGameObject;
 
 		[SerializeField] private GameObject ingredientsTextGameObject;
 
@@ -82,7 +82,7 @@ namespace Systems.CraftingV2.GUI
 			recipesGridLayout = recipesLayoutGameObject.GetComponent<GridLayoutGroup>();
 			categoriesLayout = categoriesLayoutGameObject.GetComponent<HorizontalLayoutGroup>();
 			chosenRecipeNameTextComponent = chosenRecipeNameGameObject.GetComponent<Text>();
-			chosenRecipeDescriptionTextComponent = chosenRecipeDescriptionGaMeObject.GetComponent<Text>();
+			chosenRecipeDescriptionTextComponent = chosenRecipeDescriptionGameObject.GetComponent<Text>();
 			chosenRecipeIconImageComponent = chosenRecipeIconGameObject.GetComponent<Image>();
 			ingredientsTextComponent = ingredientsTextGameObject.GetComponent<Text>();
 			toolsTextComponent = toolsTextGameObject.GetComponent<Text>();
@@ -158,17 +158,17 @@ namespace Systems.CraftingV2.GUI
 		public void ChangeCategory(CategoryButtonScript categoryButtonScript)
 		{
 			DeselectCategory(chosenCategory);
+			DeselectRecipe(chosenRecipe);
 			SelectCategory(categoryButtonScript);
 		}
 
 		private void DeselectRecipe(RecipeButtonScript recipeButtonScript)
 		{
-			if (recipeButtonScript == null)
+			if (recipeButtonScript != null)
 			{
-				return;
+				chosenRecipe.OnUnpressed();
 			}
 
-			chosenRecipe.OnUnpressed();
 			recipeInfoGameObject.SetActive(false);
 		}
 
@@ -290,6 +290,7 @@ namespace Systems.CraftingV2.GUI
 			if (recipesInitIsNecessary)
 			{
 				InitRecipes(playerCrafting);
+				DeselectRecipe(chosenRecipe);
 				recipesInitIsNecessary = false;
 			}
 			this.SetActive(true);
@@ -330,6 +331,10 @@ namespace Systems.CraftingV2.GUI
 			int recipeIndexToForgot = recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.FindIndex(
 				recipeButtonScript => recipeButtonScript.CraftingRecipe
 			);
+			if (chosenRecipe != null && craftingRecipe == chosenRecipe.CraftingRecipe)
+			{
+				DeselectRecipe(chosenRecipe);
+			}
 			Destroy(recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts[recipeIndexToForgot]);
 			recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
 		}

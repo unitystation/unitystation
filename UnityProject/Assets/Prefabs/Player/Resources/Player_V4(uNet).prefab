@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 2105882665300898234}
   - component: {fileID: 1952996692186363365}
   - component: {fileID: 91908198791635565}
+  - component: {fileID: 6152863642612258063}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1103,7 +1104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBreathAnywhere: 0
   tickRate: 1
-  GasMultiplier: 100
 --- !u!114 &-5098788322438649402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1306,6 +1306,20 @@ MonoBehaviour:
   UIBodyPartsToSerialise: 
   ClientUIBodyPartsToSerialise: 
   StandardPopulator: {fileID: 11400000, guid: e9fa91afc36164817bc3c3c26eb54266, type: 2}
+--- !u!114 &6152863642612258063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec8196c49f245629895b62b442ab8e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultKnownRecipes:
+  - {fileID: 11400000, guid: 538ae3c4efa0bbc4c8f5a150698a1896, type: 2}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -8972,6 +8986,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4300145449095171559}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &4304794156734570639 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4196149980577959187 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
@@ -8984,9 +9004,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4304794156734570639 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
