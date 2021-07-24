@@ -26,7 +26,9 @@ namespace Systems.CraftingV2
 		[SerializeField] [Tooltip("The name of the recipe.")]
 		private string recipeName = "Undefined";
 
-		[SerializeField] private Sprite recipeIcon;
+		[SerializeField] private Sprite recipeIconOverride;
+
+		public Sprite RecipeIconOverride => recipeIconOverride;
 
 		[SerializeField] private string recipeDescription = "";
 
@@ -71,8 +73,6 @@ namespace Systems.CraftingV2
 		///     The name of the recipe. The name of the result is not used, since there can be many results.
 		/// </summary>
 		public string RecipeName => recipeName;
-
-		public Sprite RecipeIcon { get; set; }
 
 		public string RecipeDescription => recipeDescription;
 

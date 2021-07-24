@@ -9,7 +9,9 @@ namespace Systems.CraftingV2.GUI
 	{
 		private CraftingRecipe craftingRecipe;
 
-		private Sprite icon;
+		private Sprite recipeIcon;
+
+		public Sprite RecipeIcon => recipeIcon;
 
 		[SerializeField] private Color uncraftableColor;
 
@@ -46,14 +48,35 @@ namespace Systems.CraftingV2.GUI
 			CraftingRecipe craftingRecipe
 		)
 		{
-			GameObject result = Instantiate(recipeButtonTemplate, parentTransform);
+			GameObject generatedButton = Instantiate(recipeButtonTemplate, parentTransform);
 
-			RecipeButtonScript recipeButtonScript = result.GetComponent<RecipeButtonScript>();
+			RecipeButtonScript recipeButtonScript = generatedButton.GetComponent<RecipeButtonScript>();
 
 			recipeButtonScript.craftingRecipe = craftingRecipe;
-			recipeButtonScript.icon = craftingRecipe.RecipeIcon;
+			if (craftingRecipe.RecipeIconOverride != null)
+			{
+				recipeButtonScript.recipeIcon = craftingRecipe.RecipeIconOverride;
+			}
+			else
+			{
+				SpriteRenderer spriteRenderer;
+				foreach (GameObject resultPart in craftingRecipe.Result)
+				{
+					spriteRenderer = resultPart.GetComponentInChildren<SpriteRenderer>();
+					if (spriteRenderer == null || spriteRenderer.sprite == null)
+					{
+						continue;
+					}
+					recipeButtonScript.recipeIcon = spriteRenderer.sprite;
+					break;
+				}
+			}
 
-			return result;
+			recipeButtonScript.iconImageComponent.sprite = recipeButtonScript.recipeIcon;
+			recipeButtonScript.backgroundImageComponent.color = recipeButtonScript.deselectedColor;
+			recipeButtonScript.borderImageComponent.color = recipeButtonScript.uncraftableColor;
+
+			return generatedButton;
 		}
 
 		public void OnPressed()

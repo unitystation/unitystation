@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Systems.CraftingV2;
+using Systems.CraftingV2.GUI;
 using Items;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Player
@@ -12,13 +14,15 @@ namespace Player
 	[RequireComponent(typeof(PlayerScript))]
 	public class PlayerCrafting : MonoBehaviour
 	{
-		[SerializeField] [Tooltip("Default recipes known to a player.")]
-		private List<List<CraftingRecipe>> knownRecipesByCategory = new List<List<CraftingRecipe>>();
-
 		/// <summary>
 		/// The list of currently known recipes for a player by category.
 		/// </summary>
-		public List<List<CraftingRecipe>> KnownRecipesByCategory => knownRecipesByCategory;
+		private List<List<CraftingRecipe>> knownRecipesByCategory = new List<List<CraftingRecipe>>();
+
+		[SerializeField, ReorderableList] [Tooltip("Default recipes known to a player.")]
+		private List<CraftingRecipe> defaultKnownRecipes = new List<CraftingRecipe>();
+
+		public List<CraftingRecipe> DefaultKnownRecipes => defaultKnownRecipes;
 
 		private PlayerScript playerScript;
 
@@ -40,6 +44,11 @@ namespace Player
 			directional = GetComponent<Directional>();
 		}
 
+		public List<CraftingRecipe> GetKnownRecipesInCategory(RecipeCategory recipeCategory)
+		{
+			return knownRecipesByCategory[(int) recipeCategory];
+		}
+
 		/// <summary>
 		/// Checks if a player already knows the recipe.
 		/// </summary>
@@ -47,7 +56,7 @@ namespace Player
 		/// <returns>True, if a player already knows the recipe, false otherwise.</returns>
 		public bool KnowRecipe(CraftingRecipe recipe)
 		{
-			return KnownRecipesByCategory[(int) recipe.Category].Contains(recipe);
+			return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 
 		/// <summary>
@@ -60,7 +69,8 @@ namespace Player
 			{
 				return;
 			}
-			KnownRecipesByCategory[(int) recipe.Category].Add(recipe);
+			GetKnownRecipesInCategory(recipe.Category).Add(recipe);
+			CraftingMenu.Instance.OnPlayerLearnedRecipe(recipe);
 		}
 
 		/// <summary>
@@ -69,7 +79,8 @@ namespace Player
 		/// <param name="recipe">The recipe to remove.</param>
 		public void ForgetRecipe(CraftingRecipe recipe)
 		{
-			KnownRecipesByCategory[(int) recipe.Category].Remove(recipe);
+			GetKnownRecipesInCategory(recipe.Category).Remove(recipe);
+			CraftingMenu.Instance.OnPlayerForgotRecipe(recipe);
 		}
 
 		/// <summary>
@@ -86,7 +97,7 @@ namespace Player
 			       && !PlayerScript.playerHealth.IsDead
 			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.RightHand)
 			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.LeftHand)
-			       && KnownRecipesByCategory[(int) recipe.Category].Contains(recipe);
+			       && GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 
 		/// <summary>

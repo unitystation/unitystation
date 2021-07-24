@@ -108,10 +108,10 @@ RectTransform:
   m_Father: {fileID: 5315045442997327396}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 72, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5625948327518437973
 CanvasRenderer:
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.627451, b: 0, a: 1}
+  m_Color: {r: 0.3764706, g: 0.3764706, b: 0.7529412, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -160,6 +160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5315045442997327396}
+  - component: {fileID: 7161881661421069816}
   m_Layer: 5
   m_Name: RecipeButton
   m_TagString: Untagged
@@ -182,11 +183,30 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -604, y: -324}
   m_SizeDelta: {x: 72, y: 72}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7161881661421069816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5562711397433253435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce20e275e64d4baa97ac56f560284842, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uncraftableColor: {r: 0.3764706, g: 0.3764706, b: 0.7529412, a: 1}
+  craftableColor: {r: 1, g: 0.627451, b: 0, a: 1}
+  selectedColor: {r: 0.5019608, g: 0.5019608, b: 1, a: 1}
+  deselectedColor: {r: 0.2509804, g: 0.2509804, b: 0.5019608, a: 1}
+  backgroundGameObject: {fileID: 6208954237629423681}
+  borderGameObject: {fileID: 3774250882768211635}
+  iconGameObject: {fileID: 2213933145521461055}
 --- !u!1 &6208954237629423681
 GameObject:
   m_ObjectHideFlags: 0

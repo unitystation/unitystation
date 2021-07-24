@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Chemistry;
 using NaughtyAttributes;
@@ -36,7 +37,8 @@ namespace Systems.CraftingV2.GUI
 
 		[SerializeField, ReorderableList] private List<GameObject> categoryButtonsPrefabs;
 
-		private readonly List<RecipesInCategory> recipesInCategories = new List<RecipesInCategory>();
+		private readonly RecipesInCategory[] recipesInCategories =
+			new RecipesInCategory[Enum.GetValues(typeof(RecipeCategory)).Length];
 
 		private GridLayoutGroup recipesGridLayout;
 
@@ -70,6 +72,7 @@ namespace Systems.CraftingV2.GUI
 			{
 				InitFields();
 				InitCategories();
+				DeselectRecipe(chosenRecipe);
 				return;
 			}
 
@@ -98,44 +101,29 @@ namespace Systems.CraftingV2.GUI
 					categoryButtonPrefab,
 					categoriesLayoutGameObject.transform
 				);
-				recipesInCategories.Add(new RecipesInCategory(
-					initiatedCategoryButtonGameObject.GetComponent<CategoryButtonScript>()
-				));
+				CategoryButtonScript categoryButtonScript =
+					initiatedCategoryButtonGameObject.GetComponent<CategoryButtonScript>();
+				if (GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory) != null)
+				{
+					Logger.LogError("An attempt to create two same categories in a crafting menu. " +
+					                $"The duplicated category: {categoryButtonScript.CategoryAndIcon.RecipeCategory}");
+					continue;
+				}
+				recipesInCategories[(int) categoryButtonScript.CategoryAndIcon.RecipeCategory] =
+					new RecipesInCategory(categoryButtonScript);
 			}
 
-			CheckCategoriesDuplicates();
-			ReSortCategories();
+			CheckCategoriesCompleteness();
 			SelectCategory(recipesInCategories[0].CategoryButtonScript);
 		}
 
-		private void ReSortCategories()
+		private void CheckCategoriesCompleteness()
 		{
-			recipesInCategories.Sort(
-				(first, second) =>
-					((int) first.CategoryButtonScript.CategoryAndIcon.RecipeCategory)
-					.CompareTo(((int) second.CategoryButtonScript.CategoryAndIcon.RecipeCategory))
-			);
-		}
-
-		private void CheckCategoriesDuplicates()
-		{
-			for (int i = 0; i < recipesInCategories.Count; i++)
+			for (int i = 0; i < recipesInCategories.Length; i++)
 			{
-				for (int j = i + 1; j < recipesInCategories.Count; j++)
+				if (recipesInCategories[i] == null)
 				{
-					if (recipesInCategories[i].CategoryButtonScript.CategoryAndIcon.RecipeCategory !=
-					    recipesInCategories[j].CategoryButtonScript.CategoryAndIcon.RecipeCategory)
-					{
-						continue;
-					}
-
-					Logger.LogError(
-						"An attempt to create two same categories in a crafting menu. " +
-						"The duplicated category: " +
-						$"{recipesInCategories[j].CategoryButtonScript.CategoryAndIcon.RecipeCategory}."
-					);
-					recipesInCategories.RemoveAt(j);
-					j--;
+					Logger.LogError($"The crafting menu is missing the category: {(RecipeCategory) i}.");
 				}
 			}
 		}
@@ -148,11 +136,23 @@ namespace Systems.CraftingV2.GUI
 		{
 			categoryButtonScript.OnPressed();
 			chosenCategory = categoryButtonScript;
+			foreach (RecipeButtonScript recipeButtonScript in
+				GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory).RecipeButtonScripts
+			)
+			{
+				recipeButtonScript.gameObject.SetActive(true);
+			}
 		}
 
 		private void DeselectCategory(CategoryButtonScript categoryButtonScript)
 		{
 			categoryButtonScript.OnUnpressed();
+			foreach (RecipeButtonScript recipeButtonScript in
+				GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory).RecipeButtonScripts
+			)
+			{
+				recipeButtonScript.gameObject.SetActive(false);
+			}
 		}
 
 		public void ChangeCategory(CategoryButtonScript categoryButtonScript)
@@ -160,6 +160,14 @@ namespace Systems.CraftingV2.GUI
 			DeselectCategory(chosenCategory);
 			DeselectRecipe(chosenRecipe);
 			SelectCategory(categoryButtonScript);
+		}
+
+		private void SelectRecipe(RecipeButtonScript recipeButtonScript)
+		{
+			recipeButtonScript.OnPressed();
+			FillRecipeInfo(recipeButtonScript);
+			chosenRecipe = recipeButtonScript;
+			recipeInfoGameObject.SetActive(true);
 		}
 
 		private void DeselectRecipe(RecipeButtonScript recipeButtonScript)
@@ -174,20 +182,15 @@ namespace Systems.CraftingV2.GUI
 
 		public void ChangeRecipe(RecipeButtonScript recipeButtonScript)
 		{
-			recipeButtonScript.OnPressed();
 			DeselectRecipe(chosenRecipe);
-
-			chosenRecipe = recipeButtonScript;
-
-			FillRecipeInfo(recipeButtonScript);
-			recipeInfoGameObject.SetActive(true);
+			SelectRecipe(recipeButtonScript);
 		}
 
 		private void FillRecipeInfo(RecipeButtonScript recipeButtonScript)
 		{
 			chosenRecipeNameTextComponent.text = recipeButtonScript.CraftingRecipe.RecipeName;
 			chosenRecipeDescriptionTextComponent.text = recipeButtonScript.CraftingRecipe.RecipeDescription;
-			chosenRecipeIconImageComponent.sprite = recipeButtonScript.CraftingRecipe.RecipeIcon;
+			chosenRecipeIconImageComponent.sprite = recipeButtonScript.RecipeIcon;
 			ingredientsTextComponent.text = GenerateIngredientsList(recipeButtonScript.CraftingRecipe);
 			toolsTextComponent.text = GenerateToolsList(recipeButtonScript.CraftingRecipe);
 			reagentsTextComponent.text = GenerateReagentsList(recipeButtonScript.CraftingRecipe);
@@ -282,18 +285,22 @@ namespace Systems.CraftingV2.GUI
 
 		#endregion
 
+		public RecipesInCategory GetRecipesInCategory(RecipeCategory recipeCategory)
+		{
+			return recipesInCategories[(int) recipeCategory];
+		}
+
 		/// <summary>
 		/// Open the Crafting Menu
 		/// </summary>
 		public void Open(PlayerCrafting playerCrafting)
 		{
+			this.SetActive(true);
 			if (recipesInitIsNecessary)
 			{
 				InitRecipes(playerCrafting);
-				DeselectRecipe(chosenRecipe);
 				recipesInitIsNecessary = false;
 			}
-			this.SetActive(true);
 		}
 
 		/// <summary>
@@ -306,12 +313,9 @@ namespace Systems.CraftingV2.GUI
 
 		private void InitRecipes(PlayerCrafting playerCrafting)
 		{
-			foreach (List<CraftingRecipe> craftingRecipesInCategory in playerCrafting.KnownRecipesByCategory)
+			foreach (CraftingRecipe craftingRecipe in playerCrafting.DefaultKnownRecipes)
 			{
-				foreach (CraftingRecipe craftingRecipe in craftingRecipesInCategory)
-				{
-					OnPlayerLearnedRecipe(craftingRecipe);
-				}
+				OnPlayerLearnedRecipe(craftingRecipe);
 			}
 		}
 
@@ -335,6 +339,7 @@ namespace Systems.CraftingV2.GUI
 			{
 				DeselectRecipe(chosenRecipe);
 			}
+
 			Destroy(recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts[recipeIndexToForgot]);
 			recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
 		}

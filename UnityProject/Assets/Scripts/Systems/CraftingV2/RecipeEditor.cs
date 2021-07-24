@@ -9,13 +9,11 @@ namespace Systems.CraftingV2
 	{
 		private readonly List<RecipeIngredient> lastSerializedIngredients = new List<RecipeIngredient>();
 
-		private int lastSerializedResultCount;
-
 		private CraftingRecipe recipe;
 		private SerializedProperty spCategory;
 		private SerializedProperty spCraftingTime;
 		private SerializedProperty spRecipeName;
-		private SerializedProperty spRecipeIcon;
+		private SerializedProperty spRecipeIconOverride;
 		private SerializedProperty spRequiredIngredients;
 		private SerializedProperty spRequiredReagents;
 		private SerializedProperty spRequiredToolTraits;
@@ -25,7 +23,7 @@ namespace Systems.CraftingV2
 		private void OnEnable()
 		{
 			spRecipeName = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeName)));
-			spRecipeIcon = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeIcon)));
+			spRecipeIconOverride = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeIconOverride)));
 			spCategory = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Category)));
 			spCraftingTime = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.CraftingTime)));
 			spRequiredIngredients = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredIngredients)));
@@ -48,7 +46,7 @@ namespace Systems.CraftingV2
 			EditorGUI.BeginChangeCheck();
 
 			EditorGUILayout.PropertyField(spRecipeName);
-			EditorGUILayout.PropertyField(spRecipeIcon);
+			EditorGUILayout.PropertyField(spRecipeIconOverride);
 			EditorGUILayout.PropertyField(spCategory);
 			EditorGUILayout.PropertyField(spCraftingTime);
 			EditorGUILayout.PropertyField(spRequiredIngredients);
@@ -60,7 +58,6 @@ namespace Systems.CraftingV2
 			if (EditorGUI.EndChangeCheck())
 			{
 				serializedObject.ApplyModifiedProperties();
-				UpdateRecipeIcon();
 				UpdateRelatedRecipes();
 				UpdateLastSerializedIngredients();
 			}
@@ -70,26 +67,6 @@ namespace Systems.CraftingV2
 		private static string Title2Camel(string text)
 		{
 			return char.ToLowerInvariant(text[0]) + text.Substring(1);
-		}
-
-		private void UpdateRecipeIcon()
-		{
-			if (
-				lastSerializedResultCount == 0
-				&& recipe.Result.Count > 0
-				&& recipe.Result[0].TryGetComponent(out SpriteRenderer spriteRenderer)
-			)
-			{
-				recipe.RecipeIcon = spriteRenderer.sprite;
-				lastSerializedResultCount = recipe.Result.Count;
-				EditorUtility.SetDirty(recipe);
-			}
-			else if (lastSerializedResultCount > 0 && recipe.Result.Count == 0)
-			{
-				recipe.RecipeIcon = null;
-				lastSerializedResultCount = recipe.Result.Count;
-				EditorUtility.SetDirty(recipe);
-			}
 		}
 
 		private void UpdateRelatedRecipes()
