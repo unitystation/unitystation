@@ -165,8 +165,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 12
+  m_SortingLayerID: -1618464505
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -224,6 +224,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 919116449823774865, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 919116449823774865, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919116449823774865, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1618464505
+      objectReference: {fileID: 0}
     - target: {fileID: 2353904009134093219, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: ReactionTo.ConnectingDevice
@@ -252,8 +267,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: m_SortingLayer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: m_SortingOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1618464505
       objectReference: {fileID: 0}
     - target: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -362,6 +387,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6543957505355943017, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 4610973933943801575}
+    - target: {fileID: 6543957505355943017, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: initialCrawlPassable
       value: 1
       objectReference: {fileID: 0}
@@ -403,6 +433,12 @@ GameObject:
 --- !u!4 &1235378994494485645 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3691865198508416630}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &4610973933943801575 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 919116449823774865, guid: f9025da3beb40304cb15babfc0a6cafa,
     type: 3}
   m_PrefabInstance: {fileID: 3691865198508416630}
   m_PrefabAsset: {fileID: 0}

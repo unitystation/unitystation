@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1567170016700135650}
   - component: {fileID: 1140414460732144086}
   - component: {fileID: -7731008137819855807}
+  - component: {fileID: 204158343785773267}
   m_Layer: 19
   m_Name: Poster
   m_TagString: Untagged
@@ -783,10 +784,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: f421de3b3604142099b272d77faafeb6
+  m_AssetId: 
   hasSpawned: 0
 --- !u!114 &1140414460732144086
 MonoBehaviour:
@@ -819,6 +821,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!210 &204158343785773267
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466995241280763689}
+  m_Enabled: 1
+  m_SortingLayerID: 1855317293
+  m_SortingLayer: 18
+  m_SortingOrder: 0
 --- !u!1 &5583455716784618316
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,7 +874,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -888,9 +900,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 12
-  m_SortingOrder: 10
+  m_SortingLayerID: 1855317293
+  m_SortingLayer: 18
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bbcac2fc148dc4c56836c755377537d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
