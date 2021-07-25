@@ -355,52 +355,25 @@ public partial class MatrixManager : MonoBehaviour
 		public TileLocation TileLocation;
 	}
 
-	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BoundsInt r)
+	public static bool LineIntersectsRect(Vector3 p1, Vector3 p2, BoundsInt r)
 	{
-		var xMin = r.xMin;
-		var yMin = r.yMin;
-		var xMax = r.xMax;
-		var yMax = r.yMax;
-
-		return LineIntersectsLine(p1, p2, new Vector2(xMin, yMin), new Vector2(xMin, yMax)) ||
-		       LineIntersectsLine(p1, p2, new Vector2(xMin, yMin), new Vector2(xMax, yMin)) ||
-		       LineIntersectsLine(p1, p2, new Vector2(xMax, yMax), new Vector2(xMin, yMax)) ||
-		       LineIntersectsLine(p1, p2, new Vector2(xMax, yMax), new Vector2(xMax, yMin)) ||
-		       (FindPoint(r.min, r.max, p1) && FindPoint(r.min, r.max, p2));
-	}
-
-	static bool FindPoint(Vector3Int min, Vector3Int max, Vector2 Point)
-	{
-		if (Point.x > min.x && Point.x < max.x &&
-		    Point.y > min.y && Point.y < max.y)
+		if (BoundsContainsPosition(p1, r) || BoundsContainsPosition(p2, r))
+		{
 			return true;
-
+		}
 		return false;
 	}
 
-	private static bool LineIntersectsLine(Vector2 l1p1, Vector2 l1p2, Vector2 l2p1, Vector2 l2p2)
+	public static bool BoundsContainsPosition(Vector3 position, BoundsInt bounds)
 	{
-		float q = (l1p1.y - l2p1.y) * (l2p2.x - l2p1.x) - (l1p1.x - l2p1.x) * (l2p2.y - l2p1.y);
-		float d = (l1p2.x - l1p1.x) * (l2p2.y - l2p1.y) - (l1p2.y - l1p1.y) * (l2p2.x - l2p1.x);
-
-		if (d == 0)
+		if (position.x >= bounds.xMin && position.x <= bounds.xMax &&
+		    position.y >= bounds.yMin && position.y <= bounds.yMax)
 		{
-			return false;
+			return true;
 		}
-
-		float r = q / d;
-
-		q = (l1p1.y - l2p1.y) * (l1p2.x - l1p1.x) - (l1p1.x - l2p1.x) * (l1p2.y - l1p1.y);
-		float s = q / d;
-
-		if (r < 0 || r > 1 || s < 0 || s > 1)
-		{
-			return false;
-		}
-
-		return true;
+		return false;
 	}
-
+	
 	public static void ListAllMatrices()
 	{
 		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
