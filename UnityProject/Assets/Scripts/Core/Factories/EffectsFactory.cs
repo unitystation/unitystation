@@ -12,6 +12,7 @@ public static class EffectsFactory
 	private static GameObject waterTile;
 	private static GameObject chemTile;
 	private static GameObject powderTile;
+	private static GameObject vomitTile;
 
 	private static GameObject smallXenoBloodTile;
 	private static GameObject medXenoBloodTile;
@@ -37,6 +38,7 @@ public static class EffectsFactory
 			waterTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("WaterSplat");
 			chemTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("ChemSplat");
 			powderTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("PowderSplat");
+			vomitTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("Vomit");
 			smallXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallXenoBloodSplat");
 			medXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MedXenoBloodSplat");
 			largeXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeXenoBloodSplat");
@@ -143,6 +145,39 @@ public static class EffectsFactory
 			var colorDesc = TextUtils.ColorToString(reagents.MixColor);
 			var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
 			powderTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
+
+			if (powderTileGO)
+			{
+				var decal = powderTileGO.GetComponent<FloorDecal>();
+				if (decal)
+				{
+					decal.color = color;
+				}
+				if (reagents != null)
+				{
+					tileReagents.Add(reagents);
+				}
+			}
+		}
+	}
+
+	public static void VomitSplat(Vector3Int worldPos, Color color, ReagentMix reagents, bool isblood = false)
+	{
+		EnsureInit();
+		var vomitTileInst = Spawn.ServerPrefab(vomitTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+		if (isblood)
+		{
+			BloodSplat(worldPos, reagents, BloodSplatSize.medium);
+		}
+
+		if (vomitTileInst.Successful)
+		{
+			var powderTileGO = vomitTileInst.GameObject;
+			var tileReagents = powderTileGO.GetComponent<ReagentContainer>();
+
+			var colorDesc = TextUtils.ColorToString(reagents.MixColor);
+			var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
+			vomitTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
 
 			if (powderTileGO)
 			{
