@@ -168,6 +168,7 @@ public static class EffectsFactory
 		if (isblood)
 		{
 			BloodSplat(worldPos, reagents, BloodSplatSize.medium);
+			return;
 		}
 
 		if (vomitTileInst.Successful)
