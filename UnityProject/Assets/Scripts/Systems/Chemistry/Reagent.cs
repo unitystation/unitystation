@@ -20,6 +20,7 @@ namespace Chemistry
 			get => displayName ?? name;
 			set => displayName = value;
 		}
+		public ReagentVomit reagentVomit = null;
 
 		public override string ToString()
 		{

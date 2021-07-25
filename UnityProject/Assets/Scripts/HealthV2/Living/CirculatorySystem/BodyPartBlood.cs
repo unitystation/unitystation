@@ -5,6 +5,7 @@ using Chemistry;
 using Chemistry.Components;
 using NaughtyAttributes;
 using UnityEngine;
+using static EffectsFactory;
 
 namespace HealthV2
 {
@@ -117,6 +118,8 @@ namespace HealthV2
 
 		public HungerState HungerState = HungerState.Normal;
 
+		private System.Random random;
+
 		/// <summary>
 		/// Initializes the body part as part of the circulatory system
 		/// </summary>
@@ -153,6 +156,17 @@ namespace HealthV2
 			if (CanGetHungry)
 			{
 				ConsumeNutriments();
+			}
+
+			foreach (Reagent reagent in BloodContainer.CurrentReagentMix.reagents.Keys)
+			{
+				ReagentVomit rvomit = reagent.reagentVomit;
+
+				int rand = random.Next(0,10000);
+
+				if (rvomit != null && rand < rvomit.vomitchance)
+				{
+				}
 			}
 
 			MetaboliseReactions();
