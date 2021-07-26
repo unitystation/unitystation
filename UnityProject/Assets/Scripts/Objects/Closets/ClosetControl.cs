@@ -136,10 +136,6 @@ namespace Objects
 		private Sprite weldSprite = null;
 		private static readonly float weldTime = 5.0f;
 
-		[SerializeField] private bool isUnLockable = true;
-
-		[SerializeField] private bool isWeldable = true;
-
 		private string closetName;
 		private ObjectAttributes closetAttributes;
 
@@ -560,7 +556,7 @@ namespace Objects
 				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
 				&& emag.EmagHasCharges())
 			{
-				if (IsClosed && !isEmagged && isUnLockable)
+				if (IsClosed && !isEmagged)
 				{
 					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 					SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, audioSourceParameters, gameObject);
@@ -575,7 +571,7 @@ namespace Objects
 			else if (Validations.HasUsedActiveWelder(interaction))
 			{
 				// Is the player trying to weld closet?
-				if (IsWeldable && interaction.Intent == Intent.Harm && isWeldable)
+				if (IsWeldable)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(
 							interaction, weldTime,
@@ -625,7 +621,7 @@ namespace Objects
 			}
 
 			// player trying to unlock locker?
-			if (IsLockable && AccessRestrictions != null && ClosetStatus.Equals(ClosetStatus.Closed) && isUnLockable)
+			if (IsLockable && AccessRestrictions != null && ClosetStatus.Equals(ClosetStatus.Closed))
 			{
 				// player trying to open lock by card?
 				if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
