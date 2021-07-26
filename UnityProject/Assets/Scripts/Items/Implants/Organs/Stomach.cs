@@ -17,11 +17,24 @@ namespace HealthV2
 
 		public BodyFat BodyFatToInstantiate;
 
+		private System.Random random;
+
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
 
 			StomachContents = GetComponentInChildren<ReagentContainer>();
+
+			foreach (Reagent reagent in StomachContents.CurrentReagentMix.reagents.Keys)
+			{
+				ReagentVomit rvomit = reagent.reagentVomit;
+				int rand = random.Next(0, 10000);
+				Vector3Int worldPos = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
+				if (rvomit != null && rand < rvomit.vomitchance)
+				{
+					EffectsFactory.VomitSplat(worldPos, StomachContents.CurrentReagentMix, rvomit.vomitblood);
+				}
+			}
 
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)
