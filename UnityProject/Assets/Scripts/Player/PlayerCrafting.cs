@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Systems.CraftingV2;
 using Systems.CraftingV2.GUI;
@@ -42,6 +43,24 @@ namespace Player
 		{
 			playerScript = GetComponent<PlayerScript>();
 			directional = GetComponent<Directional>();
+			InitKnownRecipesByCategories();
+			InitDefaultRecipes();
+		}
+
+		private void InitKnownRecipesByCategories()
+		{
+			for (int i = Enum.GetValues(typeof(RecipeCategory)).Length; i >= 0; i--)
+			{
+				knownRecipesByCategory.Add(new List<CraftingRecipe>());
+			}
+		}
+
+		private void InitDefaultRecipes()
+		{
+			foreach (CraftingRecipe craftingRecipe in defaultKnownRecipes)
+			{
+				TryAddRecipeToKnownRecipes(craftingRecipe);
+			}
 		}
 
 		public List<CraftingRecipe> GetKnownRecipesInCategory(RecipeCategory recipeCategory)
@@ -59,17 +78,28 @@ namespace Player
 			return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 
+		private bool TryAddRecipeToKnownRecipes(CraftingRecipe craftingRecipe)
+		{
+			if (KnowRecipe(craftingRecipe))
+			{
+				return false;
+			}
+
+			GetKnownRecipesInCategory(craftingRecipe.Category).Add(craftingRecipe);
+
+			return true;
+		}
+
 		/// <summary>
 		/// Adds the recipe to the KnownRecipesByCategory[] if it doesn't already contains the recipe.
 		/// </summary>
 		/// <param name="recipe">The recipe to add.</param>
 		public void LearnRecipe(CraftingRecipe recipe)
 		{
-			if (KnowRecipe(recipe))
+			if (!TryAddRecipeToKnownRecipes(recipe))
 			{
 				return;
 			}
-			GetKnownRecipesInCategory(recipe.Category).Add(recipe);
 			CraftingMenu.Instance.OnPlayerLearnedRecipe(recipe);
 		}
 
@@ -95,8 +125,8 @@ namespace Player
 			       && !PlayerScript.IsGhost
 			       && !PlayerScript.playerHealth.IsCrit
 			       && !PlayerScript.playerHealth.IsDead
-			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.RightHand)
-			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.LeftHand)
+			       //&& PlayerScript.playerHealth.HasBodyPart(BodyPartType.RightHand)
+			       //&& PlayerScript.playerHealth.HasBodyPart(BodyPartType.LeftHand)
 			       && GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 

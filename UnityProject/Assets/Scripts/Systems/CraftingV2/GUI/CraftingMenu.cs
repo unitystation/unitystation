@@ -62,8 +62,6 @@ namespace Systems.CraftingV2.GUI
 
 		private RecipeButtonScript chosenRecipe;
 
-		private bool recipesInitIsNecessary = true;
-
 		#region Lifecycle
 
 		void Awake()
@@ -72,11 +70,25 @@ namespace Systems.CraftingV2.GUI
 			{
 				InitFields();
 				InitCategories();
+				InitRecipes(PlayerManager.LocalPlayerScript.PlayerCrafting);
 				DeselectRecipe(chosenRecipe);
 				return;
 			}
 
 			Destroy(gameObject);
+		}
+
+		private void InitRecipes(PlayerCrafting playerCrafting)
+		{
+			foreach (RecipesInCategory recipesInCategory in recipesInCategories)
+			{
+				foreach (CraftingRecipe craftingRecipe in playerCrafting.GetKnownRecipesInCategory(
+					recipesInCategory.CategoryButtonScript.CategoryAndIcon.RecipeCategory
+				))
+				{
+					OnPlayerLearnedRecipe(craftingRecipe);
+				}
+			}
 		}
 
 		private void InitFields()
@@ -241,7 +253,7 @@ namespace Systems.CraftingV2.GUI
 
 		private static string GenerateToolsList(CraftingRecipe craftingRecipe)
 		{
-			if (craftingRecipe.RequiredIngredients.Count == 0)
+			if (craftingRecipe.RequiredToolTraits.Count == 0)
 			{
 				return "None";
 			}
@@ -262,7 +274,7 @@ namespace Systems.CraftingV2.GUI
 
 		private static string GenerateReagentsList(CraftingRecipe craftingRecipe)
 		{
-			if (craftingRecipe.RequiredIngredients.Count == 0)
+			if (craftingRecipe.RequiredReagents.Count == 0)
 			{
 				return "None";
 			}
@@ -296,11 +308,6 @@ namespace Systems.CraftingV2.GUI
 		public void Open(PlayerCrafting playerCrafting)
 		{
 			this.SetActive(true);
-			if (recipesInitIsNecessary)
-			{
-				InitRecipes(playerCrafting);
-				recipesInitIsNecessary = false;
-			}
 		}
 
 		/// <summary>
@@ -309,14 +316,6 @@ namespace Systems.CraftingV2.GUI
 		public void Close()
 		{
 			this.SetActive(false);
-		}
-
-		private void InitRecipes(PlayerCrafting playerCrafting)
-		{
-			foreach (CraftingRecipe craftingRecipe in playerCrafting.DefaultKnownRecipes)
-			{
-				OnPlayerLearnedRecipe(craftingRecipe);
-			}
 		}
 
 		public void OnPlayerLearnedRecipe(CraftingRecipe craftingRecipe)
@@ -342,6 +341,11 @@ namespace Systems.CraftingV2.GUI
 
 			Destroy(recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts[recipeIndexToForgot]);
 			recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
+		}
+
+		public void OnCraftButtonPressed()
+		{
+			PlayerManager.LocalPlayerScript.PlayerCrafting.TryToStartCrafting(chosenRecipe.CraftingRecipe);
 		}
 	}
 }
