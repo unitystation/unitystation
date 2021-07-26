@@ -513,6 +513,8 @@ namespace Objects
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.HandObject != null && interaction.Intent == Intent.Harm)
+				return false;
 
 			//only allow interactions targeting this closet
 			if (interaction.TargetObject != gameObject) return false;

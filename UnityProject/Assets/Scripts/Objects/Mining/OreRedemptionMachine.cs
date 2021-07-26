@@ -107,12 +107,19 @@ namespace Objects.Mining
 
 		public void ClaimLaborPoints(GameObject player)
 		{
-			var playerStorage = player.GetComponent<ItemStorage>();
-			var idCardObj = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
-			var idCard = AccessRestrictions.GetIDCard(idCardObj);
-			idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
-			laborPoints = 0;
-			oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
+			var playerStorage = player.GetComponent<DynamicItemStorage>();
+			var itemSlotList = playerStorage.GetNamedItemSlots(NamedSlot.id);
+			foreach (var itemSlot in itemSlotList)
+			{
+				if (itemSlot.ItemObject)
+				{
+					var idCard = AccessRestrictions.GetIDCard(itemSlot.ItemObject);
+					idCard.currencies[(int)CurrencyType.LaborPoints] += laborPoints;
+					laborPoints = 0;
+					oreRedemptiomMachineGUI.UpdateLaborPoints(laborPoints);
+					return;
+				}
+			}
 		}
 	}
 }

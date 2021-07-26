@@ -62,29 +62,39 @@ namespace Systems.Atmospherics
 
 		private void Update(MetaDataNode node)
 		{
-			//Gases are frozen within closed airlocks or walls
-			if (node.IsOccupied || node.IsClosedAirlock)
-			{
-				return;
-			}
-
 			nodes.Clear();
 			nodes.Add(node);
 
 			node.AddNeighborsToList(ref nodes);
 
-			bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
-
-			if (isPressureChanged)
+			//Conduct heat from this nodes gas mix to this nodes tile
+			if (node.IsOccupied == false || node.IsIsolatedNode)
 			{
-				node.ReactionManager.AddWindEvent(node, windDirection, windForce);
-				Equalize();
+				ConductFromOpenToSolid(node, meanGasMix);
+			}
 
-				for (int i = 1; i < nodes.Count; i++)
+			//Gases are frozen within walls and isolated tiles (closed airlocks) so dont do gas equalising
+			if (node.IsOccupied == false && node.IsIsolatedNode == false)
+			{
+				bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
+
+				if (isPressureChanged)
 				{
-					updateList.Enqueue(nodes[i]);
+					node.ReactionManager.AddWindEvent(node, windDirection, windForce);
+					Equalize();
+
+					for (int i = 1; i < nodes.Count; i++)
+					{
+						updateList.Enqueue(nodes[i]);
+					}
 				}
 			}
+
+			//Check to see if we need to do conductivity to other adjacent tiles
+			Conductivity(node);
+
+			//Only allow open tiles or isolated tiles to do reactions
+			if (node.IsOccupied && node.IsIsolatedNode == false) return;
 
 			//Check to see if any reactions are needed
 			DoReactions(node);
@@ -98,30 +108,190 @@ namespace Systems.Atmospherics
 		/// </summary>
 		private void Equalize()
 		{
-			// If there is just one isolated tile, it's not nescessary to calculate the mean.  Speeds up things a bit.
-			if (nodes.Count > 1)
+			// If there is just one isolated tile, it's not necessary to calculate the mean.  Speeds up things a bit.
+			if (nodes.Count <= 1)  return;
+
+			//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
+			CalcMeanGasMix();
+
+			MetaDataNode node;
+
+			//Then equalise the open gas mixes
+			for (var i = 0; i < nodes.Count; i++)
 			{
-				//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
-				CalcMeanGasMix();
+				node = nodes[i];
 
-				for (var i = 0; i < nodes.Count; i++)
+				//If the node is not occupied then try to share out gas mix
+				if (node.IsOccupied == false && node.IsIsolatedNode == false)
 				{
-					MetaDataNode node = nodes[i];
-
-					if (!node.IsOccupied)
+					//If its not space then share otherwise it is space so set to empty
+					if (node.IsSpace == false)
 					{
-						if (!node.IsSpace)
-						{
-							node.GasMix.Copy(meanGasMix);
-						}
-						else
-						{
-							node.GasMix.SetToEmpty();
-						}
+						node.GasMix.Copy(meanGasMix);
+					}
+					else
+					{
+						node.GasMix.SetToEmpty();
 					}
 				}
 			}
 		}
+
+		#region Conductivity
+
+		private void Conductivity(MetaDataNode currentNode)
+		{
+			//Only allow conducting if we are the starting node or we are allowed to
+			if(currentNode.StartingSuperConduct == false && currentNode.AllowedToSuperConduct == false) return;
+
+			//Starting node must have higher temperature
+			if (currentNode.ConductivityTemperature < (currentNode.StartingSuperConduct
+				? AtmosDefines.MINIMUM_TEMPERATURE_START_SUPERCONDUCTION
+				: AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION))
+			{
+
+				//Disable node if it fails temperature check
+				currentNode.AllowedToSuperConduct = false;
+				currentNode.StartingSuperConduct = false;
+				return;
+			}
+
+			if (currentNode.HeatCapacity < AtmosDefines.M_CELL_WITH_RATIO) return;
+
+			currentNode.AllowedToSuperConduct = true;
+
+			//Solid conductivity is done by meta data node variables, as walls dont have functioning gas mix
+			SolidConductivity(currentNode);
+
+			//Check to see whether we should disable the node
+			if (currentNode.ConductivityTemperature < AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION)
+			{
+				//Disable node if it fails temperature check
+				currentNode.AllowedToSuperConduct = false;
+				currentNode.StartingSuperConduct = false;
+			}
+		}
+
+		private void SolidConductivity(MetaDataNode currentNode)
+		{
+			for (var i = 0; i < nodes.Count; i++)
+			{
+				MetaDataNode node = nodes[i];
+
+				//Dont spread heat to self
+				if(node == currentNode) continue;
+
+				var tempDelta = currentNode.ConductivityTemperature;
+
+				//Radiate temperature between Solid and Space
+				if(node.IsSpace)
+				{
+					if(currentNode.ConductivityTemperature <= TemperatureUtils.ZERO_CELSIUS_IN_KELVIN) continue;
+
+					tempDelta -= AtmosDefines.SPACE_TEMPERATURE;
+					RadiateTemperatureToSpace(currentNode, node, tempDelta);
+				}
+				//Share temperature between Solid and Solid
+				else
+				{
+					tempDelta -= node.ThermalConductivity;
+					ConductFromSolidToSolid(currentNode, node, tempDelta);
+				}
+			}
+		}
+
+		#region Open To ....
+
+		/// <summary>
+		/// Transfers heat between an Open tile and a Solid tile
+		/// Uses data from MetaDataNode for SolidNode and GasMix values for Open node
+		/// </summary>
+		private void ConductFromOpenToSolid(MetaDataNode solidNode, GasMix meanGasMix)
+		{
+			var tempDelta = solidNode.ConductivityTemperature - meanGasMix.Temperature;
+
+			if (Mathf.Abs(tempDelta) <= AtmosDefines.MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER) return;
+
+			if (meanGasMix.WholeHeatCapacity <= AtmosConstants.MINIMUM_HEAT_CAPACITY) return;
+
+			if(solidNode.HeatCapacity <= AtmosConstants.MINIMUM_HEAT_CAPACITY) return;
+
+			//The larger the combined capacity the less is shared
+			var heat = solidNode.ThermalConductivity * tempDelta *
+			           (solidNode.HeatCapacity * meanGasMix.WholeHeatCapacity /
+			            (solidNode.HeatCapacity + meanGasMix.WholeHeatCapacity));
+
+			solidNode.ConductivityTemperature = Mathf.Max(
+				solidNode.ConductivityTemperature - (heat / solidNode.HeatCapacity),
+				AtmosDefines.SPACE_TEMPERATURE);
+
+			meanGasMix.SetTemperature(Mathf.Max(
+				meanGasMix.Temperature + (heat / meanGasMix.WholeHeatCapacity),
+				AtmosDefines.SPACE_TEMPERATURE));
+
+			//Do atmos update for the Solid node if temperature is allowed so it can do conduction
+			//This is checking for the start temperature as this is how the cycle will begin
+			if (solidNode.ConductivityTemperature < AtmosDefines.MINIMUM_TEMPERATURE_START_SUPERCONDUCTION) return;
+
+			if (solidNode.AllowedToSuperConduct == false)
+			{
+				solidNode.AllowedToSuperConduct = true;
+
+				//Allow this node to trigger other tiles super conduction
+				solidNode.StartingSuperConduct = true;
+			}
+
+			AtmosManager.Update(solidNode);
+		}
+
+		#endregion
+
+		#region Solid To ...
+
+		/// <summary>
+		/// Used to transfer heat between an Solid tile and Space
+		/// Uses data from MetaDataNode for solid node and MetaDataNode date for Space node
+		/// </summary>
+		private void RadiateTemperatureToSpace(MetaDataNode currentNode, MetaDataNode openNode, float tempDelta)
+		{
+			if(currentNode.HeatCapacity <= 0) return;
+
+			if(Mathf.Abs(tempDelta) <= AtmosDefines.MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER) return;
+
+			//The larger the combined capacity the less is shared
+			var heat = openNode.ThermalConductivity * tempDelta *
+			           (currentNode.HeatCapacity * AtmosDefines.SPACE_HEAT_CAPACITY /
+			            (currentNode.HeatCapacity + AtmosDefines.SPACE_HEAT_CAPACITY));
+
+			currentNode.ConductivityTemperature -= heat / currentNode.HeatCapacity;
+		}
+
+		/// <summary>
+		/// Used to transfer heat between an Solid tile and Solid tile
+		/// Uses data from MetaDataNode for the current solid node and MetaDataNode date for the other Solid node
+		/// </summary>
+		private void ConductFromSolidToSolid(MetaDataNode currentNode, MetaDataNode solidNode, float tempDelta)
+		{
+			if (Mathf.Abs(tempDelta) <= AtmosDefines.MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER) return;
+
+			//The larger the combined capacity the less is shared
+			var heat = solidNode.ThermalConductivity * tempDelta *
+			           (currentNode.HeatCapacity * solidNode.HeatCapacity /
+			            (currentNode.HeatCapacity + solidNode.HeatCapacity));
+
+			//The higher your own heat cap the less heat you get from this arrangement
+			currentNode.ConductivityTemperature -= heat / currentNode.HeatCapacity;
+			solidNode.ConductivityTemperature += heat / solidNode.HeatCapacity;
+
+			//Do atmos update for the next solid node if temperature is allowed so it can do conduction
+			if(solidNode.ConductivityTemperature < AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION) return;
+			solidNode.AllowedToSuperConduct = true;
+			AtmosManager.Update(solidNode);
+		}
+
+		#endregion
+
+		#endregion
 
 		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
 
@@ -144,23 +314,24 @@ namespace Systems.Atmospherics
 					continue;
 				}
 
-				meanGasMix.Volume += node.GasMix.Volume;
-				GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles);
-
-				if (!node.IsOccupied)
+				//If node is not occupied then we want to add it to the total
+				if (node.IsOccupied == false && node.IsIsolatedNode == false)
 				{
+					meanGasMix.Volume += node.GasMix.Volume;
+					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles);
 					targetCount++;
 				}
-				else
+				else if(node.IsIsolatedNode == false)
 				{
-					//Decay if occupied
-					node.GasMix.SetToEmpty();
+					//Remove all overlays for occupied tiles
+					RemovalAllGasOverlays(node);
+
+					//We trap the gas in the walls to stop instances where you remove a wall and theres a vacuum there
 				}
 			}
 
 			// Sometimes, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos, ie: walls)
-			if (targetCount == 0)
-				return;
+			if (targetCount == 0) return;
 
 			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
 			foreach (var gasData in meanGasMix.GasesArray)
@@ -204,6 +375,18 @@ namespace Systems.Atmospherics
 					node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
 				}
 			}
+		}
+
+		private void RemovalAllGasOverlays(MetaDataNode node)
+		{
+			if (node == null || node.ReactionManager == null) return;
+
+			foreach (var gas in node.GasOverlayData)
+			{
+				node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+			}
+
+			node.GasOverlayData.Clear();
 		}
 
 		#endregion

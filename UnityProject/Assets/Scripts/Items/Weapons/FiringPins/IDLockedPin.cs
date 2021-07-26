@@ -34,12 +34,6 @@ namespace Weapons
 
 		public override void ServerBehaviour(AimApply interaction, bool isSuicide)
 		{
-			if (clearanceCheckable.HasClearance(interaction.Performer))
-			{
-				CallShotServer(interaction, isSuicide);
-				return;
-			}
-
 			/* --ACCESS REWORK--
 			 *  TODO Remove the AccessRestriction check when we finish migrating!
 			 *
@@ -59,6 +53,12 @@ namespace Weapons
 				// }
 
 				CallShotServer(interaction, isSuicide);
+				return; //we found access skip clearance check
+			}
+
+			if (clearanceCheckable.HasClearance(interaction.Performer))
+			{
+				CallShotServer(interaction, isSuicide);
 				return;
 			}
 
@@ -67,12 +67,6 @@ namespace Weapons
 
 		public override void ClientBehaviour(AimApply interaction, bool isSuicide)
 		{
-			if (clearanceCheckable.HasClearance(interaction.Performer))
-			{
-				CallShotClient(interaction, isSuicide);
-				return;
-			}
-
 			/* --ACCESS REWORK--
 			 *  TODO Remove the AccessRestriction check when we finish migrating!
 			 *
@@ -88,6 +82,13 @@ namespace Weapons
 				// }
 
 				CallShotClient(interaction, isSuicide);
+				return; //we found access skip clearance check
+			}
+
+			if (clearanceCheckable.HasClearance(interaction.Performer))
+			{
+				CallShotClient(interaction, isSuicide);
+
 			}
 		}
 	}
