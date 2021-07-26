@@ -1,4 +1,5 @@
 ﻿using System;
+using Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -102,6 +103,16 @@ namespace Systems.CraftingV2.GUI
 		public void OnPointerDown(PointerEventData eventData)
 		{
 			CraftingMenu.Instance.ChangeRecipe(this);
+		}
+
+		public void RefreshCraftable(PlayerCrafting playerCrafting)
+		{
+			if (playerCrafting.CanCraft(CraftingRecipe))
+			{
+				SetCraftableBorderColor();
+				return;
+			}
+			SetUncraftableBorderColor();
 		}
 	}
 }

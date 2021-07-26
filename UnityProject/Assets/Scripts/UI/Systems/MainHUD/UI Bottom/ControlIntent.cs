@@ -69,7 +69,7 @@ namespace UI
 			Logger.Log("OnClickCrafting", Category.UserInput);
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 
-			UIManager.Instance.CraftingMenu.Open(PlayerManager.LocalPlayerScript.PlayerCrafting);
+			UIManager.Instance.CraftingMenu.Open();
 		}
 
 		/// <summary>

@@ -305,9 +305,10 @@ namespace Systems.CraftingV2.GUI
 		/// <summary>
 		/// Open the Crafting Menu
 		/// </summary>
-		public void Open(PlayerCrafting playerCrafting)
+		public void Open()
 		{
 			this.SetActive(true);
+			RefreshRecipes();
 		}
 
 		/// <summary>
@@ -343,8 +344,27 @@ namespace Systems.CraftingV2.GUI
 			recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
 		}
 
+		public void RefreshRecipes()
+		{
+			DeselectRecipe(chosenRecipe);
+			foreach (RecipesInCategory recipesInCategory in recipesInCategories)
+			{
+				foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
+				{
+					recipeButtonScript.RefreshCraftable(PlayerManager.LocalPlayerScript.PlayerCrafting);
+				}
+			}
+		}
+
+		public void OnRefreshRecipesButtonClicked()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			RefreshRecipes();
+		}
+
 		public void OnCraftButtonPressed()
 		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			PlayerManager.LocalPlayerScript.PlayerCrafting.TryToStartCrafting(chosenRecipe.CraftingRecipe);
 		}
 	}
