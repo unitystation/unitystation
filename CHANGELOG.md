@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/07/26: **[Fix]** Fixes players insatiable hunger by [Bod9001](https://github.com/Bod9001) in PR #[7145](https://github.com/unitystation/unitystation/pull/7145)
 * 2021/07/24: **[Fix]** Wallmounts such as APCs, light switches, buttons, etc, render over windows again. by [PetMudstone](https://github.com/PetMudstone) in PR #[7123](https://github.com/unitystation/unitystation/pull/7123)
 * 2021/07/23: **[Fix]** Fixes the bug where oil immediately turns to ash. by [DavidHearn](https://github.com/DavidHearn) in PR #[7093](https://github.com/unitystation/unitystation/pull/7093)
 * 2021/07/15: **[New]** Pogstation now has multiple firelocks in its main halls and a few of its misc. rooms. by [PetMudstone](https://github.com/PetMudstone) in PR #[7055](https://github.com/unitystation/unitystation/pull/7055)
