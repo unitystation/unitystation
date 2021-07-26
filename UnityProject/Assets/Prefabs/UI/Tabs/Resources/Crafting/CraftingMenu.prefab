@@ -307,6 +307,7 @@ MonoBehaviour:
   toolsTextGameObject: {fileID: 5120583456791573394}
   reagentsTextGameObject: {fileID: 6910006176870942365}
   craftButtonTextGameObject: {fileID: 1694923913715497953}
+  searchFieldGameObject: {fileID: 6303582903789661643}
   categoryButtonsPrefabs:
   - {fileID: 2684054950777558944, guid: 426ac959694509e4596d4920a821ae2b, type: 3}
   - {fileID: 8766509566977840, guid: a395c4e4de7eb474abc2203addd537ee, type: 3}
@@ -817,6 +818,85 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Craft (4.2 sec.)
+--- !u!1 &1929856304404190721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8902877874715684902}
+  - component: {fileID: 3053269583291551894}
+  - component: {fileID: 4865855503610001498}
+  m_Layer: 0
+  m_Name: SearchFieldTextPlaceholder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8902877874715684902
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929856304404190721}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 409358765692962517}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3053269583291551894
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929856304404190721}
+  m_CullTransparentMesh: 0
+--- !u!114 &4865855503610001498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929856304404190721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.2509804}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: b801c6ead655a7d4193efddbff0c2ae2, type: 3}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: enter something
 --- !u!1 &1986707974519431801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,7 +1961,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8237822559470262417}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6683204214564421493}
+        m_TargetAssemblyTypeName: Systems.CraftingV2.GUI.CraftingMenu, Assets
+        m_MethodName: OnSearchButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1734589481453660596
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2564,7 +2656,7 @@ GameObject:
   - component: {fileID: 409358765692962517}
   - component: {fileID: 7472432327256925524}
   - component: {fileID: 2143501117717161828}
-  - component: {fileID: 1525678298044885600}
+  - component: {fileID: 2123559039730917993}
   m_Layer: 0
   m_Name: SearchField
   m_TagString: Untagged
@@ -2582,7 +2674,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 8902877874715684902}
   m_Father: {fileID: 2966264948322574966}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2628,12 +2721,12 @@ MonoBehaviour:
     m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_RichText: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: xeno maid
---- !u!114 &1525678298044885600
+  m_Text: 
+--- !u!114 &2123559039730917993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2642,7 +2735,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6303582903789661643}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fe733f0ffe04fcfa9bbe37739ab317c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -2673,8 +2766,8 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2143501117717161828}
-  m_TextComponent: {fileID: 0}
-  m_Placeholder: {fileID: 0}
+  m_TextComponent: {fileID: 2143501117717161828}
+  m_Placeholder: {fileID: 4865855503610001498}
   m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
@@ -2689,13 +2782,14 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_CustomCaretColor: 0
+  m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
+  m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
+  ExitButton: 27
 --- !u!1 &6380079954205342534
 GameObject:
   m_ObjectHideFlags: 0
@@ -3449,7 +3543,7 @@ GameObject:
   - component: {fileID: 8068008494054898908}
   - component: {fileID: 2941106683452037631}
   m_Layer: 0
-  m_Name: SerachFieldPlaceholder
+  m_Name: SerachFieldBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Chemistry;
 using NaughtyAttributes;
 using Player;
@@ -35,6 +36,8 @@ namespace Systems.CraftingV2.GUI
 
 		[SerializeField] private GameObject craftButtonTextGameObject;
 
+		[SerializeField] private GameObject searchFieldGameObject;
+
 		[SerializeField, ReorderableList] private List<GameObject> categoryButtonsPrefabs;
 
 		private readonly RecipesInCategory[] recipesInCategories =
@@ -58,9 +61,13 @@ namespace Systems.CraftingV2.GUI
 
 		private Text craftButtonTextComponent;
 
+		private InputFieldFocus searchFieldComponent;
+
 		private CategoryButtonScript chosenCategory;
 
 		private RecipeButtonScript chosenRecipe;
+
+		private readonly Regex preSearchRegex = new Regex("[^\\w\\s]");
 
 		#region Lifecycle
 
@@ -103,6 +110,7 @@ namespace Systems.CraftingV2.GUI
 			toolsTextComponent = toolsTextGameObject.GetComponent<Text>();
 			reagentsTextComponent = reagentsTextGameObject.GetComponent<Text>();
 			craftButtonTextComponent = craftButtonTextGameObject.GetComponent<Text>();
+			searchFieldComponent = searchFieldGameObject.GetComponent<InputFieldFocus>();
 		}
 
 		private void InitCategories()
@@ -354,6 +362,43 @@ namespace Systems.CraftingV2.GUI
 					recipeButtonScript.RefreshCraftable(PlayerManager.LocalPlayerScript.PlayerCrafting);
 				}
 			}
+		}
+
+		public void ApplySearchFilters()
+		{
+			if (searchFieldComponent.text.Length == 0)
+			{
+				return;
+			}
+
+			DeselectCategory(chosenCategory);
+			DeselectRecipe(chosenRecipe);
+
+			searchFieldComponent.text = preSearchRegex.Replace(
+				searchFieldComponent.text,
+				""
+			).ToLower();
+
+			Regex searchRegex = new Regex(searchFieldComponent.text);
+
+			foreach (RecipesInCategory recipesInCategory in recipesInCategories)
+			{
+				foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
+				{
+					if (searchRegex.IsMatch(recipeButtonScript.CraftingRecipe.RecipeName.ToLower()))
+					{
+						recipeButtonScript.gameObject.SetActive(true);
+						continue;
+					}
+					recipeButtonScript.gameObject.SetActive(false);
+				}
+			}
+		}
+
+		public void OnSearchButtonClicked()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			ApplySearchFilters();
 		}
 
 		public void OnRefreshRecipesButtonClicked()
