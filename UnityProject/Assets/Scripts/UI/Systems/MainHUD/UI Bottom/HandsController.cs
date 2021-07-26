@@ -27,9 +27,12 @@ public class HandsController : MonoBehaviour
 	public NamedSlot ActiveHand;
 
 
-	public void Start()
+	public void Awake()
 	{
-		Instance = this;
+		if (Instance == null)
+		{
+			Instance = this;
+		}
 	}
 
 
