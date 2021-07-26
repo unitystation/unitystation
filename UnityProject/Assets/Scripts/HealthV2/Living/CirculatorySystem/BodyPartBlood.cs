@@ -161,11 +161,12 @@ namespace HealthV2
 			foreach (Reagent reagent in BloodContainer.CurrentReagentMix.reagents.Keys)
 			{
 				ReagentVomit rvomit = reagent.reagentVomit;
-
 				int rand = random.Next(0,10000);
 
 				if (rvomit != null && rand < rvomit.vomitchance)
 				{
+					var worldPos = HealthMaster.GetComponent<RegisterPlayer>().LocalPosition;
+					VomitSplat(worldPos, BloodContainer.CurrentReagentMix, rvomit.vomitblood);
 				}
 			}
 

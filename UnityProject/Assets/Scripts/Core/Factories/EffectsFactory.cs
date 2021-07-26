@@ -161,7 +161,7 @@ public static class EffectsFactory
 		}
 	}
 
-	public static void VomitSplat(Vector3Int worldPos, Color color, ReagentMix reagents, bool isblood = false)
+	public static void VomitSplat(Vector3Int worldPos, ReagentMix reagents, bool isblood = false)
 	{
 		EnsureInit();
 		var vomitTileInst = Spawn.ServerPrefab(vomitTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
@@ -173,20 +173,15 @@ public static class EffectsFactory
 
 		if (vomitTileInst.Successful)
 		{
-			var powderTileGO = vomitTileInst.GameObject;
-			var tileReagents = powderTileGO.GetComponent<ReagentContainer>();
+			var vomitTileGO = vomitTileInst.GameObject;
+			var tileReagents = vomitTileGO.GetComponent<ReagentContainer>();
 
 			var colorDesc = TextUtils.ColorToString(reagents.MixColor);
 			var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
 			vomitTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
 
-			if (powderTileGO)
+			if (vomitTileGO)
 			{
-				var decal = powderTileGO.GetComponent<FloorDecal>();
-				if (decal)
-				{
-					decal.color = color;
-				}
 				if (reagents != null)
 				{
 					tileReagents.Add(reagents);
