@@ -30,9 +30,16 @@ namespace HealthV2
 				ReagentVomit rvomit = reagent.reagentVomit;
 				int rand = random.Next(0, 10000);
 				Vector3Int worldPos = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
-				if (rvomit != null && rand < rvomit.vomitchance)
+				if (rvomit != null && rand < rvomit.vomitchance && !StomachContents.IsEmpty)
 				{
-					EffectsFactory.VomitSplat(worldPos, StomachContents.CurrentReagentMix, rvomit.vomitblood);
+					float takeAmount = 5;
+					if (StomachContents.ReagentMixTotal < 5)
+					{
+						takeAmount = StomachContents.ReagentMixTotal;
+					}
+					var takeMix = StomachContents.TakeReagents(takeAmount);
+					EffectsFactory.VomitSplat(worldPos, takeMix, rvomit.vomitblood);
+					StomachContents.CurrentReagentMix.RemoveVolume(takeAmount);
 				}
 			}
 
