@@ -412,14 +412,15 @@ namespace GameModes
 		/// </summary>
 		public void EndRoundReport()
 		{
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "`A round has ended`", "");
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, "```A round has ended```", "");
+
 			Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
 			StationObjectiveManager.Instance.ShowStationStatusReport();
 			AntagManager.Instance.ShowAntagStatusReport();
 
 			var msg = $"The round will restart in {GameManager.Instance.RoundEndTime} seconds.";
 			Chat.AddGameWideSystemMsgToChat(msg);
-
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A round has ended	\n", "");
 		}
 
 		#endregion
