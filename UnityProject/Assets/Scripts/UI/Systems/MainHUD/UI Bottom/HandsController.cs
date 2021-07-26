@@ -29,7 +29,10 @@ public class HandsController : MonoBehaviour
 
 	public void Start()
 	{
-		Instance = this;
+		if (Instance == null)
+		{
+			Instance = this;
+		}
 	}
 
 
