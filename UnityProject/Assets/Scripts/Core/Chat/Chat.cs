@@ -93,9 +93,9 @@ public partial class Chat : MonoBehaviour
 		//Check to see whether this player is allowed to send on the chosen channels
 		if(player != null)
 		{
-			msg.Channels &= SentByPlayer.Script.GetAvailableChannelsMask(true);
-			
-			if (msg.Channels == ChatChannel.None) return;
+			channels &= player.GetAvailableChannelsMask(true);
+
+			if (channels == ChatChannel.None) return;
 		}
 
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
