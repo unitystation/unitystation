@@ -111,6 +111,8 @@ namespace HealthV2
 			RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.RunSpeed = RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.WalkSpeed;
 
 			StartCoroutine(ReturnSpeed(runSpeed));
+
+			RelatedPart.HealDamage(null, random.Next(0,5), DamageType.Tox);
 		}
 
 		IEnumerator ReturnSpeed(float runSpeed)
