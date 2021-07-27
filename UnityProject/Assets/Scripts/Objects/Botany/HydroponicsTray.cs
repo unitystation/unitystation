@@ -473,7 +473,7 @@ namespace Objects.Botany
 			{
 				if (plantData.MutatesInToGameObject.Count > 0)
 				{
-					var objectContainer = slot?.Item?.GetComponent<ReagentContainer>();
+					var objectContainer = slot?.Item.OrNull().GetComponent<ReagentContainer>();
 					if (objectContainer != null)
 					{
 						objectContainer.MoveReagentsTo(5, reagentContainer);
@@ -491,7 +491,7 @@ namespace Objects.Botany
 			}
 
 
-			var objectItemAttributes = slot?.Item?.GetComponent<ItemAttributesV2>();
+			var objectItemAttributes = slot?.Item.OrNull().GetComponent<ItemAttributesV2>();
 			if (objectItemAttributes != null)
 			{
 				//If hand slot contains Cultivator remove weeds
@@ -536,7 +536,7 @@ namespace Objects.Botany
 
 			//If hand slot contains grown food, plant the food
 			//This temporarily replaces the seed machine until it is implemented, see commented code for original compost behavior
-			var foodObject = slot?.Item?.GetComponent<GrownFood>();
+			var foodObject = slot?.Item.OrNull()?.GetComponent<GrownFood>();
 			if (foodObject != null)
 			{
 				if (HasPlant)
@@ -563,7 +563,7 @@ namespace Objects.Botany
 			}
 
 			//If hand slot contains seeds, plant the seeds
-			var Object = slot?.Item?.GetComponent<SeedPacket>();
+			var Object = slot?.Item.OrNull()?.GetComponent<SeedPacket>();
 			if (Object != null)
 			{
 				plantData = PlantData.CreateNewPlant(slot.Item.GetComponent<SeedPacket>().plantData);
