@@ -90,7 +90,7 @@ public partial class Chat : MonoBehaviour
 
 		var player = sentByPlayer.Script;
 		
-		
+		//Check to see whether this player is allowed to send on the chosen channels
 		if(player != null)
 		{
 			msg.Channels &= SentByPlayer.Script.GetAvailableChannelsMask(true);
