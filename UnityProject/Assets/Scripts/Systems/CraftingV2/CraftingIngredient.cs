@@ -21,7 +21,9 @@ namespace Systems.CraftingV2
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return hasSimpleRelatedRecipe && DefaultWillInteract.Default(interaction, side);
+			return hasSimpleRelatedRecipe
+			       && interaction.HandObject != null
+			       && DefaultWillInteract.Default(interaction, side);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
