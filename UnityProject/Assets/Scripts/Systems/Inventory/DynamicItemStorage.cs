@@ -474,7 +474,7 @@ public class DynamicItemStorage : NetworkBehaviour
 			}
 		}
 
-		if (ServerObjectToSlots[bodyPartUISlots.GameObject].Count == 0)
+		if (ServerObjectToSlots.ContainsKey(bodyPartUISlots.GameObject) && ServerObjectToSlots[bodyPartUISlots.GameObject].Count == 0)
 		{
 			ServerObjectToSlots.Remove(bodyPartUISlots.GameObject);
 		}

@@ -141,22 +141,23 @@ namespace TileManagement
 				PresentTiles[ObjectLayer] = new Dictionary<Vector3Int, TileLocation>();
 			}
 
+			layersKeys.Sort((layerOne, layerTwo) =>
+				layerOne.GetOrder().CompareTo(layerTwo.GetOrder()));
+
 			LayersKeys = layersKeys.ToArray();
+			layersValues.Sort((layerOne, layerTwo) =>
+				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
+
 			LayersValues = layersValues.ToArray();
+
 			SolidLayersValues = solidLayersValues.ToArray();
 			damageableLayersValues.Sort((layerOne, layerTwo) =>
 				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
 			DamageableLayers = damageableLayersValues.ToArray();
 			PresentMatrix = this.GetComponent<Matrix>();
 			if (Application.isPlaying == false) return;
-			//UpdateManager.Add(CallbackType.UPDATE, ChangeCheck);
 		}
 
-		public void OnDisable()
-		{
-			//Was calling uneven number of Disables and enables on main station Resulting in it being removed from the update manager even though it was enabled idk how
-			//UpdateManager.Remove(CallbackType.UPDATE, ChangeCheck);
-		}
 
 		public void Update()
 		{

@@ -8,6 +8,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using Objects.Engineering;
 using Objects.Lighting;
+using Objects.Wallmounts;
 
 namespace Tests
 {
@@ -444,5 +445,44 @@ namespace Tests
 
 		    Assert.That(count, Is.EqualTo(0), $"APCs in the scene: {listOfAPCs.Count}");
 	    }
+
+
+	    [Test]
+	    public void CheckStatusDisplaysForNull()
+	    {
+		    bool isok = true;
+			var report = new StringBuilder();
+			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene");
+			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+
+			foreach (var scene in scenesPaths)
+			{
+				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
+
+				var Openedscene = EditorSceneManager.OpenScene(scene);
+				//report.AppendLine($"Checking {scene}");
+				//Logger.Log($"Checking {scene}", Category.Tests);
+				var StatusDisplays =  UnityEngine.Object.FindObjectsOfType<StatusDisplay>();
+
+				foreach (var StatusDisplay in StatusDisplays)
+				{
+					foreach (var door in StatusDisplay.doorControllers)
+					{
+						if (door == null)
+						{
+							isok = false;
+							report.AppendLine(
+								$"null door on {scene} - {StatusDisplay.transform.parent.parent.parent} at {StatusDisplay.transform.position} name {StatusDisplay.name}");
+
+						}
+					}
+				}
+			}
+
+			if (isok == false)
+			{
+				Assert.Fail(report.ToString());
+			}
+		}
     }
 }

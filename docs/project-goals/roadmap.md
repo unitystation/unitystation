@@ -75,9 +75,9 @@ note: goals that are crossed out are goals that have been completed
           <li>Role Management</li>
           <li><del>Piping of Atmospherics</del></li>
           <li><del>Disposals</del></li>
-          <li>Addressable system</li>
-          <li>Races support</li>
-          <li>Wizard</li>
+          <li><del>Addressable system</del></li>
+          <li><del>Races support</del></li>
+          <li><del>Wizard</del></li>
           <li>Mapping revamp</li>
           <li><del>Add one of the other ss13 engines (Singulo)</del></li>
         </ul>
@@ -98,6 +98,14 @@ note: goals that are crossed out are goals that have been completed
           </ul>
        </td>
     </tr>
+    <tr>
+        <td>Candidates for prerelease or post-release</td>
+           <td>
+              <ul>
+                  <li>3D walls (Was tested relatively easy to implement)</li>
+              </ul>
+           </td>
+        </tr>
     <tr>
         <td> to be continued... </td>
         <td></td>
