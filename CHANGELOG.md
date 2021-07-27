@@ -2,6 +2,8 @@
 ---
 
 
+* 2021/07/27: **[Fix]** Mobs will hit windows and grills again by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
+* 2021/07/27: **[Improvement]** Mobs will also hit adjacent tiles if they cant move to target by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
 * 2021/07/27: **[New]** Adds freezers and heaters which change the temperature of pipes by [ThatDan123](https://github.com/ThatDan123) in PR #[6951](https://github.com/unitystation/unitystation/pull/6951)
 * 2021/07/27: **[New]** Gases now have export prices by [ThatDan123](https://github.com/ThatDan123) in PR #[6951](https://github.com/unitystation/unitystation/pull/6951)
 * 2021/07/26: **[Fix]** Fixes players insatiable hunger by [Bod9001](https://github.com/Bod9001) in PR #[7145](https://github.com/unitystation/unitystation/pull/7145)
