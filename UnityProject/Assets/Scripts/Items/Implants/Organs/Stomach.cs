@@ -17,7 +17,7 @@ namespace HealthV2
 
 		public BodyFat BodyFatToInstantiate;
 
-		private System.Random random;
+		private System.Random random = new System.Random();
 
 		public override void ImplantPeriodicUpdate()
 		{
@@ -110,10 +110,10 @@ namespace HealthV2
 			float runSpeed = RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.RunSpeed;
 			RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.RunSpeed = RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.WalkSpeed;
 
-			StartCoroutine(returnSpeed(runSpeed));
+			StartCoroutine(ReturnSpeed(runSpeed));
 		}
 
-		IEnumerator returnSpeed(float runSpeed)
+		IEnumerator ReturnSpeed(float runSpeed)
 		{
 			yield return new WaitForSeconds(5);
 

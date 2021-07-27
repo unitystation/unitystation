@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReagentVomit : MonoBehaviour
+namespace Chemistry
 {
-	public int vomitchance;
-	public bool vomitblood;
+	public class ReagentVomit : MonoBehaviour
+	{
+		public int vomitchance;
+		public bool vomitblood;
+	}
 }
+
