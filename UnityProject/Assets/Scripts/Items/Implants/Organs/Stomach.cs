@@ -27,20 +27,7 @@ namespace HealthV2
 
 			foreach (Reagent reagent in StomachContents.CurrentReagentMix.reagents.Keys)
 			{
-				ReagentVomit rvomit = reagent.reagentVomit;
-				int rand = random.Next(0, 10000);
-				Vector3Int worldPos = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
-				if (rvomit != null && rand < rvomit.vomitchance && !StomachContents.IsEmpty)
-				{
-					float takeAmount = 5;
-					if (StomachContents.ReagentMixTotal < 5)
-					{
-						takeAmount = StomachContents.ReagentMixTotal;
-					}
-					var takeMix = StomachContents.TakeReagents(takeAmount);
-					EffectsFactory.VomitSplat(worldPos, takeMix, rvomit.vomitblood);
-					StomachContents.CurrentReagentMix.RemoveVolume(takeAmount);
-				}
+				Vomit(reagent);
 			}
 
 			//BloodContainer
@@ -87,6 +74,50 @@ namespace HealthV2
 			base.RemovedFromBody(livingHealthMasterBase);
 			BodyFats.Clear();
 
+		}
+
+		public void Vomit (Reagent reagent)
+		{
+			ReagentVomit rvomit = reagent.reagentVomit;
+			int rand = random.Next(0, 10000);
+			Vector3Int worldPos = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
+			if (rvomit != null && rand < rvomit.vomitchance && !StomachContents.IsEmpty)
+			{
+				float takeAmount = 5;
+				if (StomachContents.ReagentMixTotal < 5)
+				{
+					takeAmount = StomachContents.ReagentMixTotal;
+				}
+
+				var takeMix = StomachContents.TakeReagents(takeAmount);
+
+				if (rvomit.vomitblood)
+				{
+					if (RelatedPart.BloodContainer.ReagentMixTotal < 5)
+					{
+						takeAmount = StomachContents.ReagentMixTotal;
+					}
+					takeMix = RelatedPart.BloodContainer.TakeReagents(takeAmount);
+					RelatedPart.BloodContainer.CurrentReagentMix.RemoveVolume(takeAmount);
+				}
+				else
+				{
+					StomachContents.CurrentReagentMix.RemoveVolume(takeAmount);
+				}
+				EffectsFactory.VomitSplat(worldPos, takeMix, rvomit.vomitblood);
+			}
+
+			float runSpeed = RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.RunSpeed;
+			RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.RunSpeed = RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.WalkSpeed;
+
+			StartCoroutine(returnSpeed(runSpeed));
+		}
+
+		IEnumerator returnSpeed(float runSpeed)
+		{
+			yield return new WaitForSeconds(5);
+
+			RelatedPart.HealthMaster.GetComponent<RegisterPlayer>().GetComponent<PlayerScript>().playerMove.RunSpeed = runSpeed;
 		}
 	}
 }
