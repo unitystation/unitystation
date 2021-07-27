@@ -91,12 +91,17 @@ public partial class Chat : MonoBehaviour
 		var player = sentByPlayer.Script;
 		
 		//Check to see whether this player is allowed to send on the chosen channels
-		if(player != null)
+		if (player != null)
 		{
 			channels &= player.GetAvailableChannelsMask(true);
-
-			if (channels == ChatChannel.None) return;
 		}
+		else
+		{
+			//If player is null, must be in lobby therefore lock to OOC
+			channels = ChatChannel.OOC;
+		}
+		
+		if (channels == ChatChannel.None) return;
 
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
