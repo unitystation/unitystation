@@ -138,7 +138,8 @@ namespace Items.Magical
 				SoundManager.PlayNetworkedAtPos(ritualEntry.CastSound, player.Script.WorldPos, sourceObj: player.GameObject);
 			}
 
-			InGameEventsManager.Instance.TriggerSpecificEvent(ritualEntry.EventIndex, ritualEntry.EventType, announceEvent: false);
+			InGameEventsManager.Instance.TriggerSpecificEvent(ritualEntry.EventIndex, ritualEntry.EventType, 
+				adminName: $"[Wizard] {player.Username}, {player.Name}", announceEvent: false);
 
 			points -= ritualEntry.Cost;
 		}
