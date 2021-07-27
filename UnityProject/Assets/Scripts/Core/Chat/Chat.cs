@@ -89,6 +89,14 @@ public partial class Chat : MonoBehaviour
 		if (string.IsNullOrWhiteSpace(message)) return;
 
 		var player = sentByPlayer.Script;
+		
+		
+		if(player != null)
+		{
+			msg.Channels &= SentByPlayer.Script.GetAvailableChannelsMask(true);
+			
+			if (msg.Channels == ChatChannel.None) return;
+		}
 
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
