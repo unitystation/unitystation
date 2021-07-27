@@ -473,7 +473,7 @@ namespace Objects.Botany
 			{
 				if (plantData.MutatesInToGameObject.Count > 0)
 				{
-					var objectContainer = slot?.Item.OrNull().GetComponent<ReagentContainer>();
+					var objectContainer = slot?.Item.OrNull()?.GetComponent<ReagentContainer>();
 					if (objectContainer != null)
 					{
 						objectContainer.MoveReagentsTo(5, reagentContainer);
@@ -491,7 +491,7 @@ namespace Objects.Botany
 			}
 
 
-			var objectItemAttributes = slot?.Item.OrNull().GetComponent<ItemAttributesV2>();
+			var objectItemAttributes = slot?.Item.OrNull()?.GetComponent<ItemAttributesV2>();
 			if (objectItemAttributes != null)
 			{
 				//If hand slot contains Cultivator remove weeds

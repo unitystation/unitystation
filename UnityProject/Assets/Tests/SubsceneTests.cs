@@ -306,7 +306,7 @@ namespace Tests
 
 
 		/// <summary>
-		/// Checks to make sure all objects in the prefabs with item storage have the force spawn set to true
+		/// Checks for duplicated Pipes or cables
 		/// </summary>
 		[Test]
 		public void CheckPipesAndCables()
