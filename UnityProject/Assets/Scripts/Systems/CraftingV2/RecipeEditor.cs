@@ -147,6 +147,10 @@ namespace Systems.CraftingV2
 				)
 				{
 					craftingIngredient.RelatedRecipes.Add(new RelatedRecipe(recipe, i));
+					if (updateHasSimpleRelatedRecipe)
+					{
+						craftingIngredient.UpdateHasSimpleRelatedRecipe();
+					}
 					PrefabUtility.SavePrefabAsset(craftingIngredient.gameObject);
 				}
 			}
