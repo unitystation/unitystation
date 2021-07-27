@@ -45,8 +45,6 @@ namespace Systems.CraftingV2.GUI
 
 		private GridLayoutGroup recipesGridLayout;
 
-		private HorizontalLayoutGroup categoriesLayout;
-
 		private Text chosenRecipeNameTextComponent;
 
 		private Text chosenRecipeDescriptionTextComponent;
@@ -78,7 +76,7 @@ namespace Systems.CraftingV2.GUI
 				InitFields();
 				InitCategories();
 				InitRecipes(PlayerManager.LocalPlayerScript.PlayerCrafting);
-				DeselectRecipe(chosenRecipe);
+				recipeInfoGameObject.SetActive(false);
 				return;
 			}
 
@@ -102,7 +100,6 @@ namespace Systems.CraftingV2.GUI
 		{
 			Instance = this;
 			recipesGridLayout = recipesLayoutGameObject.GetComponent<GridLayoutGroup>();
-			categoriesLayout = categoriesLayoutGameObject.GetComponent<HorizontalLayoutGroup>();
 			chosenRecipeNameTextComponent = chosenRecipeNameGameObject.GetComponent<Text>();
 			chosenRecipeDescriptionTextComponent = chosenRecipeDescriptionGameObject.GetComponent<Text>();
 			chosenRecipeIconImageComponent = chosenRecipeIconGameObject.GetComponent<Image>();
@@ -166,6 +163,11 @@ namespace Systems.CraftingV2.GUI
 
 		private void DeselectCategory(CategoryButtonScript categoryButtonScript)
 		{
+			if (categoryButtonScript == null)
+			{
+				return;
+			}
+
 			categoryButtonScript.OnUnpressed();
 			foreach (RecipeButtonScript recipeButtonScript in
 				GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory).RecipeButtonScripts
@@ -173,11 +175,24 @@ namespace Systems.CraftingV2.GUI
 			{
 				recipeButtonScript.gameObject.SetActive(false);
 			}
+
+			chosenCategory = null;
 		}
 
 		public void ChangeCategory(CategoryButtonScript categoryButtonScript)
 		{
-			DeselectCategory(chosenCategory);
+			if (chosenCategory == null)
+			{
+				foreach (RecipesInCategory recipesInCategory in recipesInCategories)
+				{
+					DeselectCategory(recipesInCategory.CategoryButtonScript);
+				}
+			}
+			else
+			{
+				DeselectCategory(chosenCategory);
+			}
+
 			DeselectRecipe(chosenRecipe);
 			SelectCategory(categoryButtonScript);
 		}
@@ -192,11 +207,12 @@ namespace Systems.CraftingV2.GUI
 
 		private void DeselectRecipe(RecipeButtonScript recipeButtonScript)
 		{
-			if (recipeButtonScript != null)
+			if (recipeButtonScript == null)
 			{
-				chosenRecipe.OnUnpressed();
+				return;
 			}
-
+			recipeButtonScript.OnUnpressed();
+			chosenRecipe = null;
 			recipeInfoGameObject.SetActive(false);
 		}
 
@@ -329,18 +345,25 @@ namespace Systems.CraftingV2.GUI
 
 		public void OnPlayerLearnedRecipe(CraftingRecipe craftingRecipe)
 		{
-			recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.Add(
-				RecipeButtonScript.GenerateNew(
-					recipeButtonTemplatePrefab,
-					recipesGridLayout.transform,
-					craftingRecipe
-				).GetComponent<RecipeButtonScript>()
+			GameObject newRecipeButton = RecipeButtonScript.GenerateNew(
+				recipeButtonTemplatePrefab,
+				recipesGridLayout.transform,
+				craftingRecipe
 			);
+
+			if (chosenCategory.CategoryAndIcon.RecipeCategory != craftingRecipe.Category)
+			{
+				newRecipeButton.SetActive(false);
+			}
+
+			GetRecipesInCategory(craftingRecipe.Category)
+				.RecipeButtonScripts
+				.Add(newRecipeButton.GetComponent<RecipeButtonScript>());
 		}
 
 		public void OnPlayerForgotRecipe(CraftingRecipe craftingRecipe)
 		{
-			int recipeIndexToForgot = recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.FindIndex(
+			int recipeIndexToForgot = GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts.FindIndex(
 				recipeButtonScript => recipeButtonScript.CraftingRecipe
 			);
 			if (chosenRecipe != null && craftingRecipe == chosenRecipe.CraftingRecipe)
@@ -348,8 +371,8 @@ namespace Systems.CraftingV2.GUI
 				DeselectRecipe(chosenRecipe);
 			}
 
-			Destroy(recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts[recipeIndexToForgot]);
-			recipesInCategories[(int) craftingRecipe.Category].RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
+			Destroy(GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts[recipeIndexToForgot]);
+			GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
 		}
 
 		public void RefreshRecipes()
