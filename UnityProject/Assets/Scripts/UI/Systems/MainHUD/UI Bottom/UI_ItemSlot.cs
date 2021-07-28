@@ -105,7 +105,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	//Reset Item slot sprite on game restart
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
-		image?.ClearAll();
+		image.ClearAll();
 	}
 
 	/// <summary>
@@ -275,7 +275,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	public void SetSecondaryImage(Sprite sprite)
 	{
-		image?.SetOverlay(sprite);
+		image.SetOverlay(sprite);
 	}
 
 	/// <summary>
@@ -289,7 +289,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			return;
 		}
 
-		image?.ClearAll();
+		image.ClearAll();
 		if (amountText)
 		{
 			amountText.enabled = false;
@@ -309,7 +309,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	public void Reset()
 	{
-		image?.ClearAll();
+		image.ClearAll();
 		if (amountText)
 		{
 			amountText.enabled = false;
@@ -469,7 +469,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	public void SetHidden(bool hidden)
 	{
 		this.hidden = hidden;
-		image?.SetHidden(hidden);
+		image.SetHidden(hidden);
 		if (hidden && amountText)
 		{
 			amountText.enabled = false;
