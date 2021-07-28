@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace Systems.CraftingV2
 {
@@ -9,21 +10,25 @@ namespace Systems.CraftingV2
 	public class RecipeEditor : Editor
 	{
 		private readonly List<RecipeIngredient> lastSerializedIngredients = new List<RecipeIngredient>();
+		private bool lastSerializedIsSimple;
 
 		private CraftingRecipe recipe;
+		private SerializedProperty spRecipeName;
+		private SerializedProperty spRecipeDescription;
 		private SerializedProperty spCategory;
 		private SerializedProperty spCraftingTime;
-		private SerializedProperty spRecipeName;
 		private SerializedProperty spRecipeIconOverride;
 		private SerializedProperty spRequiredIngredients;
 		private SerializedProperty spRequiredReagents;
 		private SerializedProperty spRequiredToolTraits;
 		private SerializedProperty spResult;
 		private SerializedProperty spResultHandlers;
+		private SerializedProperty spIsSimple;
 
 		private void OnEnable()
 		{
 			spRecipeName = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeName)));
+			spRecipeDescription = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeDescription)));
 			spRecipeIconOverride = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeIconOverride)));
 			spCategory = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Category)));
 			spCraftingTime = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.CraftingTime)));
@@ -32,6 +37,7 @@ namespace Systems.CraftingV2
 			spRequiredReagents = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredReagents)));
 			spResult = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Result)));
 			spResultHandlers = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.ResultHandlers)));
+			spIsSimple = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.IsSimple)));
 
 			recipe = (CraftingRecipe) target;
 
@@ -47,6 +53,7 @@ namespace Systems.CraftingV2
 			EditorGUI.BeginChangeCheck();
 
 			EditorGUILayout.PropertyField(spRecipeName);
+			EditorGUILayout.PropertyField(spRecipeDescription);
 			EditorGUILayout.PropertyField(spRecipeIconOverride);
 			EditorGUILayout.PropertyField(spCategory);
 			EditorGUILayout.PropertyField(spCraftingTime);
@@ -55,22 +62,90 @@ namespace Systems.CraftingV2
 			EditorGUILayout.PropertyField(spRequiredReagents);
 			EditorGUILayout.PropertyField(spResult);
 			EditorGUILayout.PropertyField(spResultHandlers);
+			EditorGUILayout.PropertyField(spIsSimple);
+
+			if (GUILayout.Button("Add to the singleton if necessary"))
+			{
+				AddToSingletonIfNecessary();
+			}
+
+			if (GUILayout.Button("Fix serialized fields"))
+			{
+				serializedObject.Update();
+				serializedObject.ApplyModifiedProperties();
+				UpdateRelatedRecipes();
+				UpdateSelfIsSimple();
+				UpdateLastSerializedIngredients();
+				UpdateLastSerializedIsSimple();
+			}
+
+			if (GUILayout.Button("Prepare for deletion"))
+			{
+				PrepareForDeletion();
+			}
 
 			if (EditorGUI.EndChangeCheck())
 			{
 				serializedObject.ApplyModifiedProperties();
-				UpdateRelatedRecipes();
+				UpdateRelatedRecipesIfNecessary();
+				UpdateSelfIsSimple();
 				UpdateLastSerializedIngredients();
+				UpdateLastSerializedIsSimple();
 			}
 		}
 
-		// SampleText => sampleText
-		private static string Title2Camel(string text)
+		#region SelfUpdates
+
+		private void PrepareForDeletion()
 		{
-			return char.ToLowerInvariant(text[0]) + text.Substring(1);
+			recipe.RequiredIngredients.Clear();
+			RemoveFromSingleton();
+			serializedObject.Update();
 		}
 
-		private void UpdateRelatedRecipes()
+		private void RemoveFromSingleton()
+		{
+			CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Remove(recipe);
+		}
+
+		private void AddToSingletonIfNecessary()
+		{
+			if (CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Contains(recipe))
+			{
+				return;
+			}
+
+			CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Add(recipe);
+			EditorUtility.SetDirty(CraftingRecipeSingleton.Instance);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+		}
+
+		private void UpdateLastSerializedIngredients()
+		{
+			lastSerializedIngredients.Clear();
+			foreach (RecipeIngredient requiredIngredient in recipe.RequiredIngredients)
+			{
+				lastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
+			}
+		}
+
+		private void UpdateLastSerializedIsSimple()
+		{
+			lastSerializedIsSimple = recipe.IsSimple;
+		}
+
+		private void UpdateSelfIsSimple()
+		{
+			recipe.IsSimple = recipe.RequiredIngredients.Count + recipe.RequiredToolTraits.Count == 2;
+			serializedObject.Update();
+		}
+
+		#endregion
+
+		#region RelatedRecipesUpdate
+
+		private void UpdateRelatedRecipesIfNecessary()
 		{
 			bool updateIsUnnecessary = lastSerializedIngredients.Count == recipe.RequiredIngredients.Count;
 			if (updateIsUnnecessary)
@@ -90,24 +165,20 @@ namespace Systems.CraftingV2
 				return;
 			}
 
-			bool updateHasSimpleRelatedRecipe = recipe.IsSimple;
-
-			ClearRelatedRecipes(updateHasSimpleRelatedRecipe);
-			ReAddRelatedRecipes(updateHasSimpleRelatedRecipe);
+			UpdateRelatedRecipes();
 		}
 
-		private void UpdateLastSerializedIngredients()
+		private void UpdateRelatedRecipes()
 		{
-			lastSerializedIngredients.Clear();
-			foreach (RecipeIngredient requiredIngredient in recipe.RequiredIngredients)
-			{
-				lastSerializedIngredients.Add((RecipeIngredient) requiredIngredient.Clone());
-			}
+			bool isSimpleFieldWasChanged = recipe.IsSimple != lastSerializedIsSimple;
+
+			ClearRelatedRecipes(isSimpleFieldWasChanged);
+			ReAddRelatedRecipes(isSimpleFieldWasChanged);
 		}
 
 		private void ClearRelatedRecipes(bool updateHasSimpleRelatedRecipe)
 		{
-			foreach (RecipeIngredient recipeIngredient in recipe.RequiredIngredients)
+			foreach (RecipeIngredient recipeIngredient in lastSerializedIngredients)
 			{
 				if (recipeIngredient.RequiredItem == null)
 				{
@@ -156,6 +227,18 @@ namespace Systems.CraftingV2
 				}
 			}
 		}
+
+		#endregion
+
+		#region Utils
+
+		// SampleText => sampleText
+		private static string Title2Camel(string text)
+		{
+			return char.ToLowerInvariant(text[0]) + text.Substring(1);
+		}
+
+		#endregion
 	}
 }
 

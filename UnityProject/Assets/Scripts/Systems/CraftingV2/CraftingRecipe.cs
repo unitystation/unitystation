@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
 using Chemistry.Components;
 using Items;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Systems.CraftingV2
@@ -10,7 +11,7 @@ namespace Systems.CraftingV2
 	/// <summary>
 	///     A recipe for crafting. Turns a list of items-ingredients into a list of items-results(usually only one item).
 	/// </summary>
-	[CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/Crafting/Recipe")]
+	[CreateAssetMenu(fileName = "CraftingRecipe", menuName = "ScriptableObjects/Crafting/CraftingRecipe")]
 	public class CraftingRecipe : ScriptableObject
 	{
 		[SerializeField] private RecipeCategory category = RecipeCategory.Misc;
@@ -43,6 +44,8 @@ namespace Systems.CraftingV2
 
 		[SerializeField]
 		private List<IResultHandler> resultHandlers = new List<IResultHandler>();
+
+		[SerializeField, ReadOnly] private bool isSimple;
 
 		/// <summary>
 		///     Items that will be necessary and used for crafting. They will be deleted.
@@ -85,7 +88,13 @@ namespace Systems.CraftingV2
 		///     For example, roll out the dough with a rolling pin.
 		///     In the crafting menu, these items will be at the bottom in the hidden list.
 		/// </summary>
-		public bool IsSimple => RequiredIngredients.Count + RequiredToolTraits.Count == 2;
+		public bool IsSimple
+		{
+			get => isSimple;
+#if UNITY_EDITOR
+			set { isSimple = value; }
+#endif
+		}
 
 		/// <summary>
 		///     Checks for the presence of ingredients and tools necessary for the recipe.

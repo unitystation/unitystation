@@ -433,7 +433,7 @@ namespace Systems.CraftingV2.GUI
 		public void OnCraftButtonPressed()
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			PlayerManager.LocalPlayerScript.PlayerCrafting.TryToStartCrafting(chosenRecipe.CraftingRecipe);
+			RequestCraft.Send(chosenRecipe.CraftingRecipe);
 		}
 	}
 }
