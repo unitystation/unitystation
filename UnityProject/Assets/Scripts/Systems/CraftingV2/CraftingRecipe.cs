@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
 using Chemistry.Components;
 using Items;
-using NaughtyAttributes;
-using Player;
-using UnityEditor;
 using UnityEngine;
 
 namespace Systems.CraftingV2

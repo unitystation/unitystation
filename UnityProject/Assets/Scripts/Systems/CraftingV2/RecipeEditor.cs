@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+
+using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
 
 namespace Systems.CraftingV2
 {
@@ -157,3 +158,5 @@ namespace Systems.CraftingV2
 		}
 	}
 }
+
+#endif
