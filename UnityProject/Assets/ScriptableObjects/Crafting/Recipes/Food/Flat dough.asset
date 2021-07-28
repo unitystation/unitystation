@@ -10,15 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
-  m_Name: Dough
+  m_Name: Flat dough
   m_EditorClassIdentifier: 
-  category: 2
-  craftingTime: 0
-  recipeName: Undefined
+  category: 1
+  craftingTime: 1
+  recipeName: Flat dough
   recipeIconOverride: {fileID: 0}
   recipeDescription: 
-  requiredIngredients: []
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 6035652412496520804, guid: c806a0c93acc5b94a9986b18d70f8368,
+      type: 3}
   requiredReagents: []
-  requiredToolTraits: []
-  result: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 8e3c98655a1b54d4a9251d1b68a1ef1a, type: 2}
+  result:
+  - {fileID: 1449470387542250284, guid: 41220ca24fe3798478f533c5f8102248, type: 3}
   resultHandlers: []

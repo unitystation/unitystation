@@ -288,7 +288,7 @@ namespace Systems.CraftingV2.GUI
 			{
 				stringBuilder
 					.Append("- ")
-					.Append(toolTrait.ToString())
+					.Append(toolTrait.name)
 					.AppendLine()
 					.AppendLine();
 			}

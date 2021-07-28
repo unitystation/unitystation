@@ -89,7 +89,7 @@ namespace Systems.CraftingV2
 				return;
 			}
 
-			bool updateHasSimpleRelatedRecipe = recipe.RequiredIngredients.Count + recipe.RequiredToolTraits.Count == 2;
+			bool updateHasSimpleRelatedRecipe = recipe.IsSimple;
 
 			ClearRelatedRecipes(updateHasSimpleRelatedRecipe);
 			ReAddRelatedRecipes(updateHasSimpleRelatedRecipe);

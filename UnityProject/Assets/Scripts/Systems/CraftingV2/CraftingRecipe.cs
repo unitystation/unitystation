@@ -88,10 +88,7 @@ namespace Systems.CraftingV2
 		///     For example, roll out the dough with a rolling pin.
 		///     In the crafting menu, these items will be at the bottom in the hidden list.
 		/// </summary>
-		public bool IsSimple
-		{
-			get => RequiredIngredients.Count + RequiredToolTraits.Count == 2;
-		}
+		public bool IsSimple => RequiredIngredients.Count + RequiredToolTraits.Count == 2;
 
 		/// <summary>
 		///     Checks for the presence of ingredients and tools necessary for the recipe.
@@ -219,11 +216,11 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
-		/// <param name="crafterGameObject">The game object that crafting according to the recipe.</param>
+		/// <param name="crafterPlayerScript">The player that crafting according to the recipe.</param>
 		public void TryToCraft(
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			GameObject crafterGameObject
+			PlayerScript crafterPlayerScript
 		)
 		{
 			if (!CanBeCrafted(possibleIngredients, possibleTools))
@@ -231,7 +228,7 @@ namespace Systems.CraftingV2
 				return;
 			}
 
-			UnsafelyCraft(possibleIngredients, possibleTools, crafterGameObject);
+			UnsafelyCraft(possibleIngredients, possibleTools, crafterPlayerScript);
 		}
 
 		/// <summary>
@@ -239,15 +236,15 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
-		/// <param name="crafterGameObject">The game object that crafting according to the recipe.</param>
+		/// <param name="crafterPlayerScript">The player that crafting according to the recipe.</param>
 		public void UnsafelyCraft(
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			GameObject crafterGameObject
+			PlayerScript crafterPlayerScript
 		)
 		{
 			UseReagents(possibleIngredients);
-			CompleteCrafting(crafterGameObject, UseIngredients(possibleIngredients));
+			CompleteCrafting(crafterPlayerScript, UseIngredients(possibleIngredients));
 		}
 
 		private List<CraftingIngredient> UseIngredients(List<CraftingIngredient> possibleIngredients)
@@ -347,14 +344,17 @@ namespace Systems.CraftingV2
 		/// <summary>
 		///     Completes crafting the recipe, spawns the Result.
 		/// </summary>
-		/// <param name="crafterGameObject"></param>
-		private void CompleteCrafting(GameObject crafterGameObject, List<CraftingIngredient> usedIngredients)
+		/// <param name="crafterPlayerScript"></param>
+		private void CompleteCrafting(PlayerScript crafterPlayerScript, List<CraftingIngredient> usedIngredients)
 		{
 			List<GameObject> spawnedResult = new List<GameObject>();
 			foreach (GameObject resultedGameObject in Result)
 			{
 				spawnedResult.Add(
-					Spawn.ServerPrefab(resultedGameObject, crafterGameObject.WorldPosServer()).GameObject
+					Spawn.ServerPrefab(
+						resultedGameObject,
+						crafterPlayerScript.WorldPos + (Vector3Int) crafterPlayerScript.playerDirectional.CurrentDirection.VectorInt
+					).GameObject
 				);
 			}
 

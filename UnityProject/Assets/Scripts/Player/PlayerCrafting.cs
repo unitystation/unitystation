@@ -289,7 +289,7 @@ namespace Player
 				$"You made the {recipe.RecipeName}!"
 			);
 
-			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript.gameObject);
+			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript);
 		}
 	}
 }

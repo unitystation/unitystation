@@ -12,13 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
   m_Name: Dough
   m_EditorClassIdentifier: 
-  category: 2
-  craftingTime: 0
-  recipeName: Undefined
+  category: 1
+  craftingTime: 2
+  recipeName: Dough
   recipeIconOverride: {fileID: 0}
   recipeDescription: 
   requiredIngredients: []
-  requiredReagents: []
+  requiredReagents:
+  - requiredAmount: 10
+    requiredReagent: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  - requiredAmount: 15
+    requiredReagent: {fileID: 11400000, guid: 0c4cf985d57ba9ce18282581b4f45fe9, type: 2}
   requiredToolTraits: []
-  result: []
+  result:
+  - {fileID: 6035652412496520804, guid: c806a0c93acc5b94a9986b18d70f8368, type: 3}
   resultHandlers: []
