@@ -371,6 +371,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
 		}
+		
+		if(CustomNetworkManager.Instance._isServer == false) return;
 
 		timeElapsedQueueCheckServer += Time.deltaTime;
 		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
