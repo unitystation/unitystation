@@ -19,6 +19,12 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
+  - name: Camera Assembly
+    prefab: {fileID: 744360337639613114, guid: 2ce4a1be35b09b749b6ddb078b9adbdb, type: 3}
+    cost: 5
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
   - name: Chair
     prefab: {fileID: 8185880096148182776, guid: 1a00e842e154f7d43811c5d45328988c,
       type: 3}
