@@ -2,6 +2,20 @@
 ---
 
 
+* 2021/07/27: **[New]** added tests for duplicate cables pipes by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[New]** added test For missing door controllers on status displays by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[New]** updated roadmap a bit by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Improvement]** remove duplicated cables and pipes from every scene by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Fix]** fixes inconsistent interactions with underfloor layer by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Fix]** fixes missing seed component in botany by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Fix]** ffixes null referencing dynamic inventory by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Fix]** fixes non tab on medical record consul by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Fix]** fixes players being gigged by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Fix]** fixes null components on sleeper by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/27: **[Fix]** Mobs will hit windows and grills again by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
+* 2021/07/27: **[Improvement]** Mobs will also hit adjacent tiles if they cant move to target by [ThatDan123](https://github.com/ThatDan123) in PR #[6816](https://github.com/unitystation/unitystation/pull/6816)
+* 2021/07/27: **[New]** Adds freezers and heaters which change the temperature of pipes by [ThatDan123](https://github.com/ThatDan123) in PR #[6951](https://github.com/unitystation/unitystation/pull/6951)
+* 2021/07/27: **[New]** Gases now have export prices by [ThatDan123](https://github.com/ThatDan123) in PR #[6951](https://github.com/unitystation/unitystation/pull/6951)
 * 2021/07/26: **[Fix]** Fixes players insatiable hunger by [Bod9001](https://github.com/Bod9001) in PR #[7145](https://github.com/unitystation/unitystation/pull/7145)
 * 2021/07/24: **[Fix]** Wallmounts such as APCs, light switches, buttons, etc, render over windows again. by [PetMudstone](https://github.com/PetMudstone) in PR #[7123](https://github.com/unitystation/unitystation/pull/7123)
 * 2021/07/23: **[Fix]** Fixes the bug where oil immediately turns to ash. by [DavidHearn](https://github.com/DavidHearn) in PR #[7093](https://github.com/unitystation/unitystation/pull/7093)

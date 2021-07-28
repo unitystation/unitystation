@@ -578,6 +578,7 @@ public class DynamicItemStorage : NetworkBehaviour
 
 			if (PlayerManager.LocalPlayer == this.gameObject && storageCharacteristicse.NotPresentOnUI == false)
 			{
+				UIManager.Instance.UI_SlotManager.SetActive(true);
 				UIManager.Instance.UI_SlotManager.AddIndividual(bodyPartUISlots, storageCharacteristicse);
 			}
 		}
