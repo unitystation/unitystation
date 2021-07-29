@@ -35,7 +35,7 @@ namespace Systems.CraftingV2
 			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
 			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
 
-			for (int i = 0; i < possibleIngredients.Count; i++)
+			for (int i = 0; i < possibleIngredientsIds.Count; i++)
 			{
 				possibleIngredients.Add(NetworkObjects[i].GetComponent<CraftingIngredient>());
 			}
@@ -81,6 +81,7 @@ namespace Systems.CraftingV2
 				connectedPlayer,
 				new NetMessage
 				{
+					recipientId = connectedPlayer.Script.netId,
 					jsonedPossibleIngredientsIds = JsonConvert.SerializeObject(availableIngredientsIds),
 					jsonedPossibleToolsIds = JsonConvert.SerializeObject(availableToolsIds)
 				}
