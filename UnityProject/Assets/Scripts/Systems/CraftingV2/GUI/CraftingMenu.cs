@@ -71,7 +71,7 @@ namespace Systems.CraftingV2.GUI
 
 		#region Lifecycle
 
-		void Awake()
+		public void Awake()
 		{
 			if (Instance == null)
 			{

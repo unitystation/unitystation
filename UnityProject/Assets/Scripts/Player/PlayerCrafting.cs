@@ -97,10 +97,20 @@ namespace Player
 		/// <param name="recipe">The recipe to add.</param>
 		public void LearnRecipe(CraftingRecipe recipe)
 		{
+			// if the player is trying to learn recipes without initiating CraftingMenu
+			// (the player hasn't opened it yet)
+			if (CraftingMenu.Instance == null)
+			{
+				// just to call CraftingMenu.Awake()
+				UIManager.Instance.CraftingMenu.SetActive(true);
+				CraftingMenu.Instance.SetActive(false);
+			}
+
 			if (!TryAddRecipeToKnownRecipes(recipe))
 			{
 				return;
 			}
+
 			CraftingMenu.Instance.OnPlayerLearnedRecipe(recipe);
 		}
 

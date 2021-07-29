@@ -38,13 +38,6 @@ namespace Systems.CraftingV2.GUI
 
 		public CraftingRecipe CraftingRecipe => craftingRecipe;
 
-		public void Awake()
-		{
-			backgroundImageComponent = backgroundGameObject.GetComponent<Image>();
-			borderImageComponent = borderGameObject.GetComponent<Image>();
-			iconImageComponent = iconGameObject.GetComponent<Image>();
-		}
-
 		public static GameObject GenerateNew(
 			GameObject recipeButtonTemplate,
 			Transform parentTransform,
@@ -54,6 +47,11 @@ namespace Systems.CraftingV2.GUI
 			GameObject generatedButton = Instantiate(recipeButtonTemplate, parentTransform);
 
 			RecipeButtonScript recipeButtonScript = generatedButton.GetComponent<RecipeButtonScript>();
+
+			// we can't move this to the Awake() event because the button can be inactive, so Awake() will not be called
+			recipeButtonScript.backgroundImageComponent = recipeButtonScript.backgroundGameObject.GetComponent<Image>();
+			recipeButtonScript.borderImageComponent = recipeButtonScript.borderGameObject.GetComponent<Image>();
+			recipeButtonScript.iconImageComponent = recipeButtonScript.iconGameObject.GetComponent<Image>();
 
 			recipeButtonScript.craftingRecipe = craftingRecipe;
 			if (craftingRecipe.RecipeIconOverride != null)
