@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using Items.Bureaucracy;
+using NaughtyAttributes;
+using UnityEngine;
 
 namespace Systems.CraftingV2
 {
 	public class RecipeBook : SimpleBook
 	{
-		private readonly List<CraftingRecipe> containsRecipes = new List<CraftingRecipe>();
+		[SerializeField, ReorderableList]
+		private List<CraftingRecipe> containsRecipes = new List<CraftingRecipe>();
 
 		protected override void FinishReading(ConnectedPlayer player)
 		{
