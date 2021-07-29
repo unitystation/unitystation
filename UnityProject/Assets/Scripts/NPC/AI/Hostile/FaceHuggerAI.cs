@@ -40,7 +40,7 @@ namespace Systems.MobAIs
 		/// <returns>Gameobject of the first player it found</returns>
 		protected override GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , directional.CurrentDirection.Vector, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , directional.CurrentDirection.Vector, 10f, 10);
 			if (hits.Count == 0)
 			{
 				return null;
