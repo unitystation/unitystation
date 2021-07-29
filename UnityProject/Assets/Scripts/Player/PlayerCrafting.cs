@@ -4,6 +4,7 @@ using System.Linq;
 using Systems.CraftingV2;
 using Systems.CraftingV2.GUI;
 using Items;
+using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -162,7 +163,7 @@ namespace Player
 		/// Gets all reachable items from a tile that a player is directed to.
 		/// </summary>
 		/// <returns>All reachable items from a tile that a player is directed to.</returns>
-		private List<CraftingIngredient> GetPossibleIngredients()
+		public List<CraftingIngredient> GetPossibleIngredients()
 		{
 			Vector3Int ingredientsSourceVector = playerScript.WorldPos;
 			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
@@ -190,7 +191,7 @@ namespace Player
 		/// Gets all tools that a player holds in his hands.
 		/// </summary>
 		/// <returns></returns>
-		private List<ItemAttributesV2> GetPossibleTools()
+		public List<ItemAttributesV2> GetPossibleTools()
 		{
 			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
 			foreach (ItemSlot handSlot in playerScript.DynamicItemStorage.GetHandSlots())

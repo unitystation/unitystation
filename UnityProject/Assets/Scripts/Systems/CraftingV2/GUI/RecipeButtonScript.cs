@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Items;
 using Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -105,9 +107,13 @@ namespace Systems.CraftingV2.GUI
 			CraftingMenu.Instance.ChangeRecipe(this);
 		}
 
-		public void RefreshCraftable(PlayerCrafting playerCrafting)
+		public void RefreshCraftable(
+			PlayerCrafting crafterPlayerCrafting,
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
 		{
-			if (playerCrafting.CanCraft(CraftingRecipe))
+			if (crafterPlayerCrafting.CanCraft(CraftingRecipe, possibleIngredients, possibleTools))
 			{
 				SetCraftableBorderColor();
 				return;

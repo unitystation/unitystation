@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Chemistry;
+using Items;
+using Mirror;
 using NaughtyAttributes;
 using Player;
 using UnityEngine;
@@ -332,7 +334,7 @@ namespace Systems.CraftingV2.GUI
 		public void Open()
 		{
 			this.SetActive(true);
-			RefreshRecipes();
+			RequestRefreshRecipes();
 		}
 
 		/// <summary>
@@ -375,14 +377,23 @@ namespace Systems.CraftingV2.GUI
 			GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
 		}
 
-		public void RefreshRecipes()
+		public void RequestRefreshRecipes()
 		{
 			DeselectRecipe(chosenRecipe);
+			RequestPossibleCraftingResources.Send();
+		}
+
+		public void RefreshRecipes(
+			PlayerCrafting crafterPlayerCrafting,
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
 			foreach (RecipesInCategory recipesInCategory in recipesInCategories)
 			{
 				foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
 				{
-					recipeButtonScript.RefreshCraftable(PlayerManager.LocalPlayerScript.PlayerCrafting);
+					recipeButtonScript.RefreshCraftable(crafterPlayerCrafting, possibleIngredients, possibleTools);
 				}
 			}
 		}
@@ -427,13 +438,13 @@ namespace Systems.CraftingV2.GUI
 		public void OnRefreshRecipesButtonClicked()
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			RefreshRecipes();
+			RequestRefreshRecipes();
 		}
 
 		public void OnCraftButtonPressed()
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			RequestCraft.Send(chosenRecipe.CraftingRecipe);
+			RequestCraftingAction.Send(chosenRecipe.CraftingRecipe);
 		}
 	}
 }

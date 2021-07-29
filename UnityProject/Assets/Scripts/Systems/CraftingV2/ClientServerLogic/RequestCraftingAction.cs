@@ -3,7 +3,7 @@ using Mirror;
 
 namespace Systems.CraftingV2
 {
-	public class RequestCraft : ClientMessage<RequestCraft.NetMessage>
+	public class RequestCraftingAction : ClientMessage<RequestCraftingAction.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
 		{
@@ -14,6 +14,15 @@ namespace Systems.CraftingV2
 		{
 			if (netMessage.craftingRecipeIndex == NetId.Invalid)
 			{
+				Logger.LogError($"Received invalid recipe index when {SentByPlayer.Name} " +
+				                "had tried to craft something.");
+				return;
+			}
+
+			if (netMessage.craftingRecipeIndex < 0)
+			{
+				Logger.LogError($"Received negative recipe index when {SentByPlayer.Name} " +
+				                "had tried to craft something. Perhaps some recipe is missing from the singleton.");
 				return;
 			}
 
