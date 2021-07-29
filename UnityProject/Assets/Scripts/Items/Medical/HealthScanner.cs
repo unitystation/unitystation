@@ -57,7 +57,7 @@ namespace Items.Medical
 					$"<b>Overall status: {totalPercent} % healthy</b>\n" +
 					$"Blood level: {bloodTotal}cc, {bloodPercent} %\n");
 			StringBuilder partMessages = new StringBuilder();
-			foreach (var bodypart in health.ImplantList)
+			foreach (var bodypart in health.BodyPartList)
 			{
 				if (AdvancedHealthScanner == false && bodypart.DamageContributesToOverallHealth == false) continue;
 				if (bodypart.TotalDamage == 0) continue;
@@ -87,7 +87,7 @@ namespace Items.Medical
 
 			if (interaction.IsAltClick && AdvancedHealthScanner)
 			{
-				foreach(BodyPart part in health.ImplantList)
+				foreach(BodyPart part in health.BodyPartList)
 				{
 					if(part.BodyPartType == interaction.TargetBodyPart)
 					{

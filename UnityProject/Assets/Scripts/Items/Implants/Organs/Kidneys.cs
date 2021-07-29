@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Kidneys : BodyPartModification
+	public class Kidneys : Organ
 	{
 		public List<Reagent> WhiteListReagents = new List<Reagent>();
 

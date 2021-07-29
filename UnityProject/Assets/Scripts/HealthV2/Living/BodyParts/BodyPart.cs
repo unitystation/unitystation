@@ -9,8 +9,8 @@ using UI.CharacterCreator;
 namespace HealthV2
 {
 	/// <summary>
-	/// A part of a body. Can be external, such as a limb, or internal like an organ.
-	/// Body parts can also contain other body parts, eg the 'brain body part' contained in the 'head body part'.
+	/// An external part of a body. Limbs, chest, head, wings, etc.
+	/// Body parts can contain organs
 	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, BodyPartSurgery, and BodyPartModifiers.
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
@@ -141,7 +141,7 @@ namespace HealthV2
 		[HideInInspector] public Color Tone = Color.white;
 
 		[System.NonSerialized]
-		public List<BodyPartModification> BodyPartModifications = new List<BodyPartModification>();
+		public List<Organ> OrganList = new List<Organ>();
 
 		public string SetCustomisationData;
 
@@ -176,9 +176,9 @@ namespace HealthV2
 
 			UpdateIcons();
 			SetUpSystemsThis();
-			foreach (var bodyPartModification in BodyPartModifications)
+			foreach (var organ in OrganList)
 			{
-				bodyPartModification.HealthMasterSet();
+				organ.HealthMasterSet();
 			}
 			//TODO Make this generic \/ for mobs
 			Storage.SetRegisterPlayer(healthMaster?.GetComponent<RegisterPlayer>());
@@ -217,12 +217,12 @@ namespace HealthV2
 			DamageInitialisation();
 			UpdateSeverity();
 
-			BodyPartModifications = this.GetComponents<BodyPartModification>().ToList();
+			OrganList = GetComponents<Organ>().ToList();
 
-			foreach (var bodyPartModification in BodyPartModifications)
+			foreach (var organ in OrganList)
 			{
-				bodyPartModification.RelatedPart = this;
-				bodyPartModification.Initialisation();
+				organ.RelatedPart = this;
+				organ.Initialisation();
 			}
 		}
 
@@ -246,12 +246,12 @@ namespace HealthV2
 			}
 
 
-			foreach (var bodyPartModification in BodyPartModifications)
+			foreach (var organ in OrganList)
 			{
-				bodyPartModification.ImplantPeriodicUpdate();
+				organ.ImplantPeriodicUpdate();
 				if (IsBleedingInternally)
 				{
-					bodyPartModification.InternalDamageLogic();
+					organ.InternalDamageLogic();
 				}
 			}
 			BloodUpdate();
@@ -301,10 +301,10 @@ namespace HealthV2
 		public virtual void RemoveFromBodyThis()
 		{
 			if (BodyPartRemovalChecks() == false) return;
-			dynamic parent = this.GetParent();
+			dynamic parent = GetParent();
 			if (parent != null)
 			{
-				parent.RemoveSpecifiedFromThis(this.gameObject);
+				parent.RemoveSpecifiedFromThis(gameObject);
 			}
 		}
 
@@ -361,9 +361,9 @@ namespace HealthV2
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
 			SubBodyPartRemoved(this);
-			foreach (var bodyPartModification in BodyPartModifications)
+			foreach (var organ in OrganList)
 			{
-				bodyPartModification.RemovedFromBody(livingHealthMasterBase);
+				organ.RemovedFromBody(livingHealthMasterBase);
 			}
 		}
 
@@ -450,9 +450,9 @@ namespace HealthV2
 			if (SystemSetup) return;
 			SystemSetup = true;
 			BloodInitialise();
-			foreach (var bodyPartModification in BodyPartModifications)
+			foreach (var organ in OrganList)
 			{
-				bodyPartModification.SetUpSystems();
+				organ.SetUpSystems();
 			}
 		}
 

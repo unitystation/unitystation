@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Bones : BodyPartModification
+	public class Bones : Organ
 	{
 		[SerializeField] private float BloodGeneratedByOneNutriment = 1;
 		[SerializeField] private BloodType GeneratesThis;

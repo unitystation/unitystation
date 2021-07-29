@@ -35,7 +35,7 @@ namespace Systems.MobAIs
 
 		protected override void UpdateMe()
 		{
-			if (MatrixManager.IsInitialized == false || health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
+			if (MatrixManager.IsInitialized == false || health.IsDead || health.IsCrit) return;
 
 			base.UpdateMe();
 			MonitorExtras();
