@@ -18,7 +18,7 @@ namespace Messages.Client
 			{
 				if (livingHealthBehaviour.IsDead)
 				{
-					Logger.LogError("Player '" + SentByPlayer.Name + "' is attempting to commit suicide but is already dead.", Category.Health);
+					Logger.LogWarning("Player '" + SentByPlayer.Name + "' is attempting to commit suicide but is already dead.", Category.Health);
 				}
 				else
 				{

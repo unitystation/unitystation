@@ -192,6 +192,8 @@ namespace HealthV2
 
 		protected GameObject LastDamagedBy;
 
+		public List<BodyPart> DismemberingBodyParts = new List<BodyPart>();
+
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
 		/// </summary>
@@ -203,7 +205,8 @@ namespace HealthV2
 			var State = HungerState.Normal;
 			foreach (var bodyPart in ImplantList)
 			{
-				if (bodyPart.HungerState == HungerState.Malnourished || bodyPart.HungerState == HungerState.Starving) //TODO Add the other states
+				if (bodyPart.HungerState == HungerState.Malnourished || bodyPart.HungerState == HungerState.Starving
+				) //TODO Add the other states
 				{
 					State = bodyPart.HungerState;
 					if (State == HungerState.Starving)
@@ -594,6 +597,7 @@ namespace HealthV2
 				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
+			CheckDismemberBody();
 		}
 
 		/// <summary>
@@ -616,6 +620,7 @@ namespace HealthV2
 				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
+			CheckDismemberBody();
 		}
 
 		/// <summary>
@@ -731,6 +736,7 @@ namespace HealthV2
 					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration);
 				}
 			}
+			CheckDismemberBody();
 		}
 
 		/// <summary>
@@ -760,6 +766,7 @@ namespace HealthV2
 			}
 
 			aimedPartContainer.TakeTraumaDamage(damage, damageType);
+			CheckDismemberBody();
 		}
 
 		/// <summary>
@@ -842,6 +849,15 @@ namespace HealthV2
 		{
 			//idk
 			//TODO: Reimplement
+		}
+
+		public void CheckDismemberBody()
+		{
+			foreach (var bodyPart in DismemberingBodyParts)
+			{
+				bodyPart.RemoveFromBodyThis();
+			}
+			DismemberingBodyParts.Clear();
 		}
 
 		/// <summary>

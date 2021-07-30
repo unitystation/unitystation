@@ -659,10 +659,10 @@ namespace HealthV2
 				float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 				if(chance >= spillChanceWhenCutPresent)
 				{
-					randomBodyPart.RemoveFromBodyThis();
+					healthMaster.DismemberingBodyParts.Add(randomBodyPart);
 					if(randomCustomBodyPart != null)
 					{
-						randomCustomBodyPart.RemoveFromBodyThis();
+						healthMaster.DismemberingBodyParts.Add(randomCustomBodyPart);
 					}
 				}
 				else
@@ -790,7 +790,7 @@ namespace HealthV2
 			if(Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
 			{
-				RemoveFromBodyThis();
+				healthMaster.DismemberingBodyParts.Add(this);
 			}
 		}
 

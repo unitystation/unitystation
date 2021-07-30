@@ -1,5 +1,6 @@
 ﻿using Chemistry.Components;
 using System;
+using Chemistry;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +10,9 @@ using UnityEngine;
 [RequireComponent(typeof(ReagentContainer))]
 public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IExaminable
 {
+	public Reagent Water;
+	public Reagent SpaceCleaner;
+
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Mop, true, false);
 
@@ -62,12 +66,12 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 			Vector3Int localPos = MatrixManager.WorldToLocalInt(worldPos, matrixInfo);
 			if (reagentContainer)
 			{
-				if (reagentContainer.MajorMixReagent.name == "Water")
+				if (reagentContainer.MajorMixReagent == Water)
 				{
 					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
 					reagentContainer.TakeReagents(reagentsPerUse);
 				}
-				else if (reagentContainer.MajorMixReagent.name == "SpaceCleaner")
+				else if (reagentContainer.MajorMixReagent ==  SpaceCleaner)
 				{
 					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
 					reagentContainer.TakeReagents(reagentsPerUse);
@@ -77,7 +81,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 					MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos);
 				}
 			}
-			
+
 			Chat.AddExamineMsg(interaction.Performer, "You finish mopping.");
 		}
 
@@ -92,7 +96,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 				$"{interaction.Performer.name} begins to clean the floor with the {gameObject.ExpensiveName()}.");
 		}
 	}
-	
+
 	public string Examine(Vector3 worldPos = default)
 	{
 		string msg = null;

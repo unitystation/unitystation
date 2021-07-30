@@ -129,16 +129,6 @@ namespace Items.Food
 			ReagentMix incomingFood = new ReagentMix();
 			FoodContents.CurrentReagentMix.TransferTo(incomingFood, FoodContents.CurrentReagentMix.Total);
 
-			ReagentContainer[] childContainers = GetComponentsInChildren<ReagentContainer>();
-
-			if (childContainers.Length > 0)
-			{
-				for (int i = childContainers.Length - 1; i >= 0; i--)
-				{
-					childContainers[i].CurrentReagentMix.TransferTo(incomingFood, childContainers[i].ReagentMixTotal);
-				}
-			}
-
 			incomingFood.Divide(Stomachs.Count);
 			foreach (var Stomach in Stomachs)
 			{
