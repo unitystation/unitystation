@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/07/30: **[Fix]** Fixes emagged bot sprite changes not being networked by [AtnerNT](https://github.com/AtnerNT) in PR #[7176](https://github.com/unitystation/unitystation/pull/7176)
 * 2021/07/30: **[Fix]** Fixes facehuggers knocking of mask and eyewear through helmets by [AtnerNT](https://github.com/AtnerNT) in PR #[7174](https://github.com/unitystation/unitystation/pull/7174)
 * 2021/07/30: **[New]** added tests for duplicate cables pipes by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
 * 2021/07/30: **[New]** added test For missing door controllers on status displays by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
