@@ -32,7 +32,7 @@ namespace Items.Food
 		private void Heal(PlayerScript player)
 		{
 			var livingHealth = player.GetComponent<LivingHealthMasterBase>();
-			foreach (BodyPart BodyPart in livingHealth.ImplantList)
+			foreach (BodyPart BodyPart in livingHealth.BodyPartList)
 			{
 				if (BodyPart.Brute > 0)
 				{

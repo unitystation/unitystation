@@ -25,7 +25,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	public float TraumaDamageToHeal = 20;
 
 	[SerializeField, EnableIf("HealsTraumaDamage")]
-	protected BodyPart.TramuticDamageTypes TraumaTypeToHeal;
+	protected TraumaticDamageTypes TraumaTypeToHeal;
 
 	protected Stackable stackable;
 
@@ -103,8 +103,8 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			livingHealthMasterBase.HealTraumaDamage(TraumaDamageToHeal, interaction.TargetBodyPart, TraumaTypeToHeal);
 			Chat.AddActionMsgToChat(interaction,
-			$"You apply the {gameObject.ExpensiveName()} to {livingHealthMasterBase.PlayerScriptOwner.visibleName}",
-			$"{interaction.Performer.ExpensiveName()} applies {name} to {livingHealthMasterBase.PlayerScriptOwner.visibleName}.");
+			$"You apply the {gameObject.ExpensiveName()} to {livingHealthMasterBase.playerScript.visibleName}",
+			$"{interaction.Performer.ExpensiveName()} applies {name} to {livingHealthMasterBase.playerScript.visibleName}.");
 		}
 	}
 
@@ -127,7 +127,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 			if(container.BodyPartType == interaction.TargetBodyPart && container.IsBleeding == true)
 			{
 				container.IsBleeding = false;
-				Chat.AddActionMsgToChat(interaction.Performer.gameObject, 
+				Chat.AddActionMsgToChat(interaction.Performer.gameObject,
 				$"You stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.",
 				$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.");
 			}

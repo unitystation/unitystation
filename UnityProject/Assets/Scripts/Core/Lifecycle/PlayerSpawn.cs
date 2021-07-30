@@ -543,10 +543,5 @@ public static class PlayerSpawn
 				playerSprites.OnCharacterSettingsChange(characterSettings);
 			}
 		}
-		var healthStateMonitor = newBody.GetComponent<HealthStateMonitor>();
-		if (healthStateMonitor)
-		{
-			healthStateMonitor.ProcessClientUpdateRequest(newBody);
-		}
 	}
 }

@@ -51,7 +51,7 @@ namespace Systems.MobAIs
 
 		protected override void FollowCompleted()
 		{
-			if (health.IsDead || health.IsCrit || health.IsCardiacArrest || fleeTarget == null) return;
+			if (health.IsDead || health.IsCrit || fleeTarget == null) return;
 			TryToFlee();
 		}
 

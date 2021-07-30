@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace HealthV2
 {
-	public class BodyPartUISlots : BodyPartModification, IDynamicItemSlotS
+	public class BodyPartUISlots : Organ, IDynamicItemSlotS
 	{
 		public NamedSlotFlagged NamedSlotFlagged;
 

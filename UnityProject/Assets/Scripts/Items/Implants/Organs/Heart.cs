@@ -5,7 +5,7 @@ using Chemistry;
 using HealthV2;
 using UnityEngine;
 
-public class Heart : BodyPartModification
+public class Heart : Organ
 {
 	//The actual heartrate of this implant, in BPM.
 	/// <summary>
@@ -73,7 +73,7 @@ public class Heart : BodyPartModification
 			CurrentPulse = 0;
 		}
 
-		DoHeartBeat(RelatedPart.HealthMaster);
+		DoHeartBeat();
 	}
 
 	public override void InternalDamageLogic()
@@ -83,7 +83,7 @@ public class Heart : BodyPartModification
 		{
 			Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 			$"You feel a sharp pain in your {RelatedPart.gameObject.ExpensiveName()}!",
-			$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
+			$"{RelatedPart.HealthMaster.playerScript.visibleName} holds their {RelatedPart.gameObject.ExpensiveName()} in pain!");
 			alarmedForInternalBleeding = true;
 		}
 		if(RelatedPart.CurrentInternalBleedingDamage > RelatedPart.MaximumInternalBleedDamage)
@@ -92,7 +92,7 @@ public class Heart : BodyPartModification
 		}
 	}
 
-	public void DoHeartBeat(LivingHealthMasterBase healthMaster)
+	public void DoHeartBeat()
 	{
 		//If we actually have a circulatory system.
 		if (HeartAttack)
@@ -138,7 +138,7 @@ public class Heart : BodyPartModification
 		{
 			float pumpedReagent = Math.Min(heartStrength * efficiency, circulatorySystem.ReadyBloodPool.Total);
 			float totalWantedBlood = 0;
-			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
+			foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
 				totalWantedBlood += implant.BloodThroughput;
@@ -147,7 +147,7 @@ public class Heart : BodyPartModification
 			pumpedReagent = Math.Min(pumpedReagent, totalWantedBlood);
 			ReagentMix SpareBlood = new ReagentMix();
 
-			foreach (BodyPart implant in RelatedPart.HealthMaster.ImplantList)
+			foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
 				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodThroughput / totalWantedBlood) * pumpedReagent);
