@@ -134,8 +134,8 @@ namespace Systems.MobAIs
 		}
 		private readonly List<NamedSlot> faceSlots = new List<NamedSlot>()
 		{
-			NamedSlot.eyes,
 			NamedSlot.head,
+			NamedSlot.eyes,
 			NamedSlot.mask
 		};
 	}
