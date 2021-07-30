@@ -2,7 +2,7 @@
 using Messages.Server;
 using Mirror;
 
-namespace Systems.CraftingV2
+namespace Systems.CraftingV2.ClientServerLogic
 {
 	public class RequestPossibleCraftingResources : ClientMessage<RequestPossibleCraftingResources.NetMessage>
 	{

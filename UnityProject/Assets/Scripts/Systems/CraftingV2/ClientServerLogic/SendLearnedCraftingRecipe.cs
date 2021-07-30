@@ -1,0 +1,60 @@
+﻿using Systems.CraftingV2.GUI;
+using Messages.Server;
+using Mirror;
+
+namespace Systems.CraftingV2.ClientServerLogic
+{
+	public class SendLearnedCraftingRecipe : ServerMessage<SendLearnedCraftingRecipe.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public int CraftingRecipeIndex;
+		}
+
+		public override void Process(NetMessage netMessage)
+		{
+			// let's synchronize known recipes on the client side.
+			// We can be sure that the player(at least server-sided) don't know this recipe yet, so it's safe to
+			// unsafely add this recipe to player's known recipes list.
+			PlayerManager.LocalPlayerScript.PlayerCrafting.UnsafelyAddRecipeToKnownRecipes(
+				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
+			);
+
+			// if the player is trying to learn new recipe without initiated CraftingMenu...
+			if (CraftingMenu.Instance == null)
+			{
+				// ...then we will add a new recipe button when the player will have opened the crafting menu
+				// (in other words when the CraftingMenu.Awake() method will be called)
+				return;
+			}
+
+			// ok, the crafting menu is already initiated, so it's safe to add new buttons to it
+			CraftingMenu.Instance.OnPlayerLearnedRecipe(
+				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
+			);
+		}
+
+		public static void SendTo(ConnectedPlayer connectedPlayer, CraftingRecipe craftingRecipe)
+		{
+			int craftingRecipeIndexToSend = CraftingRecipeSingleton
+				.Instance
+				.StoredCraftingRecipes
+				.IndexOf(craftingRecipe);
+
+			if (craftingRecipeIndexToSend < 0)
+			{
+				Logger.LogError($"The server tried to send the negative recipe index when {connectedPlayer.Name} " +
+				                $"had tried to learn this recipe: {craftingRecipe}. " +
+				                "Perhaps some recipe is missing from the singleton.");
+				return;
+			}
+
+			SendTo(
+				connectedPlayer, new NetMessage
+				{
+					CraftingRecipeIndex = craftingRecipeIndexToSend
+				}
+			);
+		}
+	}
+}

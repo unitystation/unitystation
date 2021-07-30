@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Systems.CraftingV2.ClientServerLogic;
 using Chemistry;
 using Items;
 using Mirror;
@@ -73,16 +74,14 @@ namespace Systems.CraftingV2.GUI
 
 		public void Awake()
 		{
-			if (Instance == null)
+			if (Instance != null)
 			{
-				InitFields();
-				InitCategories();
-				InitRecipes(PlayerManager.LocalPlayerScript.PlayerCrafting);
-				recipeInfoGameObject.SetActive(false);
 				return;
 			}
-
-			Destroy(gameObject);
+			InitFields();
+			InitCategories();
+			InitRecipes(PlayerManager.LocalPlayerScript.PlayerCrafting);
+			recipeInfoGameObject.SetActive(false);
 		}
 
 		private void InitRecipes(PlayerCrafting playerCrafting)

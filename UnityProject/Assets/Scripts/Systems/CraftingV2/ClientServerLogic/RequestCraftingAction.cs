@@ -1,33 +1,26 @@
 ﻿using Messages.Client;
 using Mirror;
 
-namespace Systems.CraftingV2
+namespace Systems.CraftingV2.ClientServerLogic
 {
 	public class RequestCraftingAction : ClientMessage<RequestCraftingAction.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public int craftingRecipeIndex;
+			public int CraftingRecipeIndex;
 		}
 
 		public override void Process(NetMessage netMessage)
 		{
-			if (netMessage.craftingRecipeIndex == NetId.Invalid)
+			if (netMessage.CraftingRecipeIndex < 0)
 			{
-				Logger.LogError($"Received invalid recipe index when {SentByPlayer.Name} " +
-				                "had tried to craft something.");
-				return;
-			}
-
-			if (netMessage.craftingRecipeIndex < 0)
-			{
-				Logger.LogError($"Received negative recipe index when {SentByPlayer.Name} " +
+				Logger.LogError($"Received the negative recipe index when {SentByPlayer.Name} " +
 				                "had tried to craft something. Perhaps some recipe is missing from the singleton.");
 				return;
 			}
 
 			SentByPlayer.Script.PlayerCrafting.TryToStartCrafting(
-				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.craftingRecipeIndex]
+				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
 			);
 		}
 
@@ -35,7 +28,7 @@ namespace Systems.CraftingV2
 		{
 			Send(new NetMessage
 			{
-				craftingRecipeIndex = CraftingRecipeSingleton.Instance.StoredCraftingRecipes.IndexOf(craftingRecipe)
+				CraftingRecipeIndex = CraftingRecipeSingleton.Instance.StoredCraftingRecipes.IndexOf(craftingRecipe)
 			});
 		}
 	}

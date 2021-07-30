@@ -7,28 +7,28 @@ using Mirror;
 using Newtonsoft.Json;
 using Player;
 
-namespace Systems.CraftingV2
+namespace Systems.CraftingV2.ClientServerLogic
 {
 	public class SendPossibleCraftingResources : ServerMessage<SendPossibleCraftingResources.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint recipientId;
-			public string jsonedPossibleIngredientsIds;
-			public string jsonedPossibleToolsIds;
+			public uint RecipientId;
+			public string JsonedPossibleIngredientsIds;
+			public string JsonedPossibleToolsIds;
 		}
 
 		public override void Process(NetMessage netMessage)
 		{
-			if (!LoadNetworkObject(netMessage.recipientId))
+			if (!LoadNetworkObject(netMessage.RecipientId))
 			{
 				return;
 			}
 
 			List<uint> possibleIngredientsIds =
-				JsonConvert.DeserializeObject<List<uint>>(netMessage.jsonedPossibleIngredientsIds);
+				JsonConvert.DeserializeObject<List<uint>>(netMessage.JsonedPossibleIngredientsIds);
 			List<uint> possibleToolsIds =
-				JsonConvert.DeserializeObject<List<uint>>(netMessage.jsonedPossibleToolsIds);
+				JsonConvert.DeserializeObject<List<uint>>(netMessage.JsonedPossibleToolsIds);
 
 			LoadMultipleObjects(possibleIngredientsIds.Concat(possibleToolsIds).ToArray());
 
@@ -81,9 +81,9 @@ namespace Systems.CraftingV2
 				connectedPlayer,
 				new NetMessage
 				{
-					recipientId = connectedPlayer.Script.netId,
-					jsonedPossibleIngredientsIds = JsonConvert.SerializeObject(availableIngredientsIds),
-					jsonedPossibleToolsIds = JsonConvert.SerializeObject(availableToolsIds)
+					RecipientId = connectedPlayer.Script.netId,
+					JsonedPossibleIngredientsIds = JsonConvert.SerializeObject(availableIngredientsIds),
+					JsonedPossibleToolsIds = JsonConvert.SerializeObject(availableToolsIds)
 				}
 			);
 		}

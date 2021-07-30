@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Systems.CraftingV2;
+using Systems.CraftingV2.ClientServerLogic;
 using Systems.CraftingV2.GUI;
 using Items;
 using Mirror;
@@ -50,7 +51,7 @@ namespace Player
 
 		private void InitKnownRecipesByCategories()
 		{
-			for (int i = Enum.GetValues(typeof(RecipeCategory)).Length; i >= 0; i--)
+			for (int i = Enum.GetValues(typeof(RecipeCategory)).Length - 1; i >= 0; i--)
 			{
 				knownRecipesByCategory.Add(new List<CraftingRecipe>());
 			}
@@ -79,39 +80,35 @@ namespace Player
 			return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 
-		private bool TryAddRecipeToKnownRecipes(CraftingRecipe craftingRecipe)
-		{
-			if (KnowRecipe(craftingRecipe))
-			{
-				return false;
-			}
-
-			GetKnownRecipesInCategory(craftingRecipe.Category).Add(craftingRecipe);
-
-			return true;
-		}
-
 		/// <summary>
 		/// Adds the recipe to the KnownRecipesByCategory[] if it doesn't already contains the recipe.
 		/// </summary>
 		/// <param name="recipe">The recipe to add.</param>
 		public void LearnRecipe(CraftingRecipe recipe)
 		{
-			// if the player is trying to learn recipes without initiating CraftingMenu
-			// (the player hasn't opened it yet)
-			if (CraftingMenu.Instance == null)
-			{
-				// just to call CraftingMenu.Awake()
-				UIManager.Instance.CraftingMenu.SetActive(true);
-				CraftingMenu.Instance.SetActive(false);
-			}
-
 			if (!TryAddRecipeToKnownRecipes(recipe))
 			{
 				return;
 			}
 
-			CraftingMenu.Instance.OnPlayerLearnedRecipe(recipe);
+			SendLearnedCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+		}
+
+		public bool TryAddRecipeToKnownRecipes(CraftingRecipe craftingRecipe)
+		{
+			if (KnowRecipe(craftingRecipe))
+			{
+				return false;
+			}
+
+			UnsafelyAddRecipeToKnownRecipes(craftingRecipe);
+
+			return true;
+		}
+
+		public void UnsafelyAddRecipeToKnownRecipes(CraftingRecipe craftingRecipe)
+		{
+			GetKnownRecipesInCategory(craftingRecipe.Category).Add(craftingRecipe);
 		}
 
 		/// <summary>
@@ -121,7 +118,7 @@ namespace Player
 		public void ForgetRecipe(CraftingRecipe recipe)
 		{
 			GetKnownRecipesInCategory(recipe.Category).Remove(recipe);
-			CraftingMenu.Instance.OnPlayerForgotRecipe(recipe);
+			SendForgottenCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
 		}
 
 		/// <summary>
