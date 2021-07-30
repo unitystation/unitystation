@@ -2,6 +2,9 @@
 
 namespace Systems.CraftingV2.GUI
 {
+	/// <summary>
+	/// 	A pair of values: a category button script and recipe buttons scripts according to the category.
+	/// </summary>
 	public class RecipesInCategory
 	{
 		private CategoryButtonScript categoryButtonScript;
@@ -9,7 +12,7 @@ namespace Systems.CraftingV2.GUI
 		private List<RecipeButtonScript> recipeButtonScripts = new List<RecipeButtonScript>();
 
 		public CategoryButtonScript CategoryButtonScript => categoryButtonScript;
-
+		
 		public List<RecipeButtonScript> RecipeButtonScripts => recipeButtonScripts;
 
 		public RecipesInCategory(CategoryButtonScript categoryButtonScript)

@@ -13,35 +13,58 @@ using UnityEngine.UI;
 
 namespace Systems.CraftingV2.GUI
 {
+	/// <summary>
+	/// 	The main crafting UI class that handles any client's input(button clicks).
+	/// </summary>
 	public class CraftingMenu : MonoBehaviour
 	{
+		/// <summary>
+		/// 	The link to the crafting UI instance. Client can only have one.
+		/// </summary>
 		public static CraftingMenu Instance;
 
-		[SerializeField] private GameObject recipeButtonTemplatePrefab;
+		[SerializeField] [Tooltip("The link to a prefab-template of a recipe button.")]
+		private GameObject recipeButtonTemplatePrefab;
 
-		[SerializeField] private GameObject categoriesLayoutGameObject;
+		[SerializeField] [Tooltip("The link to a layout as a game object that contains all category buttons.")]
+		private GameObject categoriesLayoutGameObject;
 
-		[SerializeField] private GameObject recipesLayoutGameObject;
+		[SerializeField] [Tooltip("The link to a layout as a game object that contains all recipe buttons.")]
+		private GameObject recipesLayoutGameObject;
 
-		[SerializeField] private GameObject recipeInfoGameObject;
+		[SerializeField] [Tooltip("The link to a game object that contains information about a selected recipe.")]
+		private GameObject recipeInfoGameObject;
 
-		[SerializeField] private GameObject chosenRecipeIconGameObject;
+		[SerializeField] [Tooltip("The link to a game object that contains a selected recipe's icon.")]
+		private GameObject chosenRecipeIconGameObject;
 
-		[SerializeField] private GameObject chosenRecipeNameGameObject;
+		[SerializeField] [Tooltip("The link to a game object that contains a selected recipe's name.")]
+		private GameObject chosenRecipeNameGameObject;
 
-		[SerializeField] private GameObject chosenRecipeDescriptionGameObject;
+		[SerializeField] [Tooltip("The link to a game object that contains a selected recipe's description.")]
+		private GameObject chosenRecipeDescriptionGameObject;
 
-		[SerializeField] private GameObject ingredientsTextGameObject;
+		[SerializeField] [Tooltip("The link to a dame object that contains information about all ingredients " +
+		                          "required for a selected recipe.")]
+		private GameObject ingredientsTextGameObject;
 
-		[SerializeField] private GameObject toolsTextGameObject;
+		[SerializeField] [Tooltip("The link to a game object that contains information about all tools " +
+		                          "required for a selected recipe.")]
+		private GameObject toolsTextGameObject;
 
-		[SerializeField] private GameObject reagentsTextGameObject;
+		[SerializeField] [Tooltip("The link to a game object that contains information about all reagents " +
+		                          "required for a selected recipe.")]
+		private GameObject reagentsTextGameObject;
 
-		[SerializeField] private GameObject craftButtonTextGameObject;
+		[SerializeField] [Tooltip("The link to a craft button as a game object.")]
+		private GameObject craftButtonTextGameObject;
 
-		[SerializeField] private GameObject searchFieldGameObject;
+		[SerializeField] [Tooltip("The link to a search field as a game object.")]
+		private GameObject searchFieldGameObject;
 
-		[SerializeField, ReorderableList] private List<GameObject> categoryButtonsPrefabs;
+		[SerializeField, ReorderableList] [Tooltip("A list of category buttons that will be displayed in " +
+		                                           "the crafting menu.")]
+		private List<GameObject> categoryButtonsPrefabs;
 
 		private readonly RecipesInCategory[] recipesInCategories =
 			new RecipesInCategory[Enum.GetValues(typeof(RecipeCategory)).Length];
@@ -68,6 +91,8 @@ namespace Systems.CraftingV2.GUI
 
 		private RecipeButtonScript chosenRecipe;
 
+		// the field used to prepare search field's content.
+		// The regex means "Any symbol that isn't a number or a word character."
 		private readonly Regex preSearchRegex = new Regex("[^\\w\\s]");
 
 		#region Lifecycle
@@ -135,6 +160,7 @@ namespace Systems.CraftingV2.GUI
 			SelectCategory(recipesInCategories[0].CategoryButtonScript);
 		}
 
+		// at the moment all categories should be present to a player
 		private void CheckCategoriesCompleteness()
 		{
 			for (int i = 0; i < recipesInCategories.Length; i++)
@@ -180,10 +206,16 @@ namespace Systems.CraftingV2.GUI
 			chosenCategory = null;
 		}
 
+		/// <summary>
+		/// 	Deselects a chosen category or, if it's null, deselects all categories.
+		/// 	Selects the new category.
+		/// </summary>
+		/// <param name="categoryButtonScript">The category button to select.</param>
 		public void ChangeCategory(CategoryButtonScript categoryButtonScript)
 		{
 			if (chosenCategory == null)
 			{
+				// ok we don't know where we should clear recipe buttons, so let's clear all possible recipe buttons.
 				foreach (RecipesInCategory recipesInCategory in recipesInCategories)
 				{
 					DeselectCategory(recipesInCategory.CategoryButtonScript);
@@ -191,6 +223,7 @@ namespace Systems.CraftingV2.GUI
 			}
 			else
 			{
+				// ok we know where we should clear recipe buttons.
 				DeselectCategory(chosenCategory);
 			}
 
@@ -217,6 +250,11 @@ namespace Systems.CraftingV2.GUI
 			recipeInfoGameObject.SetActive(false);
 		}
 
+		/// <summary>
+		/// 	Deselects a chosen recipe.
+		/// 	Selects the new recipe.
+		/// </summary>
+		/// <param name="recipeButtonScript">The recipe to select.</param>
 		public void ChangeRecipe(RecipeButtonScript recipeButtonScript)
 		{
 			DeselectRecipe(chosenRecipe);
@@ -322,6 +360,42 @@ namespace Systems.CraftingV2.GUI
 
 		#endregion
 
+		#region OtherButtonPressingHandlers
+
+		/// <summary>
+		/// 	Handles a player's search button pressing.
+		/// </summary>
+		public void OnSearchButtonClicked()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			ApplySearchFilters();
+		}
+
+		/// <summary>
+		/// 	Handles a player's refresh button pressing.
+		/// </summary>
+		public void OnRefreshRecipesButtonClicked()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			RequestRefreshRecipes();
+		}
+
+		/// <summary>
+		/// 	Handles a player's craft button pressing.
+		/// </summary>
+		public void OnCraftButtonPressed()
+		{
+			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			RequestCraftingAction.Send(chosenRecipe.CraftingRecipe);
+		}
+
+		#endregion
+
+		/// <summary>
+		/// 	Get all recipes in the category.
+		/// </summary>
+		/// <param name="recipeCategory">The category to get recipes from.</param>
+		/// <returns>All recipes in the category.</returns>
 		public RecipesInCategory GetRecipesInCategory(RecipeCategory recipeCategory)
 		{
 			return recipesInCategories[(int) recipeCategory];
@@ -344,6 +418,10 @@ namespace Systems.CraftingV2.GUI
 			this.SetActive(false);
 		}
 
+		/// <summary>
+		/// 	Generates a new recipe button in craftingRecipe.Category.
+		/// </summary>
+		/// <param name="craftingRecipe">The associated crafting recipe.</param>
 		public void OnPlayerLearnedRecipe(CraftingRecipe craftingRecipe)
 		{
 			GameObject newRecipeButton = RecipeButtonScript.GenerateNew(
@@ -362,6 +440,10 @@ namespace Systems.CraftingV2.GUI
 				.Add(newRecipeButton.GetComponent<RecipeButtonScript>());
 		}
 
+		/// <summary>
+		/// 	Removes a recipe button from a craftingRecipe.Category.
+		/// </summary>
+		/// <param name="craftingRecipe">The associated crafting recipe.</param>
 		public void OnPlayerForgotRecipe(CraftingRecipe craftingRecipe)
 		{
 			int recipeIndexToForgot = GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts.FindIndex(
@@ -376,12 +458,21 @@ namespace Systems.CraftingV2.GUI
 			GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
 		}
 
+		/// <summary>
+		/// 	Requests a server to refresh craftable recipes.
+		/// </summary>
 		public void RequestRefreshRecipes()
 		{
 			DeselectRecipe(chosenRecipe);
 			RequestPossibleCraftingResources.Send();
 		}
 
+		/// <summary>
+		/// 	Refreshes craftable recipes according to the possible ingredients and tools.
+		/// </summary>
+		/// <param name="crafterPlayerCrafting">Who may craft?</param>
+		/// <param name="possibleIngredients">The ingredients that may be used for crafting.</param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		public void RefreshRecipes(
 			PlayerCrafting crafterPlayerCrafting,
 			List<CraftingIngredient> possibleIngredients,
@@ -397,6 +488,10 @@ namespace Systems.CraftingV2.GUI
 			}
 		}
 
+		/// <summary>
+		/// 	Handles a search command, edits player's search request if necessary, applies search filters,
+		/// 	shows recipes that match the search request.
+		/// </summary>
 		public void ApplySearchFilters()
 		{
 			if (searchFieldComponent.text.Length == 0)
@@ -426,24 +521,6 @@ namespace Systems.CraftingV2.GUI
 					recipeButtonScript.gameObject.SetActive(false);
 				}
 			}
-		}
-
-		public void OnSearchButtonClicked()
-		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			ApplySearchFilters();
-		}
-
-		public void OnRefreshRecipesButtonClicked()
-		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			RequestRefreshRecipes();
-		}
-
-		public void OnCraftButtonPressed()
-		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			RequestCraftingAction.Send(chosenRecipe.CraftingRecipe);
 		}
 	}
 }
