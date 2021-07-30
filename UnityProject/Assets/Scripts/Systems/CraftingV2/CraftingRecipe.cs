@@ -14,79 +14,104 @@ namespace Systems.CraftingV2
 	[CreateAssetMenu(fileName = "CraftingRecipe", menuName = "ScriptableObjects/Crafting/CraftingRecipe")]
 	public class CraftingRecipe : ScriptableObject
 	{
-		[SerializeField] private RecipeCategory category = RecipeCategory.Misc;
-
-		[SerializeField]
-		[Min(0)]
-		[Tooltip("The standard time that will be spent on crafting according to this recipe.")]
-		private float craftingTime;
-
-		[SerializeField] [Tooltip("The name of the recipe.")]
-		private string recipeName = "Undefined";
-
-		[SerializeField] private Sprite recipeIconOverride;
-
-		public Sprite RecipeIconOverride => recipeIconOverride;
-
-		[SerializeField] private string recipeDescription = "";
-
-		[Tooltip("Items that will be necessary, used and deleted for crafting.")] [SerializeField]
-		private List<RecipeIngredient> requiredIngredients = new List<RecipeIngredient>();
-
-		[SerializeField] private List<RecipeIngredientReagent> requiredReagents = new List<RecipeIngredientReagent>();
-
-		[Tooltip("What tools(item traits) should be present when creating a thing according to a recipe.")]
-		[SerializeField]
-		private List<ItemTrait> requiredToolTraits;
-
-		[Tooltip("The resulting items after crafting.")] [SerializeField]
-		private List<GameObject> result;
-
-		[SerializeField]
-		private List<IResultHandler> resultHandlers = new List<IResultHandler>();
-
-		[SerializeField, ReadOnly] private bool isSimple;
-
-		/// <summary>
-		///     Items that will be necessary and used for crafting. They will be deleted.
-		/// </summary>
-		public List<RecipeIngredient> RequiredIngredients => requiredIngredients;
-
-		public List<RecipeIngredientReagent> RequiredReagents => requiredReagents;
-
-		/// <summary>
-		///     What tools(item traits) should be present when creating a thing according to a recipe.
-		/// </summary>
-		public List<ItemTrait> RequiredToolTraits => requiredToolTraits;
-
-		/// <summary>
-		///     The resulting items after crafting.
-		/// </summary>
-		public List<GameObject> Result => result;
+		[SerializeField] [Tooltip("The recipe category.")]
+		private RecipeCategory category = RecipeCategory.Misc;
 
 		/// <summary>
 		///     Recipe's category. See PlayerCrafting.KnownRecipesByCategory
 		/// </summary>
 		public RecipeCategory Category => category;
 
-		/// <summary>
-		///     The name of the recipe. The name of the result is not used, since there can be many results.
-		/// </summary>
-		public string RecipeName => recipeName;
-
-		public string RecipeDescription => recipeDescription;
+		[SerializeField]
+		[Min(0)]
+		[Tooltip("The standard time that will be spent on crafting according to this recipe.")]
+		private float craftingTime;
 
 		/// <summary>
 		///     The standard time that will be spent on crafting according to this recipe.
 		/// </summary>
 		public float CraftingTime => craftingTime;
 
+		[SerializeField] [Tooltip("The name of the recipe.")]
+		private string recipeName = "Undefined";
+
+		/// <summary>
+		///     The name of the recipe. The name of the result is not used, since there can be many results.
+		/// </summary>
+		public string RecipeName => recipeName;
+
+
+		[SerializeField] [Tooltip("The icon(sprite) that will be used for a recipe button. If it's empty(null), " +
+		                          "then the recipe button will use a first result's sprite found.")]
+		private Sprite recipeIconOverride;
+
+		/// <summary>
+		/// The icon(sprite) that will be used for a recipe button. If it's empty(null),
+		/// then the recipe button will use a first result's sprite found.
+		/// </summary>
+		public Sprite RecipeIconOverride => recipeIconOverride;
+
+
+		[SerializeField] [Tooltip("The recipe description.")]
+		private string recipeDescription = "";
+
+		/// <summary>
+		/// 	The recipe description.
+		/// </summary>
+		public string RecipeDescription => recipeDescription;
+
+		[Tooltip("Items that will be necessary, used and deleted for crafting.")] [SerializeField]
+		private List<RecipeIngredient> requiredIngredients = new List<RecipeIngredient>();
+
+		/// <summary>
+		///     Items that will be necessary and used for crafting. They will be deleted.
+		/// </summary>
+		public List<RecipeIngredient> RequiredIngredients => requiredIngredients;
+
+		[SerializeField] [Tooltip("The reagents that are necessary for crafting according to the recipe.")]
+		private List<RecipeIngredientReagent> requiredReagents = new List<RecipeIngredientReagent>();
+
+		/// <summary>
+		/// 	The reagents that are necessary for crafting according to the recipe.
+		/// </summary>
+		public List<RecipeIngredientReagent> RequiredReagents => requiredReagents;
+
+		[Tooltip("What tools(item traits) should be present when crafting according to the recipe.")]
+		[SerializeField]
+		private List<ItemTrait> requiredToolTraits;
+
+		/// <summary>
+		///     What tools(item traits) should be present when creating a thing according to a recipe.
+		/// </summary>
+		public List<ItemTrait> RequiredToolTraits => requiredToolTraits;
+
+		[SerializeField] [Tooltip("The resulting game objects after crafting.")]
+		private List<GameObject> result;
+
+		/// <summary>
+		///     The resulting items after crafting.
+		/// </summary>
+		public List<GameObject> Result => result;
+
+		[SerializeField] [Tooltip("The special handlers that handle specified craft actions. For example, " +
+		                          "we can set a spear's damage according to a glass shard used for crafting.")]
+		private List<IResultHandler> resultHandlers = new List<IResultHandler>();
+
+		/// <summary>
+		/// 	The special handlers that handle specified craft actions. For example,
+		/// 	we can set a spear's damage according to a glass shard used for crafting.
+		/// </summary>
 		public List<IResultHandler> ResultHandlers => resultHandlers;
+
+		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
+		                                    "Such recipes can be made simply by clicking one item on another, " +
+		                                    "without calling the crafting menu. " +
+		                                    "For example, roll out the dough with a rolling pin.")]
+		private bool isSimple;
 
 		/// <summary>
 		///     Such recipes can be made simply by clicking one item on another, without calling the crafting menu.
 		///     For example, roll out the dough with a rolling pin.
-		///     In the crafting menu, these items will be at the bottom in the hidden list.
 		/// </summary>
 		public bool IsSimple
 		{
@@ -97,10 +122,12 @@ namespace Systems.CraftingV2
 		}
 
 		/// <summary>
-		///     Checks for the presence of ingredients and tools necessary for the recipe.
+		///     Checks for the presence of ingredients, reagents and tools necessary for the recipe.
 		/// </summary>
-		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
-		/// <param name="possibleTools">Tools that might be used for crafting.</param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or reagent containers) that might be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that might be used for crafting.</param>
 		/// <returns>True if there are enough ingredients and tools for crafting, false otherwise.</returns>
 		public bool CanBeCrafted(List<CraftingIngredient> possibleIngredients, List<ItemAttributesV2> possibleTools)
 		{
@@ -109,16 +136,23 @@ namespace Systems.CraftingV2
 			       && CheckPossibleReagents(possibleIngredients);
 		}
 
+		/// <summary>
+		///     Checks for the presence of reagents necessary for the recipe.
+		/// </summary>
+		/// <param name="possibleReagentContainers">The reagent containers that might be used for crafting.</param>
+		/// <returns>True if there are enough reagents for crafting, false otherwise.</returns>
 		private bool CheckPossibleReagents(List<CraftingIngredient> possibleReagentContainers)
 		{
 			foreach (RecipeIngredientReagent requiredReagent in requiredReagents)
 			{
 				float foundAmount = 0;
 				foreach (CraftingIngredient possibleReagentContainer in possibleReagentContainers)
+				{
 					if (possibleReagentContainer.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
 					{
 						foundAmount += reagentContainer.AmountOfReagent(requiredReagent.RequiredReagent);
 					}
+				}
 
 				if (foundAmount < requiredReagent.RequiredAmount)
 				{
@@ -181,7 +215,7 @@ namespace Systems.CraftingV2
 							continue;
 						}
 
-						// okay, this is what we're looking for. We "use" this ingredient
+						// ok, this is what we're looking for. We "use" this ingredient
 						if (possibleIngredient.TryGetComponent(out Stackable stackable))
 						{
 							countedAmount = Math.Min(
@@ -253,6 +287,11 @@ namespace Systems.CraftingV2
 			CompleteCrafting(crafterPlayerScript, UseIngredients(possibleIngredients));
 		}
 
+		/// <summary>
+		/// 	Uses(despawns) the ingredients necessary for crafting according to the recipe.
+		/// </summary>
+		/// <param name="possibleIngredients">The ingredients that might be used for crafting.</param>
+		/// <returns>Used ingredients.</returns>
 		private List<CraftingIngredient> UseIngredients(List<CraftingIngredient> possibleIngredients)
 		{
 			List<CraftingIngredient> usedIngredients = new List<CraftingIngredient>();
@@ -291,12 +330,18 @@ namespace Systems.CraftingV2
 			return usedIngredients;
 		}
 
-		private void UseReagents(List<CraftingIngredient> possibleIngredients)
+		/// <summary>
+		/// 	Uses(removes) reagents necessary for the crafting recipe.
+		/// </summary>
+		/// <param name="possibleReagentContainers">
+		/// 	The possible reagent containers whose content(reagents) might be used for crafting.
+		/// </param>
+		private void UseReagents(List<CraftingIngredient> possibleReagentContainers)
 		{
 			foreach (RecipeIngredientReagent requiredReagent in RequiredReagents)
 			{
 				float amountUsed = 0;
-				foreach (CraftingIngredient possibleIngredient in possibleIngredients)
+				foreach (CraftingIngredient possibleIngredient in possibleReagentContainers)
 				{
 					if (possibleIngredient.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
 					{
@@ -313,6 +358,19 @@ namespace Systems.CraftingV2
 			}
 		}
 
+		/// <summary>
+		/// 	Uses(removes) the specified ingredient.
+		/// </summary>
+		/// <param name="reqIngIndex">
+		/// 	An index that points to the required ingredient in the RequiredIngredients list.
+		/// </param>
+		/// <param name="possibleIngredient">
+		/// 	The possible ingredient associated with the RequiredIngredients[reqIngIndex]
+		/// </param>
+		/// <param name="usedIngredientsCounter">How many ingredients have already been found?</param>
+		/// <returns>
+		/// 	The total amount of ingredients used to fulfil the RequiredIngredients[reqIngIndex] requirement.
+		/// </returns>
 		private int UseIngredient(int reqIngIndex, CraftingIngredient possibleIngredient, int usedIngredientsCounter)
 		{
 			if (possibleIngredient.TryGetComponent(out Stackable stackable))
@@ -350,7 +408,10 @@ namespace Systems.CraftingV2
 		/// <summary>
 		///     Completes crafting the recipe, spawns the Result.
 		/// </summary>
-		/// <param name="crafterPlayerScript"></param>
+		/// <param name="crafterPlayerScript">The player that crafted according to the recipe.</param>
+		/// <param name="usedIngredients">
+		/// 	The ingredients that were used to fulfil the requirements for the recipe.
+		/// </param>
 		private void CompleteCrafting(PlayerScript crafterPlayerScript, List<CraftingIngredient> usedIngredients)
 		{
 			List<GameObject> spawnedResult = new List<GameObject>();

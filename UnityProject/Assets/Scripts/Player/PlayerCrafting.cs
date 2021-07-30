@@ -25,26 +25,17 @@ namespace Player
 		[SerializeField, ReorderableList] [Tooltip("Default recipes known to a player.")]
 		private List<CraftingRecipe> defaultKnownRecipes = new List<CraftingRecipe>();
 
-		public List<CraftingRecipe> DefaultKnownRecipes => defaultKnownRecipes;
-
 		private PlayerScript playerScript;
 
 		public PlayerScript PlayerScript => playerScript;
-
-		private Directional directional;
-
-		public Directional Directional => directional;
 
 		private StandardProgressActionConfig craftProgressActionConfig = new StandardProgressActionConfig(
 			StandardProgressActionType.Craft
 		);
 
-		public StandardProgressActionConfig CraftProgressActionConfig => craftProgressActionConfig;
-
 		private void Awake()
 		{
 			playerScript = GetComponent<PlayerScript>();
-			directional = GetComponent<Directional>();
 			InitKnownRecipesByCategories();
 			InitDefaultRecipes();
 		}
@@ -65,13 +56,18 @@ namespace Player
 			}
 		}
 
+		/// <summary>
+		/// 	Gets all the known recipes in the specified recipe category.
+		/// </summary>
+		/// <param name="recipeCategory">The recipe category.</param>
+		/// <returns>All the known recipes in the specified recipe category.</returns>
 		public List<CraftingRecipe> GetKnownRecipesInCategory(RecipeCategory recipeCategory)
 		{
 			return knownRecipesByCategory[(int) recipeCategory];
 		}
 
 		/// <summary>
-		/// Checks if a player already knows the recipe.
+		/// 	Checks if a player already knows the recipe.
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
 		/// <returns>True, if a player already knows the recipe, false otherwise.</returns>
@@ -81,7 +77,7 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Adds the recipe to the KnownRecipesByCategory[] if it doesn't already contains the recipe.
+		/// 	Adds the recipe to the KnownRecipesByCategory[] if it doesn't already contains the recipe.
 		/// </summary>
 		/// <param name="recipe">The recipe to add.</param>
 		public void LearnRecipe(CraftingRecipe recipe)
@@ -94,6 +90,11 @@ namespace Player
 			SendLearnedCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
 		}
 
+		/// <summary>
+		/// 	Tries to add the recipe to the known recipes list.
+		/// </summary>
+		/// <param name="craftingRecipe">The recipe to add to the known recipes list.</param>
+		/// <returns>True if the recipe was successfully added to the known recipes list, false otherwise</returns>
 		public bool TryAddRecipeToKnownRecipes(CraftingRecipe craftingRecipe)
 		{
 			if (KnowRecipe(craftingRecipe))
@@ -106,13 +107,18 @@ namespace Player
 			return true;
 		}
 
+		/// <summary>
+		/// 	Adds the recipe to the known recipes list.
+		/// 	This method is unsafe - we may have duplicates!
+		/// </summary>
+		/// <param name="craftingRecipe">The recipe to add to the known recipes list.</param>
 		public void UnsafelyAddRecipeToKnownRecipes(CraftingRecipe craftingRecipe)
 		{
 			GetKnownRecipesInCategory(craftingRecipe.Category).Add(craftingRecipe);
 		}
 
 		/// <summary>
-		/// Removes the recipe from the KnownRecipesByCategory[]
+		/// 	Removes the recipe from the KnownRecipesByCategory list.
 		/// </summary>
 		/// <param name="recipe">The recipe to remove.</param>
 		public void ForgetRecipe(CraftingRecipe recipe)
@@ -122,7 +128,7 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Checks if a player able to craft according to the recipe(ignoring its ingredients, tools, etc).
+		/// 	Checks if the player able to craft according to the recipe(ignoring its ingredients, tools, etc).
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
@@ -133,8 +139,8 @@ namespace Player
 			       && !PlayerScript.IsGhost
 			       && !PlayerScript.playerHealth.IsCrit
 			       && !PlayerScript.playerHealth.IsDead
-			       //&& PlayerScript.playerHealth.HasBodyPart(BodyPartType.RightHand)
-			       //&& PlayerScript.playerHealth.HasBodyPart(BodyPartType.LeftHand)
+			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.RightArm)
+			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.LeftArm)
 			       && GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 
@@ -151,11 +157,13 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Checks if a player able to craft the recipe(including its ingredients, tools, etc).
+		/// 	Checks if a player able to craft the recipe(including its ingredients, tools, etc).
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
-		/// <param name="possibleIngredients"></param>
-		/// <param name="possibleTools"></param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or/and reagent containers) that may be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
 		public bool CanCraft(
 			CraftingRecipe recipe,
@@ -167,7 +175,7 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Gets all reachable items from a tile that a player is directed to.
+		/// 	Gets all reachable items from a tile that a player is directed to.
 		/// </summary>
 		/// <returns>All reachable items from a tile that a player is directed to.</returns>
 		public List<CraftingIngredient> GetPossibleIngredients()
@@ -175,9 +183,10 @@ namespace Player
 			Vector3Int ingredientsSourceVector = playerScript.WorldPos;
 			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
 			// it's unlikely that it will be null, but we are not immune from this case
-			if (directional != null)
+			if (playerScript.playerDirectional != null)
 			{
-				ingredientsSourceVector = PlayerScript.WorldPos + (Vector3Int) directional.CurrentDirection.VectorInt;
+				ingredientsSourceVector = PlayerScript.WorldPos
+				                          + (Vector3Int) playerScript.playerDirectional.CurrentDirection.VectorInt;
 			}
 
 			// no one knows how to craft through walls yet, so let's ignore the things behind the wall or something else
@@ -195,9 +204,9 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Gets all tools that a player holds in his hands.
+		/// 	Gets all tools that a player holds in his hands.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>All possible tools that may be used for crafting.</returns>
 		public List<ItemAttributesV2> GetPossibleTools()
 		{
 			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
@@ -213,15 +222,27 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Tries to start a crafting action.
+		/// 	Tries to start a crafting action.
+		/// 	May use all reachable items from a tile that a player is directed to.
+		/// 	May use all tools that a player holds in his hands.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
-		public void TryToStartCrafting(CraftingRecipe recipe)
+		/// <returns>True if a crafting action has started, false otherwise.</returns>
+		public bool TryToStartCrafting(CraftingRecipe recipe)
 		{
-			TryToStartCrafting(recipe, GetPossibleIngredients(), GetPossibleTools());
+			return TryToStartCrafting(recipe, GetPossibleIngredients(), GetPossibleTools());
 		}
 
-		public void TryToStartCrafting(
+		/// <summary>
+		///		Tries to start a crafting action.
+		/// </summary>
+		/// <param name="recipe">The recipe that the player is trying to craft to.</param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or reagent containers) that may be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
+		/// <returns>True if a crafting action has started, false otherwise.</returns>
+		public bool TryToStartCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
@@ -229,12 +250,21 @@ namespace Player
 		{
 			if (!CanCraft(recipe, possibleIngredients, possibleTools))
 			{
-				return;
+				return false;
 			}
 
 			StartCrafting(recipe, possibleIngredients, possibleTools);
+			return true;
 		}
 
+		/// <summary>
+		/// 	Unsafely starts a new crafting action even if the recipe's requirements were not fulfilled.
+		/// </summary>
+		/// <param name="recipe">The recipe that the player is trying to craft to.</param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or reagent containers) that may be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		private void StartCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
@@ -260,15 +290,27 @@ namespace Player
 		}
 
 		/// <summary>
-		/// Tries to finish a crafting action.
+		/// 	Tries to finish a crafting action.
+		/// 	May use all reachable items from a tile that a player is directed to.
+		/// 	May use all tools that a player holds in his hands.
 		/// </summary>
-		/// <param name="recipe">The recipe to try to finish crafting.</param>
-		public void TryToFinishCrafting(CraftingRecipe recipe)
+		/// <param name="recipe">The recipe to try to craft.</param>
+		/// <returns>True if we can spawn the recipe's result, false otherwise.</returns>
+		public bool TryToFinishCrafting(CraftingRecipe recipe)
 		{
-			TryToFinishCrafting(recipe, GetPossibleIngredients(), GetPossibleTools());
+			return TryToFinishCrafting(recipe, GetPossibleIngredients(), GetPossibleTools());
 		}
 
-		public void TryToFinishCrafting(
+		/// <summary>
+		/// 	Tries to finish a crafting action.
+		/// </summary>
+		/// <param name="recipe">The recipe to try to craft.</param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or reagent containers) that may be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
+		/// <returns>True if we can spawn the recipe's result, false otherwise.</returns>
+		public bool TryToFinishCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
@@ -280,12 +322,19 @@ namespace Player
 					playerScript.gameObject,
 					"Wait, where's mine... Oh, forget it, I can't craft it anymore."
 				);
-				return;
+				return false;
 			}
 
 			FinishCrafting(recipe, possibleIngredients, possibleTools);
+			return true;
 		}
 
+		/// <summary>
+		/// 	Unsafely finishes a crafting action even if the recipe's requirements were not fulfilled.
+		/// </summary>
+		/// <param name="recipe">The recipe that was used to craft.</param>
+		/// <param name="possibleIngredients">The ingredients(or reagent containers) that may be used for crafting.</param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		private void FinishCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,

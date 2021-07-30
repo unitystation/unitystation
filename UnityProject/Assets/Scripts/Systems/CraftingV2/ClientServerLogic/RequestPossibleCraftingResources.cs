@@ -1,5 +1,4 @@
 ﻿using Messages.Client;
-using Messages.Server;
 using Mirror;
 
 namespace Systems.CraftingV2.ClientServerLogic

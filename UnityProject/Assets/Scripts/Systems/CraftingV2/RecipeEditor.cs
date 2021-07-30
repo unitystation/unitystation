@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Systems.CraftingV2
 {
+	/// <summary>
+	/// 	The custom recipe editor that automates some fields and makes your life a bit easier..
+	/// </summary>
 	[CustomEditor(typeof(CraftingRecipe))]
 	public class RecipeEditor : Editor
 	{
@@ -96,6 +99,11 @@ namespace Systems.CraftingV2
 
 		#region SelfUpdates
 
+		/// <summary>
+		/// 	Clears the recipe's required ingredients list
+		/// 	(so we can update the required ingredients' related recipes later).
+		/// 	Removes the recipe from the recipe singleton.
+		/// </summary>
 		private void PrepareForDeletion()
 		{
 			recipe.RequiredIngredients.Clear();
@@ -103,11 +111,17 @@ namespace Systems.CraftingV2
 			serializedObject.Update();
 		}
 
+		/// <summary>
+		/// 	Remove the recipe from the recipe singleton.
+		/// </summary>
 		private void RemoveFromSingleton()
 		{
 			CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Remove(recipe);
 		}
 
+		/// <summary>
+		/// 	Adds the recipe to the singleton if necessary.
+		/// </summary>
 		private void AddToSingletonIfNecessary()
 		{
 			if (CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Contains(recipe))
@@ -121,6 +135,9 @@ namespace Systems.CraftingV2
 			AssetDatabase.Refresh();
 		}
 
+		/// <summary>
+		/// 	Updates the lastSerializedIngredients list.
+		/// </summary>
 		private void UpdateLastSerializedIngredients()
 		{
 			lastSerializedIngredients.Clear();
@@ -130,11 +147,17 @@ namespace Systems.CraftingV2
 			}
 		}
 
+		/// <summary>
+		/// 	Updates the lastSerializedIsSimple field.
+		/// </summary>
 		private void UpdateLastSerializedIsSimple()
 		{
 			lastSerializedIsSimple = recipe.IsSimple;
 		}
 
+		/// <summary>
+		/// 	Updates the current state of the isSimple field.
+		/// </summary>
 		private void UpdateSelfIsSimple()
 		{
 			recipe.IsSimple = recipe.RequiredIngredients.Count + recipe.RequiredToolTraits.Count == 2;
@@ -145,6 +168,9 @@ namespace Systems.CraftingV2
 
 		#region RelatedRecipesUpdate
 
+		/// <summary>
+		/// 	Updates the recipe's required ingredients' related recipe list if necessary.
+		/// </summary>
 		private void UpdateRelatedRecipesIfNecessary()
 		{
 			bool updateIsUnnecessary = lastSerializedIngredients.Count == recipe.RequiredIngredients.Count;
@@ -168,6 +194,9 @@ namespace Systems.CraftingV2
 			UpdateRelatedRecipes();
 		}
 
+		/// <summary>
+		/// 	Updates the recipe's required ingredients' related recipe list.
+		/// </summary>
 		private void UpdateRelatedRecipes()
 		{
 			bool isSimpleFieldWasChanged = recipe.IsSimple != lastSerializedIsSimple;
@@ -176,6 +205,12 @@ namespace Systems.CraftingV2
 			ReAddRelatedRecipes(isSimpleFieldWasChanged);
 		}
 
+		/// <summary>
+		/// 	Removes the recipe from the recipe's required ingredient's relatedRecipes list.
+		/// </summary>
+		/// <param name="updateHasSimpleRelatedRecipe">
+		/// 	Shall the method update recipe's required ingredients' hasSimpleRelatedRecipe?
+		/// </param>
 		private void ClearRelatedRecipes(bool updateHasSimpleRelatedRecipe)
 		{
 			foreach (RecipeIngredient recipeIngredient in lastSerializedIngredients)
@@ -204,6 +239,12 @@ namespace Systems.CraftingV2
 			}
 		}
 
+		/// <summary>
+		/// 	Adds the recipe to the required ingredient's relatedRecipes list.
+		/// </summary>
+		/// <param name="updateHasSimpleRelatedRecipe">
+		///		Shall the method update recipe's required ingredients' hasSimpleRelatedRecipe?
+		/// </param>
 		private void ReAddRelatedRecipes(bool updateHasSimpleRelatedRecipe)
 		{
 			for (int i = 0; i < recipe.RequiredIngredients.Count; i++)

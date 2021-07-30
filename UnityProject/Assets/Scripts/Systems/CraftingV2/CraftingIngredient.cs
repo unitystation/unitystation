@@ -5,11 +5,19 @@ using UnityEngine;
 
 namespace Systems.CraftingV2
 {
+	/// <summary>
+	/// 	This MonoBehaviour marks GameObject as a crafting ingredient
+	/// 	and contains some fields associated with recipes.
+	/// </summary>
 	public class CraftingIngredient : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		[SerializeField, ReadOnly] private bool hasSimpleRelatedRecipe;
 
-		[SerializeField, ReadOnly] [Tooltip("Recipes that have this item as an ingredient.")]
+		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
+		                                    "Has the crafting ingredient simple recipe in its relatedRecipes list?")]
+		private bool hasSimpleRelatedRecipe;
+
+		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
+		                                    "Recipes that have this item as an ingredient.")]
 		private List<RelatedRecipe> relatedRecipes = new List<RelatedRecipe>();
 
 		/// <summary>
@@ -17,15 +25,20 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public List<RelatedRecipe> RelatedRecipes => relatedRecipes;
 
+		/// <summary>
+		/// 	Has the crafting ingredient simple recipe in its relatedRecipes list?
+		/// </summary>
 		public bool HasSimpleRelatedRecipe => hasSimpleRelatedRecipe;
 
+		// will a player make an attempt to craft something?
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return hasSimpleRelatedRecipe
+			return HasSimpleRelatedRecipe
 			       && interaction.HandObject != null
 			       && DefaultWillInteract.Default(interaction, side);
 		}
 
+		/// tries to craft something
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
@@ -47,14 +60,24 @@ namespace Systems.CraftingV2
 				{
 					possibleIngredients.Add(possibleIngredient);
 				}
-				interaction.PerformerPlayerScript.PlayerCrafting.TryToStartCrafting(
+
+				if (interaction.PerformerPlayerScript.PlayerCrafting.TryToStartCrafting(
 					relatedRecipe.Recipe,
 					possibleIngredients,
 					possibleTools
-				);
+				))
+				{
+					// ok we're crafting now. There is no need to try to craft many recipes at one time.
+					break;
+				}
+
 			}
 		}
 
+		/// <summary>
+		/// 	Will set hasSimpleRelatedRecipe to true if a relatedRecipes list has at least one simple recipe.
+		/// 	Will set hasSimpleRelatedRecipe to false otherwise.
+		/// </summary>
 		public void UpdateHasSimpleRelatedRecipe()
 		{
 			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
