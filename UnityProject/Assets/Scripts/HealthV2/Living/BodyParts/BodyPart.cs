@@ -9,8 +9,8 @@ using UI.CharacterCreator;
 namespace HealthV2
 {
 	/// <summary>
-	/// An external part of a body. Limbs, chest, head, wings, etc.
-	/// Body parts can contain organs
+	/// A part of a body. Can be external, such as a limb, or internal like an organ.
+	/// Body parts can also contain other body parts, eg the 'brain body part' contained in the 'head body part'.
 	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, BodyPartSurgery, and BodyPartModifiers.
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
