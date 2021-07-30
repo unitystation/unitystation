@@ -18,4 +18,9 @@ public class Ingredient
 		Ingredient other = (Ingredient) obj;
 		return ingredientName == other.ingredientName && requiredAmount == other.requiredAmount;
 	}
+
+	public override int GetHashCode()
+	{
+		return base.GetHashCode();
+	}
 }

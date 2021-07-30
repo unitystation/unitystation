@@ -26,8 +26,6 @@ namespace Systems.CraftingV2.GUI
 
 		private Image backgroundImageComponent;
 
-		private Image categoryIconImageComponent;
-
 		/// <summary>
 		/// 	A pair of values: a recipe category and its icon.
 		/// </summary>
@@ -36,11 +34,10 @@ namespace Systems.CraftingV2.GUI
 		public void Awake()
 		{
 			backgroundImageComponent = backgroundImageGameObject.GetComponent<Image>();
-			categoryIconImageComponent = categoryIconImageGameObject.GetComponent<Image>();
 			backgroundImageComponent.color = onUnpressedColor;
 			if (categoryAndIcon.CategoryIcon != null)
 			{
-				categoryIconImageComponent.sprite = categoryAndIcon.CategoryIcon;
+				categoryIconImageGameObject.GetComponent<Image>().sprite = categoryAndIcon.CategoryIcon;
 			}
 		}
 
