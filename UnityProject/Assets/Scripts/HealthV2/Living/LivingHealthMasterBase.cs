@@ -192,7 +192,7 @@ namespace HealthV2
 
 		protected GameObject LastDamagedBy;
 
-		public List<BodyPart> DismemberingBodyParts = new List<BodyPart>();
+		[NonSerialized] public List<BodyPart> DismemberingBodyParts = new List<BodyPart>();
 
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
