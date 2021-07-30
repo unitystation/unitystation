@@ -4,6 +4,11 @@ using Mirror;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {
+	/// <summary>
+	/// 	A server sends information to a client about the learned recipe, so client can add a new recipe button to
+	/// 	a client's crafting menu, and also the client synchronizes its known recipes(adds the new recipe to its
+	/// 	known recipes list).
+	/// </summary>
 	public class SendLearnedCraftingRecipe : ServerMessage<SendLearnedCraftingRecipe.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage

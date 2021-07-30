@@ -4,6 +4,11 @@ using Mirror;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {
+	/// <summary>
+	/// 	A server sends to a client information about the forgotten recipe, so the client can remove a necessary
+	/// 	recipe button from its crafting menu, and also the client synchronizes its known recipes(removes the recipe
+	/// 	from the client's known recipes list).
+	/// </summary>
 	public class SendForgottenCraftingRecipe : ServerMessage<SendForgottenCraftingRecipe.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
@@ -39,6 +44,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 				.StoredCraftingRecipes
 				.IndexOf(craftingRecipe);
 
+			// is the recipe missing from the recipes singleton?
 			if (craftingRecipeIndexToSend < 0)
 			{
 				Logger.LogError($"The server tried to send the negative recipe index when {connectedPlayer.Name} " +

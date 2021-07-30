@@ -9,6 +9,10 @@ using Player;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {
+	/// <summary>
+	/// 	A server sends the information about all the possible ingredients and tools that may be used for crafting,
+	/// 	so client can see craftable recipes in a client's crafting menu.
+	/// </summary>
 	public class SendPossibleCraftingResources : ServerMessage<SendPossibleCraftingResources.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
