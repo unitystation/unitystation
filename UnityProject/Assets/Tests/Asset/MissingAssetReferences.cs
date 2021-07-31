@@ -99,30 +99,30 @@ namespace Tests
 		/// <summary>
 		/// Check if there are scriptable objects that lost their script
 		/// </summary>
-		private void CheckMissingScriptableObjects(string path)
+		private void CheckMissingScriptableObjects(string sourceFolderPath)
 		{
 			// Get all assets paths
 			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
-				.Where(p => p.Contains(path));
+				.Where(p => p.Contains(sourceFolderPath));
 
 			// Find all .asset (almost always it is SO)
-			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
+			var allAssetPaths = allResourcesPaths.Where(path => path.EndsWith(".asset")).ToArray();
 
 			var listResults = new List<string>();
-			foreach (var lookUpPath in allAssetPaths)
+			foreach (var assetFilePath in allAssetPaths)
 			{
-				var asset = AssetDatabase.LoadMainAssetAtPath(lookUpPath);
+				var asset = AssetDatabase.LoadMainAssetAtPath(assetFilePath);
 
 				// if we can't load it - something bad happend with SO
 				if (!asset)
-					listResults.Add(path);
+					listResults.Add(assetFilePath);
 			}
 
 			// Form report
 			var report = new StringBuilder();
-			foreach (string s in listResults)
+			foreach (string brokenAssetFilePath in listResults)
 			{
-				var fileName = Path.GetFileName(s);
+				var fileName = Path.GetFileName(brokenAssetFilePath);
 				var msg = $"Can't load asset {fileName}. Maybe linked ScriptableObject script is missing?";
 				Logger.Log(msg, Category.Tests);
 				report.AppendLine(msg);
