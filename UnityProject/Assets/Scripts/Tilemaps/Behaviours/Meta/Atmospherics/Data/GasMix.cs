@@ -418,5 +418,20 @@ namespace Systems.Atmospherics
 		{
 			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume}m^3 ";
 		}
+
+		public void Clear()
+		{
+			Temperature = 2.7f;
+			for (int i = 0; i < GasData.GasesArray.Length; i++)
+			{
+				var gas = GasData.GasesArray[i];
+				gas.Moles = 0;
+				GasData.GasesArray[i] = gas;
+			}
+			GasData.GasesArray = new GasValues[0];
+			GasData.GasesDict.Clear();
+			Pressure = 0;
+			Volume = 0;
+		}
 	}
 }

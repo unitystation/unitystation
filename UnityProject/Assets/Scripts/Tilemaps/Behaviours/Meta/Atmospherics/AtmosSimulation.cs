@@ -301,8 +301,8 @@ namespace Systems.Atmospherics
 		/// <returns>The mean gas mix.</returns>
 		private void CalcMeanGasMix()
 		{
-			meanGasMix.Copy(GasMixes.BaseEmptyMix);
-
+			meanGasMix.Clear();
+			
 			var targetCount = 0;
 
 			for (var i = 0; i < nodes.Count; i++)
