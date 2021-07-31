@@ -1,3 +1,4 @@
+using Systems.CraftingV2;
 using HealthV2;
 using Items.PDA;
 using UnityEngine;
@@ -39,4 +40,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public SurgeryProcedureBaseSingleton SurgeryProcedureBaseSingleton;
 	public GasesSingleton GasesSingleton;
 	public GasMixesSingleton GasMixesSingleton;
+	public CraftingRecipeSingleton CraftingRecipeSingleton;
 }
