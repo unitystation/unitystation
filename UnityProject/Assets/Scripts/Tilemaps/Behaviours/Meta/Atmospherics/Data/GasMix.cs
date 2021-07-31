@@ -157,7 +157,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Transfers moles from one gas to another
 		/// </summary>
-		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer)
+		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer, bool DoNotTouchOriginalMix = false)
 		{
 			var sourceStartMoles = source.Moles;
 			molesToTransfer = molesToTransfer.Clamp(0, sourceStartMoles);
@@ -178,8 +178,12 @@ namespace Systems.Atmospherics
 				//Add to target
 				target.GasData.ChangeMoles(gas.GasSO, transfer);
 
-				//Remove from source
-				source.GasData.ChangeMoles(gas.GasSO, -transfer);
+				if (DoNotTouchOriginalMix)
+				{
+					//Remove from source
+					source.GasData.ChangeMoles(gas.GasSO, -transfer);
+				}
+
 			}
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))

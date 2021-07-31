@@ -318,7 +318,7 @@ namespace Systems.Atmospherics
 				if (node.IsOccupied == false && node.IsIsolatedNode == false)
 				{
 					meanGasMix.Volume += node.GasMix.Volume;
-					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles);
+					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles, true);
 					targetCount++;
 				}
 				else if(node.IsIsolatedNode == false)
