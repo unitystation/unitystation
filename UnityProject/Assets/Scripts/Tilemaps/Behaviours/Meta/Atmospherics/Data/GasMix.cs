@@ -421,13 +421,8 @@ namespace Systems.Atmospherics
 
 		public void Clear()
 		{
-			Temperature = 2.7f;
-			for (int i = 0; i < GasData.GasesArray.Length; i++)
-			{
-				var gas = GasData.GasesArray[i];
-				gas.Moles = 0;
-				GasData.GasesArray[i] = gas;
-			}
+			Temperature = AtmosDefines.SPACE_TEMPERATURE;
+
 			GasData.GasesArray = new GasValues[0];
 			GasData.GasesDict.Clear();
 			Pressure = 0;
