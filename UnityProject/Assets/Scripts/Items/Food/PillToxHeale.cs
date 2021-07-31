@@ -1,21 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Chemistry;
 using HealthV2;
+using UnityEngine;
 
 namespace Items
 {
-	//TODO Needs to be changed over to  medical chemistry Instead
+
+
 	public class PillToxHeale : Consumable
 	{
-		public int damageRemove = 50;
+		public Reagent Antitoxin;
+
+		public float HealingAmount = 25f;
 
 		public override void TryConsume(GameObject feeder, GameObject eater)
 		{
-			var health = eater.GetComponent<LivingHealthMasterBase>();
-			foreach (var container in health.RootBodyPartContainers)
+			var Health = eater.GetComponent<LivingHealthMasterBase>();
+			var Stomachs = Health.GetStomachs();
+			foreach (var Stomach in Stomachs)
 			{
-				health.HealDamage(gameObject, damageRemove, DamageType.Radiation, container.BodyPartType);
+				Stomach.StomachContents.Add(new ReagentMix(Antitoxin,HealingAmount/Stomachs.Count));
 			}
 			_ = Despawn.ServerSingle(gameObject);
 		}

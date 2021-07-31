@@ -694,6 +694,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (handID != 0 && NetworkIdentity.spawned.ContainsKey(handID) == false) return;
 		if (NamedSlot != NamedSlot.leftHand && NamedSlot != NamedSlot.rightHand && NamedSlot != NamedSlot.none) return;
+		if (playerScript.IsGhost) return; // Because Ghosts don't have dynamic item storage
 
 		if (handID != 0)
 		{

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62aaac22b2ab7a4c86a8c9b6cc4be1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StackPercentageRemove: 50
+  RADRemover: {fileID: 11400000, guid: bdb2fef35f661fc43a5a3f362222d7c1, type: 2}
+  Amount: 50
 --- !u!1001 &7181961710821442090
 PrefabInstance:
   m_ObjectHideFlags: 0
