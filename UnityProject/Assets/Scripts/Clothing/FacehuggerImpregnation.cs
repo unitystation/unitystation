@@ -27,6 +27,9 @@ namespace Clothing
 		[Tooltip("Reference to larvae gameObject so we can spawn it")] [SerializeField]
 		private GameObject larvae = null;
 
+		[Tooltip("The SpriteHandler the facehugger should use once it successfully impregnates a host")] [SerializeField]
+		private SpriteHandler spriteHandler = default;
+
 		private bool isAlive = true;
 		private ClothingV2 clothingV2;
 		private ItemAttributesV2 itemAttributesV2;
@@ -49,6 +52,7 @@ namespace Clothing
 		public void KillHugger()
 		{
 			isAlive = false;
+			spriteHandler.ChangeSprite(1);
 			clothingV2.ChangeSprite(1);
 			itemAttributesV2.ServerSetArticleDescription("It is not moving anymore.");
 		}
