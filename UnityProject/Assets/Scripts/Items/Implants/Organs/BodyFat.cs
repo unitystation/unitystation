@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class BodyFat : BodyPartModification, PlayerMove.IMovementEffect
+	public class BodyFat : Organ, PlayerMove.IMovementEffect
 	{
 		public float MaxRunSpeedDebuff = -2;
 		public float MaxWalkingDebuff = -1.5f;

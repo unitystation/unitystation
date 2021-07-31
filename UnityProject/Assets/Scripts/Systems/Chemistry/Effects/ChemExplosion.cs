@@ -48,7 +48,7 @@ namespace Chemistry.Effects
 					strength = 0;
 				}
 
-				foreach (BodyPart part in bodyPart.HealthMaster.ImplantList)
+				foreach (BodyPart part in bodyPart.HealthMaster.BodyPartList)
 				{
 					if (part == bodyPart) continue; // we prioritised the origin organ first
 					if (part.ContainedIn == null) continue;

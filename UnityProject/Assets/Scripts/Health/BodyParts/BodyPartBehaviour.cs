@@ -72,9 +72,6 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			case DamageType.Brute:
 				BruteDamage -= damage;
-				if(BruteDamage < 20){
-					livingHealthBehaviour.bloodSystem.StopBleeding(this);
-				}
 				break;
 
 			case DamageType.Burn:

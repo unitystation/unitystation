@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: facehugger
-  knockedDownRotation: 0
   deathSounds:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
@@ -50,7 +49,7 @@ MonoBehaviour:
   performingDecision: 0
   performingAction: 0
   activated: 0
-  tickRate: 0.3
+  tickRate: 1
   FollowTarget: {fileID: 0}
   targetOtherPlayersWhoGetInWay: 1
   onlyActOnTarget: 0

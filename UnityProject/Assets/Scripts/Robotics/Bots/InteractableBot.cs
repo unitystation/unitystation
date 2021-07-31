@@ -10,7 +10,6 @@ namespace Robotics
 	{
 
 		[SerializeField] private SpriteHandler spriteHandler;
-		[SerializeField] private Sprite EMAGGED_SPRITE;
 
 		private MobExplore mobController;
 		public MobExplore MobController
@@ -47,9 +46,18 @@ namespace Robotics
 		public void PerformEmag(Emag emag, HandApply interaction)
 		{
 			if (MobController == null) return;
+
 			MobController.IsEmagged = true;
-			if (EMAGGED_SPRITE != null && spriteHandler != null) spriteHandler.SetSprite(EMAGGED_SPRITE);
 			emag.UseCharge(interaction);
+
+			if (spriteHandler == null)
+			{
+				Logger.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
+				return;
+			}
+
+			spriteHandler.ChangeSprite(1, true);
+			
 		}
 	}
 }

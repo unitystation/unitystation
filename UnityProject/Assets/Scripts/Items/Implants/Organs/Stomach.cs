@@ -7,7 +7,7 @@ using Chemistry.Components;
 
 namespace HealthV2
 {
-	public class Stomach : BodyPartModification
+	public class Stomach : Organ
 	{
 		public ReagentContainer StomachContents;
 

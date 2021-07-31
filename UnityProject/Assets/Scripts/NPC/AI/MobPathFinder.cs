@@ -293,7 +293,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void FollowPath(List<Node> path)
 		{
-			if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+			if (health.IsDead || health.IsCrit)
 			{
 				Logger.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
 				status = Status.idle;

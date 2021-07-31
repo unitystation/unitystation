@@ -2,6 +2,18 @@
 ---
 
 
+* 2021/07/30: **[Fix]** Fixes emagged bot sprite changes not being networked by [AtnerNT](https://github.com/AtnerNT) in PR #[7176](https://github.com/unitystation/unitystation/pull/7176)
+* 2021/07/30: **[Fix]** Fixes facehuggers knocking of mask and eyewear through helmets by [AtnerNT](https://github.com/AtnerNT) in PR #[7174](https://github.com/unitystation/unitystation/pull/7174)
+* 2021/07/30: **[New]** added tests for duplicate cables pipes by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[New]** added test For missing door controllers on status displays by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[New]** updated roadmap a bit by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[Improvement]** remove duplicated cables and pipes from every scene by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[Fix]** fixes inconsistent interactions with underfloor layer by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[Fix]** fixes missing seed component in botany by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[Fix]** ffixes null referencing dynamic inventory by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[Fix]** fixes non tab on medical record consul by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[Fix]** fixes players being gigged by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
+* 2021/07/30: **[Fix]** fixes null components on sleeper by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
 * 2021/07/27: **[New]** added tests for duplicate cables pipes by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
 * 2021/07/27: **[New]** added test For missing door controllers on status displays by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
 * 2021/07/27: **[New]** updated roadmap a bit by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)

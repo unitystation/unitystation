@@ -10,6 +10,8 @@ using JetBrains.Annotations;
 using Mirror;
 using ScriptableObjects.Gun;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 namespace HealthV2
 {
@@ -34,9 +36,6 @@ namespace HealthV2
 
 		private float tick = 0;
 
-		/// Amount of blood avaiable in the circulatory system, currently unimplemented
-		//public float AvailableBlood = 0;
-
 		/// <summary>
 		/// The Register Tile of the living creature
 		/// </summary>
@@ -55,16 +54,7 @@ namespace HealthV2
 			get => healthStateController.ConsciousState;
 			protected set
 			{
-				ConsciousState oldState = healthStateController.ConsciousState;
-				if (value != oldState)
-				{
-					healthStateController.SetConsciousState(value);
 
-					if (isServer)
-					{
-						OnConsciousStateChangeServer.Invoke(oldState, value);
-					}
-				}
 			}
 		}
 
@@ -116,12 +106,6 @@ namespace HealthV2
 		public float OverallHealth => healthStateController.OverallHealth;
 
 		/// <summary>
-		/// List of all of the body parts of the creature, currently unimplemented
-		/// </summary>
-		//[SerializeField] [Tooltip("These are the things that will hold all our organs and implants.")]
-		//private List<BodyPart> bodyPartContainers;
-
-		/// <summary>
 		/// The creature's Circulatory System
 		/// </summary>
 		[CanBeNull]
@@ -144,23 +128,13 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public HashSet<BodyPart> ImplantList = new HashSet<BodyPart>();
+		public HashSet<BodyPart> BodyPartList = new HashSet<BodyPart>();
 
 		/// <summary>
 		/// A list of all body part containers of the creature.
 		/// A body part container is a grouping of like body parts (legs, arms, eyes, etc)
 		/// </summary>
 		public List<RootBodyPartContainer> RootBodyPartContainers = new List<RootBodyPartContainer>();
-
-		/// <summary>
-		/// Event that fires when damage is applied to the creature
-		/// </summary>
-		public event Action<GameObject> ApplyDamageEvent;
-
-		/// <summary>
-		/// Event that fires when the creature dies
-		/// </summary>
-		public event Action OnDeathNotifyEvent;
 
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
@@ -188,8 +162,6 @@ namespace HealthV2
 		private HealthStateController healthStateController;
 		public HealthStateController HealthStateController => healthStateController;
 
-		protected DamageType LastDamageType;
-
 		protected GameObject LastDamagedBy;
 
 		[NonSerialized] public List<BodyPart> DismemberingBodyParts = new List<BodyPart>();
@@ -203,7 +175,7 @@ namespace HealthV2
 		{
 
 			var State = HungerState.Normal;
-			foreach (var bodyPart in ImplantList)
+			foreach (var bodyPart in BodyPartList)
 			{
 				if (bodyPart.HungerState == HungerState.Malnourished || bodyPart.HungerState == HungerState.Starving
 				) //TODO Add the other states
@@ -229,7 +201,7 @@ namespace HealthV2
 		/// </summary>
 		private List<Sickness> immunedSickness;
 
-		public PlayerScript PlayerScriptOwner;
+		public PlayerScript playerScript;
 
 		public virtual void Awake()
 		{
@@ -240,7 +212,7 @@ namespace HealthV2
 			healthStateController = GetComponent<HealthStateController>();
 			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
-			PlayerScriptOwner = GetComponent<PlayerScript>();
+			playerScript = GetComponent<PlayerScript>();
 		}
 
 		void OnEnable()
@@ -295,7 +267,7 @@ namespace HealthV2
 		public void AddNewImplant(BodyPart implant)
 		{
 			implant.HealthMaster = this;
-			ImplantList.Add(implant);
+			BodyPartList.Add(implant);
 		}
 
 		/// <summary>
@@ -303,7 +275,7 @@ namespace HealthV2
 		/// </summary>
 		public void RemoveImplant(BodyPart implantBase)
 		{
-			ImplantList.Remove(implantBase);
+			BodyPartList.Remove(implantBase);
 		}
 
 		//Server Side only
@@ -395,7 +367,7 @@ namespace HealthV2
 		public float GetTotalBruteDamage()
 		{
 			float toReturn = 0;
-			foreach (var implant in ImplantList)
+			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Brute;
@@ -410,7 +382,7 @@ namespace HealthV2
 		public float GetTotalBurnDamage()
 		{
 			float toReturn = 0;
-			foreach (var implant in ImplantList)
+			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
@@ -433,7 +405,7 @@ namespace HealthV2
 		public float GetImplantBlood()
 		{
 			float toReturn = 0;
-			foreach (var implant in ImplantList)
+			foreach (var implant in BodyPartList)
 			{
 				toReturn += implant.BloodContainer[CirculatorySystem.BloodType];
 			}
@@ -464,7 +436,7 @@ namespace HealthV2
 		/// <param name="surfaceOnly">Checks only external bodyparts if true, all if false (default)</param>
 		public bool HasBodyPart(BodyPartType bodyPartType, bool surfaceOnly = false)
 		{
-			foreach (var bodyPart in ImplantList)
+			foreach (var bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == bodyPartType)
 				{
@@ -487,7 +459,7 @@ namespace HealthV2
 		public void CalculateOverallHealth()
 		{
 			float currentHealth = maxHealth;
-			foreach (var implant in ImplantList)
+			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				currentHealth -= implant.TotalDamageWithoutOxyCloneRadStam;
@@ -534,11 +506,11 @@ namespace HealthV2
 		private void CheckHeartStatus()
 		{
 			bool hasAllHeartAttack = true;
-			foreach (var Implant in ImplantList)
+			foreach (var Implant in BodyPartList)
 			{
-				foreach (var bodyPartModification in Implant.BodyPartModifications)
+				foreach (var organ in Implant.OrganList)
 				{
-					if (bodyPartModification is Heart heart && heart.HeartAttack == false)
+					if (organ is Heart heart && heart.HeartAttack == false)
 					{
 						hasAllHeartAttack = false;
 						SetConsciousState(ConsciousState.UNCONSCIOUS);
@@ -558,6 +530,12 @@ namespace HealthV2
 		{
 			if (ConsciousState != NewConsciousState)
 			{
+				var oldState = healthStateController.ConsciousState;
+				if (isServer)
+				{
+					healthStateController.SetConsciousState(NewConsciousState);
+					OnConsciousStateChangeServer.Invoke(oldState, NewConsciousState);
+				}
 				ConsciousState = NewConsciousState;
 			}
 		}
@@ -725,7 +703,6 @@ namespace HealthV2
 			float armorPenetration = 0
 		)
 		{
-			LastDamageType = damageType;
 			LastDamagedBy = damagedBy;
 
 			foreach (var bodyPartContainer in RootBodyPartContainers)
@@ -746,8 +723,7 @@ namespace HealthV2
 		/// <param name="damage">The Trauma damage value</param>
 		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
 		[Server]
-		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage,
-			BodyPart.TramuticDamageTypes damageType)
+		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, TraumaticDamageTypes damageType)
 		{
 			RootBodyPartContainer aimedPartContainer = null;
 			foreach (RootBodyPartContainer container in RootBodyPartContainers)
@@ -867,11 +843,11 @@ namespace HealthV2
 		public List<Stomach> GetStomachs()
 		{
 			var Stomachs = new List<Stomach>();
-			foreach (var Implant in ImplantList)
+			foreach (var Implant in BodyPartList)
 			{
-				foreach (var bodyPartModification in Implant.BodyPartModifications)
+				foreach (var organ in Implant.OrganList)
 				{
-					var stomach = bodyPartModification as Stomach;
+					var stomach = organ as Stomach;
 					if (stomach != null)
 					{
 						Stomachs.Add(stomach);
@@ -887,7 +863,7 @@ namespace HealthV2
 		/// </summary>
 		public void ResetDamageAll()
 		{
-			foreach (var bodyPart in ImplantList)
+			foreach (var bodyPart in BodyPartList)
 			{
 				bodyPart.ResetDamage();
 			}
@@ -918,14 +894,16 @@ namespace HealthV2
 			return false;
 		}
 
-		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal,
-			BodyPart.TramuticDamageTypes typeToHeal)
+		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
 		{
-			foreach (var container in RootBodyPartContainers)
+			foreach (var rootBodyPartContainers in RootBodyPartContainers)
 			{
-				if (container.BodyPartType == targetBodyPartToHeal)
+				if (rootBodyPartContainers.BodyPartType == targetBodyPartToHeal)
 				{
-					container.HealTraumaDamage(healAmount, typeToHeal);
+					foreach(var bodyPart in rootBodyPartContainers.ContainsLimbs)
+					{
+						bodyPart.HealTraumaticDamage(healAmount, typeToHeal);
+					}
 				}
 			}
 		}
@@ -933,28 +911,32 @@ namespace HealthV2
 		/// <summary>
 		/// Revives a dead player to full health.
 		/// </summary>
-		public void RevivePlayerToFullHealth(PlayerScript player)
+		public void RevivePlayerToFullHealth()
 		{
 			Extinguish(); //Remove any fire on them.
 			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
-			healthStateController
-				.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
-			foreach (var BodyPart in ImplantList) //Restart their heart.
+			healthStateController.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
+			foreach (var bodyPart in BodyPartList) //Restart their heart.
 			{
-				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
+				foreach (var organ in bodyPart.OrganList)
 				{
-					if (bodyPartModification is Heart heart)
+					if (organ is Heart heart)
 					{
 						heart.HeartAttack = false;
 						heart.CanTriggerHeartAttack = false;
 						heart.CurrentPulse = 100;
-						heart.DoHeartBeat(this);
+						heart.DoHeartBeat();
 					}
 				}
 			}
-
 			CalculateOverallHealth(); //This makes the player alive and concision.
-			player.playerMove.allowInput = true; //Let them interact with the world again.
+			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
+			playerScript.registerTile.ServerStandUp();
+			if(playerScript.IsGhost)
+			{
+				//TODO: force return to body
+				return;
+			}
 		}
 
 		/// <summary>
@@ -975,8 +957,6 @@ namespace HealthV2
 					cntainers.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}
 			}
-
-
 			//TODO: Reimplement
 		}
 
@@ -1013,9 +993,9 @@ namespace HealthV2
 			var HV2 = (this as PlayerHealthV2);
 			if (HV2 != null)
 			{
-				if (HV2.PlayerScriptOwner.OrNull()?.playerMove.OrNull()?.allowInput != null)
+				if (HV2.playerScript.OrNull()?.playerMove.OrNull()?.allowInput != null)
 				{
-					HV2.PlayerScriptOwner.playerMove.allowInput = false;
+					HV2.playerScript.playerMove.allowInput = false;
 				}
 			}
 
@@ -1281,4 +1261,19 @@ namespace HealthV2
 
 		#endregion
 	}
+
+	/// <summary>
+	/// Event which fires when fire stack value changes.
+	/// </summary>
+	public class FireStackEvent : UnityEvent<float>
+	{
+	}
+
+	/// <summary>
+	/// Event which fires when conscious state changes, provides the old state and the new state
+	/// </summary>
+	public class ConsciousStateEvent : UnityEvent<ConsciousState, ConsciousState>
+	{
+	}
+
 }

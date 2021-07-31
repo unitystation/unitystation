@@ -101,12 +101,11 @@ namespace Systems.MobAIs
 
 		private void Electrocute(float voltage)
 		{
-			var electrocution = new Electrocution(voltage, registerObject.WorldPosition);
 			var performerLHB = GetComponent<LivingHealthBehaviour>();
-			performerLHB.Electrocute(electrocution);
-
 			//doing a shit ton of damage because all mobs have too much hardcoded HP right now
 			//TODO get rid of this part once health rework is done!
+			//var electrocution = new Electrocution(voltage, registerObject.WorldPosition);
+			//performerLHB.Electrocute(electrocution);
 			performerLHB.ApplyDamage(gameObject, 200, AttackType.Internal, DamageType.Tox);
 		}
 
