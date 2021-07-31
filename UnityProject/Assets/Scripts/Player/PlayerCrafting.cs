@@ -139,8 +139,6 @@ namespace Player
 			       && !PlayerScript.IsGhost
 			       && !PlayerScript.playerHealth.IsCrit
 			       && !PlayerScript.playerHealth.IsDead
-			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.RightArm)
-			       && PlayerScript.playerHealth.HasBodyPart(BodyPartType.LeftArm)
 			       && GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 
