@@ -41,11 +41,16 @@ namespace Systems.CraftingV2.GUI
 		[SerializeField] [Tooltip("The link to a recipe icon as a game object.")]
 		private GameObject iconGameObject;
 
+		[SerializeField] [Tooltip("The link to a recipe name as a game object.")]
+		private GameObject textGameObject;
+
 		private Image backgroundImageComponent;
 
 		private Image borderImageComponent;
 
 		private Image iconImageComponent;
+
+		private Text recipeNameTextComponent;
 
 		public CraftingRecipe CraftingRecipe => craftingRecipe;
 
@@ -71,6 +76,7 @@ namespace Systems.CraftingV2.GUI
 			recipeButtonScript.backgroundImageComponent = recipeButtonScript.backgroundGameObject.GetComponent<Image>();
 			recipeButtonScript.borderImageComponent = recipeButtonScript.borderGameObject.GetComponent<Image>();
 			recipeButtonScript.iconImageComponent = recipeButtonScript.iconGameObject.GetComponent<Image>();
+			recipeButtonScript.recipeNameTextComponent = recipeButtonScript.textGameObject.GetComponent<Text>();
 
 			recipeButtonScript.craftingRecipe = craftingRecipe;
 			// should we use different, overrided icon?
@@ -97,6 +103,7 @@ namespace Systems.CraftingV2.GUI
 			recipeButtonScript.iconImageComponent.sprite = recipeButtonScript.recipeIcon;
 			recipeButtonScript.backgroundImageComponent.color = recipeButtonScript.deselectedColor;
 			recipeButtonScript.borderImageComponent.color = recipeButtonScript.uncraftableColor;
+			recipeButtonScript.recipeNameTextComponent.text = craftingRecipe.RecipeName;
 
 			return generatedButton;
 		}
