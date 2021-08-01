@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/08/01: **[Fix]** No more fake players names kek by [craftxbox](https://github.com/craftxbox) in PR #[7185](https://github.com/unitystation/unitystation/pull/7185)
 * 2021/07/30: **[Fix]** Fixes emagged bot sprite changes not being networked by [AtnerNT](https://github.com/AtnerNT) in PR #[7176](https://github.com/unitystation/unitystation/pull/7176)
 * 2021/07/30: **[Fix]** Fixes facehuggers knocking of mask and eyewear through helmets by [AtnerNT](https://github.com/AtnerNT) in PR #[7174](https://github.com/unitystation/unitystation/pull/7174)
 * 2021/07/30: **[New]** added tests for duplicate cables pipes by [Bod9001](https://github.com/Bod9001) in PR #[7147](https://github.com/unitystation/unitystation/pull/7147)
