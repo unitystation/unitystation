@@ -16,7 +16,7 @@ public class ConnectedPlayer
 		Connection = null,
 		gameObject = null,
 		Username = null,
-		name = "kek",
+		name = "Invalid Player",
 		job = JobType.NULL,
 		ClientId = "",
 		UserId = ""
