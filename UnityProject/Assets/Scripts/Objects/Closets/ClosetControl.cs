@@ -561,8 +561,12 @@ namespace Objects
 					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 					SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, audioSourceParameters, gameObject);
 					//ServerHandleContentsOnStatusChange(false);
+
 					isEmagged = true;
 					emag.UseCharge(interaction);
+					Chat.AddActionMsgToChat(interaction,
+						"The access panel errors. A slight amount of smoke pours from behind the panel...",
+								"You can smell caustic smoke from somewhere...");
 
 					//SyncStatus(statusSync, ClosetStatus.Open);
 					BreakLock();
