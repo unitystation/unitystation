@@ -131,9 +131,8 @@ namespace Objects.Drawers
 			alarmBroken = true;
 
 			Chat.AddActionMsgToChat(interaction,
-					$"You wave the {interaction.HandObject.name.ToLower()} over the {name.ToLower()}'s electrical panel. " +
 					"The status panel flickers and the buzzer makes sickly popping noises. You can smell smoke...",
-					"You can smell caustic smoke from somewhere...");
+							"You can smell caustic smoke from somewhere...");
 			SoundManager.PlayNetworkedAtPos(emaggedSound, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayEmagAnimation());
 		}
