@@ -108,11 +108,9 @@ namespace Doors
 
 			if (Controller.IsClosed)
 			{
-
 				Controller.isEmagged = true;
 				emag.UseCharge(interaction);
 				TryOpen(interaction.Performer);
-
 				Chat.AddActionMsgToChat(interaction,
 					"The access panel errors. A slight amount of smoke pours from behind the panel...",
 							"You can smell caustic smoke from somewhere...");
