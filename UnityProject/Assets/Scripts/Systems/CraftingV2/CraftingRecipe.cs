@@ -180,7 +180,7 @@ namespace Systems.CraftingV2
 						break;
 					}
 
-				if (!foundRequiredToolTrait)
+				if (foundRequiredToolTrait == false)
 				{
 					return false;
 				}
@@ -263,7 +263,7 @@ namespace Systems.CraftingV2
 			PlayerScript crafterPlayerScript
 		)
 		{
-			if (!CanBeCrafted(possibleIngredients, possibleTools))
+			if (CanBeCrafted(possibleIngredients, possibleTools) == false)
 			{
 				return;
 			}

@@ -318,7 +318,7 @@ namespace Player
 			{
 				Chat.AddExamineMsgFromServer(
 					playerScript.gameObject,
-					"Wait, where's mine... Oh, forget it, I can't craft it anymore."
+					"Wait, where's my... Oh, forget it, I can't craft it anymore."
 				);
 				return false;
 			}

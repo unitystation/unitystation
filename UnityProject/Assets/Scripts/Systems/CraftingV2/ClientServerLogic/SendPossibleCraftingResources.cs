@@ -24,7 +24,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public override void Process(NetMessage netMessage)
 		{
-			if (!LoadNetworkObject(netMessage.RecipientId))
+			if (LoadNetworkObject(netMessage.RecipientId) == false)
 			{
 				return;
 			}

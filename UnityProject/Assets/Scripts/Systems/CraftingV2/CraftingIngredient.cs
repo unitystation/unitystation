@@ -43,7 +43,7 @@ namespace Systems.CraftingV2
 		{
 			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
 			{
-				if (!relatedRecipe.Recipe.IsSimple)
+				if (relatedRecipe.Recipe.IsSimple == false)
 				{
 					continue;
 				}
