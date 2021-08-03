@@ -470,7 +470,8 @@ public partial class PlayerList : NetworkBehaviour
 		}
 		foreach (var player in loggedIn)
 		{
-			if (player.GameObject == PlayerManager.LocalPlayer)
+			if (PlayerManager.LocalViewerScript && PlayerManager.LocalViewerScript.gameObject == player.GameObject ||
+			    PlayerManager.LocalPlayer == player.GameObject)
 			{
 				continue; //server player
 			}
