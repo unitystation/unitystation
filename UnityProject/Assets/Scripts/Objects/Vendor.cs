@@ -106,6 +106,9 @@ namespace Objects
 			{
 				isEmagged = true;
 				emag.UseCharge(interaction);
+				Chat.AddActionMsgToChat(interaction,
+					"The product lock shorts out. light fumes pour from the dispenser...",
+							"You can smell caustic smoke from somewhere...");
 			}
 		}
 

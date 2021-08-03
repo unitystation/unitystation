@@ -41,7 +41,7 @@ namespace Objects
 		{
 			if (beenEmagged)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been hacked!");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The shuttle has already been Emagged!");
 				return;
 			}
 
