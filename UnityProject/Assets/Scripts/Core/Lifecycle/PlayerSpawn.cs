@@ -488,6 +488,12 @@ public static class PlayerSpawn
 			oldBody.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
 		}
 
+		var netIdentity = newBody.GetComponent<NetworkIdentity>();
+		if (netIdentity.connectionToClient != null)
+		{
+			CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
+		}
+
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{

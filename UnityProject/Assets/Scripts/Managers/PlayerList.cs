@@ -456,16 +456,31 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayerbyClientId(string clientId, string userId)
+	public ConnectedPlayer RemovePlayerbyClientId(string clientId, string userId, ConnectedPlayer newPlayer)
 	{
-		Logger.LogTraceFormat("Searching for logged off players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
+		Logger.LogTraceFormat("Searching for players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
 		foreach (var player in loggedOff)
 		{
-			if (player.ClientId == clientId || player.UserId == userId)
+			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
 			{
-				Logger.LogTraceFormat("Found logged off player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
 				loggedOff.Remove(player);
-				return player.GameObject;
+				return player;
+			}
+		}
+		foreach (var player in loggedIn)
+		{
+			if (player.GameObject == PlayerManager.LocalPlayer)
+			{
+				continue; //server player
+			}
+
+			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
+			{
+				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
+				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
+				loggedIn.Remove(player);
+				return player;
 			}
 		}
 
