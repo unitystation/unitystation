@@ -89,6 +89,8 @@ namespace Systems.CraftingV2.GUI
 
 		private RecipeButtonScript chosenRecipe;
 
+		private bool recipesInitIsNecessary = true;
+
 		// the field used to prepare search field's content.
 		// The regex means "Any symbol that isn't a number or a word character."
 		private readonly Regex preSearchRegex = new Regex("[^\\w\\s]");
@@ -103,21 +105,7 @@ namespace Systems.CraftingV2.GUI
 			}
 			InitFields();
 			InitCategories();
-			InitRecipes(PlayerManager.LocalPlayerScript.PlayerCrafting);
 			recipeInfoGameObject.SetActive(false);
-		}
-
-		private void InitRecipes(PlayerCrafting playerCrafting)
-		{
-			foreach (RecipesInCategory recipesInCategory in recipesInCategories)
-			{
-				foreach (CraftingRecipe craftingRecipe in playerCrafting.GetKnownRecipesInCategory(
-					recipesInCategory.CategoryButtonScript.CategoryAndIcon.RecipeCategory
-				))
-				{
-					OnPlayerLearnedRecipe(craftingRecipe);
-				}
-			}
 		}
 
 		private void InitFields()
@@ -405,6 +393,10 @@ namespace Systems.CraftingV2.GUI
 		public void Open()
 		{
 			this.SetActive(true);
+			if (recipesInitIsNecessary)
+			{
+				RequestInitRecipes.Send(new RequestInitRecipes.NetMessage());
+			}
 			RequestRefreshRecipes();
 		}
 
@@ -519,6 +511,16 @@ namespace Systems.CraftingV2.GUI
 					recipeButtonScript.gameObject.SetActive(false);
 				}
 			}
+		}
+
+		public void InitRecipes(List<CraftingRecipe> knownCraftingRecipes)
+		{
+			foreach (CraftingRecipe knownCraftingRecipe in knownCraftingRecipes)
+			{
+				OnPlayerLearnedRecipe(knownCraftingRecipe);
+			}
+
+			recipesInitIsNecessary = false;
 		}
 	}
 }

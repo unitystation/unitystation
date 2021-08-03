@@ -18,13 +18,6 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public override void Process(NetMessage netMessage)
 		{
-			// let's synchronize known recipes on the client side.
-			// We can be sure that the player(at least server-sided) don't know this recipe yet, so it's safe to
-			// unsafely add this recipe to player's known recipes list.
-			PlayerManager.LocalPlayerScript.PlayerCrafting.UnsafelyAddRecipeToKnownRecipes(
-				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
-			);
-
 			// if the player is trying to learn new recipe without initiated CraftingMenu...
 			if (CraftingMenu.Instance == null)
 			{

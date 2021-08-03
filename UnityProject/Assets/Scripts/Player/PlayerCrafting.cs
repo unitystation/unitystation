@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
-using Systems.CraftingV2.GUI;
 using Items;
-using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -21,6 +18,8 @@ namespace Player
 		/// The list of currently known recipes for a player by category.
 		/// </summary>
 		private List<List<CraftingRecipe>> knownRecipesByCategory = new List<List<CraftingRecipe>>();
+
+		public List<List<CraftingRecipe>> KnownRecipesByCategory => knownRecipesByCategory;
 
 		[SerializeField, ReorderableList] [Tooltip("Default recipes known to a player.")]
 		private List<CraftingRecipe> defaultKnownRecipes = new List<CraftingRecipe>();
