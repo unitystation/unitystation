@@ -713,6 +713,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdPoint(GameObject pointTarget, Vector3 mousePos)
 	{
+		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false)
+			return;
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
 
