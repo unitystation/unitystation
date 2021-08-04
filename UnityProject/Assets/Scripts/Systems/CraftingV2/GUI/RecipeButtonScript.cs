@@ -167,7 +167,7 @@ namespace Systems.CraftingV2.GUI
 					knownRecipeIndexes,
 					possibleIngredients,
 					possibleTools
-				)
+				) == CraftingStatus.AllGood
 			)
 			{
 				SetCraftableBorderColor();

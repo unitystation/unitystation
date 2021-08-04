@@ -160,15 +160,16 @@ namespace Player
 		/// </param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
-		public static bool CanCraft(
+		public static CraftingStatus CanCraft(
 			int recipeIndex,
 			List<int> knownRecipeIndexes,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
 		)
 		{
-			return knownRecipeIndexes.Contains(recipeIndex)
-			       && CraftingRecipeSingleton
+			return knownRecipeIndexes.Contains(recipeIndex) == false
+			       ? CraftingStatus.NotAbleToCraft
+			       : CraftingRecipeSingleton
 				       .Instance
 				       .StoredCraftingRecipes[recipeIndex]
 				       .CanBeCrafted(possibleIngredients, possibleTools);
@@ -180,8 +181,8 @@ namespace Player
 		/// Will get the possible tools from a player's hands.
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
-		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
-		public bool CanCraft(CraftingRecipe recipe)
+		/// <returns>CraftingStatus.AllGood if can craft, other statuses otherwise.</returns>
+		public CraftingStatus CanCraft(CraftingRecipe recipe)
 		{
 			return CanCraft(recipe, GetPossibleIngredients(), GetPossibleTools());
 		}
@@ -194,14 +195,16 @@ namespace Player
 		/// 	The ingredients(or/and reagent containers) that may be used for crafting.
 		/// </param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
-		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
-		public bool CanCraft(
+		/// <returns>CraftingStatus.AllGood if can craft, other statuses otherwise.</returns>
+		public CraftingStatus CanCraft(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
 		)
 		{
-			return IsPlayerAbleToCraft(recipe) && recipe.CanBeCrafted(possibleIngredients, possibleTools);
+			return IsPlayerAbleToCraft(recipe) == false
+				? CraftingStatus.NotAbleToCraft
+				: recipe.CanBeCrafted(possibleIngredients, possibleTools);
 		}
 
 		/// <summary>
@@ -264,7 +267,7 @@ namespace Player
 		}
 
 		/// <summary>
-		///		Tries to start a crafting action.
+		///		Tries to start a crafting action. Gives feedback to the player.
 		/// </summary>
 		/// <param name="recipe">The recipe that the player is trying to craft to.</param>
 		/// <param name="possibleIngredients">
@@ -278,13 +281,58 @@ namespace Player
 			List<ItemAttributesV2> possibleTools
 		)
 		{
-			if (!CanCraft(recipe, possibleIngredients, possibleTools))
+			switch (CanCraft(recipe, possibleIngredients, possibleTools))
 			{
-				return false;
+				case CraftingStatus.AllGood:
+					if (recipe.CraftingTime > 1) {
+						Chat.AddExamineMsgFromServer(
+							playerScript.gameObject,
+							$"You are trying to craft \"{recipe.RecipeName}\"..."
+						);
+					}
+					StartCrafting(recipe, possibleIngredients, possibleTools);
+					return true;
+				case CraftingStatus.NotEnoughIngredients:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" because there are not enough ingredients."
+					);
+					return false;
+				case CraftingStatus.NotEnoughTools:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" because there are not enough tools."
+					);
+					return false;
+				case CraftingStatus.NotEnoughReagents:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" because there are not enough reagents."
+					);
+					return false;
+				case CraftingStatus.NotAbleToCraft:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" because your character can't craft this."
+					);
+					return false;
+				case CraftingStatus.UnspecifiedImpossibility:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\"."
+					);
+					return false;
 			}
 
-			StartCrafting(recipe, possibleIngredients, possibleTools);
-			return true;
+			Chat.AddExamineMsgFromServer(
+				playerScript.gameObject,
+				$"You can't craft the \"{recipe.RecipeName}\". Report this message to developers."
+			);
+
+			Logger.LogError($"Something went wrong when the player({PlayerScript.connectedPlayer.Name}) " +
+			                $"was trying to craft according to the recipe({recipe}).");
+
+			return false;
 		}
 
 		/// <summary>
@@ -301,13 +349,6 @@ namespace Player
 			List<ItemAttributesV2> possibleTools
 		)
 		{
-			if (recipe.CraftingTime >= 1) {
-				Chat.AddExamineMsgFromServer(
-					playerScript.gameObject,
-					$"You are trying to craft {recipe.RecipeName}..."
-				);
-			}
-
 			if (recipe.CraftingTime <= float.Epsilon)
 			{
 				FinishCrafting(recipe, possibleIngredients, possibleTools);
@@ -332,7 +373,7 @@ namespace Player
 		}
 
 		/// <summary>
-		/// 	Tries to finish a crafting action.
+		/// 	Tries to finish a crafting action. Gives feedback for the player.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
 		/// <param name="possibleIngredients">
@@ -346,17 +387,59 @@ namespace Player
 			List<ItemAttributesV2> possibleTools
 		)
 		{
-			if (!CanCraft(recipe, possibleIngredients, possibleTools))
+			switch (CanCraft(recipe, possibleIngredients, possibleTools))
 			{
-				Chat.AddExamineMsgFromServer(
-					playerScript.gameObject,
-					"Wait, where's my... Oh, forget it, I can't craft it anymore."
-				);
-				return false;
+				case CraftingStatus.AllGood:
+					if (recipe.CraftingTime > 1) {
+						Chat.AddExamineMsgFromServer(
+							playerScript.gameObject,
+							$"You made the {recipe.RecipeName}!"
+						);
+					}
+					FinishCrafting(recipe, possibleIngredients, possibleTools);
+					return true;
+				case CraftingStatus.NotEnoughIngredients:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" anymore - there aren't enough ingredients."
+					);
+					return false;
+				case CraftingStatus.NotEnoughTools:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" anymore - there aren't enough tools."
+					);
+					return false;
+				case CraftingStatus.NotEnoughReagents:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" anymore - there aren't enough reagents."
+					);
+					return false;
+				case CraftingStatus.NotAbleToCraft:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" anymore - " +
+						$"your character can no longer craft this."
+					);
+					return false;
+				case CraftingStatus.UnspecifiedImpossibility:
+					Chat.AddExamineMsgFromServer(
+						playerScript.gameObject,
+						$"You can't craft \"{recipe.RecipeName}\" anymore."
+					);
+					return false;
 			}
 
-			FinishCrafting(recipe, possibleIngredients, possibleTools);
-			return true;
+			Chat.AddExamineMsgFromServer(
+				playerScript.gameObject,
+				$"You can't craft the \"{recipe.RecipeName}\" anymore. Report this message to developers."
+			);
+
+			Logger.LogError($"Something went wrong when the player({PlayerScript.connectedPlayer.Name}) " +
+			                $"was trying to finish crafting according to the recipe({recipe}).");
+
+			return false;
 		}
 
 		/// <summary>
@@ -371,11 +454,6 @@ namespace Player
 			List<ItemAttributesV2> possibleTools
 		)
 		{
-			Chat.AddExamineMsgFromServer(
-				playerScript.gameObject,
-				$"You made the {recipe.RecipeName}!"
-			);
-
 			recipe.UnsafelyCraft(possibleIngredients, possibleTools, playerScript);
 		}
 	}

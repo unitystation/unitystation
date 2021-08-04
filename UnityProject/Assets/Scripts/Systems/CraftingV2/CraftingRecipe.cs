@@ -144,11 +144,24 @@ namespace Systems.CraftingV2
 		/// </param>
 		/// <param name="possibleTools">The tools that might be used for crafting.</param>
 		/// <returns>True if there are enough ingredients and tools for crafting, false otherwise.</returns>
-		public bool CanBeCrafted(List<CraftingIngredient> possibleIngredients, List<ItemAttributesV2> possibleTools)
+		public CraftingStatus CanBeCrafted(List<CraftingIngredient> possibleIngredients, List<ItemAttributesV2> possibleTools)
 		{
-			return CheckPossibleIngredients(possibleIngredients)
-			       && CheckPossibleTools(possibleTools)
-			       && CheckPossibleReagents(possibleIngredients);
+			if (CheckPossibleIngredients(possibleIngredients) == false)
+			{
+				return CraftingStatus.NotEnoughIngredients;
+			}
+
+			if (CheckPossibleTools(possibleTools) == false)
+			{
+				return CraftingStatus.NotEnoughTools;
+			}
+
+			if (CheckPossibleReagents(possibleIngredients) == false)
+			{
+				return CraftingStatus.NotEnoughReagents;
+			}
+
+			return CraftingStatus.AllGood;
 		}
 
 		/// <summary>
@@ -278,7 +291,7 @@ namespace Systems.CraftingV2
 			PlayerScript crafterPlayerScript
 		)
 		{
-			if (CanBeCrafted(possibleIngredients, possibleTools) == false)
+			if (CanBeCrafted(possibleIngredients, possibleTools) != CraftingStatus.AllGood)
 			{
 				return;
 			}
