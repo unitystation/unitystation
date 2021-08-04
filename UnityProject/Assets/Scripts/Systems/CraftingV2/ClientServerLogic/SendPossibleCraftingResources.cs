@@ -5,7 +5,6 @@ using Items;
 using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
-using Player;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {
@@ -17,18 +16,25 @@ namespace Systems.CraftingV2.ClientServerLogic
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint RecipientId;
+			public bool IsPlayerAbleToCraft;
+			public string JsonedKnownRecipeIndexes;
 			public string JsonedPossibleIngredientsIds;
 			public string JsonedPossibleToolsIds;
 		}
 
 		public override void Process(NetMessage netMessage)
 		{
-			if (LoadNetworkObject(netMessage.RecipientId) == false)
+			if (netMessage.IsPlayerAbleToCraft == false)
 			{
-				return;
+				CraftingMenu.Instance.RefreshRecipes(
+					new List<int>(),
+					new List<CraftingIngredient>(),
+					new List<ItemAttributesV2>()
+				);
 			}
 
+			List<int> knownRecipeIndexes
+				= JsonConvert.DeserializeObject<List<int>>(netMessage.JsonedKnownRecipeIndexes);
 			List<uint> possibleIngredientsIds =
 				JsonConvert.DeserializeObject<List<uint>>(netMessage.JsonedPossibleIngredientsIds);
 			List<uint> possibleToolsIds =
@@ -50,20 +56,65 @@ namespace Systems.CraftingV2.ClientServerLogic
 			}
 
 			CraftingMenu.Instance.RefreshRecipes(
-				NetworkObject.GetComponent<PlayerCrafting>(),
+				knownRecipeIndexes,
 				possibleIngredients,
 				possibleTools
 			);
 		}
 
 		public static void SendTo(
-			ConnectedPlayer connectedPlayer,
+			ConnectedPlayer recipient,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
 		)
 		{
+			if (recipient.Script.PlayerCrafting.IsPlayerAbleToCraft() == false)
+			{
+				// ok there's no need to look at known recipes or possible ingredients or whatever,
+				// because player can't craft at all. So we're sending the empty message, where the field
+				// isPlayerAbleToCraft will be false.
+				SendTo(recipient, new NetMessage());
+				return;
+			}
+
+			List<int> knownRecipeIndexes = new List<int>();
 			List<uint> availableIngredientsIds = new List<uint>();
 			List<uint> availableToolsIds = new List<uint>();
+
+			foreach (List<CraftingRecipe> knownRecipesInCategory
+				in recipient.Script.PlayerCrafting.KnownRecipesByCategory
+			)
+			{
+				foreach (CraftingRecipe knownRecipe in knownRecipesInCategory)
+				{
+					if (knownRecipe.IndexInSingleton < 0)
+					{
+						Logger.LogError(
+							"The server tried to send the negative recipe index when the server was trying " +
+							$"to tell the client({recipient.Name}) that it knows the recipe({knownRecipe}). " +
+							"Perhaps this recipe is missing from the singleton."
+						);
+						continue;
+					}
+
+					if (
+						knownRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
+						|| CraftingRecipeSingleton.Instance.StoredCraftingRecipes[knownRecipe.IndexInSingleton]
+						!= knownRecipe
+					)
+					{
+						Logger.LogError(
+							"The server tried to send the wrong recipe index when the server was trying " +
+							$"to tell the client({recipient.Name}) that it knows the recipe({knownRecipe}). " +
+							"Perhaps this recipe has wrong indexInSingleton that doesn't match a real index in " +
+							"the singleton."
+						);
+						continue;
+					}
+
+					knownRecipeIndexes.Add(knownRecipe.IndexInSingleton);
+				}
+			}
 
 			foreach (CraftingIngredient possibleIngredient in possibleIngredients)
 			{
@@ -82,10 +133,11 @@ namespace Systems.CraftingV2.ClientServerLogic
 			}
 
 			SendTo(
-				connectedPlayer,
+				recipient,
 				new NetMessage
 				{
-					RecipientId = connectedPlayer.Script.netId,
+					IsPlayerAbleToCraft = true,
+					JsonedKnownRecipeIndexes = JsonConvert.SerializeObject(knownRecipeIndexes),
 					JsonedPossibleIngredientsIds = JsonConvert.SerializeObject(availableIngredientsIds),
 					JsonedPossibleToolsIds = JsonConvert.SerializeObject(availableToolsIds)
 				}

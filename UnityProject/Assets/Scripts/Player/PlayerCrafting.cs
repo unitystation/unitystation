@@ -70,7 +70,7 @@ namespace Player
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
 		/// <returns>True, if a player already knows the recipe, false otherwise.</returns>
-		public bool KnowRecipe(CraftingRecipe recipe)
+		public bool KnowsRecipe(CraftingRecipe recipe)
 		{
 			return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
@@ -96,7 +96,7 @@ namespace Player
 		/// <returns>True if the recipe was successfully added to the known recipes list, false otherwise</returns>
 		public bool TryAddRecipeToKnownRecipes(CraftingRecipe craftingRecipe)
 		{
-			if (KnowRecipe(craftingRecipe))
+			if (KnowsRecipe(craftingRecipe))
 			{
 				return false;
 			}
@@ -127,18 +127,51 @@ namespace Player
 		}
 
 		/// <summary>
+		/// 	Checks if the player able to craft at all.
+		/// </summary>
+		/// <returns>True if a player can craft something, false otherwise.</returns>
+		public bool IsPlayerAbleToCraft()
+		{
+			return !PlayerScript.playerMove.IsCuffed
+			       && !PlayerScript.playerMove.IsTrapped
+			       && !PlayerScript.IsGhost
+			       && !PlayerScript.playerHealth.IsCrit
+			       && !PlayerScript.playerHealth.IsDead;
+		}
+
+		/// <summary>
 		/// 	Checks if the player able to craft according to the recipe(ignoring its ingredients, tools, etc).
 		/// </summary>
 		/// <param name="recipe">The recipe to check.</param>
 		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
 		public bool IsPlayerAbleToCraft(CraftingRecipe recipe)
 		{
-			return !PlayerScript.playerMove.IsCuffed
-			       && !PlayerScript.playerMove.IsTrapped
-			       && !PlayerScript.IsGhost
-			       && !PlayerScript.playerHealth.IsCrit
-			       && !PlayerScript.playerHealth.IsDead
-			       && GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
+			return IsPlayerAbleToCraft() && KnowsRecipe(recipe);
+		}
+
+		/// <summary>
+		/// 	Checks if a player able to craft according to the recipe(ignoring its ingredients, tools, etc).
+		/// 	This static method assumes that a player is already able to craft at all.
+		/// </summary>
+		/// <param name="recipeIndex">The recipe index to check.</param>
+		/// <param name="knownRecipeIndexes">The known to a player recipe indexes.</param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or/and reagent containers) that may be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
+		/// <returns>True if a player can craft according to the recipe, false otherwise.</returns>
+		public static bool CanCraft(
+			int recipeIndex,
+			List<int> knownRecipeIndexes,
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
+			return knownRecipeIndexes.Contains(recipeIndex)
+			       && CraftingRecipeSingleton
+				       .Instance
+				       .StoredCraftingRecipes[recipeIndex]
+				       .CanBeCrafted(possibleIngredients, possibleTools);
 		}
 
 		/// <summary>

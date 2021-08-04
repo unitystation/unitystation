@@ -12,15 +12,25 @@ namespace Systems.CraftingV2.ClientServerLogic
 		{
 			// recipe index in the recipes singleton
 			public int CraftingRecipeIndex;
+			public bool IsRecipeIndexWrong;
 		}
 
 		public override void Process(NetMessage netMessage)
 		{
-			// is this recipe missing from the singleton?
 			if (netMessage.CraftingRecipeIndex < 0)
 			{
 				Logger.LogError($"Received the negative recipe index when {SentByPlayer.Name} " +
 				                "had tried to craft something. Perhaps some recipe is missing from the singleton.");
+				return;
+			}
+
+			if (netMessage.IsRecipeIndexWrong)
+			{
+				Logger.LogError(
+					$"Received the wrong recipe index when {SentByPlayer.Name} had tried to craft something. " +
+					"Perhaps some recipe has wrong indexInSingleton that doesn't match a real index in " +
+					"the singleton."
+				);
 				return;
 			}
 
@@ -31,9 +41,14 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public static void Send(CraftingRecipe craftingRecipe)
 		{
+			bool sendingWrongRecipeIndex =
+				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
+				|| CraftingRecipeSingleton.Instance.StoredCraftingRecipes[craftingRecipe.IndexInSingleton]
+					!= craftingRecipe;
 			Send(new NetMessage
 			{
-				CraftingRecipeIndex = CraftingRecipeSingleton.Instance.StoredCraftingRecipes.IndexOf(craftingRecipe)
+				CraftingRecipeIndex = craftingRecipe.IndexInSingleton,
+				IsRecipeIndexWrong = sendingWrongRecipeIndex
 			});
 		}
 	}

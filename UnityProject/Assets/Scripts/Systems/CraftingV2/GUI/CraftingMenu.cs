@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using Systems.CraftingV2.ClientServerLogic;
 using Items;
 using NaughtyAttributes;
-using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -459,12 +458,13 @@ namespace Systems.CraftingV2.GUI
 
 		/// <summary>
 		/// 	Refreshes craftable recipes according to the possible ingredients and tools.
+		/// 	This method assumes that a player is already able to craft at all.
 		/// </summary>
-		/// <param name="crafterPlayerCrafting">Who may craft?</param>
+		/// <param name="knownRecipeIndexes">Who may craft?</param>
 		/// <param name="possibleIngredients">The ingredients that may be used for crafting.</param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		public void RefreshRecipes(
-			PlayerCrafting crafterPlayerCrafting,
+			List<int> knownRecipeIndexes,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
 		)
@@ -473,7 +473,18 @@ namespace Systems.CraftingV2.GUI
 			{
 				foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
 				{
-					recipeButtonScript.RefreshCraftable(crafterPlayerCrafting, possibleIngredients, possibleTools);
+					recipeButtonScript.RefreshCraftable(knownRecipeIndexes, possibleIngredients, possibleTools);
+				}
+			}
+		}
+
+		public void SetAllRecipesUncraftable()
+		{
+			foreach (RecipesInCategory recipesInCategory in recipesInCategories)
+			{
+				foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
+				{
+					recipeButtonScript.SetUncraftableBorderColor();
 				}
 			}
 		}

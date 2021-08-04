@@ -156,12 +156,19 @@ namespace Systems.CraftingV2.GUI
 		/// <param name="possibleIngredients">The ingredients that may be used for crafting.</param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		public void RefreshCraftable(
-			PlayerCrafting crafterPlayerCrafting,
+			List<int> knownRecipeIndexes,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
 		)
 		{
-			if (crafterPlayerCrafting.CanCraft(CraftingRecipe, possibleIngredients, possibleTools))
+			if (
+				PlayerCrafting.CanCraft(
+					CraftingRecipe.IndexInSingleton,
+					knownRecipeIndexes,
+					possibleIngredients,
+					possibleTools
+				)
+			)
 			{
 				SetCraftableBorderColor();
 				return;

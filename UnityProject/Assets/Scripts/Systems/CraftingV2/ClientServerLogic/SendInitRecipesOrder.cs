@@ -21,6 +21,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 					CraftingRecipeSingleton.Instance.StoredCraftingRecipes[serverSideKnownRecipeId]
 				);
 			}
+
 			CraftingMenu.Instance.InitRecipes(serverSideKnownRecipes);
 		}
 
@@ -31,9 +32,32 @@ namespace Systems.CraftingV2.ClientServerLogic
 			{
 				foreach (CraftingRecipe craftingRecipe in recipesInCategory)
 				{
-					serverSideKnownRecipeIds.Add(
-						CraftingRecipeSingleton.Instance.StoredCraftingRecipes.IndexOf(craftingRecipe)
-					);
+					if (craftingRecipe.IndexInSingleton < 0)
+					{
+						Logger.LogError(
+							"The server tried to send the negative recipe index when the server was initiating " +
+							$"the recipes of the player: {recipient.Name}. " +
+							"Perhaps some recipe is missing from the singleton."
+						);
+						return;
+					}
+
+					if (
+						craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
+					    || CraftingRecipeSingleton.Instance.StoredCraftingRecipes[craftingRecipe.IndexInSingleton]
+							!= craftingRecipe
+					)
+					{
+						Logger.LogError(
+							"The server tried to send the wrong recipe index when the server was initiating " +
+							$"the recipes of the player: {recipient.Name}. " +
+							"Perhaps some recipe has wrong indexInSingleton that doesn't match a real index in " +
+							"the singleton."
+						);
+						return;
+					}
+
+					serverSideKnownRecipeIds.Add(craftingRecipe.IndexInSingleton);
 				}
 			}
 

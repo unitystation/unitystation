@@ -39,24 +39,35 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public static void SendTo(ConnectedPlayer connectedPlayer, CraftingRecipe craftingRecipe)
 		{
-			int craftingRecipeIndexToSend = CraftingRecipeSingleton
-				.Instance
-				.StoredCraftingRecipes
-				.IndexOf(craftingRecipe);
-
-			// is the recipe missing from the recipes singleton?
-			if (craftingRecipeIndexToSend < 0)
+			if (craftingRecipe.IndexInSingleton < 0)
 			{
-				Logger.LogError($"The server tried to send the negative recipe index when {connectedPlayer.Name} " +
-				                $"had tried to forget this recipe: {craftingRecipe}. " +
-				                "Perhaps some recipe is missing from the singleton.");
+				Logger.LogError(
+					"The server tried to send the negative recipe index when the server was trying " +
+					$"to tell the client({connectedPlayer.Name}) that it had forgot the recipe({craftingRecipe}). " +
+					"Perhaps some recipe is missing from the singleton."
+				);
+				return;
+			}
+
+			if (
+				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
+				|| CraftingRecipeSingleton.Instance.StoredCraftingRecipes[craftingRecipe.IndexInSingleton]
+				!= craftingRecipe
+			)
+			{
+				Logger.LogError(
+					"The server tried to send the wrong recipe index when the server was trying " +
+					$"to tell the client({connectedPlayer.Name}) that it had forgot the recipe({craftingRecipe}). " +
+					"Perhaps some recipe has wrong indexInSingleton that doesn't match a real index in " +
+					"the singleton."
+				);
 				return;
 			}
 
 			SendTo(
 				connectedPlayer, new NetMessage
 				{
-					CraftingRecipeIndex = craftingRecipeIndexToSend
+					CraftingRecipeIndex = craftingRecipe.IndexInSingleton
 				}
 			);
 		}

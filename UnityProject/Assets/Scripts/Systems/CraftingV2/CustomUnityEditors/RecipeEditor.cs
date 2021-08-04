@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Systems.CraftingV2
+namespace Systems.CraftingV2.CustomUnityEditors
 {
 	/// <summary>
 	/// 	The custom recipe editor that automates some fields and makes your life a bit easier..
@@ -27,20 +27,47 @@ namespace Systems.CraftingV2
 		private SerializedProperty spResult;
 		private SerializedProperty spResultHandlers;
 		private SerializedProperty spIsSimple;
+		private SerializedProperty spIndexInSingleton;
 
 		private void OnEnable()
 		{
-			spRecipeName = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeName)));
-			spRecipeDescription = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeDescription)));
-			spRecipeIconOverride = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RecipeIconOverride)));
-			spCategory = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Category)));
-			spCraftingTime = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.CraftingTime)));
-			spRequiredIngredients = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredIngredients)));
-			spRequiredToolTraits = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredToolTraits)));
-			spRequiredReagents = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.RequiredReagents)));
-			spResult = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.Result)));
-			spResultHandlers = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.ResultHandlers)));
-			spIsSimple = serializedObject.FindProperty(Title2Camel(nameof(CraftingRecipe.IsSimple)));
+			spRecipeName = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.RecipeName))
+			);
+			spRecipeDescription = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.RecipeDescription))
+			);
+			spRecipeIconOverride = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.RecipeIconOverride))
+			);
+			spCategory = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.Category))
+			);
+			spCraftingTime = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.CraftingTime))
+			);
+			spRequiredIngredients = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.RequiredIngredients))
+			);
+			spRequiredToolTraits = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.RequiredToolTraits))
+			);
+			spRequiredReagents = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.RequiredReagents))
+			);
+			spResult = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.Result))
+			);
+			spResultHandlers = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.ResultHandlers))
+			);
+			spIsSimple = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.IsSimple))
+			);
+			spIndexInSingleton = serializedObject.FindProperty(
+				Utils.Title2Camel(nameof(CraftingRecipe.IndexInSingleton))
+			);
+
 
 			recipe = (CraftingRecipe) target;
 
@@ -66,6 +93,7 @@ namespace Systems.CraftingV2
 			EditorGUILayout.PropertyField(spResult);
 			EditorGUILayout.PropertyField(spResultHandlers);
 			EditorGUILayout.PropertyField(spIsSimple);
+			EditorGUILayout.PropertyField(spIndexInSingleton);
 
 			if (GUILayout.Button("Add to the singleton if necessary"))
 			{
@@ -116,7 +144,8 @@ namespace Systems.CraftingV2
 		/// </summary>
 		private void RemoveFromSingleton()
 		{
-			CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Remove(recipe);
+			CraftingRecipeSingleton.Instance.RemoveRecipe(recipe);
+			recipe.IndexInSingleton = -1;
 		}
 
 		/// <summary>
@@ -130,6 +159,8 @@ namespace Systems.CraftingV2
 			}
 
 			CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Add(recipe);
+			recipe.IndexInSingleton = CraftingRecipeSingleton.Instance.StoredCraftingRecipes.IndexOf(recipe);
+			serializedObject.Update();
 			EditorUtility.SetDirty(CraftingRecipeSingleton.Instance);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
@@ -267,16 +298,6 @@ namespace Systems.CraftingV2
 					PrefabUtility.SavePrefabAsset(craftingIngredient.gameObject);
 				}
 			}
-		}
-
-		#endregion
-
-		#region Utils
-
-		// SampleText => sampleText
-		private static string Title2Camel(string text)
-		{
-			return char.ToLowerInvariant(text[0]) + text.Substring(1);
 		}
 
 		#endregion

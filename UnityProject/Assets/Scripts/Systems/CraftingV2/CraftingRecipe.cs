@@ -121,6 +121,21 @@ namespace Systems.CraftingV2
 #endif
 		}
 
+		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
+		                                    "The position(index) in the CraftingRecipeSingleton.")]
+		private int indexInSingleton = -1;
+
+		/// <summary>
+		/// 	The position(index) in the CraftingRecipeSingleton.
+		/// </summary>
+		public int IndexInSingleton
+		{
+			get => indexInSingleton;
+#if UNITY_EDITOR
+			set { indexInSingleton = value; }
+#endif
+		}
+
 		/// <summary>
 		///     Checks for the presence of ingredients, reagents and tools necessary for the recipe.
 		/// </summary>
