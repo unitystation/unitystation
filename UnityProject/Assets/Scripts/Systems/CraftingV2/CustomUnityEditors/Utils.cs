@@ -1,6 +1,6 @@
 ﻿namespace Systems.CraftingV2.CustomUnityEditors
 {
-	public class Utils
+	public static class Utils
 	{
 		// SampleText => sampleText
 		public static string Title2Camel(string text)

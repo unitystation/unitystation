@@ -448,7 +448,7 @@ namespace Systems.CraftingV2
 				spawnedResult.Add(
 					Spawn.ServerPrefab(
 						resultedGameObject,
-						crafterPlayerScript.WorldPos + (Vector3Int) crafterPlayerScript.playerDirectional.CurrentDirection.VectorInt
+						crafterPlayerScript.WorldPos
 					).GameObject
 				);
 			}

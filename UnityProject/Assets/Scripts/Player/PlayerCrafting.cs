@@ -208,29 +208,38 @@ namespace Player
 		}
 
 		/// <summary>
-		/// 	Gets all reachable items from a tile that a player is directed to.
+		/// 	Gets all reachable items.
 		/// </summary>
-		/// <returns>All reachable items from a tile that a player is directed to.</returns>
+		/// <returns>All reachable items.</returns>
 		public List<CraftingIngredient> GetPossibleIngredients()
 		{
-			Vector3Int ingredientsSourceVector = playerScript.WorldPos;
-			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
-			// it's unlikely that it will be null, but we are not immune from this case
-			if (playerScript.playerDirectional != null)
+			Vector3Int ingredientsSourceVector = PlayerScript.WorldPos;
+			List<CraftingIngredient> possibleIngredients = MatrixManager.GetReachableAdjacent<CraftingIngredient>(
+				ingredientsSourceVector, true
+			);
+
+			possibleIngredients.AddRange(MatrixManager.GetAt<CraftingIngredient>(PlayerScript.WorldPos, true));
+
+			foreach (ItemSlot handSlot in playerScript.DynamicItemStorage.GetHandSlots())
 			{
-				ingredientsSourceVector = PlayerScript.WorldPos
-				                          + (Vector3Int) playerScript.playerDirectional.CurrentDirection.VectorInt;
+				if (
+					handSlot.ItemObject != null
+					&& handSlot.ItemObject.TryGetComponent(out CraftingIngredient possibleIngredient)
+				)
+				{
+					possibleIngredients.Add(possibleIngredient);
+				}
 			}
 
-			// no one knows how to craft through walls yet, so let's ignore the things behind the wall or something else
-			if (Validations.IsReachableByPositions(
-				playerScript.WorldPos,
-				ingredientsSourceVector,
-				true,
-				context: playerScript.gameObject
-			))
+			foreach (ItemSlot pocketsSlot in playerScript.DynamicItemStorage.GetPocketsSlots())
 			{
-				possibleIngredients = MatrixManager.GetAt<CraftingIngredient>(ingredientsSourceVector, true);
+				if (
+					pocketsSlot.ItemObject != null
+					&& pocketsSlot.ItemObject.TryGetComponent(out CraftingIngredient possibleIngredient)
+				)
+				{
+					possibleIngredients.Add(possibleIngredient);
+				}
 			}
 
 			return possibleIngredients;
@@ -245,9 +254,12 @@ namespace Player
 			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
 			foreach (ItemSlot handSlot in playerScript.DynamicItemStorage.GetHandSlots())
 			{
-				if (handSlot.ItemObject != null)
+				if (
+					handSlot.ItemObject != null
+				    && handSlot.ItemObject.TryGetComponent(out ItemAttributesV2 possibleTool)
+				)
 				{
-					possibleTools.Add(handSlot.ItemObject.GetComponent<ItemAttributesV2>());
+					possibleTools.Add(possibleTool);
 				}
 			}
 
