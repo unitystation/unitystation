@@ -178,7 +178,7 @@ namespace Systems.Atmospherics
 				//Add to target
 				target.GasData.ChangeMoles(gas.GasSO, transfer);
 
-				if (DoNotTouchOriginalMix)
+				if (DoNotTouchOriginalMix == false)
 				{
 					//Remove from source
 					source.GasData.ChangeMoles(gas.GasSO, -transfer);
