@@ -96,8 +96,8 @@ public class ChatRelay : NetworkBehaviour
 				//Do player position to originator distance check
 				if (DistanceCheck(playerPosition) == false)
 				{
-					//If we are Ai, then send action and combat messages to on their camera location
-					//as well as core location if possible
+					//Distance check failed so if we are Ai, then try send action and combat messages to their camera location
+					//as well as if possible
 					if (chatEvent.channels.HasFlag(ChatChannel.Local) == false &&
 					    players[i].Script.PlayerState == PlayerScript.PlayerStates.Ai)
 					{
