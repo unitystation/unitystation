@@ -70,6 +70,12 @@ public class ChatRelay : NetworkBehaviour
 					players.RemoveAt(i);
 					continue;
 				}
+				
+				if (players[i].Script.gameObject == chatEvent.originator)
+				{
+					//Always send the originator chat to themselves
+					continue;
+				}
 
 				if (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false)
 				{
@@ -86,6 +92,14 @@ public class ChatRelay : NetworkBehaviour
 				//Send chat to PlayerChatLocation pos, usually just the player object but for AI is its vessel
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
 					?? players[i].Script.gameObject.AssumedWorldPosServer();
+					
+				if (chatEvent.channels.HasFlag(ChatChannel.Local) == false && 
+					players[i].Script.PlayerState == PlayerScript.PlayerStates.Ai)
+				{
+					//If we are Ai, then send action and combat messages based on their camera location
+					//not core location
+					playerPosition = players[i].Script.gameObject.AssumedWorldPosServer();
+				}
 
 				if (Vector2.Distance(chatEvent.position, playerPosition) > 14f)
 				{
