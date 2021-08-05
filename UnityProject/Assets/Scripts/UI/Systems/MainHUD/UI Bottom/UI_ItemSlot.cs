@@ -299,10 +299,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			placeholderImage.color = Color.white;
 		}
+		
+		if (HasSubInventory)
+		{
+			HasSubInventory.itemStorage = null;
+		}
 
 		if (MoreInventoryImage)
 		{
-			HasSubInventory.itemStorage = null;
 			MoreInventoryImage.enabled = false;
 		}
 	}
