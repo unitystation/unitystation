@@ -99,7 +99,9 @@ public class ChatRelay : NetworkBehaviour
 					//Distance check failed so if we are Ai, then try send action and combat messages to their camera location
 					//as well as if possible
 					if (chatEvent.channels.HasFlag(ChatChannel.Local) == false &&
-					    players[i].Script.PlayerState == PlayerScript.PlayerStates.Ai)
+					    players[i].Script.PlayerState == PlayerScript.PlayerStates.Ai &&
+					    players[i].Script.TryGetComponent<AiPlayer>(out var aiPlayer) &&
+					    aiPlayer.IsCarded == false)
 					{
 						playerPosition = players[i].Script.gameObject.AssumedWorldPosServer();
 						
