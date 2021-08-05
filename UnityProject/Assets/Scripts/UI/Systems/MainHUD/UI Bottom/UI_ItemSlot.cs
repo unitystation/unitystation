@@ -289,7 +289,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			return;
 		}
 
-		image.ClearAll();
+		image?.ClearAll();
 		if (amountText)
 		{
 			amountText.enabled = false;
