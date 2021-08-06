@@ -78,8 +78,11 @@ namespace HealthV2
 		private Color bodyPartColorWhenCharred = Color.black;
 
 		private float currentSlashCutDamage = 0;
+		public float CurrentSlashCutDamage => currentSlashCutDamage;
 		private float currentPierceDamage = 0;
+		public float CurrentPierceDamage => currentPierceDamage;
 		private float currentBurnDamage = 0;
+		public float CurrentBurnDamage => currentBurnDamage;
 
 		[SerializeField] private float bodyPartAshesAboveThisDamage = 125;
 		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
@@ -110,19 +113,19 @@ namespace HealthV2
 		/// Applies trauma damage to the body part, checks if it has enough protective armor to cancel the trauma damage
 		/// and automatically checks how big is the body part's cut size.
 		/// </summary>
-		public void ApplyTraumaDamage(float tramuaDamage, TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH)
+		public void ApplyTraumaDamage(float traumaDamage, TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH)
 		{
 			//We use dismember protection chance because it's the most logical value.
 			if (DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if (damageType == TraumaticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
-				if (damageType == TraumaticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
+				if (damageType == TraumaticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(traumaDamage); }
+				if (damageType == TraumaticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(traumaDamage); }
 				CheckCutSize();
 			}
 			//Burn damage checks for it's own armor damage type.
 			if (damageType == TraumaticDamageTypes.BURN)
 			{
-				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
+				TakeBurnDamage(MultiplyTraumaDamage(traumaDamage));
 			}
 		}
 
@@ -325,7 +328,7 @@ namespace HealthV2
 		/// </summary>
 		private void DismemberBodyPartWithChance()
 		{
-			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
+			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
 			if (Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE) { armorChanceModifer -= 0.25f; } //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if (chance >= armorChanceModifer)
@@ -420,18 +423,5 @@ namespace HealthV2
 			}
 		}
 
-
-		public float GetCurrentBurnDamage()
-		{
-			return currentBurnDamage;
-		}
-		public float GetCurrentSlashDamage()
-		{
-			return currentSlashCutDamage;
-		}
-		public float GetCurrentPierceDamage()
-		{
-			return currentPierceDamage;
-		}
 	}
 }
