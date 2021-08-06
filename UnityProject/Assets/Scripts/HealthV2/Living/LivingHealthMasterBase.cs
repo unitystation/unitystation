@@ -8,9 +8,10 @@ using Chemistry;
 using Health.Sickness;
 using JetBrains.Annotations;
 using Mirror;
+using ScriptableObjects.Gun;
 using UnityEngine;
 using UnityEngine.Events;
-using Newtonsoft.Json;
+
 
 namespace HealthV2
 {
@@ -48,7 +49,14 @@ namespace HealthV2
 		/// <summary>
 		/// Returns the current conscious state of the creature
 		/// </summary>
-		public ConsciousState ConsciousState => healthStateController.ConsciousState;
+		public ConsciousState ConsciousState
+		{
+			get => healthStateController.ConsciousState;
+			protected set
+			{
+
+			}
+		}
 
 		/// <summary>
 		/// Event for when the consciousness state of the creature changes, eg becoming unconscious or dead
@@ -120,16 +128,13 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public List<BodyPart> BodyPartList = new List<BodyPart>();
+		public HashSet<BodyPart> BodyPartList = new HashSet<BodyPart>();
 
 		/// <summary>
-		/// The storage container for the body parts
+		/// A list of all body part containers of the creature.
+		/// A body part container is a grouping of like body parts (legs, arms, eyes, etc)
 		/// </summary>
-		[HideInInspector]
-		public ItemStorage BodyPartStorage;
-
-		[HideInInspector]
-		public PlayerSprites playerSprites;
+		public List<RootBodyPartContainer> RootBodyPartContainers = new List<RootBodyPartContainer>();
 
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
@@ -160,16 +165,6 @@ namespace HealthV2
 		protected GameObject LastDamagedBy;
 
 		[NonSerialized] public List<BodyPart> DismemberingBodyParts = new List<BodyPart>();
-
-
-		/// <summary>
-		/// The list of the internal net ids of the body parts contained within this container
-		/// </summary>
-		[Tooltip("The internal net ids of the body parts contained within this")]
-		public List<IntName> InternalNetIDs = new List<IntName>();
-
-		public RootBodyPartController rootBodyPartController;
-
 
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
@@ -204,52 +199,35 @@ namespace HealthV2
 		/// <summary>
 		/// List of sicknesses that creature has gained immunity to
 		/// </summary>
-		private List<Sickness> immunedSickness = new List<Sickness>();
+		private List<Sickness> immunedSickness;
 
 		public PlayerScript playerScript;
 
 		public virtual void Awake()
 		{
-			rootBodyPartController = GetComponent<RootBodyPartController>();
-			playerSprites = GetComponent<PlayerSprites>();
-			BodyPartStorage = GetComponent<ItemStorage>();
 			RegisterTile = GetComponent<RegisterTile>();
 			RespiratorySystem = GetComponent<RespiratorySystemBase>();
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			healthStateController = GetComponent<HealthStateController>();
+			immunedSickness = new List<Sickness>();
 			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
-			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
-		}
-
-		//TODO: confusing, make it not depend from the inventory storage Action
-		/// <summary>
-		/// Server and client trigger this on both addition and removal of a bodypart
-		/// </summary>
-		private void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
-		{
-			if (newImplant && newImplant.TryGetComponent<BodyPart>(out var addedBodyPart))
-			{
-				addedBodyPart.BodyPartAdded(this);
-			}
-			else if(prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedBodyPart))
-			{
-				removedBodyPart.BodyPartRemoval();
-			}
 		}
 
 		void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer == false)
-				return;
+			if (CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Add(PeriodicUpdate, 1f);
 		}
 
 		void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer == false)
-				return;
+			if (CustomNetworkManager.IsServer == false) return;
+
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
@@ -277,8 +255,37 @@ namespace HealthV2
 		[RightClickMethod]
 		public void DODMG()
 		{
-			var bodyPart = BodyPartList.PickRandom();
-			bodyPart.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
+			var bit = RootBodyPartContainers.PickRandom();
+			bit.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
+		}
+
+		/// <summary>
+		/// Adds a new body part to the health master.
+		/// This is NOT how body parts should be added, it is called automatically by the body part container system!
+		/// </summary>
+		/// <param name="implant"></param>
+		public void AddNewImplant(BodyPart implant)
+		{
+			BodyPartList.Add(implant);
+		}
+
+		/// <summary>
+		/// Removes a body part from the health master
+		/// </summary>
+		public void RemoveImplant(BodyPart implantBase)
+		{
+			BodyPartList.Remove(implantBase);
+		}
+
+		//Server Side only
+		private void UpdateMe()
+		{
+			foreach (var implant in RootBodyPartContainers)
+			{
+				implant.ImplantUpdate();
+			}
+
+			//do Separate delayed blood update
 		}
 
 		//Server Side only
@@ -286,11 +293,12 @@ namespace HealthV2
 		{
 			if (IsDead == false)
 			{
-				for (int i = BodyPartList.Count - 1; i >= 0; i--)
+				foreach (var implant in RootBodyPartContainers)
 				{
-					BodyPartList[i].ImplantPeriodicUpdate();
+					implant.ImplantPeriodicUpdate();
 				}
 			}
+
 
 			fireStacksDamage();
 			CalculateRadiationDamage();
@@ -413,6 +421,12 @@ namespace HealthV2
 			       + CirculatorySystem.ReadyBloodPool[CirculatorySystem.BloodType];
 		}
 
+		/// <summary>
+		/// Unimplemented
+		/// </summary>
+		public void AddBodyPartToRoot()
+		{
+		}
 
 		/// <summary>
 		/// Returns true if the creature has the given body part of a type targetable by the UI
@@ -521,6 +535,7 @@ namespace HealthV2
 					healthStateController.SetConsciousState(NewConsciousState);
 					OnConsciousStateChangeServer.Invoke(oldState, NewConsciousState);
 				}
+				ConsciousState = NewConsciousState;
 			}
 		}
 
@@ -533,18 +548,25 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage</param>
 		/// <param name="damageSplit">Should the damage be divided by number of body parts or applied to each body part separately</param>
 		[Server]
-		public void ApplyDamageAll(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType, bool damageSplit = true)
+		public void ApplyDamageAll(GameObject damagedBy, float damage,
+			AttackType attackType, DamageType damageType, bool damageSplit = true)
 		{
 			if (damageSplit)
 			{
-				float bodyParts = BodyPartList.Count;
+				float bodyParts = RootBodyPartContainers.Sum(Container => Container.ContainsLimbs.Count());
 				damage /= bodyParts;
 			}
 
-			for (int i = BodyPartList.Count - 1; i >= 0; i--)
+			foreach (var Container in RootBodyPartContainers)
 			{
-				var bodyPart = BodyPartList[i];
-				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
+				if (damageSplit)
+				{
+					Container.TakeDamage(damagedBy, damage * Container.ContainsLimbs.Count, attackType, damageType);
+				}
+				else
+				{
+					Container.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit: true);
+				}
 			}
 
 			if (damageType == DamageType.Brute)
@@ -563,9 +585,10 @@ namespace HealthV2
 		/// <param name="attackType">type of attack that is causing the damage</param>
 		/// <param name="damageType">The Type of Damage</param>
 		[Server]
-		public void ApplyDamageToRandom(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType)
+		public void ApplyDamageToRandom(GameObject damagedBy, float damage,
+			AttackType attackType, DamageType damageType)
 		{
-			var body = BodyPartList.PickRandom();
+			var body = RootBodyPartContainers.PickRandom();
 
 			body.TakeDamage(damagedBy, damage, attackType, damageType);
 
@@ -578,6 +601,90 @@ namespace HealthV2
 		}
 
 		/// <summary>
+		/// Apply damage to a random bodypart of the creature. Server only
+		/// </summary>
+		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+		/// <param name="damage">Damage Amount</param>
+		/// <param name="attackType">type of attack that is causing the damage</param>
+		/// <param name="damageType">The Type of Damage</param>
+		[Server]
+		public void ApplyDamageToBodyPart(GameObject damagedBy, float damage,
+			AttackType attackType, DamageType damageType)
+		{
+			//what Outer body part hit
+			//How much damage is absorbed by body part
+			//Body part weaknesses
+			//to damage to internal components if not absorbed
+			//Do this recursively
+
+			//Guns Burns no Break bones
+			//blunt maybe break bones?
+			//
+			//toolbox fight, Slight organ damage, Severe brutal damage
+			//If over 90% increased chance of breaking bones
+			//if limb is more damaged high likelihood of breaking bones?, in critical yes and noncritical?
+			//
+			//Shotgun, Severe brutal damage, Some organ damage,
+			//damages skin until, got through then does organ damage
+			//
+			//gun, Severe brutal damage, Some organ damage, Embedding can be prevented from Armour  reduce organ damage if armoured
+			// pellet
+			// 0.5
+			// rifle round
+			// 1
+			// Sniper around
+			// 3
+
+			//Cutting, Severe brutal damage
+			//can cut off limbs, up to a damage
+			//
+
+			//Laser, Severe Burns
+			//just burning
+
+			//crush, Broken Bones, Moderate organ damage
+			//no surface damage/small
+
+			// Healing applies to both so 100 to both
+			// if it's 100 healing
+
+			// Damage, is split across the two
+
+			// Injection chooses one
+
+			//TODOH
+			//remove old references to Sprite directions
+			//Make sure is added to the manager properly
+			//brains always recoverable, even if they get nuked, imo have tight regulations on what can destroy a brain
+			//Surgery should be, Versus medicine medicine slow but dependable, surgery fast but requires someone doing surgery , Two only related for internal organs
+			//Remove clothing item from sprites completely useless and unneeded
+			ApplyDamageToBodyPart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
+		}
+
+		/// <summary>
+		/// Apply Damage to a specified body part of the creature. Server only
+		/// </summary>
+		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+		/// <param name="damageData">Damage data</param>
+		/// <param name="bodyPartAim">Body Part that is affected</param>
+		/// <param name="armorPenetration">How well or poorly it will break through different types of armor</param>
+		public virtual void ApplyDamageToBodyPart(
+			GameObject damagedBy,
+			DamageData damageData,
+			BodyPartType bodyPartAim
+		)
+		{
+			ApplyDamageToBodyPart(
+				damagedBy,
+				damageData.Damage,
+				damageData.AttackType,
+				damageData.DamageType,
+				bodyPartAim,
+				damageData.ArmorPenetration
+			);
+		}
+
+		/// <summary>
 		///  Apply Damage to a specified body part of the creature. Server only
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -586,31 +693,23 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage</param>
 		/// <param name="bodyPartAim">Body Part that is affected</param>
 		[Server]
-		public void ApplyDamageToBodyPart(GameObject damagedBy, float damage, AttackType attackType,
-			DamageType damageType, BodyPartType bodyPartAim = BodyPartType.None, float armorPenetration = 0
+		public virtual void ApplyDamageToBodyPart(
+			GameObject damagedBy,
+			float damage,
+			AttackType attackType,
+			DamageType damageType,
+			BodyPartType bodyPartAim,
+			float armorPenetration = 0
 		)
 		{
-			if (bodyPartAim == BodyPartType.None)
-			{
-				BodyPartType.Chest.Randomize(0);
-			}
-
 			LastDamagedBy = damagedBy;
 
-			var count = 0;
-			foreach (var bodyPart in BodyPartList)
+			foreach (var bodyPartContainer in RootBodyPartContainers)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (bodyPartContainer.BodyPartType == bodyPartAim)
 				{
-					count++;
-				}
-			}
-
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.BodyPartType == bodyPartAim)
-				{
-					bodyPart.TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration);
+					//Assuming is only going to be one otherwise damage will be duplicated across them
+					bodyPartContainer.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration);
 				}
 			}
 			CheckDismemberBody();
@@ -623,28 +722,76 @@ namespace HealthV2
 		/// <param name="damage">The Trauma damage value</param>
 		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
 		[Server]
-		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, TraumaticDamageTypes damageType)
+		public virtual void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, TraumaticDamageTypes damageType)
 		{
-			foreach (var bodyPart in BodyPartList)
+			RootBodyPartContainer aimedPartContainer = null;
+			foreach (RootBodyPartContainer container in RootBodyPartContainers)
 			{
-				if (bodyPart.BodyPartType == aimedBodyPart)
+				if (container.BodyPartType == aimedBodyPart)
 				{
-					if (damageType.HasFlag(TraumaticDamageTypes.BURN))
-					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN);
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.SLASH))
-					{
-						bodyPart.ApplyTraumaDamage(damage);
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.PIERCE))
-					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.PIERCE);
-					}
-					CheckDismemberBody();
-					return;
+					aimedPartContainer = container;
 				}
 			}
+
+			if (aimedPartContainer == null)
+			{
+				Logger.LogError(
+					$"[LivingHealthBase/{name}] - Unable to find body part container. Skipping Trauma Damage.");
+				return;
+			}
+
+			aimedPartContainer.TakeTraumaDamage(damage, damageType);
+			CheckDismemberBody();
+		}
+
+		/// <summary>
+		/// Gets all body parts in a zone targetable by the UI (head, chest, left arm, etc)
+		/// </summary>
+		/// <param name="bodyPartAim">The body part being aimed at</param>
+		/// <param name="surfaceOnly">Returns only external bodyparts if true (default), all if false</param>
+		/// <returns>List of BodyParts</returns>
+		public List<BodyPart> GetBodyPartsInZone(BodyPartType bodyPartAim, bool surfaceOnly = true)
+		{
+			foreach (var cntainers in RootBodyPartContainers)
+			{
+				if (cntainers.BodyPartType == bodyPartAim)
+				{
+					if (surfaceOnly)
+					{
+						return new List<BodyPart>(cntainers.ContainsLimbs);
+					}
+					else
+					{
+						var TOReturn = new List<BodyPart>();
+						foreach (var BodyPart in cntainers.ContainsLimbs)
+						{
+							BodyPart.GetAllBodyPartsAndItself(TOReturn);
+						}
+
+						return TOReturn;
+					}
+				}
+			}
+
+			return new List<BodyPart>(0);
+		}
+
+		/// <summary>
+		/// Gets all body part containers (arms, legs, eyes, etc) in a zone targetable by the UI
+		/// </summary>
+		/// <param name="bodyPartAim">The body part being aimed at</param>
+		/// <returns>List of RootBodyPartContainers</returns>
+		public RootBodyPartContainer GetRootBodyPartInZone(BodyPartType bodyPartAim)
+		{
+			foreach (var cntainers in RootBodyPartContainers)
+			{
+				if (cntainers.BodyPartType == bodyPartAim)
+				{
+					return cntainers;
+				}
+			}
+
+			return null;
 		}
 
 		/// <summary>
@@ -653,18 +800,39 @@ namespace HealthV2
 		/// <returns></returns>
 		public bool ZoneHasDamageOf(BodyPartType bodyPartAim, DamageType SpecifiedType)
 		{
-			foreach (var bodyPart in BodyPartList)
+			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
-					if (bodyPart.Damages[(int) SpecifiedType] > 0)
+					foreach (var bodyPart in cntainers.ContainsLimbs)
 					{
-						return true;
+						if (bodyPart.Damages[(int) SpecifiedType] > 0)
+						{
+							return true;
+						}
 					}
 				}
 			}
 
 			return false;
+		}
+
+		/// <summary>
+		/// Gibs the creature if possible, not implemented
+		/// </summary>
+		private void TryGibbing(float damage)
+		{
+			//idk
+			//TODO: Reimplement
+		}
+
+		public void CheckDismemberBody()
+		{
+			foreach (var bodyPart in DismemberingBodyParts)
+			{
+				bodyPart.RemoveFromBodyThis();
+			}
+			DismemberingBodyParts.Clear();
 		}
 
 		/// <summary>
@@ -709,28 +877,32 @@ namespace HealthV2
 		/// <returns></returns>
 		public bool HasTraumaDamage(BodyPartType partType)
 		{
-			foreach (var bodyPart in BodyPartList)
+			foreach (var container in RootBodyPartContainers)
 			{
-				if (bodyPart.BodyPartType == partType)
+				if (container.BodyPartType == partType)
 				{
-					if (bodyPart.GetCurrentBurnDamage() > 0)
-						return true;
-					if (bodyPart.GetCurrentSlashDamage() > 0)
-						return true;
-					if (bodyPart.GetCurrentPierceDamage() > 0)
-						return true;
+					foreach (BodyPart part in container.ContainsLimbs)
+					{
+						if (part.CurrentBurnDamage > 0) return true;
+						if (part.CurrentSlashCutDamage > 0) return true;
+						if (part.CurrentPierceDamage > 0) return true;
+					}
 				}
 			}
+
 			return false;
 		}
 
 		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
 		{
-			foreach(var bodyPart in BodyPartList)
+			foreach (var rootBodyPartContainers in RootBodyPartContainers)
 			{
-				if (bodyPart.BodyPartType == targetBodyPartToHeal)
+				if (rootBodyPartContainers.BodyPartType == targetBodyPartToHeal)
 				{
-					bodyPart.HealTraumaticDamage(healAmount, typeToHeal);
+					foreach(var bodyPart in rootBodyPartContainers.ContainsLimbs)
+					{
+						bodyPart.HealTraumaticDamage(healAmount, typeToHeal);
+					}
 				}
 			}
 		}
@@ -774,48 +946,46 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage To Heal</param>
 		/// <param name="bodyPartAim">Body Part to heal</param>
 		[Server]
-		public void HealDamage(GameObject healingItem, int healAmt,
+		public virtual void HealDamage(GameObject healingItem, int healAmt,
 			DamageType damageTypeToHeal, BodyPartType bodyPartAim)
 		{
-			foreach (var bodyPart in BodyPartList)
+			foreach (var cntainers in RootBodyPartContainers)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (cntainers.BodyPartType == bodyPartAim)
 				{
-					bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
+					cntainers.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}
 			}
+			//TODO: Reimplement
+		}
+
+		[Server]
+		public void Harvest()
+		{
+			//Reimplement
+
+			Gib();
 		}
 
 		[Server]
 		public virtual void Gib()
 		{
-			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Slip, gameObject.transform.position, gameObject); //TODO: replace with gibbing noise
+			Death();
+			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Slip, gameObject.transform.position,
+				gameObject); //TODO: replace with gibbing noise
 			CirculatorySystem.Bleed(GetTotalBlood());
-			for (int i = BodyPartList.Count - 1; i >= 0; i--)
+			foreach (RootBodyPartContainer container in RootBodyPartContainers.ToArray())
 			{
-				BodyPartList[i].TryRemoveFromBody(true);
+				container.RemoveLimbs();
 			}
 		}
 
-		public void CheckDismemberBody()
-		{
-			foreach (var bodyPart in DismemberingBodyParts)
-			{
-				//TODO: remove bodypart component from organs
-				if (bodyPart.TryGetComponent<Organ>(out var organ))
-				{
-					organ.RelatedPart.OrganStorage.ServerTryRemove(organ.gameObject);
-				}
-				else
-				{
-					bodyPart.TryRemoveFromBody();
-				}
-			}
-			DismemberingBodyParts.Clear();
-		}
-
+		/// ---------------------------
+		/// CRIT + DEATH METHODS
+		/// ---------------------------
 		///<Summary>
 		/// Kills the creature, used for causes of death other than damage.
+		/// Currently not fully implemented
 		///</Summary>
 		public void Death()
 		{
@@ -827,8 +997,11 @@ namespace HealthV2
 					HV2.playerScript.playerMove.allowInput = false;
 				}
 			}
+
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			//TODO: Reimplemenmt
 		}
 
 		protected abstract void OnDeathActions();
@@ -1047,7 +1220,7 @@ namespace HealthV2
 		/// In the future, this would depend on the victim's size. For now, assume humanoid size.
 		/// </summary>
 		/// <param name="shockPower">The power of the electrocution determines the shock response </param>
-		protected LivingShockResponse GetElectrocutionSeverity(float shockPower)
+		protected virtual LivingShockResponse GetElectrocutionSeverity(float shockPower)
 		{
 			LivingShockResponse severity;
 
@@ -1086,154 +1259,6 @@ namespace HealthV2
 		}
 
 		#endregion
-
-
-		/// <summary>
-		/// Sets up the sprite of a specified body part and adds its Net ID to InternalNetIDs
-		/// </summary>
-		/// <param name="implant">Body Part to display</param>
-		public void ServerCreateSprite(BodyPart implant)
-		{
-			int i = 0;
-			bool isSurfaceSprite = implant.IsSurface;
-			var sprites = implant.GetBodyTypeSprites(playerSprites.ThisCharacter.BodyType);
-			foreach (var Sprite in sprites.Item2)
-			{
-				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, playerSprites.BodySprites.transform).GameObject.GetComponent<BodyPartSprites>();
-				newSprite.transform.localPosition = Vector3.zero;
-				playerSprites.Addedbodypart.Add(newSprite);
-
-				if (isSurfaceSprite)
-				{
-					playerSprites.SurfaceSprite.Add(newSprite);
-				}
-
-				implant.RelatedPresentSprites.Add(newSprite);
-
-				var newOrder = new SpriteOrder(sprites.Item1);
-				newOrder.Add(i);
-
-				var ClientData = new IntName();
-				// TODO: names?? strings?? while using some sort of i at the same time??? WHAT IS THIS BURN IT
-				ClientData.Name = implant.name + "_" + i + "_" + implant.GetInstanceID(); //is Fine because name is being Networked
-				newSprite.SetName(ClientData.Name);
-				ClientData.Int = CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
-				ClientData.Data = JsonConvert.SerializeObject(newOrder);
-				implant.intName = ClientData;
-				InternalNetIDs.Add(ClientData);
-
-				newSprite.baseSpriteHandler.NetworkThis = true;
-				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
-				SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(), newSprite.baseSpriteHandler);
-
-				i += 3; // ????????????????????????
-			}
-			rootBodyPartController.UpdateClients();
-
-			if (implant.SetCustomisationData != "")
-			{
-				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant, implant.SetCustomisationData, this);
-			}
-
-		}
-
-
-		public List<BodyPartSprites> ClientSprites = new List<BodyPartSprites>();
-
-		public void ClientUpdateSprites(List<IntName> NewInternalNetIDs)
-		{
-			List<SpriteHandler> SHS = new List<SpriteHandler>();
-
-			//add new sprites
-			foreach (var ID in NewInternalNetIDs)
-			{
-				bool Contains = false;
-				foreach (var InetID in InternalNetIDs)
-				{
-					if (InetID.Name == ID.Name)
-					{
-						Contains = true;
-					}
-				}
-
-				if (Contains == false)
-				{
-					if (CustomNetworkManager.Instance.allSpawnablePrefabs.Count > ID.Int)
-					{
-						var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int], playerSprites.BodySprites.transform).transform;
-						var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(OB.gameObject);
-						var Handlers = OB.GetComponentsInChildren<SpriteHandler>();
-
-						foreach (var SH in Handlers)
-						{
-							SpriteHandlerManager.UnRegisterHandler(Net, SH);
-						}
-
-						OB.parent = playerSprites.BodySprites.transform;
-						OB.localScale = Vector3.one;
-						OB.localPosition = Vector3.zero;
-						OB.localRotation = Quaternion.identity;
-
-						var BPS = OB.GetComponent<BodyPartSprites>();
-						BPS.SetName(ID.Name);
-						ClientSprites.Add(BPS);
-						if (playerSprites.Addedbodypart.Contains(BPS) == false)
-						{
-							playerSprites.Addedbodypart.Add(BPS);
-						}
-
-						foreach (var SH in Handlers)
-						{
-							SHS.Add(SH);
-							SH.NetworkThis = true;
-							SpriteHandlerManager.RegisterHandler(Net, SH);
-						}
-					}
-				}
-			}
-
-			//removing sprites
-			foreach (var ID in InternalNetIDs)
-			{
-				bool Contains = false;
-				foreach (var InetID in NewInternalNetIDs)
-				{
-					if (InetID.Name == ID.Name)
-					{
-						Contains = true;
-					}
-				}
-
-				if (Contains == false)
-				{
-					foreach (var bodyPartSprites in ClientSprites.ToArray())
-					{
-						if (bodyPartSprites.name == ID.Name)
-						{
-							if (playerSprites.Addedbodypart.Contains(bodyPartSprites))
-							{
-								playerSprites.Addedbodypart.Remove(bodyPartSprites);
-							}
-							ClientSprites.Remove(bodyPartSprites);
-							Destroy(bodyPartSprites.gameObject);
-						}
-
-					}
-				}
-			}
-
-			foreach (var bodyPartSprites in ClientSprites)
-			{
-				foreach (var internalNetID in NewInternalNetIDs)
-				{
-					if (internalNetID.Name == bodyPartSprites.name)
-					{
-						bodyPartSprites.UpdateData(internalNetID.Data);
-					}
-				}
-			}
-			InternalNetIDs = NewInternalNetIDs;
-		}
 	}
 
 	/// <summary>
