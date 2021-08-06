@@ -102,7 +102,8 @@ namespace HealthV2
 			{
 				if (RelatedPart.BloodContainer.ReagentMixTotal < 5)
 				{
-					takeAmount = StomachContents.ReagentMixTotal;					}
+					takeAmount = StomachContents.ReagentMixTotal;
+				}
 				takeMix = RelatedPart.BloodContainer.TakeReagents(takeAmount);
 				RelatedPart.BloodContainer.CurrentReagentMix.RemoveVolume(takeAmount);
 			}
