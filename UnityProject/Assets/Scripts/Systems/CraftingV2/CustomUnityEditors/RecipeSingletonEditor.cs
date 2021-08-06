@@ -14,11 +14,11 @@ namespace Systems.CraftingV2.CustomUnityEditors
 
 		public void OnEnable()
 		{
-			spStoredCraftingRecipes = serializedObject.FindProperty(
-				Utils.Title2Camel(nameof(CraftingRecipeSingleton.StoredCraftingRecipes))
-			);
-
 			singleton = (CraftingRecipeSingleton) target;
+
+			spStoredCraftingRecipes = serializedObject.FindProperty(
+				Utils.Title2Camel(singleton.GetStoredCraftingRecipesListFieldName())
+			);
 		}
 
 		public override void OnInspectorGUI()
@@ -28,8 +28,7 @@ namespace Systems.CraftingV2.CustomUnityEditors
 
 			EditorGUILayout.PropertyField(spStoredCraftingRecipes);
 
-			// damn I want a button like this for every problem :(
-			if (GUILayout.Button("Autoresolve all problems"))
+			if (GUILayout.Button("Remove nulls and fix recipes' indexes"))
 			{
 				RemoveNulls();
 				FixRecipeIndexes();
@@ -43,26 +42,13 @@ namespace Systems.CraftingV2.CustomUnityEditors
 
 		private void RemoveNulls()
 		{
-			for (int i = singleton.StoredCraftingRecipes.Count - 1; i >= 0; i--)
-			{
-				if (singleton.StoredCraftingRecipes[i] == null)
-				{
-					singleton.StoredCraftingRecipes.RemoveAt(i);
-				}
-			}
+			singleton.RemoveNulls();
 			serializedObject.Update();
 		}
 
 		private void FixRecipeIndexes()
 		{
-			for (int i = 0; i < singleton.StoredCraftingRecipes.Count; i++)
-			{
-				singleton.StoredCraftingRecipes[i].IndexInSingleton = i;
-				EditorUtility.SetDirty(singleton.StoredCraftingRecipes[i]);
-			}
-
-			AssetDatabase.SaveAssets();
-			AssetDatabase.Refresh();
+			singleton.FixRecipeIndexes();
 		}
 	}
 }

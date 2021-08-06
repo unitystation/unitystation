@@ -19,21 +19,20 @@ namespace Systems.CraftingV2.ClientServerLogic
 		public override void Process(NetMessage netMessage)
 		{
 			// let's synchronize known recipes on the client side.
-			PlayerManager.LocalPlayerScript.PlayerCrafting.UnsafelyAddRecipeToKnownRecipes(
-				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
+			PlayerManager.LocalPlayerScript.PlayerCrafting.RemoveRecipeFromKnownRecipes(
+				CraftingRecipeSingleton.Instance.GetRecipeByIndex(netMessage.CraftingRecipeIndex)
 			);
 
-			// if the player is trying to learn new recipe without initiated CraftingMenu...
+			// if the player is trying to forget new recipe without initiated CraftingMenu...
 			if (CraftingMenu.Instance == null)
 			{
-				// ...then we will add a new recipe button when the player will have opened the crafting menu
-				// (in other words when the CraftingMenu.Awake() method will be called)
+				// then there is no need to even update crafting menu
 				return;
 			}
 
 			// ok, the crafting menu is already initiated, so it's safe to remove buttons from it
 			CraftingMenu.Instance.OnPlayerForgotRecipe(
-				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
+				CraftingRecipeSingleton.Instance.GetRecipeByIndex(netMessage.CraftingRecipeIndex)
 			);
 		}
 
@@ -50,8 +49,8 @@ namespace Systems.CraftingV2.ClientServerLogic
 			}
 
 			if (
-				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
-				|| CraftingRecipeSingleton.Instance.StoredCraftingRecipes[craftingRecipe.IndexInSingleton]
+				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.CountTotalStoredRecipes()
+				|| CraftingRecipeSingleton.Instance.GetRecipeByIndex(craftingRecipe.IndexInSingleton)
 				!= craftingRecipe
 			)
 			{

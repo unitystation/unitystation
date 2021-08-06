@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
+using Systems.CraftingV2.GUI;
 using Items;
+using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -12,13 +14,13 @@ namespace Player
 	/// A class that deals with the processing of crafting items by a player.
 	/// </summary>
 	[RequireComponent(typeof(PlayerScript))]
-	public class PlayerCrafting : MonoBehaviour
+	public class PlayerCrafting : NetworkBehaviour
 	{
+		private readonly List<List<CraftingRecipe>> knownRecipesByCategory = new List<List<CraftingRecipe>>();
+
 		/// <summary>
 		/// The list of currently known recipes for a player by category.
 		/// </summary>
-		private List<List<CraftingRecipe>> knownRecipesByCategory = new List<List<CraftingRecipe>>();
-
 		public List<List<CraftingRecipe>> KnownRecipesByCategory => knownRecipesByCategory;
 
 		[SerializeField, ReorderableList] [Tooltip("Default recipes known to a player.")]
@@ -36,7 +38,16 @@ namespace Player
 		{
 			playerScript = GetComponent<PlayerScript>();
 			InitKnownRecipesByCategories();
+		}
+
+		public override void OnStartServer()
+		{
 			InitDefaultRecipes();
+		}
+
+		public override void OnStartLocalPlayer()
+		{
+			RequestInitRecipes.Send(new RequestInitRecipes.NetMessage());
 		}
 
 		private void InitKnownRecipesByCategories()
@@ -47,12 +58,24 @@ namespace Player
 			}
 		}
 
+		[Server]
 		private void InitDefaultRecipes()
 		{
 			foreach (CraftingRecipe craftingRecipe in defaultKnownRecipes)
 			{
 				TryAddRecipeToKnownRecipes(craftingRecipe);
 			}
+		}
+
+		[Client]
+		public void InitRecipes(List<CraftingRecipe> knownRecipes)
+		{
+			// we should clear known recipes firstly because a non-headless server will also
+			// init default recipes on a client side, which it shouldn't do on a headless server.
+			// On the headless server the known recipes list will be empty,
+			// so don't worry about unnecessary algorithm complexity.
+			knownRecipesByCategory.ForEach(recipesInCategory => recipesInCategory.Clear());
+			knownRecipes.ForEach(UnsafelyAddRecipeToKnownRecipes);
 		}
 
 		/// <summary>
@@ -79,6 +102,7 @@ namespace Player
 		/// 	Adds the recipe to the KnownRecipesByCategory[] if it doesn't already contains the recipe.
 		/// </summary>
 		/// <param name="recipe">The recipe to add.</param>
+		[Server]
 		public void LearnRecipe(CraftingRecipe recipe)
 		{
 			if (!TryAddRecipeToKnownRecipes(recipe))
@@ -102,7 +126,6 @@ namespace Player
 			}
 
 			UnsafelyAddRecipeToKnownRecipes(craftingRecipe);
-
 			return true;
 		}
 
@@ -117,9 +140,19 @@ namespace Player
 		}
 
 		/// <summary>
+		/// 	Removes the recipe from the known recipes list.
+		/// </summary>
+		/// <param name="craftingRecipe">The recipe to remove.</param>
+		public void RemoveRecipeFromKnownRecipes(CraftingRecipe craftingRecipe)
+		{
+			GetKnownRecipesInCategory(craftingRecipe.Category).Remove(craftingRecipe);
+		}
+
+		/// <summary>
 		/// 	Removes the recipe from the KnownRecipesByCategory list.
 		/// </summary>
 		/// <param name="recipe">The recipe to remove.</param>
+		[Server]
 		public void ForgetRecipe(CraftingRecipe recipe)
 		{
 			GetKnownRecipesInCategory(recipe.Category).Remove(recipe);
@@ -168,11 +201,11 @@ namespace Player
 		)
 		{
 			return knownRecipeIndexes.Contains(recipeIndex) == false
-			       ? CraftingStatus.NotAbleToCraft
-			       : CraftingRecipeSingleton
-				       .Instance
-				       .StoredCraftingRecipes[recipeIndex]
-				       .CanBeCrafted(possibleIngredients, possibleTools);
+				? CraftingStatus.NotAbleToCraft
+				: CraftingRecipeSingleton
+					.Instance
+					.GetRecipeByIndex(recipeIndex)
+					.CanBeCrafted(possibleIngredients, possibleTools);
 		}
 
 		/// <summary>

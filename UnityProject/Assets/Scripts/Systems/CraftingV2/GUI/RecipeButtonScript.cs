@@ -152,7 +152,7 @@ namespace Systems.CraftingV2.GUI
 		/// <summary>
 		/// 	Updates the recipe button border color.
 		/// </summary>
-		/// <param name="crafterPlayerCrafting">A player that may craft according to the recipe.</param>
+		/// <param name="knownRecipeIndexes">Recipe indexes that already known to the player.</param>
 		/// <param name="possibleIngredients">The ingredients that may be used for crafting.</param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		public void RefreshCraftable(

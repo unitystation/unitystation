@@ -35,15 +35,15 @@ namespace Systems.CraftingV2.ClientServerLogic
 			}
 
 			SentByPlayer.Script.PlayerCrafting.TryToStartCrafting(
-				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
+				CraftingRecipeSingleton.Instance.GetRecipeByIndex(netMessage.CraftingRecipeIndex)
 			);
 		}
 
 		public static void Send(CraftingRecipe craftingRecipe)
 		{
 			bool sendingWrongRecipeIndex =
-				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
-				|| CraftingRecipeSingleton.Instance.StoredCraftingRecipes[craftingRecipe.IndexInSingleton]
+				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.CountTotalStoredRecipes()
+				|| CraftingRecipeSingleton.Instance.GetRecipeByIndex(craftingRecipe.IndexInSingleton)
 					!= craftingRecipe;
 			Send(new NetMessage
 			{

@@ -21,22 +21,71 @@ namespace Systems.CraftingV2
 		         "Contains all the possible recipes that may be used for crafting.")]
 		private List<CraftingRecipe> storedCraftingRecipes = new List<CraftingRecipe>();
 
-		/// <summary>
-		/// 	Contains all the possible recipes that may be used for crafting.
-		/// </summary>
-		public List<CraftingRecipe> StoredCraftingRecipes => storedCraftingRecipes;
+		public CraftingRecipe GetRecipeByIndex(int index)
+		{
+			return storedCraftingRecipes[index];
+		}
+
+		public int CountTotalStoredRecipes()
+		{
+			return storedCraftingRecipes.Count;
+		}
 
 #if UNITY_EDITOR
+		public string GetStoredCraftingRecipesListFieldName()
+		{
+			return nameof(storedCraftingRecipes);
+		}
+
+		public void RemoveNulls()
+		{
+			for (int i = CountTotalStoredRecipes() - 1; i >= 0; i--)
+			{
+				if (storedCraftingRecipes[i] == null)
+				{
+					storedCraftingRecipes.RemoveAt(i);
+				}
+			}
+		}
+
+		public void FixRecipeIndexes()
+		{
+			for (int i = 0; i < storedCraftingRecipes.Count; i++)
+			{
+				storedCraftingRecipes[i].IndexInSingleton = i;
+				EditorUtility.SetDirty(storedCraftingRecipes[i]);
+			}
+
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+		}
+
+		public bool AddRecipeIfNecessary(CraftingRecipe recipe)
+		{
+			if (storedCraftingRecipes.Contains(recipe))
+			{
+				return false;
+			}
+
+			storedCraftingRecipes.Add(recipe);
+			recipe.IndexInSingleton = storedCraftingRecipes.IndexOf(recipe);
+			EditorUtility.SetDirty(Instance);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+
+			return true;
+		}
+
 		public void RemoveRecipe(CraftingRecipe craftingRecipeToRemove)
 		{
-			int indexOfElementToDelete = StoredCraftingRecipes.IndexOf(craftingRecipeToRemove);
-			StoredCraftingRecipes.RemoveAt(indexOfElementToDelete);
+			int indexOfElementToDelete = storedCraftingRecipes.IndexOf(craftingRecipeToRemove);
+			storedCraftingRecipes.RemoveAt(indexOfElementToDelete);
 			EditorUtility.SetDirty(this);
 
-			for (int i = indexOfElementToDelete; i < StoredCraftingRecipes.Count; i++)
+			for (int i = indexOfElementToDelete; i < storedCraftingRecipes.Count; i++)
 			{
-				StoredCraftingRecipes[i].IndexInSingleton--;
-				EditorUtility.SetDirty(StoredCraftingRecipes[i]);
+				storedCraftingRecipes[i].IndexInSingleton--;
+				EditorUtility.SetDirty(storedCraftingRecipes[i]);
 			}
 
 			AssetDatabase.SaveAssets();

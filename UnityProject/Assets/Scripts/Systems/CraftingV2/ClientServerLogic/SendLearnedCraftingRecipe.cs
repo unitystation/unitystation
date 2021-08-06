@@ -22,13 +22,12 @@ namespace Systems.CraftingV2.ClientServerLogic
 			if (CraftingMenu.Instance == null)
 			{
 				// ...then we will add a new recipe button when the player will have opened the crafting menu
-				// (in other words when the CraftingMenu.Awake() method will be called)
 				return;
 			}
 
 			// ok, the crafting menu is already initiated, so it's safe to add new buttons to it
 			CraftingMenu.Instance.OnPlayerLearnedRecipe(
-				CraftingRecipeSingleton.Instance.StoredCraftingRecipes[netMessage.CraftingRecipeIndex]
+				CraftingRecipeSingleton.Instance.GetRecipeByIndex(netMessage.CraftingRecipeIndex)
 			);
 		}
 
@@ -43,8 +42,8 @@ namespace Systems.CraftingV2.ClientServerLogic
 			}
 
 			if (
-				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
-				|| CraftingRecipeSingleton.Instance.StoredCraftingRecipes[craftingRecipe.IndexInSingleton]
+				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.CountTotalStoredRecipes()
+				|| CraftingRecipeSingleton.Instance.GetRecipeByIndex(craftingRecipe.IndexInSingleton)
 				!= craftingRecipe
 			)
 			{

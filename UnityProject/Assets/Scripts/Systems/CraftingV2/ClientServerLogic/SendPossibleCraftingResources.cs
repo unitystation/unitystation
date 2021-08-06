@@ -98,8 +98,8 @@ namespace Systems.CraftingV2.ClientServerLogic
 					}
 
 					if (
-						knownRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
-						|| CraftingRecipeSingleton.Instance.StoredCraftingRecipes[knownRecipe.IndexInSingleton]
+						knownRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.CountTotalStoredRecipes()
+						|| CraftingRecipeSingleton.Instance.GetRecipeByIndex(knownRecipe.IndexInSingleton)
 						!= knownRecipe
 					)
 					{

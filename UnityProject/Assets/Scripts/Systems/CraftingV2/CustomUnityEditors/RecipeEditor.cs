@@ -153,17 +153,10 @@ namespace Systems.CraftingV2.CustomUnityEditors
 		/// </summary>
 		private void AddToSingletonIfNecessary()
 		{
-			if (CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Contains(recipe))
+			if (CraftingRecipeSingleton.Instance.AddRecipeIfNecessary(recipe))
 			{
-				return;
+				serializedObject.Update();
 			}
-
-			CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Add(recipe);
-			recipe.IndexInSingleton = CraftingRecipeSingleton.Instance.StoredCraftingRecipes.IndexOf(recipe);
-			serializedObject.Update();
-			EditorUtility.SetDirty(CraftingRecipeSingleton.Instance);
-			AssetDatabase.SaveAssets();
-			AssetDatabase.Refresh();
 		}
 
 		/// <summary>

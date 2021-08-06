@@ -2,6 +2,7 @@
 using Systems.CraftingV2.GUI;
 using Messages.Server;
 using Mirror;
+using Player;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {
@@ -18,11 +19,11 @@ namespace Systems.CraftingV2.ClientServerLogic
 			foreach (int serverSideKnownRecipeId in netMessage.ServerSideKnownRecipeIds)
 			{
 				serverSideKnownRecipes.Add(
-					CraftingRecipeSingleton.Instance.StoredCraftingRecipes[serverSideKnownRecipeId]
+					CraftingRecipeSingleton.Instance.GetRecipeByIndex(serverSideKnownRecipeId)
 				);
 			}
 
-			CraftingMenu.Instance.InitRecipes(serverSideKnownRecipes);
+			PlayerManager.LocalPlayerScript.PlayerCrafting.InitRecipes(serverSideKnownRecipes);
 		}
 
 		public static void SendTo(ConnectedPlayer recipient, List<List<CraftingRecipe>> serverSideKnownRecipes)
@@ -43,8 +44,8 @@ namespace Systems.CraftingV2.ClientServerLogic
 					}
 
 					if (
-						craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.StoredCraftingRecipes.Count
-					    || CraftingRecipeSingleton.Instance.StoredCraftingRecipes[craftingRecipe.IndexInSingleton]
+						craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.CountTotalStoredRecipes()
+					    || CraftingRecipeSingleton.Instance.GetRecipeByIndex(craftingRecipe.IndexInSingleton)
 							!= craftingRecipe
 					)
 					{
