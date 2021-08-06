@@ -233,10 +233,18 @@ namespace Objects.Disposals
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			
+			if (interaction.TargetObject == null) return false;
+			
 			if (Validations.IsReachableByRegisterTiles(
 					interaction.Performer.RegisterTile(),
 					interaction.UsedObject.RegisterTile(),
 					side == NetworkSide.Server) == false) return false;
+			
+			if (Validations.IsReachableByRegisterTiles(
+				interaction.Performer.RegisterTile(),
+				interaction.TargetObject.RegisterTile(),
+				side == NetworkSide.Server) == false) return false;
 
 			return true;
 		}
