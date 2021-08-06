@@ -26,7 +26,6 @@ namespace NPC.Mood
 			       !mobAI.health.IsDead &&
 			       !mobAI.health.IsCrit &&
 			       !mobAI.health.IsSoftCrit &&
-			       !mobAI.health.IsCardiacArrest &&
 			       interaction.Intent == Intent.Help &&
 			       interaction.HandObject != null &&
 			       mobExplore.IsInFoodPreferences(interaction.HandObject);

@@ -425,7 +425,7 @@ namespace Objects
 			{
 				var matrixInfo = MatrixManager.AtPoint(coord, true);
 
-				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
+				var cellPos = MatrixManager.WorldToLocalInt(coord, matrixInfo.Matrix);
 
 				var layerTile = matrixInfo.TileChangeManager.MetaTileMap
 					.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);

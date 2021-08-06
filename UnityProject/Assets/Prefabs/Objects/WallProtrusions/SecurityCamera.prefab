@@ -193,7 +193,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &1634807123797492855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +212,8 @@ MonoBehaviour:
   aiSprite: {fileID: 8230547059057706270}
   cameraLight: {fileID: 18256816325577078}
   spriteHandler: {fileID: 2521937934871351488}
+  motionSensingCamera: 0
+  motionSensingRange: 5
 --- !u!114 &7265037672306893487
 MonoBehaviour:
   m_ObjectHideFlags: 0

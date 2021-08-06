@@ -133,7 +133,7 @@ namespace Systems.MobAIs
 			// Only living mobs have health.  Some like the bots have integrity instead.
 			if (health != null) // Living mob
 			{
-				if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+				if (health.IsDead || health.IsCrit)
 				{
 					// Can't do anything this NPC is not capable of movement
 					return;

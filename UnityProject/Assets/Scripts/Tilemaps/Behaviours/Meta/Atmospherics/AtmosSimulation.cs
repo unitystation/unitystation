@@ -301,8 +301,8 @@ namespace Systems.Atmospherics
 		/// <returns>The mean gas mix.</returns>
 		private void CalcMeanGasMix()
 		{
-			meanGasMix.Copy(GasMixes.BaseEmptyMix);
-
+			meanGasMix.Clear();
+			
 			var targetCount = 0;
 
 			for (var i = 0; i < nodes.Count; i++)
@@ -318,7 +318,7 @@ namespace Systems.Atmospherics
 				if (node.IsOccupied == false && node.IsIsolatedNode == false)
 				{
 					meanGasMix.Volume += node.GasMix.Volume;
-					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles);
+					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles, true);
 					targetCount++;
 				}
 				else if(node.IsIsolatedNode == false)

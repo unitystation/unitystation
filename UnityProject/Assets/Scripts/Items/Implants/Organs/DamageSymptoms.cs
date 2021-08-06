@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class DamageSymptoms : BodyPartModification
+	public class DamageSymptoms : Organ
 	{
 
 		public List<SeverityAndSymptoms> severityAndSymptoms = new List<SeverityAndSymptoms>();

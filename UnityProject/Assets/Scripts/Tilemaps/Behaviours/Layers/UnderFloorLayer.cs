@@ -12,6 +12,8 @@ public class UnderFloorLayer : Layer
 	//It is assumed that the tiles start at 1 and go down
 	private Dictionary<Vector2Int, List<LayerTile>> TileStore = new Dictionary<Vector2Int, List<LayerTile>>();
 
+	public Dictionary<Vector2Int, List<LayerTile>> tileStore => TileStore;
+
 	public void InitialiseUnderFloorUtilities()
 	{
 		BoundsInt bounds = Tilemap.cellBounds;

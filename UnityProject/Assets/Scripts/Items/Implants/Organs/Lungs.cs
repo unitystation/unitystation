@@ -8,7 +8,7 @@ using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Lungs : BodyPartModification
+public class Lungs : Organ
 {
 	/// <summary>
 	/// The number of ticks to wait until next breath is attempted
@@ -249,7 +249,7 @@ public class Lungs : BodyPartModification
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (Random.value < 0.2)
 			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps");
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath", $"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");
 			}
 		}
 
@@ -265,7 +265,7 @@ public class Lungs : BodyPartModification
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 				"You gasp for air; but you drown in your own blood from the inside!",
-				$"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} gasps for air!");
+				$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps for air!");
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			}
 			else
@@ -275,7 +275,7 @@ public class Lungs : BodyPartModification
             if(DMMath.Prob(coughChanceWhenInternallyBleeding))
             {
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-				"You cough up blood!", $"{RelatedPart.HealthMaster.PlayerScriptOwner.visibleName} coughs up blood!");
+				"You cough up blood!", $"{RelatedPart.HealthMaster.playerScript.visibleName} coughs up blood!");
 				RelatedPart.CurrentInternalBleedingDamage -= RelatedPart.InternalBleedingBloodLoss;
 
 				//TODO: TAKE BLOOD

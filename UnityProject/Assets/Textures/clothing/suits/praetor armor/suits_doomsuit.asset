@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: suits_doomsuit
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 7285605120853688118, guid: c8cbde8d16c80f4439e854beb34d2859,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -9000557548376043481, guid: c8cbde8d16c80f4439e854beb34d2859,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2079442135819202787, guid: c8cbde8d16c80f4439e854beb34d2859,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -6768257894211461831, guid: c8cbde8d16c80f4439e854beb34d2859,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 23313
+  DisplayName: 

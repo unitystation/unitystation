@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 
 namespace HealthV2
 {
-	public class Liver : BodyPartModification
+	public class Liver : Organ
 	{
 		/// <summary>
 		///ReagentContainer which the liver uses to hold reagents it will process. Reagents like alcohol will be broken down into their ethanol reagent via ReactionSet

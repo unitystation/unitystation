@@ -557,7 +557,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3559722332994072452}
   - component: {fileID: 3561542290709530566}
-  - component: {fileID: 3741575800725970466}
   - component: {fileID: 5958676836486625990}
   m_Layer: 5
   m_Name: right_hand_item_slot
@@ -593,35 +592,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3636998515917170082}
   m_CullTransparentMesh: 0
---- !u!114 &3741575800725970466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3636998515917170082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3741925430883580672}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: OnPointerClick
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &5958676836486625990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +613,6 @@ MonoBehaviour:
   amountText: {fileID: 280823804574345808}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
-  RelatedBodyPartUISlots: {fileID: 0}
 --- !u!1 &3637055026155234450
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,7 +623,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3559574031960018938}
   - component: {fileID: 3561547141660296870}
-  - component: {fileID: 3742272933165646998}
   - component: {fileID: 4731837609076273832}
   m_Layer: 5
   m_Name: left_hand_item_slot
@@ -690,35 +658,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3637055026155234450}
   m_CullTransparentMesh: 0
---- !u!114 &3742272933165646998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3637055026155234450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3742330429139832820}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: OnPointerClick
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &4731837609076273832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,7 +679,6 @@ MonoBehaviour:
   amountText: {fileID: 8264785258385901615}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
-  RelatedBodyPartUISlots: {fileID: 0}
 --- !u!1 &3637941299951476996
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,7 +764,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3560044598496229256}
   - component: {fileID: 3561383937273905716}
-  - component: {fileID: 3741763710600654756}
   - component: {fileID: 3741925430883580672}
   - component: {fileID: 3738724243856185426}
   - component: {fileID: 1079105491841845352}
@@ -869,61 +806,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3638615608052611612}
   m_CullTransparentMesh: 0
---- !u!114 &3741763710600654756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3638615608052611612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Highlighted
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1838487924353480169}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3741925430883580672}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &3741925430883580672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,7 +883,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3559751082405820860}
   - component: {fileID: 3561636945485940284}
-  - component: {fileID: 3741825939494387966}
   - component: {fileID: 3742330429139832820}
   - component: {fileID: 3742345777311899320}
   - component: {fileID: 8453211550780171985}
@@ -1042,61 +923,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3638908203139281294}
   m_CullTransparentMesh: 0
---- !u!114 &3741825939494387966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3638908203139281294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Highlighted
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 8453211550780171985}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3742330429139832820}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &3742330429139832820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1502,8 +1328,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8bad4e17cde7744afc331c86e5fbe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftHandActive: 0
   LeftHand: {fileID: 6405349877022171975}
   LeftHandOverlay: {fileID: 2389279833176741792}
+  RightHandActive: 0
   RightHand: {fileID: 3271493807745088081}
   RightHandOverlay: {fileID: 1003020500808509410}
   Overly: {fileID: 1461323165134144920}

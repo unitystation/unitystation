@@ -170,8 +170,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public Vector3Int WorldPosition => isServer ? WorldPositionServer : WorldPositionClient;
 
-	public Vector3Int WorldPositionServer => MatrixManager.Instance.LocalToWorldInt(serverLocalPosition, Matrix);
-	public Vector3Int WorldPositionClient => MatrixManager.Instance.LocalToWorldInt(clientLocalPosition, Matrix);
+	public Vector3Int WorldPositionServer => MatrixManager.LocalToWorldInt(serverLocalPosition, Matrix);
+	public Vector3Int WorldPositionClient => MatrixManager.LocalToWorldInt(clientLocalPosition, Matrix);
 
 	/// <summary>
 	/// Registered local position of this object. Returns correct value depending on if this is on the

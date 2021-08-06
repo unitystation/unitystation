@@ -371,6 +371,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
 		}
+		
+		if(CustomNetworkManager.Instance._isServer == false) return;
 
 		timeElapsedQueueCheckServer += Time.deltaTime;
 		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
@@ -561,7 +563,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A new round has started		\n", "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "`A new round countdown has started`", "");
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, "```A new round countdown has started```", "");
 
 		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
 	}
