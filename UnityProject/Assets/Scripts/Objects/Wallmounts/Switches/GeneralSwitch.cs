@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Electricity.Inheritance;
 using UnityEngine;
 using Mirror;
+using Systems.ObjectConnection;
+
 
 namespace Objects.Wallmounts
 {
@@ -24,18 +25,6 @@ namespace Objects.Wallmounts
 
 		private bool buttonCoolDown = false;
 		private AccessRestrictions accessRestrictions;
-
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.GeneralSwitch;
-		public MultitoolConnectionType ConType => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObject)
-		{
-		}
-
 
 		private void Start()
 		{
@@ -143,6 +132,19 @@ namespace Objects.Wallmounts
 
 			spriteRenderer.sprite = greenSprite;
 		}
+
+		#region Multitool Interaction
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.GeneralSwitch;
+		public MultitoolConnectionType ConType => conType;
+
+		public bool MultiMaster => true;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+
+		public void AddSlave(object SlaveObject) { }
+
+		#endregion
 
 		#region Editor
 

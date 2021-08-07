@@ -1,14 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Chemistry.Components;
+﻿using System.Collections.Generic;
 using ScriptableObjects;
+using Chemistry;
+using Chemistry.Components;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class ReservoirTank : MonoPipe, IServerDespawn , ICheckedInteractable<HandApply>
 	{
-		public Chemistry.Reagent Water;
+		public Reagent Water;
 		public ReagentContainer Container;
+
+		#region Lifecycle
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
@@ -16,6 +19,14 @@ namespace Pipes
 			pipeData.GetMixAndVolume.GetReagentMix().Add(Water, 1000);
 			base.OnSpawnServer(info);
 		}
+
+		public override void OnDespawnServer(DespawnInfo info)
+		{
+			base.OnDespawnServer(info);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 20);
+		}
+
+		#endregion
 
 		public override bool WillInteract(HandApply interaction, NetworkSide side )
 		{
@@ -29,25 +40,14 @@ namespace Pipes
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))
 			{
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
-					"You start to deconstruct the ReservoirTank..",
-					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the ReservoirTank...",
-					"You deconstruct the ReservoirTank",
-					$"{interaction.Performer.ExpensiveName()} deconstruct the ReservoirTank.",
-					() =>
-					{
-						_ = Despawn.ServerSingle(gameObject);
-					});
+				ToolUtils.ServerUseToolWithActionMessages(
+						interaction, 10,
+						"You start to deconstruct the tank...",
+						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the tank...",
+						"You deconstruct the tank.",
+						$"{interaction.Performer.ExpensiveName()} deconstructs the tank.",
+						() => _ = Despawn.ServerSingle(gameObject));
 			}
-		}
-
-		/// <summary>
-		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
-		/// </summary>
-		public override void OnDespawnServer(DespawnInfo info)
-		{
-			base.OnDespawnServer(info);
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 20 );
 		}
 	}
 }

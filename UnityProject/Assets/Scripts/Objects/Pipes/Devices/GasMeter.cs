@@ -1,18 +1,43 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
+using Systems.Interaction;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
-	public class Metre : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ICheckedInteractable<AiActivate>
+	public class GasMeter : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ICheckedInteractable<AiActivate>
 	{
-		public SpriteHandler spriteHandler;
-		public MetaDataNode metaDataNode;
-		public RegisterTile registerTile;
+		[SerializeField]
+		private SpriteHandler spriteHandler;
 
-		private Pipes.MixAndVolume MixAndVolume;
+		private MetaDataNode metaDataNode;
+		private RegisterTile registerTile;
+		private MixAndVolume MixAndVolume;
+
+		#region Lifecycle
+
+		private void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.Instance._isServer == false) return;
+
+			UpdateManager.Add(CycleUpdate, 1);
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.Instance._isServer == false) return;
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+		}
+
+		#endregion
 
 		public string Examine(Vector3 worldPos = default)
 		{
@@ -61,25 +86,6 @@ namespace Pipes
 			{
 				return "The meter is not connected to anything.";
 			}
-		}
-
-		void Start()
-		{
-			registerTile = this.GetComponent<RegisterTile>();
-		}
-
-		private void OnEnable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Add(CycleUpdate, 1);
-		}
-
-		private void OnDisable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}
 
 		public void CycleUpdate()

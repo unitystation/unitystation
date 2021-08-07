@@ -1,7 +1,8 @@
 ﻿using System.Text;
-using Systems.Electricity;
-using Objects;
 using UnityEngine;
+using Systems.Electricity;
+using Objects.Atmospherics;
+
 
 namespace UI.Objects.Atmospherics
 {

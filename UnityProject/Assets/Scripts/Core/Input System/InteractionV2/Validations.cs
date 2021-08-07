@@ -1,15 +1,15 @@
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Systems.Ai;
-using Core.Input_System.InteractionV2.Interactions;
+using UnityEngine;
+using TileManagement;
 using HealthV2;
+using Systems.Ai;
+using Systems.Interaction;
 using Items;
 using Objects.Wallmounts;
-using TileManagement;
-using UnityEngine;
 
+
+// TODO: namespace me to Systems.Interaction (have fun)
 /// <summary>
 /// Util class containing validation logic you might want to use when
 /// developing interactable components. All methods should be designed to work correctly

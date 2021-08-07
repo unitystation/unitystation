@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
+using Messages.Server;
 using Systems.Atmospherics;
 using Systems.Electricity;
-using Core.Input_System.InteractionV2.Interactions;
+using Systems.Interaction;
 using Items;
 using Machines;
-using Messages.Server;
 using Objects.Machines;
-using Pipes;
-using UnityEngine;
 
-namespace Objects
+
+namespace Objects.Atmospherics
 {
 	public class HeaterFreezer : MonoPipe, IExaminable, IRefreshParts, IInitialParts
 	{

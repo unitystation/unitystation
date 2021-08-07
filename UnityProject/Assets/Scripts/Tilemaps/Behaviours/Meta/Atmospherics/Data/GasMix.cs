@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
-using Pipes;
 using ScriptableObjects.Atmospherics;
+using Systems.Pipes;
+
 
 namespace Systems.Atmospherics
 {
@@ -126,6 +127,9 @@ namespace Systems.Atmospherics
 			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
 		}
 
+		/// <summary>
+		/// Returns a clone of the specified gas mix.
+		/// </summary>
 		public static GasMix NewGasMix(GasMix other)
 		{
 			return FromPressure(other.GasData.Copy(), other.Pressure, other.Volume);

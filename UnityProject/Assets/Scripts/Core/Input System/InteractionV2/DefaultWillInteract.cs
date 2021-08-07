@@ -1,5 +1,7 @@
-using Core.Input_System.InteractionV2.Interactions;
+using Systems.Interaction;
 
+
+// TODO: namespace me to Systems.Interaction (have fun)
 public static class DefaultWillInteract
 {
 	/// <summary>
