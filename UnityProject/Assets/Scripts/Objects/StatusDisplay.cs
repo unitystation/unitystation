@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Input_System.InteractionV2.Interactions;
-using Mirror;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Doors;
+using Mirror;
+using ScriptableObjects;
+using Systems.Interaction;
+using Systems.ObjectConnection;
 using Managers;
+using Doors;
+
 
 namespace Objects.Wallmounts
 {
@@ -57,6 +59,7 @@ namespace Objects.Wallmounts
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 

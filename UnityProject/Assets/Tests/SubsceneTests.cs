@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Shuttles;
-using Tilemaps.Behaviours.Layers;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
+using Tilemaps.Behaviours.Layers;
+using Shuttles;
+using Objects.Atmospherics;
+
 
 namespace Tests
 {
@@ -360,11 +362,11 @@ namespace Tests
 										Cables.Add(electricalCableTile);
 									}
 
-									var PipeTile = getTile as Pipes.PipeTile;
-									if (PipeTile != null)
+									var pipeTile = getTile as PipeTile;
+									if (pipeTile != null)
 									{
 										var matrixStruct = Underfloor.Tilemap.GetTransformMatrix(localPlace);
-										var connection = Pipes.PipeTile.GetRotatedConnection(PipeTile, matrixStruct);
+										var connection = PipeTile.GetRotatedConnection(pipeTile, matrixStruct);
 										var pipeDir = connection.Directions;
 										for (var d = 0; d < pipeDir.Length; d++)
 										{

@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using HealthV2;
-using Items;
-using Light2D;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Light2D;
+using HealthV2;
+using Systems.Pipes;
+using Items;
+
 
 namespace Systems.Explosions
 {
@@ -15,7 +16,7 @@ namespace Systems.Explosions
 		public HashSet<ExplosionPropagationLine> PresentLines = new HashSet<ExplosionPropagationLine>();
 		public Vector2 AngleAndIntensity;
 
-		public List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
+		public List<PipeNode> SavedPipes = new List<PipeNode>();
 
 		public void Initialise(Vector2Int Loc, Matrix Inmatrix)
 		{

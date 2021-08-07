@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Electricity.Inheritance;
 using Mirror;
 using UnityEngine;
 using Systems.Electricity;
-using Core.Input_System.InteractionV2.Interactions;
+using Systems.Interaction;
+using Systems.ObjectConnection;
+
 
 namespace Objects.Lighting
 {
@@ -151,14 +152,14 @@ namespace Objects.Lighting
 			isInCoolDown = false;
 		}
 
-		#region ISetMultitoolMaster
+		#region Multitool Interaction
 
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
 		public MultitoolConnectionType ConType => conType;
 
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
+		public bool MultiMaster => true;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object slaveObject) { }
 

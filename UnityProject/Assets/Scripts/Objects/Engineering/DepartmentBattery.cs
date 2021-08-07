@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Systems.Electricity.NodeModules;
-using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 using Mirror;
+using Systems.Electricity.NodeModules;
+using Systems.Interaction;
+
 
 public enum BatteryStateSprite
 {

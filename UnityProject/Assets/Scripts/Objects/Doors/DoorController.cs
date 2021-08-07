@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AddressableReferences;
-using Core.Input_System.InteractionV2.Interactions;
-using HealthV2;
-using Messages.Client.NewPlayer;
-using Messages.Server;
 using UnityEngine;
 using Mirror;
+using Messages.Client.NewPlayer;
+using Messages.Server;
+using AddressableReferences;
 using ScriptableObjects;
+using Systems.Interaction;
+using Systems.ObjectConnection;
+using HealthV2;
 using Objects.Wallmounts;
+
 
 namespace Doors
 {
@@ -317,6 +319,7 @@ namespace Doors
 				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.AccessDenied);
 			}
 		}
+
 		public void MobTryOpen(GameObject originator)
 		{
 			if (IsClosed == false || isPerformingAction) return;
@@ -641,7 +644,7 @@ namespace Doors
 			cancelCloseTimer.AddToInputMethods(CancelWaiting);
 		}
 
-		#region ISsetMultitoolSlave
+		#region Multitool Interaction
 
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;

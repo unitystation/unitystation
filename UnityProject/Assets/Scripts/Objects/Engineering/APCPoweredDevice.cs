@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using Mirror;
-using UnityEngine.Serialization;
-using Objects.Engineering;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
+using Mirror;
+using Systems.ObjectConnection;
+using Objects.Engineering;
+
 
 namespace Systems.Electricity
 {

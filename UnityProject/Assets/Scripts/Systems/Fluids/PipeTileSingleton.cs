@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ScriptableObjects;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using ScriptableObjects;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
-	/// <summary>
-	/// Used for Loading up them
-	/// </summary>
 	[CreateAssetMenu(fileName = "PipeTileSingleton", menuName = "Singleton/PipeTileSingleton")]
 	public class PipeTileSingleton : SingletonScriptableObject<PipeTileSingleton>
 	{

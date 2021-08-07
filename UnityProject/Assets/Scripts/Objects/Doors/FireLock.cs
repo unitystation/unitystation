@@ -1,11 +1,11 @@
 using UnityEngine;
+using Systems.ObjectConnection;
 using Objects.Wallmounts;
 
 namespace Doors
 {
 	public class FireLock : InteractableDoor, ISetMultitoolSlave
 	{
-		private MetaDataNode metaNode;
 		public FireAlarm fireAlarm;
 
 		[SerializeField]
@@ -62,7 +62,6 @@ namespace Doors
 			integrity.OnExposedEvent.AddListener(TriggerAlarm);
 			RegisterTile registerTile = GetComponent<RegisterTile>();
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
 			Controller.Open();
 		}
 

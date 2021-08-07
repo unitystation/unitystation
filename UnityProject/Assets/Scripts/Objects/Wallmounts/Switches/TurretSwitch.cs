@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using Systems.Electricity;
-using Core.Input_System.InteractionV2.Interactions;
-using Electricity.Inheritance;
-using Messages.Server;
-using Objects.Other;
-using UI.Core.Net;
 using UnityEngine;
+using Messages.Server;
+using Systems.Electricity;
+using Systems.Interaction;
+using Systems.ObjectConnection;
+using UI.Core.Net;
+using Objects.Other;
+
 
 namespace Objects.Wallmounts.Switches
 {
@@ -22,17 +22,6 @@ namespace Objects.Wallmounts.Switches
 
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions => accessRestrictions;
-
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
-		public MultitoolConnectionType ConType => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObject)
-		{
-		}
 
 		[SerializeField]
 		private List<Turret> turrets = new List<Turret>();
@@ -241,6 +230,16 @@ namespace Objects.Wallmounts.Switches
 			// Update all UI currently opened.
 			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.TurretController, TabAction.Update, valuesToSend.ToArray());
 		}
+
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.Turret;
+		public bool MultiMaster => true;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+
+		public void AddSlave(object slave) { }
+
+		#endregion
 
 		#region Editor
 

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Systems.Atmospherics;
-using Mirror;
-using Pipes;
+
 
 namespace Systems.Shuttles
 {
@@ -140,6 +138,7 @@ namespace Systems.Shuttles
 			}
 
 		}
+
 		bool IsFuelled()
 		{
 			if (IsFuelledOptimum())
