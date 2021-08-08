@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Systems.CraftingV2.GUI;
 using Messages.Server;
 using Mirror;
-using Player;
 
 namespace Systems.CraftingV2.ClientServerLogic
 {

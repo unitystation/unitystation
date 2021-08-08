@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
-using Chemistry;
 using Chemistry.Components;
 using Items;
 using NaughtyAttributes;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Systems.CraftingV2
@@ -398,6 +396,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
+		/// /// <param name="reagentContainers">Reagetnts that might be used for crafting.</param>
 		/// <param name="crafterPlayerScript">The player that crafting according to the recipe.</param>
 		public void UnsafelyCraft(
 			PlayerScript crafterPlayerScript,

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using Chemistry;
 using Items;
-using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

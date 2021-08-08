@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
-using Systems.CraftingV2.GUI;
 using Chemistry;
 using Chemistry.Components;
 using Items;
@@ -623,7 +622,6 @@ namespace Player
 							$"You made \"{recipe.RecipeName}\"."
 						);
 						return;
-						;
 					}
 
 					if (recipe.CraftingTime > 1) {
