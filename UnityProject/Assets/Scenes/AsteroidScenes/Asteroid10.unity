@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultRoomGasMixOverride: {fileID: 0}
 --- !u!114 &528075264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,8 +926,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LayerType: 5
-  matrix: {fileID: 0}
-  metaTileMap: {fileID: 0}
+  matrix: {fileID: 1791291096}
+  metaTileMap: {fileID: 1791291097}
 --- !u!483693784 &1113013728
 TilemapRenderer:
   m_ObjectHideFlags: 0

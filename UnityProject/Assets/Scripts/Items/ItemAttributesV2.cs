@@ -110,7 +110,7 @@ namespace Items
 		}
 
 		[EnumFlag]
-		public HealthV2.BodyPart.TramuticDamageTypes TraumaticDamageType;
+		public TraumaticDamageTypes TraumaticDamageType;
 
 		[Header("Sprites/Sounds/Flags/Misc.")]
 

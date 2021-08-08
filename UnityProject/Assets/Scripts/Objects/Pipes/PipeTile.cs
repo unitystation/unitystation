@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	[CreateAssetMenu(fileName = "PipeTile_Tile", menuName = "Tiles/PipeTile")]
 	public class PipeTile : BasicTile

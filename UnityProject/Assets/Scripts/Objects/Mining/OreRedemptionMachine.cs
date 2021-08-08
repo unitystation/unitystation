@@ -66,7 +66,7 @@ namespace Objects.Mining
 		}
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var localPosInt = MatrixManager.Instance.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
+			var localPosInt = MatrixManager.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
 			var itemsOnFloor = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OreGeneral))

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: feet_doomboots
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 5791836616883449032, guid: 7b18e97bfaa4e164c84ceb7eb137aba2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -6230433633007561957, guid: 7b18e97bfaa4e164c84ceb7eb137aba2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7471777275907867114, guid: 7b18e97bfaa4e164c84ceb7eb137aba2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7134250981968049805, guid: 7b18e97bfaa4e164c84ceb7eb137aba2,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 23307
+  DisplayName: 

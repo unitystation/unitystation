@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	//Improvements for the future
 	//make it so it is less effective when pressure drop behind it

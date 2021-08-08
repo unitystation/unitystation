@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Systems.Interaction;
+
 
 namespace Systems.Ai
 {

@@ -273,47 +273,6 @@ namespace HealthV2
 			}
 		}
 
-		public enum BodyPartCutSize
-		{
-			NONE,
-			SMALL,
-			MEDIUM,
-			LARGE
-		}
-
-		public enum PierceDamageLevel
-		{
-			NONE,
-			SMALL,
-			MEDIUM,
-			LARGE
-		}
-
-		public enum SlashDamageLevel
-		{
-			NONE,
-			SMALL,
-			MEDIUM,
-			LARGE
-		}
-
-		public enum BurnDamageLevels
-		{
-			NONE,
-			MINOR,
-			MAJOR,
-			CHARRED
-		}
-
-		[Flags]
-		public enum TramuticDamageTypes
-		{
-			NONE = 0,
-			SLASH = 1 << 0,
-			PIERCE = 1 << 1,
-			BURN = 1 << 2
-		}
-
 		public void DamageInitialisation()
 		{
 			this.AddModifier(DamageModifier);
@@ -435,17 +394,17 @@ namespace HealthV2
 			AffectDamage(-healAmt, damageTypeToHeal);
 		}
 
-		public void HealTraumaticDamage(float healAmount, TramuticDamageTypes damageTypeToHeal)
+		public void HealTraumaticDamage(float healAmount, TraumaticDamageTypes damageTypeToHeal)
 		{
-			if (damageTypeToHeal == TramuticDamageTypes.BURN)
+			if (damageTypeToHeal == TraumaticDamageTypes.BURN)
 			{
 				currentBurnDamage -= healAmount;
 			}
-			if (damageTypeToHeal == TramuticDamageTypes.SLASH)
+			if (damageTypeToHeal == TraumaticDamageTypes.SLASH)
 			{
 				currentSlashCutDamage -= healAmount;
 			}
-			if (damageTypeToHeal == TramuticDamageTypes.PIERCE)
+			if (damageTypeToHeal == TraumaticDamageTypes.PIERCE)
 			{
 				currentPierceDamage -= healAmount;
 			}
@@ -552,7 +511,7 @@ namespace HealthV2
 		{
 			if(currentCutSize >= BodyPartSlashLogicOnCutSize)
 			{
-				if(containBodyParts.Count != 0)
+				if(ContainBodyParts.Count != 0)
 				{
 					Disembowel();
 				}
@@ -567,17 +526,17 @@ namespace HealthV2
 		/// Applies trauma damage to the body part, checks if it has enough protective armor to cancel the trauma damage
 		/// and automatically checks how big is the body part's cut size.
 		/// </summary>
-		public void ApplyTraumaDamage(float tramuaDamage, TramuticDamageTypes damageType = TramuticDamageTypes.SLASH)
+		public void ApplyTraumaDamage(float tramuaDamage, TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH)
 		{
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if (damageType == TramuticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
-				if (damageType == TramuticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
+				if (damageType == TraumaticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
+				if (damageType == TraumaticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
 				CheckCutSize();
 			}
 			//Burn damage checks for it's own armor damage type.
-			if (damageType == TramuticDamageTypes.BURN)
+			if (damageType == TraumaticDamageTypes.BURN)
 			{
 				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
 			}
@@ -615,7 +574,7 @@ namespace HealthV2
 		[ContextMenu("Debug - Apply 25 Pierce Damage")]
 		private void DEBUG_ApplyTestPierce()
 		{
-			ApplyTraumaDamage(25, TramuticDamageTypes.PIERCE);
+			ApplyTraumaDamage(25, TraumaticDamageTypes.PIERCE);
 		}
 
 		/// <summary>
@@ -659,10 +618,10 @@ namespace HealthV2
 				float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 				if(chance >= spillChanceWhenCutPresent)
 				{
-					randomBodyPart.RemoveFromBodyThis();
+					healthMaster.DismemberingBodyParts.Add(randomBodyPart);
 					if(randomCustomBodyPart != null)
 					{
-						randomCustomBodyPart.RemoveFromBodyThis();
+						healthMaster.DismemberingBodyParts.Add(randomCustomBodyPart);
 					}
 				}
 				else
@@ -790,7 +749,7 @@ namespace HealthV2
 			if(Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
 			{
-				RemoveFromBodyThis();
+				healthMaster.DismemberingBodyParts.Add(this);
 			}
 		}
 

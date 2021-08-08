@@ -1,9 +1,10 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using Systems.Atmospherics;
 using UnityEngine;
+using Systems.Atmospherics;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class Scrubber : MonoPipe, IServerSpawn
 	{

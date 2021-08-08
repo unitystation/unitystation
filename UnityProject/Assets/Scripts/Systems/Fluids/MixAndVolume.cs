@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Systems.Atmospherics;
-using Chemistry;
-using ScriptableObjects.Atmospherics;
 using UnityEngine;
+using ScriptableObjects.Atmospherics;
+using Chemistry;
+using Systems.Atmospherics;
 
-namespace Pipes
+
+namespace Systems.Pipes
 {
 	[Serializable]
 	public class MixAndVolume
@@ -13,7 +14,6 @@ namespace Pipes
 		private float Volume => gasMix.Volume;
 		[SerializeField] private ReagentMix mix = new ReagentMix();
 		[SerializeField] private GasMix gasMix = new GasMix();
-
 
 		public float InternalEnergy
 		{
@@ -30,7 +30,6 @@ namespace Pipes
 				gasMix.SetTemperature(temperature);
 			}
 		}
-
 
 		public float TheVolume => Volume;
 
@@ -59,7 +58,6 @@ namespace Pipes
 
 		public Vector2 Total => new Vector2(mix.Total, gasMix.Moles);
 
-
 		public Vector2 Density()
 		{
 			return new Vector2(mix.Total / Volume, gasMix.Pressure);
@@ -73,7 +71,6 @@ namespace Pipes
 		{
 			return gasMix;
 		}
-
 
 		/// <summary>
 		/// Only use this if you know what you're doing
@@ -257,7 +254,6 @@ namespace Pipes
 			}
 		}
 
-
 		public void TransferTo(MixAndVolume toTransfer, Vector2 amount)
 		{
 			if (float.IsNaN(amount.x) == false)
@@ -275,7 +271,6 @@ namespace Pipes
 		{
 			return gasMix.MergeGasMix(inGasMix);
 		}
-
 
 		public void EqualiseWith(PipeData another, bool equaliseGas, bool equaliseLiquid)
 		{

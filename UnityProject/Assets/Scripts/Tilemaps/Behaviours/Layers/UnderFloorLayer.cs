@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Pipes;
 using UnityEngine;
+using Objects.Atmospherics;
+
 
 /// <summary>
 /// Used for stacking tiles Since thats what happens in the Underfloor stuff
@@ -11,6 +12,8 @@ public class UnderFloorLayer : Layer
 {
 	//It is assumed that the tiles start at 1 and go down
 	private Dictionary<Vector2Int, List<LayerTile>> TileStore = new Dictionary<Vector2Int, List<LayerTile>>();
+
+	public Dictionary<Vector2Int, List<LayerTile>> tileStore => TileStore;
 
 	public void InitialiseUnderFloorUtilities()
 	{
@@ -118,7 +121,6 @@ public class UnderFloorLayer : Layer
 
 		return tiles;
 	}
-
 
 	public override LayerTile GetTile(Vector3Int position)
 	{
@@ -236,7 +238,6 @@ public class UnderFloorLayer : Layer
 			base.SetTile(position, tile, transformMatrix, color);
 		}
 	}
-
 
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{

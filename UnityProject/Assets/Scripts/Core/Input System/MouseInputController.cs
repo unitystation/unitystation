@@ -519,9 +519,12 @@ public class MouseInputController : MonoBehaviour
 	public static void Point()
 	{
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
-		if (!clickedObject) return;
+		if (!clickedObject)
+			return;
 		if (PlayerManager.PlayerScript.IsGhost ||
 		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			return;
+		if (Cooldowns.TryStartClient(PlayerManager.PlayerScript, CommonCooldowns.Instance.Interaction) == false)
 			return;
 
 		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))

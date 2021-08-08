@@ -1,33 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.ObjectConnection;
+
 
 namespace Objects.Engineering
 {
 	public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
 	{
 		public ReactorGraphiteChamber ReactorChambers = null;
-		public void SuchControllRodDepth(float Specified)
+
+		public void SuchControllRodDepth(float requestedDepth)
 		{
-			if (Specified > 1)
-			{
-				Specified = 1;
-			}
-			else if (0 > Specified)
-			{
-				Specified = 0;
-			}
+			requestedDepth = requestedDepth.Clamp(0, 1);
 
 			if (ReactorChambers != null)
 			{
-				ReactorChambers.SetControlRodDepth(Specified);
+				ReactorChambers.SetControlRodDepth(requestedDepth);
 			}
 		}
 
-		//######################################## Multitool interaction ##################################
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
-		public MultitoolConnectionType ConType => conType;
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
 
 		public void SetMaster(ISetMultitoolMaster Imaster)
 		{
@@ -37,5 +31,7 @@ namespace Objects.Engineering
 				ReactorChambers = Chamber;
 			}
 		}
+
+		#endregion
 	}
 }

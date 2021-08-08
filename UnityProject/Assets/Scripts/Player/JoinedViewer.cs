@@ -69,21 +69,6 @@ public class JoinedViewer : NetworkBehaviour
 			return;
 		}
 
-		// Check if they have a player to rejoin.
-		GameObject loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId, unverifiedUserid);
-
-		// If the player does not yet have an in-game object to control, they'll probably have a
-		// JoinedViewer assigned as they were only in the lobby. If so, destroy it and use the new one.
-		if (loggedOffPlayer != null)
-		{
-			var checkForViewer = loggedOffPlayer.GetComponent<JoinedViewer>();
-			if (checkForViewer)
-			{
-				Destroy(loggedOffPlayer);
-				loggedOffPlayer = null;
-			}
-		}
-
 		//Send to client their job ban entries
 		var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(unverifiedConnPlayer);
 		PlayerList.ServerSendsJobBanDataMessage.Send(unverifiedConnPlayer.Connection, jobBanEntries);
@@ -109,15 +94,23 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		// If there's a logged off player, we will force them to rejoin. Previous logic allowed client to re-enter
-		// their body or not, which should not be up to the client!
-		if (loggedOffPlayer != null)
+		// Check if they have a player to rejoin before creating a new ConnectedPlayer
+		var loggedOffPlayer = PlayerList.Instance.RemovePlayerbyClientId(unverifiedClientId, unverifiedUserid, unverifiedConnPlayer);
+		var checkForViewer = loggedOffPlayer?.GameObject.GetComponent<JoinedViewer>();
+		if (checkForViewer)
 		{
-			StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer));
+			Destroy(loggedOffPlayer.GameObject);
+			loggedOffPlayer = null;
+		}
+
+		// If there's a logged off player, we will force them to rejoin their body
+		if (loggedOffPlayer == null)
+		{
+			TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
 		}
 		else
 		{
-			TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
+			StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer.GameObject));
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);

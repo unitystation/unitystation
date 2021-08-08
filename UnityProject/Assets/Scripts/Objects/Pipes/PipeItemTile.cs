@@ -1,7 +1,9 @@
-using System.Linq;
 using UnityEngine;
+using Systems.Pipes;
+using Objects.Atmospherics;
 
-namespace Pipes
+
+namespace Items.Atmospherics
 {
 	public class PipeItemTile : PipeItem
 	{
@@ -29,7 +31,7 @@ namespace Pipes
 			return pipeTile;
 		}
 
-		public override  Connections GetConnections()
+		public override Connections GetConnections()
 		{
 			if (pipeTile != null)
 			{

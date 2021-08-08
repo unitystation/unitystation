@@ -37,11 +37,11 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 				Chat.AddExamineMsgFromServer(interaction.Performer, "It appears they're missing their brain or Their brain is too damaged");
 			}
 
-			foreach (var BodyPart in LHMB.ImplantList)
+			foreach (var BodyPart in LHMB.BodyPartList)
 			{
-				foreach (var bodyPartModification in BodyPart.BodyPartModifications)
+				foreach (var organ in BodyPart.OrganList)
 				{
-					if (bodyPartModification is Heart heart)
+					if (organ is Heart heart)
 					{
 						heart.HeartAttack = false;
 						heart.CanTriggerHeartAttack = false;

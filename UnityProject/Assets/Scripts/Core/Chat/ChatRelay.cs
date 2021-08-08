@@ -70,6 +70,12 @@ public class ChatRelay : NetworkBehaviour
 					players.RemoveAt(i);
 					continue;
 				}
+				
+				if (players[i].Script.gameObject == chatEvent.originator)
+				{
+					//Always send the originator chat to themselves
+					continue;
+				}
 
 				if (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false)
 				{
@@ -86,21 +92,50 @@ public class ChatRelay : NetworkBehaviour
 				//Send chat to PlayerChatLocation pos, usually just the player object but for AI is its vessel
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
 					?? players[i].Script.gameObject.AssumedWorldPosServer();
-
-				if (Vector2.Distance(chatEvent.position, playerPosition) > 14f)
+					
+				//Do player position to originator distance check
+				if (DistanceCheck(playerPosition) == false)
 				{
-					//Player in the list is too far away for local chat, remove them:
+					//Distance check failed so if we are Ai, then try send action and combat messages to their camera location
+					//as well as if possible
+					if (chatEvent.channels.HasFlag(ChatChannel.Local) == false &&
+					    players[i].Script.PlayerState == PlayerScript.PlayerStates.Ai &&
+					    players[i].Script.TryGetComponent<AiPlayer>(out var aiPlayer) &&
+					    aiPlayer.IsCarded == false)
+					{
+						playerPosition = players[i].Script.gameObject.AssumedWorldPosServer();
+						
+						//Check camera pos
+						if (DistanceCheck(playerPosition))
+						{
+							//Camera can see player, allow Ai to see action/combat messages
+							continue;
+						}
+					}
+					
+					//Player failed distance checks remove them
 					players.RemoveAt(i);
 				}
-				else
+
+				bool DistanceCheck(Vector3 playerPos)
 				{
-					//within range, but check if they are in another room or hiding behind a wall
-					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls
-						 , layerMask,playerPosition).ItHit)
+					//TODO maybe change this to (chatEvent.position - playerPos).sqrMagnitude > 196f to avoid square root for performance?
+					if (Vector2.Distance(chatEvent.position, playerPos) > 14f)
 					{
-						//if it hit a wall remove that player
-						players.RemoveAt(i);
+						//Player in the list is too far away for local chat, remove them:
+						return false;
 					}
+
+					//Within range, but check if they are in another room or hiding behind a wall
+					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
+						layerMask, playerPos).ItHit)
+					{
+						//If it hit a wall remove that player
+						return false;
+					}
+
+					//Player can see the position
+					return true;
 				}
 			}
 

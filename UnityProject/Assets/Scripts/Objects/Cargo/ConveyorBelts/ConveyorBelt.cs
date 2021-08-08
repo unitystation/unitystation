@@ -1,9 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using Systems.ObjectConnection;
+
 
 namespace Construction.Conveyors
 {
@@ -296,12 +297,9 @@ namespace Construction.Conveyors
 
 		#region Multitool Interaction
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
-		public MultitoolConnectionType ConType => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
+		public MultitoolConnectionType ConType => MultitoolConnectionType.Conveyor;
+		public bool MultiMaster => true;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object SlaveObject)
 		{

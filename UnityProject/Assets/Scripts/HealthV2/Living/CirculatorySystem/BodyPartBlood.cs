@@ -353,9 +353,9 @@ namespace HealthV2
 
 		public virtual void BloodWasPumped()
 		{
-			foreach (var bodyPartModification in BodyPartModifications)
+			foreach (var organ in OrganList)
 			{
-				bodyPartModification.BloodWasPumped();
+				organ.BloodWasPumped();
 			}
 		}
 
