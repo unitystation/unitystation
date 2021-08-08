@@ -9,5 +9,13 @@ namespace ScriptableObjects
 		private Chemistry.Reagent[]  allChemistryReagents = new Chemistry.Reagent[0];
 
 		public Chemistry.Reagent[] AllChemistryReagents => allChemistryReagents;
+
+		public void Awake()
+		{
+			for (int i = 0; i < allChemistryReagents.Length; i++)
+			{
+				allChemistryReagents[i].IndexInSingleton = i;
+			}
+		}
 	}
 }

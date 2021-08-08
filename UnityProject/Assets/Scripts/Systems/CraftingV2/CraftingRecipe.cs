@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
+using Chemistry;
 using Chemistry.Components;
 using Items;
 using NaughtyAttributes;
@@ -41,8 +42,9 @@ namespace Systems.CraftingV2
 		public string RecipeName => recipeName;
 
 
-		[SerializeField] [Tooltip("The icon(sprite) that will be used for a recipe button. If it's empty(null), " +
-		                          "then the recipe button will use a first result's sprite found.")]
+		[SerializeField]
+		[Tooltip("The icon(sprite) that will be used for a recipe button. If it's empty(null), " +
+		         "then the recipe button will use a first result's sprite found.")]
 		private Sprite recipeIconOverride;
 
 		/// <summary>
@@ -76,8 +78,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public List<RecipeIngredientReagent> RequiredReagents => requiredReagents;
 
-		[Tooltip("What tools(item traits) should be present when crafting according to the recipe.")]
-		[SerializeField]
+		[Tooltip("What tools(item traits) should be present when crafting according to the recipe.")] [SerializeField]
 		private List<ItemTrait> requiredToolTraits;
 
 		/// <summary>
@@ -93,8 +94,9 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public List<GameObject> Result => result;
 
-		[SerializeField] [Tooltip("The special handlers that handle specified craft actions. For example, " +
-		                          "we can set a spear's damage according to a glass shard used for crafting.")]
+		[SerializeField]
+		[Tooltip("The special handlers that handle specified craft actions. For example, " +
+		         "we can set a spear's damage according to a glass shard used for crafting.")]
 		private List<IResultHandler> resultHandlers = new List<IResultHandler>();
 
 		/// <summary>
@@ -103,10 +105,11 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public List<IResultHandler> ResultHandlers => resultHandlers;
 
-		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
-		                                    "Such recipes can be made simply by clicking one item on another, " +
-		                                    "without calling the crafting menu. " +
-		                                    "For example, roll out the dough with a rolling pin.")]
+		[SerializeField, ReadOnly]
+		[Tooltip("Automated field - don't try to change it manually. " +
+		         "Such recipes can be made simply by clicking one item on another, " +
+		         "without calling the crafting menu. " +
+		         "For example, roll out the dough with a rolling pin.")]
 		private bool isSimple;
 
 		/// <summary>
@@ -121,8 +124,9 @@ namespace Systems.CraftingV2
 #endif
 		}
 
-		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
-		                                    "The position(index) in the CraftingRecipeSingleton.")]
+		[SerializeField, ReadOnly]
+		[Tooltip("Automated field - don't try to change it manually. " +
+		         "The position(index) in the CraftingRecipeSingleton.")]
 		private int indexInSingleton = -1;
 
 		/// <summary>
@@ -143,8 +147,15 @@ namespace Systems.CraftingV2
 		/// 	The ingredients(or reagent containers) that might be used for crafting.
 		/// </param>
 		/// <param name="possibleTools">The tools that might be used for crafting.</param>
+		/// <param name="reagentContainers">
+		/// 	The possible reagent containers that might be used for crafting.
+		/// </param>
 		/// <returns>True if there are enough ingredients and tools for crafting, false otherwise.</returns>
-		public CraftingStatus CanBeCrafted(List<CraftingIngredient> possibleIngredients, List<ItemAttributesV2> possibleTools)
+		public CraftingStatus CanBeCrafted(
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools,
+			List<ReagentContainer> reagentContainers
+		)
 		{
 			if (CheckPossibleIngredients(possibleIngredients) == false)
 			{
@@ -156,7 +167,7 @@ namespace Systems.CraftingV2
 				return CraftingStatus.NotEnoughTools;
 			}
 
-			if (CheckPossibleReagents(possibleIngredients) == false)
+			if (CheckPossibleReagents(reagentContainers) == false)
 			{
 				return CraftingStatus.NotEnoughReagents;
 			}
@@ -165,24 +176,104 @@ namespace Systems.CraftingV2
 		}
 
 		/// <summary>
+		///     Checks for the presence of ingredients, reagents and tools necessary for the recipe.
+		/// </summary>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or reagent containers) that might be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that might be used for crafting.</param>
+		/// <param name="reagents">
+		/// 	The possible reagents(a pair of values: a reagent's index in the singleton and its amount)
+		/// 	that might be used for crafting.
+		/// </param>
+		/// <returns>True if there are enough ingredients and tools for crafting, false otherwise.</returns>
+		public CraftingStatus CanBeCrafted(
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools,
+			List<KeyValuePair<int, float>> reagents
+		)
+		{
+			if (CheckPossibleIngredients(possibleIngredients) == false)
+			{
+				return CraftingStatus.NotEnoughIngredients;
+			}
+
+			if (CheckPossibleTools(possibleTools) == false)
+			{
+				return CraftingStatus.NotEnoughTools;
+			}
+
+			if (CheckPossibleReagents(reagents) == false)
+			{
+				return CraftingStatus.NotEnoughReagents;
+			}
+
+			return CraftingStatus.AllGood;
+		}
+
+		public CraftingStatus CanBeCraftedIgnoringReagents(
+			List<CraftingIngredient> possibleIngredients,
+			List<ItemAttributesV2> possibleTools
+		)
+		{
+			if (CheckPossibleIngredients(possibleIngredients) == false)
+			{
+				return CraftingStatus.NotEnoughIngredients;
+			}
+
+			if (CheckPossibleTools(possibleTools) == false)
+			{
+				return CraftingStatus.NotEnoughTools;
+			}
+
+			return CraftingStatus.AllGood;
+		}
+
+		/// <summary>
 		///     Checks for the presence of reagents necessary for the recipe.
 		/// </summary>
-		/// <param name="possibleReagentContainers">The reagent containers that might be used for crafting.</param>
+		/// <param name="reagentContainers">The reagent containers that might be used for crafting.</param>
 		/// <returns>True if there are enough reagents for crafting, false otherwise.</returns>
-		private bool CheckPossibleReagents(List<CraftingIngredient> possibleReagentContainers)
+		public bool CheckPossibleReagents(List<ReagentContainer> reagentContainers)
 		{
 			foreach (RecipeIngredientReagent requiredReagent in requiredReagents)
 			{
 				float foundAmount = 0;
-				foreach (CraftingIngredient possibleReagentContainer in possibleReagentContainers)
+				foreach (ReagentContainer reagentContainer in reagentContainers)
 				{
-					if (possibleReagentContainer.gameObject.TryGetComponent(out ReagentContainer reagentContainer))
-					{
-						foundAmount += reagentContainer.AmountOfReagent(requiredReagent.RequiredReagent);
-					}
+					foundAmount += reagentContainer.AmountOfReagent(requiredReagent.RequiredReagent);
 				}
 
 				if (foundAmount < requiredReagent.RequiredAmount)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		public bool CheckPossibleReagents(List<KeyValuePair<int, float>> possibleReagents)
+		{
+			foreach (RecipeIngredientReagent requiredIngredientReagent in requiredReagents)
+			{
+				float foundAmount = 0;
+				foreach (KeyValuePair<int, float> possibleReagent in possibleReagents)
+				{
+					if (possibleReagent.Key != requiredIngredientReagent.RequiredReagent.IndexInSingleton)
+					{
+						continue;
+					}
+
+					foundAmount += possibleReagent.Value;
+
+					if (foundAmount >= requiredIngredientReagent.RequiredAmount)
+					{
+						break;
+					}
+				}
+
+				if (foundAmount < requiredIngredientReagent.RequiredAmount)
 				{
 					return false;
 				}
@@ -196,7 +287,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
 		/// <returns>True if there are enough tools for crafting, false otherwise.</returns>
-		private bool CheckPossibleTools(List<ItemAttributesV2> possibleTools)
+		public bool CheckPossibleTools(List<ItemAttributesV2> possibleTools)
 		{
 			foreach (ItemTrait itemTrait in requiredToolTraits)
 			{
@@ -222,7 +313,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 		/// <returns>True if there are enough ingredients for crafting, false otherwise.</returns>
-		private bool CheckPossibleIngredients(List<CraftingIngredient> possibleIngredients)
+		public bool CheckPossibleIngredients(List<CraftingIngredient> possibleIngredients)
 		{
 			for (int reqIngIndex = 0; reqIngIndex < RequiredIngredients.Count; reqIngIndex++)
 			{
@@ -284,19 +375,21 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
+		/// <param name="reagentContainers">Reagent containers that might be used for crafting.</param>
 		/// <param name="crafterPlayerScript">The player that crafting according to the recipe.</param>
 		public void TryToCraft(
+			PlayerScript crafterPlayerScript,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			PlayerScript crafterPlayerScript
+			List<ReagentContainer> reagentContainers
 		)
 		{
-			if (CanBeCrafted(possibleIngredients, possibleTools) != CraftingStatus.AllGood)
+			if (CanBeCrafted(possibleIngredients, possibleTools, reagentContainers) != CraftingStatus.AllGood)
 			{
 				return;
 			}
 
-			UnsafelyCraft(possibleIngredients, possibleTools, crafterPlayerScript);
+			UnsafelyCraft(crafterPlayerScript, possibleIngredients, possibleTools, reagentContainers);
 		}
 
 		/// <summary>
@@ -306,9 +399,10 @@ namespace Systems.CraftingV2
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
 		/// <param name="crafterPlayerScript">The player that crafting according to the recipe.</param>
 		public void UnsafelyCraft(
+			PlayerScript crafterPlayerScript,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			PlayerScript crafterPlayerScript
+			List<ReagentContainer> reagentContainers
 		)
 		{
 			UseReagents(possibleIngredients);
@@ -448,7 +542,7 @@ namespace Systems.CraftingV2
 				spawnedResult.Add(
 					Spawn.ServerPrefab(
 						resultedGameObject,
-						crafterPlayerScript.WorldPos
+						crafterPlayerScript.PlayerSync.ClientPosition
 					).GameObject
 				);
 			}

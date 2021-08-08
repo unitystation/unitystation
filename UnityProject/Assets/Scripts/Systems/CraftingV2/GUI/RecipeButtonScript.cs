@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Chemistry;
 using Items;
-using Player;
+using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -152,27 +153,30 @@ namespace Systems.CraftingV2.GUI
 		/// <summary>
 		/// 	Updates the recipe button border color.
 		/// </summary>
-		/// <param name="knownRecipeIndexes">Recipe indexes that already known to the player.</param>
 		/// <param name="possibleIngredients">The ingredients that may be used for crafting.</param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
+		/// <param name="possibleReagents">
+		/// 	The reagents(a pair of values: a regent's index in the sigleton and its amount)
+		/// </param>
 		public void RefreshCraftable(
-			List<int> knownRecipeIndexes,
 			List<CraftingIngredient> possibleIngredients,
-			List<ItemAttributesV2> possibleTools
+			List<ItemAttributesV2> possibleTools,
+			List<KeyValuePair<int, float>> possibleReagents
 		)
 		{
 			if (
-				PlayerCrafting.CanCraft(
-					CraftingRecipe.IndexInSingleton,
-					knownRecipeIndexes,
+				PlayerManager.LocalPlayerScript.PlayerCrafting.KnowsRecipe(craftingRecipe)
+				&& craftingRecipe.CanBeCrafted(
 					possibleIngredients,
-					possibleTools
+					possibleTools,
+					possibleReagents
 				) == CraftingStatus.AllGood
 			)
 			{
 				SetCraftableBorderColor();
 				return;
 			}
+
 			SetUncraftableBorderColor();
 		}
 	}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using Systems.CraftingV2.ClientServerLogic;
 using Items;
 using NaughtyAttributes;
 using UnityEngine;
@@ -274,7 +273,7 @@ namespace Systems.CraftingV2.GUI
 
 		private static string GenerateButtonText(CraftingRecipe craftingRecipe)
 		{
-			if (craftingRecipe.CraftingTime < float.Epsilon)
+			if (craftingRecipe.CraftingTime.Approx(0))
 			{
 				return "Craft";
 			}
@@ -382,7 +381,10 @@ namespace Systems.CraftingV2.GUI
 		public void OnCraftButtonPressed()
 		{
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
-			RequestCraftingAction.Send(chosenRecipe.CraftingRecipe);
+			PlayerManager.LocalPlayerScript.PlayerCrafting.TryToStartCrafting(
+				chosenRecipe.CraftingRecipe,
+				NetworkSide.Client
+			);
 		}
 
 		#endregion
@@ -460,27 +462,30 @@ namespace Systems.CraftingV2.GUI
 		public void RequestRefreshRecipes()
 		{
 			DeselectRecipe(chosenRecipe);
-			RequestPossibleCraftingResources.Send();
+			ClientServerLogic.RequestRefreshRecipes.Send();
 		}
 
 		/// <summary>
 		/// 	Refreshes craftable recipes according to the possible ingredients and tools.
 		/// 	This method assumes that a player is already able to craft at all.
 		/// </summary>
-		/// <param name="knownRecipeIndexes">Who may craft?</param>
 		/// <param name="possibleIngredients">The ingredients that may be used for crafting.</param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
+		/// <param name="possibleReagents">
+		/// 	The reagents(a pair of values: a reagent's index in the singleton and its amount)
+		/// 	that may be used for crafting.
+		/// </param>
 		public void RefreshRecipes(
-			List<int> knownRecipeIndexes,
 			List<CraftingIngredient> possibleIngredients,
-			List<ItemAttributesV2> possibleTools
+			List<ItemAttributesV2> possibleTools,
+			List<KeyValuePair<int, float>> possibleReagents
 		)
 		{
 			foreach (RecipesInCategory recipesInCategory in recipesInCategories)
 			{
 				foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
 				{
-					recipeButtonScript.RefreshCraftable(knownRecipeIndexes, possibleIngredients, possibleTools);
+					recipeButtonScript.RefreshCraftable(possibleIngredients, possibleTools, possibleReagents);
 				}
 			}
 		}

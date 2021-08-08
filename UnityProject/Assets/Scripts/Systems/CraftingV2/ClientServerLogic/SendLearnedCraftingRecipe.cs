@@ -18,6 +18,11 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public override void Process(NetMessage netMessage)
 		{
+			// let's synchronize known recipes on the client side
+			PlayerManager.LocalPlayerScript.PlayerCrafting.UnsafelyAddRecipeToKnownRecipes(
+				CraftingRecipeSingleton.Instance.GetRecipeByIndex(netMessage.CraftingRecipeIndex)
+			);
+
 			// if the player is trying to learn new recipe without initiated CraftingMenu...
 			if (CraftingMenu.Instance == null)
 			{

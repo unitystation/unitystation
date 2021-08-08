@@ -10,8 +10,8 @@ namespace Systems.CraftingV2
 	[Serializable]
 	public class RecipeIngredientReagent
 	{
-		[SerializeField] [Min(float.MinValue)] [Tooltip("The amount of required reagent.")]
-		private float requiredAmount = 1;
+		[SerializeField] [Min(float.Epsilon)] [Tooltip("The amount of required reagent.")]
+		private float requiredAmount;
 
 		[SerializeField] [Tooltip("The required reagent.")]
 		private Reagent requiredReagent;
@@ -25,5 +25,11 @@ namespace Systems.CraftingV2
 		///     The required reagent
 		/// </summary>
 		public Reagent RequiredReagent => requiredReagent;
+
+		public RecipeIngredientReagent(Reagent reagent, float amount)
+		{
+			requiredReagent = reagent;
+			requiredAmount = amount;
+		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Chemistry.Components;
 using Items;
 using NaughtyAttributes;
 using UnityEngine;
@@ -64,7 +65,8 @@ namespace Systems.CraftingV2
 				if (interaction.PerformerPlayerScript.PlayerCrafting.TryToStartCrafting(
 					relatedRecipe.Recipe,
 					possibleIngredients,
-					possibleTools
+					possibleTools,
+					new List<ReagentContainer>()
 				))
 				{
 					// ok we're crafting now. There is no need to try to craft many recipes at one time.
