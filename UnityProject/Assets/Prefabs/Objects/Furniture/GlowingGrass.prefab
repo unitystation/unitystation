@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4323267300590308}
   - component: {fileID: 212268966398384312}
+  - component: {fileID: 6043992709861535076}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -82,6 +83,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6043992709861535076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077238444079906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 70397e13e9e92f54f87598a9a4b6971a, type: 2}
+  - {fileID: 11400000, guid: 5b50478c29ff36c4bb82ec921a3cc302, type: 2}
+  - {fileID: 11400000, guid: 7b16b0ab7310d3b4f90bd69dffde4533, type: 2}
+  - {fileID: 11400000, guid: c0b4d1e0d22aad84aaeb856d1fda0c34, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 70397e13e9e92f54f87598a9a4b6971a, type: 2}
+  randomInitialSprite: 1
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
 --- !u!1 &1562085630854840
 GameObject:
   m_ObjectHideFlags: 0
