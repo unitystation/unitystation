@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Fluorine
   m_EditorClassIdentifier: 
   displayName: Fluorine
-  description: A comically-reactive chemical element. The universe does not want this
-    stuff to exist in this form in the slightest.
+  description: A comically-reactive chemical element. The universe does not want
+    this stuff to exist in this form in the slightest.
   color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   state: 2
+  heatDensity: 5
+  indexInSingleton: 326

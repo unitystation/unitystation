@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
+using Systems.CraftingV2.GUI;
 using Chemistry;
 using Chemistry.Components;
 using Items;
@@ -112,6 +113,16 @@ namespace Player
 		[Server]
 		public void LearnRecipe(CraftingRecipe recipe)
 		{
+			// if the player is a host and a client at the same time...
+			if (playerScript == PlayerManager.LocalPlayerScript)
+			{
+				// ...then we'll handle the recipe learning on the "client" side,
+				// so we won't have duplicates in the known recipes list
+				// (because the server and the client have one known recipes list for two)
+				SendLearnedCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+				return;
+			}
+
 			if (!TryAddRecipeToKnownRecipes(recipe))
 			{
 				return;
@@ -611,6 +622,8 @@ namespace Player
 						Chat.AddExamineMsgToClient(
 							$"You made \"{recipe.RecipeName}\"."
 						);
+						return;
+						;
 					}
 
 					if (recipe.CraftingTime > 1) {
@@ -668,6 +681,7 @@ namespace Player
 							playerScript.gameObject,
 							$"You made \"{recipe.RecipeName}\"."
 						);
+						return;
 					}
 
 					if (recipe.CraftingTime > 1) {

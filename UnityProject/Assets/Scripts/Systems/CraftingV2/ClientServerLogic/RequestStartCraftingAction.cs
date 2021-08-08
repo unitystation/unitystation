@@ -19,6 +19,16 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public override void Process(NetMessage netMessage)
 		{
+			if (
+				Cooldowns.TryStartServer(
+					SentByPlayer.Script,
+					CommonCooldowns.Instance.Interaction
+				) == false
+			)
+			{
+				return;
+			}
+
 			if (netMessage.CraftingRecipeIndex < 0)
 			{
 				Logger.LogError(
@@ -50,6 +60,16 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public static void Send(CraftingRecipe craftingRecipe)
 		{
+			if (
+				Cooldowns.TryStartClient(
+					PlayerManager.LocalPlayerScript,
+					CommonCooldowns.Instance.Interaction
+				) == false
+			)
+			{
+				return;
+			}
+
 			// if sending a wrong recipe index...
 			if (
 				craftingRecipe.IndexInSingleton > CraftingRecipeSingleton.Instance.CountTotalStoredRecipes()

@@ -13,11 +13,30 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 		public override void Process(NetMessage msg)
 		{
+			if (
+				Cooldowns.TryStartServer(
+					SentByPlayer.Script,
+					CommonCooldowns.Instance.Interaction
+				) == false
+			)
+			{
+				return;
+			}
 			SendRefreshRecipesOrder.SendTo(SentByPlayer);
 		}
 
 		public static void Send()
 		{
+			if (
+				Cooldowns.TryStartClient(
+					PlayerManager.LocalPlayerScript,
+					CommonCooldowns.Instance.Interaction
+				) == false
+			)
+			{
+				return;
+			}
+
 			Send(new NetMessage());
 		}
 	}

@@ -316,6 +316,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5315045442997327396}
   - component: {fileID: 7161881661421069816}
+  - component: {fileID: 3961647586545687593}
   m_Layer: 5
   m_Name: RecipeButton
   m_TagString: Untagged
@@ -364,6 +365,26 @@ MonoBehaviour:
   borderGameObject: {fileID: 3774250882768211635}
   iconGameObject: {fileID: 2213933145521461055}
   textGameObject: {fileID: 4073665778086933509}
+--- !u!114 &3961647586545687593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5562711397433253435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 216
+  m_PreferredHeight: 72
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &6208954237629423681
 GameObject:
   m_ObjectHideFlags: 0

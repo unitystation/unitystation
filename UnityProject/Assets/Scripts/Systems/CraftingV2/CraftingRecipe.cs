@@ -5,6 +5,7 @@ using Chemistry;
 using Chemistry.Components;
 using Items;
 using NaughtyAttributes;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Systems.CraftingV2
