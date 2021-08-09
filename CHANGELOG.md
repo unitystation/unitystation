@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/08/09: **[New]** The new crafting system and its user interface. by [Lizurt](https://github.com/Lizurt) in PR #[7024](https://github.com/unitystation/unitystation/pull/7024)
 * 2021/08/06: **[New]** Added three new wooden floor types. Use at least four wood floor tiles in-hand to convert them into the new floors. by [PetMudstone](https://github.com/PetMudstone) in PR #[7208](https://github.com/unitystation/unitystation/pull/7208)
 * 2021/08/01: **[Improvement]** Emags give recognizable chat alerts to those nearby when used. by [PerfectTangent](https://github.com/PerfectTangent) in PR #[7188](https://github.com/unitystation/unitystation/pull/7188)
 * 2021/08/01: **[Fix]** No more fake players names kek by [craftxbox](https://github.com/craftxbox) in PR #[7185](https://github.com/unitystation/unitystation/pull/7185)
