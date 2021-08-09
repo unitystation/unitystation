@@ -48,8 +48,6 @@ public partial class Chat
 	public Color blobColor;
 	public Color defaultColor;
 
-	private static GameObject playerGameObject;
-
 	private static bool playedSound;
 
 	/// <summary>
@@ -113,12 +111,6 @@ public partial class Chat
 		// Emote
 		if (message.StartsWith("*") || message.StartsWith("/me ", true, CultureInfo.CurrentCulture))
 		{
-			//Note : This is stupid but it's the only way I could find a way to make this work
-			//We shouldn't have to check twice in different functions just to have a reference of the player who did the emote.
-			if(CheckForEmoteAction(message, Instance.emoteActionManager))
-			{
-				playerGameObject = sentByPlayer.GameObject;
-			}
 			message = message.Replace("/me", ""); // note that there is no space here as compared to the above if
 			message = message.Substring(1); // so that this substring can properly cut off both * and the space
 			chatModifiers |= ChatModifier.Emote;
@@ -187,7 +179,7 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers, bool stripTags = true)
+		ChatModifier modifiers, uint originatorUint = 0, bool stripTags = true)
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
@@ -234,11 +226,14 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
-			if(playerGameObject != null)
+
+			if(originatorUint != 0 && CheckForEmoteAction(message, Instance.emoteActionManager))
 			{
-				DoEmoteAction(message, playerGameObject, Instance.emoteActionManager);
-				playerGameObject = null;
-				return "";
+				if (NetworkIdentity.spawned.TryGetValue(originatorUint, out var player))
+				{
+					DoEmoteAction(message, player.gameObject, Instance.emoteActionManager);
+					return "";
+				}
 			}
 
 			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
@@ -522,7 +517,7 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
-		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, stripTags);
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, originatorUint, stripTags);
 		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient);
 	}
 

@@ -12,18 +12,11 @@ namespace Core.Chat
 
 		public static bool HasEmote(string emote, EmoteActionManager instance)
 		{
-			string[] emoteArray;
-			if (emote.StartsWith("*"))
-			{
-				emoteArray = emote.Split('*');
-			}
-			else
-			{
-				emoteArray = emote.Split(' ');
-			}
+			string[] emoteArray = emote.Split(' ');
+
 			foreach (var e in instance.emotes)
 			{
-				if(emoteArray[1].Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
+				if(emoteArray[0].Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
 				{
 					return true;
 				}
