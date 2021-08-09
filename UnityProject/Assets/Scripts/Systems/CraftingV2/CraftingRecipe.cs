@@ -396,7 +396,7 @@ namespace Systems.CraftingV2
 		/// </summary>
 		/// <param name="possibleIngredients">Ingredients that might be used for crafting.</param>
 		/// <param name="possibleTools">Tools that might be used for crafting.</param>
-		/// /// <param name="reagentContainers">Reagetnts that might be used for crafting.</param>
+		/// <param name="reagentContainers">Reagents that might be used for crafting.</param>
 		/// <param name="crafterPlayerScript">The player that crafting according to the recipe.</param>
 		public void UnsafelyCraft(
 			PlayerScript crafterPlayerScript,
@@ -497,26 +497,12 @@ namespace Systems.CraftingV2
 		{
 			if (possibleIngredient.TryGetComponent(out Stackable stackable))
 			{
-				if (
-					usedIngredientsCounter + stackable.Amount
-					<= RequiredIngredients[reqIngIndex].RequiredAmount
-				)
-				{
-					stackable.ServerConsume(stackable.Amount);
-				}
-				else
-				{
-					stackable.ServerConsume(
-						usedIngredientsCounter
-						+ stackable.Amount
-						- RequiredIngredients[reqIngIndex].RequiredAmount
-					);
-				}
-
-				usedIngredientsCounter = Math.Min(
-					usedIngredientsCounter + stackable.Amount,
-					RequiredIngredients[reqIngIndex].RequiredAmount
-				);
+				int consumed = usedIngredientsCounter + stackable.Amount
+				               <= RequiredIngredients[reqIngIndex].RequiredAmount
+				               ? stackable.Amount
+				               : RequiredIngredients[reqIngIndex].RequiredAmount - usedIngredientsCounter;
+				stackable.ServerConsume(consumed);
+				usedIngredientsCounter += consumed;
 			}
 			else
 			{
@@ -550,6 +536,11 @@ namespace Systems.CraftingV2
 			foreach (IResultHandler resultHandler in ResultHandlers)
 			{
 				resultHandler.OnCraftingCompleted(spawnedResult, usedIngredients);
+			}
+
+			if (spawnedResult.Count == 1)
+			{
+				Inventory.ServerAdd(spawnedResult[0], crafterPlayerScript.DynamicItemStorage.GetBestHand());
 			}
 		}
 	}

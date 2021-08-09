@@ -85,7 +85,7 @@ namespace Systems.CraftingV2.GUI
 			}
 			else
 			{
-				// ok, let's just try to use an icon of a
+				// ok, let's just try to use an icon of a result game object
 				SpriteRenderer spriteRenderer;
 				foreach (GameObject resultPart in craftingRecipe.Result)
 				{
