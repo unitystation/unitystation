@@ -273,44 +273,6 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Server only - Tries to remove a body part
-		/// </summary>
-		public void TryRemoveFromBody()
-		{
-			if (BodyPartRemovalChecks() == false)
-				return;
-			foreach (var bodyPart in HealthMaster.BodyPartList)
-			{
-				if (bodyPart.BodyPartType == BodyPartType.Chest)
-				{
-					bodyPart.IsBleeding = true;
-				}
-			}
-			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
-			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
-			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
-			dynamicItemStorage.Remove(bodyPartUISlot);
-		}
-
-		/// <summary>
-		/// Body part was removed from the body
-		/// </summary>
-		public void BodyPartRemoval()
-		{
-			foreach (var organ in OrganList)
-			{
-				organ.RemovedFromBody(HealthMaster);
-
-				//TODO: horrible, remove -- organ prefabs have bodyparts
-				var organBodyPart = organ.GetComponent<BodyPart>();
-				organBodyPart.RemoveSprites(playerSprites, HealthMaster);
-			}
-			RemoveSprites(playerSprites, HealthMaster);
-			HealthMaster.rootBodyPartController.RequestUpdate();
-			HealthMaster.BodyPartList.Remove(this);
-		}
-
-		/// <summary>
 		/// Body part was added to the body
 		/// </summary>
 		public void BodyPartAdded(LivingHealthMasterBase livingHealth)
@@ -333,17 +295,65 @@ namespace HealthV2
 			}
 		}
 
+		/// <summary>
+		/// Body part was removed from the body
+		/// </summary>
+		public void BodyPartRemoval()
+		{
+			foreach (var organ in OrganList)
+			{
+				organ.RemovedFromBody(HealthMaster);
+
+				//TODO: horrible, remove -- organ prefabs have bodyparts
+				var organBodyPart = organ.GetComponent<BodyPart>();
+				organBodyPart.RemoveSprites(playerSprites, HealthMaster);
+			}
+			RemoveSprites(playerSprites, HealthMaster);
+			HealthMaster.rootBodyPartController.RequestUpdate();
+			HealthMaster.BodyPartList.Remove(this);
+		}
+
+		/// <summary>
+		/// Server only - Tries to remove a body part
+		/// </summary>
+		public void TryRemoveFromBody()
+		{
+			SetRemovedColor();
+			foreach (var bodyPart in HealthMaster.BodyPartList)
+			{
+				if (bodyPart.BodyPartType == BodyPartType.Chest)
+				{
+					bodyPart.IsBleeding = true;
+				}
+			}
+			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
+			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
+			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
+			dynamicItemStorage.Remove(bodyPartUISlot);
+			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
+			if(IsBleedingExternally)
+			{
+				StopExternalBleeding();
+			}
+			//this kills the crab
+			if(DeathOnRemoval)
+			{
+				HealthMaster.Death();
+			}
+			if (gibsEntireBodyOnRemoval)
+			{
+				HealthMaster.Gib();
+			}
+		}
+
 
 		#region BodyPartStorage
 
 		/// <summary>
-		/// Checks if it's possible to remove this body part and runs any logic
-		/// required upon it's removal.
+		/// Sets the color of the body part item that is removed
 		/// </summary>
-		/// <returns>True if allowed to remove. Flase if gibbing.</returns>
-		private bool BodyPartRemovalChecks()
+		private void SetRemovedColor()
 		{
-			//Checks if the body part is not an internal organ and if that part shares a skin tone.
 			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
@@ -354,22 +364,6 @@ namespace HealthV2
 			{
 				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 			}
-			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
-			if(IsBleedingExternally)
-			{
-				StopExternalBleeding();
-			}
-			if (gibsEntireBodyOnRemoval)
-			{
-				HealthMaster.Gib();
-				return false;
-			}
-			//this kills the crab
-			if(DeathOnRemoval)
-			{
-				HealthMaster.Death();
-			}
-			return true;
 		}
 
 
