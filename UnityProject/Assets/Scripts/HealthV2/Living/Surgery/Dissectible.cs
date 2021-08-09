@@ -182,10 +182,10 @@ namespace HealthV2
 				{
 					foreach (var inBodyPart in BodyPartIsOn.OrganList)
 					{
-						if (inBodyPart == ONBodyPart)
+						//TODO: remove bodypart component from organs
+						var organBodyPart = inBodyPart.GetComponent<BodyPart>();
+						if (organBodyPart == ONBodyPart)
 						{
-							//TODO: remove bodypart component from organs
-							var organBodyPart = inBodyPart.GetComponent<BodyPart>();
 							foreach (var Procedure in organBodyPart.SurgeryProcedureBase)
 							{
 								if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;

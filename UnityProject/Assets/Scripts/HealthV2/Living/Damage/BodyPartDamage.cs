@@ -572,17 +572,17 @@ namespace HealthV2
 			{
 				currentCutSize = BodyPartCutSize.NONE;
 			}
-			else if(currentSlashCutDamage > 25)
+			else if(currentSlashCutDamage > 75)
 			{
-				currentCutSize = BodyPartCutSize.SMALL;
+				currentCutSize = BodyPartCutSize.LARGE;
 			}
 			else if(currentSlashCutDamage > 50)
 			{
 				currentCutSize = BodyPartCutSize.MEDIUM;
 			}
-			else if(currentSlashCutDamage > 75)
+			else if(currentSlashCutDamage > 25)
 			{
-				currentCutSize = BodyPartCutSize.LARGE;
+				currentCutSize = BodyPartCutSize.SMALL;
 			}
 
 			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
