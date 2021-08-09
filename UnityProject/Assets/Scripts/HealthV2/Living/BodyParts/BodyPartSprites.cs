@@ -39,7 +39,7 @@ public class BodyPartSprites : NetworkBehaviour
 		SpriteOrder.Orders.RemoveRange(0, 4);
 	}
 
-	public virtual void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	public virtual void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, SpriteOrder _SpriteOrder = null)
 	{
 		if (baseSpriteHandler == null) return;
 		ClothingHide = INClothingHide;

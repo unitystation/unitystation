@@ -21,11 +21,11 @@ namespace HealthV2
 			{
 				if (OnBodyPart != null)
 				{
-					OnBodyPart.AddBodyPartSlot(interaction.HandSlot);
+					OnBodyPart.OrganStorage.ServerTryTransferFrom(interaction.HandSlot);
 				}
 				else
 				{
-					PresentProcedure.ISon.GetComponent<LivingHealthMasterBase>().GetRootBodyPartInZone(interaction.TargetBodyPart).AddBodyPartSlot(interaction.HandSlot);
+					PresentProcedure.ISon.GetComponent<LivingHealthMasterBase>().BodyPartStorage.ServerTryTransferFrom(interaction.HandSlot);
 					PresentProcedure.ISon.currentlyOn = null;
 				}
 			}

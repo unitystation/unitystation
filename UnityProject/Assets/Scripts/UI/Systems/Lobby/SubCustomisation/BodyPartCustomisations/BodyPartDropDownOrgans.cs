@@ -29,20 +29,15 @@ namespace UI.CharacterCreator
 			return JsonConvert.SerializeObject(Dropdown.value);
 		}
 
-		public static void OnPlayerBodyDeserialise(BodyPart Body_Part, RootBodyPartContainer RootBodyPartContainer, string InData,
-			LivingHealthMasterBase LivingHealthMasterBase)
+		public static void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
 		{
-			dynamic Actual = null;
-			if (RootBodyPartContainer != null) Actual = RootBodyPartContainer;
-			if (Body_Part != null) Actual = Body_Part;
-
 			var PreviousOptions = JsonConvert.DeserializeObject<List<bool>>(InData);
 			for (int i = 0; i < PreviousOptions.Count; i++)
 			{
 				if (PreviousOptions[i])
 				{
 					var spawned = Spawn.ServerPrefab(Body_Part.OptionalOrgans[i].gameObject);
-					Actual.Storage.ServerTryAdd(spawned.GameObject);
+					LivingHealthMasterBase.BodyPartStorage.ServerTryAdd(spawned.GameObject);
 				}
 			}
 

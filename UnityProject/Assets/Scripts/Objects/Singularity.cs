@@ -382,12 +382,12 @@ namespace Objects
 						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
 						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
-							health.ServerGibPlayer();
+							health.Gib();
 							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
 							return;
 						}
 
-						health.ServerGibPlayer();
+						health.Gib();
 						ChangePoints(100);
 					}
 					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)

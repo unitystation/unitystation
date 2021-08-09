@@ -116,7 +116,7 @@ namespace Health.Sickness
 		/// <summary>
 		/// Check if we should trigger due symptoms
 		/// </summary>
-		private void CheckSymptomOccurence(SicknessAffliction sicknessAffliction, LivingHealthMasterBase playerHealth)
+		private void CheckSymptomOccurence(SicknessAffliction sicknessAffliction, LivingHealthMasterBase livingHealth)
 		{
 			Sickness sickness = sicknessAffliction.Sickness;
 
@@ -131,7 +131,7 @@ namespace Health.Sickness
 						SicknessStage sicknessStage = sickness.SicknessStages[stage];
 
 						// Since many symptoms need to be called within the main thread, we invoke it
-						sicknessManager.blockingCollectionSymptoms.Add(new SymptomManifestation(sicknessAffliction, stage, playerHealth));
+						sicknessManager.blockingCollectionSymptoms.Add(new SymptomManifestation(sicknessAffliction, stage, livingHealth));
 
 						if (sicknessStage.RepeatSymptom)
 						{

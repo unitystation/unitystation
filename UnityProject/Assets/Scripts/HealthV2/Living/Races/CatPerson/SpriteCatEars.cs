@@ -7,7 +7,7 @@ public class SpriteCatEars : BodyPartSprites
 {
 
 	[SerializeField] protected SpriteHandler OverlySpriteHandler;
-	public override void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	public override void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, SpriteOrder _SpriteOrder = null)
 	{
 		ClothingHide = INClothingHide;
 		SpriteOrder = _SpriteOrder;

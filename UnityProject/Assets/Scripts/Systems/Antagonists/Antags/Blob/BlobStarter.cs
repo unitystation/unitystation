@@ -287,7 +287,7 @@ namespace Blob
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();
 
-			gameObject.GetComponent<LivingHealthMasterBase>().Harvest();
+			gameObject.GetComponent<LivingHealthMasterBase>().Gib();
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			Destroy(this);

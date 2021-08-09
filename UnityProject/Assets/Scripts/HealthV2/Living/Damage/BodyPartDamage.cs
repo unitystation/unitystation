@@ -273,11 +273,6 @@ namespace HealthV2
 			}
 		}
 
-		public void DamageInitialisation()
-		{
-			this.AddModifier(DamageModifier);
-		}
-
 		/// <summary>
 		/// Adjusts the appropriate damage type by the given damage amount and updates body part
 		/// functionality based on its new health total
@@ -306,15 +301,8 @@ namespace HealthV2
 		/// <param name="attackType">Type of attack that is causing the damage</param>
 		/// <param name="damageType">The type of damage</param>
 		/// <param name="damageSplit">Should the damage be divided amongst the contained body parts or applied to a random body part</param>
-		public void TakeDamage(
-			GameObject damagedBy,
-			float damage,
-			AttackType attackType,
-			DamageType damageType,
-			bool damageSplit = false,
-			bool DamageSubOrgans = true,
-			float armorPenetration = 0
-		)
+		public void TakeDamage(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
+								bool damageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0)
 		{
 			float damageToLimb = Armor.GetTotalDamage(
 				SelfArmor.GetDamage(damage, attackType, armorPenetration),
@@ -326,33 +314,28 @@ namespace HealthV2
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
-			if (DamageSubOrgans)
+			if (DamageSubOrgans && ContainBodyParts.Count > 0)
 			{
-				if (ContainBodyParts.Count > 0)
+				var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType, armorPenetration);
+				if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
 				{
-					var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType, armorPenetration);
-					if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
-					{
-						organDamageRatingValue +=
-							1 - ((maxHealth - Damages[(int) damageType]) / SubOrganDamageIncreasePoint);
-						organDamageRatingValue = Math.Min(1, organDamageRatingValue);
-					}
+					organDamageRatingValue +=
+						1 - ((maxHealth - Damages[(int) damageType]) / SubOrganDamageIncreasePoint);
+					organDamageRatingValue = Math.Min(1, organDamageRatingValue);
+				}
 
-					var subDamage = damage * organDamageRatingValue;
-					if (damageSplit)
+				var subDamage = damage * organDamageRatingValue;
+				if (damageSplit)
+				{
+					foreach (var bodyPart in ContainBodyParts)
 					{
-						foreach (var bodyPart in ContainBodyParts)
-						{
-							bodyPart.TakeDamage(damagedBy, subDamage / ContainBodyParts.Count, attackType, damageType,
-								damageSplit);
-						}
+						bodyPart.TakeDamage(damagedBy, subDamage / ContainBodyParts.Count, attackType, damageType, damageSplit);
 					}
-					else
-					{
-						var OrganToDamage =
-							ContainBodyParts.PickRandom(); //It's not like you can aim for Someone's liver can you
-						OrganToDamage.TakeDamage(damagedBy, subDamage, attackType, damageType);
-					}
+				}
+				else
+				{
+					var OrganToDamage = ContainBodyParts.PickRandom(); //It's not like you can aim for Someone's liver can you
+					OrganToDamage.TakeDamage(damagedBy, subDamage, attackType, damageType);
 				}
 			}
 			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
@@ -498,7 +481,7 @@ namespace HealthV2
 				Severity = DamageSeverity.Max;
 			}
 
-			if (DamageContributesToOverallHealth && oldSeverity != Severity && healthMaster != null)
+			if (DamageContributesToOverallHealth && oldSeverity != Severity && HealthMaster != null)
 			{
 				UpdateIcons();
 			}
@@ -618,10 +601,10 @@ namespace HealthV2
 				float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 				if(chance >= spillChanceWhenCutPresent)
 				{
-					healthMaster.DismemberingBodyParts.Add(randomBodyPart);
+					HealthMaster.DismemberingBodyParts.Add(randomBodyPart);
 					if(randomCustomBodyPart != null)
 					{
-						healthMaster.DismemberingBodyParts.Add(randomCustomBodyPart);
+						HealthMaster.DismemberingBodyParts.Add(randomCustomBodyPart);
 					}
 				}
 				else
@@ -692,16 +675,9 @@ namespace HealthV2
 			while(isBleedingExternally)
 			{
 				yield return WaitFor.Seconds(4f);
-				if(Root != null) //This is to prevent rare moments where body parts still attempt to bleed when they no longer should.
+				if (IsBleeding)
 				{
-					if (Root.ContainsLimbs.Contains(this) != false)
-					{
-						healthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
-					}
-				}
-				else
-				{
-					break;
+					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
 				}
 			}
 		}
@@ -749,7 +725,7 @@ namespace HealthV2
 			if(Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			if(chance >= armorChanceModifer)
 			{
-				healthMaster.DismemberingBodyParts.Add(this);
+				HealthMaster.DismemberingBodyParts.Add(this);
 			}
 		}
 
@@ -783,13 +759,9 @@ namespace HealthV2
 			{
 				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
 				{
-					var spritesList = Root.ImplantBaseSpritesDictionary.Values;
-					foreach (var sprites in spritesList)
+					foreach(var sprite in RelatedPresentSprites)
 					{
-						foreach(var sprite in sprites)
-						{
-							sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
-						}
+						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
 					}
 				}
 				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
@@ -805,7 +777,7 @@ namespace HealthV2
 		{
 			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
-				IEnumerable<ItemSlot> internalItemList = Storage.GetItemSlots();
+				IEnumerable<ItemSlot> internalItemList = OrganStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
 					Integrity itemObject = item.ItemObject.OrNull()?.GetComponent<Integrity>();
@@ -821,7 +793,7 @@ namespace HealthV2
 					{
 						if (organ.gibsEntireBodyOnRemoval)
 						{
-							healthMaster.Gib();
+							HealthMaster.Gib();
 							return;
 						}
 						if (organ.DeathOnRemoval)
@@ -832,9 +804,9 @@ namespace HealthV2
 				}
 				if (DeathOnRemoval)
 				{
-					healthMaster.Death();
+					HealthMaster.Death();
 				}
-				_ = Spawn.ServerPrefab(Storage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
+				_ = Spawn.ServerPrefab(OrganStorage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
 		}

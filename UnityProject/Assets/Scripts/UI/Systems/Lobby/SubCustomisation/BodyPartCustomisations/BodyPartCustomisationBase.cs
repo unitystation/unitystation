@@ -27,7 +27,7 @@ namespace UI.CharacterCreator
 		/// Responsible for setting up body part data from the player's character sheet.
 		/// This includes SkinTones, hair and underwear customization, etc.
 		/// </summary>
-		public virtual void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase) { }
+		public virtual void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase livingHealth) { }
 
 		/// <summary>
 		/// Responsible for randomizing character customization. Works inside the character creator UI only.

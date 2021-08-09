@@ -24,7 +24,7 @@ namespace HealthV2
 
 			PresentProcedure.ISon.ThisPresentProcedure.PreviousBodyPart = null;
 			PresentProcedure.ISon.ThisPresentProcedure.RelatedBodyPart = null;
-			OnBodyPart.RemoveFromBodyThis();
+			OnBodyPart.TryRemoveFromBody();
 
 		}
 	}

@@ -286,7 +286,7 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on living targets using the new health system
 		/// </summary>
-		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
+		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth) { }
 
 
 		/// <summary>

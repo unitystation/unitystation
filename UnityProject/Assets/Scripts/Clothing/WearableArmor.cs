@@ -83,12 +83,9 @@ namespace Clothing
 
 			foreach (ArmoredBodyPart protectedBodyPart in armoredBodyParts)
 			{
-				foreach (RootBodyPartContainer rootBodyPartContainer in playerHealthV2.RootBodyPartContainers)
+				foreach (var bodyPart in playerHealthV2.BodyPartList)
 				{
-					foreach (BodyPart bodyPart in rootBodyPartContainer.ContainsLimbs)
-					{
-						DeepAddArmorToBodyPart(bodyPart, protectedBodyPart);
-					}
+					DeepAddArmorToBodyPart(bodyPart, protectedBodyPart);
 				}
 			}
 		}

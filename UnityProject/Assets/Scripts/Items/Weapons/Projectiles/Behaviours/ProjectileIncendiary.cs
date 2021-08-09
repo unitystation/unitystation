@@ -65,15 +65,9 @@ namespace Weapons.Projectiles.Behaviours
 
 			if (hit.CollisionHit.GameObject == null) return true;
 
-			//TODO REMOVE AFTER MOBS ARE MOVED TO NEW HEALTH
-			if (hit.CollisionHit.GameObject.TryGetComponent(out LivingHealthMasterBase health))
+			if (hit.CollisionHit.GameObject.TryGetComponent(out LivingHealthMasterBase livingHealth))
 			{
-				health.ChangeFireStacks(fireStacksToGive);
-			}
-
-			if (hit.CollisionHit.GameObject.TryGetComponent(out LivingHealthMasterBase healthMasterBase))
-			{
-				healthMasterBase.ChangeFireStacks(fireStacksToGive);
+				livingHealth.ChangeFireStacks(fireStacksToGive);
 			}
 
 			return true;

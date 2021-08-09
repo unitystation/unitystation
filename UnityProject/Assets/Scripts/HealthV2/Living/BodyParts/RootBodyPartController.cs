@@ -6,6 +6,7 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 
+//TODO REMOVE ALL OF THIS USING A FLAMETHROWER
 public class RootBodyPartController : NetworkBehaviour
 {
 	[SyncVar(hook = nameof(UpdateCustomisations))]
@@ -14,49 +15,33 @@ public class RootBodyPartController : NetworkBehaviour
 	[SyncVar(hook = nameof(UpdateChildren))]
 	private string SerialisedNetIDs = "";
 
-	public List<RootBodyPartContainer> RootBodyParts = new List<RootBodyPartContainer>();
+	public List<uint> ToSerialised = new List<uint>();
 
-	private Dictionary<string, RootBodyPartContainer> InternalRootBodyParts =
-		new Dictionary<string, RootBodyPartContainer>();
+	private LivingHealthMasterBase livingHealth;
 
-	public Dictionary<string, List<uint>> DictionaryToSerialised = new Dictionary<string, List<uint>>();
-
-	public PlayerSprites playerSprites;
-
-	public void Awake()
+	private void Awake()
 	{
-		foreach (var BParts in RootBodyParts)
-		{
-			BParts.RootBodyPartController = this;
-			InternalRootBodyParts[BParts.name] = BParts;
-		}
+		livingHealth = GetComponent<LivingHealthMasterBase>();
 	}
 
-	public void RequestUpdate(RootBodyPartContainer RootBodyPartContainer)
+	public void RequestUpdate()
 	{
-		DictionaryToSerialised[RootBodyPartContainer.name] = RootBodyPartContainer.InternalNetIDs;
-		SerialisedNetIDs = JsonConvert.SerializeObject(DictionaryToSerialised);
+		ToSerialised = livingHealth.InternalNetIDs;
+		SerialisedNetIDs = JsonConvert.SerializeObject(ToSerialised);
 	}
-
 
 	public void UpdateChildren(string InOld, string InNew)
 	{
 		SerialisedNetIDs = InNew;
-		playerSprites.Addedbodypart.Clear();
-		DictionaryToSerialised = JsonConvert.DeserializeObject<Dictionary<string, List<uint>>>(SerialisedNetIDs);
-		foreach (var Entry in DictionaryToSerialised)
-		{
-			if (InternalRootBodyParts.ContainsKey(Entry.Key))
-			{
-				InternalRootBodyParts[Entry.Key].UpdateChildren(Entry.Value);
-			}
-		}
+		livingHealth.playerSprites.Addedbodypart.Clear();
+		ToSerialised = JsonConvert.DeserializeObject<List<uint>>(SerialisedNetIDs);
+		livingHealth.UpdateChildren(ToSerialised);
 	}
 
 	public void UpdateCustomisations(string InOld, string InNew)
 	{
 		PlayerSpritesData = InNew;
-		playerSprites.UpdateChildren(JsonConvert.DeserializeObject<List<uint>>(PlayerSpritesData));
+		livingHealth.playerSprites.UpdateChildren(JsonConvert.DeserializeObject<List<uint>>(PlayerSpritesData));
 	}
 
 }
