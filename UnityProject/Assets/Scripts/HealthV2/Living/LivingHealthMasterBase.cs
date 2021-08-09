@@ -22,7 +22,7 @@ namespace HealthV2
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
-	public abstract partial class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable
+	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -1162,9 +1162,8 @@ namespace HealthV2
 		/// Sets up the sprite of a specified body part and adds its Net ID to InternalNetIDs
 		/// </summary>
 		/// <param name="implant">Body Part to display</param>
-		public void SetupSpritesNID(BodyPart implant)
+		public void SetupSpritesNetId(BodyPart implant)
 		{
-
 			int i = 0;
 			bool isSurfaceSprite = implant.IsSurface;
 			var sprites = implant.GetBodyTypeSprites(playerSprites.ThisCharacter.BodyType);

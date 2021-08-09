@@ -247,7 +247,7 @@ namespace HealthV2
 
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
-		/// Server and client trigger this on both addition and removal of an organ
+		/// Both addition and removal of an organ
 		/// </summary>
 		public void OrganTransfer(Pickupable prevImplant, Pickupable newImplant)
 		{
@@ -261,7 +261,7 @@ namespace HealthV2
 				{
 					//TODO: horrible, remove -- organ prefabs have a bodypart component
 					var bodyPart = addedOrgan.GetComponent<BodyPart>();
-					HealthMaster.SetupSpritesNID(bodyPart);
+					HealthMaster.SetupSpritesNetId(bodyPart);
 				}
 			}
 			else if(prevImplant && prevImplant.TryGetComponent<Organ>(out var removedOrgan))
@@ -293,7 +293,7 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Client & Server, body part was removed from the body
+		/// Body part was removed from the body
 		/// </summary>
 		public void BodyPartRemoval()
 		{
@@ -303,20 +303,21 @@ namespace HealthV2
 
 				//TODO: horrible, remove -- organ prefabs have bodyparts
 				var organBodyPart = organ.GetComponent<BodyPart>();
-				organBodyPart.RemoveSprites(playerSprites);
+				organBodyPart.RemoveSprites(playerSprites, HealthMaster);
 			}
-			RemoveSprites(playerSprites);
+			RemoveSprites(playerSprites, HealthMaster);
+			HealthMaster.rootBodyPartController.RequestUpdate();
 			HealthMaster.BodyPartList.Remove(this);
 		}
 
 		/// <summary>
-		/// Client & Server, body part was added to the body
+		/// Body part was added to the body
 		/// </summary>
 		public void BodyPartAdded(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.BodyPartList.Add(this);
 			SetHealthMaster(livingHealth);
-			livingHealth.SetupSpritesNID(this);
+			livingHealth.SetupSpritesNetId(this);
 
 			//legs and arms getting ready to affect speed
 			if (TryGetComponent<Limb>(out var limb))
@@ -328,7 +329,7 @@ namespace HealthV2
 			foreach (var organ in OrganList)
 			{
 				var organBodyPart = organ.GetComponent<BodyPart>();
-				livingHealth.SetupSpritesNID(organBodyPart);
+				livingHealth.SetupSpritesNetId(organBodyPart);
 			}
 		}
 
@@ -372,12 +373,12 @@ namespace HealthV2
 		}
 
 
-		private void RemoveSprites(PlayerSprites sprites)
+		private void RemoveSprites(PlayerSprites sprites, LivingHealthMasterBase livingHealth)
 		{
 			for (var i = RelatedPresentSprites.Count - 1; i >= 0; i--)
 			{
 				var bodyPartSprite = RelatedPresentSprites[i];
-				HealthMaster.InternalNetIDs.Remove(bodyPartSprite.GetComponent<NetworkIdentity>().netId);
+				livingHealth.InternalNetIDs.Remove(bodyPartSprite.GetComponent<NetworkIdentity>().netId);
 				if (IsSurface)
 				{
 					sprites.SurfaceSprite.Remove(bodyPartSprite);
@@ -386,7 +387,6 @@ namespace HealthV2
 				sprites.Addedbodypart.Remove(bodyPartSprite);
 				Destroy(bodyPartSprite.gameObject);
 			}
-			HealthMaster.rootBodyPartController.RequestUpdate();
 		}
 
 		public void SetUpSystemsThis()
