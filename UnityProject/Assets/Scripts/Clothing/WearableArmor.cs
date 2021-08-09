@@ -92,7 +92,6 @@ namespace Clothing
 
 		/// <summary>
 		/// Adds armor per body part depending on the characteristics of this armor.
-		/// Checks not only the bodyPart, but also all other body parts nested in bodyPart.
 		/// </summary>
 		/// <param name="bodyPart">Body part to update</param>
 		/// <param name="armoredBodyPart">A couple of the body part associated with the armor</param>
@@ -103,11 +102,6 @@ namespace Clothing
 			{
 				bodyPart.ClothingArmors.AddFirst(armoredBodyPart.Armor);
 				armoredBodyPart.RelatedBodyParts.AddFirst(bodyPart);
-			}
-
-			foreach (BodyPart innerBodyPart in bodyPart.ContainBodyParts)
-			{
-				DeepAddArmorToBodyPart(innerBodyPart, armoredBodyPart);
 			}
 		}
 	}

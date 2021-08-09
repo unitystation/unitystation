@@ -533,9 +533,10 @@ namespace HealthV2
 				damage /= bodyParts;
 			}
 
-			foreach (var bodyPart in BodyPartList)
+			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit: true);
+				var bodyPart = BodyPartList[i];
+				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
 			}
 
 			if (damageType == DamageType.Brute)
@@ -870,7 +871,15 @@ namespace HealthV2
 		{
 			foreach (var bodyPart in DismemberingBodyParts)
 			{
-				bodyPart.TryRemoveFromBody();
+				//TODO: remove bodypart component from organs
+				if (bodyPart.TryGetComponent<Organ>(out var organ))
+				{
+					organ.RelatedPart.OrganStorage.ServerTryRemove(organ.gameObject);
+				}
+				else
+				{
+					bodyPart.TryRemoveFromBody();
+				}
 			}
 			DismemberingBodyParts.Clear();
 		}
@@ -1148,7 +1157,7 @@ namespace HealthV2
 
 		#endregion
 
-				/// <summary>
+		/// <summary>
 		/// The list of the internal net ids of the body parts contained within this container
 		/// </summary>
 		[Tooltip("The internal net ids of the body parts contained within this")]
@@ -1187,9 +1196,7 @@ namespace HealthV2
 				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, newOrder);
 				InternalNetIDs.Add(newSprite.GetComponent<NetworkIdentity>().netId);
 
-				i++;
-				i++;
-				i++;
+				i += 3;
 			}
 			rootBodyPartController.RequestUpdate();
 

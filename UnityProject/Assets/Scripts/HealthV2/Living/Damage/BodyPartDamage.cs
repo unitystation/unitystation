@@ -314,7 +314,7 @@ namespace HealthV2
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
-			if (DamageSubOrgans && ContainBodyParts.Count > 0)
+			if (DamageSubOrgans && OrganList.Count > 0)
 			{
 				var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType, armorPenetration);
 				if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
@@ -325,17 +325,20 @@ namespace HealthV2
 				}
 
 				var subDamage = damage * organDamageRatingValue;
+
+				//TODO: remove BodyPart component from organ
 				if (damageSplit)
 				{
-					foreach (var bodyPart in ContainBodyParts)
+					foreach (var organ in OrganList)
 					{
-						bodyPart.TakeDamage(damagedBy, subDamage / ContainBodyParts.Count, attackType, damageType, damageSplit);
+						var organBodyPart = organ.GetComponent<BodyPart>();
+						organBodyPart.TakeDamage(damagedBy, subDamage / OrganList.Count, attackType, damageType, damageSplit);
 					}
 				}
 				else
 				{
-					var OrganToDamage = ContainBodyParts.PickRandom(); //It's not like you can aim for Someone's liver can you
-					OrganToDamage.TakeDamage(damagedBy, subDamage, attackType, damageType);
+					var organBodyPart = OrganList.PickRandom().GetComponent<BodyPart>(); //It's not like you can aim for Someone's liver can you
+					organBodyPart.TakeDamage(damagedBy, subDamage, attackType, damageType);
 				}
 			}
 			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
@@ -494,7 +497,7 @@ namespace HealthV2
 		{
 			if(currentCutSize >= BodyPartSlashLogicOnCutSize)
 			{
-				if(ContainBodyParts.Count != 0)
+				if(OrganList.Count != 0)
 				{
 					Disembowel();
 				}
@@ -594,7 +597,7 @@ namespace HealthV2
 		/// </summary>
 		private void Disembowel()
 		{
-			BodyPart randomBodyPart = ContainBodyParts.GetRandom();
+			BodyPart randomBodyPart = OrganList.GetRandom().GetComponent<BodyPart>();
 			BodyPart randomCustomBodyPart = OptionalOrgans.GetRandom();
 			if(currentCutSize >= BodyPartStorageContentsSpillOutOnCutSize)
 			{

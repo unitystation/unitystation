@@ -180,17 +180,19 @@ namespace HealthV2
 			{
 				if (BodyPartIsopen)
 				{
-					foreach (var inBodyPart in BodyPartIsOn.ContainBodyParts)
+					foreach (var inBodyPart in BodyPartIsOn.OrganList)
 					{
 						if (inBodyPart == ONBodyPart)
 						{
-							foreach (var Procedure in inBodyPart.SurgeryProcedureBase)
+							//TODO: remove bodypart component from organs
+							var organBodyPart = inBodyPart.GetComponent<BodyPart>();
+							foreach (var Procedure in organBodyPart.SurgeryProcedureBase)
 							{
 								if (Procedure is CloseProcedure || Procedure is ImplantProcedure) continue;
 								if (SurgeryProcedureBase == Procedure)
 								{
-									this.currentlyOn = inBodyPart.gameObject;
-									this.ThisPresentProcedure.SetupProcedure(this, inBodyPart, Procedure);
+									this.currentlyOn = organBodyPart.gameObject;
+									this.ThisPresentProcedure.SetupProcedure(this, organBodyPart, Procedure);
 									return;
 								}
 							}
@@ -280,7 +282,13 @@ namespace HealthV2
 			{
 				if (BodyPartIsopen)
 				{
-					SendSurgeryBodyParts.SendTo(BodyPartIsOn.ContainBodyParts, this, SentByPlayer);
+					//TODO: remove bodypart component from organs
+					var organBodyPartList = new List<BodyPart>();
+					foreach (var organ in BodyPartIsOn.OrganList)
+					{
+						organBodyPartList.Add(organ.GetComponent<BodyPart>());
+					}
+					SendSurgeryBodyParts.SendTo(organBodyPartList, this, SentByPlayer);
 				}
 				else
 				{

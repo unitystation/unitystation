@@ -50,8 +50,6 @@ namespace HealthV2
 		[Tooltip("The category that this body part falls under for targeting purposes")]
 		[SerializeField] public BodyPartType BodyPartType;
 
-		[HideInInspector]
-		public List<BodyPart> ContainBodyParts = new List<BodyPart>();
 		/// <summary>
 		/// Flag for if the sprite for this body type changes with gender, true means it does
 		/// </summary>
