@@ -867,6 +867,16 @@ public partial class MatrixManager : MonoBehaviour
 		return t;
 	}
 
+	public static List<T> GetReachableAt<T>(Vector3Int fromPos, Vector3Int toPos, bool isServer) where T : MonoBehaviour
+	{
+		if (Validations.IsReachableByPositions(fromPos, toPos, isServer))
+		{
+			return GetAt<T>(toPos, isServer);
+		}
+
+		return new List<T>();
+	}
+
 	/// <summary>
 	/// checks all tiles adjacent to the indicated world position for objects with the indicated component.
 	/// Probably pretty expensive.
@@ -887,6 +897,30 @@ public partial class MatrixManager : MonoBehaviour
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.left + Vector3Int.down, isServer));
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.down, isServer));
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.down + Vector3Int.right, isServer));
+
+		return result;
+	}
+
+	/// <summary>
+	/// checks all reachable tiles adjacent to the indicated world position for objects with the indicated component.
+	/// Probably pretty expensive.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <param name="isServer"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static List<T> GetReachableAdjacent<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	{
+		List<T> result = new List<T>();
+
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.right, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.right + Vector3Int.up, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.up, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.up + Vector3Int.left, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.left, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.left + Vector3Int.down, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.down, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.down + Vector3Int.right, isServer));
 
 		return result;
 	}

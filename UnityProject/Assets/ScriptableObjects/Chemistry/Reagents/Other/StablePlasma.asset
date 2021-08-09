@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: StablePlasma
   m_EditorClassIdentifier: 
   displayName: Stable Plasma
-  description: Non-flammable plasma locked into a liquid form that cannot ignite or
-    become gaseous/solid.
+  description: Non-flammable plasma locked into a liquid form that cannot ignite
+    or become gaseous/solid.
   color: {r: 0.78431374, g: 0.64705884, b: 0.8627451, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 398

@@ -1,11 +1,11 @@
+using Systems.CraftingV2;
+using HealthV2;
+using Items.PDA;
 using UnityEngine;
 using ScriptableObjects;
 using ScriptableObjects.Atmospherics;
-using HealthV2;
 using Machines;
 using Objects.Atmospherics;
-using Items.PDA;
-
 
 /// <summary>
 /// In order for the SingletonScriptableObject to work, the singleton instance must
@@ -40,4 +40,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public SurgeryProcedureBaseSingleton SurgeryProcedureBaseSingleton;
 	public GasesSingleton GasesSingleton;
 	public GasMixesSingleton GasMixesSingleton;
+	public CraftingRecipeSingleton CraftingRecipeSingleton;
 }

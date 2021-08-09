@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Synthflesh
   m_EditorClassIdentifier: 
   displayName: Synthflesh
-  description: Has a 100% chance of instantly healing brute and burn damage. One unit
-    of the chemical will heal one point of damage. Touch application only.
+  description: Has a 100% chance of instantly healing brute and burn damage. One
+    unit of the chemical will heal one point of damage. Touch application only.
   color: {r: 1, g: 0.92156863, b: 0.92156863, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 291

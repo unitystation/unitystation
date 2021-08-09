@@ -30,7 +30,7 @@ namespace Items.Magical
 				{
 					Chat.AddExamineMsgFromServer(player.GameObject, "You already know this spell!");
 				}
-				
+
 				return false;
 			}
 

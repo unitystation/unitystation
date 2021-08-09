@@ -203,8 +203,16 @@ public static class Validations
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
 	/// <returns></returns>
-	public static bool CanApply(PlayerScript playerScript, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null, bool isPlayerClick = false)
+	public static bool CanApply(
+		PlayerScript playerScript,
+		GameObject target,
+		NetworkSide side,
+		bool allowSoftCrit = false,
+		ReachRange reachRange = ReachRange.Standard,
+		Vector2? targetVector = null,
+		RegisterTile targetRegisterTile = null,
+		bool isPlayerClick = false
+	)
 	{
 		if (playerScript == null) return false;
 
@@ -387,7 +395,13 @@ public static class Validations
 	/// <param name="isServer">Whether or not this call is occurring on the server</param>
 	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist and there is no blockage. False otherwise.</returns>
-	public static bool IsReachableByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
+	public static bool IsReachableByPositions(
+		Vector3 fromWorldPos,
+		Vector3 toWorldPos,
+		bool isServer,
+		float interactDist = PlayerScript.interactionDistance,
+		GameObject context = null
+	)
 	{
 		if (IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context))
 		{

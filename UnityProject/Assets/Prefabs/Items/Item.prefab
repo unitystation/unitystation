@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: -6201661749900855812}
   - component: {fileID: 1373280397285383934}
   - component: {fileID: 6104600676241079028}
+  - component: {fileID: 542829611148227948}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -304,6 +305,19 @@ SortingGroup:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
+--- !u!114 &542829611148227948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6083a8f6e47464fb42db6e06bc08665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relatedRecipes: []
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0

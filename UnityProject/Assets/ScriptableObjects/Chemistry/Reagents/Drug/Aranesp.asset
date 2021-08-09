@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Aranesp
   m_EditorClassIdentifier: 
   displayName: Aranesp
-  description: Amps you up, gets you going, and rapidly restores stamina damage. Side
-    effects include breathlessness and toxicity.
+  description: Amps you up, gets you going, and rapidly restores stamina damage.
+    Side effects include breathlessness and toxicity.
   color: {r: 0.47058824, g: 1, b: 0.9411765, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 184

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Hydrogen
   m_EditorClassIdentifier: 
   displayName: Hydrogen
-  description: A colorless, odorless, nonmetallic, tasteless, highly combustible diatomic
-    gas.
+  description: A colorless, odorless, nonmetallic, tasteless, highly combustible
+    diatomic gas.
   color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   state: 2
+  heatDensity: 5
+  indexInSingleton: 342
