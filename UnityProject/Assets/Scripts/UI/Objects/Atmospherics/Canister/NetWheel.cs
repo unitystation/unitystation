@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+
 namespace UI.Core
 {
 	/// <summary>
@@ -21,7 +22,7 @@ namespace UI.Core
 			get => Element.KPA.ToString();
 		}
 
-		public IntEvent ServerMethod;
+		public FloatEvent ServerMethod;
 
 		public override void ExecuteServer(ConnectedPlayer subject)
 		{

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Carbon
   m_EditorClassIdentifier: 
   displayName: Carbon
-  description: A crumbly black solid that, while unexciting on a physical level, forms
-    the base of all known life. Kind of a big deal.
+  description: A crumbly black solid that, while unexciting on a physical level,
+    forms the base of all known life. Kind of a big deal.
   color: {r: 0.10980392, g: 0.07450981, b: 0, a: 1}
   state: 0
+  heatDensity: 5
+  indexInSingleton: 310

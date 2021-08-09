@@ -622,7 +622,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static InteractableDoor GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first
-		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
+		Vector3Int localTarget = WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
 		var originDoorList = GetAt<InteractableDoor>(worldOrigin, isServer);
 		foreach (InteractableDoor originDoor in originDoorList)
 		{
@@ -631,7 +631,7 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		// No closed door on local tile, check target tile
-		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
+		Vector3Int localOrigin = WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
 		foreach (InteractableDoor targetDoor in targetDoorList)
 		{
@@ -647,7 +647,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static DoorMasterController GetNewClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first
-		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
+		Vector3Int localTarget = WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
 		var originDoorList = GetAt<DoorMasterController>(worldOrigin, isServer);
 		foreach (DoorMasterController originDoor in originDoorList)
 		{
@@ -656,7 +656,7 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		// No closed door on local tile, check target tile
-		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
+		Vector3Int localOrigin = WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		var targetDoorList = GetAt<DoorMasterController>(targetPos, isServer);
 		foreach (DoorMasterController targetDoor in targetDoorList)
 		{
@@ -734,7 +734,7 @@ public partial class MatrixManager : MonoBehaviour
 	private static void GetPushablesOneTile(ref List<PushPull> pushableList, Vector3Int pushableLocation, Vector2Int dir, GameObject pusher, bool isServer,
 		bool ignoreNonBlockable, bool isLeaving)
 	{
-		Vector3Int localPushableLocation = Instance.WorldToLocalInt(pushableLocation, AtPoint(pushableLocation, isServer).Matrix);
+		Vector3Int localPushableLocation = WorldToLocalInt(pushableLocation, AtPoint(pushableLocation, isServer).Matrix);
 		foreach (PushPull pushPull in GetAt<PushPull>(pushableLocation, isServer))
 		{
 			if (pushPull == null || pushPull.gameObject == pusher) continue;
@@ -867,6 +867,16 @@ public partial class MatrixManager : MonoBehaviour
 		return t;
 	}
 
+	public static List<T> GetReachableAt<T>(Vector3Int fromPos, Vector3Int toPos, bool isServer) where T : MonoBehaviour
+	{
+		if (Validations.IsReachableByPositions(fromPos, toPos, isServer))
+		{
+			return GetAt<T>(toPos, isServer);
+		}
+
+		return new List<T>();
+	}
+
 	/// <summary>
 	/// checks all tiles adjacent to the indicated world position for objects with the indicated component.
 	/// Probably pretty expensive.
@@ -887,6 +897,30 @@ public partial class MatrixManager : MonoBehaviour
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.left + Vector3Int.down, isServer));
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.down, isServer));
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.down + Vector3Int.right, isServer));
+
+		return result;
+	}
+
+	/// <summary>
+	/// checks all reachable tiles adjacent to the indicated world position for objects with the indicated component.
+	/// Probably pretty expensive.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <param name="isServer"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static List<T> GetReachableAdjacent<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	{
+		List<T> result = new List<T>();
+
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.right, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.right + Vector3Int.up, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.up, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.up + Vector3Int.left, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.left, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.left + Vector3Int.down, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.down, isServer));
+		result.AddRange(GetReachableAt<T>(worldPos, worldPos + Vector3Int.down + Vector3Int.right, isServer));
 
 		return result;
 	}
@@ -1099,26 +1133,30 @@ public partial class MatrixManager : MonoBehaviour
 		return returnList;
 	}
 
-	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3Int LocalToWorldInt(Vector3 localPos, Matrix matrix)
+	/// <summary>
+	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
+	/// <para>Rounds to <c>Vector3Int</c>.</para>
+	/// </summary>
+	public static Vector3Int LocalToWorldInt(Vector3 localPos, Matrix matrix)
 	{
 		return LocalToWorldInt(localPos, Get(matrix));
 	}
 
-	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix,
-		MatrixState state = default(MatrixState))
+	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
+	public static Vector3Int LocalToWorldInt(Vector3 localPos, MatrixInfo matrix, MatrixState state = default(MatrixState))
 	{
 		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
+	/// <summary>
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// </summary>
 	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
 	{
 		return LocalToWorld(localPos, Get(matrix));
 	}
 
-	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
 	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState state = default(MatrixState))
 	{
 		//Invalid matrix info provided
@@ -1148,8 +1186,8 @@ public partial class MatrixManager : MonoBehaviour
 			matrix.GetOffset(state); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
-
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+ 
+	/// <inheritdoc cref="WorldToLocal(Vector3, Matrix)"/>
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
 		// Invalid matrix info provided
@@ -1169,26 +1207,31 @@ public partial class MatrixManager : MonoBehaviour
 				(worldPos - matrix.MatrixMove.Pivot - matrix.GetOffset(state))) + matrix.MatrixMove.Pivot;
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// <summary>
+	/// <inheritdoc cref="WorldToLocal(Vector3, Matrix)"/>
+	/// <para>Rounds to <c>Vector3Int</c>.</para>
+	/// </summary>
 	public static Vector3Int WorldToLocalInt(Vector3 worldPos, int id)
 	{
 		return WorldToLocalInt(worldPos, Get(id));
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3Int WorldToLocalInt(Vector3 worldPos, Matrix matrix)
+	/// <inheritdoc cref="WorldToLocalInt(Vector3, int)"/>
+	public static Vector3Int WorldToLocalInt(Vector3 worldPos, Matrix matrix)
 	{
 		return WorldToLocalInt(worldPos, Get(matrix));
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	/// <inheritdoc cref="WorldToLocalInt(Vector3, int)"/>
 	public static Vector3Int WorldToLocalInt(Vector3 worldPos, MatrixInfo matrix)
 	{
 		return Vector3Int.RoundToInt(WorldToLocal(worldPos, matrix));
 	}
 
+	/// <summary>
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3 WorldToLocal(Vector3 worldPos, Matrix matrix)
+	/// </summary>
+	public static Vector3 WorldToLocal(Vector3 worldPos, Matrix matrix)
 	{
 		return WorldToLocal(worldPos, Get(matrix));
 	}

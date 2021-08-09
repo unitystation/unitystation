@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Venom
   description: An exotic poison extracted from highly toxic fauna. Causes scaling
-    amounts of toxin damage and bruising depending and dosage. Often decays into Histamine.
+    amounts of toxin damage and bruising depending and dosage. Often decays into
+    Histamine.
   color: {r: 0.9411765, g: 1, b: 0.9411765, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 485

@@ -1,12 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Mirror;
 using UnityEngine;
+using Mirror;
+using Systems.Pipes;
 using Objects;
 
-namespace Pipes
+
+namespace Items.Atmospherics
 {
 	public class PipeItem : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate>
 	{

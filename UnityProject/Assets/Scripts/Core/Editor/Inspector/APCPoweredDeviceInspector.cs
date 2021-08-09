@@ -3,7 +3,9 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Systems.Electricity;
+using Systems.ObjectConnection;
 using Objects.Engineering;
+
 
 namespace CustomInspectors
 {

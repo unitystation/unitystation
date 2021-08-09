@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.Pipes;
+using Objects.Atmospherics;
 
-namespace Pipes
+
+namespace Items.Atmospherics
 {
 	public class PipeRun : PipeItemTile
 	{
-
-
 		public int BentVariantLocation = 4;
 		public int StraightVariantLocation = 0;
 		public bool IsBent = false;
@@ -66,7 +66,7 @@ namespace Pipes
 			}
 		}
 
-		public override  Connections GetConnections()
+		public override Connections GetConnections()
 		{
 			if (IsBent)
 			{

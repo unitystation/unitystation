@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Core.Input_System.InteractionV2.Interactions;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.Interaction;
+using Systems.Pipes;
+using Items.Atmospherics;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class MonoPipe : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
@@ -17,6 +19,8 @@ namespace Pipes
 		public Color Colour = Color.white;
 
 		protected Directional directional;
+
+		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
 		#region Lifecycle
 
@@ -71,21 +75,60 @@ namespace Pipes
 
 		public virtual void ServerPerformInteraction(HandApply interaction)
 		{
-			if (SpawnOnDeconstruct != null)
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
-				{
-					ToolUtils.ServerPlayToolSound(interaction);
-					var Item = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: this.transform.localRotation);
-					Item.GameObject.GetComponent<PipeItem>().SetColour(Colour);
-					OnDisassembly(interaction);
-					pipeData.OnDisable();
-					_ = Despawn.ServerSingle(gameObject);
-					return;
-				}
+				TryUnwrench(interaction);
+				return;
 			}
 
 			HandApplyInteraction(interaction);
+		}
+
+		// TODO: Share with pipe tile deconstruction script
+		private void TryUnwrench(HandApply interaction)
+		{
+			if (registerTile.TileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors))
+			{
+				Chat.AddExamineMsg(
+						interaction.Performer,
+						$"The floor plating must be exposed before you can disconnect the {gameObject.ExpensiveName()}!");
+				return;
+			}
+
+			// Dangerous pipe pressure
+			if (pipeData.mixAndVolume.GetGasMix().Pressure > AtmosConstants.ONE_ATMOSPHERE * 20)
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
+						$"As you begin disconnecting the {gameObject.ExpensiveName()}, " +
+								"a jet of gas blasts into your face... maybe you should reconsider?",
+						string.Empty,
+						string.Empty, // $"The pressure sends you flying!"
+						string.Empty, // $"{interaction.Performer.ExpensiveName() is sent flying by pressure!"
+						() => {
+							Unwrench(interaction);
+							// TODO: Knock performer around.
+						});
+			}
+			else
+			{
+				ToolUtils.ServerPlayToolSound(interaction);
+				Unwrench(interaction);
+			}
+		}
+
+		private void Unwrench(HandApply interaction)
+		{
+			if (SpawnOnDeconstruct == null)
+			{
+				Logger.LogError($"{this} is missing reference to {nameof(SpawnOnDeconstruct)}!", Category.Interaction);
+				return;
+			}
+
+			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: transform.localRotation);
+			spawn.GameObject.GetComponent<PipeItem>().SetColour(Colour);
+			OnDisassembly(interaction);
+			pipeData.OnDisable();
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public virtual void HandApplyInteraction(HandApply interaction) { }

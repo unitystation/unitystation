@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Mirror;
-using Systems.Electricity;
 using Tilemaps.Behaviours.Layers;
-using UnityEngine.Rendering;
+using Systems.Electricity;
+using Systems.Pipes;
+
 
 public enum ObjectType
 {
@@ -170,8 +172,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public Vector3Int WorldPosition => isServer ? WorldPositionServer : WorldPositionClient;
 
-	public Vector3Int WorldPositionServer => MatrixManager.Instance.LocalToWorldInt(serverLocalPosition, Matrix);
-	public Vector3Int WorldPositionClient => MatrixManager.Instance.LocalToWorldInt(clientLocalPosition, Matrix);
+	public Vector3Int WorldPositionServer => MatrixManager.LocalToWorldInt(serverLocalPosition, Matrix);
+	public Vector3Int WorldPositionClient => MatrixManager.LocalToWorldInt(clientLocalPosition, Matrix);
 
 	/// <summary>
 	/// Registered local position of this object. Returns correct value depending on if this is on the
@@ -260,8 +262,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private ElectricalOIinheritance electricalData;
 	public ElectricalOIinheritance ElectricalData => electricalData;
 
-	private Pipes.PipeData pipeData;
-	public Pipes.PipeData PipeData => pipeData;
+	private PipeData pipeData;
+	public PipeData PipeData => pipeData;
 
 	public SortingGroup CurrentsortingGroup;
 
@@ -368,7 +370,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	}
 
 	//This makes it so electrical Stuff can be done on its own thread
-	public void SetPipeData(Pipes.PipeData InPipeData)
+	public void SetPipeData(PipeData InPipeData)
 	{
 		//Logger.Log("seting " + this.name);
 		pipeData = InPipeData;

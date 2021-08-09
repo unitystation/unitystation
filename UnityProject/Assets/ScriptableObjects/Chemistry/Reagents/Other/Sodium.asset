@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Sodium
   m_EditorClassIdentifier: 
   displayName: Sodium
-  description: A soft silver metal that can easily be cut with a knife. It's not salt
-    just yet, so refrain from putting in on your chips.
+  description: A soft silver metal that can easily be cut with a knife. It's not
+    salt just yet, so refrain from putting in on your chips.
   color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   state: 0
+  heatDensity: 5
+  indexInSingleton: 393

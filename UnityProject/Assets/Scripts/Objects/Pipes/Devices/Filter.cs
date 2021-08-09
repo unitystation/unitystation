@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Systems.Atmospherics;
-using Core.Input_System.InteractionV2.Interactions;
+using UnityEngine;
 using Messages.Server;
 using ScriptableObjects.Atmospherics;
-using UnityEngine;
+using Systems.Atmospherics;
+using Systems.Interaction;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class Filter : MonoPipe
 	{

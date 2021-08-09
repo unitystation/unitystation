@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Systems.Atmospherics;
 using Systems.Electricity;
-using Core.Input_System.InteractionV2.Interactions;
-using Pipes;
+using Systems.Interaction;
+
 
 namespace Objects.Atmospherics
 {

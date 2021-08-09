@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity.NodeModules;
+using Systems.ObjectConnection;
+
 
 namespace Objects.Engineering
 {
@@ -10,7 +11,8 @@ namespace Objects.Engineering
 	{
 		public ModuleSupplyingDevice moduleSupplyingDevice;
 		public GameObject ConstructMaterial;
-		[SerializeField] private int droppedMaterialAmount = 25;
+		[SerializeField]
+		private int droppedMaterialAmount = 25;
 		public ReactorBoiler Boiler;
 
 		#region Lifecycle
@@ -98,12 +100,10 @@ namespace Objects.Engineering
 		 */
 
 		#region Multitool Interaction
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
-		public MultitoolConnectionType ConType => conType;
 
-		private bool multiMaster = false;
-		public bool MultiMaster => multiMaster;
+		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
+		public bool MultiMaster => false;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
 
 		public void SetMaster(ISetMultitoolMaster Imaster)
 		{

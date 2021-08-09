@@ -7,18 +7,17 @@ using Systems;
 using Systems.Construction;
 using Systems.Electricity;
 using Systems.MobAIs;
+using Systems.ObjectConnection;
 using AddressableReferences;
-using Core.Input_System.InteractionV2.Interactions;
 using Messages.Server;
 using Mirror;
 using Objects.Security;
-using Objects.Wallmounts;
 using Objects.Wallmounts.Switches;
 using UI.Core.Net;
 using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
-using Random = UnityEngine.Random;
+
 
 namespace Objects.Other
 {
@@ -158,35 +157,12 @@ namespace Objects.Other
 		[SyncVar(hook = nameof(SyncRotation))]
 		private Vector2 rotationAngle;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.Turret;
-		public MultitoolConnectionType ConType => conType;
-
 		private TurretSwitch connectedSwitch;
-
-		public void SetMaster(ISetMultitoolMaster iMaster)
-		{
-			if (unlocked == false)
-			{
-				//TODO how do you tell player you need to unlock??
-				return;
-			}
-
-			if (iMaster is TurretSwitch turretSwitch)
-			{
-				//Already connected so disconnect
-				if (connectedSwitch != null)
-				{
-					connectedSwitch.RemoveTurretFromSwitch(this);
-				}
-
-				connectedSwitch = turretSwitch;
-				turretSwitch.AddTurretToSwitch(this);
-			}
-		}
 
 		private string bulletName;
 		private AddressableAudioSource bulletSound;
+
+		#region Lifecycle
 
 		private void Awake()
 		{
@@ -242,6 +218,8 @@ namespace Objects.Other
 				generalSwitch.RemoveTurretFromSwitch(this);
 			}
 		}
+
+		#endregion
 
 		private void SyncRotation(Vector2 oldValue, Vector2 newValue)
 		{
@@ -760,5 +738,32 @@ namespace Objects.Other
 			//Only allow changing settings on non Ai turrets, as the settings only work on those
 			return turretType != TurretType.Ai;
 		}
+
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.Turret;
+
+		public void SetMaster(ISetMultitoolMaster iMaster)
+		{
+			if (unlocked == false)
+			{
+				//TODO how do you tell player you need to unlock??
+				return;
+			}
+
+			if (iMaster is TurretSwitch turretSwitch)
+			{
+				//Already connected so disconnect
+				if (connectedSwitch != null)
+				{
+					connectedSwitch.RemoveTurretFromSwitch(this);
+				}
+
+				connectedSwitch = turretSwitch;
+				turretSwitch.AddTurretToSwitch(this);
+			}
+		}
+
+		#endregion
 	}
 }
