@@ -14,7 +14,7 @@ This page will help you to create/remove recipes/categories. Any detailed inform
 6. Press the "Add to the singleton if necessary" button.
 7. Edit your new recipe freely(tooltips will help you).
 8. Add the opportunity for a player to learn this recipe.
-  * You can add the recipe to the Player's default known recipes list in the PlayerCrafting component.
+  * You can add the recipe to the default known recipes list in the PlayerCrafting component of the Player_V4 prefab.
   * You can add the recipe to a recipe book.
 
 ### How to delete a crafting recipe
