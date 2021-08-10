@@ -186,19 +186,19 @@ namespace Objects.Research
 			//Leaving inventory and to no slot, therefore going to floor
 			if (info.ToRootPlayer == null && info.ToSlot == null)
 			{
-				linkedPlayer.ServerSetCameraLocation(linkedPlayer.gameObject, true);
+				linkedPlayer.ServerSetCameraLocation(gameObject, true, false);
 				return;
 			}
 
 			//Going to a new player
 			if (info.ToRootPlayer != null)
 			{
-				linkedPlayer.ServerSetCameraLocation(info.ToRootPlayer.gameObject, true);
+				linkedPlayer.ServerSetCameraLocation(info.ToRootPlayer.gameObject, true, false);
 				return;
 			}
 
 			//Else must be container so follow container
-			linkedPlayer.ServerSetCameraLocation(info.ToSlot.GetRootStorageOrPlayer().gameObject, true);
+			linkedPlayer.ServerSetCameraLocation(info.ToSlot.GetRootStorageOrPlayer().gameObject, true, false);
 		}
 
 		public void ChangeRemoteActionState(bool newState)
