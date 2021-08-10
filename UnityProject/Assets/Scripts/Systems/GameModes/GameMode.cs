@@ -387,7 +387,7 @@ namespace GameModes
 
 			var msg =
 				$"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
-			
+
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
 					msg,
 			"[GameMode]");

@@ -444,7 +444,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			CrewManifestManager.Instance.ServerClearList();
 		}
 
-		LogPlayerStats();
+		LogPlayersAntagPref();
 
 		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 		{
@@ -476,9 +476,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	}
 
 	/// <summary>
-	/// Used to log how many of each preference the players in the ready queue have
+	/// Used to log how many of each antag preference the players in the ready queue have
 	/// </summary>
-	private void LogPlayerStats()
+	private void LogPlayersAntagPref()
 	{
 		var antagDict = new Dictionary<string, int>();
 
@@ -488,15 +488,16 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 			foreach (var antagPreference in readyPlayer.CharacterSettings.AntagPreferences)
 			{
-				var key = (antagPreference.Value ? antagPreference.Key : $"Disabled {antagPreference.Key}");
+				//Only record enabled antags
+				if(antagPreference.Value == false) continue;
 
-				if (antagDict.TryGetValue(key, out var antagNum))
+				if (antagDict.TryGetValue(antagPreference.Key, out var antagNum))
 				{
 					antagNum++;
 				}
 				else
 				{
-					antagDict.Add(key, 1);
+					antagDict.Add(antagPreference.Key, 1);
 				}
 			}
 		}
@@ -505,9 +506,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		antagString.AppendLine($"There are {PlayerList.Instance.ReadyPlayers.Count} ready players");
 
+		var count = PlayerList.Instance.ReadyPlayers.Count;
+
 		foreach (var antag in antagDict)
 		{
-			antagString.AppendLine($"{antag.Key} has {antag.Value} players");
+			antagString.AppendLine($"{antag.Value} players have {antag.Key} enabled, {count - antag.Value} have it disabled");
 		}
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
