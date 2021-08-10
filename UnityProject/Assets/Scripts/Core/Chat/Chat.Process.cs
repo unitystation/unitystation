@@ -113,6 +113,15 @@ public partial class Chat
 		{
 			message = message.Replace("/me", ""); // note that there is no space here as compared to the above if
 			message = message.Substring(1); // so that this substring can properly cut off both * and the space
+
+			if(CheckForEmoteAction(message, Instance.emoteActionManager))
+			{
+				DoEmoteAction(message, sentByPlayer.GameObject, Instance.emoteActionManager);
+
+				//Message is done in DoEmoteAction()
+				message = "";
+			}
+
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
@@ -226,15 +235,6 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
-
-			if(originatorUint != 0 && CheckForEmoteAction(message, Instance.emoteActionManager))
-			{
-				if (NetworkIdentity.spawned.TryGetValue(originatorUint, out var player))
-				{
-					DoEmoteAction(message, player.gameObject, Instance.emoteActionManager);
-					return "";
-				}
-			}
 
 			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
 			return message;
