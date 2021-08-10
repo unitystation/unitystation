@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
 /// </summary>
-public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>
+public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>, IExaminable
 {
 	[Tooltip("Amount initially in the stack when this is spawned.")]
 	[SerializeField]
@@ -340,5 +340,14 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		ServerCombine(interaction.TargetObject.GetComponent<Stackable>());
+	}
+
+	public string Examine(Vector3 worldPos)
+	{
+		string displayName = gameObject.ExpensiveName();
+
+		string str = "This is a " + displayName + " (" + Amount + ").";
+
+		return str;
 	}
 }
