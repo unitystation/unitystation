@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3c771842cfb2e774d8d51abebbabb3a1,
         type: 2}
+    - target: {fileID: 6362432063860983830, guid: 5de6e973b59ae00458190123080ff88e,
+        type: 3}
+      propertyPath: IsLoudHeadset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6362432063860983830, guid: 5de6e973b59ae00458190123080ff88e,
+        type: 3}
+      propertyPath: LoudHeadsetEnabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6369561878578003825, guid: 5de6e973b59ae00458190123080ff88e,
         type: 3}
       propertyPath: m_Sprite
@@ -98,14 +108,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a502e1254ce42934798685fc537fec98,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7227052819656697226, guid: 5de6e973b59ae00458190123080ff88e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: a502e1254ce42934798685fc537fec98,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7227052819656697226, guid: 5de6e973b59ae00458190123080ff88e,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

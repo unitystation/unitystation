@@ -310,6 +310,10 @@ public partial class Chat
 		{
 			verb = "asks,";
 		}
+		else if ((modifiers & ChatModifier.Bold) == ChatModifier.Bold)
+		{
+			message = $"<b><size=135%>{message}</size></b>";
+		}
 
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 

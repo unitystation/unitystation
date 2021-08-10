@@ -4,13 +4,37 @@ using Mirror;
 /// <summary>
 ///     Headset properties
 /// </summary>
-public class Headset : NetworkBehaviour
+public class Headset : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SyncVar] public EncryptionKeyType EncryptionKey;
+	public bool IsLoudHeadset = false;
+	[SyncVar] public bool LoudHeadsetEnabled = false;
 
 	public void init()
 	{
 		getEncryptionTypeFromHier();
+	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if(interaction.IsAltClick) return true;
+		if(interaction.IsAltClick && interaction.HandObject == gameObject) return true;
+		return false;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if(IsLoudHeadset)
+		{
+			LoudHeadsetEnabled = !LoudHeadsetEnabled;
+			if(LoudHeadsetEnabled)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, "You've enabled the headset's amplifer. You'll be heard louder on comms from now on.", "");
+				_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+				return;
+			}
+			Chat.AddActionMsgToChat(interaction.Performer, "You've disabled the headset's amplifer. You'll be heard louder on comms from now on.", "");
+		}
 	}
 
 	private void getEncryptionTypeFromHier()

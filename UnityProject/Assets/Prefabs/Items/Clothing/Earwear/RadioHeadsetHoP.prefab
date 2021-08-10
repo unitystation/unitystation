@@ -28,6 +28,16 @@ PrefabInstance:
       propertyPath: EncryptionKey
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6719972196587897998, guid: 0b535cf7390c5134ab33bf0ba595c24e,
+        type: 3}
+      propertyPath: IsLoudHeadset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719972196587897998, guid: 0b535cf7390c5134ab33bf0ba595c24e,
+        type: 3}
+      propertyPath: LoudHeadsetEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6732036590712927209, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: m_Sprite
@@ -103,14 +113,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 05e4a179f3a18a343bd26c7e78d820ca,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7008273254636693778, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 05e4a179f3a18a343bd26c7e78d820ca,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7008273254636693778, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
