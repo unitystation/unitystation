@@ -14,8 +14,8 @@ This page will help you to create/remove recipes/categories. Any detailed inform
 6. Press the "Add to the singleton if necessary" button.
 7. Edit your new recipe freely(tooltips will help you).
 8. Add the opportunity for a player to learn this recipe.
-  * You can add the recipe to the default known recipes list in the PlayerCrafting component of the Player_V4 prefab.
-  * You can add the recipe to a recipe book.
+   * You can add the recipe to the default known recipes list in the PlayerCrafting component of the Player_V4 prefab.
+   * You can add the recipe to a recipe book.
 
 ### How to delete a crafting recipe
 
@@ -24,12 +24,12 @@ This page will help you to create/remove recipes/categories. Any detailed inform
 3. Find a necessarry crafting recipe.
 4. Open the recipe.
 5. Make sure to remove this recipe from any ways to learn this recipe.
-  * You can skip this step - unit tests will help you to find missing asset references.
-  * You can check Player's PlayerCrafting component.
-  * You can check recipe books.
+   * You can skip this step - unit tests will help you to find missing asset references.
+   * You can check Player's PlayerCrafting component.
+   * You can check recipe books.
 6. Press the "Prepare for deletion" button.
 7. Now you can safely delete this recipe.
-  * For example, RMB on the crafting recipe -> Delete
+   * For example, RMB on the crafting recipe -> Delete
 
 ### How to create a new crafting category
 
@@ -50,7 +50,7 @@ This page will help you to create/remove recipes/categories. Any detailed inform
 
 1. Open the Unity Editor.
 2. Make sure that there are no recipes that use this recipe category.
-  * Usually these recipes are located in the /Assets/ScriptableObjects/Crafting/Recipes/*yourcategory*
+   * Usually these recipes are located in the /Assets/ScriptableObjects/Crafting/Recipes/*yourcategory*
 3. Follow the path: /Assets/Prefabs/UI/Tabs/Recources/Crafting/CraftingMenu.prefab
 4. Remove the category from CategoryButtonsPrefabs list (in the CraftingMenu script).
 5. Follow the path: /Assets/Prefabs/UI/Tabs/Recources/Crafting/CategoryButtons/
