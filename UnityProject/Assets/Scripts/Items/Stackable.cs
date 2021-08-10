@@ -346,7 +346,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		string displayName = gameObject.ExpensiveName();
 
-		string str = "This is a " + displayName + " (" + Amount + ").";
+		string str = "This " + displayName + " contains (" + Amount + ") stacks.";
 
 		return str;
 	}
