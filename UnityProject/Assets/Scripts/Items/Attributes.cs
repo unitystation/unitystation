@@ -159,7 +159,16 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 			displayName = articleName;
 		}
 
-		string str = "This is a " + displayName + ".";
+		string str;
+		Stackable stacks = GetComponent<Stackable>();
+		if(stacks != null)
+		{
+			str = "This is a " + displayName + " (" + stacks.Amount + ").";
+		}
+		else
+		{
+			str = "This is a " + displayName + ".";
+		}
 
 		if (!string.IsNullOrEmpty(ArticleDescription))
 		{
