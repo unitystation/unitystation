@@ -62,6 +62,15 @@ This page will help you to create/remove recipes/categories. Any detailed inform
 11. Follow the path: /Assets/Scripts/Systems/CraftingV2/RecipeCategory.cs
 12. Remove the necessary recipe category enum value.
 
+### How to create a new recipe book.
+
+1. Open the Unity Editor.
+2. Follow the path: /Assets/Prefabs/Items/Bureaucracy/RecipeBook/
+3. RMB on the _Base_RecipeBook -> Create -> Prefab variant.
+4. Add recipes to the ContainsRecipes list of the RecipeBook component.
+5. Optionally, add remarks, edit book's settings.
+6. Optionally, add the book on a map.
+
 ## FAQ
 
 ### The singleton has nulls or some recipes in the singleton have a wrong index. What should I do?
