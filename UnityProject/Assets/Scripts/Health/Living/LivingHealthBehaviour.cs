@@ -391,11 +391,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return;
 		}
 
-		if (!GameManager.Instance.GibbingAllowed)
-		{
-			return;
-		}
-
 		if (afterDeathDamage >= GIB_THRESHOLD)
 		{
 			Harvest();

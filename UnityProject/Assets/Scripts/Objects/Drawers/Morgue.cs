@@ -106,6 +106,10 @@ namespace Objects.Drawers
 		private bool Conscious(ObjectBehaviour playerMob)
 		{
 			var playerMind = playerMob.GetComponent<PlayerScript>().mind;
+			
+			//Player mind can be null if player was respawned as the old body mind is nulled
+			if (playerMind == null) return false;
+			
 			var playerMobID = playerMob.GetComponent<LivingHealthMasterBase>().mobID;
 
 			// If the mob IDs do not match, player is controlling a new mob, so we don't care about this old mob.

@@ -46,26 +46,11 @@ MonoBehaviour:
           m_values: []
         reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 2.5
         Temperature: 0
-    ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
@@ -162,6 +147,11 @@ PrefabInstance:
     - target: {fileID: 2647416796583051997, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: isSelfPowered
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647416796583051997, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: StateUpdateOnClient
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3144899109316854307, guid: 3937c48f98f9cd043babc5471ee77682,
