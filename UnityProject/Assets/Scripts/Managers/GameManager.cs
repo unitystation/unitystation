@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Systems;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -371,7 +372,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
 		}
-		
+
 		if(CustomNetworkManager.Instance._isServer == false) return;
 
 		timeElapsedQueueCheckServer += Time.deltaTime;
@@ -443,6 +444,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			CrewManifestManager.Instance.ServerClearList();
 		}
 
+		LogPlayerStats();
 
 		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 		{
@@ -456,6 +458,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			NextGameMode = InitialGameMode;
 		}
 
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
+			$"{GameMode.Name} chosen", "[GameMode]");
+
 		// Game mode specific setup
 		GameMode.SetupRound();
 
@@ -468,6 +473,45 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Tell all clients that the countdown has finished
 		UpdateCountdownMessage.Send(true, 0);
+	}
+
+	/// <summary>
+	/// Used to log how many of each preference the players in the ready queue have
+	/// </summary>
+	private void LogPlayerStats()
+	{
+		var antagDict = new Dictionary<string, int>();
+
+		foreach (var readyPlayer in PlayerList.Instance.ReadyPlayers)
+		{
+			if(readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
+
+			foreach (var antagPreference in readyPlayer.CharacterSettings.AntagPreferences)
+			{
+				var key = (antagPreference.Value ? antagPreference.Key : $"Disabled {antagPreference.Key}");
+
+				if (antagDict.TryGetValue(key, out var antagNum))
+				{
+					antagNum++;
+				}
+				else
+				{
+					antagDict.Add(key, 1);
+				}
+			}
+		}
+
+		var antagString = new StringBuilder();
+
+		antagString.AppendLine($"There are {PlayerList.Instance.ReadyPlayers.Count} ready players");
+
+		foreach (var antag in antagDict)
+		{
+			antagString.AppendLine($"{antag.Key} has {antag.Value} players");
+		}
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
+			antagString.ToString(), "[AntagPreferences]");
 	}
 
 	/// <summary>
