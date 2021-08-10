@@ -344,10 +344,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public string Examine(Vector3 worldPos)
 	{
-		string displayName = gameObject.ExpensiveName();
-
 		return $"This {gameObject.ExpensiveName()} contains {Amount} stacks.";
-
-		return str;
 	}
 }
