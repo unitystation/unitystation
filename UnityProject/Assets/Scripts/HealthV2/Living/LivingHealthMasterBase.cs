@@ -524,8 +524,7 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage</param>
 		/// <param name="damageSplit">Should the damage be divided by number of body parts or applied to each body part separately</param>
 		[Server]
-		public void ApplyDamageAll(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType, bool damageSplit = true)
+		public void ApplyDamageAll(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType, bool damageSplit = true)
 		{
 			if (damageSplit)
 			{
@@ -555,8 +554,7 @@ namespace HealthV2
 		/// <param name="attackType">type of attack that is causing the damage</param>
 		/// <param name="damageType">The Type of Damage</param>
 		[Server]
-		public void ApplyDamageToRandom(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType)
+		public void ApplyDamageToRandom(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType)
 		{
 			var body = BodyPartList.PickRandom();
 
@@ -571,90 +569,6 @@ namespace HealthV2
 		}
 
 		/// <summary>
-		/// Apply damage to a random bodypart of the creature. Server only
-		/// </summary>
-		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
-		/// <param name="damage">Damage Amount</param>
-		/// <param name="attackType">type of attack that is causing the damage</param>
-		/// <param name="damageType">The Type of Damage</param>
-		[Server]
-		public void ApplyDamageToBodyPart(GameObject damagedBy, float damage,
-			AttackType attackType, DamageType damageType)
-		{
-			//what Outer body part hit
-			//How much damage is absorbed by body part
-			//Body part weaknesses
-			//to damage to internal components if not absorbed
-			//Do this recursively
-
-			//Guns Burns no Break bones
-			//blunt maybe break bones?
-			//
-			//toolbox fight, Slight organ damage, Severe brutal damage
-			//If over 90% increased chance of breaking bones
-			//if limb is more damaged high likelihood of breaking bones?, in critical yes and noncritical?
-			//
-			//Shotgun, Severe brutal damage, Some organ damage,
-			//damages skin until, got through then does organ damage
-			//
-			//gun, Severe brutal damage, Some organ damage, Embedding can be prevented from Armour  reduce organ damage if armoured
-			// pellet
-			// 0.5
-			// rifle round
-			// 1
-			// Sniper around
-			// 3
-
-			//Cutting, Severe brutal damage
-			//can cut off limbs, up to a damage
-			//
-
-			//Laser, Severe Burns
-			//just burning
-
-			//crush, Broken Bones, Moderate organ damage
-			//no surface damage/small
-
-			// Healing applies to both so 100 to both
-			// if it's 100 healing
-
-			// Damage, is split across the two
-
-			// Injection chooses one
-
-			//TODOH
-			//remove old references to Sprite directions
-			//Make sure is added to the manager properly
-			//brains always recoverable, even if they get nuked, imo have tight regulations on what can destroy a brain
-			//Surgery should be, Versus medicine medicine slow but dependable, surgery fast but requires someone doing surgery , Two only related for internal organs
-			//Remove clothing item from sprites completely useless and unneeded
-			ApplyDamageToBodyPart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
-		}
-
-		/// <summary>
-		/// Apply Damage to a specified body part of the creature. Server only
-		/// </summary>
-		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
-		/// <param name="damageData">Damage data</param>
-		/// <param name="bodyPartAim">Body Part that is affected</param>
-		/// <param name="armorPenetration">How well or poorly it will break through different types of armor</param>
-		public void ApplyDamageToBodyPart(
-			GameObject damagedBy,
-			DamageData damageData,
-			BodyPartType bodyPartAim
-		)
-		{
-			ApplyDamageToBodyPart(
-				damagedBy,
-				damageData.Damage,
-				damageData.AttackType,
-				damageData.DamageType,
-				bodyPartAim,
-				damageData.ArmorPenetration
-			);
-		}
-
-		/// <summary>
 		///  Apply Damage to a specified body part of the creature. Server only
 		/// </summary>
 		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -663,24 +577,31 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage</param>
 		/// <param name="bodyPartAim">Body Part that is affected</param>
 		[Server]
-		public void ApplyDamageToBodyPart(
-			GameObject damagedBy,
-			float damage,
-			AttackType attackType,
-			DamageType damageType,
-			BodyPartType bodyPartAim,
-			float armorPenetration = 0
+		public void ApplyDamageToBodyPart(GameObject damagedBy, float damage, AttackType attackType,
+			DamageType damageType, BodyPartType bodyPartAim = BodyPartType.None, float armorPenetration = 0
 		)
 		{
+			if (bodyPartAim == BodyPartType.None)
+			{
+				BodyPartType.Chest.Randomize(0);
+			}
+
 			LastDamagedBy = damagedBy;
+
+			var count = 0;
+			foreach (var bodyPart in BodyPartList)
+			{
+				if (bodyPart.BodyPartType == bodyPartAim)
+				{
+					count++;
+				}
+			}
 
 			foreach (var bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
 				{
-					//Assuming is only going to be one otherwise damage will be duplicated across them
-					bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, armorPenetration: armorPenetration);
-					break;
+					bodyPart.TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration);
 				}
 			}
 			CheckDismemberBody();
