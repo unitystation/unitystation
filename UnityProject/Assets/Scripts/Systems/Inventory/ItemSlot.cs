@@ -52,7 +52,7 @@ public class ItemSlot
 	/// <summary>
 	/// Net ID of the ItemStorage this slot exists in
 	/// </summary>
-	public uint ItemStorageNetID => itemStorage.GetComponentInParent<NetworkIdentity>().netId;
+	public uint ItemStorageNetID => itemStorage.GetComponent<NetworkIdentity>().netId;
 
 	/// <summary>
 	/// ItemAttributes of item in this slot, null if no item or item doesn't have any attributes.
@@ -394,7 +394,7 @@ public class ItemSlot
 		if (examineRecipient)
 		{
 			//if this is going in a player's inventory, use a more appropriate message.
-			var targetPlayerScript = ItemStorage.GetComponent<PlayerScript>();
+			var targetPlayerScript = ItemStorage.GetRootStorageOrPlayer().GetComponent<PlayerScript>();
 			if (targetPlayerScript != null)
 			{
 				//going into a top-level inventory slot of a player
@@ -447,9 +447,9 @@ public class ItemSlot
 			}
 		}
 
-		if (storageToFree.GetComponentInParent<NetworkIdentity>())
+		if (storageToFree.GetComponent<NetworkIdentity>())
 		{
-			var instanceID = storageToFree.GetComponentInParent<NetworkIdentity>().GetInstanceID();
+			var instanceID = storageToFree.GetComponent<NetworkIdentity>().GetInstanceID();
 			slots.TryGetValue(instanceID, out var dict);
 			if (dict != null)
 			{

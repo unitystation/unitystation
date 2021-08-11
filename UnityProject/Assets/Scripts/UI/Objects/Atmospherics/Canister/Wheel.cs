@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
 namespace UI.Core
 {
 	/// <summary>
@@ -10,7 +11,7 @@ namespace UI.Core
 	public class Wheel : Selectable
 	{
 		[Tooltip("Invoked when wheel is adjusted, on release of the wheel")]
-		public IntEvent OnAdjustmentComplete = new IntEvent();
+		public FloatEvent OnAdjustmentComplete = new FloatEvent();
 
 		[Tooltip("How many kPa each degree of rotation is equivalent to.")]
 		public float KPAPerDegree = 3f;
@@ -19,7 +20,7 @@ namespace UI.Core
 		/// <summary>
 		/// Currently selected amount
 		/// </summary>
-		public int KPA => Mathf.RoundToInt(degrees * KPAPerDegree);
+		public float KPA => degrees * KPAPerDegree;
 
 		[Tooltip("Pressure dial this wheel is bound with.")]
 		public NumberSpinner ReleasePressureDial;
@@ -39,7 +40,7 @@ namespace UI.Core
 			shadow = GetComponent<Shadow>();
 		}
 
-		public void RotateToValue(int kPA)
+		public void RotateToValue(float kPA)
 		{
 			SetRotation(kPA / KPAPerDegree);
 		}
@@ -58,7 +59,7 @@ namespace UI.Core
 			shadow.effectDistance = Quaternion.Euler(0, 0, -newRotation + 215) * Vector2.up * 10f;
 
 			degrees = newRotation;
-			ReleasePressureDial.DisplaySpinTo(KPA);
+			ReleasePressureDial.DisplaySpinTo(Mathf.RoundToInt(KPA));
 		}
 
 		public override void OnPointerDown(PointerEventData eventData)

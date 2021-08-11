@@ -7,9 +7,9 @@ using Chemistry.Components;
 
 namespace HealthV2
 {
-	public class Stomach : BodyPartModification
+	public class Stomach : Organ
 	{
-		[NonSerialized] public ReagentContainer StomachContents;
+		public ReagentContainer StomachContents;
 
 		public float DigesterAmountPerSecond = 1;
 
@@ -20,8 +20,6 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-
-			StomachContents = GetComponentInChildren<ReagentContainer>();
 
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)

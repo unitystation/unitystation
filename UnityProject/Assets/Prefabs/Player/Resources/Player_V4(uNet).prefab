@@ -450,6 +450,7 @@ GameObject:
   - component: {fileID: 2105882665300898234}
   - component: {fileID: 1952996692186363365}
   - component: {fileID: 91908198791635565}
+  - component: {fileID: 6152863642612258063}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1306,6 +1307,22 @@ MonoBehaviour:
   UIBodyPartsToSerialise: 
   ClientUIBodyPartsToSerialise: 
   StandardPopulator: {fileID: 11400000, guid: e9fa91afc36164817bc3c3c26eb54266, type: 2}
+--- !u!114 &6152863642612258063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec8196c49f245629895b62b442ab8e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultKnownRecipes:
+  - {fileID: 11400000, guid: 538ae3c4efa0bbc4c8f5a150698a1896, type: 2}
+  - {fileID: 11400000, guid: dfba4c74ed8a4f0438f6c78195a6a609, type: 2}
+  - {fileID: 11400000, guid: 8ed6ec8ceda6e4241b239a45ba342b99, type: 2}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

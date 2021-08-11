@@ -51,6 +51,7 @@ MonoBehaviour:
         Pressure: 0
         Volume: 2.5
         Temperature: 0
+    Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   isTurnedOn: 1
@@ -148,6 +149,11 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2647416796583051997, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: StateUpdateOnClient
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3144899109316854307, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -186,7 +192,7 @@ PrefabInstance:
     - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_AssetId
-      value: 410303ae7958d7e4f992e056a0cbca76
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}

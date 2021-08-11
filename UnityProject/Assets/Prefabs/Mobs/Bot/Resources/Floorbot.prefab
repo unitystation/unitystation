@@ -147,10 +147,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 2171b7b3a60b67c4c992116a448f523e
+  m_AssetId: 
   hasSpawned: 0
 --- !u!114 &7936299240358439476
 MonoBehaviour:
@@ -272,7 +273,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 984450164018126074}
-  EMAGGED_SPRITE: {fileID: 21300000, guid: 1bb9bd1eab4a0454394041a1c21c90be, type: 3}
 --- !u!1 &4825667868636187068
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +316,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -370,7 +369,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
+  - {fileID: 11400000, guid: 8d9aaab2d62887741b582f1afa6f5897, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1

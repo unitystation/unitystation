@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
-using Pipes;
 using ScriptableObjects.Atmospherics;
+using Systems.Pipes;
+
 
 namespace Systems.Atmospherics
 {
@@ -126,6 +127,9 @@ namespace Systems.Atmospherics
 			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
 		}
 
+		/// <summary>
+		/// Returns a clone of the specified gas mix.
+		/// </summary>
 		public static GasMix NewGasMix(GasMix other)
 		{
 			return FromPressure(other.GasData.Copy(), other.Pressure, other.Volume);
@@ -157,7 +161,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Transfers moles from one gas to another
 		/// </summary>
-		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer)
+		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer, bool DoNotTouchOriginalMix = false)
 		{
 			var sourceStartMoles = source.Moles;
 			molesToTransfer = molesToTransfer.Clamp(0, sourceStartMoles);
@@ -178,8 +182,12 @@ namespace Systems.Atmospherics
 				//Add to target
 				target.GasData.ChangeMoles(gas.GasSO, transfer);
 
-				//Remove from source
-				source.GasData.ChangeMoles(gas.GasSO, -transfer);
+				if (DoNotTouchOriginalMix == false)
+				{
+					//Remove from source
+					source.GasData.ChangeMoles(gas.GasSO, -transfer);
+				}
+
 			}
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
@@ -413,6 +421,16 @@ namespace Systems.Atmospherics
 		public override string ToString()
 		{
 			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume}m^3 ";
+		}
+
+		public void Clear()
+		{
+			Temperature = AtmosDefines.SPACE_TEMPERATURE;
+
+			GasData.GasesArray = new GasValues[0];
+			GasData.GasesDict.Clear();
+			Pressure = 0;
+			Volume = 0;
 		}
 	}
 }

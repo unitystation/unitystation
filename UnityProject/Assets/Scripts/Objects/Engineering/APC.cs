@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AddressableReferences;
-using Electricity.Inheritance;
-using Systems.Electricity;
-using Mirror;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Systems.Electricity.NodeModules;
-using Objects.Lighting;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
+using Mirror;
+using AddressableReferences;
+using Systems.Electricity;
+using Systems.Electricity.NodeModules;
+using Systems.ObjectConnection;
+using Objects.Lighting;
+
 
 namespace Objects.Engineering
 {
@@ -437,13 +438,13 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.APC;
-		public MultitoolConnectionType ConType  => conType;
+		public MultitoolConnectionType ConType => MultitoolConnectionType.APC;
 
 		[SerializeField]
 		private bool multiMaster = true;
-		public bool MultiMaster  => multiMaster;
+		public bool MultiMaster => multiMaster;
+
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object slaveObject)
 		{

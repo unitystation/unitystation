@@ -90,6 +90,19 @@ public partial class Chat : MonoBehaviour
 
 		var player = sentByPlayer.Script;
 
+		//Check to see whether this player is allowed to send on the chosen channels
+		if (player != null)
+		{
+			channels &= player.GetAvailableChannelsMask(true);
+		}
+		else
+		{
+			//If player is null, must be in lobby therefore lock to OOC
+			channels = ChatChannel.OOC;
+		}
+
+		if (channels == ChatChannel.None) return;
+
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
@@ -97,6 +110,8 @@ public partial class Chat : MonoBehaviour
 		if (!isOOC)
 		{
 			processedMessage = ProcessMessage(sentByPlayer, message);
+
+			if (string.IsNullOrWhiteSpace(processedMessage.message)) return;
 		}
 
 		var chatEvent = new ChatEvent

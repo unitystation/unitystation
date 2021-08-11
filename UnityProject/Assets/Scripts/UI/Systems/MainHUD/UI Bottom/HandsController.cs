@@ -9,8 +9,6 @@ public class HandsController : MonoBehaviour
 {
 	public static HandsController Instance;
 
-	public GameObject handBox;
-
 	public DoubleHandController DoubleHandController;
 
 	public HashSet<DoubleHandController> DoubleHandControllers = new HashSet<DoubleHandController>();
@@ -27,9 +25,12 @@ public class HandsController : MonoBehaviour
 	public NamedSlot ActiveHand;
 
 
-	public void Start()
+	public void Awake()
 	{
-		Instance = this;
+		if (Instance == null)
+		{
+			Instance = this;
+		}
 	}
 
 
@@ -41,8 +42,7 @@ public class HandsController : MonoBehaviour
 		}
 	}
 
-	public void AddHand(IDynamicItemSlotS bodyPartUISlots,
-		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
+	public void AddHand(IDynamicItemSlotS bodyPartUISlots, BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
 		DoubleHandController HandController;
 		switch (StorageCharacteristics.namedSlot)
@@ -55,7 +55,7 @@ public class HandsController : MonoBehaviour
 				}
 				else
 				{
-					HandController = Instantiate(DoubleHandController, handBox.transform);
+					HandController = Instantiate(DoubleHandController, transform);
 					HandController.HideAll();
 					HandController.RelatedHandsController = this;
 					AvailableRightHand.Add(HandController);
@@ -71,7 +71,7 @@ public class HandsController : MonoBehaviour
 				}
 				else
 				{
-					HandController = Instantiate(DoubleHandController, handBox.transform);
+					HandController = Instantiate(DoubleHandController, transform);
 					HandController.HideAll();
 					HandController.RelatedHandsController = this;
 					AvailableLeftHand.Add(HandController);

@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using UI.Core;
+using Objects.Atmospherics;
+
 
 namespace UI.Objects.Atmospherics
 {
 	public class GUI_Filter : NetTab
 	{
-		public Pipes.Filter Filter;
+		public Filter Filter;
 
 		public NetWheel NetWheel;
 
@@ -19,7 +19,7 @@ namespace UI.Objects.Atmospherics
 
 		public void SetFilterAmount(string gasName)
 		{
-			foreach (var INFilter in Pipes.Filter.CapableFiltering)
+			foreach (var INFilter in Filter.CapableFiltering)
 			{
 				if (INFilter.Key == gasName) //Checks what button has been pressed  And sets the correct position appropriate
 				{
@@ -31,14 +31,14 @@ namespace UI.Objects.Atmospherics
 				}
 			}
 
-			Filter.GasIndex = Pipes.Filter.CapableFiltering[gasName];
+			Filter.GasIndex = Filter.CapableFiltering[gasName];
 		}
 
-		void Start()
+		private void Start()
 		{
 			if (Provider != null)
 			{
-				Filter = Provider.GetComponentInChildren<Pipes.Filter>();
+				Filter = Provider.GetComponentInChildren<Filter>();
 			}
 			numberSpinner.ServerSpinTo(Filter.MaxPressure);
 			numberSpinner.DisplaySpinTo(Filter.MaxPressure);
@@ -50,7 +50,7 @@ namespace UI.Objects.Atmospherics
 
 		public void SetFilteredGasValue(GasSO GasIndex)
 		{
-			foreach (var INFilter in Pipes.Filter.CapableFiltering)
+			foreach (var INFilter in Filter.CapableFiltering)
 			{
 				if (INFilter.Value == GasIndex) //Checks what button has been pressed  And sets the correct position appropriate
 				{
@@ -75,7 +75,6 @@ namespace UI.Objects.Atmospherics
 		{
 			Filter.TogglePower();
 		}
-
 
 		public void SetMaxPressure(int value)
 		{

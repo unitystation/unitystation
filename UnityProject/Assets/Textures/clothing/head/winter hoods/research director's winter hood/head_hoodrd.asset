@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: head_hoodrd
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 5341118938328457160, guid: be7a7c3077a97154daba685bcd6656a3,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -6303174713580394948, guid: be7a7c3077a97154daba685bcd6656a3,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4906955017402358733, guid: be7a7c3077a97154daba685bcd6656a3,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3537947916622167481, guid: be7a7c3077a97154daba685bcd6656a3,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 23359
+  DisplayName: 

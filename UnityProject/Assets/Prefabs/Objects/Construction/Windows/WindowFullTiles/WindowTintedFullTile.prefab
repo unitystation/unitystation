@@ -16,7 +16,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  CurrentsortingGroup: {fileID: 0}
+  CurrentsortingGroup: {fileID: 682450690834360611}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
@@ -93,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 2355948704887986032, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
       propertyPath: m_AssetId
-      value: 97d300458cd6a164ca2538236e935896
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3351555778047651215, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
@@ -179,17 +179,7 @@ PrefabInstance:
     - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 142874271
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6201439093909308933, guid: f2a16f12167ad5442a606bc9c87fd9fe,
         type: 3}
@@ -208,6 +198,12 @@ PrefabInstance:
 --- !u!1 &2861107897139715475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6156371311879217682, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+    type: 3}
+  m_PrefabInstance: {fileID: 8276315866856210305}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &682450690834360611 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 8909224143455671970, guid: f2a16f12167ad5442a606bc9c87fd9fe,
     type: 3}
   m_PrefabInstance: {fileID: 8276315866856210305}
   m_PrefabAsset: {fileID: 0}

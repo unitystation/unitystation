@@ -1,19 +1,19 @@
 using System;
 using UnityEngine;
 using Mirror;
-using Pipes;
 using Systems.Atmospherics;
+using Systems.Shuttles;
+
 
 namespace Objects.Atmospherics
 {
 	/// <summary>
-	/// Main component for canister
+	/// Main component for canister.
 	/// </summary>
 	[RequireComponent(typeof(Integrity))]
 	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
-		private const float ONE_ATMOSPHERE = 101.325f; // kPa.
-		public static readonly int MAX_RELEASE_PRESSURE = 4000;
+		public const float MAX_RELEASE_PRESSURE = AtmosConstants.ONE_ATMOSPHERE * 50;
 		private const int BURST_SPRITE = 1;
 
 		[Header("Canister GUI Settings")]
@@ -394,23 +394,23 @@ namespace Objects.Atmospherics
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Green);
 			}
-			else if (pressure >= 40 * ONE_ATMOSPHERE)
+			else if (pressure >= 40 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.YellowGreen);
 			}
-			else if (pressure >= 30 * ONE_ATMOSPHERE)
+			else if (pressure >= 30 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Yellow);
 			}
-			else if (pressure >= 20 * ONE_ATMOSPHERE)
+			else if (pressure >= 20 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.OrangeYellow);
 			}
-			else if (pressure >= 10 * ONE_ATMOSPHERE)
+			else if (pressure >= 10 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Orange);
 			}
-			else if (pressure >= 5 * ONE_ATMOSPHERE)
+			else if (pressure >= 5 * AtmosConstants.ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Red);
 			}

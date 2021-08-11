@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4323267300590308}
   - component: {fileID: 212268966398384312}
+  - component: {fileID: 6043992709861535076}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -42,7 +43,6 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: e6f73f5db9b97254eb4f3b2f02b95549, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5104096e3324c854e8f9316e51a65582, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,6 +83,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6043992709861535076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077238444079906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 70397e13e9e92f54f87598a9a4b6971a, type: 2}
+  - {fileID: 11400000, guid: 5b50478c29ff36c4bb82ec921a3cc302, type: 2}
+  - {fileID: 11400000, guid: 7b16b0ab7310d3b4f90bd69dffde4533, type: 2}
+  - {fileID: 11400000, guid: c0b4d1e0d22aad84aaeb856d1fda0c34, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 70397e13e9e92f54f87598a9a4b6971a, type: 2}
+  randomInitialSprite: 1
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
 --- !u!1 &1562085630854840
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,10 +299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: df56b497c5f080544915d9896cb642fc
+  m_AssetId: 
   hasSpawned: 0
 --- !u!114 &7767792003389877533
 MonoBehaviour:
@@ -377,7 +401,6 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

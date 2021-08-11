@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Doors.Modules;
-using Mirror;
 using UnityEngine;
-using Systems.Electricity;
-using Core.Input_System.InteractionV2.Interactions;
-using HealthV2;
+using Mirror;
 using Messages.Client.NewPlayer;
 using Messages.Server;
+using Systems.Electricity;
+using Systems.Interaction;
+using Doors.Modules;
+using HealthV2;
 using UI.Core.Net;
+
 
 //TODO: Need to reimplement hacking with this system. Might be a nightmare, dk yet.
 namespace Doors
@@ -285,7 +286,6 @@ namespace Doors
 			}
 		}
 
-
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
 			if(IsClosed == false || isPerformingAction) return;
@@ -318,7 +318,6 @@ namespace Doors
 
 			Open();
 		}
-
 
 		/// <summary>
 		/// Try to force the door closed regardless of access/internal fuckery.
@@ -501,7 +500,6 @@ namespace Doors
 
 			return true;
 		}
-
 
 		public void StartInputCoolDown()
 		{

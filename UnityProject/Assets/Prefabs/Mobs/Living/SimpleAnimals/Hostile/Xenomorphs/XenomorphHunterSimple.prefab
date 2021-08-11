@@ -51,11 +51,11 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  playRandomSoundTimer: 3
+  playRandomSoundTimer: 6
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
-  disableAscension: 0
+  disableAscension: 1
   queenCap: 1
   queenPrefab: {fileID: 2058504753171968459, guid: 850a00ce2fc547b499ef46733c95c580,
     type: 3}
@@ -135,6 +135,66 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 00a84f751afb412428a586d23cf90b39
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}

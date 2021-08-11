@@ -504,21 +504,21 @@ namespace HealthV2
 		/// <summary>
 		/// Applies Trauma damage to a body part.
 		/// </summary>
-		public void TakeTraumaDamage(float damage, BodyPart.TramuticDamageTypes damageType)
+		public void TakeTraumaDamage(float damage, TraumaticDamageTypes damageType)
 		{
 			foreach(BodyPart limb in ContainsLimbs)
 			{
-				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.BURN))
+				if (damageType.HasFlag(TraumaticDamageTypes.BURN))
 				{
-					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.BURN);
+					limb.ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN);
 				}
-				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.SLASH))
+				if (damageType.HasFlag(TraumaticDamageTypes.SLASH))
 				{
 					limb.ApplyTraumaDamage(damage);
 				}
-				if (damageType.HasFlag(BodyPart.TramuticDamageTypes.PIERCE))
+				if (damageType.HasFlag(TraumaticDamageTypes.PIERCE))
 				{
-					limb.ApplyTraumaDamage(damage, BodyPart.TramuticDamageTypes.PIERCE);
+					limb.ApplyTraumaDamage(damage, TraumaticDamageTypes.PIERCE);
 				}
 			}
 		}
@@ -540,12 +540,9 @@ namespace HealthV2
 			}
 		}
 
-		public void HealTraumaDamage(float healAmt, BodyPart.TramuticDamageTypes typeToHeal)
+		public void HealTraumaDamage(float healAmt, TraumaticDamageTypes typeToHeal)
 		{
-			foreach(BodyPart limb in ContainsLimbs)
-			{
-				limb.HealTraumaticDamage(healAmt, typeToHeal);
-			}
+
 		}
 	}
 }

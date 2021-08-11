@@ -1,8 +1,9 @@
 using System;
-using Core.Input_System.InteractionV2.Interactions;
-using Messages.Server;
-using UI.Core.Net;
 using UnityEngine;
+using Messages.Server;
+using Systems.Interaction;
+using UI.Core.Net;
+
 
 namespace Objects
 {
@@ -14,7 +15,8 @@ namespace Objects
 	/// </summary>
 	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
 	{
-		[NonSerialized] private GameObject playerInteracted;
+		[NonSerialized]
+		private GameObject playerInteracted;
 
 		[Tooltip("Network tab to display.")]
 		public NetTabType NetTabType = NetTabType.None;

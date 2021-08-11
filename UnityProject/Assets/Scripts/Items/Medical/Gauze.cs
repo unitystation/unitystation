@@ -27,7 +27,7 @@ namespace Items.Medical
 			else
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
-				$"{LHB.PlayerScriptOwner.visibleName}'s {interaction.TargetBodyPart} doesn't seem to be bleeding.");
+				$"{LHB.playerScript.visibleName}'s {interaction.TargetBodyPart} doesn't seem to be bleeding.");
 			}
 		}
 

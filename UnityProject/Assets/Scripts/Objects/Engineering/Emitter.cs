@@ -1,11 +1,12 @@
 ﻿using System;
-using Systems.Clearance;
+using UnityEngine;
+using NaughtyAttributes;
 using AddressableReferences;
 using Messages.Server;
-using NaughtyAttributes;
-using UnityEngine;
+using Systems.Clearance;
 using Systems.Electricity.NodeModules;
-using Core.Input_System.InteractionV2.Interactions;
+using Systems.Interaction;
+
 
 namespace Objects.Engineering
 {

@@ -59,30 +59,20 @@ public class ChatInputContext : IChatInputContext
 	// TODO: need to move it to Inventory.cs?
 	private Headset GetPlayerHeadset()
 	{
-		var playerStorage = PlayerManager.LocalPlayerScript.GetComponent<ItemStorage>();
-
-		// Player doesn't have any storage? That's bad
-		if (!playerStorage)
-		{
-			Logger.LogError("Can't find current headset, because local player storage doesn't exist", Category.PlayerInventory);
-			return null;
-		}
-
-		// Player doesn't have ears?
-		if (!playerStorage.HasSlot(NamedSlot.ear))
-		{
-			return null;
-		}
+		var playerStorage = PlayerManager.LocalPlayerScript.GetComponent<DynamicItemStorage>();
 
 		// Player has something in his ear?
-		var earSlotItem = playerStorage.GetNamedItemSlot(NamedSlot.ear).ItemObject;
-		if (!earSlotItem)
+		var itemSlotList = playerStorage.GetNamedItemSlots(NamedSlot.ear);
+		foreach (var itemSlot in itemSlotList)
 		{
-			return null;
+			if (itemSlot.ItemObject)
+			{
+				var headset = itemSlot.ItemObject.GetComponent<Headset>();
+				return headset;
+			}
 		}
 
-		var headset = earSlotItem.GetComponent<Headset>();
-		return headset;
+		return null;
 	}
 
 }

@@ -101,6 +101,10 @@ namespace Items
 		/// </summary>
 		public bool UseCharge(HandApply interaction)
 		{
+			Chat.AddActionMsgToChat(interaction,
+					$"You wave the Emag over the {interaction.TargetObject.ExpensiveName()}'s electrical panel.",
+						$"{interaction.Performer.ExpensiveName()} waves something over the {interaction.TargetObject.ExpensiveName()}'s electrical panel.");
+
 			if (Charges > 0)
 			{
 				//if this is the first charge taken off, add recharge loop
