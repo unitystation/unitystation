@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: initialName
       value: White Crayon
       objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: df24abeb268ff5942962132dd2d16d24,
+        type: 2}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1487292090815827991, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: m_Sprite

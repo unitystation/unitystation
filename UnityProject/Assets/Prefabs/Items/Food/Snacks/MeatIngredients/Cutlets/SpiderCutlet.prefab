@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
@@ -71,6 +71,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiderCutlet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[10].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 51eb56e4ffa6ea84781e8d746e74bd0d,
+        type: 2}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[10].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8057312929563124387, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}

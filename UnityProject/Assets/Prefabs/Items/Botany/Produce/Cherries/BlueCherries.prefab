@@ -13,6 +13,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 846cca30478407d4490c065ecebbff6a,
         type: 2}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 69553cd91b78bb3419e82d4669a55619,
+        type: 2}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7885f96dd287c034197ed85738778712,
+        type: 2}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4712185004488139146, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: initialName
