@@ -268,6 +268,7 @@ namespace HealthV2
 		{
 			ImplantList.Add(implant);
 			implant.HealthMaster = this;
+
 		}
 
 		/// <summary>
