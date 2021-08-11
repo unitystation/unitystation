@@ -267,8 +267,6 @@ namespace HealthV2
 		public void AddNewImplant(BodyPart implant)
 		{
 			BodyPartList.Add(implant);
-			implant.HealthMaster = this;
-
 		}
 
 		/// <summary>
