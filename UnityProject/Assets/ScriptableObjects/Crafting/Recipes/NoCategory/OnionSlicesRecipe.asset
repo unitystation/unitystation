@@ -10,22 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
-  m_Name: Flat dough
+  m_Name: OnionSlicesRecipe
   m_EditorClassIdentifier: 
-  category: 6
-  craftingTime: 1
-  recipeName: Flat dough
+  category: 21
+  craftingTime: 0.5
+  recipeName: Onion Slices
   recipeIconOverride: {fileID: 0}
   recipeDescription: 
   requiredIngredients:
   - requiredAmount: 1
-    requiredItem: {fileID: 6035652412496520804, guid: c806a0c93acc5b94a9986b18d70f8368,
+    requiredItem: {fileID: 4332061203430716641, guid: f4bf59ff5b5123643b0531697d41819f,
       type: 3}
   requiredReagents: []
   requiredToolTraits:
-  - {fileID: 11400000, guid: 8e3c98655a1b54d4a9251d1b68a1ef1a, type: 2}
+  - {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
   result:
-  - {fileID: 1449470387542250284, guid: 41220ca24fe3798478f533c5f8102248, type: 3}
+  - {fileID: 492203606451765858, guid: 1195572c368c1dd41bb322da8213b5fc, type: 3}
+  - {fileID: 492203606451765858, guid: 1195572c368c1dd41bb322da8213b5fc, type: 3}
   resultHandlers: []
   isSimple: 1
-  indexInSingleton: 3
+  indexInSingleton: 296
