@@ -32,6 +32,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: TIMMMMM-BERRRRRRRRRRR!
       objectReference: {fileID: 0}
+    - target: {fileID: 6028318533108303357, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028318533108303357, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b0dc8096ca552ea4aa12f58a1e77e154,
+        type: 2}
     - target: {fileID: 6062953987052555307, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: m_Name

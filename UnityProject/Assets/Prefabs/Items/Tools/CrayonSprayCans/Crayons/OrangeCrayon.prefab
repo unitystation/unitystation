@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: initialName
       value: Orange Crayon
       objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 14ce20f8d477f864db63935c95e58d1b,
+        type: 2}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: colour
@@ -35,6 +51,11 @@ PrefabInstance:
     - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: setColour
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: setCrayonColour
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1487292090815827991, guid: 9535c39a291c4184a8e366e0b8295ef6,

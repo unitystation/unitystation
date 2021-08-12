@@ -517,8 +517,26 @@ MonoBehaviour:
   searchFieldGameObject: {fileID: 6303582903789661643}
   categoryButtonsPrefabs:
   - {fileID: 2684054950777558944, guid: 426ac959694509e4596d4920a821ae2b, type: 3}
-  - {fileID: 8766509566977840, guid: a395c4e4de7eb474abc2203addd537ee, type: 3}
+  - {fileID: 8766509566977840, guid: 6ba0b35ed59eeed4092067e836cf1491, type: 3}
+  - {fileID: 8766509566977840, guid: c7370df8df5428046b73c4e8a17ecab8, type: 3}
   - {fileID: 512713397735610836, guid: a1f4979362b90bd42b904fddf69bd977, type: 3}
+  - {fileID: 8766509566977840, guid: a8f58e370ea04f04cae436df42f6c89b, type: 3}
+  - {fileID: 8766509566977840, guid: aa43749950bd80c479d4b026310716be, type: 3}
+  - {fileID: 8766509566977840, guid: 9b7db754136b8084c9104a981b9781ec, type: 3}
+  - {fileID: 8766509566977840, guid: 76b9bced0e3124a459ec142f952fcbb1, type: 3}
+  - {fileID: 8766509566977840, guid: 47c1798a342fa85469b9dadf5732db3d, type: 3}
+  - {fileID: 8766509566977840, guid: 7b2b822fa4cddaa40a69dba1f5b9bf80, type: 3}
+  - {fileID: 8766509566977840, guid: d36d01a0fb6fe4b438c93c94917ac99d, type: 3}
+  - {fileID: 8766509566977840, guid: a395c4e4de7eb474abc2203addd537ee, type: 3}
+  - {fileID: 8766509566977840, guid: abb6fc245cc46224a8f93963d666ae92, type: 3}
+  - {fileID: 8766509566977840, guid: 9c34a829ddd46d141b6e30c91eab5e75, type: 3}
+  - {fileID: 8766509566977840, guid: c9e206921e114044da8c2ea443899feb, type: 3}
+  - {fileID: 8766509566977840, guid: 42eb044b1300cc141bf7bbc9c4d48a73, type: 3}
+  - {fileID: 8766509566977840, guid: d9789120204e4554599522974323c524, type: 3}
+  - {fileID: 8766509566977840, guid: 8955230542131e24f897cc4ee12abf0f, type: 3}
+  - {fileID: 8766509566977840, guid: 69025093141dbec4192b5b516038b3b2, type: 3}
+  - {fileID: 8766509566977840, guid: c3bc3391b35cf2e4ea5eeb4de1c61702, type: 3}
+  - {fileID: 8766509566977840, guid: ac980a6a6b44b7f41a16fd1b4158c013, type: 3}
 --- !u!114 &1186755933688418034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,8 +1279,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1812937876869195657}
   m_HandleRect: {fileID: 6348587358725284321}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.8
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3541,8 +3559,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4254961484271757201}
   m_HandleRect: {fileID: 6188738034026936772}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.8
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5314,7 +5332,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3059364916382386934}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6938776
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3661331191388590167, guid: 7eeb39ee45a50e543ad74ff71631525c,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3661331191388590167, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3661331191388590167, guid: 7eeb39ee45a50e543ad74ff71631525c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3661331191388590167, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3661331191388590167, guid: 7eeb39ee45a50e543ad74ff71631525c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3661331191388590167, guid: 7eeb39ee45a50e543ad74ff71631525c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3661331191388590167, guid: 7eeb39ee45a50e543ad74ff71631525c,
         type: 3}
@@ -65,7 +65,39 @@ PrefabInstance:
     - target: {fileID: 3664851965229280547, guid: 7eeb39ee45a50e543ad74ff71631525c,
         type: 3}
       propertyPath: m_Name
-      value: SteakPlain
+      value: SteakHuman
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695237484185915543, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843602598628123893, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843602598628123893, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 471c0650fe4c1044f8c73b5d7a95460f,
+        type: 2}
+    - target: {fileID: 3843602598628123893, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d9f03668a84afbd46a322f886c6f6512,
+        type: 2}
+    - target: {fileID: 3843602598628123893, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843602598628123893, guid: 7eeb39ee45a50e543ad74ff71631525c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7eeb39ee45a50e543ad74ff71631525c, type: 3}
