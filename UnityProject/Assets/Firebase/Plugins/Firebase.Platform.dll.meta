@@ -4,73 +4,107 @@ labels:
 - gvh
 - gvh_version-7.2.0
 - gvhp_exportpath-Firebase/Plugins/Firebase.Platform.dll
-timeCreated: 1480838400
 PluginImporter:
-  serializedVersion: 1
+  externalObjects: {}
+  serializedVersion: 2
   iconMap: {}
   executionOrder: {}
+  defineConstraints: []
   isPreloaded: 0
+  isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
   platformData:
-    Android:
+  - first:
+      : Linux
+    second:
+      enabled: 1
+      settings:
+        CPU: x86
+  - first:
+      : LinuxUniversal
+    second:
       enabled: 1
       settings:
         CPU: AnyCPU
-    Any:
+  - first:
+      : OSXIntel
+    second:
+      enabled: 1
+      settings:
+        CPU: x86
+  - first:
+      : OSXIntel64
+    second:
+      enabled: 1
+      settings:
+        CPU: x86_64
+  - first:
+      : Web
+    second:
       enabled: 0
       settings: {}
-    Editor:
+  - first:
+      : WebStreamed
+    second:
+      enabled: 0
+      settings: {}
+  - first:
+      Android: Android
+    second:
+      enabled: 1
+      settings:
+        CPU: AnyCPU
+  - first:
+      Any: 
+    second:
+      enabled: 0
+      settings: {}
+  - first:
+      Editor: Editor
+    second:
       enabled: 1
       settings:
         CPU: AnyCPU
         DefaultValueInitialized: true
         OS: AnyOS
-    Linux:
-      enabled: 1
-      settings:
-        CPU: x86
-    Linux64:
-      enabled: 1
-      settings:
-        CPU: x86_64
-    LinuxUniversal:
+  - first:
+      Standalone: Linux64
+    second:
       enabled: 1
       settings:
         CPU: AnyCPU
-    OSXIntel:
-      enabled: 1
-      settings:
-        CPU: x86
-    OSXIntel64:
-      enabled: 1
-      settings:
-        CPU: x86_64
-    OSXUniversal:
+  - first:
+      Standalone: OSXUniversal
+    second:
       enabled: 1
       settings:
         CPU: AnyCPU
-    Web:
-      enabled: 0
-      settings: {}
-    WebStreamed:
-      enabled: 0
-      settings: {}
-    Win:
+  - first:
+      Standalone: Win
+    second:
       enabled: 1
       settings:
         CPU: x86
-    Win64:
+  - first:
+      Standalone: Win64
+    second:
       enabled: 1
       settings:
         CPU: x86_64
-    WindowsStoreApps:
+  - first:
+      Windows Store Apps: WindowsStoreApps
+    second:
       enabled: 0
       settings:
         CPU: AnyCPU
-    iOS:
+  - first:
+      iPhone: iOS
+    second:
       enabled: 1
       settings:
-        CompileFlags:
-        FrameworkDependencies:
-  userData:
-  assetBundleName:
-  assetBundleVariant:
+        CompileFlags: 
+        FrameworkDependencies: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

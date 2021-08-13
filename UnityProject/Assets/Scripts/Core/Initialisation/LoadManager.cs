@@ -11,12 +11,23 @@ namespace Initialisation
 	{
 		[ReorderableList] public List<MonoBehaviour> GamesStartInitialiseSystems = new List<MonoBehaviour>();
 
-		public int TargetMSprefFrame = 50;
+		public int TotalTargetMSprefFrame = 50;
+
+		private int TargetMSprefFramePreStep = 25;
 
 		public Stopwatch stopwatch = new Stopwatch();
 
 		public static Queue<Action> QueueInitialise = new Queue<Action>();
 
+		public static List<DelayedAction> DelayedActions = new List<DelayedAction>();
+
+		public List<DelayedAction> ToClear = new List<DelayedAction>();
+
+		public struct DelayedAction
+		{
+			public float Frames;
+			public Action Action;
+		}
 
 		//ServerData Awake moved to Start
 		//OptionsMenu Awake moved to Start
@@ -38,6 +49,14 @@ namespace Initialisation
 			QueueInitialise.Enqueue(InAction);
 		}
 
+		public static void RegisterActionDelayed(Action InAction, int Frames)
+		{
+			var ToADD = new DelayedAction();
+			ToADD.Action = InAction;
+			ToADD.Frames = Frames;
+			DelayedActions.Add(ToADD);
+		}
+
 		public void Update()
 		{
 			if (GamesStartInitialiseSystems.Count > 0)
@@ -46,21 +65,43 @@ namespace Initialisation
 				GamesStartInitialiseSystems.RemoveAt(0);
 				var InInterface = ToProcess as IInitialise;
 				if (InInterface == null) return;
-				InInterface.Initialise();
+				try
+				{
+					InInterface.Initialise();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError(e.ToString());
+				}
+
 			}
 
-			if (QueueInitialise.Count > 0)
+			if (DelayedActions.Count > 0)
 			{
 				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
-				stopwatch.Reset();
 				stopwatch.Start();
-				Action QueueAction = null;
-				while (stopwatch.ElapsedMilliseconds < TargetMSprefFrame)
+
+				int i = 0;
+				while (stopwatch.ElapsedMilliseconds < TargetMSprefFramePreStep && DelayedActions.Count > i)
 				{
-					if (QueueInitialise.Count > 0)
+					if (DelayedActions.Count > 0)
 					{
-						QueueAction = QueueInitialise.Dequeue();
-						QueueAction.Invoke();
+						DelayedAction delayedAction = DelayedActions[i];
+						delayedAction.Frames -= 1;
+						if (delayedAction.Frames <= 0)
+						{
+							try
+							{
+								delayedAction.Action.Invoke();
+								ToClear.Add(delayedAction);
+							}
+							catch (Exception e)
+							{
+								Logger.LogError(e.ToString());
+							}
+						}
+
+						i++;
 					}
 					else
 					{
@@ -69,8 +110,45 @@ namespace Initialisation
 				}
 
 				stopwatch.Stop();
+				stopwatch.Reset();
 				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
+
+			if (QueueInitialise.Count > 0)
+			{
+				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
+				stopwatch.Start();
+				Action QueueAction = null;
+				while (stopwatch.ElapsedMilliseconds < TargetMSprefFramePreStep)
+				{
+					if (QueueInitialise.Count > 0)
+					{
+						QueueAction = QueueInitialise.Dequeue();
+						try
+						{
+							QueueAction.Invoke();
+						}
+						catch (Exception e)
+						{
+							Logger.LogError(e.ToString());
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				stopwatch.Stop();
+				stopwatch.Reset();
+				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
+			}
+
+			foreach (var delayedAction in ToClear)
+			{
+				DelayedActions.Remove(delayedAction);
+			}
+
 			SpawnSafeThread.Process();
 		}
 	}

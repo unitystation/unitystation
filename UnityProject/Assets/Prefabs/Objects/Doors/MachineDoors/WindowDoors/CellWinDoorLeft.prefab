@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -35,16 +45,6 @@ PrefabInstance:
     - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2868536737030594984, guid: 6fa1bf6a566af2f479f551f9bb604178,
@@ -65,22 +65,22 @@ PrefabInstance:
     - target: {fileID: 2871787192939980658, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: m_Name
-      value: SecureWinDoorCell
-      objectReference: {fileID: 0}
-    - target: {fileID: 4863710344366897218, guid: 6fa1bf6a566af2f479f551f9bb604178,
-        type: 3}
-      propertyPath: initialDescription
-      value: For keeping in criminal scum.
+      value: CellWinDoorLeft
       objectReference: {fileID: 0}
     - target: {fileID: 4863710344366897218, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: initialName
       value: cell door
       objectReference: {fileID: 0}
+    - target: {fileID: 4863710344366897218, guid: 6fa1bf6a566af2f479f551f9bb604178,
+        type: 3}
+      propertyPath: initialDescription
+      value: For keeping in criminal scum.
+      objectReference: {fileID: 0}
     - target: {fileID: 5910819440385102352, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5516fc74bd367c64baa5a82dff0e929c
       objectReference: {fileID: 0}
     - target: {fileID: 7848195245777025969, guid: 6fa1bf6a566af2f479f551f9bb604178,
         type: 3}

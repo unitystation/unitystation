@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 113
       objectReference: {fileID: 0}
+    - target: {fileID: 3916522603024104466, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 113
+      objectReference: {fileID: 0}
     - target: {fileID: 4710936765405548800, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: initialDescription
@@ -32,12 +37,17 @@ PrefabInstance:
     - target: {fileID: 5051124718424327126, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f6b66499e875a7f43b902c4070a5e69e
       objectReference: {fileID: 0}
     - target: {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: m_Name
       value: MeatSlabSlime
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
@@ -56,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}

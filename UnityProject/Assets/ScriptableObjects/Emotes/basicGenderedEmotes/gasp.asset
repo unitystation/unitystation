@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: gasp
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: gasps!
   youText: You gasp!
   failText: Either you're in the black void of space or you don't have functioning
     lungs.
+  critViewText: have trouble breathing as they gasp for air!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: have trouble breathing as they gasp for air!
+  pitchRange: {x: 0.7, y: 1}

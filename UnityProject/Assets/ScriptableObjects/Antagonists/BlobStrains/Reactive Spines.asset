@@ -29,6 +29,7 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   customArmor: 1
   armor:
     Melee: 25
@@ -41,5 +42,6 @@ MonoBehaviour:
     Acid: 25
     Magic: 25
     Bio: 25
+    DismembermentProtectionChance: 0
   color: {r: 0.6039216, g: 0.80392164, b: 0.19607845, a: 1}
   strainType: 8

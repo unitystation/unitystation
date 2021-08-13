@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -102,7 +103,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &7444271311577601390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,9 +117,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 418707f5ca3e45c47ba16bd11fbbf78f, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 016040b02af7ca64abf7dd60afd9d147, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -271,7 +271,7 @@ PrefabInstance:
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1c2ebf5951e982c4cb87e7204c670f99
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}

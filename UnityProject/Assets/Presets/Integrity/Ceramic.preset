@@ -34,8 +34,32 @@ Preset:
     value: 0.1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: soundOnHit
+    propertyPath: initialIntegrity
+    value: 100
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: soundOnHit.SetLoadSetting
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: soundOnHit.AssetAddress
     value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: soundOnHit.AssetReference.m_AssetGUID
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: soundOnHit.AssetReference.m_SubObjectName
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: soundOnHit.AssetReference.m_SubObjectType
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: damageDeflection
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: Armor.Melee
@@ -78,6 +102,10 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: Armor.DismembermentProtectionChance
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: Resistances.LavaProof
     value: 0
     objectReference: {fileID: 0}
@@ -106,10 +134,23 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: Resistances.LightningDamageProof
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: HeatResistance
     value: 373
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: initialIntegrity
+    propertyPath: ExplosionsDamage
     value: 100
     objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: doDamageMessage
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: CannotBeAshed
+    value: 0
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

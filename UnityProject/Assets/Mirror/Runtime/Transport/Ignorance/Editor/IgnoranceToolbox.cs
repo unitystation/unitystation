@@ -1,5 +1,10 @@
+// Ignorance 1.4.x
+// https://github.com/SoftwareGuy/Ignorance
+// -----------------
+// Copyright (c) 2019 - 2021 Matt Coburn (SoftwareGuy/Coburn64)
+// Ignorance Transport is licensed under the MIT license. Refer
+// to the LICENSE file for more information.
 #if UNITY_EDITOR
-using System.Collections.Generic;
 using UnityEditor;
 
 namespace IgnoranceTransport
@@ -7,6 +12,13 @@ namespace IgnoranceTransport
     public class IgnoranceToolbox
     {
 #pragma warning disable IDE0051
+        [MenuItem("Ignorance/Debug/Native Library Name")]
+        public static void RevealEnetLibraryName()
+        {
+            EditorUtility.DisplayDialog("Enet Library Name", $"Your platform expects the native ENet library to be called: {ENet.Native.nativeLibraryName}. \n\n" +
+                $"This info is very useful when trying to diagnose issues with DLL loading.", "Got it");
+        }
+
         [MenuItem("Ignorance/RTFM/Github Repository")]
         private static void LaunchGithubRepo()
         {
@@ -25,11 +37,7 @@ namespace IgnoranceTransport
             UnityEngine.Application.OpenURL("https://github.com/SoftwareGuy/ENet-CSharp");
         }
 
-        [MenuItem("Ignorance/Debug/Reveal ENet Native Library Name")]
-        public static void RevealEnetLibraryName()
-        {
-            EditorUtility.DisplayDialog("Enet Library Name", $"Use this for debugging.\nYour platform expects the native Enet library to be called: {ENet.Native.nativeLibraryName}", "Got it");
-        }
+
 #pragma warning restore
     }
 }

@@ -1282,6 +1282,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -1349,6 +1350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!114 &4386130927803150092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1443,6 +1445,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -1494,6 +1497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 6
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!1 &712495245485060519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,6 +1690,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -1753,6 +1758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!114 &5207228751324718488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1821,8 +1827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974152dca9d54d57a8f2e4283fb52093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &3890492593356477619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1835,6 +1839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultRoomGasMixOverride: {fileID: 0}
 --- !u!114 &3379803527236604638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1848,14 +1853,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &8095703253041138947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1868,8 +1865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905a243a2c1a4fd79fd17a43b3c6f208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   performerStartActionMessage: 
   othersStartActionMessage: 
 --- !u!114 &2973694772420776567
@@ -1896,8 +1891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ce68dd13aa41cc94841314b4c66a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &557379035089608685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1910,10 +1903,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 5cdc290cfb0a960448264dfd2b630a1a
   hasSpawned: 0
 --- !u!114 &6138082217818075500
 MonoBehaviour:
@@ -1927,8 +1920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afc5c9322044160b00462b567287636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  MatrixSync: {fileID: 0}
 --- !u!114 &818651790873628165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2027,6 +2019,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -2078,6 +2071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 3
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &6887235047785285361
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -4463,7 +4457,7 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 15
-    m_Data: {fileID: 11400000, guid: 068e679d7fef26648824ef1bcd6e912c, type: 2}
+    m_Data: {fileID: 0}
   - m_RefCount: 11
     m_Data: {fileID: 11400000, guid: fe1c6331840ae114fa51230bba72e860, type: 2}
   - m_RefCount: 17
@@ -4477,7 +4471,7 @@ Tilemap:
   - m_RefCount: 17
     m_Data: {fileID: 11400000, guid: 459df714229555043a9c33a1625946e3, type: 2}
   - m_RefCount: 11
-    m_Data: {fileID: 11400000, guid: 8cce0b95f5f1d7f46bfe789aa87a4951, type: 2}
+    m_Data: {fileID: 0}
   - m_RefCount: 10
     m_Data: {fileID: 11400000, guid: 479fd5884e748a44aa18a3d2982acdfb, type: 2}
   - m_RefCount: 15
@@ -4572,6 +4566,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -4623,6 +4618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &6023546932616179995
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -4765,6 +4761,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -4816,6 +4813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 2
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!19719996 &2551028911670245126
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -4956,6 +4954,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -5007,6 +5006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 8
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!1 &9126467770489806344
 GameObject:
   m_ObjectHideFlags: 0
@@ -5091,6 +5091,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -5158,6 +5159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 973909014794951705}
+  metaTileMap: {fileID: 0}
 --- !u!114 &8043504033183832437
 MonoBehaviour:
   m_ObjectHideFlags: 0

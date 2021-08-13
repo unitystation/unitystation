@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Table_reinforced_unwelding
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You begin unwelding the support lines...
   othersStartActionMessage: '{performer} begins  unwelding the support lines...'
   seconds: 6

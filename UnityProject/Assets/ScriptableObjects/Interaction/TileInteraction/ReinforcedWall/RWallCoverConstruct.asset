@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RWallCoverConstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You begin securing the support lines...
   othersStartActionMessage: '{performer} begins securing the support lines...'
   seconds: 4
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: e5521a40048af4964ad58c041a5dc7f4, type: 2}
   performerFinishActionMessage: The support lines have been secured.
   othersFinishActionMessage: The support lines have been secured.

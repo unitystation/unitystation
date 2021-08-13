@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: cry
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: cries!
   youText: Drowning in tears, you cry.
   failText: Do you even have eyes to cry?
+  critViewText: cries in agony.
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: cries in agony.
+  pitchRange: {x: 0.7, y: 1}

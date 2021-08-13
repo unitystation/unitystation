@@ -202,6 +202,7 @@ public class Layer : MonoBehaviour
 
 	public virtual bool HasTile(Vector3Int position)
 	{
+		if (tilemap == null) return false;
 		return tilemap.HasTile(position);
 	}
 

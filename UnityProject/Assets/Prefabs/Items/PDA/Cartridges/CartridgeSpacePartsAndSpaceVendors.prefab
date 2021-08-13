@@ -32,12 +32,17 @@ PrefabInstance:
     - target: {fileID: 6835454746677215889, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 19b08cb0176be3847b9e10b5b3f3d16b
       objectReference: {fileID: 0}
     - target: {fileID: 6865839303558840101, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
       propertyPath: m_Name
       value: CartridgeSpacePartsAndSpaceVendors
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
@@ -56,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}

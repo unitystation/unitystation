@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Systems.Clothing;
 using Mirror;
 using NaughtyAttributes;
 using Newtonsoft.Json;
@@ -81,7 +84,20 @@ namespace HealthV2
 		/// The list of the internal net ids of the body parts contained within this container
 		/// </summary>
 		[Tooltip("The internal net ids of the body parts contained within this")]
-		public List<uint> InternalNetIDs;
+		public List<intName> InternalNetIDs = new List<intName>();
+
+		public List<BodyPartSprites> ClientSprites = new List<BodyPartSprites>();
+
+		public class intName
+		{
+			public int Int;
+			public string Name;
+
+			[NonSerialized] public BodyPartSprites RelatedSprite;
+
+			public ClothingHideFlags ClothingHide;
+			public string Data;
+		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -112,46 +128,105 @@ namespace HealthV2
 			Storage.SetRegisterPlayer(healthMaster.GetComponent<RegisterPlayer>());
 		}
 
-		public void UpdateChildren(List<uint> NewInternalNetIDs)
+
+		public void UpdateChildren(List<intName> NewInternalNetIDs)
 		{
 			List<SpriteHandler> SHS = new List<SpriteHandler>();
-			InternalNetIDs = NewInternalNetIDs;
-			foreach (var ID in InternalNetIDs)
+			//InternalNetIDs = NewInternalNetIDs;
+			//Destroy missing!
+			//Handle duplicates
+
+
+
+			foreach (var ID in NewInternalNetIDs)
 			{
-
-				if (NetworkIdentity.spawned.ContainsKey(ID) && NetworkIdentity.spawned[ID] != null)
+				bool Contains = false;
+				foreach (var InetID in InternalNetIDs)
 				{
-					var OB = NetworkIdentity.spawned[ID].gameObject.transform;
-
-					var SHSs = OB.GetComponentsInChildren<SpriteHandler>();
-					// foreach (var SH in SHSs)
-					// {
-					// var Net= SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
-					// SpriteHandlerManager.UnRegisterHandler(Net, SH);
-					// }
-
-					OB.parent = this.transform;
-					OB.localScale = Vector3.one;
-					OB.localPosition = Vector3.zero;
-					OB.localRotation = Quaternion.identity;
-
-					foreach (var SH in SHSs)
+					if (InetID.Name == ID.Name)
 					{
-						SHS.Add(SH);
-
-						// var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
-						// SpriteHandlerManager.RegisterHandler(Net,SH );
-					}
-					var BPS = OB.GetComponent<BodyPartSprites>();
-					if (PlayerSprites.Addedbodypart.Contains(BPS) == false)
-					{
-						PlayerSprites.Addedbodypart.Add(BPS);
+						Contains = true;
 					}
 				}
 
+				if (Contains == false)
+				{
+					if (CustomNetworkManager.Instance.allSpawnablePrefabs.Count > ID.Int)
+					{
+						var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int],this.gameObject.transform).transform;
+						var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(OB.gameObject);
+						var Handlers = OB.GetComponentsInChildren<SpriteHandler>();
+
+						foreach (var SH in Handlers)
+						{
+							SpriteHandlerManager.UnRegisterHandler(Net, SH);
+						}
+
+						OB.SetParent(this.transform);
+						OB.localScale = Vector3.one;
+						OB.localPosition = Vector3.zero;
+						OB.localRotation = Quaternion.identity;
+
+						var BPS = OB.GetComponent<BodyPartSprites>();
+						BPS.SetName(ID.Name);
+						ClientSprites.Add(BPS);
+						BPS.ParentContainer = this;
+						if (PlayerSprites.Addedbodypart.Contains(BPS) == false)
+						{
+							PlayerSprites.Addedbodypart.Add(BPS);
+						}
+
+						foreach (var SH in Handlers)
+						{
+							SHS.Add(SH);
+							SpriteHandlerManager.RegisterHandler(Net, SH);
+						}
+					}
+				}
 			}
 
-			// RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
+			RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
+			foreach (var ID in InternalNetIDs)
+			{
+				bool Contains = false;
+				foreach (var InetID in NewInternalNetIDs)
+				{
+					if (InetID.Name == ID.Name)
+					{
+						Contains = true;
+					}
+				}
+
+				if (Contains == false)
+				{
+					foreach (var bodyPartSpritese in ClientSprites.ToArray())
+					{
+						if (bodyPartSpritese.name == ID.Name)
+						{
+							if (PlayerSprites.Addedbodypart.Contains(bodyPartSpritese))
+							{
+								PlayerSprites.Addedbodypart.Remove(bodyPartSpritese);
+							}
+							ClientSprites.Remove(bodyPartSpritese);
+							Destroy(bodyPartSpritese.gameObject);
+						}
+
+					}
+				}
+			}
+
+			foreach (var bodyPartSpritese in ClientSprites)
+			{
+				foreach (var internalNetID in NewInternalNetIDs)
+				{
+					if (internalNetID.Name == bodyPartSpritese.name)
+					{
+						bodyPartSpritese.UpdateData(internalNetID.Data);
+						bodyPartSpritese.UpdateHideDlags(internalNetID.ClothingHide);
+					}
+				}
+			}
+			InternalNetIDs = NewInternalNetIDs;
 		}
 
 		/// <summary>
@@ -182,7 +257,6 @@ namespace HealthV2
 				implant.Root = this;
 				implant.HealthMaster = healthMaster;
 				implant.SetUpSystems();
-				SetupSpritesNID(implant);
 			}
 
 			//Remove sprites if appropriate
@@ -210,8 +284,21 @@ namespace HealthV2
 			var sprites = implant.GetBodyTypeSprites(PlayerSprites.ThisCharacter.BodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
-				var newSprite = Spawn.ServerPrefab(implant.SpritePrefab.gameObject, Vector3.zero, this.transform)
-					.GameObject.GetComponent<BodyPartSprites>();
+				var newSprite = Instantiate(implant.SpritePrefab.gameObject, this.transform).transform.GetComponent<BodyPartSprites>();
+				var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(newSprite.gameObject);
+				var Handlers = newSprite.GetComponentsInChildren<SpriteHandler>();
+
+				foreach (var SH in Handlers)
+				{
+					SpriteHandlerManager.UnRegisterHandler(Net, SH);
+				}
+
+				newSprite.ParentContainer = this;
+				var ClientData = new intName();
+				ClientData.RelatedSprite = newSprite;
+
+				ClientData.Name = implant.name + "_" + i + "_" + implant.GetInstanceID(); //is Fine because name is being Networked
+				newSprite.SetName(ClientData.Name);
 				newSprite.transform.localPosition = Vector3.zero;
 				//newSprite.name = implant.name;
 				PlayerSprites.Addedbodypart.Add(newSprite);
@@ -230,13 +317,19 @@ namespace HealthV2
 				var newOrder = new SpriteOrder(sprites.Item1);
 				newOrder.Add(i);
 				newSprite.UpdateSpritesForImplant(implant, implant.ClothingHide, Sprite, this, newOrder);
-				InternalNetIDs.Add(newSprite.GetComponent<NetworkIdentity>().netId);
+				ClientData.Int =
+					CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[implant.SpritePrefab.gameObject];
+				InternalNetIDs.Add(ClientData);
+				foreach (var SH in Handlers)
+				{
+					SpriteHandlerManager.RegisterHandler(Net, SH);
+				}
 
 				i++;
 				i++;
 				i++;
 			}
-			RootBodyPartController.RequestUpdate(this);
+
 
 			if (implant.SetCustomisationData != "")
 			{
@@ -245,6 +338,13 @@ namespace HealthV2
 					healthMaster);
 			}
 
+			UpdateThis();
+
+		}
+
+		public void UpdateThis()
+		{
+			RootBodyPartController.RequestUpdate(this);
 		}
 
 		/// <summary>
@@ -256,11 +356,18 @@ namespace HealthV2
 			foreach (var BodyPart in implant.GetAllBodyPartsAndItself(new List<BodyPart>()))
 			{
 				if (ImplantBaseSpritesDictionary.ContainsKey(BodyPart) == false) continue;
-
+				int i = 0;
 				var oldone = ImplantBaseSpritesDictionary[BodyPart];
 				foreach (var Sprite in oldone)
 				{
-					InternalNetIDs.Remove(Sprite.GetComponent<NetworkIdentity>().netId);
+					string Name = BodyPart.name + "_" + i + "_" + implant.GetInstanceID(); //is Fine because name is being Networked
+					foreach (var _intName in InternalNetIDs.ToArray())
+					{
+						if (Name == _intName.Name)
+						{
+							InternalNetIDs.Remove(_intName);
+						}
+					}
 					if (BodyPart.IsSurface)
 					{
 						PlayerSprites.SurfaceSprite.Remove(Sprite);
@@ -269,8 +376,11 @@ namespace HealthV2
 					BodyPart.RelatedPresentSprites.Remove(Sprite);
 					PlayerSprites.Addedbodypart.Remove(Sprite);
 					Destroy(Sprite.gameObject);
+					i++;
+					i++;
+					i++;
 				}
-				RootBodyPartController.RequestUpdate(this);
+				UpdateThis();
 				ImplantBaseSpritesDictionary.Remove(BodyPart);
 			}
 		}

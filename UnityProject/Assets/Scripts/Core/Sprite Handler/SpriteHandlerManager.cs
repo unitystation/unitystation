@@ -49,6 +49,11 @@ public class SpriteHandlerManager : NetworkBehaviour
 		SpriteUpdateMessage.UnprocessedData.Clear();
 	}
 
+	public void OnDestroy()
+	{
+		PresentSprites.Clear();
+	}
+
 	public static void UnRegisterHandler(NetworkIdentity networkIdentity, SpriteHandler spriteHandler)
 	{
 		if (spriteHandler == null) return;

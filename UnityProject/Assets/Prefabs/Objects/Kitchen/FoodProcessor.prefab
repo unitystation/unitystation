@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -104,7 +105,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &1000014212709224
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +291,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114319378092756998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,11 +304,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 1
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: b07ea9f765b04a7ab9767184611d7dfe
   hasSpawned: 0
 --- !u!114 &-8722393548350080829
 MonoBehaviour:
@@ -396,8 +396,9 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &-5821624160305598259
 MonoBehaviour:
   m_ObjectHideFlags: 0

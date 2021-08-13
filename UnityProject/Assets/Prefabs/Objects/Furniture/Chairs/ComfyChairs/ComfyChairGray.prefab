@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 4021817436656805436, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 12b13a7906fa34c49a5d0b7250f3a875
       objectReference: {fileID: 0}
     - target: {fileID: 4759614777447289694, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_Name
       value: ComfyChairGray
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}

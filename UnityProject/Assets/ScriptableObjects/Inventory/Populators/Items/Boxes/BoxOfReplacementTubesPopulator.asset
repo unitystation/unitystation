@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: BoxOfReplacementTubesPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 5906873233642746271, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
   - {fileID: 5906873233642746271, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
   - {fileID: 5906873233642746271, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
@@ -34,4 +35,3 @@ MonoBehaviour:
   - {fileID: 5906873233642746271, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
   - {fileID: 5906873233642746271, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
   - {fileID: 5906873233642746271, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
-  MergeMode: 0

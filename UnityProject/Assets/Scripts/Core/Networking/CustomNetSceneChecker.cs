@@ -24,6 +24,13 @@ public class CustomNetSceneChecker : NetworkVisibility
 
 	public override void OnRebuildObservers(HashSet<NetworkConnection> observers, bool initialize)
 	{
+		// foreach (var player in PlayerList.Instance.AllPlayers)
+		// {
+			// observers.Add(player.Connection);
+		// }
+
+
+		//return;
 		//CUSTOM UNITYSTATION CODE//
 		foreach (var obs in NetworkServer.observerSceneList)
 		{

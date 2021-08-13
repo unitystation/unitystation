@@ -46,6 +46,24 @@ namespace Mirror
         [Tooltip("Changes to the transform must exceed these values to be transmitted on the network.")]
         public float localScaleSensitivity = .01f;
 
+        [Header("Compression")]
+        [Tooltip("Enables smallest-three quaternion compression, which is lossy. Great for 3D, not great for 2D where minimal sprite rotations would look wobbly.")]
+        public bool compressRotation; // disabled by default to not break 2D projects
+
+        [Header("Interpolation")]
+        [Tooltip("Set to true if position should be interpolated, false is ideal for grid bassed movement")]
+        public bool interpolatePosition = true;
+        [Tooltip("Set to true if rotation should be interpolated, false is ideal for instant turning, common in retro 2d style games")]
+        public bool interpolateRotation = true;
+        [Tooltip("Set to true if scale should be interpolated, false is ideal for instant sprite flipping.")]
+        public bool interpolateScale = true;
+
+        [Header("Synchronization")]
+        // It should be very rare cases that people want to continuously sync scale, true by default to not break previous projects that use it
+        // Users in most scenarios are best to send change of scale via cmd/rpc, syncvar/hooks, only once, and when required.  Saves instant 12 bytes (25% of NT bandwidth!)
+        [Tooltip("Set to false to not continuously send scale data, and save bandwidth.")]
+        public bool syncScale = true;
+
         // target transform to sync. can be on a child.
         protected abstract Transform targetComponent { get; }
 
@@ -73,20 +91,29 @@ namespace Mirror
 
         // serialization is needed by OnSerialize and by manual sending from authority
         // public only for tests
-        public static void SerializeIntoWriter(NetworkWriter writer, Vector3 position, Quaternion rotation, Vector3 scale)
+        public static void SerializeIntoWriter(NetworkWriter writer, Vector3 position, Quaternion rotation, Vector3 scale, bool compressRotation, bool syncScale)
         {
             // serialize position, rotation, scale
             // => compress rotation from 4*4=16 to 4 bytes
             // => less bandwidth = better CCU tests / scale
             writer.WriteVector3(position);
-            writer.WriteUInt32(Compression.CompressQuaternion(rotation));
-            writer.WriteVector3(scale);
+            if (compressRotation)
+            {
+                // smalles three compression for 3D
+                writer.WriteUInt(Compression.CompressQuaternion(rotation));
+            }
+            else
+            {
+                // uncompressed for 2D
+                writer.WriteQuaternion(rotation);
+            }
+            if (syncScale) { writer.WriteVector3(scale); }
         }
 
         public override bool OnSerialize(NetworkWriter writer, bool initialState)
         {
             // use local position/rotation/scale for VR support
-            SerializeIntoWriter(writer, targetComponent.transform.localPosition, targetComponent.transform.localRotation, targetComponent.transform.localScale);
+            SerializeIntoWriter(writer, targetComponent.localPosition, targetComponent.localRotation, targetComponent.localScale, compressRotation, syncScale);
             return true;
         }
 
@@ -110,16 +137,29 @@ namespace Mirror
             DataPoint temp = new DataPoint
             {
                 // deserialize position, rotation, scale
-                // (rotation is compressed)
+                // (rotation is optionally compressed)
                 localPosition = reader.ReadVector3(),
-                localRotation = Compression.DecompressQuaternion(reader.ReadUInt32()),
-                localScale = reader.ReadVector3(),
+                localRotation = compressRotation
+                                ? Compression.DecompressQuaternion(reader.ReadUInt())
+                                : reader.ReadQuaternion(),
+                // use current target scale, so we can check boolean and reader later, to see if the data is actually sent.
+                localScale = targetComponent.localScale,
                 timeStamp = Time.time
             };
 
+            if (syncScale)
+            {
+                // Reader length is checked here, 12 is used as thats the current Vector3 (3 floats) amount.
+                // In rare cases people may do mis-matched builds, log useful warning message, and then do not process missing scale data.
+                if (reader.Length >= 12)
+                    temp.localScale = reader.ReadVector3();
+                else
+                    Debug.LogWarning("Reader length does not contain enough data for a scale, please check that both server and client builds syncScale booleans match.", this);
+            }
+
             // movement speed: based on how far it moved since last time
             // has to be calculated before 'start' is overwritten
-            temp.movementSpeed = EstimateMovementSpeed(goal, temp, targetComponent.transform, syncInterval);
+            temp.movementSpeed = EstimateMovementSpeed(goal, temp, targetComponent, syncInterval);
 
             // reassign start wisely
             // -> first ever data point? then make something up for previous one
@@ -130,9 +170,9 @@ namespace Mirror
                 {
                     timeStamp = Time.time - syncInterval,
                     // local position/rotation for VR support
-                    localPosition = targetComponent.transform.localPosition,
-                    localRotation = targetComponent.transform.localRotation,
-                    localScale = targetComponent.transform.localScale,
+                    localPosition = targetComponent.localPosition,
+                    localRotation = targetComponent.localRotation,
+                    localScale = targetComponent.localScale,
                     movementSpeed = temp.movementSpeed
                 };
             }
@@ -176,11 +216,11 @@ namespace Mirror
                 // position if we aren't too far away
                 //
                 // local position/rotation for VR support
-                if (Vector3.Distance(targetComponent.transform.localPosition, start.localPosition) < oldDistance + newDistance)
+                if (Vector3.Distance(targetComponent.localPosition, start.localPosition) < oldDistance + newDistance)
                 {
-                    start.localPosition = targetComponent.transform.localPosition;
-                    start.localRotation = targetComponent.transform.localRotation;
-                    start.localScale = targetComponent.transform.localScale;
+                    start.localPosition = targetComponent.localPosition;
+                    start.localRotation = targetComponent.localRotation;
+                    start.localScale = targetComponent.localScale;
                 }
             }
 
@@ -195,7 +235,7 @@ namespace Mirror
         }
 
         // local authority client sends sync message to server for broadcasting
-        [Command]
+        [Command(channel = Channels.Unreliable)]
         void CmdClientToServerSync(ArraySegment<byte> payload)
         {
             // Ignore messages from client if not in client authority mode
@@ -231,9 +271,13 @@ namespace Mirror
             return 0;
         }
 
-        static Vector3 InterpolatePosition(DataPoint start, DataPoint goal, Vector3 currentPosition)
+        Vector3 InterpolatePosition(DataPoint start, DataPoint goal, Vector3 currentPosition)
         {
-            if (start != null)
+            if (!interpolatePosition)
+            {
+                return goal.localPosition;
+            }
+            else if (start != null)
             {
                 // Option 1: simply interpolate based on time. but stutter
                 // will happen, it's not that smooth. especially noticeable if
@@ -250,9 +294,13 @@ namespace Mirror
             return currentPosition;
         }
 
-        static Quaternion InterpolateRotation(DataPoint start, DataPoint goal, Quaternion defaultRotation)
+        Quaternion InterpolateRotation(DataPoint start, DataPoint goal, Quaternion defaultRotation)
         {
-            if (start != null)
+            if (!interpolateRotation)
+            {
+                return goal.localRotation;
+            }
+            else if (start != null)
             {
                 float t = CurrentInterpolationFactor(start, goal);
                 return Quaternion.Slerp(start.localRotation, goal.localRotation, t);
@@ -260,14 +308,25 @@ namespace Mirror
             return defaultRotation;
         }
 
-        static Vector3 InterpolateScale(DataPoint start, DataPoint goal, Vector3 currentScale)
+        Vector3 InterpolateScale(DataPoint start, DataPoint goal, Vector3 currentScale)
         {
-            if (start != null)
+            if (!syncScale)
+            {
+                return currentScale;
+            }
+            else if (!interpolateScale)
+            {
+                return goal.localScale;
+            }
+            else if (interpolateScale && start != null)
             {
                 float t = CurrentInterpolationFactor(start, goal);
                 return Vector3.Lerp(start.localScale, goal.localScale, t);
             }
-            return currentScale;
+            else
+            {
+                return currentScale;
+            }
         }
 
         // teleport / lag / stuck detection
@@ -290,9 +349,9 @@ namespace Mirror
         {
             // moved or rotated or scaled?
             // local position/rotation/scale for VR support
-            bool moved = Vector3.Distance(lastPosition, targetComponent.transform.localPosition) > localPositionSensitivity;
-            bool scaled = Vector3.Distance(lastScale, targetComponent.transform.localScale) > localScaleSensitivity;
-            bool rotated = Quaternion.Angle(lastRotation, targetComponent.transform.localRotation) > localRotationSensitivity;
+            bool moved = Vector3.Distance(lastPosition, targetComponent.localPosition) > localPositionSensitivity;
+            bool scaled = Vector3.Distance(lastScale, targetComponent.localScale) > localScaleSensitivity;
+            bool rotated = Quaternion.Angle(lastRotation, targetComponent.localRotation) > localRotationSensitivity;
 
             // save last for next frame to compare
             // (only if change was detected. otherwise slow moving objects might
@@ -302,9 +361,9 @@ namespace Mirror
             if (change)
             {
                 // local position/rotation for VR support
-                lastPosition = targetComponent.transform.localPosition;
-                lastRotation = targetComponent.transform.localRotation;
-                lastScale = targetComponent.transform.localScale;
+                lastPosition = targetComponent.localPosition;
+                lastRotation = targetComponent.localRotation;
+                lastScale = targetComponent.localScale;
             }
             return change;
         }
@@ -313,9 +372,9 @@ namespace Mirror
         void ApplyPositionRotationScale(Vector3 position, Quaternion rotation, Vector3 scale)
         {
             // local position/rotation for VR support
-            targetComponent.transform.localPosition = position;
-            targetComponent.transform.localRotation = rotation;
-            targetComponent.transform.localScale = scale;
+            targetComponent.localPosition = position;
+            targetComponent.localRotation = rotation;
+            targetComponent.localScale = scale;
         }
 
         void Update()
@@ -344,7 +403,7 @@ namespace Mirror
                             // local position/rotation for VR support
                             using (PooledNetworkWriter writer = NetworkWriterPool.GetWriter())
                             {
-                                SerializeIntoWriter(writer, targetComponent.transform.localPosition, targetComponent.transform.localRotation, targetComponent.transform.localScale);
+                                SerializeIntoWriter(writer, targetComponent.localPosition, targetComponent.localRotation, targetComponent.localScale, compressRotation, syncScale);
 
                                 // send to server
                                 CmdClientToServerSync(writer.ToArraySegment());
@@ -375,9 +434,9 @@ namespace Mirror
                         else
                         {
                             // local position/rotation for VR support
-                            ApplyPositionRotationScale(InterpolatePosition(start, goal, targetComponent.transform.localPosition),
-                                                       InterpolateRotation(start, goal, targetComponent.transform.localRotation),
-                                                       InterpolateScale(start, goal, targetComponent.transform.localScale));
+                            ApplyPositionRotationScale(InterpolatePosition(start, goal, targetComponent.localPosition),
+                                                       InterpolateRotation(start, goal, targetComponent.localRotation),
+                                                       InterpolateScale(start, goal, targetComponent.localScale));
                         }
                     }
                 }
@@ -496,11 +555,15 @@ namespace Mirror
         void OnDrawGizmos()
         {
             // draw start and goal points
-            if (start != null) DrawDataPointGizmo(start, Color.gray);
-            if (goal != null) DrawDataPointGizmo(goal, Color.white);
+            if (start != null)
+                DrawDataPointGizmo(start, Color.gray);
+
+            if (goal != null)
+                DrawDataPointGizmo(goal, Color.white);
 
             // draw line between them
-            if (start != null && goal != null) DrawLineBetweenDataPoints(start, goal, Color.cyan);
+            if (start != null && goal != null)
+                DrawLineBetweenDataPoints(start, goal, Color.cyan);
         }
     }
 }

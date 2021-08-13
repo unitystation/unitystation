@@ -66,11 +66,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 2
-  m_AssetId: 
+  m_AssetId: 777018cbe9791594897f81c1166e1ade
   hasSpawned: 0
 --- !u!114 &2525581074043891641
 MonoBehaviour:
@@ -92,10 +91,7 @@ MonoBehaviour:
   _DirectionWorkOnNextList: []
   _DirectionWorkOnNextListWait: []
   UesAlternativeDirectionWorkOnNextList: 0
-  UesAlternativeResistanceWorkOnNextList: 0
   currentTick: 0
-  tickRateComplete: 1
-  tickRate: 0
 --- !u!114 &4287407612439332193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,3 +104,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

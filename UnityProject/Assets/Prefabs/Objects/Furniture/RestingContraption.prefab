@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1743249209741925138, guid: 5a7af30c589b41a449d0ba74c9e1771c,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743249209741925138, guid: 5a7af30c589b41a449d0ba74c9e1771c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1743249209741925138, guid: 5a7af30c589b41a449d0ba74c9e1771c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743249209741925138, guid: 5a7af30c589b41a449d0ba74c9e1771c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1743249209741925138, guid: 5a7af30c589b41a449d0ba74c9e1771c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1743249209741925138, guid: 5a7af30c589b41a449d0ba74c9e1771c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1743249209741925138, guid: 5a7af30c589b41a449d0ba74c9e1771c,
         type: 3}
@@ -88,18 +88,18 @@ PrefabInstance:
     - target: {fileID: 7924408911985682602, guid: 5a7af30c589b41a449d0ba74c9e1771c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e10c37bd80e7ef74ea22f1cce013e48f
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971464952222679800, guid: 5a7af30c589b41a449d0ba74c9e1771c,
+        type: 3}
+      propertyPath: initialName
+      value: resting contraption
       objectReference: {fileID: 0}
     - target: {fileID: 8971464952222679800, guid: 5a7af30c589b41a449d0ba74c9e1771c,
         type: 3}
       propertyPath: initialDescription
       value: This looks similar to contraptions from Earth. Could aliens be stealing
         our technology?
-      objectReference: {fileID: 0}
-    - target: {fileID: 8971464952222679800, guid: 5a7af30c589b41a449d0ba74c9e1771c,
-        type: 3}
-      propertyPath: initialName
-      value: resting contraption
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a7af30c589b41a449d0ba74c9e1771c, type: 3}

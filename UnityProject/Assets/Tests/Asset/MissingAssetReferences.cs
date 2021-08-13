@@ -209,7 +209,7 @@ namespace Tests
 					foreach (Component c in components)
 					{
 						var parent = go.transform.parent;
-						var parentName = parent ? parent.name + '/' : "";
+						var parentName = parent ? parent.name +'/' : "";
 
 						if (c == null)
 						{

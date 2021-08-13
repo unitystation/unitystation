@@ -52,10 +52,11 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 7e1ef7901883d274abfe4e910a25204a, type: 3}
-    totalSpriteSurfaceArea: 3966686
     bindAsDefault: 0
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -344,5 +345,6 @@ SpriteAtlas:
   - intro_cult_15
   - intro_cult_18
   - intro_cult_19
+  m_RenderDataMap: {}
   m_Tag: Cutscenes
   m_IsVariant: 0

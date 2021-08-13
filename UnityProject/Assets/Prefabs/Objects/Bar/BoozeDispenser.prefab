@@ -47,12 +47,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 645d2af232083e545930ac3d55f4a641, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
   machineBoardPrefab: {fileID: 3394833129495955646, guid: 3c4ccc974a921654f884c3a90188d75e,
     type: 3}
   canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
   secondsToScrewdrive: 2
+--- !u!114 &-1824006485459751206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7a43d0efcabe9cbbb24e3e05f26fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ThisState: 0
 --- !u!114 &2465081260484250857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 20
+  aiInteractable: 1
 --- !u!114 &3793464284129170297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,10 +114,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  stateSecuredStatus: 1
-  RequireFloorPlatingExposed: 0
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
   secondsToSecure: 0
   secondsToUnsecure: 0
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
 --- !u!114 &6957727407797718013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &7719044269284788720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +153,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 14ba874224f65461b97794ca4c792e7f,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &8632938316192302950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,21 +185,6 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 0
   conType: 1
---- !u!114 &-1824006485459751206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6406346259585755381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e7a43d0efcabe9cbbb24e3e05f26fa4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ThisState: 0
 --- !u!1001 &5972872610322709877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -198,19 +209,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 69f1f20089fb9ae499bc9aca582de209,
         type: 3}
+    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Name
       value: BoozeDispenser
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -229,6 +245,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -241,16 +262,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -284,29 +295,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d014f618625ce1d499f30f051d9d0bd6,
         type: 2}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
-      propertyPath: variantIndex
-      value: 0
+      propertyPath: initialName
+      value: booze dispenser
       objectReference: {fileID: 0}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: initialDescription
       value: Contains a large reservoir of the good stuff.
       objectReference: {fileID: 0}
-    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: initialName
-      value: booze dispenser
-      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 133b93fb7d8a5794bbfff599bea64863
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}

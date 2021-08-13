@@ -272,7 +272,7 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerRejoined, settings, oldGhost != null);
+		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerSpawned, settings, oldGhost != null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 
 		if (oldGhost)

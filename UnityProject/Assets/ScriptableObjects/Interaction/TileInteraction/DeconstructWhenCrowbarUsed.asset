@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: DeconstructWhenCrowbarUsed
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-  soundName: Crowbar
+  performerStartActionMessage: 
+  othersStartActionMessage: 
+  seconds: 0
+  objectsToSpawn: {fileID: 0}
+  performerFinishActionMessage: 
+  othersFinishActionMessage: 

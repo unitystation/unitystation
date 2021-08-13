@@ -353,6 +353,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Update()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
 		{
 			InitEscapeShuttle();
