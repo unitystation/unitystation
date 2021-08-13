@@ -383,7 +383,8 @@ namespace Systems.CraftingV2.GUI
 			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
 			PlayerManager.LocalPlayerScript.PlayerCrafting.TryToStartCrafting(
 				chosenRecipe.CraftingRecipe,
-				NetworkSide.Client
+				NetworkSide.Client,
+				CraftingActionParameters.DefaultParameters
 			);
 		}
 

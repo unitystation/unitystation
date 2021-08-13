@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -102,7 +103,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &-5343040851212706068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,27 +149,11 @@ MonoBehaviour:
           m_values: []
         reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 0.1
         Temperature: 0
-    ConnectedPipes: []
-    Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spriteHandlerOverlay: {fileID: 5381845236512158830}
@@ -190,6 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 29
+  aiInteractable: 1
 --- !u!1001 &9020300113209436218
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -292,7 +277,7 @@ PrefabInstance:
     - target: {fileID: 6931842893682907539, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7a167eaa044fd7142ad12de730b62846
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}

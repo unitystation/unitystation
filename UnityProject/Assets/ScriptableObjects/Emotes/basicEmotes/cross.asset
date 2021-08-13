@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: cross
   requiresHands: 1
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: crosses their arms.
   youText: You cross your arms.
   failText: You cannot do this action because your arms cannot make this motion!
   critViewText: crosses their arms.
-  allowEmoteWhileInCrit: 1
   defaultSounds: []
   maleSounds: []
   femaleSounds: []

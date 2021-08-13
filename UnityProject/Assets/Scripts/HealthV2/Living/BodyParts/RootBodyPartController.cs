@@ -12,14 +12,14 @@ public class RootBodyPartController : NetworkBehaviour
 	public string PlayerSpritesData = "";
 
 	[SyncVar(hook = nameof(UpdateChildren))]
-	private string SerialisedNetIDs = "";
+	private string SerialisedPrefabIDs = "";
 
 	public List<RootBodyPartContainer> RootBodyParts = new List<RootBodyPartContainer>();
 
 	private Dictionary<string, RootBodyPartContainer> InternalRootBodyParts =
 		new Dictionary<string, RootBodyPartContainer>();
 
-	public Dictionary<string, List<uint>> DictionaryToSerialised = new Dictionary<string, List<uint>>();
+	public Dictionary<string, List<RootBodyPartContainer.intName>> DictionaryToSerialised = new Dictionary<string, List<RootBodyPartContainer.intName>>();
 
 	public PlayerSprites playerSprites;
 
@@ -34,16 +34,24 @@ public class RootBodyPartController : NetworkBehaviour
 
 	public void RequestUpdate(RootBodyPartContainer RootBodyPartContainer)
 	{
+
+		foreach (var intName in RootBodyPartContainer.InternalNetIDs)
+		{
+			intName.ClothingHide = intName.RelatedSprite.ClothingHide;
+			intName.Data = intName.RelatedSprite.Data;
+		}
+
 		DictionaryToSerialised[RootBodyPartContainer.name] = RootBodyPartContainer.InternalNetIDs;
-		SerialisedNetIDs = JsonConvert.SerializeObject(DictionaryToSerialised);
+		SerialisedPrefabIDs = JsonConvert.SerializeObject(DictionaryToSerialised);
 	}
 
 
 	public void UpdateChildren(string InOld, string InNew)
 	{
-		SerialisedNetIDs = InNew;
+		if (isServer) return;
+		SerialisedPrefabIDs = InNew;
 		playerSprites.Addedbodypart.Clear();
-		DictionaryToSerialised = JsonConvert.DeserializeObject<Dictionary<string, List<uint>>>(SerialisedNetIDs);
+		DictionaryToSerialised = JsonConvert.DeserializeObject<Dictionary<string, List<RootBodyPartContainer.intName>>>(SerialisedPrefabIDs);
 		foreach (var Entry in DictionaryToSerialised)
 		{
 			if (InternalRootBodyParts.ContainsKey(Entry.Key))
@@ -55,8 +63,9 @@ public class RootBodyPartController : NetworkBehaviour
 
 	public void UpdateCustomisations(string InOld, string InNew)
 	{
+		if (isServer) return;
 		PlayerSpritesData = InNew;
-		playerSprites.UpdateChildren(JsonConvert.DeserializeObject<List<uint>>(PlayerSpritesData));
+		playerSprites.UpdateChildren(JsonConvert.DeserializeObject<List<RootBodyPartContainer.intName>>(PlayerSpritesData));
 	}
 
 }

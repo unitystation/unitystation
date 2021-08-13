@@ -86,7 +86,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public GameObject CustomisationSprites;
 
-	public List<uint> InternalNetIDs;
+	public List<RootBodyPartContainer.intName> InternalNetIDs = new List<RootBodyPartContainer.intName>();
 
 	public bool RootBodyPartsLoaded;
 
@@ -256,7 +256,7 @@ public class PlayerSprites : MonoBehaviour
 			}
 		}
 
-		List<uint> ToClient = new List<uint>();
+		List<RootBodyPartContainer.intName> ToClient = new List<RootBodyPartContainer.intName>();
 		foreach (var Customisation in SetRace.Base.CustomisationSettings)
 		{
 			ExternalCustomisation externalCustomisation = null;
@@ -271,10 +271,21 @@ public class PlayerSprites : MonoBehaviour
 			if (externalCustomisation == null) continue;
 
 			var SpriteHandlerNorder =
-				Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
-					.GameObject.GetComponent<SpriteHandlerNorder>();
+				Instantiate(ToInstantiateSpriteCustomisation.gameObject, CustomisationSprites.transform)
+					.GetComponent<SpriteHandlerNorder>();
+
+			var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SpriteHandlerNorder.gameObject);
+
 			SpriteHandlerNorder.transform.localPosition = Vector3.zero;
-			ToClient.Add(SpriteHandlerNorder.GetComponent<NetworkIdentity>().netId);
+			SpriteHandlerManager.UnRegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
+			SpriteHandlerNorder.name = Customisation.CustomisationGroup.ThisType.ToString();
+			var newone = new RootBodyPartContainer.intName();
+			newone.Int =
+				CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[ToInstantiateSpriteCustomisation.gameObject];
+
+			newone.Name = Customisation.CustomisationGroup.ThisType.ToString();
+			ToClient.Add(newone);
+
 			OpenSprites.Add(SpriteHandlerNorder);
 			//SubSetBodyPart
 			foreach (var Sprite_s in Customisation.CustomisationGroup.PlayerCustomisations)
@@ -283,6 +294,7 @@ public class PlayerSprites : MonoBehaviour
 				{
 					SpriteHandlerNorder.SpriteHandler.SetSpriteSO(Sprite_s.SpriteEquipped);
 					SpriteHandlerNorder.SetSpriteOrder(new SpriteOrder(Customisation.CustomisationGroup.SpriteOrder));
+					newone.Data = JsonConvert.SerializeObject(new SpriteOrder(SpriteHandlerNorder.SpriteOrder));
 					Color setColor = Color.black;
 					ColorUtility.TryParseHtmlString(externalCustomisation.SerialisedValue.Colour, out setColor);
 					setColor.a = 1;
@@ -574,39 +586,96 @@ public class PlayerSprites : MonoBehaviour
 		var isVisible = !hideClothingFlags.HasFlag(hideFlag);
 		clothes[name].gameObject.SetActive(isVisible);
 	}
+
+
 */
-	public void UpdateChildren(List<uint> NewInternalNetIDs)
+	public void UpdateChildren(List<RootBodyPartContainer.intName> NewInternalNetIDs)
 	{
-		OpenSprites.Clear();
 		List<SpriteHandler> SHS = new List<SpriteHandler>();
-		InternalNetIDs = NewInternalNetIDs;
+		foreach (var ID in NewInternalNetIDs)
+		{
+			bool Contains = false;
+			foreach (var InetID in InternalNetIDs)
+			{
+				if (InetID.Name == ID.Name)
+				{
+					Contains = true;
+				}
+			}
+
+			if (Contains == false)
+			{
+				if (CustomNetworkManager.Instance.allSpawnablePrefabs.Count > ID.Int)
+				{
+					var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int],this.gameObject.transform).transform;
+					var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(OB.gameObject);
+					var Handlers = OB.GetComponentsInChildren<SpriteHandler>();
+
+					foreach (var SH in Handlers)
+					{
+						SpriteHandlerManager.UnRegisterHandler(Net, SH);
+					}
+
+					OB.SetParent(this.transform);
+					OB.name = ID.Name;
+					OB.localScale = Vector3.one;
+					OB.localPosition = Vector3.zero;
+					OB.localRotation = Quaternion.identity;
+
+
+
+					var SNO = OB.GetComponent<SpriteHandlerNorder>();
+					if (OpenSprites.Contains(SNO) == false)
+					{
+						OpenSprites.Add(SNO);
+					}
+
+					foreach (var SH in Handlers)
+					{
+						SHS.Add(SH);
+						SpriteHandlerManager.RegisterHandler(Net, SH);
+					}
+				}
+			}
+		}
+		RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
 		foreach (var ID in InternalNetIDs)
 		{
-			if (NetworkIdentity.spawned.ContainsKey(ID) && NetworkIdentity.spawned[ID] != null)
+			bool Contains = false;
+			foreach (var InetID in NewInternalNetIDs)
 			{
-				var OB = NetworkIdentity.spawned[ID].gameObject.transform;
-
-				var SH = OB.GetComponent<SpriteHandler>();
-
-				var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SH.gameObject);
-				SpriteHandlerManager.UnRegisterHandler(Net, SH);
-				SHS.Add(SH);
-				SH.name = Regex.Replace(SH.name, @"\(.*\)", "").Trim();
-				OB.parent = CustomisationSprites.transform;
-				OB.localScale = Vector3.one;
-				OB.localPosition = Vector3.zero;
-				OB.localRotation = Quaternion.identity;
-
-				SpriteHandlerManager.RegisterHandler(Net, SH);
-				var SNO = OB.GetComponent<SpriteHandlerNorder>();
-
-				if (OpenSprites.Contains(SNO) == false)
+				if (InetID.Name == ID.Name)
 				{
-					OpenSprites.Add(SNO);
+					Contains = true;
+				}
+			}
+
+			if (Contains == false)
+			{
+				foreach (var bodyPartSpritese in OpenSprites.ToArray())
+				{
+					if (bodyPartSpritese.name == ID.Name)
+					{
+						OpenSprites.Remove(bodyPartSpritese);
+						Destroy(bodyPartSpritese.gameObject);
+					}
+
 				}
 			}
 		}
 
-		RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
+		foreach (var SNO in OpenSprites)
+		{
+			foreach (var internalNetID in NewInternalNetIDs)
+			{
+				if (internalNetID.Name == SNO.name)
+				{
+					SNO.UpdateData(internalNetID.Data);
+				}
+			}
+		}
+
+		InternalNetIDs = NewInternalNetIDs;
+
 	}
 }

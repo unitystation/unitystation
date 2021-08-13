@@ -15,6 +15,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3081900810035400876, guid: 92d97624df4de9c44b21713ad3a016cc,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081900810035400876, guid: 92d97624df4de9c44b21713ad3a016cc,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3081900810035400876, guid: 92d97624df4de9c44b21713ad3a016cc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081900810035400876, guid: 92d97624df4de9c44b21713ad3a016cc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3081900810035400876, guid: 92d97624df4de9c44b21713ad3a016cc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3081900810035400876, guid: 92d97624df4de9c44b21713ad3a016cc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3081900810035400876, guid: 92d97624df4de9c44b21713ad3a016cc,
         type: 3}
@@ -76,17 +76,17 @@ PrefabInstance:
     - target: {fileID: 3117242790283333740, guid: 92d97624df4de9c44b21713ad3a016cc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3187146527215682234, guid: 92d97624df4de9c44b21713ad3a016cc,
-        type: 3}
-      propertyPath: initialDescription
-      value: It's a pumpkin with a cryptographic sequencer sticking out.
+      value: 1daeb19fc242de54bab12a5453fa8ca4
       objectReference: {fileID: 0}
     - target: {fileID: 3187146527215682234, guid: 92d97624df4de9c44b21713ad3a016cc,
         type: 3}
       propertyPath: initialName
       value: hack-o'-lantern
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187146527215682234, guid: 92d97624df4de9c44b21713ad3a016cc,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's a pumpkin with a cryptographic sequencer sticking out.
       objectReference: {fileID: 0}
     - target: {fileID: 3187146527215682234, guid: 92d97624df4de9c44b21713ad3a016cc,
         type: 3}

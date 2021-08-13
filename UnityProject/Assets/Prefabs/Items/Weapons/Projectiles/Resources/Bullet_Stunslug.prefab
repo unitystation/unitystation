@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunTime: 10
   willDisarm: 1
+  doMsg: 0
 --- !u!114 &3333492289853661819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -64,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
@@ -116,7 +117,7 @@ PrefabInstance:
     - target: {fileID: 2920371813632314487, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 706335ffb89baf6489ccf920550be6f2
       objectReference: {fileID: 0}
     - target: {fileID: 3329127183625617249, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}

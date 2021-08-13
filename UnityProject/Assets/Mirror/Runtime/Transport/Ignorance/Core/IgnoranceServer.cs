@@ -1,15 +1,12 @@
 // Ignorance 1.4.x
-// Ignorance. It really kicks the Unity LLAPIs ass.
 // https://github.com/SoftwareGuy/Ignorance
 // -----------------
-// Copyright (c) 2019 - 2020 Matt Coburn (SoftwareGuy/Coburn64)
+// Copyright (c) 2019 - 2021 Matt Coburn (SoftwareGuy/Coburn64)
 // Ignorance Transport is licensed under the MIT license. Refer
 // to the LICENSE file for more information.
-
-using ENet;
-// using NetStack.Buffers;
 using System.Collections.Concurrent;
 using System.Threading;
+using ENet;
 using UnityEngine;
 using Event = ENet.Event;           // fixes CS0104 ambigous reference between the same thing in UnityEngine
 using EventType = ENet.EventType;   // fixes CS0104 ambigous reference between the same thing in UnityEngine
@@ -50,7 +47,7 @@ namespace IgnoranceTransport
             if (WorkerThread != null && WorkerThread.IsAlive)
             {
                 // Cannot do that.
-                Debug.LogError("A worker thread is already running. Cannot start another.");
+                Debug.LogError("Ignorance Server: A worker thread is already running. Cannot start another.");
                 return;
             }
 
@@ -70,7 +67,7 @@ namespace IgnoranceTransport
             if (Incoming != null) while (Incoming.TryDequeue(out _)) ;
             if (Outgoing != null) while (Outgoing.TryDequeue(out _)) ;
             if (Commands != null) while (Commands.TryDequeue(out _)) ;
-            if (ConnectionEvents != null) while (ConnectionEvents.TryDequeue(out _));
+            if (ConnectionEvents != null) while (ConnectionEvents.TryDequeue(out _)) ;
             if (DisconnectionEvents != null) while (DisconnectionEvents.TryDequeue(out _)) ;
 
             WorkerThread = new Thread(ThreadWorker);
@@ -78,20 +75,25 @@ namespace IgnoranceTransport
 
             // Announce
             if (Verbosity > 0)
-                Debug.Log("Server has dispatched worker thread.");
+                Debug.Log("Ignorance Server: Dispatched worker thread.");
         }
 
         public void Stop()
         {
-            if (Verbosity > 0)
-                Debug.Log("Telling server thread to stop, this may take a while depending on network load");
-            CeaseOperation = true;
+            // v1.4.0b7: Mirror may call this; if the worker thread isn't alive then don't announce it.
+            if (WorkerThread != null && WorkerThread.IsAlive)
+            {
+                if (Verbosity > 0)
+                    Debug.Log("Ignorance Server: Server stop acknowledged. Depending on network load, this may take a moment or two...");
+
+                CeaseOperation = true;
+            }
         }
 
         private void ThreadWorker(Object parameters)
         {
             if (Verbosity > 0)
-                Debug.Log("Server thread has begun startup.");
+                Debug.Log("Ignorance Server: Initializing. Please stand by...");
 
             // Thread cache items
             ThreadParamInfo setupInfo;
@@ -108,18 +110,18 @@ namespace IgnoranceTransport
             }
             else
             {
-                Debug.LogError("Thread worker startup failure: Invalid thread parameters. Aborting.");
+                Debug.LogError("Ignorance Server: Startup failure; Invalid thread parameters. Aborting.");
                 return;
             }
 
             // Attempt to initialize ENet inside the thread.
             if (Library.Initialize())
             {
-                Debug.Log("Server Worker Thread: Initialized ENet.");
+                Debug.Log("Ignorance Server: ENet Native successfully initialized.");
             }
             else
             {
-                Debug.LogError("Server Worker Thread: Failed to initialize ENet. This threads' fucked.");
+                Debug.LogError("Ignorance Server: Failed to initialize ENet Native. This threads' fucked.");
                 return;
             }
 
@@ -146,21 +148,30 @@ namespace IgnoranceTransport
 
                             // Boot a Peer off the Server.
                             case IgnoranceCommandType.ServerKickPeer:
-								uint targetPeer = commandPacket.PeerId;
+                                uint targetPeer = commandPacket.PeerId;
 
                                 if (!serverPeerArray[targetPeer].IsSet) continue;
-								if (setupInfo.Verbosity > 0)
-									Debug.Log($"Server Worker Thread: Peer ID {targetPeer} getting the boot.");
 
+                                if (setupInfo.Verbosity > 0)
+                                    Debug.Log($"Ignorance Server: Booting ENet Peer {targetPeer} off this server instance.");
+
+                                IgnoranceConnectionEvent iced = new IgnoranceConnectionEvent
+                                {
+                                    EventType = 0x01,
+                                    NativePeerId = targetPeer
+                                };
+
+                                DisconnectionEvents.Enqueue(iced);
+
+                                // Disconnect and reset the peer array's entry for that peer.
                                 serverPeerArray[targetPeer].DisconnectNow(0);
+                                serverPeerArray[targetPeer] = default;
                                 break;
                         }
                     }
 
                     // Step One:
                     // ---> Sending to peers
-                    // System.Console.WriteLine($"Outgoing Queue is {Outgoing.Count}");
-
                     while (Outgoing.TryDequeue(out IgnoranceOutgoingPacket outgoingPacket))
                     {
                         // Only create a packet if the server knows the peer.
@@ -169,13 +180,13 @@ namespace IgnoranceTransport
                             int ret = serverPeerArray[outgoingPacket.NativePeerId].Send(outgoingPacket.Channel, ref outgoingPacket.Payload);
 
                             if (ret < 0 && setupInfo.Verbosity > 0)
-                                Debug.LogWarning($"Server Worker Thread: Failed sending a packet to Peer {outgoingPacket.NativePeerId}, error code {ret}");
+                                Debug.LogWarning($"Ignorance Server: ENet error {ret} while sending packet to Peer {outgoingPacket.NativePeerId}.");
                         }
                         else
                         {
                             // A peer might have disconnected, this is OK - just log the packet if set to paranoid.
                             if (setupInfo.Verbosity > 1)
-                                Debug.LogWarning("Server Worker Thread: Can't send packet, a native peer is not set. This may be normal if the Peer has disconnected before this send cycle.");
+                                Debug.LogWarning("Ignorance Server: Can't send packet, a native peer object is not set. This may be normal if the Peer has disconnected before this send cycle.");
                         }
 
                     }
@@ -202,6 +213,7 @@ namespace IgnoranceTransport
                         // Setup the packet references.
                         incomingPeer = serverENetEvent.Peer;
 
+                        // What type are you?
                         switch (serverENetEvent.Type)
                         {
                             // Idle.
@@ -211,8 +223,8 @@ namespace IgnoranceTransport
 
                             // Connection Event.
                             case EventType.Connect:
-                                if(setupInfo.Verbosity > 1)
-                                    Debug.Log("Server Worker Thread: New peer connection.");
+                                if (setupInfo.Verbosity > 1)
+                                    Debug.Log($"Ignorance Server: Hello new peer with ID {incomingPeer.ID}!");
 
                                 IgnoranceConnectionEvent ice = new IgnoranceConnectionEvent()
                                 {
@@ -230,12 +242,14 @@ namespace IgnoranceTransport
                             // Disconnect/Timeout. Mirror doesn't care if it's either, so we lump them together.
                             case EventType.Disconnect:
                             case EventType.Timeout:
-                                if (setupInfo.Verbosity > 1)
-                                    Debug.Log("Server Worker Thread: Peer disconnection.");
+                                if (!serverPeerArray[incomingPeer.ID].IsSet) break;
 
-                                IgnoranceConnectionEvent iced = new IgnoranceConnectionEvent()
+                                if (setupInfo.Verbosity > 1)
+                                    Debug.Log($"Ignorance Server: Bye bye Peer {incomingPeer.ID}; They have disconnected.");
+
+                                IgnoranceConnectionEvent iced = new IgnoranceConnectionEvent
                                 {
-                                    WasDisconnect = true,
+                                    EventType = 0x01,
                                     NativePeerId = incomingPeer.ID
                                 };
 
@@ -251,7 +265,7 @@ namespace IgnoranceTransport
                                 if (!incomingPacket.IsSet)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Server Worker Thread: A receive event did not supply us with a packet to work with. This should never happen.");
+                                        Debug.LogWarning($"Ignorance Server: A receive event did not supply us with a packet to work with. This should never happen.");
                                     break;
                                 }
 
@@ -261,7 +275,7 @@ namespace IgnoranceTransport
                                 if (incomingPacketLength > setupInfo.PacketSizeLimit)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Server Worker Thread: Received a packet too big to process of {incomingPacketLength} bytes; limit: {setupInfo.PacketSizeLimit} byte(s).");
+                                        Debug.LogWarning($"Ignorance Server: Incoming packet is too big. My limit is {setupInfo.PacketSizeLimit} byte(s) whilest this packet is {incomingPacketLength} bytes.");
 
                                     incomingPacket.Dispose();
                                     break;
@@ -282,7 +296,7 @@ namespace IgnoranceTransport
                 }
 
                 if (Verbosity > 0)
-                    Debug.Log("Server Worker Thread: Finishing up.");
+                    Debug.Log("Ignorance Server: Thread shutdown commencing. Flushing connections.");
 
                 // Cleanup and flush everything.
                 serverENetHost.Flush();
@@ -295,16 +309,12 @@ namespace IgnoranceTransport
                 }
             }
 
-            // Flush again to ensure ENet gets those Disconnection stuff out.
-            // May not be needed; better to err on side of caution
-
             if (setupInfo.Verbosity > 0)
-                Debug.Log("Server Worker Thread: Shutdown.");
+                Debug.Log("Ignorance Server: Shutdown complete.");
 
             Library.Deinitialize();
         }
 
-        // TODO: Optimize layout.
         private struct ThreadParamInfo
         {
             public int Channels;

@@ -33,12 +33,17 @@ PrefabInstance:
     - target: {fileID: 5051124718424327126, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b85088e84ab30b547ad7989834b28aaa
       objectReference: {fileID: 0}
     - target: {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: m_Name
       value: MeatSlabLizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
@@ -57,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}

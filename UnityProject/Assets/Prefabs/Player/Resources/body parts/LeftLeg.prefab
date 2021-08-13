@@ -54,8 +54,10 @@ MonoBehaviour:
   PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
   ContainsLimbs: []
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
+  ClientSprites: []
 --- !u!114 &56473023708612903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,8 +79,9 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &6734059714293565789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,9 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: f57ecaa891f97a74fb512c1dde4530cf
   hasSpawned: 0

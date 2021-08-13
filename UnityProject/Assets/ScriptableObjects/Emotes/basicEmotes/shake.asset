@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: shake
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: shakes their head.
   youText: You shake your head.
   failText: You were unable to preform this action!
   critViewText: screams in pain!
-  allowEmoteWhileInCrit: 1
   defaultSounds: []
   maleSounds: []
   femaleSounds: []

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RWallSupportLinesDeconstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You begin unsecuring the support lines...
   othersStartActionMessage: '{performer} begins unsecuring the support lines...'
   seconds: 4
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: b7583dfb4987e426bb04eebe68910ac0, type: 2}
   performerFinishActionMessage: You unsecure the support lines.
   othersFinishActionMessage: '{performer} unsecures the support lines.'

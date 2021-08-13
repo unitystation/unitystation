@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RWallCoverDeconstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You begin slicing through the metal cover...
   othersStartActionMessage: '{performer} begins slicing through the metal cover...'
   seconds: 6
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: c93afca023a824669a8b47ba373b0df0, type: 2}
   performerFinishActionMessage: You press firmly on the cover, dislodging it.
   othersFinishActionMessage: '{performer} presses firmly on the cover, dislodging

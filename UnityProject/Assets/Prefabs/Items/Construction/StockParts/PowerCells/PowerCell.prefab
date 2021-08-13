@@ -58,6 +58,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -115,10 +116,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
   - {fileID: 11400000, guid: 017f48424060c3e40ad9f951b6b7262b, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &2685493019566052597
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,6 +133,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1e9da9a7ebb03b746aca8eb51aa3bb94,
         type: 3}
+    - target: {fileID: 2930343684074530701, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -149,6 +160,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -161,16 +177,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
@@ -195,7 +201,32 @@ PrefabInstance:
     - target: {fileID: 3156860657619003749, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a910878bd30ff5d439b94cd12e623762
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: throwRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: initialName
+      value: power cell
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: throwDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: initialDescription
+      value: A rechargeable electrochemical power cell.
       objectReference: {fileID: 0}
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
@@ -214,31 +245,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 14b6795f3a7c586488ff9135a8106b6f,
         type: 2}
-    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
-        type: 3}
-      propertyPath: initialDescription
-      value: A rechargeable electrochemical power cell.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
-        type: 3}
-      propertyPath: initialName
-      value: power cell
-      objectReference: {fileID: 0}
-    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
-        type: 3}
-      propertyPath: hitDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
-        type: 3}
-      propertyPath: throwDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
-        type: 3}
-      propertyPath: throwRange
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: initialTraits.Array.data[3]

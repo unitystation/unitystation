@@ -1,3 +1,9 @@
+// Ignorance 1.4.x
+// https://github.com/SoftwareGuy/Ignorance
+// -----------------
+// Copyright (c) 2019 - 2021 Matt Coburn (SoftwareGuy/Coburn64)
+// Ignorance Transport is licensed under the MIT license. Refer
+// to the LICENSE file for more information.
 using System;
 using ENet;
 
@@ -18,10 +24,10 @@ namespace IgnoranceTransport
 
     public class IgnoranceInternals
     {
-        public const string Version = "1.4.0b0";
+        public const string Version = "1.4.0b7";
         public const string Scheme = "enet";
         public const string BindAllIPv4 = "0.0.0.0";
-        public const string BindAllFuckingAppleMacs = "::0";
+        public const string BindAllMacs = "::0";
     }
 
     public enum IgnoranceLogType
@@ -50,7 +56,7 @@ namespace IgnoranceTransport
     // Struct optimized for cache efficiency. (Thanks Vincenzo!)
     public struct IgnoranceConnectionEvent
     {
-        public bool WasDisconnect;
+        public byte EventType;
         public ushort Port;
         public uint NativePeerId;
         public string IP;
@@ -77,18 +83,17 @@ namespace IgnoranceTransport
     {
         // Client
         ClientWantsToStop,
-        ClientRequestsStatusUpdate,
-        // ENet internal
-        ResponseToClientStatusRequest,
+        ClientStatusRequest,
         // Server
         ServerKickPeer
     }
 
     // TODO: Optimize struct for Cache performance.
     public struct PeerConnectionData
-    {
+    {        
         public ushort Port;
-        public uint NativePeerId;       
+        public uint NativePeerId;
+        // public bool IsOccupied;
         public string IP;
     }
 }
