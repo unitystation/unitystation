@@ -26,9 +26,12 @@ namespace ScriptableObjects.Atmospherics
 			gasMix = GasMix.FromTemperature(gasMix.GasData, Reactions.KOffsetC + 20, volumeOverride);
 		}
 
-		private void OnEnable()
-		{
-			gasMix = GasMix.FromTemperature(gasMix.GasData, Reactions.KOffsetC + 20, volumeOverride);
-		}
+		//Commented out as it might be causing issues where gases are lost
+		//When making a new gas mix use the above menu button to set the gas values correctly
+		//TODO try to fix
+		// private void OnEnable()
+		// {
+		// 	gasMix = GasMix.FromTemperature(gasMix.GasData, Reactions.KOffsetC + 20, volumeOverride);
+		// }
 	}
 }

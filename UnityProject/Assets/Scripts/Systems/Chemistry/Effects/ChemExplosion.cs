@@ -76,8 +76,8 @@ namespace Chemistry.Effects
 				//If sender is in an inventory use the position of the inventory.
 				if (picked.ItemSlot != null)
 				{
-					objectBehaviour = picked.ItemSlot.ItemStorage.gameObject.GetComponent<ObjectBehaviour>();
-					registerObject = picked.ItemSlot.ItemStorage.gameObject.GetComponent<RegisterObject>();
+					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<ObjectBehaviour>();
+					registerObject = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<RegisterObject>();
 				}
 			}
 

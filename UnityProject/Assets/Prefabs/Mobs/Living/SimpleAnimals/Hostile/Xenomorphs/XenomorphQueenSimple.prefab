@@ -77,6 +77,16 @@ PrefabInstance:
       propertyPath: mobName
       value: xenomorph queen
       objectReference: {fileID: 0}
+    - target: {fileID: 1143423393386790465, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: playRandomSoundTimer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151156347480821996, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: hitDamage
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5522932471367266001, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: maxHealth
@@ -153,5 +163,75 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 95b47db093e33d3448c2951ed087b77d,
         type: 2}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657617986430163585, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007506324854043843, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2937fbb42f33c07428faabfd58578633, type: 3}

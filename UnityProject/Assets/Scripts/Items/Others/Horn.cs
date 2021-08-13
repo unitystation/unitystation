@@ -116,6 +116,6 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	private GameObject GetHonkSoundObject()
 	{
 		ItemSlot itemslot = gameObject.GetComponent<Pickupable>().ItemSlot;
-		return itemslot != null ? itemslot.ItemStorage.gameObject : gameObject;
+		return itemslot != null ? itemslot.ItemStorage.GetRootStorageOrPlayer() : gameObject;
 	}
 }
