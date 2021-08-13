@@ -32,7 +32,7 @@ namespace Tests
 				{
 					report.AppendLine($"The recipe: {toCheck.name} has incorrect index. " +
 					                  "Perhaps this recipe has wrong indexInSingleton that doesn't match a real index in " +
-					                  "the singleton. Regenerate the indexes on the singleton to fix");
+					                  "the singleton. Regenerate the indexes in the CraftingRecipeSingleton to fix");
 				}
 			}
 
