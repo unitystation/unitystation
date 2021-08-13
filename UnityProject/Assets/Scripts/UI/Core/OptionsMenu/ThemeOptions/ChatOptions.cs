@@ -16,14 +16,30 @@ namespace Unitystation.Options
 
         private void OnEnable() 
         {
-            chatSlider.value = ChatUI.Instance.maxLogLength;
+            PresistOptions(1);
             chatSliderValueLabel.text = chatSlider.value.ToString();
+        }
+
+        /// <summary>
+        /// Saves chat settings, 0 is set and 1 is get values from PlayerPrefs.
+        /// </summary>
+        private void PresistOptions(int GetterSetter = 0)
+        {
+            if(GetterSetter == 0)
+            {
+                PlayerPrefs.SetInt(PlayerPrefKeys.ChatLogSize, ChatUI.Instance.maxLogLength);
+            }
+            else
+            {
+                ChatUI.Instance.maxLogLength = PlayerPrefs.GetInt(PlayerPrefKeys.ChatLogSize, 100);
+            }
         }
 
         public void UpdateChatLogMaximumSize()
         {
             ChatUI.Instance.maxLogLength = chatSlider.value.RoundToLargestInt();
             chatSliderValueLabel.text = chatSlider.value.ToString();
+            PresistOptions();
         }
     }
 }
