@@ -200,7 +200,7 @@ public abstract class BasicTile : LayerTile
 	}
 
 	//yeah,This needs to be moved out into its own class
-	public virtual bool AreUnderfloorSame(Matrix4x4 thisTransformMatrix, BasicTile basicTile, Matrix4x4 TransformMatrix)
+	public virtual bool IsTileRepeated(Matrix4x4 thisTransformMatrix, BasicTile basicTile, Matrix4x4 TransformMatrix, MetaDataNode metaDataNode)
 	{
 		if (basicTile == this)
 		{
