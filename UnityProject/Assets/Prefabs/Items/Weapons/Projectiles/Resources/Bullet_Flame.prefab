@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 1768049102699016128, guid: 5a6f8d5d734f7e74090a0d8e04413b56, type: 3}
   animationTime: 0.4
+  isTriggeredOnHit: 1
 --- !u!1 &6541654419205328143
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,10 +77,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -104,6 +107,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &5195273115572469601
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -129,6 +133,10 @@ PrefabInstance:
       value: Bullet_Flame
       objectReference: {fileID: 0}
     - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -141,6 +149,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -151,14 +163,6 @@ PrefabInstance:
     - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -187,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 745527988631323550, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9644e2fddc44a524b890dd6e8b9ffacf
       objectReference: {fileID: 0}
     - target: {fileID: 1766684164047083533, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
@@ -197,15 +201,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
-      propertyPath: animationTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d,
-        type: 3}
       propertyPath: decal
       value: 
       objectReference: {fileID: 1768049102699016128, guid: 5a6f8d5d734f7e74090a0d8e04413b56,
         type: 3}
+    - target: {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8833570430820708407, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: damageData

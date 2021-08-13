@@ -1,21 +1,21 @@
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEditor.Experimental.AssetImporters;
+
 
 namespace Barracuda
 {
     /// <summary>
     /// Asset Importer of barracuda models.
     /// </summary>
-    [ScriptedImporter(1, new[] {"nn"})]
-    public class NNModelImporter : ScriptedImporter
+    [UnityEditor.AssetImporters.ScriptedImporter(1, new[] {"nn"})]
+    public class NNModelImporter : UnityEditor.AssetImporters.ScriptedImporter
     {
         private const string k_IconName = "NNModelIcon";
 
         private Texture2D m_IconTexture;
 
-        public override void OnImportAsset(AssetImportContext ctx)
+        public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
         {
             var model = File.ReadAllBytes(ctx.assetPath);
             var asset = ScriptableObject.CreateInstance<NNModel>();

@@ -161,10 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: e9f60ed79c0ab4b479d37f3f8ebb5164
   hasSpawned: 0
 --- !u!114 &6709164837621956237
 MonoBehaviour:
@@ -182,6 +182,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
 --- !u!114 &-1693949025135080739
 MonoBehaviour:
   m_ObjectHideFlags: 0

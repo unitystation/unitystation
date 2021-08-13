@@ -4,7 +4,7 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class SpriteHandlerNorder : NetworkBehaviour
+public class SpriteHandlerNorder : MonoBehaviour
 {
 	public SpriteHandler SpriteHandler;
 
@@ -15,7 +15,6 @@ public class SpriteHandlerNorder : NetworkBehaviour
 
 	public SpriteRenderer spriteRenderer;
 
-	[SyncVar(hook = nameof(UpdateData))]
 	private string Data;
 
 
@@ -24,12 +23,13 @@ public class SpriteHandlerNorder : NetworkBehaviour
 		spriteOrder = InSpriteOrder;
 		if (Lobby == false)
 		{
-			UpdateData("",JsonConvert.SerializeObject(spriteOrder));
+			UpdateData(JsonConvert.SerializeObject(spriteOrder));
 		}
 	}
 
-	public void UpdateData(string InOld, string InNew)
+	public void UpdateData(string InNew)
 	{
+		if (InNew == null) return;
 		Data = InNew;
 		if (CustomNetworkManager.Instance._isServer) return;
 		spriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);

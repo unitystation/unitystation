@@ -82,8 +82,12 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
-  Passable: 0
+  ReachableThrough: 1
+  initialPassable: 0
+  initialCrawlPassable: 0
+  passableExclusionsToThis: []
 --- !u!114 &114703946515217786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +158,6 @@ MonoBehaviour:
   WireEndB: 9
   WireEndA: 10
   ListCanConnectTo: 04000000
-  SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 4
     DirectionReaction: 0
@@ -234,23 +237,17 @@ MonoBehaviour:
   ExtraChargeCutOff: 10
   IncreasedChargeVoltage: 11
   StandardChargeNumber: 500
-  ChargeSteps: 0.1
   MaxChargingDivider: 200
   ChargingDivider: 0
+  InputLevel: 100
+  OutputLevel: 100
   CanCharge: 1
   Cansupport: 1
   ToggleCanCharge: 1
   ToggleCansupport: 1
   SlowResponse: 0
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
   PullingWatts: 0
   ChargingWatts: 0
-  CircuitResistance: 0
-  VoltageAtChargePort: 0
-  VoltageAtSupplyPort: 0
-  isOnForInterface: 0
-  ResistanceSourceModule: {fileID: 7228791764891142202}
 --- !u!114 &7473882610070268955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,10 +321,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -349,7 +349,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 69c30205422f3a24ba24c3c7252e898e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

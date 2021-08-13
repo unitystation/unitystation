@@ -24,7 +24,7 @@ namespace Messages.Client
 
 			if (!sceneContext.IsValid())
 			{
-				Logger.LogError("No scene was found for Observer refresh!!", Category.Connections);
+				Logger.LogError( msg.NewSceneNameContext + " < No scene was found for Observer refresh!!", Category.Connections);
 				return;
 			}
 

@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: smile
   requiresHands: 0
+  allowEmoteWhileInCrit: 0
+  allowEmoteWhileCrawling: 1
   viewText: smiles.
   youText: You let out a smile.
   failText: You were unable to preform this action!
   critViewText: lets out a weak smile.
-  allowEmoteWhileInCrit: 0
   defaultSounds: []
   maleSounds: []
   femaleSounds: []

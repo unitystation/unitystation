@@ -15,12 +15,19 @@ MonoBehaviour:
   antagName: Fugitive
   antagJobType: 51
   playSound: 0
-  spawnSound: Notice1
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   textColor: {r: 1, g: 0.3909036, b: 0, a: 1}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0.19607843}
   numberOfObjectives: 1
   canUseSharedObjectives: 0
   needsEscapeObjective: 1
+  chanceForGimmickObjective: 0
   coreObjectives:
   - {fileID: 11400000, guid: 748ac891cd195d145b7386127b0de87b, type: 2}
   antagOccupation: {fileID: 11400000, guid: 664fc7dd82e0d0f4aadd3a166f9bdb23, type: 2}

@@ -43,7 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 8
+  category: 8
+  type: 0
+  priority: 0
 --- !u!1 &1118617700121226
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 9
+  category: 9
+  type: 0
+  priority: 0
 --- !u!1 &1134215619726616
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 2
+  category: 2
+  type: 0
+  priority: 0
 --- !u!1 &1337724893257794
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 1
+  category: 1
+  type: 0
+  priority: 0
 --- !u!1 &1412730967364958
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 0
+  category: 0
+  type: 0
+  priority: 0
 --- !u!1 &1524583566483134
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 3
+  category: 3
+  type: 0
+  priority: 0
 --- !u!1 &1733879023992326
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +319,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 4
+  category: 4
+  type: 0
+  priority: 0
 --- !u!1 &1793580594220078
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +365,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 5
+  category: 5
+  type: 0
+  priority: 0
 --- !u!1 &1840702638833652
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +411,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 7
+  category: 7
+  type: 0
+  priority: 0
 --- !u!1 &1960797118148958
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 13
+  category: 13
+  type: 0
+  priority: 0
 --- !u!1 &1213547515452840150
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +548,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 11
+  category: 11
+  type: 0
+  priority: 0
 --- !u!1 &1229827884413089739
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +594,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 14
+  category: 14
+  type: 0
+  priority: 0
 --- !u!1 &3366730015916879934
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,7 +640,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 10
+  category: 10
+  type: 0
+  priority: 0
 --- !u!1 &6345185409591709118
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +686,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 15
+  category: 15
+  type: 0
+  priority: 0
 --- !u!1 &7350968707632678078
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,4 +732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Department: 12
+  category: 12
+  type: 0
+  priority: 0

@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 2595136072809583087, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c4398d46fbb5d7a4397b401b95ba33d7
       objectReference: {fileID: 0}
     - target: {fileID: 2707652318058335091, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
       propertyPath: m_Name
       value: CorgiPuppyVoid
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -45,16 +55,6 @@ PrefabInstance:
     - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2709545205773938039, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
@@ -97,9 +97,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8876722616958393630, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
+      propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 24af3a6d47ab221479aa101c9d5d4a04,
+      objectReference: {fileID: 11400000, guid: 6bcff22db12c9e54599a4a0aff82a4d6,
         type: 2}
     - target: {fileID: 8876722616958393630, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
@@ -109,9 +109,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8876722616958393630, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: SubCatalogue.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 6bcff22db12c9e54599a4a0aff82a4d6,
+      objectReference: {fileID: 11400000, guid: 24af3a6d47ab221479aa101c9d5d4a04,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5dc5d45ad3dd6d54a999e7dde3ed28cf, type: 3}

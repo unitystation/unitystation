@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -102,7 +103,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &6600481263806310036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,7 +162,7 @@ PrefabInstance:
     - target: {fileID: 3057500474207377442, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 688c2d387255bf24d808b12edcd11c46
       objectReference: {fileID: 0}
     - target: {fileID: 3164301845646694626, guid: 0a7ba29086818cf4a8010f3b2743a7ac,
         type: 3}

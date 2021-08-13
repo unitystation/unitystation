@@ -49,11 +49,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 0520f8d83b72b3242943ceac3f902484,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &-8464927437020319508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,9 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 2
-  m_AssetId: 
+  m_AssetId: 69d0673ca33c7564b9325c94b7a881e3
   hasSpawned: 0

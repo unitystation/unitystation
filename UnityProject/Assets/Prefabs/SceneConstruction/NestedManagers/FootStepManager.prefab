@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8550009400634066482}
   - component: {fileID: 789963882125824244}
   m_Layer: 0
-  m_Name: DefaultFootstepsSound
+  m_Name: FootStepManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ad2c578462bc14686bb45d98c4a89a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultFloorSound: {fileID: 11400000, guid: 588f3384d460fbe4f8fb5056392be462, type: 2}
+  defaultFloorSound: {fileID: 11400000, guid: 588f3384d460fbe4f8fb5056392be462, type: 2}

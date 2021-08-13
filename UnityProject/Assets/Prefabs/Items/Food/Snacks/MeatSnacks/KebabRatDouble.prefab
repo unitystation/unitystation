@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 600
       objectReference: {fileID: 0}
+    - target: {fileID: 2763800934617118261, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 5091244323228564717, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
@@ -42,12 +47,17 @@ PrefabInstance:
     - target: {fileID: 6204137207525296625, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fe860678437cf6647a3e10b52f108497
       objectReference: {fileID: 0}
     - target: {fileID: 6308892662194402373, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
         type: 3}
       propertyPath: m_Name
       value: KebabRatDouble
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313539061127448881, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6313539061127448881, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
         type: 3}
@@ -66,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6313539061127448881, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313539061127448881, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -78,16 +93,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313539061127448881, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313539061127448881, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6313539061127448881, guid: 61e2b60df4f12c5409b1d382b94a6e8b,
         type: 3}

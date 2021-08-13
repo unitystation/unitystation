@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
   m_Name: InvalidSpellData
   m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
   callOnClient: 0
   callOnServer: 0
   actionName: Spell
@@ -23,21 +25,32 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: 49e831a8168854d889bea11fe37fc489,
     type: 3}
-  stillRechargingMessage: The spell is still recharging
   chargeType: 0
   cooldownTime: 10
   startingCharges: 10
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  range: 0
+  stillRechargingMessage: The spell is still recharging
+  affectedMessage: 
+  invocationType: 0
+  invocationMessage: 
+  invocationMessageSelf: 
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 1
   summonLifespan: 10
-  affectedMessage: 
-  castSound: 
-  invocationType: 0
-  invocationMessage: 
-  range: 0
-  invocationMessageSelf: 
   replaceExisting: 0

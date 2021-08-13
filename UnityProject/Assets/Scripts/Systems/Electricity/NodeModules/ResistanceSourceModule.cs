@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Electricity.Inheritance;
@@ -70,6 +71,14 @@ namespace Systems.Electricity.NodeModules
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ControllingNode);
+		}
+
+		public void OnDestroy()
+		{
+			if (ElectricalManager.Instance.electricalSync.PoweredDevices.Contains(ControllingNode))
+			{
+				ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ControllingNode);
+			}
 		}
 
 		public override void PotentialDestroyed()

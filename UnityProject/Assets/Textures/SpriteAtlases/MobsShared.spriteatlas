@@ -52,6 +52,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 631539b60b543b949ba14ad640e416ed, type: 3}
@@ -65,7 +67,6 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 55c3dc3bea6234d4cb212afb881921ca, type: 3}
     - {fileID: 102900000, guid: 5be460c56a7cacc4fb8c7126fca7d098, type: 3}
     - {fileID: 102900000, guid: 759eda34bbeec2047b15cfbaa6e00bb7, type: 3}
-    totalSpriteSurfaceArea: 2225008
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -3944,5 +3945,6 @@ SpriteAtlas:
   - hair_sidetail2_1
   - hair_sidetail2_2
   - hair_sidetail2_3
+  m_RenderDataMap: {}
   m_Tag: MobsShared
   m_IsVariant: 0

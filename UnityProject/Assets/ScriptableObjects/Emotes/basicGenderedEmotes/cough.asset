@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: cough
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: coughs.
   youText: You cough.
   failText: You were unable to preform this action!
+  critViewText: lets out a painful cough.
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: lets out a painful cough.
+  pitchRange: {x: 0.7, y: 1}

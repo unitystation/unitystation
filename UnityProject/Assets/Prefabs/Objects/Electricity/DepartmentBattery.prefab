@@ -304,14 +304,8 @@ MonoBehaviour:
   ToggleCanCharge: 1
   ToggleCansupport: 1
   SlowResponse: 1
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
   PullingWatts: 0
   ChargingWatts: 0
-  CircuitResistance: 0
-  VoltageAtChargePort: 0
-  VoltageAtSupplyPort: 0
-  isOnForInterface: 0
 --- !u!114 &8556410435183048791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,11 +354,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 1
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: d72e24d0fc40a7545aad2f4e4f978d33
   hasSpawned: 0
 --- !u!114 &-476175051414813368
 MonoBehaviour:
@@ -488,6 +481,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -570,6 +564,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -652,6 +647,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -734,6 +730,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0

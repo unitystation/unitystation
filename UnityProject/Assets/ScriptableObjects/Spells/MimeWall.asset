@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
   m_Name: MimeWall
   m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
   callOnClient: 1
   callOnServer: 1
   actionName: Invisible Wall
@@ -22,22 +24,33 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: 13ad67b8858d146d587fbd216359e85c,
     type: 3}
-  stillRechargingMessage: The spell is still recharging
   chargeType: 0
   cooldownTime: 30
   startingCharges: 0
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  range: 0
+  stillRechargingMessage: The spell is still recharging
+  affectedMessage: 
+  invocationType: 1
+  invocationMessage: '{0} looks as if a wall is in front of {1}'
+  invocationMessageSelf: You form a wall in front of yourself.
   summonType: 2
   summonObjects: []
   summonTiles:
   - {fileID: 11400000, guid: 3dcd0ba6d54534f18ab6ba3cfacd1775, type: 2}
   summonPosition: 1
   summonLifespan: 30
-  affectedMessage: 
-  castSound: 
-  invocationType: 1
-  invocationMessage: '{0} looks as if a wall is in front of {1}'
-  range: 0
-  invocationMessageSelf: You form a wall in front of yourself.
   replaceExisting: 0

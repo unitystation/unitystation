@@ -13,7 +13,7 @@ public class RootBodyPartController : NetworkBehaviour
 	public string PlayerSpritesData = "";
 
 	[SyncVar(hook = nameof(UpdateChildren))]
-	private string SerialisedNetIDs = "";
+	private string SerialisedPrefabIDs = "";
 
 	public List<uint> ToSerialised = new List<uint>();
 
@@ -40,6 +40,7 @@ public class RootBodyPartController : NetworkBehaviour
 
 	public void UpdateCustomisations(string InOld, string InNew)
 	{
+		if (isServer) return;
 		PlayerSpritesData = InNew;
 		livingHealth.playerSprites.UpdateChildren(JsonConvert.DeserializeObject<List<uint>>(PlayerSpritesData));
 	}

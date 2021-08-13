@@ -55,6 +55,8 @@ MonoBehaviour:
   hitDamage: 0
   damageType: 0
   throwDamage: 0
+  traumaDamageChance: 0
+  TraumaticDamageType: 0
   throwSpeed: 2
   throwRange: 7
   hitSound:
@@ -68,6 +70,7 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  CanBeUsedOnSelfOnHelpIntent: 0
   itemSprites:
     SpriteInventoryIcon: {fileID: 11400000, guid: 61806e82ef848ac47a0e3e2c155dd9d6,
       type: 2}
@@ -99,6 +102,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  CurrentsortingGroup: {fileID: 0}
 --- !u!114 &3385355778997774717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +355,7 @@ PrefabInstance:
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7b67fd5b3704c7a4d96290a504e29f34
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
