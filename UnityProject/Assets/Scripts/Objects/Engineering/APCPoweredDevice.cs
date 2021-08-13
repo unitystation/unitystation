@@ -115,6 +115,7 @@ namespace Systems.Electricity
 
 		private void EnsureInit()
 		{
+			if (this == null) return;
 			if (Powered != null) return;
 			Powered = GetComponent<IAPCPowerable>();
 			registerTile = GetComponent<RegisterTile>();
