@@ -10,6 +10,11 @@ namespace Systems.CraftingV2.ClientServerLogic
 	/// </summary>
 	public class RequestStartCraftingAction : ClientMessage<RequestStartCraftingAction.NetMessage>
 	{
+		private CraftingActionParameters craftingActionParameters = new CraftingActionParameters(
+			true,
+			true
+		);
+
 		public struct NetMessage : NetworkMessage
 		{
 			// recipe index in the recipes singleton
@@ -47,14 +52,14 @@ namespace Systems.CraftingV2.ClientServerLogic
 				return;
 			}
 
+			// at the moment we already know that there are enough ingredients and
+			// tools(checked on the client side), so we'll ignore them.
 			SentByPlayer.Script.PlayerCrafting.TryToStartCrafting(
 				CraftingRecipeSingleton.Instance.GetRecipeByIndex(netMessage.CraftingRecipeIndex),
-				// at the moment we already know that there are enough ingredients and
-				// tools(checked on the client side), so we'll ignore them.
-				new List<CraftingIngredient>(),
-				new List<ItemAttributesV2>(),
+				null,
+				null,
 				SentByPlayer.Script.PlayerCrafting.GetReagentContainers(),
-				true
+				craftingActionParameters
 			);
 		}
 

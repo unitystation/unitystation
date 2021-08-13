@@ -26,8 +26,6 @@
 		Soups = 17,
 		Spaghettis = 18,
 		Frozen = 19,
-		Drinks = 20,
-		NoCategory = 21
-
+		Drinks = 20
 	}
 }

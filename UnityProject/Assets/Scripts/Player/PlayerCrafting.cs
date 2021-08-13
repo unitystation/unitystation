@@ -7,6 +7,9 @@ using Chemistry.Components;
 using Items;
 using Mirror;
 using NaughtyAttributes;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Player
@@ -433,8 +436,13 @@ namespace Player
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
 		/// <param name="networkSide">On which side we're executing the method?</param>
+		/// <param name="craftingActionParameters"></param>
 		/// <returns>True if a crafting action has started, false otherwise.</returns>
-		public void TryToStartCrafting(CraftingRecipe recipe, NetworkSide networkSide)
+		public void TryToStartCrafting(
+			CraftingRecipe recipe,
+			NetworkSide networkSide,
+			CraftingActionParameters craftingActionParameters
+		)
 		{
 			if (networkSide == NetworkSide.Client)
 			{
@@ -443,7 +451,7 @@ namespace Player
 					GetPossibleIngredients(networkSide),
 					GetPossibleTools(networkSide)
 				);
-				if (craftingStatus != CraftingStatus.AllGood)
+				if (craftingActionParameters.ShouldGiveFeedback && craftingStatus != CraftingStatus.AllGood)
 				{
 					GiveClientSidedFeedback(craftingStatus, recipe, false);
 					return;
@@ -457,7 +465,8 @@ namespace Player
 				recipe,
 				GetPossibleIngredients(networkSide),
 				GetPossibleTools(networkSide),
-				GetReagentContainers()
+				GetReagentContainers(),
+				craftingActionParameters
 			);
 		}
 
@@ -468,47 +477,49 @@ namespace Player
 		/// 	May use all reachable reagents.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
+		/// <param name="craftingActionParameters"></param>
 		[Server]
-		public void TryToStartCrafting(CraftingRecipe recipe)
+		public void TryToStartCrafting(CraftingRecipe recipe, CraftingActionParameters craftingActionParameters)
 		{
-			TryToStartCrafting(recipe, NetworkSide.Server);
+			TryToStartCrafting(recipe, NetworkSide.Server, craftingActionParameters);
 		}
 
-		///  <summary>
+		/// <summary>
 		/// 	Tries to start a crafting action. Gives feedback to the player.
-		///  </summary>
-		///  <param name="recipe">The recipe that the player is trying to craft to.</param>
-		///  <param name="possibleIngredients">
-		///  	The ingredients(or reagent containers) that may be used for crafting.
-		///  </param>
-		///  <param name="possibleTools">The tools that may be used for crafting.</param>
-		///  <param name="reagentContainers">The reagent containers that may be used for crafting.</param>
-		///  <param name="ignoreIngredientsAndTools">
-		/// 	Should we ignore ingredients and tools when checking if we can craft according to the recipe?
+		/// </summary>
+		/// <param name="recipe">The recipe that the player is trying to craft to.</param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or reagent containers) that may be used for crafting.
 		/// </param>
-		///  <returns>True if a crafting action has started, false otherwise.</returns>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
+		/// <param name="reagentContainers">The reagent containers that may be used for crafting.</param>
+		/// <param name="craftingActionParameters"></param>
+		/// <returns>True if a crafting action has started, false otherwise.</returns>
 		[Server]
 		public bool TryToStartCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
 			List<ReagentContainer> reagentContainers,
-			bool ignoreIngredientsAndTools = false
+			CraftingActionParameters craftingActionParameters
 		)
 		{
 			CraftingStatus craftingStatus =
-				ignoreIngredientsAndTools
+				craftingActionParameters.IgnoreToolsAndIngredients
 				? CanServerCraft(recipe, reagentContainers)
 				: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			GiveServerSidedFeedback(craftingStatus, recipe, false);
+			if (craftingActionParameters.ShouldGiveFeedback)
+			{
+				GiveServerSidedFeedback(craftingStatus, recipe, false);
+			}
 
 			if (craftingStatus != CraftingStatus.AllGood)
 			{
 				return false;
 			}
 
-			StartCrafting(recipe);
+			StartCrafting(recipe, craftingActionParameters);
 			return true;
 		}
 
@@ -516,19 +527,20 @@ namespace Player
 		/// 	Unsafely starts a new crafting action even if the recipe's requirements were not fulfilled.
 		/// </summary>
 		/// <param name="recipe">The recipe that the player is trying to craft to.</param>
+		/// <param name="craftingActionParameters"></param>
 		[Server]
-		private void StartCrafting(CraftingRecipe recipe)
+		private void StartCrafting(CraftingRecipe recipe, CraftingActionParameters craftingActionParameters)
 		{
 			if (recipe.CraftingTime.Approx(0))
 			{
 				// ok then there is no need to create a special progress action
-				TryToFinishCrafting(recipe);
+				TryToFinishCrafting(recipe, craftingActionParameters);
 				return;
 			}
 
 			StandardProgressAction.Create(
 				craftProgressActionConfig,
-				() => TryToFinishCrafting(recipe)
+				() => TryToFinishCrafting(recipe, craftingActionParameters)
 			).ServerStartProgress(playerScript.registerTile, recipe.CraftingTime, playerScript.gameObject);
 		}
 
@@ -543,15 +555,17 @@ namespace Player
 		/// 	May use all reachable reagents.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
+		/// <param name="craftingActionParameters"></param>
 		/// <returns>True if we can spawn the recipe's result, false otherwise.</returns>
 		[Server]
-		public void TryToFinishCrafting(CraftingRecipe recipe)
+		public void TryToFinishCrafting(CraftingRecipe recipe, CraftingActionParameters craftingActionParameters)
 		{
 			TryToFinishCrafting(
 				recipe,
 				GetPossibleIngredients(NetworkSide.Server),
 				GetPossibleTools(NetworkSide.Server),
-				GetReagentContainers()
+				GetReagentContainers(),
+				craftingActionParameters
 			);
 		}
 
@@ -564,18 +578,26 @@ namespace Player
 		/// </param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		/// <param name="reagentContainers">The reagent containers that may be used for crafting.</param>
+		/// <param name="craftingActionParameters"></param>
 		/// <returns>True if we can spawn the recipe's result, false otherwise.</returns>
 		[Server]
 		public bool TryToFinishCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			List<ReagentContainer> reagentContainers
+			List<ReagentContainer> reagentContainers,
+			CraftingActionParameters craftingActionParameters
 		)
 		{
-			CraftingStatus craftingStatus = CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
+			CraftingStatus craftingStatus =
+				craftingActionParameters.IgnoreToolsAndIngredients
+				? CanServerCraft(recipe, reagentContainers)
+				: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			GiveServerSidedFeedback(craftingStatus, recipe, true);
+			if (craftingActionParameters.ShouldGiveFeedback)
+			{
+				GiveServerSidedFeedback(craftingStatus, recipe, true);
+			}
 
 			if (craftingStatus != CraftingStatus.AllGood)
 			{
@@ -729,6 +751,72 @@ namespace Player
 			}
 		}
 		#endregion
+
+		#region UnityEditorHelpers
+
+#if UNITY_EDITOR
+
+		public void RemoveNullsInDefaultKnownRecipes()
+		{
+			for (int i = defaultKnownRecipes.Count - 1; i >= 0; i--)
+			{
+				if (defaultKnownRecipes[i] == null)
+				{
+					defaultKnownRecipes.RemoveAt(i);
+				}
+			}
+		}
+
+		public void RemoveDuplicatesInDefaultKnownRecipes()
+		{
+			int i = defaultKnownRecipes.Count - 1;
+			while (i >= 0)
+			{
+				int j = i - 1;
+				while (j >= 0)
+				{
+					if (defaultKnownRecipes[i] == defaultKnownRecipes[j])
+					{
+						defaultKnownRecipes.RemoveAt(j);
+						i--;
+					}
+					j--;
+				}
+
+				i--;
+			}
+		}
+
+		#endif
+
+		#endregion
 	}
+
+	#region UnityEditor
+#if UNITY_EDITOR
+
+	[CustomEditor(typeof(PlayerCrafting))]
+	public class PlayerCraftingEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+
+			if (GUILayout.Button("Remove nulls"))
+			{
+				((PlayerCrafting) target).RemoveNullsInDefaultKnownRecipes();
+				serializedObject.Update();
+			}
+
+			if (GUILayout.Button("Remove duplicates"))
+			{
+				((PlayerCrafting) target).RemoveDuplicatesInDefaultKnownRecipes();
+				serializedObject.Update();
+			}
+		}
+	}
+
+#endif
+	#endregion
 }
 

@@ -35,8 +35,8 @@ namespace Systems.CraftingV2.ClientServerLogic
 					{
 						Logger.LogError(
 							"The server tried to send the negative recipe index when the server was initiating " +
-							$"the recipes of the player: {recipient.Name}. " +
-							"Perhaps some recipe is missing from the singleton."
+							$"the recipes of the player: {recipient.Name}. The recipe: {craftingRecipe}. " +
+							"Perhaps this recipe is missing from the singleton."
 						);
 						return;
 					}
@@ -49,8 +49,8 @@ namespace Systems.CraftingV2.ClientServerLogic
 					{
 						Logger.LogError(
 							"The server tried to send the wrong recipe index when the server was initiating " +
-							$"the recipes of the player: {recipient.Name}. " +
-							"Perhaps some recipe has wrong indexInSingleton that doesn't match a real index in " +
+							$"the recipes of the player: {recipient.Name}. The recipe: {craftingRecipe}. " +
+							"Perhaps this recipe has wrong indexInSingleton that doesn't match a real index in " +
 							"the singleton."
 						);
 						return;
