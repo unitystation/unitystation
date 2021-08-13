@@ -105,16 +105,7 @@ namespace Player
 		/// <returns>True, if a player already knows the recipe, false otherwise.</returns>
 		public bool KnowsRecipe(CraftingRecipe recipe)
 		{
-			try
-			{
-				return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e.StackTrace);
-			}
-
-			return false;
+			return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
 		}
 
 		/// <summary>
