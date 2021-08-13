@@ -128,7 +128,8 @@ namespace Systems.CraftingV2
 						relatedRecipe.Recipe,
 						possibleIngredients,
 						possibleTools,
-						new List<ReagentContainer>()
+						new List<ReagentContainer>(),
+						CraftingActionParameters.DefaultParameters
 					)
 				)
 				{
