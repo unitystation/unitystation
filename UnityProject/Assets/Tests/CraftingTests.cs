@@ -27,6 +27,14 @@ namespace Tests
 				var toCheck = AssetDatabase.LoadMainAssetAtPath(path) as CraftingRecipe;
 				if(toCheck == null) continue;
 
+				if (toCheck.IndexInSingleton < 0)
+				{
+					report.AppendLine($"The recipe: {toCheck.name} index is -1. " +
+					                  "Recipe is missing from the CraftingRecipeSingleton, use button on recipe to add it.");
+					
+					continue;
+				}
+
 				if (toCheck.IndexInSingleton > CraftingRecipeSingleton.Instance.CountTotalStoredRecipes() ||
 				    CraftingRecipeSingleton.Instance.GetRecipeByIndex(toCheck.IndexInSingleton) != toCheck)
 				{
