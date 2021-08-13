@@ -17,7 +17,13 @@ namespace Unitystation.Options
         private void OnEnable() 
         {
             PresistOptions(1);
+            chatSlider.value = ChatUI.Instance.maxLogLength;
             chatSliderValueLabel.text = chatSlider.value.ToString();
+        }
+
+        private void OnDisable() 
+        {
+            PresistOptions();
         }
 
         /// <summary>
