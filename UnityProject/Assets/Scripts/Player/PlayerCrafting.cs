@@ -445,8 +445,9 @@ namespace Player
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
 		/// <param name="networkSide">On which side we're executing the method?</param>
+		/// <param name="shouldGiveFeedback">Should we send feedback about a crafting status to the player?</param>
 		/// <returns>True if a crafting action has started, false otherwise.</returns>
-		public void TryToStartCrafting(CraftingRecipe recipe, NetworkSide networkSide)
+		public void TryToStartCrafting(CraftingRecipe recipe, NetworkSide networkSide, bool shouldGiveFeedback = true)
 		{
 			if (networkSide == NetworkSide.Client)
 			{
@@ -455,7 +456,7 @@ namespace Player
 					GetPossibleIngredients(networkSide),
 					GetPossibleTools(networkSide)
 				);
-				if (craftingStatus != CraftingStatus.AllGood)
+				if (shouldGiveFeedback && craftingStatus != CraftingStatus.AllGood)
 				{
 					GiveClientSidedFeedback(craftingStatus, recipe, false);
 					return;
@@ -480,32 +481,35 @@ namespace Player
 		/// 	May use all reachable reagents.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
+		/// <param name="shouldGiveFeedback">Should we send feedback about a crafting status to the player?</param>
 		[Server]
-		public void TryToStartCrafting(CraftingRecipe recipe)
+		public void TryToStartCrafting(CraftingRecipe recipe, bool shouldGiveFeedback)
 		{
-			TryToStartCrafting(recipe, NetworkSide.Server);
+			TryToStartCrafting(recipe, NetworkSide.Server, shouldGiveFeedback);
 		}
 
-		///  <summary>
+		/// <summary>
 		/// 	Tries to start a crafting action. Gives feedback to the player.
-		///  </summary>
-		///  <param name="recipe">The recipe that the player is trying to craft to.</param>
-		///  <param name="possibleIngredients">
-		///  	The ingredients(or reagent containers) that may be used for crafting.
-		///  </param>
-		///  <param name="possibleTools">The tools that may be used for crafting.</param>
-		///  <param name="reagentContainers">The reagent containers that may be used for crafting.</param>
-		///  <param name="ignoreIngredientsAndTools">
+		/// </summary>
+		/// <param name="recipe">The recipe that the player is trying to craft to.</param>
+		/// <param name="possibleIngredients">
+		/// 	The ingredients(or reagent containers) that may be used for crafting.
+		/// </param>
+		/// <param name="possibleTools">The tools that may be used for crafting.</param>
+		/// <param name="reagentContainers">The reagent containers that may be used for crafting.</param>
+		/// <param name="ignoreIngredientsAndTools">
 		/// 	Should we ignore ingredients and tools when checking if we can craft according to the recipe?
 		/// </param>
-		///  <returns>True if a crafting action has started, false otherwise.</returns>
+		/// <param name="shouldGiveFeedback">Should we send feedback about a crafting status to the player?</param>
+		/// <returns>True if a crafting action has started, false otherwise.</returns>
 		[Server]
 		public bool TryToStartCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
 			List<ReagentContainer> reagentContainers,
-			bool ignoreIngredientsAndTools = false
+			bool ignoreIngredientsAndTools = false,
+			bool shouldGiveFeedback = true
 		)
 		{
 			CraftingStatus craftingStatus =
@@ -513,14 +517,17 @@ namespace Player
 				? CanServerCraft(recipe, reagentContainers)
 				: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			GiveServerSidedFeedback(craftingStatus, recipe, false);
+			if (shouldGiveFeedback)
+			{
+				GiveServerSidedFeedback(craftingStatus, recipe, false);
+			}
 
 			if (craftingStatus != CraftingStatus.AllGood)
 			{
 				return false;
 			}
 
-			StartCrafting(recipe);
+			StartCrafting(recipe, shouldGiveFeedback);
 			return true;
 		}
 
@@ -528,19 +535,20 @@ namespace Player
 		/// 	Unsafely starts a new crafting action even if the recipe's requirements were not fulfilled.
 		/// </summary>
 		/// <param name="recipe">The recipe that the player is trying to craft to.</param>
+		/// <param name="shouldGiveFeedback">Should we send feedback about a crafting status to the player?</param>
 		[Server]
-		private void StartCrafting(CraftingRecipe recipe)
+		private void StartCrafting(CraftingRecipe recipe, bool shouldGiveFeedback = true)
 		{
 			if (recipe.CraftingTime.Approx(0))
 			{
 				// ok then there is no need to create a special progress action
-				TryToFinishCrafting(recipe);
+				TryToFinishCrafting(recipe, shouldGiveFeedback);
 				return;
 			}
 
 			StandardProgressAction.Create(
 				craftProgressActionConfig,
-				() => TryToFinishCrafting(recipe)
+				() => TryToFinishCrafting(recipe, shouldGiveFeedback)
 			).ServerStartProgress(playerScript.registerTile, recipe.CraftingTime, playerScript.gameObject);
 		}
 
@@ -555,15 +563,17 @@ namespace Player
 		/// 	May use all reachable reagents.
 		/// </summary>
 		/// <param name="recipe">The recipe to try to craft.</param>
+		/// <param name="shouldGiveFeedback">Should we send feedback about a crafting status to the player?</param>
 		/// <returns>True if we can spawn the recipe's result, false otherwise.</returns>
 		[Server]
-		public void TryToFinishCrafting(CraftingRecipe recipe)
+		public void TryToFinishCrafting(CraftingRecipe recipe, bool shouldGiveFeedback)
 		{
 			TryToFinishCrafting(
 				recipe,
 				GetPossibleIngredients(NetworkSide.Server),
 				GetPossibleTools(NetworkSide.Server),
-				GetReagentContainers()
+				GetReagentContainers(),
+				shouldGiveFeedback
 			);
 		}
 
@@ -576,18 +586,23 @@ namespace Player
 		/// </param>
 		/// <param name="possibleTools">The tools that may be used for crafting.</param>
 		/// <param name="reagentContainers">The reagent containers that may be used for crafting.</param>
+		/// <param name="shouldGiveFeedback">Should we send feedback about a crafting status to the player?</param>
 		/// <returns>True if we can spawn the recipe's result, false otherwise.</returns>
 		[Server]
 		public bool TryToFinishCrafting(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools,
-			List<ReagentContainer> reagentContainers
+			List<ReagentContainer> reagentContainers,
+			bool shouldGiveFeedback
 		)
 		{
 			CraftingStatus craftingStatus = CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			GiveServerSidedFeedback(craftingStatus, recipe, true);
+			if (shouldGiveFeedback)
+			{
+				GiveServerSidedFeedback(craftingStatus, recipe, true);
+			}
 
 			if (craftingStatus != CraftingStatus.AllGood)
 			{

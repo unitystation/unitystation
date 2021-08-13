@@ -31,48 +31,111 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public bool HasSimpleRelatedRecipe => hasSimpleRelatedRecipe;
 
-		// will a player make an attempt to craft something?
+		// will a player start to craft something?
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return HasSimpleRelatedRecipe
-			       && interaction.HandObject != null
-			       && DefaultWillInteract.Default(interaction, side);
-		}
+			if (HasSimpleRelatedRecipe == false
+			    || interaction.HandObject == null
+			    || DefaultWillInteract.Default(interaction, side) == false
+			)
+			{
+				return false;
+			}
 
-		/// tries to craft something
-		public void ServerPerformInteraction(HandApply interaction)
-		{
+			// we should check related recipes in WillInteract() because otherwise
+			// other interactions will be blocked because of an interaction cooldown
+
+			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
+
+			possibleIngredients.Add(this);
+
+			if (interaction.HandObject.TryGetComponent(out CraftingIngredient otherPossibleIngredient))
+			{
+				possibleIngredients.Add(otherPossibleIngredient);
+			}
+
+			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
+
+			if (TryGetComponent(out ItemAttributesV2 selfPossibleTool))
+			{
+				possibleTools.Add(selfPossibleTool);
+			}
+
+			if (interaction.HandObject.TryGetComponent(out ItemAttributesV2 otherPossibleTool))
+			{
+				possibleTools.Add(otherPossibleTool);
+			}
+
 			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
 			{
 				if (relatedRecipe.Recipe.IsSimple == false)
 				{
 					continue;
 				}
-				List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
-				List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
 
-				possibleIngredients.Add(this);
-				if (interaction.HandObject.TryGetComponent(out ItemAttributesV2 possibleTool))
+				if
+				(
+					interaction.PerformerPlayerScript.PlayerCrafting.CanCraft(
+						relatedRecipe.Recipe,
+						possibleIngredients,
+						possibleTools,
+						new List<ReagentContainer>()
+					) == CraftingStatus.AllGood
+				)
 				{
-					possibleTools.Add(possibleTool);
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		// tries to start a crafting action.
+		// Sadly we have to check related recipes again because we can't pass any other args to this method
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			List<CraftingIngredient> possibleIngredients = new List<CraftingIngredient>();
+
+			possibleIngredients.Add(this);
+
+			if (interaction.HandObject.TryGetComponent(out CraftingIngredient otherPossibleIngredient))
+			{
+				possibleIngredients.Add(otherPossibleIngredient);
+			}
+
+			List<ItemAttributesV2> possibleTools = new List<ItemAttributesV2>();
+
+			if (TryGetComponent(out ItemAttributesV2 selfPossibleTool))
+			{
+				possibleTools.Add(selfPossibleTool);
+			}
+
+			if (interaction.HandObject.TryGetComponent(out ItemAttributesV2 otherPossibleTool))
+			{
+				possibleTools.Add(otherPossibleTool);
+			}
+
+			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
+			{
+				if (relatedRecipe.Recipe.IsSimple == false)
+				{
+					continue;
 				}
 
-				if (interaction.HandObject.TryGetComponent(out CraftingIngredient possibleIngredient))
+				if
+				(
+					interaction.PerformerPlayerScript.PlayerCrafting.TryToStartCrafting(
+						relatedRecipe.Recipe,
+						possibleIngredients,
+						possibleTools,
+						new List<ReagentContainer>(),
+						shouldGiveFeedback:false
+					)
+				)
 				{
-					possibleIngredients.Add(possibleIngredient);
+					// alright, we're crafting now. There's no need to check other related recipes
+					return;
 				}
-
-				if (interaction.PerformerPlayerScript.PlayerCrafting.TryToStartCrafting(
-					relatedRecipe.Recipe,
-					possibleIngredients,
-					possibleTools,
-					new List<ReagentContainer>()
-				))
-				{
-					// ok we're crafting now. There is no need to try to craft many recipes at one time.
-					break;
-				}
-
 			}
 		}
 
