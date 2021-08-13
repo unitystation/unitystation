@@ -236,14 +236,14 @@ namespace Objects.Disposals
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			
+
 			if (interaction.TargetObject == null) return false;
-			
+
 			if (Validations.IsReachableByRegisterTiles(
 					interaction.Performer.RegisterTile(),
 					interaction.UsedObject.RegisterTile(),
 					side == NetworkSide.Server) == false) return false;
-			
+
 			if (Validations.IsReachableByRegisterTiles(
 				interaction.Performer.RegisterTile(),
 				interaction.TargetObject.RegisterTile(),
@@ -303,6 +303,10 @@ namespace Objects.Disposals
 		// gives the probability of an object falling into the bin. Yes, it's like basketball
 		public void OnFlyingObjectHit(GameObject obj)
 		{
+			if (MachineSecured == false)
+			{
+				return;
+			}
 			var bin = gameObject;
 			if (DMMath.Prob(25))
 			{

@@ -17,6 +17,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: They shine like exceptionally low quality amethyst.
       objectReference: {fileID: 0}
+    - target: {fileID: 99004225138461620, guid: 1195572c368c1dd41bb322da8213b5fc,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 99004225138461620, guid: 1195572c368c1dd41bb322da8213b5fc,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0432d5ff74cbd9943b120e091cedbd44,
+        type: 2}
     - target: {fileID: 298747267922030910, guid: 1195572c368c1dd41bb322da8213b5fc,
         type: 3}
       propertyPath: m_Sprite
@@ -86,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 522590224925556694, guid: 1195572c368c1dd41bb322da8213b5fc,
         type: 3}
       propertyPath: m_AssetId
-      value: 868d30ccaf18a9244b4a6a87d506ef4f
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6022077574742276581, guid: 1195572c368c1dd41bb322da8213b5fc,
         type: 3}

@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 3022557335325303025, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: m_AssetId
-      value: e275b4076a6fc414583fa344a4177552
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3069071089172475417, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -92,6 +92,38 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: 'Plumus Hellmus: Plump, soft and s-so inviting~'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 42348e1e40a363a4fb76cf92f5484f6b,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b573352479efb894b9bee858b071d500,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3480773739466297650, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}

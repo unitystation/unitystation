@@ -113,7 +113,7 @@ PrefabInstance:
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_AssetId
-      value: c11463ffa84e33545a7c8a43ebc9a009
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -124,6 +124,34 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A fried egg, with a touch of salt and pepper.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e9cbc79a37389b40b5ca9ab25b9770c,
+        type: 2}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c1863608665a4df45bfc38264bd7f2f1,
+        type: 2}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ce3d1bc56eb1ba4e80a62e26d1d981e,
+        type: 2}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}

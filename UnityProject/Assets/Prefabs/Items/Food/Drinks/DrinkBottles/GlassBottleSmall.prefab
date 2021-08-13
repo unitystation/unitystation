@@ -78,6 +78,17 @@ PrefabInstance:
       propertyPath: maxCapacity
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 1941509537364749097, guid: f984960cf940f5242bd90a33f3c8c35a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941509537364749097, guid: f984960cf940f5242bd90a33f3c8c35a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e6bc13f5f3910240a73aaf4a281de5d,
+        type: 2}
     - target: {fileID: 1988103202191969693, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}
       propertyPath: initialName
@@ -87,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: d9bb4c3a966c7df4b9af9f656d04c21c
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119279801055420299, guid: f984960cf940f5242bd90a33f3c8c35a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2119279801055420299, guid: f984960cf940f5242bd90a33f3c8c35a,
         type: 3}

@@ -23,6 +23,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Purple despite the name.
       objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0432d5ff74cbd9943b120e091cedbd44,
+        type: 2}
     - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
       propertyPath: m_RootOrder
@@ -86,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 4434540600313973077, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
       propertyPath: m_AssetId
-      value: 101f7aeb13e450746a2931079199fa48
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4534956782121387965, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}

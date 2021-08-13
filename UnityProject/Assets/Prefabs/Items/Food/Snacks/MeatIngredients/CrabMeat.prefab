@@ -123,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 5857058975867227086, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: m_AssetId
-      value: 5ecad40040be9b848af97507c5003164
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5921587132527232294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
@@ -145,6 +145,27 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Some deliciously cooked crab meat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c673dae242c70424199cd512984b5d82,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a33dd843ab594e9b3dbbf5b6305d4, type: 3}

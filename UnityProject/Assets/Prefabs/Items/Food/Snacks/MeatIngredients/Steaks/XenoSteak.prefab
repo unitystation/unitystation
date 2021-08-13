@@ -12,6 +12,32 @@ PrefabInstance:
       propertyPath: initialName
       value: xeno steak
       objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e8049c91df95304d85ff7829ab9a566,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_RootOrder

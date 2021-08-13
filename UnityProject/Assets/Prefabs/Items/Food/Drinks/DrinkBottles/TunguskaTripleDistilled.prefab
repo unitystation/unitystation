@@ -34,6 +34,27 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[8].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e8e34569318d0c488b5674f7a2daf23,
+        type: 2}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[8].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: initialName
@@ -47,7 +68,7 @@ PrefabInstance:
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_AssetId
-      value: bb2bcbb3619330d41965879e35f7c3ce
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6187949413390427563, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}

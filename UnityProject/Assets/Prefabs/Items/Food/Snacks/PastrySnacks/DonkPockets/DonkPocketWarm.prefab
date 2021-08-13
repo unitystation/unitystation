@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 4170985198274634163, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: m_AssetId
-      value: 76e58cccbbfd2ab40b893f51eddd9094
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
@@ -102,6 +102,22 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: The heated food of choice for the seasoned traitor.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610971522632324561, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610971522632324561, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 51bb4f50eda4c80439b4b0e716a22ef7,
+        type: 2}
+    - target: {fileID: 4610971522632324561, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 922016590111587640, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792, type: 3}

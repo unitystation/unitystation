@@ -113,7 +113,7 @@ PrefabInstance:
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_AssetId
-      value: f7bfb4c96bfd75240b712bdad9f69379
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -126,6 +126,29 @@ PrefabInstance:
       value: A cluster of juicy spider eggs. A great side dish for when you care
         not for your health.
       objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a2228b2bf3e0134eb3a78b57b418f39,
+        type: 2}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f37c8f383669554cacb48caa16f5407,
+        type: 2}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6827275bd0c842d4aaf67202b86be579,
+        type: 2}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet

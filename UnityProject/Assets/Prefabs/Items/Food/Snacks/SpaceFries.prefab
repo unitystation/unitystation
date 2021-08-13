@@ -102,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_AssetId
-      value: 69e02e3e9f243c64b8571fd4d263f432
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -114,6 +114,33 @@ PrefabInstance:
       propertyPath: initialDescription
       value: 'AKA: French Fries, Freedom Fries, etc.'
       objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: cf55e1c026dfbad408f87e692d32acf7,
+        type: 2}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c395b2ad44f6dc842880df96f051dccb,
+        type: 2}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet

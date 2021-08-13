@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 6048747994970652771, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_AssetId
-      value: 4f841c65f76fe974880847c01e7a432d
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -130,5 +130,21 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: a69cda02ade347d43945c8c59fdfba6e, type: 3}
+    - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 32b95da7df3c00b4f8aae7532253d785,
+        type: 2}
+    - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a023982b9ee4fd40b87f69c23492dd6, type: 3}

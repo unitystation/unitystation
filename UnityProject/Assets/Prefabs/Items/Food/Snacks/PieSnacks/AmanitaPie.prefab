@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 3107333849576633749, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_AssetId
-      value: e728e10178c603843af6e8c46c6f6db6
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -92,6 +92,27 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Sweet and tasty poison pie.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 03410bf98ec5f8b46b64e60ef0970e99,
+        type: 2}
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}

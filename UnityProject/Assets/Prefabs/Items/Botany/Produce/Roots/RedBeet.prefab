@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 3075586618079756424, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
       propertyPath: m_AssetId
-      value: f866b6c644819d54aa67d13c291864a2
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3110045621768978504, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}
@@ -77,6 +77,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedBeet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c8bcede03efc8c4db83aa16e5e54593,
+        type: 2}
+    - target: {fileID: 3220508457274029290, guid: 65aa5598a8968404e9ca47e68a8d09b6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3303111703392490078, guid: 65aa5598a8968404e9ca47e68a8d09b6,
         type: 3}

@@ -170,6 +170,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A slab of meat.
       objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bc4854fc802d5b4bb3fda1ba37bb651,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a33dd843ab594e9b3dbbf5b6305d4, type: 3}
 --- !u!1 &2786145059108661523 stripped

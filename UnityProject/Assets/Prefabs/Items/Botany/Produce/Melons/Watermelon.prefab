@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 1290906528003875320, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_AssetId
-      value: 854b3b81a89f12b40b192fd047793b7c
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
@@ -104,6 +104,28 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's full of watery goodness.
       objectReference: {fileID: 0}
+    - target: {fileID: 1726319562280146330, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726319562280146330, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726319562280146330, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e8c7eb77ca403f94db0de97ed0d8d5f5,
+        type: 2}
+    - target: {fileID: 1726319562280146330, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d795ba91dc2e474da9ff19c91e420f8,
+        type: 2}
     - target: {fileID: 4987756423560292299, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: PresentSpriteSet

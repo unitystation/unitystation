@@ -18,6 +18,22 @@ PrefabInstance:
       value: A strange red mushroom, its surface is moist and slick. You wonder how
         many tiny worms have met their fate inside.
       objectReference: {fileID: 0}
+    - target: {fileID: 85244361310648027, guid: 9933cfcb816f49441b323811afdba50d,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 85244361310648027, guid: 9933cfcb816f49441b323811afdba50d,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c9aebff6c87403149ae3db37771aae33,
+        type: 2}
+    - target: {fileID: 85244361310648027, guid: 9933cfcb816f49441b323811afdba50d,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 311944180622347345, guid: 9933cfcb816f49441b323811afdba50d,
         type: 3}
       propertyPath: m_Sprite

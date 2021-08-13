@@ -28,6 +28,22 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bc4854fc802d5b4bb3fda1ba37bb651,
+        type: 2}
+    - target: {fileID: 1354904975009631927, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: initialName

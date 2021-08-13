@@ -274,6 +274,22 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Sprites.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 542829611148227948, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 542829611148227948, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 542829611148227948, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 984ceee091b0bde4eada93e9e7369a73,
+        type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
