@@ -7,6 +7,9 @@ using Chemistry.Components;
 using Items;
 using Mirror;
 using NaughtyAttributes;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Player
@@ -102,7 +105,16 @@ namespace Player
 		/// <returns>True, if a player already knows the recipe, false otherwise.</returns>
 		public bool KnowsRecipe(CraftingRecipe recipe)
 		{
-			return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
+			try
+			{
+				return GetKnownRecipesInCategory(recipe.Category).Contains(recipe);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e.StackTrace);
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -729,6 +741,72 @@ namespace Player
 			}
 		}
 		#endregion
+
+		#region UnityEditorHelpers
+
+#if UNITY_EDITOR
+
+		public void RemoveNullsInDefaultKnownRecipes()
+		{
+			for (int i = defaultKnownRecipes.Count - 1; i >= 0; i--)
+			{
+				if (defaultKnownRecipes[i] == null)
+				{
+					defaultKnownRecipes.RemoveAt(i);
+				}
+			}
+		}
+
+		public void RemoveDuplicatesInDefaultKnownRecipes()
+		{
+			int i = defaultKnownRecipes.Count - 1;
+			while (i >= 0)
+			{
+				int j = i - 1;
+				while (j >= 0)
+				{
+					if (defaultKnownRecipes[i] == defaultKnownRecipes[j])
+					{
+						defaultKnownRecipes.RemoveAt(j);
+						i--;
+					}
+					j--;
+				}
+
+				i--;
+			}
+		}
+
+		#endif
+
+		#endregion
 	}
+
+	#region UnityEditor
+#if UNITY_EDITOR
+
+	[CustomEditor(typeof(PlayerCrafting))]
+	public class PlayerCraftingEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+
+			if (GUILayout.Button("Remove nulls"))
+			{
+				((PlayerCrafting) target).RemoveNullsInDefaultKnownRecipes();
+				serializedObject.Update();
+			}
+
+			if (GUILayout.Button("Remove duplicates"))
+			{
+				((PlayerCrafting) target).RemoveDuplicatesInDefaultKnownRecipes();
+				serializedObject.Update();
+			}
+		}
+	}
+
+#endif
+	#endregion
 }
 
