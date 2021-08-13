@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/08/13: **[Fix]** - Food processors no longer disappear, again. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[7259](https://github.com/unitystation/unitystation/pull/7259)
 * 2021/08/12: **[New]** Made a lot of food properly craftable using the new crafting menu. by [PetMudstone](https://github.com/PetMudstone) in PR #[7248](https://github.com/unitystation/unitystation/pull/7248)
 * 2021/08/10: **[New]** - Stackable items' examine text now shows how many items they're holding. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[7235](https://github.com/unitystation/unitystation/pull/7235)
 * 2021/08/09: **[New]** The new crafting system and its user interface. by [Lizurt](https://github.com/Lizurt) in PR #[7024](https://github.com/unitystation/unitystation/pull/7024)
