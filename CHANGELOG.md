@@ -2,6 +2,7 @@
 ---
 
 
+* 2021/08/13: **[Improvement]** - Players can now choose how big their chat log history is. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[7236](https://github.com/unitystation/unitystation/pull/7236)
 * 2021/08/13: **[Fix]** - Food processors no longer disappear, again. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[7259](https://github.com/unitystation/unitystation/pull/7259)
 * 2021/08/12: **[New]** Made a lot of food properly craftable using the new crafting menu. by [PetMudstone](https://github.com/PetMudstone) in PR #[7248](https://github.com/unitystation/unitystation/pull/7248)
 * 2021/08/10: **[New]** - Stackable items' examine text now shows how many items they're holding. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[7235](https://github.com/unitystation/unitystation/pull/7235)
