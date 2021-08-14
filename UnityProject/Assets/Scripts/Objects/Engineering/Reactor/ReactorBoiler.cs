@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Pipes;
-using ScriptableObjects;
 using UnityEngine;
+using ScriptableObjects;
+using Systems.ObjectConnection;
+using Objects.Atmospherics;
+
 
 namespace Objects.Engineering
 {
@@ -100,14 +101,11 @@ namespace Objects.Engineering
 		
 		#region Multitool Interaction
 
-		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
-		public MultitoolConnectionType ConType => conType;
-		private bool multiMaster = false;
-		public bool MultiMaster => multiMaster;
+		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
+		public bool MultiMaster => false;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
 
-		public void AddSlave(object SlaveObjectThis)
-		{
-		}
+		public void AddSlave(object SlaveObjectThis) { }
 
 		#endregion
 	}

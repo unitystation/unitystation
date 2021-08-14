@@ -1,15 +1,15 @@
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Systems.Ai;
-using Core.Input_System.InteractionV2.Interactions;
+using UnityEngine;
+using TileManagement;
 using HealthV2;
+using Systems.Ai;
+using Systems.Interaction;
 using Items;
 using Objects.Wallmounts;
-using TileManagement;
-using UnityEngine;
 
+
+// TODO: namespace me to Systems.Interaction (have fun)
 /// <summary>
 /// Util class containing validation logic you might want to use when
 /// developing interactable components. All methods should be designed to work correctly
@@ -203,8 +203,16 @@ public static class Validations
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
 	/// <returns></returns>
-	public static bool CanApply(PlayerScript playerScript, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null, bool isPlayerClick = false)
+	public static bool CanApply(
+		PlayerScript playerScript,
+		GameObject target,
+		NetworkSide side,
+		bool allowSoftCrit = false,
+		ReachRange reachRange = ReachRange.Standard,
+		Vector2? targetVector = null,
+		RegisterTile targetRegisterTile = null,
+		bool isPlayerClick = false
+	)
 	{
 		if (playerScript == null) return false;
 
@@ -387,7 +395,13 @@ public static class Validations
 	/// <param name="isServer">Whether or not this call is occurring on the server</param>
 	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	/// <returns>true if the x and y distance of interaction are less than interactDist and there is no blockage. False otherwise.</returns>
-	public static bool IsReachableByPositions(Vector3 fromWorldPos, Vector3 toWorldPos, bool isServer, float interactDist = PlayerScript.interactionDistance, GameObject context = null)
+	public static bool IsReachableByPositions(
+		Vector3 fromWorldPos,
+		Vector3 toWorldPos,
+		bool isServer,
+		float interactDist = PlayerScript.interactionDistance,
+		GameObject context = null
+	)
 	{
 		if (IsNotBlocked(fromWorldPos, toWorldPos, isServer: isServer, context: context))
 		{

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Pipes;
 using UnityEngine;
+using Objects.Atmospherics;
+
 
 /// <summary>
 /// Used for stacking tiles Since thats what happens in the Underfloor stuff
@@ -11,6 +12,8 @@ public class UnderFloorLayer : Layer
 {
 	//It is assumed that the tiles start at 1 and go down
 	private Dictionary<Vector2Int, List<LayerTile>> TileStore = new Dictionary<Vector2Int, List<LayerTile>>();
+
+	public Dictionary<Vector2Int, List<LayerTile>> tileStore => TileStore;
 
 	public void InitialiseUnderFloorUtilities()
 	{
@@ -119,7 +122,6 @@ public class UnderFloorLayer : Layer
 		return tiles;
 	}
 
-
 	public override LayerTile GetTile(Vector3Int position)
 	{
 		if (CustomNetworkManager.Instance._isServer)
@@ -179,13 +181,16 @@ public class UnderFloorLayer : Layer
 		{
 			if (!Application.isPlaying) isServer = true;
 		}
+		var positionV2 = position.To2Int();
 
 		//We do not want to duplicate under floor tiles if they are the same:
-		if (TileStore.ContainsKey(position.To2Int()))
+		if (TileStore.ContainsKey(positionV2))
 		{
+			var metaDataNode = matrix.MetaDataLayer.Get(position);
 			foreach (var l in TileStore[position.To2Int()])
 			{
-				if ((tile as BasicTile).AreUnderfloorSame(transformMatrix, l as BasicTile, GetMatrix4x4(position, l)))
+
+				if ((tile as BasicTile).IsTileRepeated(transformMatrix, l as BasicTile, GetMatrix4x4(position, l), metaDataNode))
 				{
 					//duplicate found aborting
 					return;
@@ -195,22 +200,21 @@ public class UnderFloorLayer : Layer
 
 		if (isServer)
 		{
-			Vector2Int position2 = position.To2Int();
-			if (!TileStore.ContainsKey(position2))
+			if (!TileStore.ContainsKey(positionV2))
 			{
 				SetupNode(position);
 			}
 
-			int index = FindFirstEmpty(TileStore[position2]);
+			int index = FindFirstEmpty(TileStore[positionV2]);
 			if (index < 0)
 			{
-				position.z = 1 - TileStore[position2].Count;
-				TileStore[position2].Add((LayerTile) tile);
+				position.z = 1 - TileStore[positionV2].Count;
+				TileStore[positionV2].Add((LayerTile) tile);
 			}
 			else
 			{
 				position.z = 1 - index;
-				TileStore[position2][index] = (LayerTile) tile;
+				TileStore[positionV2][index] = (LayerTile) tile;
 			}
 
 
@@ -228,15 +232,10 @@ public class UnderFloorLayer : Layer
 					return;
 				}
 			}
+		}
 
-			base.SetTile(position, tile, transformMatrix, color);
-		}
-		else
-		{
-			base.SetTile(position, tile, transformMatrix, color);
-		}
+		base.SetTile(position, tile, transformMatrix, color);
 	}
-
 
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{

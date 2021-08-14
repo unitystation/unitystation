@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: MinersSalve
   m_EditorClassIdentifier: 
   displayName: Miner's Salve
-  description: A powerful painkiller. Restores bruising and burns in addition to making
-    the patient believe they are fully healed.
+  description: A powerful painkiller. Restores bruising and burns in addition to
+    making the patient believe they are fully healed.
   color: {r: 0.42745098, g: 0.3882353, b: 0.45490196, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 264

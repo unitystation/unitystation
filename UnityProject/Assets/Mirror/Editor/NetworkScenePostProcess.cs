@@ -61,15 +61,15 @@ namespace Mirror
                         // * if an unopened scene needs resaving
                         // show a proper error message in both cases so the user
                         // knows what to do.
-	                    string path = identity.gameObject.scene.path;
+                        string path = identity.gameObject.scene.path;
                         if (string.IsNullOrWhiteSpace(path))
 	                        ///UNITYSTATION CODE///
 	                        /// Replaced with warning, Used to be error, Used to cause Builds to Cancel with enough errors
-                            Debug.LogWarning($"{identity.name} is currently open in Prefab Edit Mode. Please open the actual scene before launching Mirror.");
+	                        Debug.LogWarning($"{identity.name} is currently open in Prefab Edit Mode. Please open the actual scene before launching Mirror.");
                         else
 	                        ///UNITYSTATION CODE///
 	                        /// Replaced with warning, Used to be error, Used to cause Builds to Cancel with enough errors
-                            Debug.LogWarning($"Scene {path} needs to be opened and resaved, because the scene object {identity.name} has no valid sceneId yet.");
+	                        Debug.LogWarning($"Scene {path} needs to be opened and resaved, because the scene object {identity.name} has no valid sceneId yet.");
 
                         // either way we shouldn't continue. nothing good will
                         // happen when trying to launch with invalid sceneIds.

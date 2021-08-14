@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Core.Input_System.InteractionV2.Interactions;
-using Messages.Server;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Messages.Server;
+using Systems.Interaction;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class Mixer : MonoPipe
 	{
 		public SpriteHandler spriteHandlerOverlay = null;
-
-		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
 		public int MaxPressure = 9999;
 		private float TransferMoles = 500f;

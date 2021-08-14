@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: yawn
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: yawns.
   youText: A nap wouldn't hurt..
   failText: You were unable to preform this action!
+  critViewText: has some troubles keeping their eyes open!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
   pitchRange: {x: 0.7, y: 1}
-  critViewText: has some troubles keeping their eyes open!

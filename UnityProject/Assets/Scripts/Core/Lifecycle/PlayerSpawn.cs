@@ -272,7 +272,7 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerRejoined, settings, oldGhost != null);
+		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerSpawned, settings, oldGhost != null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 
 		if (oldGhost)
@@ -488,6 +488,12 @@ public static class PlayerSpawn
 			oldBody.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
 		}
 
+		var netIdentity = newBody.GetComponent<NetworkIdentity>();
+		if (netIdentity.connectionToClient != null)
+		{
+			CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
+		}
+
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
@@ -542,11 +548,6 @@ public static class PlayerSpawn
 			{
 				playerSprites.OnCharacterSettingsChange(characterSettings);
 			}
-		}
-		var healthStateMonitor = newBody.GetComponent<HealthStateMonitor>();
-		if (healthStateMonitor)
-		{
-			healthStateMonitor.ProcessClientUpdateRequest(newBody);
 		}
 	}
 }

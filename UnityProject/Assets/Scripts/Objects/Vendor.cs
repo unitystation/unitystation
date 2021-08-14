@@ -106,6 +106,9 @@ namespace Objects
 			{
 				isEmagged = true;
 				emag.UseCharge(interaction);
+				Chat.AddActionMsgToChat(interaction,
+					"The product lock shorts out. light fumes pour from the dispenser...",
+							"You can smell caustic smoke from somewhere...");
 			}
 		}
 
@@ -183,17 +186,24 @@ namespace Objects
 
 			if (itemToSpawn.Price > 0)
 			{
-				var playerStorage = player.GameObject.GetComponent<ItemStorage>();
-				var idCardObj = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
-				var idCard = AccessRestrictions.GetIDCard(idCardObj);
-				if (idCard.currencies[(int) itemToSpawn.Currency] >= itemToSpawn.Price)
+				var playerStorage = player.GameObject.GetComponent<DynamicItemStorage>();
+				var itemSlotList = playerStorage.GetNamedItemSlots(NamedSlot.id);
+				foreach (var itemSlot in itemSlotList)
 				{
-					idCard.currencies[(int) itemToSpawn.Currency] -= itemToSpawn.Price;
-				}
-				else
-				{
-					Chat.AddWarningMsgFromServer(player.GameObject, tooExpensiveMessage);
-					return false;
+					if (itemSlot.ItemObject)
+					{
+						var idCard = AccessRestrictions.GetIDCard(itemSlot.ItemObject);
+						if (idCard.currencies[(int) itemToSpawn.Currency] >= itemToSpawn.Price)
+						{
+							idCard.currencies[(int) itemToSpawn.Currency] -= itemToSpawn.Price;
+							break;
+						}
+						else
+						{
+							Chat.AddWarningMsgFromServer(player.GameObject, tooExpensiveMessage);
+							return false;
+						}
+					}
 				}
 			}
 

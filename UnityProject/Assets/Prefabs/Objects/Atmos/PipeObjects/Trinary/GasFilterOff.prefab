@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 28
+  aiInteractable: 1
 --- !u!114 &7643419451972840866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,36 +53,23 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Mix:
+      mix:
         temperature: 273.15
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 0.1
-    ConnectedPipes: []
-    Outputs: []
+        Temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spriteHandlerOverlay: {fileID: 245935552815682260}
-  ToMaxPressure: 9999
+  initalFilterValue: 0
+  MaxPressure: 9999
   IsOn: 0
   FilterReagent: {fileID: 0}
 --- !u!1 &9022212187074110458
@@ -127,6 +115,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -182,10 +171,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 02479bef20335fe4f94a1457f4c1825d, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &7123929055007505571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -215,6 +204,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -230,6 +224,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -241,16 +240,6 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 9a9e0975a92c4564094bbb26dd165002,
@@ -274,6 +263,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2153187db89e7a94f9b841dc689ea12c,
         type: 3}
+    - target: {fileID: 1625578739251644646, guid: 9a9e0975a92c4564094bbb26dd165002,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -283,7 +277,7 @@ PrefabInstance:
     - target: {fileID: 6931842893682907539, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f04f1148822d6c949aaafb1e43e5d59b
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 9a9e0975a92c4564094bbb26dd165002,
         type: 3}

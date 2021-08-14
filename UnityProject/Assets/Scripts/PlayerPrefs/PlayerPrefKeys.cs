@@ -95,4 +95,9 @@
 	/// Index of the selected mention sound
 	/// <summary>
 	public static string MentionSoundIndex = "MentionSoundIndex";
+
+	/// <summary>
+	/// Allows for chat's log history to be customizable.
+	/// <summary>
+	public static string ChatLogSize = "ChatLogSize";
 }

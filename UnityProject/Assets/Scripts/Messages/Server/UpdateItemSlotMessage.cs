@@ -107,8 +107,10 @@ namespace Messages.Server
 		/// <param name="recipients">clients to inform</param>
 		/// <param name="inventorySlot">slot to tell them about</param>
 		/// <returns></returns>
-		public static void Send(IEnumerable<GameObject> recipients, ItemSlot itemSlot)
+		public static void Send(HashSet<GameObject> recipients, ItemSlot itemSlot)
 		{
+			if (recipients.Count == 0) return;
+
 			NetMessage msg = new NetMessage
 			{
 				Storage = itemSlot.ItemStorageNetID,

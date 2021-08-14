@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Shuttles;
-using Tilemaps.Behaviours.Layers;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
+using Tilemaps.Behaviours.Layers;
+using Shuttles;
+using Objects.Atmospherics;
+
 
 namespace Tests
 {
@@ -296,6 +298,102 @@ namespace Tests
 					report.AppendLine($"{prefab}: {gameObject.name} is an object with a item storage with forceSpawnContents off, turn it on");
 					isok = false;
 				}
+			}
+
+			if (isok == false)
+			{
+				Assert.Fail(report.ToString());
+			}
+		}
+
+
+		/// <summary>
+		/// Checks for duplicated Pipes or cables
+		/// </summary>
+		[Test]
+		public void CheckPipesAndCables()
+		{
+			bool isok = true;
+			var report = new StringBuilder();
+			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene");
+			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+			List<ElectricalCableTile> Cables = new List<ElectricalCableTile>();
+
+			foreach (var scene in scenesPaths)
+			{
+				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
+
+				var Openedscene = EditorSceneManager.OpenScene(scene);
+				//report.AppendLine($"Checking {scene}");
+				//Logger.Log($"Checking {scene}", Category.Tests);
+				var Matrices =  UnityEngine.Object.FindObjectsOfType<UnderFloorLayer>();
+
+				foreach (var Underfloor in Matrices)
+				{
+					BoundsInt bounds = Underfloor.Tilemap.cellBounds;
+
+					for (int n = bounds.xMin; n < bounds.xMax; n++)
+					{
+						for (int p = bounds.yMin; p < bounds.yMax; p++)
+						{
+							Cables.Clear();
+							Vector3Int localPlace = (new Vector3Int(n, p, 0));
+							bool[] PipeDirCheck = new bool[4];
+
+							for (int i = 0; i < 50; i++)
+							{
+								localPlace.z = -i + 1;
+								var getTile = Underfloor.Tilemap.GetTile(localPlace) as LayerTile;
+								if (getTile != null)
+								{
+									var electricalCableTile = getTile as ElectricalCableTile;
+									if (electricalCableTile != null)
+									{
+										if (Cables.Contains(electricalCableTile))
+										{
+											isok = false;
+											report.AppendLine(
+												$"A Duplicate cables at ({n}, {p}) in {Underfloor.matrix.gameObject.scene.name} - {Underfloor.matrix.name} with another Cable Name -> {electricalCableTile.name}");
+
+											Underfloor.Tilemap.SetTile(localPlace, null);
+											Underfloor.Tilemap.SetColor(localPlace,Color.white);
+											Underfloor.Tilemap.SetTransformMatrix(localPlace, Matrix4x4.identity);
+										}
+										Cables.Add(electricalCableTile);
+									}
+
+									var pipeTile = getTile as PipeTile;
+									if (pipeTile != null)
+									{
+										var matrixStruct = Underfloor.Tilemap.GetTransformMatrix(localPlace);
+										var connection = PipeTile.GetRotatedConnection(pipeTile, matrixStruct);
+										var pipeDir = connection.Directions;
+										for (var d = 0; d < pipeDir.Length; d++)
+										{
+											if (pipeDir[d].Bool)
+											{
+												if (PipeDirCheck[d])
+												{
+													isok = false;
+													report.AppendLine(
+														$"A pipe is overlapping its connection at ({n}, {p}) in {Underfloor.matrix.gameObject.scene.name} - {Underfloor.matrix.name} with another pipe");
+													Underfloor.Tilemap.SetTile(localPlace, null);
+													Underfloor.Tilemap.SetColor(localPlace,Color.white);
+													Underfloor.Tilemap.SetTransformMatrix(localPlace, Matrix4x4.identity);
+													break;
+												}
+												PipeDirCheck[d] = true;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+				}
+
+				EditorApplication.SaveScene();
 			}
 
 			if (isok == false)

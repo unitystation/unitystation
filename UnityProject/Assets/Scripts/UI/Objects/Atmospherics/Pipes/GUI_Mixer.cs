@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UI.Core;
+using Objects.Atmospherics;
+
 
 namespace UI.Objects.Atmospherics
 {
@@ -9,7 +10,7 @@ namespace UI.Objects.Atmospherics
 	{
 		public NetSlider Slider;
 
-		public Pipes.Mixer Mixer;
+		public Mixer Mixer;
 
 		public NumberSpinner numberSpinner;
 
@@ -34,7 +35,7 @@ namespace UI.Objects.Atmospherics
 		{
 			if (Provider != null)
 			{
-				Mixer = Provider.GetComponentInChildren<Pipes.Mixer>();
+				Mixer = Provider.GetComponentInChildren<Mixer>();
 			}
 			numberSpinner.ServerSpinTo(Mixer.MaxPressure);
 			numberSpinner.DisplaySpinTo(Mixer.MaxPressure);

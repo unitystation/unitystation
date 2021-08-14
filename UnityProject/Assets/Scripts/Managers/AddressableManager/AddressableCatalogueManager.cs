@@ -18,7 +18,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.ResourceManagement.Util;
 
-public class AddressableCatalogueManager : NetworkBehaviour, IInitialise
+public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 {
 	//TODO
 	//Cleanup errors

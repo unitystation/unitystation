@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: giggle
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: giggles.
   youText: You giggle like a little girl
   failText: No sense of humor can make you even let out a small chuckle.
+  critViewText: hides their fear behind a giggle.
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: hides their fear behind a giggle.
+  pitchRange: {x: 0.7, y: 1}

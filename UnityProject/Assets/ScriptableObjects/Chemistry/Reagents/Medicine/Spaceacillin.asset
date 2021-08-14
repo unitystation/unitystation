@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Spaceacillin
   m_EditorClassIdentifier: 
   displayName: Spaceacillin
-  description: Spaceacillin will prevent a patient from conventionally spreading any
-    diseases they are currently infected with.
+  description: Spaceacillin will prevent a patient from conventionally spreading
+    any diseases they are currently infected with.
   color: {r: 0.78431374, g: 0.64705884, b: 0.8627451, a: 1}
   state: 0
+  heatDensity: 5
+  indexInSingleton: 286

@@ -51,6 +51,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public RegisterPlayer registerTile { get; set; }
 
+	private PlayerCrafting playerCrafting;
+
+	public PlayerCrafting PlayerCrafting => playerCrafting;
+
 	public PlayerOnlySyncValues PlayerOnlySyncValues { get; private set; }
 
 	public HasCooldowns Cooldowns { get; set; }
@@ -138,6 +142,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
+		playerCrafting = GetComponent<PlayerCrafting>();
 	}
 
 	public override void OnStartClient()

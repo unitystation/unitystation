@@ -1,13 +1,14 @@
 using System;
-using System.Collections;
-using Light2D;
+using UnityEngine;
+using Random = UnityEngine.Random;
 using Mirror;
 using ScriptableObjects;
-using UnityEngine;
+using Light2D;
 using Systems.Electricity;
 using Systems.Explosions;
-using Random = UnityEngine.Random;
+using Systems.ObjectConnection;
 using Objects.Construction;
+
 
 namespace Objects.Lighting
 {

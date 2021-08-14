@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunTime: 3
   willDisarm: 0
+  doMsg: 0
 --- !u!1001 &4113160452084079884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21,6 +22,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -38,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -50,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
@@ -79,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 2511337419890708861, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_Name
-      value: Bullet_ShotgunBeanbag
+      value: Bullet_BeanbagSlug
       objectReference: {fileID: 0}
     - target: {fileID: 2567588430541566183, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
@@ -90,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 2920371813632314487, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0db28ea7632de0b4593a32bba473e844
       objectReference: {fileID: 0}
     - target: {fileID: 4204988295596267492, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}

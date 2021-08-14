@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: SalicyclicAcid
   m_EditorClassIdentifier: 
   displayName: Salicyclic Acid
-  description: Stimulates the healing of severe bruises. Extremely rapidly heals severe
-    bruising and slowly heals minor ones. Overdose will worsen existing bruising.
+  description: Stimulates the healing of severe bruises. Extremely rapidly heals
+    severe bruising and slowly heals minor ones. Overdose will worsen existing bruising.
   color: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 283

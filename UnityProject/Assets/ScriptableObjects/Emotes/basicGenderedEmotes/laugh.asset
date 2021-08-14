@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: laugh
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: laughs.
   youText: You let out a laugh.
   failText: Not Funny. Didn't laugh.
+  critViewText: hides their pain behind a laugh.
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: hides their pain behind a laugh.
+  pitchRange: {x: 0.7, y: 1}

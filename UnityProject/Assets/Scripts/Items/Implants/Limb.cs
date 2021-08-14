@@ -13,7 +13,7 @@ namespace HealthV2
 		RightHand
 	}
 
-	public class Limb : BodyPartModification, PlayerMove.IMovementEffect
+	public class Limb : Organ, PlayerMove.IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("The walking speed that will be used when attached as a leg.\n" +

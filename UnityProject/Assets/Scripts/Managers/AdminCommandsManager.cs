@@ -194,7 +194,7 @@ namespace AdminCommands
 				var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
 				CentComm.MakeShuttleCallAnnouncement(minutes, text, true);
 
-				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle.");
+				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle. \n {text}");
 			}
 		}
 
@@ -209,7 +209,7 @@ namespace AdminCommands
 
 			CentComm.MakeShuttleRecallAnnouncement(text);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle.");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -219,7 +219,7 @@ namespace AdminCommands
 
 			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Notice);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT.");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -229,7 +229,7 @@ namespace AdminCommands
 
 			GameManager.Instance.CentComm.MakeCommandReport(text);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT.");
+			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -291,7 +291,7 @@ namespace AdminCommands
 			{
 				foreach (ConnectedPlayer player in players)
 				{
-					if(player.Script.IsGhost || player.Script.playerHealth == null) continue;
+					if(player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) continue;
 
 					string message =
 						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
@@ -326,32 +326,12 @@ namespace AdminCommands
 					PlayerScript playerScript = player.Script;
 					Mind playerMind = playerScript.mind;
 					var playerBody = playerMind.body;
-					HealthV2.PlayerHealthV2 health = playerBody.playerHealth;
 					string message = "";
 
 					//Does this player have a body that can be healed?
 					if(playerBody != null)
 					{
-						if(health.IsDead == false) //If player is not dead; simply heal all his damage and that's all.
-						{
-							health.ResetDamageAll();
-							playerScript.registerTile.ServerStandUp();
-						}
-						else //If not, start reviving the player.
-						{
-							//(Max): Because Mirror authority does not allow us to call functions from PlayerSpawn in [Command(requiresAuthority = false)]
-							//(Max): We have to avoid forcing the player ghost back into his body for now until we find a work around.
-							//If the player is a ghost --force them into their body-- tell admins to tell the player to return back to their body to revive them.
-							if(playerScript.IsGhost)
-							{
-								message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Attempted healing {player.Username} but their ghost is outside of their body!";
-								Logger.Log(message, Category.Admin);
-								LogAdminAction(message);
-								return;
-							}
-							health.RevivePlayerToFullHealth(playerScript);
-							playerScript.registerTile.ServerStandUp();
-						}
+						playerBody.playerHealth.RevivePlayerToFullHealth();
 						message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Healed up Username: {player.Username} ({player.Name})";
 					}
 					else

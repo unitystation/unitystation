@@ -90,7 +90,7 @@ namespace HealthV2
 		public override void Gib()
 		{
 			//drop everything
-			foreach (var slot in dynamicItemStorage.GetItemSlots())
+			foreach (var slot in dynamicItemStorage.GetItemSlots().ToList())
 			{
 				Inventory.ServerDrop(slot);
 			}

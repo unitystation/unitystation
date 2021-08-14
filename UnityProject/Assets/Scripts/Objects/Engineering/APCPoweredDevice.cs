@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using Mirror;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
+using Mirror;
+using Systems.ObjectConnection;
 using Objects.Engineering;
 using UnityEngine.Events;
+#if Unity_Editor
+using UnityEditor;
+#endif
+
+
 
 namespace Systems.Electricity
 {
@@ -90,8 +97,9 @@ namespace Systems.Electricity
 		{
 #if Unity_Editor
 		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
-#endif
 
+#endif
+			if (Application.isPlaying == false) return;
 			EnsureInit();
 		}
 
@@ -107,6 +115,7 @@ namespace Systems.Electricity
 
 		private void EnsureInit()
 		{
+			if (this == null) return;
 			if (Powered != null) return;
 			Powered = GetComponent<IAPCPowerable>();
 			registerTile = GetComponent<RegisterTile>();

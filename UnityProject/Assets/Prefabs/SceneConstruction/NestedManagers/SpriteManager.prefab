@@ -45,11 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 2
-  m_AssetId: 
+  m_AssetId: 78eb32e872dfe8c42b9c12d5a31e382f
   hasSpawned: 0
 --- !u!114 &2972572783413964348
 MonoBehaviour:
@@ -65,9 +64,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  HitIconPool: []
-  HitIconPrefab: {fileID: 2768372637199966485, guid: ecd4c0e634b10ed40865424b490af4ce,
-    type: 3}
 --- !u!114 &3082562953919912661
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects.Wallmounts;
-using Shuttles;
-using UnityEditor.SceneManagement;
 using Object = UnityEngine.Object;
+
 
 public class Tools : Editor
 {
@@ -297,18 +297,26 @@ public class Tools : Editor
 		return null;
 	}
 
-	[MenuItem("Mapping/Snap to Grid All Applicable Objects")]
-	//Rounds all the scene objects with cnt if they should be
-	private static void SetAllCntToPos()
+	/// <summary>Snap all allowed objects to the middle of the nearest tile.</summary>
+	[MenuItem("Tools/Mapping/Snap to Grid All Applicable Objects")]
+	private static void CenterObjects()
 	{
+		int count = 0;
 		foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
 		{
 			foreach (var cnt in gameObject.GetComponentsInChildren<CustomNetTransform>())
 			{
 				if (cnt.SnapToGridOnStart == false) continue;
 
+				var initialPosition = cnt.transform.position;
 				cnt.transform.position = cnt.transform.position.RoundToInt();
+				if (cnt.transform.position != initialPosition)
+				{
+					count++;
+				}
 			}
 		}
+
+		Logger.Log($"Centered {count} objects!");
 	}
 }

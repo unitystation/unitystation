@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: JanibeltFullPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 7190773224479098488, guid: f6b4337f71037664e83de378d446ca98, type: 3}
   - {fileID: 7190773224479098488, guid: f6b4337f71037664e83de378d446ca98, type: 3}
   - {fileID: 7190773224479098488, guid: f6b4337f71037664e83de378d446ca98, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
   - {fileID: 2419386692754613975, guid: e632378292aa9a645bf4a8745061e44d, type: 3}
   - {fileID: 2419386692754613975, guid: 6603caafe8df84b4da1c797343cdf8c6, type: 3}
-  MergeMode: 0

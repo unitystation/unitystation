@@ -639,12 +639,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
-		if (moveActions.moveActions.Length != 0 && !MoveCooldown && isLocalPlayer && playerMove != null
-		    && !didWiggle && ClientPositionReady && ActionSpeed(moveActions) > 0)
+		if (moveActions.moveActions.Length != 0 && !MoveCooldown && isLocalPlayer && playerMove != null && !didWiggle && ClientPositionReady)
 		{
 			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient;
 
-			if (playerMove.allowInput && !beingDraggedWithCuffs && !UIManager.IsInputFocus)
+			if (playerMove.allowInput && !beingDraggedWithCuffs && !UIManager.IsInputFocus && ActionSpeed(moveActions) > 0)
 			{
 				StartCoroutine(DoProcess(moveActions));
 			}

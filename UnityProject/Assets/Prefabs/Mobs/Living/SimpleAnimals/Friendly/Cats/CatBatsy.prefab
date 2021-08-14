@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2041138449374287774, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 780ba32b4f040944cb5ee96c733fae2c
       objectReference: {fileID: 0}
     - target: {fileID: 2103681918909080673, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
@@ -21,6 +21,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CatBatsy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,16 +60,6 @@ PrefabInstance:
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2146650332049058566, guid: e481edcb288d49f488b609f15236afbe,
@@ -85,15 +85,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 46b23dca207ed4548821f52d23bb2c17,
-        type: 2}
-    - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
-        type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: c252f561c4c48af41b5036690c694ede,
+        type: 2}
+    - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 46b23dca207ed4548821f52d23bb2c17,
         type: 2}
     - target: {fileID: 6631108641706263434, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}

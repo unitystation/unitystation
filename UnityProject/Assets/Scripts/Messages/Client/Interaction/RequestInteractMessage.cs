@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Core.Input_System.InteractionV2.Interactions;
+using Systems.Interaction;
 using Mirror;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
+
 
 namespace Messages.Client.Interaction
 {
@@ -16,14 +16,13 @@ namespace Messages.Client.Interaction
 	/// </summary>
 	public class RequestInteractMessage : ClientMessage<RequestInteractMessage.NetMessage>
 	{
-
 		/**
-	 * this is sent as the componentID when the client doesn't know
-	 * exactly which interaction should be triggered, and will
-	 * defer to the server. In this case,
-	 * the server will check each interaction of the given interaction type on the involved
-	 * objects to see which should occur.
-	 */
+		 * this is sent as the componentID when the client doesn't know
+		 * exactly which interaction should be triggered, and will
+		 * defer to the server. In this case,
+		 * the server will check each interaction of the given interaction type on the involved
+		 * objects to see which should occur.
+		 */
 		public static readonly ushort UNKNOWN_COMPONENT_TYPE_ID = ushort.MaxValue;
 
 		public struct NetMessage : NetworkMessage
@@ -410,7 +409,6 @@ namespace Messages.Client.Interaction
 			}
 		}
 
-
 		private static bool ServerCheckAndTrigger<T>(T interaction, IEnumerable<IInteractable<T>> interactables) where T : global::Interaction
 		{
 			foreach (var interactable in interactables.Reverse())
@@ -448,7 +446,6 @@ namespace Messages.Client.Interaction
 			// no interactions triggered
 			return false;
 		}
-
 
 		//only intended to be used by core if2 classes, please use InteractionUtils.RequestInteract instead.
 		//pass null for interactableComponent if you want the server to determine which component of the involved objects should be triggered.

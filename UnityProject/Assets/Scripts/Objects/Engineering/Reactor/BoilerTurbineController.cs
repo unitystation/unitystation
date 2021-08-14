@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.ObjectConnection;
+
 
 namespace Objects.Engineering
 {
@@ -16,10 +17,9 @@ namespace Objects.Engineering
 			State = !State;
 		}
 
-		//######################################## Multitool interaction ##################################
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
-		public MultitoolConnectionType ConType => conType;
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
 
 		public void SetMaster(ISetMultitoolMaster Imaster)
 		{
@@ -34,5 +34,7 @@ namespace Objects.Engineering
 				ReactorTurbine = Turbine;
 			}
 		}
+
+		#endregion
 	}
 }

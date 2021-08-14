@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
+using UnityEngine;
+using Mirror;
 using Systems.Electricity.NodeModules;
 using Systems.Explosions;
-using Core.Input_System.InteractionV2.Interactions;
-using Mirror;
-using UnityEngine;
-using ScriptableObjects;
+using Systems.Interaction;
+
 
 namespace Objects.Engineering
 {
@@ -204,7 +203,6 @@ namespace Objects.Engineering
 				TrySpark();
 			}
 		}
-
 
 		private void ServerToggleOutputLevel(HandApply interaction)
 		{

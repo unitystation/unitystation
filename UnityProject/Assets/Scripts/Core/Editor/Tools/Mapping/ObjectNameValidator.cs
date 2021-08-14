@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEditor;
-using Objects.Atmospherics;
-using Pipes;
-using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
-using System.Text;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using Objects.Atmospherics;
+
 
 namespace Core.Editor.Tools.Mapping
 {

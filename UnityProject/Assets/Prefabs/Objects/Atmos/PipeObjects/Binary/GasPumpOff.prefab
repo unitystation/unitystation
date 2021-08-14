@@ -39,32 +39,18 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Mix:
+      mix:
         temperature: 273.15
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 2.5
-    ConnectedPipes: []
-    Outputs: []
+        Temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spriteHandlerOverlay: {fileID: 6365627804656590152}
@@ -112,6 +98,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -167,10 +154,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3a9de78bf93167b41aca0ce941e5f4b0, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &1410381801743561416
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -191,7 +178,12 @@ PrefabInstance:
     - target: {fileID: 1580494814286032113, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_Name
-      value: GasPump
+      value: GasPumpOff
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -210,6 +202,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -222,16 +219,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -254,6 +241,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 02663cdc96c04ce45bbc9a2a172da315,
         type: 3}
+    - target: {fileID: 1625578739251644646, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4061563628228228549, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_Sprite
@@ -275,7 +267,7 @@ PrefabInstance:
     - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d243343741d540446b159becf769231a
       objectReference: {fileID: 0}
     - target: {fileID: 7306344436992073419, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -284,13 +276,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
-      propertyPath: initialDescription
-      value: A pump that moves gas by pressure.
+      propertyPath: initialName
+      value: gas pump
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
-      propertyPath: initialName
-      value: gas pump
+      propertyPath: initialDescription
+      value: A pump that moves gas by pressure.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40b91fa71481bb54cbec1e89fa1ff1d2, type: 3}

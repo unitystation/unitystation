@@ -63,10 +63,12 @@ namespace Mirror
         static void CheckPlayModeOptions()
         {
             // enabling the checkbox is enough. it controls all the other settings.
+            ///UNITYSTATION CODE///
+            ///Sometimes networking doesn't matter when we testing out features, and it's nice to have faster loading
             // if (EditorSettings.enterPlayModeOptionsEnabled)
             // {
-            //     Debug.LogError("Enter Play Mode Options are not supported by Mirror. Please disable 'ProjectSettings -> Editor -> Enter Play Mode Settings (Experimental)'.");
-            //     EditorApplication.isPlaying = false;
+                // Debug.LogError("Enter Play Mode Options are not supported by Mirror. Please disable 'ProjectSettings -> Editor -> Enter Play Mode Settings (Experimental)'.");
+                // EditorApplication.isPlaying = false;
             // }
         }
 #endif

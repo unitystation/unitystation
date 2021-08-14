@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd5a08c3d2a815a459870fba3d969bfc, type: 3}
+  m_Name: worn shirt
+  m_EditorClassIdentifier: 
+  SpriteEquipped: {fileID: 11400000, guid: 308ce2177daf8954c8252f55066ee324, type: 2}
+  SpriteInHandsLeft: {fileID: 11400000, guid: e6a71dd940af2b74395d96f5dea3118d, type: 2}
+  SpriteInHandsRight: {fileID: 11400000, guid: 6ed0b0ed7ba5c5546ae90c303cbf393b, type: 2}
+  SpriteItemIcon: {fileID: 11400000, guid: b911cd7f32c027848be36661609d6ed7, type: 2}
+  Palette:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  IsPaletted: 0

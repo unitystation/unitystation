@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Pipes;
+using Systems.Explosions;
+using Systems.ObjectConnection;
 using Systems.Radiation;
 using Items.Engineering;
-using Systems.Explosions;
+using Objects.Atmospherics;
+
 
 namespace Objects.Engineering
 {
@@ -475,10 +476,9 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
-		private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
-		public MultitoolConnectionType ConType => conType;
-		private bool multiMaster = false;
-		public bool MultiMaster => multiMaster;
+		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
+		public bool MultiMaster => false;
+		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object SlaveObjectThis)
 		{

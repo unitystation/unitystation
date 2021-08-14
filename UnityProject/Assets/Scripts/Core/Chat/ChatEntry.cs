@@ -101,6 +101,7 @@ public class ChatEntry : MonoBehaviour
 		stackObject.SetActive(false);
 		entryLayoutElement.minHeight = 20f;
 		messageText.raycastTarget = false;
+		AnimateFade(1f, 0f);
 	}
 
 	#endregion

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Systems;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -352,6 +353,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Update()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
 		{
 			InitEscapeShuttle();
@@ -371,6 +373,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
 		}
+
+		if(CustomNetworkManager.Instance._isServer == false) return;
 
 		timeElapsedQueueCheckServer += Time.deltaTime;
 		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
@@ -441,6 +445,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			CrewManifestManager.Instance.ServerClearList();
 		}
 
+		LogPlayersAntagPref();
 
 		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 		{
@@ -454,6 +459,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			NextGameMode = InitialGameMode;
 		}
 
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
+			$"{GameMode.Name} chosen", "[GameMode]");
+
 		// Game mode specific setup
 		GameMode.SetupRound();
 
@@ -466,6 +474,48 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Tell all clients that the countdown has finished
 		UpdateCountdownMessage.Send(true, 0);
+	}
+
+	/// <summary>
+	/// Used to log how many of each antag preference the players in the ready queue have
+	/// </summary>
+	private void LogPlayersAntagPref()
+	{
+		var antagDict = new Dictionary<string, int>();
+
+		foreach (var readyPlayer in PlayerList.Instance.ReadyPlayers)
+		{
+			if(readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
+
+			foreach (var antagPreference in readyPlayer.CharacterSettings.AntagPreferences)
+			{
+				//Only record enabled antags
+				if(antagPreference.Value == false) continue;
+
+				if (antagDict.TryGetValue(antagPreference.Key, out var antagNum))
+				{
+					antagNum++;
+				}
+				else
+				{
+					antagDict.Add(antagPreference.Key, 1);
+				}
+			}
+		}
+
+		var antagString = new StringBuilder();
+
+		antagString.AppendLine($"There are {PlayerList.Instance.ReadyPlayers.Count} ready players");
+
+		var count = PlayerList.Instance.ReadyPlayers.Count;
+
+		foreach (var antag in antagDict)
+		{
+			antagString.AppendLine($"{antag.Value} players have {antag.Key} enabled, {count - antag.Value} have it disabled");
+		}
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
+			antagString.ToString(), "[AntagPreferences]");
 	}
 
 	/// <summary>
@@ -561,7 +611,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A new round has started		\n", "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "`A new round countdown has started`", "");
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, "```A new round countdown has started```", "");
 
 		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
 	}
