@@ -705,6 +705,11 @@ namespace Mirror
             }
 
             // Debug.Log("OnStartClient " + gameObject + " netId:" + netId);
+            if (NetworkBehaviours == null)
+            {
+	            Debug.LogError("hey NetworkBehaviours is null on " + gameObject + "at " + GetGameObjectPath(gameObject) + " at "  + gameObject.transform.localPosition  );
+	            return;
+            }
             foreach (NetworkBehaviour comp in NetworkBehaviours)
             {
                 // an exception in OnStartClient should be caught, so that one
@@ -722,6 +727,16 @@ namespace Mirror
                     Debug.LogException(e, comp);
                 }
             }
+        }
+        public static string GetGameObjectPath(GameObject obj)
+        {
+	        string path = "/" + obj.name;
+	        while (obj.transform.parent != null)
+	        {
+		        obj = obj.transform.parent.gameObject;
+		        path = "/" + obj.name + path;
+	        }
+	        return path;
         }
 
         internal void OnStopClient()
@@ -1004,6 +1019,7 @@ namespace Mirror
         {
             if (NetworkBehaviours == null)
             {
+	            Debug.LogError("hey NetworkBehaviours is null on " + gameObject + "at " + GetGameObjectPath(gameObject) + " at "  + gameObject.transform.localPosition  );
                 Debug.LogError($"NetworkBehaviours array is null on {gameObject.name}!\n" +
                     $"Typically this can happen when a networked object is a child of a " +
                     $"non-networked parent that's disabled, preventing Awake on the networked object " +

@@ -62,7 +62,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   restricted: 0
-  conType: 9
   turrets: []
   isOn: 1
   isStun: 1
@@ -176,6 +175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 991d9e2b162f7ef4ca9b4fd2bdba60d2
       objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

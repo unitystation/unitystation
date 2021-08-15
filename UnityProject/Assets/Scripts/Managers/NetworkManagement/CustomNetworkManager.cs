@@ -146,8 +146,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public void SetSpawnableList()
 	{
 #if UNITY_EDITOR
+		AssetDatabase.StartAssetEditing();
 		spawnPrefabs.Clear();
 		allSpawnablePrefabs.Clear();
+
+		Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
 
 		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
@@ -162,7 +165,42 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			}
 
 			allSpawnablePrefabs.Add(asset);
+
+			if (asset.TryGetComponent<PrefabTracker>(out var prefabTracker))
+			{
+				if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
+				{
+					var OriginalOldID = prefabTracker.ForeverID;
+					//TODO Someone smarter than me work out which one is the base prefab
+					StoredIDs[prefabTracker.ForeverID].ReassignID();
+					prefabTracker.ReassignID();
+					var Preexisting = StoredIDs[OriginalOldID];
+
+					if (Preexisting.ForeverID != OriginalOldID &&
+					    prefabTracker.ForeverID != OriginalOldID)
+					{
+						Logger.LogError("OH GOD What is the original I can't tell!! " +
+						                "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+						                "the prefab variant parent for " +
+						                Preexisting.gameObject +
+						                " and " + prefabTracker.gameObject);
+
+						prefabTracker.ForeverID = OriginalOldID;
+						Preexisting.ForeverID = OriginalOldID;
+						continue;
+					}
+
+
+					StoredIDs[Preexisting.ForeverID] = Preexisting;
+					StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+					PrefabUtility.SavePrefabAsset(Preexisting.gameObject);
+					PrefabUtility.SavePrefabAsset(prefabTracker.gameObject);
+				}
+				StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+			}
 		}
+		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
 #endif
 	}
 

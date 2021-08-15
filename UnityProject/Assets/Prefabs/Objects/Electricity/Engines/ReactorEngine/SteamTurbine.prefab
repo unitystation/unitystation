@@ -81,7 +81,6 @@ MonoBehaviour:
     type: 3}
   droppedMaterialAmount: 25
   Boiler: {fileID: 0}
-  conType: 3
 --- !u!114 &3582693408804968190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +111,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: 8c393ccc08d534149b66f4fe18918959
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Size.x

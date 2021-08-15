@@ -57,8 +57,6 @@ MonoBehaviour:
   isEmagged: 0
   weldOverlay: {fileID: 877469643864734438}
   weldSprite: {fileID: 21300000, guid: d44b675064889f34bb7dbeff3f5e9655, type: 3}
-  isUnLockable: 1
-  isWeldable: 1
 --- !u!114 &-6909192434074767838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,6 +571,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5fe7a98740b8e074f927e23033c7b0cb,
         type: 2}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: foreverID
+      value: 68a3eee06f0a8cf4da5d8ab811ce1c73
+      objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_RootOrder
