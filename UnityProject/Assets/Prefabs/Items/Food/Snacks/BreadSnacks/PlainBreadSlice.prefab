@@ -192,7 +192,7 @@ PrefabInstance:
     - target: {fileID: 3772583389644969066, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
       propertyPath: m_Name
-      value: BreadPlainSlice
+      value: PlainBreadSlice
       objectReference: {fileID: 0}
     - target: {fileID: 3877279333247478238, guid: d2991f5505400ab479c5262137eed380,
         type: 3}
@@ -216,5 +216,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2162f89df49523249a4cf0b38b16684e,
         type: 2}
+    - target: {fileID: 7845360156701906951, guid: d2991f5505400ab479c5262137eed380,
+        type: 3}
+      propertyPath: foreverID
+      value: 5f01f5a34b9c216449c31cf35a77e2da
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2991f5505400ab479c5262137eed380, type: 3}

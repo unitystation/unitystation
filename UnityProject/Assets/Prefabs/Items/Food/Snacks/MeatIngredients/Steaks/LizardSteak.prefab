@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b1d2f5ecdc2a9ab4bafb740d98911354,
         type: 2}
+    - target: {fileID: 4251949252368340967, guid: a868fd23193a8ef48a6f524a39176033,
+        type: 3}
+      propertyPath: foreverID
+      value: 64bdb9f9811b8054ea9bb68cb38cc505
+      objectReference: {fileID: 0}
     - target: {fileID: 7010619359016626390, guid: a868fd23193a8ef48a6f524a39176033,
         type: 3}
       propertyPath: m_Sprite
@@ -82,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 7186421971008920458, guid: a868fd23193a8ef48a6f524a39176033,
         type: 3}
       propertyPath: m_Name
-      value: SteakLizard
+      value: LizardSteak
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a868fd23193a8ef48a6f524a39176033, type: 3}

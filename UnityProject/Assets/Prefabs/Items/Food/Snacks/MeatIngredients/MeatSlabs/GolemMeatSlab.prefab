@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 59effaa3ad3beee49ae9e0438e08d9f2,
         type: 2}
+    - target: {fileID: 2249476921156252175, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: foreverID
+      value: 58c891da5bd0f344a92d10c847852e20
+      objectReference: {fileID: 0}
     - target: {fileID: 3916522603024104466, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: NutritionLevel
@@ -42,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: m_Name
-      value: MeatSlabGolem
+      value: GolemMeatSlab
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}

@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 2750275654085523696, guid: 58c891da5bd0f344a92d10c847852e20,
         type: 3}
       propertyPath: m_Name
-      value: MeatSlabGolemAdamantine
+      value: GolemAdamantineMeat
       objectReference: {fileID: 0}
     - target: {fileID: 2754359103198872964, guid: 58c891da5bd0f344a92d10c847852e20,
         type: 3}
@@ -89,5 +89,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e43edf4a61b688043a2300e14f33d259,
         type: 2}
+    - target: {fileID: 9119869264529437853, guid: 58c891da5bd0f344a92d10c847852e20,
+        type: 3}
+      propertyPath: foreverID
+      value: c59b1dd1b80e05f499ce159274ffc7b6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58c891da5bd0f344a92d10c847852e20, type: 3}

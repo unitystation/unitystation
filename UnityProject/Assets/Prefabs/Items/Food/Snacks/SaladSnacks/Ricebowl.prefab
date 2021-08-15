@@ -11,8 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: CookedProduct
       value: 
-      objectReference: {fileID: 5650794415485264529, guid: 2a53211e0815cf94ca865f63d3c50da6,
-        type: 3}
+      objectReference: {fileID: 5650794415485264529}
     - target: {fileID: 2378148153672396564, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -146,5 +145,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2d71756675e474c4fbfdeb274a34f940,
         type: 2}
+    - target: {fileID: 7534613500453596113, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: foreverID
+      value: 2a53211e0815cf94ca865f63d3c50da6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98, type: 3}
+--- !u!1 &5650794415485264529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3470844757277517756, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+    type: 3}
+  m_PrefabInstance: {fileID: 9097637926729090349}
+  m_PrefabAsset: {fileID: 0}

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2148392192942107460, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: foreverID
+      value: 7d3192a7eebeb004c8bd3d53172d6ce9
+      objectReference: {fileID: 0}
     - target: {fileID: 3800308598080693593, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
       propertyPath: NutritionLevel
@@ -25,7 +30,7 @@ PrefabInstance:
     - target: {fileID: 5001852895933687593, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
       propertyPath: m_Name
-      value: CakeBase
+      value: _CakeBase
       objectReference: {fileID: 0}
     - target: {fileID: 5006213421306649181, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}

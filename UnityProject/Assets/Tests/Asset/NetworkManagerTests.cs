@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Mirror;
 using NUnit.Framework;
@@ -28,6 +29,8 @@ namespace Tests.Asset
 
 			var report = new StringBuilder();
 
+			Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
+
 			foreach (var rootObject in rootObjects)
 			{
 				if (rootObject.TryGetComponent<CustomNetworkManager>(out var manager))
@@ -54,6 +57,37 @@ namespace Tests.Asset
 							failed = true;
 							report.AppendLine($"{asset} needs to be in the allSpawnablePrefabs list and has been added." +
 							                   " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
+						}
+
+						if (asset.TryGetComponent<PrefabTracker>(out var prefabTracker))
+						{
+							if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
+							{
+								var OriginalOldID = prefabTracker.ForeverID;
+								//TODO Someone smarter than me work out which one is the base prefab
+								StoredIDs[prefabTracker.ForeverID].ReassignID();
+								prefabTracker.ReassignID();
+								failed = true;
+								report.AppendLine($"{prefabTracker} or {StoredIDs[prefabTracker.ForeverID]} NEEDS to be committed with it's new Forever ID ");
+
+								if (StoredIDs[prefabTracker.ForeverID].ForeverID != OriginalOldID &&
+								    prefabTracker.ForeverID != OriginalOldID)
+								{
+									report.AppendLine("OH GOD What is the original I can't tell!! " +
+									                  "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+									                  "the prefab variant parent for " +
+									                  StoredIDs[prefabTracker.ForeverID].gameObject +
+									                  " and " + prefabTracker.gameObject);
+									prefabTracker.ForeverID = OriginalOldID;
+									StoredIDs[prefabTracker.ForeverID].ForeverID = OriginalOldID;
+									continue;
+								}
+
+								var Preexisting = StoredIDs[OriginalOldID];
+								StoredIDs[Preexisting.ForeverID] = Preexisting;
+								StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+							}
+							StoredIDs[prefabTracker.ForeverID] = prefabTracker;
 						}
 					}
 
