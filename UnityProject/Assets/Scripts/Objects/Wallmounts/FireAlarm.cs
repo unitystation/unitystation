@@ -12,7 +12,7 @@ using Doors;
 
 namespace Objects.Wallmounts
 {
-	public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster, ICheckedInteractable<AiActivate>
+	public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<FireLock> FireLockList = new List<FireLock>();
 		private MetaDataNode metaNode;
@@ -303,7 +303,7 @@ namespace Objects.Wallmounts
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.FireAlarm;
 		public bool MultiMaster => true;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object slave) { }
 

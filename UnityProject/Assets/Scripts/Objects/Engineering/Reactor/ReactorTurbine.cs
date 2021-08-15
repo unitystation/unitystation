@@ -7,7 +7,7 @@ using Systems.ObjectConnection;
 
 namespace Objects.Engineering
 {
-	public class ReactorTurbine : MonoBehaviour, INodeControl, ISetMultitoolSlave, ISetMultitoolMaster, ICheckedInteractable<HandApply>
+	public class ReactorTurbine : MonoBehaviour, INodeControl, IMultitoolSlaveable, IMultitoolMasterable, ICheckedInteractable<HandApply>
 	{
 		public ModuleSupplyingDevice moduleSupplyingDevice;
 		public GameObject ConstructMaterial;
@@ -103,9 +103,10 @@ namespace Objects.Engineering
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
 		public bool MultiMaster => false;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+		bool IMultitoolSlaveable.IsLinked => Boiler != null;
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		public void SetMaster(IMultitoolMasterable Imaster)
 		{
 			var boiler = (Imaster as Component)?.gameObject.GetComponent<ReactorBoiler>();
 			if (boiler != null)

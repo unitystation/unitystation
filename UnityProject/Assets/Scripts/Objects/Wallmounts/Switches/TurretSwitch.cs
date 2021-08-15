@@ -14,7 +14,7 @@ namespace Objects.Wallmounts.Switches
 {
 	[RequireComponent(typeof(AccessRestrictions))]
 	[RequireComponent(typeof(APCPoweredDevice))]
-	public class TurretSwitch : SubscriptionController, ICheckedInteractable<AiActivate>, ISetMultitoolMaster, ICanOpenNetTab
+	public class TurretSwitch : SubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab
 	{
 		[Header("Access Restrictions for ID")]
 		[Tooltip("Is this door restricted?")]
@@ -235,7 +235,7 @@ namespace Objects.Wallmounts.Switches
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.Turret;
 		public bool MultiMaster => true;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object slave) { }
 

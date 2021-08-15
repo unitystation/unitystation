@@ -8,7 +8,7 @@ using Objects.Atmospherics;
 
 namespace Objects.Engineering
 {
-	public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInteractable<HandApply>, IServerDespawn
+	public class ReactorBoiler : MonoBehaviour, IMultitoolMasterable, ICheckedInteractable<HandApply>, IServerDespawn
 	{
 		public decimal MaxPressureInput = 630000M;
 		public decimal CurrentPressureInput = 0;
@@ -103,7 +103,7 @@ namespace Objects.Engineering
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
 		public bool MultiMaster => false;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object SlaveObjectThis) { }
 
