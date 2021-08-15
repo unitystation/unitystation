@@ -63,29 +63,8 @@ namespace Tests.Asset
 						{
 							if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
 							{
-								var OriginalOldID = prefabTracker.ForeverID;
-								//TODO Someone smarter than me work out which one is the base prefab
-								StoredIDs[prefabTracker.ForeverID].ReassignID();
-								prefabTracker.ReassignID();
 								failed = true;
 								report.AppendLine($"{prefabTracker} or {StoredIDs[prefabTracker.ForeverID]} NEEDS to be committed with it's new Forever ID ");
-
-								if (StoredIDs[prefabTracker.ForeverID].ForeverID != OriginalOldID &&
-								    prefabTracker.ForeverID != OriginalOldID)
-								{
-									report.AppendLine("OH GOD What is the original I can't tell!! " +
-									                  "Manually edit the ForeverID For the newly created prefab to not be the same as " +
-									                  "the prefab variant parent for " +
-									                  StoredIDs[prefabTracker.ForeverID].gameObject +
-									                  " and " + prefabTracker.gameObject);
-									prefabTracker.ForeverID = OriginalOldID;
-									StoredIDs[prefabTracker.ForeverID].ForeverID = OriginalOldID;
-									continue;
-								}
-
-								var Preexisting = StoredIDs[OriginalOldID];
-								StoredIDs[Preexisting.ForeverID] = Preexisting;
-								StoredIDs[prefabTracker.ForeverID] = prefabTracker;
 							}
 							StoredIDs[prefabTracker.ForeverID] = prefabTracker;
 						}
