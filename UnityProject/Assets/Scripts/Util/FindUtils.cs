@@ -1,31 +1,40 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Utils related to finding stuff
-/// </summary>
-public static class FindUtils
+namespace Core.Editor
 {
 	/// <summary>
-	/// Special version of FindObjects which supports interfaces
+	/// Utils related to finding stuff
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <returns></returns>
-	public static List<T> FindInterfaceImplementersInScene<T>()
+	public static class FindUtils
 	{
-		List<T> interfaces = new List<T>();
-		GameObject[] rootGameObects = SceneManager.GetActiveScene().GetRootGameObjects();
-
-		foreach (var rootGameObject in rootGameObects)
+		/// <summary>
+		/// Special version of FindObjects which supports interfaces
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		public static List<T> FindInterfaceImplementersInScene<T>()
 		{
-			T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>();
-			foreach (var childInterface in childrenInterfaces)
+			List<T> interfaces = new List<T>();
+			GameObject[] rootGameObects = SceneManager.GetActiveScene().GetRootGameObjects();
+
+			foreach (var rootGameObject in rootGameObects)
 			{
-				interfaces.Add(childInterface);
+				T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>();
+				foreach (var childInterface in childrenInterfaces)
+				{
+					interfaces.Add(childInterface);
+				}
 			}
+
+			return interfaces;
 		}
 
-		return interfaces;
+		public static IEnumerable<T> FindInterfacesOfType<T>(bool includeInactive = false)
+		{
+			return SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<T>(includeInactive));
+		}
 	}
 }
