@@ -39,20 +39,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
---- !u!114 &1295264489575076378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2897339443933191501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ad9570c5ec4b1e995fad54bc897280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meatSteakPrefab: {fileID: 2897339443933191501, guid: e1d91ada62d0cf34e9b5e3f10e835d6b,
-    type: 3}
 --- !u!1001 &4237391950619250826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237,6 +223,12 @@ PrefabInstance:
       propertyPath: relatedRecipes.Array.data[2].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2699307914152838379, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 2897339443933191501, guid: e1d91ada62d0cf34e9b5e3f10e835d6b,
+        type: 3}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet

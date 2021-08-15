@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 1992925032281279368, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
       propertyPath: initialDescription
-      value: Deliciously sausage-y.
+      value: Scrumptious, just don't think about where it's been.
       objectReference: {fileID: 0}
     - target: {fileID: 2076693713923332446, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
@@ -93,5 +93,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5189219076529151853, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d50521c87debe6648af1293575b2eb8e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48bd1ae82f15544478352338b47f67e6, type: 3}

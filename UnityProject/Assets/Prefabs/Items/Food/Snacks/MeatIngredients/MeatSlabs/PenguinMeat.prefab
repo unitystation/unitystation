@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2967622010532709628, guid: 795f46b5237501446ade9fd10bade468,
         type: 3}
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 2967622010532709628, guid: 795f46b5237501446ade9fd10bade468,
+        type: 3}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
@@ -23,6 +29,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A slab of penguin meat.
       objectReference: {fileID: 0}
+    - target: {fileID: 2513557761079566364, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: processedProduct
+      value: 
+      objectReference: {fileID: 708051136698692199, guid: fda0208da365cfb45816a5dc16deab50,
+        type: 3}
     - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_Sprite
