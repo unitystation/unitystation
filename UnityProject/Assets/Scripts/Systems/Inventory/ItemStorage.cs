@@ -536,13 +536,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
-	/// Drops all items in all slots at our current position.
+	/// Drops all items in all slots.
 	/// </summary>
-	public void ServerDropAll()
+	public void ServerDropAll(Vector2? worldTargetVector = null)
 	{
 		foreach (var itemSlot in GetItemSlots())
 		{
-			Inventory.ServerDrop(itemSlot);
+			Inventory.ServerDrop(itemSlot, worldTargetVector);
 		}
 	}
 }
