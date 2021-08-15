@@ -60,7 +60,6 @@ MonoBehaviour:
     type: 2}
   coverOpen: 0
   hasCables: 1
-  conType: 5
   FireAlarmSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/FireAlarm.prefab
@@ -428,6 +427,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: e6e7f915b6b6fc14c981a592369d47f8
       objectReference: {fileID: 0}
     - target: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

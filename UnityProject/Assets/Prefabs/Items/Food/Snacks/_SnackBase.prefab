@@ -27,6 +27,7 @@ MonoBehaviour:
   CookTime: 10
   CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
     type: 3}
+  cookOnDestroyByBurn: 1
 --- !u!114 &7146114630749491127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +168,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5934183858157482218, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: foreverID
+      value: eaf8c1f2a0f9374488e16061fd5b4dcd
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1481962708363400442, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}

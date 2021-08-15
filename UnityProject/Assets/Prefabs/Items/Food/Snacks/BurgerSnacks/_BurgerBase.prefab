@@ -108,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_Name
-      value: BurgerBase
+      value: _BurgerBase
       objectReference: {fileID: 0}
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -121,6 +121,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 338736030a242a44398d6f6e8204a9ee,
         type: 2}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: foreverID
+      value: 4bf8c38cb85116e4babedf03228412de
+      objectReference: {fileID: 0}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel

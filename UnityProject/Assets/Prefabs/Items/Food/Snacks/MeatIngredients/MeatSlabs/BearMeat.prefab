@@ -17,8 +17,7 @@ PrefabInstance:
         type: 3}
       propertyPath: CookedProduct
       value: 
-      objectReference: {fileID: 6854599682859987425, guid: cfc3a66a4c5c805409f38aea0e083851,
-        type: 3}
+      objectReference: {fileID: 6854599682859987425}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
@@ -164,5 +163,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e04807f9140cc984295e5b5a48cce2a3,
         type: 2}
+    - target: {fileID: 9083999932805424510, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: foreverID
+      value: cfc3a66a4c5c805409f38aea0e083851
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}
+--- !u!1 &6854599682859987425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
+    type: 3}
+  m_PrefabInstance: {fileID: 8757828038835460338}
+  m_PrefabAsset: {fileID: 0}

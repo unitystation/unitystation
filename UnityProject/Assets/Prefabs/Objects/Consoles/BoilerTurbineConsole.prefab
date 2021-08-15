@@ -15,7 +15,6 @@ MonoBehaviour:
   State: 0
   ReactorBoiler: {fileID: 0}
   ReactorTurbine: {fileID: 0}
-  conType: 3
 --- !u!1001 &3265512773498842293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -238,6 +237,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Color.r
       value: 0.408
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: foreverID
+      value: 7f6eacde79c191f49b453bd576d1c1ec
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
