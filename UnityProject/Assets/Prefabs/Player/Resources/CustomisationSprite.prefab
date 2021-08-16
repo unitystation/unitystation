@@ -97,13 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkThis: 1
+  NetworkThis: 0
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  networkIdentity: {fileID: 0}
 --- !u!114 &7987984179268195915
 MonoBehaviour:
   m_ObjectHideFlags: 0

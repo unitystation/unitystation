@@ -15,7 +15,7 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class SpriteHandler : MonoBehaviour
 {
-	[SerializeField] private bool NetworkThis = true;
+	[SerializeField] public bool NetworkThis = true;
 
 	[SerializeField] private List<SpriteDataSO> SubCatalogue = new List<SpriteDataSO>();
 

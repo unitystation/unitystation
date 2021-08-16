@@ -65,8 +65,6 @@ public class PlayerSprites : MonoBehaviour
 
 	public readonly List<BodyPartSprites> SurfaceSprite = new List<BodyPartSprites>();
 
-	public readonly Dictionary<string, GameObject> bodyParts = new Dictionary<string, GameObject>();
-
 	private Directional directional;
 	private PlayerDirectionalOverlay engulfedBurningOverlay;
 	private PlayerDirectionalOverlay partialBurningOverlay;
@@ -85,8 +83,9 @@ public class PlayerSprites : MonoBehaviour
 	public SpriteHandlerNorder ToInstantiateSpriteCustomisation;
 
 	public GameObject CustomisationSprites;
+	public GameObject BodySprites;
 
-	public List<RootBodyPartContainer.intName> InternalNetIDs = new List<RootBodyPartContainer.intName>();
+	public List<IntName> InternalNetIDs = new List<IntName>();
 
 	public bool RootBodyPartsLoaded;
 
@@ -101,12 +100,6 @@ public class PlayerSprites : MonoBehaviour
 		foreach (var clothingItem in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes.Add(clothingItem.Slot, clothingItem);
-		}
-
-		for (var i = 0; i < BodyParts.transform.childCount; i++)
-		{
-			//TODO: Do we need to add listeners for implant removalv
-			bodyParts[BodyParts.transform.GetChild(i).name] = BodyParts.transform.GetChild(i).gameObject;
 		}
 
 		AddOverlayGameObjects();
@@ -156,19 +149,18 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			InstantiateAndSetUp(RaceBodyparts.Base.Head, bodyParts["Head"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.Torso, bodyParts["Chest"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft, bodyParts["LeftArm"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.ArmRight, bodyParts["RightArm"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.LegLeft, bodyParts["LeftLeg"].transform);
-			InstantiateAndSetUp(RaceBodyparts.Base.LegRight, bodyParts["RightLeg"].transform);
+			InstantiateAndSetUp(RaceBodyparts.Base.Head);
+			InstantiateAndSetUp(RaceBodyparts.Base.Torso);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft);
+			InstantiateAndSetUp(RaceBodyparts.Base.ArmRight);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegLeft);
+			InstantiateAndSetUp(RaceBodyparts.Base.LegRight);
 		}
 	}
 
 	public void SubSetBodyPart(BodyPart Body_Part, string path)
 	{
 		path = path + "/" + Body_Part.name;
-
 
 		CustomisationStorage customisationStorage = null;
 		foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
@@ -182,68 +174,55 @@ public class PlayerSprites : MonoBehaviour
 
 		if (customisationStorage != null)
 		{
-			bool pass = true;
+			var data = customisationStorage.Data.Replace("@£", "\"");
 			if (Body_Part.OptionalOrgans.Count > 0)
 			{
-				pass = false;
-				BodyPartDropDownOrgans.OnPlayerBodyDeserialise(Body_Part, null,
-					customisationStorage.Data.Replace("@£", "\""),
-					livingHealthMasterBase);
+				BodyPartDropDownOrgans.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
 			}
-
-			if (Body_Part.OptionalReplacementOrgan.Count > 0 && pass)
+			else if (Body_Part.OptionalReplacementOrgan.Count > 0)
 			{
-				pass = false;
-				BodyPartDropDownReplaceOrgan.OnPlayerBodyDeserialise(Body_Part,
-					customisationStorage.Data.Replace("@£", "\""),
-					livingHealthMasterBase);
+				BodyPartDropDownReplaceOrgan.OnPlayerBodyDeserialise(Body_Part, data);
 			}
-
-			if (pass)
+			else
 			{
-				if(Body_Part.LobbyCustomisation != null)
-				{
-					Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part,
-						customisationStorage.Data.Replace("@£", "\""),
-						livingHealthMasterBase);
-				}
-				else
+				if(Body_Part.LobbyCustomisation == null)
 				{
 					Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.LobbyCustomisation.characterCustomization}", Category.Character);
+					return;
 				}
+				Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
 			}
-		}
-
-
-		foreach (var Limb in Body_Part.ContainBodyParts)
-		{
-			SubSetBodyPart(Limb, path);
 		}
 	}
 
-	public void SetupsSprites()
+	public void SetupSprites()
 	{
-		foreach (var Root in livingHealthMasterBase.RootBodyPartContainers)
+
+		CustomisationStorage customisationStorage = null;
+		foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
 		{
-			CustomisationStorage customisationStorage = null;
-			foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
+			if (livingHealthMasterBase.name == Custom.path)
 			{
-				if (Root.name == Custom.path)
-				{
-					customisationStorage = Custom;
-					break;
-				}
+				customisationStorage = Custom;
+				break;
 			}
+		}
 
-			if (customisationStorage != null)
-			{
-				BodyPartDropDownOrgans.OnPlayerBodyDeserialise(null, Root, customisationStorage.Data,
-					livingHealthMasterBase);
-			}
+		if (customisationStorage != null)
+		{
+			BodyPartDropDownOrgans.OnPlayerBodyDeserialise(null, customisationStorage.Data, livingHealthMasterBase);
+		}
 
-			foreach (var Limb in Root.ContainsLimbs)
+
+		foreach (var bodyPart in livingHealthMasterBase.BodyPartList)
+		{
+			SubSetBodyPart(bodyPart, "");
+
+			//TODO: horrible, remove -- organ prefabs have bodyparts
+			foreach (var organ in bodyPart.OrganList)
 			{
-				SubSetBodyPart(Limb, "");
+				var bodyPartOrgan = organ.GetComponent<BodyPart>();
+				SubSetBodyPart(bodyPartOrgan, $"/{bodyPart.name}");
 			}
 		}
 
@@ -256,7 +235,7 @@ public class PlayerSprites : MonoBehaviour
 			}
 		}
 
-		List<RootBodyPartContainer.intName> ToClient = new List<RootBodyPartContainer.intName>();
+		List<IntName> ToClient = new List<IntName>();
 		foreach (var Customisation in SetRace.Base.CustomisationSettings)
 		{
 			ExternalCustomisation externalCustomisation = null;
@@ -270,16 +249,12 @@ public class PlayerSprites : MonoBehaviour
 
 			if (externalCustomisation == null) continue;
 
-			var SpriteHandlerNorder =
-				Instantiate(ToInstantiateSpriteCustomisation.gameObject, CustomisationSprites.transform)
-					.GetComponent<SpriteHandlerNorder>();
-
-			var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(SpriteHandlerNorder.gameObject);
-
+			var SpriteHandlerNorder = Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
+									.GameObject.GetComponent<SpriteHandlerNorder>();
 			SpriteHandlerNorder.transform.localPosition = Vector3.zero;
-			SpriteHandlerManager.UnRegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
 			SpriteHandlerNorder.name = Customisation.CustomisationGroup.ThisType.ToString();
-			var newone = new RootBodyPartContainer.intName();
+
+			var newone = new IntName();
 			newone.Int =
 				CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[ToInstantiateSpriteCustomisation.gameObject];
 
@@ -308,18 +283,14 @@ public class PlayerSprites : MonoBehaviour
 		OnDirectionChange(directional.CurrentDirection);
 	}
 
-	public void InstantiateAndSetUp(ObjectList ListToSpawn, Transform InWhere)
+	public void InstantiateAndSetUp(ObjectList ListToSpawn)
 	{
 		if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
 		{
-			var rootBodyPartContainer = InWhere.GetComponent<RootBodyPartContainer>();
-			livingHealthMasterBase.RootBodyPartContainers.Add(rootBodyPartContainer);
-			rootBodyPartContainer.PlayerSprites = this;
-
 			foreach (var ToSpawn in ListToSpawn.Elements)
 			{
-				var InSpawnResult = Spawn.ServerPrefab(ToSpawn).GameObject;
-				rootBodyPartContainer.ItemStorage.ServerTryAdd(InSpawnResult);
+				var bodyPartObject = Spawn.ServerPrefab(ToSpawn).GameObject;
+				livingHealthMasterBase.BodyPartStorage.ServerTryAdd(bodyPartObject);
 			}
 		}
 	}
@@ -464,10 +435,11 @@ public class PlayerSprites : MonoBehaviour
 				if (Race.name == ThisCharacter.Species)
 				{
 					RaceBodyparts = Race;
+					break;
 				}
 			}
 			SetUpCharacter();
-			SetupsSprites();
+			SetupSprites();
 			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 		}
 	}
@@ -589,7 +561,7 @@ public class PlayerSprites : MonoBehaviour
 
 
 */
-	public void UpdateChildren(List<RootBodyPartContainer.intName> NewInternalNetIDs)
+	public void UpdateChildren(List<IntName> NewInternalNetIDs)
 	{
 		List<SpriteHandler> SHS = new List<SpriteHandler>();
 		foreach (var ID in NewInternalNetIDs)
@@ -638,7 +610,7 @@ public class PlayerSprites : MonoBehaviour
 				}
 			}
 		}
-		RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
+
 		foreach (var ID in InternalNetIDs)
 		{
 			bool Contains = false;

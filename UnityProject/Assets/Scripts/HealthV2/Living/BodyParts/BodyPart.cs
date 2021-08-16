@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Clothing;
+using Mirror;
 using NaughtyAttributes;
 using UI.CharacterCreator;
 
@@ -15,30 +16,33 @@ namespace HealthV2
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
-		[NonSerialized]
-		[Tooltip("The Health Master associated with this part, will find from parents if not set in editor")]
-		protected LivingHealthMasterBase healthMaster = null;
+		public LivingHealthMasterBase HealthMaster {get; private set;}
 
-		public LivingHealthMasterBase HealthMaster
-		{
-			get { return healthMaster; }
-			set
-			{
-				healthMaster = value;
-				foreach (var bodyPart in ContainBodyParts)
-				{
-					SetUpBodyPart(bodyPart);
-				}
-				HealthMasterSet();
-			}
-		}
 
+		//TODO: prefab populator still contains bodyparts
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
 		[HorizontalLine]
 		[Tooltip("Things (eg other organs) held within this")]
-		public ItemStorage Storage = null;
+		public ItemStorage OrganStorage = null;
+
+		[NonSerialized]
+		public List<Organ> OrganList = new List<Organ>();
+
+		/// <summary>
+		/// Player sprites for rendering equipment and clothing on the body part container
+		/// </summary>
+		[Tooltip("Player sprites for rendering equipment and clothing on this")]
+		public PlayerSprites playerSprites;
+
+		[HideInInspector] public bool IsBleeding = false;
+
+		/// <summary>
+		/// How much blood does the body lose when there is lost limbs in this container?
+		/// </summary>
+		[SerializeField, Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
+		private float limbLossBleedingValue = 35f;
 
 		/// <summary>
 		/// The category that this body part falls under for targeting purposes
@@ -46,20 +50,11 @@ namespace HealthV2
 		[Tooltip("The category that this body part falls under for targeting purposes")]
 		[SerializeField] public BodyPartType BodyPartType;
 
-		[HideInInspector] private List<BodyPart> containBodyParts = new List<BodyPart>();
-		public List<BodyPart> ContainBodyParts => containBodyParts;
-
 		/// <summary>
 		/// Flag for if the sprite for this body type changes with gender, true means it does
 		/// </summary>
 		[Tooltip("Does the sprite change depending on Gender?")]
 		[SerializeField] private bool isDimorphic = false;
-
-		/// <summary>
-		/// The body part 'container' to which this body part belongs, (eg legs group, arms group), if any
-		/// </summary>
-		[Tooltip("The 'container' to which this belongs (legs group, arms group, etc), if any")]
-		[HideInInspector] public RootBodyPartContainer Root;
 
 		/// <summary>
 		/// The body part in which this body part is contained, if any
@@ -140,18 +135,52 @@ namespace HealthV2
 		/// </summary>
 		[HideInInspector] public Color Tone = Color.white;
 
-		[System.NonSerialized]
-		public List<Organ> OrganList = new List<Organ>();
-
 		public string SetCustomisationData;
 
 		private bool SystemSetup = false;
 
-		/// <summary>
-		/// Initializes the body part
-		/// </summary>
-		public virtual void HealthMasterSet()
+		public IntName intName;
+
+		void Awake()
 		{
+			OrganStorage = GetComponent<ItemStorage>();
+			OrganStorage.ServerInventoryItemSlotSet += OrganTransfer;
+			health = maxHealth;
+			AddModifier(DamageModifier);
+			UpdateSeverity();
+		}
+
+		/// <summary>
+		/// Updates the body part and all contained body parts relative to their related
+		/// systems (default: blood system, radiation damage)
+		/// </summary>
+		public void ImplantPeriodicUpdate()
+		{
+			for (int i = OrganList.Count - 1; i >= 0; i--)
+			{
+				var organ = OrganList[i];
+				organ.ImplantPeriodicUpdate();
+				if (IsBleedingInternally)
+				{
+					organ.InternalDamageLogic();
+				}
+			}
+			BloodUpdate();
+			CalculateRadiationDamage();
+
+			if(IsBleeding)
+			{
+				HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
+			}
+		}
+
+		public void SetHealthMaster(LivingHealthMasterBase livingHealth)
+		{
+			HealthMaster = livingHealth;
+			if (livingHealth)
+			{
+				playerSprites = livingHealth.GetComponent<PlayerSprites>();
+			}
 			if (BodySpriteSet == false)
 			{
 				//If gendered part then set the sprite limb data to it
@@ -176,12 +205,18 @@ namespace HealthV2
 
 			UpdateIcons();
 			SetUpSystemsThis();
-			foreach (var organ in OrganList)
+
+
+			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
+			if (dynamicItemStorage != null)
 			{
-				organ.HealthMasterSet();
+				var bodyPartUISlots = GetComponent<BodyPartUISlots>();
+				dynamicItemStorage.Add(bodyPartUISlots);
 			}
+
+
 			//TODO Make this generic \/ for mobs
-			Storage.SetRegisterPlayer(healthMaster?.GetComponent<RegisterPlayer>());
+			OrganStorage.SetRegisterPlayer(HealthMaster?.GetComponent<RegisterPlayer>());
 		}
 
 		/// <summary>
@@ -209,114 +244,115 @@ namespace HealthV2
 			return new Tuple<SpriteOrder, List<SpriteDataSO>>(new SpriteOrder(), new List<SpriteDataSO>());
 		}
 
-		void Awake()
+		//TODO: confusing, make it not depend from the inventory storage Action
+		/// <summary>
+		/// Both addition and removal of an organ
+		/// </summary>
+		public void OrganTransfer(Pickupable prevImplant, Pickupable newImplant)
 		{
-			Storage = GetComponent<ItemStorage>();
-			Storage.ServerInventoryItemSlotSet += ImplantAdded;
-			health = maxHealth;
-			DamageInitialisation();
-			UpdateSeverity();
-
-			OrganList = GetComponents<Organ>().ToList();
-
-			foreach (var organ in OrganList)
+			if (newImplant && newImplant.TryGetComponent<Organ>(out var addedOrgan))
 			{
-				organ.RelatedPart = this;
-				organ.Initialisation();
+				addedOrgan.RelatedPart = this;
+				OrganList.Add(addedOrgan);
+				addedOrgan.Initialisation();
+
+				if (HealthMaster)
+				{
+					//TODO: horrible, remove -- organ prefabs have a bodypart component
+					var bodyPart = addedOrgan.GetComponent<BodyPart>();
+					HealthMaster.ServerCreateSprite(bodyPart);
+				}
 			}
-		}
-
-		public void ImplantUpdate()
-		{
-			foreach (BodyPart prop in ContainBodyParts)
+			else if(prevImplant && prevImplant.TryGetComponent<Organ>(out var removedOrgan))
 			{
-				prop.ImplantUpdate();
+				OrganList.Remove(removedOrgan);
+				removedOrgan.RemovedFromBody(HealthMaster);
+				removedOrgan.RelatedPart = null;
 			}
 		}
 
 		/// <summary>
-		/// Updates the body part and all contained body parts relative to their related
-		/// systems (default: blood system, radiation damage)
+		/// Body part was added to the body
 		/// </summary>
-		public virtual void ImplantPeriodicUpdate()
+		public void BodyPartAdded(LivingHealthMasterBase livingHealth)
 		{
-			foreach (BodyPart prop in ContainBodyParts)
+			livingHealth.BodyPartList.Add(this);
+			SetHealthMaster(livingHealth);
+			livingHealth.ServerCreateSprite(this);
+
+			//legs and arms getting ready to affect speed
+			if (TryGetComponent<Limb>(out var limb))
 			{
-				prop.ImplantPeriodicUpdate();
+				limb.Initialize();
 			}
 
-
+			//TODO: horrible, remove -- organ prefabs have bodyparts
 			foreach (var organ in OrganList)
 			{
-				organ.ImplantPeriodicUpdate();
-				if (IsBleedingInternally)
+				var organBodyPart = organ.GetComponent<BodyPart>();
+				livingHealth.ServerCreateSprite(organBodyPart);
+			}
+		}
+
+		/// <summary>
+		/// Body part was removed from the body
+		/// </summary>
+		public void BodyPartRemoval()
+		{
+			foreach (var organ in OrganList)
+			{
+				organ.RemovedFromBody(HealthMaster);
+
+				//TODO: horrible, remove -- organ prefabs have bodyparts
+				var organBodyPart = organ.GetComponent<BodyPart>();
+				organBodyPart.RemoveSprites(playerSprites, HealthMaster);
+			}
+			RemoveSprites(playerSprites, HealthMaster);
+			HealthMaster.rootBodyPartController.UpdateClients();
+			HealthMaster.BodyPartList.Remove(this);
+		}
+
+		/// <summary>
+		/// Server only - Tries to remove a body part
+		/// </summary>
+		public void TryRemoveFromBody()
+		{
+			SetRemovedColor();
+			foreach (var bodyPart in HealthMaster.BodyPartList)
+			{
+				if (bodyPart.BodyPartType == BodyPartType.Chest)
 				{
-					organ.InternalDamageLogic();
+					bodyPart.IsBleeding = true;
 				}
 			}
-			BloodUpdate();
-			CalculateRadiationDamage();
+			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
+			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
+			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
+			dynamicItemStorage.Remove(bodyPartUISlot);
+			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
+			if(IsBleedingExternally)
+			{
+				StopExternalBleeding();
+			}
+			//this kills the crab
+			if(DeathOnRemoval)
+			{
+				HealthMaster.Death();
+			}
+			if (gibsEntireBodyOnRemoval)
+			{
+				HealthMaster.Gib();
+			}
 		}
+
 
 		#region BodyPartStorage
 
-		/// ---------------------------
-		/// Body Part Storage Methods
-		/// ---------------------------
-		/// Body parts are capable of storing other body parts, and are themselves stored in either a body part
-		/// or a Body Part Container.  Additionally, adding or removing a body part from 'storage' is a two part
-		/// process: the storage of the actual body part item, and the connecting of the body part to the health
-		/// system.  Think of it like an electronic device: putting it into a storage is like placing it in a
-		/// room, adding it to a body is like plugging it in.  If you just put it into a room it wont work until
-		/// you plug it in, and you shouldn't try to plug something in until you've moved it into the room first.
-
-		/// To complicate things, a body part doesn't know what 'depth' it is, and only can talk to its parent
-		/// (the body part that contains it), and each body part needs to know all of the body parts it does and
-		/// doesn't contain in order to coordinate.  We accomplish this by each organ telling its parent when its
-		/// contents change, and the parent tell the parent's parent and so on until it reaches the highest container.
-
 		/// <summary>
-		/// Adds an object to the body part's internal storage, usually another body part
+		/// Sets the color of the body part item that is removed
 		/// </summary>
-		/// <param name="IngameObject">Object to try and store in the Body Part</param>
-		public virtual void AddBodyPart(GameObject IngameObject)
+		private void SetRemovedColor()
 		{
-			Storage.ServerTryAdd(IngameObject);
-		}
-
-		/// <summary>
-		/// Transfers an item from an item slot to the body part's internal storage, usually another body part
-		/// </summary>
-		/// <param name="ItemSlot">Item Slot to transfer from</param>
-		public virtual void AddBodyPartSlot(ItemSlot ItemSlot)
-		{
-			Storage.ServerTryTransferFrom(ItemSlot);
-		}
-
-		/// <summary>
-		/// Removes the Body Part Item from the storage of its parent (a body part container or another body part)
-		/// Will check if the this body part causes death upon removal and will tint it's Item Sprite to the character's skinTone if allowed.
-		/// </summary>
-		[ContextMenu("Debug - Drop this Body Part")]
-		public virtual void RemoveFromBodyThis()
-		{
-			if (BodyPartRemovalChecks() == false) return;
-			dynamic parent = GetParent();
-			if (parent != null)
-			{
-				parent.RemoveSpecifiedFromThis(gameObject);
-			}
-		}
-
-
-		/// <summary>
-		/// Checks if it's possible to remove this body part and runs any logic
-		/// required upon it's removal.
-		/// </summary>
-		/// <returns>True if allowed to remove. Flase if gibbing.</returns>
-		private bool BodyPartRemovalChecks()
-		{
-			//Checks if the body part is not an internal organ and if that part shares a skin tone.
 			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
@@ -327,123 +363,24 @@ namespace HealthV2
 			{
 				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 			}
-			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
-			if(IsBleedingExternally)
-			{
-				StopExternalBleeding();
-			}
-			if (gibsEntireBodyOnRemoval)
-			{
-				healthMaster.Gib();
-				return false;
-			}
-			//If this body part is necessary for a character existence, kill them upon removal.
-			if(DeathOnRemoval)
-			{
-				healthMaster.Death();
-			}
-			return true;
 		}
 
-		/// <summary>
-		/// Removes a specified item from the body part's storage
-		/// </summary>
-		/// <param name="inOrgan">Item to remove</param>
-		public virtual void RemoveSpecifiedFromThis(GameObject inOrgan)
+
+		private void RemoveSprites(PlayerSprites sprites, LivingHealthMasterBase livingHealth)
 		{
-			Storage.ServerTryRemove(inOrgan);
-		}
-
-		/// <summary>
-		/// Removes this body part from its host body system
-		/// </summary>
-		/// <param name="livingHealthMasterBase">Body to be removed from</param>
-		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
-		{
-			SubBodyPartRemoved(this);
-			foreach (var organ in OrganList)
+			for (var i = RelatedPresentSprites.Count - 1; i >= 0; i--)
 			{
-				organ.RemovedFromBody(livingHealthMasterBase);
+				var bodyPartSprite = RelatedPresentSprites[i];
+				if (IsSurface)
+				{
+					sprites.SurfaceSprite.Remove(bodyPartSprite);
+				}
+				RelatedPresentSprites.Remove(bodyPartSprite);
+				sprites.Addedbodypart.Remove(bodyPartSprite);
+				Destroy(bodyPartSprite.gameObject);
 			}
+			livingHealth.InternalNetIDs.Remove(intName);
 		}
-
-		/// <summary>
-		/// Gets the part of the body that the body part resides in (a body part container or another body part)
-		/// </summary>
-		/// <returns>A body part that contains it OR a body part container that contains it OR null if it is not
-		/// contained in anything</returns>
-		///TODO change to some type of inheritance/Interface model
-		public dynamic GetParent()
-		{
-			if (ContainedIn != null)
-			{
-				return ContainedIn;
-			}
-			else if (Root != null)
-			{
-				return Root;
-			}
-			else
-			{
-				return null;
-				//Is not in any*body* :P
-			}
-		}
-
-		/// <summary>
-		/// Tells this body part's parent to remove a specified body part contained within this body part from the
-		/// host body system.
-		/// </summary>
-		/// <param name="implant">Body Part to be removed</param>
-		public virtual void SubBodyPartRemoved(BodyPart implant)
-		{
-			var Parent = GetParent();
-			if (Parent != null)
-			{
-				Parent.SubBodyPartRemoved(implant);
-			}
-		}
-
-		/// <summary>
-		/// Adds a body part contained within this body part to the host body system
-		/// </summary>
-		/// <param name="implant">Body Part to be added</param>
-		public virtual void SubBodyPartAdded(BodyPart implant)
-		{
-			var Parent = GetParent();
-			if (Parent != null)
-			{
-				Parent.SubBodyPartAdded(implant);
-			}
-		}
-
-		/// <summary>
-		/// Ensures the health master of all sub body parts are the same as their parent, and that the
-		/// health master and body part containers know of all contained body parts
-		/// </summary>
-		/// <param name="implant">Body Part to be initialized</param>
-		public void SetUpBodyPart(BodyPart implant)
-		{
-			implant.HealthMaster = HealthMaster;
-			if (HealthMaster == null) return;
-			HealthMaster.AddNewImplant(implant);
-			SubBodyPartAdded(implant);
-
-		}
-
-		/// <summary>
-		/// Sets up the body part to be connected to the internal systems of the body (circulation, respiration, etc)
-		/// </summary>
-		public virtual void SetUpSystems()
-		{
-			foreach (BodyPart prop in ContainBodyParts)
-			{
-				prop.SetUpSystems();
-			}
-
-			SetUpSystemsThis();
-		}
-
 
 		public void SetUpSystemsThis()
 		{
@@ -454,57 +391,6 @@ namespace HealthV2
 			{
 				organ.SetUpSystems();
 			}
-		}
-
-		/// <summary>
-		/// Adds a new body part to this body part, and removes the old part whose place is
-		/// being taken if possible
-		/// </summary>
-		/// <param name="prevImplant">Old body part to be removed</param>
-		/// <param name="newImplant">New body part to be added</param>
-		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
-		{
-			//Check what's being added and add sprites if appropriate
-			if (newImplant)
-			{
-				BodyPart implant = newImplant.GetComponent<BodyPart>();
-				ContainBodyParts.Add(implant);
-				implant.ContainedIn = this;
-				//Initialisation jizz
-				if (HealthMaster != null)
-				{
-					SetUpBodyPart(implant);
-				}
-			}
-
-			//Remove sprites if appropriate
-			if (prevImplant)
-			{
-				BodyPart implant = prevImplant.GetComponent<BodyPart>();
-				implant.HealthMaster = null;
-				HealthMaster.RemoveImplant(implant);
-				implant.RemovedFromBody(HealthMaster);
-				implant.ContainedIn = null;
-				ContainBodyParts.Remove(implant);
-				//bodyPartSprites?.UpdateSpritesOnImplantRemoved(implant);
-			}
-		}
-
-		/// <summary>
-		/// Takes a list and adds this body part to it, all body parts contained within this body part, as well
-		/// as all body parts contained within those body parts, etc.
-		/// </summary>
-		/// <param name="ReturnList">List to be added to</param>
-		/// <returns>The list with added body parts</returns>
-		public List<BodyPart> GetAllBodyPartsAndItself(List<BodyPart> ReturnList)
-		{
-			ReturnList.Add(this);
-			foreach (var BodyPart in ContainBodyParts)
-			{
-				BodyPart.GetAllBodyPartsAndItself(ReturnList);
-			}
-
-			return ReturnList;
 		}
 	}
 

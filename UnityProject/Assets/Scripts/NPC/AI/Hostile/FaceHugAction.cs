@@ -20,13 +20,13 @@ namespace Systems.MobAIs
 		public GameObject MaskObject {get{return maskObject;}}
 		[FormerlySerializedAs("Bite")] [SerializeField] private AddressableAudioSource bite = null;
 
-		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour)
+		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{
-			TryFacehug(dir, healthBehaviour);
+			TryFacehug(dir, livingHealth);
 		}
-		private void TryFacehug(Vector3 dir, LivingHealthMasterBase player)
+		private void TryFacehug(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{
-			var playerInventory = player.gameObject.GetComponent<PlayerScript>()?.Equipment;
+			var playerInventory = livingHealth.gameObject.GetComponent<PlayerScript>()?.Equipment;
 
 			if (playerInventory == null)
 			{
@@ -51,18 +51,18 @@ namespace Systems.MobAIs
 
 			Chat.AddAttackMsgToChat(
 				gameObject,
-				player.gameObject,
+				livingHealth.gameObject,
 				BodyPartType.Head,
 				null,
 				verb);
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-			SoundManager.PlayNetworkedAtPos(bite, player.gameObject.RegisterTile().WorldPositionServer,
-				audioSourceParameters, true, player.gameObject);
+			SoundManager.PlayNetworkedAtPos(bite, livingHealth.gameObject.RegisterTile().WorldPositionServer,
+				audioSourceParameters, true, livingHealth.gameObject);
 
 			if (success)
 			{
-				RegisterPlayer registerPlayer = player.gameObject.GetComponent<RegisterPlayer>();
+				RegisterPlayer registerPlayer = livingHealth.gameObject.GetComponent<RegisterPlayer>();
 				Facehug(playerInventory, registerPlayer);
 			}
 

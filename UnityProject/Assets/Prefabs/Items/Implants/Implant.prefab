@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Storage: {fileID: 2719098251223779414}
+  OrganStorage: {fileID: 2719098251223779414}
+  playerSprites: {fileID: 0}
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   BodyPartType: 0
+  ContainBodyParts: []
   isDimorphic: 0
-  Root: {fileID: 0}
   ContainedIn: {fileID: 0}
   BodyTypesSprites:
     SpriteOrder:

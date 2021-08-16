@@ -1,19 +1,10 @@
-﻿using HealthV2;
+﻿using System;
+using HealthV2;
 using UnityEngine;
 
 namespace HealthV2
 {
-	public enum LimbType
-	{
-		LeftLeg,
-		RightLeg,
-		LeftArm,
-		RightArm,
-		LeftHand,
-		RightHand
-	}
-
-	public class Limb : Organ, PlayerMove.IMovementEffect
+	public class Limb : MonoBehaviour, PlayerMove.IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("The walking speed that will be used when attached as a leg.\n" +
@@ -40,84 +31,38 @@ namespace HealthV2
 		         "1 is a human leg.")]
 		private float legEfficiency = 1f;
 
-		[SerializeField] [Tooltip("Whether or not this limb can hold items.")]
-		private bool canHoldItems = false;
+		private BodyPart bodyPart;
+		private PlayerHealthV2 playerHealth;
 
+		public void Initialize()
+		{
+			bodyPart = GetComponent<BodyPart>();
+			playerHealth = bodyPart.HealthMaster as PlayerHealthV2;
+			bodyPart.ModifierChange += ModifierChanged;
+			playerHealth.PlayerMove.AddModifier(this);
+		}
 
 		public float RunningAdd
 		{
-			get => GetRunningSpeed();
+			get => runningSpeed * legEfficiency * bodyPart.TotalModified;
 			set { }
 		}
 
 		public float WalkingAdd
 		{
-			get => GetWalkingSpeed();
+			get => walkingSpeed * legEfficiency * bodyPart.TotalModified;
 			set { }
 		}
 
 		public float CrawlAdd
 		{
-			get => GetCrawlingSpeed();
+			get => crawlingSpeed * armEfficiency * bodyPart.TotalModified;
 			set { }
-		}
-
-		public float GetWalkingSpeed()
-		{
-			return walkingSpeed * legEfficiency * RelatedPart.TotalModified;
-		}
-
-		public float GetRunningSpeed()
-		{
-			return runningSpeed * legEfficiency * RelatedPart.TotalModified;
-			;
-		}
-
-		public float GetCrawlingSpeed()
-		{
-			return crawlingSpeed * armEfficiency * RelatedPart.TotalModified;
-			;
-		}
-
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
-		{
-			base.RemovedFromBody(livingHealthMasterBase);
-			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
-			if (playerHealthV2 != null)
-			{
-				playerHealthV2.PlayerMove.RemoveModifier(this);
-			}
-		}
-
-		public override void SetUpSystems()
-		{
-			base.SetUpSystems();
-			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
-			if (playerHealthV2 != null)
-			{
-				playerHealthV2.PlayerMove.AddModifier(this);
-			}
-		}
-
-
-		public override void Initialisation()
-		{
-			base.Initialisation();
-			RelatedPart.ModifierChange += ModifierChanged;
-			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
-			if (playerHealthV2 != null)
-			{
-				playerHealthV2.PlayerMove.AddModifier(this);
-			}
 		}
 
 		public void ModifierChanged()
 		{
-			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
-			if (playerHealthV2 != null)
-			{
-				playerHealthV2.PlayerMove.UpdateSpeeds();
-			}
+			playerHealth.PlayerMove.UpdateSpeeds();
 		}
 	}
 

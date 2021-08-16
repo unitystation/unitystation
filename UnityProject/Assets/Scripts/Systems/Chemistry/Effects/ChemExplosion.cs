@@ -27,7 +27,12 @@ namespace Chemistry.Effects
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
 
 			bool insideBody = false;
-			if(bodyPart != null)  insideBody = bodyPart.Root != null;
+			if (bodyPart != null && bodyPart.HealthMaster != null)
+			{
+				insideBody = true;
+			}
+
+
 
 			// Based on radius calculation in Explosions\Explosion.cs, where an amount of 30u will have an
 			// explosion radius of 1. Strength is determined using a logarthmic formula to cause diminishing returns.
@@ -50,9 +55,6 @@ namespace Chemistry.Effects
 
 				foreach (BodyPart part in bodyPart.HealthMaster.BodyPartList)
 				{
-					if (part == bodyPart) continue; // we prioritised the origin organ first
-					if (part.ContainedIn == null) continue;
-
 					if (strength >= part.Health)
 					{
 						float temp = part.Health; //temporary store to make sure we don't use an updated health when decrementing strength
