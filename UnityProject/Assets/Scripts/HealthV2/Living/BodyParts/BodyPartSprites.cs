@@ -14,8 +14,6 @@ public class BodyPartSprites : MonoBehaviour
 
 	[SerializeField] public BodyPartType BodyPartType;
 
-	public RootBodyPartContainer ParentContainer;
-
 	public SpriteRenderer spriteRenderer;
 
 	public CharacterSettings ThisCharacter;
@@ -28,24 +26,11 @@ public class BodyPartSprites : MonoBehaviour
 
 	public int referenceOffset = 0;
 
-	public void UpdateHideDlags( ClothingHideFlags newOne)
-	{
-		ClothingHide = newOne;
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			ParentContainer.UpdateThis();
-		}
-	}
 
 	public void UpdateData(string InNew)
 	{
 		if (string.IsNullOrEmpty(InNew)) return;
 		Data = InNew;
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			ParentContainer.UpdateThis();
-			return;
-		}
 		SpriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
 		SpriteOrder.Orders.RemoveRange(0, 4);
 		if (SpriteOrder != null)
@@ -80,7 +65,7 @@ public class BodyPartSprites : MonoBehaviour
 
 	public virtual void SetName(string Name)
 	{
-		this.gameObject.name = Name;
+		gameObject.name = Name;
 		baseSpriteHandler.name = Name;
 	}
 	public virtual void OnDirectionChange(Orientation direction)

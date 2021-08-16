@@ -139,6 +139,7 @@ namespace HealthV2
 
 		private bool SystemSetup = false;
 
+		public IntName intName;
 
 		void Awake()
 		{
@@ -259,7 +260,7 @@ namespace HealthV2
 				{
 					//TODO: horrible, remove -- organ prefabs have a bodypart component
 					var bodyPart = addedOrgan.GetComponent<BodyPart>();
-					HealthMaster.SetupSpritesNetId(bodyPart);
+					HealthMaster.ServerCreateSprite(bodyPart);
 				}
 			}
 			else if(prevImplant && prevImplant.TryGetComponent<Organ>(out var removedOrgan))
@@ -277,7 +278,7 @@ namespace HealthV2
 		{
 			livingHealth.BodyPartList.Add(this);
 			SetHealthMaster(livingHealth);
-			livingHealth.SetupSpritesNetId(this);
+			livingHealth.ServerCreateSprite(this);
 
 			//legs and arms getting ready to affect speed
 			if (TryGetComponent<Limb>(out var limb))
@@ -289,7 +290,7 @@ namespace HealthV2
 			foreach (var organ in OrganList)
 			{
 				var organBodyPart = organ.GetComponent<BodyPart>();
-				livingHealth.SetupSpritesNetId(organBodyPart);
+				livingHealth.ServerCreateSprite(organBodyPart);
 			}
 		}
 
@@ -307,7 +308,7 @@ namespace HealthV2
 				organBodyPart.RemoveSprites(playerSprites, HealthMaster);
 			}
 			RemoveSprites(playerSprites, HealthMaster);
-			HealthMaster.rootBodyPartController.RequestUpdate();
+			HealthMaster.rootBodyPartController.UpdateClients();
 			HealthMaster.BodyPartList.Remove(this);
 		}
 
@@ -370,7 +371,6 @@ namespace HealthV2
 			for (var i = RelatedPresentSprites.Count - 1; i >= 0; i--)
 			{
 				var bodyPartSprite = RelatedPresentSprites[i];
-				livingHealth.InternalNetIDs.Remove(bodyPartSprite.GetComponent<NetworkIdentity>().netId);
 				if (IsSurface)
 				{
 					sprites.SurfaceSprite.Remove(bodyPartSprite);
@@ -379,6 +379,7 @@ namespace HealthV2
 				sprites.Addedbodypart.Remove(bodyPartSprite);
 				Destroy(bodyPartSprite.gameObject);
 			}
+			livingHealth.InternalNetIDs.Remove(intName);
 		}
 
 		public void SetUpSystemsThis()

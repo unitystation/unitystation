@@ -85,7 +85,7 @@ public class PlayerSprites : MonoBehaviour
 	public GameObject CustomisationSprites;
 	public GameObject BodySprites;
 
-	public List<RootBodyPartContainer.intName> InternalNetIDs = new List<RootBodyPartContainer.intName>();
+	public List<IntName> InternalNetIDs = new List<IntName>();
 
 	public bool RootBodyPartsLoaded;
 
@@ -235,7 +235,7 @@ public class PlayerSprites : MonoBehaviour
 			}
 		}
 
-		List<RootBodyPartContainer.intName> ToClient = new List<RootBodyPartContainer.intName>();
+		List<IntName> ToClient = new List<IntName>();
 		foreach (var Customisation in SetRace.Base.CustomisationSettings)
 		{
 			ExternalCustomisation externalCustomisation = null;
@@ -252,9 +252,9 @@ public class PlayerSprites : MonoBehaviour
 			var SpriteHandlerNorder = Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
 									.GameObject.GetComponent<SpriteHandlerNorder>();
 			SpriteHandlerNorder.transform.localPosition = Vector3.zero;
-			SpriteHandlerManager.UnRegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
 			SpriteHandlerNorder.name = Customisation.CustomisationGroup.ThisType.ToString();
-			var newone = new RootBodyPartContainer.intName();
+
+			var newone = new IntName();
 			newone.Int =
 				CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[ToInstantiateSpriteCustomisation.gameObject];
 
@@ -561,7 +561,7 @@ public class PlayerSprites : MonoBehaviour
 
 
 */
-	public void UpdateChildren(List<RootBodyPartContainer.intName> NewInternalNetIDs)
+	public void UpdateChildren(List<IntName> NewInternalNetIDs)
 	{
 		List<SpriteHandler> SHS = new List<SpriteHandler>();
 		foreach (var ID in NewInternalNetIDs)
@@ -610,7 +610,7 @@ public class PlayerSprites : MonoBehaviour
 				}
 			}
 		}
-		RequestForceSpriteUpdate.Send(SpriteHandlerManager.Instance, SHS);
+
 		foreach (var ID in InternalNetIDs)
 		{
 			bool Contains = false;
