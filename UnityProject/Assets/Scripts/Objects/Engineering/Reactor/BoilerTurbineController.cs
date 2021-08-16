@@ -5,7 +5,7 @@ using Systems.ObjectConnection;
 
 namespace Objects.Engineering
 {
-	public class BoilerTurbineController : MonoBehaviour, ISetMultitoolSlave
+	public class BoilerTurbineController : MonoBehaviour, IMultitoolSlaveable
 	{
 		public bool State = false;
 		public ReactorBoiler ReactorBoiler = null;
@@ -21,7 +21,9 @@ namespace Objects.Engineering
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		bool IMultitoolSlaveable.IsLinked => ReactorBoiler != null && ReactorTurbine != null;
+
+		public void SetMaster(IMultitoolMasterable Imaster)
 		{
 			var boiler = (Imaster as Component)?.gameObject.GetComponent<ReactorBoiler>();
 			if (boiler != null)

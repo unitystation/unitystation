@@ -132,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CookTime: 15
   CookedProduct: {fileID: 0}
+  cookOnDestroyByBurn: 0
 --- !u!1001 &8783827724552596289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -296,6 +297,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e4c45d165bdecef41b245ab0860d3a4d,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 77d2a86d1e994c64485b5240c8f917ec
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &8783702771992860667 stripped

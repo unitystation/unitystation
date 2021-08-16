@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReactorChambers: {fileID: 0}
-  conType: 4
 --- !u!1001 &7119468310614602537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -475,6 +474,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Color.r
       value: 0.646
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: foreverID
+      value: b64a5d579b668bf4bb49fcad64b80b6a
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}

@@ -5,7 +5,7 @@ using Systems.ObjectConnection;
 
 namespace Objects.Engineering
 {
-	public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
+	public class ReactorControlConsole : MonoBehaviour, IMultitoolSlaveable
 	{
 		public ReactorGraphiteChamber ReactorChambers = null;
 
@@ -23,7 +23,9 @@ namespace Objects.Engineering
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		bool IMultitoolSlaveable.IsLinked => ReactorChambers != null;
+
+		public void SetMaster(IMultitoolMasterable Imaster)
 		{
 			var Chamber = (Imaster as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
 			if (Chamber != null)

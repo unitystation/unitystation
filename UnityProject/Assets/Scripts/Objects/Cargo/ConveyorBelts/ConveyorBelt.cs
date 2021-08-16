@@ -10,7 +10,7 @@ namespace Construction.Conveyors
 {
 	[SelectionBase]
 	[ExecuteInEditMode]
-	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		private readonly Vector2Int[] searchDirs =
 		{
@@ -299,7 +299,7 @@ namespace Construction.Conveyors
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.Conveyor;
 		public bool MultiMaster => true;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object SlaveObject)
 		{

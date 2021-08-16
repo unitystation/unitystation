@@ -16,7 +16,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, INodeControl, IServerDespawn, ISetMultitoolMaster
+	public class APC : SubscriptionController, INodeControl, IServerDespawn, IMultitoolMasterable
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -444,11 +444,9 @@ namespace Objects.Engineering
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => 30;
 
-		public void AddSlave(object slaveObject)
-		{
-		}
+		public void AddSlave(object slaveObject) { }
 
 		public void RemoveDevice(APCPoweredDevice apcPoweredDevice)
 		{

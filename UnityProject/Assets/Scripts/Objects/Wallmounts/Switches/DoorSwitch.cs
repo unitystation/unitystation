@@ -15,7 +15,7 @@ namespace Objects.Wallmounts
 	/// Allows object to function as a door switch - opening / closing door when clicked.
 	/// </summary>
 	[ExecuteInEditMode]
-	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn, ICheckedInteractable<AiActivate>
+	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerSpawn, ICheckedInteractable<AiActivate>
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -278,7 +278,7 @@ namespace Objects.Wallmounts
 		public MultitoolConnectionType ConType => conType;
 
 		public bool MultiMaster => true;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object SlaveObject) { }
 

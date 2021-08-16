@@ -16,7 +16,7 @@ using UnityEditor;
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolSlave
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IMultitoolSlaveable
 	{
 		[SerializeField]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
@@ -81,10 +81,6 @@ namespace Systems.Electricity
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
-
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.APC;
-		public MultitoolConnectionType ConType => conType;
 
 		private Texture disconnectedImg;
 		private RegisterTile registerTile;
@@ -162,7 +158,13 @@ namespace Systems.Electricity
 
 		#endregion
 
-		public void SetMaster(ISetMultitoolMaster imaster)
+		#region Multitool Interaction
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.APC;
+
+		bool IMultitoolSlaveable.IsLinked => RelatedAPC != null || IsSelfPowered;
+
+		public void SetMaster(IMultitoolMasterable imaster)
 		{
 			if (blockApcChange)
 			{
@@ -178,6 +180,8 @@ namespace Systems.Electricity
 			RelatedAPC = inApc;
 			RelatedAPC.OrNull()?.AddDevice(this);
 		}
+
+		#endregion
 
 		/// <summary>
 		/// In case is a bit more tidy up needed when removing APC so not doing it it from APC end

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 1033521399077987722}
   - component: {fileID: 90804091474310291}
   - component: {fileID: 1481169419180323577}
+  - component: {fileID: 951381747229521920}
   m_Layer: 11
   m_Name: Object
   m_TagString: Untagged
@@ -100,7 +101,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  CurrentsortingGroup: {fileID: 0}
+  CurrentsortingGroup: {fileID: 1481169419180323577}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
@@ -243,6 +244,19 @@ SortingGroup:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 0
+--- !u!114 &951381747229521920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4197940402254186057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foreverID: ebb08cf966efc084aa918bd8d9429604
 --- !u!1 &5388634654466307187
 GameObject:
   m_ObjectHideFlags: 0

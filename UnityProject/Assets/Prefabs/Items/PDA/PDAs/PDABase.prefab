@@ -190,6 +190,7 @@ MonoBehaviour:
   UIBG: {r: 0.63529414, g: 0.7058824, b: 0.8117647, a: 1}
   UIOVER: {r: 0, g: 0, b: 0, a: 0}
   OVERLAY: 0
+  PDAGui: {fileID: 0}
   informUplinkCodeDelay: 10
   telecrystalTrait: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9, type: 2}
   debugUplink: 0
@@ -968,6 +969,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f319abe1054c0a44f818e35c9ab66460,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 49b38681833f4d74ba6d4ab654a5d8cf
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!4 &239048463826641235 stripped
