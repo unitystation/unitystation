@@ -4,35 +4,13 @@ using Objects.Wallmounts;
 
 namespace Doors
 {
-	public class FireLock : InteractableDoor, ISetMultitoolSlave
+	public class FireLock : InteractableDoor, IMultitoolSlaveable
 	{
 		public FireAlarm fireAlarm;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
-		public MultitoolConnectionType ConType => conType;
+		public override void TryClose() { }
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
-		{
-			FireAlarm newFireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
-			if (newFireAlarm == null) return; // Might try to add firelock to something that is not a firealarm e.g. APC
-
-			if (fireAlarm != null)
-			{
-				fireAlarm.FireLockList.Remove(this);
-			}
-
-			fireAlarm = newFireAlarm;
-			fireAlarm.FireLockList.Add(this);
-		}
-
-		public override void TryClose()
-		{
-		}
-
-		public override void TryOpen(GameObject performer)
-		{
-		}
+		public override void TryOpen(GameObject performer) { }
 
 		void TriggerAlarm()
 		{
@@ -64,6 +42,28 @@ namespace Doors
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			Controller.Open();
 		}
+
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.FireAlarm;
+
+		bool IMultitoolSlaveable.IsLinked => fireAlarm != null;
+
+		public void SetMaster(IMultitoolMasterable Imaster)
+		{
+			FireAlarm newFireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
+			if (newFireAlarm == null) return; // Might try to add firelock to something that is not a firealarm e.g. APC
+
+			if (fireAlarm != null)
+			{
+				fireAlarm.FireLockList.Remove(this);
+			}
+
+			fireAlarm = newFireAlarm;
+			fireAlarm.FireLockList.Add(this);
+		}
+
+		#endregion
 
 		//Copied over from LightSource.cs
 		void OnDrawGizmosSelected()

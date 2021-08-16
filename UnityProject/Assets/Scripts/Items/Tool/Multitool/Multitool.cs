@@ -12,8 +12,8 @@ namespace Items.Engineering
 		private bool isMultipleMaster = false;
 		private MultitoolConnectionType configurationBuffer = MultitoolConnectionType.Empty;
 
-		private readonly List<ISetMultitoolMaster> buffers = new List<ISetMultitoolMaster>();
-		private ISetMultitoolMaster Buffer => buffers.Count > 0 ? buffers[0] : null;
+		private readonly List<IMultitoolMasterable> buffers = new List<IMultitoolMasterable>();
+		private IMultitoolMasterable Buffer => buffers.Count > 0 ? buffers[0] : null;
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
@@ -21,17 +21,17 @@ namespace Items.Engineering
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (Validations.IsTarget(gameObject, interaction)) return false;
 
-			return interaction.TargetObject.TryGetComponent<ISetMultitoolBase>(out _);
+			return interaction.TargetObject.TryGetComponent<IMultitoolLinkable>(out _);
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			var multitoolBases = interaction.TargetObject.GetComponents<ISetMultitoolBase>();
+			var multitoolBases = interaction.TargetObject.GetComponents<IMultitoolLinkable>();
 			foreach (var multitoolBase in multitoolBases)
 			{
 				if (Buffer == null || isMultipleMaster)
 				{
-					if (multitoolBase is ISetMultitoolMaster master)
+					if (multitoolBase is IMultitoolMasterable master)
 					{
 						configurationBuffer = master.ConType;
 						buffers.Add(master);
@@ -57,14 +57,14 @@ namespace Items.Engineering
 
 				switch (multitoolBase)
 				{
-					case ISetMultitoolSlave slave:
+					case IMultitoolSlaveable slave:
 						slave.SetMaster(Buffer);
 						Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
 								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
 						return;
-					case ISetMultitoolSlaveMultiMaster slaveMultiMaster:
+					case IMultitoolMultiMasterSlaveable slaveMultiMaster:
 						slaveMultiMaster.SetMasters(buffers);
 						Chat.AddExamineMsgFromServer(
 								interaction.Performer,

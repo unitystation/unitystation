@@ -24,7 +24,7 @@ namespace Objects.Other
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(APCPoweredDevice))]
 	[RequireComponent(typeof(AccessRestrictions))]
-	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlave, IExaminable, IServerSpawn, ICanOpenNetTab
+	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IServerSpawn, ICanOpenNetTab
 	{
 		[SerializeField]
 		[Tooltip("Used to get the lethal bullet and spawn the gun when deconstructed")]
@@ -743,7 +743,9 @@ namespace Objects.Other
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.Turret;
 
-		public void SetMaster(ISetMultitoolMaster iMaster)
+		bool IMultitoolSlaveable.IsLinked => connectedSwitch != null;
+
+		public void SetMaster(IMultitoolMasterable iMaster)
 		{
 			if (unlocked == false)
 			{

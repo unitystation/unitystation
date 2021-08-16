@@ -11,7 +11,7 @@ using Objects.Atmospherics;
 
 namespace Objects.Engineering
 {
-	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn, IServerSpawn
+	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, IMultitoolMasterable, IServerDespawn, IServerSpawn
 	{
 		public float EditorPresentNeutrons;
 		public float EditorEnergyReleased;
@@ -478,7 +478,7 @@ namespace Objects.Engineering
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
 		public bool MultiMaster => false;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object SlaveObjectThis)
 		{

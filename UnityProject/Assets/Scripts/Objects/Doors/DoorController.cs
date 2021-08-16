@@ -15,7 +15,7 @@ using Objects.Wallmounts;
 
 namespace Doors
 {
-	public class DoorController : NetworkBehaviour, ISetMultitoolSlave, ICheckedInteractable<AiActivate>
+	public class DoorController : NetworkBehaviour, IMultitoolSlaveable, ICheckedInteractable<AiActivate>
 	{
 		public enum OpeningDirection
 		{
@@ -97,11 +97,12 @@ namespace Doors
 		[Tooltip("First frame of the door pressure light animation")]
 		public int DoorPressureSpriteOffset = 25;
 		// After pressure alert issued, time until it will display the alert again instead of opening.
-		private int pressureWarningCooldown = 5;
-		private int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
-		private int pressureThresholdWarning = 120;
+		private readonly int pressureWarningCooldown = 5;
+		private readonly int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
+		private readonly int pressureThresholdWarning = 120;
 		private bool pressureWarnActive = false;
-		[HideInInspector] public PressureLevel pressureLevel = PressureLevel.Safe;
+
+		public PressureLevel CurrentPressureLevel { get; private set; } = PressureLevel.Safe;
 
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
@@ -120,8 +121,7 @@ namespace Doors
 			}
 		}
 
-		[HideInInspector] public SpriteRenderer spriteRenderer;
-
+		private SpriteRenderer spriteRenderer;
 
 		private HackingProcessBase hackingProcess;
 		public HackingProcessBase HackingProcess => hackingProcess;
@@ -532,17 +532,17 @@ namespace Doors
 			// Set pressureLevel according to the pressure difference found.
 			if (vertPressureDiff >= pressureThresholdWarning || horzPressureDiff >= pressureThresholdWarning)
 			{
-				pressureLevel = PressureLevel.Warning;
+				CurrentPressureLevel = PressureLevel.Warning;
 				return true;
 			}
 
 			if (vertPressureDiff >= pressureThresholdCaution || horzPressureDiff >= pressureThresholdCaution)
 			{
-				pressureLevel = PressureLevel.Caution;
+				CurrentPressureLevel = PressureLevel.Caution;
 				return true;
 			}
 
-			pressureLevel = PressureLevel.Safe;
+			CurrentPressureLevel = PressureLevel.Safe;
 			return false;
 		}
 
@@ -650,7 +650,9 @@ namespace Doors
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		bool IMultitoolSlaveable.IsLinked => false; // Assume not linked for now.
+
+		public void SetMaster(IMultitoolMasterable Imaster)
 		{
 			var doorSwitch = (Imaster as DoorSwitch);
 			if (doorSwitch)

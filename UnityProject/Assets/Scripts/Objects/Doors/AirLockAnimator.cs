@@ -281,7 +281,7 @@ namespace Doors
 			// Choose emergency lights sprite, overwrite with door bolt lights if
 			// pressureLevel is Warning and not Caution.
 			int spriteOffset = doorController.DoorPressureSpriteOffset;
-			if (doorController.pressureLevel == DoorController.PressureLevel.Warning)
+			if (doorController.CurrentPressureLevel == DoorController.PressureLevel.Warning)
 			{
 				spriteOffset = doorController.DoorDeniedSpriteOffset;
 			}

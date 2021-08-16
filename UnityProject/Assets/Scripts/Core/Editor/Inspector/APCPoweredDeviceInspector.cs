@@ -23,8 +23,6 @@ namespace CustomInspectors
 
 			var device = (APCPoweredDevice) target;
 
-			if (device.ConType != MultitoolConnectionType.APC) return;
-
 			if (!device.IsSelfPowered)
 			{
 				if (!device.IsSelfPowered && device.RelatedAPC == null)

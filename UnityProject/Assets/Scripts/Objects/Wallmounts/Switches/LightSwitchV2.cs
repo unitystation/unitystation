@@ -10,7 +10,7 @@ using Systems.ObjectConnection;
 
 namespace Objects.Lighting
 {
-	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, ISetMultitoolMaster, ICheckedInteractable<AiActivate>
+	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<LightSource> listOfLights;
 
@@ -159,7 +159,7 @@ namespace Objects.Lighting
 		public MultitoolConnectionType ConType => conType;
 
 		public bool MultiMaster => true;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		public void AddSlave(object slaveObject) { }
 
