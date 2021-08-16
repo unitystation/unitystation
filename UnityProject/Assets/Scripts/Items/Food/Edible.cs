@@ -25,7 +25,7 @@ namespace Items.Food
 		[SerializeField]
 		private AddressableAudioSource sound = null;
 
-		private float randomPitch => Random.Range( 0.7f, 1.3f );
+		private float RandomPitch => Random.Range( 0.7f, 1.3f );
 
 		private static readonly StandardProgressActionConfig ProgressConfig
 			= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -82,7 +82,7 @@ namespace Items.Food
 			if (eater == null)
 			{
 				// todo: implement non-player eating
-				AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: randomPitch);
+				AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
 				SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition, eatSoundParameters);
 				if (leavings != null)
 				{
@@ -122,7 +122,7 @@ namespace Items.Food
 		public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 		{
 			//TODO: Reimplement metabolism.
-			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: randomPitch);
+			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, eatSoundParameters, sourceObj: eater.gameObject);
 
 			var Stomachs = eater.playerHealth.GetStomachs();
