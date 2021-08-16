@@ -22,7 +22,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 8bcf79131416d2e4bad5a5939e6ab4b9,
+      objectReference: {fileID: 11400000, guid: 7965d9df81a92074daa139432ecbc359,
         type: 2}
     - target: {fileID: 7014878094720629310, guid: b29d3b3d0eac3a84d9ef700d10f41b3a,
         type: 3}
@@ -99,8 +99,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fc2b065b3a677724abf92dce01968e8e,
+      objectReference: {fileID: -3509870970251104172, guid: f4b8990bb751a1a41bf5af7c2d9d2e53,
         type: 3}
+    - target: {fileID: 8899232533327349013, guid: b29d3b3d0eac3a84d9ef700d10f41b3a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9195228928975526187, guid: b29d3b3d0eac3a84d9ef700d10f41b3a,
         type: 3}
       propertyPath: initialName
