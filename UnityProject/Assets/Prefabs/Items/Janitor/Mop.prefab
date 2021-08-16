@@ -28,14 +28,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseStandardExamine: 0
-  ExamineAmount: 0
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 3
-  possibleTransferAmounts: []
-  transferAmount: 25
   maxCapacity: 25
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
@@ -48,6 +40,14 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  UseStandardExamine: 0
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 3
+  possibleTransferAmounts: []
+  transferAmount: 25
 --- !u!1001 &2418701848222554733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e632378292aa9a645bf4a8745061e44d
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -298,6 +298,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aab9cb7b93e761c40b569e30d02a7768,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: e632378292aa9a645bf4a8745061e44d
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2419386692754613975 stripped

@@ -36,10 +36,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 996d834c824e08e479793db4941b45ca,
         type: 2}
+    - target: {fileID: 4155315648681964353, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: foreverID
+      value: f297c5f7ec90e204fa5a9991c56a8388
+      objectReference: {fileID: 0}
     - target: {fileID: 6954729823044027032, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f297c5f7ec90e204fa5a9991c56a8388
       objectReference: {fileID: 0}
     - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
@@ -99,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 6994121511001194284, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: m_Name
-      value: BreadPlainLoaf
+      value: PlainBreadLoaf
       objectReference: {fileID: 0}
     - target: {fileID: 7197290870251572336, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}

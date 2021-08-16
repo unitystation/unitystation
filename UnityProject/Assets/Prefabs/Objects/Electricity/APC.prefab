@@ -92,7 +92,6 @@ MonoBehaviour:
   screenDisplay: {fileID: 7181786134445355985}
   connectedDevices: []
   connectedDepartmentBatteries: []
-  conType: 1
   multiMaster: 1
 --- !u!1 &9053875397184046594
 GameObject:
@@ -238,6 +237,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayerID
       value: -1618464505
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548266987274834536, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: foreverID
+      value: cd57203a8d3f54f478446e9b0ced6cf9
       objectReference: {fileID: 0}
     - target: {fileID: 2353904009134093219, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}

@@ -65,11 +65,16 @@ PrefabInstance:
     - target: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_Name
-      value: MeatIngredientBase
+      value: _MeatIngredientBase
       objectReference: {fileID: 0}
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_AssetId
+      value: 699a33dd843ab594e9b3dbbf5b6305d4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: foreverID
       value: 699a33dd843ab594e9b3dbbf5b6305d4
       objectReference: {fileID: 0}
     m_RemovedComponents: []

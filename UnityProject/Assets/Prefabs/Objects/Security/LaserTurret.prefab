@@ -57,7 +57,6 @@ MonoBehaviour:
   CheckUnauthorisedPersonnel: 0
   authorisedAccess: 4400000026000000
   CheckUnidentifiedLifeSigns: 1
-  conType: 9
 --- !u!114 &2506153195070795302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +319,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 24217cb8b2338a3479aaf8d32b727ed1
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

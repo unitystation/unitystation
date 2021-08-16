@@ -109,8 +109,6 @@ MonoBehaviour:
   isEmagged: 0
   weldOverlay: {fileID: 0}
   weldSprite: {fileID: 0}
-  isUnLockable: 1
-  isWeldable: 1
 --- !u!1 &8639641436648170908
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +306,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SuitStorageUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 24eaaeb286e2fbe48a16783af29e3c02
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
