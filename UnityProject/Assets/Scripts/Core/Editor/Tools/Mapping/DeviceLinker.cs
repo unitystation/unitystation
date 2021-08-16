@@ -120,7 +120,7 @@ namespace Core.Editor.Tools.Mapping
 				float distance = DeviceLinker.LinkSlave(slaveUnderReview);
 				if (distance < DeviceLinker.Masters[0].MaxDistance)
 				{
-					GUILayout.Label($"<b>{slaveUnderReview.gameObject.name}</b> has been relinked.</b>");// TODO: it has been relinked but what if it hasn"t does this even make sense halp me
+					GUILayout.Label($"<b>{slaveUnderReview.gameObject.name}</b> has been relinked.</b>");
 				}
 
 				GUILayout.Label($"<b>{slaveUnderReview.gameObject.name}</b>: maximum distance of <b>{DeviceLinker.Masters[0].MaxDistance}</b> " +
