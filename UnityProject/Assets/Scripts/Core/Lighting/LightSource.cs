@@ -15,7 +15,7 @@ namespace Objects.Lighting
 	/// <summary>
 	/// Component responsible for the behaviour of light tubes / bulbs in particular.
 	/// </summary>
-	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle, ISetMultitoolSlave
+	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle, IMultitoolSlaveable
 	{
 		public Color ONColour;
 		public Color EmergencyColour;
@@ -60,10 +60,6 @@ namespace Objects.Lighting
 		private GameObject currentSparkEffect;
 
 		public float integrityThreshBar { get; private set; }
-
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
-		public MultitoolConnectionType ConType => conType;
 
 		#region Lifecycle
 
@@ -115,7 +111,13 @@ namespace Objects.Lighting
 
 		#endregion
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.LightSwitch;
+
+		bool IMultitoolSlaveable.IsLinked => IsWithoutSwitch == false || relatedLightSwitch == null;
+
+		public void SetMaster(IMultitoolMasterable Imaster)
 		{
 			var lightSwitch = (Imaster as Component)?.gameObject.GetComponent<LightSwitchV2>();
 			if (lightSwitch != relatedLightSwitch)
@@ -123,6 +125,8 @@ namespace Objects.Lighting
 				SubscribeToSwitchEvent(lightSwitch);
 			}
 		}
+
+		#endregion
 
 		private void OnDirectionChange(Orientation newDir)
 		{

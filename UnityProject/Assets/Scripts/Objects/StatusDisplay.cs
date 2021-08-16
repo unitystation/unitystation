@@ -18,7 +18,7 @@ namespace Objects.Wallmounts
 	/// Mounted monitor to show simple images or text
 	/// Escape Shuttle channel is a priority one and will overtake other channels.
 	/// </summary>
-	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster,
+	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable,
 			IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<AiActivate>
 	{
 		public static readonly int MAX_CHARS_PER_PAGE = 18;
@@ -59,7 +59,7 @@ namespace Objects.Wallmounts
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 

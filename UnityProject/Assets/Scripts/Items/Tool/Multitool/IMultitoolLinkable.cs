@@ -1,0 +1,62 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+
+namespace Systems.ObjectConnection
+{
+	public enum MultitoolConnectionType
+	{
+		Empty,
+		APC,
+		Conveyor,
+		BoilerTurbine,
+		ReactorChamber,
+		FireAlarm,
+		LightSwitch,
+		DoorButton,
+		GeneralSwitch,
+		Turret,
+	}
+
+	public interface IMultitoolLinkable
+	{
+		MultitoolConnectionType ConType { get; }
+
+		GameObject gameObject { get; }
+	}
+
+	/// <summary>
+	/// Allows a master device to connect slave devices.
+	/// </summary>
+	public interface IMultitoolMasterable : IMultitoolLinkable
+	{
+		/// <summary>Whether this connection type supports multiple masters (e.g. two light switches, one light).</summary>
+		bool MultiMaster { get; }
+
+		/// <summary>
+		/// <para>The maximum distance between a slave and its master allowed for a connection.</para>
+		/// <remarks>We limit the distance for gameplay reasons and to ensure reasonable distribution of master controllers.</remarks>
+		/// </summary>
+		int MaxDistance { get; }
+
+		void AddSlave(object slaveObject);
+	}
+
+	/// <summary>
+	/// Allows a slave device to connect to a master device.
+	/// </summary>
+	public interface IMultitoolSlaveable : IMultitoolLinkable
+	{
+		bool IsLinked { get; }
+
+		void SetMaster(IMultitoolMasterable iMaster);
+	}
+
+	/// <summary>
+	/// Allows a slave device to connect to multiple master devices.
+	/// </summary>
+	public interface IMultitoolMultiMasterSlaveable : IMultitoolLinkable
+	{
+		void SetMasters(List<IMultitoolMasterable> iMasters);
+	}
+}
