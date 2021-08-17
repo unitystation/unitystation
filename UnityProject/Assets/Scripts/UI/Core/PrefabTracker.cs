@@ -12,7 +12,7 @@ public class PrefabTracker : MonoBehaviour
 	{
 		get
 		{
-//#if Unity_Editor
+#if Unity_Editor
 			if (string.IsNullOrEmpty(foreverID))
 			{
 				ReassignID();
@@ -25,7 +25,7 @@ public class PrefabTracker : MonoBehaviour
 				}
 			}
 
-//#endif
+#endif
 			return foreverID;
 		}
 		set { foreverID = value; }
@@ -35,7 +35,7 @@ public class PrefabTracker : MonoBehaviour
 
 	public void ReassignID() //Assuming it's a prefab Variant
 	{
-//#if Unity_Editor
+#if Unity_Editor
 		foreverID =
 			AssetDatabase.AssetPathToGUID(
 				AssetDatabase.GetAssetPath(gameObject)); //Can possibly change over time so need some prevention
@@ -44,6 +44,6 @@ public class PrefabTracker : MonoBehaviour
 			Logger.Log("HELP");
 		}
 
-//#endif
+#endif
 	}
 }
