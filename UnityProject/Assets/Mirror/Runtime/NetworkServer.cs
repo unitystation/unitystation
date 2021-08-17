@@ -70,6 +70,10 @@ namespace Mirror
             if (initialized)
                 return;
 
+            //CUSTOM UNITYSTATION CODE//
+            //So it can handle Not having domain reloading on
+            isLoadingScene = false;
+
             initialized = true;
             // Debug.Log("NetworkServer Created version " + Version.Current);
 
