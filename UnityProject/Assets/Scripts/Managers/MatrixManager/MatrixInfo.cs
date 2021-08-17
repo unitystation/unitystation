@@ -126,7 +126,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 		}
 	}
 
-	public bool Equals(MatrixInfo other) => Id == other?.Id;
+	public bool Equals(MatrixInfo other) => other is null == false && Id == other.Id;
 
 	public override bool Equals(object obj) => obj is MatrixInfo other && Equals(other);
 
@@ -173,9 +173,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public static IEqualityComparer<MatrixInfo> IdComparer { get; } = new IdEqualityComparer();
 
-	public static bool operator ==(MatrixInfo left, MatrixInfo right) =>
-		ReferenceEquals(left, null) == false && left.Equals(right);
+	public static bool operator ==(MatrixInfo left, MatrixInfo right) => left?.Equals(right) ?? right is null;
 
-	public static bool operator !=(MatrixInfo left, MatrixInfo right) =>
-		ReferenceEquals(left, null) == false && left.Equals(right) == false;
+	public static bool operator !=(MatrixInfo left, MatrixInfo right) => left == right == false;
 }
