@@ -88,7 +88,7 @@ namespace UI
 				SetUi(hudBottomBlob);
 				PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();
 			}
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			else if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
 			{
 				SetUi(hudBottomAi);
 			}

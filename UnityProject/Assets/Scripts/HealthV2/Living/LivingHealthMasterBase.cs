@@ -793,7 +793,7 @@ namespace HealthV2
 			CirculatorySystem.Bleed(GetTotalBlood());
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				BodyPartList[i].TryRemoveFromBody();
+				BodyPartList[i].TryRemoveFromBody(true);
 			}
 		}
 
