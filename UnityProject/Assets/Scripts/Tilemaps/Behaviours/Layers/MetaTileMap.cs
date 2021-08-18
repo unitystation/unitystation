@@ -19,6 +19,7 @@ namespace TileManagement
 		private readonly Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
 			new Dictionary<Layer, Dictionary<Vector3Int, TileLocation>>();
 
+
 		/// <summary>
 		/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
 		/// </summary>
@@ -213,6 +214,11 @@ namespace TileManagement
 			{
 				layer.overlayStore.Clear();
 			}
+		}
+
+		public Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> GetPresentTiles()
+		{
+			return PresentTiles;
 		}
 
 		/// <summary>
