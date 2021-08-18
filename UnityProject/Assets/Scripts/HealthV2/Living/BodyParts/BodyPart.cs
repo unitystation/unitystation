@@ -328,6 +328,7 @@ namespace HealthV2
 			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
+			dynamicItemStorage.Remove(bodyPartUISlot);
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
 			if(IsBleedingExternally)
 			{
