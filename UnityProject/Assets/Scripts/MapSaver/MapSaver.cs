@@ -27,7 +27,7 @@ public static class MapSaver
 		//# Matrix4x4
 		//§ TileID
 		//◉ Colour
-		
+
 		//☰ Layer
 		//@ location
 
@@ -50,7 +50,7 @@ public static class MapSaver
 
 		//TileType tileType, string key
 
-		var PresentTiles = MetaTileMap.GetPresentTiles();
+		var PresentTiles = MetaTileMap.PresentTilesNeedsLock;
 		lock (PresentTiles)
 		{
 			foreach (var Layer in PresentTiles)
@@ -100,41 +100,43 @@ public static class MapSaver
 		CommonMatrix4x4 = CommonMatrix4x4Count.OrderByDescending(kp => kp.Value)
 			.Select(kp => kp.Key)
 			.ToList();
-
-		foreach (var Layer in PresentTiles)
+		lock (PresentTiles)
 		{
-			foreach (var TileAndLocation in Layer.Value)
+			foreach (var Layer in PresentTiles)
 			{
-				SB.Append(LocationChar);
-				SB.Append(TileAndLocation.Key.x);
-				SB.Append(",");
-				SB.Append(TileAndLocation.Key.y);
-				SB.Append(",");
-				SB.Append(TileAndLocation.Key.z);
-				SB.Append(LayerChar);
-				SB.Append((int) Layer.Key.LayerType);
-
-				int Index = CommonLayerTiles.IndexOf(TileAndLocation.Value.Tile);
-
-
-				if (Index != 0)
+				foreach (var TileAndLocation in Layer.Value)
 				{
-					SB.Append(TileIDChar);
-					SB.Append(Index);
-				}
+					SB.Append(LocationChar);
+					SB.Append(TileAndLocation.Key.x);
+					SB.Append(",");
+					SB.Append(TileAndLocation.Key.y);
+					SB.Append(",");
+					SB.Append(TileAndLocation.Key.z);
+					SB.Append(LayerChar);
+					SB.Append((int) Layer.Key.LayerType);
 
-				Index = CommonColours.IndexOf(TileAndLocation.Value.Colour);
-				if (Index != 0)
-				{
-					SB.Append(ColourChar);
-					SB.Append(Index);
-				}
+					int Index = CommonLayerTiles.IndexOf(TileAndLocation.Value.Tile);
 
-				Index = CommonMatrix4x4.IndexOf(TileAndLocation.Value.TransformMatrix);
-				if (Index != 0)
-				{
-					SB.Append(Matrix4x4Char);
-					SB.Append(Index);
+
+					if (Index != 0)
+					{
+						SB.Append(TileIDChar);
+						SB.Append(Index);
+					}
+
+					Index = CommonColours.IndexOf(TileAndLocation.Value.Colour);
+					if (Index != 0)
+					{
+						SB.Append(ColourChar);
+						SB.Append(Index);
+					}
+
+					Index = CommonMatrix4x4.IndexOf(TileAndLocation.Value.TransformMatrix);
+					if (Index != 0)
+					{
+						SB.Append(Matrix4x4Char);
+						SB.Append(Index);
+					}
 				}
 			}
 		}
