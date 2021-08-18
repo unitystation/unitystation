@@ -8,6 +8,12 @@ using System.Linq;
 
 public static class MapSaver
 {
+	public readonly static char Matrix4x4Char = '#' ;
+	public readonly static char TileIDChar = '§';
+	public readonly static char ColourChar = '◉';
+	public readonly static char LayerChar = '☰';
+	public readonly static char LocationChar = '@';
+
 	public struct TileMapData
 	{
 		public List<string> CommonColours;
@@ -21,7 +27,7 @@ public static class MapSaver
 		//# Matrix4x4
 		//§ TileID
 		//◉ Colour
-
+		
 		//☰ Layer
 		//@ location
 
@@ -99,13 +105,13 @@ public static class MapSaver
 		{
 			foreach (var TileAndLocation in Layer.Value)
 			{
-				SB.Append("@");
+				SB.Append(LocationChar);
 				SB.Append(TileAndLocation.Key.x);
 				SB.Append(",");
 				SB.Append(TileAndLocation.Key.y);
 				SB.Append(",");
 				SB.Append(TileAndLocation.Key.z);
-				SB.Append("☰");
+				SB.Append(LayerChar);
 				SB.Append((int) Layer.Key.LayerType);
 
 				int Index = CommonLayerTiles.IndexOf(TileAndLocation.Value.Tile);
@@ -113,21 +119,21 @@ public static class MapSaver
 
 				if (Index != 0)
 				{
-					SB.Append("§");
+					SB.Append(TileIDChar);
 					SB.Append(Index);
 				}
 
 				Index = CommonColours.IndexOf(TileAndLocation.Value.Colour);
 				if (Index != 0)
 				{
-					SB.Append("◉");
+					SB.Append(ColourChar);
 					SB.Append(Index);
 				}
 
 				Index = CommonMatrix4x4.IndexOf(TileAndLocation.Value.TransformMatrix);
 				if (Index != 0)
 				{
-					SB.Append("#");
+					SB.Append(Matrix4x4Char);
 					SB.Append(Index);
 				}
 			}
@@ -137,7 +143,7 @@ public static class MapSaver
 		TileMapData.Data = SB.ToString();
 		foreach (var layerTile in CommonLayerTiles)
 		{
-			TileMapData.CommonLayerTiles.Add(layerTile.name + "☰" + layerTile.TileType);
+			TileMapData.CommonLayerTiles.Add(layerTile.name + LayerChar + layerTile.TileType);
 		}
 
 		foreach (var inColor in CommonColours)
