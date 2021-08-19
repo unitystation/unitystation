@@ -173,7 +173,15 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public static IEqualityComparer<MatrixInfo> IdComparer { get; } = new IdEqualityComparer();
 
-	public static bool operator ==(MatrixInfo left, MatrixInfo right) => left?.Equals(right) ?? right is null;
+	public static bool operator ==(MatrixInfo left, MatrixInfo right)
+	{
+		if (left is null)
+		{
+			return right is null;
+		}
+
+		return left.Equals(right);
+	}
 
 	public static bool operator !=(MatrixInfo left, MatrixInfo right) => left == right == false;
 }
