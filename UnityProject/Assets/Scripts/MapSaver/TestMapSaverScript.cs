@@ -12,6 +12,6 @@ public class TestMapSaverScript : MonoBehaviour
 	[NaughtyAttributes.Button()]
 	public void SaveMap()
 	{
-		Logger.Log(JsonConvert.SerializeObject(MapSaver.SaveTileMap(MetaTileMap)));
+		Logger.Log(JsonConvert.SerializeObject(MapSaver.MapSaver.SaveTileMap(MetaTileMap)));
 	}
 }
