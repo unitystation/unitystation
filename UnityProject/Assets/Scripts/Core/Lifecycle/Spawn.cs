@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Objects;
 
 /// <summary>
 /// Main API for all types of spawning (except players - see PlayerSpawn). If you ever need to spawn something, look here.
@@ -127,12 +128,14 @@ public static class Spawn
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool spawnItems = true, bool AutoOnSpawnServerHook = true)
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false, bool spawnItems = true, bool AutoOnSpawnServerHook = true,
+		PushPull sharePosition = null)
 	{
+
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab),
-				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable),
+				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable, sharePosition),
 				count, scatterRadius, spawnItems: spawnItems), AutoOnSpawnServerHook);
 	}
 
@@ -282,14 +285,19 @@ public static class Spawn
 				//apply scattering if it was specified
 				if (info.ScatterRadius != null)
 				{
-					foreach (var spawned in spawnedObjects)
+					var cnt = result.GameObject.GetComponent<CustomNetTransform>();
+					var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
+					if (cnt != null)
 					{
-						var cnt = spawned.GetComponent<CustomNetTransform>();
-						var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-						if (cnt != null)
-						{
-							cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
-						}
+						cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
+					}
+				}
+				if (info.SpawnDestination.SharePosition != null && info.SpawnDestination.SharePosition.parentContainer != null)
+				{
+					if (result.GameObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
+					{
+						var closetControl = info.SpawnDestination.SharePosition.parentContainer.GetComponent<ClosetControl>();
+						closetControl.ServerAddInternalItem(objectBehaviour);
 					}
 				}
 			}
