@@ -63,9 +63,10 @@ namespace Systems.CraftingV2
 
 			if (duplicate)
 			{
-				Undo.RecordObject(this, "Crafting list validate");
-
 				craftingRecipes = checkHashset.ToList();
+
+				EditorUtility.SetDirty(this);
+				AssetDatabase.SaveAssets();
 			}
 		}
 #endif
