@@ -21,60 +21,63 @@ namespace Items.Engineering
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (Validations.IsTarget(gameObject, interaction)) return false;
 
-			return interaction.TargetObject.TryGetComponent<IMultitoolLinkable>(out _);
+			return true;
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			var multitoolBases = interaction.TargetObject.GetComponents<IMultitoolLinkable>();
-			foreach (var multitoolBase in multitoolBases)
+			if (interaction.TargetObject != null)
 			{
-				if (Buffer == null || isMultipleMaster)
+				var multitoolBases = interaction.TargetObject.GetComponents<IMultitoolLinkable>();
+				foreach (var multitoolBase in multitoolBases)
 				{
-					if (multitoolBase is IMultitoolMasterable master)
+					if (Buffer == null || isMultipleMaster)
 					{
-						configurationBuffer = master.ConType;
-						buffers.Add(master);
-						isMultipleMaster = master.MultiMaster;
-						Chat.AddExamineMsgFromServer(
+						if (multitoolBase is IMultitoolMasterable master)
+						{
+							configurationBuffer = master.ConType;
+							buffers.Add(master);
+							isMultipleMaster = master.MultiMaster;
+							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You add the <b>{interaction.TargetObject.ExpensiveName()}</b> to the multitool's master buffer.");
-						return;
+							return;
+						}
 					}
-				}
 
-				if (Buffer == null) continue;
-				if (configurationBuffer != multitoolBase.ConType) continue;
+					if (Buffer == null) continue;
+					if (configurationBuffer != multitoolBase.ConType) continue;
 
-				var slaveComponent = Buffer as Component;
-				if (Vector3.Distance(slaveComponent.transform.position, interaction.TargetObject.transform.position) > Buffer.MaxDistance)
-				{
-					Chat.AddExamineMsgFromServer(
+					var slaveComponent = Buffer as Component;
+					if (Vector3.Distance(slaveComponent.transform.position, interaction.TargetObject.transform.position) > Buffer.MaxDistance)
+					{
+						Chat.AddExamineMsgFromServer(
 							interaction.Performer,
 							$"This device is too far away from the master device <b>{slaveComponent.gameObject.ExpensiveName()}!");
-					return;
-				}
+						return;
+					}
 
-				switch (multitoolBase)
-				{
-					case IMultitoolSlaveable slave:
-						slave.SetMaster(Buffer);
-						Chat.AddExamineMsgFromServer(
+					switch (multitoolBase)
+					{
+						case IMultitoolSlaveable slave:
+							slave.SetMaster(Buffer);
+							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
 								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
-						return;
-					case IMultitoolMultiMasterSlaveable slaveMultiMaster:
-						slaveMultiMaster.SetMasters(buffers);
-						Chat.AddExamineMsgFromServer(
+							return;
+						case IMultitoolMultiMasterSlaveable slaveMultiMaster:
+							slaveMultiMaster.SetMasters(buffers);
+							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> to the master devices in the buffer.");
-						return;
-					default:
-						Chat.AddExamineMsgFromServer(
+							return;
+						default:
+							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								"This only seems to have the capability of <b>writing</b> to the buffer.");
-						return;
+							return;
+					}
 				}
 			}
 
