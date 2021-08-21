@@ -43,9 +43,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: a579fbf00b8e2954889df615ba8a861f,
+        type: 2}
+    - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 64957c85b4ba5a1429d18378d62ed905,
         type: 2}
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}

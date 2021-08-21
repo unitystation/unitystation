@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7095652985379418486
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 50214753433726456, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d8f7f7d9ded0f8e40aba748c7783990b,
+        type: 2}
+    - target: {fileID: 958915834106845714, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: foreverID
+      value: b56fec0300832ce48ade0ddf2e577e14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944587105204789161, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944587105204789161, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: a932853eb41cc6b44982aa9a6504dfd2,
+        type: 2}
+    - target: {fileID: 5944587105204789161, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6667264bb4a429444970c55c22b85a6f,
+        type: 2}
+    - target: {fileID: 5944587105204789161, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988067382882072861, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: initialName
+      value: lizard skin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988067382882072861, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: initialDescription
+      value: Sssssss...
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079943759636343755, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_AssetId
+      value: e283eb6a930786e46a05cfc69e1b125b
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190192305708755723, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193708681834796671, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_Name
+      value: LizardSkin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6270572701558056227, guid: 92c1bd5af5895a54781dc61c607ede14,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aac984ec702b6844c9692edf5278361d,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 92c1bd5af5895a54781dc61c607ede14, type: 3}
