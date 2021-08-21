@@ -103,7 +103,6 @@ namespace Antagonists
 			{
 				// Add one escape type objective if needed
 				// Be careful not to remove all escape objectives from AntagData
-
 				var allowedEscapes = EscapeObjectives.Where(obj => obj.IsPossible(player)).ToList();
 				//TODO since checkUnique is false we dont need to remove the chosen object from EscapeObjectives
 				//TODO but we would if we ever want to allow for unique escape objectives
@@ -115,10 +114,10 @@ namespace Antagonists
 			if (antag.ChanceForGimmickObjective != 0 && DMMath.Prob(antag.ChanceForGimmickObjective))
 			{
 				// Add one gimmick objective
-				var allowedEscapes = GimmickObjectives.Where(obj => obj.IsPossible(player)).ToList();
+				var allowedGimmicks = GimmickObjectives.Where(obj => obj.IsPossible(player)).ToList();
 				//TODO since checkUnique is false we dont need to remove the chosen object from EscapeObjectives
 				//TODO but we would if we ever want to allow for unique gimmick objectives
-				newObjective = PickRandomObjective(ref allowedEscapes, false);
+				newObjective = PickRandomObjective(ref allowedGimmicks, false);
 				newObjective.DoSetup(player.mind);
 				generatedObjs.Add(newObjective);
 			}
