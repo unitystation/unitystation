@@ -5,6 +5,7 @@ using System.Text;
 using TileManagement;
 using UnityEngine;
 using System.Linq;
+using NUnit.Framework;
 
 namespace MapSaver
 {
@@ -29,7 +30,6 @@ namespace MapSaver
 		//Is floating reference can be left alone
 
 
-
 		//Cross matrix reference
 		//Lookup table
 		//saving,
@@ -43,33 +43,37 @@ namespace MapSaver
 		//Lookup table
 		//saving,  Assign everything ID Index location,  pre-fill
 
-		public struct ObjectMapData
+		public class ObjectMapData
 		{
 			public List<PrefabData> PrefabData;
 		}
 
-		public struct PrefabData
+		public class PrefabData
 		{
 			public ulong ID;
 			public string PrefabID;
+			public string Name;
+			public string LocalPosition;
 			public IndividualObject Object;
 		}
 
 
-		public struct IndividualObject
+		public class IndividualObject
 		{
+			public uint ChildLocation;
 			public ulong ID;
-			public List<ClassData> ClassDatas;
-			public List<IndividualObject> Children;
+			public string Name;
+			public List<ClassData> ClassDatas = new List<ClassData>();
+			public List<IndividualObject> Children = new List<IndividualObject>();
 		}
 
-		public struct ClassData
+		public class ClassData
 		{
 			public ulong ClassID;
 			public List<FieldData> Data;
 		}
 
-		public struct FieldData
+		public class FieldData
 		{
 			public string Name;
 			public string Data;
@@ -230,12 +234,58 @@ namespace MapSaver
 		}
 
 
-		public static void SaveObjects(MetaTileMap MetaTileMap)
+		public static ObjectMapData SaveObjects(MetaTileMap MetaTileMap)
 		{
-			foreach (var Object in MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer).AllObjects)
+			ulong ID = 0;
+			ObjectMapData ObjectMapData = new ObjectMapData();
+			ObjectMapData.PrefabData = new List<PrefabData>();
+			foreach (var Object in MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
+				.AllObjects)
 			{
+				PrefabData Prefab = new PrefabData();
+				var Tracker = Object.GetComponent<PrefabTracker>();
+				if (Tracker != null)
+				{
+					Prefab.PrefabID = Tracker.ForeverID;
+					Prefab.ID = ID;
+					ID++;
+					Prefab.Name = Object.name;
+					Prefab.Object = new IndividualObject();
+					RecursiveSaveObject(ref ID, Prefab.Object,
+						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID],
+						Object.gameObject);
+					ObjectMapData.PrefabData.Add(Prefab);
 
 
+				}
+			}
+
+			return ObjectMapData;
+		}
+
+		public static void RecursiveSaveObject(ref ulong ID,  IndividualObject individualObject, GameObject PrefabEquivalent, GameObject gameObject)
+		{
+			if (gameObject.name != PrefabEquivalent.name)
+			{
+				individualObject.Name = gameObject.name;
+			}
+
+			individualObject.ID = ID;
+			ID++;
+			//Compare classes here
+
+
+			if (PrefabEquivalent.transform.childCount != gameObject.transform.childCount)
+			{
+				Logger.LogError("Mismatched children between Prefab " + PrefabEquivalent + " and game object " +
+				                gameObject + " at " + gameObject.transform.localPosition + "  Added children is not currently supported in This version of the map saver ");
+			}
+
+			for(int i = 0; i < PrefabEquivalent.transform.childCount; i++)
+			{
+				var newindividualObject = new IndividualObject();
+				individualObject.Children.Add(newindividualObject);
+				RecursiveSaveObject(ref ID,newindividualObject,PrefabEquivalent.transform.GetChild(i).gameObject, gameObject.transform.GetChild(i).gameObject);
 			}
 		}
 	}
