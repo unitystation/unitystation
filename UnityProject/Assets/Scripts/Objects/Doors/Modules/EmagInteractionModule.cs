@@ -97,7 +97,7 @@ namespace Doors.Modules
 		private IEnumerator ToggleBolts()
 		{
 			yield return null;
-			BoltsModule.SetBoltsState(true);
+			BoltsModule.OrNull()?.SetBoltsState(true);
 		}
 
 		public override bool CanDoorStateChange()
