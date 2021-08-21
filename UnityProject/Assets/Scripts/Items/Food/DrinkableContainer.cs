@@ -7,6 +7,7 @@ using ScriptableObjects;
 using UnityEngine;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
+using HealthV2;
 using WebSocketSharp;
 
 [RequireComponent(typeof(ItemAttributesV2))]
@@ -78,11 +79,27 @@ public class DrinkableContainer : Consumable
 	private void Drink(PlayerScript eater, PlayerScript feeder)
 	{
 		// Start drinking reagent mix
-		// todo: actually transfer reagent mix inside player stomach
 		var drinkAmount = container.TransferAmount;
-		container.TakeReagents(drinkAmount);
+		int stomachIndex = 0;
+		List<Stomach> stomachs = eater.playerHealth.GetStomachs();
+		while (drinkAmount > 0)
+		{
+			ReagentContainer stomachContainer = stomachs[stomachIndex].StomachContents;
+			if (stomachContainer.IsFull)
+			{
+				if (stomachIndex < stomachs.Count-1)
+				{
+					stomachIndex++;
+					continue;
+				}
+				break;
+			}
 
-		DoDrinkEffects(eater, drinkAmount);
+			float transferred = Mathf.Min(drinkAmount,
+				stomachContainer.MaxCapacity - stomachContainer.CurrentReagentMix.Total);
+			container.TransferTo(transferred, stomachContainer);
+			drinkAmount -= transferred;
+		}
 
 		// Play sound
 		if (item && drinkSound != null)

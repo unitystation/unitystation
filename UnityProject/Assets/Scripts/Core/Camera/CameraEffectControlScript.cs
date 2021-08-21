@@ -20,7 +20,7 @@ namespace CameraEffects
 		private int maxDrunkTime = 120;
 
 		private const float TIMER_INTERVAL = 1f;
-		private int drunkCameraTime = 0;
+		private float drunkCameraTime = 0;
 
 		private void OnEnable()
 		{
@@ -40,7 +40,7 @@ namespace CameraEffects
 			ToggleGlitchEffectState(false);
 		}
 
-		public void AddDrunkTime(int time)
+		public void AddDrunkTime(float time)
 		{
 			drunkCameraTime += time;
 

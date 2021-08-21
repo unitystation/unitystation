@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CameraEffects;
 using Chemistry;
 using Chemistry.Components;
 using ScriptableObjects;
@@ -51,6 +52,8 @@ namespace HealthV2
 			//Liver has failed or just generally unable to process things, so don't let it.
 			if (RelatedPart.TotalModified == 0) return;
 
+			string debug = "==== STAGE 1 || BLOOD TO PROCESSING ====";
+
 			float tickPullProcessingAmnt =  RelatedPart.TotalModified *  processAmount;
 			float tickClearAmount = tickPullProcessingAmnt * flushMultiplier;
 
@@ -65,11 +68,12 @@ namespace HealthV2
 			{
 				foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
 				{
-					if (Alcohols.AlcoholicReagents.Contains(reagent) || Toxins.Contains(reagent))
+					bool alcohol = Alcohols.AlcoholicReagents.Contains(reagent);
+					bool toxic = Toxins.Contains(reagent);
+					if (alcohol || toxic)
 					{
 						float amount = Mathf.Min(tickPullProcessingAmnt,RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
 						amount = Mathf.Min(amount, (processingContainer.MaxCapacity - processingContainer.ReagentMixTotal)-drawnAmount);
-
 						tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
 
 						if (processingContainer.IsFull)
@@ -89,10 +93,13 @@ namespace HealthV2
 			//take what we are gonna process or remove, out of the blood
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
+				debug += $"{reagent.Item2} of {reagent.Item1}\n";
 				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 			}
 			tempArray.Clear();
+
+			debug += "==== STAGE 2 || REMOVAL FROM LIVER ====";
 
 			//calculate what's going to be removed, seeing as processing will happen in the reactionset
 			lock (processingContainer.CurrentReagentMix.reagents)
@@ -116,9 +123,46 @@ namespace HealthV2
 			//remove what's going to be removed
 			foreach (Tuple<Reagent,float> reagent in tempArray)
 			{
+				debug += $"{reagent.Item2}cc of {reagent.Item1}\n";
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 			}
 			tempArray.Clear();
+
+			debug += "==== STAGE 3 || RETURN FROM LIVER ====";
+
+			if (processingContainer.CurrentReagentMix.reagentKeys.Contains(ethanolReagent))
+			{
+				float doop = processingContainer.CurrentReagentMix[ethanolReagent];
+				if (doop > 0)
+				{
+					Debug.Log($"Adding {doop} drunk time\n");
+					Camera.main?.GetComponent<CameraEffectControlScript>().AddDrunkTime(doop);
+				}
+
+			}
+
+			//debug += "==== STAGE 3 || RETURN TO BLOOD ====";
+//
+			////put that thing back where it came from or so help me
+			//lock (processingContainer.CurrentReagentMix.reagents)
+			//{
+			//	foreach (Reagent reagent in processingContainer.CurrentReagentMix.reagents.Keys)
+			//	{
+			//		tempArray.Add(new Tuple<Reagent, float>(reagent, processingContainer.CurrentReagentMix[reagent]));
+			//	}
+			//}
+//
+			////the liver is merely an avenue, a pitstop, not a home.
+			//foreach (Tuple<Reagent,float> reagent in tempArray)
+			//{
+			//	debug += $"{reagent.Item2}cc of {reagent.Item1.name}";
+			//	processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
+			//}
+			//tempArray.Clear();
+
+			Debug.Log(debug);
+
+			processingContainer.OnReagentMixChanged.Invoke();
 		}
 	}
 }
