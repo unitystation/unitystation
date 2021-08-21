@@ -251,7 +251,13 @@ namespace Objects.Engineering
 				return;
 			}
 
-			if (!interaction.HandObject.GetComponent<Welder>().IsOn)
+			if (isWrenched == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be wrenched down first");
+				return;
+			}
+
+			if (interaction.HandObject.GetComponent<Welder>().IsOn == false)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "You need a fueled and lit welder");
 				return;
