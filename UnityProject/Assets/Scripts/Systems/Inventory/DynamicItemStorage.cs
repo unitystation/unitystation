@@ -1039,7 +1039,9 @@ public class DynamicItemStorage : NetworkBehaviour
 
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
-			objt.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(newBody);
+			if(objt == null || objt.TryGetComponent<ItemStorage>(out var itemStorage) == false) continue;
+
+			itemStorage.ServerRemoveObserverPlayer(newBody);
 		}
 	}
 
