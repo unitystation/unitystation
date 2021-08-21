@@ -114,7 +114,7 @@ namespace Objects.Engineering
 
 		private void OnDestruction(DestructionInfo info)
 		{
-			DownGradeState(true);
+			DownGradeState();
 		}
 
 		#region HandApply
@@ -259,13 +259,12 @@ namespace Objects.Engineering
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"You rotate the reflector to {rotation - 90} degrees");
 		}
 
-		private void DownGradeState(bool isDestroy = false)
+		private void DownGradeState()
 		{
 			switch (currentState)
 			{
 				case ReflectorType.Base:
 					SpawnMaterial(CommonPrefabs.Instance.Metal, 4);
-					if (isDestroy) return;
 					_ = Despawn.ServerSingle(gameObject);
 					return;
 				case ReflectorType.Box:
@@ -294,18 +293,32 @@ namespace Objects.Engineering
 
 		private void TryBuild(HandApply interaction)
 		{
+			if(currentState != ReflectorType.Base) return;
+
+			if (TryAddParts(interaction))
+			{
+				CompleteBuild();
+			}
+		}
+
+		private bool TryAddParts(HandApply interaction)
+		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet))
 			{
 				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= glassNeeded)
 				{
 					stackable.ServerConsume(glassNeeded);
-				}
-				else
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {glassNeeded} glass sheets to build a single reflector.");
+					currentState = ReflectorType.Single;
+
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You add {glassNeeded} glass sheets to the reflector.",
+						$"{interaction.Performer.ExpensiveName()} adds {glassNeeded} glass sheets to the reflector.");
+
+					return true;
 				}
 
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {glassNeeded} glass sheets to build a single reflector.");
+				return false;
 			}
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.ReinforcedGlassSheet))
@@ -313,13 +326,16 @@ namespace Objects.Engineering
 				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= reinforcedGlassNeeded)
 				{
 					stackable.ServerConsume(reinforcedGlassNeeded);
-				}
-				else
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {reinforcedGlassNeeded} reinforced glass sheets to build a double reflector.");
+					currentState = ReflectorType.Double;
+
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You add {reinforcedGlassNeeded} reinforced glass sheets to the reflector.",
+						$"{interaction.Performer.ExpensiveName()} adds {reinforcedGlassNeeded} reinforced glass sheets to the reflector.");
+					return true;
 				}
 
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {reinforcedGlassNeeded} reinforced glass sheets to build a double reflector.");
+				return false;
 			}
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.DiamondSheet))
@@ -327,12 +343,24 @@ namespace Objects.Engineering
 				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= diamondsNeeded)
 				{
 					stackable.ServerConsume(diamondsNeeded);
+					currentState = ReflectorType.Box;
+
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You add {diamondsNeeded} glass sheets to the reflector.",
+						$"{interaction.Performer.ExpensiveName()} adds {diamondsNeeded} diamond to the reflector.");
+					return true;
 				}
-				else
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {diamondsNeeded} diamond sheets to build a box reflector.");
-				}
+
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {diamondsNeeded} diamond sheets to build a box reflector.");
+				return false;
 			}
+
+			return false;
+		}
+
+		private void CompleteBuild()
+		{
+			ChangeState(currentState);
 		}
 
 		#endregion
