@@ -28,7 +28,7 @@ namespace Player
 		public List<List<CraftingRecipe>> KnownRecipesByCategory => knownRecipesByCategory;
 
 		[SerializeField, ReorderableList] [Tooltip("Default recipes known to a player.")]
-		private List<CraftingRecipe> defaultKnownRecipes = new List<CraftingRecipe>();
+		private CraftingRecipeList defaultKnownRecipes = null;
 
 		private PlayerScript playerScript;
 
@@ -67,7 +67,7 @@ namespace Player
 		[Server]
 		private void InitDefaultRecipes()
 		{
-			foreach (CraftingRecipe craftingRecipe in defaultKnownRecipes)
+			foreach (CraftingRecipe craftingRecipe in defaultKnownRecipes.CraftingRecipes)
 			{
 				TryAddRecipeToKnownRecipes(craftingRecipe);
 			}
@@ -417,6 +417,7 @@ namespace Player
 					{
 						continue;
 					}
+
 					possibleReagents.Add(new KeyValuePair<int, float>(reagent.Key.IndexInSingleton, reagent.Value));
 				}
 			}
@@ -506,8 +507,8 @@ namespace Player
 		{
 			CraftingStatus craftingStatus =
 				craftingActionParameters.IgnoreToolsAndIngredients
-				? CanServerCraft(recipe, reagentContainers)
-				: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
+					? CanServerCraft(recipe, reagentContainers)
+					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
 			if (craftingActionParameters.ShouldGiveFeedback)
 			{
@@ -591,8 +592,8 @@ namespace Player
 		{
 			CraftingStatus craftingStatus =
 				craftingActionParameters.IgnoreToolsAndIngredients
-				? CanServerCraft(recipe, reagentContainers)
-				: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
+					? CanServerCraft(recipe, reagentContainers)
+					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
 			if (craftingActionParameters.ShouldGiveFeedback)
 			{
@@ -646,11 +647,13 @@ namespace Player
 						return;
 					}
 
-					if (recipe.CraftingTime > 1) {
+					if (recipe.CraftingTime > 1)
+					{
 						Chat.AddExamineMsgToClient(
 							$"You are trying to craft \"{recipe.RecipeName}\"..."
 						);
 					}
+
 					return;
 				case CraftingStatus.NotEnoughIngredients:
 					Chat.AddExamineMsgToClient(
@@ -704,12 +707,14 @@ namespace Player
 						return;
 					}
 
-					if (recipe.CraftingTime > 1) {
+					if (recipe.CraftingTime > 1)
+					{
 						Chat.AddExamineMsgFromServer(
 							playerScript.gameObject,
 							$"You are trying to craft \"{recipe.RecipeName}\"..."
 						);
 					}
+
 					return;
 				case CraftingStatus.NotEnoughIngredients:
 					Chat.AddExamineMsgFromServer(
@@ -750,73 +755,8 @@ namespace Player
 					return;
 			}
 		}
-		#endregion
-
-		#region UnityEditorHelpers
-
-#if UNITY_EDITOR
-
-		public void RemoveNullsInDefaultKnownRecipes()
-		{
-			for (int i = defaultKnownRecipes.Count - 1; i >= 0; i--)
-			{
-				if (defaultKnownRecipes[i] == null)
-				{
-					defaultKnownRecipes.RemoveAt(i);
-				}
-			}
-		}
-
-		public void RemoveDuplicatesInDefaultKnownRecipes()
-		{
-			int i = defaultKnownRecipes.Count - 1;
-			while (i >= 0)
-			{
-				int j = i - 1;
-				while (j >= 0)
-				{
-					if (defaultKnownRecipes[i] == defaultKnownRecipes[j])
-					{
-						defaultKnownRecipes.RemoveAt(j);
-						i--;
-					}
-					j--;
-				}
-
-				i--;
-			}
-		}
-
-		#endif
 
 		#endregion
 	}
-
-	#region UnityEditor
-#if UNITY_EDITOR
-
-	[CustomEditor(typeof(PlayerCrafting))]
-	public class PlayerCraftingEditor : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			base.OnInspectorGUI();
-
-			if (GUILayout.Button("Remove nulls"))
-			{
-				((PlayerCrafting) target).RemoveNullsInDefaultKnownRecipes();
-				serializedObject.Update();
-			}
-
-			if (GUILayout.Button("Remove duplicates"))
-			{
-				((PlayerCrafting) target).RemoveDuplicatesInDefaultKnownRecipes();
-				serializedObject.Update();
-			}
-		}
-	}
-
-#endif
-	#endregion
 }
 
