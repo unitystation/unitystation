@@ -641,6 +641,10 @@ namespace HealthV2
 					{
 						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.PIERCE);
 					}
+					if (damageType.HasFlag(TraumaticDamageTypes.BLUNT))
+					{
+						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.BLUNT);
+					}
 					CheckDismemberBody();
 					return;
 				}
@@ -719,6 +723,7 @@ namespace HealthV2
 						return true;
 					if (bodyPart.CurrentPierceDamage > 0)
 						return true;
+					return bodyPart.IsBroken;
 				}
 			}
 			return false;

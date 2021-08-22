@@ -76,11 +76,20 @@ public enum TraumaDamageLevel
 	CRITICAL
 }
 
+public enum BluntDamageLevels
+{
+	HEALTHY,
+	MODERATE,
+	SEVERE,
+	CRITICAL
+}
+
 [Flags]
 public enum TraumaticDamageTypes
 {
 	NONE = 0,
 	SLASH = 1 << 0,
 	PIERCE = 1 << 1,
-	BURN = 1 << 2
+	BURN = 1 << 2,
+	BLUNT = 1 << 3
 }

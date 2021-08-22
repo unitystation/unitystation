@@ -264,6 +264,11 @@ namespace HealthV2
 			{
 				TakeBurnDamage(damage);
 			}
+
+			if(attackType ==  AttackType.Bomb || attackType ==  AttackType.Bullet)
+			{
+				TakeBluntDamage(damage);
+			}
 		}
 
 
