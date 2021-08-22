@@ -84,10 +84,6 @@ namespace Systems.Electricity
 
 		public float Voltage => RelatedAPC == null ? 0 : RelatedAPC.Voltage;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.APC;
-		public MultitoolConnectionType ConType => conType;
-
 		private Texture disconnectedImg;
 		private RegisterTile registerTile;
 

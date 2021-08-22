@@ -380,10 +380,8 @@ namespace Objects.Kitchen
 			EnsureInit();
 
 			// Get the machine stock parts used in this instance and get the tier of each part.
-			ICollection<GameObject> parts = partsInFrame.Keys;
-
 			// Collection is unorganized so run through the whole list.
-			foreach (GameObject part in parts)
+			foreach (GameObject part in partsInFrame.Keys)
 			{
 				ItemAttributesV2 partAttributes = part.GetComponent<ItemAttributesV2>();
 				if (partAttributes.HasTrait(MachinePartsItemTraits.Instance.MicroLaser))
