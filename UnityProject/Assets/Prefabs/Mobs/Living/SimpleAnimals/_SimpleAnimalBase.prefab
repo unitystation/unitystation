@@ -15,15 +15,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
-  canBreatheAnywhere: 0
-  bloodSystem: {fileID: 0}
-  brainSystem: {fileID: 0}
-  respiratorySystem: {fileID: 0}
   bloodColor: 0
   BodyParts:
   - {fileID: 1092021894141176395}
   - {fileID: 739318556774777865}
-  allowKnifeHarvest: 1
   butcherResults: []
 --- !u!114 &2166651219293684434
 MonoBehaviour:
@@ -73,7 +68,7 @@ MonoBehaviour:
   performingDecision: 0
   performingAction: 0
   activated: 1
-  tickRate: 1
+  TickDelay: 0.01
   FollowTarget: {fileID: 0}
 --- !u!114 &7921348372470815473
 MonoBehaviour:
@@ -98,7 +93,7 @@ MonoBehaviour:
   performingDecision: 0
   performingAction: 0
   activated: 0
-  tickRate: 1
+  TickDelay: 1
   CB_REAGENT: {fileID: 0}
   target: 0
   actionPerformTime: 0
@@ -118,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 1
-  tickRate: 1
+  TickDelay: 0.01
   status: 0
   fleeTarget: {fileID: 0}
 --- !u!114 &8248364798838164290
