@@ -43,6 +43,9 @@ namespace MapSaver
 		//Lookup table
 		//saving,  Assign everything ID Index location,  pre-fill
 
+		//Prefab ID -> Game object ID -> Component ID
+		//
+
 		public class ObjectMapData
 		{
 			public List<PrefabData> PrefabData;
@@ -50,7 +53,7 @@ namespace MapSaver
 
 		public class PrefabData
 		{
-			public ulong ID;
+			public ulong ID; //is good
 			public string PrefabID;
 			public string Name;
 			public string LocalPosition;
@@ -61,15 +64,50 @@ namespace MapSaver
 		public class IndividualObject
 		{
 			public uint ChildLocation;
-			public ulong ID;
+			public string ID; //Child index, Child index,  Child index,
 			public string Name;
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = new List<IndividualObject>();
+
+			public bool RemoveEmptys()
+			{
+				bool ISEmpty = true;
+
+				if (string.IsNullOrEmpty(Name) == false)
+				{
+					ISEmpty = false;
+				}
+
+				if (ClassDatas.Count > 0)
+				{
+					ISEmpty = false;
+				}
+				List<IndividualObject> Toremove = new List<IndividualObject>();
+
+				foreach (var Child in Children)
+				{
+					if (Child.RemoveEmptys() == false)
+					{
+						ISEmpty = false;
+					}
+					else
+					{
+						Toremove.Add(Child);
+					}
+				}
+
+				foreach (var remove in Toremove)
+				{
+					Children.Remove(remove);
+				}
+
+				return ISEmpty;
+			}
 		}
 
 		public class ClassData
 		{
-			public ulong ClassID;
+			public string ClassID; //name and int, is good
 			public List<FieldData> Data;
 		}
 
@@ -251,19 +289,25 @@ namespace MapSaver
 					ID++;
 					Prefab.Name = Object.name;
 					Prefab.Object = new IndividualObject();
-					RecursiveSaveObject(ref ID, Prefab.Object,
+					Prefab.LocalPosition =  Math.Round(Object.transform.localPosition.x, 2 ) + "," +  Math.Round(Object.transform.localPosition.z, 2) +
+					                       "," + Math.Round(Object.transform.localPosition.y, 2);
+					RecursiveSaveObject("0", Prefab.Object,
 						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID],
 						Object.gameObject);
+					if (Prefab.Object.RemoveEmptys())
+					{
+						Prefab.Object = null;
+					}
+
 					ObjectMapData.PrefabData.Add(Prefab);
-
-
 				}
 			}
 
 			return ObjectMapData;
 		}
 
-		public static void RecursiveSaveObject(ref ulong ID,  IndividualObject individualObject, GameObject PrefabEquivalent, GameObject gameObject)
+		public static void RecursiveSaveObject(string ID, IndividualObject individualObject,
+			GameObject PrefabEquivalent, GameObject gameObject)
 		{
 			if (gameObject.name != PrefabEquivalent.name)
 			{
@@ -271,22 +315,46 @@ namespace MapSaver
 			}
 
 			individualObject.ID = ID;
-			ID++;
 			//Compare classes here
+			FillOutClassData(individualObject, PrefabEquivalent, gameObject);
 
 
 			if (PrefabEquivalent.transform.childCount != gameObject.transform.childCount)
 			{
 				Logger.LogError("Mismatched children between Prefab " + PrefabEquivalent + " and game object " +
-				                gameObject + " at " + gameObject.transform.localPosition + "  Added children is not currently supported in This version of the map saver ");
+				                gameObject + " at " + gameObject.transform.localPosition +
+				                "  Added children is not currently supported in This version of the map saver ");
 			}
 
-			for(int i = 0; i < PrefabEquivalent.transform.childCount; i++)
+			for (int i = 0; i < PrefabEquivalent.transform.childCount; i++)
 			{
 				var newindividualObject = new IndividualObject();
 				individualObject.Children.Add(newindividualObject);
-				RecursiveSaveObject(ref ID,newindividualObject,PrefabEquivalent.transform.GetChild(i).gameObject, gameObject.transform.GetChild(i).gameObject);
+				RecursiveSaveObject(ID + "," + i, newindividualObject, PrefabEquivalent.transform.GetChild(i).gameObject,
+					gameObject.transform.GetChild(i).gameObject);
 			}
+		}
+
+		public static  Dictionary<string, int> ClassCount = new Dictionary<string, int>();
+
+		public static void FillOutClassData(IndividualObject individualObject,
+			GameObject PrefabEquivalent, GameObject gameObject)
+		{
+			ClassCount.Clear();
+			var PrefabComponents = PrefabEquivalent.GetComponents<MonoBehaviour>().ToList();
+			var gameObjectComponents = gameObject.GetComponents<MonoBehaviour>().ToList();
+
+			foreach (var Mono in PrefabComponents)
+			{
+				if (ClassCount.ContainsKey(Mono.GetType().Name) == false) ClassCount[Mono.GetType().Name] = 0;
+				ClassCount[Mono.GetType().Name]++;
+
+				var OutClass = new ClassData();
+				OutClass.ClassID = Mono.GetType().Name + "@" + ClassCount[Mono.GetType().Name];
+				individualObject.ClassDatas.Add(OutClass);
+
+			}
+
 		}
 	}
 }
