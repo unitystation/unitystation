@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 
@@ -15,12 +15,13 @@ namespace Items.Food
 		[Tooltip("Minimum time to cook.")]
 		public int CookTime = 10;
 
-		[Tooltip("What this GameObject becomes when cooked. If not set, this GameObject will not change GameObject when cooked.")]
+		[Tooltip("What this item becomes when cooked." +
+				"If not set, this item will not change GameObject when cooked, but will still invoke the cooked event.")]
 		public GameObject CookedProduct;
 
-		[SerializeField]
-		[Tooltip("Whether this object should turn into the cooked product when destroyed by burn damage.")]
-		private bool cookOnDestroyByBurn = true;
+		[Tooltip("What methods this item can be cooked by.")]
+		[EnumFlag]
+		public CookSource CookableBy = CookSource.All;
 
 		/// <summary>
 		/// Raised when enough cooking time has been added (via <see cref="AddCookingTime(float)"/>)
@@ -31,7 +32,7 @@ namespace Items.Food
 
 		private void Awake()
 		{
-			if (cookOnDestroyByBurn)
+			if (CookableBy.HasFlag(CookSource.BurnUp))
 			{
 				GetComponent<Integrity>().OnBurnUpServer += OnBurnUpServer;
 			}
@@ -59,5 +60,13 @@ namespace Items.Food
 			_ = Despawn.ServerSingle(gameObject);
 			Spawn.ServerPrefab(CookedProduct, gameObject.RegisterTile().WorldPosition, transform.parent);
 		}
+	}
+
+	[Flags]
+	public enum CookSource
+	{
+		BurnUp = 1,
+		Microwave = 2,
+		All = ~0,
 	}
 }

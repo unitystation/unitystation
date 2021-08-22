@@ -82,6 +82,12 @@ namespace Systems.Electricity
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
 
+		public float Voltage => RelatedAPC == null ? 0 : RelatedAPC.Voltage;
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.APC;
+		public MultitoolConnectionType ConType => conType;
+
 		private Texture disconnectedImg;
 		private RegisterTile registerTile;
 

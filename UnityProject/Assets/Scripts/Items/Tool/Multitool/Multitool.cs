@@ -92,21 +92,32 @@ namespace Items.Engineering
 			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
 			var electricalNodes = matrix.GetElectricalConnections(localPosInt);
 
-			string message = "The multitool couldn't find anything electrical here.";
-			if (electricalNodes.Count > 0)
-			{
-				message = "The multitool's display lights up:\n";
-			}
+			APCPoweredDevice device = default;
+			bool deviceFound = interaction.TargetObject != null && interaction.TargetObject.TryGetComponent(out device);
 
-			StringBuilder sb = new StringBuilder(message);
-			foreach (var node in electricalNodes)
+			string message = "The multitool couldn't find anything electrical here.";
+			if (deviceFound || electricalNodes.Count > 0)
 			{
-				sb.AppendLine(node.ShowInGameDetails());
+				StringBuilder sb = new StringBuilder("The multitool's display lights up.\n</i>");
+
+				if (deviceFound)
+				{
+					sb.AppendLine(device.RelatedAPC == null
+							? $"{device.gameObject.ExpensiveName()}</b> is not connected to an APC!"
+							: $"<b>{device.gameObject.ExpensiveName()}</b>: {device.Wattusage.ToEngineering("W")} " +
+									$"({device.RelatedAPC.Voltage.ToEngineering("V")})");
+				}
+				foreach (var node in electricalNodes)
+				{
+					sb.AppendLine(node.ShowInGameDetails());
+				}
+
+				message = sb.ToString() + "<i>";
 			}
 
 			electricalNodes.Clear();
 			ElectricalPool.PooledFPCList.Add(electricalNodes);
-			Chat.AddExamineMsgFromServer(interaction.Performer, sb.ToString());
+			Chat.AddExamineMsgFromServer(interaction.Performer, message);
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
