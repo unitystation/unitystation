@@ -79,13 +79,10 @@ namespace Items
 			}
 
 			var maxAmt = Random.Range(1, item.MaxAmount+1);
-			var worldPos = gameObject.RegisterTile().WorldPositionServer;
-
-			Spawn.ServerPrefab(
-				item.Prefab,
-				worldPos,
-				count: maxAmt,
-				scatterRadius: spread);
+			var worldPos = gameObject.AssumedWorldPosServer();
+			var pushPull = GetComponent<PushPull>();
+			
+			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

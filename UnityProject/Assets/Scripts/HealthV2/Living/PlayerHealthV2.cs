@@ -19,9 +19,7 @@ namespace HealthV2
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
 		public PlayerMove PlayerMove => playerMove;
-
-		private PlayerSprites playerSprites;
-
+		
 		private PlayerNetworkActions playerNetworkActions;
 
 		private RegisterPlayer registerPlayer;

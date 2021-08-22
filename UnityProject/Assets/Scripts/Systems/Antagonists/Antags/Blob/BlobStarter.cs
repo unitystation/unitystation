@@ -214,8 +214,6 @@ namespace Blob
 		{
 			if (internalTimer >= 60)
 			{
-				Chat.AddActionMsgToChat(gameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",
-					$"<color=#FF151F>{gameObject.ExpensiveName()} explodes into a pile of mush.</color>");
 				FormBlob();
 				return;
 			}
@@ -280,12 +278,16 @@ namespace Blob
 
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
-			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
+			var connection = GetComponent<NetworkIdentity>().connectionToClient;
+			PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
 
 			playerScript.mind = null;
 
 			//Start the blob control script
 			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();
+
+			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",
+				$"<color=#FF151F>{gameObject.ExpensiveName()} explodes into a pile of mush.</color>");
 
 			gameObject.GetComponent<LivingHealthMasterBase>().Gib();
 

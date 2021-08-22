@@ -315,7 +315,7 @@ namespace HealthV2
 		/// <summary>
 		/// Server only - Tries to remove a body part
 		/// </summary>
-		public void TryRemoveFromBody()
+		public void TryRemoveFromBody(bool beingGibbed = false)
 		{
 			SetRemovedColor();
 			foreach (var bodyPart in HealthMaster.BodyPartList)
@@ -339,7 +339,7 @@ namespace HealthV2
 			{
 				HealthMaster.Death();
 			}
-			if (gibsEntireBodyOnRemoval)
+			if (gibsEntireBodyOnRemoval && beingGibbed == false)
 			{
 				HealthMaster.Gib();
 			}
