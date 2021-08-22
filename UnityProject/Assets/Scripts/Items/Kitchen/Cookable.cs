@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using NaughtyAttributes;
 
 
 namespace Items.Food
@@ -15,6 +16,7 @@ namespace Items.Food
 		[Tooltip("Minimum time to cook.")]
 		public int CookTime = 10;
 
+		[InfoBox("If no transormation is to take place, then don't select any item. Don't select the same item as itself.", EInfoBoxType.Warning)]
 		[Tooltip("What this item becomes when cooked." +
 				"If not set, this item will not change GameObject when cooked, but will still invoke the cooked event.")]
 		public GameObject CookedProduct;

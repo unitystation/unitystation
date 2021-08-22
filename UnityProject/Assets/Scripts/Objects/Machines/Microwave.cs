@@ -470,7 +470,7 @@ namespace Objects.Kitchen
 
 			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerState.Off || state == PowerState.LowVoltage)
+				if (state == PowerState.Off)
 				{
 					microwave.SetState(new MicrowaveUnpowered(microwave));
 				}
@@ -507,7 +507,7 @@ namespace Objects.Kitchen
 
 			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerState.Off || state == PowerState.LowVoltage)
+				if (state == PowerState.Off)
 				{
 					microwave.SetState(new MicrowaveUnpoweredOpen(microwave));
 				}
@@ -544,7 +544,7 @@ namespace Objects.Kitchen
 
 			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerState.Off || state == PowerState.LowVoltage)
+				if (state == PowerState.Off)
 				{
 					microwave.SetState(new MicrowaveUnpowered(microwave));
 				}
@@ -576,7 +576,7 @@ namespace Objects.Kitchen
 
 			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerState.On || state == PowerState.OverVoltage)
+				if (state != PowerState.Off)
 				{
 					microwave.SetState(new MicrowaveIdle(microwave));
 				}
@@ -610,7 +610,7 @@ namespace Objects.Kitchen
 
 			public override void PowerStateUpdate(PowerState state)
 			{
-				if (state == PowerState.On || state == PowerState.OverVoltage)
+				if (state != PowerState.Off)
 				{
 					microwave.SetState(new MicrowaveOpen(microwave));
 				}
