@@ -188,7 +188,6 @@ namespace HealthV2
 
 			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
 			{
-				IsBleeding = true;
 				StartCoroutine(ExternalBleedingLogic());
 			}
 		}
