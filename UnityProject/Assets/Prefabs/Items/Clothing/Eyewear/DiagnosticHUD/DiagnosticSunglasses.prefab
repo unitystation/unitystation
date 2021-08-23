@@ -88,6 +88,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Sunglasses with a diagnostic HUD.
       objectReference: {fileID: 0}
+    - target: {fileID: 2888345019966124511, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888345019966124511, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 83d33295cffaf5449882efbce8d30c18,
+        type: 2}
     - target: {fileID: 2987011942256334699, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: initialName
