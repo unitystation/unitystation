@@ -323,7 +323,7 @@ namespace Systems.MobAIs
 
 				if (!movingToTile)
 				{
-					if (TickDelay != 0f)
+					if (TickDelay.Approx(0) == false)
 					{
 						yield return WaitFor.Seconds(TickDelay);
 					}
