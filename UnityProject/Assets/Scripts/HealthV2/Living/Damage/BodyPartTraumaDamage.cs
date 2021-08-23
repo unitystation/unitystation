@@ -24,7 +24,7 @@ namespace HealthV2
 		public float InternalBleedingBloodLoss = 12;
 		public float ExternalBleedingBloodLoss = 6;
 
-		[SerializeField, Range(0.2f, 4.25f)] private float baseTraumaDamageMultiplier = 0.25f;
+		[SerializeField, Range(2.0f, 12.0f)] private float baseTraumaDamageMultiplier = 2.0f;
 
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
@@ -188,6 +188,7 @@ namespace HealthV2
 
 			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
 			{
+				IsBleeding = true;
 				StartCoroutine(ExternalBleedingLogic());
 			}
 		}
