@@ -67,8 +67,8 @@ namespace Items.Food
 	[Flags]
 	public enum CookSource
 	{
-		BurnUp = 1,
-		Microwave = 2,
+		BurnUp = 0,
+		Microwave = 1 << 1,
 		All = ~0,
 	}
 }
