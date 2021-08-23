@@ -24,7 +24,7 @@ namespace HealthV2
 		public float InternalBleedingBloodLoss = 12;
 		public float ExternalBleedingBloodLoss = 6;
 
-		[SerializeField, Range(2.0f, 12.0f)] private float baseTraumaDamageMultiplier = 2.0f;
+		[SerializeField, Range(1.25f, 12.0f)] private float baseTraumaDamageMultiplier = 2.0f;
 
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
@@ -169,6 +169,7 @@ namespace HealthV2
 		/// </summary>
 		private void CheckCutSize()
 		{
+			CheckTraumaDamageLevels();
 			if(currentSlashCutDamage <= 0)
 			{
 				currentCutSize = BodyPartCutSize.NONE;
@@ -189,6 +190,69 @@ namespace HealthV2
 			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
 			{
 				StartCoroutine(ExternalBleedingLogic());
+			}
+		}
+
+		private void CheckTraumaDamageLevels()
+		{
+			//Slash
+			if(currentSlashCutDamage <= 0)
+			{
+				currentSlashDamageLevel = SlashDamageLevel.NONE;
+			}
+			if(currentSlashCutDamage >= 25)
+			{
+				currentSlashDamageLevel = SlashDamageLevel.SMALL;
+			}
+			if(currentSlashCutDamage <= 50)
+			{
+				currentSlashDamageLevel = SlashDamageLevel.MEDIUM;
+			}
+			else
+			{
+				currentSlashDamageLevel = SlashDamageLevel.LARGE;
+			}
+			//Pierce
+			if(currentPierceDamage <= 0)
+			{
+				currentPierceDamageLevel = PierceDamageLevel.NONE;
+			}
+			if(currentPierceDamage >= 25)
+			{
+				currentPierceDamageLevel = PierceDamageLevel.SMALL;
+			}
+			if(currentPierceDamage >= 50)
+			{
+				currentPierceDamageLevel = PierceDamageLevel.MEDIUM;
+			}
+			else
+			{
+				currentPierceDamageLevel = PierceDamageLevel.LARGE;
+			}
+			//burn
+			if (currentBurnDamage <= 0)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.NONE;
+			}
+			if (currentBurnDamage >= 25)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.MINOR;
+			}
+			if (currentBurnDamage >= 50)
+			{
+				currentBurnDamageLevel = BurnDamageLevels.MAJOR;
+			}
+			if (currentBurnDamage >= 75)
+			{
+				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
+				{
+					foreach(var sprite in RelatedPresentSprites)
+					{
+						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
+					}
+				}
+				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
+				AshBodyPart();
 			}
 		}
 
@@ -254,6 +318,7 @@ namespace HealthV2
 			}
 			bool willCloseOnItsOwn = false;
 			isBleedingExternally = true;
+			IsBleeding = true;
 			StartCoroutine(Bleedout());
 			CheckCutSize();
 			if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
@@ -267,6 +332,7 @@ namespace HealthV2
 				if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
 				{
 					isBleedingExternally = false;
+					IsBleeding = false;
 				}
 			}
 		}
@@ -338,41 +404,9 @@ namespace HealthV2
 			if(SelfArmor.Fire < burnDamage)
 			{
 				currentBurnDamage += burnDamage;
-				CheckBurnDamageLevels();
+				CheckTraumaDamageLevels();
 			}
 		}
-
-		/// <summary>
-		/// Checks and sets what damage level this body part is on, once it becomes charred; the game displays it being charred.
-		/// </summary>
-		private void CheckBurnDamageLevels()
-		{
-			if (currentBurnDamage <= 0)
-			{
-				currentBurnDamageLevel = BurnDamageLevels.NONE;
-			}
-			if (currentBurnDamage >= 25)
-			{
-				currentBurnDamageLevel = BurnDamageLevels.MINOR;
-			}
-			if (currentBurnDamage >= 50)
-			{
-				currentBurnDamageLevel = BurnDamageLevels.MAJOR;
-			}
-			if (currentBurnDamage >= 75)
-			{
-				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
-				{
-					foreach(var sprite in RelatedPresentSprites)
-					{
-						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
-					}
-				}
-				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
-				AshBodyPart();
-			}
-		}
-
 
 		/// <summary>
 		/// Turns this body part into ash while protecting items inside of that cannot be ashed.
@@ -449,7 +483,7 @@ namespace HealthV2
 				currentPierceDamage -= healAmount;
 			}
 			CheckCutSize();
-			CheckBurnDamageLevels();
+			CheckTraumaDamageLevels();
 		}
 	}
 }
