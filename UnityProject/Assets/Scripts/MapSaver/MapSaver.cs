@@ -5,6 +5,7 @@ using System.Text;
 using TileManagement;
 using UnityEngine;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 
 namespace MapSaver
@@ -56,7 +57,7 @@ namespace MapSaver
 			public ulong ID; //is good
 			public string PrefabID;
 			public string Name;
-			public string LocalPosition;
+			public string LocalPosition; //TODO Needs scale and rotation to
 			public IndividualObject Object;
 		}
 
@@ -82,6 +83,7 @@ namespace MapSaver
 				{
 					ISEmpty = false;
 				}
+
 				List<IndividualObject> Toremove = new List<IndividualObject>();
 
 				foreach (var Child in Children)
@@ -108,7 +110,19 @@ namespace MapSaver
 		public class ClassData
 		{
 			public string ClassID; //name and int, is good
-			public List<FieldData> Data;
+			public List<FieldData> Data = new List<FieldData>();
+
+			public bool IsEmpty()
+			{
+				if (Data.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
 		}
 
 		public class FieldData
@@ -289,7 +303,8 @@ namespace MapSaver
 					ID++;
 					Prefab.Name = Object.name;
 					Prefab.Object = new IndividualObject();
-					Prefab.LocalPosition =  Math.Round(Object.transform.localPosition.x, 2 ) + "," +  Math.Round(Object.transform.localPosition.z, 2) +
+					Prefab.LocalPosition = Math.Round(Object.transform.localPosition.x, 2) + "," +
+					                       Math.Round(Object.transform.localPosition.z, 2) +
 					                       "," + Math.Round(Object.transform.localPosition.y, 2);
 					RecursiveSaveObject("0", Prefab.Object,
 						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID],
@@ -330,12 +345,13 @@ namespace MapSaver
 			{
 				var newindividualObject = new IndividualObject();
 				individualObject.Children.Add(newindividualObject);
-				RecursiveSaveObject(ID + "," + i, newindividualObject, PrefabEquivalent.transform.GetChild(i).gameObject,
+				RecursiveSaveObject(ID + "," + i, newindividualObject,
+					PrefabEquivalent.transform.GetChild(i).gameObject,
 					gameObject.transform.GetChild(i).gameObject);
 			}
 		}
 
-		public static  Dictionary<string, int> ClassCount = new Dictionary<string, int>();
+		public static Dictionary<string, int> ClassCount = new Dictionary<string, int>();
 
 		public static void FillOutClassData(IndividualObject individualObject,
 			GameObject PrefabEquivalent, GameObject gameObject)
@@ -344,17 +360,110 @@ namespace MapSaver
 			var PrefabComponents = PrefabEquivalent.GetComponents<MonoBehaviour>().ToList();
 			var gameObjectComponents = gameObject.GetComponents<MonoBehaviour>().ToList();
 
-			foreach (var Mono in PrefabComponents)
+			for (int i = 0; i < PrefabComponents.Count; i++)
 			{
-				if (ClassCount.ContainsKey(Mono.GetType().Name) == false) ClassCount[Mono.GetType().Name] = 0;
-				ClassCount[Mono.GetType().Name]++;
+				var PrefabMono = PrefabComponents[i];
+				if (ClassCount.ContainsKey(PrefabMono.GetType().Name) == false)
+					ClassCount[PrefabMono.GetType().Name] = 0;
+				ClassCount[PrefabMono.GetType().Name]++;
 
 				var OutClass = new ClassData();
-				OutClass.ClassID = Mono.GetType().Name + "@" + ClassCount[Mono.GetType().Name];
-				individualObject.ClassDatas.Add(OutClass);
+				OutClass.ClassID = PrefabMono.GetType().Name + "@" + ClassCount[PrefabMono.GetType().Name];
 
+				RecursiveSearchData(OutClass, "", PrefabMono, gameObjectComponents[i]);
+
+				if (OutClass.IsEmpty() ==false)
+				{
+					individualObject.ClassDatas.Add(OutClass);
+				}
 			}
+		}
 
+
+		public static void RecursiveSearchData(ClassData ClassData, string Prefix, object PrefabInstance,
+			object SpawnedInstance)
+		{
+			var TypeMono = PrefabInstance.GetType();
+			var coolFields = ((TypeMono.GetFields(
+				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
+				BindingFlags.FlattenHierarchy
+			).ToList()));
+
+			foreach (var Field in coolFields)
+			{
+				if (Field.IsPrivate || Field.IsAssembly || Field.IsFamily)
+				{
+					var attribute = Field.GetCustomAttributes(typeof(SerializeField), true);
+					if (attribute.Length == 0)
+					{
+						continue;
+					}
+
+					attribute = Field.GetCustomAttributes(typeof(HideInInspector), true);
+					if (attribute.Length > 0)
+					{
+						continue;
+					}
+				}
+				else if (Field.IsPublic)
+				{
+					if (Field.IsNotSerialized)
+					{
+						continue;
+					}
+
+					var attribute = Field.GetCustomAttributes(typeof(HideInInspector), true);
+					if (attribute.Length > 0)
+					{
+						continue;
+					}
+				}
+
+				if (!Field.FieldType.IsValueType && !(Field.FieldType == typeof(string)))
+				{
+					var APrefabDefault = Field.GetValue(PrefabInstance);
+					var AMonoSet = Field.GetValue(SpawnedInstance);
+
+					if ((Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) == false)) continue; //Handle this with custom stuff
+
+					if (APrefabDefault != null && AMonoSet != null)
+					{
+						RecursiveSearchData(ClassData, Prefix + "@" + Field.Name, APrefabDefault, AMonoSet);
+						continue;
+					}
+
+				}
+
+				//if Field is a class and is not related to unity engine.object Serialise it
+				var PrefabDefault = Field.GetValue(PrefabInstance);
+				var MonoSet = Field.GetValue(SpawnedInstance);
+
+				var selfValueComparer = PrefabDefault as IComparable;
+				bool result;
+				if (PrefabDefault == null && MonoSet == null)
+					result = true;
+				else if (selfValueComparer != null && selfValueComparer.CompareTo(MonoSet) != 0)
+					result = false; // the comparison using IComparable failed
+				else if (!object.Equals(PrefabDefault, MonoSet))
+					result = false; // the comparison using Equals failed
+				else
+					result = true; // match
+
+				if (result == false)
+				{
+					FieldData fieldData = new FieldData();
+					fieldData.Name = Prefix + '@' + Field.Name;
+					fieldData.Data = MonoSet.ToString();
+					ClassData.Data.Add(fieldData);
+				}
+				//if is a Variables inside of the class will be flattened with field name of class@Field name
+				//Better if recursiveThrough the class
+
+				//Don't do sub- variables in struct
+				//If it is a class,
+				//Is class Is thing thing,
+				//and then Just repeat the loop but within that class with the added notation
+			}
 		}
 	}
 }
