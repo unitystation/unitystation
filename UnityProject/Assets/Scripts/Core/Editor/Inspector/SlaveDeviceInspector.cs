@@ -19,8 +19,7 @@ using Systems.Electricity;
 namespace CustomInspectors
 {
 	/// <summary>
-	/// <para>Allows the mapper to conveniently link a device to an <see cref="AirController"/>, and find disconnected devices.</para>
-	/// <remarks>See also <seealso cref="ACUDevice"/>.</remarks>
+	/// <para>Allows the mapper to conveniently link a slave device to a master device, and find disconnected slave devices.</para>
 	/// </summary>
 	[CustomEditor(typeof(IMultitoolSlaveable), true)]
 	public class SlaveDeviceInspector : Editor
