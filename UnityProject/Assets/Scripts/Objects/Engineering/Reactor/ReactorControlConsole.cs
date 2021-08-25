@@ -21,13 +21,12 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
-		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.ReactorChamber;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => ReactorChambers; set => SetMaster(value); }
 
-		bool IMultitoolSlaveable.IsLinked => ReactorChambers != null;
-
-		public void SetMaster(IMultitoolMasterable Imaster)
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var Chamber = (Imaster as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
+			var Chamber = (master as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
 			if (Chamber != null)
 			{
 				ReactorChambers = Chamber;

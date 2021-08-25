@@ -76,10 +76,6 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		public void AddSlave(object SlaveObject)
-		{
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			if (!info.SpawnItems)

@@ -101,21 +101,23 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
-		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
-		public bool MultiMaster => false;
-		int IMultitoolMasterable.MaxDistance => int.MaxValue;
-		bool IMultitoolSlaveable.IsLinked => Boiler != null;
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
 
-		public void SetMaster(IMultitoolMasterable Imaster)
+		// Master connection
+		bool IMultitoolMasterable.MultiMaster => false;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		// Slave connection
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => Boiler; set => SetMaster(value); }
+
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var boiler = (Imaster as Component)?.gameObject.GetComponent<ReactorBoiler>();
+			var boiler = (master as Component)?.gameObject.GetComponent<ReactorBoiler>();
 			if (boiler != null)
 			{
 				Boiler = boiler;
 			}
 		}
-
-		public void AddSlave(object SlaveObjectThis) { }
 
 		#endregion
 	}

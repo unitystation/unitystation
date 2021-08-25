@@ -648,19 +648,23 @@ namespace Doors
 
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
-		public MultitoolConnectionType ConType => conType;
 
-		bool IMultitoolSlaveable.IsLinked => false; // Assume not linked for now.
+		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
 
-		public void SetMaster(IMultitoolMasterable Imaster)
+		private IMultitoolMasterable doorMaster;
+
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var doorSwitch = (Imaster as DoorSwitch);
+			doorMaster = master;
+
+			var doorSwitch = master as DoorSwitch;
 			if (doorSwitch)
 			{
 				doorSwitch.DoorControllers.Add(this);
 				return;
 			}
-			var statusDisplay = (Imaster as StatusDisplay);
+			var statusDisplay = master as StatusDisplay;
 			if (statusDisplay)
 			{
 				statusDisplay.LinkDoor(this);
