@@ -43,9 +43,9 @@ namespace HealthV2
 		[SerializeField] private float bodyPartAshesAboveThisDamage = 125;
 		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
 
-		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
-		private SlashDamageLevel currentSlashDamageLevel = SlashDamageLevel.NONE;
-		private BurnDamageLevels currentBurnDamageLevel = BurnDamageLevels.NONE;
+		private TraumaDamageLevel currentPierceDamageLevel = TraumaDamageLevel.NONE;
+		private TraumaDamageLevel currentSlashDamageLevel  = TraumaDamageLevel.NONE;
+		private TraumaDamageLevel currentBurnDamageLevel   = TraumaDamageLevel.NONE;
 
 		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
 		public float GibChance = 0.15f;
@@ -131,18 +131,18 @@ namespace HealthV2
 
 		private float MultiplyTraumaDamage(float baseDamage)
 		{
-			if (currentBurnDamageLevel >= BurnDamageLevels.CHARRED || currentCutSize >= BodyPartCutSize.LARGE
+			if (currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL || currentCutSize >= BodyPartCutSize.LARGE
 			|| Severity >= DamageSeverity.Critical)
 			{
 				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
 			}
-			else if (currentBurnDamageLevel >= BurnDamageLevels.MAJOR || currentCutSize >= BodyPartCutSize.MEDIUM
-			|| Severity >= DamageSeverity.Bad)
+			else if (currentBurnDamageLevel >= TraumaDamageLevel.SERIOUS
+			         || currentCutSize >= BodyPartCutSize.MEDIUM || Severity >= DamageSeverity.Bad)
 			{
 				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
 			}
-			else if (currentBurnDamageLevel >= BurnDamageLevels.MINOR || currentCutSize >= BodyPartCutSize.SMALL
-			|| Severity >= DamageSeverity.LightModerate)
+			else if (currentBurnDamageLevel >= TraumaDamageLevel.SMALL
+			         || currentCutSize >= BodyPartCutSize.SMALL || Severity >= DamageSeverity.LightModerate)
 			{
 				return baseDamage * baseTraumaDamageMultiplier;
 			}
@@ -173,19 +173,19 @@ namespace HealthV2
 			switch (currentSlashCutDamage)
 			{
 				case float n when n.IsBetween(0, 25):
-					currentSlashDamageLevel = SlashDamageLevel.NONE;
+					currentSlashDamageLevel = TraumaDamageLevel.NONE;
 					break;
 				case float n when n.IsBetween(26, 50):
-					currentSlashDamageLevel = SlashDamageLevel.SMALL;
+					currentSlashDamageLevel = TraumaDamageLevel.SMALL;
 					break;
 				case float n when n.IsBetween(51, 75):
-					currentSlashDamageLevel = SlashDamageLevel.MEDIUM;
+					currentSlashDamageLevel = TraumaDamageLevel.SERIOUS;
 					break;
 				case float n when n > 76:
-					currentSlashDamageLevel = SlashDamageLevel.LARGE;
+					currentSlashDamageLevel = TraumaDamageLevel.CRITICAL;
 					break;
 				default:
-					currentSlashDamageLevel = SlashDamageLevel.NONE;
+					currentSlashDamageLevel = TraumaDamageLevel.NONE;
 					Logger.LogError(
 						$"Unexpected slash cut damage on: {gameObject}, {currentSlashDamageLevel}");
 					break;
@@ -197,60 +197,60 @@ namespace HealthV2
 			//Slash
 			if(currentSlashCutDamage <= 0)
 			{
-				currentSlashDamageLevel = SlashDamageLevel.NONE;
+				currentSlashDamageLevel = TraumaDamageLevel.NONE;
 			}
 			if(currentSlashCutDamage >= 25)
 			{
-				currentSlashDamageLevel = SlashDamageLevel.SMALL;
+				currentSlashDamageLevel = TraumaDamageLevel.SMALL;
 			}
 			if(currentSlashCutDamage <= 50)
 			{
-				currentSlashDamageLevel = SlashDamageLevel.MEDIUM;
+				currentSlashDamageLevel = TraumaDamageLevel.SERIOUS;
 			}
 			else
 			{
-				currentSlashDamageLevel = SlashDamageLevel.LARGE;
+				currentSlashDamageLevel = TraumaDamageLevel.CRITICAL;
 			}
 			//Pierce
 			if(currentPierceDamage <= 0)
 			{
-				currentPierceDamageLevel = PierceDamageLevel.NONE;
+				currentPierceDamageLevel = TraumaDamageLevel.NONE;
 			}
 			if(currentPierceDamage >= 25)
 			{
-				currentPierceDamageLevel = PierceDamageLevel.SMALL;
+				currentPierceDamageLevel = TraumaDamageLevel.SMALL;
 			}
 			if(currentPierceDamage >= 50)
 			{
-				currentPierceDamageLevel = PierceDamageLevel.MEDIUM;
+				currentPierceDamageLevel = TraumaDamageLevel.SERIOUS;
 			}
 			else
 			{
-				currentPierceDamageLevel = PierceDamageLevel.LARGE;
+				currentPierceDamageLevel = TraumaDamageLevel.CRITICAL;
 			}
 			//burn
 			if (currentBurnDamage <= 0)
 			{
-				currentBurnDamageLevel = BurnDamageLevels.NONE;
+				currentBurnDamageLevel = TraumaDamageLevel.NONE;
 			}
 			if (currentBurnDamage >= 25)
 			{
-				currentBurnDamageLevel = BurnDamageLevels.MINOR;
+				currentBurnDamageLevel = TraumaDamageLevel.SMALL;
 			}
 			if (currentBurnDamage >= 50)
 			{
-				currentBurnDamageLevel = BurnDamageLevels.MAJOR;
+				currentBurnDamageLevel = TraumaDamageLevel.SERIOUS;
 			}
 			if (currentBurnDamage >= 75)
 			{
-				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
+				if(currentBurnDamageLevel != TraumaDamageLevel.CRITICAL) //So we can do this once.
 				{
 					foreach(var sprite in RelatedPresentSprites)
 					{
 						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
 					}
 				}
-				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
+				currentBurnDamageLevel = TraumaDamageLevel.CRITICAL;
 				AshBodyPart();
 			}
 		}
@@ -320,7 +320,7 @@ namespace HealthV2
 			IsBleeding = true;
 			StartCoroutine(Bleedout());
 			CheckCutSize();
-			if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
+			if(currentSlashDamageLevel != TraumaDamageLevel.CRITICAL || currentPierceDamageLevel == TraumaDamageLevel.SMALL)
 			{
 				willCloseOnItsOwn = true;
 			}
@@ -328,7 +328,7 @@ namespace HealthV2
 			{
 				yield return WaitFor.Seconds(128);
 				CheckCutSize();
-				if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
+				if(currentSlashDamageLevel != TraumaDamageLevel.CRITICAL || currentPierceDamageLevel == TraumaDamageLevel.SMALL)
 				{
 					isBleedingExternally = false;
 					IsBleeding = false;
@@ -412,7 +412,7 @@ namespace HealthV2
 		/// </summary>
 		private void AshBodyPart()
 		{
-			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
+			if(currentBurnDamageLevel == TraumaDamageLevel.CRITICAL && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
 				IEnumerable<ItemSlot> internalItemList = OrganStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
