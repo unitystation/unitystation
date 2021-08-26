@@ -63,7 +63,7 @@ namespace Systems.Electricity
 		}
 
 		[HideInInspector] public APC RelatedAPC;
-		public IAPCPowerable Powered;
+		private IAPCPowerable Powered;
 		public bool AdvancedControlToScript;
 
 		public bool StateUpdateOnClient = true;

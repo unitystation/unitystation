@@ -424,7 +424,7 @@ namespace MapSaver
 					var APrefabDefault = Field.GetValue(PrefabInstance);
 					var AMonoSet = Field.GetValue(SpawnedInstance);
 
-					if ((Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) == false)) continue; //Handle this with custom stuff
+					if ((Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)))) continue; //Handle this with custom stuff
 
 					if (APrefabDefault != null && AMonoSet != null)
 					{
@@ -434,22 +434,28 @@ namespace MapSaver
 
 				}
 
+				if (Field.FieldType.IsGenericType && Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)) continue; //skipping all dictionaries For now
+
 				//if Field is a class and is not related to unity engine.object Serialise it
 				var PrefabDefault = Field.GetValue(PrefabInstance);
 				var MonoSet = Field.GetValue(SpawnedInstance);
 
 				var selfValueComparer = PrefabDefault as IComparable;
-				bool result;
+				bool AreSame;
 				if (PrefabDefault == null && MonoSet == null)
-					result = true;
+					AreSame = true;
+				else if ((PrefabDefault == null && MonoSet != null) || (PrefabDefault != null && MonoSet == null))
+					AreSame = false; //One is null and the other wasn't
 				else if (selfValueComparer != null && selfValueComparer.CompareTo(MonoSet) != 0)
-					result = false; // the comparison using IComparable failed
+					AreSame = false; //the comparison using IComparable failed
+				else if (PrefabDefault.Equals(MonoSet) == false)
+					AreSame = false; //Using the overridden one
 				else if (!object.Equals(PrefabDefault, MonoSet))
-					result = false; // the comparison using Equals failed
+					AreSame = false; //Using the Inbuilt one
 				else
-					result = true; // match
+					AreSame = true; // match
 
-				if (result == false)
+				if (AreSame == false)
 				{
 					FieldData fieldData = new FieldData();
 					fieldData.Name = Prefix + '@' + Field.Name;
