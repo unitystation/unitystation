@@ -17,7 +17,8 @@ PrefabInstance:
         type: 3}
       propertyPath: CookedProduct
       value: 
-      objectReference: {fileID: 6854599682859987425}
+      objectReference: {fileID: 6076619852727529864, guid: 5e09b3ff1f6e0d94d85f2a300beb4117,
+        type: 3}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
@@ -170,9 +171,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}
---- !u!1 &6854599682859987425 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
-    type: 3}
-  m_PrefabInstance: {fileID: 8757828038835460338}
-  m_PrefabAsset: {fileID: 0}
