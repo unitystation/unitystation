@@ -8,7 +8,7 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
-		
+
 		private bool isBleedingInternally = false;
 
 		private bool isBleedingExternally = false;
@@ -92,7 +92,7 @@ namespace HealthV2
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
 		public float DamageThreshold = 18f;
-		
+
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
@@ -170,26 +170,25 @@ namespace HealthV2
 		private void CheckCutSize()
 		{
 			CheckTraumaDamageLevels();
-			if(currentSlashCutDamage <= 0)
+			switch (currentSlashCutDamage)
 			{
-				currentCutSize = BodyPartCutSize.NONE;
-			}
-			else if(currentSlashCutDamage > 75)
-			{
-				currentCutSize = BodyPartCutSize.LARGE;
-			}
-			else if(currentSlashCutDamage > 50)
-			{
-				currentCutSize = BodyPartCutSize.MEDIUM;
-			}
-			else if(currentSlashCutDamage > 25)
-			{
-				currentCutSize = BodyPartCutSize.SMALL;
-			}
-
-			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
-			{
-				StartCoroutine(ExternalBleedingLogic());
+				case float n when n.IsBetween(0, 25):
+					currentSlashDamageLevel = SlashDamageLevel.NONE;
+					break;
+				case float n when n.IsBetween(26, 50):
+					currentSlashDamageLevel = SlashDamageLevel.SMALL;
+					break;
+				case float n when n.IsBetween(26, 50):
+					currentSlashDamageLevel = SlashDamageLevel.MEDIUM;
+					break;
+				case float n when n > 50:
+					currentSlashDamageLevel = SlashDamageLevel.LARGE;
+					break;
+				default:
+					currentSlashDamageLevel = SlashDamageLevel.NONE;
+					Logger.LogError(
+						$"Unexpected slash cut damage on: {gameObject}, {currentSlashDamageLevel}");
+					break;
 			}
 		}
 
@@ -449,7 +448,7 @@ namespace HealthV2
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
 		/// </summary>
