@@ -178,10 +178,10 @@ namespace HealthV2
 				case float n when n.IsBetween(26, 50):
 					currentSlashDamageLevel = SlashDamageLevel.SMALL;
 					break;
-				case float n when n.IsBetween(26, 50):
+				case float n when n.IsBetween(51, 75):
 					currentSlashDamageLevel = SlashDamageLevel.MEDIUM;
 					break;
-				case float n when n > 50:
+				case float n when n > 76:
 					currentSlashDamageLevel = SlashDamageLevel.LARGE;
 					break;
 				default:
