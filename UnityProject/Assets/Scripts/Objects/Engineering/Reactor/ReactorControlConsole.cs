@@ -23,6 +23,7 @@ namespace Objects.Engineering
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.ReactorChamber;
 		IMultitoolMasterable IMultitoolSlaveable.Master { get => ReactorChambers; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => true;
 
 		private void SetMaster(IMultitoolMasterable master)
 		{

@@ -115,6 +115,7 @@ namespace Objects.Lighting
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.LightSwitch;
 		IMultitoolMasterable IMultitoolSlaveable.Master { get => relatedLightSwitch; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false;
 
 		private void SetMaster(IMultitoolMasterable master)
 		{

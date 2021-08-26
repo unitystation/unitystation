@@ -109,6 +109,7 @@ namespace Objects.Engineering
 
 		// Slave connection
 		IMultitoolMasterable IMultitoolSlaveable.Master { get => Boiler; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => true;
 
 		private void SetMaster(IMultitoolMasterable master)
 		{

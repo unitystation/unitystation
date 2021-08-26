@@ -46,6 +46,8 @@ namespace Systems.ObjectConnection
 	public interface IMultitoolSlaveable : IMultitoolLinkable
 	{
 		IMultitoolMasterable Master { get; set; }
+
+		bool RequireLink { get; }
 	}
 
 	/// <summary>

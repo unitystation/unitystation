@@ -47,6 +47,7 @@ namespace Doors
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.FireAlarm;
 		IMultitoolMasterable IMultitoolSlaveable.Master { get => fireAlarm; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => true;
 
 		private void SetMaster(IMultitoolMasterable master)
 		{

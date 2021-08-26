@@ -743,6 +743,7 @@ namespace Objects.Other
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Turret;
 		IMultitoolMasterable IMultitoolSlaveable.Master { get => connectedSwitch; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false; // TODO: set to false to ignore false positive; currently links are serialized on the switch
 
 		private void SetMaster(IMultitoolMasterable master)
 		{

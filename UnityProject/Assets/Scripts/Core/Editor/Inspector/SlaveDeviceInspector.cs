@@ -24,11 +24,10 @@ namespace CustomInspectors
 	[CustomEditor(typeof(IMultitoolSlaveable), true)]
 	public class SlaveDeviceInspector : Editor
 	{
-		private static Dictionary<MultitoolConnectionType, string> disconnectedGizmoIcons = new Dictionary<MultitoolConnectionType, string>
+		private static readonly Dictionary<MultitoolConnectionType, string> disconnectedGizmoIcons = new Dictionary<MultitoolConnectionType, string>
 		{
 			{ MultitoolConnectionType.APC, "disconnected" },
-			{ MultitoolConnectionType.LightSwitch, string.Empty }, // Lights are allowed to have no switch.
-			{ MultitoolConnectionType.DoorButton, string.Empty },
+			{ MultitoolConnectionType.DoorButton, "noDoor" },
 		};
 
 		private IMultitoolSlaveable thisDevice;
@@ -45,24 +44,24 @@ namespace CustomInspectors
 		[DrawGizmo(GizmoType.Selected | GizmoType.Active | GizmoType.NonSelected)]
 		private static void DrawGizmoConnection(IMultitoolSlaveable device, GizmoType type)
 		{
+			if (PrefabStageUtility.GetCurrentPrefabStage() != null) return; // Don't show in prefab mode.
+
 			if (type.HasFlag(GizmoType.Selected) || type.HasFlag(GizmoType.Active))
 			{
 				if (device.Master == null) return;
 
-				Gizmos.color = MasterDeviceInspector.LinkColors.ContainsKey(device.ConType)
-						? MasterDeviceInspector.LinkColors[device.ConType]
-						: Color.green;
+				Gizmos.color = MasterDeviceInspector.LinkColors.TryGetValue(device.ConType, out var color) ? color : Color.green;
 				GizmoUtils.DrawArrow(
-					device.Master.gameObject.transform.position,
-					device.gameObject.transform.position - device.Master.gameObject.transform.position,
-					false);
+						device.Master.gameObject.transform.position,
+						device.gameObject.transform.position - device.Master.gameObject.transform.position,
+						false);
 				Gizmos.DrawSphere(device.Master.gameObject.transform.position, 0.15f);
 			}
 			else if (type.HasFlag(GizmoType.NonSelected))
 			{
-				if (device.Master != null) return;
+				if (device.RequireLink == false || device.Master != null) return;
 
-				string icon = disconnectedGizmoIcons.ContainsKey(device.ConType) ? disconnectedGizmoIcons[device.ConType] : "no-wifi";
+				string icon = disconnectedGizmoIcons.TryGetValue(device.ConType, out var filename) ? filename : "no-wifi";
 				Gizmos.DrawIcon(device.gameObject.transform.position, icon);
 			}
 		}
@@ -79,7 +78,7 @@ namespace CustomInspectors
 
 			DeviceLinker.InitDeviceLists(thisDevice.ConType);
 
-			if (thisDevice.Master == null)
+			if (thisDevice.RequireLink && thisDevice.Master == null)
 			{
 				EditorGUILayout.HelpBox("Not connected to any master device!", MessageType.Warning);
 			}

@@ -35,11 +35,12 @@ namespace Core.Editor.Tools.Mapping
 			windowSize.x = 250;
 			minSize = windowSize;
 
-			tabs = new WindowTab[] {
-				//new WindowTab("ACU Devices", MultitoolConnectionType.ACU),
-				new WindowTab("APC Devices", MultitoolConnectionType.APC),
-				new WindowTab("Firelocks", MultitoolConnectionType.FireAlarm),
-				new WindowTab("Lights", MultitoolConnectionType.LightSwitch),
+			PopulateTabs();
+
+			EditorSceneManager.sceneOpened += (oldScene, newScene) =>
+			{
+				PopulateTabs();
+				DeviceLinker.InitDeviceLists(Tab.Type, forceRefresh: true);
 			};
 		}
 
@@ -56,6 +57,16 @@ namespace Core.Editor.Tools.Mapping
 			}
 
 			DrawUiElements();
+		}
+
+		private void PopulateTabs()
+		{
+			tabs = new WindowTab[] {
+				new WindowTab("APC Devices", MultitoolConnectionType.APC),
+				//new WindowTab("ACU Devices", MultitoolConnectionType.ACU),
+				new WindowTab("Firelocks", MultitoolConnectionType.FireAlarm),
+				new WindowTab("Lights", MultitoolConnectionType.LightSwitch),
+			};
 		}
 
 		private void DrawUiElements()
@@ -80,6 +91,13 @@ namespace Core.Editor.Tools.Mapping
 			if (Tab.RelinkedSlavesCount > -1)
 			{
 				GUILayout.Label($"Linked <b>{Tab.RelinkedSlavesCount}</b> / <b>{DeviceLinker.Slaves.Count}</b> devices.", EditorUIUtils.LabelStyle);
+			}
+
+			if (Tab.IgnoredSlaves.Count > 0)
+			{
+				GUILayout.Label($"<b>{Tab.IgnoredSlaves.Count}</b> " +
+					$"{(Tab.IgnoredSlaves.Count == 1 ? "was ignored. It" : "were ignored. They")} may not require a link.",
+					EditorUIUtils.LabelStyle);
 			}
 
 			EditorGUILayout.Space();
@@ -147,6 +165,17 @@ namespace Core.Editor.Tools.Mapping
 		private int LinkSlaves(bool relinkConnected)
 		{
 			int count = DeviceLinker.Slaves.Count(slave => {
+				if (slave.RequireLink == false)
+				{
+					if (Tab.IgnoredSlaves.Contains(slave) == false)
+					{
+						Tab.IgnoredSlaves.Add(slave);
+					}
+
+					return false;
+				}
+
+
 				if (slave.Master != null && relinkConnected == false) return false;
 
 				float distance = DeviceLinker.TryLinkSlaveToClosestMaster(slave);
@@ -178,6 +207,7 @@ namespace Core.Editor.Tools.Mapping
 			public int ReviewDistantSlaveIndex = -1;
 			public float ReviewDistantSlaveNewDistance = -1;
 
+			public readonly List<IMultitoolSlaveable> IgnoredSlaves = new List<IMultitoolSlaveable>();
 			public readonly List<IMultitoolSlaveable> DistantSlaves = new List<IMultitoolSlaveable>();
 
 			public WindowTab(string name, MultitoolConnectionType type)

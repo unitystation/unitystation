@@ -37,7 +37,7 @@ namespace CustomInspectors
 		{
 			DeviceLinker.InitDeviceLists(device.ConType);
 
-			Gizmos.color = LinkColors.ContainsKey(device.ConType) ? LinkColors[device.ConType] : Color.green;
+			Gizmos.color = LinkColors.TryGetValue(device.ConType, out var color) ? color : Color.green;
 
 			foreach (IMultitoolSlaveable slave in DeviceLinker.Slaves)
 			{

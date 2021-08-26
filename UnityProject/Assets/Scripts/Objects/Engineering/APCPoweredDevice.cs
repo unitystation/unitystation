@@ -162,6 +162,7 @@ namespace Systems.Electricity
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.APC;
 		IMultitoolMasterable IMultitoolSlaveable.Master { get => RelatedAPC; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => isSelfPowered == false;
 
 		private void SetMaster(IMultitoolMasterable master)
 		{

@@ -21,6 +21,7 @@ namespace Objects.Engineering
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
 		IMultitoolMasterable IMultitoolSlaveable.Master { get => linkedMaster; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => true;
 
 		private IMultitoolMasterable linkedMaster;
 
