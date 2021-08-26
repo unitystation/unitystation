@@ -8,7 +8,6 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
-
 		private bool isBleedingInternally = false;
 
 		private bool isBleedingExternally = false;
@@ -16,7 +15,8 @@ namespace HealthV2
 		public bool IsBleedingInternally => isBleedingInternally;
 
 		public bool IsBleedingExternally => isBleedingExternally;
-
+		
+		[Header("Trauma Damage settings")]
 		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
 
 
