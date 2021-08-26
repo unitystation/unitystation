@@ -99,7 +99,7 @@ namespace Items.Engineering
 			if (deviceFound || electricalNodes.Count > 0)
 			{
 				sb.Clear();
-				sb.AppendLine("The multitool's display lights up.\n</i>");
+				sb.AppendLine("The multitool's display lights up.</i>");
 				
 				if (deviceFound)
 				{

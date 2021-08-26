@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 using AddressableReferences;
 using Audio.Containers;
 using Messages.Server.SoundMessages;
@@ -74,6 +75,18 @@ namespace Objects.Kitchen
 		[SerializeField]
 		[Tooltip("Storage structure to use for tier 1-4 matter bins.")]
 		private ItemStorageStructure[] TierStorage = new ItemStorageStructure[4];
+
+		[SerializeField, Foldout("Power Usages")]
+		[Tooltip("Wattage of the microwave's circuitry and display.")]
+		private int circuitWattage = 5;
+
+		[SerializeField, Foldout("Power Usages")]
+		[Tooltip("Wattage of the microwave oven's bulb.")]
+		private int ovenBulbWattage = 25;
+
+		[SerializeField, Foldout("Power Usages")]
+		[Tooltip("Wattage of the microwave oven's magnetron (T1 laser stock part).")]
+		private int magnetronWattage = 850;
 
 		/// <summary>
 		/// How much time remains on the microwave's timer.
@@ -448,7 +461,7 @@ namespace Objects.Kitchen
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, true);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
-				microwave.SetWattage(5);
+				microwave.SetWattage(microwave.circuitWattage);
 			}
 
 			public override void ToggleActive()
@@ -487,7 +500,7 @@ namespace Objects.Kitchen
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, true);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, true);
 				microwave.HaltMicrowave();
-				microwave.SetWattage(25);
+				microwave.SetWattage(microwave.circuitWattage + microwave.ovenBulbWattage);
 			}
 
 			public override void ToggleActive() { }
@@ -523,7 +536,7 @@ namespace Objects.Kitchen
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, true);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, true);
 				microwave.spriteHandler.ChangeSprite((int) SpriteState.Running);
-				microwave.SetWattage(850);
+				microwave.SetWattage(microwave.circuitWattage + microwave.ovenBulbWattage + microwave.magnetronWattage);
 			}
 
 			public override void ToggleActive()
@@ -561,7 +574,7 @@ namespace Objects.Kitchen
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
-				microwave.SetWattage(25);
+				microwave.SetWattage(microwave.circuitWattage);
 			}
 
 			public override void ToggleActive() { }
@@ -593,7 +606,7 @@ namespace Objects.Kitchen
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
-				microwave.SetWattage(25);
+				microwave.SetWattage(microwave.circuitWattage + microwave.ovenBulbWattage);
 			}
 
 			public override void ToggleActive() { }
@@ -628,7 +641,7 @@ namespace Objects.Kitchen
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
-				microwave.SetWattage(5);
+				microwave.SetWattage(microwave.circuitWattage);
 			}
 
 			public override void ToggleActive() { }
@@ -654,7 +667,7 @@ namespace Objects.Kitchen
 				microwave.OnSyncScreenGlow(microwave.screenGlowEnabled, false);
 				microwave.OnSyncOvenGlow(microwave.ovenGlowEnabled, false);
 				microwave.HaltMicrowave();
-				microwave.SetWattage(5);
+				microwave.SetWattage(microwave.circuitWattage);
 			}
 
 			public override void ToggleActive() { }
