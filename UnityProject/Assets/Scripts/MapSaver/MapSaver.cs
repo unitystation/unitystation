@@ -384,10 +384,10 @@ namespace MapSaver
 			object SpawnedInstance)
 		{
 			var TypeMono = PrefabInstance.GetType();
-			var coolFields = ((TypeMono.GetFields(
+			var coolFields = TypeMono.GetFields(
 				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
 				BindingFlags.FlattenHierarchy
-			).ToList()));
+			).ToList();
 
 			foreach (var Field in coolFields)
 			{
@@ -424,7 +424,7 @@ namespace MapSaver
 					var APrefabDefault = Field.GetValue(PrefabInstance);
 					var AMonoSet = Field.GetValue(SpawnedInstance);
 
-					if ((Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)))) continue; //Handle this with custom stuff
+					if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue; //Handle this with custom stuff
 
 					if (APrefabDefault != null && AMonoSet != null)
 					{
@@ -441,21 +441,34 @@ namespace MapSaver
 				var MonoSet = Field.GetValue(SpawnedInstance);
 
 				var selfValueComparer = PrefabDefault as IComparable;
-				bool AreSame;
+				bool areSame;
 				if (PrefabDefault == null && MonoSet == null)
-					AreSame = true;
+				{
+					areSame = true;
+				}
 				else if ((PrefabDefault == null && MonoSet != null) || (PrefabDefault != null && MonoSet == null))
-					AreSame = false; //One is null and the other wasn't
+				{
+					areSame = false; //One is null and the other wasn't
+				}
 				else if (selfValueComparer != null && selfValueComparer.CompareTo(MonoSet) != 0)
-					AreSame = false; //the comparison using IComparable failed
+				{
+					areSame = false; //the comparison using IComparable failed
+				}
 				else if (PrefabDefault.Equals(MonoSet) == false)
-					AreSame = false; //Using the overridden one
+				{
+					areSame = false; //Using the overridden one
+				}
 				else if (!object.Equals(PrefabDefault, MonoSet))
-					AreSame = false; //Using the Inbuilt one
+				{
+					areSame = false; //Using the Inbuilt one
+				}
 				else
-					AreSame = true; // match
+				{
+					areSame = true; // match
+				}
 
-				if (AreSame == false)
+
+				if (areSame == false)
 				{
 					FieldData fieldData = new FieldData();
 					fieldData.Name = Prefix + '@' + Field.Name;
