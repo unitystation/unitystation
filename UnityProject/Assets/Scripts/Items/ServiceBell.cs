@@ -1,7 +1,5 @@
-﻿using Mirror;
-using UnityEngine;
+﻿using UnityEngine;
 using AddressableReferences;
-using UnityEngine.Serialization;
 
 namespace Objects
 {
@@ -20,13 +18,34 @@ namespace Objects
 
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
-			// yes, we can pick up the service bell!
-			if (interaction.Intent == Intent.Grab)
+			if (ShouldRing(interaction))
 			{
-				base.ServerPerformInteraction(interaction);
+				SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
+				// ok, we ringed and we don't need to pick up the bell
 				return;
 			}
-			SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
+
+			base.ServerPerformInteraction(interaction);
+		}
+
+		public override void ClientPredictInteraction(HandApply interaction)
+		{
+			if (ShouldRing(interaction))
+			{
+				// we shouldn't pick up the item, so there is no need to predicate something
+				return;
+			}
+
+			base.ClientPredictInteraction(interaction);
+		}
+
+		/// <summary>
+		/// 	Should the bell ring when a player is trying to pick up the bell?
+		/// </summary>
+		/// <returns>False if a player's intent is set to Grab, true otherwise.</returns>
+		private bool ShouldRing(Interaction interaction)
+		{
+			return interaction.Intent != Intent.Grab;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

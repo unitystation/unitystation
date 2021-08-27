@@ -133,7 +133,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		return true;
 	}
 
-	public void ClientPredictInteraction(HandApply interaction)
+	public virtual void ClientPredictInteraction(HandApply interaction)
 	{
 		if ( interaction.Performer.GetComponent<PlayerScript>().IsGameObjectReachable( this.gameObject, false ))
 		{
