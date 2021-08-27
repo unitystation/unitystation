@@ -60,7 +60,7 @@ namespace Items.Engineering
 					switch (multitoolBase)
 					{
 						case IMultitoolSlaveable slave:
-							slave.SetMaster(Buffer);
+							slave.Master = Buffer;
 							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +

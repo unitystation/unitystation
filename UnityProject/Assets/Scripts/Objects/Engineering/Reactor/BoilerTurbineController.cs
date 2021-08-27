@@ -19,21 +19,25 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
-		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => linkedMaster; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => true;
 
-		bool IMultitoolSlaveable.IsLinked => ReactorBoiler != null && ReactorTurbine != null;
+		private IMultitoolMasterable linkedMaster;
 
-		public void SetMaster(IMultitoolMasterable Imaster)
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var boiler = (Imaster as Component)?.gameObject.GetComponent<ReactorBoiler>();
+			var boiler = (master as Component)?.gameObject.GetComponent<ReactorBoiler>();
 			if (boiler != null)
 			{
+				linkedMaster = master;
 				ReactorBoiler = boiler;
 			}
-			var Turbine = (Imaster as Component)?.gameObject.GetComponent<ReactorTurbine>();
-			if (Turbine != null)
+			var turbine = (master as Component)?.gameObject.GetComponent<ReactorTurbine>();
+			if (turbine != null)
 			{
-				ReactorTurbine = Turbine;
+				linkedMaster = master;
+				ReactorTurbine = turbine;
 			}
 		}
 

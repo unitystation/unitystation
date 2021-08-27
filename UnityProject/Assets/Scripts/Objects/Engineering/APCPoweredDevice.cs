@@ -163,10 +163,10 @@ namespace Systems.Electricity
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.APC;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => RelatedAPC; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => isSelfPowered == false;
 
-		bool IMultitoolSlaveable.IsLinked => RelatedAPC != null || IsSelfPowered;
-
-		public void SetMaster(IMultitoolMasterable imaster)
+		private void SetMaster(IMultitoolMasterable master)
 		{
 			if (blockApcChange)
 			{
@@ -174,7 +174,7 @@ namespace Systems.Electricity
 				return;
 			}
 
-			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
+			var inApc = (master as Component)?.gameObject.GetComponent<APC>();
 			if (RelatedAPC != null)
 			{
 				RemoveFromAPC();
@@ -284,29 +284,6 @@ namespace Systems.Electricity
 		public void LockApcLinking(bool newState)
 		{
 			blockApcChange = newState;
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			if (RelatedAPC == null || isSelfPowered)
-			{
-				return;
-			}
-
-			//Highlighting APC
-			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-			Gizmos.DrawLine(RelatedAPC.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
-		}
-
-		private void OnDrawGizmos()
-		{
-			if (RelatedAPC != null || isSelfPowered)
-			{
-				return;
-			}
-
-			Gizmos.DrawIcon(transform.position, "disconnected");
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

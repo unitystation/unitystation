@@ -415,27 +415,6 @@ namespace Objects.Engineering
 			}
 		}
 
-		#region Editor
-
-		void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
-
-			//Highlighting all controlled lightSources
-			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-			for (int i = 0; i < connectedDevices.Count; i++)
-			{
-				var lightSource = connectedDevices[i];
-				if(lightSource == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
-				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
-			}
-		}
-
-		#endregion
-
 		#region Multitool Interaction
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.APC;
@@ -445,8 +424,6 @@ namespace Objects.Engineering
 		public bool MultiMaster => multiMaster;
 
 		int IMultitoolMasterable.MaxDistance => 30;
-
-		public void AddSlave(object slaveObject) { }
 
 		public void RemoveDevice(APCPoweredDevice apcPoweredDevice)
 		{
