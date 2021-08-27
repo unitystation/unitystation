@@ -15,7 +15,7 @@ namespace HealthV2
 		public bool IsBleedingInternally => isBleedingInternally;
 
 		public bool IsBleedingExternally => isBleedingExternally;
-		
+
 		[Header("Trauma Damage settings")]
 		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
 
@@ -166,10 +166,14 @@ namespace HealthV2
 
 		/// <summary>
 		/// Checks how big is the cut is right now.
+		/// Additonally ensures that all Trauma damage levels are updated to make sure cut size logic is correct everywhere.
 		/// </summary>
 		private void CheckCutSize()
 		{
-			CheckTraumaDamageLevels();
+			currentBurnDamageLevel   = CheckTraumaDamageLevels(currentBurnDamage);
+			currentSlashDamageLevel  = CheckTraumaDamageLevels(currentSlashCutDamage);
+			currentPierceDamageLevel = CheckTraumaDamageLevels(currentPierceDamage);
+			CheckCharredBodyPart();
 			switch (currentSlashCutDamage)
 			{
 				case float n when n.IsBetween(0, 25):
@@ -192,55 +196,33 @@ namespace HealthV2
 			}
 		}
 
-		private void CheckTraumaDamageLevels()
+		/// <summary>
+		/// Returns trauma damage level based on a float.
+		/// </summary>
+		/// <param name="traumaDamage">float current[trauma]damage</param>
+		/// <returns>TraumaDamageLevel</returns>
+		private TraumaDamageLevel CheckTraumaDamageLevels(float traumaDamage)
 		{
-			//Slash
-			if(currentSlashCutDamage <= 0)
+			//(Max) : Later we should add scaling values based on the body part's MaxHP.
+			switch (traumaDamage)
 			{
-				currentSlashDamageLevel = TraumaDamageLevel.NONE;
+				case float n when n.IsBetween(0, 25):
+					return TraumaDamageLevel.NONE;
+				case float n when n.IsBetween(26, 50):
+					return TraumaDamageLevel.SMALL;
+				case float n when n.IsBetween(51, 75):
+					return TraumaDamageLevel.SERIOUS;
+				case float n when n > 76:
+					return TraumaDamageLevel.CRITICAL;
+				default:
+					Logger.LogError(
+						$"Unexpected float damage value on: {gameObject}, value -> {traumaDamage}");
+					return TraumaDamageLevel.NONE;
 			}
-			if(currentSlashCutDamage >= 25)
-			{
-				currentSlashDamageLevel = TraumaDamageLevel.SMALL;
-			}
-			if(currentSlashCutDamage <= 50)
-			{
-				currentSlashDamageLevel = TraumaDamageLevel.SERIOUS;
-			}
-			else
-			{
-				currentSlashDamageLevel = TraumaDamageLevel.CRITICAL;
-			}
-			//Pierce
-			if(currentPierceDamage <= 0)
-			{
-				currentPierceDamageLevel = TraumaDamageLevel.NONE;
-			}
-			if(currentPierceDamage >= 25)
-			{
-				currentPierceDamageLevel = TraumaDamageLevel.SMALL;
-			}
-			if(currentPierceDamage >= 50)
-			{
-				currentPierceDamageLevel = TraumaDamageLevel.SERIOUS;
-			}
-			else
-			{
-				currentPierceDamageLevel = TraumaDamageLevel.CRITICAL;
-			}
-			//burn
-			if (currentBurnDamage <= 0)
-			{
-				currentBurnDamageLevel = TraumaDamageLevel.NONE;
-			}
-			if (currentBurnDamage >= 25)
-			{
-				currentBurnDamageLevel = TraumaDamageLevel.SMALL;
-			}
-			if (currentBurnDamage >= 50)
-			{
-				currentBurnDamageLevel = TraumaDamageLevel.SERIOUS;
-			}
+		}
+
+		private void CheckCharredBodyPart()
+		{
 			if (currentBurnDamage >= 75)
 			{
 				if(currentBurnDamageLevel != TraumaDamageLevel.CRITICAL) //So we can do this once.
@@ -403,7 +385,8 @@ namespace HealthV2
 			if(SelfArmor.Fire < burnDamage)
 			{
 				currentBurnDamage += burnDamage;
-				CheckTraumaDamageLevels();
+				currentBurnDamageLevel   = CheckTraumaDamageLevels(currentBurnDamage);
+				CheckCharredBodyPart();
 			}
 		}
 
@@ -481,8 +464,8 @@ namespace HealthV2
 			{
 				currentPierceDamage -= healAmount;
 			}
+
 			CheckCutSize();
-			CheckTraumaDamageLevels();
 		}
 	}
 }
