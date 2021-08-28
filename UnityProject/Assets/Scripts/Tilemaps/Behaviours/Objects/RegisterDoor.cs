@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using Core.Editor.Attributes;
 using Systems.Interaction;
+
 
 	[RequireComponent(typeof(Integrity))]
 	[RequireComponent(typeof(Meleeable))]
@@ -11,6 +13,7 @@ using Systems.Interaction;
 
 		private TileChangeManager tileChangeManager;
 
+		[PrefabModeOnly]
 		public bool OneDirectionRestricted;
 
 		[SerializeField]
