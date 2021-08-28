@@ -3,7 +3,7 @@ using AddressableReferences;
 
 namespace Objects
 {
-	public class ServiceBell : Pickupable, IServerSpawn
+	public class ServiceBell : MonoBehaviour, IServerSpawn, ICheckedInteractable<HandApply>
 	{
 
 		[Tooltip("The sound the bell makes when it rings.")]
@@ -15,37 +15,14 @@ namespace Objects
 
 		[SerializeField] private SpriteHandler BellSpriteRenderer;
 
-
-		public override void ServerPerformInteraction(HandApply interaction)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (ShouldRing(interaction))
-			{
-				SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
-				// ok, we ringed and we don't need to pick up the bell
-				return;
-			}
-
-			base.ServerPerformInteraction(interaction);
+			return interaction.Intent != Intent.Grab && interaction.TargetObject == gameObject;
 		}
 
-		public override void ClientPredictInteraction(HandApply interaction)
+		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (ShouldRing(interaction))
-			{
-				// we shouldn't pick up the item, so there is no need to predicate something
-				return;
-			}
-
-			base.ClientPredictInteraction(interaction);
-		}
-
-		/// <summary>
-		/// 	Should the bell ring when a player is trying to pick up the bell?
-		/// </summary>
-		/// <returns>False if a player's intent is set to Grab, true otherwise.</returns>
-		private bool ShouldRing(Interaction interaction)
-		{
-			return interaction.Intent != Intent.Grab;
+			SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
