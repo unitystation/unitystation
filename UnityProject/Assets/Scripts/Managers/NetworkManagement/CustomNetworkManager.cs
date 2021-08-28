@@ -39,6 +39,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new Dictionary<GameObject, int>();
 
+	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new Dictionary<string, GameObject>();
+
 	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
 	private const double minCoolDown = 1f;
 
@@ -66,11 +68,41 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+	private int CurrentLocation = 0;
+
+	public void Update()
+	{
+		if (allSpawnablePrefabs.Count > CurrentLocation)
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				if (allSpawnablePrefabs.Count > CurrentLocation + i)
+				{
+					if (allSpawnablePrefabs[CurrentLocation + i] == null) continue;
+					var PrefabTracker = allSpawnablePrefabs[CurrentLocation + i].GetComponent<PrefabTracker>();
+					if (PrefabTracker != null)
+					{
+						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] = allSpawnablePrefabs[CurrentLocation + i];
+					}
+				}
+			}
+			CurrentLocation = CurrentLocation + 50;
+		}
+	}
+
 	public void SetUpSpawnablePrefabsIndex()
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
 		{
 			IndexLookupSpawnablePrefabs[allSpawnablePrefabs[i]] = i;
+		}
+	}
+
+	public void SetUpSpawnablePrefabsForEverID()
+	{
+		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
+		{
+
 		}
 	}
 

@@ -14,7 +14,7 @@ namespace Objects.Lighting
 	{
 		public List<LightSource> listOfLights;
 
-		public Action<bool> SwitchTriggerEvent;
+		[NonSerialized] public Action<bool> SwitchTriggerEvent;
 
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;

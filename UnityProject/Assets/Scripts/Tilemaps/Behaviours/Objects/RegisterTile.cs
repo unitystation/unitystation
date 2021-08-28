@@ -258,6 +258,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private IFireExposable[] fireExposables;
 	private bool hasCachedComponents = false;
 
+	[SerializeField] private PrefabTracker prefabTracker;
+	public PrefabTracker PrefabTracker => prefabTracker;
 
 	private ElectricalOIinheritance electricalData;
 	public ElectricalOIinheritance ElectricalData => electricalData;

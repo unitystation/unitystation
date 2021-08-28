@@ -19,6 +19,8 @@ namespace TileManagement
 		private readonly Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
 			new Dictionary<Layer, Dictionary<Vector3Int, TileLocation>>();
 
+		public Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTilesNeedsLock => PresentTiles;
+
 		/// <summary>
 		/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
 		/// </summary>
@@ -214,6 +216,8 @@ namespace TileManagement
 				layer.overlayStore.Clear();
 			}
 		}
+
+
 
 		/// <summary>
 		/// Apply damage to damageable layers, top to bottom.
