@@ -17,6 +17,8 @@ namespace Objects
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			
 			return interaction.Intent != Intent.Grab
 			       && interaction.Intent != Intent.Harm
 			       && interaction.TargetObject == gameObject
