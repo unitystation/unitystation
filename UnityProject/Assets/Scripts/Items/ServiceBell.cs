@@ -17,7 +17,10 @@ namespace Objects
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return interaction.Intent != Intent.Grab && interaction.TargetObject == gameObject;
+			return interaction.Intent != Intent.Grab
+			       && interaction.Intent != Intent.Harm
+			       && interaction.TargetObject == gameObject
+			       && interaction.HandObject == null;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
