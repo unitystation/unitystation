@@ -51,6 +51,7 @@ namespace Objects.Telecomms
 			PlayerScript playerScript = player.GetComponent<PlayerScript>();
 			Occupation playerOccupation = playerScript.mind.occupation;
 			string playerName = player.ExpensiveName();
+			int annoucementImportance = GetAnnouncementImportance(playerOccupation);
 
 			ChatChannel chatChannels = ChatChannel.Common;
 			string commonMessage = $"{playerName} has signed up as {playerOccupation.DisplayName}.";
@@ -59,7 +60,7 @@ namespace Objects.Telecomms
 			// Get the channel of the newly joined head from their occupation.
 			if (channelFromJob.ContainsKey(playerOccupation.JobType))
 			{
-				BroadcastCommMsg(channelFromJob[playerOccupation.JobType], deptMessage);
+				BroadcastCommMsg(channelFromJob[playerOccupation.JobType], deptMessage, annoucementImportance);
 			}
 
 			// Announce the arrival on the CentComm channel if is a CentComm occupation.
@@ -82,12 +83,25 @@ namespace Objects.Telecomms
 				return;
 			}
 
-			BroadcastCommMsg(chatChannels, commonMessage);
+			BroadcastCommMsg(chatChannels, commonMessage, 1);
 		}
 
-		private void BroadcastCommMsg(ChatChannel chatChannels, string message)
+		private int GetAnnouncementImportance(Occupation job)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, ChatModifier.ColdlyState, machineName);
+			if (job.JobType == JobType.AI || job.JobType == JobType.HOP || job.JobType == JobType.CAPTAIN ||
+			    job.JobType == JobType.CMO)
+			{
+				return 2;
+			}
+			else
+			{
+				return 1;
+			}
+		}
+
+		private void BroadcastCommMsg(ChatChannel chatChannels, string message, int importance)
+		{
+			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, ChatModifier.ColdlyState, importance,  machineName);
 		}
 	}
 }

@@ -227,9 +227,10 @@ public partial class Chat : MonoBehaviour
 	/// <param name="channels">The channels to broadcast on.</param>
 	/// <param name="chatModifiers">Chat modifiers to use e.g. ChatModifier.ColdlyState.</param>
 	/// <param name="broadcasterName">Optional name for the broadcaster. Pulls name from GameObject if not used.</param>
+	/// <param name="voiceLevel">How loud is this message?</param>
 	public static void AddCommMsgByMachineToChat(
 			GameObject sentByMachine, string message, ChatChannel channels,
-			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default)
+			ChatModifier chatModifiers = ChatModifier.None, int voiceLevel = 1, string broadcasterName = default)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
 
@@ -240,7 +241,8 @@ public partial class Chat : MonoBehaviour
 			speaker = broadcasterName != default ? broadcasterName : sentByMachine.ExpensiveName(),
 			position = sentByMachine.WorldPosServer(),
 			channels = channels,
-			originator = sentByMachine
+			originator = sentByMachine,
+			VoiceLevel = voiceLevel
 		};
 
 		InvokeChatEvent(chatEvent);

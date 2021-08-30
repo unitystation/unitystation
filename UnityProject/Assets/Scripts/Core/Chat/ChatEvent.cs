@@ -90,6 +90,7 @@ public class ChatEvent
 	public Vector3 position = TransformState.HiddenPos;
 	public GameObject originator;
 	public bool stripTags = true;
+	public int VoiceLevel = 1;
 
 	/// <summary>
 	/// Send chat message only to those on this matrix
