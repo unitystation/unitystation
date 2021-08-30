@@ -174,25 +174,31 @@ namespace HealthV2
 			currentSlashDamageLevel  = CheckTraumaDamageLevels(currentSlashCutDamage);
 			currentPierceDamageLevel = CheckTraumaDamageLevels(currentPierceDamage);
 			CheckCharredBodyPart();
-			switch (currentSlashCutDamage)
+			currentCutSize = GetCutSize(currentSlashDamageLevel);
+			currentCutSize = GetCutSize(currentPierceDamageLevel);
+		}
+
+		/// <summary>
+		/// Returns cut size level based on trauma damage levels.
+		/// </summary>
+		/// <param name="traumaLevel">TraumaDamageLevel current[trauma]level</param>
+		/// <returns>BodyPartCutSize</returns>
+		private BodyPartCutSize GetCutSize(TraumaDamageLevel traumaLevel)
+		{
+			switch (traumaLevel)
 			{
-				case float n when n.IsBetween(0, 25):
-					currentSlashDamageLevel = TraumaDamageLevel.NONE;
-					break;
-				case float n when n.IsBetween(26, 50):
-					currentSlashDamageLevel = TraumaDamageLevel.SMALL;
-					break;
-				case float n when n.IsBetween(51, 75):
-					currentSlashDamageLevel = TraumaDamageLevel.SERIOUS;
-					break;
-				case float n when n > 76:
-					currentSlashDamageLevel = TraumaDamageLevel.CRITICAL;
-					break;
+				case TraumaDamageLevel.NONE:
+					return BodyPartCutSize.NONE;
+				case TraumaDamageLevel.SMALL:
+					return BodyPartCutSize.SMALL;
+				case TraumaDamageLevel.SERIOUS:
+					return BodyPartCutSize.MEDIUM;
+				case TraumaDamageLevel.CRITICAL:
+					return BodyPartCutSize.LARGE;
 				default:
-					currentSlashDamageLevel = TraumaDamageLevel.NONE;
 					Logger.LogError(
-						$"Unexpected slash cut damage on: {gameObject}, {currentSlashDamageLevel}");
-					break;
+						$"Unexpected cut size on: {gameObject}, {currentCutSize}");
+					return BodyPartCutSize.NONE;
 			}
 		}
 
