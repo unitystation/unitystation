@@ -212,13 +212,13 @@ namespace HealthV2
 			//(Max) : Later we should add scaling values based on the body part's MaxHP.
 			switch (traumaDamage)
 			{
-				case float n when n.IsBetween(0, 25):
+				case float n when n.IsBetween(0, 25, false):
 					return TraumaDamageLevel.NONE;
-				case float n when n.IsBetween(26, 50):
+				case float n when n.IsBetween(25, 50, false):
 					return TraumaDamageLevel.SMALL;
-				case float n when n.IsBetween(51, 75):
+				case float n when n.IsBetween(50, 75, false):
 					return TraumaDamageLevel.SERIOUS;
-				case float n when n > 76:
+				case float n when n > 75:
 					return TraumaDamageLevel.CRITICAL;
 				default:
 					Logger.LogError(
