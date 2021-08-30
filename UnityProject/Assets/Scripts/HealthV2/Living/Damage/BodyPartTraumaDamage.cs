@@ -8,7 +8,7 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
-		
+
 		private bool isBleedingInternally = false;
 
 		private bool isBleedingExternally = false;
@@ -92,7 +92,7 @@ namespace HealthV2
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
 		public float DamageThreshold = 18f;
-		
+
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
@@ -415,7 +415,7 @@ namespace HealthV2
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
 		/// </summary>

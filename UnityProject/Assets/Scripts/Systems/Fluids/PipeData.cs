@@ -16,10 +16,10 @@ namespace Systems.Pipes
 		public Connections Connections;
 		public CustomLogic CustomLogic;
 		public LiquidPipeNet OnNet;
-		public PipeActions PipeAction;
+		[HideInInspector] public PipeActions PipeAction;
 		public bool NetCompatible = true;
 
-		public MixAndVolume mixAndVolume = new MixAndVolume();
+		[HideInInspector] public MixAndVolume mixAndVolume = new MixAndVolume();
 
 		public MixAndVolume GetMixAndVolume
 		{
@@ -328,15 +328,15 @@ namespace Systems.Pipes
 		{
 			if (MonoPipe == null)
 			{
-				Matrix4x4 matrix = Matrix.UnderFloorLayer.GetMatrix4x4(pipeNode.NodeLocation, pipeNode.RelatedTile);
+				Matrix4x4 matrix = Matrix.MetaTileMap.GetMatrix4x4(pipeNode.NodeLocation, LayerType.Underfloor, true).GetValueOrDefault(Matrix4x4.identity);
 				var pipe = Spawn.ServerPrefab(
 						pipeNode.RelatedTile.SpawnOnDeconstruct,
 						MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix),
 						localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix)).GameObject;
 				var itempipe = pipe.GetComponent<PipeItemTile>();
-				itempipe.Colour = Matrix.UnderFloorLayer.GetColour(pipeNode.NodeLocation, pipeNode.RelatedTile);
+				itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Underfloor, true).GetValueOrDefault(Color.white);
 				itempipe.Setsprite();
-				pipeNode.LocatedOn.RemoveUnderFloorTile(pipeNode.NodeLocation, pipeNode.RelatedTile);
+				pipeNode.LocatedOn.TileChangeManager.RemoveTile(pipeNode.NodeLocation, LayerType.Underfloor);
 
 				pipeNode.IsOn.PipeData.Remove(pipeNode);
 				OnDisable();

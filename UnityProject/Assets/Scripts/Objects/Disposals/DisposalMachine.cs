@@ -58,7 +58,7 @@ namespace Objects.Disposals
 
 		IEnumerator WaitForUnderfloorUtilities()
 		{
-			while (registerObject.Matrix.UnderFloorLayer.UnderFloorUtilitiesInitialised == false)
+			while (registerObject.Matrix.MetaTileMap.UnderFloorUtilitiesInitialised == false)
 			{
 				yield return WaitFor.EndOfFrame;
 			}

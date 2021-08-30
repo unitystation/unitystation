@@ -94,17 +94,20 @@ public class TileChangeManager : MonoBehaviour
 
 
 	[Server]
-	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+	public Vector3Int UpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
+		Vector3Int Vector3Int = Vector3Int.zero;
 		if (IsDifferent(cellPosition, layerTile, transformMatrix, color))
 		{
-			InternalUpdateTile(cellPosition, layerTile,transformMatrix, color);
+			Vector3Int = InternalUpdateTile(cellPosition, layerTile,transformMatrix, color);
 
 			AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
 
 			AddToChangeList(cellPosition, layerTile, transformMatrix : transformMatrix , color: color);
 		}
+
+		return Vector3Int;
 	}
 
 	/// <summary>
@@ -343,12 +346,12 @@ public class TileChangeManager : MonoBehaviour
 		metaTileMap.SetTile(position, layerTile, transformMatrix, color);
 	}
 
-	public void InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+	public Vector3Int InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.SetTile(p, layerTile, transformMatrix, color);
+		return metaTileMap.SetTile(p, layerTile, transformMatrix, color);
 	}
 
 	private void AddToChangeList(Vector3Int position, LayerType layerType = LayerType.None,

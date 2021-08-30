@@ -16,7 +16,7 @@ namespace Messages.Server
 		}
 
 		//just a best guess, try increasing it until the message exceeds mirror's limit
-		private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
+		private static readonly int MAX_CHANGES_PER_MESSAGE = 100;
 
 		public override void Process(NetMessage msg)
 		{
@@ -42,7 +42,7 @@ namespace Messages.Server
 
 				//We use NewtonSoft's Json as unity inbuilt doesnt support nullables
 				string jsondata = JsonConvert.SerializeObject(changeChunk, new JsonSerializerSettings()
-				{ 
+				{
 					ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 				});
 

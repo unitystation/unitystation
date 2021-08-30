@@ -48,7 +48,7 @@ namespace Tiles.Pipes
 
 			for (var i = 0; i < metaDataNode.PipeData.Count; i++)
 			{
-				if (metaDataNode.PipeData[i].RelatedTile != pipeTile) continue;
+				if (metaDataNode.PipeData[i].RelatedTile != pipeTile) continue; //TODO Stuff like layers and stuff can be included
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 						"You start to deconstruct the pipe..",
