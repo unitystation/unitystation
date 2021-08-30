@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TileManagement;
+using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
@@ -21,7 +22,7 @@ namespace Doors
 		[Tooltip("A list of frame numbers for the open/close animation, not including the openFrame and closeFrame")]
 		public int[] animFrames;
 
-		public int animLength;
+		private int animLength;
 		public int closeFrame;
 		public int deniedFrame;
 		public int openFrame;

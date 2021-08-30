@@ -6,6 +6,7 @@ using TileManagement;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
+using NaughtyAttributes;
 using NUnit.Framework;
 
 namespace MapSaver
@@ -18,7 +19,15 @@ namespace MapSaver
 		public readonly static char LayerChar = '☰';
 		public readonly static char LocationChar = '@';
 
-		public struct TileMapData
+
+		public class MatrixData
+		{
+			public TileMapData TileMapData;
+			public ObjectMapData ObjectMapData;
+		}
+
+
+		public class TileMapData
 		{
 			public List<string> CommonColours;
 			public List<string> CommonLayerTiles;
@@ -66,18 +75,12 @@ namespace MapSaver
 		{
 			public uint ChildLocation;
 			public string ID; //Child index, Child index,  Child index,
-			public string Name;
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = new List<IndividualObject>();
 
 			public bool RemoveEmptys()
 			{
 				bool ISEmpty = true;
-
-				if (string.IsNullOrEmpty(Name) == false)
-				{
-					ISEmpty = false;
-				}
 
 				if (ClassDatas.Count > 0)
 				{
@@ -131,7 +134,15 @@ namespace MapSaver
 			public string Data;
 		}
 
-		public static TileMapData SaveTileMap(MetaTileMap MetaTileMap)
+		public static MatrixData SaveMatrix(MetaTileMap MetaTileMap)
+		{
+			MatrixData matrixData = new MatrixData();
+			matrixData.ObjectMapData = SaveObjects(MetaTileMap);
+			matrixData.TileMapData = SaveTileMap(MetaTileMap);
+			return matrixData;
+		}
+
+		public static TileMapData SaveTileMap(MetaTileMap metaTileMap)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -153,11 +164,13 @@ namespace MapSaver
 			Dictionary<LayerTile, int> CommonLayerTilesCount = new Dictionary<LayerTile, int>();
 			Dictionary<Matrix4x4, int> CommonMatrix4x4Count = new Dictionary<Matrix4x4, int>();
 
-			var PresentTiles = MetaTileMap.PresentTilesNeedsLock;
+			var PresentTiles =metaTileMap.PresentTilesNeedsLock;
+
 			lock (PresentTiles)
 			{
 				foreach (var Layer in PresentTiles)
 				{
+					if (Layer.Key.LayerType == LayerType.Underfloor) continue;
 					foreach (var TileAndLocation in Layer.Value)
 					{
 						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Value.Tile))
@@ -324,11 +337,6 @@ namespace MapSaver
 		public static void RecursiveSaveObject(string ID, IndividualObject individualObject,
 			GameObject PrefabEquivalent, GameObject gameObject)
 		{
-			if (gameObject.name != PrefabEquivalent.name)
-			{
-				individualObject.Name = gameObject.name;
-			}
-
 			individualObject.ID = ID;
 			//Compare classes here
 			FillOutClassData(individualObject, PrefabEquivalent, gameObject);
@@ -336,9 +344,9 @@ namespace MapSaver
 
 			if (PrefabEquivalent.transform.childCount != gameObject.transform.childCount)
 			{
-				Logger.LogError("Mismatched children between Prefab " + PrefabEquivalent + " and game object " +
-				                gameObject + " at " + gameObject.transform.localPosition +
-				                "  Added children is not currently supported in This version of the map saver ");
+				// Logger.LogError("Mismatched children between Prefab " + PrefabEquivalent + " and game object " +
+				                // gameObject + " at " + gameObject.transform.localPosition +
+				                // "  Added children is not currently supported in This version of the map saver ");
 			}
 
 			for (int i = 0; i < PrefabEquivalent.transform.childCount; i++)
@@ -404,6 +412,12 @@ namespace MapSaver
 					{
 						continue;
 					}
+
+					attribute = Field.GetCustomAttributes(typeof(NaughtyAttributes.ReadOnlyAttribute), true);
+					if (attribute.Length > 0)
+					{
+						continue;
+					}
 				}
 				else if (Field.IsPublic)
 				{
@@ -413,6 +427,12 @@ namespace MapSaver
 					}
 
 					var attribute = Field.GetCustomAttributes(typeof(HideInInspector), true);
+					if (attribute.Length > 0)
+					{
+						continue;
+					}
+
+					attribute = Field.GetCustomAttributes(typeof(NaughtyAttributes.ReadOnlyAttribute), true);
 					if (attribute.Length > 0)
 					{
 						continue;
@@ -435,6 +455,8 @@ namespace MapSaver
 				}
 
 				if (Field.FieldType.IsGenericType && Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)) continue; //skipping all dictionaries For now
+				if (Field.FieldType == typeof(System.Action))  continue;
+
 
 				//if Field is a class and is not related to unity engine.object Serialise it
 				var PrefabDefault = Field.GetValue(PrefabInstance);

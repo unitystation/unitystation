@@ -60,7 +60,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	private float CachedIntensity = 0.5f;
 
-	public PlayerLightData PlayerLightData;
+	[NaughtyAttributes.ReadOnlyAttribute] public PlayerLightData PlayerLightData;
 
 	private Light2D.LightSprite objectLightSprite;
 
