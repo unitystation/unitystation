@@ -8,14 +8,16 @@ namespace Core.Editor.Attributes
 	[CustomPropertyDrawer(typeof(PrefabModeOnlyAttribute))]
 	public class PrefabModeOnlyDrawer : PropertyDrawer
 	{
+		private bool HideProperty => HideIrrelevantFields.IsEnabled && PrefabStageUtility.GetCurrentPrefabStage() == null;
+
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return PrefabStageUtility.GetCurrentPrefabStage() == null ? 0 : EditorGUI.GetPropertyHeight(property, label);
+			return HideProperty ? 0 : EditorGUI.GetPropertyHeight(property, label);
 		}
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			if (PrefabStageUtility.GetCurrentPrefabStage() == null) return;
+			if (HideProperty) return;
 			EditorGUI.PropertyField(position, property, label);
 		}
 	}
@@ -23,14 +25,16 @@ namespace Core.Editor.Attributes
 	[CustomPropertyDrawer(typeof(SceneModeOnlyAttribute))]
 	public class SceneModeOnlyDrawer : PropertyDrawer
 	{
+		private bool HideProperty => HideIrrelevantFields.IsEnabled && PrefabStageUtility.GetCurrentPrefabStage() != null;
+
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return PrefabStageUtility.GetCurrentPrefabStage() != null ? 0 : EditorGUI.GetPropertyHeight(property, label);
+			return HideProperty ? 0 : EditorGUI.GetPropertyHeight(property, label);
 		}
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			if (PrefabStageUtility.GetCurrentPrefabStage() != null) return;
+			if (HideProperty) return;
 			EditorGUI.PropertyField(position, property, label);
 		}
 	}
