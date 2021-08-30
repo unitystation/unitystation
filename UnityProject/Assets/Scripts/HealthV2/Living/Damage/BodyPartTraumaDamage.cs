@@ -8,7 +8,6 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
-		
 		private bool isBleedingInternally = false;
 
 		private bool isBleedingExternally = false;
@@ -17,6 +16,7 @@ namespace HealthV2
 
 		public bool IsBleedingExternally => isBleedingExternally;
 
+		[Header("Trauma Damage settings")]
 		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
 
 
@@ -24,7 +24,7 @@ namespace HealthV2
 		public float InternalBleedingBloodLoss = 12;
 		public float ExternalBleedingBloodLoss = 6;
 
-		[SerializeField, Range(0.2f, 4.25f)] private float baseTraumaDamageMultiplier = 0.25f;
+		[SerializeField, Range(1.25f, 12.0f)] private float baseTraumaDamageMultiplier = 2.0f;
 
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
@@ -43,9 +43,9 @@ namespace HealthV2
 		[SerializeField] private float bodyPartAshesAboveThisDamage = 125;
 		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
 
-		private PierceDamageLevel currentPierceDamageLevel = PierceDamageLevel.NONE;
-		private SlashDamageLevel currentSlashDamageLevel = SlashDamageLevel.NONE;
-		private BurnDamageLevels currentBurnDamageLevel = BurnDamageLevels.NONE;
+		private TraumaDamageLevel currentPierceDamageLevel = TraumaDamageLevel.NONE;
+		private TraumaDamageLevel currentSlashDamageLevel  = TraumaDamageLevel.NONE;
+		private TraumaDamageLevel currentBurnDamageLevel   = TraumaDamageLevel.NONE;
 
 		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
 		public float GibChance = 0.15f;
@@ -92,7 +92,7 @@ namespace HealthV2
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
 		public float DamageThreshold = 18f;
-		
+
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
@@ -131,18 +131,18 @@ namespace HealthV2
 
 		private float MultiplyTraumaDamage(float baseDamage)
 		{
-			if (currentBurnDamageLevel >= BurnDamageLevels.CHARRED || currentCutSize >= BodyPartCutSize.LARGE
+			if (currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL || currentCutSize >= BodyPartCutSize.LARGE
 			|| Severity >= DamageSeverity.Critical)
 			{
 				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
 			}
-			else if (currentBurnDamageLevel >= BurnDamageLevels.MAJOR || currentCutSize >= BodyPartCutSize.MEDIUM
-			|| Severity >= DamageSeverity.Bad)
+			else if (currentBurnDamageLevel >= TraumaDamageLevel.SERIOUS
+			         || currentCutSize >= BodyPartCutSize.MEDIUM || Severity >= DamageSeverity.Bad)
 			{
 				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
 			}
-			else if (currentBurnDamageLevel >= BurnDamageLevels.MINOR || currentCutSize >= BodyPartCutSize.SMALL
-			|| Severity >= DamageSeverity.LightModerate)
+			else if (currentBurnDamageLevel >= TraumaDamageLevel.SMALL
+			         || currentCutSize >= BodyPartCutSize.SMALL || Severity >= DamageSeverity.LightModerate)
 			{
 				return baseDamage * baseTraumaDamageMultiplier;
 			}
@@ -166,29 +166,80 @@ namespace HealthV2
 
 		/// <summary>
 		/// Checks how big is the cut is right now.
+		/// Additonally ensures that all Trauma damage levels are updated to make sure cut size logic is correct everywhere.
 		/// </summary>
 		private void CheckCutSize()
 		{
-			if(currentSlashCutDamage <= 0)
-			{
-				currentCutSize = BodyPartCutSize.NONE;
-			}
-			else if(currentSlashCutDamage > 75)
-			{
-				currentCutSize = BodyPartCutSize.LARGE;
-			}
-			else if(currentSlashCutDamage > 50)
-			{
-				currentCutSize = BodyPartCutSize.MEDIUM;
-			}
-			else if(currentSlashCutDamage > 25)
-			{
-				currentCutSize = BodyPartCutSize.SMALL;
-			}
+			currentBurnDamageLevel   = CheckTraumaDamageLevels(currentBurnDamage);
+			currentSlashDamageLevel  = CheckTraumaDamageLevels(currentSlashCutDamage);
+			currentPierceDamageLevel = CheckTraumaDamageLevels(currentPierceDamage);
+			CheckCharredBodyPart();
+			currentCutSize = GetCutSize(currentSlashDamageLevel);
+			currentCutSize = GetCutSize(currentPierceDamageLevel);
+		}
 
-			if(currentCutSize >= BodyPartSlashLogicOnCutSize && CanBleedExternally)
+		/// <summary>
+		/// Returns cut size level based on trauma damage levels.
+		/// </summary>
+		/// <param name="traumaLevel">TraumaDamageLevel current[trauma]level</param>
+		/// <returns>BodyPartCutSize</returns>
+		private BodyPartCutSize GetCutSize(TraumaDamageLevel traumaLevel)
+		{
+			switch (traumaLevel)
 			{
-				StartCoroutine(ExternalBleedingLogic());
+				case TraumaDamageLevel.NONE:
+					return BodyPartCutSize.NONE;
+				case TraumaDamageLevel.SMALL:
+					return BodyPartCutSize.SMALL;
+				case TraumaDamageLevel.SERIOUS:
+					return BodyPartCutSize.MEDIUM;
+				case TraumaDamageLevel.CRITICAL:
+					return BodyPartCutSize.LARGE;
+				default:
+					Logger.LogError(
+						$"Unexpected cut size on: {gameObject}, {currentCutSize}");
+					return BodyPartCutSize.NONE;
+			}
+		}
+
+		/// <summary>
+		/// Returns trauma damage level based on a float.
+		/// </summary>
+		/// <param name="traumaDamage">float current[trauma]damage</param>
+		/// <returns>TraumaDamageLevel</returns>
+		private TraumaDamageLevel CheckTraumaDamageLevels(float traumaDamage)
+		{
+			//(Max) : Later we should add scaling values based on the body part's MaxHP.
+			switch (traumaDamage)
+			{
+				case float n when n.IsBetween(0, 25, false):
+					return TraumaDamageLevel.NONE;
+				case float n when n.IsBetween(25, 50, false):
+					return TraumaDamageLevel.SMALL;
+				case float n when n.IsBetween(50, 75, false):
+					return TraumaDamageLevel.SERIOUS;
+				case float n when n > 75:
+					return TraumaDamageLevel.CRITICAL;
+				default:
+					Logger.LogError(
+						$"Unexpected float damage value on: {gameObject}, value -> {traumaDamage}");
+					return TraumaDamageLevel.NONE;
+			}
+		}
+
+		private void CheckCharredBodyPart()
+		{
+			if (currentBurnDamage >= 75)
+			{
+				if(currentBurnDamageLevel != TraumaDamageLevel.CRITICAL) //So we can do this once.
+				{
+					foreach(var sprite in RelatedPresentSprites)
+					{
+						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
+					}
+				}
+				currentBurnDamageLevel = TraumaDamageLevel.CRITICAL;
+				AshBodyPart();
 			}
 		}
 
@@ -254,9 +305,10 @@ namespace HealthV2
 			}
 			bool willCloseOnItsOwn = false;
 			isBleedingExternally = true;
+			IsBleeding = true;
 			StartCoroutine(Bleedout());
 			CheckCutSize();
-			if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
+			if(currentSlashDamageLevel != TraumaDamageLevel.CRITICAL || currentPierceDamageLevel == TraumaDamageLevel.SMALL)
 			{
 				willCloseOnItsOwn = true;
 			}
@@ -264,9 +316,10 @@ namespace HealthV2
 			{
 				yield return WaitFor.Seconds(128);
 				CheckCutSize();
-				if(currentSlashDamageLevel != SlashDamageLevel.LARGE || currentPierceDamageLevel == PierceDamageLevel.SMALL)
+				if(currentSlashDamageLevel != TraumaDamageLevel.CRITICAL || currentPierceDamageLevel == TraumaDamageLevel.SMALL)
 				{
 					isBleedingExternally = false;
+					IsBleeding = false;
 				}
 			}
 		}
@@ -338,48 +391,17 @@ namespace HealthV2
 			if(SelfArmor.Fire < burnDamage)
 			{
 				currentBurnDamage += burnDamage;
-				CheckBurnDamageLevels();
+				currentBurnDamageLevel   = CheckTraumaDamageLevels(currentBurnDamage);
+				CheckCharredBodyPart();
 			}
 		}
-
-		/// <summary>
-		/// Checks and sets what damage level this body part is on, once it becomes charred; the game displays it being charred.
-		/// </summary>
-		private void CheckBurnDamageLevels()
-		{
-			if (currentBurnDamage <= 0)
-			{
-				currentBurnDamageLevel = BurnDamageLevels.NONE;
-			}
-			if (currentBurnDamage >= 25)
-			{
-				currentBurnDamageLevel = BurnDamageLevels.MINOR;
-			}
-			if (currentBurnDamage >= 50)
-			{
-				currentBurnDamageLevel = BurnDamageLevels.MAJOR;
-			}
-			if (currentBurnDamage >= 75)
-			{
-				if(currentBurnDamageLevel != BurnDamageLevels.CHARRED) //So we can do this once.
-				{
-					foreach(var sprite in RelatedPresentSprites)
-					{
-						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
-					}
-				}
-				currentBurnDamageLevel = BurnDamageLevels.CHARRED;
-				AshBodyPart();
-			}
-		}
-
 
 		/// <summary>
 		/// Turns this body part into ash while protecting items inside of that cannot be ashed.
 		/// </summary>
 		private void AshBodyPart()
 		{
-			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED && currentBurnDamage > bodyPartAshesAboveThisDamage)
+			if(currentBurnDamageLevel == TraumaDamageLevel.CRITICAL && currentBurnDamage > bodyPartAshesAboveThisDamage)
 			{
 				IEnumerable<ItemSlot> internalItemList = OrganStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
@@ -415,7 +437,7 @@ namespace HealthV2
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
 		/// </summary>
@@ -448,8 +470,8 @@ namespace HealthV2
 			{
 				currentPierceDamage -= healAmount;
 			}
+
 			CheckCutSize();
-			CheckBurnDamageLevels();
 		}
 	}
 }
