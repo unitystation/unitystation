@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Core.Editor.Attributes;
+
 
 namespace Doors
 {
@@ -7,8 +9,11 @@ namespace Doors
 	/// </summary>
 	public class FovDoorController : MonoBehaviour
 	{
+		[PrefabModeOnly]
 		public Material normalMat;
+		[PrefabModeOnly]
 		public Material greyScaleMat;
+		[PrefabModeOnly]
 		public Material fovMaskMat;
 
 		private SpriteRenderer tileSpriteRenderer;
