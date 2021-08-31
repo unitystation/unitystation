@@ -10,7 +10,7 @@ using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Systems.ObjectConnection;
 using Objects.Lighting;
-
+using Core.Editor.Attributes;
 
 namespace Objects.Engineering
 {
@@ -49,11 +49,12 @@ namespace Objects.Engineering
 		private ResistanceSourceModule resistanceSourceModule;
 
 
-		[SerializeField, FormerlySerializedAs("NetTabType")]
+		[SerializeField, PrefabModeOnly, FormerlySerializedAs("NetTabType")]
 		private NetTabType netTabType = NetTabType.APC;
 
 		[Tooltip("Sound used when the APC loses all power.")]
-		[SerializeField] private AddressableAudioSource NoPowerSound = null;
+		[SerializeField, PrefabModeOnly]
+		private AddressableAudioSource NoPowerSound = null;
 
 		[NonSerialized]
 		//Called every power network update
@@ -300,22 +301,27 @@ namespace Objects.Engineering
 		/// <summary>
 		/// The screen sprites which are currently being displayed
 		/// </summary>
+		[PrefabModeOnly]
 		Sprite[] loadedScreenSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is in a critical state
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] criticalSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is charging
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] chargingSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is fully charged
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] fullSprites;
 		/// <summary>
 		/// The sprite renderer for the APC display
 		/// </summary>
+		[PrefabModeOnly]
 		public SpriteRenderer screenDisplay;
 		/// <summary>
 		/// The sprite index for the display animation

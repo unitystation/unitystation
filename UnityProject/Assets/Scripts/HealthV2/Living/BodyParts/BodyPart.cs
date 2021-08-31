@@ -353,13 +353,13 @@ namespace HealthV2
 		/// </summary>
 		private void SetRemovedColor()
 		{
-			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != BurnDamageLevels.CHARRED)
+			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != TraumaDamageLevel.CRITICAL)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
 				BodyPartItemSprite.OrNull()?.SetColor(Tone);
 			}
-			if(currentBurnDamageLevel == BurnDamageLevels.CHARRED)
+			if(currentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
 			{
 				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 			}

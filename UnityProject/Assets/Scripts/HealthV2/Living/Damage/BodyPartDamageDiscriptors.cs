@@ -57,13 +57,13 @@ namespace HealthV2
 				report += "[Wound Report] \n";
 				switch (currentPierceDamageLevel)
 				{
-					case (PierceDamageLevel.SMALL):
+					case (TraumaDamageLevel.SMALL):
 						report += $"{pireceDamageDescOnSMALL} \n";
 						break;
-					case (PierceDamageLevel.MEDIUM):
+					case (TraumaDamageLevel.SERIOUS):
 						report += $"{pireceDamageDescOnMEDIUM} \n";
 						break;
-					case (PierceDamageLevel.LARGE):
+					case (TraumaDamageLevel.CRITICAL):
 						report += $"{pireceDamageDescOnLARGE} \n";
 						break;
 					default:
@@ -72,13 +72,13 @@ namespace HealthV2
 				}
 				switch (currentSlashDamageLevel)
 				{
-					case (SlashDamageLevel.SMALL):
+					case (TraumaDamageLevel.SMALL):
 						report += $"{slashDamageDescOnSMALL} \n";
 						break;
-					case (SlashDamageLevel.MEDIUM):
+					case (TraumaDamageLevel.SERIOUS):
 						report += $"{slashDamageDescOnMEDIUM} \n";
 						break;
-					case (SlashDamageLevel.LARGE):
+					case (TraumaDamageLevel.CRITICAL):
 						report += $"{slashDamageDescOnLARGE} \n";
 						break;
 					default:
@@ -89,13 +89,13 @@ namespace HealthV2
 			report += "[Burn Damage] \n";
 			switch (currentBurnDamageLevel)
 			{
-				case (BurnDamageLevels.MINOR):
+				case (TraumaDamageLevel.SMALL):
 					report += $"{burnDamageDescOnMINOR} \n";
 					break;
-				case (BurnDamageLevels.MAJOR):
+				case (TraumaDamageLevel.SERIOUS):
 					report += $"{burnDamageDescOnMAJOR} \n";
 					break;
-				case (BurnDamageLevels.CHARRED):
+				case (TraumaDamageLevel.CRITICAL):
 					report += $"{burnDamageDescOnCHARRED} \n";
 					break;
 				default:
