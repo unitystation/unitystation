@@ -36,8 +36,8 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField]
 	private bool pushTextureOnStartUp = true;
 
-	[FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 3)]
-	private int InitialVariantIndex = 0;
+	[FormerlySerializedAs("InitialVariantIndex"), FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 3)]
+	private int initialVariantIndex = 0;
 
 	private int variantIndex = 0;
 
@@ -742,7 +742,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void TryInit()
 	{
-		variantIndex = InitialVariantIndex;
+		variantIndex = initialVariantIndex;
 		GetImageComponent();
 		bool Status = this.GetImageComponentStatus();
 		ImageComponentStatus(false);
