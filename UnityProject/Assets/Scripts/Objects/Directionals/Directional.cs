@@ -18,7 +18,7 @@ using Mirror;
 /// This component should be used for all components which have some sort of directional behavior.
 /// </summary>
 [RequireComponent(typeof(RegisterTile))][ExecuteInEditMode]
-public class Directional : NetworkBehaviour, IMatrixRotation
+public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 {
 	[Tooltip("Direction of this object in the scene, used as the initial direction when the map loads.")]
 	public OrientationEnum InitialDirection = OrientationEnum.Down;
@@ -146,13 +146,7 @@ void OnDrawGizmosSelected()
 	}
 	#endif
 
-	public override void OnStartServer()
-	{
-		var registerTile = GetComponent<RegisterTile>();
-		registerTile.WaitForMatrixInit(WaitForMatrixLoad);
-	}
-
-	private void WaitForMatrixLoad(MatrixInfo matrixInfo)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		serverDirection = new Orientation(InitialOrientation.Degrees);
 	}

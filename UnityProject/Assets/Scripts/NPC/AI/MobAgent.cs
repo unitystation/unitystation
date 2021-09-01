@@ -79,12 +79,7 @@ namespace Systems.MobAIs
 			cnt.OnTileReached().AddListener(OnTileReached);
 			startPos = OriginTile.WorldPositionServer;
 			isServer = true;
-			registerObj.WaitForMatrixInit(StartServerAgent);
-		}
-
-		void StartServerAgent(MatrixInfo info)
-		{
-			AgentServerStart();
+			AgentServerStart();;
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

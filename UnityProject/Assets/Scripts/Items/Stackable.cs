@@ -112,13 +112,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
-
-		//check for stacking with things on the ground
-		registerTile.WaitForMatrixInit(OnMatrixInit);
-	}
-
-	private void OnMatrixInit(MatrixInfo info)
-	{
 		ServerStackOnGround(registerTile.LocalPositionServer);
 	}
 

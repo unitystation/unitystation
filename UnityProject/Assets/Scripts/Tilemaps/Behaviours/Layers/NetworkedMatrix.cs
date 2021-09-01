@@ -4,7 +4,6 @@ using Mirror;
 using Shuttles;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
 namespace Tilemaps.Behaviours.Layers
 {
@@ -45,7 +44,7 @@ namespace Tilemaps.Behaviours.Layers
 			if (unityEvent == null)
 			{
 				unityEvent = new NetworkedMatrixInitEvent();
-				NetInitActions[networkedMatrixNetId] = unityEvent;
+				NetInitActions.Add(networkedMatrixNetId, unityEvent);
 			}
 
 			return unityEvent;
@@ -66,8 +65,7 @@ namespace Tilemaps.Behaviours.Layers
 			}
 
 			//fire immediately if matrix is already initialized
-			InitializedMatrices.TryGetValue(networkedMatrixNetId, out var networkedMatrix);
-			if (networkedMatrix != null)
+			if (InitializedMatrices.TryGetValue(networkedMatrixNetId, out var networkedMatrix))
 			{
 				toInvoke.Invoke(networkedMatrix);
 			}
@@ -116,12 +114,6 @@ namespace Tilemaps.Behaviours.Layers
 			if (!InitializedMatrices.ContainsKey(MatrixSync.netId))
 			{
 				InitializedMatrices.Add(MatrixSync.netId, this);
-			}
-
-			//ensure all register tiles in this matrix have the correct net id
-			foreach (var rt in GetComponentsInChildren<RegisterTile>())
-			{
-				rt.ServerSetNetworkedMatrixNetID(MatrixSync.netId);
 			}
 
 			FireInitEvents();

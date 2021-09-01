@@ -934,6 +934,13 @@ namespace Mirror
                     scale = identity.transform.localScale,
                     payload = payload,
                 };
+
+                ///CUSTOM UNITYSTATION CODE///
+                //Mirror specifically says that they dont support NetworkIdentities nested in normal gameobjects.
+                //But, we do it, so we have to override this and make sure we read and send world pos
+                message.position = identity.transform.position;
+                ///CUSTOM UNITYSTATION CODE///
+
                 conn.Send(message);
             }
         }

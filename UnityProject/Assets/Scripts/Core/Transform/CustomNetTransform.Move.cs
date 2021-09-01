@@ -291,7 +291,7 @@ public partial class CustomNetTransform
 	private void Lerp()
 	{
 		var worldPos = predictedState.WorldPosition;
-		Vector3 targetPos = worldPos.ToLocal(matrix);
+		Vector2 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix));
 		//Set position immediately if not moving
 		if (predictedState.Speed.Equals(0))
 		{
@@ -302,7 +302,7 @@ public partial class CustomNetTransform
 		transform.localPosition =
 			Vector3.MoveTowards(transform.localPosition, targetPos,
 				predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
-		if (transform.localPosition == targetPos)
+		if ((Vector2)transform.localPosition == targetPos)
 		{
 			OnClientTileReached().Invoke(predictedState.WorldPosition.RoundToInt());
 		}
@@ -311,7 +311,7 @@ public partial class CustomNetTransform
 	/// Serverside lerping
 	private void ServerLerp()
 	{
-		Vector3 worldPos = serverState.WorldPosition;
+		Vector3 worldPos = serverState.Position;
 		Vector3 targetPos = worldPos.ToLocal(matrix);
 		//Set position immediately if not moving
 		if (serverState.Speed.Equals(0))
@@ -320,9 +320,9 @@ public partial class CustomNetTransform
 			ServerOnTileReached(worldPos.RoundToInt());
 			return;
 		}
-		serverLerpState.Position =
-			Vector3.MoveTowards(serverLerpState.Position, targetPos,
-				serverState.Speed * Time.deltaTime * serverLerpState.Position.SpeedTo(targetPos));
+
+		var deltaMaxDistance = serverState.Speed * Time.deltaTime * serverLerpState.Position.SpeedTo(targetPos);
+		serverLerpState.Position = Vector3.MoveTowards(serverLerpState.Position, targetPos, deltaMaxDistance);
 
 		if (serverLerpState.Position == targetPos)
 		{
