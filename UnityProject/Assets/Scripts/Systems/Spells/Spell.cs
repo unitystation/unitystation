@@ -84,7 +84,7 @@ namespace Systems.Spells
 
 				if (SpellData.InvocationType == SpellInvocationType.Shout)
 				{
-					Chat.AddChatMsgToChat(sentByPlayer, FormatInvocationMessage(sentByPlayer, modPrefix), ChatChannel.Local);
+					Chat.AddChatMsgToChat(sentByPlayer, FormatInvocationMessage(sentByPlayer, modPrefix), ChatChannel.Local, Loudness.NORMAL);
 				}
 			}
 

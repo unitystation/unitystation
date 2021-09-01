@@ -100,7 +100,7 @@ public class ChatFilter : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The player's message.</param>
 	/// <param name="selectedChannels">The selected channels, which are simply passed along.</param>
-	public void Send(string message, ChatChannel selectedChannels)
+	public void Send(string message, ChatChannel selectedChannels, Loudness loudness)
 	{
 		DecayFiltersOverTime(); // Decrease cpm and messages since last having spoken
 
@@ -138,7 +138,7 @@ public class ChatFilter : MonoBehaviour
 		if (0 < numCharsOverLimit && numCharsOverLimit < cpmMinCharacters) return;
 
 		// Send message, which might have been shortened because of the character limit per minute.
-		PostToChatMessage.Send(message, selectedChannels);
+		PostToChatMessage.Send(message, selectedChannels, loudness);
 
 		// Notify player that their message got cut short.
 		if (numCharsOverLimit > 0)

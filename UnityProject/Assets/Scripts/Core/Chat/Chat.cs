@@ -83,7 +83,7 @@ public partial class Chat : MonoBehaviour
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only
 	/// </summary>
-	public static void AddChatMsgToChat(ConnectedPlayer sentByPlayer, string message, ChatChannel channels)
+	public static void AddChatMsgToChat(ConnectedPlayer sentByPlayer, string message, ChatChannel channels, Loudness loudness)
 	{
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
@@ -121,7 +121,8 @@ public partial class Chat : MonoBehaviour
 			speaker = (player == null) ? sentByPlayer.Username : player.playerName,
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
-			originator = (player == null) ? sentByPlayer.GameObject : player.PlayerChatLocation
+			originator = (player == null) ? sentByPlayer.GameObject : player.PlayerChatLocation,
+			VoiceLevel = loudness
 		};
 
 		if (channels.HasFlag(ChatChannel.OOC))
