@@ -172,7 +172,7 @@ public class ChatEntry : MonoBehaviour
 			case 4:
 				return "<size=128>" + msg + "</size>";
 			default:
-				if (msg.Contains("!!")){ return "<size=12>" + msg + "</size>"; }
+				if (msg.Contains("!!")){ return "<size=48>" + msg + "</size>"; }
 				return msg;
 		}
 	}
