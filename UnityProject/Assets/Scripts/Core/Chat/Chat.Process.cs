@@ -188,12 +188,14 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers, uint originatorUint = 0, bool stripTags = true)
+		ChatModifier modifiers, uint originatorUint = 0, bool stripTags = true, int VoiceLevel = 1)
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
 		//Dont play sound here as it could be examine or action, we only play sound for someone speaking
 		message = HighlightInGameName(message, false);
+
+		string voiceTag;
 
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
@@ -318,10 +320,29 @@ public partial class Chat
 			chan = "";
 		}
 
+		switch (VoiceLevel)
+		{
+			case -1:
+				voiceTag = "<size=32>";
+				break;
+			case 2:
+				voiceTag = "<size=64>";
+				break;
+			case 3:
+				voiceTag = "<size=82>";
+				break;
+			case 4:
+				voiceTag = "<size=128>";
+				break;
+			default:
+				if (message.Contains("!!")){ voiceTag = "<size=64>";} else { voiceTag = "<size=48>"; }
+				break;
+		}
+
 		return AddMsgColor(channels,
-			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
+			$"{voiceTag}{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
 			+ "  " // Two hair spaces. This triggers Text-to-Speech.
-			+ "\"" + message + "\""); // "This text will be spoken by TTS!"
+			+ "\"" + message + "\"" + "</size>"); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripAll(string input)

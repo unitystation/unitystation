@@ -149,7 +149,7 @@ public class ChatEntry : MonoBehaviour
 
 	public void SetText(string message, int loudness)
 	{
-		messageText.text = ControlLoudness(message, loudness);
+		messageText.text = message;
 		ToggleUIElements(true);
 		StartCoroutine(UpdateMinHeight());
 
@@ -159,23 +159,6 @@ public class ChatEntry : MonoBehaviour
 		}
 	}
 
-	private string ControlLoudness(string msg, int loudness)
-	{
-		switch (loudness)
-		{
-			case -1:
-				return "<size=22>" + msg + "</size>";
-			case 2:
-				return "<size=48>" + msg + "</size>";
-			case 3:
-				return "<size=64>" + msg + "</size>";
-			case 4:
-				return "<size=128>" + msg + "</size>";
-			default:
-				if (msg.Contains("!!")){ return "<size=48>" + msg + "</size>"; }
-				return msg;
-		}
-	}
 
 	public void AddChatDuplication()
 	{
