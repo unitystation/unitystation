@@ -83,7 +83,7 @@ namespace Objects.Telecomms
 				return;
 			}
 
-			BroadcastCommMsg(chatChannels, commonMessage, Loudness.NORMAL);
+			BroadcastCommMsg(chatChannels, commonMessage, GetAnnouncementImportance(playerOccupation));
 		}
 
 		private Loudness GetAnnouncementImportance(Occupation job)
