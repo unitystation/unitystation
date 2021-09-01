@@ -9,7 +9,7 @@ public class Headset : NetworkBehaviour, IInteractable<HandActivate>
 	[SyncVar] public EncryptionKeyType EncryptionKey;
 	[SyncVar] public bool LoudSpeakOn = false;
 	public bool HasLoudSpeak = false;
-	public Loudness LoudspeakLevel = Loudness.LOUD;
+	public Loudness LoudspeakLevel = Loudness.SCREAMING;
 
 	public void init()
 	{
