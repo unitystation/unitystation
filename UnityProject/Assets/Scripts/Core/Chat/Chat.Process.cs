@@ -81,14 +81,15 @@ public partial class Chat
 	/// <param name="sendByPlayer">The player sending the message. Used for detecting conciousness and occupation.</param>
 	/// <param name="message">The chat message to process.</param>
 	/// <returns>A tuple of the processed chat message and the detected modifiers.</returns>
-	private static (string, ChatModifier) ProcessMessage(ConnectedPlayer sentByPlayer, string message)
+	private static (string, ChatModifier, Loudness) ProcessMessage(ConnectedPlayer sentByPlayer, string message, Loudness loudness = Loudness.NORMAL)
 	{
 		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
 		ConsciousState playerConsciousState = ConsciousState.DEAD;
+		Loudness loudSpeakLevel = loudness;
 
 		if (sentByPlayer.Script == null)
 		{
-			return (message, chatModifiers);
+			return (message, chatModifiers, loudSpeakLevel);
 		}
 
 		if (sentByPlayer.Script.playerHealth != null)
@@ -105,7 +106,7 @@ public partial class Chat
 		if (playerConsciousState == ConsciousState.UNCONSCIOUS || playerConsciousState == ConsciousState.DEAD)
 		{
 			// Only the Mute modifier matters if the player cannot speak. We can skip everything else.
-			return (message, ChatModifier.Mute);
+			return (message, ChatModifier.Mute, loudSpeakLevel);
 		}
 
 		// Emote
@@ -179,7 +180,22 @@ public partial class Chat
 		/////// Process Speech mutations
 		message = SpeechModManager.Instance.ApplyMod(chatModifiers, message);
 
-		return (message, chatModifiers);
+		foreach (ItemSlot slot in sentByPlayer.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+		{
+			Debug.Log("found ear");
+			Headset headset = slot.Item.gameObject.GetComponent<Headset>().OrNull();
+			if(headset != null)
+			{
+				Debug.Log("found headset");
+				if (headset.LoudSpeakOn)
+				{
+					Debug.Log("applying loudspeak");
+					loudSpeakLevel = headset.LoudspeakLevel;
+				}
+			}
+		}
+
+		return (message, chatModifiers, loudSpeakLevel);
 	}
 
 	/// <summary>

@@ -105,11 +105,11 @@ public partial class Chat : MonoBehaviour
 
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
-		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
+		(string message, ChatModifier chatModifiers, Loudness) processedMessage = (string.Empty, ChatModifier.None, loudness); // Placeholder values
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
 		if (!isOOC)
 		{
-			processedMessage = ProcessMessage(sentByPlayer, message);
+			processedMessage = ProcessMessage(sentByPlayer, message, loudness);
 
 			if (string.IsNullOrWhiteSpace(processedMessage.message)) return;
 		}
