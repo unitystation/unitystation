@@ -548,7 +548,7 @@ public partial class Chat : MonoBehaviour
 	public static void AddExamineMsgFromServer(GameObject recipient, string msg)
 	{
 		if (!IsServer()) return;
-		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg);
+		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg, 1);
 	}
 
 	/// <inheritdoc cref="AddExamineMsgFromServer(GameObject, string)"/>

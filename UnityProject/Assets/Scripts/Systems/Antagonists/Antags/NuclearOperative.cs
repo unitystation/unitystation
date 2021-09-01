@@ -14,7 +14,7 @@ namespace Antagonists
 		{
 			player.Job = JobType.SYNDICATE;
 			UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,
-				$"We have intercepted the code for the nuclear weapon: <b>{AntagManager.SyndiNukeCode}</b>.");
+				$"We have intercepted the code for the nuclear weapon: <b>{AntagManager.SyndiNukeCode}</b>.", 2);
 
 			AntagManager.TryInstallPDAUplink(player, initialTC, true);
 		}

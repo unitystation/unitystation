@@ -39,7 +39,7 @@ namespace Messages.Server
 		/// the Chat API (the only exception to this rule is if you just need to send 1 msg to 1 client from the server
 		/// i.e syndi special roles)
 		/// </summary>
-		public static NetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, int loudness, string othersMsg = "",
+		public static NetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, int loudness = 1, string othersMsg = "",
 			GameObject originator = null, string speaker = "", bool stripTags = true)
 		{
 			uint origin = NetId.Empty;
