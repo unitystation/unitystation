@@ -19,7 +19,6 @@ namespace Items
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			var registerTile = GetComponent<RegisterTile>();
 			RollRandomPool();
 		}
 

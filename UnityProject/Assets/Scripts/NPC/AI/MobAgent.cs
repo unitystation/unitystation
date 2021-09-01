@@ -79,7 +79,7 @@ namespace Systems.MobAIs
 			cnt.OnTileReached().AddListener(OnTileReached);
 			startPos = OriginTile.WorldPositionServer;
 			isServer = true;
-			AgentServerStart();;
+			AgentServerStart();
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
