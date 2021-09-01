@@ -340,9 +340,9 @@ public partial class Chat
 		}
 
 		return AddMsgColor(channels,
-			$"{voiceTag}{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
+			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
 			+ "  " // Two hair spaces. This triggers Text-to-Speech.
-			+ "\"" + message + "\"" + "</size>"); // "This text will be spoken by TTS!"
+			+ $"{voiceTag}" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripAll(string input)
