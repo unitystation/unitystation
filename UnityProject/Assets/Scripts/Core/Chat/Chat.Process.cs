@@ -188,7 +188,7 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers, uint originatorUint = 0, bool stripTags = true, int VoiceLevel = 1)
+		ChatModifier modifiers, int VoiceLevel, uint originatorUint = 0, bool stripTags = true)
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
@@ -538,7 +538,7 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
-		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, originatorUint, stripTags);
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
 		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness);
 	}
 

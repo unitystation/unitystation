@@ -605,7 +605,7 @@ public partial class Chat : MonoBehaviour
 
 	public static void AddWarningMsgToClient(string message)
 	{
-		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None); //TODO: Put processing in a unified place for server and client.
+		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, 1); //TODO: Put processing in a unified place for server and client.
 		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer, 1);
 	}
 
