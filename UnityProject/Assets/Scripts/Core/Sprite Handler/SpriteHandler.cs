@@ -36,7 +36,7 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField]
 	private bool pushTextureOnStartUp = true;
 
-	[FormerlySerializedAs("InitialVariantIndex"), FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 3)]
+	[FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 3)]
 	private int initialVariantIndex = 0;
 
 	private int variantIndex = 0;
