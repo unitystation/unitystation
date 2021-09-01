@@ -100,7 +100,7 @@ public class ChatFilter : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The player's message.</param>
 	/// <param name="selectedChannels">The selected channels, which are simply passed along.</param>
-	public void Send(string message, ChatChannel selectedChannels, Loudness loudness)
+	public void Send(string message, ChatChannel selectedChannels)
 	{
 		DecayFiltersOverTime(); // Decrease cpm and messages since last having spoken
 
