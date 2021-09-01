@@ -147,15 +147,32 @@ public class ChatEntry : MonoBehaviour
 
 	#endregion
 
-	public void SetText(string message)
+	public void SetText(string message, int loudness)
 	{
-		messageText.text = message;
+		messageText.text = ControlLoudness(message, loudness);
 		ToggleUIElements(true);
 		StartCoroutine(UpdateMinHeight());
 
 		if (message.Contains("</link>"))
 		{
 			messageText.raycastTarget = true;
+		}
+	}
+
+	private string ControlLoudness(string msg, int loudness)
+	{
+		switch (loudness)
+		{
+			case -1:
+				return "<size=3>" + msg + "</size>";
+			case 2:
+				return "<size=12>" + msg + "</size>";
+			case 3:
+				return "<size=22>" + msg + "</size>";
+			case 4:
+				return "<size=32>" + msg + "</size>";
+			default:
+				return msg;
 		}
 	}
 

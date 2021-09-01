@@ -23,6 +23,7 @@ namespace Messages.Server
 			public uint Originator;
 			public string Speaker;
 			public bool StripTags;
+			public int Loudness;
 		}
 
 		public override void Process(NetMessage msg)
@@ -30,7 +31,7 @@ namespace Messages.Server
 			LoadNetworkObject(msg.Recipient);
 			var recipientObject = NetworkObject;
 			Chat.ProcessUpdateChatMessage(msg.Recipient, msg.Originator,
-				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject, msg.StripTags);
+				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject, msg.Loudness, msg.StripTags);
 		}
 
 		/// <summary>

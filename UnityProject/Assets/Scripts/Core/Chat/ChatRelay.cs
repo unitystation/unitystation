@@ -70,7 +70,7 @@ public class ChatRelay : NetworkBehaviour
 					players.RemoveAt(i);
 					continue;
 				}
-				
+
 				if (players[i].Script.gameObject == chatEvent.originator)
 				{
 					//Always send the originator chat to themselves
@@ -92,7 +92,7 @@ public class ChatRelay : NetworkBehaviour
 				//Send chat to PlayerChatLocation pos, usually just the player object but for AI is its vessel
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
 					?? players[i].Script.gameObject.AssumedWorldPosServer();
-					
+
 				//Do player position to originator distance check
 				if (DistanceCheck(playerPosition) == false)
 				{
@@ -104,7 +104,7 @@ public class ChatRelay : NetworkBehaviour
 					    aiPlayer.IsCarded == false)
 					{
 						playerPosition = players[i].Script.gameObject.AssumedWorldPosServer();
-						
+
 						//Check camera pos
 						if (DistanceCheck(playerPosition))
 						{
@@ -112,7 +112,7 @@ public class ChatRelay : NetworkBehaviour
 							continue;
 						}
 					}
-					
+
 					//Player failed distance checks remove them
 					players.RemoveAt(i);
 				}
@@ -222,7 +222,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, int loudness)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -244,7 +244,7 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			ChatUI.Instance.AddChatEntry(message);
+			ChatUI.Instance.AddChatEntry(message, loudness);
 		}
 	}
 

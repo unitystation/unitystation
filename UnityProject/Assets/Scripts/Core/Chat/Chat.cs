@@ -229,8 +229,8 @@ public partial class Chat : MonoBehaviour
 	/// <param name="broadcasterName">Optional name for the broadcaster. Pulls name from GameObject if not used.</param>
 	/// <param name="voiceLevel">How loud is this message?</param>
 	public static void AddCommMsgByMachineToChat(
-			GameObject sentByMachine, string message, ChatChannel channels,
-			ChatModifier chatModifiers = ChatModifier.None, int voiceLevel = 1, string broadcasterName = default)
+			GameObject sentByMachine, string message, ChatChannel channels, int voiceLevel,
+			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
 
@@ -570,7 +570,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message"> The message to add to the client chat stream</param>
 	public static void AddExamineMsgToClient(string message)
 	{
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer, 1);
 	}
 
 	/// <summary>
@@ -606,7 +606,7 @@ public partial class Chat : MonoBehaviour
 	public static void AddWarningMsgToClient(string message)
 	{
 		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None); //TODO: Put processing in a unified place for server and client.
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer, 1);
 	}
 
 	public static void AddAdminPrivMsg(string message)

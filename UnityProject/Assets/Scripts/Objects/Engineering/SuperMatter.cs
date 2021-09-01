@@ -1074,11 +1074,11 @@ namespace Objects.Engineering
 
 		private void AddMessageToChat(string message, bool sendToCommon = false)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, broadcasterName: "Supermatter Warning System: ");
+			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, 2,  broadcasterName: "Supermatter Warning System: ");
 
 			if (sendToCommon)
 			{
-				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, broadcasterName: "Supermatter Warning System: ");
+				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, 2, broadcasterName: "Supermatter Warning System: ");
 			}
 		}
 

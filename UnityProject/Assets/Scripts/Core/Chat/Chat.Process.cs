@@ -500,7 +500,7 @@ public partial class Chat
 	/// on the client. Do not use for anything else!
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, bool stripTags = true)
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, int loudness, bool stripTags = true)
 	{
 
 		var isOriginator = true;
@@ -518,7 +518,7 @@ public partial class Chat
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)

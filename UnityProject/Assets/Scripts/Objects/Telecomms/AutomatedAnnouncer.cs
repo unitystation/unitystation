@@ -101,7 +101,7 @@ namespace Objects.Telecomms
 
 		private void BroadcastCommMsg(ChatChannel chatChannels, string message, int importance)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, ChatModifier.ColdlyState, importance,  machineName);
+			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, importance, ChatModifier.ColdlyState,  machineName);
 		}
 	}
 }
