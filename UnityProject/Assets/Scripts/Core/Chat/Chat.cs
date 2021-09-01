@@ -105,11 +105,11 @@ public partial class Chat : MonoBehaviour
 
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
-		(string message, ChatModifier chatModifiers, Loudness) processedMessage = (string.Empty, ChatModifier.None, loudness); // Placeholder values
+		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
 		if (!isOOC)
 		{
-			processedMessage = ProcessMessage(sentByPlayer, message, loudness);
+			processedMessage = ProcessMessage(sentByPlayer, message);
 
 			if (string.IsNullOrWhiteSpace(processedMessage.message)) return;
 		}
@@ -124,6 +124,22 @@ public partial class Chat : MonoBehaviour
 			originator = (player == null) ? sentByPlayer.GameObject : player.PlayerChatLocation,
 			VoiceLevel = loudness
 		};
+
+		foreach (ItemSlot slot in sentByPlayer.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+		{
+			Headset headset = slot.Item.gameObject.GetComponent<Headset>().OrNull();
+			if(headset != null)
+			{
+				if (headset.LoudSpeakOn && channels.HasFlag(ChatChannel.Common) ||
+				    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
+				    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
+				    || channels.HasFlag(ChatChannel.Science)
+				    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+				{
+					chatEvent.VoiceLevel = headset.LoudspeakLevel;
+				}
+			}
+		}
 
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
