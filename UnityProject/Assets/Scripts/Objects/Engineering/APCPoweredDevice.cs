@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
+using Core.Editor.Attributes;
 using Systems.ObjectConnection;
 using Objects.Engineering;
-using UnityEngine.Events;
 #if Unity_Editor
 using UnityEditor;
 #endif
-
 
 
 namespace Systems.Electricity
@@ -18,19 +17,19 @@ namespace Systems.Electricity
 	[ExecuteInEditMode]
 	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IMultitoolSlaveable
 	{
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
 		private float minimumWorkingVoltage = 190;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("ExpectedRunningVoltage")]
 		private float expectedRunningVoltage = 240;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MaximumWorkingVoltage")]
 		private float maximumWorkingVoltage = 300;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Category of this powered device. " +
 				"Different categories work like a set of breakers, so you can turn off lights and keep machines working.")]
 		private DeviceType deviceType = DeviceType.None;
@@ -41,7 +40,7 @@ namespace Systems.Electricity
 
 		public bool IsSelfPowered => isSelfPowered;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Watts consumed per update when running at 240v")]
 		private float wattusage = 0.01f;
 
@@ -53,7 +52,7 @@ namespace Systems.Electricity
 			}
 		}
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("Resistance")]
 		private float resistance = 99999999;
 
@@ -63,9 +62,12 @@ namespace Systems.Electricity
 		}
 
 		[HideInInspector] public APC RelatedAPC;
-		public IAPCPowerable Powered;
+		private IAPCPowerable Powered;
+
+		[PrefabModeOnly]
 		public bool AdvancedControlToScript;
 
+		[PrefabModeOnly]
 		public bool StateUpdateOnClient = true;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedState))]
@@ -81,6 +83,8 @@ namespace Systems.Electricity
 
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
+
+		public float Voltage => RelatedAPC == null ? 0 : RelatedAPC.Voltage;
 
 		private Texture disconnectedImg;
 		private RegisterTile registerTile;
@@ -161,10 +165,10 @@ namespace Systems.Electricity
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.APC;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => RelatedAPC; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => isSelfPowered == false;
 
-		bool IMultitoolSlaveable.IsLinked => RelatedAPC != null || IsSelfPowered;
-
-		public void SetMaster(IMultitoolMasterable imaster)
+		private void SetMaster(IMultitoolMasterable master)
 		{
 			if (blockApcChange)
 			{
@@ -172,7 +176,7 @@ namespace Systems.Electricity
 				return;
 			}
 
-			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
+			var inApc = (master as Component)?.gameObject.GetComponent<APC>();
 			if (RelatedAPC != null)
 			{
 				RemoveFromAPC();
@@ -282,29 +286,6 @@ namespace Systems.Electricity
 		public void LockApcLinking(bool newState)
 		{
 			blockApcChange = newState;
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			if (RelatedAPC == null || isSelfPowered)
-			{
-				return;
-			}
-
-			//Highlighting APC
-			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-			Gizmos.DrawLine(RelatedAPC.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
-		}
-
-		private void OnDrawGizmos()
-		{
-			if (RelatedAPC != null || isSelfPowered)
-			{
-				return;
-			}
-
-			Gizmos.DrawIcon(transform.position, "disconnected");
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

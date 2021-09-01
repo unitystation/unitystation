@@ -60,7 +60,7 @@ namespace Items.Engineering
 					switch (multitoolBase)
 					{
 						case IMultitoolSlaveable slave:
-							slave.SetMaster(Buffer);
+							slave.Master = Buffer;
 							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
@@ -92,16 +92,28 @@ namespace Items.Engineering
 			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
 			var electricalNodes = matrix.GetElectricalConnections(localPosInt);
 
-			string message = "The multitool couldn't find anything electrical here.";
-			if (electricalNodes.Count > 0)
-			{
-				message = "The multitool's display lights up:\n";
-			}
+			APCPoweredDevice device = default;
+			bool deviceFound = interaction.TargetObject != null && interaction.TargetObject.TryGetComponent(out device);
 
-			StringBuilder sb = new StringBuilder(message);
-			foreach (var node in electricalNodes)
+			StringBuilder sb = new StringBuilder("The multitool couldn't find anything electrical here.");
+			if (deviceFound || electricalNodes.Count > 0)
 			{
-				sb.AppendLine(node.ShowInGameDetails());
+				sb.Clear();
+				sb.AppendLine("The multitool's display lights up.</i>");
+				
+				if (deviceFound)
+				{
+					sb.AppendLine(device.RelatedAPC == null
+							? $"<b>{device.gameObject.ExpensiveName()}</b> is not connected to an APC!"
+							: $"<b>{device.gameObject.ExpensiveName()}</b>: {device.Wattusage.ToEngineering("W")} " +
+									$"({device.RelatedAPC.Voltage.ToEngineering("V")})");
+				}
+				foreach (var node in electricalNodes)
+				{
+					sb.AppendLine(node.ShowInGameDetails());
+				}
+
+				sb.Append("<i>");
 			}
 
 			electricalNodes.Clear();

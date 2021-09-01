@@ -113,13 +113,13 @@ namespace Objects.Lighting
 
 		#region Multitool Interaction
 
-		public MultitoolConnectionType ConType => MultitoolConnectionType.LightSwitch;
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.LightSwitch;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => relatedLightSwitch; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false;
 
-		bool IMultitoolSlaveable.IsLinked => IsWithoutSwitch == false || relatedLightSwitch == null;
-
-		public void SetMaster(IMultitoolMasterable Imaster)
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var lightSwitch = (Imaster as Component)?.gameObject.GetComponent<LightSwitchV2>();
+			var lightSwitch = (master as Component)?.gameObject.GetComponent<LightSwitchV2>();
 			if (lightSwitch != relatedLightSwitch)
 			{
 				SubscribeToSwitchEvent(lightSwitch);
@@ -446,24 +446,6 @@ namespace Objects.Lighting
 					TrySpark();
 				}
 			}
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
-			if (relatedLightSwitch == null)
-			{
-				if (isWithoutSwitch) return;
-				Gizmos.color = new Color(1, 0.5f, 1, 1);
-				Gizmos.DrawSphere(sprite.transform.position, 0.20f);
-				return;
-			}
-			//Highlighting all controlled lightSources
-			Gizmos.color = new Color(1, 1, 0, 1);
-			Gizmos.DrawLine(relatedLightSwitch.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(relatedLightSwitch.transform.position, 0.25f);
 		}
 	}
 }

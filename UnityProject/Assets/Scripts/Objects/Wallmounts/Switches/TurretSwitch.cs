@@ -237,8 +237,6 @@ namespace Objects.Wallmounts.Switches
 		public bool MultiMaster => true;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
-		public void AddSlave(object slave) { }
-
 		#endregion
 
 		#region Editor

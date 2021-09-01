@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Mirror;
+using Core.Editor.Attributes;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
 using Systems.Pipes;
@@ -51,7 +52,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
 
-	[Tooltip("The kind of object this is.")] [FormerlySerializedAs("ObjectType")] [SerializeField]
+	[SerializeField, FormerlySerializedAs("ObjectType"), PrefabModeOnly]
+	[Tooltip("The kind of object this is.")]
 	private ObjectType objectType = ObjectType.Item;
 
 	/// <summary>
@@ -137,6 +139,10 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
+	private bool hasCachedComponents = false;
+
+	[SerializeField] private PrefabTracker prefabTracker;
+	public PrefabTracker PrefabTracker => prefabTracker;
 
 	private ElectricalOIinheritance electricalData;
 	public ElectricalOIinheritance ElectricalData => electricalData;
@@ -144,6 +150,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private PipeData pipeData;
 	public PipeData PipeData => pipeData;
 
+	[PrefabModeOnly]
 	public SortingGroup CurrentsortingGroup;
 
 	#region Lifecycle

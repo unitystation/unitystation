@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UI.Core.Net;
 using UnityEngine;
 using Mirror;
+using Core.Editor.Attributes;
 using Messages.Client.NewPlayer;
 using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
 using Doors.Modules;
 using HealthV2;
-using UI.Core.Net;
 
 
 //TODO: Need to reimplement hacking with this system. Might be a nightmare, dk yet.
@@ -22,27 +23,28 @@ namespace Doors
 	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab
 	{
 		#region inspector
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		private bool damageOnClose = false;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Amount of damage when closed on someone.")]
 		private float damageClosed = 90;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Does this door open automatically when you walk into it?")]
 		private bool isAutomatic = true;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		private bool ignorePassableChecks = false;
 
 		//Maximum time the door will remain open before closing itself.
-		[SerializeField][Tooltip("Time this door will wait until autoclosing")]
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Time this door will wait until autoclosing")]
 		private float maxTimeOpen = 5;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Prevent the door from auto closing when opened.")]
 		private bool blockAutoClose = false;
 
@@ -82,7 +84,10 @@ namespace Doors
 		private APCPoweredDevice apc;
 		public APCPoweredDevice Apc => apc;
 
-		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
+		[PrefabModeOnly]
+		[Tooltip("Does it have a glass window you can see trough?")]
+		public bool isWindowedDoor;
+
 		private int openLayer;
 		private int openSortingLayer;
 		private int closedLayer;

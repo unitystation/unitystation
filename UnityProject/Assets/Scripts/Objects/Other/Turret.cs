@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -741,11 +741,11 @@ namespace Objects.Other
 
 		#region Multitool Interaction
 
-		public MultitoolConnectionType ConType => MultitoolConnectionType.Turret;
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Turret;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => connectedSwitch; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false; // TODO: set to false to ignore false positive; currently links are serialized on the switch
 
-		bool IMultitoolSlaveable.IsLinked => connectedSwitch != null;
-
-		public void SetMaster(IMultitoolMasterable iMaster)
+		private void SetMaster(IMultitoolMasterable master)
 		{
 			if (unlocked == false)
 			{
@@ -753,7 +753,7 @@ namespace Objects.Other
 				return;
 			}
 
-			if (iMaster is TurretSwitch turretSwitch)
+			if (master is TurretSwitch turretSwitch)
 			{
 				//Already connected so disconnect
 				if (connectedSwitch != null)

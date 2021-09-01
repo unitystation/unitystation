@@ -14,7 +14,7 @@ namespace Objects.Lighting
 	{
 		public List<LightSource> listOfLights;
 
-		public Action<bool> SwitchTriggerEvent;
+		[NonSerialized] public Action<bool> SwitchTriggerEvent;
 
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
@@ -161,27 +161,9 @@ namespace Objects.Lighting
 		public bool MultiMaster => true;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
-		public void AddSlave(object slaveObject) { }
-
 		#endregion
 
 		#region Editor
-
-		private void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null) return;
-
-			// Highlighting all controlled lightSources
-			Gizmos.color = new Color(1, 1, 0, 1);
-			for (int i = 0; i < listOfLights.Count; i++)
-			{
-				var lightSource = listOfLights[i];
-				if (lightSource == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
-				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
-			}
-		}
 
 		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
