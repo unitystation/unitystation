@@ -56,7 +56,7 @@ public class ChatRelay : NetworkBehaviour
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
-		int loud = chatEvent.VoiceLevel;
+		Loudness loud = chatEvent.VoiceLevel;
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local)
@@ -223,7 +223,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, int loudness)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, Loudness loudness)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -245,7 +245,7 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			ChatUI.Instance.AddChatEntry(message, loudness);
+			ChatUI.Instance.AddChatEntry(message);
 		}
 	}
 

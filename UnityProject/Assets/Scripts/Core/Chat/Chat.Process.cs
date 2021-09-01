@@ -188,7 +188,7 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers, int VoiceLevel, uint originatorUint = 0, bool stripTags = true)
+		ChatModifier modifiers, Loudness loudness, uint originatorUint = 0, bool stripTags = true)
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
@@ -320,22 +320,23 @@ public partial class Chat
 			chan = "";
 		}
 
-		switch (VoiceLevel)
+		switch (loudness)
 		{
-			case -1:
+			case Loudness.QUITE:
 				voiceTag = "<size=32>";
 				break;
-			case 2:
+			case Loudness.LOUD:
 				voiceTag = "<size=64>";
 				break;
-			case 3:
+			case Loudness.SCREAMING:
 				voiceTag = "<size=82>";
 				break;
-			case 4:
+			case Loudness.EARRAPE:
 				voiceTag = "<size=128>";
 				break;
 			default:
-				if (message.Contains("!!")){ voiceTag = "<size=64>";} else { voiceTag = "<size=48>"; }
+				if (message.Contains("!!")){ voiceTag = "<size=64>";}
+				else { voiceTag = "<size=48>"; }
 				break;
 		}
 
@@ -521,7 +522,7 @@ public partial class Chat
 	/// on the client. Do not use for anything else!
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, int loudness, bool stripTags = true)
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, Loudness loudness, bool stripTags = true)
 	{
 
 		var isOriginator = true;

@@ -51,7 +51,7 @@ namespace Objects.Telecomms
 			PlayerScript playerScript = player.GetComponent<PlayerScript>();
 			Occupation playerOccupation = playerScript.mind.occupation;
 			string playerName = player.ExpensiveName();
-			int annoucementImportance = GetAnnouncementImportance(playerOccupation);
+			Loudness annoucementImportance = GetAnnouncementImportance(playerOccupation);
 
 			ChatChannel chatChannels = ChatChannel.Common;
 			string commonMessage = $"{playerName} has signed up as {playerOccupation.DisplayName}.";
@@ -83,23 +83,24 @@ namespace Objects.Telecomms
 				return;
 			}
 
-			BroadcastCommMsg(chatChannels, commonMessage, 1);
+			BroadcastCommMsg(chatChannels, commonMessage, Loudness.NORMAL);
 		}
 
-		private int GetAnnouncementImportance(Occupation job)
+		private Loudness GetAnnouncementImportance(Occupation job)
 		{
 			if (job.JobType == JobType.AI || job.JobType == JobType.HOP || job.JobType == JobType.CAPTAIN ||
-			    job.JobType == JobType.CMO)
+			    job.JobType == JobType.CMO || job.JobType == JobType.CENTCOMM_COMMANDER || job.JobType == JobType.RD
+			    || job.JobType == JobType.HOS || job.JobType == JobType.CHIEF_ENGINEER || job.JobType == JobType.CARGOTECH)
 			{
-				return 2;
+				return Loudness.LOUD;
 			}
 			else
 			{
-				return 1;
+				return Loudness.NORMAL;
 			}
 		}
 
-		private void BroadcastCommMsg(ChatChannel chatChannels, string message, int importance)
+		private void BroadcastCommMsg(ChatChannel chatChannels, string message, Loudness importance)
 		{
 			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, importance, ChatModifier.ColdlyState,  machineName);
 		}

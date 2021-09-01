@@ -208,7 +208,7 @@ public class ChatUI : MonoBehaviour
 	/// <summary>
 	/// Only to be used via chat relay!
 	/// </summary>
-	public void AddChatEntry(string message, int loudness)
+	public void AddChatEntry(string message)
 	{
 		// Check for chat entry duplication
 		if (allEntries.Count > 0 && message.Equals(allEntries[allEntries.Count - 1].Message))
@@ -221,7 +221,7 @@ public class ChatUI : MonoBehaviour
 		var chatEntry = entry.GetComponent<ChatEntry>();
 		chatEntry.thresholdMarkerBottom = thresholdMarkerBottom;
 		chatEntry.thresholdMarkerTop = thresholdMarkerTop;
-		chatEntry.SetText(message, loudness);
+		chatEntry.SetText(message);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
 		CheckLengthOfChatLog();

@@ -147,7 +147,7 @@ public class ChatEntry : MonoBehaviour
 
 	#endregion
 
-	public void SetText(string message, int loudness)
+	public void SetText(string message)
 	{
 		messageText.text = message;
 		ToggleUIElements(true);
