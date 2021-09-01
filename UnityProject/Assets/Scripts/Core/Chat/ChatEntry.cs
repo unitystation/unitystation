@@ -164,14 +164,15 @@ public class ChatEntry : MonoBehaviour
 		switch (loudness)
 		{
 			case -1:
-				return "<size=3>" + msg + "</size>";
-			case 2:
-				return "<size=12>" + msg + "</size>";
-			case 3:
 				return "<size=22>" + msg + "</size>";
+			case 2:
+				return "<size=48>" + msg + "</size>";
+			case 3:
+				return "<size=64>" + msg + "</size>";
 			case 4:
-				return "<size=32>" + msg + "</size>";
+				return "<size=128>" + msg + "</size>";
 			default:
+				if (msg.Contains("!!")){ return "<size=12>" + msg + "</size>"; }
 				return msg;
 		}
 	}
