@@ -23,7 +23,7 @@ namespace Messages.Client
 		}
 
 		//This is only used to send the chat input on the client to the server
-		public static NetMessage Send(string message, ChatChannel channels, Loudness loudness)
+		public static NetMessage Send(string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
 		{
 			NetMessage msg = new NetMessage
 			{
