@@ -10,22 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
-  m_Name: DoughRecipe
+  m_Name: ChocolateBarVeganRecipe
   m_EditorClassIdentifier: 
-  category: 6
-  craftingTime: 0.5
-  recipeName: Dough
+  category: 11
+  craftingTime: 0
+  recipeName: Chocolate Bar (Vegan)
   recipeIconOverride: {fileID: 0}
   recipeDescription: 
   requiredIngredients: []
   requiredReagents:
-  - requiredAmount: 10
-    requiredReagent: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-  - requiredAmount: 15
-    requiredReagent: {fileID: 11400000, guid: 0c4cf985d57ba9ce18282581b4f45fe9, type: 2}
+  - requiredAmount: 2
+    requiredReagent: {fileID: 11400000, guid: 0c793b26027c29a1cb5806c738a7a556, type: 2}
+  - requiredAmount: 2
+    requiredReagent: {fileID: 11400000, guid: 0d70c7e3be7f9db159f739339ff04b3e, type: 2}
+  - requiredAmount: 2
+    requiredReagent: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
   requiredToolTraits: []
   result:
-  - {fileID: 6035652412496520804, guid: c806a0c93acc5b94a9986b18d70f8368, type: 3}
+  - {fileID: 442118255629855042, guid: b09e9d95fbf80594c8bbcf60be9b3f93, type: 3}
   resultHandlers: []
   isSimple: 0
-  indexInSingleton: 2
+  indexInSingleton: 338

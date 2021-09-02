@@ -178,21 +178,6 @@ namespace Construction.Conveyors
 			if (this == null) return;
 			spriteHandler.ChangeSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
-			switch (variant)
-			{
-				case 8:
-					variant = 4;
-					break;
-				case 9:
-					variant = 5;
-					break;
-				case 10:
-					variant = 6;
-					break;
-				case 11:
-					variant = 7;
-					break;
-			}
 
 			spriteHandler.ChangeSpriteVariant(variant);
 		}
