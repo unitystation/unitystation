@@ -23,7 +23,7 @@ namespace Initialisation
 
 		public List<DelayedAction> ToClear = new List<DelayedAction>();
 
-		public struct DelayedAction
+		public class DelayedAction
 		{
 			public float Frames;
 			public Action Action;
