@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Initialisation;
 using UnityEngine;
-using Mirror;
 
 public class SubsystemManager : MonoBehaviour
 {
@@ -28,8 +26,9 @@ public class SubsystemManager : MonoBehaviour
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		
+
 		yield return null; //So objects/doors can register themselves before atmospherics system scans for rooms
+		yield return null; //TODO: remove coroutines and orderly initialize matrix stuff, MatrixMove, RegisterTile, etc.
 		for (int i = 0; i < systems.Count; i++)
 		{
 			systems[i].Initialize();

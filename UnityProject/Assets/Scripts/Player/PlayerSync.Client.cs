@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Objects;
 
 public partial class PlayerSync
 {
@@ -16,10 +15,10 @@ public partial class PlayerSync
 	}
 
 	/// Trusted state, received from server
-	private PlayerState playerState;
+	public PlayerState playerState;
 
 	/// Client predicted state
-	private PlayerState predictedState;
+	public PlayerState predictedState;
 
 	private Queue<PlayerAction> pendingActions;
 	private Vector2 lastDirectionClient;
@@ -425,7 +424,7 @@ public partial class PlayerSync
 		var newWorldPos = Vector3Int.RoundToInt(newState.WorldPosition);
 		OnUpdateRecieved().Invoke(newWorldPos);
 
-		playerState = newState;
+			playerState = newState;
 
 		if ( newWorldPos == TransformState.HiddenPos )
 		{
@@ -462,11 +461,9 @@ public partial class PlayerSync
 
 		if (playerState.MatrixId != predictedState.MatrixId && isLocalPlayer)
 		{
-			PlayerState crossMatrixState = predictedState;
-			crossMatrixState.MatrixId = playerState.MatrixId;
-			crossMatrixState.WorldPosition = predictedState.WorldPosition;
-			crossMatrixState.WorldImpulse = playerState.WorldImpulse;
-			predictedState = crossMatrixState;
+			predictedState.MatrixId = playerState.MatrixId;
+			predictedState.WorldPosition = playerState.WorldPosition;
+			predictedState.WorldImpulse = playerState.WorldImpulse;
 		}
 
 		if (blockClientMovement)

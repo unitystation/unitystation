@@ -7,13 +7,13 @@ using Messages.Server;
 using Messages.Server.SoundMessages;
 
 namespace Objects.Drawers
-{	
+{
 	/// <summary>
 	/// A generic drawer component designed for multi-tile drawer objects.
 	/// </summary>
 	[RequireComponent(typeof(ObjectBehaviour))] // For setting held items' containers to the drawer.
 	[ExecuteInEditMode]
-	public class Drawer : NetworkBehaviour, IServerDespawn, ICheckedInteractable<HandApply>
+	public class Drawer : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
 	{
 	[SerializeField] private AddressableAudioSource BinOpenSFX = null;
 	[SerializeField] private AddressableAudioSource BinCloseSFX = null;
@@ -72,15 +72,14 @@ namespace Objects.Drawers
 			drawerSpriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			base.OnStartServer();
 			registerObject = GetComponent<RegisterObject>();
-			registerObject.WaitForMatrixInit(ServerInit);
+			ServerInit();
 			directional.OnDirectionChange.AddListener(OnDirectionChanged);
 		}
 
-		void ServerInit(MatrixInfo matrixInfo)
+		void ServerInit()
 		{
 			SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);
 			if (!traySpawn.Successful)
