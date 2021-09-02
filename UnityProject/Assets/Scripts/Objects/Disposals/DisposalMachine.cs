@@ -53,16 +53,6 @@ namespace Objects.Disposals
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			StartCoroutine(WaitForUnderfloorUtilities());
-		}
-
-		IEnumerator WaitForUnderfloorUtilities()
-		{
-			while (registerObject.Matrix.MetaTileMap.UnderFloorUtilitiesInitialised == false)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
-
 			if (PipeTerminalExists())
 			{
 				SpawnMachineAsInstalled();
