@@ -15,15 +15,20 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (DefaultWillInteract.Default(interaction,side) == false) return false;
-		if (interaction.HandObject != this.gameObject) return false;
-		var Healthv2 = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-		if (Healthv2 == null) return false;
+		if (DefaultWillInteract.Default(interaction,side) == false)
+			return false;
+		if (interaction.TargetObject.GetComponent<LivingHealthMasterBase>() == null)
+			return false;
 		var equipment = interaction.Performer.GetComponent<Equipment>();
-		if (equipment == null) return false;
 		var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).GameObjectReference;
-		if (ObjectInSlot == null) return false;
-		if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false) return false;
+		if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
+		{
+			ObjectInSlot = equipment.GetClothingItem(NamedSlot.belt).GameObjectReference;
+			if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -48,8 +53,9 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 						heart.CurrentPulse = 0;
 					}
 				}
-
 			}
+
+			LHMB.CalculateOverallHealth();
 		}
 		var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true), Perform);
 		bar.ServerStartProgress(interaction.Performer.RegisterTile(), Time, interaction.Performer);
