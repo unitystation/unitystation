@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1551160093752787680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600028148722177027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 2b162ba0e3e989f4ba91a826dfb4f9c8, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
 --- !u!1001 &3986594327327211811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -149,3 +170,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48d3c058a9e5a42418875499b82cc5e3, type: 3}
+--- !u!1 &1600028148722177027 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2406975489804277024, guid: 48d3c058a9e5a42418875499b82cc5e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3986594327327211811}
+  m_PrefabAsset: {fileID: 0}
