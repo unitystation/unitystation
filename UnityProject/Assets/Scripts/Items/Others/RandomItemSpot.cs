@@ -24,6 +24,7 @@ namespace Items
 
 		private void RollRandomPool()
 		{
+			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
 			{
 				PoolData pool = null;
@@ -52,15 +53,19 @@ namespace Items
 
 				if (pool == null)
 				{
-					// didn't spawned anything - just destroy spawner
-					_ = Despawn.ServerSingle(gameObject);
+					//didn't spawn anything - Hideaway
+					RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+					this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
+					this.GetComponent<RegisterTile>().UpdatePositionServer();
 					return;
 				}
 
 				SpawnItems(pool);
 			}
 
-			_ = Despawn.ServerSingle(gameObject);
+			RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+			this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
+			this.GetComponent<RegisterTile>().UpdatePositionServer();
 		}
 
 		private void SpawnItems(PoolData poolData)

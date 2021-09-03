@@ -6,8 +6,7 @@ using TileManagement;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
-using NaughtyAttributes;
-using NUnit.Framework;
+using Objects;
 
 namespace MapSaver
 {
@@ -20,8 +19,17 @@ namespace MapSaver
 		public readonly static char LocationChar = '@';
 
 
+		public class MapData
+		{
+			public string MapName;
+			public List<MatrixData> ContainedMatrices = new List<MatrixData>();
+		}
+
 		public class MatrixData
 		{
+			public string Location;
+			public uint MatrixID;
+			public string MatrixName;
 			public TileMapData TileMapData;
 			public ObjectMapData ObjectMapData;
 		}
@@ -35,7 +43,19 @@ namespace MapSaver
 			public string Data;
 		}
 
+		//Bob game object ->  Jane ID
+		public static List<Tuple<MonoBehaviour, FieldData>> UnserialisedObjectReferences =
+			new List<Tuple<MonoBehaviour, FieldData>>();
 
+		//Bob game object ->  Bob ID
+		public static Dictionary<MonoBehaviour, string> MonoToID = new Dictionary<MonoBehaviour, string>();
+
+
+		public static HashSet<FieldData> FieldsToRefresh = new HashSet<FieldData>();
+
+		public static ulong IDStatic = 0;
+
+		public static uint IDmatrixStatic = 0;
 		//Floating reference
 		//Is floating reference can be left alone
 
@@ -56,6 +76,11 @@ namespace MapSaver
 		//Prefab ID -> Game object ID -> Component ID
 		//
 
+
+
+		//TODO Future, matrix move,  escape shuttle, shuttle  fuel, cargo shuttle , needs to be standard system for more
+
+
 		public class ObjectMapData
 		{
 			public List<PrefabData> PrefabData;
@@ -66,7 +91,7 @@ namespace MapSaver
 			public ulong ID; //is good
 			public string PrefabID;
 			public string Name;
-			public string LocalPosition; //TODO Needs scale and rotation to
+			public string LocalPRS;
 			public IndividualObject Object;
 		}
 
@@ -113,7 +138,7 @@ namespace MapSaver
 		public class ClassData
 		{
 			public string ClassID; //name and int, is good
-			public List<FieldData> Data = new List<FieldData>();
+			public HashSet<FieldData> Data = new HashSet<FieldData>();
 
 			public bool IsEmpty()
 			{
@@ -130,19 +155,179 @@ namespace MapSaver
 
 		public class FieldData
 		{
+			private List<string> ReferencingIDs;
+
+			private List<MonoBehaviour> RuntimeReferences;
+
+			public List<MonoBehaviour> GetRuntimeReferences()
+			{
+				return RuntimeReferences;
+			}
+
+			public void RemoveRuntimeReference(MonoBehaviour inRuntimeReference)
+			{
+				if (RuntimeReferences == null)
+				{
+					return;
+				}
+
+				RuntimeReferences.Remove(inRuntimeReference);
+			}
+
+			public void AddRuntimeReference(MonoBehaviour inRuntimeReference)
+			{
+				if (RuntimeReferences == null)
+				{
+					RuntimeReferences = new List<MonoBehaviour>();
+				}
+
+				RuntimeReferences.Add(inRuntimeReference);
+			}
+
+			public void AddID(string ToAdd)
+			{
+				if (ReferencingIDs == null)
+				{
+					ReferencingIDs = new List<string>();
+				}
+
+				ReferencingIDs.Add(ToAdd);
+			}
+
+			public void Serialise()
+			{
+				if (ReferencingIDs == null) return;
+				foreach (var ID in ReferencingIDs)
+				{
+					Data = Data + "," + ID;
+				}
+			}
+
 			public string Name;
 			public string Data;
 		}
 
-		public static MatrixData SaveMatrix(MetaTileMap MetaTileMap)
+		public static MapData SaveMap(List<MetaTileMap> MetaTileMaps,
+			string MapName = "Unknown map name your maps dam it")
 		{
+			var OutMapData = new MapData();
+
+			UnserialisedObjectReferences.Clear();
+			MonoToID.Clear();
+			FieldsToRefresh.Clear();
+			IDStatic = 0;
+			IDmatrixStatic = 0;
+
+			OutMapData.MapName = MapName;
+			foreach (var MetaTileMap in MetaTileMaps)
+			{
+				OutMapData.ContainedMatrices.Add(SaveMatrix(MetaTileMap, false));
+			}
+
+			//move outside if multiple  matrices
+			foreach (var MFD in UnserialisedObjectReferences)
+			{
+				if (MonoToID.ContainsKey(MFD.Item1))
+				{
+					MFD.Item2.AddID(MonoToID[MFD.Item1]);
+					MFD.Item2.RemoveRuntimeReference(MFD.Item1);
+				}
+				else
+				{
+					Logger.LogError("Missing money behaviour in MonoToID");
+				}
+			}
+
+			UnserialisedObjectReferences.Clear();
+			MonoToID.Clear();
+
+			foreach (var FD in FieldsToRefresh)
+			{
+				FD.Serialise();
+			}
+
+			FieldsToRefresh.Clear();
+
+			return OutMapData;
+		}
+
+		public static MatrixData SaveMatrix(MetaTileMap MetaTileMap, bool SingleSave = true,
+			Vector3? Localboundarie1 = null, Vector3? Localboundarie2 = null, bool UseInstance = false)
+		{
+			if (SingleSave)
+			{
+				UnserialisedObjectReferences.Clear();
+				MonoToID.Clear();
+				FieldsToRefresh.Clear();
+				IDStatic = 0;
+				IDmatrixStatic = 0;
+			}
+
 			MatrixData matrixData = new MatrixData();
-			matrixData.ObjectMapData = SaveObjects(MetaTileMap);
-			matrixData.TileMapData = SaveTileMap(MetaTileMap);
+			matrixData.ObjectMapData = SaveObjects(MetaTileMap, Localboundarie1, Localboundarie2, UseInstance);
+			matrixData.TileMapData = SaveTileMap(MetaTileMap, Localboundarie1, Localboundarie2);
+			matrixData.MatrixName = MetaTileMap.PresentMatrix.NetworkedMatrix.gameObject.name;
+			matrixData.MatrixID = IDmatrixStatic;
+			matrixData.Location = Math.Round(MetaTileMap.PresentMatrix.NetworkedMatrix.transform.localPosition.x, 2) + "┼" +
+			                      Math.Round(MetaTileMap.PresentMatrix.NetworkedMatrix.transform.localPosition.y, 2) + "┼" +
+			                      Math.Round(MetaTileMap.PresentMatrix.NetworkedMatrix.transform.localPosition.z, 2) + "┼";
+
+
+			var Angles = MetaTileMap.PresentMatrix.NetworkedMatrix.transform.eulerAngles;
+			matrixData.Location = matrixData.Location +
+			                      Math.Round(Angles.x, 2) + "ø" +
+			                      Math.Round(Angles.y, 2) + "ø" +
+			                      Math.Round(Angles.z, 2) + "ø";
+
+
+			IDmatrixStatic++;
+
+			if (SingleSave)
+			{
+				foreach (var MFD in UnserialisedObjectReferences)
+				{
+					if (MonoToID.ContainsKey(MFD.Item1))
+					{
+						MFD.Item2.AddID(MonoToID[MFD.Item1]);
+					}
+					else
+					{
+						Logger.LogError("Missing money behaviour in MonoToID");
+					}
+				}
+
+				UnserialisedObjectReferences.Clear();
+				MonoToID.Clear();
+
+				foreach (var FD in FieldsToRefresh)
+				{
+					FD.Serialise();
+				}
+
+				FieldsToRefresh.Clear();
+			}
+
 			return matrixData;
 		}
 
-		public static TileMapData SaveTileMap(MetaTileMap metaTileMap)
+		// function to find if given point
+		// lies inside a given rectangle or not.
+		//TODO Tile map upgrade  upgrade to include xyz (Need special condition for underfloor since that's w)
+		//note Localboundarie1 Needs to be the smaller one
+		public static bool IsPointWithin(Vector3 Localboundarie1, Vector3 Localboundarie2, Vector3 Point)
+		{
+			if (Point.x > Localboundarie1.x && Point.x < Localboundarie2.x && Point.y > Localboundarie1.y &&
+			    Point.y < Localboundarie2.y)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+
+		public static TileMapData SaveTileMap(MetaTileMap metaTileMap, Vector3? Localboundarie1 = null,
+			Vector3? Localboundarie2 = null)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -150,6 +335,7 @@ namespace MapSaver
 
 			//☰ Layer
 			//@ location
+			bool UseBoundary = Localboundarie1 != null;
 
 			var TileMapData = new TileMapData();
 
@@ -164,7 +350,7 @@ namespace MapSaver
 			Dictionary<LayerTile, int> CommonLayerTilesCount = new Dictionary<LayerTile, int>();
 			Dictionary<Matrix4x4, int> CommonMatrix4x4Count = new Dictionary<Matrix4x4, int>();
 
-			var PresentTiles =metaTileMap.PresentTilesNeedsLock;
+			var PresentTiles = metaTileMap.PresentTilesNeedsLock;
 
 			lock (PresentTiles)
 			{
@@ -173,6 +359,16 @@ namespace MapSaver
 					if (Layer.Key.LayerType == LayerType.Underfloor) continue;
 					foreach (var TileAndLocation in Layer.Value)
 					{
+						if (UseBoundary)
+						{
+							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.Key) ==
+							    false)
+							{
+								continue;
+							}
+						}
+
+
 						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Value.Tile))
 						{
 							CommonLayerTilesCount[TileAndLocation.Value.Tile]++;
@@ -204,6 +400,61 @@ namespace MapSaver
 				}
 			}
 
+			var MultilayerPresentTiles = metaTileMap.MultilayerPresentTilesNeedsLock;
+
+
+			lock (MultilayerPresentTiles)
+			{
+				foreach (var Layer in MultilayerPresentTiles)
+				{
+					foreach (var TileAndLocations in Layer.Value)
+					{
+						foreach (var TileAndLocation in TileAndLocations.Value)
+						{
+							if (TileAndLocation == null) continue;
+							if (UseBoundary)
+							{
+								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
+									    TileAndLocation.TileCoordinates) ==
+								    false)
+								{
+									continue;
+								}
+							}
+
+
+							if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Tile))
+							{
+								CommonLayerTilesCount[TileAndLocation.Tile]++;
+							}
+							else
+							{
+								CommonLayerTilesCount[TileAndLocation.Tile] = 1;
+							}
+
+							if (CommonColoursCount.ContainsKey(TileAndLocation.Colour))
+							{
+								CommonColoursCount[TileAndLocation.Colour]++;
+							}
+							else
+							{
+								CommonColoursCount[TileAndLocation.Colour] = 1;
+							}
+
+
+							if (CommonMatrix4x4Count.ContainsKey(TileAndLocation.TransformMatrix))
+							{
+								CommonMatrix4x4Count[TileAndLocation.TransformMatrix]++;
+							}
+							else
+							{
+								CommonMatrix4x4Count[TileAndLocation.TransformMatrix] = 1;
+							}
+						}
+					}
+				}
+			}
+
 
 			List<Color> CommonColours = CommonColoursCount.OrderByDescending(kp => kp.Value)
 				.Select(kp => kp.Key)
@@ -222,6 +473,15 @@ namespace MapSaver
 				{
 					foreach (var TileAndLocation in Layer.Value)
 					{
+						if (UseBoundary)
+						{
+							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.Key) ==
+							    false)
+							{
+								continue;
+							}
+						}
+
 						SB.Append(LocationChar);
 						SB.Append(TileAndLocation.Key.x);
 						SB.Append(",");
@@ -257,11 +517,67 @@ namespace MapSaver
 				}
 			}
 
+			lock (MultilayerPresentTiles)
+			{
+				foreach (var Layer in MultilayerPresentTiles)
+				{
+					foreach (var TileAndLocations in Layer.Value)
+					{
+						foreach (var TileAndLocation in TileAndLocations.Value)
+						{
+							if (TileAndLocation == null) continue;
+							if (UseBoundary)
+							{
+								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
+									    TileAndLocation.TileCoordinates) ==
+								    false)
+								{
+									continue;
+								}
+							}
+
+							//TODO Tile map upgrade , Change to vector 4
+							SB.Append(LocationChar);
+							SB.Append(TileAndLocation.TileCoordinates.x);
+							SB.Append(",");
+							SB.Append(TileAndLocation.TileCoordinates.y);
+							SB.Append(",");
+							SB.Append(TileAndLocation.TileCoordinates.z);
+							SB.Append(LayerChar);
+							SB.Append((int) Layer.Key.LayerType);
+
+							int Index = CommonLayerTiles.IndexOf(TileAndLocation.Tile);
+
+
+							if (Index != 0)
+							{
+								SB.Append(TileIDChar);
+								SB.Append(Index);
+							}
+
+							Index = CommonColours.IndexOf(TileAndLocation.Colour);
+							if (Index != 0)
+							{
+								SB.Append(ColourChar);
+								SB.Append(Index);
+							}
+
+							Index = CommonMatrix4x4.IndexOf(TileAndLocation.TransformMatrix);
+							if (Index != 0)
+							{
+								SB.Append(Matrix4x4Char);
+								SB.Append(Index);
+							}
+						}
+					}
+				}
+			}
+
 
 			TileMapData.Data = SB.ToString();
 			foreach (var layerTile in CommonLayerTiles)
 			{
-				TileMapData.CommonLayerTiles.Add(layerTile.name + LayerChar + layerTile.TileType);
+				TileMapData.CommonLayerTiles.Add(layerTile.name + LayerChar + (int) layerTile.TileType);
 			}
 
 			foreach (var inColor in CommonColours)
@@ -299,72 +615,137 @@ namespace MapSaver
 		}
 
 
-		public static ObjectMapData SaveObjects(MetaTileMap MetaTileMap)
+		public static ObjectMapData SaveObjects(MetaTileMap MetaTileMap, Vector3? Localboundarie1 = null,
+			Vector3? Localboundarie2 = null, bool UseInstance = false)
 		{
-			ulong ID = 0;
+			bool UseBoundary = Localboundarie1 != null;
 			ObjectMapData ObjectMapData = new ObjectMapData();
 			ObjectMapData.PrefabData = new List<PrefabData>();
 			foreach (var Object in MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
 				.AllObjects)
 			{
-				PrefabData Prefab = new PrefabData();
-				var Tracker = Object.GetComponent<PrefabTracker>();
-				if (Tracker != null)
+				if (UseBoundary)
 				{
-					Prefab.PrefabID = Tracker.ForeverID;
-					Prefab.ID = ID;
-					ID++;
-					Prefab.Name = Object.name;
-					Prefab.Object = new IndividualObject();
-					Prefab.LocalPosition = Math.Round(Object.transform.localPosition.x, 2) + "," +
-					                       Math.Round(Object.transform.localPosition.z, 2) +
-					                       "," + Math.Round(Object.transform.localPosition.y, 2);
-					RecursiveSaveObject("0", Prefab.Object,
-						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID],
-						Object.gameObject);
-					if (Prefab.Object.RemoveEmptys())
+					if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, Object.transform.localPosition) ==
+					    false)
 					{
-						Prefab.Object = null;
+						continue;
 					}
-
-					ObjectMapData.PrefabData.Add(Prefab);
 				}
+
+				ProcessIndividualObject(Object.gameObject, ObjectMapData, UseInstance: UseInstance);
+			}
+
+			foreach (var ObjectCoordinate in MetaTileMap.PresentMatrix.MetaDataLayer.InitialObjects)
+			{
+				if (UseBoundary)
+				{
+					if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, ObjectCoordinate.Value) ==
+					    false)
+					{
+						continue;
+					}
+				}
+
+				ProcessIndividualObject(ObjectCoordinate.Key, ObjectMapData, ObjectCoordinate.Value, UseInstance);
 			}
 
 			return ObjectMapData;
 		}
 
-		public static void RecursiveSaveObject(string ID, IndividualObject individualObject,
-			GameObject PrefabEquivalent, GameObject gameObject)
+		public static void ProcessIndividualObject(GameObject Object, ObjectMapData ObjectMapData,
+			Vector3? CoordinateOverride = null, bool UseInstance = false)
+		{
+			var RuntimeSpawned = Object.GetComponent<RuntimeSpawned>();
+			if (RuntimeSpawned != null) return;
+
+			PrefabData Prefab = new PrefabData();
+
+
+			var Tracker = Object.GetComponent<PrefabTracker>();
+			if (Tracker != null)
+			{
+				Prefab.PrefabID = Tracker.ForeverID;
+				Prefab.ID = IDStatic;
+				IDStatic++;
+				Prefab.Name = Object.name;
+				Prefab.Object = new IndividualObject();
+				if (CoordinateOverride == null)
+				{
+					Prefab.LocalPRS = Math.Round(Object.transform.localPosition.x, 2) + "┼" +
+					                  Math.Round(Object.transform.localPosition.y, 2) + "┼" +
+					                  Math.Round(Object.transform.localPosition.z, 2) + "┼";
+
+					if (Object.transform.localRotation.eulerAngles != Vector3.zero)
+					{
+						var Angles = Object.transform.localRotation.eulerAngles;
+						Prefab.LocalPRS = Prefab.LocalPRS + Math.Round(Angles.x, 2) + "ø" +
+						                  Math.Round(Angles.y, 2) + "ø" +
+						                  Math.Round(Angles.z, 2) + "ø";
+					}
+
+
+					if (Object.transform.localScale != Vector3.one)
+					{
+						var Angles = Object.transform.localScale;
+						Prefab.LocalPRS = Prefab.LocalPRS + Math.Round(Angles.x, 2) + "↔" +
+						                  Math.Round(Angles.y, 2) + "↔" +
+						                  Math.Round(Angles.z, 2) + "↔";
+					}
+				}
+				else
+				{
+					var Position = CoordinateOverride.GetValueOrDefault(Vector3.zero);
+					Prefab.LocalPRS = Math.Round(Position.x, 2) + "┼" +
+					                  Math.Round(Position.y, 2) + "┼" +
+					                  Math.Round(Position.z, 2) + "┼";
+				}
+
+
+				RecursiveSaveObject(Prefab, "0", Prefab.Object,
+					CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID],
+					Object.gameObject, ObjectMapData, CoordinateOverride, UseInstance);
+				if (Prefab.Object.RemoveEmptys())
+				{
+					Prefab.Object = null;
+				}
+
+				ObjectMapData.PrefabData.Add(Prefab);
+			}
+		}
+
+		public static void RecursiveSaveObject(PrefabData PrefabData, string ID, IndividualObject individualObject,
+			GameObject PrefabEquivalent, GameObject gameObject, ObjectMapData ObjectMapData,
+			Vector3? CoordinateOverride = null, bool UseInstance = false)
 		{
 			individualObject.ID = ID;
 			//Compare classes here
-			FillOutClassData(individualObject, PrefabEquivalent, gameObject);
+			FillOutClassData(PrefabData, individualObject, PrefabEquivalent, gameObject, ObjectMapData,
+				CoordinateOverride, UseInstance);
 
 
 			if (PrefabEquivalent.transform.childCount != gameObject.transform.childCount)
 			{
 				// Logger.LogError("Mismatched children between Prefab " + PrefabEquivalent + " and game object " +
-				                // gameObject + " at " + gameObject.transform.localPosition +
-				                // "  Added children is not currently supported in This version of the map saver ");
+				// gameObject + " at " + gameObject.transform.localPosition +
+				// "  Added children is not currently supported in This version of the map saver ");
 			}
 
 			for (int i = 0; i < PrefabEquivalent.transform.childCount; i++)
 			{
 				var newindividualObject = new IndividualObject();
 				individualObject.Children.Add(newindividualObject);
-				RecursiveSaveObject(ID + "," + i, newindividualObject,
+				RecursiveSaveObject(PrefabData, ID + "," + i, newindividualObject,
 					PrefabEquivalent.transform.GetChild(i).gameObject,
-					gameObject.transform.GetChild(i).gameObject);
+					gameObject.transform.GetChild(i).gameObject, ObjectMapData, UseInstance: UseInstance);
 			}
 		}
 
-		public static Dictionary<string, int> ClassCount = new Dictionary<string, int>();
-
-		public static void FillOutClassData(IndividualObject individualObject,
-			GameObject PrefabEquivalent, GameObject gameObject)
+		public static void FillOutClassData(PrefabData PrefabData, IndividualObject individualObject,
+			GameObject PrefabEquivalent, GameObject gameObject, ObjectMapData ObjectMapData,
+			Vector3? CoordinateOverride = null, bool UseInstance = false)
 		{
-			ClassCount.Clear();
+			Dictionary<string, int> ClassCount = new Dictionary<string, int>();
 			var PrefabComponents = PrefabEquivalent.GetComponents<MonoBehaviour>().ToList();
 			var gameObjectComponents = gameObject.GetComponents<MonoBehaviour>().ToList();
 
@@ -375,12 +756,51 @@ namespace MapSaver
 					ClassCount[PrefabMono.GetType().Name] = 0;
 				ClassCount[PrefabMono.GetType().Name]++;
 
+				var ClosetControl = gameObjectComponents[i] as ClosetControl;
+				if (ClosetControl != null)
+				{
+					foreach (var objectBehaviour in ClosetControl.ServerHeldItems)
+					{
+						if (CoordinateOverride == null)
+						{
+							ProcessIndividualObject(objectBehaviour.gameObject, ObjectMapData,
+								gameObject.transform.localPosition, UseInstance);
+						}
+						else
+						{
+							ProcessIndividualObject(objectBehaviour.gameObject, ObjectMapData,
+								CoordinateOverride, UseInstance);
+						}
+					}
+				}
+
+
+				var itemStorage = gameObjectComponents[i] as ItemStorage;
+				if (itemStorage != null)
+				{
+					foreach (var objectBehaviour in itemStorage.GetItemSlots())
+					{
+						if (objectBehaviour.Item == null) continue;
+						if (CoordinateOverride == null)
+						{
+							ProcessIndividualObject(objectBehaviour.Item.gameObject, ObjectMapData,
+								gameObject.transform.localPosition, UseInstance);
+						}
+						else
+						{
+							ProcessIndividualObject(objectBehaviour.Item.gameObject, ObjectMapData,
+								CoordinateOverride, UseInstance);
+						}
+					}
+				}
+
+
 				var OutClass = new ClassData();
 				OutClass.ClassID = PrefabMono.GetType().Name + "@" + ClassCount[PrefabMono.GetType().Name];
+				MonoToID[gameObjectComponents[i]] = PrefabData.ID + "@" + individualObject.ID + "@" + OutClass.ClassID;
+				RecursiveSearchData(OutClass, "", PrefabMono, gameObjectComponents[i], UseInstance);
 
-				RecursiveSearchData(OutClass, "", PrefabMono, gameObjectComponents[i]);
-
-				if (OutClass.IsEmpty() ==false)
+				if (OutClass.IsEmpty() == false)
 				{
 					individualObject.ClassDatas.Add(OutClass);
 				}
@@ -389,7 +809,7 @@ namespace MapSaver
 
 
 		public static void RecursiveSearchData(ClassData ClassData, string Prefix, object PrefabInstance,
-			object SpawnedInstance)
+			object SpawnedInstance, bool UseInstance = false)
 		{
 			var TypeMono = PrefabInstance.GetType();
 			var coolFields = TypeMono.GetFields(
@@ -444,18 +864,75 @@ namespace MapSaver
 					var APrefabDefault = Field.GetValue(PrefabInstance);
 					var AMonoSet = Field.GetValue(SpawnedInstance);
 
-					if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue; //Handle this with custom stuff
-
-					if (APrefabDefault != null && AMonoSet != null)
+					IEnumerable list = null;
+					var Coolattribute = Field.GetCustomAttributes(typeof(SceneObjectReference), true);
+					if (Coolattribute.Length > 0)
 					{
-						RecursiveSearchData(ClassData, Prefix + "@" + Field.Name, APrefabDefault, AMonoSet);
+						if (Field.FieldType.IsGenericType)
+						{
+							list = AMonoSet as IEnumerable;
+							if (list != null)
+							{
+								bool isListCompatible = false;
+								foreach (var Item in list)
+								{
+									if (Item == null) continue;
+									if (Item.GetType().IsSubclassOf(typeof(UnityEngine.Object)) &&
+									    Item is MonoBehaviour)
+									{
+										isListCompatible = true;
+									}
+
+									break;
+								}
+
+								if (isListCompatible)
+								{
+									var fieldData = new FieldData();
+									fieldData.Name = Prefix + Field.Name;
+									foreach (var Item in list)
+									{
+										var mono = Item as MonoBehaviour;
+										if (mono == null) continue;
+										if (UseInstance)
+										{
+										}
+
+										PopulateIDRelation(ClassData, fieldData, mono, UseInstance);
+									}
+								}
+
+								continue;
+							}
+						}
+
+						if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)))
+						{
+							var mono = Field.GetValue(SpawnedInstance) as MonoBehaviour;
+							if (mono == null) continue;
+							var fieldData = new FieldData();
+							fieldData.Name = Prefix + Field.Name;
+							PopulateIDRelation(ClassData, fieldData, mono, UseInstance);
+						}
+
 						continue;
 					}
 
+					if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
+
+					if (APrefabDefault != null && AMonoSet != null)
+					{
+						RecursiveSearchData(ClassData, Prefix + Field.Name + "@", APrefabDefault, AMonoSet,
+							UseInstance);
+						continue;
+					}
+
+					//
 				}
 
-				if (Field.FieldType.IsGenericType && Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)) continue; //skipping all dictionaries For now
-				if (Field.FieldType == typeof(System.Action))  continue;
+				if (Field.FieldType.IsGenericType && Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)
+				) continue; //skipping all dictionaries For now
+				if (Field.FieldType == typeof(System.Action)) continue;
 
 
 				//if Field is a class and is not related to unity engine.object Serialise it
@@ -493,7 +970,12 @@ namespace MapSaver
 				if (areSame == false)
 				{
 					FieldData fieldData = new FieldData();
-					fieldData.Name = Prefix + '@' + Field.Name;
+					fieldData.Name = Prefix + Field.Name;
+					if (MonoSet == null)
+					{
+						Logger.Log("o3o");
+					}
+
 					fieldData.Data = MonoSet.ToString();
 					ClassData.Data.Add(fieldData);
 				}
@@ -505,6 +987,28 @@ namespace MapSaver
 				//Is class Is thing thing,
 				//and then Just repeat the loop but within that class with the added notation
 			}
+		}
+
+		public static void PopulateIDRelation(ClassData ClassData, FieldData fieldData, MonoBehaviour mono,
+			bool UseInstance = false)
+		{
+			if (UseInstance)
+			{
+				fieldData.AddRuntimeReference(mono);
+			}
+
+			if (MonoToID.ContainsKey(mono))
+			{
+				fieldData.AddID(MonoToID[mono]);
+				fieldData.RemoveRuntimeReference(mono);
+			}
+			else
+			{
+				UnserialisedObjectReferences.Add(new Tuple<MonoBehaviour, FieldData>(mono, fieldData));
+			}
+
+			FieldsToRefresh.Add(fieldData);
+			ClassData.Data.Add(fieldData);
 		}
 	}
 }

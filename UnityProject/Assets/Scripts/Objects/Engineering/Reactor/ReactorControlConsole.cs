@@ -7,7 +7,9 @@ namespace Objects.Engineering
 {
 	public class ReactorControlConsole : MonoBehaviour, IMultitoolSlaveable
 	{
-		public ReactorGraphiteChamber ReactorChambers = null;
+		[SceneObjectReference] public ReactorGraphiteChamber ReactorChambers = null;
+
+		[SceneObjectReference] public List<ReactorGraphiteChamber> ReactorChambers2 = new List<ReactorGraphiteChamber>();
 
 		public void SuchControllRodDepth(float requestedDepth)
 		{

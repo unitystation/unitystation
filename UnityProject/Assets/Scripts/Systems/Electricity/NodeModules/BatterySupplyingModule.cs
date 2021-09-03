@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Light2D;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Systems.Electricity.NodeModules
