@@ -83,7 +83,7 @@ public partial class Chat : MonoBehaviour
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only
 	/// </summary>
-	public static void AddChatMsgToChat(ConnectedPlayer sentByPlayer, string message, ChatChannel channels, Loudness loudness)
+	public static void AddChatMsgToChat(ConnectedPlayer sentByPlayer, string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
 	{
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
@@ -125,21 +125,27 @@ public partial class Chat : MonoBehaviour
 			VoiceLevel = loudness
 		};
 
-		foreach (ItemSlot slot in sentByPlayer.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+		//Check if the player has an inventory and is not a ghost/spectator
+		if (sentByPlayer.Script.DynamicItemStorage != null &&
+			!sentByPlayer.Script.mind.IsSpectator || !sentByPlayer.Script.mind.body.IsDeadOrGhost)
 		{
-			Headset headset = slot.Item.gameObject.GetComponent<Headset>().OrNull();
-			if(headset != null)
+			foreach (ItemSlot slot in sentByPlayer.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
 			{
-				if (headset.LoudSpeakOn && channels.HasFlag(ChatChannel.Common) ||
-				    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
-				    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
-				    || channels.HasFlag(ChatChannel.Science)
-				    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+				Headset headset = slot.Item?.OrNull().gameObject.GetComponent<Headset>()?.OrNull();
+				if(headset != null)
 				{
-					chatEvent.VoiceLevel = headset.LoudspeakLevel;
+					if (headset.LoudSpeakOn && channels.HasFlag(ChatChannel.Common) ||
+					    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
+					    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
+					    || channels.HasFlag(ChatChannel.Science)
+					    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+					{
+						chatEvent.VoiceLevel = headset.LoudspeakLevel;
+					}
 				}
 			}
 		}
+
 
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
