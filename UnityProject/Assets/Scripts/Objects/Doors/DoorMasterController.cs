@@ -656,10 +656,8 @@ namespace Doors
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			//Only checking airlock, so when hacking UI reimplemented this check wont happen
-			//Return true so it doesnt block those checks
-			//TODO block Ai from hacking UI
-			if (netTabType != NetTabType.Airlock) return true;
+			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+			if (netTabType == NetTabType.HackingPanel && !isAi) return true;
 
 			if (HasPower == false)
 			{
@@ -668,7 +666,7 @@ namespace Doors
 			}
 
 			//Only allow AI to open airlock control UI
-			return playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+			return isAi ;
 		}
 
 		public void UpdateGui()
@@ -698,5 +696,56 @@ namespace Doors
 		}
 
 		#endregion
+
+		public void LinkHackNodes()
+		{
+			HackingProcessBase hackingProcess = GetComponent<HackingProcessBase>();
+						// door opening
+			HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor);
+			//openDoor.AddToInputMethods(HackingTryOpen);
+
+			HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldOpen);
+			//onShouldOpen.AddWireCutCallback(ServerElectrocute);
+			//onShouldOpen.AddConnectedNode(openDoor);
+
+			// door closing
+			HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor);
+			//closeDoor.AddToInputMethods(TryClose);
+
+			HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldClose);
+			//onShouldClose.AddWireCutCallback(ServerElectrocute);
+			//onShouldClose.AddConnectedNode(closeDoor);
+
+			// ID reject
+			HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.RejectId);
+			//rejectID.AddToInputMethods(ServerAccessDenied);
+
+			HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnIdRejected);
+			//onIDRejected.AddConnectedNode(rejectID);
+
+			// pressure warning
+			HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DoPressureWarning);
+			//doPressureWarning.AddToInputMethods(ServerPressureWarn);
+
+			HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.ShouldDoPressureWarning);
+			//shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
+
+			// power
+			HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerIn);
+
+			HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerOut);
+			//powerOut.AddConnectedNode(powerIn);
+			//powerOut.AddWireCutCallback(ServerElectrocute);
+
+			// dummy
+			HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyIn);
+
+			HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyOut);
+			//dummyOut.AddConnectedNode(dummyIn);
+
+			// close timer
+			HackingNode cancelCloseTimer = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer);
+			//cancelCloseTimer.AddToInputMethods(CancelWaiting);
+		}
 	}
 }

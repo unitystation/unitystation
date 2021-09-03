@@ -31,14 +31,14 @@ public class HackingProcessDoorSimple : HackingProcessBase
 	private List<HackingNode> inputNodes = new List<HackingNode>();
 	private List<HackingNode> outputNodes = new List<HackingNode>();
 
-	private DoorController controller;
-	public DoorController Controller
+	private DoorMasterController controller;
+	public DoorMasterController Controller
 	{
 		get
 		{
 			if (!controller)
 			{
-				controller = GetComponent<DoorController>();
+				controller = GetComponent<DoorMasterController>();
 			}
 			return controller;
 		}
@@ -199,7 +199,8 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		}
 
 		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList.ToList();
-		Shuffle(infList, Controller.doorType);
+		// TODO reimplement doorType shuffling
+		//Shuffle(infList, Controller.doorType);
 		foreach (HackingNodeInfo inf in infList)
 		{
 				HackingNode newNode = new HackingNode();
@@ -253,7 +254,7 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	public void ServerTryTogglePanel()
 	{
-		if (!Controller.isPerformingAction)
+		if (!Controller.IsPerformingAction)
 		{
 			ToggleWiresExposed();
 		}
