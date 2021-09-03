@@ -66,7 +66,9 @@ namespace TileManagement
 		/// </summary>
 		public Layer[] DamageableLayers { get; private set; }
 
-		private Matrix PresentMatrix = null;
+		private Matrix presentMatrix = null;
+
+		public Matrix PresentMatrix => presentMatrix;
 
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
@@ -166,7 +168,7 @@ namespace TileManagement
 			damageableLayersValues.Sort((layerOne, layerTwo) =>
 				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
 			DamageableLayers = damageableLayersValues.ToArray();
-			PresentMatrix = this.GetComponent<Matrix>();
+			presentMatrix = this.GetComponent<Matrix>();
 			if (Application.isPlaying == false) return;
 		}
 
@@ -1381,11 +1383,11 @@ namespace TileManagement
 						//so, Upgrade messages and the entire system to use vector4int
 						//but For now since the z is left hanging is ok
 						//If it was vector4int then Use that directly
-
+						var positionnew = position;
 						for (int i = 0; i < 50; i++)
 						{
-							position.z = 1 - i;
-							if (layer.RemoveTile(position))
+							positionnew.z = 1 - i;
+							if (layer.RemoveTile(positionnew))
 							{
 								return;
 							}
@@ -1487,7 +1489,7 @@ namespace TileManagement
 			//???
 			var min = CellToWorld(bounds.min);
 			var max = CellToWorld(bounds.max);
-			if (PresentMatrix?.MatrixMove?.inProgressRotation != null)
+			if (presentMatrix?.MatrixMove?.inProgressRotation != null)
 			{
 				Vector3Int TopRightMax = bounds.max;
 				Vector3Int BottomLeftMin = bounds.min;
@@ -1801,14 +1803,14 @@ namespace TileManagement
 							}
 
 
-							Vector3 AdjustedNormal = ((Vector3) normal).ToWorld(PresentMatrix);
-							AdjustedNormal = AdjustedNormal - (Vector3.zero.ToWorld(PresentMatrix));
+							Vector3 AdjustedNormal = ((Vector3) normal).ToWorld(presentMatrix);
+							AdjustedNormal = AdjustedNormal - (Vector3.zero.ToWorld(presentMatrix));
 
 
 							// Debug.DrawLine(wold, wold + AdjustedNormal, Color.cyan, 30);
 
-							return new MatrixManager.CustomPhysicsHit(((Vector3) vec).ToWorld(PresentMatrix),
-								(vecHit).ToWorld(PresentMatrix), AdjustedNormal,
+							return new MatrixManager.CustomPhysicsHit(((Vector3) vec).ToWorld(presentMatrix),
+								(vecHit).ToWorld(presentMatrix), AdjustedNormal,
 								new Vector2((float) RelativeX, (float) RelativeY).magnitude, TileLcation);
 						}
 					}
@@ -1907,14 +1909,26 @@ namespace TileManagement
 						var AlocalPlacezzero = localPlace;
 						AlocalPlacezzero.z = 0;
 						bool remove = true;
+						int LastIndex = 0;
+						int L = 0;
 						foreach (var TL in ToInsertDictionary[AlocalPlacezzero])
 						{
-							if (TL != null) remove = false;
+							if (TL != null)
+							{
+								remove = false;
+								LastIndex = L;
+							}
+
+							L++;
 						}
 
 						if (remove)
 						{
 							ToInsertDictionary.Remove(AlocalPlacezzero);
+						}
+						else
+						{
+							ToInsertDictionary[AlocalPlacezzero].RemoveRange(LastIndex + 1, ToInsertDictionary[AlocalPlacezzero].Count - (LastIndex+1));
 						}
 					}
 				}
