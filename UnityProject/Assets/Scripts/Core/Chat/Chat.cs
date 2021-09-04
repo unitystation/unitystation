@@ -125,22 +125,25 @@ public partial class Chat : MonoBehaviour
 			VoiceLevel = loudness
 		};
 
-		//Check if the player has an inventory and is not a ghost/spectator
-		if (sentByPlayer.Script.DynamicItemStorage != null &&
-			!sentByPlayer.Script.mind.IsSpectator || !sentByPlayer.Script.mind.body.IsDeadOrGhost)
+		//This is to make sure OOC doesn't break
+		if (sentByPlayer.Job != JobType.NULL)
 		{
-			foreach (ItemSlot slot in sentByPlayer.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+			//Check if is not a ghost/spectator and the player has an inventory.
+			if (!sentByPlayer.Script.mind.body.IsDeadOrGhost && sentByPlayer.Script.DynamicItemStorage != null)
 			{
-				Headset headset = slot.Item?.OrNull().gameObject.GetComponent<Headset>()?.OrNull();
-				if(headset != null)
+				foreach (ItemSlot slot in sentByPlayer.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
 				{
-					if (headset.LoudSpeakOn && channels.HasFlag(ChatChannel.Common) ||
-					    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
-					    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
-					    || channels.HasFlag(ChatChannel.Science)
-					    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+					Headset headset = slot.Item?.gameObject.GetComponent<Headset>();
+					if (headset != null)
 					{
-						chatEvent.VoiceLevel = headset.LoudspeakLevel;
+						if (headset.LoudSpeakOn && channels.HasFlag(ChatChannel.Common) ||
+						    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
+						    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
+						    || channels.HasFlag(ChatChannel.Science)
+						    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+						{
+							chatEvent.VoiceLevel = headset.LoudspeakLevel;
+						}
 					}
 				}
 			}
