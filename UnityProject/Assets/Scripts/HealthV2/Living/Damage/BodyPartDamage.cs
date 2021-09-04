@@ -261,7 +261,11 @@ namespace HealthV2
 					DismemberBodyPartWithChance();
 				}
 			}
-			if(attackType == AttackType.Fire) { ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN); }
+
+			if (attackType == AttackType.Fire || attackType == AttackType.Laser || attackType == AttackType.Energy)
+			{
+				ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN);
+			}
 			if(CanBeBroken){CheckIfBroken();} //If our external limb can be broken.
 		}
 
