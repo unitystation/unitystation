@@ -157,19 +157,26 @@ namespace HealthV2
 						if (bodyPart.CanBeBroken)
 						{
 							bodyPart.health -= damage;
-							bodyPart.CheckIfBroken();
+							bodyPart.CheckIfBroken(true);
 						}
 					}
 				}
 			}
 		}
 
-		public void CheckIfBroken()
+		public void CheckIfBroken(bool announceHurtDamage = false)
 		{
 			if (CanBeBroken)
 			{
 				if (Severity == BoneFracturesOnDamageSevarity) { isFractured = true; }
 				if (Severity >= BoneBreaksOnDamageSevarity) { isBroken = true; }
+
+				if (isFractured && isBroken != true && announceHurtDamage)
+				{
+					Chat.AddActionMsgToChat(HealthMaster.gameObject,
+						$"You hear a loud crack from your {BodyPartReadableName}.",
+						$"A loud crack can be heard from {HealthMaster.playerScript.visibleName}.");
+				}
 			}
 		}
 

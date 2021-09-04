@@ -23,10 +23,34 @@ namespace HealthV2
 		private string pireceDamageDescOnLARGE= "{readableName} suffers from a Ruptured Cavity.";
 		[SerializeField] private string internalDamageDesc	 = "This {readableName} is suffering from internal damage.";
 		[SerializeField] private string externalBleedingDesc = "This {readableName} is bleeding due to an open wound.";
+		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneBrokenDesc = "This {readableName} is suffering Hairline Fracture.";
+		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneFracturedDesc = "This {readableName} is suffering Compound Fracture. It is completely snapped in half.";
 
 		public string GetFullBodyPartDamageDescReport()
 		{
 			string report = $"Analyizing damage report for {BodyPartReadableName}.. \n";
+
+			if (CanBeBroken)
+			{
+				CheckIfBroken();
+				report += "[Fracture Level]\n";
+				if (IsBroken)
+				{
+					return TranslateTags(report + BoneBrokenDesc);
+				}
+
+				if (isFractured)
+				{
+					return TranslateTags(report + BoneFracturedDesc);
+				}
+
+				if (Severity == DamageSeverity.Light)
+				{
+					return TranslateTags(report + "Joint Dislocation detected.");
+				}
+
+				return TranslateTags(report + "Healthy.");
+			}
 
 			report += "[Open Wound Size -> ";
 			switch (currentCutSize)
@@ -102,9 +126,8 @@ namespace HealthV2
 					report += $"{burnDamageDescOnNone} \n";
 					break;
 			}
-
-			report = TranslateTags(report);
-			return report;
+			
+			return TranslateTags(report);
 		}
 
 		private string TranslateTags(string txt)
