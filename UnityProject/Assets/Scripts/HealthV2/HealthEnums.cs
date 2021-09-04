@@ -76,14 +76,6 @@ public enum TraumaDamageLevel
 	CRITICAL
 }
 
-public enum BluntDamageLevels
-{
-	HEALTHY,
-	MODERATE,
-	SEVERE,
-	CRITICAL
-}
-
 [Flags]
 public enum TraumaticDamageTypes
 {

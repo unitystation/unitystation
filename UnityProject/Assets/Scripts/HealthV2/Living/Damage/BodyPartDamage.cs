@@ -255,20 +255,14 @@ namespace HealthV2
 			}
 			if(attackType == AttackType.Bomb)
 			{
+				TakeBluntDamage(damage);
 				if(damageToLimb >= DamageThreshold)
 				{
 					DismemberBodyPartWithChance();
 				}
 			}
-			if(attackType == AttackType.Fire)
-			{
-				TakeBurnDamage(damage);
-			}
-
-			if(attackType ==  AttackType.Bomb || attackType ==  AttackType.Bullet)
-			{
-				TakeBluntDamage(damage);
-			}
+			if(attackType == AttackType.Fire) { ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN); }
+			if(CanBeBroken){CheckIfBroken();} //If our external limb can be broken.
 		}
 
 

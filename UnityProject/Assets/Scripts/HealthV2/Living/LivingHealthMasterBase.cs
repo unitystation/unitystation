@@ -713,7 +713,7 @@ namespace HealthV2
 		/// <returns></returns>
 		public bool HasTraumaDamage(BodyPartType partType)
 		{
-			foreach (var bodyPart in BodyPartList)
+			foreach (BodyPart bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == partType)
 				{

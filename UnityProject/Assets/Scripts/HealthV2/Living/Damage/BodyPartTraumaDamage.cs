@@ -81,17 +81,26 @@ namespace HealthV2
 
 		/// <summary>
 		/// Does this body part have a cut and how big is it?
-		/// </summary>
 		private BodyPartCutSize currentCutSize = BodyPartCutSize.NONE;
 
 		public bool CanBleedInternally = false;
 
 		public bool CanBleedExternally = false;
 
+		public bool CanBeBroken = false;
+
+		private bool isBroken = false;
+		private bool isFractured = false;
+		public bool IsBroken => isBroken;
+		public bool IsFractured => isFractured;
+
 		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
 		public float DamageThreshold = 18f;
+
+		[SerializeField] private DamageSeverity BoneFracturesOnDamageSevarity = DamageSeverity.Moderate;
+		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity = DamageSeverity.Bad;
 
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
@@ -122,10 +131,45 @@ namespace HealthV2
 				if (damageType == TraumaticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
 				CheckCutSize();
 			}
-			//Burn damage checks for it's own armor damage type.
+			//Burn and blunt damage checks for it's own armor damage type.
 			if (damageType == TraumaticDamageTypes.BURN)
 			{
 				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
+			}
+
+			if (damageType == TraumaticDamageTypes.BLUNT)
+			{
+				if (DMMath.Prob(SelfArmor.Melee * 100) == false)
+				{
+					TakeBluntDamage(tramuaDamage);
+				}
+			}
+		}
+
+		public void TakeBluntDamage(float damage)
+		{
+			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
+			{
+				if (!slot.IsEmpty)
+				{
+					if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
+					{
+						if (bodyPart.CanBeBroken)
+						{
+							bodyPart.health -= damage;
+							bodyPart.CheckIfBroken();
+						}
+					}
+				}
+			}
+		}
+
+		public void CheckIfBroken()
+		{
+			if (CanBeBroken)
+			{
+				if (Severity == BoneFracturesOnDamageSevarity) { isFractured = true; }
+				if (Severity >= BoneBreaksOnDamageSevarity) { isBroken = true; }
 			}
 		}
 
