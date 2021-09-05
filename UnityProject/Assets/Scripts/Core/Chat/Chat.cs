@@ -141,7 +141,7 @@ public partial class Chat : MonoBehaviour
 		//Check if is not a ghost/spectator and the player has an inventory.
 		void CheckVoiceLevel(PlayerScript script)
 		{
-			if (!script.mind.body.IsDeadOrGhost && script.DynamicItemStorage != null)
+			if (script.mind.body.IsDeadOrGhost == false && script.DynamicItemStorage != null)
 			{
 				foreach (ItemSlot slot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
 				{
