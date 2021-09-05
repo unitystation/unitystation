@@ -164,7 +164,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		{
 			pos = pos.RoundToInt();
 		}
-		var matrixInfo = MatrixManager.AtPoint(Vector3Int.RoundToInt(pos), false);
+		var matrixInfo = matrix.MatrixInfo;
 
 		predictedState.MatrixId = matrixInfo.Id;
 		predictedState.WorldPosition = pos;
