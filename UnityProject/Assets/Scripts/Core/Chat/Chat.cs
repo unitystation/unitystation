@@ -125,9 +125,6 @@ public partial class Chat : MonoBehaviour
 			VoiceLevel = loudness
 		};
 
-		//Check if is not a ghost/spectator and the player has an inventory.
-
-
 		//This is to make sure OOC doesn't break
 		if (sentByPlayer.Job != JobType.NULL)
 		{
@@ -232,18 +229,21 @@ public partial class Chat : MonoBehaviour
 
 	private static Loudness CheckVoiceLevel(PlayerScript script, ChatChannel channels)
 	{
-		if (script.mind.body.IsDeadOrGhost == false && script.DynamicItemStorage != null)
+		//Check if is not a ghost/spectator and the player has an inventory.
+		if (script.mind.body.IsDeadOrGhost || script.DynamicItemStorage == null)
 		{
-			foreach (ItemSlot slot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+			return Loudness.NORMAL;
+		}
+		
+		foreach (ItemSlot slot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+		{
+			Headset headset = slot.Item?.gameObject.GetComponent<Headset>();
+			if (headset == null) continue;
+			
+			//TODO this sets the voice level by the first headset found, if multiple should we choose loudest instead?
+			if (headset.LoudSpeakOn && IsOnCorrectChannels(channels))
 			{
-				Headset headset = slot.Item?.gameObject.GetComponent<Headset>();
-				if (headset != null)
-				{
-					if (headset.LoudSpeakOn && IsOnCorrectChannels(channels))
-					{
-						return headset.LoudspeakLevel;
-					}
-				}
+				return headset.LoudspeakLevel;
 			}
 		}
 
@@ -260,6 +260,7 @@ public partial class Chat : MonoBehaviour
 		{
 			return true;
 		}
+		
 		return false;
 	}
 
