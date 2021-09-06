@@ -918,6 +918,7 @@ namespace MapSaver
 						continue;
 					}
 
+					//if Field is a class and is not related to unity engine.object Serialise it
 					if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
 
 					if (APrefabDefault != null && AMonoSet != null)
@@ -926,8 +927,6 @@ namespace MapSaver
 							UseInstance);
 						continue;
 					}
-
-					//
 				}
 
 				if (Field.FieldType.IsGenericType && Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>)
@@ -935,7 +934,6 @@ namespace MapSaver
 				if (Field.FieldType == typeof(System.Action)) continue;
 
 
-				//if Field is a class and is not related to unity engine.object Serialise it
 				var PrefabDefault = Field.GetValue(PrefabInstance);
 				var MonoSet = Field.GetValue(SpawnedInstance);
 
@@ -971,11 +969,6 @@ namespace MapSaver
 				{
 					FieldData fieldData = new FieldData();
 					fieldData.Name = Prefix + Field.Name;
-					if (MonoSet == null)
-					{
-						Logger.Log("o3o");
-					}
-
 					fieldData.Data = MonoSet.ToString();
 					ClassData.Data.Add(fieldData);
 				}
