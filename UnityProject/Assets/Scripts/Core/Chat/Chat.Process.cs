@@ -322,7 +322,7 @@ public partial class Chat
 
 		switch (loudness)
 		{
-			case Loudness.QUITE:
+			case Loudness.QUIET:
 				voiceTag = "<size=32>";
 				break;
 			case Loudness.LOUD:

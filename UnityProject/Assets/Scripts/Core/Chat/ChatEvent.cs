@@ -81,7 +81,7 @@ public enum ChatModifier
 
 public enum Loudness
 {
-	QUITE,
+	QUIET,
 	NORMAL,
 	LOUD,
 	SCREAMING,
