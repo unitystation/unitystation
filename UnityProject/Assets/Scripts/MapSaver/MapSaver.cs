@@ -894,10 +894,7 @@ namespace MapSaver
 									{
 										var mono = Item as MonoBehaviour;
 										if (mono == null) continue;
-										if (UseInstance)
-										{
-										}
-
+										
 										PopulateIDRelation(ClassData, fieldData, mono, UseInstance);
 									}
 								}
