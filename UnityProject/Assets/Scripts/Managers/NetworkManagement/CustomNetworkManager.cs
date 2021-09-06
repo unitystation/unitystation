@@ -34,8 +34,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// List of ALL prefabs in the game which can be spawned, networked or not.
 	/// use spawnPrefabs to get only networked prefabs
 	/// </summary>
-	[HideInInspector]
-	public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
 
 	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new Dictionary<GameObject, int>();
 
@@ -47,8 +46,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
 	/// </summary>
-	[NonSerialized]
-	public UnityEvent OnClientDisconnected = new UnityEvent();
+	[NonSerialized] public UnityEvent OnClientDisconnected = new UnityEvent();
 
 	public override void Awake()
 	{
@@ -79,13 +77,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				if (allSpawnablePrefabs.Count > CurrentLocation + i)
 				{
 					if (allSpawnablePrefabs[CurrentLocation + i] == null) continue;
-					var PrefabTracker = allSpawnablePrefabs[CurrentLocation + i].GetComponent<PrefabTracker>();
-					if (PrefabTracker != null)
+					if (allSpawnablePrefabs[CurrentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
 					{
-						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] = allSpawnablePrefabs[CurrentLocation + i];
+						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] =
+							allSpawnablePrefabs[CurrentLocation + i];
 					}
 				}
 			}
+
 			CurrentLocation = CurrentLocation + 50;
 		}
 	}
@@ -102,7 +101,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
 		{
-
 		}
 	}
 
@@ -164,13 +162,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var telepathy = GetComponent<TelepathyTransport>();
 			if (telepathy != null)
 			{
-				telepathy.port = (ushort)config.ServerPort;
+				telepathy.port = (ushort) config.ServerPort;
 			}
 
 			var ignorance = GetComponent<Ignorance>();
 			if (ignorance != null)
 			{
-				ignorance.port = (ushort)config.ServerPort;
+				ignorance.port = (ushort) config.ServerPort;
 			}
 		}
 	}
@@ -189,7 +187,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		foreach (var objectsPath in objectsPaths)
 		{
 			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
-			if(asset == null) continue;
+			if (asset == null) continue;
 
 			if (asset.TryGetComponent<NetworkIdentity>(out _) && playerPrefab != asset)
 			{
@@ -228,9 +226,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 					PrefabUtility.SavePrefabAsset(Preexisting.gameObject);
 					PrefabUtility.SavePrefabAsset(prefabTracker.gameObject);
 				}
+
 				StoredIDs[prefabTracker.ForeverID] = prefabTracker;
 			}
 		}
+
 		AssetDatabase.StopAssetEditing();
 		AssetDatabase.SaveAssets();
 #endif
@@ -250,8 +250,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			return prefab[0];
 		}
 
-		Logger.LogError($"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
-		                " all prefabs must be in this list if they need to be spawnable");
+		Logger.LogError(
+			$"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
+			" all prefabs must be in this list if they need to be spawnable");
 
 		return null;
 	}
@@ -293,7 +294,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
-		if(AddressableCatalogueManager.Instance == null) return;
+		if (AddressableCatalogueManager.Instance == null) return;
 
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
 	}
@@ -343,13 +344,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
 			if (totalSeconds < minCoolDown)
 			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections", Category.Connections);
+				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections",
+					Category.Connections);
 				conn.Disconnect();
 				return;
 			}
 
 			connectCoolDown[conn.address] = DateTime.Now;
 		}
+
 		base.OnServerConnect(conn);
 	}
 
@@ -382,7 +385,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			// TODO check if this is needed
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			StartCoroutine(DoHeadlessCheck());
-
 		}
 	}
 
@@ -418,10 +420,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	private IEnumerator TransformWaltz()
 	{
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-		var sequence = new []
+		var sequence = new[]
 		{
 			Vector3.right, Vector3.up, Vector3.left, Vector3.down,
-				Vector3.down, Vector3.left, Vector3.up, Vector3.right
+			Vector3.down, Vector3.left, Vector3.up, Vector3.right
 		};
 		for (var i = 0; i < sequence.Length; i++)
 		{
@@ -429,6 +431,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			{
 				NudgeTransform(scripts[j], sequence[i]);
 			}
+
 			yield return WaitFor.Seconds(1.5f);
 		}
 	}

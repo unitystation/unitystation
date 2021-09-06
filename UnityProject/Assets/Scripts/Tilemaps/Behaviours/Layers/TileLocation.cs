@@ -11,6 +11,7 @@ namespace TileManagement
 		public MetaTileMap PresentMetaTileMap = null;
 		public Layer PresentlyOn = null;
 
+		//TODO Tile map upgrade , Converts into Vector4Int For under floor tiles
 		public Vector3Int TileCoordinates = Vector3Int.zero;
 		private Color colour = Color.white;
 

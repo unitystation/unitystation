@@ -95,7 +95,6 @@ namespace Objects.Atmospherics
 			networkTab = GetComponent<HasNetworkTab>();
 			registerObject = GetComponent<RegisterObject>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
-			SetDefaultIntegrity();
 		}
 
 		public override void OnStartServer()
@@ -143,31 +142,6 @@ namespace Objects.Atmospherics
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-		}
-
-		//this is just here so anyone trying to change the armor value in inspector sees it being
-		//reset
-		private void OnValidate()
-		{
-			SetDefaultIntegrity();
-		}
-
-		private void SetDefaultIntegrity()
-		{
-			//default canister integrity values
-			GetComponent<Integrity>().HeatResistance = 1000;
-			GetComponent<Integrity>().Armor = new Armor
-			{
-				Melee = 50,
-				Bullet = 50,
-				Laser = 50,
-				Energy = 100,
-				Bomb = 10,
-				Bio = 100,
-				Rad = 100,
-				Fire = 80,
-				Acid = 50
-			};
 		}
 
 		private void SyncBurstState(bool oldState, bool newState)

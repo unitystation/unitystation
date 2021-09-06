@@ -37,7 +37,7 @@ namespace Systems.Electricity.NodeModules
 		}
 
 		public float EditorResistance;
-		public bool NotEditorResistanceset = true;
+		private bool NotEditorResistanceset = true;
 
 		/// <summary>
 		/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet

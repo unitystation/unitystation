@@ -189,9 +189,9 @@ namespace Weapons
 		private uint queuedLoadMagNetID = NetId.Invalid;
 
 		private RegisterTile registerTile;
-		public ItemSlot magSlot;
-		public ItemSlot pinSlot;
-		public ItemSlot suppressorSlot;
+		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot magSlot;
+		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot pinSlot;
+		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot suppressorSlot;
 
 		protected const float PinRemoveTime = 10f;
 

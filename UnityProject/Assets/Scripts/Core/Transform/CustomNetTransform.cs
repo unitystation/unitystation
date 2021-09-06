@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using Items;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using NaughtyAttributes;
 using Objects;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -93,10 +95,10 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	}
 	private ItemAttributesV2 itemAttributes;
 
-	public TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
-	public TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
+	[ReadOnlyAttribute] public TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
+	[ReadOnlyAttribute] public TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
 
-	public TransformState clientState = TransformState.Uninitialized; //last reliable state from server
+	[ReadOnlyAttribute] public TransformState clientState = TransformState.Uninitialized; //last reliable state from server
 
 	#region ClientStateSyncVars
 	// ClientState SyncVars, separated out of clientState TransformState
@@ -127,7 +129,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 	#endregion
 
-	public TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
+	[ReadOnlyAttribute] public TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
 

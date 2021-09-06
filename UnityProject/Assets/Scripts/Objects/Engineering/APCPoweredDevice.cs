@@ -54,7 +54,12 @@ namespace Systems.Electricity
 
 		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("Resistance")]
+		[FormerlySerializedAs("resistance")]
+		private float InitialResistance = 99999999;
+
+
 		private float resistance = 99999999;
+
 
 		public float Resistance {
 			get => resistance;
@@ -117,6 +122,7 @@ namespace Systems.Electricity
 		{
 			if (this == null) return;
 			if (Powered != null) return;
+			resistance = InitialResistance;
 			Powered = GetComponent<IAPCPowerable>();
 			registerTile = GetComponent<RegisterTile>();
 			if (isSelfPowered)

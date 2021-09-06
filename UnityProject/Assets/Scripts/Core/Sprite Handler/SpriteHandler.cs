@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
 #endif
@@ -35,7 +36,9 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField]
 	private bool pushTextureOnStartUp = true;
 
-	[SerializeField, Range(0, 3)]
+	[FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 3)]
+	private int initialVariantIndex = 0;
+
 	private int variantIndex = 0;
 
 	private int cataloguePage = -1;
@@ -739,6 +742,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void TryInit()
 	{
+		variantIndex = initialVariantIndex;
 		GetImageComponent();
 		bool Status = this.GetImageComponentStatus();
 		ImageComponentStatus(false);

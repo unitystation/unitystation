@@ -61,7 +61,7 @@ namespace Objects.Atmospherics
 			var pipeNode = new PipeNode();
 			var rotation = Matrix4x4;
 			int Offset = PipeFunctions.GetOffsetAngle(rotation.rotation.eulerAngles.z);
-			pipeNode.Initialise(this, metaData, ZeroedLocation, matrix, Offset);
+			pipeNode.Initialise(this, metaData, Location, matrix, Offset);
 			metaData.PipeData.Add(pipeNode);
 		}
 
@@ -72,7 +72,7 @@ namespace Objects.Atmospherics
 			var pipeNode = new PipeNode();
 			var rotation = matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(Location);
 			int Offset = PipeFunctions.GetOffsetAngle(rotation.rotation.eulerAngles.z);
-			pipeNode.Initialise(this, metaData, ZeroedLocation, matrix, Offset);
+			pipeNode.Initialise(this, metaData, Location, matrix, Offset);
 			metaData.PipeData.Add(pipeNode);
 		}
 	}

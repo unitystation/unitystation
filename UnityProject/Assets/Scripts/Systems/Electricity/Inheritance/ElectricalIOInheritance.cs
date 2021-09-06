@@ -10,9 +10,9 @@ namespace Systems.Electricity
 	[Serializable]
 	public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	{
-		[SerializeField]
-		public IntrinsicElectronicData InData = new IntrinsicElectronicData();
-		public HashSet<IntrinsicElectronicData> connectedDevices = new HashSet<IntrinsicElectronicData>();
+
+		[NonSerialized] public IntrinsicElectronicData InData = new IntrinsicElectronicData();
+		[NonSerialized] public HashSet<IntrinsicElectronicData> connectedDevices = new HashSet<IntrinsicElectronicData>();
 
 		public RegisterTile registerTile;
 		public Matrix Matrix => registerTile.Matrix;

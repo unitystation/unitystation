@@ -4,6 +4,8 @@ using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2;
+using Items;
+using Newtonsoft.Json;
 using UnityEngine;
 using Objects.Construction;
 using TileManagement;
@@ -19,6 +21,8 @@ public class MetaDataLayer : MonoBehaviour
 	private ReactionManager reactionManager;
 	private Matrix matrix;
 	private FloorDecal existingSplat;
+
+	public Dictionary<GameObject, Vector3> InitialObjects = new Dictionary<GameObject, Vector3>();
 
 	private void Awake()
 	{
