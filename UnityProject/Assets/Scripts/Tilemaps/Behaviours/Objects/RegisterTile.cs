@@ -61,7 +61,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public ObjectType ObjectType => objectType;
 
-	public PushPull CustomTransform { get; private set; }
+	private IPushable iPushable;
 
 	/// <summary>
 	/// Matrix this object lives in
@@ -165,7 +165,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
-		CustomTransform = GetComponent<PushPull>();
+		iPushable = GetComponent<IPushable>();
 	}
 
 	public override void OnStartServer()
@@ -184,9 +184,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		if (CustomTransform)
+		if (iPushable != null)
 		{
-			CustomTransform.Pushable.SetInitialPositionStates();
+			iPushable.SetInitialPositionStates();
 		}
 		ServerSetNetworkedMatrixNetID(matrixSync.netId);
 	}
@@ -196,9 +196,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (isServer == false)
 		{
 			LogMatrixDebug("OnStartClient");
-			if (CustomTransform)
+			if (iPushable != null)
 			{
-				CustomTransform.Pushable.SetInitialPositionStates();
+				iPushable.SetInitialPositionStates();
 			}
 			NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration);
 		}
@@ -444,9 +444,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;
-		if (CustomTransform)
+		if (iPushable != null)
 		{
-			ServerSetLocalPosition(CustomTransform.Pushable.ServerLocalPosition);
+			ServerSetLocalPosition(iPushable.ServerLocalPosition);
 		}
 		else
 		{
@@ -461,9 +461,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void UpdatePositionClient()
 	{
-		if (CustomTransform)
+		if (iPushable != null)
 		{
-			ClientSetLocalPosition(CustomTransform.Pushable.ClientLocalPosition);
+			ClientSetLocalPosition(iPushable.ClientLocalPosition);
 		}
 		else
 		{
