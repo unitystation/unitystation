@@ -125,42 +125,13 @@ public partial class Chat : MonoBehaviour
 			VoiceLevel = loudness
 		};
 
-		bool IsOnCorrectChannels()
-		{
-			if (channels.HasFlag(ChatChannel.Common) ||
-			    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
-			    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
-			    || channels.HasFlag(ChatChannel.Science)
-			    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
-			{
-				return true;
-			}
-			return false;
-		}
-
 		//Check if is not a ghost/spectator and the player has an inventory.
-		void CheckVoiceLevel(PlayerScript script)
-		{
-			if (script.mind.body.IsDeadOrGhost == false && script.DynamicItemStorage != null)
-			{
-				foreach (ItemSlot slot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
-				{
-					Headset headset = slot.Item?.gameObject.GetComponent<Headset>();
-					if (headset != null)
-					{
-						if (headset.LoudSpeakOn && IsOnCorrectChannels())
-						{
-							chatEvent.VoiceLevel = headset.LoudspeakLevel;
-						}
-					}
-				}
-			}
-		}
+
 
 		//This is to make sure OOC doesn't break
 		if (sentByPlayer.Job != JobType.NULL)
 		{
-			CheckVoiceLevel(sentByPlayer.Script);
+			CheckVoiceLevel(sentByPlayer.Script, chatEvent.channels);
 		}
 
 
@@ -257,6 +228,39 @@ public partial class Chat : MonoBehaviour
 		}
 
 		InvokeChatEvent(chatEvent);
+	}
+
+	private static Loudness CheckVoiceLevel(PlayerScript script, ChatChannel channels)
+	{
+		if (script.mind.body.IsDeadOrGhost == false && script.DynamicItemStorage != null)
+		{
+			foreach (ItemSlot slot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
+			{
+				Headset headset = slot.Item?.gameObject.GetComponent<Headset>();
+				if (headset != null)
+				{
+					if (headset.LoudSpeakOn && IsOnCorrectChannels(channels))
+					{
+						return headset.LoudspeakLevel;
+					}
+				}
+			}
+		}
+
+		return Loudness.NORMAL;
+	}
+
+	private static bool IsOnCorrectChannels(ChatChannel channels)
+	{
+		if (channels.HasFlag(ChatChannel.Common) ||
+		    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
+		    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
+		    || channels.HasFlag(ChatChannel.Science)
+		    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/// <summary>
