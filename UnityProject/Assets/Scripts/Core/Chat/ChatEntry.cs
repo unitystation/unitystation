@@ -159,6 +159,7 @@ public class ChatEntry : MonoBehaviour
 		}
 	}
 
+
 	public void AddChatDuplication()
 	{
 		if (stackCount == 1)

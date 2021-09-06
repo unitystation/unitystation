@@ -4,13 +4,26 @@ using Mirror;
 /// <summary>
 ///     Headset properties
 /// </summary>
-public class Headset : NetworkBehaviour
+public class Headset : NetworkBehaviour, IInteractable<HandActivate>
 {
 	[SyncVar] public EncryptionKeyType EncryptionKey;
+	[SyncVar] public bool LoudSpeakOn = false;
+	public bool HasLoudSpeak = false;
+	public Loudness LoudspeakLevel = Loudness.SCREAMING;
 
 	public void init()
 	{
 		getEncryptionTypeFromHier();
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		if (HasLoudSpeak)
+		{
+			LoudSpeakOn = !LoudSpeakOn;
+			string result = LoudSpeakOn ? "turn on" : "turn off";
+			Chat.AddExamineMsg(interaction.Performer, $"You {result} the {gameObject.ExpensiveName()}");
+		}
 	}
 
 	private void getEncryptionTypeFromHier()
