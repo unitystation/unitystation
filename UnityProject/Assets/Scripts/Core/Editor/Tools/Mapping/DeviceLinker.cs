@@ -188,7 +188,8 @@ namespace Core.Editor.Tools.Mapping
 
 					return false;
 				}
-				
+
+				EditorUtility.SetDirty((Component)slave);
 				return true;
 			});
 
