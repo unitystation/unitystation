@@ -231,6 +231,13 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	/// <returns>true if transform changed</returns>
 	private bool Synchronize()
 	{
+		if (this == null)
+		{
+			//Poke() can be hit in the middle of roundend/roundstart transition while our OnDisable() has already ran
+			//In that case the UpdateManager will carry a reference to the action from a deleted gameobject
+			//TODO: fix initialization order t
+			return false;
+		}
 		//Isn't run on server as clientValueChanged is always false for server
 		//Pokes the client to do changes if values have changed from syncvars
 		if (clientValueChanged)
