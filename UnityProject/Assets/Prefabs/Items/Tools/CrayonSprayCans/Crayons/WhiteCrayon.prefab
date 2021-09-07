@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: initialName
       value: White Crayon
       objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: df24abeb268ff5942962132dd2d16d24,
+        type: 2}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1487292090815827991, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: m_Sprite
@@ -86,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 1713105370501111551, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 14acfc978afadcc4ba7aeee378564d02
       objectReference: {fileID: 0}
     - target: {fileID: 4833495918207883468, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
@@ -94,5 +110,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dfa4d7f72328a1e48932d57b7b33419a,
         type: 2}
+    - target: {fileID: 5685970718737428262, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: foreverID
+      value: 14acfc978afadcc4ba7aeee378564d02
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9535c39a291c4184a8e366e0b8295ef6, type: 3}

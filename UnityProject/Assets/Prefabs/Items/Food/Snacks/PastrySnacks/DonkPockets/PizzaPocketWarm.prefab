@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fb5cf8cd620f1434c8d5954ac03aa2b7,
         type: 3}
+    - target: {fileID: 2985111399859524703, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3028951143565990583, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 71b6b53819674ac499ee6dfcbaa14b73
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3138807439002557047, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -80,13 +85,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialDescription
-      value: Delicious, cheesy, and even better when hot.
+      propertyPath: initialName
+      value: warm Pizza-pocket
       objectReference: {fileID: 0}
     - target: {fileID: 3274486538061236321, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialName
-      value: warm Pizza-pocket
+      propertyPath: initialDescription
+      value: Delicious, cheesy, and even better when hot.
       objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
@@ -100,15 +105,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 009f1045026b48848b7eeb01060f8c18,
         type: 2}
+    - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4230781465489895339, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -119,10 +124,21 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 154
       objectReference: {fileID: 0}
+    - target: {fileID: 6506439916034532723, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 154
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297446324460465006, guid: 76e58cccbbfd2ab40b893f51eddd9094,
+        type: 3}
+      propertyPath: foreverID
+      value: 71b6b53819674ac499ee6dfcbaa14b73
+      objectReference: {fileID: 0}
     - target: {fileID: 9140853328041680004, guid: 76e58cccbbfd2ab40b893f51eddd9094,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 10c8ee6c6dfa73948a4a9ea6f6f20c51,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76e58cccbbfd2ab40b893f51eddd9094, type: 3}

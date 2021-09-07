@@ -9,15 +9,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 2717702614898470369, guid: b7f9ffc5f19a51546bc9474d372c12c4,
+        type: 3}
+    - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: NutritionLevel
       value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: leavings
-      value: 
-      objectReference: {fileID: 2717702614898470369, guid: b7f9ffc5f19a51546bc9474d372c12c4,
+      propertyPath: StartingNutrients
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329804638538092056, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: foreverID
+      value: cb6015947013c8d40b9559d4d2267151
+      objectReference: {fileID: 0}
     - target: {fileID: 3290308518079887858, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -56,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -97,7 +107,7 @@ PrefabInstance:
     - target: {fileID: 8753779990741090241, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cb6015947013c8d40b9559d4d2267151
       objectReference: {fileID: 0}
     - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -105,15 +115,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: eb33ad3ad537f6d43864e40a5d1663c5,
         type: 3}
-    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+    - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialDescription
-      value: Now that's a nic'e meatball!
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialName
       value: spaghetti and meatballs
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Now that's a nic'e meatball!
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 921317910642135246, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}

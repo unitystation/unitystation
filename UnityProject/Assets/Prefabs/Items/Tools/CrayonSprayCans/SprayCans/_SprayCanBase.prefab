@@ -30,6 +30,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d138364514c28c94082e6a2b3b63a68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   setCrayonColour: 0
   customColour: {r: 1, g: 1, b: 1, a: 1}
   timeToDraw: 5
@@ -44,6 +46,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  crayonBoxCapacity: {fileID: 0}
 --- !u!1001 &5948266683916824422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55,6 +58,11 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: fd39cc49bd6b3074792f93ac2596561b
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -74,7 +82,7 @@ PrefabInstance:
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fd39cc49bd6b3074792f93ac2596561b
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

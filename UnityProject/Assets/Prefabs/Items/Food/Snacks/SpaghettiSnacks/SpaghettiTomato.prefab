@@ -18,6 +18,16 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 400
       objectReference: {fileID: 0}
+    - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329804638538092056, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 13e9d532c5f8c554e8fbee1e512d3b50
+      objectReference: {fileID: 0}
     - target: {fileID: 3290308518079887858, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -27,18 +37,19 @@ PrefabInstance:
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 6
-      objectReference: {fileID: 0}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 009f1045026b48848b7eeb01060f8c18,
+        type: 2}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
@@ -47,18 +58,28 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 10
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 4
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8714352156879438453, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: m_Name
       value: SpaghettiTomato
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -77,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -118,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 8753779990741090241, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 13e9d532c5f8c554e8fbee1e512d3b50
       objectReference: {fileID: 0}
     - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -126,17 +142,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 25babfcb236e896408e7b2a5c5ec44f0,
         type: 3}
-    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+    - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialDescription
-      value: Spaghetti and crushed tomatoes. Just like your abusive father used to
-        make!
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialName
       value: spaghetti
       objectReference: {fileID: 0}
+    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Spaghetti and crushed tomatoes. Just like your abusive father used to
+        make!
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179614080030739363, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179614080030739363, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c08151a3276460d4d912aa95befa88b8,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 921317910642135246, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}

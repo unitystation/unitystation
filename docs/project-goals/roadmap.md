@@ -88,7 +88,7 @@ note: goals that are crossed out are goals that have been completed
        <td>
           <ul>
               <li>Language support (Localisation )</li>
-              <li>Crafting menu</li>
+              <li><del>Crafting menu</del></li>
               <li>Research Gameplay</li>
               <li>Admin tool remapping(could be in 0.5)</li>
               <li>Gravity generator for station</li>

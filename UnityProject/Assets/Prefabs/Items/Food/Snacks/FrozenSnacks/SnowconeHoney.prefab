@@ -13,9 +13,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 50003585b49e5fe48a167e713a754a63,
         type: 2}
+    - target: {fileID: 1094369567181956244, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: foreverID
+      value: f2fafeba491b2654496e53736b4d2e12
+      objectReference: {fileID: 0}
     - target: {fileID: 2756779714572970633, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: NutritionLevel
+      value: 225
+      objectReference: {fileID: 0}
+    - target: {fileID: 2756779714572970633, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 225
       objectReference: {fileID: 0}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
@@ -69,7 +79,7 @@ PrefabInstance:
     - target: {fileID: 6197365604022048077, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f2fafeba491b2654496e53736b4d2e12
       objectReference: {fileID: 0}
     - target: {fileID: 6306940080882652557, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}

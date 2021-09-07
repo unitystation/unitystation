@@ -20,17 +20,17 @@ PrefabInstance:
     - target: {fileID: 620949774835371335, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1866217282509399829, guid: b087cae0f7059d946a59146ea8d0fb04,
-        type: 3}
-      propertyPath: initialDescription
-      value: A highly pressurized water tank made to hold gargantuan amounts of water.
+      value: 66f05879999b49141bbfc4e0fdc9903a
       objectReference: {fileID: 0}
     - target: {fileID: 1866217282509399829, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
       propertyPath: initialName
       value: high-capacity water tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 1866217282509399829, guid: b087cae0f7059d946a59146ea8d0fb04,
+        type: 3}
+      propertyPath: initialDescription
+      value: A highly pressurized water tank made to hold gargantuan amounts of water.
       objectReference: {fileID: 0}
     - target: {fileID: 4545028754367107839, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
@@ -38,10 +38,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2bb18b2472f84d043abb551eab876dc4,
         type: 2}
+    - target: {fileID: 5346396631544071788, guid: b087cae0f7059d946a59146ea8d0fb04,
+        type: 3}
+      propertyPath: foreverID
+      value: 66f05879999b49141bbfc4e0fdc9903a
+      objectReference: {fileID: 0}
     - target: {fileID: 9026303602175473701, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
       propertyPath: m_Name
       value: WaterTankHighCapacity
+      objectReference: {fileID: 0}
+    - target: {fileID: 9031523234013953791, guid: b087cae0f7059d946a59146ea8d0fb04,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9031523234013953791, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
@@ -60,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9031523234013953791, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9031523234013953791, guid: b087cae0f7059d946a59146ea8d0fb04,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -72,16 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9031523234013953791, guid: b087cae0f7059d946a59146ea8d0fb04,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9031523234013953791, guid: b087cae0f7059d946a59146ea8d0fb04,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9031523234013953791, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}

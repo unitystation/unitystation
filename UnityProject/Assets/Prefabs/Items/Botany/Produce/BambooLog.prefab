@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 992a15a55349f51498eb6d97bb260c9a,
         type: 2}
+    - target: {fileID: 907837489939857478, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: foreverID
+      value: bf94a997601ad824c808b3c40696274c
+      objectReference: {fileID: 0}
     - target: {fileID: 4477217724768421945, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: seedPacket
@@ -29,6 +34,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A long and resistant bamboo log.
       objectReference: {fileID: 0}
+    - target: {fileID: 6028318533108303357, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028318533108303357, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ea5add3a4598b1419b6d325d10f3101,
+        type: 2}
     - target: {fileID: 6062953987052555307, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: m_Name
@@ -92,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 6176622151696675231, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bf94a997601ad824c808b3c40696274c
       objectReference: {fileID: 0}
     - target: {fileID: 6256068449893318519, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}

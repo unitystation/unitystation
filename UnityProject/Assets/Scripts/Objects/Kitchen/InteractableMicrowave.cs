@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using UnityEngine;
+
 
 namespace Objects.Kitchen
 {
@@ -38,17 +40,21 @@ namespace Objects.Kitchen
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			return $"The microwave is currently {microwave.currentState.StateMsgForExamine}. " +
-					$"You see {(microwave.HasContents ? microwave.storageSlot.ItemObject.ExpensiveName() : "nothing")} inside. " +
-					$"There {(microwave.StorageSize() == 1 ? "is 1 slot" : $"are {microwave.StorageSize()} slots")} inside."+
-					$"The timer shows {Math.Ceiling(microwave.microwaveTimer)} seconds remaining.";
+			var contents = microwave.HasContents
+					? string.Join(", ", $"<b>{microwave.Slots.Where(slot => slot.IsOccupied).Select(slot => slot.ItemObject.ExpensiveName())}</b>")
+					: "<b>nothing</b>";
+
+			return $"The microwave is currently <b>{microwave.CurrentState.StateMsgForExamine}</b>. " +
+					$"You see {contents} inside. " +
+					$"There {(microwave.StorageSize == 1 ? "is <b>one</b> slot" : $"are <b>{microwave.StorageSize}</b> slots")} available. "+
+					$"The timer shows <b>{Math.Ceiling(microwave.MicrowaveTimer)}</b> seconds remaining.";
 		}
 
 		#region Interaction-PositionalHandApply
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
 		}
@@ -57,7 +63,7 @@ namespace Objects.Kitchen
 		{
 			if (doorRegion.Contains(interaction.WorldPositionTarget))
 			{
-				microwave.RequestDoorInteraction(interaction.HandSlot);
+				microwave.RequestDoorInteraction(interaction);
 			}
 			else if (powerRegion.Contains(interaction.WorldPositionTarget))
 			{

@@ -15,14 +15,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4173330104228246277, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
-      propertyPath: initialDescription
-      value: The latest and greatest in custodial convenience, a trashbag that is
-        capable of holding vast quantities of garbage.
+      propertyPath: initialName
+      value: trash bag of holding
       objectReference: {fileID: 0}
     - target: {fileID: 4173330104228246277, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
-      propertyPath: initialName
-      value: trash bag of holding
+      propertyPath: initialDescription
+      value: The latest and greatest in custodial convenience, a trashbag that is
+        capable of holding vast quantities of garbage.
       objectReference: {fileID: 0}
     - target: {fileID: 4464978965926195003, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
@@ -33,12 +33,17 @@ PrefabInstance:
     - target: {fileID: 4508959412760879571, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9c0f7b2a45f9ff7439b38da123834514
       objectReference: {fileID: 0}
     - target: {fileID: 4541668200327814247, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
       propertyPath: m_Name
       value: TrashBagOfHolding
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
@@ -57,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -72,16 +82,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4545465775747391763, guid: 8c5919c02a742274a82e60ed2153f555,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -94,6 +94,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475279177878441994, guid: 8c5919c02a742274a82e60ed2153f555,
+        type: 3}
+      propertyPath: foreverID
+      value: 9c0f7b2a45f9ff7439b38da123834514
       objectReference: {fileID: 0}
     - target: {fileID: 7656436154657974240, guid: 8c5919c02a742274a82e60ed2153f555,
         type: 3}

@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
-public class Roll8Ball : RollSpecialDie
+namespace Items.Dice
 {
-	public override string Examine(Vector3 worldPos = default)
+	public class Roll8Ball : RollSpecialDie
 	{
-		return GetMessage();
-	}
+		public override string Examine(Vector3 worldPos = default)
+		{
+			return GetMessage();
+		}
 
-	protected override string GetMessage()
-	{
-		return $"The {dieName} reads; '{specialFaces[result - 1]}'.";
+		protected override string GetMessage()
+		{
+			return $"The {dieName} reads; '{specialFaces[result - 1]}'.";
+		}
 	}
 }

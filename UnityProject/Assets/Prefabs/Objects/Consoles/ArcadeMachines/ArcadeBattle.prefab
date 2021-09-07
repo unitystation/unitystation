@@ -9,18 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 631031224189086409, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}
-      propertyPath: initialDescription
-      value: Does not support Pinball.
+      propertyPath: initialName
+      value: arcade machine
       objectReference: {fileID: 0}
     - target: {fileID: 631031224189086409, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}
-      propertyPath: initialName
-      value: arcade machine
+      propertyPath: initialDescription
+      value: Does not support Pinball.
       objectReference: {fileID: 0}
     - target: {fileID: 1853780670727930011, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a43bd4529e7fee04bb7d974a889d9f3b
       objectReference: {fileID: 0}
     - target: {fileID: 4087335409498391312, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}
@@ -34,10 +34,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7440123599954570578, guid: 4778b63c3cee8a54989c2de8549805cd,
         type: 3}
+    - target: {fileID: 6563374536800406448, guid: ad5e3e73630862d4c9c3424d5a308a43,
+        type: 3}
+      propertyPath: foreverID
+      value: a43bd4529e7fee04bb7d974a889d9f3b
+      objectReference: {fileID: 0}
     - target: {fileID: 7810405554709198329, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}
       propertyPath: m_Name
       value: ArcadeBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7814193622483743523, guid: ad5e3e73630862d4c9c3424d5a308a43,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7814193622483743523, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}
@@ -56,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7814193622483743523, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7814193622483743523, guid: ad5e3e73630862d4c9c3424d5a308a43,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7814193622483743523, guid: ad5e3e73630862d4c9c3424d5a308a43,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7814193622483743523, guid: ad5e3e73630862d4c9c3424d5a308a43,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7814193622483743523, guid: ad5e3e73630862d4c9c3424d5a308a43,
         type: 3}

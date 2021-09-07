@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Antihol
   m_EditorClassIdentifier: 
   displayName: Antihol
-  description: Purges alcoholic substance from the patient's body and eliminates its
-    side effects.
+  description: Purges alcoholic substance from the patient's body and eliminates
+    its side effects.
   color: {r: 0, g: 0.7058824, b: 0.78431374, a: 1}
   state: 0
+  heatDensity: 5
+  indexInSingleton: 238

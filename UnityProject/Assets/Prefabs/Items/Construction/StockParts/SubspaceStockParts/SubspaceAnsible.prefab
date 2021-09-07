@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6fa3596f1f9cd604d84b5a0d178522b0,
         type: 3}
+    - target: {fileID: 4044236217969615630, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4234075059877604646, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
@@ -76,17 +81,7 @@ PrefabInstance:
     - target: {fileID: 4271034696529489382, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
-        type: 3}
-      propertyPath: initialDescription
-      value: A compact module capable of sensing extradimensional activity.
+      value: c5b9669d73c1e974dbc238867757a34c
       objectReference: {fileID: 0}
     - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
@@ -95,10 +90,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
+      propertyPath: initialDescription
+      value: A compact module capable of sensing extradimensional activity.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 7ee1f286bc98a994abf999faee9a87b2,
         type: 2}
+    - target: {fileID: 7091848973800414271, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: foreverID
+      value: c5b9669d73c1e974dbc238867757a34c
+      objectReference: {fileID: 0}
     - target: {fileID: 8041152682441747413, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
       propertyPath: PresentSpriteSet

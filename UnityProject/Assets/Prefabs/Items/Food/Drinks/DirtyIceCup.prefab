@@ -25,23 +25,28 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2452058195842122787, guid: bf6659d0928edc74d87be58bb72f78d5,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 5
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2452058195842122787, guid: bf6659d0928edc74d87be58bb72f78d5,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 25
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3655035755859161407, guid: bf6659d0928edc74d87be58bb72f78d5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 211cbbd8044ae68478c4563b3e0375da
       objectReference: {fileID: 0}
     - target: {fileID: 3687742481302555787, guid: bf6659d0928edc74d87be58bb72f78d5,
         type: 3}
       propertyPath: m_Name
       value: DirtyIceCup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692665957031637503, guid: bf6659d0928edc74d87be58bb72f78d5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3692665957031637503, guid: bf6659d0928edc74d87be58bb72f78d5,
         type: 3}
@@ -60,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3692665957031637503, guid: bf6659d0928edc74d87be58bb72f78d5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692665957031637503, guid: bf6659d0928edc74d87be58bb72f78d5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -72,16 +82,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3692665957031637503, guid: bf6659d0928edc74d87be58bb72f78d5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3692665957031637503, guid: bf6659d0928edc74d87be58bb72f78d5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3692665957031637503, guid: bf6659d0928edc74d87be58bb72f78d5,
         type: 3}
@@ -127,5 +127,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9737a86db019e3f4a9ab8880703cddc1,
         type: 2}
+    - target: {fileID: 7752885029893800166, guid: bf6659d0928edc74d87be58bb72f78d5,
+        type: 3}
+      propertyPath: foreverID
+      value: 211cbbd8044ae68478c4563b3e0375da
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf6659d0928edc74d87be58bb72f78d5, type: 3}

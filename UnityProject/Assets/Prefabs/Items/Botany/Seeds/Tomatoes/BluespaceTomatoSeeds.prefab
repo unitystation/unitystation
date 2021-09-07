@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4031274943038803880, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
+        type: 3}
+      propertyPath: foreverID
+      value: be29a54809c5bfa4ba2d9fb3f1853261
+      objectReference: {fileID: 0}
     - target: {fileID: 4183089652389640258, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,13 +20,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7613005744356764839, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into bluespace tomato plants.
+      propertyPath: initialName
+      value: pack of bluespace tomato seeds
       objectReference: {fileID: 0}
     - target: {fileID: 7613005744356764839, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
-      propertyPath: initialName
-      value: pack of bluespace tomato seeds
+      propertyPath: initialDescription
+      value: These seeds grow into bluespace tomato plants.
       objectReference: {fileID: 0}
     - target: {fileID: 7906838027808043161, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
@@ -32,12 +37,17 @@ PrefabInstance:
     - target: {fileID: 7989239845523783281, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: be29a54809c5bfa4ba2d9fb3f1853261
       objectReference: {fileID: 0}
     - target: {fileID: 8019590249366242245, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
       propertyPath: m_Name
       value: BluespaceTomatoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023388099663707825, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8023388099663707825, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
@@ -56,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8023388099663707825, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8023388099663707825, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8023388099663707825, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8023388099663707825, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8023388099663707825, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
@@ -96,9 +101,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8698534658007849340, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Bluespace Tomato Plants
       objectReference: {fileID: 0}
+    - target: {fileID: 8698534658007849340, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 7965733161767474305, guid: 4517f9573453bd5439c897bdc416e6f5,
+        type: 3}
+    - target: {fileID: 8698534658007849340, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e81f58c40394ab4c9f67b8d3bec2d55,
+        type: 2}
     - target: {fileID: 8698534658007849340, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
       propertyPath: plantData.PlantTrays.Array.size
@@ -111,20 +128,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8698534658007849340, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 7965733161767474305, guid: 4517f9573453bd5439c897bdc416e6f5,
-        type: 3}
-    - target: {fileID: 8698534658007849340, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Bluespace Tomato Plants
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8698534658007849340, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
-        type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 3e81f58c40394ab4c9f67b8d3bec2d55,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ead7b7ecf45e495409bb1ae8c8e53f3a, type: 3}

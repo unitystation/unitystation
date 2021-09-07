@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -33,8 +34,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// List of ALL prefabs in the game which can be spawned, networked or not.
 	/// use spawnPrefabs to get only networked prefabs
 	/// </summary>
-	[HideInInspector]
-	public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+
+	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new Dictionary<GameObject, int>();
+
+	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new Dictionary<string, GameObject>();
 
 	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
 	private const double minCoolDown = 1f;
@@ -42,11 +46,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
 	/// </summary>
-	[NonSerialized]
-	public UnityEvent OnClientDisconnected = new UnityEvent();
+	[NonSerialized] public UnityEvent OnClientDisconnected = new UnityEvent();
 
 	public override void Awake()
 	{
+		if (IndexLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsIndex).Start();
+		}
+
+
 		if (Instance == null)
 		{
 			Instance = this;
@@ -56,6 +65,45 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			Destroy(gameObject);
 		}
 	}
+
+	private int CurrentLocation = 0;
+
+	public void Update()
+	{
+		if (allSpawnablePrefabs.Count > CurrentLocation)
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				if (allSpawnablePrefabs.Count > CurrentLocation + i)
+				{
+					if (allSpawnablePrefabs[CurrentLocation + i] == null) continue;
+					if (allSpawnablePrefabs[CurrentLocation + i].TryGetComponent<PrefabTracker>(out var PrefabTracker))
+					{
+						ForeverIDLookupSpawnablePrefabs[PrefabTracker.ForeverID] =
+							allSpawnablePrefabs[CurrentLocation + i];
+					}
+				}
+			}
+
+			CurrentLocation = CurrentLocation + 50;
+		}
+	}
+
+	public void SetUpSpawnablePrefabsIndex()
+	{
+		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
+		{
+			IndexLookupSpawnablePrefabs[allSpawnablePrefabs[i]] = i;
+		}
+	}
+
+	public void SetUpSpawnablePrefabsForEverID()
+	{
+		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
+		{
+		}
+	}
+
 	public InitialisationSystems Subsystem => InitialisationSystems.CustomNetworkManager;
 
 	void IInitialise.Initialise()
@@ -114,13 +162,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var telepathy = GetComponent<TelepathyTransport>();
 			if (telepathy != null)
 			{
-				telepathy.port = (ushort)config.ServerPort;
+				telepathy.port = (ushort) config.ServerPort;
 			}
 
 			var ignorance = GetComponent<Ignorance>();
 			if (ignorance != null)
 			{
-				ignorance.port = (ushort)config.ServerPort;
+				ignorance.port = (ushort) config.ServerPort;
 			}
 		}
 	}
@@ -128,23 +176,63 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public void SetSpawnableList()
 	{
 #if UNITY_EDITOR
+		AssetDatabase.StartAssetEditing();
 		spawnPrefabs.Clear();
 		allSpawnablePrefabs.Clear();
+
+		Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
 
 		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 		foreach (var objectsPath in objectsPaths)
 		{
 			var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
-			if(asset == null) continue;
+			if (asset == null) continue;
 
-			if (asset.TryGetComponent<NetworkIdentity>(out _))
+			if (asset.TryGetComponent<NetworkIdentity>(out _) && playerPrefab != asset)
 			{
 				spawnPrefabs.Add(asset);
 			}
 
 			allSpawnablePrefabs.Add(asset);
+
+			if (asset.TryGetComponent<PrefabTracker>(out var prefabTracker))
+			{
+				if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
+				{
+					var OriginalOldID = prefabTracker.ForeverID;
+					//TODO Someone smarter than me work out which one is the base prefab
+					StoredIDs[prefabTracker.ForeverID].ReassignID();
+					prefabTracker.ReassignID();
+					var Preexisting = StoredIDs[OriginalOldID];
+
+					if (Preexisting.ForeverID != OriginalOldID &&
+					    prefabTracker.ForeverID != OriginalOldID)
+					{
+						Logger.LogError("OH GOD What is the original I can't tell!! " +
+						                "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+						                "the prefab variant parent for " +
+						                Preexisting.gameObject +
+						                " and " + prefabTracker.gameObject);
+
+						prefabTracker.ForeverID = OriginalOldID;
+						Preexisting.ForeverID = OriginalOldID;
+						continue;
+					}
+
+
+					StoredIDs[Preexisting.ForeverID] = Preexisting;
+					StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+					PrefabUtility.SavePrefabAsset(Preexisting.gameObject);
+					PrefabUtility.SavePrefabAsset(prefabTracker.gameObject);
+				}
+
+				StoredIDs[prefabTracker.ForeverID] = prefabTracker;
+			}
 		}
+
+		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
 #endif
 	}
 
@@ -162,8 +250,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			return prefab[0];
 		}
 
-		Logger.LogError($"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
-		                " all prefabs must be in this list if they need to be spawnable");
+		Logger.LogError(
+			$"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
+			" all prefabs must be in this list if they need to be spawnable");
 
 		return null;
 	}
@@ -205,7 +294,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
-		if(AddressableCatalogueManager.Instance == null) return;
+		if (AddressableCatalogueManager.Instance == null) return;
 
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
 	}
@@ -255,13 +344,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
 			if (totalSeconds < minCoolDown)
 			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections", Category.Connections);
+				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections",
+					Category.Connections);
 				conn.Disconnect();
 				return;
 			}
 
 			connectCoolDown[conn.address] = DateTime.Now;
 		}
+
 		base.OnServerConnect(conn);
 	}
 
@@ -294,7 +385,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			// TODO check if this is needed
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			StartCoroutine(DoHeadlessCheck());
-
 		}
 	}
 
@@ -330,10 +420,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	private IEnumerator TransformWaltz()
 	{
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-		var sequence = new []
+		var sequence = new[]
 		{
 			Vector3.right, Vector3.up, Vector3.left, Vector3.down,
-				Vector3.down, Vector3.left, Vector3.up, Vector3.right
+			Vector3.down, Vector3.left, Vector3.up, Vector3.right
 		};
 		for (var i = 0; i < sequence.Length; i++)
 		{
@@ -341,6 +431,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			{
 				NudgeTransform(scripts[j], sequence[i]);
 			}
+
 			yield return WaitFor.Seconds(1.5f);
 		}
 	}

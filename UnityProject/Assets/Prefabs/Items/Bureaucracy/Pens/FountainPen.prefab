@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2417351120508978651, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: foreverID
+      value: 8aed0ee99da5fca4d93befe72d7da164
+      objectReference: {fileID: 0}
     - target: {fileID: 3202216405552181809, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -16,7 +21,12 @@ PrefabInstance:
     - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8aed0ee99da5fca4d93befe72d7da164
+      objectReference: {fileID: 0}
+    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
@@ -86,13 +91,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9212969941508220628, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a common fountain pen, with a faux wood body.
+      propertyPath: initialName
+      value: fountain pen
       objectReference: {fileID: 0}
     - target: {fileID: 9212969941508220628, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
-      propertyPath: initialName
-      value: fountain pen
+      propertyPath: initialDescription
+      value: It's a common fountain pen, with a faux wood body.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83442ea1bc97ef04db1f9962a2f7021d, type: 3}

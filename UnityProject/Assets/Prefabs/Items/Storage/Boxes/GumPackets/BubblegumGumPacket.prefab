@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: caaad54cef0265c4a8db1b3cc788035b,
         type: 2}
+    - target: {fileID: 4311608800572663638, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
+      propertyPath: foreverID
+      value: f630f8a1529c9df49aaab659a0ffa0cc
+      objectReference: {fileID: 0}
     - target: {fileID: 7034241245448394855, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_Sprite
@@ -22,12 +27,17 @@ PrefabInstance:
     - target: {fileID: 7132405623160919695, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f630f8a1529c9df49aaab659a0ffa0cc
       objectReference: {fileID: 0}
     - target: {fileID: 7165034283826899771, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_Name
       value: BubblegumGumPacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
@@ -86,14 +91,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialDescription
-      value: The packaging is entirely in Demonic, apparently. You feel like even
-        opening this would be a sin.
+      propertyPath: initialName
+      value: bubblegum gum packet
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialName
-      value: bubblegum gum packet
+      propertyPath: initialDescription
+      value: The packaging is entirely in Demonic, apparently. You feel like even
+        opening this would be a sin.
       objectReference: {fileID: 0}
     - target: {fileID: 7827821029367866081, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}

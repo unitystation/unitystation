@@ -9,25 +9,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.PlantTrays.Array.size
-      value: 3
+      propertyPath: plantData.PlantName
+      value: Blue-Tomato Plants
       objectReference: {fileID: 0}
-    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: plantData.PlantTrays.Array.data[2]
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
-      value: 
-      objectReference: {fileID: 7965733161767474305, guid: 4517f9573453bd5439c897bdc416e6f5,
-        type: 3}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: plantData.ProduceObject
@@ -36,38 +20,25 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Blue-Tomato Plants
-      objectReference: {fileID: 0}
-    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 9a2103666b60b5a4c8876b9d5b47076d,
         type: 2}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: e2055a4a31e85fb4593434a11b4272c4,
-        type: 2}
+      propertyPath: plantData.PlantTrays.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 0148032bee242094aa1fff93f6c53eea,
-        type: 2}
+      propertyPath: plantData.PlantTrays.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: ab2b6e1c39fdba840ba72939a89e4d24,
-        type: 2}
-    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: cfce7c874e87ad4478b8cbf9ea51f6e9,
+      objectReference: {fileID: 11400000, guid: a04863b0571d8f34285bce98b02641d7,
         type: 2}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
@@ -77,16 +48,50 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: a04863b0571d8f34285bce98b02641d7,
+      objectReference: {fileID: 11400000, guid: cfce7c874e87ad4478b8cbf9ea51f6e9,
         type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: ab2b6e1c39fdba840ba72939a89e4d24,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0148032bee242094aa1fff93f6c53eea,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: e2055a4a31e85fb4593434a11b4272c4,
+        type: 2}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      value: 
+      objectReference: {fileID: 7965733161767474305, guid: 4517f9573453bd5439c897bdc416e6f5,
+        type: 3}
     - target: {fileID: 4039221980297394224, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: cdab2eac52ec5b148b639d5d9ee35804,
         type: 3}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,6 +109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -116,16 +126,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
@@ -150,17 +150,22 @@ PrefabInstance:
     - target: {fileID: 4281783023236052696, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ead7b7ecf45e495409bb1ae8c8e53f3a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: initialName
+      value: pack of blue-tomato seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: initialDescription
       value: These seeds grow into blue-tomato plants.
       objectReference: {fileID: 0}
-    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+    - target: {fileID: 7081205100875466497, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: initialName
-      value: pack of blue-tomato seeds
+      propertyPath: foreverID
+      value: ead7b7ecf45e495409bb1ae8c8e53f3a
       objectReference: {fileID: 0}
     - target: {fileID: 8050703676988518635, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}

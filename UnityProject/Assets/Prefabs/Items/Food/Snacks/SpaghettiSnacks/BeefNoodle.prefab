@@ -9,15 +9,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 3046611069451632629, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
+        type: 3}
+    - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: NutritionLevel
       value: 413
       objectReference: {fileID: 0}
     - target: {fileID: 664517479487356933, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: leavings
-      value: 
-      objectReference: {fileID: 3046611069451632629, guid: fe66ec36f566be84a9ccbc5a90aacd6f,
+      propertyPath: StartingNutrients
+      value: 413
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329804638538092056, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: foreverID
+      value: 2c63c928145ab1740ba3990015c9d769
+      objectReference: {fileID: 0}
     - target: {fileID: 3290308518079887858, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -27,13 +37,25 @@ PrefabInstance:
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7,
+        type: 2}
+    - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7,
+        type: 2}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
@@ -42,14 +64,8 @@ PrefabInstance:
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7,
-        type: 2}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -59,6 +75,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BeefNoodle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -77,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8717872930313289473, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -118,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 8753779990741090241, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2c63c928145ab1740ba3990015c9d769
       objectReference: {fileID: 0}
     - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -126,15 +142,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8640aeab7fe7498469c17b05030e8209,
         type: 3}
-    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+    - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
-      propertyPath: initialDescription
-      value: Nutritious, beefy and noodly.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialName
       value: beef noodle
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079823826182253847, guid: a859eb3fcda3a8747aba7894b40cfdb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Nutritious, beefy and noodly.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 921317910642135246, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}

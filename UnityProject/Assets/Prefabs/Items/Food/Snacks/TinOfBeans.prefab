@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 178097090623125297, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: foreverID
+      value: 0e4331319d7848c45b3093e081deb2e7
+      objectReference: {fileID: 0}
     - target: {fileID: 1118050011214905563, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -24,6 +29,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 375
       objectReference: {fileID: 0}
+    - target: {fileID: 3104472755490273580, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 375
+      objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -36,15 +46,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
         type: 2}
+    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6355694137082218496, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: m_Sprite
@@ -55,6 +65,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TinOfBeans
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
@@ -73,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +105,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
@@ -114,17 +124,17 @@ PrefabInstance:
     - target: {fileID: 6581507416717428456, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: initialDescription
-      value: Musical fruit in a slightly less musical container.
+      value: 0e4331319d7848c45b3093e081deb2e7
       objectReference: {fileID: 0}
     - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: initialName
       value: tin of beans
+      objectReference: {fileID: 0}
+    - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: initialDescription
+      value: Musical fruit in a slightly less musical container.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e291198bb131d49469d0b57ae983bd32, type: 3}

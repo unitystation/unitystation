@@ -12,6 +12,27 @@ PrefabInstance:
       propertyPath: initialName
       value: chicken steak
       objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[15].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4bf3efd7099da68408abbd8b73c50e9a,
+        type: 2}
+    - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[15].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -75,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 991535446379057958, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 89f21760b213f6c408db255ec5984545
       objectReference: {fileID: 0}
     - target: {fileID: 1055922833323646414, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -83,6 +99,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a1f8a3239bc140a4e8b630ead100a2e1,
         type: 3}
+    - target: {fileID: 6119310249531040511, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: foreverID
+      value: 89f21760b213f6c408db255ec5984545
+      objectReference: {fileID: 0}
     - target: {fileID: 6417786233635558677, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: MagSize
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: ammoType
       value: 19
       objectReference: {fileID: 0}
@@ -26,20 +31,15 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: genericInternalMag
-      value: 
-      objectReference: {fileID: 5930270430412774798, guid: 0fade050883b59443991d5b4b2a66e96,
-        type: 3}
-    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
       propertyPath: MagInternal
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: MagSize
-      value: 6
-      objectReference: {fileID: 0}
+      propertyPath: genericInternalMag
+      value: 
+      objectReference: {fileID: 5930270430412774798, guid: 0fade050883b59443991d5b4b2a66e96,
+        type: 3}
     - target: {fileID: 711826421371790644, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -49,12 +49,17 @@ PrefabInstance:
     - target: {fileID: 4086796152908822152, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ee6796c2c2708be4e9b9b06e5c4062ad
       objectReference: {fileID: 0}
     - target: {fileID: 4117137691947961148, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: m_Name
       value: NagantRevolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -73,6 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +95,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -119,14 +119,19 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
+      propertyPath: initialName
+      value: Nagant revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
       propertyPath: initialDescription
       value: An old model of revolver that originated in Russia. Able to be suppressed.
         Uses 7.62x38mmR ammo
       objectReference: {fileID: 0}
-    - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
+    - target: {fileID: 7032857965971736401, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
-      propertyPath: initialName
-      value: Nagant revolver
+      propertyPath: foreverID
+      value: ee6796c2c2708be4e9b9b06e5c4062ad
       objectReference: {fileID: 0}
     - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}

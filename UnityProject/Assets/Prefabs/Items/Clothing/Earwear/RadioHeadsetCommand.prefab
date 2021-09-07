@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e42365d7c816f6447b8b21c08ea99d71,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: e42365d7c816f6447b8b21c08ea99d71,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1954267061334375369, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -38,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 2618191676536156122, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9bfdfa8bc1790204984be16634b55902
       objectReference: {fileID: 0}
     - target: {fileID: 2720625993976664686, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
@@ -100,6 +98,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2818888289589057109, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: HasLoudSpeak
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2823879499631386930, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
         type: 3}
       propertyPath: m_Sprite
@@ -112,5 +115,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2c5b370c6fb427a42a02cc44f9c5cf7a,
         type: 2}
+    - target: {fileID: 9041859200380558851, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6,
+        type: 3}
+      propertyPath: foreverID
+      value: 9bfdfa8bc1790204984be16634b55902
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c06d764ea0ea9e4f9dff0e83cbb46e6, type: 3}

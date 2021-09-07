@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: d451aa32bb780a34ba00e7e24059e933, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 4e3d74e40a5e3da4f866357f821aa35e, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -28,6 +28,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1384538510348964022, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: foreverID
+      value: 5f9896c0cca80e14f8144be44d05e0a0
+      objectReference: {fileID: 0}
     - target: {fileID: 2218718408021370716, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -53,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 5339107572780065135, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5f9896c0cca80e14f8144be44d05e0a0
       objectReference: {fileID: 0}
     - target: {fileID: 5443839937711004891, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}

@@ -35,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 717601064801597941, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: de081f691b1bd9b4e90d8d14b4ba9346
       objectReference: {fileID: 0}
     - target: {fileID: 761300034505144093, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
@@ -101,18 +101,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1048425508058114851, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
-      propertyPath: initialDescription
-      value: A small carton, intended for holding drinks.
+      propertyPath: initialName
+      value: small carton
       objectReference: {fileID: 0}
     - target: {fileID: 1048425508058114851, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
-      propertyPath: initialName
-      value: small carton
+      propertyPath: initialDescription
+      value: A small carton, intended for holding drinks.
       objectReference: {fileID: 0}
     - target: {fileID: 1822638479480687849, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}
       propertyPath: maxCapacity
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5826499178588882988, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: foreverID
+      value: de081f691b1bd9b4e90d8d14b4ba9346
       objectReference: {fileID: 0}
     - target: {fileID: 6712409577912827846, guid: 40c34e56c622eb749908c4cf23b4778f,
         type: 3}

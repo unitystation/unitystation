@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: snap
   requiresHands: 1
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: snaps their fingers!
   youText: snap your fingers
   failText: You cannot snap any fingers!
   critViewText: screams in pain!
-  allowEmoteWhileInCrit: 1
   defaultSounds: []
   maleSounds: []
   femaleSounds: []

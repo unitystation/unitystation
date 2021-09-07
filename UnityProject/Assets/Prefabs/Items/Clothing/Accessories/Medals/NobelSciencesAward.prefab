@@ -9,24 +9,29 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1432158598783930368, guid: b5b82a5784598df4984e98d1b8239329,
         type: 3}
+      propertyPath: initialName
+      value: nobel sciences award
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432158598783930368, guid: b5b82a5784598df4984e98d1b8239329,
+        type: 3}
       propertyPath: initialDescription
       value: A plasma medal which represents significant contributions to the field
         of science or engineering.
       objectReference: {fileID: 0}
-    - target: {fileID: 1432158598783930368, guid: b5b82a5784598df4984e98d1b8239329,
-        type: 3}
-      propertyPath: initialName
-      value: nobel sciences award
-      objectReference: {fileID: 0}
     - target: {fileID: 1484397340838740694, guid: b5b82a5784598df4984e98d1b8239329,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e80a488bf1da71648a8c5817468e2d62
       objectReference: {fileID: 0}
     - target: {fileID: 1517033698078523234, guid: b5b82a5784598df4984e98d1b8239329,
         type: 3}
       propertyPath: m_Name
       value: NobelSciencesAward
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521675973108433430, guid: b5b82a5784598df4984e98d1b8239329,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1521675973108433430, guid: b5b82a5784598df4984e98d1b8239329,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1521675973108433430, guid: b5b82a5784598df4984e98d1b8239329,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521675973108433430, guid: b5b82a5784598df4984e98d1b8239329,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -60,16 +70,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1521675973108433430, guid: b5b82a5784598df4984e98d1b8239329,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1521675973108433430, guid: b5b82a5784598df4984e98d1b8239329,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1521675973108433430, guid: b5b82a5784598df4984e98d1b8239329,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -82,6 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599997405940413199, guid: b5b82a5784598df4984e98d1b8239329,
+        type: 3}
+      propertyPath: foreverID
+      value: e80a488bf1da71648a8c5817468e2d62
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5b82a5784598df4984e98d1b8239329, type: 3}

@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 301554a4527609b4aaedea0e2b0aea63,
         type: 3}
+    - target: {fileID: 2916845645141965693, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3065616763249084449, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_Name
       value: AmanitaPie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -76,17 +81,38 @@ PrefabInstance:
     - target: {fileID: 3107333849576633749, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e728e10178c603843af6e8c46c6f6db6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: initialName
+      value: amanita pie
       objectReference: {fileID: 0}
     - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: initialDescription
       value: Sweet and tasty poison pie.
       objectReference: {fileID: 0}
-    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
-      propertyPath: initialName
-      value: amanita pie
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 03410bf98ec5f8b46b64e60ef0970e99,
+        type: 2}
+    - target: {fileID: 3242681303919526391, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -100,6 +126,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e9970c1754a467b9ac032de47f298da,
+        type: 2}
+    - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 30402bcebad00fc50b5d41a70f3dda9c,
+        type: 2}
+    - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 6
       objectReference: {fileID: 0}
@@ -110,21 +148,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9e9970c1754a467b9ac032de47f298da,
-        type: 2}
-    - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 30402bcebad00fc50b5d41a70f3dda9c,
-        type: 2}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
@@ -134,6 +160,16 @@ PrefabInstance:
         type: 3}
       propertyPath: NutritionLevel
       value: 375
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583149992119454289, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 375
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228634865165812812, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: foreverID
+      value: e728e10178c603843af6e8c46c6f6db6
       objectReference: {fileID: 0}
     - target: {fileID: 9209119082875679654, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}

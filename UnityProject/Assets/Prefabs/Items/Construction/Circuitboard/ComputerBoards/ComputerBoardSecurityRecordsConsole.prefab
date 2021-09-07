@@ -19,6 +19,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8733040072875152152, guid: b5e5d6463b96de0458a195cebc18a3e2,
         type: 3}
+    - target: {fileID: 2596862763773197862, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: foreverID
+      value: 0fbbae3a2eb179546a6cbd7c92b4a1cb
+      objectReference: {fileID: 0}
     - target: {fileID: 3023408758491105740, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -38,6 +43,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -53,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -65,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -109,13 +114,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8984899974262867556, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
-      propertyPath: initialDescription
-      value: A circuit board for a security records console.
+      propertyPath: initialName
+      value: Security Records Console (Computer Board)
       objectReference: {fileID: 0}
     - target: {fileID: 8984899974262867556, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
-      propertyPath: initialName
-      value: Security Records Console (Computer Board)
+      propertyPath: initialDescription
+      value: A circuit board for a security records console.
       objectReference: {fileID: 0}
     - target: {fileID: 8985614780216144459, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -125,7 +130,7 @@ PrefabInstance:
     - target: {fileID: 9018287352618307583, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0fbbae3a2eb179546a6cbd7c92b4a1cb
       objectReference: {fileID: 0}
     - target: {fileID: 9098015153725456663, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}

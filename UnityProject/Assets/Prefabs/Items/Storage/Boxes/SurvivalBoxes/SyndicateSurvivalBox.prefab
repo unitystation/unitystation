@@ -22,7 +22,12 @@ PrefabInstance:
     - target: {fileID: 2920677005122447719, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 24f8872057257be43adc6cc594657f84
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2958834147644402087, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
@@ -96,6 +96,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a813ac58022887148887144392c103b5,
         type: 3}
+    - target: {fileID: 8189470738385475774, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
+      propertyPath: foreverID
+      value: 24f8872057257be43adc6cc594657f84
+      objectReference: {fileID: 0}
     - target: {fileID: 8960613963677380436, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
       propertyPath: PresentSpriteSet

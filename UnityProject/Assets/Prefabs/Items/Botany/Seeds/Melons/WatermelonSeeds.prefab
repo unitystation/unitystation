@@ -9,9 +9,37 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 1
+      propertyPath: plantData.Lifespan
+      value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Endurance
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: Watermelon Vines
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e201b2e05b6a7140a6240c0a5f91472,
+        type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 3621809236250405869, guid: 854b3b81a89f12b40b192fd047793b7c,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 931e53a50d9044d4cad3ca193bccc010,
+        type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.PlantTrays.Array.size
@@ -21,45 +49,6 @@ PrefabInstance:
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.size
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 3621809236250405869, guid: 854b3b81a89f12b40b192fd047793b7c,
-        type: 3}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Watermelon Vines
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
-      value: 
-      objectReference: {fileID: 2600171721039986128, guid: 1b2fa8b1ba54b264a9a6afc886c6bb93,
-        type: 3}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.DeadSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 0e201b2e05b6a7140a6240c0a5f91472,
-        type: 2}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 931e53a50d9044d4cad3ca193bccc010,
-        type: 2}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.Lifespan
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.Endurance
-      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -97,25 +86,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e9fe8a1464bd4674f96faa193e3424bd,
         type: 2}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into watermelon plants.
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      value: 
+      objectReference: {fileID: 7733363391324070390, guid: 3194defd54d8e114aa02b6b43d48d998,
+        type: 3}
     - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: initialName
       value: pack of watermelon seeds
       objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into watermelon plants.
+      objectReference: {fileID: 0}
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3e8c4c93bfc2fcc42b528dd025e382ec
       objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Name
       value: WatermelonSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -134,6 +139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -146,16 +156,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -184,5 +184,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4eb62b7f4315ceb4796c1d5bc40dd06c,
         type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: 3e8c4c93bfc2fcc42b528dd025e382ec
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

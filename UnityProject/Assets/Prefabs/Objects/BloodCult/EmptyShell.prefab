@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 145569013560448710, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: foreverID
+      value: bdcc08163ab750f4b8e483d05643cd8c
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
@@ -73,20 +78,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -7679434299093823174, guid: 73b1b7e061ac2fd428ed5ebfbc28d63d,
         type: 3}
+    - target: {fileID: 3897019895655943320, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4659277074312158701, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
-        type: 3}
-      propertyPath: initialDescription
-      value: A wicked machine used by those skilled in magical arts. It is inactive.
+      value: bdcc08163ab750f4b8e483d05643cd8c
       objectReference: {fileID: 0}
     - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
       propertyPath: initialName
       value: empty shell
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: initialDescription
+      value: A wicked machine used by those skilled in magical arts. It is inactive.
       objectReference: {fileID: 0}
     - target: {fileID: 8585042614081307221, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}

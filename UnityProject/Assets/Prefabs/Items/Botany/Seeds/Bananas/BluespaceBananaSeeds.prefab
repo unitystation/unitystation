@@ -9,9 +9,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Bluespace Banana Tree
       objectReference: {fileID: 0}
+    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 713751280637702354, guid: 4afa9d7a68a5bd54c80ae3dca95dd7c5,
+        type: 3}
+    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 91906a5baa1f616458e1287924d198d0,
+        type: 2}
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
       propertyPath: plantData.PlantTrays.Array.size
@@ -24,36 +36,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 713751280637702354, guid: 4afa9d7a68a5bd54c80ae3dca95dd7c5,
-        type: 3}
-    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Bluespace Banana Tree
-      objectReference: {fileID: 0}
-    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
-        type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 91906a5baa1f616458e1287924d198d0,
-        type: 2}
-    - target: {fileID: 4304879353229922355, guid: 20a3d1857d5f66c4aa945129302471a7,
-        type: 3}
-      propertyPath: initialDescription
-      value: They're seeds that grow into bluespace banana trees. When grown, keep
-        away from bluespace clown.
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4304879353229922355, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
       propertyPath: initialName
       value: pack of bluespace banana seeds
       objectReference: {fileID: 0}
+    - target: {fileID: 4304879353229922355, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: initialDescription
+      value: They're seeds that grow into bluespace banana trees. When grown, keep
+        away from bluespace clown.
+      objectReference: {fileID: 0}
     - target: {fileID: 4379662516609680101, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e7021e1ae09eb3c459743d93b8352b3e
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413554447041905189, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4413554447041905189, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
@@ -72,6 +77,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4413554447041905189, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413554447041905189, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -84,16 +94,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413554447041905189, guid: 20a3d1857d5f66c4aa945129302471a7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4413554447041905189, guid: 20a3d1857d5f66c4aa945129302471a7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4413554447041905189, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
@@ -121,6 +121,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 536787b4bcf71e94ca36ce4be25629b0,
         type: 3}
+    - target: {fileID: 7343439865566507836, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: foreverID
+      value: e7021e1ae09eb3c459743d93b8352b3e
+      objectReference: {fileID: 0}
     - target: {fileID: 7500047492164191446, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
       propertyPath: PresentSpriteSet

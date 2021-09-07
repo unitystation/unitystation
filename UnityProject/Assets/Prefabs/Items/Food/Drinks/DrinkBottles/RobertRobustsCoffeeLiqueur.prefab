@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cbc74fdb4ec53a54b8e678280d656bd0,
         type: 2}
+    - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: foreverID
+      value: 8d235a96771a5894b8116c79077082fb
+      objectReference: {fileID: 0}
     - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -36,24 +41,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: initialName
+      value: Robert Robust's coffee liqueur
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: initialDescription
       value: A widely known, Mexican coffee-flavoured liqueur. In production since
         1936, HONK.
       objectReference: {fileID: 0}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: initialName
-      value: Robert Robust's coffee liqueur
-      objectReference: {fileID: 0}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8d235a96771a5894b8116c79077082fb
       objectReference: {fileID: 0}
     - target: {fileID: 6187949413390427563, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_Name
       value: RobertRobustsCoffeeLiqueur
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -72,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -84,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -116,5 +121,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6ad58e9a4bb3b6f468be53425bca2929,
         type: 3}
+    - target: {fileID: 6274066957328979703, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}

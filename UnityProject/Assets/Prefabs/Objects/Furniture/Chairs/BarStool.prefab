@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 530716294703467402, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9203bf917337c3e4db0a64a10ef0e50b
       objectReference: {fileID: 0}
     - target: {fileID: 1595777939017753048, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
@@ -34,16 +34,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3097773884827705643, guid: 2c9ad226992c1e7499c818c96b03e6dd,
         type: 3}
+    - target: {fileID: 5039882332016967841, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: foreverID
+      value: 9203bf917337c3e4db0a64a10ef0e50b
+      objectReference: {fileID: 0}
     - target: {fileID: 8205724044562225919, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4076652198f1e1940865e22f2bde2354,
+      objectReference: {fileID: -5257658294822156440, guid: 4076652198f1e1940865e22f2bde2354,
         type: 3}
     - target: {fileID: 8250781856238894824, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
       propertyPath: m_Name
       value: BarStool
+      objectReference: {fileID: 0}
+    - target: {fileID: 8256540300385892402, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8256540300385892402, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
@@ -62,6 +72,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8256540300385892402, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8256540300385892402, guid: 177ff6e5fbec9d84bbda485c726757e8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +89,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8256540300385892402, guid: 177ff6e5fbec9d84bbda485c726757e8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8256540300385892402, guid: 177ff6e5fbec9d84bbda485c726757e8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8256540300385892402, guid: 177ff6e5fbec9d84bbda485c726757e8,
         type: 3}

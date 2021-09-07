@@ -68,28 +68,12 @@ public enum BodyPartCutSize
 	LARGE
 }
 
-public enum PierceDamageLevel
+public enum TraumaDamageLevel
 {
 	NONE,
 	SMALL,
-	MEDIUM,
-	LARGE
-}
-
-public enum SlashDamageLevel
-{
-	NONE,
-	SMALL,
-	MEDIUM,
-	LARGE
-}
-
-public enum BurnDamageLevels
-{
-	NONE,
-	MINOR,
-	MAJOR,
-	CHARRED
+	SERIOUS,
+	CRITICAL
 }
 
 [Flags]

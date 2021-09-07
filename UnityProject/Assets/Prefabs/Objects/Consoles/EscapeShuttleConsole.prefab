@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa990c4d31708b4b9b038818c2093f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToHack: 20
+  chanceToFailHack: 25
 --- !u!1001 &6414903393843979902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,7 +258,7 @@ PrefabInstance:
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 42a5d7e696d4b5441ad1ab218bc36662
       objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -381,6 +383,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Color.r
       value: 0.526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: foreverID
+      value: 42a5d7e696d4b5441ad1ab218bc36662
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}

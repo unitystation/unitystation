@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 3611601839509589521, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fae7c477fdabcd24ebbffd2e9718e4c5
       objectReference: {fileID: 0}
     - target: {fileID: 3714002003377255333, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: m_Name
       value: BoxOfTeriyakiFlavouredDonkPockets
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3718085451752902353, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
@@ -93,6 +93,11 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723797334500868040, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: foreverID
+      value: fae7c477fdabcd24ebbffd2e9718e4c5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 160baf50e4a27c24a8c1f40b3232c886, type: 3}

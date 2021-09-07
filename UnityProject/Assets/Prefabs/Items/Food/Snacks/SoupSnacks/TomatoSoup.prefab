@@ -12,11 +12,27 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 325
       objectReference: {fileID: 0}
+    - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 325
+      objectReference: {fileID: 0}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 27697864ac679564ab5b54f57f63f3bf,
+        type: 2}
+    - target: {fileID: 3026820318657467769, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: foreverID
+      value: 2dc7c7c735ea79348a460ae002251d89
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 009f1045026b48848b7eeb01060f8c18,
         type: 2}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -30,12 +46,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 009f1045026b48848b7eeb01060f8c18,
-        type: 2}
-    - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 3
       objectReference: {fileID: 0}
@@ -45,6 +55,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 12a38b3f8fc56eb4c97c3ee295ade1d9,
         type: 3}
+    - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -108,17 +123,17 @@ PrefabInstance:
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: initialDescription
-      value: Drinking this feels like being a vampire! A tomato vampire...
+      value: 2dc7c7c735ea79348a460ae002251d89
       objectReference: {fileID: 0}
     - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialName
       value: tomato soup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialDescription
+      value: Drinking this feels like being a vampire! A tomato vampire...
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

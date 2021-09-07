@@ -13,16 +13,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8932fb20f6c75fe4d945327e3720494f,
         type: 2}
+    - target: {fileID: 1947406906936637606, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: foreverID
+      value: 13af8dcba3a52bf4f883fab20b5e9601
+      objectReference: {fileID: 0}
     - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d6bff46bedc27b24aab86725ad6e57ef,
         type: 3}
+    - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4767086867303369087, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 13af8dcba3a52bf4f883fab20b5e9601
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -41,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -86,12 +96,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: initialDescription
-      value: Relive the excitement of a meteor shower! SweetMeat-eor Co. is not responsible
-        for any injuries, headaches or hearing loss caused by Mini-Meteor.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
       propertyPath: initialName
       value: Mini-Meteor
       objectReference: {fileID: 0}
@@ -99,6 +103,12 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSize
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialDescription
+      value: Relive the excitement of a meteor shower! SweetMeat-eor Co. is not responsible
+        for any injuries, headaches or hearing loss caused by Mini-Meteor.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2cc2b1c514be164282a4cdd366643e5, type: 3}

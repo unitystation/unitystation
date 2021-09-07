@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 1762559375258620544, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4bcbda1d06c9f144daff86dffd7053e4
       objectReference: {fileID: 0}
     - target: {fileID: 1865031144277094196, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_Name
       value: UnhookedDefibrillatorMount
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -78,6 +78,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2dd1d25c4797a8a429ed9215761cc321,
         type: 3}
+    - target: {fileID: 1950092092420660328, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: initialName
+      value: unhooked defibrillator mount
+      objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: initialSize
@@ -88,17 +98,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A frame for a defibrillator mount. It can't be removed once it's placed.
       objectReference: {fileID: 0}
-    - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: initialName
-      value: unhooked defibrillator mount
-      objectReference: {fileID: 0}
     - target: {fileID: 2857779259520588454, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: WallMountToSpawn
       value: 
       objectReference: {fileID: 5649414831174245002, guid: cc81b5e2cd0cd704ca2af22ff170a853,
         type: 3}
+    - target: {fileID: 4709448089315222361, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: foreverID
+      value: 4bcbda1d06c9f144daff86dffd7053e4
+      objectReference: {fileID: 0}
     - target: {fileID: 5523652600883287219, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: PresentSpriteSet

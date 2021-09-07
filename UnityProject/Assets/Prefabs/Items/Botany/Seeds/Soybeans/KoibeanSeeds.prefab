@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2336852896350807683, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into koibean plants.
+      propertyPath: initialName
+      value: pack of koibean seeds
       objectReference: {fileID: 0}
     - target: {fileID: 2336852896350807683, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
-      propertyPath: initialName
-      value: pack of koibean seeds
+      propertyPath: initialDescription
+      value: These seeds grow into koibean plants.
       objectReference: {fileID: 0}
     - target: {fileID: 2626236828490791613, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: KoibeanSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2778777903733453973, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
@@ -86,19 +86,8 @@ PrefabInstance:
     - target: {fileID: 2816865776897029205, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b9d02f4a5a4b3b143b5ea0d38f91a3a0
       objectReference: {fileID: 0}
-    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
-        type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: d4a294e7f388e1f40b5800e6dec1732c,
-        type: 2}
     - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
       propertyPath: plantData.PlantName
@@ -110,11 +99,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3319888450145678287, guid: 27f7ef209550d444d982bb38625896cc,
         type: 3}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d4a294e7f388e1f40b5800e6dec1732c,
+        type: 2}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8342266094634562150, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 00788e286f06918459035c59d50e9c61,
         type: 2}
+    - target: {fileID: 9095309735085950348, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: foreverID
+      value: b9d02f4a5a4b3b143b5ea0d38f91a3a0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e41afb7979b591443b008859f958eca6, type: 3}

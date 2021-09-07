@@ -62,6 +62,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -229,6 +230,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2417351120508978651, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: foreverID
+      value: 9ddb59d16686625469e911c117422670
+      objectReference: {fileID: 0}
     - target: {fileID: 3202216405552181809, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -249,7 +255,7 @@ PrefabInstance:
     - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9ddb59d16686625469e911c117422670
       objectReference: {fileID: 0}
     - target: {fileID: 8729405225780868290, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}

@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 14087197572857903, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
+      propertyPath: ReleasePressure
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14087197572857903, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
       propertyPath: Gases.Array.data[1]
       value: 0
       objectReference: {fileID: 0}
@@ -17,10 +22,10 @@ PrefabInstance:
       propertyPath: Gases.Array.data[3]
       value: 17.47
       objectReference: {fileID: 0}
-    - target: {fileID: 14087197572857903, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+    - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
-      propertyPath: ReleasePressure
-      value: 0
+      propertyPath: foreverID
+      value: a6be4f14190d70d4ead5531b5e15d5f9
       objectReference: {fileID: 0}
     - target: {fileID: 2103799393627445291, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
@@ -28,6 +33,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1a7c29b5737d94740a1090c148a9d227,
         type: 2}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea439e2f33c132c4883fd8d953c3171f,
+        type: 2}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 012b0aa8f27c5a442904cae9fddbda76,
+        type: 2}
+    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -45,6 +72,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +89,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
@@ -91,7 +113,7 @@ PrefabInstance:
     - target: {fileID: 5323282012667387416, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a6be4f14190d70d4ead5531b5e15d5f9
       objectReference: {fileID: 0}
     - target: {fileID: 5369936508333527280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
@@ -99,6 +121,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e8a1f60e438d6f34295918f7888e2c92,
         type: 3}
+    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: initialName
+      value: jetpack (carbon dioxide)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tank of compressed carbon dioxide for use as propulsion in zero-gravity
+        areas. Painted black to indicate that it should not be used as a source for
+        internals.
+      objectReference: {fileID: 0}
     - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -111,17 +145,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 15f66a8d78fb1ab43a1034d41e5d68b0,
         type: 2}
-    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
-        type: 3}
-      propertyPath: initialDescription
-      value: A tank of compressed carbon dioxide for use as propulsion in zero-gravity
-        areas. Painted black to indicate that it should not be used as a source for
-        internals.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
-        type: 3}
-      propertyPath: initialName
-      value: jetpack (carbon dioxide)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f8ec2262945efb4bb2ae2aab5329be9, type: 3}

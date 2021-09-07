@@ -17,7 +17,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -34,7 +40,7 @@ PrefabInstance:
     - target: {fileID: 308434288503612314, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1986ec98d2a6cf8488632c90f9e142d4
       objectReference: {fileID: 0}
     - target: {fileID: 1531201218411481544, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
@@ -52,6 +58,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4216dd53f8fca5b468f241a710088989,
         type: 2}
+    - target: {fileID: 5110458263462389937, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: foreverID
+      value: 1986ec98d2a6cf8488632c90f9e142d4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -69,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -81,16 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}

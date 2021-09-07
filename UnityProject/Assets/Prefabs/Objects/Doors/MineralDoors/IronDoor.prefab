@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 479374489354486641, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c125c458ad8030546a4d69037504571c
       objectReference: {fileID: 0}
     - target: {fileID: 618691253336816014, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -21,6 +21,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: iron door
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903062517644232794, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: foreverID
+      value: c125c458ad8030546a4d69037504571c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}

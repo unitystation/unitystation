@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Pipes;
+using Systems.Explosions;
+using Systems.ObjectConnection;
 using Systems.Radiation;
 using Items.Engineering;
-using Systems.Explosions;
+using Objects.Atmospherics;
+
 
 namespace Objects.Engineering
 {
-	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn, IServerSpawn
+	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, IMultitoolMasterable, IServerDespawn, IServerSpawn
 	{
 		public float EditorPresentNeutrons;
 		public float EditorEnergyReleased;
@@ -475,14 +476,9 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
-		private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
-		public MultitoolConnectionType ConType => conType;
-		private bool multiMaster = false;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObjectThis)
-		{
-		}
+		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
+		public bool MultiMaster => false;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 	}

@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 145
       objectReference: {fileID: 0}
@@ -36,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5cfb33daa98005f40ab7166bbbb9994e
       objectReference: {fileID: 0}
     - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -116,5 +121,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
         type: 2}
+    - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: foreverID
+      value: 5cfb33daa98005f40ab7166bbbb9994e
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}

@@ -30,11 +30,13 @@ namespace Clothing
 		private bool isAlive = true;
 		private ClothingV2 clothingV2;
 		private ItemAttributesV2 itemAttributesV2;
+		private SpriteHandler spriteHandler;
 
 		private void Awake()
 		{
 			clothingV2 = GetComponent<ClothingV2>();
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
 		public override void OnStartServer()
@@ -49,6 +51,7 @@ namespace Clothing
 		public void KillHugger()
 		{
 			isAlive = false;
+			spriteHandler.ChangeSprite(1);
 			clothingV2.ChangeSprite(1);
 			itemAttributesV2.ServerSetArticleDescription("It is not moving anymore.");
 		}

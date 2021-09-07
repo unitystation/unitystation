@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Input_System.InteractionV2.Interactions;
-using Electricity.Inheritance;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
+using Systems.Interaction;
+using Systems.ObjectConnection;
 using Doors;
+
 
 namespace Objects.Wallmounts
 {
@@ -14,7 +15,7 @@ namespace Objects.Wallmounts
 	/// Allows object to function as a door switch - opening / closing door when clicked.
 	/// </summary>
 	[ExecuteInEditMode]
-	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn, ICheckedInteractable<AiActivate>
+	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerSpawn, ICheckedInteractable<AiActivate>
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -37,17 +38,6 @@ namespace Objects.Wallmounts
 		private bool buttonCoolDown = false;
 		private AccessRestrictions accessRestrictions;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
-		public MultitoolConnectionType ConType => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObject)
-		{
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			foreach (var door in doorControllers)
@@ -64,8 +54,6 @@ namespace Objects.Wallmounts
 				}
 			}
 		}
-
-		private Texture noDoorsImg;
 
 		private void Awake()
 		{
@@ -280,6 +268,17 @@ namespace Objects.Wallmounts
 			RunDoorController();
 			RpcPlayButtonAnim(true);
 		}
+
+		#endregion
+
+		#region Multitool Interaction
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+		public MultitoolConnectionType ConType => conType;
+
+		public bool MultiMaster => true;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 	}

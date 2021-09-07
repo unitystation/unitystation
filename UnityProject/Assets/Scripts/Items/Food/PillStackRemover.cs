@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
 using HealthV2;
 using UnityEngine;
 
@@ -8,15 +9,18 @@ namespace Items
 	//TODO Needs to be changed over to  medical chemistry Instead
 	public class PillStackRemover : Consumable
 	{
-		public int damageRemove = 50;
+		public Reagent RADRemover;
+		public float Amount = 50;
 
 		public override void TryConsume(GameObject feeder, GameObject eater)
 		{
 			var health = eater.GetComponent<LivingHealthMasterBase>();
-			foreach (var container in health.RootBodyPartContainers)
+			var Stomachs = health.GetStomachs();
+			foreach (var Stomach in Stomachs)
 			{
-				health.HealDamage(gameObject, damageRemove, DamageType.Radiation, container.BodyPartType);
+				Stomach.StomachContents.Add(new ReagentMix(RADRemover,Amount/Stomachs.Count));
 			}
+			//health.RadiationStacks *= StackPercentageRemove / 100f;
 			_ = Despawn.ServerSingle(gameObject);
 		}
 	}

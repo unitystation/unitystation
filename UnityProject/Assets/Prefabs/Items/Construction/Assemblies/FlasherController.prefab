@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 582715337527111107, guid: ce5401e036c8e774db7877d3328c7c22,
         type: 3}
-      propertyPath: initialDescription
-      value: A remote controller for a mounted flasher.
+      propertyPath: initialName
+      value: flasher controller
       objectReference: {fileID: 0}
     - target: {fileID: 582715337527111107, guid: ce5401e036c8e774db7877d3328c7c22,
         type: 3}
-      propertyPath: initialName
-      value: flasher controller
+      propertyPath: initialDescription
+      value: A remote controller for a mounted flasher.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074143794360762325, guid: ce5401e036c8e774db7877d3328c7c22,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1074143794360762325, guid: ce5401e036c8e774db7877d3328c7c22,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1074143794360762325, guid: ce5401e036c8e774db7877d3328c7c22,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1074143794360762325, guid: ce5401e036c8e774db7877d3328c7c22,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1074143794360762325, guid: ce5401e036c8e774db7877d3328c7c22,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1074143794360762325, guid: ce5401e036c8e774db7877d3328c7c22,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1074143794360762325, guid: ce5401e036c8e774db7877d3328c7c22,
         type: 3}
@@ -80,7 +80,12 @@ PrefabInstance:
     - target: {fileID: 1112274411039915797, guid: ce5401e036c8e774db7877d3328c7c22,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ebaf50f7cddad1544a4c140f19a590af
+      objectReference: {fileID: 0}
+    - target: {fileID: 6215279554754236108, guid: ce5401e036c8e774db7877d3328c7c22,
+        type: 3}
+      propertyPath: foreverID
+      value: ebaf50f7cddad1544a4c140f19a590af
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce5401e036c8e774db7877d3328c7c22, type: 3}

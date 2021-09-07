@@ -82,7 +82,7 @@ PrefabInstance:
     - target: {fileID: 3735583985335604825, guid: 854b3b81a89f12b40b192fd047793b7c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1b2fa8b1ba54b264a9a6afc886c6bb93
       objectReference: {fileID: 0}
     - target: {fileID: 3796212310345958543, guid: 854b3b81a89f12b40b192fd047793b7c,
         type: 3}
@@ -95,11 +95,32 @@ PrefabInstance:
       value: The water within this melon has been blessed by some deity that's particularly
         fond of watermelon.
       objectReference: {fileID: 0}
+    - target: {fileID: 3875438793107595835, guid: 854b3b81a89f12b40b192fd047793b7c,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875438793107595835, guid: 854b3b81a89f12b40b192fd047793b7c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875438793107595835, guid: 854b3b81a89f12b40b192fd047793b7c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e8e34569318d0c488b5674f7a2daf23,
+        type: 2}
     - target: {fileID: 7423444529942728810, guid: 854b3b81a89f12b40b192fd047793b7c,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1911e1e0100e7924e8cc5dc19d37907a,
         type: 2}
+    - target: {fileID: 7708466752346433408, guid: 854b3b81a89f12b40b192fd047793b7c,
+        type: 3}
+      propertyPath: foreverID
+      value: 1b2fa8b1ba54b264a9a6afc886c6bb93
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 854b3b81a89f12b40b192fd047793b7c, type: 3}

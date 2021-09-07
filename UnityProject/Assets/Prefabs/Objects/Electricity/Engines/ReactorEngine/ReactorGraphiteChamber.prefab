@@ -22,8 +22,9 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &3033393858997830747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,17 +37,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseStandardExamine: 1
-  ExamineAmount: 0
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
   maxCapacity: 100
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
+  canPourOut: 1
   initialReagentMix:
     temperature: 293.15
     reagents:
@@ -57,6 +51,14 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
 --- !u!114 &4059444369323570419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,8 +98,9 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &5478961262237790931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,27 +146,11 @@ MonoBehaviour:
           m_values: []
         reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 50
         Temperature: 0
-    ConnectedPipes: []
-    Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
@@ -225,6 +212,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: 28076fd63342e8b48879932cf48f8961
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Size.x
@@ -319,7 +311,7 @@ PrefabInstance:
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 28076fd63342e8b48879932cf48f8961
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

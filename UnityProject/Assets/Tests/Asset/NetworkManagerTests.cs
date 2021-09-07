@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Mirror;
 using NUnit.Framework;
@@ -28,6 +29,8 @@ namespace Tests.Asset
 
 			var report = new StringBuilder();
 
+			Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
+
 			foreach (var rootObject in rootObjects)
 			{
 				if (rootObject.TryGetComponent<CustomNetworkManager>(out var manager))
@@ -42,7 +45,7 @@ namespace Tests.Asset
 						var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
 						if(asset == null) continue;
 
-						if (asset.TryGetComponent<NetworkIdentity>(out _) && manager.spawnPrefabs.Contains(asset) == false)
+						if (asset.TryGetComponent<NetworkIdentity>(out _) && manager.spawnPrefabs.Contains(asset) == false  && manager.playerPrefab != asset)
 						{
 							failed = true;
 							report.AppendLine($"{asset} needs to be in the spawnPrefabs list and has been added." +
@@ -54,6 +57,16 @@ namespace Tests.Asset
 							failed = true;
 							report.AppendLine($"{asset} needs to be in the allSpawnablePrefabs list and has been added." +
 							                   " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
+						}
+
+						if (asset.TryGetComponent<PrefabTracker>(out var prefabTracker))
+						{
+							if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
+							{
+								failed = true;
+								report.AppendLine($"{prefabTracker} or {StoredIDs[prefabTracker.ForeverID]} NEEDS to be committed with it's new Forever ID ");
+							}
+							StoredIDs[prefabTracker.ForeverID] = prefabTracker;
 						}
 					}
 

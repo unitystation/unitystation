@@ -50,7 +50,6 @@ namespace Chemistry.Components
 		private bool destroyOnEmpty = default;
 
 		private ItemAttributesV2 itemAttributes = default;
-		private RegisterTile registerTile;
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;
 
@@ -131,8 +130,6 @@ namespace Chemistry.Components
 
 		private void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
-
 			// register spill on throw
 			customNetTransform = GetComponent<CustomNetTransform>();
 			if (customNetTransform)
@@ -266,6 +263,19 @@ namespace Chemistry.Components
 		}
 
 		/// <summary>
+		/// Server side only. Subtract the specified reagent from the container.
+		/// </summary>
+		/// <param name="reagent"></param>
+		/// <returns>Substracted amount</returns>
+		public float Subtract(Reagent reagent, float subAmount)
+		{
+			float result = CurrentReagentMix.Subtract(reagent, subAmount);
+			OnReagentMixChanged?.Invoke();
+			ReagentsChanged();
+			return result;
+		}
+
+		/// <summary>
 		/// Server side only. Extracts reagents to be used outside ReagentContainer
 		/// </summary>
 		public ReagentMix TakeReagents(float amount)
@@ -345,12 +355,9 @@ namespace Chemistry.Components
 		{
 			if (!IsEmpty)
 			{
-				if (registerTile && registerTile.CustomTransform)
-				{
-					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer();
-					worldPos.z = 0;
-					SpillAll(worldPos, thrown);
-				}
+				var worldPos = customNetTransform.PushPull.AssumedWorldPositionServer();
+				worldPos.z = 0;
+				SpillAll(worldPos, thrown);
 			}
 		}
 

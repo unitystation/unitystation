@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 3022557335325303025, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9933cfcb816f49441b323811afdba50d
       objectReference: {fileID: 0}
     - target: {fileID: 3069071089172475417, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -94,12 +94,44 @@ PrefabInstance:
       value: 'Cantharellus Cibarius: These jolly yellow little shrooms sure look
         tasty!'
       objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 07429d509bf2e58448b87e5dd0d45840,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 118944556fb1535429b67eb5bc385996,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3480773739466297650, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: seedPacket
       value: 
       objectReference: {fileID: 7599149358166298399, guid: 625f31aec34e13f48a1ece855fc4fe87,
         type: 3}
+    - target: {fileID: 8132598906308874536, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: foreverID
+      value: 9933cfcb816f49441b323811afdba50d
+      objectReference: {fileID: 0}
     - target: {fileID: 9016326637629499074, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -118,7 +118,6 @@ MonoBehaviour:
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
-  conType: 7
   isPerformingAction: 0
   isWindowedDoor: 1
   useSimpleLightAnimation: 0
@@ -130,6 +129,7 @@ MonoBehaviour:
   openingDirection: 0
   spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
+  conType: 7
 --- !u!114 &114225884042522992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,14 +143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeable: 1
-  butcherTime: 2
-  butcherSound:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!114 &114203827934596338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +431,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &114745468428679086
@@ -499,6 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &114589234034436630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,6 +527,7 @@ MonoBehaviour:
     Acid: 70
     Magic: 0
     Bio: 100
+    DismembermentProtectionChance: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -541,7 +536,11 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   HeatResistance: 100
+  ExplosionsDamage: 100
+  doDamageMessage: 1
+  CannotBeAshed: 0
 --- !u!114 &114868604017624666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,10 +553,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 62a241c9eb1fbe5428271471ff7bb475
+  hasSpawned: 0
 --- !u!114 &-1296996462333317458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,6 +595,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 15e4795bbc71b044ea2a69dc1c89f1d4,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &8708487326535943296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -629,6 +636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1231954462806972
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,6 +680,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -753,6 +763,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -835,6 +846,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -917,6 +929,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

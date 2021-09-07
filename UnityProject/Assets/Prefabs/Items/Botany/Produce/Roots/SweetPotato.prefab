@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 43028a26fb6f09e4fa4ac545ef4a95b8,
         type: 2}
+    - target: {fileID: 3156035765860424612, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: foreverID
+      value: ecb6bbe8004762f4b81979e93ea9b788
+      objectReference: {fileID: 0}
     - target: {fileID: 4835630698732451463, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
       propertyPath: processedProduct
@@ -34,7 +39,7 @@ PrefabInstance:
     - target: {fileID: 8278444815903648381, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ecb6bbe8004762f4b81979e93ea9b788
       objectReference: {fileID: 0}
     - target: {fileID: 8315129300047506109, guid: acc71df94cbb60a4abe979bc8d32a4d2,
         type: 3}
@@ -95,6 +100,33 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SweetPotato
+      objectReference: {fileID: 0}
+    - target: {fileID: 8430130927404785183, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8430130927404785183, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: df89b469f2b2f124d8742624063f1f5a,
+        type: 2}
+    - target: {fileID: 8430130927404785183, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d49b1885fae55f4abd24f8bc8bfd80d,
+        type: 2}
+    - target: {fileID: 8430130927404785183, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8430130927404785183, guid: acc71df94cbb60a4abe979bc8d32a4d2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc71df94cbb60a4abe979bc8d32a4d2, type: 3}

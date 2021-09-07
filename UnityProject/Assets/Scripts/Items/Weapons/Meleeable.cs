@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Core.Editor.Attributes;
 using Items;
+
 
 namespace Systems.Interaction
 {
@@ -10,7 +12,7 @@ namespace Systems.Interaction
 	/// </summary>
 	public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 	{
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private bool isMeleeable = true;
 		// If it has this component, isn't it assumed to be meleeable? Is this still true for tilemaps?
 		public bool IsMeleeable

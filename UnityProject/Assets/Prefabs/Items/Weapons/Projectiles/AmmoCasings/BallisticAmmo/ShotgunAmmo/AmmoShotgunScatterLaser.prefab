@@ -18,26 +18,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 874f4d02579b25d43b44e32fbb21df70,
         type: 2}
-    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+    - target: {fileID: 3259418781305368914, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
-      propertyPath: initialDescription
-      value: An advanced shotgun shell that uses a micro laser to replicate the effects
-        of a scatter laser weapon in a ballistic package.
+      propertyPath: foreverID
+      value: 224e6d9bfdf21434dacb68de112682d9
       objectReference: {fileID: 0}
     - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: initialName
       value: scatter laser shell
       objectReference: {fileID: 0}
+    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initialDescription
+      value: An advanced shotgun shell that uses a micro laser to replicate the effects
+        of a scatter laser weapon in a ballistic package.
+      objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 224e6d9bfdf21434dacb68de112682d9
       objectReference: {fileID: 0}
     - target: {fileID: 8467174088351874367, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_Name
       value: AmmoShotgunScatterLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -56,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}

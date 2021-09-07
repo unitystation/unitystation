@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Core.Input_System.InteractionV2.Interactions;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using Systems.Interaction;
+using Systems.ObjectConnection;
+
 
 namespace Construction.Conveyors
 {
 	/// <summary>
 	/// Used for controlling conveyor belts.
 	/// </summary>
-	public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlaveMultiMaster, ICheckedInteractable<AiActivate>
+	public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMultiMasterSlaveable, ICheckedInteractable<AiActivate>
 	{
 		[Tooltip("Assign the conveyor belts this switch should control.")]
 		[SerializeField]
@@ -199,7 +200,7 @@ namespace Construction.Conveyors
 		private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
 		public MultitoolConnectionType ConType => conType;
 
-		public void SetMasters(List<ISetMultitoolMaster> Imasters)
+		public void SetMasters(List<IMultitoolMasterable> Imasters)
 		{
 			List<ConveyorBelt> InnewConveyorBelts = new List<ConveyorBelt>();
 			foreach (var Conveyor in Imasters)

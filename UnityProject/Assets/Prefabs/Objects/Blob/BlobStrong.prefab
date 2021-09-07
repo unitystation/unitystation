@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: isStrong
-      value: 1
+      propertyPath: blobType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -19,8 +19,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: blobType
-      value: 4
+      propertyPath: isStrong
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -34,6 +34,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a46ca0047b90cf04eb0dd5d6602d4800,
         type: 2}
+    - target: {fileID: 2236539368809610026, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: foreverID
+      value: 92a6ee20d8602704b95f5145a216c781
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -51,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2913148756339950521, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -112,13 +117,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
-        type: 3}
-      propertyPath: initialIntegrity
-      value: 150
+      propertyPath: Armor.Acid
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -127,8 +127,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 90
+      propertyPath: initialIntegrity
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -138,7 +143,7 @@ PrefabInstance:
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 92a6ee20d8602704b95f5145a216c781
       objectReference: {fileID: 0}
     - target: {fileID: 7649593002434359225, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}

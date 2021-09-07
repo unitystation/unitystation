@@ -54,6 +54,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 3
+  CurrentsortingGroup: {fileID: 0}
 --- !u!114 &114384843420873752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +188,7 @@ MonoBehaviour:
       SupplyingCurrent: 0
       InternalResistance: 0
       SupplyingVoltage: 0
+      ProducingWatts: 0
       ChangeToOff: 0
       CurrentStoreValue: 0
     DestroyQueueing: 0
@@ -210,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!114 &114621239873514652
 MonoBehaviour:
@@ -223,10 +226,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  visible: 0
+  m_AssetId: 9de39208d8b9b5044aab78843d0c4f34
+  hasSpawned: 0
 --- !u!114 &9213357801065135686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +257,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1282939714934272
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,10 +299,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

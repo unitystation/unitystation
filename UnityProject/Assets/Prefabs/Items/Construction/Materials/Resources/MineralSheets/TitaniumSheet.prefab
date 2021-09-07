@@ -13,16 +13,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b7438e2fccafe154e96e4910973ab8aa,
         type: 2}
+    - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: foreverID
+      value: 25625619713dba04296304a60f5f37c1
+      objectReference: {fileID: 0}
     - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 4d06c5d7b5a59ad4f9d43549c33aad13,
         type: 3}
+    - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Name
       value: TitaniumSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -41,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -82,22 +92,7 @@ PrefabInstance:
     - target: {fileID: 6048747994970652771, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialName
-      value: titanium
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialDescription
-      value: A strong metal often used in spaceship construction.
+      value: 25625619713dba04296304a60f5f37c1
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -111,15 +106,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: eab4a0cf6ec899240b34c27ae82015e2,
-        type: 2}
+      propertyPath: initialName
+      value: titanium
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: initialDescription
+      value: A strong metal often used in spaceship construction.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 6808b53a78cd199409a2ca71923dac05,
+        type: 2}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: eab4a0cf6ec899240b34c27ae82015e2,
         type: 2}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}

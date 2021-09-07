@@ -1,12 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7942140397485013963
+--- !u!114 &6002542503537069989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856484549658838475}
+  m_GameObject: {fileID: 9212783838044624069}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24b7a31f14536054598a7afc4ad8ef22, type: 3}
@@ -36,6 +36,11 @@ PrefabInstance:
         type: 3}
       propertyPath: pushPullSound.AssetAddress
       value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235783672300606666, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: foreverID
+      value: 2f2e6aac51ae2974b9d8b337462d6611
       objectReference: {fileID: 0}
     - target: {fileID: 2681812757184269972, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
@@ -136,7 +141,7 @@ PrefabInstance:
     - target: {fileID: 6019724306477015009, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2f2e6aac51ae2974b9d8b337462d6611
       objectReference: {fileID: 0}
     - target: {fileID: 6153340046991516868, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
@@ -246,9 +251,9 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -84533939571855719, guid: aa11b93feb043fe4e84e2f313cc41f6b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: aa11b93feb043fe4e84e2f313cc41f6b, type: 3}
---- !u!1 &856484549658838475 stripped
+--- !u!1 &9212783838044624069 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5940019933891459981, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+  m_CorrespondingSourceObject: {fileID: 2762829276071619203, guid: aa11b93feb043fe4e84e2f313cc41f6b,
     type: 3}
   m_PrefabInstance: {fileID: 6453069479630896710}
   m_PrefabAsset: {fileID: 0}

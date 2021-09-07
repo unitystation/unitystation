@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -73,6 +73,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9bd2bdabcdaa83f4b9b04403679f0708,
         type: 3}
+    - target: {fileID: 3135803337226006626, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: foreverID
+      value: 60214b7b09954234cb3b7983403a9c8c
+      objectReference: {fileID: 0}
     - target: {fileID: 6820002895454037233, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -82,18 +87,18 @@ PrefabInstance:
     - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 60214b7b09954234cb3b7983403a9c8c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: initialName
+      value: disk compartmentalizer
       objectReference: {fileID: 0}
     - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: initialDescription
       value: A machine capable of storing a variety of disks. Denoted by most as
         the DSU (disk storage unit).
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: initialName
-      value: disk compartmentalizer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}

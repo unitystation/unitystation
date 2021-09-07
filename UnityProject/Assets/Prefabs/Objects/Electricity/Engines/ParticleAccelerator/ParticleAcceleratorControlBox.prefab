@@ -91,6 +91,8 @@ MonoBehaviour:
   particleAcceleratorBulletPrefab: {fileID: 3294328072042417454, guid: 51e37bcfda438bc45bae02a757a88dbb,
     type: 3}
   isAlwaysOn: 0
+  timeToHack: 20
+  chanceToFailHack: 25
   isHacked: 0
 --- !u!114 &1971649633990310126
 MonoBehaviour:
@@ -111,7 +113,6 @@ MonoBehaviour:
   WireEndB: 9
   WireEndA: 0
   ListCanConnectTo: 01000000080000000b000000
-  SelfDestruct: 0
   Reactions:
   - ConnectingDevice: 1
     DirectionReaction: 0
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 34
+  aiInteractable: 1
 --- !u!114 &5049598380141041155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +272,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 3c17dd06c10d41546a933b249c71a1b4
+      objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -342,7 +349,7 @@ PrefabInstance:
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3c17dd06c10d41546a933b249c71a1b4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}

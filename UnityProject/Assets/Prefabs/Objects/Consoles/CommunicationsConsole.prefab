@@ -17,6 +17,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 6151cf8fb4f9c4bf890b69fad47b155b,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &6346262200105816416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +54,11 @@ PrefabInstance:
       propertyPath: onSprites.Texture
       value: 
       objectReference: {fileID: 2800000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 503b6f0f4adc4f54fbadb8ac51d1c8a1, type: 3}
     - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -95,11 +107,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300014, guid: ef7792cd0c5d03a47974c3a8a4038d5e,
         type: 3}
-    - target: {fileID: -1582709298849356269, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 503b6f0f4adc4f54fbadb8ac51d1c8a1, type: 3}
     - target: {fileID: 345856930608096068, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -108,13 +115,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialDescription
-      value: A console used for high-priority announcements and emergencies.
+      propertyPath: initialName
+      value: communications console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: initialName
-      value: communications console
+      propertyPath: initialDescription
+      value: A console used for high-priority announcements and emergencies.
       objectReference: {fileID: 0}
     - target: {fileID: 1213303998874603650, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -125,7 +132,7 @@ PrefabInstance:
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9ee00dec6bcc89c41908f9f20efa9068
       objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -183,6 +190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -195,6 +207,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -213,16 +230,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -238,8 +245,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.r
-      value: 0.129
+      propertyPath: Color.b
+      value: 0.668
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -248,9 +255,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: Color.b
-      value: 0.668
+      propertyPath: Color.r
+      value: 0.129
       objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: foreverID
+      value: 9ee00dec6bcc89c41908f9f20efa9068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: onSprites.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: timeBetweenFrames
@@ -258,9 +275,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: onSprites.Texture
+      propertyPath: onSprites.EquippedData
       value: 
-      objectReference: {fileID: 2800000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+      objectReference: {fileID: 4900000, guid: 503b6f0f4adc4f54fbadb8ac51d1c8a1, type: 3}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.data[0]
@@ -309,11 +326,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300014, guid: ef7792cd0c5d03a47974c3a8a4038d5e,
         type: 3}
-    - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: onSprites.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 503b6f0f4adc4f54fbadb8ac51d1c8a1, type: 3}
     - target: {fileID: 7644385245236715337, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: circuitBoardPrefab

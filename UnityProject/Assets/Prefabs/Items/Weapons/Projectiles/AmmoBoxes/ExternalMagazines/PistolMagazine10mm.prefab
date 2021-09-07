@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 455845286104302151, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: foreverID
+      value: b207c10b72e178346bee8cf182f264eb
+      objectReference: {fileID: 0}
     - target: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -20,20 +25,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5915788737915645320, guid: 5236e50fc7603b041b5fc8034aae5abd,
+        type: 3}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
       propertyPath: magazineSize
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
-      propertyPath: Projectile
+      propertyPath: initalProjectile
       value: 
       objectReference: {fileID: 5915788737915645320, guid: 5236e50fc7603b041b5fc8034aae5abd,
         type: 3}
-    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialName
@@ -43,6 +49,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A gun magazine.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -56,10 +67,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f4b29a15c4846d24d829d1f4071b90d5,
         type: 3}
+    - target: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6839214368423611946, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_Name
       value: PistolMagazine10mm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -78,6 +99,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -90,16 +116,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -119,7 +135,7 @@ PrefabInstance:
     - target: {fileID: 6880920390388757406, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b207c10b72e178346bee8cf182f264eb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d57fa00554efcec4abd669e2d6b24edc, type: 3}

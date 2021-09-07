@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3638228150221014357, guid: 4663ac7bbb1e2054face4b1d91160105,
+        type: 3}
+      propertyPath: foreverID
+      value: 10346266394bdb54ca023bf71f4cd128
+      objectReference: {fileID: 0}
     - target: {fileID: 4575995778518561471, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -26,6 +31,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697970068047524940, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7697970068047524940, guid: 4663ac7bbb1e2054face4b1d91160105,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697970068047524940, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7697970068047524940, guid: 4663ac7bbb1e2054face4b1d91160105,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7697970068047524940, guid: 4663ac7bbb1e2054face4b1d91160105,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7697970068047524940, guid: 4663ac7bbb1e2054face4b1d91160105,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7697970068047524940, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
@@ -82,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 7733552772688491660, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 10346266394bdb54ca023bf71f4cd128
       objectReference: {fileID: 0}
     - target: {fileID: 7736232863882189004, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
@@ -91,8 +96,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794242670886807130, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      propertyPath: initialName
+      value: bronze medal
       objectReference: {fileID: 0}
     - target: {fileID: 7794242670886807130, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
@@ -101,8 +106,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794242670886807130, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}
-      propertyPath: initialName
-      value: bronze medal
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7794242670886807130, guid: 4663ac7bbb1e2054face4b1d91160105,
         type: 3}

@@ -25,15 +25,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 404e172e3159a264a8b1dfe4922ce733,
         type: 2}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+    - target: {fileID: 3458532336144809302, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
-      propertyPath: initialDescription
-      value: A syndicate manufactured explosive used to sow destruction and chaos.
+      propertyPath: foreverID
+      value: 0469b3922aa40e04d9c576979353df72
       objectReference: {fileID: 0}
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: initialName
       value: syndicate minibomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: initialDescription
+      value: A syndicate manufactured explosive used to sow destruction and chaos.
       objectReference: {fileID: 0}
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
@@ -56,12 +61,17 @@ PrefabInstance:
     - target: {fileID: 8561801018043092111, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0469b3922aa40e04d9c576979353df72
       objectReference: {fileID: 0}
     - target: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: m_Name
       value: SyndicateMinibomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
@@ -80,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -92,16 +107,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}

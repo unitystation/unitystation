@@ -18,6 +18,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1350735565349265591, guid: 9ee00dec6bcc89c41908f9f20efa9068,
         type: 3}
+    - target: {fileID: 2596862763773197862, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: foreverID
+      value: 35bfd43b017d64749bbe0ce4430d6c1e
+      objectReference: {fileID: 0}
     - target: {fileID: 3023408758491105740, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -37,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -52,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -108,13 +113,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8984899974262867556, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
-      propertyPath: initialDescription
-      value: A circuit board for a communications console.
+      propertyPath: initialName
+      value: Communications Console (Computer Board)
       objectReference: {fileID: 0}
     - target: {fileID: 8984899974262867556, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
-      propertyPath: initialName
-      value: Communications Console (Computer Board)
+      propertyPath: initialDescription
+      value: A circuit board for a communications console.
       objectReference: {fileID: 0}
     - target: {fileID: 8985614780216144459, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -124,7 +129,7 @@ PrefabInstance:
     - target: {fileID: 9018287352618307583, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 35bfd43b017d64749bbe0ce4430d6c1e
       objectReference: {fileID: 0}
     - target: {fileID: 9098015153725456663, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}

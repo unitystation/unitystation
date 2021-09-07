@@ -473,9 +473,9 @@ namespace Systems.MobAIs
 		/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
 		/// </summary>
 		/// <param name="dir"></param>
-		/// <param name="healthBehaviour"></param>
+		/// <param name="livingHealth"></param>
 		/// <param name="doLerpAnimation"></param>
-		public virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
+		public virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase livingHealth) { }
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction

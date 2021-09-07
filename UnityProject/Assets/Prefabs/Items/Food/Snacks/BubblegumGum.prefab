@@ -12,20 +12,30 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
+    - target: {fileID: 1608437286450332735, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: initialDescription
-      value: A rubbery strip of gum. You don't feel like eating it is a good idea.
+      propertyPath: StartingNutrients
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4557544868882319906, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: foreverID
+      value: 02665510a45e3414ab662e4bb60dcc46
       objectReference: {fileID: 0}
     - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: initialName
       value: bubblegum gum
       objectReference: {fileID: 0}
+    - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialDescription
+      value: A rubbery strip of gum. You don't feel like eating it is a good idea.
+      objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: m_Color.r
-      value: 0.5686275
+      propertyPath: m_Color.b
+      value: 0.23921569
       objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -34,18 +44,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: m_Color.b
-      value: 0.23921569
+      propertyPath: m_Color.r
+      value: 0.5686275
       objectReference: {fileID: 0}
     - target: {fileID: 7354706488053939195, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 02665510a45e3414ab662e4bb60dcc46
       objectReference: {fileID: 0}
     - target: {fileID: 7459402500379575887, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: m_Name
       value: BubblegumGum
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -64,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +96,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -104,14 +114,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916,
         type: 2}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bda3a92c3bab16e4cb40374111199080, type: 3}

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2527589168897478388, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: foreverID
+      value: 6fe803952bb24864c85fce226d058b78
+      objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: cutChance
@@ -32,6 +37,11 @@ PrefabInstance:
       propertyPath: InternalBleedingBloodLoss
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5634484993905305047, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: Populater.DeprecatedContents.Array.size
@@ -46,7 +56,7 @@ PrefabInstance:
     - target: {fileID: 8808267403971002157, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6fe803952bb24864c85fce226d058b78
       objectReference: {fileID: 0}
     - target: {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 112515918561447139, guid: e6c831491fa837e4aa923590f4748533,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 112515918561447139, guid: e6c831491fa837e4aa923590f4748533,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 112515918561447139, guid: e6c831491fa837e4aa923590f4748533,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 112515918561447139, guid: e6c831491fa837e4aa923590f4748533,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 112515918561447139, guid: e6c831491fa837e4aa923590f4748533,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 112515918561447139, guid: e6c831491fa837e4aa923590f4748533,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 112515918561447139, guid: e6c831491fa837e4aa923590f4748533,
         type: 3}
@@ -69,18 +69,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 214542769855622702, guid: e6c831491fa837e4aa923590f4748533,
         type: 3}
-      propertyPath: m_Color.g
-      value: 0.99215686
+      propertyPath: m_Color.b
+      value: 0.7647059
       objectReference: {fileID: 0}
     - target: {fileID: 214542769855622702, guid: e6c831491fa837e4aa923590f4748533,
         type: 3}
-      propertyPath: m_Color.b
-      value: 0.7647059
+      propertyPath: m_Color.g
+      value: 0.99215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957504425097933936, guid: e6c831491fa837e4aa923590f4748533,
+        type: 3}
+      propertyPath: foreverID
+      value: 1bd619795c0162347a0d746ead67fa1a
       objectReference: {fileID: 0}
     - target: {fileID: 8378903820919635803, guid: e6c831491fa837e4aa923590f4748533,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1bd619795c0162347a0d746ead67fa1a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6c831491fa837e4aa923590f4748533, type: 3}

@@ -7,6 +7,49 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b34e36b376a0fb498619789dd31a7ab,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: a6ce662ceb0d1654aba3c14c9e1eb29c,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e8c7eb77ca403f94db0de97ed0d8d5f5,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 714082540907298689, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: initialName
@@ -31,7 +74,7 @@ PrefabInstance:
     - target: {fileID: 1049692092611538263, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9e66d5e812c05254e9c2291df78005dd
       objectReference: {fileID: 0}
     - target: {fileID: 1082399918109987043, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
@@ -99,6 +142,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 109438799603730107, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
+    - target: {fileID: 6322997912291777678, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: foreverID
+      value: 9e66d5e812c05254e9c2291df78005dd
+      objectReference: {fileID: 0}
     - target: {fileID: 6504160803191073636, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -17,7 +17,13 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
-  pushPullSound: 
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -39,24 +45,29 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3314706815144015929, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
-      propertyPath: initialDescription
-      value: A portable flashing device. Wrench to activate and deactivate. Cannot
-        detect slow movements.
+      propertyPath: initialName
+      value: portable flasher
       objectReference: {fileID: 0}
     - target: {fileID: 3314706815144015929, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
-      propertyPath: initialName
-      value: portable flasher
+      propertyPath: initialDescription
+      value: A portable flashing device. Wrench to activate and deactivate. Cannot
+        detect slow movements.
       objectReference: {fileID: 0}
     - target: {fileID: 3636766287860975425, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
       propertyPath: Passable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3636766287860975425, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      propertyPath: initialPassable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4573432315052069483, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ce87617cbaaee414aab5bcc1a978da71
       objectReference: {fileID: 0}
     - target: {fileID: 5315924689488708382, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
@@ -68,6 +79,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PortableFlasher
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
@@ -86,6 +102,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -101,16 +122,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5381938399320334803, guid: 3e02bb6440df3c34f88a1add858dfac8,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -123,6 +134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066908898016155968, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      propertyPath: foreverID
+      value: ce87617cbaaee414aab5bcc1a978da71
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6990654033406033745, guid: 3e02bb6440df3c34f88a1add858dfac8, type: 3}

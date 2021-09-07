@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: sides
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 2404714145071242134, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: foreverID
+      value: 3cb42261d4cc79e45be85bc9cd1857a6
+      objectReference: {fileID: 0}
     - target: {fileID: 3216665340718951548, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -39,12 +44,17 @@ PrefabInstance:
     - target: {fileID: 8678945255199976015, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3cb42261d4cc79e45be85bc9cd1857a6
       objectReference: {fileID: 0}
     - target: {fileID: 8783702771992860667, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: m_Name
       value: D12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -63,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -109,13 +114,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: initialDescription
-      value: A die with twelve sides. There's an air of neglect about it.
+      propertyPath: initialName
+      value: d12
       objectReference: {fileID: 0}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: initialName
-      value: d12
+      propertyPath: initialDescription
+      value: A die with twelve sides. There's an air of neglect about it.
       objectReference: {fileID: 0}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}

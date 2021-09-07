@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 3c8d2434c10f26c42baf079157919c47,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d7a22b6fbc128a04e8e4b85d2e082fba
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 3c8d2434c10f26c42baf079157919c47,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: A soft brown jumpsuit with a white feather collar made of synthetic
         feathers and a lust for mayhem.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 3c8d2434c10f26c42baf079157919c47,
+        type: 3}
+      propertyPath: foreverID
+      value: d7a22b6fbc128a04e8e4b85d2e082fba
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 3c8d2434c10f26c42baf079157919c47,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6721fd18fe6836346adc8c3fd6bc2f6e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 3c8d2434c10f26c42baf079157919c47,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6721fd18fe6836346adc8c3fd6bc2f6e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 3c8d2434c10f26c42baf079157919c47,
         type: 3}
       propertyPath: allClothingData.Array.size

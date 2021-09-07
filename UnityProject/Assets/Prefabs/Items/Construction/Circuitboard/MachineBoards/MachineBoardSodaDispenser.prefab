@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: machineParts
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4026156895558446062, guid: c242e43da5bd5cb418a0cdccf5cf1358,
+        type: 3}
+      propertyPath: foreverID
+      value: 0068bc8f1fd50c54a978e30b4c416e2c
+      objectReference: {fileID: 0}
     - target: {fileID: 4189313638580427780, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -38,7 +43,7 @@ PrefabInstance:
     - target: {fileID: 7994245723222022711, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0068bc8f1fd50c54a978e30b4c416e2c
       objectReference: {fileID: 0}
     - target: {fileID: 8026946951644424067, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
@@ -47,13 +52,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8027356675503100844, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
-      propertyPath: initialDescription
-      value: Used in soda dispenser construction.
+      propertyPath: initialName
+      value: Soda Dispenser (Machine Board)
       objectReference: {fileID: 0}
     - target: {fileID: 8027356675503100844, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
-      propertyPath: initialName
-      value: Soda Dispenser (Machine Board)
+      propertyPath: initialDescription
+      value: Used in soda dispenser construction.
       objectReference: {fileID: 0}
     - target: {fileID: 8027356675503120609, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
@@ -73,6 +78,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -88,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -100,16 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: c242e43da5bd5cb418a0cdccf5cf1358,
         type: 3}

@@ -33,7 +33,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   nightVisionVisibility: {x: 10.5, y: 10.5, z: 21}
-  defaultVisionVisibility: {x: 1.75, y: 1.75, z: 3.5}
   visibilityAnimationSpeed: 0.75
 --- !u!1001 &731076568007370822
 PrefabInstance:
@@ -71,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 2607336686439034363, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5668f8777ce1a794980fbd35aa58f56b
       objectReference: {fileID: 0}
     - target: {fileID: 2713605000496459067, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -150,6 +149,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1ca2a5a031a189c468542f51a5787f1f,
         type: 2}
+    - target: {fileID: 9007641923583695906, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: foreverID
+      value: 5668f8777ce1a794980fbd35aa58f56b
+      objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: clothData

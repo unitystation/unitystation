@@ -21,6 +21,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -36,6 +41,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +58,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1777396284562217003, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -86,13 +86,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229235056, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
-      propertyPath: initialDescription
-      value: Used in ChemMaster 3000 construction.
+      propertyPath: initialName
+      value: ChemMaster3000 (Machine Board)
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229235056, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
-      propertyPath: initialName
-      value: ChemMaster3000 (Machine Board)
+      propertyPath: initialDescription
+      value: Used in ChemMaster 3000 construction.
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229401058, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -108,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 1814144952489498859, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1a647f4dd2f499d40b782ae9b88a5f51
       objectReference: {fileID: 0}
     - target: {fileID: 1894013491118822915, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -120,6 +120,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: ChemMaster3000 (Machine Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612723153341376818, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: foreverID
+      value: 1a647f4dd2f499d40b782ae9b88a5f51
       objectReference: {fileID: 0}
     - target: {fileID: 5620221405395738328, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}

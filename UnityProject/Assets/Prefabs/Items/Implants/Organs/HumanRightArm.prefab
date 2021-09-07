@@ -88,6 +88,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c5b8fc5eba423e443873c33be6583b42,
         type: 2}
+    - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: foreverID
+      value: ba9a875c31908af4ab3749cd127a2edb
+      objectReference: {fileID: 0}
     - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: IsSurface
@@ -299,7 +304,7 @@ PrefabInstance:
     - target: {fileID: 6138298517168709063, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ba9a875c31908af4ab3749cd127a2edb
       objectReference: {fileID: 0}
     - target: {fileID: 6217885582937215791, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
@@ -342,6 +347,11 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyPartReadableName
       value: Arm
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7241952607628385263, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}

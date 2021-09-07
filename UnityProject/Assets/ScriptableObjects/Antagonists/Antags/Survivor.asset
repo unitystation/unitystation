@@ -15,12 +15,19 @@ MonoBehaviour:
   antagName: Survivor
   antagJobType: 0
   playSound: 0
-  spawnSound: Notice1
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   textColor: {r: 1, g: 1, b: 1, a: 1}
   backgroundColor: {r: 1, g: 0.39215687, b: 0, a: 1}
   numberOfObjectives: 1
   canUseSharedObjectives: 0
   needsEscapeObjective: 0
+  chanceForGimmickObjective: 0
   coreObjectives:
   - {fileID: 11400000, guid: b6107e1c868bada4da25dc2fc840e411, type: 2}
   antagOccupation: {fileID: 0}

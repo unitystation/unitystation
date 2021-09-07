@@ -18,32 +18,48 @@ PrefabInstance:
       propertyPath: ProjectilesFired
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 3096221855463419241, guid: 35e7ff71208f75e49a64beb32bbf5caf,
+        type: 3}
     - target: {fileID: 2361978366132242104, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d9fdd3d60f4166847a795d0b648ab6be,
         type: 2}
-    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+    - target: {fileID: 3259418781305368914, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
-      propertyPath: initialDescription
-      value: An extremely weak shotgun shell with multiple small pellets made out
-        of metal shards.
+      propertyPath: foreverID
+      value: 673ec23cb9beaa74f9ded556d3582813
       objectReference: {fileID: 0}
     - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: initialName
       value: improvised shell
       objectReference: {fileID: 0}
+    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initialDescription
+      value: An extremely weak shotgun shell with multiple small pellets made out
+        of metal shards.
+      objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 673ec23cb9beaa74f9ded556d3582813
       objectReference: {fileID: 0}
     - target: {fileID: 8467174088351874367, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_Name
       value: AmmoShotgunImprovised
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -62,6 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +95,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}

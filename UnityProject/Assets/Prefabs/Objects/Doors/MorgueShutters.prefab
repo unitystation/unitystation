@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: animFrames.Array.size
-      value: 13
+      propertyPath: openFrame
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -19,8 +19,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: openFrame
-      value: 56
+      propertyPath: animFrames.Array.size
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -104,13 +104,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: damageOnClose
-      value: 1
+      propertyPath: maxTimeOpen
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: maxTimeOpen
-      value: -1
+      propertyPath: damageOnClose
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -130,7 +130,7 @@ PrefabInstance:
     - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8876bdda47d19634eb59dcd4d99c3dd4
       objectReference: {fileID: 0}
     - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -138,10 +138,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -3768459764970815540, guid: c3269973bbcda6348ba60ebf7cba6c27,
         type: 3}
+    - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: m_Name
       value: MorgueShutters
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -160,6 +170,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -175,16 +190,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -197,6 +202,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: foreverID
+      value: 8876bdda47d19634eb59dcd4d99c3dd4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4986678559899695466, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}

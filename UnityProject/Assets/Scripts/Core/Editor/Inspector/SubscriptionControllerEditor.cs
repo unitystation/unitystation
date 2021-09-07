@@ -1,9 +1,10 @@
 ﻿using System.Linq;
-using Electricity.Inheritance;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
+using Systems.ObjectConnection;
+
 
 [CustomEditor(typeof(SubscriptionController), true)]
 public class SubscriptionControllerEditor : Editor

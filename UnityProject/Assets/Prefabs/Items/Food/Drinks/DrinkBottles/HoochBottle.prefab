@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 94cce9c365b5dc24e874c9e4ad030d7f,
         type: 2}
+    - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: foreverID
+      value: bdb119c738066cf4396d33ba1094dc88
+      objectReference: {fileID: 0}
     - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -36,24 +41,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: initialName
+      value: hooch bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: initialDescription
       value: A bottle of rotgut. Its owner has applied some street wisdom to cleverly
         disguise it as a brown paper bag.
       objectReference: {fileID: 0}
-    - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: initialName
-      value: hooch bottle
-      objectReference: {fileID: 0}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bdb119c738066cf4396d33ba1094dc88
       objectReference: {fileID: 0}
     - target: {fileID: 6187949413390427563, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_Name
       value: HoochBottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -72,6 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -84,16 +99,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -116,5 +121,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5e73bfde9c27fd77d810cdc2c9802995,
         type: 3}
+    - target: {fileID: 6274066957328979703, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}

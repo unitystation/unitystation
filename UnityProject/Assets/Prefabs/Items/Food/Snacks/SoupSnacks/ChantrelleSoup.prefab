@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 631abf89830d42c4cb136de4b9493387,
         type: 2}
+    - target: {fileID: 3026820318657467769, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: foreverID
+      value: e7c18ce7555431546befbbe6b54ff91a
+      objectReference: {fileID: 0}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -40,6 +45,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ffe73d25d948fc24eba73c1b1c65fd47,
         type: 3}
+    - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -57,6 +72,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +89,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -103,17 +113,17 @@ PrefabInstance:
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: initialDescription
-      value: A delicious and hearty mushroom soup.
+      value: e7c18ce7555431546befbbe6b54ff91a
       objectReference: {fileID: 0}
     - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialName
       value: chantrelle soup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialDescription
+      value: A delicious and hearty mushroom soup.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

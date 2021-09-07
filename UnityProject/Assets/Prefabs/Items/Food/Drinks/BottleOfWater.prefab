@@ -66,6 +66,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -125,7 +126,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &9154133502773004196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,6 +133,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3823680117459157953, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: foreverID
+      value: 8dbbbb2e528f19d4fa232f02fc6ac148
+      objectReference: {fileID: 0}
     - target: {fileID: 4101888782254060587, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -163,7 +168,7 @@ PrefabInstance:
     - target: {fileID: 7799949450078925336, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8dbbbb2e528f19d4fa232f02fc6ac148
       objectReference: {fileID: 0}
     - target: {fileID: 7902349682654515116, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}

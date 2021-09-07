@@ -7,12 +7,39 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: foreverID
+      value: 104e332643da929438e94c1b90abaf30
+      objectReference: {fileID: 0}
     - target: {fileID: 2103799393627445291, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5168d916a8fdb7b4dac5f020bf0cfbb1,
         type: 2}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c853b4806d6e8f47a19e950ed99e313,
+        type: 2}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ed2e799b1d2e45645a62b5f7956cb017,
+        type: 2}
+    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
@@ -76,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 5323282012667387416, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 104e332643da929438e94c1b90abaf30
       objectReference: {fileID: 0}
     - target: {fileID: 5369936508333527280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
@@ -91,6 +113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
+      propertyPath: initialDescription
+      value: It works well in a void.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 96a8774352f8cc446835230281ea5a74,
@@ -101,10 +128,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 99c8af0d46ff76e419ae0790f6d40300,
         type: 2}
-    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
-        type: 3}
-      propertyPath: initialDescription
-      value: It works well in a void.
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f8ec2262945efb4bb2ae2aab5329be9, type: 3}

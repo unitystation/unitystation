@@ -19,6 +19,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4d0e71fbd5e61c04090e65d0f4bbb139,
         type: 2}
+    - target: {fileID: 3417345767468294455, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: foreverID
+      value: 49bf7b326d4b3e94583c38a4d305e6b7
+      objectReference: {fileID: 0}
     - target: {fileID: 5939332488413283618, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -27,13 +32,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
-      propertyPath: initialDescription
-      value: A sleek, sturdy box used to hold replica spacesuits.
+      propertyPath: initialName
+      value: boxed spacesuit and helmet
       objectReference: {fileID: 0}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
-      propertyPath: initialName
-      value: boxed spacesuit and helmet
+      propertyPath: initialDescription
+      value: A sleek, sturdy box used to hold replica spacesuits.
       objectReference: {fileID: 0}
     - target: {fileID: 8441880568126201350, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -44,7 +49,12 @@ PrefabInstance:
     - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 49bf7b326d4b3e94583c38a4d305e6b7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -63,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -108,15 +113,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
-      propertyPath: itemStoragePopulator
-      value: 
-      objectReference: {fileID: 11400000, guid: 8dcf4a7d5d6bd764e99737398e5e652c,
-        type: 2}
-    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
+        type: 2}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dcf4a7d5d6bd764e99737398e5e652c,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}

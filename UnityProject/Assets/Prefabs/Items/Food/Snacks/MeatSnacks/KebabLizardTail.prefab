@@ -9,23 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 218119940625843155, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: initialDescription
-      value: Severed lizard tail on a stick."
+      propertyPath: initialName
+      value: lizard-tail kebab
       objectReference: {fileID: 0}
     - target: {fileID: 218119940625843155, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: initialName
-      value: lizard-tail kebab
+      propertyPath: initialDescription
+      value: Severed lizard tail on a stick."
       objectReference: {fileID: 0}
     - target: {fileID: 324054398724280581, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5eb37c88cebde544690d4473000f4a4c
       objectReference: {fileID: 0}
     - target: {fileID: 426558122298125489, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
       propertyPath: m_Name
       value: KebabLizardTail
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
@@ -44,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +69,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -81,6 +81,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6724377536685973724, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: foreverID
+      value: 5eb37c88cebde544690d4473000f4a4c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36fc7777ec7adb649b33688a3fde3e67, type: 3}

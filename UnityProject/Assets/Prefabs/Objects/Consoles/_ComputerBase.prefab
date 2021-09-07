@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 1766ef34a0f4ae74e9da25dde27a3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -98,10 +99,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 8c4b8efd80c16bc44bfe7601db3bdf2f, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &5150197525896963348
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +165,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -245,6 +247,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -272,7 +275,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -300,10 +303,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3f4f7bc3b40d96840a26466122812deb, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &-4343989174440723700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f545e0e45814b2a97a059ae8975a2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  framePrefab: {fileID: 7744868707174103517, guid: ce874e42e21343a429f39c4780a09059,
+  framePrefab: {fileID: 2252916025122891987, guid: ce874e42e21343a429f39c4780a09059,
     type: 3}
   circuitBoardPrefab: {fileID: 0}
   secondsToScrewdrive: 2
@@ -368,6 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: -1
+  aiInteractable: 1
 --- !u!114 &7410584208186429367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,15 +410,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7779458ea9d5364488e6f65566722ec2,
         type: 3}
+    - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Name
-      value: ComputerBase
+      value: _ComputerBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: b46887a995abc224aab70e21b9e53697
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107545618, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Name
       value: ComputerBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231522615107558557, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107558557, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -433,6 +452,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107558557, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231522615107558557, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -445,16 +469,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3231522615107558557, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3231522615107558557, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107558557, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -473,18 +487,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107569111, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3231522615107569111, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7779458ea9d5364488e6f65566722ec2,
         type: 3}
+    - target: {fileID: 3231522615107569111, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: Armor.Bullet
+      propertyPath: Armor.Acid
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: Armor.Laser
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -494,18 +518,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: Armor.Laser
+      propertyPath: Armor.Bullet
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3231522615107757998, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -531,7 +545,7 @@ PrefabInstance:
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b46887a995abc224aab70e21b9e53697
       objectReference: {fileID: 0}
     - target: {fileID: 7918371756561495367, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -539,6 +553,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5caf4067de7298f408771832d3670a44,
         type: 2}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 5000041945832428745}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName
@@ -556,6 +575,12 @@ GameObject:
 --- !u!4 &7762584330458228387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 9022170925615687109}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &5000041945832428745 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 9022170925615687109}
   m_PrefabAsset: {fileID: 0}

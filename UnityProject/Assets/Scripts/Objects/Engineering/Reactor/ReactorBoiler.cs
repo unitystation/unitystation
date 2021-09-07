@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Pipes;
-using ScriptableObjects;
 using UnityEngine;
+using ScriptableObjects;
+using Systems.ObjectConnection;
+using Objects.Atmospherics;
+
 
 namespace Objects.Engineering
 {
-	public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInteractable<HandApply>, IServerDespawn
+	public class ReactorBoiler : MonoBehaviour, IMultitoolMasterable, ICheckedInteractable<HandApply>, IServerDespawn
 	{
 		public decimal MaxPressureInput = 630000M;
 		public decimal CurrentPressureInput = 0;
@@ -100,14 +101,9 @@ namespace Objects.Engineering
 		
 		#region Multitool Interaction
 
-		private MultitoolConnectionType conType = MultitoolConnectionType.BoilerTurbine;
-		public MultitoolConnectionType ConType => conType;
-		private bool multiMaster = false;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObjectThis)
-		{
-		}
+		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
+		public bool MultiMaster => false;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 	}

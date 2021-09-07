@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7bed04e1ebd3e3d49bf38ca877c88498,
         type: 2}
+    - target: {fileID: 907837489939857478, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: foreverID
+      value: 20ce5a68e1e4ef645974bd15de1173f7
+      objectReference: {fileID: 0}
     - target: {fileID: 4477217724768421945, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: seedPacket
@@ -21,18 +26,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5966823324645565257, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
-      propertyPath: initialDescription
-      value: It's made of metal.
+      propertyPath: initialName
+      value: steel-cap log
       objectReference: {fileID: 0}
     - target: {fileID: 5966823324645565257, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
-      propertyPath: initialName
-      value: steel-cap log
+      propertyPath: initialDescription
+      value: It's made of metal.
       objectReference: {fileID: 0}
     - target: {fileID: 6062953987052555307, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: m_Name
       value: SteelCapLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 6066474760222159199, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6066474760222159199, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
@@ -51,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6066474760222159199, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6066474760222159199, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6066474760222159199, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6066474760222159199, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6066474760222159199, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
@@ -92,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 6176622151696675231, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 20ce5a68e1e4ef645974bd15de1173f7
       objectReference: {fileID: 0}
     - target: {fileID: 6256068449893318519, guid: f9ce0aa9f9bf2be4ea2468ff10f9ab93,
         type: 3}

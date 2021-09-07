@@ -11,16 +11,22 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
+      objectReference: {fileID: 11400000, guid: de8d61d11266c3f42aff02f0884534f6,
+        type: 2}
+    - target: {fileID: 4608460023768847701, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
-      propertyPath: initialDescription
-      value: A delicious patty of the crabby kind, slapped in between a bun.
+      propertyPath: foreverID
+      value: de3f012233edcc641a2d42defc25c31b
       objectReference: {fileID: 0}
     - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: initialName
       value: crab burger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: initialDescription
+      value: A delicious patty of the crabby kind, slapped in between a bun.
       objectReference: {fileID: 0}
     - target: {fileID: 7331795877928512100, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -28,15 +34,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 37bce274a90c1ba41b3739a353117598,
         type: 3}
+    - target: {fileID: 7331795877928512100, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7411242208336094348, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: de3f012233edcc641a2d42defc25c31b
       objectReference: {fileID: 0}
     - target: {fileID: 7443940138226227512, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: m_Name
       value: CrabBurger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
@@ -55,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7448305336657339468, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}

@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300008, guid: 6e965de74c66722498db7467155a5225,
         type: 3}
+    - target: {fileID: 3062659392533669830, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
+      propertyPath: maxHealth
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 3883941778682478371, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -34,12 +39,17 @@ PrefabInstance:
     - target: {fileID: 7698123779403150290, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8aa3a22dde4a6f8459e92bae8ff7c6fe
       objectReference: {fileID: 0}
     - target: {fileID: 7729724215270615374, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_Name
       value: GiantSpiderHunter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
@@ -58,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -69,16 +84,6 @@ PrefabInstance:
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7731767184041791306, guid: 843edc78b2c231249a2c4936447b61fe,

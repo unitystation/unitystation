@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: sound
+      value: Slurp
+      objectReference: {fileID: 0}
+    - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: NutritionLevel
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
-      propertyPath: sound
-      value: Slurp
+      propertyPath: StartingNutrients
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 246742310216031076, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -28,6 +33,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aa43d979a05c9d2428a1e4370d4c8a56,
         type: 2}
+    - target: {fileID: 3026820318657467769, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: foreverID
+      value: 22459a50d6c71b34ea45089bb0ea70d1
+      objectReference: {fileID: 0}
     - target: {fileID: 8091316462478551624, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_Sprite
@@ -38,6 +48,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -56,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8261948964422329440, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
@@ -102,17 +112,17 @@ PrefabInstance:
     - target: {fileID: 8300100540400329888, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
-        type: 3}
-      propertyPath: initialDescription
-      value: I wish this was soup.
+      value: 22459a50d6c71b34ea45089bb0ea70d1
       objectReference: {fileID: 0}
     - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialName
       value: wish soup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382973909785720438, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: initialDescription
+      value: I wish this was soup.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
-      propertyPath: initialDescription
-      value: A handy little spring-loaded trap for catching pesty rodents.
+      propertyPath: initialName
+      value: mousetrap
       objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
-      propertyPath: initialName
-      value: mousetrap
+      propertyPath: initialDescription
+      value: A handy little spring-loaded trap for catching pesty rodents.
       objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -35,6 +35,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: eab9c6bb967ae0344a0954238e0807fd,
         type: 3}
+    - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -98,7 +103,12 @@ PrefabInstance:
     - target: {fileID: 4578525896496213067, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 866d30fbc8457a64eae1c27cb09b65bc
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396244808014028178, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: foreverID
+      value: 866d30fbc8457a64eae1c27cb09b65bc
       objectReference: {fileID: 0}
     - target: {fileID: 7734962754486397560, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}

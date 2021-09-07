@@ -9,18 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 171866157173137433, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: initialDescription
-      value: A one-thousand-credit bill. It's worth one thousand credits in total.
+      propertyPath: exportCost
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 171866157173137433, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: exportCost
-      value: 1000
+      propertyPath: initialDescription
+      value: A one-thousand-credit bill. It's worth one thousand credits in total.
       objectReference: {fileID: 0}
     - target: {fileID: 328496622264291195, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
       propertyPath: m_Name
       value: SpaceCash1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 332298595529060879, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 367949882331542223, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 552cb08d7db47c14e81ddaf7ca4fd55c
       objectReference: {fileID: 0}
     - target: {fileID: 468084584876063783, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
@@ -106,16 +106,21 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5893262307858330876, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5ab32f28496ad6140b2de96e804b8d47,
         type: 2}
     - target: {fileID: 5893262307858330876, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 5ab32f28496ad6140b2de96e804b8d47,
         type: 2}
+    - target: {fileID: 6644414788309943062, guid: 66c1a2c68cdf38f4a9cd469080bad2b4,
+        type: 3}
+      propertyPath: foreverID
+      value: 552cb08d7db47c14e81ddaf7ca4fd55c
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66c1a2c68cdf38f4a9cd469080bad2b4, type: 3}
 --- !u!1 &7235659444419165720 stripped

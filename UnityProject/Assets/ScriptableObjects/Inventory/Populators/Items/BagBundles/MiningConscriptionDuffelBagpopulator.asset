@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: MiningConscriptionDuffelBagpopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 2654136094092541073, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
   - {fileID: 3431291279286482953, guid: e6f80a7fd02e2c14ea72a1410452b690, type: 3}
   - {fileID: 3396913131367550736, guid: 8eac02a97abb37941be5cfe5d17972a5, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 6404652678407139925, guid: c7f7aef1ae61b354db693ea3bb4e9b5f, type: 3}
   - {fileID: 1524261696040241017, guid: 06fa88552c4d5c84a9356cc79c6d43c6, type: 3}
   - {fileID: 3244160619761875026, guid: cf85a1465112d724bb418b6d0b77d935, type: 3}
-  MergeMode: 0

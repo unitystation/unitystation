@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 81333469552657725, guid: d6457d17134225b4db0c2857b5012c94,
+        type: 3}
+      propertyPath: gunTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: d9d368b74aa1775409e836d2fbbf52e0,
+        type: 2}
+    - target: {fileID: 81333469552657725, guid: d6457d17134225b4db0c2857b5012c94,
+        type: 3}
+      propertyPath: turretPrefab
+      value: 
+      objectReference: {fileID: 1628262494512142875, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
+        type: 3}
     - target: {fileID: 1031585333083457467, guid: d6457d17134225b4db0c2857b5012c94,
         type: 3}
       propertyPath: gunTrait
@@ -45,12 +57,17 @@ PrefabInstance:
     - target: {fileID: 3563121107720637440, guid: d6457d17134225b4db0c2857b5012c94,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cc65c41ab29e1e04abcea72004ed4a33
       objectReference: {fileID: 0}
     - target: {fileID: 3757475607885892440, guid: d6457d17134225b4db0c2857b5012c94,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4949295524855822690, guid: d6457d17134225b4db0c2857b5012c94,
+        type: 3}
+      propertyPath: m_Name
+      value: BallisticTurretFrame
       objectReference: {fileID: 0}
     - target: {fileID: 4952512379085651896, guid: d6457d17134225b4db0c2857b5012c94,
         type: 3}
@@ -106,6 +123,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349258282167093035, guid: d6457d17134225b4db0c2857b5012c94,
+        type: 3}
+      propertyPath: foreverID
+      value: cc65c41ab29e1e04abcea72004ed4a33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6457d17134225b4db0c2857b5012c94, type: 3}

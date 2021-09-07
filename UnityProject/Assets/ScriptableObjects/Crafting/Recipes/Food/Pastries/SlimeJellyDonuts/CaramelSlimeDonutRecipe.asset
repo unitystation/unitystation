@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: CaramelSlimeDonutRecipe
+  m_EditorClassIdentifier: 
+  category: 12
+  craftingTime: 1.5
+  recipeName: Caramel Slime Donut
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 7290191212285199944, guid: 0a2bc1035ffedcf45b194433f4a98ea5,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 3
+    requiredReagent: {fileID: 11400000, guid: 8f8f90cef1ac248409ac1b184fc1c8c7, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 6200079751648480793, guid: 81275ef6f05d317459c02917ce4e891d, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 200

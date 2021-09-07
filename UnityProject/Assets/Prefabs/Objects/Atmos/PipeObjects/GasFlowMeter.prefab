@@ -26,8 +26,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteHandler: {fileID: 222883310691938531}
-  registerTile: {fileID: 6459494498600399913, guid: c24157b1840f6d745b42d5842883b391,
-    type: 3}
 --- !u!1001 &6331392370782396293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: b8fb81ca58d782b49bf75a15183aa0e6
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -271,7 +274,7 @@ PrefabInstance:
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b8fb81ca58d782b49bf75a15183aa0e6
       objectReference: {fileID: 0}
     - target: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

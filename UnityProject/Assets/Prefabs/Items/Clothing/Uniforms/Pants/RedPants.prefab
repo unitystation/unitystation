@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4acefe41d07223d47af5926d3cf30661
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Bright red pants. Overflowing with personality.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: foreverID
+      value: 4acefe41d07223d47af5926d3cf30661
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 2dc2d2b7294d39c4c93e29f3512ecc2c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 2dc2d2b7294d39c4c93e29f3512ecc2c,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

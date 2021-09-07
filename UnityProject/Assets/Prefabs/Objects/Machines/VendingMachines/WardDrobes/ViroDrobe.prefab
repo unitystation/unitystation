@@ -44,16 +44,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 21b49e45d9f992e47abee3ae2d5afff8,
         type: 2}
+    - target: {fileID: 3609835623878286527, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 2049545656261771638}
     - target: {fileID: 4546609781174536597, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e918b0f3bdc465242a46bd7ad253de9b
       objectReference: {fileID: 0}
     - target: {fileID: 5306683621526280416, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: cb795f7d425097141adec3e6428a0e11,
+      objectReference: {fileID: 21300000, guid: cb795f7d425097141adec3e6428a0e11,
         type: 3}
     - target: {fileID: 5387743639968234743, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -241,6 +246,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 1598407484917689484, guid: 558f017ca8c1a6443a1b535454f5ee9f,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
       objectReference: {fileID: 9131202711572530880, guid: 0c198ac94169aed40ab72b2afc2d4cc5,
@@ -279,13 +290,13 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Item
       value: 
-      objectReference: {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018,
+      objectReference: {fileID: 331446612746605207, guid: 42a2481cdb460114dbd0dbaceea88a9c,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Item
       value: 
-      objectReference: {fileID: 1598407484917689484, guid: 558f017ca8c1a6443a1b535454f5ee9f,
+      objectReference: {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -334,6 +345,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Medical Radio Headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].ItemName
       value: Virology Backpack
       objectReference: {fileID: 0}
@@ -365,12 +381,23 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Sterile Mask
+      value: Virology Winter Coat
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].ItemName
-      value: Medical Headset
+      value: Sterile Mask
+      objectReference: {fileID: 0}
+    - target: {fileID: 9058133508007248574, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: foreverID
+      value: e918b0f3bdc465242a46bd7ad253de9b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5000c293075c074d80896d211fcd50b, type: 3}
+--- !u!210 &2049545656261771638 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7208331691177805895, guid: f5000c293075c074d80896d211fcd50b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8680777965165185329}
+  m_PrefabAsset: {fileID: 0}

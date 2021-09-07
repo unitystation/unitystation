@@ -21,17 +21,17 @@ PrefabInstance:
     - target: {fileID: 3398976167246584206, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4491138776680199132, guid: fb724c28353cf2243a02df332dc09209,
-        type: 3}
-      propertyPath: initialDescription
-      value: This statue has a sickening green colour.
+      value: 91d328844576060428a328730d6cbd0c
       objectReference: {fileID: 0}
     - target: {fileID: 4491138776680199132, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
       propertyPath: initialName
       value: statue of an engineer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491138776680199132, guid: fb724c28353cf2243a02df332dc09209,
+        type: 3}
+      propertyPath: initialDescription
+      value: This statue has a sickening green colour.
       objectReference: {fileID: 0}
     - target: {fileID: 5246153965995726914, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
@@ -44,6 +44,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2c635c81e66c4724e915cbe2fede9e41,
         type: 3}
+    - target: {fileID: 6455483396394895611, guid: fb724c28353cf2243a02df332dc09209,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6549345261661792822, guid: fb724c28353cf2243a02df332dc09209,
         type: 3}
@@ -103,6 +108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StatueOfAnEngineer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7892469561321853605, guid: fb724c28353cf2243a02df332dc09209,
+        type: 3}
+      propertyPath: foreverID
+      value: 91d328844576060428a328730d6cbd0c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb724c28353cf2243a02df332dc09209, type: 3}

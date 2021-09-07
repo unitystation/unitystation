@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: LobbyMusic
   m_EditorClassIdentifier: 
-  audioClips:
+  addressableAudioSource:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Music/SpaceAhole.prefab
     AssetReference:

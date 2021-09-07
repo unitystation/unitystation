@@ -18,15 +18,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5d8d5a0a6c6952c4ea4e8a0299a12c92,
         type: 3}
+    - target: {fileID: 2681867768609372873, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2761314060398818337, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b23eac411817bc841a8a3ce9075b21b1
       objectReference: {fileID: 0}
     - target: {fileID: 2866010210695301525, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
       propertyPath: m_Name
       value: ChiefEngineerActionFigure
+      objectReference: {fileID: 0}
+    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
@@ -45,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
@@ -89,5 +94,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dbef7a1e7629c624f8bb24219e1b8b96,
         type: 2}
+    - target: {fileID: 9186398751584503288, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: foreverID
+      value: b23eac411817bc841a8a3ce9075b21b1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e74be7d70acafe40b722428aaed652a, type: 3}

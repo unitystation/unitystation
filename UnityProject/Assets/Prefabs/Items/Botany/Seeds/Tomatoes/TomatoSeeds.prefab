@@ -9,50 +9,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: plantData.PlantTrays.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.PlantTrays.Array.data[1]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
-        type: 3}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
-      value: 
-      objectReference: {fileID: 8019590249366242245, guid: 261e647a61290824199c4d20288a5c60,
-        type: 3}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[1]
-      value: 
-      objectReference: {fileID: 8019590249366242245, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
-        type: 3}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[2]
-      value: 
-      objectReference: {fileID: 8019590249366242245, guid: 7a79d115737203f48b690f595607172a,
-        type: 3}
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Tomato Plants
       objectReference: {fileID: 0}
@@ -64,10 +20,31 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 455902390153094336, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 66b9ef49ebbc58a479a8af6bc570fb17,
         type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.data[1]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
@@ -104,25 +81,53 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: da120b3e6ee29784bb00d52cfd7b75e1,
         type: 2}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into tomato plants.
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      value: 
+      objectReference: {fileID: 8019590249366242245, guid: 261e647a61290824199c4d20288a5c60,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[1]
+      value: 
+      objectReference: {fileID: 8019590249366242245, guid: ead7b7ecf45e495409bb1ae8c8e53f3a,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[2]
+      value: 
+      objectReference: {fileID: 8019590249366242245, guid: 7a79d115737203f48b690f595607172a,
+        type: 3}
     - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: initialName
       value: pack of tomato seeds
       objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into tomato plants.
+      objectReference: {fileID: 0}
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 650450916815dfb4ba0aa087a3006beb
       objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Name
       value: TomatoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -141,6 +146,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -153,16 +163,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -191,5 +191,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bbaad9ee9b3ff914ca7954b8dc3d0696,
         type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: 650450916815dfb4ba0aa087a3006beb
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

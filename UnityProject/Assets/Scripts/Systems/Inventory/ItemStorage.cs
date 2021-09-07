@@ -180,7 +180,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			{
 				if(mobHealth != null)
 				{
-					if(mobHealth.GetCurrentBurnDamage() > mobHealth.BodyPartAshesAboveThisDamage)
+					if(mobHealth.CurrentBurnDamage > mobHealth.BodyPartAshesAboveThisDamage)
 					{
 						_ = Spawn.ServerPrefab(ashPrefab, mobHealth.HealthMaster.gameObject.RegisterTile().WorldPosition);
 						_ = Despawn.ServerSingle(slot.Item.gameObject);
@@ -536,13 +536,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
-	/// Drops all items in all slots at our current position.
+	/// Drops all items in all slots.
 	/// </summary>
-	public void ServerDropAll()
+	public void ServerDropAll(Vector2? worldTargetVector = null)
 	{
 		foreach (var itemSlot in GetItemSlots())
 		{
-			Inventory.ServerDrop(itemSlot);
+			Inventory.ServerDrop(itemSlot, worldTargetVector);
 		}
 	}
 }

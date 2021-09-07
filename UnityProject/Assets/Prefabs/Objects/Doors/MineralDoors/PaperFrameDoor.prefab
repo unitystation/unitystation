@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 479374489354486641, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6184f24ab627a2b4d91329edb13eea2a
       objectReference: {fileID: 0}
     - target: {fileID: 618691253336816014, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -42,12 +42,27 @@ PrefabInstance:
       propertyPath: doorAnimationSize
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 4903062517644232794, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: foreverID
+      value: 6184f24ab627a2b4d91329edb13eea2a
+      objectReference: {fileID: 0}
     - target: {fileID: 8078043400501678596, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7293338691250158940, guid: 32c30d45d974fab468b388255f5c6690,
         type: 3}
+    - target: {fileID: 8078043400501678596, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,6 +80,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +97,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -110,13 +120,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
-      propertyPath: animFrames.Array.size
-      value: 13
+      propertyPath: closeFrame
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: spritePath
       value: icons/obj/doors/mineral/mineral_doors_paperframe
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: animFrames.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: animFrames.Array.data[0]
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: animFrames.Array.data[1]
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: animFrames.Array.data[2]
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: animFrames.Array.data[3]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: animFrames.Array.data[4]
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: animFrames.Array.data[5]
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -162,41 +207,6 @@ PrefabInstance:
         type: 3}
       propertyPath: animFrames.Array.data[14]
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: animFrames.Array.data[0]
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: animFrames.Array.data[1]
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: animFrames.Array.data[2]
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: animFrames.Array.data[3]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: animFrames.Array.data[4]
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: animFrames.Array.data[5]
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
-        type: 3}
-      propertyPath: closeFrame
-      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6882bf1e96328b4189c858524c259b6, type: 3}

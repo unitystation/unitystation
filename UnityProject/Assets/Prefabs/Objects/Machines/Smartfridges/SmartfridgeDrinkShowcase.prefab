@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -67,20 +67,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: SmartfridgeDrinkShowcase
       objectReference: {fileID: 0}
+    - target: {fileID: 3135803337226006626, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: foreverID
+      value: 12e5b70364f95c745800be042fe1e1fb
+      objectReference: {fileID: 0}
     - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: initialDescription
-      value: A refrigerated storage unit for tasty tasty alcohol.
+      value: 12e5b70364f95c745800be042fe1e1fb
       objectReference: {fileID: 0}
     - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: initialName
       value: drink showcase
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: initialDescription
+      value: A refrigerated storage unit for tasty tasty alcohol.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 211561265460897072, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c27cb1a9c87d9c94abaaf3bd9df216df
       objectReference: {fileID: 0}
     - target: {fileID: 245935552815682260, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
@@ -30,15 +30,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3cb1aabea40c86a469e63993fc0e2e78,
         type: 2}
+    - target: {fileID: 4630725396653616667, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: foreverID
+      value: c27cb1a9c87d9c94abaaf3bd9df216df
+      objectReference: {fileID: 0}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: SpawnOnDeconstruct
+      value: 
+      objectReference: {fileID: 7897349000822447281, guid: 43e66cc377c795d4399ac7b50bbb0549,
+        type: 3}
     - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: pipeData.Connections.Directions.Array.data[0].PortType
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
-        type: 3}
-      propertyPath: pipeData.Connections.Directions.Array.data[0].flagLogic
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
@@ -47,21 +53,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
-      propertyPath: pipeData.Connections.Directions.Array.data[2].flagLogic
-      value: 0
+      propertyPath: pipeData.Connections.Directions.Array.data[0].flagLogic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
-      propertyPath: SpawnOnDeconstruct
-      value: 
-      objectReference: {fileID: 7897349000822447281, guid: 43e66cc377c795d4399ac7b50bbb0549,
-        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[2].flagLogic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8381886080152761413, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 77b84b19a81d74544a47748bfbd8916c,
         type: 3}
+    - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -79,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -90,16 +105,6 @@ PrefabInstance:
     - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,

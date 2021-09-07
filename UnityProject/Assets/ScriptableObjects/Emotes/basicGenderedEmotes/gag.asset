@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: gag
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: gags!
   youText: You gag!
   failText: You cannot gag.
+  critViewText: gags, almost throwing up!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: gags, almost throwing up!
+  pitchRange: {x: 0.7, y: 1}

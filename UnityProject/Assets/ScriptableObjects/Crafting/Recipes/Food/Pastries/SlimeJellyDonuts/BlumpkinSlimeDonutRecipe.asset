@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: BlumpkinSlimeDonutRecipe
+  m_EditorClassIdentifier: 
+  category: 12
+  craftingTime: 1.5
+  recipeName: Blumpkin Slime Donut
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 7290191212285199944, guid: 0a2bc1035ffedcf45b194433f4a98ea5,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 3
+    requiredReagent: {fileID: 11400000, guid: e34363e5a7d689924959abbbf6263762, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 6659016200491831589, guid: ca540bba9341aa24691db7d7f5d15ad1, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 202

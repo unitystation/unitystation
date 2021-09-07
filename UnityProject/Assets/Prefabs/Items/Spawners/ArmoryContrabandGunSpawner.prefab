@@ -19,19 +19,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[0].randomItemPool
-      value: 
-      objectReference: {fileID: 11400000, guid: e6cf430be6c79c741b31a401292072ad,
-        type: 2}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
       propertyPath: poolList.Array.data[1].probability
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[1].randomItemPool
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -40,18 +29,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[2].randomItemPool
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
       propertyPath: poolList.Array.data[3].probability
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[3].randomItemPool
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -60,18 +39,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[4].randomItemPool
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
       propertyPath: poolList.Array.data[5].probability
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[5].randomItemPool
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -80,18 +49,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[6].randomItemPool
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
       propertyPath: poolList.Array.data[7].probability
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[7].randomItemPool
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -100,23 +59,64 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[8].randomItemPool
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
       propertyPath: poolList.Array.data[9].probability
       value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[9].randomItemPool
+      propertyPath: poolList.Array.data[10].probability
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[0].randomItemPool
+      value: 
+      objectReference: {fileID: 11400000, guid: e6cf430be6c79c741b31a401292072ad,
+        type: 2}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[1].randomItemPool
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[10].probability
-      value: 80
+      propertyPath: poolList.Array.data[2].randomItemPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[3].randomItemPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[4].randomItemPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[5].randomItemPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[6].randomItemPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[7].randomItemPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[8].randomItemPool
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[9].randomItemPool
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -126,12 +126,17 @@ PrefabInstance:
     - target: {fileID: 2806690048445349940, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c05c071c51fbfec408e4c9f6240dc824
       objectReference: {fileID: 0}
     - target: {fileID: 2839352587806555520, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_Name
       value: ArmoryContrabandGunSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -150,6 +155,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -162,16 +172,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -194,5 +194,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3767d790c7352d640907b37e4211e696,
         type: 2}
+    - target: {fileID: 9213751064059195885, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: foreverID
+      value: c05c071c51fbfec408e4c9f6240dc824
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abff3ae0227731244b0814b2055fa6f0, type: 3}

@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c1205fb347f45364887672e8de130210,
         type: 2}
+    - target: {fileID: 771432100521590442, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: foreverID
+      value: 1f8b236fbaa97464abd686f24a59d44a
+      objectReference: {fileID: 0}
     - target: {fileID: 1893822906720031044, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
       propertyPath: Volume
@@ -23,6 +28,18 @@ PrefabInstance:
       propertyPath: Gases.Array.data[1]
       value: 9.98244
       objectReference: {fileID: 0}
+    - target: {fileID: 2842131419967966115, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cbdcd972507fb53409ef6cc3d58f640f,
+        type: 2}
+    - target: {fileID: 2842131419967966115, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e3a7cd0e6acf14049a66f31cb7ccbbd9,
+        type: 2}
     - target: {fileID: 5836631103282250139, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
       propertyPath: m_Sprite
@@ -33,6 +50,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JetHarness
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
@@ -51,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
@@ -92,18 +109,7 @@ PrefabInstance:
     - target: {fileID: 6024163822652723059, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
-        type: 3}
-      propertyPath: initialDescription
-      value: A lightweight tactical harness, used by those who don't want to be weighed
-        down by traditional jetpacks.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
-        type: 3}
-      propertyPath: initialName
-      value: jet harness (oxygen)
+      value: 1f8b236fbaa97464abd686f24a59d44a
       objectReference: {fileID: 0}
     - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
@@ -112,8 +118,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
+      propertyPath: initialName
+      value: jet harness (oxygen)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
       propertyPath: initialSize
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: initialDescription
+      value: A lightweight tactical harness, used by those who don't want to be weighed
+        down by traditional jetpacks.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b7c686ad40fca54888ac3c8fc35fc39, type: 3}

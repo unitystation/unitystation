@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1384538510348964022, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: foreverID
+      value: 1e67a35115f25b64283e699e311413ef
+      objectReference: {fileID: 0}
     - target: {fileID: 2218718408021370716, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -19,15 +24,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 75a679bb9537c73439b76eb5a18de861,
         type: 3}
+    - target: {fileID: 5295549301877665671, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5339107572780065135, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1e67a35115f25b64283e699e311413ef
       objectReference: {fileID: 0}
     - target: {fileID: 5443839937711004891, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
       propertyPath: m_Name
       value: EnergyCombatShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -46,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5449326638544003503, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
@@ -86,33 +96,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: initialSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: initialDescription
-      value: A shield that reflects almost all energy projectiles, but is useless
-        against physical attacks. It can be retracted, expanded, and stored anywhere.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: initialName
-      value: energy combat shield
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
       propertyPath: hitDamage
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
-        type: 3}
-      propertyPath: throwDamage
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
@@ -124,6 +108,32 @@ PrefabInstance:
         type: 3}
       propertyPath: throwSpeed
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: initialName
+      value: energy combat shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: throwDamage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: initialDescription
+      value: A shield that reflects almost all energy projectiles, but is useless
+        against physical attacks. It can be retracted, expanded, and stored anywhere.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
         type: 3}

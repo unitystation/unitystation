@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3425003899905817360, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Snapcorn Stalks
       objectReference: {fileID: 0}
     - target: {fileID: 3425003899905817360, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
@@ -20,15 +20,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3425003899905817360, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Snapcorn Stalks
-      objectReference: {fileID: 0}
-    - target: {fileID: 3425003899905817360, guid: f3bdddfdb45d67a48b3be064a3169fd8,
-        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: a97eec6b08b0ccc40a249267b4ac37e0,
         type: 2}
+    - target: {fileID: 3425003899905817360, guid: f3bdddfdb45d67a48b3be064a3169fd8,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4064398875694259421, guid: f3bdddfdb45d67a48b3be064a3169fd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4064398875694259421, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4064398875694259421, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4064398875694259421, guid: f3bdddfdb45d67a48b3be064a3169fd8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4064398875694259421, guid: f3bdddfdb45d67a48b3be064a3169fd8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4064398875694259421, guid: f3bdddfdb45d67a48b3be064a3169fd8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4064398875694259421, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
@@ -92,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 4170353622839368733, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3785e80a660914044bad5bbd8481dce4
       objectReference: {fileID: 0}
     - target: {fileID: 4217008084117197557, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
@@ -102,13 +102,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4510845041067511499, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
-      propertyPath: initialDescription
-      value: oh snap
+      propertyPath: initialName
+      value: pack of snapcorn seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4510845041067511499, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
-      propertyPath: initialName
-      value: pack of snapcorn seeds
+      propertyPath: initialDescription
+      value: oh snap
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975687671419973060, guid: f3bdddfdb45d67a48b3be064a3169fd8,
+        type: 3}
+      propertyPath: foreverID
+      value: 3785e80a660914044bad5bbd8481dce4
       objectReference: {fileID: 0}
     - target: {fileID: 7868413251850476078, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}

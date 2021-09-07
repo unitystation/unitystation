@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -102,7 +103,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!114 &6115472537149730407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInteliCard: 0
   inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
-  aiCoreFramePrefab: {fileID: 856484549658838475, guid: 2f2e6aac51ae2974b9d8b337462d6611,
+  aiCoreFramePrefab: {fileID: 9212783838044624069, guid: 2f2e6aac51ae2974b9d8b337462d6611,
     type: 3}
   vesselSpriteHandler: {fileID: 6196046200730087148}
   moduleTrait: {fileID: 11400000, guid: 6a8a62b47010e4c498c7ef77ec09535e, type: 2}
@@ -210,6 +210,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -274,11 +275,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 2adbceb9cc674484cb9a2c58b41d5493, type: 3}
-  - Texture: {fileID: 2800000, guid: 37e6c24b3c7e32f4e85502799da9c86b, type: 3}
-  - Texture: {fileID: 2800000, guid: 1d6a4a738a10d7642afdbb67afc5bc14, type: 3}
-  - Texture: {fileID: 2800000, guid: 4713bd3c8ac12ad4c847a7b3d17d95dc, type: 3}
 --- !u!1 &2574361578264524978
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +349,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -436,6 +433,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -582,6 +580,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 965a30360b6f44c4895003abe8ff4197
+      objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -639,7 +642,7 @@ PrefabInstance:
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 965a30360b6f44c4895003abe8ff4197
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}

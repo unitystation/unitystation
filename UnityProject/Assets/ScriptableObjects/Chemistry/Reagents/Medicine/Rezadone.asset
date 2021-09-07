@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Rezadone
   description: A powder derived from fish toxin, Rezadone can effectively treat genetic
-    damage as well as restoring minor wounds. Overdose will cause intense nausea and
-    minor toxin damage.
+    damage as well as restoring minor wounds. Overdose will cause intense nausea
+    and minor toxin damage.
   color: {r: 0.4, g: 0.6, b: 0, a: 1}
   state: 0
+  heatDensity: 5
+  indexInSingleton: 281

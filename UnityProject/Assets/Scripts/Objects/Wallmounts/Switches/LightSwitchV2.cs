@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Electricity.Inheritance;
 using Mirror;
 using UnityEngine;
 using Systems.Electricity;
-using Core.Input_System.InteractionV2.Interactions;
+using Systems.Interaction;
+using Systems.ObjectConnection;
+
 
 namespace Objects.Lighting
 {
-	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, ISetMultitoolMaster, ICheckedInteractable<AiActivate>
+	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<LightSource> listOfLights;
 
-		public Action<bool> SwitchTriggerEvent;
+		[NonSerialized] public Action<bool> SwitchTriggerEvent;
 
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
@@ -151,36 +152,18 @@ namespace Objects.Lighting
 			isInCoolDown = false;
 		}
 
-		#region ISetMultitoolMaster
+		#region Multitool Interaction
 
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
 		public MultitoolConnectionType ConType => conType;
 
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object slaveObject) { }
+		public bool MultiMaster => true;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 
 		#region Editor
-
-		private void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null) return;
-
-			// Highlighting all controlled lightSources
-			Gizmos.color = new Color(1, 1, 0, 1);
-			for (int i = 0; i < listOfLights.Count; i++)
-			{
-				var lightSource = listOfLights[i];
-				if (lightSource == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
-				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
-			}
-		}
 
 		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{

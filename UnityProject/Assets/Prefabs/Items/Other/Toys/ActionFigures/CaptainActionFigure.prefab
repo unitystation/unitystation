@@ -18,15 +18,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a8111febeafa08148a24af2ee9095755,
         type: 3}
+    - target: {fileID: 2681867768609372873, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2761314060398818337, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d46fbccf707a3aa439bcf133a18f214b
       objectReference: {fileID: 0}
     - target: {fileID: 2866010210695301525, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
       propertyPath: m_Name
       value: CaptainActionFigure
+      objectReference: {fileID: 0}
+    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
@@ -45,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2870375409194022113, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
@@ -89,5 +94,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1c91f89656c2a574c80c0a33c7431d76,
         type: 2}
+    - target: {fileID: 9186398751584503288, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: foreverID
+      value: d46fbccf707a3aa439bcf133a18f214b
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e74be7d70acafe40b722428aaed652a, type: 3}

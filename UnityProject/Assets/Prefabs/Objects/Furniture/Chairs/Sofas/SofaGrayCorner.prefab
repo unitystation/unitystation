@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 849394715480257580, guid: e826ed32e8c543143930483ce9bda088,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 3a5819559f711db41b9079b8d49d8eee
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288807134906498823, guid: e826ed32e8c543143930483ce9bda088,
+        type: 3}
+      propertyPath: foreverID
+      value: 3a5819559f711db41b9079b8d49d8eee
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079753820824012692, guid: e826ed32e8c543143930483ce9bda088,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9079753820824012692, guid: e826ed32e8c543143930483ce9bda088,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9079753820824012692, guid: e826ed32e8c543143930483ce9bda088,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079753820824012692, guid: e826ed32e8c543143930483ce9bda088,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079753820824012692, guid: e826ed32e8c543143930483ce9bda088,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079753820824012692, guid: e826ed32e8c543143930483ce9bda088,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9079753820824012692, guid: e826ed32e8c543143930483ce9bda088,
         type: 3}
@@ -65,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 9085016314298220878, guid: e826ed32e8c543143930483ce9bda088,
         type: 3}
       propertyPath: m_Name
-      value: _SofaCornerBase
+      value: SofaGrayCorner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e826ed32e8c543143930483ce9bda088, type: 3}

@@ -25,14 +25,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a6edd63de9fbe684198cf23a06d8a387,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: a6edd63de9fbe684198cf23a06d8a387,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -44,6 +42,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7153347a067fad44b987ce6c7e289a0f,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: abed35e9cfa734a00815cf8cda62687a
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -58,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: abed35e9cfa734a00815cf8cda62687a
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -131,6 +134,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1d6f3709e44daf346b10135e2372d1fd,
         type: 3}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ee3eb989b5f89044a94ca1eadb3116d3,
+        type: 2}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialName

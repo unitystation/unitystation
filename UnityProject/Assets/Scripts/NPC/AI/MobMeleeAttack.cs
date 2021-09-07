@@ -25,26 +25,26 @@ namespace Systems.MobAIs
 			var pos = healthBehaviour.GetComponent<RegisterTile>().WorldPositionServer;
 			_ = AttackFleshRoutine(dir, healthBehaviour, null, pos, ctc, rtt);
 		}
-		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase healthBehaviour)
+		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{
-			var ctc = healthBehaviour.connectionToClient;
-			var rtt = healthBehaviour.RTT;
-			var pos = healthBehaviour.RegisterTile.WorldPositionServer;
-			_ = AttackFleshRoutine(dir, null, healthBehaviour, pos, ctc, rtt);
+			var ctc = livingHealth.connectionToClient;
+			var rtt = livingHealth.RTT;
+			var pos = livingHealth.RegisterTile.WorldPositionServer;
+			_ = AttackFleshRoutine(dir, null, livingHealth, pos, ctc, rtt);
 		}
 
 		//We need to slow the attack down because clients are behind server
-		private async Task AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour targetHealth, LivingHealthMasterBase targetHealthV2,
+		private async Task AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour targetHealth, LivingHealthMasterBase livingHealth,
 			Vector3 worldPos, NetworkConnection ctc, float rtt)
 		{
-			if (targetHealth == null && targetHealthV2 == null) return;
+			if (targetHealth == null && livingHealth == null) return;
 			if (ctc == null) return;
 
 			ServerDoLerpAnimation(dir);
 
 			if (PlayerManager.LocalPlayerScript != null
 				&& PlayerManager.LocalPlayerScript.playerHealth != null
-				&& PlayerManager.LocalPlayerScript.playerHealth == targetHealthV2 ||
+				&& PlayerManager.LocalPlayerScript.playerHealth == livingHealth ||
 				rtt < 0.02f)
 			{
 				//Wait until the end of the frame
@@ -67,9 +67,9 @@ namespace Systems.MobAIs
 				}
 				else
 				{
-					targetHealthV2.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
+					livingHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
 						defaultTarget.Randomize());
-					Chat.AddAttackMsgToChat(gameObject, targetHealthV2.gameObject, defaultTarget, null, attackVerb);
+					Chat.AddAttackMsgToChat(gameObject, livingHealth.gameObject, defaultTarget, null, attackVerb);
 				}
 				SoundManager.PlayNetworkedAtPos(attackSound, OriginTile.WorldPositionServer, sourceObj: gameObject);
 			}
@@ -107,7 +107,7 @@ namespace Systems.MobAIs
 					//Remove x change and then add y change
 					posShift.x -= normalised.x;
 					posShift.y += normalised.y;
-					
+
 					//Check for impassable objects to hit first before tile
 					if(TryAttackObjects(posShift, new Vector3(0, normalised.y, 0))) return;
 

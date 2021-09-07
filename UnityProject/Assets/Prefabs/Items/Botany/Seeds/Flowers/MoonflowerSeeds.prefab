@@ -13,16 +13,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: da79608fd257d7041b21641c52fc7f2f,
         type: 2}
-    - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
+    - target: {fileID: 648492031311591371, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: foreverID
+      value: 577d824cff089ac438ffda1ae5944f82
       objectReference: {fileID: 0}
     - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
       propertyPath: plantData.PlantName
       value: Moonflowers
       objectReference: {fileID: 0}
+    - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 5257133145938763353, guid: d54e7defe8d703b47a1195bfdc2352c0,
+        type: 3}
     - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
@@ -49,14 +55,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 5257133145938763353, guid: d54e7defe8d703b47a1195bfdc2352c0,
-        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5784119409934351270, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
       propertyPath: m_Name
       value: MoonflowerSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
@@ -75,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -87,16 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
@@ -116,7 +121,7 @@ PrefabInstance:
     - target: {fileID: 5895603807591204370, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 577d824cff089ac438ffda1ae5944f82
       objectReference: {fileID: 0}
     - target: {fileID: 5959568982061156602, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
@@ -126,13 +131,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6244464364176921796, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into moonflowers.
+      propertyPath: initialName
+      value: pack of moonflower seeds
       objectReference: {fileID: 0}
     - target: {fileID: 6244464364176921796, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: initialName
-      value: pack of moonflower seeds
+      propertyPath: initialDescription
+      value: These seeds grow into moonflowers.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4844235ecae1ba743ab9b40ce79104be, type: 3}

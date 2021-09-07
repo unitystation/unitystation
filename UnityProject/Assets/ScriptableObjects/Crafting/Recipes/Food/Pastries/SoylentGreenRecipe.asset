@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: SoylentGreenRecipe
+  m_EditorClassIdentifier: 
+  category: 12
+  craftingTime: 1.5
+  recipeName: Soylent Green
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 2
+    requiredItem: {fileID: 7275968390465132960, guid: f595ab18e1bab564c9ce9efb6b081b4e,
+      type: 3}
+  - requiredAmount: 2
+    requiredItem: {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 8079663187379722596, guid: 4851df8257ff0ca40a3ab4caed978213, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 207

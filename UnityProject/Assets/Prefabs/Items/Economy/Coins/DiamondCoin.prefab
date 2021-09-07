@@ -7,15 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3611203652882625299, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
+      propertyPath: foreverID
+      value: ec28cfec52cbfbe49b6c58667c386a71
+      objectReference: {fileID: 0}
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
+      propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 44ec3cc533634aa4486b7d49edeaff9b,
         type: 2}
     - target: {fileID: 4603017766652364025, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 44ec3cc533634aa4486b7d49edeaff9b,
         type: 2}
@@ -38,6 +43,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -53,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -65,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7688956637270671882, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
@@ -94,7 +99,12 @@ PrefabInstance:
     - target: {fileID: 7724551780263838410, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ec28cfec52cbfbe49b6c58667c386a71
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803244772613623836, guid: d7d543912ffafe3478e119cbce62b13b,
+        type: 3}
+      propertyPath: exportCost
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7803244772613623836, guid: d7d543912ffafe3478e119cbce62b13b,
         type: 3}
@@ -105,11 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A diamond coin. It has a worth of 100 credits.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7803244772613623836, guid: d7d543912ffafe3478e119cbce62b13b,
-        type: 3}
-      propertyPath: exportCost
-      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7d543912ffafe3478e119cbce62b13b, type: 3}

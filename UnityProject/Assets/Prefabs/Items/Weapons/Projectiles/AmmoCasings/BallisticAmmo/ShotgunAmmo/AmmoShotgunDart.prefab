@@ -12,6 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCapacity: 30
+  reactionSet: {fileID: 0}
+  AdditionalReactions: []
+  canPourOut: 1
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -20,14 +32,6 @@ MonoBehaviour:
   transferMode: 3
   possibleTransferAmounts: []
   transferAmount: 1
-  maxCapacity: 30
-  reactionSet: {fileID: 0}
-  initialReagentMix:
-    temperature: 273.15
-    reagents:
-      m_keys: []
-      m_values: []
-  destroyOnEmpty: 0
 --- !u!1001 &7757525757479138524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41,32 +45,48 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7728329713383276162, guid: d10477987defc1744a7b9a9e197a1ce0,
         type: 3}
+    - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 7728329713383276162, guid: d10477987defc1744a7b9a9e197a1ce0,
+        type: 3}
     - target: {fileID: 2361978366132242104, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6fbf373c0cf894c4fa6405172ad0cef9,
         type: 2}
-    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+    - target: {fileID: 3259418781305368914, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
-      propertyPath: initialDescription
-      value: A dart for use in shotguns. Can be injected with up to 30 units of any
-        chemical.
+      propertyPath: foreverID
+      value: a18d0e7c3f533b14ca95700fbcd78944
       objectReference: {fileID: 0}
     - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: initialName
       value: shotgun dart
       objectReference: {fileID: 0}
+    - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initialDescription
+      value: A dart for use in shotguns. Can be injected with up to 30 units of any
+        chemical.
+      objectReference: {fileID: 0}
     - target: {fileID: 8364667066244186251, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a18d0e7c3f533b14ca95700fbcd78944
       objectReference: {fileID: 0}
     - target: {fileID: 8467174088351874367, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: m_Name
       value: AmmoShotgunDart
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -85,6 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -97,16 +122,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8472101962198712395, guid: b564e5d916b891446903adc342af08bd,
         type: 3}

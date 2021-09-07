@@ -31,13 +31,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229235056, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
-      propertyPath: initialDescription
-      value: Used in constructing a P.A.C.M.A.N.-type portable generator.
+      propertyPath: initialName
+      value: P.A.C.M.A.N.-type Generator (Machine Board
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229235056, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
-      propertyPath: initialName
-      value: P.A.C.M.A.N.-type Generator (Machine Board
+      propertyPath: initialDescription
+      value: Used in constructing a P.A.C.M.A.N.-type portable generator.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -56,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1781878732229380283, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -108,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 1814144952489498859, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 23ae18d4d92f03a4faba5c8e2e04ab49
       objectReference: {fileID: 0}
     - target: {fileID: 1894013491118822915, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
@@ -125,6 +125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: P.A.C.M.A.N.-Type Generator (Machine Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612723153341376818, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: foreverID
+      value: 23ae18d4d92f03a4faba5c8e2e04ab49
       objectReference: {fileID: 0}
     - target: {fileID: 5620221405395738328, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}

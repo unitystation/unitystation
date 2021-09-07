@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -67,10 +67,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: SmartfridgeFood
       objectReference: {fileID: 0}
+    - target: {fileID: 3135803337226006626, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: foreverID
+      value: 94cc660e3a281dc4dbdbf30b7c11f53a
+      objectReference: {fileID: 0}
     - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 94cc660e3a281dc4dbdbf30b7c11f53a
       objectReference: {fileID: 0}
     - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}

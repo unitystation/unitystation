@@ -45,14 +45,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ded8be5d85dd8134d96ca3f5f4f643a7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1231083482440781409, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: ded8be5d85dd8134d96ca3f5f4f643a7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1231083482440781409, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -65,6 +63,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f89874608aff6c54f93ea5636d85a6b0,
         type: 2}
+    - target: {fileID: 1284137808015397257, guid: 020aa37cdb1748149b33f0786b431160,
+        type: 3}
+      propertyPath: foreverID
+      value: 24d90ebee10594247988f55484a416d6
+      objectReference: {fileID: 0}
     - target: {fileID: 2030712609210181219, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -86,7 +89,7 @@ PrefabInstance:
     - target: {fileID: 5259255436095103056, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 24d90ebee10594247988f55484a416d6
       objectReference: {fileID: 0}
     - target: {fileID: 5289642054559964644, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
@@ -237,8 +240,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ed8e00b0a91e9724aac82f1c94787d7a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6838433784125080246, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
       propertyPath: sprites.Array.data[0]

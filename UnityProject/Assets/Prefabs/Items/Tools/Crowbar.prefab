@@ -18,10 +18,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 46204272e15305c4f8911cbc23b0d60f,
         type: 2}
+    - target: {fileID: 4089184234565288920, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: foreverID
+      value: 1bd4d6ea60dfdc1498ee8f06b7289fb4
+      objectReference: {fileID: 0}
     - target: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_Name
       value: Crowbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -81,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 7030469871661085185, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 1bd4d6ea60dfdc1498ee8f06b7289fb4
       objectReference: {fileID: 0}
     - target: {fileID: 7130604612900027625, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -91,23 +96,8 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: initialName
-      value: crowbar
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: initialDescription
-      value: It's a big crowbar. It doesn't fit in your pockets, because it's big.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
       propertyPath: hitDamage
       value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: throwSpeed
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -116,8 +106,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
+      propertyPath: throwSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: initialName
+      value: crowbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
       propertyPath: initialSize
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's a big crowbar. It doesn't fit in your pockets, because it's big.
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}

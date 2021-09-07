@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d42cf54be9cf7e141a4f171aa6a30fef,
         type: 2}
+    - target: {fileID: 4311608800572663638, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
+      propertyPath: foreverID
+      value: ca27df35bb4d68a43a6213cfea5ed206
+      objectReference: {fileID: 0}
     - target: {fileID: 7034241245448394855, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_Sprite
@@ -22,12 +27,17 @@ PrefabInstance:
     - target: {fileID: 7132405623160919695, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ca27df35bb4d68a43a6213cfea5ed206
       objectReference: {fileID: 0}
     - target: {fileID: 7165034283826899771, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
       propertyPath: m_Name
       value: NicotineGumPacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7168836257225315919, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
@@ -86,14 +91,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialDescription
-      value: Designed to help with nicotine addiction and oral fixation all at once
-        without destroying your lungs in the process. Mint flavored!
+      propertyPath: initialName
+      value: nicotine gum packet
       objectReference: {fileID: 0}
     - target: {fileID: 7314630898131043417, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}
-      propertyPath: initialName
-      value: nicotine gum packet
+      propertyPath: initialDescription
+      value: Designed to help with nicotine addiction and oral fixation all at once
+        without destroying your lungs in the process. Mint flavored!
       objectReference: {fileID: 0}
     - target: {fileID: 7827821029367866081, guid: d2416a3be0e9a95469a2c1e06baebbb6,
         type: 3}

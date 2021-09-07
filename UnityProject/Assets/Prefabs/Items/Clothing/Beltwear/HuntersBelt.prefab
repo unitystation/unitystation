@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 4041017618710770341, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a738e0a1f7ee4df48bd26109b9608749
       objectReference: {fileID: 0}
     - target: {fileID: 4143489250826358545, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
       propertyPath: m_Name
       value: HuntersBelt
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148698873852064357, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4148698873852064357, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4148698873852064357, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148698873852064357, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4148698873852064357, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4148698873852064357, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4148698873852064357, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
@@ -86,13 +86,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4570374279545905267, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
-      propertyPath: initialDescription
-      value: A versatile belt, woven from sinew.
+      propertyPath: initialName
+      value: hunter's belt
       objectReference: {fileID: 0}
     - target: {fileID: 4570374279545905267, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
-      propertyPath: initialName
-      value: hunter's belt
+      propertyPath: initialDescription
+      value: A versatile belt, woven from sinew.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7005938975693865852, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
+      propertyPath: foreverID
+      value: a738e0a1f7ee4df48bd26109b9608749
       objectReference: {fileID: 0}
     - target: {fileID: 7838161875845330070, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}

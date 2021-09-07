@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 3145725722567961701, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f2a16f12167ad5442a606bc9c87fd9fe
       objectReference: {fileID: 0}
     - target: {fileID: 4242374203497104951, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
@@ -29,6 +29,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 0857c7e6dd2612345acd2897da4e09b7,
         type: 3}
+    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -46,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
@@ -88,6 +88,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DirectionalWindowTinted
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569395453688850254, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: foreverID
+      value: f2a16f12167ad5442a606bc9c87fd9fe
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80393b4412660b41937e05425ceb921, type: 3}

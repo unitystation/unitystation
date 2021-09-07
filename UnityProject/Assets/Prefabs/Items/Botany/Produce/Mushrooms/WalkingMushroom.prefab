@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 704583910835010964, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Plumus Locomotus: The beginning of the great walk.'
+      propertyPath: initialName
+      value: walking mushroom
       objectReference: {fileID: 0}
     - target: {fileID: 704583910835010964, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
-      propertyPath: initialName
-      value: walking mushroom
+      propertyPath: initialDescription
+      value: 'Plumus Locomotus: The beginning of the great walk.'
       objectReference: {fileID: 0}
     - target: {fileID: 998462650804232618, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
@@ -26,12 +26,17 @@ PrefabInstance:
     - target: {fileID: 1062427821021163330, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a23851dd6fc98484ab3eaec972e953eb
       objectReference: {fileID: 0}
     - target: {fileID: 1092885839560266486, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
       propertyPath: m_Name
       value: WalkingMushroom
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1096969288074342274, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
@@ -94,6 +94,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7523783970369259829, guid: d594d0817bf435349985c4cfd95f715e,
         type: 3}
+    - target: {fileID: 6309556294992846491, guid: e275b4076a6fc414583fa344a4177552,
+        type: 3}
+      propertyPath: foreverID
+      value: a23851dd6fc98484ab3eaec972e953eb
+      objectReference: {fileID: 0}
     - target: {fileID: 6515770600570087793, guid: e275b4076a6fc414583fa344a4177552,
         type: 3}
       propertyPath: PresentSpriteSet

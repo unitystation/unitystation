@@ -27,6 +27,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -42,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -54,16 +64,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -88,12 +88,22 @@ PrefabInstance:
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b56fec0300832ce48ade0ddf2e577ee7
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: attackVerbs.Array.size
+      propertyPath: hitDamage
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: throwRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -107,23 +117,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: hitDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
       propertyPath: throwDamage
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: throwSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: throwRange
-      value: 3
+      propertyPath: attackVerbs.Array.size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -156,6 +156,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 361709b70df8de24c8241ab4e5880164,
         type: 2}
+    - target: {fileID: 4640836244599001406, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: foreverID
+      value: b56fec0300832ce48ade0ddf2e577ee7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
 --- !u!1 &8443408387443916863 stripped

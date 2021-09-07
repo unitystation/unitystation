@@ -109,8 +109,6 @@ MonoBehaviour:
   isEmagged: 0
   weldOverlay: {fileID: 0}
   weldSprite: {fileID: 0}
-  isUnLockable: 1
-  isWeldable: 1
 --- !u!1 &8639641436648170908
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,6 +152,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -308,6 +307,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SuitStorageUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 24eaaeb286e2fbe48a16783af29e3c02
+      objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -322,7 +326,7 @@ PrefabInstance:
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 24eaaeb286e2fbe48a16783af29e3c02
       objectReference: {fileID: 0}
     - target: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

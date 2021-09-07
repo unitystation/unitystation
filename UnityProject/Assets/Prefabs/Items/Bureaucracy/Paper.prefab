@@ -104,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d3c71176f32c1274b929f3a88695a795
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -238,6 +238,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 3a5b1e31ca0c1dd4b8e293e60d949965,
         type: 3}
+    - target: {fileID: 542829611148227948, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 542829611148227948, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c2d64187cb390c744b3fc83f2590ff8c,
+        type: 2}
+    - target: {fileID: 542829611148227948, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -261,6 +277,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5e05fc5f8aecc6b428a4d1bcd723c65f,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: d3c71176f32c1274b929f3a88695a795
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &8734328976324889014 stripped

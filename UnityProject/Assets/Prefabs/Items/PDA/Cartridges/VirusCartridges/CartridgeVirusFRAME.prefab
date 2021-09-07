@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4184465052614028657, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
+      propertyPath: foreverID
+      value: 3da44591b1a676a4aabe5163e4f74c5b
+      objectReference: {fileID: 0}
     - target: {fileID: 7109087247734137116, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
       propertyPath: m_Name
-      value: PDACartridgeVirusFRAME
+      value: CartridgeVirusFRAME
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
@@ -70,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 7150793407664610472, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3da44591b1a676a4aabe5163e4f74c5b
       objectReference: {fileID: 0}
     - target: {fileID: 7225207134604889726, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}

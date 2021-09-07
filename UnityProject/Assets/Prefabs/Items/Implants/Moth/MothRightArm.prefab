@@ -25,10 +25,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7897d6389c487ff4da3c05718d54bae2,
         type: 2}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: foreverID
+      value: 15f05a8d8234e1c4984091675efd2cfb
+      objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: DismembermentChance
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -66,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 15f05a8d8234e1c4984091675efd2cfb
       objectReference: {fileID: 0}
     - target: {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}

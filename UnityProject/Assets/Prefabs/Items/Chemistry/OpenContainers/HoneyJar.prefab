@@ -7,12 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2364332256798584044, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: foreverID
+      value: 3c153861c4443084f9f9b3c0ac687323
+      objectReference: {fileID: 0}
     - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9a2ac90d2aef2fc40a17d53eee1ba100,
         type: 2}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3c153861c4443084f9f9b3c0ac687323
       objectReference: {fileID: 0}
     - target: {fileID: 8828330504940196829, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
@@ -86,13 +91,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: initialDescription
-      value: A jar for honey. It can hold up to 50 units of sweet delight.
+      propertyPath: initialName
+      value: honey jar
       objectReference: {fileID: 0}
     - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
-      propertyPath: initialName
-      value: honey jar
+      propertyPath: initialDescription
+      value: A jar for honey. It can hold up to 50 units of sweet delight.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7672760112814096758, guid: 8fee22e722a3782408324281846ebd02, type: 3}

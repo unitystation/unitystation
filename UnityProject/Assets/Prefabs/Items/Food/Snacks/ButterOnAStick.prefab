@@ -7,12 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11645635070427223, guid: 77894e6657f8aa940a79a759ddf0fe40,
+        type: 3}
+      propertyPath: foreverID
+      value: 99014d5b3b098f34a8693a14f81df63a
+      objectReference: {fileID: 0}
     - target: {fileID: 2973686910246030922, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
       propertyPath: leavings
       value: 
       objectReference: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
         type: 3}
+    - target: {fileID: 6377207438147416398, guid: 77894e6657f8aa940a79a759ddf0fe40,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6377207438147416398, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6377207438147416398, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377207438147416398, guid: 77894e6657f8aa940a79a759ddf0fe40,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377207438147416398, guid: 77894e6657f8aa940a79a759ddf0fe40,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377207438147416398, guid: 77894e6657f8aa940a79a759ddf0fe40,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6377207438147416398, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 6415329121154052494, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 99014d5b3b098f34a8693a14f81df63a
       objectReference: {fileID: 0}
     - target: {fileID: 6512789847923507046, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
@@ -86,13 +91,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6809017076580672344, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
-      propertyPath: initialDescription
-      value: Delicious, golden, fatty goodness on a stick.
+      propertyPath: initialName
+      value: butter on a stick
       objectReference: {fileID: 0}
     - target: {fileID: 6809017076580672344, guid: 77894e6657f8aa940a79a759ddf0fe40,
         type: 3}
-      propertyPath: initialName
-      value: butter on a stick
+      propertyPath: initialDescription
+      value: Delicious, golden, fatty goodness on a stick.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77894e6657f8aa940a79a759ddf0fe40, type: 3}

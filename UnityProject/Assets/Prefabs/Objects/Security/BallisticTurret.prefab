@@ -80,6 +80,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
+      propertyPath: framePrefab
+      value: 
+      objectReference: {fileID: 5540702743783977154, guid: cc65c41ab29e1e04abcea72004ed4a33,
+        type: 3}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
       propertyPath: laserBullet
       value: 
       objectReference: {fileID: 5981626483751922999, guid: 40ea4aea218be439eaf29f853612870c,
@@ -95,6 +101,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300002, guid: f1c9606b32919594b99ee30062505f64,
         type: 3}
+    - target: {fileID: 2476844167198961965, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: foreverID
+      value: 12b87bdcedcba4b409b2cc945c27cbe7
+      objectReference: {fileID: 0}
     - target: {fileID: 3335787269516969175, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -157,7 +168,7 @@ PrefabInstance:
     - target: {fileID: 6986135575158340102, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 12b87bdcedcba4b409b2cc945c27cbe7
       objectReference: {fileID: 0}
     - target: {fileID: 7993706743923889274, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}

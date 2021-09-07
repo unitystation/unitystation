@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 1347949146380736350, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9c6f3897e2ac7e84181a1962dbfcfc7b
       objectReference: {fileID: 0}
     - target: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
       propertyPath: m_Name
       value: Ammo.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -80,13 +80,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialDescription
-      value: A miniaturized rocket in .75 caliber.
+      propertyPath: initialName
+      value: .75 bolt
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialName
-      value: .75 bolt
+      propertyPath: initialDescription
+      value: A miniaturized rocket in .75 caliber.
       objectReference: {fileID: 0}
     - target: {fileID: 5072964358972903789, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -94,5 +94,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c5e1875e035d3774f885560b339c7cde,
         type: 2}
+    - target: {fileID: 5447786440518084231, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: foreverID
+      value: 9c6f3897e2ac7e84181a1962dbfcfc7b
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2087e57fe27fd8419f779b3abb9cf91, type: 3}

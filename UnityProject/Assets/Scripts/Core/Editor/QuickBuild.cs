@@ -87,6 +87,11 @@ namespace Core.Editor
 		{
 			EditorGUILayout.Space();
 
+			EditorGUILayout.HelpBox("Automatically sets build settings to get MVB " +
+					"(minimum viable build) by including only necessary scenes.\n\n" +
+					"Operates independently of the main build window. Settings are persistent and won't be picked up by git " +
+					"(except Quick Load which is handled externally, so be sure to not commit that change).", MessageType.Info);
+
 			NaughtyEditorGUI.PropertyField_Layout(mainStationProperty, false);
 			mainStationScene = mainStationProperty.stringValue;
 			ValidateMainStationScene(mainStationScene);
@@ -113,7 +118,7 @@ namespace Core.Editor
 			if (isDevelopmentBuild)
 			{
 				var content = new GUIContent(
-						"Scripts Only",
+						"    Scripts Only",
 						"Recompiles scripts only. Results in the fastest build, but only works " +
 						"if no other assets have been modified since the previous build.");
 				isScriptsOnly = EditorGUILayout.Toggle(content, isScriptsOnly);
@@ -121,7 +126,7 @@ namespace Core.Editor
 			else
 			{
 				GUI.enabled = false;
-				isScriptsOnly = EditorGUILayout.Toggle("Scripts Only", false);
+				isScriptsOnly = EditorGUILayout.Toggle("    Scripts Only", false);
 				GUI.enabled = true;
 			}
 
@@ -228,7 +233,7 @@ namespace Core.Editor
 				buildPlayerOptions.options |= BuildOptions.Development;
 				if (isScriptsOnly)
 				{
-					buildPlayerOptions.options |= BuildOptions.Development;
+					buildPlayerOptions.options |= BuildOptions.BuildScriptsOnly;
 				}
 			}
 

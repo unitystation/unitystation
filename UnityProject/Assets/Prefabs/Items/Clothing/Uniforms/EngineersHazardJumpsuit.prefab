@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0fb5b023412da224eb30c4702c2c22c2
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A high visibility jumpsuit made from heat and radiation resistant materials.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 669c8831af14a4225968399b65b23461,
+        type: 3}
+      propertyPath: foreverID
+      value: 0fb5b023412da224eb30c4702c2c22c2
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 923f25bf2fe450846bc79805d568b27f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 923f25bf2fe450846bc79805d568b27f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 669c8831af14a4225968399b65b23461,
         type: 3}
       propertyPath: allClothingData.Array.size

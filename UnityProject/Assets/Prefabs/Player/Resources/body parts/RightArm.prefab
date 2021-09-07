@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5260798093048405104}
-  - component: {fileID: 4126953830534003265}
   - component: {fileID: 7032518333741317136}
   - component: {fileID: 6727458418179442728}
   m_Layer: 8
@@ -33,29 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4126953830534003265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9204677953945533990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7763c616bb0554240a552b5d0ff05b3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
-  Storage: {fileID: 0}
-  ItemStorage: {fileID: 7032518333741317136}
-  optionalOrgans: []
-  BodyPartType: 2
-  PlayerSprites: {fileID: 0}
-  PrefabToSpawn: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
-    type: 3}
-  ContainsLimbs: []
-  RootBodyPartController: {fileID: 0}
-  InternalNetIDs: 
 --- !u!114 &7032518333741317136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,8 +53,9 @@ MonoBehaviour:
   dropItemsOnDespawn: 0
   UesAddlistPopulater: 1
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &6727458418179442728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,9 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: e37e10bc5df1e7849b182ecdc3fe4229
   hasSpawned: 0

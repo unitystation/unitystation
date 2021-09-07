@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunTime: 2
   willDisarm: 0
+  doMsg: 0
 --- !u!1001 &6198379381756514006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,6 +47,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5850351793839052672, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850351793839052672, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -61,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5850351793839052672, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850351793839052672, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5850351793839052672, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5850351793839052672, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5850351793839052672, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
         type: 3}
@@ -102,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 6591164933805230006, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b76dd6e6c052eb64aa9cc4fa8b3ef72b
       objectReference: {fileID: 0}
     - target: {fileID: 6759010976462222496, guid: 82a46ae55230fa045b2b0a0ebe8e32e0,
         type: 3}

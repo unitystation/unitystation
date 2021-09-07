@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Name
-      value: ClosetSyndicateBase
+      value: _ClosetSyndicateBase
       objectReference: {fileID: 0}
     - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -100,6 +100,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: cd51b620275fba544aba13b2175fa678,
         type: 3}
+    - target: {fileID: 4288925150764073281, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: foreverID
+      value: 7ca3e7f6b4b16b84eb631fcda0bbecb5
+      objectReference: {fileID: 0}
     - target: {fileID: 5029123947003194478, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Sprite
@@ -148,7 +153,7 @@ PrefabInstance:
     - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7ca3e7f6b4b16b84eb631fcda0bbecb5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}

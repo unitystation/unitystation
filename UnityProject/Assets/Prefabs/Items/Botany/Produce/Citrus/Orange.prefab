@@ -7,15 +7,75 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 714082540907298689, guid: 626cdf84a36c1384abff4ad0c505ea96,
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
-      propertyPath: initialDescription
-      value: It's a tangy fruit.
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b34e36b376a0fb498619789dd31a7ab,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d9c11720fbc7ea94ba461b9337f00e6e,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 3bfb63dfabc010444b71a0cdbdb71a96,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1eb68fcb04584244e9defb4cd65994ce,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e8c7eb77ca403f94db0de97ed0d8d5f5,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 714082540907298689, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: initialName
       value: orange
+      objectReference: {fileID: 0}
+    - target: {fileID: 714082540907298689, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's a tangy fruit.
       objectReference: {fileID: 0}
     - target: {fileID: 1005570871739196351, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
@@ -31,12 +91,17 @@ PrefabInstance:
     - target: {fileID: 1049692092611538263, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f77037b85bbec3f408e6f8b3bdd874db
       objectReference: {fileID: 0}
     - target: {fileID: 1082399918109987043, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: m_Name
       value: Orange
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087327791285792151, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1087327791285792151, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
@@ -55,6 +120,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1087327791285792151, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087327791285792151, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -67,16 +137,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1087327791285792151, guid: 626cdf84a36c1384abff4ad0c505ea96,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1087327791285792151, guid: 626cdf84a36c1384abff4ad0c505ea96,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1087327791285792151, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
@@ -99,6 +159,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 109438799603730107, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
+    - target: {fileID: 6322997912291777678, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: foreverID
+      value: f77037b85bbec3f408e6f8b3bdd874db
+      objectReference: {fileID: 0}
     - target: {fileID: 6504160803191073636, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: PresentSpriteSet

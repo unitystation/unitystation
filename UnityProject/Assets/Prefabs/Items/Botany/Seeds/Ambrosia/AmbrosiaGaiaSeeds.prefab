@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2885894583948305796, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into ambrosia gaia, filled with infinite potential.
+      propertyPath: initialName
+      value: pack of ambrosia gaia seeds
       objectReference: {fileID: 0}
     - target: {fileID: 2885894583948305796, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: initialName
-      value: pack of ambrosia gaia seeds
+      propertyPath: initialDescription
+      value: These seeds grow into ambrosia gaia, filled with infinite potential.
       objectReference: {fileID: 0}
     - target: {fileID: 3175230141867407802, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AmbrosiaGaiaSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3383005144942638994, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
@@ -86,14 +86,13 @@ PrefabInstance:
     - target: {fileID: 3419761509658900306, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 34a11862539658743b96c2c59b31a717
       objectReference: {fileID: 0}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
-      value: 
-      objectReference: {fileID: 7243916662094812898, guid: 3b4af1b581ee3ab48b2ad693596cd29c,
-        type: 3}
+      propertyPath: plantData.PlantName
+      value: Ambrosia Gaia
+      objectReference: {fileID: 0}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
       propertyPath: plantData.ProduceObject
@@ -102,9 +101,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Ambrosia Gaia
+      propertyPath: plantData.WeedGrowthRate
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
+      propertyPath: plantData.WeedResistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: d6e0b3ad982be7a429f4a55cbaac776d,
+        type: 2}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
@@ -119,15 +129,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 80f16c3d6b0a49d43a88f8561f50f381,
-        type: 2}
-    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
-        type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: ffdcd5e8e2b462c45af2c24744daab1f,
+        type: 2}
+    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 80f16c3d6b0a49d43a88f8561f50f381,
         type: 2}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
@@ -143,19 +153,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
+      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: d6e0b3ad982be7a429f4a55cbaac776d,
-        type: 2}
-    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
+      objectReference: {fileID: 7243916662094812898, guid: 3b4af1b581ee3ab48b2ad693596cd29c,
         type: 3}
-      propertyPath: plantData.WeedResistance
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4115571638675279967, guid: 2018cb5a1d387c147a97f2913eafeb21,
+    - target: {fileID: 8528659381788608139, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}
-      propertyPath: plantData.WeedGrowthRate
-      value: 4
+      propertyPath: foreverID
+      value: 34a11862539658743b96c2c59b31a717
       objectReference: {fileID: 0}
     - target: {fileID: 8910165527630524769, guid: 2018cb5a1d387c147a97f2913eafeb21,
         type: 3}

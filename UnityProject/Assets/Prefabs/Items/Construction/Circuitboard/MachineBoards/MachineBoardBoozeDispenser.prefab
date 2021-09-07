@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 536155454978254675, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
+        type: 3}
+      propertyPath: foreverID
+      value: 3c4ccc974a921654f884c3a90188d75e
+      objectReference: {fileID: 0}
     - target: {fileID: 760097165087658169, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -39,7 +44,7 @@ PrefabInstance:
     - target: {fileID: 6799946118622369418, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3c4ccc974a921654f884c3a90188d75e
       objectReference: {fileID: 0}
     - target: {fileID: 6902294792720657500, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
@@ -48,13 +53,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6902294792720670481, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
-      propertyPath: initialDescription
-      value: Used in booze dispenser construction.
+      propertyPath: initialName
+      value: Booze Dispenser (Machine Board)
       objectReference: {fileID: 0}
     - target: {fileID: 6902294792720670481, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
-      propertyPath: initialName
-      value: Booze Dispenser (Machine Board)
+      propertyPath: initialDescription
+      value: Used in booze dispenser construction.
       objectReference: {fileID: 0}
     - target: {fileID: 6902294792720863729, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
@@ -65,6 +70,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MachineBoardBoozeDispenser
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906821225651246666, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6906821225651246666, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
@@ -83,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6906821225651246666, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906821225651246666, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -95,16 +110,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6906821225651246666, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6906821225651246666, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6906821225651246666, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}

@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Input_System.InteractionV2.Interactions;
-using Mirror;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Doors;
+using Mirror;
+using ScriptableObjects;
+using Systems.Interaction;
+using Systems.ObjectConnection;
 using Managers;
+using Doors;
+
 
 namespace Objects.Wallmounts
 {
@@ -16,7 +18,7 @@ namespace Objects.Wallmounts
 	/// Mounted monitor to show simple images or text
 	/// Escape Shuttle channel is a priority one and will overtake other channels.
 	/// </summary>
-	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster,
+	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable,
 			IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<AiActivate>
 	{
 		public static readonly int MAX_CHARS_PER_PAGE = 18;
@@ -57,6 +59,7 @@ namespace Objects.Wallmounts
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 
@@ -71,10 +74,6 @@ namespace Objects.Wallmounts
 				}
 				return accessRestrictions;
 			}
-		}
-
-		public void AddSlave(object SlaveObject)
-		{
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

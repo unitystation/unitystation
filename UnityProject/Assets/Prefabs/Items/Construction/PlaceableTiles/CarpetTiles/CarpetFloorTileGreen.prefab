@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 950dede7b19513f40b0e1061f6833309,
         type: 2}
+    - target: {fileID: 3547700795691028992, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: foreverID
+      value: bf35de76d70bec44aa8c96d7900cde2a
+      objectReference: {fileID: 0}
     - target: {fileID: 4379559048807310826, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -22,12 +27,17 @@ PrefabInstance:
     - target: {fileID: 7500036475197416409, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bf35de76d70bec44aa8c96d7900cde2a
       objectReference: {fileID: 0}
     - target: {fileID: 7602444472548548205, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
       propertyPath: m_Name
       value: CarpetFloorTileGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7607367948613133081, guid: bae9e1730d4424fbfa160f045597a604,
         type: 3}

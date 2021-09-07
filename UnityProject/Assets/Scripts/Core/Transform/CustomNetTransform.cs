@@ -1,19 +1,16 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
-using Initialisation;
 using Items;
-using Messages.Client.NewPlayer;
-using Messages.Server;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using NaughtyAttributes;
 using Objects;
-using Debug = UnityEngine.Debug;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-public partial class CustomNetTransform : NetworkBehaviour, IPushable //see UpdateManager
+public partial class CustomNetTransform : NetworkBehaviour, IPushable
 {
 	[SerializeField][Tooltip("When the scene loads, snap this to the middle of the nearest tile?")]
 	private bool snapToGridOnStart = true;
@@ -80,45 +77,10 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 	public Vector3Int TrustedLocalPosition => clientState.Position.RoundToInt();
 	public Vector3Int LastNonHiddenPosition { get; } = TransformState.HiddenPos; //todo: implement for CNT!
 
-	/// <summary>
-	/// Used to determine if this transform is worth updating every frame
-	/// </summary>
-	private enum MotionStateEnum { Moving, Still }
+	//Timer to unsubscribe from the UpdateManager if the object is still for too long
+	private float stillTimer;
 
-	private MotionStateEnum motionState = MotionStateEnum.Moving;
-	/// <summary>
-	/// Used to determine if this transform is worth updating every frame
-	/// </summary>
-	private MotionStateEnum MotionState
-	{
-		get { return motionState; }
-		set
-		{
-			if ( motionState == value || !UpdateManager.IsInitialized )
-			{
-				return;
-			}
-
-			if ( value == MotionStateEnum.Moving )
-			{
-				doMotionCheck = false;
-				// In the case we become Still and then Moving again in one second, we're still updating because freeze timer hasn't finished yet.
-				// Checking here if timer has passed yet (so we're no longer updating), if we are still updating we don't have to call OnEnable again.
-				if (!isUpdating)
-					OnEnable();
-			}
-			else
-			{
-				motionCheckTime = 0f;
-				doMotionCheck = true;
-			}
-
-			motionState = value;
-		}
-	}
-
-	private bool doMotionCheck = false;
-	private float motionCheckTime = 0f;
+	private bool isUpdating;
 
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
@@ -133,10 +95,10 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 	}
 	private ItemAttributesV2 itemAttributes;
 
-	private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
-	private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
+	[ReadOnlyAttribute] public TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
+	[ReadOnlyAttribute] public TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
 
-	private TransformState clientState = TransformState.Uninitialized; //last reliable state from server
+	[ReadOnlyAttribute] public TransformState clientState = TransformState.Uninitialized; //last reliable state from server
 
 	#region ClientStateSyncVars
 	// ClientState SyncVars, separated out of clientState TransformState
@@ -167,7 +129,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 
 	#endregion
 
-	private TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
+	[ReadOnlyAttribute] public TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
 
@@ -179,174 +141,86 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 	private bool waitForId;
 	private bool WaitForMatrixId;
 
-	private bool isUpdating;
-
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
+		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
 		syncInterval = 0f;
 	}
 
 	private void Start()
 	{
-		LoadManager.RegisterAction(Init);
+		OnUpdateRecieved().AddListener(Poke);
 	}
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		isUpdating = true;
-	}
-
-	private void OnDisable()
+	public void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		isUpdating = false;
 	}
 
-	private void Init()
+	public void SetInitialPositionStates()
 	{
-		if (this == null) return;
-		registerTile = GetComponent<RegisterTile>();
-		itemAttributes = GetComponent<ItemAttributesV2>();
-		var _pushPull = PushPull; //init
-		OnUpdateRecieved().AddListener( Poke );
-		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
-	}
+		var pos = transform.position;
+		if (snapToGridOnStart)
+		{
+			pos = pos.RoundToInt();
+		}
+		var matrixInfo = matrix.MatrixInfo;
 
+		predictedState.MatrixId = matrixInfo.Id;
+		predictedState.WorldPosition = pos;
+		serverState.MatrixId = matrixInfo.Id;
+		serverState.WorldPosition = pos;
+		clientState.MatrixId = matrixInfo.Id;
+		clientState.WorldPosition = pos;
+		serverLerpState.MatrixId = matrixInfo.Id;
+		serverLerpState.WorldPosition = pos;
 
-	/// <summary>
-	/// Subscribes this CNT to Update() cycle
-	/// </summary>
-	private void Poke()
-	{
-		Poke(TransformState.HiddenPos);
-	}
-	/// <summary>
-	/// Subscribes this CNT to Update() cycle
-	/// </summary>
-	/// <param name="v">unused and ignored</param>
-	private void Poke( Vector3Int v )
-	{
-		MotionState = MotionStateEnum.Moving;
-	}
+		if (CustomNetworkManager.IsServer)
+		{
+			InitServerState();
+		}
 
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
 		Collider2D[] colls = GetComponents<Collider2D>();
 		foreach (var c in colls)
 		{
 			c.enabled = false;
 		}
-
-		if (!registerTile)
-		{
-			registerTile = GetComponent<RegisterTile>();
-		}
-	}
-
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-		InitServerState();
 	}
 
 	[Server]
 	private void InitServerState()
 	{
-		if ( IsHiddenOnInit ) {
+		if (Vector3Int.RoundToInt(transform.position).Equals(TransformState.HiddenPos)
+		    || Vector3Int.RoundToInt(transform.localPosition).Equals(TransformState.HiddenPos))
+		{
 			return;
 		}
 
-		if ( !registerTile )
-		{
-			registerTile = GetComponent<RegisterTile>();
-		}
-
-		registerTile.WaitForMatrixInit(PerformServerStateInit);
-	}
-
-	private void PerformServerStateInit(MatrixInfo info)
-	{
 		//If object is supposed to be hidden, keep it that way
 		serverState.Speed = 0;
 		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 
-		if ( registerTile )
-		{
-			MatrixInfo matrixInfo = MatrixManager.Get( transform.parent );
-
-			if ( matrixInfo == MatrixInfo.Invalid )
-			{
-				Logger.LogWarning($"{gameObject.name}: was unable to detect Matrix by parent!", Category.Matrix);
-				serverState.MatrixId = MatrixManager.AtPoint( ( (Vector2)transform.position ).RoundToInt(), true ).Id;
-			} else
-			{
-				serverState.MatrixId = matrixInfo.Id;
-			}
-
-			if (snapToGridOnStart)
-			{
-				serverState.Position = ((Vector2)transform.localPosition).RoundToInt();
-			}
-			else
-			{
-				serverState.Position = ((Vector2)transform.localPosition);
-			}
-		}
-		else
-		{
-			serverState.MatrixId = 0;
-			Logger.LogWarning($"{gameObject.name}: unable to detect MatrixId!", Category.Matrix);
-		}
-
 		registerTile.UpdatePositionServer();
-
-		serverLerpState = serverState;
 		NotifyPlayers();
 	}
 
-	/// Is it supposed to be hidden? (For init purposes)
-	private bool IsHiddenOnInit =>
-		Vector3Int.RoundToInt( transform.position ).Equals( TransformState.HiddenPos ) ||
-		Vector3Int.RoundToInt( transform.localPosition ).Equals( TransformState.HiddenPos );
-
-	/// Intended for runtime spawning, so that CNT could initialize accordingly
-	[Server]
-	public void ReInitServerState()
-	{
-		InitServerState();
-	//	Logger.Log($"{name} reInit: {serverTransformState}");
-	}
-
-	public void RollbackPrediction() {
-		predictedState = clientState;
-	}
-
-	//Server and Client Side
+		//Server and Client Side
 	private void UpdateMe()
 	{
-		if (doMotionCheck) DoMotionCheck();
-
-		if ( this != null && !Synchronize() )
+		if (Synchronize())
 		{
-			MotionState = MotionStateEnum.Still;
+			stillTimer = 0;
 		}
-	}
-
-	void DoMotionCheck()
-	{
-		motionCheckTime += Time.deltaTime;
-		if (motionCheckTime > 5f)
+		else
 		{
-			motionCheckTime = 0f;
-			doMotionCheck = false;
-			if (MotionState == MotionStateEnum.Still)
+			stillTimer += Time.deltaTime;
+			if (stillTimer >= 5)
 			{
-				OnDisable();
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				isUpdating = false;
 			}
 		}
 	}
@@ -370,8 +244,8 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 			return false;
 		}
 
-		bool server = isServer;
-		if ( server && !serverState.Active )
+		bool server = CustomNetworkManager.IsServer;
+		if (server && !serverState.Active)
 		{
 			return false;
 		}
@@ -390,13 +264,13 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 			changed &= CheckFloatingServer();
 		}
 
-		if (predictedState.Position != transform.localPosition)
+		if ((Vector2)predictedState.WorldPosition != (Vector2)transform.position)
 		{
 			Lerp();
 			changed = true;
 		}
 
-		if (serverState.Position != serverLerpState.Position)
+		if ((Vector2)serverState.WorldPosition != (Vector2)serverLerpState.WorldPosition)
 		{
 			ServerLerp();
 			changed = true;
@@ -417,12 +291,47 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 		//Registering
 		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position) )
 		{
-//			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPositionC, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
-			registerTile.UpdatePositionClient();
+			if (registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) == false)
+			{
+				registerTile.UpdatePositionClient(); //predicted movement didnt swap to another matrix
+			}
 			changed = true;
 		}
 
 		return changed;
+	}
+
+
+	/// <summary>
+	/// Subscribes this CNT to Update() cycle
+	/// </summary>
+	private void Poke()
+	{
+		Poke(TransformState.HiddenPos);
+	}
+	/// <summary>
+	/// Subscribes this CNT to Update() cycle
+	/// </summary>
+	/// <param name="v">unused and ignored</param>
+	private void Poke(Vector3Int v)
+	{
+		if (isUpdating == false)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			isUpdating = true;
+		}
+	}
+
+	/// Intended for runtime spawning, so that CNT could initialize accordingly
+	[Server]
+	public void ReInitServerState()
+	{
+		InitServerState();
+	//	Logger.Log($"{name} reInit: {serverTransformState}");
+	}
+
+	public void RollbackPrediction() {
+		predictedState = clientState;
 	}
 
 	/// Manually set an item to a specific position. Use WorldPosition!
@@ -435,30 +344,36 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable //see Upda
 		}
 		Poke();
 		Vector2 pos = worldPos; //Cut z-axis
-		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ), true ).Id;
-//		serverState.Speed = speed;
-		serverState.WorldPosition = pos;
-		if ( !keepRotation ) {
+		serverState.MatrixId = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Id;
+		if (!keepRotation)
+		{
 			serverState.SpinRotation = 0;
 		}
-		if (notify) {
-			NotifyPlayers();
-		}
 
-		//Don't lerp (instantly change pos) if active state was changed
-		if ( serverState.Speed > 0 ) {
-			var preservedLerpPos = serverLerpState.WorldPosition;
+		if (serverState.Speed > 0)
+		{
 			serverLerpState.MatrixId = serverState.MatrixId;
-			serverLerpState.WorldPosition = preservedLerpPos;
-		} else {
-			serverLerpState = serverState;
+			serverLerpState.WorldPosition = serverState.WorldPosition;
+			serverState.WorldPosition = pos;
+		}
+		else
+		{
+			serverLerpState = serverState; //Don't lerp (instantly change pos) if active state was changed
+		}
+		serverState.WorldPosition = pos;
+
+		if (notify)
+		{
+			NotifyPlayers();
 		}
 	}
 
 	[Server]
-	private void SyncMatrix() {
-		if ( registerTile && !serverState.IsUninitialized) {
-			registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get( serverState.MatrixId ).NetID);
+	private void SyncMatrix()
+	{
+		if (registerTile && !serverState.IsUninitialized)
+		{
+			registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get(serverState.MatrixId).NetID);
 		}
 	}
 

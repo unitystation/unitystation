@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4bd6816b9935b6948a33c5fd9f1f562f
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: PURPLE HONK!
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: foreverID
+      value: 4bd6816b9935b6948a33c5fd9f1f562f
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 14c9ed2d8cd545240be6d4dd622aab02,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 14c9ed2d8cd545240be6d4dd622aab02,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

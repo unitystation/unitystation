@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 808d5b6262848c949bffc703651f4589, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 9c1ee7c63d2e4034d9124c33261933ca, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 1400446589329289331, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 04970687af9a8114db43f25200a13676
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -184,9 +184,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d4eec8993c7464b4f932a254893b6fbf,
         type: 2}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: foreverID
+      value: 04970687af9a8114db43f25200a13676
+      objectReference: {fileID: 0}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel
+      value: 263
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 263
       objectReference: {fileID: 0}
     m_RemovedComponents: []

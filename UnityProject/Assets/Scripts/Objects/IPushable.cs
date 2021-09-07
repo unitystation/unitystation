@@ -14,6 +14,11 @@ public interface IPushable
 	bool PredictivePush(Vector2Int target, float speed = Single.NaN, bool followMode = false);
 
 	/// <summary>
+	/// Initializates position states equal to the transform.position of the object
+	/// </summary>
+	void SetInitialPositionStates();
+
+	/// <summary>
 	/// Push this in provided direction if it's under no gravity (or on a frictionless floor)
 	/// </summary>
 	/// <param name="direction"></param>

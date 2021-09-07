@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 1807895052203439847, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3ffc8cd700311db4cae0c7e9e56e1dc6
       objectReference: {fileID: 0}
     - target: {fileID: 1905918728921331727, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -100,6 +100,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 145
       objectReference: {fileID: 0}
@@ -120,6 +125,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a25b3d89d5961e24da2e3fdc505c6f2b,
         type: 2}
+    - target: {fileID: 4627556938812491582, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: foreverID
+      value: 3ffc8cd700311db4cae0c7e9e56e1dc6
+      objectReference: {fileID: 0}
     - target: {fileID: 5603819714738991316, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: PresentSpriteSet

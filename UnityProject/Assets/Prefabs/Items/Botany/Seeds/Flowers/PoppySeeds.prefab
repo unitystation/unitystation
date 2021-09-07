@@ -85,6 +85,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3806272604458934296, guid: 9feaaa0ac515571468c1f7a542bc619a,
         type: 3}
+    - target: {fileID: 3613633283621719991, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3613633283621719991, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d01f23f167fb3ba4ebcc7556d3f48bce,
+        type: 2}
+    - target: {fileID: 3613633283621719991, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b573352479efb894b9bee858b071d500,
+        type: 2}
+    - target: {fileID: 3613633283621719991, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3613633283621719991, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: initialName
@@ -98,7 +125,7 @@ PrefabInstance:
     - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 048adc7de22264941a619844198b1f44
       objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -172,5 +199,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8275945a93fa85f43ba6e9dca6dcd4e8,
         type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: 048adc7de22264941a619844198b1f44
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

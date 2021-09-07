@@ -18,6 +18,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 513bbd14db5465d4a930f43cfd050a71,
         type: 2}
+    - target: {fileID: 4204089622262180279, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: foreverID
+      value: fd84884e25579bc4682c97d3bb04d3fc
+      objectReference: {fileID: 0}
     - target: {fileID: 6925587641645225606, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
       propertyPath: m_Sprite
@@ -28,6 +33,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RifleMagazine10mm
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7133375222699792558, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
@@ -87,17 +92,17 @@ PrefabInstance:
     - target: {fileID: 7167867211737094254, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
-        type: 3}
-      propertyPath: initialDescription
-      value: A well-worn magazine fitted for the surplus rifle.
+      value: fd84884e25579bc4682c97d3bb04d3fc
       objectReference: {fileID: 0}
     - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
       propertyPath: initialName
       value: rifle magazine (10mm)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: initialDescription
+      value: A well-worn magazine fitted for the surplus rifle.
       objectReference: {fileID: 0}
     - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}

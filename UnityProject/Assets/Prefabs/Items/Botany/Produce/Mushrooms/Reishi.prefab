@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2915500602375708721, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 3022557335325303025, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ebe3def79f269054097d19e16ef5d3e8
       objectReference: {fileID: 0}
     - target: {fileID: 3069071089172475417, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -85,14 +85,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3354030318127624743, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialDescription
-      value: 'Ganoderma Lucidum: A special fungus known for its medicinal and stress
-        relieving properties.'
+      propertyPath: initialName
+      value: reishi
       objectReference: {fileID: 0}
     - target: {fileID: 3354030318127624743, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
-      propertyPath: initialName
-      value: reishi
+      propertyPath: initialDescription
+      value: 'Ganoderma Lucidum: A special fungus known for its medicinal and stress
+        relieving properties.'
       objectReference: {fileID: 0}
     - target: {fileID: 3480773739466297650, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -100,6 +100,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6329053858852265869, guid: c1ce6fa13648705408c2308794f9ce69,
         type: 3}
+    - target: {fileID: 8132598906308874536, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: foreverID
+      value: ebe3def79f269054097d19e16ef5d3e8
+      objectReference: {fileID: 0}
     - target: {fileID: 9016326637629499074, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: PresentSpriteSet

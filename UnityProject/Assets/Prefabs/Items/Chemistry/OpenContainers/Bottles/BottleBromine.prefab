@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
-      propertyPath: initialDescription
-      value: A small bottle. Contains bromine - a highly reactive chemical.
+      propertyPath: initialName
+      value: bromine bottle
       objectReference: {fileID: 0}
     - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
-      propertyPath: initialName
-      value: bromine bottle
+      propertyPath: initialDescription
+      value: A small bottle. Contains bromine - a highly reactive chemical.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 3424172302466455004, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b71cf7d12d2378f40bc912675a4a6823
       objectReference: {fileID: 0}
     - target: {fileID: 4332256062918035871, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -107,6 +107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8551094262549914629, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: foreverID
+      value: b71cf7d12d2378f40bc912675a4a6823
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e29b1fbcef2694d41b261271fecf09dc, type: 3}

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 178097090623125297, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: foreverID
+      value: 4ddce8d6ed555c443ab66ee71c0a140d
+      objectReference: {fileID: 0}
     - target: {fileID: 3104472755490273580, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: leavings
@@ -18,6 +23,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 350
       objectReference: {fileID: 0}
+    - target: {fileID: 3104472755490273580, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -27,11 +37,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
@@ -47,15 +52,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
         type: 2}
+    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5469631057095422964, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
@@ -74,6 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -89,6 +104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -101,16 +121,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6544154223419901480, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
@@ -130,17 +140,17 @@ PrefabInstance:
     - target: {fileID: 6581507416717428456, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
-        type: 3}
-      propertyPath: initialDescription
-      value: Just a nice can of ripe peaches swimming in their own juices.
+      value: 4ddce8d6ed555c443ab66ee71c0a140d
       objectReference: {fileID: 0}
     - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
         type: 3}
       propertyPath: initialName
       value: canned peaches
+      objectReference: {fileID: 0}
+    - target: {fileID: 6642696252695335998, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: initialDescription
+      value: Just a nice can of ripe peaches swimming in their own juices.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e291198bb131d49469d0b57ae983bd32, type: 3}

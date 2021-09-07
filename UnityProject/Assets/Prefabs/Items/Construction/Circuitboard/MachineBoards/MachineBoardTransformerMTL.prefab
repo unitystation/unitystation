@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 3524209753451330053, guid: db23d828345b6744485ee266629dfe9d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 025f9c4810685f645804eb0b80b1b0ed
       objectReference: {fileID: 0}
     - target: {fileID: 3565926771059640241, guid: db23d828345b6744485ee266629dfe9d,
         type: 3}
@@ -27,6 +27,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MachineBoardTransformerMTL
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566605050732194389, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3566605050732194389, guid: db23d828345b6744485ee266629dfe9d,
         type: 3}
@@ -45,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3566605050732194389, guid: db23d828345b6744485ee266629dfe9d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566605050732194389, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566605050732194389, guid: db23d828345b6744485ee266629dfe9d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566605050732194389, guid: db23d828345b6744485ee266629dfe9d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3566605050732194389, guid: db23d828345b6744485ee266629dfe9d,
         type: 3}
@@ -104,5 +104,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9dde58721e227f64197968d763aee1a5,
         type: 2}
+    - target: {fileID: 7621795248313420764, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
+      propertyPath: foreverID
+      value: 025f9c4810685f645804eb0b80b1b0ed
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db23d828345b6744485ee266629dfe9d, type: 3}

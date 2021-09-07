@@ -453,9 +453,6 @@ public class DynamicItemStorage : NetworkBehaviour
 
 			ServerContents[SstorageCharacteristicse.namedSlot].Remove(Slot);
 
-			if (ServerObjectToSlots.ContainsKey(BbodyPartUISlots.GameObject) == false)
-				ServerObjectToSlots[BbodyPartUISlots.GameObject] = new List<ItemSlot>();
-
 			ServerObjectToSlots[BbodyPartUISlots.GameObject].Remove(Slot);
 
 			ServerTotal.Remove(Slot);
@@ -525,7 +522,11 @@ public class DynamicItemStorage : NetworkBehaviour
 			ServerContents[storageCharacteristicse.namedSlot].Add(Slot);
 
 			if (ServerObjectToSlots.ContainsKey(bodyPartUISlots.GameObject) == false)
-				ServerObjectToSlots[bodyPartUISlots.GameObject] = new List<ItemSlot>();
+			{
+				ServerObjectToSlots.Add(bodyPartUISlots.GameObject, new List<ItemSlot>());
+			}
+
+
 			ServerObjectToSlots[bodyPartUISlots.GameObject].Add(Slot);
 
 			ServerTotal.Add(Slot);
@@ -903,9 +904,11 @@ public class DynamicItemStorage : NetworkBehaviour
 					var Active = GetActiveConditionals(client);
 					if (Active.ContainsKey(storageCharacteristicse.Condition.CategoryID))
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
+						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
 							Active[storageCharacteristicse.Condition.CategoryID].BodyPartUISlots,
 							Active[storageCharacteristicse.Condition.CategoryID].StorageCharacteristics);
+						 Active.Remove(storageCharacteristicse.Condition.CategoryID);
+						 return tuple;
 					}
 					else
 					{
@@ -956,9 +959,11 @@ public class DynamicItemStorage : NetworkBehaviour
 					var Active = GetActiveConditionals(client);
 					if (Active.ContainsKey(storageCharacteristicse.Condition.CategoryID))
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
+						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
 							Active[storageCharacteristicse.Condition.CategoryID].BodyPartUISlots,
 							Active[storageCharacteristicse.Condition.CategoryID].StorageCharacteristics);
+						Active.Remove(storageCharacteristicse.Condition.CategoryID);
+						return tuple;
 					}
 					else
 					{
@@ -1034,7 +1039,19 @@ public class DynamicItemStorage : NetworkBehaviour
 
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
-			objt.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(newBody);
+			if (objt == null)
+			{
+				Logger.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
+				continue;
+			}
+
+			if (objt.TryGetComponent<ItemStorage>(out var itemStorage) == false)
+			{
+				Logger.LogError($"ServerObjectToSlots on {gameObject.ExpensiveName()} had a game object key: {objt.ExpensiveName()} without an ItemStorage ");
+				continue;
+			}
+
+			itemStorage.ServerRemoveObserverPlayer(newBody);
 		}
 	}
 

@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f2ee6b00134a2a741890607ec8ef0aea,
         type: 2}
+    - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: foreverID
+      value: 340757c52c1e3c040900e72e4d4fc9c0
+      objectReference: {fileID: 0}
     - target: {fileID: 5590521764569370701, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: buildList
@@ -25,10 +30,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 590add5153ac50947be8b4c535e21ca1,
         type: 3}
+    - target: {fileID: 5806468422754504331, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_Name
       value: DiamondSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -47,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942165426553176227, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -88,12 +98,17 @@ PrefabInstance:
     - target: {fileID: 6048747994970652771, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 340757c52c1e3c040900e72e4d4fc9c0
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
+      propertyPath: exportCost
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: exportName
+      value: cm3 of diamond
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -107,30 +122,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 14e15177864f620468865bbfabc9f49e, type: 3}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 1affad26cb7a12f49a064d573fb2207d, type: 3}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: exportCost
-      value: 500
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: exportName
-      value: cm3 of diamond
-      objectReference: {fileID: 0}
-    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6ac5a21494216bf4e9e0047ecd65b01d,
-        type: 2}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -139,9 +133,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ac5a21494216bf4e9e0047ecd65b01d,
+        type: 2}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: c4d468ec8f6483b488a4d1c7d7f8397a,
         type: 2}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 14e15177864f620468865bbfabc9f49e, type: 3}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 1affad26cb7a12f49a064d573fb2207d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a023982b9ee4fd40b87f69c23492dd6, type: 3}

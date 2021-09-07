@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1947406906936637606, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: foreverID
+      value: 0da3b10e7818be2468927541947cb533
+      objectReference: {fileID: 0}
     - target: {fileID: 4767086867303369087, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0da3b10e7818be2468927541947cb533
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -70,12 +75,12 @@ PrefabInstance:
     - target: {fileID: 4880826294590387403, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_Name
-      value: _TalkingActoinFigureBase
+      value: _TalkingActionFigureBase
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: initialDescription
-      value: A generic action figure modeled after nothing in particular.
+      propertyPath: initialName
+      value: talking action figure
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -84,8 +89,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: initialName
-      value: talking action figure
+      propertyPath: initialDescription
+      value: A generic action figure modeled after nothing in particular.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2cc2b1c514be164282a4cdd366643e5, type: 3}

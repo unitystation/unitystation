@@ -34,6 +34,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d96e193b334b1f645947536ddd99ee1c,
         type: 2}
+    - target: {fileID: 3377728999933947146, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: foreverID
+      value: 423cab216aa4e354f8159742cc80d10a
+      objectReference: {fileID: 0}
     - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: throwRange
@@ -134,6 +139,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 27a072c88b5ca874daf05702b5b92ed9,
         type: 3}
+    - target: {fileID: 8201529936502057137, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201529936502057137, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 20fb4607a5bba77469b7e62bcb3f965f,
+        type: 2}
     - target: {fileID: 8406908623037895227, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: m_Sprite
@@ -208,7 +224,7 @@ PrefabInstance:
     - target: {fileID: 8633003412026072275, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 423cab216aa4e354f8159742cc80d10a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b027dfa588d69d848a886ae80d5b25c2, type: 3}

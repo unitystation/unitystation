@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2859753007631003197, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: foreverID
+      value: 7885c3ef269a1bb49870f7fb6d8f904d
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115688381779992548, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 7885c3ef269a1bb49870f7fb6d8f904d
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9153242923020361508, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
@@ -65,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 9157326371999507024, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
       propertyPath: m_Name
-      value: _FlashBase
+      value: FlashHandheld
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e77ad8336ea71364c9ec01faad07f5f4, type: 3}

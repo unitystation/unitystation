@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 1762559375258620544, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3fb026ff88875bd4b90012f62ecab55d
       objectReference: {fileID: 0}
     - target: {fileID: 1865031144277094196, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: m_Name
       value: PaintingFrame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1869673145431577152, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -78,15 +78,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dc0a14c2dfca29143ab1bbdeb8c4b714,
         type: 3}
-    - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+    - target: {fileID: 1950092092420660328, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
-      propertyPath: initialDescription
-      value: The perfect showcase for your favorite deathtrap memories.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: initialName
       value: painting frame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: initialDescription
+      value: The perfect showcase for your favorite deathtrap memories.
       objectReference: {fileID: 0}
     - target: {fileID: 2857779259520588454, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -94,6 +99,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6196262045073962686, guid: 6e6c535ad60739d439493be8a3bfc799,
         type: 3}
+    - target: {fileID: 4709448089315222361, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: foreverID
+      value: 3fb026ff88875bd4b90012f62ecab55d
+      objectReference: {fileID: 0}
     - target: {fileID: 5523652600883287219, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: PresentSpriteSet

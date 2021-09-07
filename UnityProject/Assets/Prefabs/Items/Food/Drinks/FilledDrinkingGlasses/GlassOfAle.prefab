@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 148008419558734031, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 255125625512851471, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 85680e36f4b7fb84ebdb1b5db90d5020
       objectReference: {fileID: 0}
     - target: {fileID: 1383833446372969747, guid: b11a6375f84ff814ea50a3309a00cc96,
         type: 3}
@@ -92,6 +92,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531608261720754646, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      propertyPath: foreverID
+      value: 85680e36f4b7fb84ebdb1b5db90d5020
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b11a6375f84ff814ea50a3309a00cc96, type: 3}

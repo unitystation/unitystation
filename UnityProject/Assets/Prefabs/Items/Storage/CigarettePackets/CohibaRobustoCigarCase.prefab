@@ -16,7 +16,12 @@ PrefabInstance:
     - target: {fileID: 595771791766357610, guid: a9fa99a5af6e9a147a033ca72de0e554,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: acfaa09fabd765640957112caa28edb8
+      objectReference: {fileID: 0}
+    - target: {fileID: 703455383371695786, guid: a9fa99a5af6e9a147a033ca72de0e554,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 703455383371695786, guid: a9fa99a5af6e9a147a033ca72de0e554,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 703455383371695786, guid: a9fa99a5af6e9a147a033ca72de0e554,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 703455383371695786, guid: a9fa99a5af6e9a147a033ca72de0e554,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 703455383371695786, guid: a9fa99a5af6e9a147a033ca72de0e554,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 703455383371695786, guid: a9fa99a5af6e9a147a033ca72de0e554,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 703455383371695786, guid: a9fa99a5af6e9a147a033ca72de0e554,
         type: 3}
@@ -86,13 +86,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1098091495495128252, guid: a9fa99a5af6e9a147a033ca72de0e554,
         type: 3}
-      propertyPath: initialDescription
-      value: A case of imported Cohiba cigars, renowned for their strong flavor.
+      propertyPath: initialName
+      value: Cohiba Robusto cigar case
       objectReference: {fileID: 0}
     - target: {fileID: 1098091495495128252, guid: a9fa99a5af6e9a147a033ca72de0e554,
         type: 3}
-      propertyPath: initialName
-      value: Cohiba Robusto cigar case
+      propertyPath: initialDescription
+      value: A case of imported Cohiba cigars, renowned for their strong flavor.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866526983377860531, guid: a9fa99a5af6e9a147a033ca72de0e554,
+        type: 3}
+      propertyPath: foreverID
+      value: acfaa09fabd765640957112caa28edb8
       objectReference: {fileID: 0}
     - target: {fileID: 6671715499613749337, guid: a9fa99a5af6e9a147a033ca72de0e554,
         type: 3}

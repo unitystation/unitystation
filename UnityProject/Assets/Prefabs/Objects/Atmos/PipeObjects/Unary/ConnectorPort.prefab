@@ -39,32 +39,18 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Mix:
+      mix:
         temperature: 273.15
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 0.05
-    ConnectedPipes: []
-    Outputs: []
+        Temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &741659522100858765
@@ -78,6 +64,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConnectorPort
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -96,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -107,16 +103,6 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -142,13 +128,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
       propertyPath: m_SortingLayerID
       value: -392297879
       objectReference: {fileID: 0}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 5
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494681440875532984, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: foreverID
+      value: 9b996da43261266449d4ad99b2ddac7f
       objectReference: {fileID: 0}
     - target: {fileID: 4061563628228228549, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -171,7 +167,7 @@ PrefabInstance:
     - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9b996da43261266449d4ad99b2ddac7f
       objectReference: {fileID: 0}
     - target: {fileID: 7572042400133878058, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -181,13 +177,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: initialDescription
-      value: For connecting portable devices related to atmospherics control.
+      propertyPath: initialName
+      value: connector port
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
-      propertyPath: initialName
-      value: connector port
+      propertyPath: initialDescription
+      value: For connecting portable devices related to atmospherics control.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3937c48f98f9cd043babc5471ee77682, type: 3}

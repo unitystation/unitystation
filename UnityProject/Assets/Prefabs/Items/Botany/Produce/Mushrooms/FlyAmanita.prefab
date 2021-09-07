@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 3022557335325303025, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 49f3fe1b7fe1c974f82d3eb08b99f787
       objectReference: {fileID: 0}
     - target: {fileID: 3069071089172475417, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
@@ -94,12 +94,60 @@ PrefabInstance:
       value: 'Amanita Muscaria: Learn poisonous mushrooms by heart. Only pick mushrooms
         you know.'
       objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e8683a031ffba7a48a4f12bb221d4708,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: a9ecdd6c23b5e1348afa40a83f30b94a,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 03410bf98ec5f8b46b64e60ef0970e99,
+        type: 2}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453523394290750611, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3480773739466297650, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: seedPacket
       value: 
       objectReference: {fileID: 4761385092838339003, guid: 103ef0639f3940544afdbbfc8215a99a,
         type: 3}
+    - target: {fileID: 8132598906308874536, guid: f0108676c1bf82d41a7c4efdfc660dc0,
+        type: 3}
+      propertyPath: foreverID
+      value: 49f3fe1b7fe1c974f82d3eb08b99f787
+      objectReference: {fileID: 0}
     - target: {fileID: 9016326637629499074, guid: f0108676c1bf82d41a7c4efdfc660dc0,
         type: 3}
       propertyPath: PresentSpriteSet

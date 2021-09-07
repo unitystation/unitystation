@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: baee0b013108b4f45be339b62de456a3
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: The ideal outfit for burning the unfaithful.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: foreverID
+      value: baee0b013108b4f45be339b62de456a3
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 13eb715818a7a034fbae11a462d0dd5d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 13eb715818a7a034fbae11a462d0dd5d,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: hideClothingFlags

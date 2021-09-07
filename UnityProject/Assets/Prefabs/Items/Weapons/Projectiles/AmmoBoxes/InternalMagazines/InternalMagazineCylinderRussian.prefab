@@ -15,6 +15,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 778757148782701503, guid: 697318e0925068143a28d0a4fb8b5f10,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778757148782701503, guid: 697318e0925068143a28d0a4fb8b5f10,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 778757148782701503, guid: 697318e0925068143a28d0a4fb8b5f10,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 778757148782701503, guid: 697318e0925068143a28d0a4fb8b5f10,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 778757148782701503, guid: 697318e0925068143a28d0a4fb8b5f10,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 778757148782701503, guid: 697318e0925068143a28d0a4fb8b5f10,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 778757148782701503, guid: 697318e0925068143a28d0a4fb8b5f10,
         type: 3}
@@ -76,12 +76,17 @@ PrefabInstance:
     - target: {fileID: 813185847307758463, guid: 697318e0925068143a28d0a4fb8b5f10,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b73e69badd307444ea1fedc49b20d806
       objectReference: {fileID: 0}
     - target: {fileID: 878390030489663913, guid: 697318e0925068143a28d0a4fb8b5f10,
         type: 3}
       propertyPath: initialName
       value: Russian revolver cylinder
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937864459605432998, guid: 697318e0925068143a28d0a4fb8b5f10,
+        type: 3}
+      propertyPath: foreverID
+      value: b73e69badd307444ea1fedc49b20d806
       objectReference: {fileID: 0}
     - target: {fileID: 6889151283462925644, guid: 697318e0925068143a28d0a4fb8b5f10,
         type: 3}

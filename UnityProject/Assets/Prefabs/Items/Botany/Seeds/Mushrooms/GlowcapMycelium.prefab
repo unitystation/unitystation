@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2412631627275870626, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: foreverID
+      value: 06da711176fdb62468414ecfea71645f
+      objectReference: {fileID: 0}
     - target: {fileID: 3208750400927667784, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,25 +20,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Glowcaps
       objectReference: {fileID: 0}
-    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 1701814378513992802, guid: c62770f48079d34458c386b026a36d6d,
-        type: 3}
     - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
       propertyPath: plantData.DeadSpriteSO
@@ -42,16 +31,21 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 1701814378513992802, guid: c62770f48079d34458c386b026a36d6d,
+        type: 3}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: e7889ae42f94b6547a34ba5960924bee,
         type: 2}
     - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: c6938c8a006f5df46a5e92d21d435400,
-        type: 2}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
@@ -70,15 +64,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0f370dc96c101784ea6ec243b2e1785b,
         type: 2}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: c6938c8a006f5df46a5e92d21d435400,
+        type: 2}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8671100345473241211, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 06da711176fdb62468414ecfea71645f
       objectReference: {fileID: 0}
     - target: {fileID: 8773533562869460431, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
       propertyPath: m_Name
       value: GlowcapMycelium
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
@@ -97,6 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -109,16 +124,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8778175838436282555, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
@@ -143,13 +148,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9163770803857179309, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
-      propertyPath: initialDescription
-      value: This mycelium -powers- into mushrooms!
+      propertyPath: initialName
+      value: pack of glowcap mycelium
       objectReference: {fileID: 0}
     - target: {fileID: 9163770803857179309, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
-      propertyPath: initialName
-      value: pack of glowcap mycelium
+      propertyPath: initialDescription
+      value: This mycelium -powers- into mushrooms!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d50a0a8790aa454c824ffd039c07e6f, type: 3}

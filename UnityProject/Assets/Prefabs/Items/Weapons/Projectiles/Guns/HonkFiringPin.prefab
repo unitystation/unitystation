@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c553510cdf64dc58f206462e0b712b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clusmyMisfire: 0
+  gunComp: {fileID: 0}
 --- !u!1001 &126370022869161765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40,6 +40,11 @@ PrefabInstance:
       propertyPath: DeniedMessage
       value: HONK!
       objectReference: {fileID: 0}
+    - target: {fileID: 859872480194236616, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+        type: 3}
+      propertyPath: foreverID
+      value: 16a3e68b2c9dcaf58928506e05687f16
+      objectReference: {fileID: 0}
     - target: {fileID: 5883298772289728505, guid: 0c0328cbf94ffe648a0903cfc375ab91,
         type: 3}
       propertyPath: m_Color.b
@@ -58,7 +63,7 @@ PrefabInstance:
     - target: {fileID: 5962885801523618065, guid: 0c0328cbf94ffe648a0903cfc375ab91,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 16a3e68b2c9dcaf58928506e05687f16
       objectReference: {fileID: 0}
     - target: {fileID: 6001005491807019473, guid: 0c0328cbf94ffe648a0903cfc375ab91,
         type: 3}

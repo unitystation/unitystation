@@ -13,10 +13,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6238c4b54d3aade479a2c44095c15a45,
         type: 2}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+    - target: {fileID: 1042744992957779452, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: foreverID
+      value: 4e7c05186b807ce49b80fdb5b8b0403b
       objectReference: {fileID: 0}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -25,15 +25,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 6bd63bc5a49407d40b7b662bf6ea5755,
-        type: 2}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
       propertyPath: plantData.DeadSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: c387372dc2b485f4681ecd274ed2c1c9,
+        type: 2}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 236252883817595579, guid: 6cc44ee396bdbcf4fb06e9669ffa7a0e,
+        type: 3}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 6bd63bc5a49407d40b7b662bf6ea5755,
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -43,19 +49,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 236252883817595579, guid: 6cc44ee396bdbcf4fb06e9669ffa7a0e,
-        type: 3}
-    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into rainbow cannabis. Groovy... and also highly addictive.
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: initialName
       value: pack of rainbow cannabis seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into rainbow cannabis. Groovy... and also highly addictive.
       objectReference: {fileID: 0}
     - target: {fileID: 6067438808337380045, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -67,6 +72,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RainbowCannabisSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -85,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -97,16 +112,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -126,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 6293252128790379557, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4e7c05186b807ce49b80fdb5b8b0403b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2ecbd3591e115b459b0160c82af302c, type: 3}

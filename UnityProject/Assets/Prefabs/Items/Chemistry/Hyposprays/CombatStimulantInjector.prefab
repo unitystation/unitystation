@@ -13,11 +13,54 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4a3891c9ff2ee8f448b42adae933c0a1,
         type: 2}
+    - target: {fileID: 2279069132046900217, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: foreverID
+      value: a753ad12f9c4b8847be33e910d2e18e5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialName
+      value: combat stimulant injector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialDescription
+      value: A modified air-needle autoinjector, used by support operatives to quickly
+        heal injuries in combat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 094566874657b434ba7d8e5e09337b54,
+        type: 2}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a72e3bedaabb03e49be601acd37718d6,
+        type: 2}
     - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 007349b3970479c438292fd7527a11b0, type: 3}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 3682c78ea5f129141bd36b306d205b1b, type: 3}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 3336f9bf609514441b33b06988314aca, type: 3}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 20ca0a460252ad548863ee0ec17524aa, type: 3}
     - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -44,16 +87,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 3336f9bf609514441b33b06988314aca, type: 3}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 3682c78ea5f129141bd36b306d205b1b, type: 3}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 2851219744113410843, guid: 3682c78ea5f129141bd36b306d205b1b,
@@ -76,34 +109,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -6788877117404622145, guid: 3682c78ea5f129141bd36b306d205b1b,
         type: 3}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 20ca0a460252ad548863ee0ec17524aa, type: 3}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: initialDescription
-      value: A modified air-needle autoinjector, used by support operatives to quickly
-        heal injuries in combat.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: initialName
-      value: combat stimulant injector
-      objectReference: {fileID: 0}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 094566874657b434ba7d8e5e09337b54,
-        type: 2}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: a72e3bedaabb03e49be601acd37718d6,
-        type: 2}
     - target: {fileID: 5038311047026975944, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: m_Sprite
@@ -113,7 +118,12 @@ PrefabInstance:
     - target: {fileID: 5084121085497256480, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a753ad12f9c4b8847be33e910d2e18e5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
@@ -132,6 +142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -144,16 +159,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
@@ -177,6 +182,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
+      propertyPath: maxCapacity
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -187,25 +202,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: transferAmount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 279aafd215f55eca79b31096ce6c4107,
         type: 2}
-    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
@@ -214,26 +214,31 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 7f752d976467f336488a3ae4ec1d4fa5,
         type: 2}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 1798e6008cc7d0e409a112d184ec9695,
         type: 2}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[3]

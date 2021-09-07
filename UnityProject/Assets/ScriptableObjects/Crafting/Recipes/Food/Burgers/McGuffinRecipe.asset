@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: McGuffinRecipe
+  m_EditorClassIdentifier: 
+  category: 7
+  craftingTime: 3
+  recipeName: McGuffin
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 5350462001947810710, guid: 6ec2fa90075639a46b942c8a4feefe01,
+      type: 3}
+  - requiredAmount: 2
+    requiredItem: {fileID: 2866833306584154930, guid: f4345d39b8f921b4194ae3edcb572930,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 2897339443933191501, guid: c11463ffa84e33545a7c8a43ebc9a009,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 7280168257234844371, guid: 62544d9f21c88f84486e852da45b40b6, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 133

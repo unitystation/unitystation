@@ -79,6 +79,15 @@ public enum ChatModifier
 	Scotsman = 1 << 21
 }
 
+public enum Loudness
+{
+	QUIET,
+	NORMAL,
+	LOUD,
+	SCREAMING,
+	EARRAPE
+}
+
 public class ChatEvent
 {
 	public ChatChannel channels;
@@ -90,6 +99,7 @@ public class ChatEvent
 	public Vector3 position = TransformState.HiddenPos;
 	public GameObject originator;
 	public bool stripTags = true;
+	public Loudness VoiceLevel = Loudness.NORMAL;
 
 	/// <summary>
 	/// Send chat message only to those on this matrix

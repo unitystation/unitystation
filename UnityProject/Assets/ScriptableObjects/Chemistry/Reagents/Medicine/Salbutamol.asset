@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Salbutamol
   m_EditorClassIdentifier: 
   displayName: Salbutamol
-  description: Rapidly restores oxygen deprivation as well as preventing more of it
-    to an extent.
+  description: Rapidly restores oxygen deprivation as well as preventing more of
+    it to an extent.
   color: {r: 0, g: 1, b: 1, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 282

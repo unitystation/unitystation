@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
-      propertyPath: initialDescription
-      value: A delicious, lava cooked steak.
+      propertyPath: initialName
+      value: goliath steak
       objectReference: {fileID: 0}
     - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
-      propertyPath: initialName
-      value: goliath steak
+      propertyPath: initialDescription
+      value: A delicious, lava cooked steak.
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -80,11 +80,11 @@ PrefabInstance:
     - target: {fileID: 991535446379057958, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: efebbbd751dae5e448ab6ccd722a55e2
       objectReference: {fileID: 0}
     - target: {fileID: 994490351992635238, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
-      propertyPath: Resistances.LavaProof
+      propertyPath: Resistances.FireProof
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 994490351992635238, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
@@ -94,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 994490351992635238, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
-      propertyPath: Resistances.FireProof
+      propertyPath: Resistances.LavaProof
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1055922833323646414, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
@@ -103,6 +103,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d2ed5107299de394a8f9124b4efff0dc,
         type: 3}
+    - target: {fileID: 6119310249531040511, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: foreverID
+      value: efebbbd751dae5e448ab6ccd722a55e2
+      objectReference: {fileID: 0}
     - target: {fileID: 6417786233635558677, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: PresentSpriteSet

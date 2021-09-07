@@ -15,8 +15,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -30,23 +35,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: Armor.Energy
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 100
+      propertyPath: Resistances.FireProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Color.r
-      value: 0.4745098
+      propertyPath: Color.b
+      value: 0.64705884
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -55,23 +55,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Color.b
-      value: 0.64705884
+      propertyPath: Color.r
+      value: 0.4745098
       objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: initialDescription
-      value: Ages 8 and up approved vendor that dispenses toys.
+      value: fd07f1ca390dd8f48b0cf257cb070d2a
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: initialName
       value: Donksoft Toy Vendor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: initialDescription
+      value: Ages 8 and up approved vendor that dispenses toys.
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -81,12 +81,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: HullColor.r
+      propertyPath: HullColor.b
       value: 0.28235295
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -96,125 +91,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.b
+      propertyPath: HullColor.r
       value: 0.28235295
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].Item
-      value: 
-      objectReference: {fileID: 4373449806721770269, guid: 49bf7b326d4b3e94583c38a4d305e6b7,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].Stock
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Replica Spacesuit Box
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].Item
-      value: 
-      objectReference: {fileID: 5493164221869647736, guid: 73d84de9587faaf418638005a58987f7,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].ItemName
-      value: Syndicate Balloon
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].Item
-      value: 
-      objectReference: {fileID: 2848106511596339985, guid: 5ae3af5c44df1724989e00921a6b94b3,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].ItemName
-      value: Foam Armblade
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].Item
-      value: 
-      objectReference: {fileID: 1257563116079482585, guid: cd26a108df3c1ac4098c55b854d97a8c,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].Stock
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].ItemName
-      value: Box of Foam Darts
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].ItemName
-      value: Toy Sword
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].Item
-      value: 
-      objectReference: {fileID: 2682969197072638538, guid: 41e0ac9a8c075b4448f636dcb03d7d3a,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Item
-      value: 
-      objectReference: {fileID: 3690624632920393081, guid: 6a484d7a3da56cb46bd5c7764814239a,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[2].ItemName
-      value: Foam Force Shotgun
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].Item
-      value: 
-      objectReference: {fileID: 957318761464555068, guid: 9dd440fee8fa8514c9dcaef6a04ef109,
-        type: 3}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[1].ItemName
-      value: Foam Force Pistol
+      propertyPath: InitialVendorContent.Array.size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -224,21 +107,143 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Item
+      value: 
+      objectReference: {fileID: 957318761464555068, guid: 9dd440fee8fa8514c9dcaef6a04ef109,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Item
+      value: 
+      objectReference: {fileID: 3690624632920393081, guid: 6a484d7a3da56cb46bd5c7764814239a,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Item
+      value: 
+      objectReference: {fileID: 2682969197072638538, guid: 41e0ac9a8c075b4448f636dcb03d7d3a,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Item
+      value: 
+      objectReference: {fileID: 1257563116079482585, guid: cd26a108df3c1ac4098c55b854d97a8c,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Item
+      value: 
+      objectReference: {fileID: 2848106511596339985, guid: 5ae3af5c44df1724989e00921a6b94b3,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].Item
+      value: 
+      objectReference: {fileID: 5493164221869647736, guid: 73d84de9587faaf418638005a58987f7,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].Item
+      value: 
+      objectReference: {fileID: 4373449806721770269, guid: 49bf7b326d4b3e94583c38a4d305e6b7,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Stock
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[0].ItemName
       value: Foam Force SMG
       objectReference: {fileID: 0}
-    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: machineBoardPrefab
-      value: 
-      objectReference: {fileID: 8838765617791620604, guid: 8dbe8df31d6c7b447ab0f48a1c1b8ca0,
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Foam Force Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: Foam Force Shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Toy Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      value: Box of Foam Darts
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      value: Foam Armblade
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[6].ItemName
+      value: Syndicate Balloon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[7].ItemName
+      value: Replica Spacesuit Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: fd07f1ca390dd8f48b0cf257cb070d2a
+      objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: MachineParts
       value: 
       objectReference: {fileID: 11400000, guid: 1b2fa2df65b2c314eba7a599ed66b0f2,
         type: 2}
+    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 8838765617791620604, guid: 8dbe8df31d6c7b447ab0f48a1c1b8ca0,
+        type: 3}
     - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_Sprite
@@ -249,6 +254,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DonksoftToyVendor
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -267,6 +277,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -279,16 +294,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

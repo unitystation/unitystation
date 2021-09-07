@@ -1,8 +1,10 @@
-﻿using PathFinding;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using PathFinding;
 using Doors;
+
 
 namespace Systems.MobAIs
 {
@@ -19,7 +21,9 @@ namespace Systems.MobAIs
 
 		public bool activated;
 
-		public float tickRate = 1f;
+		[Range(0.01f, 1), FormerlySerializedAs("tickRate")]
+		[Tooltip("Delay (in seconds) between mob actions/decisions.")]
+		public float TickDelay = 1f;
 		private float tickWait;
 		private float timeOut;
 
@@ -319,9 +323,9 @@ namespace Systems.MobAIs
 
 				if (!movingToTile)
 				{
-					if (tickRate != 0f)
+					if (TickDelay.Approx(0) == false)
 					{
-						yield return WaitFor.Seconds(tickRate);
+						yield return WaitFor.Seconds(TickDelay);
 					}
 
 					var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);

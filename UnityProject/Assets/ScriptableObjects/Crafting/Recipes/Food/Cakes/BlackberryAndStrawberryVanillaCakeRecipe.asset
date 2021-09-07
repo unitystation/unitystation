@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: BlackberryAndStrawberryVanillaCakeRecipe
+  m_EditorClassIdentifier: 
+  category: 8
+  craftingTime: 3
+  recipeName: Blackberry and Strawberry Vanilla Cake
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 2206566251415716, guid: 63b7e278f90fc1941bfda902538bae3a,
+      type: 3}
+  - requiredAmount: 5
+    requiredItem: {fileID: 5712032209254023650, guid: 56fe236f6f494d3469fe64281d64382e,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 7353342226250800505, guid: 32462b083f50ecd40906c18481801041, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 86

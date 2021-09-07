@@ -394,7 +394,7 @@ public class ItemSlot
 		if (examineRecipient)
 		{
 			//if this is going in a player's inventory, use a more appropriate message.
-			var targetPlayerScript = ItemStorage.GetComponent<PlayerScript>();
+			var targetPlayerScript = ItemStorage.GetRootStorageOrPlayer().GetComponent<PlayerScript>();
 			if (targetPlayerScript != null)
 			{
 				//going into a top-level inventory slot of a player

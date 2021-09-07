@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: RWallSupportRodsConstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You start tightening the bolts which secure the support
     rods to their frame...
   othersStartActionMessage: '{performer} starts tightening the bolts which secure
     the support rods to their frame...'
   seconds: 4
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 1ca46934f095c48c9a3c4e6c8807c778, type: 2}
   performerFinishActionMessage: You tighten the bolts anchoring the support rods.
   othersFinishActionMessage: '{performer} tightens the bolts anchoring the support

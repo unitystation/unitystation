@@ -5,6 +5,7 @@ using Systems.Electricity;
 using Systems.Electricity.Inheritance;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 
 namespace Systems.Electricity.NodeModules
 {
@@ -16,11 +17,11 @@ namespace Systems.Electricity.NodeModules
 		public Connection WireEndB;
 		public Connection WireEndA;
 		public List<PowerTypeCategory> ListCanConnectTo;
-		public HashSet<PowerTypeCategory> CanConnectTo;
+		[NaughtyAttributes.ReadOnlyAttribute] public HashSet<PowerTypeCategory> CanConnectTo;
 		public List<PowerInputReactions> Reactions;
 		public Dictionary<PowerTypeCategory, float> ResistanceRestorepoints = new Dictionary<PowerTypeCategory, float>();
 
-		public INodeControl NodeControl;
+		[NaughtyAttributes.ReadOnlyAttribute] public INodeControl NodeControl;
 
 		// Update manager
 		public Dictionary<ElectricalModuleTypeCategory, ElectricalModuleInheritance> UpdateDelegateDictionary =
@@ -75,6 +76,7 @@ namespace Systems.Electricity.NodeModules
 					UpdateDelegateDictionary[Module].OnDespawnServer(info);
 				}
 			}
+
 		}
 
 		#endregion

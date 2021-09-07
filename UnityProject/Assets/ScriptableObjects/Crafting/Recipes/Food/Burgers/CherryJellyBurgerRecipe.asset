@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: CherryJellyBurgerRecipe
+  m_EditorClassIdentifier: 
+  category: 7
+  craftingTime: 3
+  recipeName: Cherry Jelly Burger
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 5350462001947810710, guid: 6ec2fa90075639a46b942c8a4feefe01,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: fb6f685fe2f006a5995a494828ee867b, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 6714368936730511477, guid: 48285f68ded775942855eabce315cb32, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 124

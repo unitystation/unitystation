@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: head_hoodrobotics
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 8726883106874833810, guid: b8abd885e07bee54e9fef2a45734a1a3,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7531423338590963337, guid: b8abd885e07bee54e9fef2a45734a1a3,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5864855493612206498, guid: b8abd885e07bee54e9fef2a45734a1a3,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2655343827206528214, guid: b8abd885e07bee54e9fef2a45734a1a3,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 23360
+  DisplayName: 

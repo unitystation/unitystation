@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2888345019966124511, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888345019966124511, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 39508e4cf3fc5d24e8d76ff004d64aed,
+        type: 2}
     - target: {fileID: 2987011942256334699, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
       propertyPath: hitDamage
@@ -67,7 +78,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0bcb9423721f44a418353bfcc987a1b9
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
@@ -143,6 +154,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armoringBodyPartType
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: foreverID
+      value: 0bcb9423721f44a418353bfcc987a1b9
       objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}

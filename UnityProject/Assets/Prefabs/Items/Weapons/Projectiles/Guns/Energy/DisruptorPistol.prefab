@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 285738389053349974, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: foreverID
+      value: 588d1ebc8abb732498ce241df11cdf66
+      objectReference: {fileID: 0}
     - target: {fileID: 1012046983369496508, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -58,12 +63,17 @@ PrefabInstance:
     - target: {fileID: 6546450386853695887, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 588d1ebc8abb732498ce241df11cdf66
       objectReference: {fileID: 0}
     - target: {fileID: 6579086606120791099, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_Name
       value: DisruptorPistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -82,6 +92,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -94,16 +109,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -122,11 +127,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: initialDescription
-      value: A disruptor cannon in an easily concealed handgun package with low capacity.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
-        type: 3}
       propertyPath: initialName
       value: disruptor pistol
       objectReference: {fileID: 0}
@@ -137,15 +137,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
-        type: 2}
+      propertyPath: initialDescription
+      value: A disruptor cannon in an easily concealed handgun package with low capacity.
+      objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 48ee0a2c22644c54784f2bb106415d44,
+        type: 2}
+    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}

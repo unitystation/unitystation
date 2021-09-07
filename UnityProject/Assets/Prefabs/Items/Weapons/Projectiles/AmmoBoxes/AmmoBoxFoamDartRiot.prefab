@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 1218214240896367469, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c371c5907c4625940aff4277249124d4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252072018076597165, guid: cd26a108df3c1ac4098c55b854d97a8c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1252072018076597165, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1252072018076597165, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252072018076597165, guid: cd26a108df3c1ac4098c55b854d97a8c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1252072018076597165, guid: cd26a108df3c1ac4098c55b854d97a8c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1252072018076597165, guid: cd26a108df3c1ac4098c55b854d97a8c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1252072018076597165, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
@@ -84,9 +84,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 073930ebafba5324189bdbf61037750f,
         type: 2}
+    - target: {fileID: 5316916186198739636, guid: cd26a108df3c1ac4098c55b854d97a8c,
+        type: 3}
+      propertyPath: foreverID
+      value: c371c5907c4625940aff4277249124d4
+      objectReference: {fileID: 0}
     - target: {fileID: 8544499210975833528, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
       propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 4235057242747518089, guid: 373a003621961ff4db0b4d6d222dbd67,
+        type: 3}
+    - target: {fileID: 8544499210975833528, guid: cd26a108df3c1ac4098c55b854d97a8c,
+        type: 3}
+      propertyPath: initalProjectile
       value: 
       objectReference: {fileID: 4235057242747518089, guid: 373a003621961ff4db0b4d6d222dbd67,
         type: 3}

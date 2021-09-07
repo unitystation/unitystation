@@ -62,6 +62,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -139,6 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBurningOnSpawn: 1
+  hotspotTemperature: 700
+  changeGasMixTemp: 0
 --- !u!1001 &2654578771155042347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205,7 +208,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8f1ce2b118c25334fa660be931e62dbf
       objectReference: {fileID: 0}
     - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -382,6 +385,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 678bfea435672434184dc92c0005bc54,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 8f1ce2b118c25334fa660be931e62dbf
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2654136094092541073 stripped

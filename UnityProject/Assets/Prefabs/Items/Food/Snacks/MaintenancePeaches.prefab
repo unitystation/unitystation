@@ -19,15 +19,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 974fa94468419484b99642821b5c4c2c,
         type: 2}
-    - target: {fileID: 8152194896300792694, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
+    - target: {fileID: 3419720034629761145, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}
-      propertyPath: initialDescription
-      value: I have a mouth and I must eat.
+      propertyPath: foreverID
+      value: e66fdcdbf689d6f468a545c4069c6a93
       objectReference: {fileID: 0}
     - target: {fileID: 8152194896300792694, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}
       propertyPath: initialName
       value: Maintenance Peaches
+      objectReference: {fileID: 0}
+    - target: {fileID: 8152194896300792694, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
+        type: 3}
+      propertyPath: initialDescription
+      value: I have a mouth and I must eat.
       objectReference: {fileID: 0}
     - target: {fileID: 8448195689953494856, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}
@@ -38,12 +43,17 @@ PrefabInstance:
     - target: {fileID: 8528627184962701728, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e66fdcdbf689d6f468a545c4069c6a93
       objectReference: {fileID: 0}
     - target: {fileID: 8633383601700811796, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}
       propertyPath: m_Name
       value: MaintenancePeaches
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636904100864936288, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8636904100864936288, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}
@@ -62,6 +72,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8636904100864936288, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636904100864936288, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -74,16 +89,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8636904100864936288, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8636904100864936288, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8636904100864936288, guid: 4ddce8d6ed555c443ab66ee71c0a140d,
         type: 3}

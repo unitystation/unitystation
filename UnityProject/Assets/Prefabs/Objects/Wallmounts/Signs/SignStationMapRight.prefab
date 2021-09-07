@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 957281546933604527, guid: 6862e6de4893c284ba578636c8eac366,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cc2ee1d05c3b9df498d59ffb638b80ec
       objectReference: {fileID: 0}
     - target: {fileID: 4235023482042486551, guid: 6862e6de4893c284ba578636c8eac366,
         type: 3}
@@ -18,6 +18,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8be9e3b0add769e428e74cbcda5e9845,
         type: 2}
+    - target: {fileID: 5756950049614453636, guid: 6862e6de4893c284ba578636c8eac366,
+        type: 3}
+      propertyPath: foreverID
+      value: cc2ee1d05c3b9df498d59ffb638b80ec
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683105552626017047, guid: 6862e6de4893c284ba578636c8eac366,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8683105552626017047, guid: 6862e6de4893c284ba578636c8eac366,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8683105552626017047, guid: 6862e6de4893c284ba578636c8eac366,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683105552626017047, guid: 6862e6de4893c284ba578636c8eac366,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8683105552626017047, guid: 6862e6de4893c284ba578636c8eac366,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8683105552626017047, guid: 6862e6de4893c284ba578636c8eac366,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8683105552626017047, guid: 6862e6de4893c284ba578636c8eac366,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 8688890316261369293, guid: 6862e6de4893c284ba578636c8eac366,
         type: 3}
       propertyPath: m_Name
-      value: _SignStationMapRight
+      value: SignStationMapRight
       objectReference: {fileID: 0}
     - target: {fileID: 8932079916834292186, guid: 6862e6de4893c284ba578636c8eac366,
         type: 3}
@@ -84,5 +89,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 51f2aed0c2ee72648ba6f07c4ce85357,
         type: 3}
+    - target: {fileID: 8932079916834292186, guid: 6862e6de4893c284ba578636c8eac366,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6862e6de4893c284ba578636c8eac366, type: 3}

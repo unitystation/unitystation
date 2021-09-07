@@ -69,6 +69,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -128,7 +129,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &7806547096474758670
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +172,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -231,7 +232,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &5231688345591793492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245,10 +245,38 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d8d507b6f2e885047b2f4132c36db182,
         type: 2}
+    - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: foreverID
+      value: f984960cf940f5242bd90a33f3c8c35a
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: be41053cac128e7478f92e3aa0b292c0,
+        type: 2}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b17e3204b9668a4f84b31fd6ebbd69c,
+        type: 2}
+    - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2051c3915cf9dc742a062d8c7a0ee837,
+        type: 2}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f984960cf940f5242bd90a33f3c8c35a
       objectReference: {fileID: 0}
     - target: {fileID: 6187949413390427563, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}

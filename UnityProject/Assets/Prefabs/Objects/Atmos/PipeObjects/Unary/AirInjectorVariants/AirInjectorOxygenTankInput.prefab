@@ -15,12 +15,22 @@ PrefabInstance:
     - target: {fileID: 1554746419897626509, guid: 9757cac9353c31a4691ba4f164a5804a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fd6a962ebe0629c4190474475e9a3cc7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6286928660379378854, guid: 9757cac9353c31a4691ba4f164a5804a,
+        type: 3}
+      propertyPath: foreverID
+      value: fd6a962ebe0629c4190474475e9a3cc7
       objectReference: {fileID: 0}
     - target: {fileID: 6939554908087147247, guid: 9757cac9353c31a4691ba4f164a5804a,
         type: 3}
       propertyPath: m_Name
-      value: AirInjectorOxygenINput
+      value: AirInjectorOxygenTankInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 6943413325207411765, guid: 9757cac9353c31a4691ba4f164a5804a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6943413325207411765, guid: 9757cac9353c31a4691ba4f164a5804a,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943413325207411765, guid: 9757cac9353c31a4691ba4f164a5804a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6943413325207411765, guid: 9757cac9353c31a4691ba4f164a5804a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6943413325207411765, guid: 9757cac9353c31a4691ba4f164a5804a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6943413325207411765, guid: 9757cac9353c31a4691ba4f164a5804a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6943413325207411765, guid: 9757cac9353c31a4691ba4f164a5804a,
         type: 3}

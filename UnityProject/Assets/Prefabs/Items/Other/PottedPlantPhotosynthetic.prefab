@@ -62,6 +62,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -176,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 224688921972729427, guid: 0271f252689106348ad30060b7abea96,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 24986b23bd9997d45bfe415cd486c26f
       objectReference: {fileID: 0}
     - target: {fileID: 317484318661653637, guid: 0271f252689106348ad30060b7abea96,
         type: 3}
@@ -194,6 +195,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aace53907327f6f498d31ca3cb14ed4d,
         type: 2}
+    - target: {fileID: 6498919792659126154, guid: 0271f252689106348ad30060b7abea96,
+        type: 3}
+      propertyPath: foreverID
+      value: 24986b23bd9997d45bfe415cd486c26f
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0271f252689106348ad30060b7abea96, type: 3}
 --- !u!4 &1606098006712257228 stripped

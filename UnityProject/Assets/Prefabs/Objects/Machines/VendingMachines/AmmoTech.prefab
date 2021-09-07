@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6538885322122511010
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1010232676152212388, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: a1a6c8c3bb2c82f46903a568d5f1e4ca
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478240561753591025, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: restriction
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269037376884593142, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: initialName
+      value: AmmoTech
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269037376884593142, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A weapons munition vendor.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500706934722235458, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 4601519822140672939, guid: 432e896112672f64eb635fb0b74b167e,
+        type: 3}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Item
+      value: 
+      objectReference: {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f,
+        type: 3}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Item
+      value: 
+      objectReference: {fileID: 3421280542771565670, guid: 4262f7c3dbc59a8499d9f780d06bd0ad,
+        type: 3}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Item
+      value: 
+      objectReference: {fileID: 8399202269906357691, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Item
+      value: 
+      objectReference: {fileID: 6310728925908395400, guid: 215fd0235adde3345a8b9d0f1082535d,
+        type: 3}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].Stock
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[0].ItemName
+      value: Rubbershot Shell
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[1].ItemName
+      value: Buckshot Shell
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[2].ItemName
+      value: .38 Speedloader
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: 9mm Pistol Magazine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      value: 4.6 WT550 Magazine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5523991133008900239, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: foreverID
+      value: a1a6c8c3bb2c82f46903a568d5f1e4ca
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8924094379776265926, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_Name
+      value: AmmoTech
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bb2d0192db81c7d469ced45d96e3629e, type: 3}

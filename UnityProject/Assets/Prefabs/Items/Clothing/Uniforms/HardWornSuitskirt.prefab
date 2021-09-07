@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bb7d1020ce10a7348b237ddd07a02fc2
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialName
       value: hard-worn suitskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: foreverID
+      value: bb7d1020ce10a7348b237ddd07a02fc2
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: b176b3c3ce624fa46bde7b6900fd5f4a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: b176b3c3ce624fa46bde7b6900fd5f4a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: allClothingData.Array.size

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1824539773393438737, guid: 9b139d47618b5ff418198a443805c1d5,
+        type: 3}
+      propertyPath: foreverID
+      value: 9718796410cc22f43ad81dd685758c0c
+      objectReference: {fileID: 0}
     - target: {fileID: 3261667762162946639, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}
       propertyPath: m_Sprite
@@ -17,6 +22,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TableFrameAlien
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329933288925114498, guid: 9b139d47618b5ff418198a443805c1d5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3329933288925114498, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3329933288925114498, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3329933288925114498, guid: 9b139d47618b5ff418198a443805c1d5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329933288925114498, guid: 9b139d47618b5ff418198a443805c1d5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329933288925114498, guid: 9b139d47618b5ff418198a443805c1d5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3329933288925114498, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}
@@ -86,18 +91,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5369984631495813480, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}
-      propertyPath: initialDescription
-      value: A sturdy table frame made from alien alloy.
+      propertyPath: initialName
+      value: alien table frame
       objectReference: {fileID: 0}
     - target: {fileID: 5369984631495813480, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}
-      propertyPath: initialName
-      value: alien table frame
+      propertyPath: initialDescription
+      value: A sturdy table frame made from alien alloy.
       objectReference: {fileID: 0}
     - target: {fileID: 6628780433559274298, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9718796410cc22f43ad81dd685758c0c
       objectReference: {fileID: 0}
     - target: {fileID: 7814600479090629762, guid: 9b139d47618b5ff418198a443805c1d5,
         type: 3}

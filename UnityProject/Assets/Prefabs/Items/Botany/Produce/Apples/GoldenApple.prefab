@@ -23,6 +23,28 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Emblazoned upon the apple is the word 'Kallisti'.
       objectReference: {fileID: 0}
+    - target: {fileID: 1407184908368289238, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407184908368289238, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fadfe45913210c4787e4aa34b43364f,
+        type: 2}
+    - target: {fileID: 1407184908368289238, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: f73980de064b2ff409105ff28a70089f,
+        type: 2}
+    - target: {fileID: 1407184908368289238, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1444600451693040640, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
         type: 3}
       propertyPath: m_Name
@@ -86,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 1556123331721587124, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4bc88c1bc9afbe34d92631492fdcfde7
       objectReference: {fileID: 0}
     - target: {fileID: 1656680246720423772, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
         type: 3}
@@ -100,5 +122,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ae5774114cc26054f939ab834b3da985,
         type: 2}
+    - target: {fileID: 5527879993270720621, guid: 2b2e2481ef2e72b48a6b355894ce0eb5,
+        type: 3}
+      propertyPath: foreverID
+      value: 4bc88c1bc9afbe34d92631492fdcfde7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b2e2481ef2e72b48a6b355894ce0eb5, type: 3}

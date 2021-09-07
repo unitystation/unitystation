@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
   m_Name: MimeSpeech
   m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
   callOnClient: 1
   callOnServer: 1
   actionName: Speech
@@ -22,21 +24,32 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
   spellImplementation: {fileID: 7469762742606550612, guid: 1deb8a20d7b934c179ebd0a5e03945aa,
     type: 3}
-  stillRechargingMessage: '{0}'
   chargeType: 0
   cooldownTime: 300
   startingCharges: 0
+  castSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  range: 0
+  stillRechargingMessage: '{0}'
+  affectedMessage: 
+  invocationType: 0
+  invocationMessage: 
+  invocationMessageSelf: '{0}'
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 0
   summonLifespan: 0
-  affectedMessage: 
-  castSound: 
-  invocationType: 0
-  invocationMessage: 
-  range: 0
-  invocationMessageSelf: '{0}'
   replaceExisting: 0

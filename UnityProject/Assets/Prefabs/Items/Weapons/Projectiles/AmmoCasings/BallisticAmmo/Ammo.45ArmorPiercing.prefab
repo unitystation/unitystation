@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3322393197383554863, guid: 55081c8632462ac4b935fa1133a475cc,
+        type: 3}
+      propertyPath: foreverID
+      value: e5cc2926b3c1afa47ade1bc10e6559cf
+      objectReference: {fileID: 0}
     - target: {fileID: 8092018907690234912, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
       propertyPath: initialName
@@ -21,6 +26,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ammo.45ArmorPiercing
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8553101805598762550, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
@@ -80,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 8589788901008025334, guid: 55081c8632462ac4b935fa1133a475cc,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e5cc2926b3c1afa47ade1bc10e6559cf
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55081c8632462ac4b935fa1133a475cc, type: 3}

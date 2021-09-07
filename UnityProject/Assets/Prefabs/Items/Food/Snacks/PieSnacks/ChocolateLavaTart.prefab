@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1cb22858d83c9fa4f804a492bf415ff4,
         type: 3}
+    - target: {fileID: 2916845645141965693, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3065616763249084449, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_Name
       value: ChocolateLavaTart
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -76,17 +81,17 @@ PrefabInstance:
     - target: {fileID: 3107333849576633749, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: initialDescription
-      value: A tasty dessert made of chocolate, with a liquid core.
+      value: 815f7a161088ba54b8a1ec2119f02ea1
       objectReference: {fileID: 0}
     - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: initialName
       value: chocolate lava tart
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tasty dessert made of chocolate, with a liquid core.
       objectReference: {fileID: 0}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -103,5 +108,21 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 6583149992119454289, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228634865165812812, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: foreverID
+      value: 815f7a161088ba54b8a1ec2119f02ea1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209119082875679654, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e4b129d56ff016479a9590f60cef2c0,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8777e0247dca5ab41a385d81bc5719ab, type: 3}

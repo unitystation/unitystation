@@ -13,6 +13,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6f72da9c93aed66438283a17fd131009,
         type: 2}
+    - target: {fileID: 771432100521590442, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: foreverID
+      value: 5535a73c95feb7f4f9fdc954d19a5756
+      objectReference: {fileID: 0}
+    - target: {fileID: 2842131419967966115, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ab9f107a938cee449d4360c005c5fd1,
+        type: 2}
+    - target: {fileID: 2842131419967966115, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 40d97e3f904f49e49b61344a69835b28,
+        type: 2}
     - target: {fileID: 5836631103282250139, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
       propertyPath: m_Sprite
@@ -23,6 +40,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: JetpackSecurity
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
@@ -41,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5917051152048050099, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
@@ -82,18 +99,18 @@ PrefabInstance:
     - target: {fileID: 6024163822652723059, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5535a73c95feb7f4f9fdc954d19a5756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
+        type: 3}
+      propertyPath: initialName
+      value: security jetpack (oxygen)
       objectReference: {fileID: 0}
     - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
         type: 3}
       propertyPath: initialDescription
       value: A tank of compressed oxygen for use as propulsion in zero-gravity areas
         by security forces.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6116889091633733029, guid: 2b7c686ad40fca54888ac3c8fc35fc39,
-        type: 3}
-      propertyPath: initialName
-      value: security jetpack (oxygen)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b7c686ad40fca54888ac3c8fc35fc39, type: 3}

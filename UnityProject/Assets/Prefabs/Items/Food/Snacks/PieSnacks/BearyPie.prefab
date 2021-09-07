@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e6f3f14dfd3f29246a56b88e2fc0bcd3,
         type: 3}
+    - target: {fileID: 2916845645141965693, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3065616763249084449, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_Name
       value: BearyPie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -76,17 +81,17 @@ PrefabInstance:
     - target: {fileID: 3107333849576633749, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: initialDescription
-      value: No brown bears, this is a good sign.
+      value: 62b020939e0912d4e9f2eab77475de8a
       objectReference: {fileID: 0}
     - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: initialName
       value: beary pie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: initialDescription
+      value: No brown bears, this is a good sign.
       objectReference: {fileID: 0}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -102,6 +107,16 @@ PrefabInstance:
         type: 3}
       propertyPath: NutritionLevel
       value: 188
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583149992119454289, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 188
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228634865165812812, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: foreverID
+      value: 62b020939e0912d4e9f2eab77475de8a
       objectReference: {fileID: 0}
     - target: {fileID: 9209119082875679654, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}

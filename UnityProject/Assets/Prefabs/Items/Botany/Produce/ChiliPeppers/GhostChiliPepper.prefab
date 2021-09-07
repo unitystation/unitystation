@@ -13,12 +13,49 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: afb79910f2385774fb5f97b035fe136c,
         type: 2}
+    - target: {fileID: 968515879527235585, guid: c1f6076f8e09d6841a682007c710f04f,
+        type: 3}
+      propertyPath: foreverID
+      value: 3c635c1a747152345962a77b8a32b902
+      objectReference: {fileID: 0}
     - target: {fileID: 5612090779203469339, guid: c1f6076f8e09d6841a682007c710f04f,
         type: 3}
       propertyPath: seedPacket
       value: 
       objectReference: {fileID: 1064990722104424964, guid: 91d0d2c2e6689f648aa0808eed25ceb7,
         type: 3}
+    - target: {fileID: 5927149051576124858, guid: c1f6076f8e09d6841a682007c710f04f,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927149051576124858, guid: c1f6076f8e09d6841a682007c710f04f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927149051576124858, guid: c1f6076f8e09d6841a682007c710f04f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0992a62b84b35d14aa66883b3d4f16a4,
+        type: 2}
+    - target: {fileID: 5927149051576124858, guid: c1f6076f8e09d6841a682007c710f04f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d094e7e1361f6c409c1527660e4fb87,
+        type: 2}
+    - target: {fileID: 5927149051576124858, guid: c1f6076f8e09d6841a682007c710f04f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927149051576124858, guid: c1f6076f8e09d6841a682007c710f04f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5992038615883817742, guid: c1f6076f8e09d6841a682007c710f04f,
         type: 3}
       propertyPath: initialName
@@ -32,7 +69,7 @@ PrefabInstance:
     - target: {fileID: 6079385004744274392, guid: c1f6076f8e09d6841a682007c710f04f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3c635c1a747152345962a77b8a32b902
       objectReference: {fileID: 0}
     - target: {fileID: 6181865501679963244, guid: c1f6076f8e09d6841a682007c710f04f,
         type: 3}

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace HealthV2
 {
-	public class BodyPartUISlots : Organ, IDynamicItemSlotS
+	public class BodyPartUISlots : MonoBehaviour, IDynamicItemSlotS
 	{
 		public NamedSlotFlagged NamedSlotFlagged;
 
@@ -23,25 +23,6 @@ namespace HealthV2
 
 		[SerializeField] [FormerlySerializedAs("Storage")]
 		private List<BodyPartUISlots.StorageCharacteristics> storage;
-
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
-		{
-			var dynamicItemStorage = livingHealthMasterBase.GetComponent<DynamicItemStorage>();
-			if (dynamicItemStorage != null)
-			{
-				dynamicItemStorage.Remove(this);
-			}
-		}
-
-		public override void HealthMasterSet()
-		{
-			if (RelatedPart.HealthMaster == null) return;
-			var dynamicItemStorage = RelatedPart.HealthMaster.GetComponent<DynamicItemStorage>();
-			if (dynamicItemStorage != null)
-			{
-				dynamicItemStorage.Add(this);
-			}
-		}
 
 		[System.Serializable]
 		public struct StorageCharacteristics

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3891320389685481760, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
+      propertyPath: foreverID
+      value: 2c9ad226992c1e7499c818c96b03e6dd
+      objectReference: {fileID: 0}
     - target: {fileID: 4322357872256689866, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -26,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
       propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/trayhit1.prefab
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
@@ -115,7 +120,7 @@ PrefabInstance:
     - target: {fileID: 8011397114769023225, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 2c9ad226992c1e7499c818c96b03e6dd
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5615206684c0a714997f9e856ba438ce, type: 3}

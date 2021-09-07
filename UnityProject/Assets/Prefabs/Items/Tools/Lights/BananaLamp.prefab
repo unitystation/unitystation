@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3988468442208863134, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
+      propertyPath: foreverID
+      value: dbe35ec7f5414c148b9bb5bfc6b5137e
+      objectReference: {fileID: 0}
     - target: {fileID: 4225858837334078580, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -44,14 +49,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
-      propertyPath: initialDescription
-      value: Only a clown would think to make a ghetto banana-shaped lamp. Even has
-        a goofy pullstring.
+      propertyPath: initialName
+      value: banana lamp
       objectReference: {fileID: 0}
     - target: {fileID: 7570201031302275217, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
-      propertyPath: initialName
-      value: banana lamp
+      propertyPath: initialDescription
+      value: Only a clown would think to make a ghetto banana-shaped lamp. Even has
+        a goofy pullstring.
       objectReference: {fileID: 0}
     - target: {fileID: 7859536243489094831, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
@@ -62,12 +67,17 @@ PrefabInstance:
     - target: {fileID: 7959952459703693895, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dbe35ec7f5414c148b9bb5bfc6b5137e
       objectReference: {fileID: 0}
     - target: {fileID: 8062387876662120435, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
       propertyPath: m_Name
       value: BananaLamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
@@ -86,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -98,16 +113,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066185727097500295, guid: c141da4e786e96c40b854e3daf1737d0,
         type: 3}

@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 169216062924189193, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dd2f8c282384b114da33fc74b24e0a72
       objectReference: {fileID: 0}
     - target: {fileID: 273902110919939005, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: m_Name
       value: BubblegumPlushie
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 278830259711291081, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -80,8 +80,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 1
+      propertyPath: initialName
+      value: Bubblegum plushie
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -90,8 +90,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
-      propertyPath: initialName
-      value: Bubblegum plushie
+      propertyPath: attackVerbs.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
@@ -104,5 +104,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 77740d0820ccee84eaea28e1da5d39b4,
         type: 2}
+    - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: foreverID
+      value: dd2f8c282384b114da33fc74b24e0a72
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75421751b31ee7f49b1adb8b70cd2375, type: 3}

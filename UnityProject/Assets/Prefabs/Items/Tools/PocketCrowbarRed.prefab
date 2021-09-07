@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c6f82da1e96fdcf4f967c9405c01ae6b,
         type: 2}
+    - target: {fileID: 4089184234565288920, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: foreverID
+      value: 8c2f7b54bdcb16f4b9c23ef38c73ab28
+      objectReference: {fileID: 0}
     - target: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_Name
       value: PocketCrowbarRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 7030469871661085185, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8c2f7b54bdcb16f4b9c23ef38c73ab28
       objectReference: {fileID: 0}
     - target: {fileID: 7130604612900027625, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
@@ -84,6 +89,43 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5d143d368eba45b459592d960f94c63e,
         type: 3}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: hitDamage
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4564fb415499e5947a6cbc5782a438c7,
+        type: 2}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ea6e2caf592256c42a89f2cefc696fd6,
+        type: 2}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 89d6fa83e12c7164f8cd1718644063f6, type: 3}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: bc9a9ce538359a043899819e2ce44a01, type: 3}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 2b77aa0425a58904fbf5b743272a24fd, type: 3}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: f8f969f9b2200104693cf11e8f64dd6b, type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size
@@ -96,25 +138,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: hitDamage
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 89d6fa83e12c7164f8cd1718644063f6, type: 3}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 89d6fa83e12c7164f8cd1718644063f6,
         type: 3}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 2b77aa0425a58904fbf5b743272a24fd, type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
@@ -135,20 +162,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: bc9a9ce538359a043899819e2ce44a01, type: 3}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: bc9a9ce538359a043899819e2ce44a01,
         type: 3}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: f8f969f9b2200104693cf11e8f64dd6b, type: 3}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
@@ -167,23 +184,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: bc9a9ce538359a043899819e2ce44a01,
         type: 3}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 4564fb415499e5947a6cbc5782a438c7,
-        type: 2}
-    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: ea6e2caf592256c42a89f2cefc696fd6,
-        type: 2}
     - target: {fileID: 8756140990652241181, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: c27b3677e7528c94ea71bc19d0094bde,
-        type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}

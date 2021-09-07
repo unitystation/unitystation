@@ -9,7 +9,7 @@ namespace HealthV2
 {
 	public class Stomach : Organ
 	{
-		[NonSerialized] public ReagentContainer StomachContents;
+		public ReagentContainer StomachContents;
 
 		public float DigesterAmountPerSecond = 1;
 
@@ -20,8 +20,6 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-
-			StomachContents = GetComponentInChildren<ReagentContainer>();
 
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)
@@ -49,22 +47,15 @@ namespace HealthV2
 
 			if (AllFat)
 			{
-				StartCoroutine(DelayAddFat());
+				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+				BodyFats.Add(Added);
+				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
 			}
 		}
 
-		private IEnumerator DelayAddFat()
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			yield return null;
-			var Parent = RelatedPart.GetParent();
-			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
-			BodyFats.Add(Added);
-			Parent.Storage.ServerTryAdd(Added.gameObject);
-		}
-
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
-		{
-			base.RemovedFromBody(livingHealthMasterBase);
+			base.RemovedFromBody(livingHealth);
 			BodyFats.Clear();
 
 		}

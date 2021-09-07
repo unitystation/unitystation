@@ -31,7 +31,12 @@ PrefabInstance:
     - target: {fileID: 4244486289140544064, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 63b01f966f4b6ec4998d4efcea3dd0e3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4278637841621627520, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
@@ -95,13 +95,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4440231365254783126, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
-      propertyPath: initialDescription
-      value: A Waffle Co. brand gorilla cube. Now with extra molecules!
+      propertyPath: initialName
+      value: gorilla cube
       objectReference: {fileID: 0}
     - target: {fileID: 4440231365254783126, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}
-      propertyPath: initialName
-      value: gorilla cube
+      propertyPath: initialDescription
+      value: A Waffle Co. brand gorilla cube. Now with extra molecules!
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190557240819532697, guid: 05e915de5d60b5048859f453c92c198f,
+        type: 3}
+      propertyPath: foreverID
+      value: 63b01f966f4b6ec4998d4efcea3dd0e3
       objectReference: {fileID: 0}
     - target: {fileID: 7941354007784617075, guid: 05e915de5d60b5048859f453c92c198f,
         type: 3}

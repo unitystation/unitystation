@@ -13,16 +13,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6076619852727529864, guid: 5e09b3ff1f6e0d94d85f2a300beb4117,
         type: 3}
-    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
         type: 3}
-      propertyPath: initialDescription
-      value: A very manly slab of meat.
-      objectReference: {fileID: 0}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 6076619852727529864, guid: 5e09b3ff1f6e0d94d85f2a300beb4117,
+        type: 3}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
       value: bear meat
       objectReference: {fileID: 0}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialDescription
+      value: A very manly slab of meat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513557761079566364, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: processedProduct
+      value: 
+      objectReference: {fileID: 136837039548124748, guid: f35db9596fdf15a468ffe1620f31088a,
+        type: 3}
     - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_Sprite
@@ -33,6 +45,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BearMeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -51,6 +68,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +85,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -92,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 2827791845413590183, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cfc3a66a4c5c805409f38aea0e083851
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
@@ -106,6 +118,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 394c1da54edee07e1930589510b8ec51,
+        type: 2}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 12
       objectReference: {fileID: 0}
@@ -116,21 +140,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 394c1da54edee07e1930589510b8ec51,
-        type: 2}
-    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
-        type: 2}
     - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
@@ -141,11 +153,21 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 630
       objectReference: {fileID: 0}
+    - target: {fileID: 6304245728322857827, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 630
+      objectReference: {fileID: 0}
     - target: {fileID: 8353191170574324372, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e04807f9140cc984295e5b5a48cce2a3,
         type: 2}
+    - target: {fileID: 9083999932805424510, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: foreverID
+      value: cfc3a66a4c5c805409f38aea0e083851
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}

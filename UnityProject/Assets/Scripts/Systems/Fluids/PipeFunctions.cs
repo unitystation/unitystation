@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Systems.Atmospherics;
-using Chemistry;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
 
-namespace Pipes
+
+namespace Systems.Pipes
 {
 	public static class PipeFunctions
 	{
@@ -48,7 +47,6 @@ namespace Pipes
 
 			return (0);
 		}
-
 
 		public static List<PipeData> GetConnectedPipes(List<PipeData> ToPutInto, PipeData pipeData, Vector3Int Location,
 			Matrix LocatedOn)
@@ -138,10 +136,10 @@ namespace Pipes
 			return pipe2.Connections.Directions[pipe2Direction].PortType.HasFlag(OutputType.Can_Equalise_With);
 		}
 
-
 		public static PipeDirection PipesToDirections(PipeData pipe1, PipeData pipe2)
 		{
 			var VectorDifference = pipe2.MatrixPos - pipe1.MatrixPos;
+			VectorDifference.z = 0; //TODO Tile map upgrade
 			if (VectorDifference == Vector3Int.up)
 			{
 				return PipeDirection.North;
@@ -175,7 +173,7 @@ namespace Pipes
 		}
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class Connections
 	{
 		public ConnectAndType[] Directions = new ConnectAndType[4];
@@ -263,7 +261,7 @@ namespace Pipes
 		}
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class ConnectAndType
 	{
 		public bool Bool;
@@ -274,7 +272,8 @@ namespace Pipes
 		[EnumFlags] [FormerlySerializedAs("OutputType")]
 		public OutputType PortType = OutputType.None;
 
-		[System.NonSerialized] public PipeData Connected = null;
+		[NonSerialized]
+		public PipeData Connected = null;
 
 
 		public FlagLogic flagLogic = FlagLogic.None;

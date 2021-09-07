@@ -7,6 +7,8 @@ using Chemistry;
 using Chemistry.Components;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
+using Messages.Server.SoundMessages;
 
 namespace Items.Food
 {
@@ -22,6 +24,8 @@ namespace Items.Food
 
 		[SerializeField]
 		private AddressableAudioSource sound = null;
+
+		private float RandomPitch => Random.Range( 0.7f, 1.3f );
 
 		private static readonly StandardProgressActionConfig ProgressConfig
 			= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -78,7 +82,8 @@ namespace Items.Food
 			if (eater == null)
 			{
 				// todo: implement non-player eating
-				SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition);
+				AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
+				SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition, eatSoundParameters);
 				if (leavings != null)
 				{
 					Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent);
@@ -117,7 +122,8 @@ namespace Items.Food
 		public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 		{
 			//TODO: Reimplement metabolism.
-			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
+			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, eatSoundParameters, sourceObj: eater.gameObject);
 
 			var Stomachs = eater.playerHealth.GetStomachs();
 			if (Stomachs.Count == 0)
@@ -128,16 +134,6 @@ namespace Items.Food
 
 			ReagentMix incomingFood = new ReagentMix();
 			FoodContents.CurrentReagentMix.TransferTo(incomingFood, FoodContents.CurrentReagentMix.Total);
-
-			ReagentContainer[] childContainers = GetComponentsInChildren<ReagentContainer>();
-
-			if (childContainers.Length > 0)
-			{
-				for (int i = childContainers.Length - 1; i >= 0; i--)
-				{
-					childContainers[i].CurrentReagentMix.TransferTo(incomingFood, childContainers[i].ReagentMixTotal);
-				}
-			}
 
 			incomingFood.Divide(Stomachs.Count);
 			foreach (var Stomach in Stomachs)

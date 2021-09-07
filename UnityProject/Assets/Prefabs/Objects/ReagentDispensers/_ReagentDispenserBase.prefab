@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCapacity: 1000
+  reactionSet: {fileID: 0}
+  AdditionalReactions: []
+  canPourOut: 1
+  initialReagentMix:
+    temperature: 0
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+      m_values:
+      - 1000
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 1
@@ -20,16 +34,6 @@ MonoBehaviour:
   transferMode: 2
   possibleTransferAmounts: []
   transferAmount: 20
-  maxCapacity: 1000
-  reactionSet: {fileID: 0}
-  initialReagentMix:
-    temperature: 0
-    reagents:
-      m_keys:
-      - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-      m_values:
-      - 1000
-  destroyOnEmpty: 0
 --- !u!1001 &5204561729561078346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40,7 +44,7 @@ PrefabInstance:
     - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 39da184d881f73c48b25ae5921795c55
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -57,6 +61,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: ...How did you find this?
       objectReference: {fileID: 0}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: foreverID
+      value: 39da184d881f73c48b25ae5921795c55
+      objectReference: {fileID: 0}
     - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -71,6 +80,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -89,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -101,16 +120,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -134,6 +143,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -8579328476265431596, guid: ea53678943587e441812b60e96ebf23f,
@@ -141,16 +160,6 @@ PrefabInstance:
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

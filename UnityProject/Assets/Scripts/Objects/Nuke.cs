@@ -282,12 +282,12 @@ namespace Objects.Command
 		{
 			yield return WaitFor.Seconds(5f);
 			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
-			foreach (LivingHealthMasterBase living in FindObjectsOfType<LivingHealthMasterBase>())
+			foreach (LivingHealthMasterBase livingHealth in FindObjectsOfType<LivingHealthMasterBase>())
 			{
-				var dist = Vector3.Distance(worldPos, living.GetComponent<RegisterTile>().WorldPosition);
+				var dist = Vector3.Distance(worldPos, livingHealth.GetComponent<RegisterTile>().WorldPosition);
 				if (dist < explosionRadius)
 				{
-					living.Death();
+					livingHealth.Death();
 				}
 			}
 			yield return WaitFor.Seconds(15f);

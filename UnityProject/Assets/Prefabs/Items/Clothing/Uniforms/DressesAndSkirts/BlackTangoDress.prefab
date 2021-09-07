@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 37e025654ce3f9b43bd61c6caf0f79dc
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Filled with Latin fire.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: foreverID
+      value: 37e025654ce3f9b43bd61c6caf0f79dc
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8c3e081202b98b443b8b3c7b7f79755f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8c3e081202b98b443b8b3c7b7f79755f,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: allClothingData.Array.size

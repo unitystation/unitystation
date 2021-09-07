@@ -9,18 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
-      propertyPath: initialDescription
-      value: A warning sign which reads 'SECURE AREA'.
+      propertyPath: initialName
+      value: SECURE AREA sign
       objectReference: {fileID: 0}
     - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
-      propertyPath: initialName
-      value: SECURE AREA sign
+      propertyPath: initialDescription
+      value: A warning sign which reads 'SECURE AREA'.
       objectReference: {fileID: 0}
     - target: {fileID: 1993339627899042215, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 818e550b6cfb51b408ea822b5c9ffee5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414808378359280268, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: foreverID
+      value: 818e550b6cfb51b408ea822b5c9ffee5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}

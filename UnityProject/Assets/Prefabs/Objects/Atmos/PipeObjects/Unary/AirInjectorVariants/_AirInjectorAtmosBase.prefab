@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 885698226935283379, guid: 410303ae7958d7e4f992e056a0cbca76,
         type: 3}
       propertyPath: m_Name
-      value: AirInjector
+      value: _AirInjectorAtmosBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 891453318797359209, guid: 410303ae7958d7e4f992e056a0cbca76,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 891453318797359209, guid: 410303ae7958d7e4f992e056a0cbca76,
         type: 3}
@@ -29,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 891453318797359209, guid: 410303ae7958d7e4f992e056a0cbca76,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 891453318797359209, guid: 410303ae7958d7e4f992e056a0cbca76,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -44,16 +54,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 891453318797359209, guid: 410303ae7958d7e4f992e056a0cbca76,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 891453318797359209, guid: 410303ae7958d7e4f992e056a0cbca76,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 891453318797359209, guid: 410303ae7958d7e4f992e056a0cbca76,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -66,6 +66,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268086423700324602, guid: 410303ae7958d7e4f992e056a0cbca76,
+        type: 3}
+      propertyPath: foreverID
+      value: 9757cac9353c31a4691ba4f164a5804a
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761594822696831953, guid: 410303ae7958d7e4f992e056a0cbca76,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 9757cac9353c31a4691ba4f164a5804a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 410303ae7958d7e4f992e056a0cbca76, type: 3}

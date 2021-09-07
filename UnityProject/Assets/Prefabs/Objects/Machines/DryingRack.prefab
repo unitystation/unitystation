@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2080875690252962033, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -73,10 +73,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d54d71d7a5ea98044bf94900199c5a8a,
         type: 3}
+    - target: {fileID: 3135803337226006626, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: foreverID
+      value: eb544c62ea86cf24f8a88cdcd1ed8d70
+      objectReference: {fileID: 0}
     - target: {fileID: 3537368556672211879, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
-      propertyPath: HullColor.r
-      value: 0.6431373
+      propertyPath: HullColor.b
+      value: 0.23529413
       objectReference: {fileID: 0}
     - target: {fileID: 3537368556672211879, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -85,8 +90,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3537368556672211879, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.23529413
+      propertyPath: HullColor.r
+      value: 0.6431373
       objectReference: {fileID: 0}
     - target: {fileID: 6820002895454037233, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
@@ -97,17 +102,17 @@ PrefabInstance:
     - target: {fileID: 7577488249132383049, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
-        type: 3}
-      propertyPath: initialDescription
-      value: A wooden contraption, used to dry plant products, food and hide.
+      value: eb544c62ea86cf24f8a88cdcd1ed8d70
       objectReference: {fileID: 0}
     - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: initialName
       value: drying rack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669580287412949275, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: initialDescription
+      value: A wooden contraption, used to dry plant products, food and hide.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}

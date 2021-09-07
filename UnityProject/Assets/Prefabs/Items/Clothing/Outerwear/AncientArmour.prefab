@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bd0376c47f41c5445a61f09a595bddce
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Defend the treasure...
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 548b2e942a9ec6d69af3374e3be7dd50,
+        type: 3}
+      propertyPath: foreverID
+      value: bd0376c47f41c5445a61f09a595bddce
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 98085ea339e0c154fbecd9a3b1b7b5c6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 98085ea339e0c154fbecd9a3b1b7b5c6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 548b2e942a9ec6d69af3374e3be7dd50,
         type: 3}
       propertyPath: hideClothingFlags

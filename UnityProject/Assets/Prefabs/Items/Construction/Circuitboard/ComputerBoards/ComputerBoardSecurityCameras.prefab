@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1471406292025692546, guid: d867a6391836ada4ab3327716b7dc931,
         type: 3}
+    - target: {fileID: 2596862763773197862, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: foreverID
+      value: 4ded354875f61b942821172e1c228fde
+      objectReference: {fileID: 0}
     - target: {fileID: 3023408758491105740, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Security Cameras (Computer Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -87,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 9018287352618307583, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4ded354875f61b942821172e1c228fde
       objectReference: {fileID: 0}
     - target: {fileID: 9098015153725456663, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}

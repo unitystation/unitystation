@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 159470084172660280, guid: 4e6de775cebea9d4b959e8aea5b25b74,
+        type: 3}
+      propertyPath: foreverID
+      value: f6b6f17027e814b4db18ad2cff338753
+      objectReference: {fileID: 0}
     - target: {fileID: 1137770104837147090, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,23 +20,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5579992024541571308, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5579992024541571308, guid: 4e6de775cebea9d4b959e8aea5b25b74,
-        type: 3}
       propertyPath: plantData.Lifespan
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 5579992024541571308, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
-      propertyPath: plantData.GrowthSpeed
-      value: 12
+      propertyPath: plantData.PlantName
+      value: Eggy-Plants
       objectReference: {fileID: 0}
     - target: {fileID: 5579992024541571308, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Eggy-Plants
+      propertyPath: plantData.GrowthSpeed
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5579992024541571308, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
@@ -45,6 +45,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c0d0c80f7bce8a740a560fb98f9abf33,
         type: 2}
+    - target: {fileID: 5579992024541571308, guid: 4e6de775cebea9d4b959e8aea5b25b74,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6376465173760639241, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
       propertyPath: m_Sprite
@@ -55,6 +60,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EggyPlantSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6530139154186391329, guid: 4e6de775cebea9d4b959e8aea5b25b74,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6530139154186391329, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
@@ -73,6 +83,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6530139154186391329, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6530139154186391329, guid: 4e6de775cebea9d4b959e8aea5b25b74,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +100,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530139154186391329, guid: 4e6de775cebea9d4b959e8aea5b25b74,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6530139154186391329, guid: 4e6de775cebea9d4b959e8aea5b25b74,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6530139154186391329, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
@@ -114,17 +119,17 @@ PrefabInstance:
     - target: {fileID: 6563997893114204129, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6656793462136888631, guid: 4e6de775cebea9d4b959e8aea5b25b74,
-        type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow to produce berries that look a lot like eggs
+      value: f6b6f17027e814b4db18ad2cff338753
       objectReference: {fileID: 0}
     - target: {fileID: 6656793462136888631, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
       propertyPath: initialName
       value: pack of eggy-plant seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656793462136888631, guid: 4e6de775cebea9d4b959e8aea5b25b74,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow to produce berries that look a lot like eggs
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e6de775cebea9d4b959e8aea5b25b74, type: 3}

@@ -17,11 +17,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 23aa0f5ba50a14241a263edcac31a37b,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
-    MergeMode: 0
-    Contents: []
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &9207613236471661794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +128,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: f5de2b6011113f0469b27cd8289f2d8b
+      objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -150,7 +157,7 @@ PrefabInstance:
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f5de2b6011113f0469b27cd8289f2d8b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}

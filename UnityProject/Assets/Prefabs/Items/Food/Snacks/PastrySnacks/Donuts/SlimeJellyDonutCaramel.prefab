@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d5a3c15dc7127a14b84e2743bf60d04c,
         type: 2}
+    - target: {fileID: 3141986036438142591, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: foreverID
+      value: 81275ef6f05d317459c02917ce4e891d
+      objectReference: {fileID: 0}
     - target: {fileID: 8201582548592931150, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
       propertyPath: m_Sprite
@@ -22,12 +27,17 @@ PrefabInstance:
     - target: {fileID: 8265266241677541286, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 81275ef6f05d317459c02917ce4e891d
       objectReference: {fileID: 0}
     - target: {fileID: 8295676981224768018, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
       propertyPath: m_Name
       value: SlimeJellyDonutCaramel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
@@ -86,13 +91,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8488635447927663984, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
-      propertyPath: initialDescription
-      value: Goes great with a mug of hot coco.
+      propertyPath: initialName
+      value: caramel jelly donut
       objectReference: {fileID: 0}
     - target: {fileID: 8488635447927663984, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
-      propertyPath: initialName
-      value: caramel jelly donut
+      propertyPath: initialDescription
+      value: Goes great with a mug of hot coco.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76d59c6190d1ae34897c499233364f53, type: 3}

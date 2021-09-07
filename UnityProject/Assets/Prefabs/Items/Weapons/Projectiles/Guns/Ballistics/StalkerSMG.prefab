@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -102,7 +103,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &4043239361933228831
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,6 +146,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -205,7 +206,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &7250800542606124674
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,6 +249,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -308,7 +309,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1 &8207965614075868123
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +352,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -411,7 +412,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
-  Sprites: []
 --- !u!1001 &6528718825192101316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -425,6 +425,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6f8e5d094472e6242b35f4051932f1d0,
         type: 2}
+    - target: {fileID: 3015805540452711487, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: foreverID
+      value: 0a7ba29086818cf4a8010f3b2743a7ac
+      objectReference: {fileID: 0}
     - target: {fileID: 3383358116270698800, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: setRestriction
@@ -487,7 +492,7 @@ PrefabInstance:
     - target: {fileID: 8139349595194068454, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0a7ba29086818cf4a8010f3b2743a7ac
       objectReference: {fileID: 0}
     - target: {fileID: 8169796687342940242, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

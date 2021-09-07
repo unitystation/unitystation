@@ -13,15 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4d52b92e693f73c4aa3cbe4bf87ccc07,
         type: 2}
-    - target: {fileID: 4712185004488139146, guid: 23da5cf6be2781344b9040c388022fa5,
+    - target: {fileID: 2247903263642239621, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
-      propertyPath: initialDescription
-      value: You think you can hear the hissing of a tiny fuse.
+      propertyPath: foreverID
+      value: 395626ab8eece294e985c6cf36a9541d
       objectReference: {fileID: 0}
     - target: {fileID: 4712185004488139146, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: initialName
       value: cherry bombs
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712185004488139146, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: initialDescription
+      value: You think you can hear the hissing of a tiny fuse.
       objectReference: {fileID: 0}
     - target: {fileID: 5006142838457040308, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
@@ -37,12 +42,17 @@ PrefabInstance:
     - target: {fileID: 5052093646653092700, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 395626ab8eece294e985c6cf36a9541d
       objectReference: {fileID: 0}
     - target: {fileID: 5154530300557905640, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: m_Name
       value: CherryBombs
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159739648772780956, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5159739648772780956, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
@@ -61,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5159739648772780956, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159739648772780956, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -73,16 +88,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5159739648772780956, guid: 23da5cf6be2781344b9040c388022fa5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5159739648772780956, guid: 23da5cf6be2781344b9040c388022fa5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5159739648772780956, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}

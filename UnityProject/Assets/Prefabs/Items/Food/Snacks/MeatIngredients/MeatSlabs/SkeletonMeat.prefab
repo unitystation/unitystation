@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fff5cc65126167f4a80399867d8a6fd8,
         type: 2}
+    - target: {fileID: 2249476921156252175, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: foreverID
+      value: 0822e2543c887534d8535f437579b51a
+      objectReference: {fileID: 0}
     - target: {fileID: 4710936765405548800, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: initialName
@@ -33,12 +38,17 @@ PrefabInstance:
     - target: {fileID: 5051124718424327126, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0822e2543c887534d8535f437579b51a
       objectReference: {fileID: 0}
     - target: {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
       propertyPath: m_Name
       value: SkeletonMeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
@@ -57,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -69,16 +84,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5160707991312974614, guid: 82854d05a642eb841b438f039ae33cb5,
         type: 3}

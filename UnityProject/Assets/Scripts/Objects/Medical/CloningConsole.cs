@@ -147,10 +147,10 @@ namespace Objects.Medical
 			}
 		}
 
-		private void CreateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
+		private void CreateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
 			var record = new CloningRecord();
-			record.UpdateRecord(mob, playerScript);
+			record.UpdateRecord(livingHealth, playerScript);
 			cloningRecords.Add(record);
 		}
 
@@ -188,16 +188,16 @@ namespace Objects.Medical
 			scanID = Random.Range(0, 9999).ToString();
 		}
 
-		public void UpdateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
+		public void UpdateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
-			mobID = mob.mobID;
+			mobID = livingHealth.mobID;
 			mind = playerScript.mind;
 			name = playerScript.playerName;
 			characterSettings = playerScript.characterSettings;
-			oxyDmg = mob.GetOxyDamage();
-			burnDmg = mob.GetTotalBurnDamage();
+			oxyDmg = livingHealth.GetOxyDamage();
+			burnDmg = livingHealth.GetTotalBurnDamage();
 			toxinDmg = 0;
-			bruteDmg = mob.GetTotalBruteDamage();
+			bruteDmg = livingHealth.GetTotalBruteDamage();
 			uniqueIdentifier = "35562Eb18150514630991";
 		}
 	}

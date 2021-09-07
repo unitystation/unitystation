@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2895772754816650232, guid: c634ae4416239d64595c3a483d65c117,
+        type: 3}
+      propertyPath: foreverID
+      value: 343d39ddcffa1134c901dd4d951beed0
+      objectReference: {fileID: 0}
     - target: {fileID: 7043466891072573245, guid: c634ae4416239d64595c3a483d65c117,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8108416936608938721, guid: c634ae4416239d64595c3a483d65c117,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108416936608938721, guid: c634ae4416239d64595c3a483d65c117,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -45,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8108416936608938721, guid: c634ae4416239d64595c3a483d65c117,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8108416936608938721, guid: c634ae4416239d64595c3a483d65c117,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8108416936608938721, guid: c634ae4416239d64595c3a483d65c117,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8108416936608938721, guid: c634ae4416239d64595c3a483d65c117,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8108416936608938721, guid: c634ae4416239d64595c3a483d65c117,
         type: 3}
@@ -91,17 +96,17 @@ PrefabInstance:
     - target: {fileID: 8142883636669872673, guid: c634ae4416239d64595c3a483d65c117,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8536848702868793591, guid: c634ae4416239d64595c3a483d65c117,
-        type: 3}
-      propertyPath: initialDescription
-      value: Contains a pesticide.
+      value: 343d39ddcffa1134c901dd4d951beed0
       objectReference: {fileID: 0}
     - target: {fileID: 8536848702868793591, guid: c634ae4416239d64595c3a483d65c117,
         type: 3}
       propertyPath: initialName
       value: bottle of pest spray
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536848702868793591, guid: c634ae4416239d64595c3a483d65c117,
+        type: 3}
+      propertyPath: initialDescription
+      value: Contains a pesticide.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c634ae4416239d64595c3a483d65c117, type: 3}

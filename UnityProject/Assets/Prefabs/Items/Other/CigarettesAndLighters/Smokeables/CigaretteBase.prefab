@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBurningOnSpawn: 0
+  hotspotTemperature: 700
+  changeGasMixTemp: 0
 --- !u!114 &5733160862123623072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,6 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCapacity: 30
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  AdditionalReactions: []
+  canPourOut: 1
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
+      m_values:
+      - 15
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
   UseStandardExamine: 0
   ExamineAmount: 0
   ExamineContent: 0
@@ -51,16 +67,6 @@ MonoBehaviour:
   transferMode: 4
   possibleTransferAmounts: []
   transferAmount: 20
-  maxCapacity: 30
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  initialReagentMix:
-    temperature: 273.15
-    reagents:
-      m_keys:
-      - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
-      m_values:
-      - 15
-  destroyOnEmpty: 0
 --- !u!1001 &914002857922276842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,6 +111,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cdcd12bdb1bc3254d8612ce30c1020ab,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: 77b0f36047b1a0e48ba9f97f954035fd
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: variantIndex
@@ -141,7 +152,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 77b0f36047b1a0e48ba9f97f954035fd
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

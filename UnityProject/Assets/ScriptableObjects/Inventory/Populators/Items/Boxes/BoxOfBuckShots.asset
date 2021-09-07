@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: BoxOfBuckShots
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f, type: 3}
   - {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f, type: 3}
   - {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f, type: 3}
@@ -20,4 +21,3 @@ MonoBehaviour:
   - {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f, type: 3}
   - {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f, type: 3}
   - {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f, type: 3}
-  MergeMode: 0

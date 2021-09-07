@@ -16,17 +16,17 @@ PrefabInstance:
     - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: initialDescription
-      value: A direction sign, pointing out which way the Cargo Bay is.
+      value: ac0b126bc5017d3419e710658b871c41
       objectReference: {fileID: 0}
     - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: initialName
       value: cargo sign
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: initialDescription
+      value: A direction sign, pointing out which way the Cargo Bay is.
       objectReference: {fileID: 0}
     - target: {fileID: 4675260807256895403, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
@@ -39,6 +39,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e36840cf1bae46c4098bbfd6374fc27e,
         type: 3}
+    - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -56,6 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -68,16 +83,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
@@ -98,6 +103,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SignDirectionsCargo
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344477038852931613, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: foreverID
+      value: ac0b126bc5017d3419e710658b871c41
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d95c8124beb3ec54ab012b6142cf1977, type: 3}

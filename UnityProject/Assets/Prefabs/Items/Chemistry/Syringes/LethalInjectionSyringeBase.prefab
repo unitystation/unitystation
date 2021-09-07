@@ -14,23 +14,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[0]
+      propertyPath: transferAmount
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: transferAmount
+      propertyPath: possibleTransferAmounts.Array.data[0]
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1349684638700962633, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bed8205cbc4c20746ade0d93cbb7a40c
       objectReference: {fileID: 0}
     - target: {fileID: 1382392464201793277, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
       propertyPath: m_Name
       value: LethalInjectionSyringeBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -49,6 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -61,16 +71,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -89,13 +89,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: initialDescription
-      value: A syringe used for lethal injections. It can hold up to 50 units.
+      propertyPath: initialName
+      value: lethal injection syringe
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
-      propertyPath: initialName
-      value: lethal injection syringe
+      propertyPath: initialDescription
+      value: A syringe used for lethal injections. It can hold up to 50 units.
       objectReference: {fileID: 0}
     - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
         type: 3}
@@ -115,5 +115,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eaf99639db15fef409e10f6d89480371,
         type: 2}
+    - target: {fileID: 5446408287170278032, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: foreverID
+      value: bed8205cbc4c20746ade0d93cbb7a40c
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc948ccbd770fff438862a32cd45a867, type: 3}

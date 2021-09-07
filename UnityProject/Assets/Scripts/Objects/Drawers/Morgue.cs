@@ -2,6 +2,7 @@
 using UnityEngine;
 using AddressableReferences;
 using HealthV2;
+using Items;
 
 namespace Objects.Drawers
 {
@@ -59,7 +60,12 @@ namespace Objects.Drawers
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) UseScrewdriver(interaction);
-			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)) UseEmag(interaction);
+			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
+				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)
+				&& emag.EmagHasCharges())
+			{
+				UseEmag(emag, interaction);
+			}
 			else if (drawerState == DrawerState.Open) CloseDrawer();
 			else OpenDrawer();
 		}
@@ -100,6 +106,10 @@ namespace Objects.Drawers
 		private bool Conscious(ObjectBehaviour playerMob)
 		{
 			var playerMind = playerMob.GetComponent<PlayerScript>().mind;
+			
+			//Player mind can be null if player was respawned as the old body mind is nulled
+			if (playerMind == null) return false;
+			
 			var playerMobID = playerMob.GetComponent<LivingHealthMasterBase>().mobID;
 
 			// If the mob IDs do not match, player is controlling a new mob, so we don't care about this old mob.
@@ -122,18 +132,17 @@ namespace Objects.Drawers
 					() => ToggleBuzzer());
 		}
 
-		private void UseEmag(HandApply interaction)
+		private void UseEmag(Emag emag, HandApply interaction)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
 			if (!ALARM_SYSTEM_ENABLED || !ALLOW_EMAGGING) return;
 #pragma warning restore CS0162 // Unreachable code detected
 			if (alarmBroken) return;
 			alarmBroken = true;
-
+			emag.UseCharge(interaction);
 			Chat.AddActionMsgToChat(interaction,
-					$"You wave the {interaction.HandObject.name.ToLower()} over the {name.ToLower()}'s electrical panel. " +
 					"The status panel flickers and the buzzer makes sickly popping noises. You can smell smoke...",
-					"You can smell caustic smoke from somewhere...");
+							"You can smell caustic smoke from somewhere...");
 			SoundManager.PlayNetworkedAtPos(emaggedSound, DrawerWorldPosition, sourceObj: gameObject);
 			StartCoroutine(PlayEmagAnimation());
 		}

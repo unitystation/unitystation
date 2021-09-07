@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9ff4c3192df1e0f448f82bc8dc024cae,
         type: 2}
+    - target: {fileID: 4184465052614028657, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
+      propertyPath: foreverID
+      value: 535f59ed43494af4ea7bac3d7eec4043
+      objectReference: {fileID: 0}
     - target: {fileID: 6942713012907594304, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
       propertyPath: m_Sprite
@@ -23,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CartridgeVirusGesturO1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7114296596419288168, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
@@ -82,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 7150793407664610472, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 535f59ed43494af4ea7bac3d7eec4043
       objectReference: {fileID: 0}
     - target: {fileID: 7225207134604889726, guid: a6ac0281d1a8192478248d8f86c2d784,
         type: 3}

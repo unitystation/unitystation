@@ -1,15 +1,18 @@
-﻿public class RollD20 : RollDie
+﻿namespace Items.Dice
 {
-	protected override string GetMessage()
+	public class RollD20 : RollDie
 	{
-		string msg = base.GetMessage();
-
-		if (sides == 20)
+		protected override string GetMessage()
 		{
-			if (result == 1) return msg + " Ouch! Bad luck.";
-			else if (result == 20) return msg + " NAT 20!";
-		}
+			string msg = base.GetMessage();
 
-		return msg;
+			if (sides == 20)
+			{
+				if (result == 1) return msg + " Ouch! Bad luck.";
+				else if (result == 20) return msg + " NAT 20!";
+			}
+
+			return msg;
+		}
 	}
 }

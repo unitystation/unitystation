@@ -77,7 +77,7 @@ namespace Objects.Disposals
 
 			// Despawn pipe tile
 			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.NormalizeTo3Int(), true).Matrix;
-			matrix.RemoveUnderFloorTile(interaction.TargetCellPos, pipe);
+			matrix.TileChangeManager.RemoveTile(interaction.TargetCellPos, LayerType.Underfloor);
 
 			// Spawn pipe GameObject
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;

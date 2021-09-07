@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8395e909335cc454ba86d662dfa78ae8,
         type: 3}
+    - target: {fileID: 2916845645141965693, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3065616763249084449, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_Name
       value: PumpkinPie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069414339004183893, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
@@ -76,17 +81,22 @@ PrefabInstance:
     - target: {fileID: 3107333849576633749, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c6ad829d196ea77478bdfdbf223068d7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: initialName
+      value: pumpkin pie
       objectReference: {fileID: 0}
     - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: initialDescription
       value: A delicious treat for the autumn months.
       objectReference: {fileID: 0}
-    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+    - target: {fileID: 8228634865165812812, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
-      propertyPath: initialName
-      value: pumpkin pie
+      propertyPath: foreverID
+      value: c6ad829d196ea77478bdfdbf223068d7
       objectReference: {fileID: 0}
     - target: {fileID: 9209119082875679654, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}

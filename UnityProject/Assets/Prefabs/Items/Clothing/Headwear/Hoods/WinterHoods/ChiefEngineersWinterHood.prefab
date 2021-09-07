@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8001657300800821345
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1891493311582696804, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: initialName
+      value: chief engineer's winter hood
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891493311582696804, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: initialDescription
+      value: A white winter coat hood. Feels surprisingly heavy. The tag says that
+        it's not child safe.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072209643903412082, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2076851644659931654, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_Name
+      value: ChiefEngineersWinterHood
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109443883461650354, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_AssetId
+      value: d054f614f6b4a5f4ca459b8191451049
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110437260752653298, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110437260752653298, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110437260752653298, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171720242445756762, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: adccba1d86941df40a1fc775c33544c2,
+        type: 3}
+    - target: {fileID: 2830513735347406051, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Rad
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2830513735347406051, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2830513735347406051, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929414595330676331, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: foreverID
+      value: d054f614f6b4a5f4ca459b8191451049
+      objectReference: {fileID: 0}
+    - target: {fileID: 4949261492544096643, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 485e5d458c4fe8849a46f83899530521,
+        type: 2}
+    - target: {fileID: 5301979924947968385, guid: cf8cf10a15398fd478c8f6f7677d6471,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d1806ced6b1d0b4badce86892a12b76,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cf8cf10a15398fd478c8f6f7677d6471, type: 3}

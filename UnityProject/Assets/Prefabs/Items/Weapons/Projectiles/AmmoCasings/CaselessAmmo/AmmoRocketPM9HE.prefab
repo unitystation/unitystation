@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isClip: 1
-  Projectile: {fileID: 3848343717668343118, guid: 1ff9dd0fc4df49c4e8e6201312a8d2f5,
+  magType: 0
+  initalProjectile: {fileID: 3848343717668343118, guid: 1ff9dd0fc4df49c4e8e6201312a8d2f5,
     type: 3}
   ProjectilesFired: 1
   ammoType: 20
@@ -36,12 +36,17 @@ PrefabInstance:
     - target: {fileID: 1347949146380736350, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d449122ab9878fd4dab243529623d4a8
       objectReference: {fileID: 0}
     - target: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
       propertyPath: m_Name
       value: AmmoRocketPM9HE
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -60,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -72,16 +82,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -100,8 +100,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: PM-9HE
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -110,8 +110,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialName
-      value: PM-9HE
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -125,6 +125,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a9e17c14818b7994d9e704e62f461ecd,
         type: 2}
+    - target: {fileID: 5447786440518084231, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: foreverID
+      value: d449122ab9878fd4dab243529623d4a8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2087e57fe27fd8419f779b3abb9cf91, type: 3}
 --- !u!1 &7885618348377886950 stripped

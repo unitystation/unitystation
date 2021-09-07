@@ -1,12 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Mirror;
 using UnityEngine;
+using Mirror;
+using Systems.Pipes;
 using Objects;
+using System.Collections;
+using UnityEngine;
+using Systems.Pipes;
+using Objects.Atmospherics;
 
-namespace Pipes
+
+
+namespace Items.Atmospherics
 {
 	public class PipeItem : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate>
 	{
@@ -49,27 +54,21 @@ namespace Pipes
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
 				var ZeroedLocation = new Vector3Int(x:registerItem.LocalPosition.x, y:registerItem.LocalPosition.y,0);
-				var metaData = registerItem.Matrix.MetaDataLayer.Get(ZeroedLocation);
-				var thisConnections = GetConnections();
+				var metaDataNode = registerItem.Matrix.MetaDataLayer.Get(ZeroedLocation);
+				var connections = GetConnections();
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
-				thisConnections.Rotate(Offset);
-
-				foreach (var Pipeo in metaData.PipeData)
+				connections.Rotate(Offset);
+				if (PipeTile.CanAddPipe(metaDataNode, connections) == false)
 				{
-					var TheConnection = Pipeo.pipeData.Connections;
-					for (int i = 0; i < thisConnections.Directions.Length; i++)
-					{
-						if (thisConnections.Directions[i].Bool && TheConnection.Directions[i].Bool)
-						{
-							return;
-						}
-					}
+					return;
 				}
 				ToolUtils.ServerPlayToolSound(interaction);
 				BuildPipe();
 			}
-
-			rotatable.Rotate();
+			else
+			{
+				rotatable.Rotate();
+			}
 		}
 
 		public virtual bool WillInteract(HandActivate interaction, NetworkSide side)

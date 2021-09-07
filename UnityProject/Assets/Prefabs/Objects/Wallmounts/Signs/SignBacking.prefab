@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 877678010874754344, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b499b9e7f162a3b4a90d751b03b4ccf6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113894379060813690, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: initialName
+      value: sign backing
       objectReference: {fileID: 0}
     - target: {fileID: 2113894379060813690, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
@@ -18,17 +23,22 @@ PrefabInstance:
       value: A plastic sign backing, use a pen to change the decal. It can be detached
         from the wall with a wrench.
       objectReference: {fileID: 0}
-    - target: {fileID: 2113894379060813690, guid: 2d5ef1e4279414f4798d5cf1542d9388,
-        type: 3}
-      propertyPath: initialName
-      value: sign backing
-      objectReference: {fileID: 0}
     - target: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7a733195adb23ea408973e156319613c,
         type: 2}
+    - target: {fileID: 5657113146019560963, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: foreverID
+      value: b499b9e7f162a3b4a90d751b03b4ccf6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -46,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -58,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
@@ -95,5 +100,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 23da19cf115b5194da5263d984dfb476,
         type: 3}
+    - target: {fileID: 8832630492572476509, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d5ef1e4279414f4798d5cf1542d9388, type: 3}

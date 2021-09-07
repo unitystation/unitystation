@@ -40,18 +40,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1463207863
+      propertyPath: m_SortingLayer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 11
+      propertyPath: m_SortingLayerID
+      value: -1463207863
       objectReference: {fileID: 0}
     - target: {fileID: 1706338798251575173, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: m_Name
       value: DisposalPipeSegment-SplitterB
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -70,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -82,16 +92,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -108,12 +108,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5066112798346183791, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+    - target: {fileID: 2368834295612078540, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: disposalPipeTileRight
-      value: 
-      objectReference: {fileID: 11400000, guid: 5448049f40637c14dab56e796ea935d2,
-        type: 2}
+      propertyPath: foreverID
+      value: f4e4f3265195dcf4faa52078e4d7fd34
+      objectReference: {fileID: 0}
     - target: {fileID: 5066112798346183791, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: disposalPipeTileUp
@@ -132,6 +131,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bc6657ba837b26649b58293b25d00e6b,
         type: 2}
+    - target: {fileID: 5066112798346183791, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: disposalPipeTileRight
+      value: 
+      objectReference: {fileID: 11400000, guid: 5448049f40637c14dab56e796ea935d2,
+        type: 2}
     - target: {fileID: 6196621891592203615, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -141,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 7094281925372949223, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f4e4f3265195dcf4faa52078e4d7fd34
       objectReference: {fileID: 0}
     - target: {fileID: 7176090347676206609, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -161,9 +166,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: Right
+      propertyPath: Up
       value: 
-      objectReference: {fileID: 21300006, guid: b6575ee23e720a74ba887c61e8854735,
+      objectReference: {fileID: 21300000, guid: b6575ee23e720a74ba887c61e8854735,
         type: 3}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -179,9 +184,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: Up
+      propertyPath: Right
       value: 
-      objectReference: {fileID: 21300000, guid: b6575ee23e720a74ba887c61e8854735,
+      objectReference: {fileID: 21300006, guid: b6575ee23e720a74ba887c61e8854735,
         type: 3}
     - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -190,14 +195,14 @@ PrefabInstance:
       objectReference: {fileID: 2268664829468498668}
     - target: {fileID: 8289965753064822965, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: initialDescription
-      value: A splitting segment of disposal pipe that has a large cross-section.
-        Could you fit in this?
+      propertyPath: initialName
+      value: disposal pipe splitter
       objectReference: {fileID: 0}
     - target: {fileID: 8289965753064822965, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
-      propertyPath: initialName
-      value: disposal pipe splitter
+      propertyPath: initialDescription
+      value: A splitting segment of disposal pipe that has a large cross-section.
+        Could you fit in this?
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}

@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3471923577922769642, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
@@ -65,7 +65,17 @@ PrefabInstance:
     - target: {fileID: 3476007301109231518, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
       propertyPath: m_Name
-      value: _ElectronicsBase
+      value: FireAlarmElectronics
+      objectReference: {fileID: 0}
+    - target: {fileID: 3578522913692291626, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 8787959bf2be63d40bbbd79ebeb4e150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532265830037070835, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: foreverID
+      value: 8787959bf2be63d40bbbd79ebeb4e150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1196c3867e61e9e49973dcb106b0a977, type: 3}

@@ -62,6 +62,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -107,10 +108,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1382805458102892034, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
+      propertyPath: foreverID
+      value: 4000b9460c768244c91fee899720293f
+      objectReference: {fileID: 0}
     - target: {fileID: 2612472723175721035, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
       propertyPath: m_Name
       value: Pylon
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
@@ -129,6 +140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -141,16 +157,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
@@ -171,22 +177,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: e91e7f6d4f184684a976b7910fd488a7,
+      objectReference: {fileID: 21300000, guid: e91e7f6d4f184684a976b7910fd488a7,
         type: 3}
-    - target: {fileID: 4676042561043617659, guid: 9d469eef54a89534b99df7992a4f8ff5,
+    - target: {fileID: 2819643630666476636, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
-      propertyPath: initialDescription
-      value: A floating crystal that slowly heals those faithful to Nar'Sie.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4676042561043617659, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
       propertyPath: initialName
       value: pylon
       objectReference: {fileID: 0}
+    - target: {fileID: 4676042561043617659, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
+      propertyPath: initialDescription
+      value: A floating crystal that slowly heals those faithful to Nar'Sie.
+      objectReference: {fileID: 0}
     - target: {fileID: 5880733353738370345, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4000b9460c768244c91fee899720293f
       objectReference: {fileID: 0}
     - target: {fileID: 7354851833607283345, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}

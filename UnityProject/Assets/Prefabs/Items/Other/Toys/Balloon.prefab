@@ -13,16 +13,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 92c054d1fa9d1b0448b36194bdc6fd7c,
         type: 2}
+    - target: {fileID: 1947406906936637606, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: foreverID
+      value: 0c841b17402cd3141a40ce714474a94c
+      objectReference: {fileID: 0}
     - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 53ac4372233802c49bd2c0f0c11a0ac5,
         type: 3}
+    - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4767086867303369087, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0c841b17402cd3141a40ce714474a94c
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -41,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -86,8 +96,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: initialDescription
-      value: No birthday is complete without it.
+      propertyPath: throwRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
@@ -96,10 +111,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 92c054d1fa9d1b0448b36194bdc6fd7c,
-        type: 2}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialDescription
+      value: No birthday is complete without it.
+      objectReference: {fileID: 0}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -114,18 +133,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
-      propertyPath: initialSize
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: throwSpeed
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
-        type: 3}
-      propertyPath: throwRange
-      value: 5
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 92c054d1fa9d1b0448b36194bdc6fd7c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2cc2b1c514be164282a4cdd366643e5, type: 3}

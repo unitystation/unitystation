@@ -49,6 +49,9 @@ namespace Robotics
 
 			MobController.IsEmagged = true;
 			emag.UseCharge(interaction);
+			Chat.AddActionMsgToChat(interaction,
+					"The bot's behavior controls disengage. The bot begins to rattle and smolder",
+							"You can smell caustic smoke from somewhere...");
 
 			if (spriteHandler == null)
 			{

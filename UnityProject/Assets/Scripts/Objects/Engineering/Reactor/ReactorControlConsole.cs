@@ -1,41 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.ObjectConnection;
+
 
 namespace Objects.Engineering
 {
-	public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
+	public class ReactorControlConsole : MonoBehaviour, IMultitoolSlaveable
 	{
-		public ReactorGraphiteChamber ReactorChambers = null;
-		public void SuchControllRodDepth(float Specified)
+		[SceneObjectReference] public ReactorGraphiteChamber ReactorChambers = null;
+
+		[SceneObjectReference] public List<ReactorGraphiteChamber> ReactorChambers2 = new List<ReactorGraphiteChamber>();
+
+		public void SuchControllRodDepth(float requestedDepth)
 		{
-			if (Specified > 1)
-			{
-				Specified = 1;
-			}
-			else if (0 > Specified)
-			{
-				Specified = 0;
-			}
+			requestedDepth = requestedDepth.Clamp(0, 1);
 
 			if (ReactorChambers != null)
 			{
-				ReactorChambers.SetControlRodDepth(Specified);
+				ReactorChambers.SetControlRodDepth(requestedDepth);
 			}
 		}
 
-		//######################################## Multitool interaction ##################################
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
-		public MultitoolConnectionType ConType => conType;
+		#region Multitool Interaction
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.ReactorChamber;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => ReactorChambers; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => true;
+
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var Chamber = (Imaster as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
+			var Chamber = (master as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
 			if (Chamber != null)
 			{
 				ReactorChambers = Chamber;
 			}
 		}
+
+		#endregion
 	}
 }

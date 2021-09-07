@@ -16,12 +16,17 @@ PrefabInstance:
     - target: {fileID: 3078294002250516983, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5ff3002120f35c94bb543326900ad8e8
       objectReference: {fileID: 0}
     - target: {fileID: 3110995093233185859, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
       propertyPath: m_Name
       value: TeaAstraSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3116486191504017719, guid: 28a968b9c8738c243953f51d02afddff,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3116486191504017719, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
@@ -40,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3116486191504017719, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3116486191504017719, guid: 28a968b9c8738c243953f51d02afddff,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3116486191504017719, guid: 28a968b9c8738c243953f51d02afddff,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3116486191504017719, guid: 28a968b9c8738c243953f51d02afddff,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3116486191504017719, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
@@ -85,15 +85,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 7446554739794233391, guid: 5ff3002120f35c94bb543326900ad8e8,
-        type: 3}
-    - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
-        type: 3}
       propertyPath: plantData.PlantName
       value: Tea Astra Plants
       objectReference: {fileID: 0}
+    - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 7446554739794233391}
     - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
@@ -102,21 +101,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 99ce88b070594e04d87066d3e5ad298f,
-        type: 2}
-    - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 73de6e549d92ba3488be6a6d097da83c,
-        type: 2}
-    - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 016e4125a012690479fd2048d3d340b2,
+      objectReference: {fileID: 11400000, guid: cc7bc92f145a2f640b1118a4815bfa14,
         type: 2}
     - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
@@ -126,10 +113,32 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: cc7bc92f145a2f640b1118a4815bfa14,
+      objectReference: {fileID: 11400000, guid: 016e4125a012690479fd2048d3d340b2,
         type: 2}
+    - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 73de6e549d92ba3488be6a6d097da83c,
+        type: 2}
+    - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 99ce88b070594e04d87066d3e5ad298f,
+        type: 2}
+    - target: {fileID: 4382090901602152186, guid: 28a968b9c8738c243953f51d02afddff,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[0]
+      value: 
+      objectReference: {fileID: 7446554739794233391}
+    - target: {fileID: 8329056121634306094, guid: 28a968b9c8738c243953f51d02afddff,
+        type: 3}
+      propertyPath: foreverID
+      value: 5ff3002120f35c94bb543326900ad8e8
+      objectReference: {fileID: 0}
     - target: {fileID: 9109206146799308740, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -138,3 +147,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28a968b9c8738c243953f51d02afddff, type: 3}
+--- !u!1 &7446554739794233391 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3110995093233185859, guid: 28a968b9c8738c243953f51d02afddff,
+    type: 3}
+  m_PrefabInstance: {fileID: 5511002524276653164}
+  m_PrefabAsset: {fileID: 0}

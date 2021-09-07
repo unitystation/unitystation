@@ -15,13 +15,34 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4247747679690480515, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
-      propertyPath: initialDescription
-      value: Purple despite the name.
+      propertyPath: initialName
+      value: red onion
       objectReference: {fileID: 0}
     - target: {fileID: 4247747679690480515, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
-      propertyPath: initialName
-      value: red onion
+      propertyPath: initialDescription
+      value: Purple despite the name.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0432d5ff74cbd9943b120e091cedbd44,
+        type: 2}
+    - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
@@ -40,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
@@ -86,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 4434540600313973077, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 101f7aeb13e450746a2931079199fa48
       objectReference: {fileID: 0}
     - target: {fileID: 4534956782121387965, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
@@ -94,6 +110,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fc0d4547da1d99e4bbd7feb5e229afe0,
         type: 3}
+    - target: {fileID: 7251968933137660044, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: foreverID
+      value: 101f7aeb13e450746a2931079199fa48
+      objectReference: {fileID: 0}
     - target: {fileID: 7590972761223171942, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
       propertyPath: PresentSpriteSet

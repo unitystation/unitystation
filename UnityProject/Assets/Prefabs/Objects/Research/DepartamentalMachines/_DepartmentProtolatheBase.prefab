@@ -15,6 +15,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -30,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2055460529018278186, guid: f68661a1266c7104a8e88709444da749,
         type: 3}
@@ -73,10 +73,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: _DepartmentProtolatheBase
       objectReference: {fileID: 0}
+    - target: {fileID: 3162137832188389817, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: foreverID
+      value: f17d6c099ecfc4b49a1b59d77cbe2d28
+      objectReference: {fileID: 0}
     - target: {fileID: 7588022720072639122, guid: f68661a1266c7104a8e88709444da749,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f17d6c099ecfc4b49a1b59d77cbe2d28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662179417289967808, guid: f68661a1266c7104a8e88709444da749,
+        type: 3}
+      propertyPath: initialName
+      value: department protolathe
       objectReference: {fileID: 0}
     - target: {fileID: 8662179417289967808, guid: f68661a1266c7104a8e88709444da749,
         type: 3}
@@ -84,11 +94,6 @@ PrefabInstance:
       value: A special protolathe with a built in interface meant for departmental
         usage, with built in ExoSync receivers allowing it to print designs researched
         that match its ROM-encoded department type.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8662179417289967808, guid: f68661a1266c7104a8e88709444da749,
-        type: 3}
-      propertyPath: initialName
-      value: department protolathe
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f68661a1266c7104a8e88709444da749, type: 3}

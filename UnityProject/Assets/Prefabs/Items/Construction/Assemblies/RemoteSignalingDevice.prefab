@@ -9,14 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
-      propertyPath: initialDescription
-      value: Used to remotely activate devices. Allows for syncing when using a secure
-        signaler on another.
+      propertyPath: initialName
+      value: remote signaling device
       objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
-      propertyPath: initialName
-      value: remote signaling device
+      propertyPath: initialDescription
+      value: Used to remotely activate devices. Allows for syncing when using a secure
+        signaler on another.
       objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -36,6 +36,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fd09254e352c9ce47b9e82d27016d95f,
         type: 3}
+    - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -53,6 +63,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -65,16 +80,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4471378110449659019, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -99,7 +104,12 @@ PrefabInstance:
     - target: {fileID: 4578525896496213067, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 204e1dd6539bdea43b395a881530baa2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396244808014028178, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: foreverID
+      value: 204e1dd6539bdea43b395a881530baa2
       objectReference: {fileID: 0}
     - target: {fileID: 7734962754486397560, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}

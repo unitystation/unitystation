@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: 55f84d3d2305ff64184bb7a99ef1c103,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bc16605a9a53ba64ba18101b6bbf825f
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 55f84d3d2305ff64184bb7a99ef1c103,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlindPersonnelBlindfold
       objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: 55f84d3d2305ff64184bb7a99ef1c103,
+        type: 3}
+      propertyPath: foreverID
+      value: bc16605a9a53ba64ba18101b6bbf825f
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 55f84d3d2305ff64184bb7a99ef1c103,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 45c5e34ee80088c4c873b7633e75c8e4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 55f84d3d2305ff64184bb7a99ef1c103,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 45c5e34ee80088c4c873b7633e75c8e4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 55f84d3d2305ff64184bb7a99ef1c103,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

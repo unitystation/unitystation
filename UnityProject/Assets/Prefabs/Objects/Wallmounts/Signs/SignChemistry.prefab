@@ -7,16 +7,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 124923907494347757, guid: a1b40c924340847478c3f6926388d3e7,
+        type: 3}
+      propertyPath: foreverID
+      value: 981e18e068e58b64c9ef2be13e1f50bd
+      objectReference: {fileID: 0}
     - target: {fileID: 3866909193454180787, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 62c0a7db2b3b2e748b602770d5a31071,
         type: 3}
+    - target: {fileID: 3866909193454180787, guid: a1b40c924340847478c3f6926388d3e7,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3948031265594113444, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
       propertyPath: m_Name
       value: SignChemistry
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954033268679424894, guid: a1b40c924340847478c3f6926388d3e7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3954033268679424894, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
@@ -35,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3954033268679424894, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954033268679424894, guid: a1b40c924340847478c3f6926388d3e7,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3954033268679424894, guid: a1b40c924340847478c3f6926388d3e7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3954033268679424894, guid: a1b40c924340847478c3f6926388d3e7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3954033268679424894, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
@@ -76,17 +86,17 @@ PrefabInstance:
     - target: {fileID: 4834588150901491910, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940182428169200276, guid: a1b40c924340847478c3f6926388d3e7,
-        type: 3}
-      propertyPath: initialDescription
-      value: A sign labelling an area containing chemical equipment.
+      value: 981e18e068e58b64c9ef2be13e1f50bd
       objectReference: {fileID: 0}
     - target: {fileID: 5940182428169200276, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}
       propertyPath: initialName
       value: Chemistry sign
+      objectReference: {fileID: 0}
+    - target: {fileID: 5940182428169200276, guid: a1b40c924340847478c3f6926388d3e7,
+        type: 3}
+      propertyPath: initialDescription
+      value: A sign labelling an area containing chemical equipment.
       objectReference: {fileID: 0}
     - target: {fileID: 8402249449444530046, guid: a1b40c924340847478c3f6926388d3e7,
         type: 3}

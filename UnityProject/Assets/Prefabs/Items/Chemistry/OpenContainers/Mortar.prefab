@@ -7,12 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1192346784581441163, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: foreverID
+      value: 61915068c915ad242b1967de33464055
+      objectReference: {fileID: 0}
     - target: {fileID: 2121397489038221665, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 92630a41d5f4a614a870268727678d4a,
         type: 2}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 5305976386938988370, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 61915068c915ad242b1967de33464055
       objectReference: {fileID: 0}
     - target: {fileID: 5388378204652235194, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
@@ -91,30 +96,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
+      propertyPath: initialName
+      value: mortar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
       propertyPath: initialDescription
       value: A specially formed bowl of ancient design. It is possible to crush or
         juice items placed in it using a pestle; however the process, unlike modern
         methods, is slow and physically exhausting. Alt click to eject the item.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
-        type: 3}
-      propertyPath: initialName
-      value: mortar
-      objectReference: {fileID: 0}
-    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
-        type: 3}
-      propertyPath: possibleTransferAmounts.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
-        type: 3}
-      propertyPath: possibleTransferAmounts.Array.data[7]
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
-        type: 3}
-      propertyPath: transferAmount
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
@@ -125,6 +115,21 @@ PrefabInstance:
         type: 3}
       propertyPath: destroyOnEmpty
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[7]
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -2722210368152241391, guid: 364841a08150e9345b119e71191c8dcf, type: 3}

@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Core.Input_System.InteractionV2.Interactions;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.Interaction;
+using Systems.Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class Pump : MonoPipe
 	{
@@ -11,8 +12,6 @@ namespace Pipes
 
 		private float MaxPressure = 4500f;
 		private float TransferMoles = 500f;
-
-
 
 		public bool IsOn = false;
 

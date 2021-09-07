@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Systems.CraftingV2.GUI;
 using AdminTools;
 using Audio.Managers;
 using Initialisation;
@@ -62,8 +63,10 @@ public class UIManager : MonoBehaviour, IInitialise
 	public CrayonUI CrayonUI;
 
 	public UI_SlotManager UI_SlotManager;
-	
+
 	public GeneralInputField GeneralInputField;
+
+	public CraftingMenu CraftingMenu;
 
 	public static bool PreventChatInput
 	{

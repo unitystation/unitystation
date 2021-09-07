@@ -19,9 +19,7 @@ namespace HealthV2
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
 		public PlayerMove PlayerMove => playerMove;
-
-		private PlayerSprites playerSprites;
-
+		
 		private PlayerNetworkActions playerNetworkActions;
 
 		private RegisterPlayer registerPlayer;
@@ -29,13 +27,6 @@ namespace HealthV2
 		/// Cached register player
 		/// </summary>
 		public RegisterPlayer RegisterPlayer => registerPlayer;
-
-
-		private Equipment equipment;
-		/// <summary>
-		/// The associated Player Equipment
-		/// </summary>
-		public Equipment Equipment => equipment;
 
 		private DynamicItemStorage dynamicItemStorage;
 
@@ -62,7 +53,6 @@ namespace HealthV2
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			dynamicItemStorage = GetComponent<DynamicItemStorage>();
-			equipment = GetComponent<Equipment>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 			registerPlayer.AddStatus(this);
 		}
@@ -76,15 +66,6 @@ namespace HealthV2
 
 			//we stay upright if buckled or conscious
 			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
-		}
-
-		/// <summary>
-		/// Server only. Gibs the player.
-		/// </summary>
-		[Server]
-		public void ServerGibPlayer()
-		{
-			Gib();
 		}
 
 		public override void Gib()

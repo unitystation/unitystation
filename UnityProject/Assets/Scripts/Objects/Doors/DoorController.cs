@@ -1,19 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AddressableReferences;
-using Core.Input_System.InteractionV2.Interactions;
-using HealthV2;
-using Messages.Client.NewPlayer;
-using Messages.Server;
 using UnityEngine;
 using Mirror;
+using Messages.Client.NewPlayer;
+using Messages.Server;
+using AddressableReferences;
 using ScriptableObjects;
+using Systems.Interaction;
+using Systems.ObjectConnection;
+using HealthV2;
 using Objects.Wallmounts;
+
 
 namespace Doors
 {
-	public class DoorController : NetworkBehaviour, ISetMultitoolSlave, ICheckedInteractable<AiActivate>
+	public class DoorController : NetworkBehaviour, IMultitoolSlaveable, ICheckedInteractable<AiActivate>
 	{
 		public enum OpeningDirection
 		{
@@ -95,11 +97,12 @@ namespace Doors
 		[Tooltip("First frame of the door pressure light animation")]
 		public int DoorPressureSpriteOffset = 25;
 		// After pressure alert issued, time until it will display the alert again instead of opening.
-		private int pressureWarningCooldown = 5;
-		private int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
-		private int pressureThresholdWarning = 120;
+		private readonly int pressureWarningCooldown = 5;
+		private readonly int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
+		private readonly int pressureThresholdWarning = 120;
 		private bool pressureWarnActive = false;
-		[HideInInspector] public PressureLevel pressureLevel = PressureLevel.Safe;
+
+		public PressureLevel CurrentPressureLevel { get; private set; } = PressureLevel.Safe;
 
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
@@ -118,8 +121,7 @@ namespace Doors
 			}
 		}
 
-		[HideInInspector] public SpriteRenderer spriteRenderer;
-
+		private SpriteRenderer spriteRenderer;
 
 		private HackingProcessBase hackingProcess;
 		public HackingProcessBase HackingProcess => hackingProcess;
@@ -317,6 +319,7 @@ namespace Doors
 				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.AccessDenied);
 			}
 		}
+
 		public void MobTryOpen(GameObject originator)
 		{
 			if (IsClosed == false || isPerformingAction) return;
@@ -529,17 +532,17 @@ namespace Doors
 			// Set pressureLevel according to the pressure difference found.
 			if (vertPressureDiff >= pressureThresholdWarning || horzPressureDiff >= pressureThresholdWarning)
 			{
-				pressureLevel = PressureLevel.Warning;
+				CurrentPressureLevel = PressureLevel.Warning;
 				return true;
 			}
 
 			if (vertPressureDiff >= pressureThresholdCaution || horzPressureDiff >= pressureThresholdCaution)
 			{
-				pressureLevel = PressureLevel.Caution;
+				CurrentPressureLevel = PressureLevel.Caution;
 				return true;
 			}
 
-			pressureLevel = PressureLevel.Safe;
+			CurrentPressureLevel = PressureLevel.Safe;
 			return false;
 		}
 
@@ -641,21 +644,34 @@ namespace Doors
 			cancelCloseTimer.AddToInputMethods(CancelWaiting);
 		}
 
-		#region ISsetMultitoolSlave
+		#region Multitool Interaction
 
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
-		public MultitoolConnectionType ConType => conType;
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		[SerializeField]
+		[Tooltip("Whether this door type requires a linked door button (e.g. shutters).")]
+		private bool requireLink = false;
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false;
+		// TODO: should be requireLink but hardcoded to false for now,
+		// doors don't know about links, only the switches
+
+		private IMultitoolMasterable doorMaster;
+
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var doorSwitch = (Imaster as DoorSwitch);
+			doorMaster = master;
+
+			var doorSwitch = master as DoorSwitch;
 			if (doorSwitch)
 			{
 				doorSwitch.DoorControllers.Add(this);
 				return;
 			}
-			var statusDisplay = (Imaster as StatusDisplay);
+			var statusDisplay = master as StatusDisplay;
 			if (statusDisplay)
 			{
 				statusDisplay.LinkDoor(this);

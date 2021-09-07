@@ -1074,11 +1074,11 @@ namespace Objects.Engineering
 
 		private void AddMessageToChat(string message, bool sendToCommon = false)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, broadcasterName: "Supermatter Warning System: ");
+			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, Loudness.SCREAMING,  broadcasterName: "Supermatter Warning System: ");
 
 			if (sendToCommon)
 			{
-				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, broadcasterName: "Supermatter Warning System: ");
+				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, Loudness.SCREAMING, broadcasterName: "Supermatter Warning System: ");
 			}
 		}
 
@@ -1127,7 +1127,7 @@ namespace Objects.Engineering
 					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
 					$"The {(job != null ? job.JobType.JobString() : "person")} slams into the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				playerHealth.ServerGibPlayer();
+				playerHealth.Gib();
 				matterPower += 100;
 			}
 			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
@@ -1184,7 +1184,7 @@ namespace Objects.Engineering
 					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				interaction.Performer.GetComponent<PlayerHealthV2>().ServerGibPlayer();
+				interaction.Performer.GetComponent<PlayerHealthV2>().Gib();
 				matterPower += 200;
 				return;
 			}

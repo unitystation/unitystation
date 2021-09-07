@@ -13,6 +13,38 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 846cca30478407d4490c065ecebbff6a,
         type: 2}
+    - target: {fileID: 2247903263642239621, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: foreverID
+      value: d33ad316eee704545bee21afa56eed0a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 69553cd91b78bb3419e82d4669a55619,
+        type: 2}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e8a9ba94db6a9342bacc0dfd530345d,
+        type: 2}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4612674189833307966, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4712185004488139146, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: initialName
@@ -32,7 +64,7 @@ PrefabInstance:
     - target: {fileID: 5052093646653092700, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d33ad316eee704545bee21afa56eed0a
       objectReference: {fileID: 0}
     - target: {fileID: 5154530300557905640, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}

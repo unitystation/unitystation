@@ -9,13 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
-      propertyPath: initialDescription
-      value: A silver medal.
+      propertyPath: initialName
+      value: silver medal
       objectReference: {fileID: 0}
     - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
-      propertyPath: initialName
-      value: silver medal
+      propertyPath: initialDescription
+      value: A silver medal.
+      objectReference: {fileID: 0}
+    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 986060116320561314, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 00585e1640b90704c80577abf89e78fe
       objectReference: {fileID: 0}
     - target: {fileID: 1065928657088587338, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
@@ -88,6 +88,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: be2d6bb5b46099e46bf442ff6f2ed85d,
         type: 3}
+    - target: {fileID: 6089354946516490619, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
+      propertyPath: foreverID
+      value: 00585e1640b90704c80577abf89e78fe
+      objectReference: {fileID: 0}
     - target: {fileID: 6448339774262161041, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
       propertyPath: PresentSpriteSet

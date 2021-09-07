@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: efbc8c2ff833d4924a01c0a134819dd7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d0f1a9b75fd9b4c4498f65e576a9d815
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: efbc8c2ff833d4924a01c0a134819dd7,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Skiiiiirts! They're comfy and easy to wear!
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: efbc8c2ff833d4924a01c0a134819dd7,
+        type: 3}
+      propertyPath: foreverID
+      value: d0f1a9b75fd9b4c4498f65e576a9d815
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: efbc8c2ff833d4924a01c0a134819dd7,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: c9c974513a0c87f40a0b3b4b68b447f5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: efbc8c2ff833d4924a01c0a134819dd7,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: c9c974513a0c87f40a0b3b4b68b447f5,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: efbc8c2ff833d4924a01c0a134819dd7,
         type: 3}
       propertyPath: allClothingData.Array.size

@@ -62,6 +62,13 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: 2445b31fbca7544668ce953da308a35e,
     type: 2}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!1001 &2481163985943512178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -96,6 +108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -108,16 +125,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4089186073145092799, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
@@ -137,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 4123048385342335615, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 868598a9acc5f40b0811af946a2c4c27
       objectReference: {fileID: 0}
     - target: {fileID: 4205731678033339543, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
@@ -145,6 +152,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 298efc3197e5fd34f87f478691d47745,
         type: 3}
+    - target: {fileID: 6923878523984042918, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: foreverID
+      value: 868598a9acc5f40b0811af946a2c4c27
+      objectReference: {fileID: 0}
     - target: {fileID: 7920186904468745292, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
       propertyPath: PresentSpriteSet

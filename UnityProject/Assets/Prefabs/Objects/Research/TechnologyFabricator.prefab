@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 532654248772749479, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: foreverID
+      value: 673bb8fcbfe706f4ba328a489e31337d
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3458768742847279156, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
@@ -81,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 5028383164152644492, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 673bb8fcbfe706f4ba328a489e31337d
       objectReference: {fileID: 0}
     - target: {fileID: 5474542323722123635, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
@@ -90,13 +95,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6102460939592706526, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: initialDescription
-      value: Produces researched prototypes with raw materials and energy.
+      propertyPath: initialName
+      value: technology fabricator
       objectReference: {fileID: 0}
     - target: {fileID: 6102460939592706526, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
-      propertyPath: initialName
-      value: technology fabricator
+      propertyPath: initialDescription
+      value: Produces researched prototypes with raw materials and energy.
       objectReference: {fileID: 0}
     - target: {fileID: 6379599124369364758, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}

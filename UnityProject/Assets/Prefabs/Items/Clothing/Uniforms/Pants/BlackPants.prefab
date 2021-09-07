@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a5844cd2f1544d946ba8fc5d4bb031a9
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
@@ -93,18 +93,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: These pants are dark, like your soul.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: foreverID
+      value: a5844cd2f1544d946ba8fc5d4bb031a9
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: fac89d740e0574a41b3f8bba8df07a5a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: fac89d740e0574a41b3f8bba8df07a5a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: allClothingData.Array.size

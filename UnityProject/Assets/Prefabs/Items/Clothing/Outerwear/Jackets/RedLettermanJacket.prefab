@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 1972636957058363524, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e169476adb876314fb07751ec251af06
       objectReference: {fileID: 0}
     - target: {fileID: 2024818765580378706, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A letterman jacket in a sick red color. Radical.
       objectReference: {fileID: 0}
+    - target: {fileID: 4777961452559450461, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: foreverID
+      value: e169476adb876314fb07751ec251af06
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: a7ad88491f028a048a607a86c7b7f6ce,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: a7ad88491f028a048a607a86c7b7f6ce,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: allClothingData.Array.data[0]

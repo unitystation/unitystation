@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentClothData: {fileID: 11400000, guid: 02d07b1e8dc72e14d8d7c99082530b99, type: 2}
   allClothingData:
   - {fileID: 11400000, guid: 7edd6ca79c0e81440912e98aef899d45, type: 2}
+  CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
   hidesSlots: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: 0
-  bodyPartsCovered: 144
+  armoredBodyParts: []
 --- !u!1001 &2418701848222554733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6603caafe8df84b4da1c797343cdf8c6
       objectReference: {fileID: 0}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -286,6 +286,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b53dc3b0a84769f47b45ca590d630c20,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 6603caafe8df84b4da1c797343cdf8c6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2419386692754613975 stripped

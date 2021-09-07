@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCapacity: 100
+  reactionSet: {fileID: 0}
+  AdditionalReactions: []
+  canPourOut: 1
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
+      m_values:
+      - 50
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -20,16 +34,6 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
-  maxCapacity: 100
-  reactionSet: {fileID: 0}
-  initialReagentMix:
-    temperature: 273.15
-    reagents:
-      m_keys:
-      - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
-      m_values:
-      - 50
-  destroyOnEmpty: 0
 --- !u!1001 &3211217492437785200
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58,6 +62,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cd74e0ac4b6be904ab60bf01f7e20523,
         type: 2}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: foreverID
+      value: 7a080af524aab314bac7f69c18defcd5
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -67,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 7a080af524aab314bac7f69c18defcd5
       objectReference: {fileID: 0}
     - target: {fileID: 7596215297033493493, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}

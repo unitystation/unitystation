@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1601877131454361120, guid: 9781a25036990ed43b7e4b019eb70edf,
+        type: 3}
+      propertyPath: foreverID
+      value: 5e3c47b463befd44ebaa3bc0bfeea116
+      objectReference: {fileID: 0}
     - target: {fileID: 4403089686799682851, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}
       propertyPath: m_Sprite
@@ -15,15 +20,15 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4705393404546231191, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}
-      propertyPath: itemStoragePopulator
-      value: 
-      objectReference: {fileID: 11400000, guid: f390530f1ef4b524d892a92f2a6278a6,
-        type: 2}
-    - target: {fileID: 4705393404546231191, guid: 9781a25036990ed43b7e4b019eb70edf,
-        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
+        type: 2}
+    - target: {fileID: 4705393404546231191, guid: 9781a25036990ed43b7e4b019eb70edf,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: f390530f1ef4b524d892a92f2a6278a6,
         type: 2}
     - target: {fileID: 5218582986421620015, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoxedSpacesuitAndHelmetRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661650386711699257, guid: 9781a25036990ed43b7e4b019eb70edf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5661650386711699257, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}
@@ -52,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661650386711699257, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661650386711699257, guid: 9781a25036990ed43b7e4b019eb70edf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5661650386711699257, guid: 9781a25036990ed43b7e4b019eb70edf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5661650386711699257, guid: 9781a25036990ed43b7e4b019eb70edf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5661650386711699257, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}
@@ -93,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 5698617857185488889, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5e3c47b463befd44ebaa3bc0bfeea116
       objectReference: {fileID: 0}
     - target: {fileID: 7726880031108418101, guid: 9781a25036990ed43b7e4b019eb70edf,
         type: 3}

@@ -13,10 +13,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 751b203873ee8cf4ba820fe0b67f24e7,
         type: 2}
+    - target: {fileID: 4079364301731879441, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: foreverID
+      value: dcd3d8f4ab469334fbf3b48a5ef58607
+      objectReference: {fileID: 0}
     - target: {fileID: 6928341471179888252, guid: 68259771352072a48a290530b2894872,
         type: 3}
       propertyPath: m_Name
       value: RedBeetSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932706669749906184, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6932706669749906184, guid: 68259771352072a48a290530b2894872,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6932706669749906184, guid: 68259771352072a48a290530b2894872,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932706669749906184, guid: 68259771352072a48a290530b2894872,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932706669749906184, guid: 68259771352072a48a290530b2894872,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932706669749906184, guid: 68259771352072a48a290530b2894872,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6932706669749906184, guid: 68259771352072a48a290530b2894872,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 7039790615201508296, guid: 68259771352072a48a290530b2894872,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dcd3d8f4ab469334fbf3b48a5ef58607
       objectReference: {fileID: 0}
     - target: {fileID: 7122333138192033056, guid: 68259771352072a48a290530b2894872,
         type: 3}
@@ -86,19 +91,31 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7407281640957098270, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into red beet producing plants.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7407281640957098270, guid: 68259771352072a48a290530b2894872,
-        type: 3}
       propertyPath: initialName
       value: pack of red-beet seeds
       objectReference: {fileID: 0}
+    - target: {fileID: 7407281640957098270, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into red beet producing plants.
+      objectReference: {fileID: 0}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Red-Beets
       objectReference: {fileID: 0}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 2158840864618617598, guid: f866b6c644819d54aa67d13c291864a2,
+        type: 3}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 60ec29b664af2fa42b9526ac2880db6a,
+        type: 2}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
       propertyPath: plantData.PlantTrays.Array.size
@@ -109,23 +126,6 @@ PrefabInstance:
       propertyPath: plantData.PlantTrays.Array.data[0]
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
-        type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 2158840864618617598, guid: f866b6c644819d54aa67d13c291864a2,
-        type: 3}
-    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Red-Beets
-      objectReference: {fileID: 0}
-    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
-        type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 60ec29b664af2fa42b9526ac2880db6a,
-        type: 2}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
@@ -162,5 +162,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1ab8c6cee831473498df053df82d8257,
         type: 2}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68259771352072a48a290530b2894872, type: 3}

@@ -81,26 +81,29 @@ PrefabInstance:
     - target: {fileID: 4605971632700963487, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 33793e0224c07bf43bae5f15795a96f2
       objectReference: {fileID: 0}
     - target: {fileID: 7350646277977986222, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: f7368eb1a877f7b44aeba5663a26e081,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7350646277977986222, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: f7368eb1a877f7b44aeba5663a26e081,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7350646277977986222, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 8b0105358b7e7e24896038f7cac1d426,
         type: 2}
+    - target: {fileID: 7405394121583430470, guid: 483d868593040d54e8056686427e95d9,
+        type: 3}
+      propertyPath: foreverID
+      value: 33793e0224c07bf43bae5f15795a96f2
+      objectReference: {fileID: 0}
     - target: {fileID: 7726374192458120364, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -12,20 +12,30 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
+    - target: {fileID: 1608437286450332735, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: initialDescription
-      value: A rubbery strip of gum. It smells funny.
+      propertyPath: StartingNutrients
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4557544868882319906, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: foreverID
+      value: 18bf019881d9c2544975b9613e24a164
       objectReference: {fileID: 0}
     - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: initialName
       value: HP+ gum
       objectReference: {fileID: 0}
+    - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialDescription
+      value: A rubbery strip of gum. It smells funny.
+      objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: m_Color.r
-      value: 0.93333334
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -34,18 +44,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
-      propertyPath: m_Color.b
-      value: 1
+      propertyPath: m_Color.r
+      value: 0.93333334
       objectReference: {fileID: 0}
     - target: {fileID: 7354706488053939195, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 18bf019881d9c2544975b9613e24a164
       objectReference: {fileID: 0}
     - target: {fileID: 7459402500379575887, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
       propertyPath: m_Name
       value: HPPlusGum
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
@@ -64,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -76,16 +96,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
         type: 3}

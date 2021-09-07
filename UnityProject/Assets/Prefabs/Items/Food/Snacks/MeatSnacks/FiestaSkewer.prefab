@@ -9,23 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 218119940625843155, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: initialDescription
-      value: "\xA1M\xE1s, por favor!"
+      propertyPath: initialName
+      value: fiesta skewer
       objectReference: {fileID: 0}
     - target: {fileID: 218119940625843155, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
-      propertyPath: initialName
-      value: fiesta skewer
+      propertyPath: initialDescription
+      value: "\xA1M\xE1s, por favor!"
       objectReference: {fileID: 0}
     - target: {fileID: 324054398724280581, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f1cd290a600f6c94cba8a03149898f04
       objectReference: {fileID: 0}
     - target: {fileID: 426558122298125489, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
       propertyPath: m_Name
       value: FiestaSkewer
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
@@ -44,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -56,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 430360371111875013, guid: 36fc7777ec7adb649b33688a3fde3e67,
         type: 3}
@@ -88,5 +88,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1a9da36a66a01994db0cd24f3bf9aa6c,
         type: 3}
+    - target: {fileID: 6724377536685973724, guid: 36fc7777ec7adb649b33688a3fde3e67,
+        type: 3}
+      propertyPath: foreverID
+      value: f1cd290a600f6c94cba8a03149898f04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36fc7777ec7adb649b33688a3fde3e67, type: 3}

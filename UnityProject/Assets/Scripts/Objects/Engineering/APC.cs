@@ -1,21 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AddressableReferences;
-using Electricity.Inheritance;
-using Systems.Electricity;
-using Mirror;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Systems.Electricity.NodeModules;
-using Objects.Lighting;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
+using Mirror;
+using AddressableReferences;
+using Systems.Electricity;
+using Systems.Electricity.NodeModules;
+using Systems.ObjectConnection;
+using Objects.Lighting;
+using Core.Editor.Attributes;
 
 namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, INodeControl, IServerDespawn, ISetMultitoolMaster
+	public class APC : SubscriptionController, INodeControl, IServerDespawn, IMultitoolMasterable
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -48,11 +49,12 @@ namespace Objects.Engineering
 		private ResistanceSourceModule resistanceSourceModule;
 
 
-		[SerializeField, FormerlySerializedAs("NetTabType")]
+		[SerializeField, PrefabModeOnly, FormerlySerializedAs("NetTabType")]
 		private NetTabType netTabType = NetTabType.APC;
 
 		[Tooltip("Sound used when the APC loses all power.")]
-		[SerializeField] private AddressableAudioSource NoPowerSound = null;
+		[SerializeField, PrefabModeOnly]
+		private AddressableAudioSource NoPowerSound = null;
 
 		[NonSerialized]
 		//Called every power network update
@@ -299,22 +301,27 @@ namespace Objects.Engineering
 		/// <summary>
 		/// The screen sprites which are currently being displayed
 		/// </summary>
+		[PrefabModeOnly]
 		Sprite[] loadedScreenSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is in a critical state
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] criticalSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is charging
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] chargingSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is fully charged
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] fullSprites;
 		/// <summary>
 		/// The sprite renderer for the APC display
 		/// </summary>
+		[PrefabModeOnly]
 		public SpriteRenderer screenDisplay;
 		/// <summary>
 		/// The sprite index for the display animation
@@ -414,40 +421,15 @@ namespace Objects.Engineering
 			}
 		}
 
-		#region Editor
-
-		void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
-
-			//Highlighting all controlled lightSources
-			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-			for (int i = 0; i < connectedDevices.Count; i++)
-			{
-				var lightSource = connectedDevices[i];
-				if(lightSource == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
-				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
-			}
-		}
-
-		#endregion
-
 		#region Multitool Interaction
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.APC;
-		public MultitoolConnectionType ConType  => conType;
+		public MultitoolConnectionType ConType => MultitoolConnectionType.APC;
 
 		[SerializeField]
 		private bool multiMaster = true;
-		public bool MultiMaster  => multiMaster;
+		public bool MultiMaster => multiMaster;
 
-		public void AddSlave(object slaveObject)
-		{
-		}
+		int IMultitoolMasterable.MaxDistance => 30;
 
 		public void RemoveDevice(APCPoweredDevice apcPoweredDevice)
 		{

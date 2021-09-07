@@ -10,22 +10,27 @@ PrefabInstance:
     - target: {fileID: 4021817436656805436, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4714618469669812041, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.99215686
+      value: b7fe45fc138b6244d9e30a240e69f24c
       objectReference: {fileID: 0}
     - target: {fileID: 4714618469669812041, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_Color.b
       value: 0.7647059
       objectReference: {fileID: 0}
+    - target: {fileID: 4714618469669812041, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.99215686
+      objectReference: {fileID: 0}
     - target: {fileID: 4759614777447289694, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_Name
       value: ComfyChairBeige
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
@@ -44,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -56,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
@@ -82,15 +82,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9120451367959794684, guid: 670ba51760414e64093966f4abfab82d,
+    - target: {fileID: 8465751665797688599, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
-      propertyPath: m_Color.g
-      value: 0.99215686
+      propertyPath: foreverID
+      value: b7fe45fc138b6244d9e30a240e69f24c
       objectReference: {fileID: 0}
     - target: {fileID: 9120451367959794684, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_Color.b
       value: 0.7647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120451367959794684, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.99215686
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 670ba51760414e64093966f4abfab82d, type: 3}

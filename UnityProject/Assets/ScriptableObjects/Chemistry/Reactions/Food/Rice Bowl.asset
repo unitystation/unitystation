@@ -21,8 +21,15 @@ MonoBehaviour:
   catalysts:
     m_keys: []
     m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
   results:
     m_keys: []
     m_values: 
   effects:
-  - {fileID: 11400000, guid: c7924cca7cd2dd748b7a79a1ac05cdf3, type: 2}
+  - {fileID: 11400000, guid: eae3f82cbe10d524cb787a295ddf200f, type: 2}

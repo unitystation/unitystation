@@ -366,7 +366,7 @@ namespace Systems.Cargo
 			var playerScript = item.GetComponent<PlayerScript>();
 			if (playerScript != null)
 			{
-				playerScript.playerHealth.ServerGibPlayer();
+				playerScript.playerHealth.Gib();
 			}
 
 			DespawnItem(item, alreadySold);

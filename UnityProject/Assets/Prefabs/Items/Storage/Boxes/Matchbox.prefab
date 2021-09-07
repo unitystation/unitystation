@@ -18,15 +18,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fdcb8c10d80bd7c42a0f5cb6ef2ee8f8,
         type: 2}
-    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+    - target: {fileID: 3417345767468294455, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: initialDescription
-      value: A small box of Almost But Not Quite Plasma Premium Matches.
+      propertyPath: foreverID
+      value: e9bd445fe39671f4da3d8e41bf5a252e
       objectReference: {fileID: 0}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -35,21 +30,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small box of Almost But Not Quite Plasma Premium Matches.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 25a779719ab67d64893320c5927b97d1,
         type: 2}
-    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 94627fdd0110ecc44902b8b05743c641,
-        type: 2}
-    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: initialSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: initialTraits.Array.data[0]
@@ -62,6 +61,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1d7b42b70a6e8ad40a4c42eb46980d1e,
         type: 2}
+    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 94627fdd0110ecc44902b8b05743c641,
+        type: 2}
     - target: {fileID: 8441880568126201350, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_Sprite
@@ -71,7 +76,12 @@ PrefabInstance:
     - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e9bd445fe39671f4da3d8e41bf5a252e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -90,6 +100,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -102,16 +117,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
@@ -141,15 +146,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
-        type: 2}
-    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
-        type: 3}
       propertyPath: itemStoragePopulator
       value: 
       objectReference: {fileID: 11400000, guid: 8ead1a16e217614498fac152b9db206a,
+        type: 2}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
         type: 2}
     - target: {fileID: 8839883583913555898, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}

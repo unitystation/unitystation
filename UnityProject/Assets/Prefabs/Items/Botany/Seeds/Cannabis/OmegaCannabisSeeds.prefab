@@ -13,10 +13,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9dd6af8907e866c47a24b74e80073f60,
         type: 2}
-    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+    - target: {fileID: 1042744992957779452, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: foreverID
+      value: c922edd9ccbbb524ea09b00c4527be02
       objectReference: {fileID: 0}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -31,6 +31,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 6651248569108595413, guid: 5a2fe0973f2c0c64aa41b9ccf1329fe1,
+        type: 3}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: eb3986357dd73a244b5b09281c9b1c14,
@@ -43,19 +49,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
-      propertyPath: plantData.ProduceObject
-      value: 
-      objectReference: {fileID: 6651248569108595413, guid: 5a2fe0973f2c0c64aa41b9ccf1329fe1,
-        type: 3}
-    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into omega cannabis.
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: initialName
       value: pack of omega cannabis seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into omega cannabis.
       objectReference: {fileID: 0}
     - target: {fileID: 6067438808337380045, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -67,6 +72,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OmegaCannabisSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -85,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -97,16 +112,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6255966968111643877, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
@@ -126,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 6293252128790379557, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c922edd9ccbbb524ea09b00c4527be02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2ecbd3591e115b459b0160c82af302c, type: 3}

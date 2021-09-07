@@ -135,50 +135,6 @@ public class Armor
 
 		return 0;
 	}
-
-	/// <summary>
-	/// Operator override to add all armor types with ease. Thank you, Redline.
-	/// </summary>
-	public static Armor operator +(Armor a, Armor b)
-	{
-		var armor = new Armor
-		{
-			Melee = a.Melee + b.Melee,
-			Bullet = a.Bullet + b.Bullet,
-			Laser = a.Laser + b.Laser,
-			Energy = a.Energy + b.Energy,
-			Bomb = a.Bomb + b.Bomb,
-			Rad = a.Rad + b.Rad,
-			Fire = a.Fire + b.Fire,
-			Acid = a.Acid + b.Acid,
-			Magic = a.Magic + b.Magic,
-			Bio = a.Bio + b.Bio
-		};
-
-		return armor;
-	}
-
-	/// <summary>
-	/// Operator override to subtract all armor types with ease. Thank you, Redline.
-	/// </summary>
-	public static Armor operator -(Armor a, Armor b)
-	{
-		var armor = new Armor
-		{
-			Melee = a.Melee - b.Melee,
-			Bullet = a.Bullet - b.Bullet,
-			Laser = a.Laser - b.Laser,
-			Energy = a.Energy - b.Energy,
-			Bomb = a.Bomb - b.Bomb,
-			Rad = a.Rad - b.Rad,
-			Fire = a.Fire - b.Fire,
-			Acid = a.Acid - b.Acid,
-			Magic = a.Magic - b.Magic,
-			Bio = a.Bio - b.Bio
-		};
-
-		return armor;
-	}
 }
 
 /// <summary>

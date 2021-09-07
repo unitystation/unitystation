@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a965911a45c0d43bcf62a847baadc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tier: 1
+  tier: 1
 --- !u!1001 &3051415753974065259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 792079a5e2a75f94fab3174a3bcd7033
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -99,6 +99,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0ce8d5c07b7a94c45a0747a66466e58a,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 792079a5e2a75f94fab3174a3bcd7033
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &3052131659407643857 stripped

@@ -299,7 +299,7 @@ namespace AdminCommands
 
 					LogAdminAction(message);
 
-					player.Script.playerHealth.ServerGibPlayer();
+					player.Script.playerHealth.Gib();
 				}
 			}
 		}

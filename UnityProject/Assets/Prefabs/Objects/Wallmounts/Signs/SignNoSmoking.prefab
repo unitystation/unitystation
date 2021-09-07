@@ -9,18 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
-      propertyPath: initialDescription
-      value: A warning sign which reads 'NO SMOKING'.
+      propertyPath: initialName
+      value: NO SMOKING sign
       objectReference: {fileID: 0}
     - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
-      propertyPath: initialName
-      value: NO SMOKING sign
+      propertyPath: initialDescription
+      value: A warning sign which reads 'NO SMOKING'.
       objectReference: {fileID: 0}
     - target: {fileID: 1993339627899042215, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 88936f2a4a1dafc42a390cb82d55df21
       objectReference: {fileID: 0}
     - target: {fileID: 3180916555793212959, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
@@ -28,12 +28,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 14c25f5603936654192d82e0fd2d0b25,
         type: 2}
+    - target: {fileID: 6414808378359280268, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: foreverID
+      value: 88936f2a4a1dafc42a390cb82d55df21
+      objectReference: {fileID: 0}
     - target: {fileID: 7859958884216940754, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a2cd83fe52905bd468eb2f2a680edb31,
         type: 3}
+    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -51,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}

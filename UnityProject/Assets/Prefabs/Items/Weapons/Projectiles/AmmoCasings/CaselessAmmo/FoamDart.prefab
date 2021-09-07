@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 1347949146380736350, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c85b28d3e2e443540933f905c954c98d
       objectReference: {fileID: 0}
     - target: {fileID: 1348118095198553914, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -47,6 +47,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FoamDart
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -65,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1383545319761565598, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -105,8 +105,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: initialName
+      value: foam dart
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -115,8 +115,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
-      propertyPath: initialName
-      value: foam dart
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -130,6 +130,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b229198c337b4544eb0ad306ef2bba67,
         type: 2}
+    - target: {fileID: 5447786440518084231, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: foreverID
+      value: c85b28d3e2e443540933f905c954c98d
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2087e57fe27fd8419f779b3abb9cf91, type: 3}
 --- !u!1 &1510177817998055822 stripped

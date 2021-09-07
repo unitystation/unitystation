@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d69d21d87d03cd942ae6cc1575bf489a,
         type: 2}
+    - target: {fileID: 3165337639998408403, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
+        type: 3}
+      propertyPath: foreverID
+      value: 100daf2a94818ad48b7722576f459975
+      objectReference: {fileID: 0}
     - target: {fileID: 8189450301683136994, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
       propertyPath: m_Sprite
@@ -22,7 +27,12 @@ PrefabInstance:
     - target: {fileID: 8269459577751402250, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 100daf2a94818ad48b7722576f459975
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
@@ -41,6 +51,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +68,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8305959412385232842, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
@@ -86,13 +91,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8483280315792565724, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
-      propertyPath: initialDescription
-      value: Goes great with a mason jar of hippie's delight.
+      propertyPath: initialName
+      value: bungo jelly donut
       objectReference: {fileID: 0}
     - target: {fileID: 8483280315792565724, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6,
         type: 3}
-      propertyPath: initialName
-      value: bungo jelly donut
+      propertyPath: initialDescription
+      value: Goes great with a mason jar of hippie's delight.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c97d4bcbe36a3a2448a6ebe3e9ac50e6, type: 3}

@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Blood-Tomato Plants
       objectReference: {fileID: 0}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
@@ -26,8 +26,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3243698499755463125, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Blood-Tomato Plants
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4039221980297394224, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
@@ -35,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8fc0113e0516f064ea3ed928686a24c2,
         type: 3}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4245844695371101720, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
@@ -98,17 +98,22 @@ PrefabInstance:
     - target: {fileID: 4281783023236052696, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 261e647a61290824199c4d20288a5c60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: initialName
+      value: pack of blood-tomato seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: initialDescription
       value: These seeds grow into blood-tomato plants.
       objectReference: {fileID: 0}
-    - target: {fileID: 4328625362775548942, guid: 650450916815dfb4ba0aa087a3006beb,
+    - target: {fileID: 7081205100875466497, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
-      propertyPath: initialName
-      value: pack of blood-tomato seeds
+      propertyPath: foreverID
+      value: 261e647a61290824199c4d20288a5c60
       objectReference: {fileID: 0}
     - target: {fileID: 8050703676988518635, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}

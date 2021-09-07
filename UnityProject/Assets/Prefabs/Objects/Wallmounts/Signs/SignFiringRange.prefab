@@ -9,19 +9,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
+      propertyPath: initialName
+      value: FIRING RANGE sign
+      objectReference: {fileID: 0}
+    - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
       propertyPath: initialDescription
       value: A sign reminding you to remain behind the firing line, and to wear ear
         protection.
       objectReference: {fileID: 0}
-    - target: {fileID: 779667991303328757, guid: 1f61548e395dbe8449f041a728c5af66,
-        type: 3}
-      propertyPath: initialName
-      value: FIRING RANGE sign
-      objectReference: {fileID: 0}
     - target: {fileID: 1993339627899042215, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 64dcd93ef69c0da42957e79e7d0c77ea
       objectReference: {fileID: 0}
     - target: {fileID: 3180916555793212959, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
@@ -29,12 +29,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 497997c21e09b944e9441c034ff53b57,
         type: 2}
+    - target: {fileID: 6414808378359280268, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: foreverID
+      value: 64dcd93ef69c0da42957e79e7d0c77ea
+      objectReference: {fileID: 0}
     - target: {fileID: 7859958884216940754, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 81e34f3f77bf49d43bb782006da739b6,
         type: 3}
+    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +79,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7953822948402186783, guid: 1f61548e395dbe8449f041a728c5af66,
         type: 3}

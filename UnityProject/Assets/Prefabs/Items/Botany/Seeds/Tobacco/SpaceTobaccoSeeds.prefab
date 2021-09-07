@@ -16,7 +16,12 @@ PrefabInstance:
     - target: {fileID: 3053914198047544001, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 279091c1d08eb8e4aae890b306acd7ff
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3163243758904873473, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
@@ -80,18 +80,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3249349211884781591, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into space tobacco plants.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3249349211884781591, guid: af4c7dccbd72a7648bc1cf6bc8647285,
-        type: 3}
       propertyPath: initialName
       value: pack of space tobacco seeds
       objectReference: {fileID: 0}
+    - target: {fileID: 3249349211884781591, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into space tobacco plants.
+      objectReference: {fileID: 0}
     - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Space Tobacco Plants
       objectReference: {fileID: 0}
     - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
@@ -99,11 +99,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5208433431273580862, guid: 5e93d1a52c2e395488ca9a198c3b402e,
         type: 3}
-    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Space Tobacco Plants
-      objectReference: {fileID: 0}
     - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
@@ -128,6 +123,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 87505173646803e4da4f3c9d1011138b,
         type: 2}
+    - target: {fileID: 4326185354509514188, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8308897995474133784, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+        type: 3}
+      propertyPath: foreverID
+      value: 279091c1d08eb8e4aae890b306acd7ff
+      objectReference: {fileID: 0}
     - target: {fileID: 9129786451129128178, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
       propertyPath: PresentSpriteSet

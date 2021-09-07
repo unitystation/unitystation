@@ -13,12 +13,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8507167391423018061, guid: e9f042c799112da4ca6db093270f8082,
         type: 3}
+    - target: {fileID: 3467980982926270619, guid: eae3273562cc275408dc688bd15d2c87,
+        type: 3}
+      propertyPath: foreverID
+      value: 672132b5572787e42b76aba2f776fe9a
+      objectReference: {fileID: 0}
     - target: {fileID: 4457464703293609841, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: df8bc1d5fe71c944dac6037e6176279b,
         type: 2}
+    - target: {fileID: 6851257989432534490, guid: eae3273562cc275408dc688bd15d2c87,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 8507167391423018061, guid: e9f042c799112da4ca6db093270f8082,
+        type: 3}
+    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7532698706675405186, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
@@ -82,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 7570043172600205634, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 672132b5572787e42b76aba2f776fe9a
       objectReference: {fileID: 0}
     - target: {fileID: 7960003508206764948, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}

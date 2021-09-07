@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leavings: {fileID: 0}
-  copyPlantDataToLeavings: 0
-  eatSound:
+  sound:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  NutritionLevel: 0
+  StartingNutrients: 0
+  Nutriment: {fileID: 0}
 --- !u!1001 &1589238156592565650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29,6 +29,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3798299677133241229, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: foreverID
+      value: 41b8ba286ee48d147b5b90a4535e27c8
+      objectReference: {fileID: 0}
     - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -204,7 +209,7 @@ PrefabInstance:
     - target: {fileID: 7897283028627769940, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 41b8ba286ee48d147b5b90a4535e27c8
       objectReference: {fileID: 0}
     - target: {fileID: 7997558505216099516, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}

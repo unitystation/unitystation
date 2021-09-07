@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Atmospherics;
-using Pipes;
 
-namespace Pipes
+
+namespace Objects.Atmospherics
 {
 	public class AirVent : MonoPipe, IServerSpawn
 	{

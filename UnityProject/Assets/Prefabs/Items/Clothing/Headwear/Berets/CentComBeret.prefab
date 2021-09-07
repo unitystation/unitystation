@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 3061756049588866409, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4f882acc8095667489ce618083ca7b4a
       objectReference: {fileID: 0}
     - target: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: A special beret with the NanoTrasen logo emblazoned on it. For where
         no man has gone before.
       objectReference: {fileID: 0}
+    - target: {fileID: 8309993002612325552, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: foreverID
+      value: 4f882acc8095667489ce618083ca7b4a
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0391db0fd79450d4394cff2a51a708b6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0391db0fd79450d4394cff2a51a708b6,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: allClothingData.Array.size

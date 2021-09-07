@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5095716659292682887
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 504394245435951421, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bio
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 504394245435951421, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Acid
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 504394245435951421, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289707229103323322, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: initialName
+      value: chief medical officer's winter hood
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289707229103323322, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: initialDescription
+      value: A blue winter coat hood.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391492129781918316, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 0017be215ecffe6458d5403bc55814b9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424086568146114520, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_Name
+      value: ChiefMedicalOfficersWinterHood
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428728843238992556, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581417390696834180, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ad6707c82f8767241bc435dd60741eab,
+        type: 3}
+    - target: {fileID: 7284776635404207197, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a6af143c500bf54482685c8bef2cb0e,
+        type: 2}
+    - target: {fileID: 7340650441459801013, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: foreverID
+      value: 0017be215ecffe6458d5403bc55814b9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504013463171083359, guid: f20181605e8d37a4b84ed0090f6d8432,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 45619f2ca0d93e1469a37043e1dc2a84,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f20181605e8d37a4b84ed0090f6d8432, type: 3}

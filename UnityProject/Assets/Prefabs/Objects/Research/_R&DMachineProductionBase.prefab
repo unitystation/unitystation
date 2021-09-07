@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 2063543918209415952, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_Name
-      value: R&DMachineProductionBase
+      value: _R&DMachineProductionBase
       objectReference: {fileID: 0}
     - target: {fileID: 2801585105273115838, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_Name
       value: R&DMachineProductionBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2801585105273135665, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2801585105273135665, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
@@ -34,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2801585105273135665, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2801585105273135665, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2801585105273135665, guid: 84ac8abc1d963be42906a209a1b97350,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2801585105273135665, guid: 84ac8abc1d963be42906a209a1b97350,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2801585105273135665, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
@@ -79,18 +79,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2801585105273350189, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
-      propertyPath: initialDescription
-      value: Makes researched and prototype items with materials and energy.
+      propertyPath: initialName
+      value: technology fabricator
       objectReference: {fileID: 0}
     - target: {fileID: 2801585105273350189, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
-      propertyPath: initialName
-      value: technology fabricator
+      propertyPath: initialDescription
+      value: Makes researched and prototype items with materials and energy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: foreverID
+      value: 76c4b888beee06f4c9fda031b6e4d47b
       objectReference: {fileID: 0}
     - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 76c4b888beee06f4c9fda031b6e4d47b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84ac8abc1d963be42906a209a1b97350, type: 3}

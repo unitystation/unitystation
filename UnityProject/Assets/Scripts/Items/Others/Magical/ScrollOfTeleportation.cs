@@ -47,7 +47,7 @@ namespace Items.Scrolls.TeleportScroll
 					teleportSpell.CastSound, teleportingPlayer.Script.WorldPos, sourceObj: teleportingPlayer.GameObject);
 
 			var incantation = $"{teleportSpell.InvocationMessage.Trim('!')} {destination.ToString().ToUpper()}!";
-			Chat.AddChatMsgToChat(teleportingPlayer, incantation, ChatChannel.Local);
+			Chat.AddChatMsgToChat(teleportingPlayer, incantation, ChatChannel.Local, Loudness.LOUD);
 
 			ChargesRemaining--;
 		}

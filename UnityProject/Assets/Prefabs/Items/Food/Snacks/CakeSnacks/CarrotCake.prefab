@@ -30,23 +30,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
-      propertyPath: initialDescription
-      value: A favorite desert of a certain wascally wabbit. Not a lie.
+      propertyPath: initialName
+      value: carrot cake
       objectReference: {fileID: 0}
     - target: {fileID: 1417260671552940035, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
-      propertyPath: initialName
-      value: carrot cake
+      propertyPath: initialDescription
+      value: A favorite desert of a certain wascally wabbit. Not a lie.
       objectReference: {fileID: 0}
     - target: {fileID: 1500455408126966485, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9fc4662a69fe1794f81c6e6fd0baf785
       objectReference: {fileID: 0}
     - target: {fileID: 1533059672834475873, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: m_Name
       value: CarrotCake
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -65,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1537143122019154453, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
@@ -109,11 +109,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 74b9f308bb107b949b536ddd0bafb5e7,
         type: 3}
+    - target: {fileID: 1708957981030462525, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4611855969228700902, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 02ee614c47a46ca4791590d50613714e,
         type: 2}
+    - target: {fileID: 5619432690302126860, guid: 7d3192a7eebeb004c8bd3d53172d6ce9,
+        type: 3}
+      propertyPath: foreverID
+      value: 9fc4662a69fe1794f81c6e6fd0baf785
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d3192a7eebeb004c8bd3d53172d6ce9, type: 3}

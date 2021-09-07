@@ -9,15 +9,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
+      propertyPath: initialName
+      value: distinguished conduct medal
+      objectReference: {fileID: 0}
+    - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
       propertyPath: initialDescription
       value: A bronze medal awarded for distinguished conduct. Whilst a great honor,
         this is the most basic award given by Nanotrasen. It is often awarded by
         a captain to a member of his crew.
       objectReference: {fileID: 0}
-    - target: {fileID: 780986817926429300, guid: 10346266394bdb54ca023bf71f4cd128,
+    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
-      propertyPath: initialName
-      value: distinguished conduct medal
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
@@ -36,6 +41,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -48,16 +58,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 876099436125481058, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
@@ -82,7 +82,12 @@ PrefabInstance:
     - target: {fileID: 986060116320561314, guid: 10346266394bdb54ca023bf71f4cd128,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 27644043e4b482547bb18d4ea43b1d21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089354946516490619, guid: 10346266394bdb54ca023bf71f4cd128,
+        type: 3}
+      propertyPath: foreverID
+      value: 27644043e4b482547bb18d4ea43b1d21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10346266394bdb54ca023bf71f4cd128, type: 3}

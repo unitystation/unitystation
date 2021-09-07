@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: sides
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2404714145071242134, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: foreverID
+      value: dcb84040795d7ea42b18722b0aedeafe
+      objectReference: {fileID: 0}
     - target: {fileID: 3216665340718951548, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -39,12 +44,17 @@ PrefabInstance:
     - target: {fileID: 8678945255199976015, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dcb84040795d7ea42b18722b0aedeafe
       objectReference: {fileID: 0}
     - target: {fileID: 8783702771992860667, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: m_Name
       value: D10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -63,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -75,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8788344772610484879, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
@@ -109,13 +114,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: initialDescription
-      value: A die with ten sides. Useful for percentages.
+      propertyPath: initialName
+      value: d10
       objectReference: {fileID: 0}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
-      propertyPath: initialName
-      value: d10
+      propertyPath: initialDescription
+      value: A die with ten sides. Useful for percentages.
       objectReference: {fileID: 0}
     - target: {fileID: 9153673539804625049, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}

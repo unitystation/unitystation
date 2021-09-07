@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Glow-Berry Bush
       objectReference: {fileID: 0}
     - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
@@ -20,20 +20,25 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.data[1]
-      value: 
-      objectReference: {fileID: 7571569920162806750}
-    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
-      propertyPath: plantData.PlantName
-      value: Glow-Berry Bush
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 92d6477526dce2049b30812b8406e798,
         type: 2}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452548350861020900, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.data[1]
+      value: 
+      objectReference: {fileID: 7571569920162806750}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -51,6 +56,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +73,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4036986366017988905, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
@@ -97,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 4143863672344848873, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fce8719dcefd31744a60072a76ed5f89
       objectReference: {fileID: 0}
     - target: {fileID: 4243576168858101505, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
@@ -107,13 +107,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4537474627599956799, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into glow-berry bushes.
+      propertyPath: initialName
+      value: pack of glow-berry seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4537474627599956799, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}
-      propertyPath: initialName
-      value: pack of glow-berry seeds
+      propertyPath: initialDescription
+      value: These seeds grow into glow-berry bushes.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966921779580704816, guid: 0a1175404af7039419a7794cb4bda0d9,
+        type: 3}
+      propertyPath: foreverID
+      value: fce8719dcefd31744a60072a76ed5f89
       objectReference: {fileID: 0}
     - target: {fileID: 7877882760342155226, guid: 0a1175404af7039419a7794cb4bda0d9,
         type: 3}

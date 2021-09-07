@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3872523323669412091, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: foreverID
+      value: 44afb8ed5b37798469819fec180af485
+      objectReference: {fileID: 0}
     - target: {fileID: 4053610893726174993, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -15,8 +20,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
+      propertyPath: hitDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: initialName
+      value: bananium energy shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: throwDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
@@ -26,8 +46,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
-      propertyPath: initialName
-      value: bananium energy shield
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
@@ -35,30 +55,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 63ebb1ff93c93354994ab009bc8ccf7d,
         type: 2}
-    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
-        type: 3}
-      propertyPath: throwSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
-        type: 3}
-      propertyPath: hitDamage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
-        type: 3}
-      propertyPath: throwDamage
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7823732278566013218, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 44afb8ed5b37798469819fec180af485
       objectReference: {fileID: 0}
     - target: {fileID: 7856334481690555542, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
       propertyPath: m_Name
       value: BananiumEnergyShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860132332797495778, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7860132332797495778, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
@@ -77,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7860132332797495778, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860132332797495778, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +104,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7860132332797495778, guid: 1e67a35115f25b64283e699e311413ef,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7860132332797495778, guid: 1e67a35115f25b64283e699e311413ef,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7860132332797495778, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}

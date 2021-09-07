@@ -11,14 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 550f325bccae0b50a8b5e7fc52693aad,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 534031145482441555, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 550f325bccae0b50a8b5e7fc52693aad,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 534031145482441555, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
       propertyPath: allClothingData.Array.data[0]
@@ -28,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 4044828966941312832, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 00b3545d02429464f849be8f35a6b7a2
       objectReference: {fileID: 0}
     - target: {fileID: 4153912305842980736, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}
@@ -106,6 +104,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A headset especially for emergency response personnel. Protects ears
         from flashbangs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993125949167040153, guid: f0eaf27830684a4468f1786b2a5df3c8,
+        type: 3}
+      propertyPath: foreverID
+      value: 00b3545d02429464f849be8f35a6b7a2
       objectReference: {fileID: 0}
     - target: {fileID: 7849831515770044787, guid: f0eaf27830684a4468f1786b2a5df3c8,
         type: 3}

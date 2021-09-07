@@ -17,6 +17,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: So bloody...so...very...bloody....AHHHH!!!!
       objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[10].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 009fededc6df8b446904a9ef9d12dbb0,
+        type: 2}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[10].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 333905541421504412, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: m_Sprite
@@ -86,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 560563286822459764, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6976ced025dfb134cafa564323e2cb75
       objectReference: {fileID: 0}
     - target: {fileID: 2196617459955984567, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
@@ -100,5 +116,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 97cb15f01a784d744bac57e54aba5bc4,
         type: 2}
+    - target: {fileID: 6839007588675758253, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: foreverID
+      value: 6976ced025dfb134cafa564323e2cb75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 454947e247b8d27408f72041e753e7be, type: 3}

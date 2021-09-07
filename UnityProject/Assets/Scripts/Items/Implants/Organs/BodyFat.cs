@@ -135,10 +135,10 @@ namespace HealthV2
 			}
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealthMasterBase);
-			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
+			base.RemovedFromBody(livingHealth);
+			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.RemoveModifier(this);

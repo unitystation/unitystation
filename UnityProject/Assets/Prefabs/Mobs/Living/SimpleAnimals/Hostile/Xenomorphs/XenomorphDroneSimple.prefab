@@ -7,6 +7,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 739857834287994787, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090349022819334625, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: armor.Energy
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2456842461227463564, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: hitDamage
@@ -46,6 +86,11 @@ PrefabInstance:
         type: 3}
       propertyPath: mobName
       value: xenomorph drone
+      objectReference: {fileID: 0}
+    - target: {fileID: 6141197458528421439, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: disableAscension
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7495180291926065977, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
@@ -110,7 +155,7 @@ PrefabInstance:
     - target: {fileID: 7607845521540798885, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4cfde8da62248f040935ab54584d6620
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00a84f751afb412428a586d23cf90b39, type: 3}

@@ -33,10 +33,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isChangingSO: 0
-  indexDown: 2
-  indexUp: 3
-  indexRight: 1
-  indexLeft: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
   spriteHandlers:
   - {fileID: 4545028754367107839}
 --- !u!114 &6903592377766332727
@@ -76,6 +76,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 825006774157790681, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: foreverID
+      value: b087cae0f7059d946a59146ea8d0fb04
+      objectReference: {fileID: 0}
     - target: {fileID: 4324277455529423760, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: m_Name
@@ -160,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 5323037765139105522, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b087cae0f7059d946a59146ea8d0fb04
       objectReference: {fileID: 0}
     - target: {fileID: 6388099446472322208, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}

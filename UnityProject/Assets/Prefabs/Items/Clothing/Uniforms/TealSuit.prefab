@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 70e762212c1501d49bbcd7004162631a
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
@@ -88,18 +88,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A teal suit and yellow necktie. An authoritative yet tacky ensemble.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: foreverID
+      value: 70e762212c1501d49bbcd7004162631a
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 021d0c0fde9bc254880d0299d2a96894,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 021d0c0fde9bc254880d0299d2a96894,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: allClothingData.Array.size

@@ -20,6 +20,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: fe09abf82e38e4c4ca1d2035d3cc77b7,
+        type: 2}
     - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: initialName
@@ -66,7 +77,7 @@ PrefabInstance:
     - target: {fileID: 3317552745358689725, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9836e3299e1fcf54cb6028cd4310ed3c
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
@@ -137,6 +148,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Fire
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: foreverID
+      value: 9836e3299e1fcf54cb6028cd4310ed3c
       objectReference: {fileID: 0}
     - target: {fileID: 8638853748845472652, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}

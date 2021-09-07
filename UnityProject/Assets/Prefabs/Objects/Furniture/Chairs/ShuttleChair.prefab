@@ -15,19 +15,19 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2785601278899096686, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
+      propertyPath: initialName
+      value: shuttle seat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2785601278899096686, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
       propertyPath: initialDescription
       value: A comfortable, secure seat. It has a more sturdy looking buckling system,
         for smoother flights.
       objectReference: {fileID: 0}
-    - target: {fileID: 2785601278899096686, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: initialName
-      value: shuttle seat
-      objectReference: {fileID: 0}
     - target: {fileID: 4021817436656805436, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 67c1a2e93881ef1479a466ad4ee872eb
       objectReference: {fileID: 0}
     - target: {fileID: 4128057299856746536, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
@@ -53,6 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -68,6 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -80,16 +90,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
@@ -117,6 +117,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 50811173315437471, guid: 25625619713dba04296304a60f5f37c1,
         type: 3}
+    - target: {fileID: 8465751665797688599, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: foreverID
+      value: 67c1a2e93881ef1479a466ad4ee872eb
+      objectReference: {fileID: 0}
     - target: {fileID: 9120451367959794684, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_Sprite

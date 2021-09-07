@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c95202c3f667c724eaa11e9fcc949f0e,
         type: 2}
+    - target: {fileID: 793348035572936000, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
+        type: 3}
+      propertyPath: foreverID
+      value: d61d9d1f494c57044ac394fdd2526e06
+      objectReference: {fileID: 0}
     - target: {fileID: 4534411397046154925, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}
       propertyPath: actionData
@@ -28,7 +33,12 @@ PrefabInstance:
     - target: {fileID: 5921113837544774809, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d61d9d1f494c57044ac394fdd2526e06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029108316542327897, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6029108316542327897, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}
@@ -47,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6029108316542327897, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029108316542327897, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6029108316542327897, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6029108316542327897, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6029108316542327897, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}
@@ -92,14 +97,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6149008358229823055, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}
-      propertyPath: initialDescription
-      value: A revolution in convenience, this satchel allows for huge amounts of
-        ore storage. It's been outfitted with anti-malfunction safety measures.
+      propertyPath: initialName
+      value: mining satchel of holding
       objectReference: {fileID: 0}
     - target: {fileID: 6149008358229823055, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}
-      propertyPath: initialName
-      value: mining satchel of holding
+      propertyPath: initialDescription
+      value: A revolution in convenience, this satchel allows for huge amounts of
+        ore storage. It's been outfitted with anti-malfunction safety measures.
       objectReference: {fileID: 0}
     - target: {fileID: 6662338191398086903, guid: 351d85b68a3a62f4c841f26a61d8b3aa,
         type: 3}

@@ -16,17 +16,7 @@ PrefabInstance:
     - target: {fileID: 2745789640134156129, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
-        type: 3}
-      propertyPath: HeatResistance
-      value: 50000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 20
+      value: 9028811e852742d40ac5ae72a716a679
       objectReference: {fileID: 0}
     - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
@@ -35,24 +25,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 500
+      propertyPath: Armor.Bullet
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: HeatResistance
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: damageDeflection
       value: 21
       objectReference: {fileID: 0}
-    - target: {fileID: 3991083299872568627, guid: 7020b235ecf8ece4ca00af70a60258f8,
+    - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: initialDescription
-      value: A window made out of a plasma-silicate alloy and a rod matrix. It looks
-        hopelessly tough to break and is most likely nigh fireproof.
+      propertyPath: initialIntegrity
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3991083299872568627, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: initialName
       value: reinforced plasma window
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991083299872568627, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: initialDescription
+      value: A window made out of a plasma-silicate alloy and a rod matrix. It looks
+        hopelessly tough to break and is most likely nigh fireproof.
       objectReference: {fileID: 0}
     - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
@@ -62,13 +62,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: minCountOfRodsOnDestroy
-      value: 1
+      propertyPath: maxCountOfRodsOnDestroy
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
-      propertyPath: maxCountOfRodsOnDestroy
-      value: 2
+      propertyPath: minCountOfRodsOnDestroy
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
@@ -80,6 +80,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DirectionalWindowPlasmaReinforced
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
@@ -98,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -109,16 +119,6 @@ PrefabInstance:
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6040282718721912025, guid: 7020b235ecf8ece4ca00af70a60258f8,
@@ -135,6 +135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257331783887787082, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: foreverID
+      value: 9028811e852742d40ac5ae72a716a679
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7020b235ecf8ece4ca00af70a60258f8, type: 3}

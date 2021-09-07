@@ -32,6 +32,13 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 130a58ba67bfc4abca31d12426a01049,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!114 &119709610551405526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +84,7 @@ PrefabInstance:
     - target: {fileID: 1341409348177966252, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a379cfb2056ee4a0f8ce1f68696ef45c
       objectReference: {fileID: 0}
     - target: {fileID: 1371787170564999448, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
@@ -154,14 +161,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0a20aeac0fc424faba17b9f38bc611c1,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5437159363360807581, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0a20aeac0fc424faba17b9f38bc611c1,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5437159363360807581, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -173,6 +178,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 379bb457ebec19e40892f8cfb298fa97,
         type: 2}
+    - target: {fileID: 5454748437874247029, guid: b4bff558b58c04022bd73a7707d8f347,
+        type: 3}
+      propertyPath: foreverID
+      value: a379cfb2056ee4a0f8ce1f68696ef45c
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4bff558b58c04022bd73a7707d8f347, type: 3}
 --- !u!1 &5955107123228105240 stripped

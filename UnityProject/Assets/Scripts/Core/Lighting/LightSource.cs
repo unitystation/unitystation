@@ -1,20 +1,21 @@
 using System;
-using System.Collections;
-using Light2D;
+using UnityEngine;
+using Random = UnityEngine.Random;
 using Mirror;
 using ScriptableObjects;
-using UnityEngine;
+using Light2D;
 using Systems.Electricity;
 using Systems.Explosions;
-using Random = UnityEngine.Random;
+using Systems.ObjectConnection;
 using Objects.Construction;
+
 
 namespace Objects.Lighting
 {
 	/// <summary>
 	/// Component responsible for the behaviour of light tubes / bulbs in particular.
 	/// </summary>
-	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle, ISetMultitoolSlave
+	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle, IMultitoolSlaveable
 	{
 		public Color ONColour;
 		public Color EmergencyColour;
@@ -59,10 +60,6 @@ namespace Objects.Lighting
 		private GameObject currentSparkEffect;
 
 		public float integrityThreshBar { get; private set; }
-
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
-		public MultitoolConnectionType ConType => conType;
 
 		#region Lifecycle
 
@@ -114,14 +111,22 @@ namespace Objects.Lighting
 
 		#endregion
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		#region Multitool Interaction
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.LightSwitch;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => relatedLightSwitch; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false;
+
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var lightSwitch = (Imaster as Component)?.gameObject.GetComponent<LightSwitchV2>();
+			var lightSwitch = (master as Component)?.gameObject.GetComponent<LightSwitchV2>();
 			if (lightSwitch != relatedLightSwitch)
 			{
 				SubscribeToSwitchEvent(lightSwitch);
 			}
 		}
+
+		#endregion
 
 		private void OnDirectionChange(Orientation newDir)
 		{
@@ -441,24 +446,6 @@ namespace Objects.Lighting
 					TrySpark();
 				}
 			}
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
-			if (relatedLightSwitch == null)
-			{
-				if (isWithoutSwitch) return;
-				Gizmos.color = new Color(1, 0.5f, 1, 1);
-				Gizmos.DrawSphere(sprite.transform.position, 0.20f);
-				return;
-			}
-			//Highlighting all controlled lightSources
-			Gizmos.color = new Color(1, 1, 0, 1);
-			Gizmos.DrawLine(relatedLightSwitch.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(relatedLightSwitch.transform.position, 0.25f);
 		}
 	}
 }

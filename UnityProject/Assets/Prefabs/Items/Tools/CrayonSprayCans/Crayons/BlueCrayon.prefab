@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: initialName
       value: Blue Crayon
       objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 74977b8219fee934ba2053f4e4dc73c9,
+        type: 2}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: colour
@@ -35,6 +51,11 @@ PrefabInstance:
     - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: setColour
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: setCrayonColour
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1487292090815827991, guid: 9535c39a291c4184a8e366e0b8295ef6,
@@ -111,7 +132,7 @@ PrefabInstance:
     - target: {fileID: 1713105370501111551, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 6f79d66785d7a074488257c65846ac31
       objectReference: {fileID: 0}
     - target: {fileID: 4833495918207883468, guid: 9535c39a291c4184a8e366e0b8295ef6,
         type: 3}
@@ -119,5 +140,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7b27f208599bcbf4b8a6ca6e25c5f5ef,
         type: 2}
+    - target: {fileID: 5685970718737428262, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: foreverID
+      value: 6f79d66785d7a074488257c65846ac31
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9535c39a291c4184a8e366e0b8295ef6, type: 3}

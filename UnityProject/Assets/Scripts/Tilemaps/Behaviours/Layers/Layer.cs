@@ -202,29 +202,18 @@ public class Layer : MonoBehaviour
 
 	public virtual bool HasTile(Vector3Int position)
 	{
+		if (tilemap == null) return false;
 		return tilemap.HasTile(position);
 	}
 
-	public virtual bool RemoveTile(Vector3Int position, bool removeAll = false)
+	public virtual bool RemoveTile(Vector3Int position)
 	{
 		bool TileREmoved = false;
-		if (removeAll)
+		TileREmoved = InternalSetTile(position, null);
+		if (TileREmoved)
 		{
-			position.z = 0;
-			while (tilemap.HasTile(position))
-			{
-				InternalSetTile(position, null);
-				position.z--;
-				TileREmoved = true;
-			}
+			subsystemManager.UpdateAt(position);
 		}
-		else
-		{
-			TileREmoved = InternalSetTile(position, null);
-		}
-
-		position.z = 0;
-		subsystemManager.UpdateAt(position);
 		return TileREmoved;
 	}
 

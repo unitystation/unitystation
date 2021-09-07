@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1228495897660825222, guid: 3d4d0a15695841749a593e249f04b32b,
+        type: 3}
+      propertyPath: foreverID
+      value: 3a088e71e1a9daf4c9e0de2fe6122188
+      objectReference: {fileID: 0}
     - target: {fileID: 2085404470238259564, guid: 3d4d0a15695841749a593e249f04b32b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -16,7 +21,12 @@ PrefabInstance:
     - target: {fileID: 5197984095460437855, guid: 3d4d0a15695841749a593e249f04b32b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3a088e71e1a9daf4c9e0de2fe6122188
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306723905700294559, guid: 3d4d0a15695841749a593e249f04b32b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5306723905700294559, guid: 3d4d0a15695841749a593e249f04b32b,
         type: 3}
@@ -35,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5306723905700294559, guid: 3d4d0a15695841749a593e249f04b32b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306723905700294559, guid: 3d4d0a15695841749a593e249f04b32b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +62,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5306723905700294559, guid: 3d4d0a15695841749a593e249f04b32b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5306723905700294559, guid: 3d4d0a15695841749a593e249f04b32b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5306723905700294559, guid: 3d4d0a15695841749a593e249f04b32b,
         type: 3}

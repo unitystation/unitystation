@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  pickupAnimSpeed: 0.2
   boxSpriteColor: {fileID: 7428690068708387878}
   netTransform: {fileID: 8521883043285352586}
 --- !u!1001 &4991786853530350121
@@ -62,7 +63,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: m_Color.r
+      propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
@@ -72,8 +73,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: m_Color.b
+      propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -92,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -104,16 +115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -138,7 +139,7 @@ PrefabInstance:
     - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 9b2131a78861b4fc987821bc38a7e16d
       objectReference: {fileID: 0}
     - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -147,18 +148,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.size
-      value: 0
+      propertyPath: exportName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -167,42 +158,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: initialDescription
-      value: Unfortunately not large enough to trap the mime.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: exportName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
       propertyPath: initialSize
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
       propertyPath: willHighlight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialDescription
+      value: Unfortunately not large enough to trap the mime.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
@@ -214,6 +185,36 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -232,6 +233,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aada1f61d1ea0b446976c4ebb8a492fb,
         type: 2}
+    - target: {fileID: 7650131893140443934, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: foreverID
+      value: 9b2131a78861b4fc987821bc38a7e16d
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3676074921659133965, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}

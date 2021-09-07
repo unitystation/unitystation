@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Systems.Atmospherics;
-using Systems.Radiation;
-using HealthV2;
-using Light2D;
-using Mirror;
-using Objects.Engineering;
-using ScriptableObjects.Gun;
 using UnityEngine;
+using Mirror;
+using Light2D;
+using HealthV2;
+using Systems.Pipes;
+using Systems.Radiation;
+using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
-using Random = UnityEngine.Random;
+
 
 namespace Objects
 {
@@ -87,7 +86,7 @@ namespace Objects
 		private int lockTimer;
 		private bool pointLock;
 
-		private List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
+		private List<PipeNode> SavedPipes = new List<PipeNode>();
 
 		private HashSet<GameObject> pushRecently = new HashSet<GameObject>();
 		private int pushTimer;
@@ -382,12 +381,12 @@ namespace Objects
 						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
 						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
-							health.ServerGibPlayer();
+							health.Gib();
 							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
 							return;
 						}
 
-						health.ServerGibPlayer();
+						health.Gib();
 						ChangePoints(100);
 					}
 					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
@@ -425,7 +424,7 @@ namespace Objects
 			{
 				var matrixInfo = MatrixManager.AtPoint(coord, true);
 
-				var cellPos = MatrixManager.Instance.WorldToLocalInt(coord, matrixInfo.Matrix);
+				var cellPos = MatrixManager.WorldToLocalInt(coord, matrixInfo.Matrix);
 
 				var layerTile = matrixInfo.TileChangeManager.MetaTileMap
 					.GetTile(MatrixManager.WorldToLocalInt(coord, matrixInfo), LayerType.Walls);

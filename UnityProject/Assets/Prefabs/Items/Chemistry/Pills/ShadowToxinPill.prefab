@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2501853773697365535, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: foreverID
+      value: 470201ef2cfd6b444afec447b57f7d7d
+      objectReference: {fileID: 0}
     - target: {fileID: 3406119982792868341, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -42,7 +47,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8715330287640054062, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: m_Color.r
+      propertyPath: m_Color.b
       value: 0.27058825
       objectReference: {fileID: 0}
     - target: {fileID: 8715330287640054062, guid: 41b8ba286ee48d147b5b90a4535e27c8,
@@ -52,13 +57,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8715330287640054062, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
-      propertyPath: m_Color.b
+      propertyPath: m_Color.r
       value: 0.27058825
       objectReference: {fileID: 0}
     - target: {fileID: 8791843565850868338, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: m_Name
       value: ShadowToxinPill
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
@@ -77,6 +87,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -89,16 +104,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795922616318445318, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
@@ -118,17 +123,17 @@ PrefabInstance:
     - target: {fileID: 8905537019261093830, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
-        type: 3}
-      propertyPath: initialDescription
-      value: I wouldn't eat this if I were you.
+      value: 470201ef2cfd6b444afec447b57f7d7d
       objectReference: {fileID: 0}
     - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
         type: 3}
       propertyPath: initialName
       value: black pill
+      objectReference: {fileID: 0}
+    - target: {fileID: 9002552239035110672, guid: 41b8ba286ee48d147b5b90a4535e27c8,
+        type: 3}
+      propertyPath: initialDescription
+      value: I wouldn't eat this if I were you.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41b8ba286ee48d147b5b90a4535e27c8, type: 3}

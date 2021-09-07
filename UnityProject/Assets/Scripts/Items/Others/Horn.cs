@@ -33,13 +33,13 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		allowUse = true;
 	}
 
-	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthMasterBase targetHealth )
+	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthMasterBase livingHealth )
 	{
 		yield return WaitFor.Seconds( 0.02f );
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: -1f); //This plays it backwards, is that what you wanted?
 		ShakeParameters shakeParameters = new ShakeParameters(true, 20, 5);
 		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), audioSourceParameters, true, sourceObj: GetHonkSoundObject(), shakeParameters: shakeParameters);
-		targetHealth.ApplyDamageToBodyPart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
+		livingHealth.ApplyDamageToBodyPart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
 	/// <summary>
@@ -116,6 +116,6 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	private GameObject GetHonkSoundObject()
 	{
 		ItemSlot itemslot = gameObject.GetComponent<Pickupable>().ItemSlot;
-		return itemslot != null ? itemslot.ItemStorage.gameObject : gameObject;
+		return itemslot != null ? itemslot.ItemStorage.GetRootStorageOrPlayer() : gameObject;
 	}
 }

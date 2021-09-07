@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2708563353263609498, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 100
+      propertyPath: Armor.Bomb
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2708563353263609498, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
@@ -19,17 +19,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2708563353263609498, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
-      propertyPath: Armor.Bomb
-      value: 50
+      propertyPath: damageDeflection
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2708563353263609498, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
-      propertyPath: damageDeflection
-      value: 11
+      propertyPath: initialIntegrity
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3145725722567961701, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: m_AssetId
+      value: 422afccc119081a4fa895bc72e8ecd78
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026046569720328804, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: rodsOnDestroy
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4026046569720328804, guid: c80393b4412660b41937e05425ceb921,
@@ -40,28 +45,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4026046569720328804, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
-      propertyPath: minCountOfRodsOnDestroy
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4026046569720328804, guid: c80393b4412660b41937e05425ceb921,
-        type: 3}
       propertyPath: maxCountOfRodsOnDestroy
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4026046569720328804, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
-      propertyPath: rodsOnDestroy
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4242374203497104951, guid: c80393b4412660b41937e05425ceb921,
-        type: 3}
-      propertyPath: initialDescription
-      value: A durable looking window made of an alloy of of plasma and titanium.
+      propertyPath: minCountOfRodsOnDestroy
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242374203497104951, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: initialName
       value: plastitanium window
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242374203497104951, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: initialDescription
+      value: A durable looking window made of an alloy of of plasma and titanium.
       objectReference: {fileID: 0}
     - target: {fileID: 6708729305040715024, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
@@ -69,6 +69,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 66305a19e3614694f868c75a982e6b68,
         type: 3}
+    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -86,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -97,16 +107,6 @@ PrefabInstance:
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6804860837380333533, guid: c80393b4412660b41937e05425ceb921,
@@ -128,6 +128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DirectionalWindowPlastitanium
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569395453688850254, guid: c80393b4412660b41937e05425ceb921,
+        type: 3}
+      propertyPath: foreverID
+      value: 422afccc119081a4fa895bc72e8ecd78
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80393b4412660b41937e05425ceb921, type: 3}

@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1382805458102892034, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
+      propertyPath: foreverID
+      value: 4261b39e3bba4af40bfcb13655f19322
+      objectReference: {fileID: 0}
     - target: {fileID: 2612472723175721035, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
       propertyPath: m_Name
       value: AltarBloodCult
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617976578774175377, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
@@ -73,20 +78,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300010, guid: 52685629894eaff46ba66d745e988d3a,
         type: 3}
-    - target: {fileID: 4676042561043617659, guid: 9d469eef54a89534b99df7992a4f8ff5,
+    - target: {fileID: 2819643630666476636, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
-      propertyPath: initialDescription
-      value: A bloodstained altar dedicated to Nar'Sie.
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4676042561043617659, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
       propertyPath: initialName
       value: altar
       objectReference: {fileID: 0}
+    - target: {fileID: 4676042561043617659, guid: 9d469eef54a89534b99df7992a4f8ff5,
+        type: 3}
+      propertyPath: initialDescription
+      value: A bloodstained altar dedicated to Nar'Sie.
+      objectReference: {fileID: 0}
     - target: {fileID: 5880733353738370345, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4261b39e3bba4af40bfcb13655f19322
       objectReference: {fileID: 0}
     - target: {fileID: 7354851833607283345, guid: 9d469eef54a89534b99df7992a4f8ff5,
         type: 3}

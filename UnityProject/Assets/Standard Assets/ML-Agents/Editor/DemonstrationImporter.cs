@@ -3,19 +3,19 @@ using System.IO;
 using MLAgents.CommunicatorObjects;
 using UnityEditor;
 using UnityEngine;
-using UnityEditor.Experimental.AssetImporters;
+
 
 namespace MLAgents
 {
     /// <summary>
     /// Asset Importer used to parse demonstration files.
     /// </summary>
-    [ScriptedImporter(1, new[] {"demo"})]
-    public class DemonstrationImporter : ScriptedImporter
+    [UnityEditor.AssetImporters.ScriptedImporter(1, new[] {"demo"})]
+    public class DemonstrationImporter : UnityEditor.AssetImporters.ScriptedImporter
     {
         private const string k_IconPath = "Assets/ML-Agents/Resources/DemoIcon.png";
 
-        public override void OnImportAsset(AssetImportContext ctx)
+        public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
         {
             var inputType = Path.GetExtension(ctx.assetPath);
             if (inputType == null)

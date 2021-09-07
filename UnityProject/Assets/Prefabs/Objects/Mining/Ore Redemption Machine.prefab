@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsUsingSilo: 0
   usedStorage: {fileID: 0}
+  materialListGUI: {fileID: 0}
 --- !u!114 &531004782889982676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26,6 +28,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 35
+  aiInteractable: 1
 --- !u!114 &1892107992577685649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,6 +41,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed1afb988e22a0445a9ebcf788bf0110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialStorageLink: {fileID: 0}
+  oreRedemptiomMachineGUI: {fileID: 0}
+  laborPoints: 0
 --- !u!114 &3654639354915468639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,6 +58,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infiniteStorage: 0
   maximumResources: 1000000
+  UpdateGUIs:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5600573209671788888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,6 +100,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: fd4934673e01e4d4589f918670c3f4aa
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -166,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fd4934673e01e4d4589f918670c3f4aa
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

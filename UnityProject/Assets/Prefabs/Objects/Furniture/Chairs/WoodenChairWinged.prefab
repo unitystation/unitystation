@@ -22,7 +22,7 @@ PrefabInstance:
     - target: {fileID: 4606688573644590120, guid: ce971a77eb7c2894e8583efec1c56965,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 65778087a63ccbd428d4033cbeca6663
       objectReference: {fileID: 0}
     - target: {fileID: 5283799863792983389, guid: ce971a77eb7c2894e8583efec1c56965,
         type: 3}
@@ -30,6 +30,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e0bb66a27d79cbf44b08bcbe35409046,
         type: 3}
+    - target: {fileID: 5343057899039145872, guid: ce971a77eb7c2894e8583efec1c56965,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5343057899039145872, guid: ce971a77eb7c2894e8583efec1c56965,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -47,6 +52,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5343057899039145872, guid: ce971a77eb7c2894e8583efec1c56965,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343057899039145872, guid: ce971a77eb7c2894e8583efec1c56965,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -59,16 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5343057899039145872, guid: ce971a77eb7c2894e8583efec1c56965,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5343057899039145872, guid: ce971a77eb7c2894e8583efec1c56965,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5343057899039145872, guid: ce971a77eb7c2894e8583efec1c56965,
         type: 3}
@@ -89,6 +89,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WoodenChairWinged
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025784533945124611, guid: ce971a77eb7c2894e8583efec1c56965,
+        type: 3}
+      propertyPath: foreverID
+      value: 65778087a63ccbd428d4033cbeca6663
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce971a77eb7c2894e8583efec1c56965, type: 3}

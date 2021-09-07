@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3047043127081644350, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
+      propertyPath: foreverID
+      value: 90325766b4a09104ca44c380d308ac06
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8277755000268046375, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
@@ -70,17 +75,17 @@ PrefabInstance:
     - target: {fileID: 8315837238301327591, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      value: 90325766b4a09104ca44c380d308ac06
       objectReference: {fileID: 0}
     - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
       propertyPath: initialName
       value: YouTool restocking unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}

@@ -7,12 +7,19 @@ public class SpriteCatEars : BodyPartSprites
 {
 
 	[SerializeField] protected SpriteHandler OverlySpriteHandler;
-	public override void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, RootBodyPartContainer rootBodyPartContainer, SpriteOrder _SpriteOrder = null)
+	public override void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, SpriteOrder _SpriteOrder = null)
 	{
 		ClothingHide = INClothingHide;
 		SpriteOrder = _SpriteOrder;
 		baseSpriteHandler.PushTexture();
 		OverlySpriteHandler.PushTexture();
+	}
+
+	public override void SetName(string Name)
+	{
+		this.gameObject.name = Name;
+		baseSpriteHandler.name = Name;
+		OverlySpriteHandler.name = Name + "_" + "Overly";
 	}
 
 	public override void OnDirectionChange(Orientation direction)

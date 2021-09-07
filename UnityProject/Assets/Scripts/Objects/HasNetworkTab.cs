@@ -1,8 +1,10 @@
 using System;
-using Core.Input_System.InteractionV2.Interactions;
-using Messages.Server;
 using UI.Core.Net;
 using UnityEngine;
+using Core.Editor.Attributes;
+using Messages.Server;
+using Systems.Interaction;
+
 
 namespace Objects
 {
@@ -14,12 +16,14 @@ namespace Objects
 	/// </summary>
 	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
 	{
-		[NonSerialized] private GameObject playerInteracted;
+		[NonSerialized]
+		private GameObject playerInteracted;
 
+		[PrefabModeOnly]
 		[Tooltip("Network tab to display.")]
 		public NetTabType NetTabType = NetTabType.None;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private bool aiInteractable = true;
 
 		/// <summary>

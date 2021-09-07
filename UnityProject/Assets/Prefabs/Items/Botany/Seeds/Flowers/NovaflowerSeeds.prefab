@@ -13,10 +13,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d04ac66e635b1ff4cbd5dab47008fd37,
         type: 2}
-    - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
+    - target: {fileID: 648492031311591371, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: foreverID
+      value: d0c50b96c0510684d996bdf7156e28c4
       objectReference: {fileID: 0}
     - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
@@ -29,6 +29,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2487919623449054219, guid: fbe0fcffc125c2d478221a9c0b6354b0,
         type: 3}
+    - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 44b4ec9c8495f9144a15ebc52b4bb164,
+        type: 2}
     - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
       propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
@@ -49,14 +55,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5168294048687333663, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: plantData.FullyGrownSpriteSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 44b4ec9c8495f9144a15ebc52b4bb164,
-        type: 2}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5784119409934351270, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
       propertyPath: m_Name
       value: NovaflowerSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
@@ -75,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -87,16 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5789047283646482130, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
@@ -116,7 +121,7 @@ PrefabInstance:
     - target: {fileID: 5895603807591204370, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d0c50b96c0510684d996bdf7156e28c4
       objectReference: {fileID: 0}
     - target: {fileID: 5959568982061156602, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
@@ -126,13 +131,13 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6244464364176921796, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into novaflowers.
+      propertyPath: initialName
+      value: pack of novaflower seeds
       objectReference: {fileID: 0}
     - target: {fileID: 6244464364176921796, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
-      propertyPath: initialName
-      value: pack of novaflower seeds
+      propertyPath: initialDescription
+      value: These seeds grow into novaflowers.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4844235ecae1ba743ab9b40ce79104be, type: 3}

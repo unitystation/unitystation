@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3054278442473670779, guid: fff5813656af4fd47b39c37274081680,
+        type: 3}
+      propertyPath: foreverID
+      value: 6ef81c244ffd78f41b991f672b30c801
+      objectReference: {fileID: 0}
+    - target: {fileID: 8271918220710590818, guid: fff5813656af4fd47b39c37274081680,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8271918220710590818, guid: fff5813656af4fd47b39c37274081680,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24,6 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8271918220710590818, guid: fff5813656af4fd47b39c37274081680,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8271918220710590818, guid: fff5813656af4fd47b39c37274081680,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -36,16 +51,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8271918220710590818, guid: fff5813656af4fd47b39c37274081680,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8271918220710590818, guid: fff5813656af4fd47b39c37274081680,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8271918220710590818, guid: fff5813656af4fd47b39c37274081680,
         type: 3}
@@ -65,7 +70,12 @@ PrefabInstance:
     - target: {fileID: 8275438994216272918, guid: fff5813656af4fd47b39c37274081680,
         type: 3}
       propertyPath: m_Name
-      value: Ammo7.62
+      value: Ammo7.62Enchanted
+      objectReference: {fileID: 0}
+    - target: {fileID: 8308145651482589602, guid: fff5813656af4fd47b39c37274081680,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 6ef81c244ffd78f41b991f672b30c801
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fff5813656af4fd47b39c37274081680, type: 3}

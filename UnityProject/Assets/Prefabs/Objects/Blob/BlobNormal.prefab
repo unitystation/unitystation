@@ -12,13 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bd855d631f2a24ab40487ec0405ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCore: 0
-  isNode: 0
-  isResource: 0
-  isFactory: 0
-  isReflective: 0
-  isStrong: 0
-  isNormal: 1
   blobType: 6
   lightSprite: {fileID: 0}
   spriteHandler: {fileID: 7649593002434359225}
@@ -41,6 +34,7 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+    DismembermentProtectionChance: 0
   initialResistances:
     LavaProof: 0
     FireProof: 0
@@ -49,6 +43,7 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
+    LightningDamageProof: 0
   connectedToBlobNet: 0
   connectedNode: {fileID: 0}
   connectedPath: []
@@ -63,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 136634061082832056, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8222ca60d13546344a9ff991f239a0b0
       objectReference: {fileID: 0}
     - target: {fileID: 338588115043544032, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -72,13 +67,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: passableExclusionsToThis.Array.size
-      value: 1
+      propertyPath: Passable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: Passable
-      value: 0
+      propertyPath: passableExclusionsToThis.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -88,8 +83,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 30
+      propertyPath: Armor.Acid
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -98,23 +93,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
       propertyPath: soundOnHit
       value: Attackblob
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: initialIntegrity
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: soundOnHit.AssetAddress
       value: Assets/Prefabs/Effects/AttackBlob.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: initialDescription
-      value: A pulsating growth stuck to the floor
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -126,12 +116,27 @@ PrefabInstance:
       propertyPath: willHighlight
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: initialDescription
+      value: A pulsating growth stuck to the floor
+      objectReference: {fileID: 0}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fcd276973d7c6cc4f985e6d166b2a00d,
         type: 2}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: foreverID
+      value: 8222ca60d13546344a9ff991f239a0b0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -149,6 +154,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -161,16 +171,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -205,11 +205,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1463207863
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
       propertyPath: m_SortingLayer
       value: 13
       objectReference: {fileID: 0}
@@ -217,6 +212,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1463207863
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}

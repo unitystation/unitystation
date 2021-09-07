@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1674409506237935107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390320911816615196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809dea13faec1484897e1aacd09e9f29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReactorPipe: {fileID: 0}
+  Chambers: []
 --- !u!114 &3579875241807105875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,46 +57,17 @@ MonoBehaviour:
         reagents:
           m_keys: []
           m_values: []
+        reagentKeys: []
       gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+        GasData:
+          GasesArray: []
         Pressure: 0
         Volume: 100
         Temperature: 0
-    ConnectedPipes: []
-    Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   ConnectedCores: []
---- !u!114 &1674409506237935107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8390320911816615196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809dea13faec1484897e1aacd09e9f29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReactorPipe: {fileID: 0}
-  Chambers: []
 --- !u!1001 &5634703418540122965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90,6 +75,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: 212fb4f9ee5822c4c8584d1e7fc90905
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Size.x
@@ -174,7 +164,7 @@ PrefabInstance:
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 212fb4f9ee5822c4c8584d1e7fc90905
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

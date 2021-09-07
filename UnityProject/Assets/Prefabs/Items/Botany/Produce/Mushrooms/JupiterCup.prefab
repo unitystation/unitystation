@@ -18,6 +18,22 @@ PrefabInstance:
       value: A strange red mushroom, its surface is moist and slick. You wonder how
         many tiny worms have met their fate inside.
       objectReference: {fileID: 0}
+    - target: {fileID: 85244361310648027, guid: 9933cfcb816f49441b323811afdba50d,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 85244361310648027, guid: 9933cfcb816f49441b323811afdba50d,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c9aebff6c87403149ae3db37771aae33,
+        type: 2}
+    - target: {fileID: 85244361310648027, guid: 9933cfcb816f49441b323811afdba50d,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 311944180622347345, guid: 9933cfcb816f49441b323811afdba50d,
         type: 3}
       propertyPath: m_Sprite
@@ -87,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 518476428655051449, guid: 9933cfcb816f49441b323811afdba50d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b57b4d5dde16ad548a35aa615340a4d8
       objectReference: {fileID: 0}
     - target: {fileID: 2201566663970698106, guid: 9933cfcb816f49441b323811afdba50d,
         type: 3}
@@ -101,5 +117,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 17c18c37566db9f4a97f13a3cd6aae92,
         type: 2}
+    - target: {fileID: 6782267024118674272, guid: 9933cfcb816f49441b323811afdba50d,
+        type: 3}
+      propertyPath: foreverID
+      value: b57b4d5dde16ad548a35aa615340a4d8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9933cfcb816f49441b323811afdba50d, type: 3}

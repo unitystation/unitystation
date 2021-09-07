@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d621c40643c0b22d6b2ffa85605226dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TcReserve: 0
   TcIncrement: 14
+  timer: 1200
+  tcToGive: 280
 --- !u!1001 &4446479705313005294
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44,7 +45,7 @@ PrefabInstance:
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d3398886fbb591ba4a70e0ef3a79cc71
       objectReference: {fileID: 0}
     - target: {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -82,6 +83,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isSelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: foreverID
+      value: d3398886fbb591ba4a70e0ef3a79cc71
       objectReference: {fileID: 0}
     - target: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}

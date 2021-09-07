@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1233403210295237416, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: foreverID
+      value: 0ebc7357d4ed1a4498e07cb444337ea3
+      objectReference: {fileID: 0}
     - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -16,12 +21,17 @@ PrefabInstance:
     - target: {fileID: 5202609555093908209, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0ebc7357d4ed1a4498e07cb444337ea3
       objectReference: {fileID: 0}
     - target: {fileID: 5307303368926091077, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: m_Name
       value: HolyWaterPiercingInjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -97,9 +102,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c91482447b9d6442a9044889a3be091,
+        type: 2}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e0a6ea82ea82194191c1e0052b98080,
+        type: 2}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 50ee1ef86a772ed4d93bb46a44c5afbe, type: 3}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6bc52437e6393c64fb96f9b15e586408, type: 3}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 1fdc5b0cf9d00cd40867219e7b79f388, type: 3}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 8a799949ffd6bb5448798f2ebe58b6fa, type: 3}
     - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -126,16 +158,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 1fdc5b0cf9d00cd40867219e7b79f388, type: 3}
-    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 6bc52437e6393c64fb96f9b15e586408, type: 3}
-    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: -7204818777265064614, guid: 6bc52437e6393c64fb96f9b15e586408,
@@ -158,23 +180,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -4153922364740174506, guid: 6bc52437e6393c64fb96f9b15e586408,
         type: 3}
-    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+    - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 8a799949ffd6bb5448798f2ebe58b6fa, type: 3}
-    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+      propertyPath: maxCapacity
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 9e0a6ea82ea82194191c1e0052b98080,
-        type: 2}
-    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 5c91482447b9d6442a9044889a3be091,
-        type: 2}
+      propertyPath: transferAmount
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -187,14 +202,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: maxCapacity
-      value: 250
-      objectReference: {fileID: 0}
-    - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: e36e9254c80d9635d917c3ad201542e8,
+      objectReference: {fileID: 11400000, guid: c23fc4a36ab9c3790998749e1baee097,
         type: 2}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -204,9 +214,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 50
-      objectReference: {fileID: 0}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: e36e9254c80d9635d917c3ad201542e8,
+        type: 2}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
@@ -214,18 +225,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: c23fc4a36ab9c3790998749e1baee097,
-        type: 2}
-    - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: transferAmount
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
       value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []

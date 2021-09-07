@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: inhale
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: inhales.
   youText: You inhale.
   failText: There is probably no air here.
+  critViewText: has some troubles inhaling air!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: has some troubles inhaling air!
+  pitchRange: {x: 0.7, y: 1}

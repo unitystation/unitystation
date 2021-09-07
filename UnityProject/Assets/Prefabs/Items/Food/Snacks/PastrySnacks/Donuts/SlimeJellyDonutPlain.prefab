@@ -13,15 +13,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e8865055db5300f4d8a1cb60c8ac6bdb,
         type: 2}
+    - target: {fileID: 3141986036438142591, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: foreverID
+      value: 0a2bc1035ffedcf45b194433f4a98ea5
+      objectReference: {fileID: 0}
     - target: {fileID: 8265266241677541286, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0a2bc1035ffedcf45b194433f4a98ea5
       objectReference: {fileID: 0}
     - target: {fileID: 8295676981224768018, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
       propertyPath: m_Name
       value: SlimeJellyDonutPlain
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
@@ -40,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -52,16 +67,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8301163681520942950, guid: 76d59c6190d1ae34897c499233364f53,
         type: 3}
@@ -78,5 +83,57 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4abb44b4172915b44b1f01da9d096ec0,
+        type: 2}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 091c5d1bc158a664ab5bc4c2241d2cde,
+        type: 2}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b33c3cbfacc8c044fa87c74f8d20d980,
+        type: 2}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b03ef45953417b42b17d9c581f4fa3f,
+        type: 2}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d47c33346c511e498c72c17e7922449,
+        type: 2}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 421bc9fca5106e440a5c25d4734d45b4,
+        type: 2}
+    - target: {fileID: 8406875802055265220, guid: 76d59c6190d1ae34897c499233364f53,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4cad669a3c7d07d45bb414bea5b5241d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76d59c6190d1ae34897c499233364f53, type: 3}

@@ -9,6 +9,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
+      propertyPath: WopenFrame
+      value: 156
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WcloseFrame
+      value: 188
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: WdeniedFrame
+      value: 192
+      objectReference: {fileID: 0}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
+      propertyPath: doorController
+      value: 
+      objectReference: {fileID: 8271463463794750628}
+    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
       propertyPath: WanimFrames.Array.data[0]
       value: 152
       objectReference: {fileID: 0}
@@ -37,26 +57,16 @@ PrefabInstance:
       propertyPath: WanimFrames.Array.data[5]
       value: 132
       objectReference: {fileID: 0}
-    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+    - target: {fileID: 210161610105684620, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
-      propertyPath: WcloseFrame
-      value: 188
+      propertyPath: foreverID
+      value: cf93667e32e15bc43b0347cd102fef98
       objectReference: {fileID: 0}
-    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
-      propertyPath: WdeniedFrame
-      value: 192
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
-        type: 3}
-      propertyPath: WopenFrame
-      value: 156
-      objectReference: {fileID: 0}
-    - target: {fileID: -1666584191086447953, guid: ddcfc3ab784dec1419565255774956c5,
-        type: 3}
-      propertyPath: doorController
-      value: 
-      objectReference: {fileID: 8271463463794750628}
     - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -74,6 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -85,16 +100,6 @@ PrefabInstance:
     - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3859295922778749471, guid: ddcfc3ab784dec1419565255774956c5,
@@ -115,7 +120,7 @@ PrefabInstance:
     - target: {fileID: 3862765748506000581, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
       propertyPath: m_Name
-      value: WindowDoorRight
+      value: WinDoorRight
       objectReference: {fileID: 0}
     - target: {fileID: 3961883525441312978, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
@@ -126,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 4631562103800088999, guid: ddcfc3ab784dec1419565255774956c5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cf93667e32e15bc43b0347cd102fef98
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddcfc3ab784dec1419565255774956c5, type: 3}

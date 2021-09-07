@@ -30,23 +30,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1992925032281279368, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
-      propertyPath: initialDescription
-      value: Maybe it is the last slice of pizza in your life.
+      propertyPath: initialName
+      value: mushroom pizza slice
       objectReference: {fileID: 0}
     - target: {fileID: 1992925032281279368, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
-      propertyPath: initialName
-      value: mushroom pizza slice
+      propertyPath: initialDescription
+      value: Maybe it is the last slice of pizza in your life.
       objectReference: {fileID: 0}
     - target: {fileID: 2076693713923332446, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 389a2004511530c4aba0ea257cae49e0
       objectReference: {fileID: 0}
     - target: {fileID: 2109321205815305450, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
       propertyPath: m_Name
       value: MushroomPizzaSlice
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
@@ -65,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,16 +87,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
@@ -109,6 +109,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f65c6f15581bdd548952ade3131079af,
         type: 3}
+    - target: {fileID: 2284492601500686262, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043866184130914439, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: foreverID
+      value: 389a2004511530c4aba0ea257cae49e0
+      objectReference: {fileID: 0}
     - target: {fileID: 5189219076529151853, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -118,6 +128,11 @@ PrefabInstance:
     - target: {fileID: 7823489550948591258, guid: 48bd1ae82f15544478352338b47f67e6,
         type: 3}
       propertyPath: NutritionLevel
+      value: 225
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823489550948591258, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: StartingNutrients
       value: 225
       objectReference: {fileID: 0}
     m_RemovedComponents: []

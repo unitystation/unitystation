@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2909197017712554513, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: aaa453dc2a893d94e8d1f6dc29d07a1d
       objectReference: {fileID: 0}
     - target: {fileID: 3011710637427380133, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: Space not controlled by megacorporations, planets, or pirates is under
         the jurisdiction of Spacepol.
       objectReference: {fileID: 0}
+    - target: {fileID: 8174322744686822344, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: foreverID
+      value: aaa453dc2a893d94e8d1f6dc29d07a1d
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: cf3bd7936fae0bf40ae3af7ca4b14b39,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: cf3bd7936fae0bf40ae3af7ca4b14b39,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: allClothingData.Array.size

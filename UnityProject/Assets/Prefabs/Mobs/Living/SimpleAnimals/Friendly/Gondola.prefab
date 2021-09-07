@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7395436303287695776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348965371496131048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnBody: 1
+  lootDrop:
+  - {fileID: 3378525829273383727, guid: 475fa145c1f671b4d916dfc2f18de701, type: 3}
+  - {fileID: 5393805933054634163, guid: 290c9d5c77f8a60429a9840ca13664f5, type: 3}
 --- !u!1001 &5106046402898600531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,7 +136,13 @@ PrefabInstance:
     - target: {fileID: 7581244375763357991, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f6e31ee7612ecc14cab1fa2f6e3b5a96
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74cbb9054020dd4f8c9dcdedd7398eb, type: 3}
+--- !u!1 &3348965371496131048 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7540635897288641467, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 5106046402898600531}
+  m_PrefabAsset: {fileID: 0}

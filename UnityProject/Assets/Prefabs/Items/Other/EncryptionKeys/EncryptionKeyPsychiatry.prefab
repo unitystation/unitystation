@@ -15,12 +15,17 @@ PrefabInstance:
     - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: f387dcc588df9304a84fa2c11745b4b3
       objectReference: {fileID: 0}
     - target: {fileID: 3875362642490517515, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: m_Name
       value: EncryptionKeyPsychiatry
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -39,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -89,5 +89,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6a85dfeca973a734d81b0f78329775e8,
         type: 2}
+    - target: {fileID: 7886564008535057510, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: foreverID
+      value: f387dcc588df9304a84fa2c11745b4b3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc25c61215094048b41943837cf2e3f, type: 3}

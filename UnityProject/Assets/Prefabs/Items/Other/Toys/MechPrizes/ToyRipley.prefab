@@ -7,15 +7,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4311846636437816728, guid: 1d1128b30f39d0940a454d8bc868c64f,
+        type: 3}
+      propertyPath: foreverID
+      value: 14598b77ee0b828419182da8f4a30193
+      objectReference: {fileID: 0}
     - target: {fileID: 7131535597914780737, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 14598b77ee0b828419182da8f4a30193
       objectReference: {fileID: 0}
     - target: {fileID: 7164233390365690357, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
       propertyPath: m_Name
       value: ToyRipley
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
@@ -34,6 +44,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -46,16 +61,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7169724488837837953, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
@@ -74,13 +79,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314376839914366615, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
-      propertyPath: initialDescription
-      value: Mini-Mecha action figure! Collect them all! 1/13.
+      propertyPath: initialName
+      value: toy Ripley
       objectReference: {fileID: 0}
     - target: {fileID: 7314376839914366615, guid: 1d1128b30f39d0940a454d8bc868c64f,
         type: 3}
-      propertyPath: initialName
-      value: toy Ripley
+      propertyPath: initialDescription
+      value: Mini-Mecha action figure! Collect them all! 1/13.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d1128b30f39d0940a454d8bc868c64f, type: 3}

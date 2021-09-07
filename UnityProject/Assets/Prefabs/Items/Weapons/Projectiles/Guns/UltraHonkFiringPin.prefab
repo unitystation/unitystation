@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b701490f592c7aa9bbcdb889aca865d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunComp: {fileID: 0}
   clusmyMisfire: 1
 --- !u!1001 &9130969105725249208
 PrefabInstance:
@@ -20,6 +21,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 733547612506114029, guid: 16a3e68b2c9dcaf58928506e05687f16,
+        type: 3}
+      propertyPath: foreverID
+      value: 5d6f0b7b8080082d1a7ef20866db5cda
+      objectReference: {fileID: 0}
     - target: {fileID: 5946772887125669620, guid: 16a3e68b2c9dcaf58928506e05687f16,
         type: 3}
       propertyPath: m_RootOrder
@@ -83,7 +89,7 @@ PrefabInstance:
     - target: {fileID: 5980949453699741236, guid: 16a3e68b2c9dcaf58928506e05687f16,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5d6f0b7b8080082d1a7ef20866db5cda
       objectReference: {fileID: 0}
     - target: {fileID: 6086956822628213986, guid: 16a3e68b2c9dcaf58928506e05687f16,
         type: 3}

@@ -13,6 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7baa6350469cd024a8d668e609e5c5bb,
         type: 3}
+    - target: {fileID: 1166556112042603466, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
@@ -72,6 +77,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StatueOfAnAssistant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603542756663814548, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      propertyPath: foreverID
+      value: b5b230c56841e6d4589ffbb8a43b29bf
       objectReference: {fileID: 0}
     - target: {fileID: 2897283694501616750, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
@@ -97,17 +107,17 @@ PrefabInstance:
     - target: {fileID: 7389735981002302143, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644010241212647661, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
-        type: 3}
-      propertyPath: initialDescription
-      value: A cheap statue of sandstone for a greyshirt.
+      value: b5b230c56841e6d4589ffbb8a43b29bf
       objectReference: {fileID: 0}
     - target: {fileID: 8644010241212647661, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
       propertyPath: initialName
       value: statue of an assistant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644010241212647661, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      propertyPath: initialDescription
+      value: A cheap statue of sandstone for a greyshirt.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 650bd15c5a981ff4ebfba4e3f3b224d1, type: 3}

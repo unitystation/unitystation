@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4026156895558446062, guid: 23d78abe2740d804ca053640b8d7d10e,
+        type: 3}
+      propertyPath: foreverID
+      value: 3fb2ee5eebfcd6243a94c7df2ffb5d7c
+      objectReference: {fileID: 0}
     - target: {fileID: 7604586413281396961, guid: 23d78abe2740d804ca053640b8d7d10e,
         type: 3}
       propertyPath: initialName
@@ -15,12 +20,17 @@ PrefabInstance:
     - target: {fileID: 7994245723222022711, guid: 23d78abe2740d804ca053640b8d7d10e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3fb2ee5eebfcd6243a94c7df2ffb5d7c
       objectReference: {fileID: 0}
     - target: {fileID: 8026946951644424067, guid: 23d78abe2740d804ca053640b8d7d10e,
         type: 3}
       propertyPath: m_Name
       value: _MachineBoardDepartmentalCircuitImprinter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: 23d78abe2740d804ca053640b8d7d10e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: 23d78abe2740d804ca053640b8d7d10e,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: 23d78abe2740d804ca053640b8d7d10e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031874825218677495, guid: 23d78abe2740d804ca053640b8d7d10e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: 23d78abe2740d804ca053640b8d7d10e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031874825218677495, guid: 23d78abe2740d804ca053640b8d7d10e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8031874825218677495, guid: 23d78abe2740d804ca053640b8d7d10e,
         type: 3}

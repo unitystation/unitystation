@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: sigh
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: sighs.
   youText: You let out a sigh.
   failText: You cannot sigh.
+  critViewText: sighs at their fate.
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: sighs at their fate.
+  pitchRange: {x: 0.7, y: 1}

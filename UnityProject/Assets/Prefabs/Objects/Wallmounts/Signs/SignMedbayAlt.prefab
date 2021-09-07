@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1122975573760852652, guid: bbf692512c85d5b4fb921065f82e14c3,
+        type: 3}
+      propertyPath: foreverID
+      value: cdd75698355b0a14fb404e6041b9f9b3
+      objectReference: {fileID: 0}
     - target: {fileID: 4099529588765113573, guid: bbf692512c85d5b4fb921065f82e14c3,
         type: 3}
       propertyPath: m_Name
       value: SignMedbayAlt
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103273742650964543, guid: bbf692512c85d5b4fb921065f82e14c3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4103273742650964543, guid: bbf692512c85d5b4fb921065f82e14c3,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4103273742650964543, guid: bbf692512c85d5b4fb921065f82e14c3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103273742650964543, guid: bbf692512c85d5b4fb921065f82e14c3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -41,16 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103273742650964543, guid: bbf692512c85d5b4fb921065f82e14c3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103273742650964543, guid: bbf692512c85d5b4fb921065f82e14c3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4103273742650964543, guid: bbf692512c85d5b4fb921065f82e14c3,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 5564661035402037639, guid: bbf692512c85d5b4fb921065f82e14c3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: cdd75698355b0a14fb404e6041b9f9b3
       objectReference: {fileID: 0}
     - target: {fileID: 8841837856043275839, guid: bbf692512c85d5b4fb921065f82e14c3,
         type: 3}

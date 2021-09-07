@@ -7,6 +7,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b34e36b376a0fb498619789dd31a7ab,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: fb4c18dd27584f544b2c90f48d02e8d6,
+        type: 2}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 616544267267397941, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 714082540907298689, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: initialName
@@ -26,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 1049692092611538263, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fa915c49d44ec724fb40c08d9952aa7b
       objectReference: {fileID: 0}
     - target: {fileID: 1082399918109987043, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
@@ -94,6 +126,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1097406135505486348, guid: 906603ae0d6fcec4dbabc2b4d3a15f41,
         type: 3}
+    - target: {fileID: 6322997912291777678, guid: 626cdf84a36c1384abff4ad0c505ea96,
+        type: 3}
+      propertyPath: foreverID
+      value: fa915c49d44ec724fb40c08d9952aa7b
+      objectReference: {fileID: 0}
     - target: {fileID: 6504160803191073636, guid: 626cdf84a36c1384abff4ad0c505ea96,
         type: 3}
       propertyPath: PresentSpriteSet

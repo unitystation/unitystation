@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Histamine
   m_EditorClassIdentifier: 
   displayName: Histamine
-  description: Histamine's effects become more dangerous depending on the dosage amount.
-    They range from mildly annoying to incredibly lethal.
+  description: Histamine's effects become more dangerous depending on the dosage
+    amount. They range from mildly annoying to incredibly lethal.
   color: {r: 0.98039216, g: 0.39215687, b: 0.39215687, a: 1}
   state: 1
+  heatDensity: 5
+  indexInSingleton: 459

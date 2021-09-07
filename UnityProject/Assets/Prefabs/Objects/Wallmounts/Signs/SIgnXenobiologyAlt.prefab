@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 2768487297888901347, guid: 6a88e0c7977a3f84f878a2115752609e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 500b5b56204ce184f8573e64366d6385
       objectReference: {fileID: 0}
     - target: {fileID: 5824924141279889814, guid: 6a88e0c7977a3f84f878a2115752609e,
         type: 3}
@@ -24,6 +24,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1a48da162f6a2d042be26c491801d942,
         type: 3}
+    - target: {fileID: 6026872414613547867, guid: 6a88e0c7977a3f84f878a2115752609e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6026872414613547867, guid: 6a88e0c7977a3f84f878a2115752609e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41,6 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026872414613547867, guid: 6a88e0c7977a3f84f878a2115752609e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026872414613547867, guid: 6a88e0c7977a3f84f878a2115752609e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -53,16 +63,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026872414613547867, guid: 6a88e0c7977a3f84f878a2115752609e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026872414613547867, guid: 6a88e0c7977a3f84f878a2115752609e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6026872414613547867, guid: 6a88e0c7977a3f84f878a2115752609e,
         type: 3}
@@ -83,6 +83,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SIgnXenobiologyAlt
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261945997116642248, guid: 6a88e0c7977a3f84f878a2115752609e,
+        type: 3}
+      propertyPath: foreverID
+      value: 500b5b56204ce184f8573e64366d6385
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a88e0c7977a3f84f878a2115752609e, type: 3}

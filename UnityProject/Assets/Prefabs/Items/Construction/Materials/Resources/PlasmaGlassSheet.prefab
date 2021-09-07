@@ -37,7 +37,7 @@ MonoBehaviour:
     placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
       type: 2}
     itemCost: 2
-  placeTime: 6
+    timeToPlace: 1
   placeSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
@@ -64,6 +64,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4186ff50cbdbff241a9f20e27af524ff,
         type: 2}
+    - target: {fileID: 3285299878679120978, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: foreverID
+      value: dfe30ea3b0c7a1a48ab584f1f6776309
+      objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: exportCost
@@ -126,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 8410813880369429899, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: dfe30ea3b0c7a1a48ab584f1f6776309
       objectReference: {fileID: 0}
     - target: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}

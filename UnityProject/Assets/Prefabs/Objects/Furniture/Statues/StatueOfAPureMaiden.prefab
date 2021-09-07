@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1247366900131489026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2970343800728676807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers:
+  - {fileID: 7739496626866406173}
 --- !u!114 &5622412366906893254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20,25 +39,6 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
---- !u!114 &1247366900131489026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2970343800728676807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isChangingSO: 0
-  indexDown: 0
-  indexUp: 1
-  indexRight: 2
-  indexLeft: 3
-  spriteHandlers:
-  - {fileID: 7739496626866406173}
 --- !u!1001 &4208767235238624794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54,13 +54,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1166556112042603466, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
+      propertyPath: m_SortingLayer
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166556112042603466, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
       propertyPath: m_SortingLayerID
       value: -932335445
       objectReference: {fileID: 0}
     - target: {fileID: 1166556112042603466, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
-      propertyPath: m_SortingLayer
-      value: 18
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
@@ -79,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -91,16 +106,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1388790632606978311, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
@@ -121,6 +126,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StatueOfAPureMaiden
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603542756663814548, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      propertyPath: foreverID
+      value: b21fdd54103fa1a40ac3a4fc34f03706
       objectReference: {fileID: 0}
     - target: {fileID: 2897283694501616750, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
@@ -146,7 +156,12 @@ PrefabInstance:
     - target: {fileID: 7389735981002302143, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b21fdd54103fa1a40ac3a4fc34f03706
+      objectReference: {fileID: 0}
+    - target: {fileID: 8644010241212647661, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
+        type: 3}
+      propertyPath: initialName
+      value: statue of a pure maiden
       objectReference: {fileID: 0}
     - target: {fileID: 8644010241212647661, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
         type: 3}
@@ -155,11 +170,6 @@ PrefabInstance:
         braid and is wielding a toolbox. By Jove, it's easily the most gorgeous depiction
         of a woman you've ever seen. The artist must truly be a master of his craft.
         Shame about the broken arm, though.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8644010241212647661, guid: 650bd15c5a981ff4ebfba4e3f3b224d1,
-        type: 3}
-      propertyPath: initialName
-      value: statue of a pure maiden
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 650bd15c5a981ff4ebfba4e3f3b224d1, type: 3}

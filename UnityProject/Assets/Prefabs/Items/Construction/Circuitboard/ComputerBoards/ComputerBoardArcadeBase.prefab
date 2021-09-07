@@ -7,12 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2596862763773197862, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: foreverID
+      value: 81f8972b4a8376a4b9d3256e322349f1
+      objectReference: {fileID: 0}
     - target: {fileID: 3023408758491105740, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fadc8577b917a5246957e1299ebe1b1d,
         type: 2}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -42,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -76,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 9018287352618307583, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 81f8972b4a8376a4b9d3256e322349f1
       objectReference: {fileID: 0}
     - target: {fileID: 9098015153725456663, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}

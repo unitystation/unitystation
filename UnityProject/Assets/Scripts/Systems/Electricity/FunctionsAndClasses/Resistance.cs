@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using NaughtyAttributes;
 
 namespace Systems.Electricity
 {
@@ -9,9 +10,9 @@ namespace Systems.Electricity
 	/// </summary>
 	[Serializable]
 	public class Resistance
-	{ 
-		public float Ohms = 0;
-		public bool ResistanceAvailable = true; // if false this resistance is not calculated
+	{
+		[NaughtyAttributes.ReadOnlyAttribute] public float Ohms = 0;
+		[NaughtyAttributes.ReadOnlyAttribute] public bool ResistanceAvailable = true; // if false this resistance is not calculated
 	}
 
 	[Serializable]

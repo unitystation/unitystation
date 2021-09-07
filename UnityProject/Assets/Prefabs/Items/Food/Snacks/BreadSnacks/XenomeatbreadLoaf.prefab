@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d1a7f835ef036e43a6a56f5f25de6a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MutatedBread: {fileID: 7211410574268338187, guid: 55dca02dfb005cf4e8bc3686c0229b90,
-    type: 3}
+  mutatedFood: {fileID: 0}
 --- !u!1001 &8760667972742440079
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,16 +25,26 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 1313
       objectReference: {fileID: 0}
+    - target: {fileID: 1209025498235043164, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 1313
+      objectReference: {fileID: 0}
     - target: {fileID: 3771205322401006763, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 217abac72c86f994483d8cbce4c2cbdf,
         type: 2}
+    - target: {fileID: 4155315648681964353, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: foreverID
+      value: 145dd7fcad8ba0f4d9e228b7dd41f2b8
+      objectReference: {fileID: 0}
     - target: {fileID: 6954729823044027032, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 145dd7fcad8ba0f4d9e228b7dd41f2b8
       objectReference: {fileID: 0}
     - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
@@ -103,6 +112,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fc85947bccfd7c543ac8bca10d0ef19d,
         type: 3}
+    - target: {fileID: 7197290870251572336, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7493293519372095566, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: initialName

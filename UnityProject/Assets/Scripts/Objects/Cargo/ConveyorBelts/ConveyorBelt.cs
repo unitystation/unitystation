@@ -1,15 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using Systems.ObjectConnection;
+
 
 namespace Construction.Conveyors
 {
 	[SelectionBase]
 	[ExecuteInEditMode]
-	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		private readonly Vector2Int[] searchDirs =
 		{
@@ -177,21 +178,6 @@ namespace Construction.Conveyors
 			if (this == null) return;
 			spriteHandler.ChangeSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
-			switch (variant)
-			{
-				case 8:
-					variant = 4;
-					break;
-				case 9:
-					variant = 5;
-					break;
-				case 10:
-					variant = 6;
-					break;
-				case 11:
-					variant = 7;
-					break;
-			}
 
 			spriteHandler.ChangeSpriteVariant(variant);
 		}
@@ -296,16 +282,9 @@ namespace Construction.Conveyors
 
 		#region Multitool Interaction
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
-		public MultitoolConnectionType ConType => conType;
-
-		private bool multiMaster = true;
-		public bool MultiMaster => multiMaster;
-
-		public void AddSlave(object SlaveObject)
-		{
-		}
+		public MultitoolConnectionType ConType => MultitoolConnectionType.Conveyor;
+		public bool MultiMaster => true;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion Multitool Interaction
 	}

@@ -20,21 +20,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
-      propertyPath: initialIntegrity
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
       propertyPath: Armor.Bio
       value: 100
       objectReference: {fileID: 0}
@@ -45,33 +30,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
+      propertyPath: Armor.Acid
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
       propertyPath: Armor.Fire
       value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
-      propertyPath: Armor.Acid
-      value: 100
+      propertyPath: Armor.Melee
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: HeatResistance
       value: 1600
       objectReference: {fileID: 0}
+    - target: {fileID: 2503472526692704667, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 3210787376857357156, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 044c5be8ebc308b4b9e450ab85fec306
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465088301726249270, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: initialName
+      value: shuttle window
       objectReference: {fileID: 0}
     - target: {fileID: 4465088301726249270, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: initialDescription
       value: A reinforced, air-locked pod window.
       objectReference: {fileID: 0}
-    - target: {fileID: 4465088301726249270, guid: 157fcff274a3644448d1ff3bdc019619,
+    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
-      propertyPath: initialName
-      value: shuttle window
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
@@ -90,6 +95,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -101,16 +111,6 @@ PrefabInstance:
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
@@ -139,5 +139,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 66305a19e3614694f868c75a982e6b68,
         type: 3}
+    - target: {fileID: 7936252890283790415, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: foreverID
+      value: 044c5be8ebc308b4b9e450ab85fec306
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 157fcff274a3644448d1ff3bdc019619, type: 3}

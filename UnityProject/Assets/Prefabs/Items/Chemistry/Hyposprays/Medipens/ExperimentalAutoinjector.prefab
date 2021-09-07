@@ -9,18 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
       propertyPath: maxCapacity
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: transferMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
@@ -29,7 +24,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
-      propertyPath: transferMode
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
@@ -45,6 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
+      propertyPath: initialName
+      value: experimental autoinjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
       propertyPath: initialDescription
       value: A custom-frame needle injector with a small single-use reservoir, containing
         an experimental serum. Unlike the more common medipen frame, it cannot pierce
@@ -52,14 +57,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
-      propertyPath: initialName
-      value: experimental autoinjector
-      objectReference: {fileID: 0}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f73c77a9851c8de4a874133deca5cf12,
+        type: 2}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: dbdc03b2141a09742bfc6192cecb9604,
+        type: 2}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: e153aa2e6c8c6384f9c4f268bf7e3735, type: 3}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: dd55c1acb9785eb4489205f1a9a37230, type: 3}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 2e4f365148f9cee4d934cbd220aebeee, type: 3}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 4623f8ed22a4d714686e8319d01f02b8, type: 3}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
@@ -86,16 +113,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 2e4f365148f9cee4d934cbd220aebeee, type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: dd55c1acb9785eb4489205f1a9a37230, type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
       objectReference: {fileID: -2218458768233719067, guid: dd55c1acb9785eb4489205f1a9a37230,
@@ -118,27 +135,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 538968398353808320, guid: dd55c1acb9785eb4489205f1a9a37230,
         type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 4623f8ed22a4d714686e8319d01f02b8, type: 3}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: f73c77a9851c8de4a874133deca5cf12,
-        type: 2}
-    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: dbdc03b2141a09742bfc6192cecb9604,
-        type: 2}
     - target: {fileID: 2074353254340257071, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e9ecbfc49c29aa04d82cce49de0d727e
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
@@ -157,6 +162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -169,16 +179,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2111663703731086831, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
@@ -206,6 +206,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5df9d0a9242e0a1419be5c4918bd4d04,
         type: 3}
+    - target: {fileID: 5037022434091717878, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: foreverID
+      value: e9ecbfc49c29aa04d82cce49de0d727e
+      objectReference: {fileID: 0}
     - target: {fileID: 5195957585038861084, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: PresentSpriteSet

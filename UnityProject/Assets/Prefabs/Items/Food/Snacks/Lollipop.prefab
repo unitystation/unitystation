@@ -42,10 +42,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 30ab99141e946334fac2b00266e87783, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -94,20 +96,35 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 792b4b693b9ed1141ac478ff4b088d28,
         type: 2}
+    - target: {fileID: 2084451878847925160, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: foreverID
+      value: 4ba956d85c721b749b03a4b53aa7a941
+      objectReference: {fileID: 0}
     - target: {fileID: 3855224395746198965, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: NutritionLevel
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855224395746198965, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialName
+      value: lollipop
       objectReference: {fileID: 0}
     - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialDescription
       value: A delicious lollipop. Makes for a great Valentine's present.
       objectReference: {fileID: 0}
-    - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
+    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialName
-      value: lollipop
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
@@ -126,6 +143,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -138,16 +160,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
@@ -172,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 5027135991655561841, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 4ba956d85c721b749b03a4b53aa7a941
       objectReference: {fileID: 0}
     - target: {fileID: 5090819686911636633, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
@@ -180,6 +192,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ed5fdbba6686376449a689ebea9237d6,
         type: 3}
+    - target: {fileID: 5090819686911636633, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -198,20 +215,10 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
         type: 2}
-    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
@@ -220,26 +227,36 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103,
         type: 2}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
-        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: fa60dedbe4f861e76a46f56f59987729,
         type: 2}
+    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[4]

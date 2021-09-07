@@ -9,8 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
-      propertyPath: plantData.MutatesInToGameObject.Array.size
-      value: 0
+      propertyPath: plantData.PlantName
+      value: Holymelon Vines
       objectReference: {fileID: 0}
     - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
@@ -20,32 +20,9 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
-      propertyPath: plantData.PlantName
-      value: Holymelon Vines
-      objectReference: {fileID: 0}
-    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[5]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: c68e68b06e60a8045bb2c44d45cd3e9e,
-        type: 2}
-    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3241ff40dd5e9cf42afc3443c6e2633e,
-        type: 2}
-    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 402655dc0eed5594fa92e71e6c8d6e0f,
-        type: 2}
-    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
-        type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: c2c261c61ec7fed4d9c9305ff6a037dd,
+      objectReference: {fileID: 11400000, guid: 9e4bb605e9aae514bbdfe06ffe513208,
         type: 2}
     - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
@@ -55,14 +32,42 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
-      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 9e4bb605e9aae514bbdfe06ffe513208,
+      objectReference: {fileID: 11400000, guid: c2c261c61ec7fed4d9c9305ff6a037dd,
         type: 2}
+    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 402655dc0eed5594fa92e71e6c8d6e0f,
+        type: 2}
+    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3241ff40dd5e9cf42afc3443c6e2633e,
+        type: 2}
+    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: c68e68b06e60a8045bb2c44d45cd3e9e,
+        type: 2}
+    - target: {fileID: 3431413622188832792, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+        type: 3}
+      propertyPath: plantData.MutatesInToGameObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4063088516707541665, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
       propertyPath: m_Name
       value: HolymelonSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067171965422936021, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4067171965422936021, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
@@ -81,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4067171965422936021, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067171965422936021, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -93,16 +103,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4067171965422936021, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4067171965422936021, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4067171965422936021, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
@@ -122,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 4176746579588046613, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 3194defd54d8e114aa02b6b43d48d998
       objectReference: {fileID: 0}
     - target: {fileID: 4220727060801737213, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
@@ -132,13 +132,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4507935888925232579, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into holymelon plants.
+      propertyPath: initialName
+      value: pack of holymelon seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4507935888925232579, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
-      propertyPath: initialName
-      value: pack of holymelon seeds
+      propertyPath: initialDescription
+      value: These seeds grow into holymelon plants.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6978403071013023436, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+        type: 3}
+      propertyPath: foreverID
+      value: 3194defd54d8e114aa02b6b43d48d998
       objectReference: {fileID: 0}
     - target: {fileID: 7864659670486538534, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}

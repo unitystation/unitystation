@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: MatchboxPopulator
   m_EditorClassIdentifier: 
-  Contents:
+  SlotContents: []
+  DeprecatedContents:
   - {fileID: 8484913947780604913, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}
   - {fileID: 8484913947780604913, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}
   - {fileID: 8484913947780604913, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}
@@ -23,4 +24,3 @@ MonoBehaviour:
   - {fileID: 8484913947780604913, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}
   - {fileID: 8484913947780604913, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}
   - {fileID: 8484913947780604913, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}
-  MergeMode: 0

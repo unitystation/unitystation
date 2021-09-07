@@ -15,13 +15,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
-      propertyPath: initialDescription
-      value: An obscure brand of cigarettes.
+      propertyPath: initialName
+      value: cigarette packet
       objectReference: {fileID: 0}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
-      propertyPath: initialName
-      value: cigarette packet
+      propertyPath: initialDescription
+      value: An obscure brand of cigarettes.
       objectReference: {fileID: 0}
     - target: {fileID: 1924874740640411365, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -35,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d45d475ba9589694a81f630c2b5bfe27,
         type: 2}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -64,16 +74,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2038054705163664627, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -98,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 2147979857387961395, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 8c0cd43087354414196842dd7f64a46a
       objectReference: {fileID: 0}
     - target: {fileID: 2209833963140592347, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
@@ -106,6 +106,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7e48df03c6b743743b1c6c68a521e03f,
         type: 3}
+    - target: {fileID: 4963428794470239722, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+      propertyPath: foreverID
+      value: 8c0cd43087354414196842dd7f64a46a
+      objectReference: {fileID: 0}
     - target: {fileID: 5268370315017271808, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
       propertyPath: PresentSpriteSet

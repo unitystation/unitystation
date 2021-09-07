@@ -15,8 +15,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -30,23 +35,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Armor.Laser
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
       propertyPath: Armor.Energy
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 426334204662563207, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 100
+      propertyPath: Resistances.FireProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 5f873383ea2b14c489f9fcb144f5e326
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -67,8 +67,8 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.r
-      value: 0.47058827
+      propertyPath: HullColor.b
+      value: 0.9843138
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -77,8 +77,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
-      propertyPath: HullColor.b
-      value: 0.9843138
+      propertyPath: HullColor.r
+      value: 0.47058827
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: 5f873383ea2b14c489f9fcb144f5e326
       objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -99,6 +104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -114,6 +124,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -126,16 +141,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

@@ -7,15 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
+    - target: {fileID: 1233403210295237416, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: SetSpriteOnStartUp
-      value: 1
+      propertyPath: foreverID
+      value: d6c24945bf0d021489d7f06cd016c5ee
       objectReference: {fileID: 0}
     - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -23,15 +18,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e5e10e71e6028984d8db85dae3e530ef,
         type: 2}
+    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: SetSpriteOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5202609555093908209, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d6c24945bf0d021489d7f06cd016c5ee
       objectReference: {fileID: 0}
     - target: {fileID: 5307303368926091077, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: m_Name
       value: ExperimentalCombatStimulantInjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -50,6 +60,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -62,16 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5311105617408469553, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -120,6 +125,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
+      propertyPath: maxCapacity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -127,11 +137,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: maxCapacity
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -153,13 +158,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 20
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 80
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a753ad12f9c4b8847be33e910d2e18e5, type: 3}

@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6688608445877633530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5607718071721086056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsingSilo: 0
+  usedStorage: {fileID: 0}
+  materialListGUI: {fileID: 0}
 --- !u!114 &2888138114872845017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,6 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infiniteStorage: 0
   maximumResources: 1000000
+  UpdateGUIs:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4434257373069083471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 17
+  aiInteractable: 1
 --- !u!114 &7372906600667712651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,19 +99,6 @@ MonoBehaviour:
   productionSprite: {fileID: 11400000, guid: 0e601845f1e569f45abe3c93b83a4ddb, type: 2}
   materialStorageLink: {fileID: 0}
   exoFabProducts: {fileID: 11400000, guid: 5de8c3642d9b41742bd0f830d07a5bd7, type: 2}
---- !u!114 &-6688608445877633530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5607718071721086056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usedStorage: {fileID: 0}
 --- !u!1001 &8615537192462600737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114,6 +120,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: e947d751522b07a4186cd276fb16eefe
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -219,7 +230,7 @@ PrefabInstance:
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: e947d751522b07a4186cd276fb16eefe
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

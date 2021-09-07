@@ -9,14 +9,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 149022340165360907, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
+      propertyPath: initialName
+      value: trash bag of holding
+      objectReference: {fileID: 0}
+    - target: {fileID: 149022340165360907, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
       propertyPath: initialDescription
       value: The latest and greatest in custodial convenience, a trashbag that is
         capable of holding vast quantities of garbage.
       objectReference: {fileID: 0}
-    - target: {fileID: 149022340165360907, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
-      propertyPath: initialName
-      value: trash bag of holding
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
@@ -35,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -47,16 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 355634370973716253, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 389772660589236189, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ff5c677526b26f94e9facd914e93b7c4
       objectReference: {fileID: 0}
     - target: {fileID: 436004943746269493, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
@@ -101,6 +101,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6c5052644711aba4daa0b905d3d59a57,
         type: 2}
+    - target: {fileID: 6649085837537525252, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
+        type: 3}
+      propertyPath: foreverID
+      value: ff5c677526b26f94e9facd914e93b7c4
+      objectReference: {fileID: 0}
     - target: {fileID: 7621932155683203204, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03,
         type: 3}
       propertyPath: actionData

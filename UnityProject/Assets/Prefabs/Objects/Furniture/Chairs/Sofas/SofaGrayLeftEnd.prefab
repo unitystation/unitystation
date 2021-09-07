@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 825287458352526328, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
+        type: 3}
+      propertyPath: foreverID
+      value: 0db5886305128c2488b39ddbd6db756f
+      objectReference: {fileID: 0}
     - target: {fileID: 4325121090223803825, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
         type: 3}
       propertyPath: m_Name
-      value: _SofaLeftEndBase
+      value: SofaGrayLeftEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328064232701479787, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4328064232701479787, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4328064232701479787, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328064232701479787, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -44,16 +59,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4328064232701479787, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4328064232701479787, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4328064232701479787, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -66,6 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321068368118397139, guid: 9c5fbdab66699444a980c8d2ffc43fb0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 0db5886305128c2488b39ddbd6db756f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c5fbdab66699444a980c8d2ffc43fb0, type: 3}

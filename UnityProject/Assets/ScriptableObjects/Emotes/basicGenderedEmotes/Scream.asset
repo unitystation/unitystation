@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteName: scream
   requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  allowEmoteWhileCrawling: 1
   viewText: Screams!
   youText: You scream!
   failText: You cannot scream!
+  critViewText: screams in pain!
   defaultSounds: []
   maleSounds: []
   femaleSounds: []
-  audioToUse: []
-  critViewText: screams in pain!
+  pitchRange: {x: 0.7, y: 1}

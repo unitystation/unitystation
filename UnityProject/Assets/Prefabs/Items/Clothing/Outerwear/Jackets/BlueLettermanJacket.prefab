@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 1972636957058363524, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: a6f21b98af30b044e84714e0f2b4cfad
       objectReference: {fileID: 0}
     - target: {fileID: 2024818765580378706, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
@@ -89,18 +89,21 @@ PrefabInstance:
       value: A blue letterman jacket with a proud Nanotrasen N on the back. The tag
         says that it was made in Space China.
       objectReference: {fileID: 0}
+    - target: {fileID: 4777961452559450461, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: foreverID
+      value: a6f21b98af30b044e84714e0f2b4cfad
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: df9f4393b01e9a84090d052b81a2e390,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: df9f4393b01e9a84090d052b81a2e390,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4794426842226564789, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: allClothingData.Array.size

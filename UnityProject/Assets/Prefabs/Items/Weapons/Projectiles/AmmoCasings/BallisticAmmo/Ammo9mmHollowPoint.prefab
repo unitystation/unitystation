@@ -7,20 +7,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4616025213351328545, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
+    - target: {fileID: 2186578062461311022, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
         type: 3}
-      propertyPath: initialDescription
-      value: A 10mm hollow-point bullet casing.
+      propertyPath: foreverID
+      value: 0b455f7f0f9cae148ba47e10e0344c07
       objectReference: {fileID: 0}
     - target: {fileID: 4616025213351328545, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
         type: 3}
       propertyPath: initialName
       value: 9mm hollow-point bullet casing
       objectReference: {fileID: 0}
+    - target: {fileID: 4616025213351328545, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
+        type: 3}
+      propertyPath: initialDescription
+      value: A 10mm hollow-point bullet casing.
+      objectReference: {fileID: 0}
     - target: {fileID: 5107909693011956803, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
         type: 3}
       propertyPath: m_Name
       value: Ammo9mmHollowPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 5111993416739514679, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5111993416739514679, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
         type: 3}
@@ -39,6 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5111993416739514679, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5111993416739514679, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -51,16 +66,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5111993416739514679, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5111993416739514679, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5111993416739514679, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
         type: 3}
@@ -80,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 5149520195437373943, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 0b455f7f0f9cae148ba47e10e0344c07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d37ebc7a0cbd0948a172b21dd46ca54, type: 3}

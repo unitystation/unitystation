@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 308434288503612314, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: d94571a8a4d4d0946ad8ac3c092971e8
       objectReference: {fileID: 0}
     - target: {fileID: 754031595620211045, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
@@ -24,13 +24,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531201218411481544, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
-      propertyPath: initialDescription
-      value: Kneel here and pray.
+      propertyPath: initialName
+      value: wooden pew
       objectReference: {fileID: 0}
     - target: {fileID: 1531201218411481544, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
-      propertyPath: initialName
-      value: wooden pew
+      propertyPath: initialDescription
+      value: Kneel here and pray.
       objectReference: {fileID: 0}
     - target: {fileID: 3732048457055730722, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
@@ -40,14 +40,24 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4752306197363050836, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
+      propertyPath: howMany
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752306197363050836, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
       propertyPath: resourcesMadeOf
       value: 
       objectReference: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
         type: 3}
-    - target: {fileID: 4752306197363050836, guid: 1a00e842e154f7d43811c5d45328988c,
+    - target: {fileID: 5110458263462389937, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
-      propertyPath: howMany
-      value: 3
+      propertyPath: foreverID
+      value: d94571a8a4d4d0946ad8ac3c092971e8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
@@ -66,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -78,16 +93,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}

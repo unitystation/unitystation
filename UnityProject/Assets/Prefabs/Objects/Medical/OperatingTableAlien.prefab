@@ -9,18 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 320638787586529093, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}
-      propertyPath: initialDescription
-      value: Used for alien medical procedures. The surface is covered in tiny spines.
+      propertyPath: initialName
+      value: alien operating table
       objectReference: {fileID: 0}
     - target: {fileID: 320638787586529093, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}
-      propertyPath: initialName
-      value: alien operating table
+      propertyPath: initialDescription
+      value: Used for alien medical procedures. The surface is covered in tiny spines.
       objectReference: {fileID: 0}
     - target: {fileID: 1516322723155918103, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ae562bc18d575dc4faaa191d50d905f2
       objectReference: {fileID: 0}
     - target: {fileID: 2487726894470439599, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}
@@ -28,6 +28,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8dac3f61981272d4e8c566abf678971b,
         type: 2}
+    - target: {fileID: 6316077014602479164, guid: c4c1a5e556c58314eb690ee3272fb1cf,
+        type: 3}
+      propertyPath: foreverID
+      value: ae562bc18d575dc4faaa191d50d905f2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972534826791521967, guid: c4c1a5e556c58314eb690ee3272fb1cf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6972534826791521967, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -45,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6972534826791521967, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972534826791521967, guid: c4c1a5e556c58314eb690ee3272fb1cf,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -57,16 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6972534826791521967, guid: c4c1a5e556c58314eb690ee3272fb1cf,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6972534826791521967, guid: c4c1a5e556c58314eb690ee3272fb1cf,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6972534826791521967, guid: c4c1a5e556c58314eb690ee3272fb1cf,
         type: 3}

@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
-using System.Text;
-using Pipes;
+
 
 namespace Items.Atmospherics
 {
-	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>, IInteractable<PositionalHandApply>
+	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 	{
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
@@ -30,10 +29,17 @@ namespace Items.Atmospherics
 			}
 		}
 
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.TargetObject == gameObject) return false;
+
+			return true;
+		}
+
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			if (interaction.TargetObject == gameObject) return;
-
 			if (interaction.TargetObject != null)
 			{
 				if (interaction.TargetObject.TryGetComponent(out GasContainer container))

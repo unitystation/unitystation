@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 734138797340211379, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: foreverID
+      value: 628668e5958fedc4bb4bf1685251aa9f
+      objectReference: {fileID: 0}
     - target: {fileID: 5947731994596095198, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_Name
-      value: Handwear
+      value: HandwearColorBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
@@ -29,6 +39,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -44,16 +59,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -66,6 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 628668e5958fedc4bb4bf1685251aa9f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f819cf8b4a0534ec59570563e52c8508, type: 3}

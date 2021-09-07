@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 572772562549977928, guid: cab5c74016637e544bd4eb2e9065d5b3,
+        type: 3}
+      propertyPath: foreverID
+      value: c1179d74d537019488e1afb587bb4db2
+      objectReference: {fileID: 0}
     - target: {fileID: 724590600500315298, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -27,12 +32,17 @@ PrefabInstance:
     - target: {fileID: 6835454746677215889, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: c1179d74d537019488e1afb587bb4db2
       objectReference: {fileID: 0}
     - target: {fileID: 6865839303558840101, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
       propertyPath: m_Name
       value: CartridgePowerOnDELUXE
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
@@ -51,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -63,16 +78,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6871330127560458833, guid: cab5c74016637e544bd4eb2e9065d5b3,
         type: 3}

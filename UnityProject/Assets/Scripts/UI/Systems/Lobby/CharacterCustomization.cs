@@ -493,9 +493,9 @@ namespace UI.CharacterCreator
 
 			//Setup sprite//
 			//OpenBodySprites
-			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					ParentDictionary[bodyPart].Add(subBodyPart);
@@ -924,9 +924,9 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSetBodyPart(subBodyPart, path);
@@ -1129,9 +1129,9 @@ namespace UI.CharacterCreator
 				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
 			}
 
-			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSaveBodyPart(subBodyPart, path);

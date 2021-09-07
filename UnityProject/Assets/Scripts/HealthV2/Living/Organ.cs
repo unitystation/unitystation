@@ -10,7 +10,7 @@ namespace HealthV2
 		[NonSerialized]
 		public BodyPart RelatedPart;
 		public virtual void ImplantPeriodicUpdate(){}
-		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase){}
+		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealth){}
 		public virtual void HealthMasterSet(){}
 		public virtual void SetUpSystems(){}
 

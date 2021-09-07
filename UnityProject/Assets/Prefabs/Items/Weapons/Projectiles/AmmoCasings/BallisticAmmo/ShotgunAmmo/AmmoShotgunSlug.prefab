@@ -29,11 +29,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
-        type: 3}
       propertyPath: initialName
       value: shotgun slug
       objectReference: {fileID: 0}
@@ -41,6 +36,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A 12 gauge lead slug.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
@@ -57,12 +57,17 @@ PrefabInstance:
     - target: {fileID: 2176208296632151677, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: b564e5d916b891446903adc342af08bd
       objectReference: {fileID: 0}
     - target: {fileID: 2280866994825352137, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: m_Name
       value: AmmoShotgunSlug
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
@@ -81,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -96,16 +106,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -118,6 +118,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124530773249089444, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: foreverID
+      value: b564e5d916b891446903adc342af08bd
       objectReference: {fileID: 0}
     - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}

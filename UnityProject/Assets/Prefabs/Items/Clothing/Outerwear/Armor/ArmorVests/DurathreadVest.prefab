@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5123812588846635774
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2603394941573166480, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d17598631c04d2e47bd3170ef8cadb83,
+        type: 2}
+    - target: {fileID: 2658986937302887032, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: foreverID
+      value: 900572ab8ed9030429b12eaa3974a43g
+      objectReference: {fileID: 0}
+    - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c38d9837974729040b5263b29eca80e1,
+        type: 2}
+    - target: {fileID: 4742361789441152362, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742361789441152362, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Fire
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742361789441152362, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742361789441152362, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: initialName
+      value: durathread vest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: initialDescription
+      value: A vest made of durathread with strips of leather acting as trauma plates.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923658564185190339, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923658564185190339, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2816662d0e6c3a4428e1a8f6e4e1bdc6,
+        type: 2}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957559930371988321, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8961080704280307221, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_Name
+      value: DurathreadVest
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063377138319701985, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063515089906310049, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 1d19542eb4552e14e958bad02ee694f8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128183951869416777, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 287d8b8b9b4ed07469bb1af79f8f99ac,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 900572ab8ed9030429b12eaa3974a43f, type: 3}

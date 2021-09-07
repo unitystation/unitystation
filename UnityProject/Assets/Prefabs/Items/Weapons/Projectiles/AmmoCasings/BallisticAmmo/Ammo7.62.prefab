@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isClip: 1
-  Projectile: {fileID: 5184028687306108153, guid: 7011865b4b4ff8841a9007ac7c9701fe,
+  magType: 0
+  initalProjectile: {fileID: 5184028687306108153, guid: 7011865b4b4ff8841a9007ac7c9701fe,
     type: 3}
   ProjectilesFired: 1
   ammoType: 12
@@ -29,13 +29,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
-      propertyPath: initialDescription
-      value: A 7.62 bullet casing.
+      propertyPath: initialName
+      value: 7.62 bullet casing
       objectReference: {fileID: 0}
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
-      propertyPath: initialName
-      value: 7.62 bullet casing
+      propertyPath: initialDescription
+      value: A 7.62 bullet casing.
       objectReference: {fileID: 0}
     - target: {fileID: 2114072713808011413, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
@@ -46,12 +46,17 @@ PrefabInstance:
     - target: {fileID: 2176208296632151677, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: fff5813656af4fd47b39c37274081680
       objectReference: {fileID: 0}
     - target: {fileID: 2280866994825352137, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: m_Name
       value: Ammo7.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
@@ -70,6 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -85,16 +95,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2284668968090087101, guid: 31d01d60b659392429fe6a6384563082,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -107,6 +107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124530773249089444, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: foreverID
+      value: fff5813656af4fd47b39c37274081680
       objectReference: {fileID: 0}
     - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}

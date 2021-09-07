@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabChildrenOrientation: 3
+  forceChildrenOpposite: 0
 --- !u!1001 &8598899142623505621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,7 +120,7 @@ PrefabInstance:
     - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ddcfc3ab784dec1419565255774956c5
       objectReference: {fileID: 0}
     - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -266,6 +267,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: foreverID
+      value: ddcfc3ab784dec1419565255774956c5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}

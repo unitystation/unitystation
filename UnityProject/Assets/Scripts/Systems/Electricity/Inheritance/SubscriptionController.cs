@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
+using Mirror;
 
-namespace Electricity.Inheritance
+
+namespace Systems.ObjectConnection
 {
 	/// <summary>
-	/// Used for editor scripts
+	/// Used for editor scripts.
 	/// </summary>
 	public abstract class SubscriptionController : NetworkBehaviour
 	{
-
 		/// <summary>
-		/// Used in SubscriptionControllerEditor
-		/// Passes a list of game objects of a tile user click on
+		/// Used in <see cref="SubscriptionControllerEditor"/>.
+		/// <para>Passes a list of game objects of a tile user click on</para>
 		/// </summary>
-		/// <param name="potentialObjects"></param>
-		/// <returns> Chosen objects </returns>
+		/// <returns>Chosen objects.</returns>
 		public abstract IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects);
 	}
 }

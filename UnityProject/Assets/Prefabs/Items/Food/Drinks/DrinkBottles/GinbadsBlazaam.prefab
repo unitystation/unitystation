@@ -9,13 +9,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: Sprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c2c38ba774acbd4eb5c7ebfa09aa894,
+        type: 2}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.size
-      value: 4
+      propertyPath: Sprites.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -24,9 +25,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c2c38ba774acbd4eb5c7ebfa09aa894,
+        type: 2}
+    - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: Sprites.Array.data[0].Texture
       value: 
       objectReference: {fileID: 2800000, guid: 83f62dd0f748b1a4c995e1fd0ee2d76c, type: 3}
+    - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: cd2ab8e3fd211b74db21277b34f65555, type: 3}
+    - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
@@ -51,23 +68,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 83f62dd0f748b1a4c995e1fd0ee2d76c,
         type: 3}
-    - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
+    - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: Sprites.Array.data[0].EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: cd2ab8e3fd211b74db21277b34f65555, type: 3}
-    - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1c2c38ba774acbd4eb5c7ebfa09aa894,
-        type: 2}
-    - target: {fileID: 46755647271444012, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 1c2c38ba774acbd4eb5c7ebfa09aa894,
-        type: 2}
+      propertyPath: foreverID
+      value: 22245d367a5496149910e3ccd4975e96
+      objectReference: {fileID: 0}
     - target: {fileID: 4956784215611960579, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -91,23 +96,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: initialDescription
-      value: You feel like you should give the bottle a good rub before opening.
+      propertyPath: initialName
+      value: Ginbad's Blazaam
       objectReference: {fileID: 0}
     - target: {fileID: 5984608258402601673, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
-      propertyPath: initialName
-      value: Ginbad's Blazaam
+      propertyPath: initialDescription
+      value: You feel like you should give the bottle a good rub before opening.
       objectReference: {fileID: 0}
     - target: {fileID: 6085549112089319455, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 22245d367a5496149910e3ccd4975e96
       objectReference: {fileID: 0}
     - target: {fileID: 6187949413390427563, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: m_Name
       value: GinbadsBlazaam
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -126,6 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -138,16 +153,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193435838938699999, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
@@ -170,5 +175,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 83f62dd0f748b1a4c995e1fd0ee2d76c,
         type: 3}
+    - target: {fileID: 6274066957328979703, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1a38b78ce2ca024a92744e263e5e94a, type: 3}

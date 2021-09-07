@@ -47,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 4546609781174536597, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: bedf02a0739149743a41fe984184951d
       objectReference: {fileID: 0}
     - target: {fileID: 4581204742557119992, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -63,7 +63,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: 071f58d5f3d68ca40bdcb62f7c00bef8,
+      objectReference: {fileID: 21300000, guid: 071f58d5f3d68ca40bdcb62f7c00bef8,
         type: 3}
     - target: {fileID: 5387743639968234743, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -154,7 +154,7 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 18
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -412,47 +412,59 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[10].Item
       value: 
-      objectReference: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
+      objectReference: {fileID: 7019925540262486990, guid: 7a5bc4eb879170843a619029adff792b,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[11].Item
       value: 
-      objectReference: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0,
+      objectReference: {fileID: 7019925540262486990, guid: 80f01cc1e23fda44b8a70fb7237dd285,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[12].Item
       value: 
-      objectReference: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330,
+      objectReference: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].Item
       value: 
-      objectReference: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
+      objectReference: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[14].Item
       value: 
-      objectReference: {fileID: 4306441978527708668, guid: a67aa95de4c8f7349a192a12cdfc84dd,
+      objectReference: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[15].Item
       value: 
-      objectReference: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76,
+      objectReference: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[16].Item
       value: 
-      objectReference: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706,
+      objectReference: {fileID: 4306441978527708668, guid: a67aa95de4c8f7349a192a12cdfc84dd,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].Item
+      value: 
+      objectReference: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].Item
+      value: 
+      objectReference: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[19].Item
       value: 
       objectReference: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4,
         type: 3}
@@ -504,12 +516,12 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[10].Stock
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[11].Stock
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -539,6 +551,16 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[19].Stock
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
@@ -594,42 +616,57 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[10].ItemName
-      value: Security Beret
+      value: Black Tie
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[11].ItemName
-      value: Security Cap
+      value: Red Tie
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[12].ItemName
-      value: Red Bandana
+      value: Security Beret
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].ItemName
-      value: Black Gloves
+      value: Security Cap
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[14].ItemName
-      value: Security Headset
+      value: Red Bandana
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[15].ItemName
-      value: Security Officer's Formal Uniform
+      value: Black Gloves
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[16].ItemName
-      value: Security Officer's Formal Jacket
+      value: Security Headset
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].ItemName
+      value: Security Officer's Formal Uniform
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[18].ItemName
+      value: Security Officer's Formal Jacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[19].ItemName
       value: Security Navy Beret
+      objectReference: {fileID: 0}
+    - target: {fileID: 9058133508007248574, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: foreverID
+      value: bedf02a0739149743a41fe984184951d
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5000c293075c074d80896d211fcd50b, type: 3}

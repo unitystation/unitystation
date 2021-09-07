@@ -13,18 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 25b20b3f7b0b2e74cb9b053fe873fa4b,
         type: 2}
+    - target: {fileID: 2606574574769199144, guid: cae650b8120e1f04a840374168f5169e,
+        type: 3}
+      propertyPath: foreverID
+      value: ed03c800dbd4d674d8f01df08a62ce57
+      objectReference: {fileID: 0}
     - target: {fileID: 2660478029406209984, guid: cae650b8120e1f04a840374168f5169e,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8f7a890dfcd5b4643919a29ac0dd9bc4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2660478029406209984, guid: cae650b8120e1f04a840374168f5169e,
         type: 3}
       propertyPath: currentClothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8f7a890dfcd5b4643919a29ac0dd9bc4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2660478029406209984, guid: cae650b8120e1f04a840374168f5169e,
         type: 3}
       propertyPath: allClothingData.Array.size
@@ -116,7 +119,7 @@ PrefabInstance:
     - target: {fileID: 9008014816613984753, guid: cae650b8120e1f04a840374168f5169e,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: ed03c800dbd4d674d8f01df08a62ce57
       objectReference: {fileID: 0}
     - target: {fileID: 9108290256643319577, guid: cae650b8120e1f04a840374168f5169e,
         type: 3}
