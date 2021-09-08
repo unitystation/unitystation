@@ -1,7 +1,9 @@
-﻿using Initialisation;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 using MLAgents;
+using NaughtyAttributes;
 using Doors;
+
 
 namespace Systems.MobAIs
 {
@@ -27,7 +29,9 @@ namespace Systems.MobAIs
 		public bool performingAction;
 
 		public bool activated;
-		public float tickRate = 1f;
+		[Range(0.01f, 1), FormerlySerializedAs("tickRate")]
+		[Tooltip("Delay (in seconds) between mob actions/decisions.")]
+		public float TickDelay = 1f;
 		private float tickWait;
 		private float decisionTimeOut;
 
@@ -75,11 +79,6 @@ namespace Systems.MobAIs
 			cnt.OnTileReached().AddListener(OnTileReached);
 			startPos = OriginTile.WorldPositionServer;
 			isServer = true;
-			registerObj.WaitForMatrixInit(StartServerAgent);
-		}
-
-		void StartServerAgent(MatrixInfo info)
-		{
 			AgentServerStart();
 		}
 
@@ -179,7 +178,7 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if (tickWait >= tickRate)
+			if (tickWait >= TickDelay)
 			{
 				tickWait = 0f;
 

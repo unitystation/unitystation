@@ -697,6 +697,7 @@ GameObject:
   - component: {fileID: 3801622674961811191}
   - component: {fileID: 6636148725921946958}
   - component: {fileID: 5426044163123208281}
+  - component: {fileID: 1041634214839098044}
   m_Layer: 18
   m_Name: modules
   m_TagString: Untagged
@@ -803,7 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721556b81b487084782d2d54ec862919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IDToggleCard: {fileID: 0}
+  IDToggleCard: {fileID: 11400000, guid: cf3b09017623921439e0c774d656f53f, type: 2}
   needsClosedToLight: 1
   boltsUpSound:
     SetLoadSetting: 0
@@ -833,6 +834,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   voltageDamage: 9080
   isElectrecuted: 0
+--- !u!114 &1041634214839098044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444326074182531729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ef2e1fdce213d948989eb4b5d19a5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-2169664583946153626
 MonoBehaviour:
   m_ObjectHideFlags: 0

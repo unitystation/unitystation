@@ -57,14 +57,17 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	public bool IsBlockingClient => !playerScript.IsGhost && !IsLayingDown;
 	public bool IsBlockingServer => !playerScript.IsGhost && !IsLayingDown && !IsSlippingServer;
 	private Coroutine unstunHandle;
-	//cached spriteRenderers of this gameobject
-	protected SpriteRenderer[] spriteRenderers;
+
 
 	protected override void Awake()
 	{
 		base.Awake();
 		AddStatus(this);
-		EnsureInit();
+		playerScript = GetComponent<PlayerScript>();
+		uprightSprites = GetComponent<UprightSprites>();
+		playerDirectional = GetComponent<Directional>();
+		playerDirectional.ChangeDirectionWithMatrix = false;
+		uprightSprites.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
 	}
 
 	public void AddStatus(IControlPlayerState iThisControlPlayerState)
@@ -72,21 +75,9 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		CheckableStatuses.Add(iThisControlPlayerState);
 	}
 
-	private void EnsureInit()
-	{
-		if (playerScript != null) return;
-		playerScript = GetComponent<PlayerScript>();
-		uprightSprites = GetComponent<UprightSprites>();
-		playerDirectional = GetComponent<Directional>();
-		playerDirectional.ChangeDirectionWithMatrix = false;
-		uprightSprites.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
-		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-	}
-
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		EnsureInit();
 		ServerCheckStandingChange( isLayingDown);
 	}
 
@@ -173,7 +164,6 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 	private void SyncIsLayingDown(bool wasDown, bool isDown)
 	{
-		EnsureInit();
 		this.isLayingDown = isDown;
 
 		if (CustomNetworkManager.IsHeadless == false)

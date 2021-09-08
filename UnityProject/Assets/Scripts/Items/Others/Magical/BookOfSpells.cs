@@ -82,7 +82,7 @@ namespace Items.Magical
 			points -= spellEntry.Cost;
 
 			SoundManager.PlayNetworkedAtPos(learningSound, player.Script.WorldPos, sourceObj: player.GameObject);
-			Chat.AddChatMsgToChat(player, spellEntry.Incantation, ChatChannel.Local);
+			Chat.AddChatMsgToChat(player, spellEntry.Incantation, ChatChannel.Local, Loudness.SCREAMING);
 
 			Spell spellInstance = player.Script.mind.GetSpellInstance(spellEntry.Spell);
 
@@ -130,7 +130,7 @@ namespace Items.Magical
 
 			if (ritualEntry.InvocationMessage != default)
 			{
-				Chat.AddChatMsgToChat(player, ritualEntry.InvocationMessage, ChatChannel.Local);
+				Chat.AddChatMsgToChat(player, ritualEntry.InvocationMessage, ChatChannel.Local, Loudness.LOUD);
 			}
 
 			if (ritualEntry.CastSound != default)
@@ -138,7 +138,7 @@ namespace Items.Magical
 				SoundManager.PlayNetworkedAtPos(ritualEntry.CastSound, player.Script.WorldPos, sourceObj: player.GameObject);
 			}
 
-			InGameEventsManager.Instance.TriggerSpecificEvent(ritualEntry.EventIndex, ritualEntry.EventType, 
+			InGameEventsManager.Instance.TriggerSpecificEvent(ritualEntry.EventIndex, ritualEntry.EventType,
 				adminName: $"[Wizard] {player.Username}, {player.Name}", announceEvent: false);
 
 			points -= ritualEntry.Cost;

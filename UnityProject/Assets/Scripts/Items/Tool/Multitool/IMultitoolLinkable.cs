@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -38,8 +38,6 @@ namespace Systems.ObjectConnection
 		/// <remarks>We limit the distance for gameplay reasons and to ensure reasonable distribution of master controllers.</remarks>
 		/// </summary>
 		int MaxDistance { get; }
-
-		void AddSlave(object slaveObject);
 	}
 
 	/// <summary>
@@ -47,9 +45,9 @@ namespace Systems.ObjectConnection
 	/// </summary>
 	public interface IMultitoolSlaveable : IMultitoolLinkable
 	{
-		bool IsLinked { get; }
+		IMultitoolMasterable Master { get; set; }
 
-		void SetMaster(IMultitoolMasterable iMaster);
+		bool RequireLink { get; }
 	}
 
 	/// <summary>

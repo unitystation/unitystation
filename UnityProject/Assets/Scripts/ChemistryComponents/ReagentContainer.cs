@@ -50,7 +50,6 @@ namespace Chemistry.Components
 		private bool destroyOnEmpty = default;
 
 		private ItemAttributesV2 itemAttributes = default;
-		private RegisterTile registerTile;
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;
 
@@ -131,8 +130,6 @@ namespace Chemistry.Components
 
 		private void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
-
 			// register spill on throw
 			customNetTransform = GetComponent<CustomNetTransform>();
 			if (customNetTransform)
@@ -358,12 +355,9 @@ namespace Chemistry.Components
 		{
 			if (!IsEmpty)
 			{
-				if (registerTile && registerTile.CustomTransform)
-				{
-					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer();
-					worldPos.z = 0;
-					SpillAll(worldPos, thrown);
-				}
+				var worldPos = customNetTransform.PushPull.AssumedWorldPositionServer();
+				worldPos.z = 0;
+				SpillAll(worldPos, thrown);
 			}
 		}
 

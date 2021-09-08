@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine.Serialization;
 
 public enum TileType
-{
+{ //Don't change the order, map saving uses this order
 	None,
 	Wall,
 	Window,

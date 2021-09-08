@@ -1,7 +1,8 @@
-
 using System;
 using System.Linq;
 using UnityEngine;
+using Core.Editor.Attributes;
+
 
 /// <summary>
 /// Client side component. Keeps object's sprites upright no matter the orientation of their parent matrix.
@@ -10,13 +11,16 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class UprightSprites : MonoBehaviour, IMatrixRotation
 {
+	[PrefabModeOnly]
 	[Tooltip("Defines how this object's sprites should behave during a matrix rotation")]
 	public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior =
 		SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation;
 
+	[PrefabModeOnly]
 	[Tooltip("Ignore additional rotation (for example, when object is knocked down)")]
 	public SpriteRenderer[] ignoreExtraRotation = new SpriteRenderer[0];
 
+	[PrefabModeOnly]
 	public GameObject RotateParent = null;
 
 	/// <summary>

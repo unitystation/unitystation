@@ -30,13 +30,13 @@ public partial class PlayerSync
 	public Vector3Int LastNonHiddenPosition => serverState.LastNonHiddenPosition.RoundToInt();
 
 	/// Current server state. Integer positions.
-	private PlayerState serverState;
+	public PlayerState serverState;
 
 	/// Serverside lerping state that simulates where players should be on clients at the moment.
 	/// Tracks in-between integer positions unlike serverState. Basically when position changes, it starts with
 	/// setting serverState to the new position, then serverLerpState lerps from the current position to
 	/// serverState until it reaches it.
-	private PlayerState serverLerpState;
+	public PlayerState serverLerpState;
 
 	private Queue<PlayerAction> serverPendingActions;
 

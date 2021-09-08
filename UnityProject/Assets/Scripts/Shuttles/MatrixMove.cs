@@ -10,7 +10,6 @@ using UI.Objects.Shuttles;
 using Systems.Shuttles;
 using Messages.Client.NewPlayer;
 using Messages.Server;
-using Shuttles;
 using Tilemaps.Behaviours.Layers;
 
 /// <summary>
@@ -179,11 +178,13 @@ public class MatrixMove : ManagedBehaviour
 	private bool clientStarted;
 	private bool receivedInitialState;
 	private bool pendingInitialRotation;
+
+	private bool serverInitialized;
 	/// <summary>
 	/// Has this matrix move finished receiving its initial state from the server and rotating into its correct
 	/// position?
 	/// </summary>
-	public bool Initialized => clientStarted && receivedInitialState;
+	public bool Initialized => CustomNetworkManager.IsServer? serverInitialized : (clientStarted && receivedInitialState);
 
 	[FormerlySerializedAs("NoConsole"),Tooltip("Disable the ability for players to use a shuttleconsole to control this matrix")]
 	public bool IsNotPilotable = false;
@@ -227,6 +228,7 @@ public class MatrixMove : ManagedBehaviour
 			MatrixMoveEvents.OnStopMovementServer.AddListener(() => this.TryStopCoroutine(ref floatingSyncHandle));
 
 			NotifyPlayers();
+			serverInitialized = true;
 		}
 		else
 		{

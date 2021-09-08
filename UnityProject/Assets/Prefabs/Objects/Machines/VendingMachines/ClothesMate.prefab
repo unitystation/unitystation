@@ -474,14 +474,22 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[95].Item
+      value: 
+      objectReference: {fileID: 3340240206295357023, guid: 4b44233aeccf8fd48b804d764fa74f6e,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[96].Item
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 942636387736866688, guid: 9d43189a75170f541b0384f7860a7133,
+        type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[97].Item
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7173150405507949576, guid: e219d4faab323ea479b89b68ee683dcf,
+        type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[98].Item
@@ -842,13 +850,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[95].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[96].Stock
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[97].Stock
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -1203,7 +1216,7 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[93].ItemName
-      value: Laceup Shooes
+      value: Laceup Shoes
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -1212,13 +1225,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[95].ItemName
+      value: Cowboy Boots (Brown)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[96].ItemName
-      value: 
+      value: Cowboy Boots (White)
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[97].ItemName
-      value: 
+      value: Cowboy Boots (Black)
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -1250,7 +1268,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: 36ebe3012ddb7214b9ade768a1d1bc32,
+      objectReference: {fileID: 21300000, guid: 36ebe3012ddb7214b9ade768a1d1bc32,
         type: 3}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

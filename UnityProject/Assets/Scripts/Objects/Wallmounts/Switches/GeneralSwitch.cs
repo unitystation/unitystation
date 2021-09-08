@@ -142,8 +142,6 @@ namespace Objects.Wallmounts
 		public bool MultiMaster => true;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
-		public void AddSlave(object SlaveObject) { }
-
 		#endregion
 
 		#region Editor

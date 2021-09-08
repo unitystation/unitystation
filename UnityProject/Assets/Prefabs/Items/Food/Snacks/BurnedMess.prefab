@@ -134,7 +134,8 @@ PrefabInstance:
         type: 3}
       propertyPath: CookedProduct
       value: 
-      objectReference: {fileID: 6880415347540399089}
+      objectReference: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+        type: 3}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -158,9 +159,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
---- !u!1 &6880415347540399089 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
-    type: 3}
-  m_PrefabInstance: {fileID: 5586559297880694326}
-  m_PrefabAsset: {fileID: 0}

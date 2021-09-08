@@ -1058,7 +1058,19 @@ public class DynamicItemStorage : NetworkBehaviour
 
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
-			objt.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(newBody);
+			if (objt == null)
+			{
+				Logger.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
+				continue;
+			}
+
+			if (objt.TryGetComponent<ItemStorage>(out var itemStorage) == false)
+			{
+				Logger.LogError($"ServerObjectToSlots on {gameObject.ExpensiveName()} had a game object key: {objt.ExpensiveName()} without an ItemStorage ");
+				continue;
+			}
+
+			itemStorage.ServerRemoveObserverPlayer(newBody);
 		}
 	}
 

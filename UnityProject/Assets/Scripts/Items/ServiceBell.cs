@@ -1,11 +1,9 @@
-﻿using Mirror;
-using UnityEngine;
+﻿using UnityEngine;
 using AddressableReferences;
-using UnityEngine.Serialization;
 
 namespace Objects
 {
-	public class ServiceBell : Pickupable, IServerSpawn
+	public class ServiceBell : MonoBehaviour, IServerSpawn, ICheckedInteractable<HandApply>
 	{
 
 		[Tooltip("The sound the bell makes when it rings.")]
@@ -17,15 +15,18 @@ namespace Objects
 
 		[SerializeField] private SpriteHandler BellSpriteRenderer;
 
-
-		public override void ServerPerformInteraction(HandApply interaction)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			// yes, we can pick up the service bell!
-			if (interaction.Intent == Intent.Grab)
-			{
-				base.ServerPerformInteraction(interaction);
-				return;
-			}
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			
+			return interaction.Intent != Intent.Grab
+			       && interaction.Intent != Intent.Harm
+			       && interaction.TargetObject == gameObject
+			       && interaction.HandObject == null;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
 			SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
 		}
 

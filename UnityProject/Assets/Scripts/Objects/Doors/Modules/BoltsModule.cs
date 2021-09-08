@@ -96,6 +96,7 @@ namespace Doors.Modules
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
 					master.HackingProcessBase.ImpulsePort(ToggleBolts);
+					return ModuleSignal.Break;
 				}
 			}
 
@@ -109,6 +110,7 @@ namespace Doors.Modules
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
 					master.HackingProcessBase.ImpulsePort(ToggleBolts);
+					return ModuleSignal.Break;
 				}
 			}
 

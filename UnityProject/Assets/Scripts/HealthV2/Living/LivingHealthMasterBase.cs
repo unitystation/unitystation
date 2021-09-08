@@ -713,11 +713,11 @@ namespace HealthV2
 			{
 				if (bodyPart.BodyPartType == partType)
 				{
-					if (bodyPart.GetCurrentBurnDamage() > 0)
+					if (bodyPart.CurrentBurnDamage > 0)
 						return true;
-					if (bodyPart.GetCurrentSlashDamage() > 0)
+					if (bodyPart.CurrentSlashCutDamage > 0)
 						return true;
-					if (bodyPart.GetCurrentPierceDamage() > 0)
+					if (bodyPart.CurrentPierceDamage > 0)
 						return true;
 				}
 			}

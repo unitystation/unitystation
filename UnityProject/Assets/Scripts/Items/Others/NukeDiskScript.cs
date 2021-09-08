@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Systems.Atmospherics;
 using HealthV2;
 using UnityEngine;
 using Mirror;
@@ -9,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace Items.Command
 {
-	public class NukeDiskScript : NetworkBehaviour
+	public class NukeDiskScript : NetworkBehaviour, IServerSpawn
 	{
 		[SerializeField]
 		private float boundRadius = 600;
@@ -21,7 +20,6 @@ namespace Items.Command
 
 		private float timeCheckDiskLocation = 5.0f;
 
-		private bool isInit = false;
 		private bool boundsConfigured = false;
 
 		/// <summary>
@@ -34,31 +32,14 @@ namespace Items.Command
 		/// </summary>
 		public bool stopAutoTeleport;
 
-		public override void OnStartServer()
+		private void Awake()
 		{
-			base.OnStartServer();
-			Init();
-		}
-
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			Init();
-		}
-
-		private void Init()
-		{
-			if (isInit) return;
-			isInit = true;
-
 			customNetTrans = GetComponent<CustomNetTransform>();
 			registerItem = GetComponent<RegisterItem>();
 			pick = GetComponent<Pickupable>();
-
-			registerItem.WaitForMatrixInit(EnsureInit);
 		}
 
-		private void EnsureInit(MatrixInfo matrixInfo)
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			bound = MatrixManager.MainStationMatrix.Bounds;
 			escapeShuttle = FindObjectOfType<EscapeShuttle>();

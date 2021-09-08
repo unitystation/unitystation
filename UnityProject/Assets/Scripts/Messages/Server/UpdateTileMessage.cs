@@ -45,6 +45,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
+			if (CustomNetworkManager.IsServer) return;
 			LoadNetworkObject(msg.MatrixSyncNetID);
 			if (NetworkObject == null)
 			{

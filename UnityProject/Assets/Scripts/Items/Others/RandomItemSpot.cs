@@ -17,8 +17,14 @@ namespace Items
 
 		private const int MaxAmountRolls = 5;
 
-		private void RollRandomPool(MatrixInfo matrixInfo)
+		public void OnSpawnServer(SpawnInfo info)
 		{
+			RollRandomPool();
+		}
+
+		private void RollRandomPool()
+		{
+			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
 			{
 				PoolData pool = null;
@@ -47,15 +53,19 @@ namespace Items
 
 				if (pool == null)
 				{
-					// didn't spawned anything - just destroy spawner
-					_ = Despawn.ServerSingle(gameObject);
+					//didn't spawn anything - Hideaway
+					RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+					this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
+					this.GetComponent<RegisterTile>().UpdatePositionServer();
 					return;
 				}
 
 				SpawnItems(pool);
 			}
 
-			_ = Despawn.ServerSingle(gameObject);
+			RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
+			this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
+			this.GetComponent<RegisterTile>().UpdatePositionServer();
 		}
 
 		private void SpawnItems(PoolData poolData)
@@ -79,20 +89,12 @@ namespace Items
 			}
 
 			var maxAmt = Random.Range(1, item.MaxAmount+1);
-			var worldPos = gameObject.RegisterTile().WorldPositionServer;
+			var worldPos = gameObject.AssumedWorldPosServer();
+			var pushPull = GetComponent<PushPull>();
 
-			Spawn.ServerPrefab(
-				item.Prefab,
-				worldPos,
-				count: maxAmt,
-				scatterRadius: spread);
+			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			var registerTile = GetComponent<RegisterTile>();
-			registerTile.WaitForMatrixInit(RollRandomPool);
-		}
 	}
 
 	[Serializable]

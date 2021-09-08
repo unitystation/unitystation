@@ -216,8 +216,7 @@ namespace Objects.Disposals
 			{
 				var matrixTransform = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
 				Color pipeColor = GetComponentInChildren<SpriteRenderer>().color;
-				registerTile.Matrix.AddUnderFloorTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
-				tileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn);
+				registerTile.Matrix.TileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
 				_ = Despawn.ServerSingle(gameObject);
 			}
 			else

@@ -105,8 +105,6 @@ namespace Objects.Engineering
 		public bool MultiMaster => false;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
-		public void AddSlave(object SlaveObjectThis) { }
-
 		#endregion
 	}
 }

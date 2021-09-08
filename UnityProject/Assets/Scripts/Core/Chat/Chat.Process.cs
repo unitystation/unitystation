@@ -188,12 +188,14 @@ public partial class Chat
 	/// </summary>
 	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
-		ChatModifier modifiers, uint originatorUint = 0, bool stripTags = true)
+		ChatModifier modifiers, Loudness loudness, uint originatorUint = 0, bool stripTags = true)
 	{
 		playedSound = false;
 		//Highlight in game name by bolding and underlining if possible
 		//Dont play sound here as it could be examine or action, we only play sound for someone speaking
 		message = HighlightInGameName(message, false);
+
+		string voiceTag;
 
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
@@ -318,10 +320,30 @@ public partial class Chat
 			chan = "";
 		}
 
+		switch (loudness)
+		{
+			case Loudness.QUIET:
+				voiceTag = "<size=32>";
+				break;
+			case Loudness.LOUD:
+				voiceTag = "<size=64>";
+				break;
+			case Loudness.SCREAMING:
+				voiceTag = "<size=82>";
+				break;
+			case Loudness.EARRAPE:
+				voiceTag = "<size=128>";
+				break;
+			default:
+				if (message.Contains("!!")){ voiceTag = "<size=64>";}
+				else { voiceTag = "<size=48>"; }
+				break;
+		}
+
 		return AddMsgColor(channels,
 			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
 			+ "  " // Two hair spaces. This triggers Text-to-Speech.
-			+ "\"" + message + "\""); // "This text will be spoken by TTS!"
+			+ $"{voiceTag}" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripAll(string input)
@@ -500,7 +522,7 @@ public partial class Chat
 	/// on the client. Do not use for anything else!
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, bool stripTags = true)
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, Loudness loudness, bool stripTags = true)
 	{
 
 		var isOriginator = true;
@@ -517,8 +539,8 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
-		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient);
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)

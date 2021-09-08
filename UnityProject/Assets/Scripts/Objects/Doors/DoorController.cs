@@ -648,19 +648,30 @@ namespace Doors
 
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
-		public MultitoolConnectionType ConType => conType;
 
-		bool IMultitoolSlaveable.IsLinked => false; // Assume not linked for now.
+		[SerializeField]
+		[Tooltip("Whether this door type requires a linked door button (e.g. shutters).")]
+		private bool requireLink = false;
 
-		public void SetMaster(IMultitoolMasterable Imaster)
+		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false;
+		// TODO: should be requireLink but hardcoded to false for now,
+		// doors don't know about links, only the switches
+
+		private IMultitoolMasterable doorMaster;
+
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			var doorSwitch = (Imaster as DoorSwitch);
+			doorMaster = master;
+
+			var doorSwitch = master as DoorSwitch;
 			if (doorSwitch)
 			{
 				doorSwitch.DoorControllers.Add(this);
 				return;
 			}
-			var statusDisplay = (Imaster as StatusDisplay);
+			var statusDisplay = master as StatusDisplay;
 			if (statusDisplay)
 			{
 				statusDisplay.LinkDoor(this);

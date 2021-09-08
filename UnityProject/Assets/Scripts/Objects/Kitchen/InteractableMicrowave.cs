@@ -40,10 +40,14 @@ namespace Objects.Kitchen
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			return $"The microwave is currently {microwave.CurrentState.StateMsgForExamine}. " +
-					$"You see {(microwave.HasContents ? string.Join(", ", microwave.Slots.Where(slot => slot.IsOccupied).Select(slot => slot.ItemObject.ExpensiveName())) : "nothing")} inside. " +
-					$"There {(microwave.StorageSize == 1 ? "is one slot" : $"are {microwave.StorageSize} slots")} available."+
-					$"The timer shows {Math.Ceiling(microwave.MicrowaveTimer)} seconds remaining.";
+			var contents = microwave.HasContents
+					? string.Join(", ", $"<b>{microwave.Slots.Where(slot => slot.IsOccupied).Select(slot => slot.ItemObject.ExpensiveName())}</b>")
+					: "<b>nothing</b>";
+
+			return $"The microwave is currently <b>{microwave.CurrentState.StateMsgForExamine}</b>. " +
+					$"You see {contents} inside. " +
+					$"There {(microwave.StorageSize == 1 ? "is <b>one</b> slot" : $"are <b>{microwave.StorageSize}</b> slots")} available. "+
+					$"The timer shows <b>{Math.Ceiling(microwave.MicrowaveTimer)}</b> seconds remaining.";
 		}
 
 		#region Interaction-PositionalHandApply
