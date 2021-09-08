@@ -263,7 +263,7 @@ namespace Doors
 		{
 			if (isHackable)
 			{
-				hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnShouldClose);
+				// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnShouldClose);
 			}
 			else
 			{
@@ -334,7 +334,7 @@ namespace Doors
 			{
 				if (isHackable)
 				{
-					hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnIdRejected, originator);
+					// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnIdRejected, originator);
 				}
 				else
 				{
@@ -346,7 +346,7 @@ namespace Doors
 
 			if (isHackable)
 			{
-				hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnShouldOpen, originator);
+				// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnShouldOpen, originator);
 			}
 			else
 			{
@@ -377,7 +377,7 @@ namespace Doors
 				{
 					if (isHackable)
 					{
-						hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.ShouldDoPressureWarning);
+						// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.ShouldDoPressureWarning);
 					}
 					else
 					{
@@ -596,52 +596,52 @@ namespace Doors
 
 		public void LinkHackNodes()
 		{
-			// door opening
-			HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor);
-			openDoor.AddToInputMethods(HackingTryOpen);
-
-			HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldOpen);
-			onShouldOpen.AddWireCutCallback(ServerElectrocute);
-			onShouldOpen.AddConnectedNode(openDoor);
-
-			// door closing
-			HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor);
-			closeDoor.AddToInputMethods(TryClose);
-
-			HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldClose);
-			onShouldClose.AddWireCutCallback(ServerElectrocute);
-			onShouldClose.AddConnectedNode(closeDoor);
-
-			// ID reject
-			HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.RejectId);
-			rejectID.AddToInputMethods(ServerAccessDenied);
-
-			HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnIdRejected);
-			onIDRejected.AddConnectedNode(rejectID);
-
-			// pressure warning
-			HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DoPressureWarning);
-			doPressureWarning.AddToInputMethods(ServerPressureWarn);
-
-			HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.ShouldDoPressureWarning);
-			shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
-
-			// power
-			HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerIn);
-
-			HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerOut);
-			powerOut.AddConnectedNode(powerIn);
-			powerOut.AddWireCutCallback(ServerElectrocute);
-
-			// dummy
-			HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyIn);
-
-			HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyOut);
-			dummyOut.AddConnectedNode(dummyIn);
-
-			// close timer
-			HackingNode cancelCloseTimer = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer);
-			cancelCloseTimer.AddToInputMethods(CancelWaiting);
+			// // door opening
+			// HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor);
+			// openDoor.AddToInputMethods(HackingTryOpen);
+			//
+			// HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldOpen);
+			// onShouldOpen.AddWireCutCallback(ServerElectrocute);
+			// onShouldOpen.AddConnectedNode(openDoor);
+			//
+			// // door closing
+			// HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor);
+			// closeDoor.AddToInputMethods(TryClose);
+			//
+			// HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldClose);
+			// onShouldClose.AddWireCutCallback(ServerElectrocute);
+			// onShouldClose.AddConnectedNode(closeDoor);
+			//
+			// // ID reject
+			// HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.RejectId);
+			// rejectID.AddToInputMethods(ServerAccessDenied);
+			//
+			// HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnIdRejected);
+			// onIDRejected.AddConnectedNode(rejectID);
+			//
+			// // pressure warning
+			// HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DoPressureWarning);
+			// doPressureWarning.AddToInputMethods(ServerPressureWarn);
+			//
+			// HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.ShouldDoPressureWarning);
+			// shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
+			//
+			// // power
+			// HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerIn);
+			//
+			// HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerOut);
+			// powerOut.AddConnectedNode(powerIn);
+			// powerOut.AddWireCutCallback(ServerElectrocute);
+			//
+			// // dummy
+			// HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyIn);
+			//
+			// HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyOut);
+			// dummyOut.AddConnectedNode(dummyIn);
+			//
+			// // close timer
+			// HackingNode cancelCloseTimer = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer);
+			// cancelCloseTimer.AddToInputMethods(CancelWaiting);
 		}
 
 		#region Multitool Interaction

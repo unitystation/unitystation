@@ -71,7 +71,7 @@ namespace Systems.MobAIs
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			base.OnSpawnServer(info);
-			eatFoodSound = SingletonSOSounds.Instance.EatFood;
+			eatFoodSound = CommonSounds.Instance.EatFood;
 		}
 
 		/// <summary>

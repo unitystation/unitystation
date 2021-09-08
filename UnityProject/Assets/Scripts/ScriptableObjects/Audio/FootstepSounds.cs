@@ -61,7 +61,7 @@ namespace ScriptableObjects.Audio
 		private static void ShuffleAtPosition(Vector3 worldPos)
 		{
 			var audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.7f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Crawl1, worldPos, audioSourceParameters, polyphonic: true);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Crawl1, worldPos, audioSourceParameters, polyphonic: true);
 		}
 
 		/// <summary>

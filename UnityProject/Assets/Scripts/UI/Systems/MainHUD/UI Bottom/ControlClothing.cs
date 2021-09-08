@@ -27,7 +27,7 @@ using UnityEngine.EventSystems;
 
 		public void RolloutEquipmentMenu()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			ToggleEquipMenu(isOpen == false);
 		}

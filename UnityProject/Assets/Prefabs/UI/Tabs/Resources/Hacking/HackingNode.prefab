@@ -1,5 +1,80 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &500065365191219163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7034057522850711574}
+  - component: {fileID: 714639991835782048}
+  - component: {fileID: 5317362234884394768}
+  m_Layer: 5
+  m_Name: Highlight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &7034057522850711574
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500065365191219163}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 602458687387329208}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &714639991835782048
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500065365191219163}
+  m_CullTransparentMesh: 0
+--- !u!114 &5317362234884394768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500065365191219163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 1, b: 0.084820986, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9228e94071dd77c41ba0dcde0d5c7e15, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2953554483379236539
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,9 +86,9 @@ GameObject:
   - component: {fileID: 602458687387329208}
   - component: {fileID: 4296421178083103856}
   - component: {fileID: 3417455315174462837}
-  - component: {fileID: -51437806021878699}
+  - component: {fileID: 5495567106028775900}
   m_Layer: 5
-  m_Name: HackingNodeInput
+  m_Name: HackingNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,6 +107,7 @@ RectTransform:
   m_Children:
   - {fileID: 5244232332520358750}
   - {fileID: 2682644849410346581}
+  - {fileID: 7034057522850711574}
   - {fileID: 1701999286588263824}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -89,13 +165,13 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 4250058050145407395}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -51437806021878699}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnClick
+      - m_Target: {fileID: 5495567106028775900}
+        m_TargetAssemblyTypeName: GUI_HackingPort, Assets
+        m_MethodName: OnPressedEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -105,7 +181,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &-51437806021878699
+--- !u!114 &5495567106028775900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,11 +190,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2953554483379236539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 004995ec16534e14ea9507a74697c9a7, type: 3}
+  m_Script: {fileID: 11500000, guid: bdd84b0d9a841d64eb6954d8bcac4b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: {fileID: 931623758486638038}
-  parentHackingPanel: {fileID: 0}
+  Image: {fileID: 4250058050145407395}
+  Highlight: {fileID: 5317362234884394768}
+  GUI_HackingOutputAndInput: {fileID: 0}
 --- !u!1 &3830947146361784060
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +377,7 @@ RectTransform:
   m_Children:
   - {fileID: 2205520472853228431}
   m_Father: {fileID: 602458687387329208}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}

@@ -87,11 +87,11 @@ namespace Doors
 		{
 			if (type == DoorUpdateType.Open)
 			{
-				StartCoroutine(PlayOpeningAnimation(skipAnimation));
+				StartCoroutine(PlayOpeningAnimation(skipAnimation, panelExposed));
 			}
 			else if (type == DoorUpdateType.Close)
 			{
-				StartCoroutine(PlayClosingAnimation(skipAnimation));
+				StartCoroutine(PlayClosingAnimation(skipAnimation, panelExposed));
 			}
 			else if (type == DoorUpdateType.AccessDenied)
 			{

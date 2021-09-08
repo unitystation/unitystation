@@ -31,7 +31,7 @@ namespace Doors
 			if (skipAnimation) return;
 
 			doorController.isPerformingAction = true;
-			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
+			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.AccessDenied, transform.position, gameObject);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)

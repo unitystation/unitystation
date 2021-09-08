@@ -15,12 +15,6 @@ namespace Doors.Modules
 			BoltsModule = GetComponent<BoltsModule>();
 		}
 
-
-		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
-		{
-			return ModuleSignal.Continue;
-		}
-
 		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction != null)
@@ -100,9 +94,5 @@ namespace Doors.Modules
 			BoltsModule.SetBoltsState(true);
 		}
 
-		public override bool CanDoorStateChange()
-		{
-			return true;
-		}
 	}
 }

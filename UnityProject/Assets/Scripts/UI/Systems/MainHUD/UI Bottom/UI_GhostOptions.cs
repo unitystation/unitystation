@@ -103,7 +103,7 @@ namespace UI.Systems.Ghost
 			roleBtnAnimating = true;
 
 			Chat.AddExamineMsgToClient($"<size=48>Ghost role <b>{role.Name}</b> is available!</size>");
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Notice2);
+			_ = SoundManager.Play(CommonSounds.Instance.Notice2);
 			ghostRoleAnimator.TriggerAnimation();
 
 			yield return WaitFor.Seconds(5);
@@ -114,7 +114,7 @@ namespace UI.Systems.Ghost
 
 		public void AdminGhostInventoryDrop()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostDropItem(ServerData.UserID, PlayerList.Instance.AdminToken);
@@ -123,7 +123,7 @@ namespace UI.Systems.Ghost
 
 		public void AdminGhostInvSmash()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostSmashItem(ServerData.UserID, PlayerList.Instance.AdminToken);

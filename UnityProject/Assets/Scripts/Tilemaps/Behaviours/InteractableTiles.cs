@@ -556,7 +556,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		var getTile = metaTileMap.GetTile(cellPos, LayerType.Walls) as BasicTile;
 		if (getTile == null || getTile.Mineable == false) return false;
 
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, worldPosition);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.BreakStone, worldPosition);
 		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
 			count: getTile.SpawnAmountOnDeconstruct);
 		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);

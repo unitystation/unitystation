@@ -16,17 +16,17 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			LoadMultipleObjects(new uint[] { msg.Player, msg.HackableObject });
-			int[] connectionToRemove = JsonConvert.DeserializeObject<int[]>(msg.JsonData);
-
-			var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-			var hackObject = NetworkObjects[1];
-			HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
-			if (hackingProcess.ServerPlayerCanRemoveConnection(playerScript, connectionToRemove))
-			{
-				hackingProcess.ServerPlayerRemoveConnection(playerScript, connectionToRemove);
-				HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
-			}
+			// LoadMultipleObjects(new uint[] { msg.Player, msg.HackableObject });
+			// int[] connectionToRemove = JsonConvert.DeserializeObject<int[]>(msg.JsonData);
+			//
+			// var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
+			// var hackObject = NetworkObjects[1];
+			// HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
+			// if (hackingProcess.ServerPlayerCanRemoveConnection(playerScript, connectionToRemove))
+			// {
+			// 	hackingProcess.ServerPlayerRemoveConnection(playerScript, connectionToRemove);
+			// 	HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
+			// }
 		}
 
 		public static NetMessage Send(GameObject player, GameObject hackObject, int[] connectionToRemove)

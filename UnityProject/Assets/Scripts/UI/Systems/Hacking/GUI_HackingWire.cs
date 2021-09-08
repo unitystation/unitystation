@@ -1,41 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
+using Messages.Client;
 using UnityEngine;
 
 public class GUI_HackingWire : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject wireStart = null;
-	private GUI_HackingNode startNode;
-	public GUI_HackingNode StartNode => startNode;
+	public GUI_HackingPort startNode;
 
 	[SerializeField]
 	private GameObject wireEnd = null;
-	private GUI_HackingNode endNode;
-	public GUI_HackingNode EndNode => endNode;
+
+	public GUI_HackingPort endNode;
 
 	[SerializeField]
 	private GameObject wireBody = null;
 
-	private GUI_Hacking parentHackingPanel;
+	private GUI_CablePanel GUI_CablePanel;
 
-	public void Start()
+	public GUI_CablePanel.CableData ThisCableData;
+
+	public void SetUp(GUI_CablePanel.CableData CableData, GUI_CablePanel InGUI_CablePanel)
 	{
-		parentHackingPanel = GetComponentInParent<GUI_Hacking>();
+		GUI_CablePanel = InGUI_CablePanel;
+		ThisCableData = CableData;
+
+		LoadManager.RegisterActionDelayed(SetUpPositions,2);
 	}
 
-	public void SetStartUINode(GUI_HackingNode startNode)
+	public void SetUpPositions()
+	{
+		if (ThisCableData.IDConnectedFrom != -1)
+		{
+			SetStartUINode(GUI_CablePanel.GUI_Hacking.Outputs.IDtoPort[ThisCableData.IDConnectedFrom]);
+		}
+		if (ThisCableData.IDConnectedTo != -1)
+		{
+			SetEndUINode(GUI_CablePanel.GUI_Hacking.Inputs.IDtoPort[ThisCableData.IDConnectedTo]);
+		}
+	}
+
+
+	public void SetStartUINode(GUI_HackingPort startNode)
 	{
 		this.startNode = startNode;
 		RectTransform nodeRectTransform = startNode.GetComponent<RectTransform>();
 		RectTransform wireStartRectTransform = wireStart.GetComponent<RectTransform>();
 
-		wireStartRectTransform.sizeDelta = nodeRectTransform.sizeDelta * 0.7f;
-
 		wireStartRectTransform.position = nodeRectTransform.position;
+		PositionWireBody();
 	}
 
-	public void SetEndUINode(GUI_HackingNode endNode)
+	public void SetEndUINode(GUI_HackingPort endNode)
 	{
 		if (endNode == null) return;
 
@@ -43,11 +61,11 @@ public class GUI_HackingWire : MonoBehaviour
 		RectTransform nodeRectTransform = endNode.GetComponent<RectTransform>();
 		RectTransform wireEndRectTransform = wireEnd.GetComponent<RectTransform>();
 
-		wireEndRectTransform.sizeDelta = nodeRectTransform.sizeDelta * 0.7f;
-
 		wireEndRectTransform.position = nodeRectTransform.position;
+		PositionWireBody();
 	}
 
+	[NaughtyAttributes.Button()]
 	public void PositionWireBody()
 	{
 		RectTransform wireStartRectTransform = wireStart.GetComponent<RectTransform>();
@@ -75,6 +93,16 @@ public class GUI_HackingWire : MonoBehaviour
 
 	public void Remove()
 	{
-		parentHackingPanel.RemoveWire(this);
+		Pickupable handItem = PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
+		if (handItem != null)
+		{
+			if (Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Wirecutter))
+			{
+				RequestHackingInteraction.Send(GUI_CablePanel.GUI_Hacking.HackProcess.gameObject,
+					ThisCableData.CableNetuID,
+					0,0,
+					RequestHackingInteraction.InteractionWith.CutWire);
+			}
+		}
 	}
 }

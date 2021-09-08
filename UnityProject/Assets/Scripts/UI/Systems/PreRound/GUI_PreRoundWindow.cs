@@ -181,7 +181,7 @@ namespace UI
 
 		public void OnCharacterButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			characterCustomization.SetActive(true);
 		}
 
@@ -190,7 +190,7 @@ namespace UI
 		/// </summary>
 		public void OnReadyButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			CharacterCreator.CharacterCustomization customizerScript = characterCustomization.GetComponentInChildren<CharacterCreator.CharacterCustomization>();
 			customizerScript.GetSavedCharacters();
 			if (customizerScript.PlayerCharacters.Count == 0)
@@ -211,7 +211,7 @@ namespace UI
 		/// </summary>
 		public void OnJoinButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			UIManager.Display.SetScreenForJobSelect();
 		}
 

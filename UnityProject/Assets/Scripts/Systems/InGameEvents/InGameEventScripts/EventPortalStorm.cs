@@ -43,7 +43,7 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
 
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.SpanomaliesAnnouncement);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.SpanomaliesAnnouncement);
 			}
 
 			if (FakeEvent) return;

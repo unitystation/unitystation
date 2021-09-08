@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using Items;
 using UnityEngine;
 
@@ -18,6 +19,17 @@ namespace Doors.Modules
 		private int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
 		private int pressureThresholdWarning = 120;
 		private bool warningActive;
+
+		protected override void Awake()
+		{
+			base.Awake();
+			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
+		}
+
+		public void DelayedRegister()
+		{
+			master.HackingProcessBase.RegisterPort(PlayPressureWarning, master.GetType());
+		}
 
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
@@ -47,9 +59,14 @@ namespace Doors.Modules
 				return ModuleSignal.Continue;
 			}
 
+			master.HackingProcessBase.ImpulsePort(PlayPressureWarning);
+			return ModuleSignal.ContinueWithoutDoorStateChange;
+		}
+
+		public void PlayPressureWarning()
+		{
 			StartCoroutine(master.DoorAnimator.PlayPressureWarningAnimation());
 			StartCoroutine(ResetWarning());
-			return ModuleSignal.ContinueWithoutDoorStateChange;
 		}
 
 		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
@@ -61,11 +78,6 @@ namespace Doors.Modules
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
 			return TryPressureWarning( States);
-		}
-
-		public override bool CanDoorStateChange()
-		{
-			return true;
 		}
 
 		/// <summary>

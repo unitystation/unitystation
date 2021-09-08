@@ -1,5 +1,6 @@
 using AddressableReferences;
 using System.Collections.Generic;
+using Initialisation;
 using Items;
 using NaughtyAttributes;
 using UnityEngine;
@@ -38,6 +39,17 @@ namespace Doors.Modules
 			}
 		}
 
+
+		protected override void Awake()
+		{
+			base.Awake();
+			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
+		}
+
+		public void DelayedRegister()
+		{
+			master.HackingProcessBase.RegisterPort(ToggleBolts, master.GetType());
+		}
 		/// <summary>
 		/// Set the current state for this door's bolts.
 		/// </summary>
@@ -72,13 +84,18 @@ namespace Doors.Modules
 			boltsLights = enable;
 		}
 
+		public void ToggleBolts()
+		{
+			SetBoltsState(!boltsDown);
+		}
+
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction != null && interaction.UsedObject != null)
 			{
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
-					SetBoltsState(!boltsDown);
+					master.HackingProcessBase.ImpulsePort(ToggleBolts);
 				}
 			}
 
@@ -91,7 +108,7 @@ namespace Doors.Modules
 			{
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
-					SetBoltsState(!boltsDown);
+					master.HackingProcessBase.ImpulsePort(ToggleBolts);
 				}
 			}
 

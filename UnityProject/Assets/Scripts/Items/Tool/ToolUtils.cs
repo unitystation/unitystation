@@ -224,27 +224,27 @@ public static class ToolUtils
 		{
 			if (itemAttrs.HasTrait(CommonTraits.Instance.Crowbar))
 			{
-				soundName = SingletonSOSounds.Instance.Crowbar;
+				soundName = CommonSounds.Instance.Crowbar;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Screwdriver))
 			{
-				soundName = SingletonSOSounds.Instance.screwdriver;
+				soundName = CommonSounds.Instance.screwdriver;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Wirecutter))
 			{
-				soundName = SingletonSOSounds.Instance.WireCutter;
+				soundName = CommonSounds.Instance.WireCutter;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Wrench))
 			{
-				soundName = SingletonSOSounds.Instance.Wrench;
+				soundName = CommonSounds.Instance.Wrench;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Welder))
 			{
-				soundName = SingletonSOSounds.Instance.Weld;
+				soundName = CommonSounds.Instance.Weld;
 			}
 			else if (itemAttrs.HasTrait(CommonTraits.Instance.Shovel))
 			{
-				soundName = SingletonSOSounds.Instance.Shovel;
+				soundName = CommonSounds.Instance.Shovel;
 			}
 		}
 

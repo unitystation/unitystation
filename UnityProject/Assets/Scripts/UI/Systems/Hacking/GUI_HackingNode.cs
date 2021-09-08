@@ -36,16 +36,16 @@ public class GUI_HackingNode : MonoBehaviour
 		{
 			return;
 		}
-		if (parentHackingPanel.IsAddingWire)
-		{
-			if (hackNode.IsInput)
-			{
-				parentHackingPanel.FinishAddingWire(this);
-			}
-		}
-		else if (hackNode.IsOutput)
-		{
-			parentHackingPanel.BeginAddingWire(this);
-		}
+		// if (parentHackingPanel.IsAddingWire)
+		// {
+		// 	if (hackNode.IsInput)
+		// 	{
+		// 		parentHackingPanel.FinishAddingWire(this);
+		// 	}
+		// }
+		// else if (hackNode.IsOutput)
+		// {
+		// 	parentHackingPanel.BeginAddingWire(this);
+		// }
 	}
 }

@@ -613,7 +613,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 			var restraint = handcuffSlot.Item.GetComponent<Restraint>();
 			if (restraint == null) continue;
 
-			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff,allowTurning : true);
 			StandardProgressAction.Create(progressConfig, Uncuff)
 				.ServerStartProgress(interaction.TargetObject.RegisterTile(),
 					restraint.RemoveTime * (handcuffSlots.Count / 2f), interaction.Performer);

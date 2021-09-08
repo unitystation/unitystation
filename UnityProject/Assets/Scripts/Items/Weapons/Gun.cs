@@ -643,7 +643,7 @@ namespace Weapons
 					$"{interaction.Performer.ExpensiveName()} begins removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
 
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(UnityEngine.Random.Range(0.8f, 1.2f));
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
 			}
 		}
 
@@ -925,7 +925,7 @@ namespace Weapons
 
 		private void OutOfAmmoSfx()
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GunEmptyAlarm, transform.position, sourceObj: serverHolder);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GunEmptyAlarm, transform.position, sourceObj: serverHolder);
 		}
 
 		public void PlayEmptySfx()

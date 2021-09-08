@@ -52,7 +52,7 @@ namespace Items.Cargo.Wrapping
 
 		protected void PlayUnwrappingSound()
 		{
-			SoundManager.PlayNetworkedAtPos(alternativeUnwrapSound != null ? alternativeUnwrapSound : SingletonSOSounds.Instance.PosterRipped, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(alternativeUnwrapSound != null ? alternativeUnwrapSound : CommonSounds.Instance.PosterRipped, gameObject.AssumedWorldPosServer());
 		}
 
 		protected void StartUnwrapAction(GameObject performer)

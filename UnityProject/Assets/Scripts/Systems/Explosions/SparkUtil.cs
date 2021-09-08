@@ -31,7 +31,7 @@ namespace Systems.Explosions
 					reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int(), 1000);
 				}
 
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos, sourceObj: sourceObjectBehaviour.gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, worldPos, sourceObj: sourceObjectBehaviour.gameObject);
 
 				return result.GameObject;
 			}
@@ -61,7 +61,7 @@ namespace Systems.Explosions
 					reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int(), 1000);
 				}
 
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, worldPos);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, worldPos);
 
 				return result.GameObject;
 			}

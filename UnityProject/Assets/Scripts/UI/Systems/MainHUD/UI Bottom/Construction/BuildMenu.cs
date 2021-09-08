@@ -53,7 +53,7 @@ namespace UI.UI_Bottom
 
 		public void CloseBuildMenu()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			transform.GetChild(0).gameObject.SetActive(false);
 		}
 

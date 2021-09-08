@@ -79,7 +79,7 @@ namespace Objects
 			Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
 				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
 
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 
 			GameManager.Instance.ForceSendEscapeShuttleFromStation(10);
 		}

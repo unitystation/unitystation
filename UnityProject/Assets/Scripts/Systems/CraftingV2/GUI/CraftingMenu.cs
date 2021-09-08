@@ -362,7 +362,7 @@ namespace Systems.CraftingV2.GUI
 		/// </summary>
 		public void OnSearchButtonClicked()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			ApplySearchFilters();
 		}
 
@@ -371,7 +371,7 @@ namespace Systems.CraftingV2.GUI
 		/// </summary>
 		public void OnRefreshRecipesButtonClicked()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			RequestRefreshRecipes();
 		}
 
@@ -380,7 +380,7 @@ namespace Systems.CraftingV2.GUI
 		/// </summary>
 		public void OnCraftButtonPressed()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			PlayerManager.LocalPlayerScript.PlayerCrafting.TryToStartCrafting(
 				chosenRecipe.CraftingRecipe,
 				NetworkSide.Client,

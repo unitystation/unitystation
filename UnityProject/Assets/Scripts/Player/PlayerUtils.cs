@@ -79,6 +79,6 @@ public static class PlayerUtils
 		}
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.2f,0.5f));
 		ShakeParameters shakeParameters = new ShakeParameters(true, 64, 30);
-		_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);
+		_ = SoundManager.PlayNetworked(CommonSounds.Instance.ClownHonk, audioSourceParameters, true, shakeParameters);
 	}
 }

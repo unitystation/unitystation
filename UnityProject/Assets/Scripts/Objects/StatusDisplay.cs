@@ -96,12 +96,12 @@ namespace Objects.Wallmounts
 				{
 					if (door.IsHackable)
 					{
-						HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
-						outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
-						outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer));
-
-						HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
-						outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
+						// HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
+						// outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
+						// outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer));
+						//
+						// HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
+						// outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
 					}
 				}
 			}
@@ -276,7 +276,7 @@ namespace Objects.Wallmounts
 						{
 							Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
 							// Play sound
-							SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 						}
 
 					}
@@ -370,7 +370,7 @@ namespace Objects.Wallmounts
 			{
 				if (door.IsHackable)
 				{
-					door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
+					// door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
 				}
 				else
 				{
@@ -385,7 +385,7 @@ namespace Objects.Wallmounts
 			{
 				if (door.IsHackable)
 				{
-					door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
+					// door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
 				}
 				else
 				{
@@ -462,7 +462,7 @@ namespace Objects.Wallmounts
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
 				// Play sound
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 			}
 		}
 

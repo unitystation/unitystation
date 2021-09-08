@@ -73,7 +73,7 @@ namespace UI
 		/// <param name="nextMenuPanel">Menu panel to open</param>
 		public void OpenMenuPanel(GameObject nextMenuPanel)
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
 			nextMenuPanel.SetActive(true);
 		}
@@ -83,7 +83,7 @@ namespace UI
 		/// </summary>
 		public void OpenMenuPanel()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(true);
@@ -105,7 +105,7 @@ namespace UI
 		/// <param name="thisPanel">The menu panel to close.</param>
 		public void CloseMenuPanel(GameObject thisPanel)
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log("Closing " + thisPanel.name + " menu", Category.UI);
 			thisPanel.SetActive(false);
 		}
@@ -117,7 +117,7 @@ namespace UI
 		{
 			if (doSound)
 			{
-				_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+				_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			}
 
 			Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
@@ -132,7 +132,7 @@ namespace UI
 
 		public void InitiateRestartVote()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			if (PlayerManager.PlayerScript == null) return;
 			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
@@ -154,7 +154,7 @@ namespace UI
 		public void LogoutConfirmYesButton()
 		{
 			EventManager.Broadcast(Event.RoundEnded);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			HideAllMenus();
 			StopNetworking();
 			SceneManager.LoadScene("Lobby");
@@ -171,7 +171,7 @@ namespace UI
 
 		public void ExitConfirmYesButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			StopNetworking();
 			// Either shutdown the application or stop the editor
 #if UNITY_EDITOR

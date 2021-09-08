@@ -46,11 +46,11 @@ namespace Objects.Wallmounts
 
 				if (door.IsHackable)
 				{
-					HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
-					outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
-
-					HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
-					outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
+					// HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
+					// outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
+					//
+					// HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
+					// outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
 				}
 			}
 		}
@@ -122,7 +122,7 @@ namespace Objects.Wallmounts
 				{
 					if (door.IsHackable)
 					{
-						door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
+						// door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
 					}
 					else
 					{
@@ -133,7 +133,7 @@ namespace Objects.Wallmounts
 				{
 					if (door.IsHackable)
 					{
-						door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
+						// door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
 					}
 					else
 					{

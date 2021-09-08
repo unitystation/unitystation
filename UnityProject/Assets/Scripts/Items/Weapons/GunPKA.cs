@@ -51,7 +51,7 @@ namespace Weapons
 			}
 			else
 			{
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.KineticReload, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.KineticReload, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 			}
 			allowRecharge = true;
 		}

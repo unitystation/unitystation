@@ -20,7 +20,7 @@ namespace Unitystation.Options
 
         public void OnPointerDown(PointerEventData data)
         {
-            _ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+            _ = SoundManager.Play(CommonSounds.Instance.Click01);
             OptionsMenu.Instance.ToggleButtonOn(this);
         }
 

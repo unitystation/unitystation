@@ -19,7 +19,7 @@ public class HackingNode
 	//Using an auto get-set for this for now. Will need to update how this functions when I figure out how the internal label should be shared. i.e. to the engineers somehow.`
 	public	string HiddenLabel;
 
-	public HackingIdentifier InternalIdentifier;
+	//public HackingIdentifier InternalIdentifier;
 
 	//Bools for whether the node is an input or output node. I'm not exactly sure how these will work, so maybe eventually there could be a situation where a node is both? Dunno
 	public	bool IsInput;
@@ -38,23 +38,23 @@ public class HackingNode
 
 	//This does not need to be synced between the server and client. As long as the server is sending correct data to the client, the object this is attached to should work fine.
 	//We only need to update the client on what nodes are doing what when they're in the hacking menu.
-	public HackingNode(string publicLabel, HackingIdentifier internalLabel, bool isInput, bool isOutput)
-	{
-		PublicLabel = publicLabel;
-		InternalIdentifier = internalLabel;
-		IsInput = isInput;
-		IsOutput = isOutput;
-		IsDeviceNode = false;
-	}
-
-	public HackingNode()
-	{
-		PublicLabel = "unset label";
-		InternalIdentifier = HackingIdentifier.Unset;
-		IsInput = false;
-		IsOutput = false;
-		IsDeviceNode = false;
-	}
+	// public HackingNode(string publicLabel, HackingIdentifier internalLabel, bool isInput, bool isOutput)
+	// {
+	// 	PublicLabel = publicLabel;
+	// 	InternalIdentifier = internalLabel;
+	// 	IsInput = isInput;
+	// 	IsOutput = isOutput;
+	// 	IsDeviceNode = false;
+	// }
+	//
+	// public HackingNode()
+	// {
+	// 	PublicLabel = "unset label";
+	// 	InternalIdentifier = HackingIdentifier.Unset;
+	// 	IsInput = false;
+	// 	IsOutput = false;
+	// 	IsDeviceNode = false;
+	// }
 
 	/// <summary>
 	/// Called when the node receives an input from another node, if this node is an input node.

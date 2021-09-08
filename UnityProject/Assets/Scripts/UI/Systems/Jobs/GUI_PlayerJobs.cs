@@ -68,7 +68,7 @@ namespace UI
 			{
 				return; // Disallowing picking a job while another job has been selected.
 			}
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			screen_Jobs.SetActive(false);
 			footer.SetActive(false);
 			waitMessage.SetActive(true);
@@ -79,7 +79,7 @@ namespace UI
 
 		private void ShowJobSelection()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			screen_Jobs.SetActive(true);
 			footer.SetActive(true);
 			waitMessage.SetActive(false);

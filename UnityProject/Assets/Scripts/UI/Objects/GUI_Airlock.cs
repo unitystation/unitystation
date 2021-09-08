@@ -59,7 +59,7 @@ namespace UI.Objects
 			{
 				if (module is ElectrifiedDoorModule electric)
 				{
-					if(doorMasterController.HasPower) electric.IsElectrecuted = !electric.IsElectrecuted;
+					electric.ToggleElectrocutionInput();
 					doorMasterController.UpdateGui();
 					UpdateSafetyStatusUI(electric);
 					break;
@@ -95,7 +95,7 @@ namespace UI.Objects
             }
             else
             {
-	            DoorMasterController.TryForceClose();
+	            DoorMasterController.PulseTryForceClose();
             }
 		}
 

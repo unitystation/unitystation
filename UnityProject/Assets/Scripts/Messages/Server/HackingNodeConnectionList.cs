@@ -21,7 +21,7 @@ namespace Messages.Server
 
 			if (NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI != null)
 			{
-				NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI.UpdateConnectionList(data);
+				//NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI.UpdateConnectionList(data);
 			}
 		}
 

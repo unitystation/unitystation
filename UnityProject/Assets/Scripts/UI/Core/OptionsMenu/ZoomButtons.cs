@@ -56,20 +56,20 @@ namespace Unitystation.Options
 
         public void OnZoomIn()
         {
-            _ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+            _ = SoundManager.Play(CommonSounds.Instance.Click01);
             CamZoomHandler.IncreaseZoomLevel();
 
         }
 
         public void OnZoomOut()
         {
-            _ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+            _ = SoundManager.Play(CommonSounds.Instance.Click01);
             CamZoomHandler.DecreaseZoomLevel();
         }
 
         public void OpenOptionsMenu()
         {
-            _ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+            _ = SoundManager.Play(CommonSounds.Instance.Click01);
             OptionsMenu.Instance.Open();
         }
 

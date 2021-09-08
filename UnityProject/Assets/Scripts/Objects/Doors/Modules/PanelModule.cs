@@ -31,18 +31,13 @@ namespace Doors.Modules
 			{
 				return ModuleSignal.Break;
 			}
-		
+
 			return ModuleSignal.Continue;
 		}
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
 			return ModuleSignal.Continue;
-		}
-
-		public override bool CanDoorStateChange()
-		{
-			return !isPanelOpen;
 		}
 
 		private void TogglePanel()
@@ -56,7 +51,7 @@ namespace Doors.Modules
 
 			if (isPanelOpen)
 			{
-				
+
 				master.DoorAnimator.AddPanelOverlay();
 				master.GetComponent<Objects.HasNetworkTab>().NetTabType = NetTabType.HackingPanel;
 			}
