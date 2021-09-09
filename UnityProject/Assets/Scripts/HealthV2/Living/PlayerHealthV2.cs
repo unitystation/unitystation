@@ -7,6 +7,7 @@ using Health.Sickness;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Mirror;
+using Player.Movement;
 using UnityEngine;
 
 namespace HealthV2

@@ -5,6 +5,7 @@ using Messages.Client.NewPlayer;
 using UnityEngine;
 using Mirror;
 using Objects;
+using Player.Movement;
 
 public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {

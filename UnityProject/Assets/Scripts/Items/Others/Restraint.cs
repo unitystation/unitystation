@@ -5,6 +5,7 @@ using UnityEngine;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using Player.Movement;
 
 /// <summary>
 /// Used for restraining a player (with handcuffs or zip ties etc)
