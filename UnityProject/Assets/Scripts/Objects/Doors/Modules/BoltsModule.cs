@@ -55,7 +55,7 @@ namespace Doors.Modules
 		/// </summary>
 		/// <param name="state">True means the bolts are down and the door can't be opened</param>
 		[ContextMenu("Set bolt state")]
-		public void SetBoltsState(bool state)
+		private void SetBoltsState(bool state)
 		{
 			boltsDown = state;
 
@@ -95,7 +95,7 @@ namespace Doors.Modules
 			{
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
-					master.HackingProcessBase.ImpulsePort(ToggleBolts);
+					PulseToggleBolts();
 					return ModuleSignal.Break;
 				}
 			}
@@ -109,12 +109,26 @@ namespace Doors.Modules
 			{
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
-					master.HackingProcessBase.ImpulsePort(ToggleBolts);
+					PulseToggleBolts();
 					return ModuleSignal.Break;
 				}
 			}
 
 			return ModuleSignal.Continue;
+		}
+
+		public void PulseToggleBolts(bool? State = null)
+		{
+			if (State == null)
+			{
+				if (State.Value == boltsDown) return;
+				master.HackingProcessBase.ImpulsePort(ToggleBolts);
+			}
+			else
+			{
+				master.HackingProcessBase.ImpulsePort(ToggleBolts);
+			}
+
 		}
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Good example script if you need to use HackingProcessBase, note It's up to you to call the open UI stuff
+/// </summary>
 public class HackingTestScript : MonoBehaviour
 {
+
 	public HackingProcessBase HackingProcessBase;
 
 	// Start is called before the first frame update

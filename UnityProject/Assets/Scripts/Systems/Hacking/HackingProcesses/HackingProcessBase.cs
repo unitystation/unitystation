@@ -9,8 +9,6 @@ using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using Objects.Electrical;
-using ScriptableObjects;
-using ScriptableObjects.Hacking;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 

@@ -79,7 +79,7 @@ namespace Doors.Modules
 
 		private ModuleSignal CanElectricute(GameObject mob)
 		{
-			if (master.HasPower )
+			if (master.HasPower)
 			{
 				if (IsElectrecuted == false)
 				{
@@ -97,7 +97,7 @@ namespace Doors.Modules
 						return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
 					}
 				}
-				else if  (IsElectrecuted)
+				else
 				{
 					if (PlayerHasInsulatedGloves(mob) == false)
 					{

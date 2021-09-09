@@ -13,8 +13,6 @@ namespace Doors.Modules
 		private AccessRestrictions accessRestrictions;
 		private ClearanceCheckable clearanceCheckable;
 
-		private GameObject Inplayer;
-
 		[SerializeField]
 		[Tooltip("When the door is at low voltage, this is the chance that the access check gives a false positive.")]
 		private float lowVoltageOpenChance = 0.05f;
@@ -24,13 +22,6 @@ namespace Doors.Modules
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
-			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
-		}
-
-
-		public void DelayedRegister()
-		{
-			master.HackingProcessBase.RegisterPort(ProcessCheckAccess, master.GetType());
 		}
 
 
@@ -73,27 +64,15 @@ namespace Doors.Modules
 
 		private bool CheckAccess(GameObject player)
 		{
-			Inplayer = player;
-			master.HackingProcessBase.ImpulsePort(ProcessCheckAccess);
-
-			if (Inplayer == null)
-			{
-				Inplayer = null;
-				return false;
-			}
-			else
-			{
-				Inplayer = null;
-				return true;
-			}
+			return ProcessCheckAccess(player);
 		}
 
 
-		private void ProcessCheckAccess()
+		private bool ProcessCheckAccess(GameObject player)
 		{
-			if (accessRestrictions.CheckAccess(Inplayer))
+			if (accessRestrictions.CheckAccess(player))
 			{
-				return;
+				return true;
 			}
 
 			//If the door is in low voltage, there's a very low chance the access check fails and opens anyway.
@@ -102,12 +81,12 @@ namespace Doors.Modules
 			{
 				if (Random.value < lowVoltageOpenChance)
 				{
-					return;
+					return true;
 				}
 			}
 
 			DenyAccess();
-			Inplayer = null;
+			return false;
 		}
 
 		private void DenyAccess()

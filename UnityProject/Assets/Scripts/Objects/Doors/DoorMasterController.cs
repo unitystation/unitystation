@@ -10,9 +10,11 @@ using Messages.Client.NewPlayer;
 using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
+using Systems.ObjectConnection;
 using Doors.Modules;
 using HealthV2;
 using Initialisation;
+using Objects.Wallmounts;
 using UI.Core.Net;
 
 
@@ -22,7 +24,7 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -70,8 +72,9 @@ namespace Doors
 
 		private bool isPerformingAction = false;
 		public bool IsPerformingAction => isPerformingAction;
-		public bool HasPower => APCPoweredDevice.IsOn(apc.State);
+		public bool HasPower => GetPowerState();
 
+		private bool PowerState;
 
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
@@ -128,10 +131,23 @@ namespace Doors
 			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
 			HackingProcessBase.RegisterPort(tryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
-
+			HackingProcessBase.RegisterPort(CheckPower, this.GetType());
 		}
 
-		public void EmptyFunction()
+		public bool GetPowerState()
+		{
+			PowerState = false;
+			HackingProcessBase.ImpulsePort(CheckPower);
+			return PowerState;
+		}
+
+		public void CheckPower()
+		{
+			PowerState = APCPoweredDevice.IsOn(apc.State);
+		}
+
+
+		public void EmptyFunction() //Used for a dummy connection
 		{
 
 		}
@@ -146,29 +162,10 @@ namespace Doors
 		/// </summary>
 		public void UpdateNewPlayer(NetworkConnection playerConn)
 		{
-			if (IsClosed)
-			{
-				if (ConstructibleDoor != null)
-				{
-					DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Close, true, ConstructibleDoor.Panelopen);
-				}
-				else
-				{
-					DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Close, true);
-				}
-
-			}
-			else
-			{
-				if (ConstructibleDoor != null)
-				{
-					DoorUpdateMessage.Send(playerConn, gameObject,  DoorUpdateType.Open, true, ConstructibleDoor.Panelopen);
-				}
-				else
-				{
-					DoorUpdateMessage.Send(playerConn, gameObject,  DoorUpdateType.Open, true);
-				}
-			}
+			DoorUpdateMessage.Send(playerConn, gameObject,
+				IsClosed ? DoorUpdateType.Close : DoorUpdateType.Open,
+				true,
+				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 		}
 
 		private void tryBump()
@@ -352,7 +349,10 @@ namespace Doors
 
 			if(HasPower == false)
 			{
-				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+				if (originator != null)
+				{
+					Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+				}
 				return;
 			}
 
@@ -487,14 +487,8 @@ namespace Doors
 				return;
 			}
 
-			if (ConstructibleDoor != null)
-			{
-				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close, ConstructibleDoor.Panelopen );
-			}
-			else
-			{
-				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close);
-			}
+
+			DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Close, ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 
 			if (damageOnClose)
 			{
@@ -516,14 +510,7 @@ namespace Doors
 
 			if (!isPerformingAction)
 			{
-				if (ConstructibleDoor != null)
-				{
-					DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Open, ConstructibleDoor.Panelopen );
-				}
-				else
-				{
-					DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Open);
-				}
+				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Open, ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 			}
 		}
 
@@ -736,7 +723,7 @@ namespace Doors
 					if(module is BoltsModule bolts)
 					{
 						//Toggle bolts
-						bolts.SetBoltsState(!bolts.BoltsDown);
+						bolts.PulseToggleBolts();
 						return;
 					}
 				}
@@ -790,55 +777,40 @@ namespace Doors
 
 		#endregion
 
-		public void LinkHackNodes()
+		#region Multitool Interaction
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+
+		[SerializeField]
+		[Tooltip("Whether this door type requires a linked door button (e.g. shutters).")]
+		private bool requireLink = false;
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false;
+		// TODO: should be requireLink but hardcoded to false for now,
+		// doors don't know about links, only the switches
+
+		private IMultitoolMasterable doorMaster;
+
+		private void SetMaster(IMultitoolMasterable master)
 		{
-			// HackingProcessBase hackingProcess = GetComponent<HackingProcessBase>();
-			// 			// door opening
-			// HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor);
-			// //openDoor.AddToInputMethods(HackingTryOpen);
-			//
-			// HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldOpen);
-			// //onShouldOpen.AddWireCutCallback(ServerElectrocute);
-			// //onShouldOpen.AddConnectedNode(openDoor);
-			//
-			// // door closing
-			// HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor);
-			// //closeDoor.AddToInputMethods(TryClose);
-			//
-			// HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldClose);
-			// //onShouldClose.AddWireCutCallback(ServerElectrocute);
-			// //onShouldClose.AddConnectedNode(closeDoor);
-			//
-			// // ID reject
-			// HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.RejectId);
-			// //rejectID.AddToInputMethods(ServerAccessDenied);
-			//
-			// HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnIdRejected);
-			// //onIDRejected.AddConnectedNode(rejectID);
-			//
-			// // pressure warning
-			// HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DoPressureWarning);
-			// //doPressureWarning.AddToInputMethods(ServerPressureWarn);
-			//
-			// HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.ShouldDoPressureWarning);
-			// //shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
-			//
-			// // power
-			// HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerIn);
-			//
-			// HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerOut);
-			// //powerOut.AddConnectedNode(powerIn);
-			// //powerOut.AddWireCutCallback(ServerElectrocute);
-			//
-			// // dummy
-			// HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyIn);
-			//
-			// HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyOut);
-			// //dummyOut.AddConnectedNode(dummyIn);
-			//
-			// // close timer
-			// HackingNode cancelCloseTimer = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer);
-			// //cancelCloseTimer.AddToInputMethods(CancelWaiting);
+			doorMaster = master;
+
+			var doorSwitch = master as DoorSwitch;
+			if (doorSwitch)
+			{
+				doorSwitch.NewAddDoorControllerFromScene(this);
+				return;
+			}
+			var statusDisplay = master as StatusDisplay;
+			if (statusDisplay)
+			{
+				statusDisplay.NewLinkDoor(this);
+			}
 		}
+		#endregion
+
 	}
 }

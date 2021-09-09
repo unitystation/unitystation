@@ -22,7 +22,6 @@ public class GUI_CablePanel : NetListButBetter<GUI_CablePanel.CableData>
 
 	public override void ElementsChanged(List<CableData> NewList, List<CableData> OldList)
 	{
-		//TODO Handle scenario of Spare cable changing States
 		List<CableData> remove = new List<CableData>();
 		List<CableData> add = new List<CableData>();
 		foreach (var newOne in NewList)

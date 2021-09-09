@@ -72,19 +72,20 @@ public class GUI_HackingWire : MonoBehaviour
 		RectTransform wireEndRectTransform = wireEnd.GetComponent<RectTransform>();
 		RectTransform wireBodyRectTransform = wireBody.GetComponent<RectTransform>();
 
-		Vector2 dif = (wireEndRectTransform.position - wireStartRectTransform.position);
+		Vector2 dif = (wireEndRectTransform.localPosition - wireStartRectTransform.localPosition);
 
 		Vector2 norm = dif.normalized;
 		float dist = dif.magnitude;
 		float angle = -Vector2.SignedAngle(norm, Vector2.up);
 
-		Vector2 wireOrigin = dist * 0.5f * norm + (Vector2)wireStartRectTransform.position;
+		Vector2 wireOrigin = dist * 0.5f * norm + (Vector2)wireStartRectTransform.localPosition;
 
-		wireBodyRectTransform.position = wireOrigin;
+		wireBodyRectTransform.localPosition = wireOrigin;
 
 		Vector2 oldSize = wireBodyRectTransform.sizeDelta;
 
-		wireBodyRectTransform.sizeDelta = new Vector2(oldSize.x, dist * (2 - UIManager.Instance.transform.localScale.x)); //Need to add this scaling here, because for some reason, the entire UI is scaled by 0.67? Iunno why.
+		//* (2 - UIManager.Instance.transform.localScale.x)
+		wireBodyRectTransform.sizeDelta = new Vector2(oldSize.x, dist ); //Need to add this scaling here, because for some reason, the entire UI is scaled by 0.67? Iunno why.
 
 		Vector3 rotation = wireBodyRectTransform.transform.eulerAngles;
 		rotation.z = angle;

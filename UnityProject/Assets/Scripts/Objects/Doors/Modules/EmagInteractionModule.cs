@@ -91,7 +91,7 @@ namespace Doors.Modules
 		private IEnumerator ToggleBolts()
 		{
 			yield return null;
-			BoltsModule.OrNull()?.SetBoltsState(true);
+			BoltsModule.OrNull()?.PulseToggleBolts(true);
 		}
 
 	}

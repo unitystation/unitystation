@@ -108,7 +108,7 @@ namespace UI.Objects
 				if(module is BoltsModule bolts)
 				{
 					//Toggle bolts
-					bolts.SetBoltsState(!bolts.BoltsDown);
+					bolts.PulseToggleBolts();
 					return;
 				}
 			}
