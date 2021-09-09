@@ -441,9 +441,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		//call the used object's handapply interaction methods if it has any, for each object we are applying to
 		var handApply = HandApply.ByLocalPlayer(Target);
-
-		if (targetHandAppliable.ClientCheckAndTrigger(handApply)) ;
-
+		targetHandAppliable.ClientCheckAndTrigger(handApply);
 	}
 
 	private bool CheckAimApply(MouseButtonState buttonState)
