@@ -750,7 +750,7 @@ namespace Doors
 			    //Block Ai from hacking UI but allow normal player
 			    return isAi == false;
 			}
-			
+
 			if (isAi == false)
 			{
 			    //Block normal player from Ai door controlling UI
@@ -773,6 +773,13 @@ namespace Doors
 
 			//Only allow AI to open airlock control UI
 			return true;
+		}
+
+		public bool CanAIInteract()
+		{
+			AIConnected = false;
+			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
+			return AIConnected;
 		}
 
 		public void UpdateGui()
