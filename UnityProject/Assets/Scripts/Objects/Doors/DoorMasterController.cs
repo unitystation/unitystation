@@ -762,7 +762,7 @@ namespace Doors
 			}
 
 			//Only allow AI to open airlock control UI
-			return isAi;
+			return true;
 		}
 
 		public void UpdateGui()
