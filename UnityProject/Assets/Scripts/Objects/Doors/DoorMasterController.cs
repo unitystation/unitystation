@@ -127,11 +127,11 @@ namespace Doors
 
 		public void DelayedRegister()
 		{
-			HackingProcessBase.RegisterPort(EmptyFunction, this.GetType()); //So there is an option that is nothing
 			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
 			HackingProcessBase.RegisterPort(tryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
 			HackingProcessBase.RegisterPort(CheckPower, this.GetType());
+			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
 		}
 
 		public bool GetPowerState()
@@ -144,12 +144,6 @@ namespace Doors
 		public void CheckPower()
 		{
 			PowerState = APCPoweredDevice.IsOn(apc.State);
-		}
-
-
-		public void EmptyFunction() //Used for a dummy connection
-		{
-
 		}
 
 		public override void OnStartClient()
@@ -692,6 +686,13 @@ namespace Doors
 			return true;
 		}
 
+		private bool AIConnected;
+
+		public void ConfirmAIConnection()
+		{
+			AIConnected = true;
+		}
+
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
 			if (HasPower == false)
@@ -700,6 +701,13 @@ namespace Doors
 				return;
 			}
 
+			AIConnected = false;
+			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
+			if (AIConnected == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Door is disconnected");
+				return;
+			};
 			//Try open/close
 			if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
 			{
@@ -745,8 +753,16 @@ namespace Doors
 				return false;
 			}
 
+			AIConnected = false;
+			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
+			if (isAi && AIConnected == false)
+			{
+				Chat.AddExamineMsgFromServer(playerObject, "Door is disconnected");
+				return false;
+			}
+
 			//Only allow AI to open airlock control UI
-			return isAi ;
+			return isAi;
 		}
 
 		public void UpdateGui()
