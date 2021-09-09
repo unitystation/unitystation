@@ -143,14 +143,14 @@ namespace Player.Movement
 		public float PushFallSpeed = 10;
 
 		private RegisterPlayer registerPlayer;
-		private Matrix matrix => registerPlayer.Matrix;
-		private Directional PlayerDirectional;
+		private Matrix Matrix => registerPlayer.Matrix;
+		private Directional playerDirectional;
 
 		private void Awake()
 		{
 			PlayerScript = GetComponent<PlayerScript>();
 
-			PlayerDirectional = gameObject.GetComponent<Directional>();
+			playerDirectional = gameObject.GetComponent<Directional>();
 
 			registerPlayer = GetComponent<RegisterPlayer>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -191,7 +191,7 @@ namespace Player.Movement
 		{
 			if (curMatrix == false)
 			{
-				curMatrix = matrix;
+				curMatrix = Matrix;
 			}
 
 			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix), isReplay);
@@ -330,16 +330,16 @@ namespace Player.Movement
 			var directionalObject = toObject.GetComponent<Directional>();
 			if (directionalObject != null)
 			{
-				PlayerDirectional.FaceDirection(directionalObject.CurrentDirection);
+				playerDirectional.FaceDirection(directionalObject.CurrentDirection);
 			}
 			else
 			{
-				PlayerDirectional.FaceDirection(PlayerDirectional.CurrentDirection);
+				playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
 			}
 
 			// force sync direction to current direction (If it is a real player and not a NPC)
 			if (PlayerScript.connectionToClient != null)
-				PlayerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
+				playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 		}
 
 		/// <summary>
@@ -403,11 +403,11 @@ namespace Player.Movement
 		// invoked when buckledTo changes direction, so we can update our direction
 		private void OnBuckledObjectDirectionChange(Orientation newDir)
 		{
-			if (PlayerDirectional == null)
+			if (playerDirectional == null)
 			{
-				PlayerDirectional = gameObject.GetComponent<Directional>();
+				playerDirectional = gameObject.GetComponent<Directional>();
 			}
-			PlayerDirectional.FaceDirection(newDir);
+			playerDirectional.FaceDirection(newDir);
 		}
 
 		// syncvar hook invoked client side when the buckledTo changes
