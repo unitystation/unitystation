@@ -5,7 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Mirror;
-using Core.Editor.Attributes;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
 using Systems.Pipes;
@@ -52,8 +51,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
 
-	[SerializeField, FormerlySerializedAs("ObjectType"), PrefabModeOnly]
-	[Tooltip("The kind of object this is.")]
+	[Tooltip("The kind of object this is.")] [FormerlySerializedAs("ObjectType")] [SerializeField]
 	private ObjectType objectType = ObjectType.Item;
 
 	/// <summary>
@@ -150,7 +148,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private PipeData pipeData;
 	public PipeData PipeData => pipeData;
 
-	[PrefabModeOnly]
 	public SortingGroup CurrentsortingGroup;
 
 	#region Lifecycle

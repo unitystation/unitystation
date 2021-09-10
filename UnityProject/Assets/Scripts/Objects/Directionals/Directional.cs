@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
-using Core.Editor.Attributes;
-
 
 /// <summary>
 /// Component which allows an object to have an orientation (facing) which is synced over the network, supports client
@@ -25,7 +24,6 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 	public OrientationEnum InitialDirection = OrientationEnum.Down;
 
 	private OrientationEnum editorInitialDirection;
-	[PrefabModeOnly]
 	public UnityEvent onEditorDirectionChange;
 
 	/// <summary>
@@ -43,7 +41,6 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 	/// matrix rotation to match the matrix rotation that occurred. If false,
 	/// direction will not be changed regardless of matrix rotation.
 	/// </summary>
-	[PrefabModeOnly]
 	[Tooltip("If true, direction will be changed at the end of " +
 	         "matrix rotation to match the matrix rotation that occurred. If false," +
 	         " direction will not be changed regardless of matrix rotation.")]
@@ -51,7 +48,6 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 
 	[Tooltip("If true this component will ignore all SyncVar updates. Useful if you just want to use" +
 	         "this component for easy direction changing at edit time")]
-	[PrefabModeOnly]
 	public bool DisableSyncing = false;
 
 	/// <summary>

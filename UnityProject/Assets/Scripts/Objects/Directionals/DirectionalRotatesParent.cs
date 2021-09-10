@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Core.Editor.Attributes;
-
 
 /// <summary>
 /// Component which causes ONLY parent to rotate based on Directional orientation
@@ -12,10 +11,10 @@ using Core.Editor.Attributes;
 public class DirectionalRotatesParent : MonoBehaviour
 {
 	[Tooltip("Direction that the children of the root of this prefab are facing in.")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField]
 	private OrientationEnum prefabChildrenOrientation = OrientationEnum.Down;
 
-	[SerializeField, PrefabModeOnly]
+	[SerializeField]
 	private bool forceChildrenOpposite;
 
 	public OrientationEnum MappedOrientation

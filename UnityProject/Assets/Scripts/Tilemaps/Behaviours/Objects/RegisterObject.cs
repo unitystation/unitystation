@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Blob;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Mirror;
-using Core.Editor.Attributes;
-
+using UnityEngine.Serialization;
 
 /// <summary>
 /// <see cref="RegisterTile"/> for an object, adds additional logic to
@@ -14,7 +13,6 @@ using Core.Editor.Attributes;
 [ExecuteInEditMode]
 public class RegisterObject : RegisterTile
 {
-	[PrefabModeOnly]
 	public bool AtmosPassable = true;
 
 	[NonSerialized]
@@ -25,21 +23,19 @@ public class RegisterObject : RegisterTile
 	[SyncVar(hook = nameof(SetCrawlingPassable))]
 	public bool CrawlPassable = false;
 
-	[PrefabModeOnly]
 	[Tooltip("If true, this object won't block players from interacting with other objects")]
 	public bool ReachableThrough = true;
 
 
 	private bool initialAtmosPassable;
 
-	[SerializeField, FormerlySerializedAs("Passable"), PrefabModeOnly]
+	[SerializeField][FormerlySerializedAs("Passable")]
 	private bool initialPassable;
 
-	[SerializeField, FormerlySerializedAs("CrawlPassable"), PrefabModeOnly]
+	[SerializeField][FormerlySerializedAs("CrawlPassable")]
 	private bool initialCrawlPassable;
 
-	[SerializeField, PrefabModeOnly]
-	private List<PassableExclusionTrait> passableExclusionsToThis = default;
+	[SerializeField] private List<PassableExclusionTrait> passableExclusionsToThis = default;
 
 	protected override void Awake()
 	{

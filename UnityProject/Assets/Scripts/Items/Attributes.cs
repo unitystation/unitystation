@@ -1,8 +1,7 @@
 using System.Linq;
+using Messages.Client.Interaction;
 using UnityEngine;
 using Mirror;
-using Core.Editor.Attributes;
-using Messages.Client.Interaction;
 
 
 [RequireComponent(typeof(Integrity))]
@@ -30,11 +29,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	private string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField]
 	private bool willHighlight = true;
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField]
 	private int exportCost = 0;
 
 	public int ExportCost
@@ -52,12 +51,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	}
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField]
 	private string exportName = "";
 	public string ExportName => exportName;
 
 	[Tooltip("Additional message to display in the cargo console report.")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField]
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
 

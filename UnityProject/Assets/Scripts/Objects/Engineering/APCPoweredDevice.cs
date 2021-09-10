@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
-using Core.Editor.Attributes;
 using Systems.ObjectConnection;
 using Objects.Engineering;
+using UnityEngine.Events;
 #if Unity_Editor
 using UnityEditor;
 #endif
+
 
 
 namespace Systems.Electricity
@@ -17,19 +18,19 @@ namespace Systems.Electricity
 	[ExecuteInEditMode]
 	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IMultitoolSlaveable
 	{
-		[SerializeField, PrefabModeOnly]
+		[SerializeField]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
 		private float minimumWorkingVoltage = 190;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField]
 		[FormerlySerializedAs("ExpectedRunningVoltage")]
 		private float expectedRunningVoltage = 240;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField]
 		[FormerlySerializedAs("MaximumWorkingVoltage")]
 		private float maximumWorkingVoltage = 300;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField]
 		[Tooltip("Category of this powered device. " +
 				"Different categories work like a set of breakers, so you can turn off lights and keep machines working.")]
 		private DeviceType deviceType = DeviceType.None;
@@ -40,7 +41,7 @@ namespace Systems.Electricity
 
 		public bool IsSelfPowered => isSelfPowered;
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField]
 		[Tooltip("Watts consumed per update when running at 240v")]
 		private float wattusage = 0.01f;
 
@@ -52,7 +53,7 @@ namespace Systems.Electricity
 			}
 		}
 
-		[SerializeField, PrefabModeOnly]
+		[SerializeField]
 		[FormerlySerializedAs("Resistance")]
 		[FormerlySerializedAs("resistance")]
 		private float InitialResistance = 99999999;
@@ -68,11 +69,8 @@ namespace Systems.Electricity
 
 		[HideInInspector] public APC RelatedAPC;
 		private IAPCPowerable Powered;
-
-		[PrefabModeOnly]
 		public bool AdvancedControlToScript;
 
-		[PrefabModeOnly]
 		public bool StateUpdateOnClient = true;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedState))]
