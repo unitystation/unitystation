@@ -8,6 +8,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
 using Items;
+using Player.Movement;
 
 namespace Objects
 {

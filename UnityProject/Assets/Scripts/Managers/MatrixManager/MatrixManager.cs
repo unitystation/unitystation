@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 using Systems.Atmospherics;
 using Objects.Construction;
+using Player.Movement;
 
 /// <summary>
 /// Defines collision type we expect
