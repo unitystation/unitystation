@@ -37,6 +37,9 @@ public class ConstructibleDoor : MonoBehaviour, ICheckedInteractable<HandApply>
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You screw in the {gameObject.ExpensiveName()}'s cable panel.",
 				$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
+				
+				//Force close net tab when panel is closed
+				TabUpdateMessage.SendToPeepers(gameObject, NetTabType.HackingPanel, TabAction.Close);
 		}
 
 
