@@ -148,35 +148,33 @@ namespace HealthV2
 
 		public void TakeBluntDamage(float damage)
 		{
+			void TakeBluntLogic(BodyPart bodyPart)
+			{
+				bodyPart.health -= damage;
+				bodyPart.CheckIfBroken(true);
+			}
+
 			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
 			{
-				if (!slot.IsEmpty)
+				if (slot.IsEmpty) { return; }
+				if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
 				{
-					if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
-					{
-						if (bodyPart.CanBeBroken)
-						{
-							bodyPart.health -= damage;
-							bodyPart.CheckIfBroken(true);
-						}
-					}
+					if (bodyPart.CanBeBroken) { TakeBluntLogic(bodyPart);}
 				}
 			}
 		}
 
 		public void CheckIfBroken(bool announceHurtDamage = false)
 		{
-			if (CanBeBroken)
-			{
-				if (Severity == BoneFracturesOnDamageSevarity) { isFractured = true; }
-				if (Severity >= BoneBreaksOnDamageSevarity) { isBroken = true; }
+			if (!CanBeBroken) { return; }
+			if (Severity == BoneFracturesOnDamageSevarity) { isFractured = true; }
+			if (Severity >= BoneBreaksOnDamageSevarity) { isBroken = true; }
 
-				if (isFractured && isBroken != true && announceHurtDamage)
-				{
-					Chat.AddActionMsgToChat(HealthMaster.gameObject,
-						$"You hear a loud crack from your {BodyPartReadableName}.",
-						$"A loud crack can be heard from {HealthMaster.playerScript.visibleName}.");
-				}
+			if (isFractured && isBroken != true && announceHurtDamage)
+			{
+				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+					$"You hear a loud crack from your {BodyPartReadableName}.",
+					$"A loud crack can be heard from {HealthMaster.playerScript.visibleName}.");
 			}
 		}
 
