@@ -7,7 +7,7 @@ using Systems.Pipes;
 
 namespace Objects.Atmospherics
 {
-	public class GasMeter : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ICheckedInteractable<AiActivate>
+	public class GasMeter : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ICheckedInteractable<AiActivate>, IServerLifecycle
 	{
 		[SerializeField]
 		private SpriteHandler spriteHandler;
@@ -23,17 +23,13 @@ namespace Objects.Atmospherics
 			registerTile = GetComponent<RegisterTile>();
 		}
 
-		private void OnEnable()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
 			UpdateManager.Add(CycleUpdate, 1);
 		}
 
-		private void OnDisable()
+		public void OnDespawnServer(DespawnInfo info)
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}
 

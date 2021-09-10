@@ -89,6 +89,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		playerState.WorldPosition = pos;
 
 		PlayerNewPlayer.Send(netId);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+
+
 	}
 
 	public override void OnStartServer()
@@ -106,7 +109,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		onTileReached.AddListener(Cross);
 		EventManager.AddHandler(Event.PlayerRejoined, setLocalPlayer);
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	private void OnDisable()
 	{
@@ -483,10 +485,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			return;
 		}
 
+		var server = CustomNetworkManager.IsServer;
+
 		if (Matrix != null)
 		{
 			CheckMovementClient();
-			bool server = CustomNetworkManager.IsServer;
+
 			if (server)
 			{
 				CheckMovementServer();

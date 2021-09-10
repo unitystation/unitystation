@@ -82,6 +82,8 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 	private bool isUpdating;
 
+	private bool Initialized;
+
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 
@@ -95,10 +97,10 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	}
 	private ItemAttributesV2 itemAttributes;
 
-	[ReadOnlyAttribute] public TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
-	[ReadOnlyAttribute] public TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
+	[ReadOnlyAttribute] private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
+	[ReadOnlyAttribute] private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
 
-	[ReadOnlyAttribute] public TransformState clientState = TransformState.Uninitialized; //last reliable state from server
+	[ReadOnlyAttribute] private TransformState clientState = TransformState.Uninitialized; //last reliable state from server
 
 	#region ClientStateSyncVars
 	// ClientState SyncVars, separated out of clientState TransformState
@@ -129,7 +131,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 	#endregion
 
-	[ReadOnlyAttribute] public TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
+	[ReadOnlyAttribute] private TransformState predictedState = TransformState.Uninitialized; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
 
@@ -187,6 +189,8 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		{
 			c.enabled = false;
 		}
+
+		Initialized = true;
 	}
 
 	[Server]
@@ -322,7 +326,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	/// <param name="v">unused and ignored</param>
 	private void Poke(Vector3Int v)
 	{
-		if (isUpdating == false)
+		if (isUpdating == false && Initialized)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			isUpdating = true;
@@ -597,11 +601,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	[Client]
 	private void ClientValueChanged()
 	{
-		if (clientValueChanged == false)
-		{
-			Poke();
-		}
-
+		Poke();
 		clientValueChanged = true;
 	}
 

@@ -93,6 +93,8 @@ public class Matrix : MonoBehaviour
 	private NetworkedMatrix networkedMatrix;
 	public NetworkedMatrix NetworkedMatrix => networkedMatrix;
 
+	[HideInInspector] public bool Initialized;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponent<MetaTileMap>();
@@ -136,7 +138,7 @@ public class Matrix : MonoBehaviour
 
 	void Start()
 	{
-		MatrixManager.RegisterMatrix(this, IsSpaceMatrix, IsMainStation, IsLavaLand);
+		StartCoroutine(MatrixManager.Instance.RegisterWhenReady(this));
 	}
 
 	public void CompressAllBounds()

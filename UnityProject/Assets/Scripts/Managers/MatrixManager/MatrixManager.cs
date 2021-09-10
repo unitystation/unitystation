@@ -1,17 +1,13 @@
-using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using Chemistry;
 using Doors;
 using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
-using Debug = UnityEngine.Debug;
 using Systems.Atmospherics;
 using Objects.Construction;
 
@@ -114,15 +110,36 @@ public partial class MatrixManager : MonoBehaviour
 		trackedIntersections.Clear();
 	}
 
-	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false,
-		bool isLavaLand = false)
+	public IEnumerator RegisterWhenReady(Matrix matrix)
+	{
+		while (matrix.NetworkedMatrix.Initialized == false || (matrix.MatrixMove && matrix.MatrixMove.Initialized == false))
+		{
+			yield return null;
+		}
+		RegisterMatrix(matrix);
+		matrix.Initialized = true;
+
+		var registerTileList = matrix.GetComponentsInChildren<RegisterTile>();
+		foreach (var registerTile in registerTileList)
+		{
+			registerTile.Initialize(matrix);
+		}
+
+		if (CustomNetworkManager.IsServer)
+		{
+			var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
+			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
+		}
+	}
+
+	private static void RegisterMatrix(Matrix matrix)
 	{
 		foreach (var curInfo in Instance.ActiveMatrices)
 		{
-			if (curInfo.Matrix == matrixToRegister) return;
+			if (curInfo.Matrix == matrix) return;
 		}
 
-		var matrixInfo = CreateMatrixInfoFromMatrix(matrixToRegister, Instance.ActiveMatrices.Count);
+		var matrixInfo = CreateMatrixInfoFromMatrix(matrix, Instance.ActiveMatrices.Count);
 
 		if (Instance.ActiveMatrices.Contains(matrixInfo) == false)
 		{
@@ -134,13 +151,13 @@ public partial class MatrixManager : MonoBehaviour
 			Instance.MovableMatrices.Add(matrixInfo);
 		}
 
-		matrixToRegister.Id = matrixInfo.Id;
+		matrix.Id = matrixInfo.Id;
 
-		if (isSpaceMatrix)
+		if (matrix.IsSpaceMatrix)
 		{
 			if (Instance.spaceMatrix == null)
 			{
-				Instance.spaceMatrix = matrixToRegister;
+				Instance.spaceMatrix = matrix;
 			}
 			else
 			{
@@ -148,11 +165,11 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		if (isMainStation)
+		if (matrix.IsMainStation)
 		{
 			if (Instance.mainStationMatrix == null)
 			{
-				Instance.mainStationMatrix = matrixToRegister;
+				Instance.mainStationMatrix = matrix;
 			}
 			else
 			{
@@ -160,11 +177,11 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		if (isLavaLand)
+		if (matrix.IsLavaLand)
 		{
 			if (Instance.lavaLandMatrix == null)
 			{
-				Instance.lavaLandMatrix = matrixToRegister;
+				Instance.lavaLandMatrix = matrix;
 			}
 			else
 			{
@@ -172,7 +189,7 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
-		matrixToRegister.ConfigureMatrixInfo(matrixInfo);
+		matrix.ConfigureMatrixInfo(matrixInfo);
 		Instance.InitCollisions(matrixInfo);
 	}
 
@@ -1186,7 +1203,7 @@ public partial class MatrixManager : MonoBehaviour
 			matrix.GetOffset(state); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
- 
+
 	/// <inheritdoc cref="WorldToLocal(Vector3, Matrix)"/>
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{

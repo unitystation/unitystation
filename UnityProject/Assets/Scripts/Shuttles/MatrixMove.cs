@@ -73,8 +73,10 @@ public class MatrixMove : ManagedBehaviour
 	public bool IsMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	//client-only values
 	public MatrixState ClientState => clientState;
-	private MatrixInfo matrixInfo;
-	public MatrixInfo MatrixInfo => matrixInfo;
+	public MatrixInfo MatrixInfo => matrix.MatrixInfo;
+
+	public Matrix matrix;
+
 	private ShuttleFuelSystem shuttleFuelSystem;
 	public ShuttleFuelSystem ShuttleFuelSystem => shuttleFuelSystem;
 	/// <summary>
@@ -194,6 +196,7 @@ public class MatrixMove : ManagedBehaviour
 	private void Awake()
 	{
 		networkedMatrix = GetComponent<NetworkedMatrix>();
+		matrix = GetComponentInChildren<Matrix>();
 	}
 
 	public void OnStartClient()
@@ -238,7 +241,6 @@ public class MatrixMove : ManagedBehaviour
 			clientStarted = true;
 
 			var child = transform.GetChild(0);
-			matrixInfo = MatrixManager.Get(child.gameObject);
 		}
 	}
 
@@ -254,7 +256,6 @@ public class MatrixMove : ManagedBehaviour
 		SyncInitialPosition(initialPosition, initialPositionInt);
 
 		var child = transform.GetChild(0);
-		matrixInfo = MatrixManager.Get(child.gameObject);
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		SyncPivot(pivot, initialPosition - childPosition);
 
@@ -268,7 +269,6 @@ public class MatrixMove : ManagedBehaviour
 		RecheckThrusters();
 		if (thrusters.Count > 0)
 		{
-			Logger.LogFormat("{0}: Initializing {1} thrusters!", Category.Shuttles, matrixInfo.Matrix.name, thrusters.Count);
 			foreach (var thruster in thrusters)
 			{
 				var integrity = thruster.GetComponent<Integrity>();
@@ -283,7 +283,6 @@ public class MatrixMove : ManagedBehaviour
 
 					   if (thrusters.Count == 0 && IsMovingServer)
 					   {
-						   Logger.LogFormat("All thrusters were destroyed! Stopping {0} soon!", Category.Shuttles, matrixInfo.Matrix.name);
 						   StartCoroutine(StopWithDelay(1f));
 					   }
 				   });
@@ -327,7 +326,7 @@ public class MatrixMove : ManagedBehaviour
 		{
 			SetSpeed(ServerState.Speed / 2);
 			yield return WaitFor.Seconds(delay);
-			Logger.LogFormat("{0}: Stopping due to missing thrusters!", Category.Shuttles, matrixInfo.Matrix.name);
+			Logger.LogFormat("{0}: Stopping due to missing thrusters!", Category.Shuttles, matrix.name);
 			StopMovement();
 		}
 	}
@@ -778,10 +777,10 @@ public class MatrixMove : ManagedBehaviour
 		for (var i = 0; i < SensorPositions.Length; i++)
 		{
 			var sensor = SensorPositions[i];
-			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(sensor, matrixInfo, serverTargetState);
+			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(sensor, MatrixInfo, serverTargetState);
 
 			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
-			int[] excludeList = { matrixInfo.Id };
+			int[] excludeList = { MatrixInfo.Id };
 			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
 											collisionType: matrixColliderType, excludeList: excludeList))
 			{
@@ -810,10 +809,10 @@ public class MatrixMove : ManagedBehaviour
 			var sensor = RotationSensors[i];
 			// Need to pass an aggriate local vector in reference to the Matrix GO to get the correct WorldPos
 			Vector3 localSensorAggrigateVector = (rotationSensorContainerTransform.localRotation * sensor.transform.localPosition) + rotationSensorContainerTransform.localPosition;
-			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(localSensorAggrigateVector, matrixInfo, serverTargetState);
+			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(localSensorAggrigateVector, MatrixInfo, serverTargetState);
 
 			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
-			int[] excludeList = { matrixInfo.Id };
+			int[] excludeList = { MatrixInfo.Id };
 			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos, isServer: true,
 											collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
 			{
@@ -1285,7 +1284,7 @@ public class MatrixMove : ManagedBehaviour
 	{
 		ClearRcsCache();
 
-		foreach (Transform child in matrixInfo.Objects)
+		foreach (Transform child in MatrixInfo.Objects)
 		{
 			if (child.CompareTag("Rcs") && child.TryGetComponent(out RcsThruster thruster))
 			{

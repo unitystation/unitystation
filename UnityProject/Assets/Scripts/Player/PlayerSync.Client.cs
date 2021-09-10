@@ -15,10 +15,10 @@ public partial class PlayerSync
 	}
 
 	/// Trusted state, received from server
-	public PlayerState playerState;
+	private PlayerState playerState;
 
 	/// Client predicted state
-	public PlayerState predictedState;
+	private PlayerState predictedState;
 
 	private Queue<PlayerAction> pendingActions;
 	private Vector2 lastDirectionClient;
