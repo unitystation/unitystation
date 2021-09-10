@@ -36,20 +36,20 @@ namespace HealthV2
 				report += "[Fracture Level]\n";
 				if (IsBroken)
 				{
-					return TranslateTags(report + BoneBrokenDesc);
+					return $"{TranslateTags(report + BoneBrokenDesc)}";
 				}
 
 				if (isFractured)
 				{
-					return TranslateTags(report + BoneFracturedDesc);
+					return $"{TranslateTags(report + BoneFracturedDesc)}";
 				}
 
 				if (Severity == DamageSeverity.Light)
 				{
-					return TranslateTags(report + "Joint Dislocation detected.");
+					return $"{TranslateTags(report + "Joint Dislocation detected.")}";
 				}
 
-				return TranslateTags(report + "Healthy.");
+				return $"{TranslateTags(report + "Healthy.")}";
 			}
 
 			report += "[Open Wound Size -> ";
@@ -126,8 +126,8 @@ namespace HealthV2
 					report += $"{burnDamageDescOnNone} \n";
 					break;
 			}
-			
-			return TranslateTags(report);
+
+			return $"{TranslateTags(report)}";
 		}
 
 		private string TranslateTags(string txt)
