@@ -7,6 +7,7 @@ using AddressableReferences;
 using HealthV2;
 using Items;
 using Messages.Server.SoundMessages;
+using Player.Movement;
 using Systems.Interaction;
 
 public class WeaponNetworkActions : NetworkBehaviour

@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Weapons.Projectiles;
 using NaughtyAttributes;
+using Player.Movement;
 
 namespace Weapons
 {
