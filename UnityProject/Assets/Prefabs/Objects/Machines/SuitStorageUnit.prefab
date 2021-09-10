@@ -46,6 +46,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 5643744836951943504}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -212,7 +214,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 6ab9220e59190fe4bacaa124fbedc89d, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &8503951718868588636
 PrefabInstance:

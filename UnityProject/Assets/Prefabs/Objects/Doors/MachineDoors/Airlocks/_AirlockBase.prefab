@@ -108,7 +108,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &404576362407937357
 GameObject:
@@ -222,7 +222,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &7418526098909645323
 MonoBehaviour:
@@ -341,7 +341,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &512806237205393311
 GameObject:
@@ -449,7 +449,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &773641709186510069
 GameObject:
@@ -554,7 +554,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &2233065044779290990
 GameObject:
@@ -667,7 +667,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &5292488675851686727
 MonoBehaviour:
@@ -933,6 +933,8 @@ MonoBehaviour:
   isWindowedDoor: 0
   HackingProcessBase: {fileID: 2590545318543294087}
   ConstructibleDoor: {fileID: 2423441889713074305}
+  conType: 7
+  requireLink: 0
 --- !u!114 &2423441889713074305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1131,6 +1133,12 @@ PrefabInstance:
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+--- !u!4 &8242232534866279461 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8248341723222571775 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1158,12 +1166,6 @@ MonoBehaviour:
 --- !u!210 &6682145752921394767 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 3511082394880060143}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8242232534866279461 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}

@@ -77,11 +77,10 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   wattusage: 0.01
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 1
   StateUpdateOnClient: 0
-  conType: 1
 --- !u!114 &7812584158791827984
 MonoBehaviour:
   m_ObjectHideFlags: 0

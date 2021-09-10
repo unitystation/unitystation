@@ -106,7 +106,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 0755a74700d5b3a4ebf817369ab29d01, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &1711816394935574
 GameObject:
@@ -247,8 +247,6 @@ MonoBehaviour:
   isEmagged: 0
   weldOverlay: {fileID: 0}
   weldSprite: {fileID: 0}
-  isUnLockable: 1
-  isWeldable: 1
   occupant: {fileID: 0}
   statusString: 
   RelatedAPC: {fileID: 0}
@@ -314,6 +312,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -404,11 +404,10 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   wattusage: 0.01
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  conType: 1
 --- !u!114 &114261379763110518
 MonoBehaviour:
   m_ObjectHideFlags: 0

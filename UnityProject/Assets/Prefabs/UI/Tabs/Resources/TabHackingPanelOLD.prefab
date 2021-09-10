@@ -958,27 +958,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  Wirecut:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  inputsLayout: {fileID: 3403150550479503722}
-  outputsLayout: {fileID: 3238243053852797468}
-  inputHackingNodeUIPrefab: {fileID: 2953554483379236539, guid: 836ffa954e8ee17418eb73c293729498,
-    type: 3}
-  outputHackingNodeUIPrefab: {fileID: 5946983823111434588, guid: 42cf19e5737b0e740950b5d4fa9ccd41,
-    type: 3}
-  connectingWireUIPrefab: {fileID: 1845724136357094811, guid: 12b9d94ee4255454cb6e5e821ed89477,
-    type: 3}
-  hackingDeviceUIPrefab: {fileID: 2953554483379236539, guid: 3e0f410eafb007a49a248f0b8e89d24e,
-    type: 3}
-  hackingDeviceLayout: {fileID: 4921475496176897741}
-  nodeCellSize: {x: 60, y: 60}
-  deviceCellSize: {x: 200, y: 200}
-  deviceNodeCellSize: {x: 60, y: 60}
+  Inputs: {fileID: 0}
+  Outputs: {fileID: 0}
+  GUI_CablePanel: {fileID: 0}
 --- !u!114 &2080870293712713015
 MonoBehaviour:
   m_ObjectHideFlags: 0

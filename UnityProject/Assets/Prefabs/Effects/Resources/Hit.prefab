@@ -107,7 +107,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 5bb19429fda0e584cab3534a4527ed13, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &1460587041863738674
 MonoBehaviour:
@@ -158,6 +158,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
 --- !u!114 &-1301878598643499119
 MonoBehaviour:

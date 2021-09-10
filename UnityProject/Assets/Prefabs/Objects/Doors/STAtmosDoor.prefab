@@ -106,7 +106,6 @@ GameObject:
   - component: {fileID: 114065811379349204}
   - component: {fileID: 3428408671806122639}
   - component: {fileID: -3735635585502277294}
-  - component: {fileID: -6870896123722779071}
   - component: {fileID: -8263325723710276213}
   m_Layer: 18
   m_Name: STAtmosDoor
@@ -208,11 +207,10 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 1
   DoorPressureSpriteOffset: 25
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 7
+  requireLink: 0
 --- !u!114 &114199714939546294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +512,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 114503345661438504}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
@@ -685,28 +685,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
---- !u!114 &-6870896123722779071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457523303891292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bfcc0fbb86771940b4d7b38c9c7d3b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  wiresInitiallyExposed: 0
-  nodeInfo: {fileID: 11400000, guid: 70468a705c81370488f44537a6568005, type: 2}
-  openPanelSFX: 
-  closePanelSFX: 
-  NetTabType: 19
-  doorName: atmos door
-  hackPanelOverlay: {fileID: 0}
-  hackPanelSprite: {fileID: 0}
 --- !u!114 &-8263325723710276213
 MonoBehaviour:
   m_ObjectHideFlags: 0

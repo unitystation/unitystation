@@ -94,7 +94,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &3087728318779941642
 MonoBehaviour:
@@ -108,8 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52127aea5bdd20d4aa313d61cd7d9d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   SpriteHandler: {fileID: 2799980879643267991}
   spriteOrder:
     Orders: 00000000000000000000000000000000

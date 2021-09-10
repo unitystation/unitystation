@@ -372,11 +372,10 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 1
   DoorPressureSpriteOffset: 25
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 7
+  requireLink: 0
 --- !u!114 &114936201514075140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +579,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1

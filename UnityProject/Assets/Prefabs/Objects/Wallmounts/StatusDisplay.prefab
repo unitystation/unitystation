@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!222 &6514531138547576961
 CanvasRenderer:
@@ -135,6 +135,7 @@ MonoBehaviour:
   closedOff: {fileID: 21300000, guid: 04bf384246499214baf7542e07b7019e, type: 3}
   joeNews: {fileID: 11400000, guid: 0627b5d10aa2ee24988d240b94b47ec2, type: 2}
   doorControllers: []
+  NewdoorControllers: []
   centComm: {fileID: 0}
   currentTimerSeconds: 0
   countingDown: 0

@@ -16,6 +16,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 0
@@ -68,11 +70,10 @@ MonoBehaviour:
   maxTimeOpen: -1
   enablePressureWarning: 0
   DoorPressureSpriteOffset: 25
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 0
+  requireLink: 0
 --- !u!114 &5759204677302852279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +104,6 @@ MonoBehaviour:
   doorController: {fileID: 3123194050341043285}
   spritePath: icons/obj/doors/metal_fwall_closing
   animFrames: 030000000200000001000000
-  animLength: 0
   closeFrame: 4
   deniedFrame: 4
   openFrame: 0

@@ -180,11 +180,10 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   wattusage: 300
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 0
-  conType: 1
 --- !u!1001 &5972872610322709877
 PrefabInstance:
   m_ObjectHideFlags: 0

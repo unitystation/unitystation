@@ -104,7 +104,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 6ccaabd067e953b4bb15d6ef7d52bfb4, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &3063001773969750252
 GameObject:
@@ -211,7 +211,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 6ccaabd067e953b4bb15d6ef7d52bfb4, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &6389554176216557779
 MonoBehaviour:
@@ -232,7 +232,7 @@ MonoBehaviour:
   isInitiallyNotPushable: 0
   pushPullSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

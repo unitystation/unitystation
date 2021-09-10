@@ -106,7 +106,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &7144248469089430455
 GameObject:
@@ -206,6 +206,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -327,7 +329,6 @@ MonoBehaviour:
   CurrentDirection: 0
   CurrentStatus: 0
   spriteHandler: {fileID: 3569393190955387615}
-  conType: 2
 --- !u!114 &-2830540189932370351
 MonoBehaviour:
   m_ObjectHideFlags: 0

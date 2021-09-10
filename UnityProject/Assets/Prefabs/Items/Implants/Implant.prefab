@@ -17,7 +17,6 @@ MonoBehaviour:
   IsBleeding: 0
   limbLossBleedingValue: 35
   BodyPartType: 0
-  ContainBodyParts: []
   isDimorphic: 0
   ContainedIn: {fileID: 0}
   BodyTypesSprites:
@@ -88,7 +87,16 @@ MonoBehaviour:
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
-  DamageThreshold: 18
+  BodyPartReadableName: '[Default Part Name]'
+  internalDamageDesc: This {readableName} is suffering from internal damage.
+  externalBleedingDesc: This {readableName} is bleeding due to an open wound.
+  MinMaxInternalBleedingValues: {x: 5, y: 20}
+  maximumInternalBleedDamage: 100
+  InternalBleedingBloodLoss: 12
+  ExternalBleedingBloodLoss: 6
+  baseTraumaDamageMultiplier: 0.25
+  bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
+  bodyPartAshesAboveThisDamage: 125
   GibsOnSeverityLevel: 150
   GibChance: 0.15
   BodyPartStorageContentsSpillOutOnCutSize: 3
@@ -97,17 +105,8 @@ MonoBehaviour:
   spillChanceWhenCutPresent: 0.5
   CanBleedInternally: 0
   CanBleedExternally: 0
+  DamageThreshold: 18
   gibsEntireBodyOnRemoval: 0
-  MinMaxInternalBleedingValues: {x: 5, y: 20}
-  maximumInternalBleedDamage: 100
-  InternalBleedingBloodLoss: 12
-  ExternalBleedingBloodLoss: 6
-  baseTraumaDamageMultiplier: 0.25
-  bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
-  bodyPartAshesAboveThisDamage: 125
-  BodyPartReadableName: '[Default Part Name]'
-  internalDamageDesc: This {readableName} is suffering from internal damage.
-  externalBleedingDesc: This {readableName} is bleeding due to an open wound.
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0

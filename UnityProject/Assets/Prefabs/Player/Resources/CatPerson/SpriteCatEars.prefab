@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSpriteHandler: {fileID: 1286611255038373546}
   BodyPartType: 0
-  ParentContainer: {fileID: 0}
   spriteRenderer: {fileID: 5622979681401935431}
   SpriteOrder:
     Orders: 14000000140000001400000014000000
@@ -123,7 +122,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 9013b5f6b05c6f947934343ac3da21cf, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &849300055863115613
 PrefabInstance:
@@ -158,6 +157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026448041578801434, guid: 7f846789e62ac004499611e9c1417efa,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5675696822478708226, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
