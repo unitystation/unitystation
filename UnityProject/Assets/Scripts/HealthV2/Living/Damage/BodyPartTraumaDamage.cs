@@ -89,10 +89,19 @@ namespace HealthV2
 
 		public bool CanBeBroken = false;
 
-		private bool isBroken = false;
-		private bool isFractured = false;
-		public bool IsBroken => isBroken;
-		public bool IsFractured => isFractured;
+		private bool isFractured_Compound = false;
+		private bool isFractured_Hairline = false;
+		private bool jointDislocated = false; //TODO : ADD LATER.
+
+		/// <summary>
+		/// Critcal Blunt Trauma damage.
+		/// </summary>
+		public bool IsFractured_Compound => isFractured_Compound;
+
+		/// <summary>
+		/// Severe Blunt Trauma damage.
+		/// </summary>
+		public bool IsFractured_Hairline => isFractured_Hairline;
 
 		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
@@ -167,10 +176,10 @@ namespace HealthV2
 		public void CheckIfBroken(bool announceHurtDamage = false)
 		{
 			if (!CanBeBroken) { return; }
-			if (Severity == BoneFracturesOnDamageSevarity) { isFractured = true; }
-			if (Severity >= BoneBreaksOnDamageSevarity) { isBroken = true; }
+			if (Severity == BoneFracturesOnDamageSevarity) { isFractured_Hairline = true; }
+			if (Severity >= BoneBreaksOnDamageSevarity) { isFractured_Compound = true; }
 
-			if (isFractured && isBroken != true && announceHurtDamage)
+			if (isFractured_Hairline && isFractured_Compound != true && announceHurtDamage)
 			{
 				Chat.AddActionMsgToChat(HealthMaster.gameObject,
 					$"You hear a loud crack from your {BodyPartReadableName}.",

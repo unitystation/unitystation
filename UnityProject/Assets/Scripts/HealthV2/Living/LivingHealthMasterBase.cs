@@ -723,7 +723,7 @@ namespace HealthV2
 						return true;
 					if (bodyPart.CurrentPierceDamage > 0)
 						return true;
-					return bodyPart.IsBroken;
+					return bodyPart.IsFractured_Compound;
 				}
 			}
 			return false;

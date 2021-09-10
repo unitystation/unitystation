@@ -23,8 +23,8 @@ namespace HealthV2
 		private string pireceDamageDescOnLARGE= "{readableName} suffers from a Ruptured Cavity.";
 		[SerializeField] private string internalDamageDesc	 = "This {readableName} is suffering from internal damage.";
 		[SerializeField] private string externalBleedingDesc = "This {readableName} is bleeding due to an open wound.";
-		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneBrokenDesc = "This {readableName} is suffering Hairline Fracture.";
-		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneFracturedDesc = "This {readableName} is suffering Compound Fracture. It is completely snapped in half.";
+		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneFracturedLvlThreeDesc = "This {readableName} is suffering Hairline Fracture.";
+		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneFracturedLvlTwoDesc = "This {readableName} is suffering Compound Fracture. It is completely snapped in half.";
 
 		public string GetFullBodyPartDamageDescReport()
 		{
@@ -34,14 +34,14 @@ namespace HealthV2
 			{
 				CheckIfBroken();
 				report += "[Fracture Level]\n";
-				if (IsBroken)
+				if (isFractured_Compound)
 				{
-					return $"{TranslateTags(report + BoneBrokenDesc)}";
+					return $"{TranslateTags(report + BoneFracturedLvlThreeDesc)}";
 				}
 
-				if (isFractured)
+				if (isFractured_Hairline)
 				{
-					return $"{TranslateTags(report + BoneFracturedDesc)}";
+					return $"{TranslateTags(report + BoneFracturedLvlTwoDesc)}";
 				}
 
 				if (Severity == DamageSeverity.Light)
