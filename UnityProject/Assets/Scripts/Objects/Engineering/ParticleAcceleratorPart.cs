@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Objects.Engineering
 {
-	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerLifecycle
+	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn
 	{
 		private ParticleAcceleratorState currentState = ParticleAcceleratorState.Frame;
 		public ParticleAcceleratorState CurrentState => currentState;
@@ -62,7 +62,7 @@ namespace Objects.Engineering
 			integrity.OnWillDestroyServer.AddListener(OnIntegrityDestroy);
 		}
 
-		public void OnDespawnServer(DespawnInfo info)
+		public void OnDisable()
 		{
 			registerTile.OnLocalPositionChangedServer.RemoveListener(OnRegisterTileMove);
 			integrity.OnWillDestroyServer.RemoveListener(OnIntegrityDestroy);

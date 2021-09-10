@@ -5,7 +5,7 @@ using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServerInventoryMove, IServerLifecycle
+public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServerInventoryMove, IServerSpawn
 {
 	[SerializeField]
 	private List<AddressableAudioSource> lowSounds = new List<AddressableAudioSource>();
@@ -25,7 +25,7 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 		UpdateManager.Add(CycleUpdate, 1f);
 	}
 
-	public void OnDespawnServer(DespawnInfo info)
+	public void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 	}

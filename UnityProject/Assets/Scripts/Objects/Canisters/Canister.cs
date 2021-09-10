@@ -11,7 +11,7 @@ namespace Objects.Atmospherics
 	/// Main component for canister.
 	/// </summary>
 	[RequireComponent(typeof(Integrity))]
-	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerLifecycle
+	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn
 	{
 		public const float MAX_RELEASE_PRESSURE = AtmosConstants.ONE_ATMOSPHERE * 50;
 		private const int BURST_SPRITE = 1;
@@ -139,7 +139,7 @@ namespace Objects.Atmospherics
 			hasBurst = true;
 		}
 
-		public void OnDespawnServer(DespawnInfo info)
+		public void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}

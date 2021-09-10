@@ -7,7 +7,7 @@ using Systems.Pipes;
 
 namespace Objects.Atmospherics
 {
-	public class GasMeter : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ICheckedInteractable<AiActivate>, IServerLifecycle
+	public class GasMeter : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, ICheckedInteractable<AiActivate>, IServerSpawn
 	{
 		[SerializeField]
 		private SpriteHandler spriteHandler;
@@ -28,7 +28,7 @@ namespace Objects.Atmospherics
 			UpdateManager.Add(CycleUpdate, 1);
 		}
 
-		public void OnDespawnServer(DespawnInfo info)
+		public void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}
