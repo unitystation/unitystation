@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ChatBubble : MonoBehaviour
 {
@@ -296,15 +298,26 @@ public class ChatBubble : MonoBehaviour
 			}
 
 			var text = msg.msg.Substring(0, msg.characterIndex + 1);
+			var newText = new StringBuilder();
+
+			if ((msg.modifier & ChatModifier.Clown) == ChatModifier.Clown)
+			{
+				for (int i = 0; i < text.Length; i++)
+				{
+					newText.Append($"<color=#{CreateRandomBrightColor()}>");
+					newText.Append(text[i]);
+					newText.Append("</color>");
+				}
+			}
 
 			if (msg.buffered && msg.characterIndex < msg.msg.Length - 1)
 			{
 				//Add the rest of the character but invisible to make bubble correct size
 				//and keep the characters in the same place (helps reading)
-				text += $"<color=#00000000>{msg.msg.Substring(msg.characterIndex + 1)}</color>";
+				newText.Append($"<color=#00000000>{msg.msg.Substring(msg.characterIndex + 1)}</color>");
 			}
 
-			SetBubbleParameters(text, msg.modifier);
+			SetBubbleParameters(newText.ToString(), msg.modifier);
 
 			msg.characterIndex++;
 		}
@@ -319,6 +332,14 @@ public class ChatBubble : MonoBehaviour
 
 		//Set max time to the needed amount
 		msg.maxTime = additionalTime - timeLeft;
+	}
+
+	private string CreateRandomBrightColor() {
+		float h = Random.Range(0f, 1f);
+		float s = 1f;
+		float v = 0.8f + ((1f - 0.8f) * Random.Range(0f, 1f));
+		Color c = Color.HSVToRGB(h, s, v);
+		return ColorUtility.ToHtmlStringRGBA(c);
 	}
 
 	void UpdateMe()
