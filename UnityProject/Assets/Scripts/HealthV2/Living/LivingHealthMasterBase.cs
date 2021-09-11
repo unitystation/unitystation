@@ -962,17 +962,17 @@ namespace HealthV2
 
 				if (part.IsBleeding)
 				{
-					healthString.Append($"<color=red>\n their {part.BodyPartReadableName} is bleeding!</color>");
+					healthString.Append($"<color=red>\n {theyPronoun} {part.BodyPartReadableName} is bleeding!</color>");
 				}
 
 				if (part.CurrentSlashDamageLevel >= TraumaDamageLevel.SERIOUS)
 				{
-					healthString.Append($"<color=red>\n their {part.BodyPartReadableName} is cut wide open!</color>");
+					healthString.Append($"<color=red>\n {theyPronoun} {part.BodyPartReadableName} is cut wide open!</color>");
 				}
 
 				if (part.CurrentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
 				{
-					healthString.Append($"<color=red>\n they have a huge hole in their {part.BodyPartReadableName}!</color>");
+					healthString.Append($"<color=red>\n {theyPronoun} have a huge hole in their {part.BodyPartReadableName}!</color>");
 				}
 			}
 
