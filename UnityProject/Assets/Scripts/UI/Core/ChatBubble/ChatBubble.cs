@@ -39,7 +39,7 @@ public class ChatBubble : MonoBehaviour
 		//Character showing delay vars
 		internal int characterIndex = 0;
 
-		//Use invis characters to text box doesnt resize
+		//Use invis characters so text box doesnt resize
 		//keeps characters in the same place as characters appear (easier to read)
 		public bool buffered = true;
 

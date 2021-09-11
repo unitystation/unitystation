@@ -257,7 +257,7 @@ namespace Managers.SettingsManager
 			{
 				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
 				{
-					if (value != ChatBubbleSize)
+					if (value.Approx(ChatBubbleSize) == false)
 					{
 						dsEventArgs.ChatBubbleSizeChanged = true;
 						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, value);
@@ -312,7 +312,7 @@ namespace Managers.SettingsManager
 			{
 				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubblePopInSpeed))
 				{
-					if (value != ChatBubblePopInSpeed)
+					if (value.Approx(ChatBubblePopInSpeed) == false)
 					{
 						dsEventArgs.ChatBubblePopInSpeedChanged = true;
 						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, value);
@@ -339,7 +339,7 @@ namespace Managers.SettingsManager
 			{
 				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleAdditionalTime))
 				{
-					if (value != ChatBubbleAdditionalTime)
+					if (value.Approx(ChatBubbleAdditionalTime) == false)
 					{
 						dsEventArgs.ChatBubbleAdditionalTimeChanged = true;
 						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, value);
