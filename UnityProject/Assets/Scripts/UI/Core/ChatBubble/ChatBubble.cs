@@ -309,6 +309,10 @@ public class ChatBubble : MonoBehaviour
 					newText.Append("</color>");
 				}
 			}
+			else
+			{
+				newText.Append(text);
+			}
 
 			if (msg.buffered && msg.characterIndex < msg.msg.Length - 1)
 			{
