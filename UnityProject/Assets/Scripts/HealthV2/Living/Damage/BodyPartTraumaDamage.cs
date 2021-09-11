@@ -47,6 +47,10 @@ namespace HealthV2
 		private TraumaDamageLevel currentSlashDamageLevel  = TraumaDamageLevel.NONE;
 		private TraumaDamageLevel currentBurnDamageLevel   = TraumaDamageLevel.NONE;
 
+		public TraumaDamageLevel CurrentPierceDamageLevel => currentPierceDamageLevel;
+		public TraumaDamageLevel CurrentSlashDamageLevel  => currentSlashDamageLevel ;
+		public TraumaDamageLevel CurrentBurnDamageLevel   => currentBurnDamageLevel;
+
 		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
 		public float GibChance = 0.15f;
 

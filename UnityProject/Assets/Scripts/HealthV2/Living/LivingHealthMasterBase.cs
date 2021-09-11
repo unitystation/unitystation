@@ -956,6 +956,26 @@ namespace HealthV2
 					$"<color=#b495bf>\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. {theyPronoun} may snap out of it soon.</color>");
 			}
 
+			foreach (BodyPart part in BodyPartList)
+			{
+				if(part.IsSurface){continue;}
+
+				if (part.IsBleeding)
+				{
+					healthString.Append($"<color=red>\n their {part.BodyPartReadableName} is bleeding!</color>");
+				}
+
+				if (part.CurrentSlashDamageLevel >= TraumaDamageLevel.SERIOUS)
+				{
+					healthString.Append($"<color=red>\n their {part.BodyPartReadableName} is cut wide open!</color>");
+				}
+
+				if (part.CurrentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
+				{
+					healthString.Append($"<color=red>\n they have a huge hole in their {part.BodyPartReadableName}!</color>");
+				}
+			}
+
 			return healthString.ToString();
 		}
 
