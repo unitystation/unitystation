@@ -191,11 +191,7 @@ namespace Player
 		public string GetPlayerSpeciesString()
 		{
 			// if face is visible - get species by face
-			if (IsFaceVisible)
-				// TODO: get player species
-			{
-				return "HUMAN";
-			}
+			if (IsFaceVisible) { return script.characterSettings.Species; }
 
 			//  try get species from security records
 			if (TryFindIDCard(out var idCard))
@@ -232,6 +228,10 @@ namespace Player
 			return UNKNOWN_VALUE;
 		}
 
+		/// <summary>
+		/// Reports back if the player is alive or dead.
+		/// </summary>
+		/// <returns></returns>
 		public string GetPlayerStatusString()
 		{
 			var healthString = new StringBuilder($"<color={LILAC_COLOR}>");
