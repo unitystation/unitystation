@@ -304,9 +304,7 @@ public class ChatBubble : MonoBehaviour
 			{
 				for (int i = 0; i < text.Length; i++)
 				{
-					newText.Append($"<color=#{RandomUtils.CreateRandomBrightColorString()}>");
-					newText.Append(text[i]);
-					newText.Append("</color>");
+					newText.Append($"<color=#{RandomUtils.CreateRandomBrightColorString()}>{text[i]}</color>");
 				}
 			}
 			else
