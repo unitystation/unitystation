@@ -304,7 +304,7 @@ public class ChatBubble : MonoBehaviour
 			{
 				for (int i = 0; i < text.Length; i++)
 				{
-					newText.Append($"<color=#{CreateRandomBrightColor()}>");
+					newText.Append($"<color=#{RandomUtils.CreateRandomBrightColorString()}>");
 					newText.Append(text[i]);
 					newText.Append("</color>");
 				}
@@ -332,14 +332,6 @@ public class ChatBubble : MonoBehaviour
 
 		//Set max time to the needed amount
 		msg.maxTime = additionalTime - timeLeft;
-	}
-
-	private string CreateRandomBrightColor() {
-		float h = Random.Range(0f, 1f);
-		float s = 1f;
-		float v = 0.8f + ((1f - 0.8f) * Random.Range(0f, 1f));
-		Color c = Color.HSVToRGB(h, s, v);
-		return ColorUtility.ToHtmlStringRGBA(c);
 	}
 
 	void UpdateMe()
