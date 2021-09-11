@@ -300,6 +300,7 @@ public class ChatBubble : MonoBehaviour
 			var text = msg.msg.Substring(0, msg.characterIndex + 1);
 			var newText = new StringBuilder();
 
+			//God Save Our Eyes
 			if ((msg.modifier & ChatModifier.Clown) == ChatModifier.Clown)
 			{
 				for (int i = 0; i < text.Length; i++)
