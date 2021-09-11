@@ -206,7 +206,7 @@ namespace Doors
 		{
 			if(CustomNetworkManager.IsHeadless) return;
 
-			_ = SoundManager.PlayAtPosition(sound, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient());
 		}
 
 		public void TurnOffAllLights()
