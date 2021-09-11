@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace Managers
 {
+	/// <summary>
+	/// Singleton manager using static instances without use of FindObject
+	/// If you are using Awake() override remember to call base.Awake()!
+	/// </summary>
 	public class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
 	{
 		private static T instance;
