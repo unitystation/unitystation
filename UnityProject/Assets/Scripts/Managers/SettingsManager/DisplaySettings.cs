@@ -274,7 +274,6 @@ namespace Managers.SettingsManager
 
 		public const float DEFAULT_CHATBUBBLESIZE = 2f;
 
-		// 0 == false, 1 == true
 		public int ChatBubbleInstant
 		{
 			get
@@ -288,25 +287,26 @@ namespace Managers.SettingsManager
 					if (value != ChatBubbleInstant)
 					{
 						dsEventArgs.ChatButtleInstantChanged = true;
-						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleInstant, value);
+						PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, value);
 						PlayerPrefs.Save();
 					}
 				}
 				else
 				{
-					PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleInstant, value);
+					PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, value);
 					PlayerPrefs.Save();
 				}
 			}
 		}
 
+		// 0 == false, 1 == true
 		public const int DEFAULT_CHATBUBBLEINSTANT = 0;
 
 		public float ChatBubblePopInSpeed
 		{
 			get
 			{
-				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DEFAULT_CHATBUBBLESIZE);
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DEFAULT_CHATBUBBLEPOPINSPEED);
 			}
 			set
 			{
@@ -333,7 +333,7 @@ namespace Managers.SettingsManager
 		{
 			get
 			{
-				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, DEFAULT_CHATBUBBLESIZE);
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, DEFAULT_CHATBUBBLEADDITIONALTIME);
 			}
 			set
 			{
@@ -458,6 +458,18 @@ namespace Managers.SettingsManager
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ScrollWheelZoom))
 			{
 				ScrollWheelZoom = DEFAULT_SCROLLWHEELZOOM;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleInstant))
+			{
+				ChatBubbleInstant = DEFAULT_CHATBUBBLEINSTANT;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubblePopInSpeed))
+			{
+				ChatBubblePopInSpeed = DEFAULT_CHATBUBBLEPOPINSPEED;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleAdditionalTime))
+			{
+				ChatBubbleAdditionalTime = DEFAULT_CHATBUBBLEADDITIONALTIME;
 			}
 		}
 

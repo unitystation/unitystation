@@ -20,6 +20,15 @@ namespace Unitystation.Options
 		private Slider chatBubbleSizeSlider = null;
 
 		[SerializeField]
+		private Toggle chatBubbleInstantToggle = null;
+
+		[SerializeField]
+		private Slider chatBubblePopInSpeedSlider = null;
+
+		[SerializeField]
+		private Slider chatBubbleAdditionalTimeSlider = null;
+
+		[SerializeField]
 		private Toggle HighlightToggle = null;
 
 		[SerializeField]
@@ -47,6 +56,9 @@ namespace Unitystation.Options
 			mentionSoundToggle.isOn = ThemeManager.MentionSound;
 
 			chatBubbleSizeSlider.value = DisplaySettings.Instance.ChatBubbleSize;
+			chatBubbleInstantToggle.isOn = DisplaySettings.Instance.ChatBubbleInstant == 1;
+			chatBubblePopInSpeedSlider.value = DisplaySettings.Instance.ChatBubblePopInSpeed;
+			chatBubbleAdditionalTimeSlider.value = DisplaySettings.Instance.ChatBubbleAdditionalTime;
 
 			var newOptions = new List<TMP_Dropdown.OptionData>();
 
@@ -119,6 +131,21 @@ namespace Unitystation.Options
 		public void OnChatBubbleSizeChange()
 		{
 			DisplaySettings.Instance.ChatBubbleSize = chatBubbleSizeSlider.value;
+		}
+
+		public void OnChatBubbleInstantChange()
+		{
+			DisplaySettings.Instance.ChatBubbleInstant = chatBubbleInstantToggle.isOn ? 1 : 0;
+		}
+
+		public void OnChatBubblePopInSpeedChange()
+		{
+			DisplaySettings.Instance.ChatBubblePopInSpeed = chatBubblePopInSpeedSlider.value;
+		}
+
+		public void OnChatBubbleAdditionalTimeChange()
+		{
+			DisplaySettings.Instance.ChatBubbleAdditionalTime = chatBubbleAdditionalTimeSlider.value;
 		}
 	}
 }
