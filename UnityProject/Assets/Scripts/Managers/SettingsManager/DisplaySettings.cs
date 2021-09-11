@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
 using UnityEngine;
 
 namespace Managers.SettingsManager
 {
-	public class DisplaySettings : MonoBehaviour
+	public class DisplaySettings : SingletonManager<DisplaySettings>
 	{
 		public class DisplaySettingsChangedEventArgs : EventArgs
 		{
@@ -77,6 +78,39 @@ namespace Managers.SettingsManager
 				}
 			}
 			private bool chatBubbleSizeChanged = false;
+
+			public bool ChatButtleInstantChanged
+			{
+				get => chatButtleInstantChanged;
+				set
+				{
+					chatButtleInstantChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatButtleInstantChanged = false;
+
+			public bool ChatBubblePopInSpeedChanged
+			{
+				get => chatBubblePopInSpeedChanged;
+				set
+				{
+					chatBubblePopInSpeedChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatBubblePopInSpeedChanged = false;
+
+			public bool ChatBubbleAdditionalTimeChanged
+			{
+				get => chatBubbleAdditionalTimeChanged;
+				set
+				{
+					chatBubbleAdditionalTimeChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatBubbleAdditionalTimeChanged = false;
 		}
 
 
@@ -211,6 +245,7 @@ namespace Managers.SettingsManager
 		private const int MIN_ZOOMLEVEL = 8;
 		private const int MAX_ZOOMLEVEL = 64;
 
+		#region ChatBubbles
 
 		public float ChatBubbleSize
 		{
@@ -236,7 +271,92 @@ namespace Managers.SettingsManager
 				}
 			}
 		}
-		private const float DEFAULT_CHATBUBBLESIZE = 2f;
+
+		public const float DEFAULT_CHATBUBBLESIZE = 2f;
+
+		// 0 == false, 1 == true
+		public int ChatBubbleInstant
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleInstant, DEFAULT_CHATBUBBLEINSTANT);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleInstant))
+				{
+					if (value != ChatBubbleInstant)
+					{
+						dsEventArgs.ChatButtleInstantChanged = true;
+						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleInstant, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleInstant, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		public const int DEFAULT_CHATBUBBLEINSTANT = 0;
+
+		public float ChatBubblePopInSpeed
+		{
+			get
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DEFAULT_CHATBUBBLESIZE);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubblePopInSpeed))
+				{
+					if (value != ChatBubblePopInSpeed)
+					{
+						dsEventArgs.ChatBubblePopInSpeedChanged = true;
+						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		public const float DEFAULT_CHATBUBBLEPOPINSPEED = 0.05f;
+
+		public float ChatBubbleAdditionalTime
+		{
+			get
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, DEFAULT_CHATBUBBLESIZE);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleAdditionalTime))
+				{
+					if (value != ChatBubbleAdditionalTime)
+					{
+						dsEventArgs.ChatBubbleAdditionalTimeChanged = true;
+						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		public const float DEFAULT_CHATBUBBLEADDITIONALTIME = 2f;
+
+		#endregion
 
 		//TODO: Resolution options: issues #2047 #4107
 
@@ -247,8 +367,9 @@ namespace Managers.SettingsManager
 			handler?.Invoke(this, e);
 		}
 
-		private void Awake()
+		public override void Awake()
 		{
+			base.Awake();
 			IsFullScreen = Screen.fullScreen;
 			SetupPrefs();
 		}

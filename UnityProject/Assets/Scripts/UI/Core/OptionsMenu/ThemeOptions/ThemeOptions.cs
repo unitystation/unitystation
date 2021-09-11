@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Managers.SettingsManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,9 @@ namespace Unitystation.Options
 	public class ThemeOptions : MonoBehaviour
 	{
 		public Dropdown chatBubbleDropDown;
+
+		[SerializeField]
+		private Slider chatBubbleSizeSlider = null;
 
 		[SerializeField]
 		private Toggle HighlightToggle = null;
@@ -41,6 +45,8 @@ namespace Unitystation.Options
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
 			chatHighlightToggle.isOn = ThemeManager.ChatHighlight;
 			mentionSoundToggle.isOn = ThemeManager.MentionSound;
+
+			chatBubbleSizeSlider.value = DisplaySettings.Instance.ChatBubbleSize;
 
 			var newOptions = new List<TMP_Dropdown.OptionData>();
 
@@ -108,6 +114,11 @@ namespace Unitystation.Options
 		public void OnChatBubbleChange()
 		{
 			ThemeManager.SetPreferredTheme(ThemeType.ChatBubbles, chatBubbleDropDown.options[chatBubbleDropDown.value].text);
+		}
+
+		public void OnChatBubbleSizeChange()
+		{
+			DisplaySettings.Instance.ChatBubbleSize = chatBubbleSizeSlider.value;
 		}
 	}
 }

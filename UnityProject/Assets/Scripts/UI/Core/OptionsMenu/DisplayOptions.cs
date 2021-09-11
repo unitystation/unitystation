@@ -25,20 +25,15 @@ namespace Unitystation.Options
 
 		[SerializeField] private Toggle scrollWheelZoomToggle = null;
 
-		[SerializeField] private Slider chatBubbleSizeSlider = null;
-
-		private
-			DisplaySettings displaySettings = null;
-
 		void OnEnable()
 		{
-			displaySettings.SettingsChanged += DisplaySettings_SettingsChanged;
+			DisplaySettings.Instance.SettingsChanged += DisplaySettings_SettingsChanged;
 			RefreshForm();
 		}
 
 		private void OnDisable()
 		{
-			displaySettings.SettingsChanged -= DisplaySettings_SettingsChanged;
+			DisplaySettings.Instance.SettingsChanged -= DisplaySettings_SettingsChanged;
 		}
 
 		private void DisplaySettings_SettingsChanged(object sender, DisplaySettings.DisplaySettingsChangedEventArgs e)
@@ -46,30 +41,23 @@ namespace Unitystation.Options
 			RefreshForm();
 		}
 
-		private void Awake()
-		{
-			displaySettings = FindObjectOfType<DisplaySettings>();
-		}
-
 		/// <summary>
 		/// Update the form to match currently used values
 		/// </summary>
 		void RefreshForm()
 		{
-			fullscreenToggle.isOn = displaySettings.IsFullScreen;
+			fullscreenToggle.isOn = DisplaySettings.Instance.IsFullScreen;
 
-			bool vSync = displaySettings.VSyncEnabled;
+			bool vSync = DisplaySettings.Instance.VSyncEnabled;
 			vSyncToggle.isOn = vSync;
 			vSyncWarning.SetActive(vSync);
 
-			frameRateTarget.text = displaySettings.TargetFrameRate.ToString();
+			frameRateTarget.text = DisplaySettings.Instance.TargetFrameRate.ToString();
 			frameRateTarget.textComponent.color = VALIDCOLOR;
 
-			camZoomSlider.value = displaySettings.ZoomLevel / 8;
+			camZoomSlider.value = DisplaySettings.Instance.ZoomLevel / 8f;
 
-			scrollWheelZoomToggle.isOn = displaySettings.ScrollWheelZoom;
-
-			chatBubbleSizeSlider.value = displaySettings.ChatBubbleSize;
+			scrollWheelZoomToggle.isOn = DisplaySettings.Instance.ScrollWheelZoom;
 		}
 
 		/// <summary>
@@ -81,7 +69,7 @@ namespace Unitystation.Options
 				"Are you sure?",
 				() =>
 				{
-					displaySettings.SetPrefDefaults();
+					DisplaySettings.Instance.SetPrefDefaults();
 					RefreshForm();
 				},
 				"Reset"
@@ -102,7 +90,7 @@ namespace Unitystation.Options
 				}
 			}
 
-			displaySettings.SetFullscreen(fullscreenToggle.isOn);
+			DisplaySettings.Instance.SetFullscreen(fullscreenToggle.isOn);
 		}
 
 		/// <summary>
@@ -110,7 +98,7 @@ namespace Unitystation.Options
 		/// </summary>
 		public void OnVSyncToggle()
 		{
-			displaySettings.VSyncEnabled = vSyncToggle.isOn;
+			DisplaySettings.Instance.VSyncEnabled = vSyncToggle.isOn;
 			vSyncWarning.SetActive(vSyncToggle.isOn);
 		}
 
@@ -119,10 +107,12 @@ namespace Unitystation.Options
 		/// </summary>
 		public void OnFrameRateTargetEdit()
 		{
-			if (int.TryParse(frameRateTarget.text, out int newTarget) && newTarget >= displaySettings.Min_TargetFrameRate && newTarget <= displaySettings.Max_TargetFrameRate)
+			if (int.TryParse(frameRateTarget.text, out int newTarget) &&
+			    newTarget >= DisplaySettings.Instance.Min_TargetFrameRate &&
+			    newTarget <= DisplaySettings.Instance.Max_TargetFrameRate)
 			{
 				frameRateTarget.textComponent.color = VALIDCOLOR;
-				displaySettings.TargetFrameRate = newTarget;
+				DisplaySettings.Instance.TargetFrameRate = newTarget;
 			}
 			else
 			{
@@ -134,17 +124,12 @@ namespace Unitystation.Options
 		public void OnZoomLevelChange()
 		{
 			int value = (int)camZoomSlider.value * 8;
-			displaySettings.ZoomLevel = value;
+			DisplaySettings.Instance.ZoomLevel = value;
 		}
 
 		public void OnScrollWheelToggle()
 		{
-			displaySettings.ScrollWheelZoom = scrollWheelZoomToggle.isOn;
-		}
-
-		public void OnChatBubbleSizeChange()
-		{
-			displaySettings.ChatBubbleSize = chatBubbleSizeSlider.value;
+			DisplaySettings.Instance.ScrollWheelZoom = scrollWheelZoomToggle.isOn;
 		}
 	}
 }

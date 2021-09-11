@@ -1,27 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
-public class AdminManager : MonoBehaviour
+public class AdminManager : SingletonManager<AdminManager>
 {
 	public ItemStorage LocalAdminGhostStorage;
 	public GameObject ItemStorageHolderPrefab;
 	private Dictionary<string, ItemStorage> ghostStorageList = new Dictionary<string, ItemStorage>();
-
-	private static AdminManager adminManager;
-	public static AdminManager Instance => adminManager;
-
-	private void Awake()
-	{
-		if (adminManager == null)
-		{
-			adminManager = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
-	}
 
 	private ItemStorage CreateItemSlotStorage(ConnectedPlayer player)
 	{
