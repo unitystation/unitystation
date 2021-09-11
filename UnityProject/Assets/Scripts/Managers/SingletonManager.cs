@@ -5,7 +5,7 @@ namespace Managers
 {
 	/// <summary>
 	/// Singleton Manager using static instances without use of FindObject
-	/// If you are using Awake() override remember to call base.Awake()!
+	/// If you are using Awake() override and remember to call base.Awake()!
 	/// </summary>
 	public class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
 	{
@@ -27,7 +27,7 @@ namespace Managers
 
 	/// <summary>
 	/// Networked Singleton Manager using static instances without use of FindObject
-	/// If you are using Awake() override remember to call base.Awake()!
+	/// If you are using Awake() override and remember to call base.Awake()!
 	/// </summary>
 	public class NetworkedSingletonManager<T> : NetworkBehaviour where T : NetworkBehaviour
 	{
