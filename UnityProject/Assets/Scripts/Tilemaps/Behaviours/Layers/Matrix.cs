@@ -93,7 +93,7 @@ public class Matrix : MonoBehaviour
 	private NetworkedMatrix networkedMatrix;
 	public NetworkedMatrix NetworkedMatrix => networkedMatrix;
 
-	[HideInInspector] public bool Initialized;
+	[NonSerialized] public bool Initialized;
 
 	private void Awake()
 	{

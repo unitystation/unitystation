@@ -32,7 +32,7 @@ namespace Tilemaps.Behaviours.Layers
 		[HideInInspector]
 		public MatrixSync MatrixSync;
 
-		[HideInInspector] public bool Initialized;
+		[NonSerialized] public bool Initialized;
 
 		public Matrix matrix;
 

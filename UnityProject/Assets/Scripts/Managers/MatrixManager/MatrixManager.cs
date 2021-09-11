@@ -50,20 +50,6 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
-	private IEnumerator WaitForLoad()
-	{
-		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		//Wait half a second to capture the majority of other matrices loading in
-		yield return WaitFor.Seconds(0.1f);
-		IsInitialized = true;
-
-		EventManager.Broadcast(Event.MatrixManagerInit);
-	}
-
 	private void Awake()
 	{
 		if (matrixManager == null)
@@ -81,11 +67,13 @@ public partial class MatrixManager : MonoBehaviour
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		EventManager.AddHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
@@ -94,7 +82,6 @@ public partial class MatrixManager : MonoBehaviour
 		if (newScene.name.Equals("Lobby") == false)
 		{
 			IsInitialized = false;
-			StartCoroutine(WaitForLoad());
 		}
 	}
 
@@ -124,12 +111,22 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			registerTile.Initialize(matrix);
 		}
+	}
 
-		if (CustomNetworkManager.IsServer)
+	private void OnScenesLoaded()
+	{
+		IsInitialized = true;
+
+		foreach (var matrixInfo in ActiveMatrices)
 		{
-			var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
+			var subsystemManager = matrixInfo.Matrix.GetComponentInParent<SubsystemManager>();
+			subsystemManager.Initialize();
+
+			var iServerSpawnList = matrixInfo.Matrix.GetComponentsInChildren<IServerSpawn>();
 			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
 		}
+
+		EventManager.Broadcast(Event.MatrixManagerInit);
 	}
 
 	private static void RegisterMatrix(Matrix matrix)
