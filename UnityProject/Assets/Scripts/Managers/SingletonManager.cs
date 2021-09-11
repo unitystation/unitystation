@@ -9,14 +9,13 @@ namespace Managers
 	/// </summary>
 	public class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
 	{
-		private static T instance;
-		public static T Instance => instance;
+		public static T Instance { get; private set; }
 
 		public virtual void Awake()
 		{
-			if (instance == null)
+			if (Instance == null)
 			{
-				instance = this as T;
+				Instance = this as T;
 			}
 			else
 			{
@@ -31,14 +30,13 @@ namespace Managers
 	/// </summary>
 	public class NetworkedSingletonManager<T> : NetworkBehaviour where T : NetworkBehaviour
 	{
-		private static T instance;
-		public static T Instance => instance;
+		public static T Instance { get; private set; }
 
 		public virtual void Awake()
 		{
-			if (instance == null)
+			if (Instance == null)
 			{
-				instance = this as T;
+				Instance = this as T;
 			}
 			else
 			{
