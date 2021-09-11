@@ -281,11 +281,9 @@ public class ChatBubble : MonoBehaviour
 	{
 		while (msg.elapsedTime > 0f)
 		{
-			if (msg.characterIndex >= msg.msg.Length - 1) break;
+			if (msg.characterIndex > msg.msg.Length - 1) break;
 
 			msg.elapsedTime -= msg.characterPopInSpeed;
-			msg.characterIndex++;
-
 			var currentCharacter = msg.msg[msg.characterIndex];
 
 			if (char.IsWhiteSpace(currentCharacter))
@@ -297,16 +295,18 @@ public class ChatBubble : MonoBehaviour
 				msg.elapsedTime -= msg.characterPopInSpeed * 3f;
 			}
 
-			var text = msg.msg.Substring(0, msg.characterIndex);
+			var text = msg.msg.Substring(0, msg.characterIndex + 1);
 
-			if (msg.buffered)
+			if (msg.buffered && msg.characterIndex < msg.msg.Length - 1)
 			{
 				//Add the rest of the character but invisible to make bubble correct size
 				//and keep the characters in the same place (helps reading)
-				text += $"<color=#00000000>{msg.msg.Substring(msg.characterIndex)}</color>";
+				text += $"<color=#00000000>{msg.msg.Substring(msg.characterIndex + 1)}</color>";
 			}
 
 			SetBubbleParameters(text, msg.modifier);
+
+			msg.characterIndex++;
 		}
 	}
 
