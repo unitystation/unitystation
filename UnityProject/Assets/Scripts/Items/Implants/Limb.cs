@@ -1,10 +1,11 @@
 ﻿using System;
 using HealthV2;
+using Player.Movement;
 using UnityEngine;
 
 namespace HealthV2
 {
-	public class Limb : MonoBehaviour, PlayerMove.IMovementEffect
+	public class Limb : MonoBehaviour, IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("The walking speed that will be used when attached as a leg.\n" +
@@ -39,26 +40,14 @@ namespace HealthV2
 			bodyPart = GetComponent<BodyPart>();
 			playerHealth = bodyPart.HealthMaster as PlayerHealthV2;
 			bodyPart.ModifierChange += ModifierChanged;
-			playerHealth.PlayerMove.AddModifier(this);
+			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
 		}
 
-		public float RunningAdd
-		{
-			get => runningSpeed * legEfficiency * bodyPart.TotalModified;
-			set { }
-		}
+		public float RunningSpeedModifier => runningSpeed * legEfficiency * bodyPart.TotalModified;
 
-		public float WalkingAdd
-		{
-			get => walkingSpeed * legEfficiency * bodyPart.TotalModified;
-			set { }
-		}
+		public float WalkingSpeedModifier => walkingSpeed * legEfficiency * bodyPart.TotalModified;
 
-		public float CrawlAdd
-		{
-			get => crawlingSpeed * armEfficiency * bodyPart.TotalModified;
-			set { }
-		}
+		public float CrawlingSpeedModifier => crawlingSpeed * armEfficiency * bodyPart.TotalModified;
 
 		public void ModifierChanged()
 		{

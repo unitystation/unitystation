@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Player.Movement;
 using UnityEngine;
 
 namespace Clothing
@@ -7,31 +6,22 @@ namespace Clothing
 	/// <summary>
 	/// when wore, this item will apply a debuff on player speed
 	/// </summary>
-	public class WearableSpeedDebuff : MonoBehaviour, IServerInventoryMove, PlayerMove.IMovementEffect
+	public class WearableSpeedDebuff : MonoBehaviour, IServerInventoryMove, IMovementEffect
 	{
 		[SerializeField]
-		[Tooltip("This will be the speed to substract from running speed")]
+		[Tooltip("This will be the speed to subtract from running speed")]
 		private float runningSpeedDebuff = 1.5f;
 
 		[SerializeField]
-		[Tooltip("This will be speed to substract from walking speed")]
+		[Tooltip("This will be speed to subtract from walking speed")]
 		private float walkingSpeedDebuff = 0.5f;
 
 
-		public float RunningAdd {
-			get => -runningSpeedDebuff;
-			set { }
-		}
-		public float WalkingAdd {
-			get => -walkingSpeedDebuff;
-			set { }
-		}
-		public float CrawlAdd
-		{
-			get => 0;
-			set{ }
-		}
+		public float RunningSpeedModifier => -runningSpeedDebuff;
 
+		public float WalkingSpeedModifier => -walkingSpeedDebuff;
+
+		public float CrawlingSpeedModifier => 0;
 
 
 		[SerializeField]
@@ -54,41 +44,34 @@ namespace Clothing
 
 		private bool IsPuttingOn (InventoryMove info)
 		{
-			if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+			if (info.ToSlot?.NamedSlot == null)
 			{
-				player = info.ToRootPlayer?.PlayerScript;
-
-				if (player != null && info.ToSlot.NamedSlot == slot)
-				{
-
-					return true;
-				}
+				return false;
 			}
 
-			return false;
+			player = info.ToRootPlayer.OrNull()?.PlayerScript;
+
+			return player != null && info.ToSlot.NamedSlot == slot;
 		}
 
 		private bool IsTakingOff (InventoryMove info)
 		{
-			if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+			if (info.FromSlot?.NamedSlot == null)
 			{
-				player = info.FromRootPlayer?.PlayerScript;
-
-				if (player != null && info.FromSlot.NamedSlot == slot)
-				{
-					return true;
-				}
+				return false;
 			}
 
-			return false;
+			player = info.FromRootPlayer.OrNull()?.PlayerScript;
+
+			return player != null && info.FromSlot.NamedSlot == slot;
 		}
 
-		void ApplyDebuff()
+		private void ApplyDebuff()
 		{
 			player.playerMove.AddModifier(this);
 		}
 
-		void RemoveDebuff()
+		private void RemoveDebuff()
 		{
 			player.playerMove.RemoveModifier(this);
 		}

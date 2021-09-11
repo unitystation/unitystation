@@ -1,6 +1,7 @@
 
 using System;
 using HealthV2;
+using Player.Movement;
 
 /// <summary>
 /// Relationship where one player is observing some interactable storage, which ends when they go out of
