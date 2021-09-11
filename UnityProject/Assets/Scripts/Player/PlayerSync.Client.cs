@@ -409,7 +409,7 @@ public partial class PlayerSync
 	/// Called when PlayerMoveMessage is received
 	public void UpdateClientState(PlayerState newState)
 	{
-		if (!MatrixManager.IsInitialized)
+		if (!registerPlayer.Matrix.Initialized)
 		{
 			newState.NoLerp = true;
 			pendingInitStates.Enqueue(newState);
