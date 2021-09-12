@@ -2,13 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Systems.Electricity;
 
 // TODO: namespace me
 public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public GameObject WallMountToSpawn;
-	public bool IsAPC;
 	public bool IsWallProtrusion;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
@@ -73,20 +71,6 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 			roundTargetWorldPosition = tileInFront;
 		}
 
-		if (IsAPC)
-		{
-			var localPosInt = MatrixManager.WorldToLocalInt(roundTargetWorldPosition, matrix);
-			var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
-			foreach (var Connection in econs)
-			{
-				if (Connection.Categorytype == PowerTypeCategory.APC)
-				{
-					econs.Clear();
-					ElectricalPool.PooledFPCList.Add(econs);
-					return;
-				}
-			}
-		}
 		GameObject WallMount = Spawn.ServerPrefab(WallMountToSpawn, roundTargetWorldPosition,  interaction.Performer.transform.parent, spawnItems: false).GameObject;
 		var Directional = WallMount.GetComponent<Directional>();
 		if (Directional != null) Directional.FaceDirection(Orientation.FromEnum(FaceDirection));

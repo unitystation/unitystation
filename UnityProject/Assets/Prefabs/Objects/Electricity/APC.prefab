@@ -33,6 +33,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directional: {fileID: 5662431988191537536}
+--- !u!114 &6040952931907168087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &6203834163477203450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +117,14 @@ MonoBehaviour:
   screenDisplay: {fileID: 7181786134445355985}
   connectedDevices: []
   connectedDepartmentBatteries: []
+  canNotBeDeconstructed: 0
+  secondsToScrewdrive: 2
+  powerControlModule: {fileID: 3895213071994396855, guid: 740edf7a0d4b9f84d8230c4c3ca7c91c,
+    type: 3}
+  powerCell: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+    type: 3}
+  APCFrameObj: {fileID: 260239628808517242, guid: 7cd3db9e6e27eb8448654d61b83c960a,
+    type: 3}
   multiMaster: 1
 --- !u!1 &9053875397184046594
 GameObject:
@@ -199,7 +232,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: ef212a545b6dd294f8d0d6cdfb382dba, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &3917532995848785121
 MonoBehaviour:
@@ -351,8 +384,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: canNotBeDeconstructed
+      propertyPath: isAPC
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: PowerCellUsed
+      value: 
+      objectReference: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+    - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 3895213071994396855, guid: 740edf7a0d4b9f84d8230c4c3ca7c91c,
+        type: 3}
+    - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: secondsToScrewdrive
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: canNotBeDeconstructed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
