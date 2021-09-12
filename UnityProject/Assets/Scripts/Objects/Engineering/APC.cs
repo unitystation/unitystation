@@ -558,13 +558,8 @@ namespace Objects.Engineering
 		}
 		public void WhenDestroyed(DestructionInfo info)
 		{
-			//drop all our contents
-			ItemStorage itemStorage = null;
-
 			// rare cases were gameObject is destroyed for some reason and then the method is called
 			if (gameObject == null) return;
-
-			itemStorage = GetComponent<ItemStorage>();
 
 			Inventory.ServerSpawnPrefab(powerControlModule, powerControlSlot, ReplacementStrategy.Cancel);
 			Inventory.ServerSpawnPrefab(powerCell, powerCellSlot, ReplacementStrategy.Cancel);
