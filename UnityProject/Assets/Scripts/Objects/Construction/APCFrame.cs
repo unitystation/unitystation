@@ -48,17 +48,18 @@ namespace Objects.Construction
 			integrity = GetComponent<Integrity>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
-			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
-
 			if (CurrentState != powerCellAddedState)
 			{
 				stateful.ServerChangeState(initialState);
 			}
 		}
-
-		public override void OnStartClient()
+		private void OnEnable()
 		{
-			base.OnStartClient();
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+		}
+		private void OnDisable()
+		{
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}
 
 		/// <summary>

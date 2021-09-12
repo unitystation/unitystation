@@ -89,7 +89,9 @@ namespace Objects.Engineering
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			integrity = GetComponent<Integrity>();
-
+		}
+		private void OnEnable()
+		{
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}
 
@@ -115,6 +117,7 @@ namespace Objects.Engineering
 
 		private void OnDisable()
 		{
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 			if (electricalNodeControl == null) return;
 			if(ElectricalManager.Instance == null)return;
 			if(ElectricalManager.Instance.electricalSync == null)return;
