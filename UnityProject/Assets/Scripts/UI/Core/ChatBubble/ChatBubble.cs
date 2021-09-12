@@ -301,7 +301,8 @@ public class ChatBubble : MonoBehaviour
 			var newText = new StringBuilder();
 
 			//God Save Our Eyes
-			if ((msg.modifier & ChatModifier.Clown) == ChatModifier.Clown)
+			if ((msg.modifier & ChatModifier.Clown) == ChatModifier.Clown &&
+			    PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleClownColour) == 1)
 			{
 				for (int i = 0; i < text.Length; i++)
 				{

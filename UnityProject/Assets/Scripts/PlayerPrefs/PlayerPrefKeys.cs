@@ -86,6 +86,10 @@
 	/// Additional time the chat bubble should stay open after all characters have popped in
 	/// </summary>
 	public static string ChatBubbleAdditionalTime = "ChatBubbleAdditionalTime";
+	/// <summary>
+	/// Whether the clown text is coloured
+	/// </summary>
+	public static string ChatBubbleClownColour = "ChatBubbleClownColour";
 
 	/// <summary>
 	/// VSync preference.

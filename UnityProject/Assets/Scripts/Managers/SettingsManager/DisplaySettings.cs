@@ -79,16 +79,16 @@ namespace Managers.SettingsManager
 			}
 			private bool chatBubbleSizeChanged = false;
 
-			public bool ChatButtleInstantChanged
+			public bool ChatBubbleInstantChanged
 			{
-				get => chatButtleInstantChanged;
+				get => chatBubbleInstantChanged;
 				set
 				{
-					chatButtleInstantChanged = value;
+					chatBubbleInstantChanged = value;
 					changed |= value;
 				}
 			}
-			private bool chatButtleInstantChanged = false;
+			private bool chatBubbleInstantChanged = false;
 
 			public bool ChatBubblePopInSpeedChanged
 			{
@@ -111,6 +111,17 @@ namespace Managers.SettingsManager
 				}
 			}
 			private bool chatBubbleAdditionalTimeChanged = false;
+
+			public bool ChatBubbleClownColourChanged
+			{
+				get => chatBubbleClownColourChanged;
+				set
+				{
+					chatBubbleClownColourChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatBubbleClownColourChanged = false;
 		}
 
 
@@ -286,7 +297,7 @@ namespace Managers.SettingsManager
 				{
 					if (value != ChatBubbleInstant)
 					{
-						dsEventArgs.ChatButtleInstantChanged = true;
+						dsEventArgs.ChatBubbleInstantChanged = true;
 						PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, value);
 						PlayerPrefs.Save();
 					}
@@ -355,6 +366,33 @@ namespace Managers.SettingsManager
 		}
 
 		public const float DEFAULT_CHATBUBBLEADDITIONALTIME = 2f;
+
+		public int ChatBubbleClownColour
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleClownColour, DEFAULT_CHATBUBBLECLOWNCOLOUR);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleClownColour))
+				{
+					if (value != ChatBubbleClownColour)
+					{
+						dsEventArgs.ChatBubbleClownColourChanged = true;
+						PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleClownColour, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleClownColour, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		public const int DEFAULT_CHATBUBBLECLOWNCOLOUR = 1;
 
 		#endregion
 
@@ -470,6 +508,10 @@ namespace Managers.SettingsManager
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleAdditionalTime))
 			{
 				ChatBubbleAdditionalTime = DEFAULT_CHATBUBBLEADDITIONALTIME;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleClownColour))
+			{
+				ChatBubbleClownColour = DEFAULT_CHATBUBBLECLOWNCOLOUR;
 			}
 		}
 

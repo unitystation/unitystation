@@ -60,6 +60,12 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 			PlayerPrefs.Save();
 		}
 
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleClownColour) == false)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleClownColour, DisplaySettings.DEFAULT_CHATBUBBLECLOWNCOLOUR);
+			PlayerPrefs.Save();
+		}
+
 		SceneManager.activeSceneChanged += OnSceneChange;
 		StartCoroutine(InitCache());
 	}

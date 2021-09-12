@@ -29,6 +29,9 @@ namespace Unitystation.Options
 		private Slider chatBubbleAdditionalTimeSlider = null;
 
 		[SerializeField]
+		private Toggle chatBubbleClownColourToggle = null;
+
+		[SerializeField]
 		private Toggle HighlightToggle = null;
 
 		[SerializeField]
@@ -59,6 +62,7 @@ namespace Unitystation.Options
 			chatBubbleInstantToggle.isOn = DisplaySettings.Instance.ChatBubbleInstant == 1;
 			chatBubblePopInSpeedSlider.value = DisplaySettings.Instance.ChatBubblePopInSpeed;
 			chatBubbleAdditionalTimeSlider.value = DisplaySettings.Instance.ChatBubbleAdditionalTime;
+			chatBubbleClownColourToggle.isOn = DisplaySettings.Instance.ChatBubbleClownColour == 1;
 
 			var newOptions = new List<TMP_Dropdown.OptionData>();
 
@@ -146,6 +150,11 @@ namespace Unitystation.Options
 		public void OnChatBubbleAdditionalTimeChange()
 		{
 			DisplaySettings.Instance.ChatBubbleAdditionalTime = chatBubbleAdditionalTimeSlider.value;
+		}
+
+		public void OnChatBubbleClownColourChange()
+		{
+			DisplaySettings.Instance.ChatBubbleClownColour = chatBubbleClownColourToggle.isOn ? 1 : 0;
 		}
 	}
 }
