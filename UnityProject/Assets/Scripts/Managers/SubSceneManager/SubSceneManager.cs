@@ -16,7 +16,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	[SerializeField] private AsteroidListSO asteroidList = null;
 	[SerializeField] private AdditionalSceneListSO additionalSceneList = null;
 
-	readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
+	public readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
 
 	public MainStationListSO MainStationList => mainStationList;
 

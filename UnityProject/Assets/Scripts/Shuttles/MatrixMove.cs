@@ -201,47 +201,27 @@ public class MatrixMove : ManagedBehaviour
 
 	public void OnStartClient()
 	{
-		StartCoroutine(WaitForMatrixManager());
+		SyncPivot(pivot, pivot);
+		SyncInitialPosition(initialPosition, initialPosition);
+		MatrixMoveNewPlayer.Send(networkedMatrix.MatrixSync.netId);
+		clientStarted = true;
 	}
 
 	public void OnStartServer()
 	{
-		StartCoroutine(WaitForMatrixManager());
-	}
+		InitServerState();
 
-	IEnumerator WaitForMatrixManager()
-	{
-		while (!MatrixManager.IsInitialized)
+		MatrixMoveEvents.OnStartMovementServer.AddListener(() =>
 		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		yield return WaitFor.EndOfFrame;
-		if (CustomNetworkManager.IsServer)
-		{
-			InitServerState();
-
-			MatrixMoveEvents.OnStartMovementServer.AddListener(() =>
+			if (floatingSyncHandle == null)
 			{
-				if (floatingSyncHandle == null)
-				{
-					this.StartCoroutine(FloatingAwarenessSync(), ref floatingSyncHandle);
-				}
-			});
-			MatrixMoveEvents.OnStopMovementServer.AddListener(() => this.TryStopCoroutine(ref floatingSyncHandle));
+				this.StartCoroutine(FloatingAwarenessSync(), ref floatingSyncHandle);
+			}
+		});
+		MatrixMoveEvents.OnStopMovementServer.AddListener(() => this.TryStopCoroutine(ref floatingSyncHandle));
 
-			NotifyPlayers();
-			serverInitialized = true;
-		}
-		else
-		{
-			SyncPivot(pivot, pivot);
-			SyncInitialPosition(initialPosition, initialPosition);
-			MatrixMoveNewPlayer.Send(networkedMatrix.MatrixSync.netId);
-			clientStarted = true;
-
-			var child = transform.GetChild(0);
-		}
+		NotifyPlayers();
+		serverInitialized = true;
 	}
 
 	[Server]

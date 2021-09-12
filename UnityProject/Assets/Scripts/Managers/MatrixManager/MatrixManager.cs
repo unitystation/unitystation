@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using Systems.Atmospherics;
 using Objects.Construction;
 using Player.Movement;
+using Mirror;
 
 /// <summary>
 /// Defines collision type we expect
@@ -112,22 +113,46 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			registerTile.Initialize(matrix);
 		}
+
+		//mid-round scene
+		if (IsInitialized && CustomNetworkManager.IsServer)
+		{
+			ServerMatrixInitialization(matrix);
+		}
 	}
 
+	[Server]
 	private void OnScenesLoaded()
 	{
+		StartCoroutine(WaitForAllMatrices());
+	}
+
+	[Server]
+	private IEnumerator WaitForAllMatrices()
+	{
+		while (SubSceneManager.Instance.loadedScenesList.Count > ActiveMatrices.Count)
+		{
+			yield return null;
+		}
+
 		IsInitialized = true;
 
 		foreach (var matrixInfo in ActiveMatrices)
 		{
-			var subsystemManager = matrixInfo.Matrix.GetComponentInParent<SubsystemManager>();
-			subsystemManager.Initialize();
-
-			var iServerSpawnList = matrixInfo.Matrix.GetComponentsInChildren<IServerSpawn>();
-			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
+			ServerMatrixInitialization(matrixInfo.Matrix);
 		}
 
 		EventManager.Broadcast(Event.MatrixManagerInit);
+	}
+
+	[Server]
+	private void ServerMatrixInitialization(Matrix matrix)
+	{
+		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
+		subsystemManager.Initialize();
+
+		var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
+		GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
 	}
 
 	private static void RegisterMatrix(Matrix matrix)
