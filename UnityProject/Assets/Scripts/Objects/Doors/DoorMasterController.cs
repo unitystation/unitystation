@@ -12,6 +12,7 @@ using Systems.Electricity;
 using Systems.Interaction;
 using Systems.ObjectConnection;
 using Doors.Modules;
+using Hacking;
 using HealthV2;
 using Initialisation;
 using Objects.Wallmounts;
@@ -128,7 +129,7 @@ namespace Doors
 		public void DelayedRegister()
 		{
 			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
-			HackingProcessBase.RegisterPort(tryBump, this.GetType());
+			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
 			HackingProcessBase.RegisterPort(CheckPower, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
@@ -162,7 +163,7 @@ namespace Doors
 				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 		}
 
-		private void tryBump()
+		private void TryBump()
 		{
 			if (!isAutomatic || !allowInput)
 			{
@@ -215,7 +216,7 @@ namespace Doors
 		public void Bump(GameObject inbyPlayer)
 		{
 			byPlayer = inbyPlayer;
-			HackingProcessBase.ImpulsePort(tryBump);
+			HackingProcessBase.ImpulsePort(TryBump);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -707,7 +708,7 @@ namespace Doors
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "Door is disconnected");
 				return;
-			};
+			}
 			//Try open/close
 			if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
 			{

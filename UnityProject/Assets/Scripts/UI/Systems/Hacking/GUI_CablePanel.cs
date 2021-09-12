@@ -1,100 +1,104 @@
 using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
+using NetElements;
 using UnityEngine;
 
-public class GUI_CablePanel : NetListButBetter<GUI_CablePanel.CableData>
+namespace Hacking
 {
-	public class CableData
+	public class GUI_CablePanel : NetListButBetter<GUI_CablePanel.CableData>
 	{
-		public int IDConnectedTo = -1;
-		public int IDConnectedFrom = -1;
-		public uint CableNetuID = 0;
-	}
-
-	public GUI_Hacking GUI_Hacking;
-
-	public GUI_HackingWire WirePrefab;
-
-	public Transform CableLayer;
-
-	public List<GUI_HackingWire> OpenCables = new List<GUI_HackingWire>();
-
-	public override void ElementsChanged(List<CableData> NewList, List<CableData> OldList)
-	{
-		List<CableData> remove = new List<CableData>();
-		List<CableData> add = new List<CableData>();
-		foreach (var newOne in NewList)
+		public class CableData
 		{
-			bool Has = false;
-			foreach (var Oldone in OldList)
+			public int IDConnectedTo = -1;
+			public int IDConnectedFrom = -1;
+			public uint CableNetuID = 0;
+		}
+
+		public GUI_Hacking GUI_Hacking;
+
+		public GUI_HackingWire WirePrefab;
+
+		public Transform CableLayer;
+
+		public List<GUI_HackingWire> OpenCables = new List<GUI_HackingWire>();
+
+		public override void ElementsChanged(List<CableData> NewList, List<CableData> OldList)
+		{
+			List<CableData> remove = new List<CableData>();
+			List<CableData> add = new List<CableData>();
+			foreach (var newOne in NewList)
 			{
-				if (newOne.CableNetuID == Oldone.CableNetuID)
+				bool Has = false;
+				foreach (var Oldone in OldList)
 				{
-					Has = true;
+					if (newOne.CableNetuID == Oldone.CableNetuID)
+					{
+						Has = true;
+					}
+				}
+
+				if (Has == false)
+				{
+					add.Add(newOne);
 				}
 			}
 
-			if (Has == false)
+			foreach (var oldOne in OldList)
 			{
-				add.Add(newOne);
-			}
-		}
-
-		foreach (var oldOne in OldList)
-		{
-			bool Has = false;
-			foreach (var Newone in NewList)
-			{
-				if (Newone.CableNetuID == oldOne.CableNetuID)
+				bool Has = false;
+				foreach (var Newone in NewList)
 				{
-					Has = true;
+					if (Newone.CableNetuID == oldOne.CableNetuID)
+					{
+						Has = true;
+					}
+				}
+
+				if (Has == false)
+				{
+					remove.Add(oldOne);
 				}
 			}
 
-			if (Has == false)
+
+			foreach (var CD in add)
 			{
-				remove.Add(oldOne);
+				GUI_Hacking.Inputs.SelectedHackingPort.OrNull()?.UnSelect();
+				GUI_Hacking.Outputs.SelectedHackingPort.OrNull()?.UnSelect();
+				var Cable = Instantiate(WirePrefab, CableLayer.transform);
+				Cable.SetUp(CD, this);
+				OpenCables.Add(Cable);
+
 			}
-		}
 
-
-		foreach (var CD in add)
-		{
-			GUI_Hacking.Inputs.SelectedHackingPort.OrNull()?.UnSelect();
-			GUI_Hacking.Outputs.SelectedHackingPort.OrNull()?.UnSelect();
-			var Cable = Instantiate(WirePrefab, CableLayer.transform);
-			Cable.SetUp(CD, this);
-			OpenCables.Add(Cable);
-
-		}
-
-		foreach (var PD in remove)
-		{
-			GUI_HackingWire GUIHackingWire = null;
-			foreach (var GUI in OpenCables)
+			foreach (var PD in remove)
 			{
-				if (GUI.ThisCableData.CableNetuID == PD.CableNetuID)
+				GUI_HackingWire GUIHackingWire = null;
+				foreach (var GUI in OpenCables)
 				{
-					GUIHackingWire = GUI;
-					break;
+					if (GUI.ThisCableData.CableNetuID == PD.CableNetuID)
+					{
+						GUIHackingWire = GUI;
+						break;
+					}
 				}
+
+				OpenCables.Remove(GUIHackingWire);
+				Destroy(GUIHackingWire.gameObject);
 			}
-
-			OpenCables.Remove(GUIHackingWire);
-			Destroy(GUIHackingWire.gameObject);
 		}
-	}
 
-	public void CheckSelected()
-	{
-		if (GUI_Hacking.Inputs.SelectedHackingPort != null && GUI_Hacking.Outputs.SelectedHackingPort != null)
+		public void CheckSelected()
 		{
-			RequestHackingInteraction.Send(GUI_Hacking.HackProcess.gameObject,
-				PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot().Item.netId,
-				GUI_Hacking.Inputs.SelectedHackingPort.PortData.ID,
-				GUI_Hacking.Outputs.SelectedHackingPort.PortData.ID,
-				RequestHackingInteraction.InteractionWith.Cable);
+			if (GUI_Hacking.Inputs.SelectedHackingPort != null && GUI_Hacking.Outputs.SelectedHackingPort != null)
+			{
+				RequestHackingInteraction.Send(GUI_Hacking.HackProcess.gameObject,
+					PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot().Item.netId,
+					GUI_Hacking.Inputs.SelectedHackingPort.PortData.ID,
+					GUI_Hacking.Outputs.SelectedHackingPort.PortData.ID,
+					RequestHackingInteraction.InteractionWith.Cable);
+			}
 		}
 	}
 }
