@@ -175,7 +175,7 @@ namespace HealthV2
 
 		public void CheckIfBroken(bool announceHurtDamage = false)
 		{
-			if (!CanBeBroken) { return; }
+			if (CanBeBroken == false) { return; }
 			if (Severity == BoneFracturesOnDamageSevarity) { isFractured_Hairline = true; }
 			if (Severity >= BoneBreaksOnDamageSevarity) { isFractured_Compound = true; }
 
