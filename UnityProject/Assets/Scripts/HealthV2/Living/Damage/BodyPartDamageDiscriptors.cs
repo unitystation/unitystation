@@ -90,16 +90,16 @@ namespace HealthV2
 				switch (currentPierceDamageLevel)
 				{
 					case (TraumaDamageLevel.SMALL):
-						report.AppendLine($"{pireceDamageDescOnSMALL} \n");
+						report.AppendLine($"{pireceDamageDescOnSMALL}");
 						break;
 					case (TraumaDamageLevel.SERIOUS):
-						report.AppendLine($"{pireceDamageDescOnMEDIUM} \n");
+						report.AppendLine($"{pireceDamageDescOnMEDIUM}");
 						break;
 					case (TraumaDamageLevel.CRITICAL):
-						report.AppendLine($"{pireceDamageDescOnLARGE} \n");
+						report.AppendLine($"{pireceDamageDescOnLARGE}");
 						break;
 					default:
-						report.AppendLine($"{pireceDamageDescOnNone}] \n");
+						report.AppendLine($"{pireceDamageDescOnNone}]");
 						break;
 				}
 				switch (currentSlashDamageLevel)
