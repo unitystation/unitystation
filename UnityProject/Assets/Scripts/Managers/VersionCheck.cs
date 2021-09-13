@@ -59,7 +59,7 @@ namespace Core
 
 		public void DownloadButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			Application.OpenURL("http://doobly.izz.moe/unitystation/");
 			Application.Quit();
@@ -67,7 +67,7 @@ namespace Core
 
 		public void CheckAgain()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			errorWindow.SetActive(false);
 			StartCoroutine(CheckVersion());
 		}

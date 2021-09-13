@@ -7,8 +7,8 @@ using UnityEngine;
 /// <summary>
 /// Used for getting sounds outside of  mono behaviours
 /// </summary>
-[CreateAssetMenu(fileName = "SingletonSOSounds", menuName = "Singleton/Addressables/SingletonSOSounds")]
-public class SingletonSOSounds : SingletonScriptableObject<SingletonSOSounds>
+[CreateAssetMenu(fileName = "CommonSounds", menuName = "Singleton/Addressables/CommonSounds")]
+public class CommonSounds : SingletonScriptableObject<CommonSounds>
 {
    //add to ScriptableObjectSingletons
 

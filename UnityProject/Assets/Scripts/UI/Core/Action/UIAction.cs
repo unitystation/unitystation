@@ -69,7 +69,7 @@ namespace UI.Action
 
 		public void ButtonPress()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			if (actionData.IsToggle)
 			{

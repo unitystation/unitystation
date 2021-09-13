@@ -11,9 +11,9 @@ namespace Systems.Explosions
 	/// </summary>
 	public static class ExplosionUtils
 	{
-		private static readonly AddressableAudioSource[] EXPLOSION_SOUNDS = { SingletonSOSounds.Instance.Explosion1, SingletonSOSounds.Instance.Explosion2 };
-		private static readonly AddressableAudioSource[] DISTANT_EXPLOSION_SOUNDS = { SingletonSOSounds.Instance.ExplosionDistant1, SingletonSOSounds.Instance.ExplosionDistant2 };
-		private static readonly AddressableAudioSource[] STATION_GROAN_SOUNDS = { SingletonSOSounds.Instance.ExplosionCreak1, SingletonSOSounds.Instance.ExplosionCreak2, SingletonSOSounds.Instance.ExplosionCreak3 };
+		private static readonly AddressableAudioSource[] EXPLOSION_SOUNDS = { CommonSounds.Instance.Explosion1, CommonSounds.Instance.Explosion2 };
+		private static readonly AddressableAudioSource[] DISTANT_EXPLOSION_SOUNDS = { CommonSounds.Instance.ExplosionDistant1, CommonSounds.Instance.ExplosionDistant2 };
+		private static readonly AddressableAudioSource[] STATION_GROAN_SOUNDS = { CommonSounds.Instance.ExplosionCreak1, CommonSounds.Instance.ExplosionCreak2, CommonSounds.Instance.ExplosionCreak3 };
 
 		private static readonly int DISTANT_THRESHOLD = 63;
 		private static readonly int GROAN_THRESHOLD = 29;

@@ -303,7 +303,7 @@ namespace Blob
 					string.Format(ReportTemplates.BioHazard,
 						"Caution! Biohazard expanding rapidly. Station structural integrity failing."),
 					MatrixManager.MainStationMatrix);
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 			}
 
 			if (isBlobGamemode && !nearlyWon && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
@@ -314,7 +314,7 @@ namespace Blob
 					string.Format(ReportTemplates.BioHazard,
 						"Alert! Station integrity near critical. Biomass sensor levels are off the charts."),
 					MatrixManager.MainStationMatrix);
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.Notice1);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 			}
 
 			// Blob wins after number of blob tiles reached
@@ -333,7 +333,7 @@ namespace Blob
 					string.Format(ReportTemplates.BioHazard,
 						"Confirmed outbreak of level 5 biohazard aboard the station. All personnel must contain the outbreak."),
 					MatrixManager.MainStationMatrix);
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.Outbreak5Announcement);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.Outbreak5Announcement);
 			}
 
 			if (rerollTimer > 300f)

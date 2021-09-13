@@ -30,7 +30,7 @@ namespace UI
 		{
 			if (clickSound)
 			{
-				_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+				_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			}
 			selImg.sprite = selectorSprites[(int)curSelect];
 			UIManager.DamageZone = curSelect;

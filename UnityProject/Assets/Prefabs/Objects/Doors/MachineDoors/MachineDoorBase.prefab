@@ -15,7 +15,6 @@ MonoBehaviour:
   doorController: {fileID: -304701645951842033}
   spritePath: 
   animFrames: 
-  animLength: 0
   closeFrame: 0
   deniedFrame: 0
   openFrame: 0
@@ -53,7 +52,9 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  CurrentsortingGroup: {fileID: 0}
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
+  CurrentsortingGroup: {fileID: 7782817179362649248}
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &-304701645951842033
@@ -105,11 +106,10 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 0
   DoorPressureSpriteOffset: 25
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 7
+  requireLink: 0
 --- !u!114 &720260447592516819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +123,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 0
+--- !u!114 &1390110248989545576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813822218561835024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383ace094608c5f4898a03bdda48266e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  AvailableColours:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0.5, b: 1, a: 1}
+  - {r: 0, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.7, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.5, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5, g: 0, b: 0, a: 1}
+  - {r: 0.5, g: 0, b: 0.5, a: 1}
+  - {r: 0, g: 0, b: 0.5, a: 1}
+  - {r: 0, g: 0.5, b: 0.5, a: 1}
+  - {r: 0, g: 0.5, b: 0, a: 1}
+  - {r: 0.5, g: 0.5, b: 0, a: 1}
+  - {r: 0.5, g: 0.25, b: 0, a: 1}
+  - {r: 0.5, g: 0.5, b: 1, a: 1}
+  - {r: 1, g: 0.5, b: 0.5, a: 1}
+  - {r: 1, g: 0.6, b: 1, a: 1}
+  RemoteSignallerTrait: {fileID: 11400000, guid: 83be19dea3e11674f9e2ff3a1df57cc4,
+    type: 2}
+  itemStorage: {fileID: 6693431644619622857}
+  OnePeaceCoil: {fileID: 4041555603540783454, guid: c567e6c3b003a2b488534a8766866cb0,
+    type: 3}
 --- !u!114 &4986678559899695466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +178,31 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   allowInput: 1
+--- !u!114 &6693431644619622857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813822218561835024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: ad3502dbb5202e64ab70b125dba1335c,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 9fbe8f51c62c3024082977a6dce96f20,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!1001 &6076651061907346860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,6 +403,12 @@ PrefabInstance:
 --- !u!1 &4813822218561835024 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6076651061907346860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &7782817179362649248 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 6076651061907346860}
   m_PrefabAsset: {fileID: 0}

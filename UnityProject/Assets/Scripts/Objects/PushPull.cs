@@ -387,7 +387,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 
 			if (pullable.StartFollowing(this))
 			{
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ThudSwoosh, pullable.transform.position, sourceObj: pullableObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position, sourceObj: pullableObject);
 
 				PulledObjectServer = pullable;
 

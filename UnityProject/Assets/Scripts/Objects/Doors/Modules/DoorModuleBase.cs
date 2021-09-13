@@ -2,7 +2,7 @@
 using UnityEngine;
 namespace Doors.Modules
 {
-	public abstract class DoorModuleBase : MonoBehaviour
+	public class DoorModuleBase : MonoBehaviour
 	{
 		//Master Controller, assigned when the object spawns in.
 		protected DoorMasterController master;
@@ -12,17 +12,30 @@ namespace Doors.Modules
 			master = GetComponentInParent<DoorMasterController>();
 		}
 
-		public abstract ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States);
 
-		public abstract ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States);
+		public virtual ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		{
+			return ModuleSignal.Continue;
+		}
 
-		public abstract ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States);
+		public virtual ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		{
+			return ModuleSignal.Continue;
+		}
+
+		public virtual ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		{
+			return ModuleSignal.Continue;
+		}
 
 		/// <summary>
 		/// Whether or not the door can opened or closed. This should only return false if the door is physically prevented
 		/// from changing states, such as when welded shut or when the bolts are down.
 		/// </summary>
 		/// <returns>is the door free to change its state?</returns>
-		public abstract bool CanDoorStateChange();
+		public virtual bool CanDoorStateChange()
+		{
+			return true;
+		}
 	}
 }

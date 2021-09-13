@@ -105,7 +105,7 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 				Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head, and not much else.",
 					$"{performerName}'s book slams into {victimName}'s head, and not much else.");
 
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 			}
 		}
 		else  //Heal a bodypart if possible.
@@ -135,7 +135,7 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 				$"A flash of light from your book thwacking {victimName} heals some of {victimName}'s  wounds.",
 				$"A flash of light from {performerName}'s book thwacking {victimName} heals some of {victimName}'s wounds.");
 
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.PunchMiss, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.PunchMiss, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 			}
 
 

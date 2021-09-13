@@ -156,7 +156,7 @@ namespace Objects
 				if (timeElapsedServerSound > SoundLength && isOn)
 				{
 					DetectPlayer();
-					SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.MachineHum4, Position + Vector3Int.up);
+					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.MachineHum4, Position + Vector3Int.up);
 					timeElapsedServerSound = 0;
 				}
 			}
@@ -230,7 +230,7 @@ namespace Objects
 			{
 				var coord = new Vector2(Position.x, Position.y);
 				Chat.AddLocalMsgToChat(Message, coord, gameObject);
-				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject,SingletonSOSounds.Instance.StealthOff); // very weird, sometimes does the sound other times not.
+				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject,CommonSounds.Instance.StealthOff); // very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}
 

@@ -1,7 +1,8 @@
 using Systems.Clearance;
-﻿using System.Collections.Generic;
+ using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity;
+using Initialisation;
 using Random = UnityEngine.Random;
 
 namespace Doors.Modules
@@ -22,6 +23,7 @@ namespace Doors.Modules
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
 		}
+
 
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
@@ -59,12 +61,14 @@ namespace Doors.Modules
 			return ModuleSignal.Continue;
 		}
 
-		public override bool CanDoorStateChange()
-		{
-			return true;
-		}
 
 		private bool CheckAccess(GameObject player)
+		{
+			return ProcessCheckAccess(player);
+		}
+
+
+		private bool ProcessCheckAccess(GameObject player)
 		{
 			if (accessRestrictions.CheckAccess(player))
 			{

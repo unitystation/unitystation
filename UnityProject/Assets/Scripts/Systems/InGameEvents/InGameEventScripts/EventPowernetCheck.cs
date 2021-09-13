@@ -16,7 +16,7 @@ namespace InGameEvents
 					"As a precautionary measure, the station's power will be shut off for an indeterminate duration.";
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOffAnnouncement);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.PowerOffAnnouncement);
 			}
 
 			if (FakeEvent) return;
@@ -37,7 +37,7 @@ namespace InGameEvents
 
 		public override void OnEventEndTimed()
 		{
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.PowerOnAnnouncement);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.PowerOnAnnouncement);
 		}
 
 		private IEnumerator RestartPowerSupply(ElectricalNodeControl node)

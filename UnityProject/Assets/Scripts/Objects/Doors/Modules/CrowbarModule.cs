@@ -73,11 +73,6 @@ namespace Doors.Modules
 			return ModuleSignal.Continue;
 		}
 
-		public override bool CanDoorStateChange()
-		{
-			return true;
-		}
-
 		private void TryPry()
 		{
 			if (master.IsClosed && !master.IsPerformingAction)
@@ -86,7 +81,7 @@ namespace Doors.Modules
 			}
 			else if (!master.IsClosed && !master.IsPerformingAction)
 			{
-				master.TryClose(force: true);
+				master.PulseTryClose(inforce: true);
 			}
 		}
 

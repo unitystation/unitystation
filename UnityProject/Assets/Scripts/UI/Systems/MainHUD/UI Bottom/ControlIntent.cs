@@ -54,7 +54,7 @@ namespace UI
 		public void OnClickRest()
 		{
 			Logger.Log("OnClickRest", Category.UserInput);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			clientResting = !clientResting;
 			RequestRest.Send(clientResting);
 			Chat.AddExamineMsgToClient(clientResting ? startRestMessage : endRestMessage);
@@ -67,7 +67,7 @@ namespace UI
 		public void OnClickCrafting()
 		{
 			Logger.Log("OnClickCrafting", Category.UserInput);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			UIManager.Instance.CraftingMenu.Open();
 		}
@@ -78,7 +78,7 @@ namespace UI
 		public void OnClickRunWalk()
 		{
 			Logger.Log("OnClickRunWalk", Category.UserInput);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			Running = !Running;
 			runWalkBorder.SetActive(Running);
@@ -92,7 +92,7 @@ namespace UI
 		public void OnClickResist()
 		{
 			Logger.Log("OnClickResist", Category.UserInput);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			UIManager.Action.Resist();
 		}
@@ -103,7 +103,7 @@ namespace UI
 		public void OnClickHelp()
 		{
 			Logger.Log("OnClickHelp", Category.UserInput);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			helpWindow.SetActive(!helpWindow.activeSelf);
 		}
@@ -113,7 +113,7 @@ namespace UI
 		public void CycleIntent(bool cycleLeft = true)
 		{
 			Logger.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UserInput);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			int intent = (int)UIManager.CurrentIntent;
 			intent += (cycleLeft ? 1 : -1);
@@ -137,7 +137,7 @@ namespace UI
 		{
 			Logger.Log("Intent Button", Category.UserInput);
 
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			UpdateIcon(selectedIntent);
 		}

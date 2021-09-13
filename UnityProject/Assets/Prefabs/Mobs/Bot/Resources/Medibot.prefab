@@ -112,6 +112,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -174,7 +176,7 @@ MonoBehaviour:
   performingDecision: 0
   performingAction: 0
   activated: 1
-  tickRate: 1
+  TickDelay: 1
   CB_REAGENT: {fileID: 0}
   target: 3
   actionPerformTime: 0

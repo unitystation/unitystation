@@ -37,7 +37,7 @@ namespace UI
 				return;
 			}
 
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			// if there is an item in this slot, try interacting.
 			itemSlot.TryItemInteract();
 		}

@@ -433,7 +433,7 @@ namespace Objects.Lighting
 			if (mState == LightMountState.Broken)
 			{
 				ServerChangeLightState(LightMountState.MissingBulb);
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GlassStep, pos, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassStep, pos, sourceObj: gameObject);
 			}
 			else
 			{

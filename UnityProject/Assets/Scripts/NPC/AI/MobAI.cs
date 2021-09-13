@@ -174,7 +174,7 @@ namespace Systems.MobAIs
 				registerObject.SetPassable(false, true);
 				mobSprite.SetToBodyLayer();
 
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 				mobSprite.SetToKnockedDown(true);
 			}
 		}

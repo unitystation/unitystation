@@ -10,17 +10,22 @@ using Messages.Client.NewPlayer;
 using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
+using Systems.ObjectConnection;
 using Doors.Modules;
+using Hacking;
 using HealthV2;
+using Initialisation;
+using Objects.Wallmounts;
+using UI.Core.Net;
 
 
-//TODO: Need to reimplement hacking with this system. Might be a nightmare, dk yet.
+
 namespace Doors
 {
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -66,11 +71,11 @@ namespace Doors
 		private IEnumerator coWaitOpened;
 		private IEnumerator coBlockAutomaticClosing;
 
-
 		private bool isPerformingAction = false;
 		public bool IsPerformingAction => isPerformingAction;
-		public bool HasPower => APCPoweredDevice.IsOn(apc.State);
+		public bool HasPower => GetPowerState();
 
+		private bool PowerState;
 
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
@@ -93,6 +98,12 @@ namespace Doors
 		private int closedLayer;
 		private int closedSortingLayer;
 
+		public HackingProcessBase HackingProcessBase;
+
+		private GameObject byPlayer;
+
+		public ConstructibleDoor ConstructibleDoor;
+
 		private void Awake()
 		{
 			if (isWindowedDoor == false)
@@ -112,6 +123,28 @@ namespace Doors
 			apc = GetComponent<APCPoweredDevice>();
 			doorAnimator = GetComponent<DoorAnimatorV2>();
 			doorAnimator.AnimationFinished += OnAnimationFinished;
+			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
+		}
+
+		public void DelayedRegister()
+		{
+			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
+			HackingProcessBase.RegisterPort(TryBump, this.GetType());
+			HackingProcessBase.RegisterPort(TryClose, this.GetType());
+			HackingProcessBase.RegisterPort(CheckPower, this.GetType());
+			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
+		}
+
+		public bool GetPowerState()
+		{
+			PowerState = false;
+			HackingProcessBase.ImpulsePort(CheckPower);
+			return PowerState;
+		}
+
+		public void CheckPower()
+		{
+			PowerState = APCPoweredDevice.IsOn(apc.State);
 		}
 
 		public override void OnStartClient()
@@ -124,20 +157,13 @@ namespace Doors
 		/// </summary>
 		public void UpdateNewPlayer(NetworkConnection playerConn)
 		{
-			if (IsClosed)
-			{
-				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Close, true);
-			}
-			else
-			{
-				DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Open, true);
-			}
+			DoorUpdateMessage.Send(playerConn, gameObject,
+				IsClosed ? DoorUpdateType.Close : DoorUpdateType.Open,
+				true,
+				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 		}
 
-		/// <summary>
-		/// Invoke this on server when player bumps into door to try to open it.
-		/// </summary>
-		public void Bump(GameObject byPlayer)
+		private void TryBump()
 		{
 			if (!isAutomatic || !allowInput)
 			{
@@ -181,10 +207,31 @@ namespace Doors
 			}
 
 			StartInputCoolDown();
+
+		}
+
+		/// <summary>
+		/// Invoke this on server when player bumps into door to try to open it.
+		/// </summary>
+		public void Bump(GameObject inbyPlayer)
+		{
+			byPlayer = inbyPlayer;
+			HackingProcessBase.ImpulsePort(TryBump);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (ConstructibleDoor.Panelopen)
+			{
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
+				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
+				{
+					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
+					return;
+				}
+			}
+
+
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
 			//opening the door.
@@ -233,7 +280,7 @@ namespace Doors
 
 			if (!isPerformingAction && canClose && CheckStatusAllow(states))
 			{
-				TryClose(interaction.Performer, OverrideLogic: true);
+				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
 
 			StartInputCoolDown();
@@ -297,7 +344,10 @@ namespace Doors
 
 			if(HasPower == false)
 			{
-				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+				if (originator != null)
+				{
+					Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
+				}
 				return;
 			}
 
@@ -324,6 +374,11 @@ namespace Doors
 			Open();
 		}
 
+		public void PulseTryForceClose()
+		{
+			HackingProcessBase.ImpulsePort(TryForceClose);
+		}
+
 		/// <summary>
 		/// Try to force the door closed regardless of access/internal fuckery.
 		/// Purely check to see if there is something physically restraining the door from being closed such as a weld or door bolts.
@@ -343,7 +398,21 @@ namespace Doors
 			Close();
 		}
 
-		public void TryClose(GameObject originator = null, bool force = false, bool OverrideLogic = false)
+		public void PulseTryClose(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
+		{
+			originator = inoriginator;
+			force = inforce;
+			OverrideLogic = inOverrideLogic;
+
+			HackingProcessBase.ImpulsePort(TryClose);
+		}
+
+		private GameObject originator;
+		private bool force;
+		private bool OverrideLogic;
+
+
+		public void TryClose()
 		{
 			// Sliding door is not passable according to matrix
 			if(!isPerformingAction &&
@@ -413,7 +482,8 @@ namespace Doors
 				return;
 			}
 
-			DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
+
+			DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Close, ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 
 			if (damageOnClose)
 			{
@@ -435,7 +505,7 @@ namespace Doors
 
 			if (!isPerformingAction)
 			{
-				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Open );
+				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Open, ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 			}
 		}
 
@@ -596,7 +666,7 @@ namespace Doors
 			    isAutomatic &&
 			    HasPower)
 			{
-				TryClose();
+				PulseTryClose();
 			}
 		}
 
@@ -617,6 +687,13 @@ namespace Doors
 			return true;
 		}
 
+		private bool AIConnected;
+
+		public void ConfirmAIConnection()
+		{
+			AIConnected = true;
+		}
+
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
 			if (HasPower == false)
@@ -625,6 +702,13 @@ namespace Doors
 				return;
 			}
 
+			AIConnected = false;
+			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
+			if (AIConnected == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "Door is disconnected");
+				return;
+			}
 			//Try open/close
 			if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
 			{
@@ -634,7 +718,7 @@ namespace Doors
 				}
 				else
 				{
-					TryForceClose();
+					PulseTryForceClose();
 				}
 
 				return;
@@ -648,7 +732,7 @@ namespace Doors
 					if(module is BoltsModule bolts)
 					{
 						//Toggle bolts
-						bolts.SetBoltsState(!bolts.BoltsDown);
+						bolts.PulseToggleBolts();
 						return;
 					}
 				}
@@ -661,10 +745,18 @@ namespace Doors
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			//Only checking airlock, so when hacking UI reimplemented this check wont happen
-			//Return true so it doesnt block those checks
-			//TODO block Ai from hacking UI
-			if (netTabType != NetTabType.Airlock) return true;
+			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+			if (netTabType == NetTabType.HackingPanel)
+			{
+			    //Block Ai from hacking UI but allow normal player
+			    return isAi == false;
+			}
+
+			if (isAi == false)
+			{
+			    //Block normal player from Ai door controlling UI
+			    return false;
+			}
 
 			if (HasPower == false)
 			{
@@ -672,8 +764,23 @@ namespace Doors
 				return false;
 			}
 
+			AIConnected = false;
+			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
+			if (isAi && AIConnected == false)
+			{
+				Chat.AddExamineMsgFromServer(playerObject, "Door is disconnected");
+				return false;
+			}
+
 			//Only allow AI to open airlock control UI
-			return playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+			return true;
+		}
+
+		public bool CanAIInteract()
+		{
+			AIConnected = false;
+			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
+			return AIConnected;
 		}
 
 		public void UpdateGui()
@@ -703,5 +810,41 @@ namespace Doors
 		}
 
 		#endregion
+
+		#region Multitool Interaction
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+
+		[SerializeField]
+		[Tooltip("Whether this door type requires a linked door button (e.g. shutters).")]
+		private bool requireLink = false;
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
+		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
+		bool IMultitoolSlaveable.RequireLink => false;
+		// TODO: should be requireLink but hardcoded to false for now,
+		// doors don't know about links, only the switches
+
+		private IMultitoolMasterable doorMaster;
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			doorMaster = master;
+
+			var doorSwitch = master as DoorSwitch;
+			if (doorSwitch)
+			{
+				doorSwitch.NewAddDoorControllerFromScene(this);
+				return;
+			}
+			var statusDisplay = master as StatusDisplay;
+			if (statusDisplay)
+			{
+				statusDisplay.NewLinkDoor(this);
+			}
+		}
+		#endregion
+
 	}
 }

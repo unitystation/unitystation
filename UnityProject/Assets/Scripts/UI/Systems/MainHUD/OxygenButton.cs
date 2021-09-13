@@ -36,7 +36,7 @@ namespace UI
 			if (PlayerManager.LocalPlayer == null) return;
 			if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit) return;
 
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			EventManager.Broadcast(IsInternalsEnabled ? Event.DisableInternals : Event.EnableInternals);
 		}

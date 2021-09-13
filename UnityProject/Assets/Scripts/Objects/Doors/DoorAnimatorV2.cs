@@ -87,11 +87,11 @@ namespace Doors
 		{
 			if (type == DoorUpdateType.Open)
 			{
-				StartCoroutine(PlayOpeningAnimation(skipAnimation));
+				StartCoroutine(PlayOpeningAnimation(skipAnimation, panelExposed));
 			}
 			else if (type == DoorUpdateType.Close)
 			{
-				StartCoroutine(PlayClosingAnimation(skipAnimation));
+				StartCoroutine(PlayClosingAnimation(skipAnimation, panelExposed));
 			}
 			else if (type == DoorUpdateType.AccessDenied)
 			{
@@ -206,7 +206,7 @@ namespace Doors
 		{
 			if(CustomNetworkManager.IsHeadless) return;
 
-			_ = SoundManager.PlayAtPosition(sound, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient());
 		}
 
 		public void TurnOffAllLights()

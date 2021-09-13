@@ -694,7 +694,7 @@ public partial class CustomNetTransform
 			creature.ApplyDamageToBodyPart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 			Chat.AddThrowHitMsgToChat(gameObject,creature.gameObject, hitZone);
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GenericHit, transform.position, audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position, audioSourceParameters, sourceObj: gameObject);
 		}
 	}
 

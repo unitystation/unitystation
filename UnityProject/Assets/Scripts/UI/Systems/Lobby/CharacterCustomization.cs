@@ -212,7 +212,7 @@ namespace UI.CharacterCreator
 			Cleanup();
 			LoadSettings(currentCharacter);
 			RefreshAll();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void ShowCharacterSelectorPage()
@@ -223,7 +223,7 @@ namespace UI.CharacterCreator
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
 			CheckIfCharacterListIsEmpty();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void ShowCharacterDeletionConfirmation()
@@ -252,12 +252,12 @@ namespace UI.CharacterCreator
 			ShowCharacterCreator();
 			ReturnCharacterPreviewFromTheCharacterSelector();
 			RefreshAll();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void EditCharacter()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			lastSettings = PlayerCharacters[currentCharacterIndex];
 			ReturnCharacterPreviewFromTheCharacterSelector();
@@ -305,7 +305,7 @@ namespace UI.CharacterCreator
 			PlayerManager.CurrentCharacterSettings = PlayerCharacters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			RefreshSelectorData();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void CheckIfCharacterListIsEmpty()
@@ -337,7 +337,7 @@ namespace UI.CharacterCreator
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void ScrollSelectorRight()
@@ -354,7 +354,7 @@ namespace UI.CharacterCreator
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void GetOriginalLocalPositionForCharacterPreview()
@@ -1161,7 +1161,7 @@ namespace UI.CharacterCreator
 			catch (InvalidOperationException e)
 			{
 				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
-				_ = SoundManager.Play(SingletonSOSounds.Instance.AccessDenied);
+				_ = SoundManager.Play(CommonSounds.Instance.AccessDenied);
 				DisplayErrorText(e.Message);
 				return;
 			}
@@ -1174,7 +1174,7 @@ namespace UI.CharacterCreator
 
 			SaveData();
 			ShowCharacterSelectorPage();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			gameObject.SetActive(false);
 		}
 

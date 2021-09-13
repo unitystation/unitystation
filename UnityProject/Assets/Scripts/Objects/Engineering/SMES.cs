@@ -188,7 +188,7 @@ namespace Objects.Engineering
 			if (!outputEnabled)
 			{
 				var worldPos = registerTile.WorldPositionServer;
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Tick, worldPos, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
 				if (batterySupplyingModule.InputLevel < 100)
 				{
 					batterySupplyingModule.InputLevel++;
@@ -209,7 +209,7 @@ namespace Objects.Engineering
 			if (!outputEnabled)
 			{
 				var worldPos = registerTile.WorldPositionServer;
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Tick, worldPos, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
 				if (batterySupplyingModule.OutputLevel < 100)
 				{
 					batterySupplyingModule.OutputLevel++;

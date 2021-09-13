@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Clothing;
 using HealthV2;
+using Initialisation;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -369,11 +370,24 @@ public class DynamicItemStorage : NetworkBehaviour
 	}
 
 
+	public bool CanAccommodate(ItemSlot ItemSlot, Stackable CheckStackable = null)
+	{
+		if (ItemSlot.IsEmpty) return true;
+		if (CheckStackable != null)
+		{
+			var Stackable = ItemSlot.Item.GetComponent<Stackable>();
+			if (Stackable == null) return false;
+			return Stackable.StacksWith(CheckStackable);
+		}
+
+		return false;
+	}
+
 	/// <summary>
 	/// Find the most appropriate Empty hand slot
 	/// </summary>
 	/// <returns></returns>
-	public ItemSlot GetBestHand()
+	public ItemSlot GetBestHand(Stackable CheckStackable = null)
 	{
 		if (playerNetworkActions == null)
 		{
@@ -381,7 +395,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 
 		var activeHand = GetNamedItemSlot(playerNetworkActions.activeHand, playerNetworkActions.CurrentActiveHand);
-		if (activeHand.IsEmpty)
+		if (CanAccommodate(activeHand, CheckStackable))
 		{
 			return activeHand;
 		}
@@ -389,16 +403,16 @@ public class DynamicItemStorage : NetworkBehaviour
 		var leftHands = GetNamedItemSlots(NamedSlot.leftHand);
 		foreach (var leftHand in leftHands)
 		{
-			if (leftHand != activeHand && leftHand.IsEmpty)
+			if (leftHand != activeHand && CanAccommodate(leftHand, CheckStackable))
 			{
 				return leftHand;
 			}
 		}
 
-		var rightHands = GetNamedItemSlots(NamedSlot.leftHand);
+		var rightHands = GetNamedItemSlots(NamedSlot.rightHand);
 		foreach (var rightHand in rightHands)
 		{
-			if (rightHand != activeHand && rightHand.IsEmpty)
+			if (rightHand != activeHand && CanAccommodate(rightHand, CheckStackable))
 			{
 				return rightHand;
 			}
@@ -675,7 +689,12 @@ public class DynamicItemStorage : NetworkBehaviour
 		{
 			if (NetworkIdentity.spawned.TryGetValue(IntIn, out var spawned) == false)
 			{
-				StartCoroutine(WaitAFrame(NewST));
+				void TempFunction()
+				{
+					ProcessChangeClient(NewST);
+				}
+
+				LoadManager.RegisterActionDelayed(TempFunction, 30);
 				return;
 			}
 

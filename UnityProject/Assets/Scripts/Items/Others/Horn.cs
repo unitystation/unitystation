@@ -38,7 +38,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		yield return WaitFor.Seconds( 0.02f );
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: -1f); //This plays it backwards, is that what you wanted?
 		ShakeParameters shakeParameters = new ShakeParameters(true, 20, 5);
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), audioSourceParameters, true, sourceObj: GetHonkSoundObject(), shakeParameters: shakeParameters);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), audioSourceParameters, true, sourceObj: GetHonkSoundObject(), shakeParameters: shakeParameters);
 		livingHealth.ApplyDamageToBodyPart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
@@ -86,7 +86,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	public void ClassicHonk()
 	{
 		AudioSourceParameters hornParameters = new AudioSourceParameters(pitch: randomPitch);
-		SoundManager.PlayNetworkedAtPos( SingletonSOSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), hornParameters, true, sourceObj: GetHonkSoundObject());
+		SoundManager.PlayNetworkedAtPos( CommonSounds.Instance.ClownHonk, gameObject.AssumedWorldPosServer(), hornParameters, true, sourceObj: GetHonkSoundObject());
 	}
 
 	/// <summary>

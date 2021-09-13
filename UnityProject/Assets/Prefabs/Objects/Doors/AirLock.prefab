@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114842947250423336}
   - component: {fileID: 4518357836073184054}
   - component: {fileID: 8381321287682878987}
-  - component: {fileID: -8649531395382896649}
   - component: {fileID: 4611448190218815304}
   m_Layer: 18
   m_Name: AirLock
@@ -125,11 +124,10 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 1
   DoorPressureSpriteOffset: 12
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 7
+  requireLink: 0
 --- !u!114 &114247149050027938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +391,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 114811207805226602}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
@@ -564,28 +564,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
---- !u!114 &-8649531395382896649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011462531918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bfcc0fbb86771940b4d7b38c9c7d3b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  wiresInitiallyExposed: 0
-  nodeInfo: {fileID: 11400000, guid: 70468a705c81370488f44537a6568005, type: 2}
-  openPanelSFX: 
-  closePanelSFX: 
-  NetTabType: 19
-  doorName: airlock
-  hackPanelOverlay: {fileID: 0}
-  hackPanelSprite: {fileID: 0}
 --- !u!114 &4611448190218815304
 MonoBehaviour:
   m_ObjectHideFlags: 0

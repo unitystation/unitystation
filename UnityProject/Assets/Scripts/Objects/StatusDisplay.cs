@@ -18,18 +18,20 @@ namespace Objects.Wallmounts
 	/// Mounted monitor to show simple images or text
 	/// Escape Shuttle channel is a priority one and will overtake other channels.
 	/// </summary>
-	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable,
-			IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<AiActivate>
+	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>,
+		IMultitoolMasterable,
+		IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<AiActivate>
 	{
 		public static readonly int MAX_CHARS_PER_PAGE = 18;
 
 		private Coroutine blinkHandle;
 
-		[SerializeField]
-		private Text textField = default;
+		[SerializeField] private Text textField = default;
 
 		[SyncVar(hook = nameof(SyncSprite))] public MountedMonitorState stateSync;
-		[SyncVar(hook = nameof(SyncStatusText))] private string statusText = string.Empty;
+
+		[SyncVar(hook = nameof(SyncStatusText))]
+		private string statusText = string.Empty;
 
 		public bool hasCables = true;
 		public SpriteHandler MonitorSpriteHandler;
@@ -39,6 +41,7 @@ namespace Objects.Wallmounts
 		public Sprite closedOff;
 		public SpriteDataSO joeNews;
 		public List<DoorController> doorControllers = new List<DoorController>();
+		public List<DoorMasterController> NewdoorControllers = new List<DoorMasterController>();
 		public CentComm centComm;
 		public int currentTimerSeconds;
 		public bool countingDown;
@@ -53,17 +56,16 @@ namespace Objects.Wallmounts
 			OpenEmpty
 		};
 
-		[SerializeField]
-		private StatusDisplayChannel channel = StatusDisplayChannel.Command;
+		[SerializeField] private StatusDisplayChannel channel = StatusDisplayChannel.Command;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+		[SerializeField] private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 
 		private AccessRestrictions accessRestrictions;
+
 		public AccessRestrictions AccessRestrictions
 		{
 			get
@@ -72,6 +74,7 @@ namespace Objects.Wallmounts
 				{
 					accessRestrictions = GetComponent<AccessRestrictions>();
 				}
+
 				return accessRestrictions;
 			}
 		}
@@ -85,22 +88,11 @@ namespace Objects.Wallmounts
 				statusText = GameManager.Instance.CentComm.CommandStatusString;
 			}
 
-			if (doorControllers.Count > 0)
+			if (doorControllers.Count > 0 || NewdoorControllers.Count > 0  )
 			{
 				OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
-				foreach (var door in doorControllers)
-				{
-					if (door.IsHackable)
-					{
-						HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
-						outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
-						outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer));
-
-						HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
-						outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
-					}
-				}
 			}
+
 			SyncSprite(stateSync, stateSync);
 			centComm = GameManager.Instance.CentComm;
 			centComm.OnStatusDisplayUpdate.AddListener(OnTextBroadcastReceived);
@@ -140,11 +132,11 @@ namespace Objects.Wallmounts
 				Logger.LogErrorFormat("text field not found for status display {0}", Category.Chat, this);
 				return;
 			}
+
 			if (stateSync == MountedMonitorState.StatusText)
 			{
 				this.RestartCoroutine(BlinkText(), ref blinkHandle);
 			}
-
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -159,7 +151,7 @@ namespace Objects.Wallmounts
 			if (stateSync == MountedMonitorState.OpenCabled || stateSync == MountedMonitorState.OpenEmpty)
 			{
 				if (!hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
-					Validations.HasUsedAtLeast(interaction, 5))
+				    Validations.HasUsedAtLeast(interaction, 5))
 				{
 					//add 5 cables
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -175,7 +167,7 @@ namespace Objects.Wallmounts
 						});
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
-						 Validations.HasUsedAtLeast(interaction, 2))
+				         Validations.HasUsedAtLeast(interaction, 2))
 				{
 					//add 2 glass
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -200,6 +192,7 @@ namespace Objects.Wallmounts
 					hasCables = false;
 					currentTimerSeconds = 0;
 					doorControllers.Clear();
+					NewdoorControllers.Clear();
 				}
 			}
 			else if (stateSync == MountedMonitorState.NonScrewedPanel)
@@ -272,9 +265,9 @@ namespace Objects.Wallmounts
 						{
 							Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
 							// Play sound
-							SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
+								gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 						}
-
 					}
 					else
 					{
@@ -302,6 +295,7 @@ namespace Objects.Wallmounts
 			{
 				yield break;
 			}
+
 			textField.text = statusText.Substring(shownChars);
 
 			yield return WaitFor.Seconds(3);
@@ -345,6 +339,16 @@ namespace Objects.Wallmounts
 			}
 		}
 
+		public void NewLinkDoor(DoorMasterController doorController)
+		{
+			NewdoorControllers.Add(doorController);
+			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+			if (stateSync == MountedMonitorState.Image)
+			{
+				stateSync = MountedMonitorState.StatusText;
+			}
+		}
+
 		private IEnumerator TickTimer()
 		{
 			countingDown = true;
@@ -355,6 +359,7 @@ namespace Objects.Wallmounts
 				yield return WaitFor.Seconds(1);
 				currentTimerSeconds -= 1;
 			}
+
 			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
 			OpenDoors();
 			countingDown = false;
@@ -364,14 +369,16 @@ namespace Objects.Wallmounts
 		{
 			foreach (var door in doorControllers)
 			{
-				if (door.IsHackable)
-				{
-					door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
-				}
-				else
-				{
-					door.TryClose();
-				}
+				//Todo make The actual console itself ingame Hackble, I wouldn't put it on the door because this could get removed and leave references on the door Still
+				//Putting it on this itself would be best
+				door.TryClose();
+			}
+
+			foreach (var door in NewdoorControllers)
+			{
+				//Todo make The actual console itself ingame Hackble, I wouldn't put it on the door because this could get removed and leave references on the door Still
+				//Putting it on this itself would be best
+				door.TryClose();
 			}
 		}
 
@@ -379,14 +386,14 @@ namespace Objects.Wallmounts
 		{
 			foreach (var door in doorControllers)
 			{
-				if (door.IsHackable)
-				{
-					door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
-				}
-				else
-				{
-					door.TryOpen(blockClosing: true);
-				}
+				//To do make The actual console itself ingame Hackble
+				door.TryOpen(null, true);
+			}
+
+			foreach (var door in NewdoorControllers)
+			{
+				//To do make The actual console itself ingame Hackble
+				door.TryOpen(null, true);
 			}
 		}
 
@@ -400,6 +407,7 @@ namespace Objects.Wallmounts
 				this.TryStopCoroutine(ref blinkHandle);
 				textField.text = "";
 			}
+
 			if (stateNew == MountedMonitorState.StatusText)
 			{
 				this.StartCoroutine(BlinkText(), ref blinkHandle);
@@ -458,7 +466,8 @@ namespace Objects.Wallmounts
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"Access Denied.");
 				// Play sound
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied, gameObject.AssumedWorldPosServer(),
+					sourceObj: gameObject);
 			}
 		}
 
@@ -479,6 +488,7 @@ namespace Objects.Wallmounts
 					{
 						StartCoroutine(TickTimer());
 					}
+
 					currentTimerSeconds += 60;
 					break;
 				case "RemoveTime":
@@ -487,6 +497,7 @@ namespace Objects.Wallmounts
 					{
 						currentTimerSeconds = 0;
 					}
+
 					break;
 			}
 		}
@@ -516,6 +527,7 @@ namespace Objects.Wallmounts
 					{
 						StartCoroutine(TickTimer());
 					}
+
 					currentTimerSeconds += 60;
 					break;
 				//RemoveTime
@@ -525,6 +537,7 @@ namespace Objects.Wallmounts
 					{
 						currentTimerSeconds = 0;
 					}
+
 					break;
 				default:
 					break;
@@ -540,5 +553,8 @@ namespace Objects.Wallmounts
 		Command,
 		DoorTimer
 	}
-	public class StatusDisplayUpdateEvent : UnityEvent<StatusDisplayChannel> { }
+
+	public class StatusDisplayUpdateEvent : UnityEvent<StatusDisplayChannel>
+	{
+	}
 }

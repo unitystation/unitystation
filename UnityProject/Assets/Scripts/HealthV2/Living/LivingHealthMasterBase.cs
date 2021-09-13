@@ -789,7 +789,7 @@ namespace HealthV2
 		[Server]
 		public virtual void Gib()
 		{
-			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Slip, gameObject.transform.position, gameObject); //TODO: replace with gibbing noise
+			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position, gameObject); //TODO: replace with gibbing noise
 			CirculatorySystem.Bleed(GetTotalBlood());
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
@@ -1099,7 +1099,7 @@ namespace HealthV2
 		protected virtual void LethalElectrocution(Electrocution electrocution, float shockPower)
 		{
 			// TODO: Add sparks VFX at shockSourcePos.
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
 
 			float damage = shockPower;
 			ApplyDamageAll(null, damage, AttackType.Internal, DamageType.Burn);

@@ -19,7 +19,7 @@ namespace Construction.Conveyors
 
 		public void TryBuildBelt(int direction)
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			CloseWindow();
 			RequestConveyorBuildMessage.Send(entry, materials, (ConveyorBelt.ConveyorDirection)direction);
 		}

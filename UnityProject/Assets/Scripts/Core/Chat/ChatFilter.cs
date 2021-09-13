@@ -71,7 +71,7 @@ public class ChatFilter : MonoBehaviour
 	[SerializeField]
 	[Range(0, 1)]
 	[Tooltip("Minutes it takes for numMessages to go back to 0 when starting from maxNumMessages.")]
-	private float numMessagesDecayMinutes = 1 / 12;
+	private float numMessagesDecayMinutes = 1f / 12f;
 
 	/// <summary>
 	/// What will be shown to the speaker in the chat if they go above the maximum messages.

@@ -27,7 +27,7 @@ namespace UI
 		// invoked when the restrained alert is clicked
 		public void OnClickAlertRestrained()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			onClickBuckled?.Invoke();
 		}
 
@@ -35,7 +35,7 @@ namespace UI
 		public void OnClickCuffed()
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace UI
 		public void OnClickSwitchPickupMode()
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		/// <summary>
@@ -52,7 +52,7 @@ namespace UI
 		/// </summary>
 		public void OnClickMagBoots()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			magBootsAction?.Invoke();
 		}
 

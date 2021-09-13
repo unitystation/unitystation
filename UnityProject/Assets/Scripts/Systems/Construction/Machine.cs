@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Hacking;
 using UnityEngine;
 using Objects.Construction;
 using Machines;
+using Messages.Server;
+using Messages.Server.SoundMessages;
 using ScriptableObjects;
 
 namespace Objects.Machines
@@ -21,8 +24,7 @@ namespace Objects.Machines
 		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
 		private IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
 
-		[Tooltip("Prefab of the circuit board that lives inside this computer.")]
-		[SerializeField]
+		[Tooltip("Prefab of the circuit board that lives inside this computer.")] [SerializeField]
 		private GameObject machineBoardPrefab = null;
 
 		public IDictionary<ItemTrait, int> BasicPartsUsed => basicPartsUsed;
@@ -41,15 +43,17 @@ namespace Objects.Machines
 		/// <summary>
 		/// Does this machine need to be able to move before allowing deconstruction?
 		/// </summary>
-		[Tooltip("Does this machine need to be able to move before allowing deconstruction?")]
-		[SerializeField]
+		[Tooltip("Does this machine need to be able to move before allowing deconstruction?")] [SerializeField]
 		private bool mustBeUnanchored;
 
-		[Tooltip("Time taken to screwdrive to deconstruct this.")]
-		[SerializeField]
+		[Tooltip("Time taken to screwdrive to deconstruct this.")] [SerializeField]
 		private float secondsToScrewdrive = 2f;
 
 		private Integrity integrity;
+
+		private bool panelopen = false;
+
+		private HackingProcessBase HackingProcessBase;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -57,44 +61,94 @@ namespace Objects.Machines
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+			if (HackingProcessBase != null)
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) || //Should probably network if it is open or not
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter);
+			}
+			else
+			{
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+			}
+
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			{
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+				//Unscrew panel
+				panelopen = !panelopen;
+				if (panelopen)
+				{
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You unscrews the {gameObject.ExpensiveName()}'s cable panel.",
+						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
+					return;
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You screw in the {gameObject.ExpensiveName()}'s cable panel.",
+						$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
+					return;
+				}
+			}
+
+			if (HackingProcessBase != null)
+			{
+				if (panelopen && (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) ||
+				                  Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter)))
+				{
+					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
+				}
+			}
+
 			if (MachineParts == null) return;
 
 			if (canNotBeDeconstructed)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "This machine is too well built to be deconstructed.");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					"This machine is too well built to be deconstructed.");
 				return;
 			}
 
 			if (mustBeUnanchored && gameObject.GetComponent<PushPull>()?.IsPushable == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {gameObject.ExpensiveName()} needs to be unanchored first.");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"The {gameObject.ExpensiveName()} needs to be unanchored first.");
 				return;
 			}
 
-			//unscrew
-			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
-				$"You start to deconstruct the {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} starts to deconstruct the {gameObject.ExpensiveName()}...",
-				$"You deconstruct the {gameObject.ExpensiveName()}.",
-				$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}.",
-				() =>
-				{
-					WhenDestroyed(null);
-				});
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
+			{
+				//unsecure
+				ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
+					$"You start to deconstruct the {gameObject.ExpensiveName()}...",
+					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the {gameObject.ExpensiveName()}...",
+					$"You deconstruct the {gameObject.ExpensiveName()}.",
+					$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}.",
+					() => { WhenDestroyed(null); });
+			}
+
 		}
 
 		private void Awake()
 		{
+			HackingProcessBase = GetComponent<HackingProcessBase>();
 			if (!CustomNetworkManager.IsServer) return;
 
 			integrity = GetComponent<Integrity>();
 
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+
+
 		}
 
 		public void WhenDestroyed(DestructionInfo info)
@@ -112,10 +166,12 @@ namespace Objects.Machines
 				itemStorage.ServerDropAll();
 			}
 
-			SpawnResult frameSpawn = Spawn.ServerPrefab(CommonPrefabs.Instance.MachineFrame, SpawnDestination.At(gameObject));
+			SpawnResult frameSpawn =
+				Spawn.ServerPrefab(CommonPrefabs.Instance.MachineFrame, SpawnDestination.At(gameObject));
 			if (!frameSpawn.Successful)
 			{
-				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
+				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?",
+					Category.Construction);
 				return;
 			}
 
@@ -158,7 +214,7 @@ namespace Objects.Machines
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			//Only do so on mapping
-			if(partsInFrame != null && partsInFrame.Count > 0) return;
+			if (partsInFrame != null && partsInFrame.Count > 0) return;
 
 			if (basicPartsUsed == null)
 			{

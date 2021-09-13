@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Doors;
 using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -125,8 +126,18 @@ public class GenerateSpriteSO : EditorWindow
 		//
 		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
+
+
 		AssetDatabase.StartAssetEditing();
 		AssetDatabase.ForceReserializeAssets();
+		//FindInGo
+		var doors = LoadAllPrefabsOfType<DoorController>("");
+
+		foreach (var door in doors)
+		{
+			FindInGo(door.gameObject);
+			EditorUtility.SetDirty( door.gameObject);
+		}
 		// var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
 		//
 		// foreach (var PSSP in stuff)
@@ -353,6 +364,36 @@ public class GenerateSpriteSO : EditorWindow
 			spriteCatalogue.Catalogue.Add(Seve.Value);
 		}
 		*/
+	}
+
+	private static void FindInGo(GameObject g)
+	{
+		var components = g.GetComponents<Component>();
+
+		var r = 0;
+
+		for (var i = 0; i < components.Length; i++)
+		{
+			if (components[i] != null) continue;
+			var s = g.name;
+			var t = g.transform;
+			while (t.parent != null)
+			{
+				s = t.parent.name +"/"+s;
+				t = t.parent;
+			}
+
+			Debug.Log ($"{s} has a missing script at {i}", g);
+
+			var serializedObject = new SerializedObject(g);
+
+			var prop = serializedObject.FindProperty("m_Component");
+
+			prop.DeleteArrayElementAtIndex(i-r);
+			r++;
+
+			serializedObject.ApplyModifiedProperties();
+		}
 	}
 
 	public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object

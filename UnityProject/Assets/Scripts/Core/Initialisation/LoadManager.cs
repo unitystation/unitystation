@@ -92,8 +92,8 @@ namespace Initialisation
 						{
 							try
 							{
-								delayedAction.Action.Invoke();
 								ToClear.Add(delayedAction);
+								delayedAction.Action.Invoke();
 							}
 							catch (Exception e)
 							{

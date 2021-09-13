@@ -272,7 +272,6 @@ GameObject:
   - component: {fileID: 114999507860870354}
   - component: {fileID: -4174774034122027383}
   - component: {fileID: 2502906240271254677}
-  - component: {fileID: -32719037170004994}
   - component: {fileID: 2751988304624141574}
   m_Layer: 17
   m_Name: SecDoor
@@ -374,11 +373,10 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 1
   DoorPressureSpriteOffset: 25
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 7
+  requireLink: 0
 --- !u!114 &114337906859418372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,6 +608,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 114294399663088630}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
@@ -781,28 +781,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
---- !u!114 &-32719037170004994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1488470923909840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bfcc0fbb86771940b4d7b38c9c7d3b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  wiresInitiallyExposed: 0
-  nodeInfo: {fileID: 11400000, guid: 70468a705c81370488f44537a6568005, type: 2}
-  openPanelSFX: 
-  closePanelSFX: 
-  NetTabType: 19
-  doorName: security door
-  hackPanelOverlay: {fileID: 0}
-  hackPanelSprite: {fileID: 0}
 --- !u!114 &2751988304624141574
 MonoBehaviour:
   m_ObjectHideFlags: 0
