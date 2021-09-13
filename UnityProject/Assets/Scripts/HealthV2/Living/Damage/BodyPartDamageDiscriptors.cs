@@ -36,26 +36,26 @@ namespace HealthV2
 			if (CanBeBroken)
 			{
 				CheckIfBroken();
-				report.Append("[Fracture Level]\n");
+				report.AppendLine("[Fracture Level]");
 				if (isFractured_Compound)
 				{
-					report.Append(BoneFracturedLvlThreeDesc);
+					report.AppendLine(BoneFracturedLvlThreeDesc);
 					return TranslateTags(report.ToString());
 				}
 
 				if (isFractured_Hairline)
 				{
-					report.Append(BoneFracturedLvlTwoDesc);
+					report.AppendLine(BoneFracturedLvlTwoDesc);
 					return TranslateTags(report.ToString());
 				}
 
 				if (Severity == DamageSeverity.Light)
 				{
-					report.Append("Joint Dislocation detected.");
+					report.AppendLine("Joint Dislocation detected.");
 					return report.ToString();
 				}
 
-				report.Append($"{BodyPartReadableName} suffers no fractures and is healthy.");
+				report.AppendLine($"{BodyPartReadableName} suffers no fractures and is healthy.");
 
 				return TranslateTags(report.ToString());
 			}
@@ -64,74 +64,74 @@ namespace HealthV2
 			switch (currentCutSize)
 			{
 				case (BodyPartCutSize.SMALL):
-					report.Append($"{BodyPartCutSize.SMALL}]\n");
+					report.AppendLine($"{BodyPartCutSize.SMALL}]");
 					break;
 				case (BodyPartCutSize.MEDIUM):
-					report.Append($"{BodyPartCutSize.MEDIUM}]\n");
+					report.AppendLine($"{BodyPartCutSize.MEDIUM}]");
 					break;
 				case (BodyPartCutSize.LARGE):
-					report.Append($"{BodyPartCutSize.LARGE}]\n");
+					report.AppendLine($"{BodyPartCutSize.LARGE}]");
 					break;
 				default:
-					report.Append("{BodyPartCutSize.NONE}]\n");
+					report.AppendLine("{BodyPartCutSize.NONE}]");
 					break;
 			}
 
-			report.Append($"[Wound Bleeding -> {isBleedingExternally}] \n");
+			report.AppendLine($"[Wound Bleeding -> {isBleedingExternally}]");
 
 			if (CanBleedInternally)
 			{
-				report.Append($"[Organ is internally bleeding -> {isBleedingInternally}] \n");
+				report.AppendLine($"[Organ is internally bleeding -> {isBleedingInternally}]");
 			}
 
 			if(currentCutSize != BodyPartCutSize.NONE)
 			{
-				report.Append("[Wound Report] \n");
+				report.AppendLine("[Wound Report]");
 				switch (currentPierceDamageLevel)
 				{
 					case (TraumaDamageLevel.SMALL):
-						report.Append($"{pireceDamageDescOnSMALL} \n");
+						report.AppendLine($"{pireceDamageDescOnSMALL} \n");
 						break;
 					case (TraumaDamageLevel.SERIOUS):
-						report.Append($"{pireceDamageDescOnMEDIUM} \n");
+						report.AppendLine($"{pireceDamageDescOnMEDIUM} \n");
 						break;
 					case (TraumaDamageLevel.CRITICAL):
-						report.Append($"{pireceDamageDescOnLARGE} \n");
+						report.AppendLine($"{pireceDamageDescOnLARGE} \n");
 						break;
 					default:
-						report.Append($"{pireceDamageDescOnNone}] \n");
+						report.AppendLine($"{pireceDamageDescOnNone}] \n");
 						break;
 				}
 				switch (currentSlashDamageLevel)
 				{
 					case (TraumaDamageLevel.SMALL):
-						report.Append($"{slashDamageDescOnSMALL} \n");
+						report.AppendLine($"{slashDamageDescOnSMALL}");
 						break;
 					case (TraumaDamageLevel.SERIOUS):
-						report.Append($"{slashDamageDescOnMEDIUM} \n");
+						report.AppendLine($"{slashDamageDescOnMEDIUM}");
 						break;
 					case (TraumaDamageLevel.CRITICAL):
-						report.Append($"{slashDamageDescOnLARGE} \n");
+						report.AppendLine($"{slashDamageDescOnLARGE}");
 						break;
 					default:
-						report.Append($"{slashDamageDescOnNone}] \n");
+						report.AppendLine($"{slashDamageDescOnNone}]");
 						break;
 				}
 			}
-			report.Append("[Burn Damage] \n");
+			report.AppendLine("[Burn Damage]");
 			switch (currentBurnDamageLevel)
 			{
 				case (TraumaDamageLevel.SMALL):
-					report.Append($"{burnDamageDescOnMINOR} \n");
+					report.AppendLine($"{burnDamageDescOnMINOR}");
 					break;
 				case (TraumaDamageLevel.SERIOUS):
-					report.Append($"{burnDamageDescOnMAJOR} \n");
+					report.AppendLine($"{burnDamageDescOnMAJOR}");
 					break;
 				case (TraumaDamageLevel.CRITICAL):
-					report.Append($"{burnDamageDescOnCHARRED} \n");
+					report.AppendLine($"{burnDamageDescOnCHARRED}");
 					break;
 				default:
-					report.Append($"{burnDamageDescOnNone} \n");
+					report.AppendLine($"{burnDamageDescOnNone}");
 					break;
 			}
 
