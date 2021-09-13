@@ -243,6 +243,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/smash.prefab
       objectReference: {fileID: 0}

@@ -641,6 +641,10 @@ namespace HealthV2
 					{
 						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.PIERCE);
 					}
+					if (damageType.HasFlag(TraumaticDamageTypes.BLUNT))
+					{
+						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.BLUNT);
+					}
 					CheckDismemberBody();
 					return;
 				}
@@ -709,7 +713,7 @@ namespace HealthV2
 		/// <returns></returns>
 		public bool HasTraumaDamage(BodyPartType partType)
 		{
-			foreach (var bodyPart in BodyPartList)
+			foreach (BodyPart bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == partType)
 				{
@@ -719,6 +723,7 @@ namespace HealthV2
 						return true;
 					if (bodyPart.CurrentPierceDamage > 0)
 						return true;
+					return bodyPart.IsFracturedCompound;
 				}
 			}
 			return false;

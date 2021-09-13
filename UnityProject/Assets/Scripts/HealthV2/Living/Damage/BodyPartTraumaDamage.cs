@@ -85,17 +85,35 @@ namespace HealthV2
 
 		/// <summary>
 		/// Does this body part have a cut and how big is it?
-		/// </summary>
 		private BodyPartCutSize currentCutSize = BodyPartCutSize.NONE;
 
 		public bool CanBleedInternally = false;
 
 		public bool CanBleedExternally = false;
 
+		public bool CanBeBroken = false;
+
+		private bool isFracturedCompound = false;
+		private bool isFracturedHairline = false;
+		private bool jointDislocated = false; //TODO : ADD LATER.
+
+		/// <summary>
+		/// Critcal Blunt Trauma damage.
+		/// </summary>
+		public bool IsFracturedCompound => isFracturedCompound;
+
+		/// <summary>
+		/// Severe Blunt Trauma damage.
+		/// </summary>
+		public bool IsFracturedHairline => isFracturedHairline;
+
 		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
 		public float DamageThreshold = 18f;
+
+		[SerializeField] private DamageSeverity BoneFracturesOnDamageSevarity = DamageSeverity.Moderate;
+		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity = DamageSeverity.Bad;
 
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
@@ -126,10 +144,50 @@ namespace HealthV2
 				if (damageType == TraumaticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
 				CheckCutSize();
 			}
-			//Burn damage checks for it's own armor damage type.
+			//Burn and blunt damage checks for it's own armor damage type.
 			if (damageType == TraumaticDamageTypes.BURN)
 			{
 				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
+			}
+
+			if (damageType == TraumaticDamageTypes.BLUNT)
+			{
+				if (DMMath.Prob(SelfArmor.Melee * 100) == false)
+				{
+					TakeBluntDamage(tramuaDamage);
+				}
+			}
+		}
+
+		public void TakeBluntDamage(float damage)
+		{
+			void TakeBluntLogic(BodyPart bodyPart)
+			{
+				bodyPart.health -= damage;
+				bodyPart.CheckIfBroken(true);
+			}
+
+			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
+			{
+				if (slot.IsEmpty) { return; }
+				if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
+				{
+					if (bodyPart.CanBeBroken) { TakeBluntLogic(bodyPart);}
+				}
+			}
+		}
+
+		public void CheckIfBroken(bool announceHurtDamage = false)
+		{
+			if (CanBeBroken == false) { return; }
+			if (Severity == BoneFracturesOnDamageSevarity) { isFracturedHairline = true; }
+			if (Severity >= BoneBreaksOnDamageSevarity) { isFracturedCompound = true; }
+
+			if (isFracturedHairline && IsFracturedCompound != true && announceHurtDamage)
+			{
+				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+					$"You hear a loud crack from your {BodyPartReadableName}.",
+					$"A loud crack can be heard from {HealthMaster.playerScript.visibleName}.");
 			}
 		}
 
