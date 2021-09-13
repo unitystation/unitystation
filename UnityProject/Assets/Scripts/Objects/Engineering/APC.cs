@@ -565,7 +565,7 @@ namespace Objects.Engineering
 			Inventory.ServerSpawnPrefab(powerCell, powerCellSlot, ReplacementStrategy.Cancel);
 
 			SpawnResult frameSpawn = Spawn.ServerPrefab(APCFrameObj, SpawnDestination.At(gameObject));
-			if (!frameSpawn.Successful)
+			if (frameSpawn.Successful == false)
 			{
 				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
 				return;
