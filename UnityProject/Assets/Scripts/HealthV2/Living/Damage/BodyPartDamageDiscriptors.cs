@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 
@@ -28,106 +30,112 @@ namespace HealthV2
 
 		public string GetFullBodyPartDamageDescReport()
 		{
-			string report = $"Analyizing damage report for {BodyPartReadableName}.. \n";
+			StringBuilder report = new StringBuilder();
+			report.Append($"Analyzing damage report for {BodyPartReadableName}.. \n");
 
 			if (CanBeBroken)
 			{
 				CheckIfBroken();
-				report += "[Fracture Level]\n";
+				report.Append("[Fracture Level]\n");
 				if (isFractured_Compound)
 				{
-					return $"{TranslateTags(report + BoneFracturedLvlThreeDesc)}";
+					report.Append(BoneFracturedLvlThreeDesc);
+					return TranslateTags(report.ToString());
 				}
 
 				if (isFractured_Hairline)
 				{
-					return $"{TranslateTags(report + BoneFracturedLvlTwoDesc)}";
+					report.Append(BoneFracturedLvlTwoDesc);
+					return TranslateTags(report.ToString());
 				}
 
 				if (Severity == DamageSeverity.Light)
 				{
-					return $"{TranslateTags(report + "Joint Dislocation detected.")}";
+					report.Append("Joint Dislocation detected.");
+					return report.ToString();
 				}
 
-				return $"{TranslateTags(report + "Healthy.")}";
+				report.Append($"{BodyPartReadableName} suffers no fractures and is healthy.");
+
+				return TranslateTags(report.ToString());
 			}
 
-			report += "[Open Wound Size -> ";
+			report.Append("[Open Wound Size -> ");
 			switch (currentCutSize)
 			{
 				case (BodyPartCutSize.SMALL):
-					report += $"{BodyPartCutSize.SMALL}]\n";
+					report.Append($"{BodyPartCutSize.SMALL}]\n");
 					break;
 				case (BodyPartCutSize.MEDIUM):
-					report += $"{BodyPartCutSize.MEDIUM}]\n";
+					report.Append($"{BodyPartCutSize.MEDIUM}]\n");
 					break;
 				case (BodyPartCutSize.LARGE):
-					report += $"{BodyPartCutSize.LARGE}]\n";
+					report.Append($"{BodyPartCutSize.LARGE}]\n");
 					break;
 				default:
-					report += $"{BodyPartCutSize.NONE}]\n";
+					report.Append("{BodyPartCutSize.NONE}]\n");
 					break;
 			}
 
-			report += $"[Wound Bleeding -> {isBleedingExternally}] \n";
+			report.Append($"[Wound Bleeding -> {isBleedingExternally}] \n");
 
 			if (CanBleedInternally)
 			{
-				report += $"[Organ is internally bleeding -> {isBleedingInternally}] \n";
+				report.Append($"[Organ is internally bleeding -> {isBleedingInternally}] \n");
 			}
 
 			if(currentCutSize != BodyPartCutSize.NONE)
 			{
-				report += "[Wound Report] \n";
+				report.Append("[Wound Report] \n");
 				switch (currentPierceDamageLevel)
 				{
 					case (TraumaDamageLevel.SMALL):
-						report += $"{pireceDamageDescOnSMALL} \n";
+						report.Append($"{pireceDamageDescOnSMALL} \n");
 						break;
 					case (TraumaDamageLevel.SERIOUS):
-						report += $"{pireceDamageDescOnMEDIUM} \n";
+						report.Append($"{pireceDamageDescOnMEDIUM} \n");
 						break;
 					case (TraumaDamageLevel.CRITICAL):
-						report += $"{pireceDamageDescOnLARGE} \n";
+						report.Append($"{pireceDamageDescOnLARGE} \n");
 						break;
 					default:
-						report += $"{pireceDamageDescOnNone}] \n";
+						report.Append($"{pireceDamageDescOnNone}] \n");
 						break;
 				}
 				switch (currentSlashDamageLevel)
 				{
 					case (TraumaDamageLevel.SMALL):
-						report += $"{slashDamageDescOnSMALL} \n";
+						report.Append($"{slashDamageDescOnSMALL} \n");
 						break;
 					case (TraumaDamageLevel.SERIOUS):
-						report += $"{slashDamageDescOnMEDIUM} \n";
+						report.Append($"{slashDamageDescOnMEDIUM} \n");
 						break;
 					case (TraumaDamageLevel.CRITICAL):
-						report += $"{slashDamageDescOnLARGE} \n";
+						report.Append($"{slashDamageDescOnLARGE} \n");
 						break;
 					default:
-						report += $"{slashDamageDescOnNone}] \n";
+						report.Append($"{slashDamageDescOnNone}] \n");
 						break;
 				}
 			}
-			report += "[Burn Damage] \n";
+			report.Append("[Burn Damage] \n");
 			switch (currentBurnDamageLevel)
 			{
 				case (TraumaDamageLevel.SMALL):
-					report += $"{burnDamageDescOnMINOR} \n";
+					report.Append($"{burnDamageDescOnMINOR} \n");
 					break;
 				case (TraumaDamageLevel.SERIOUS):
-					report += $"{burnDamageDescOnMAJOR} \n";
+					report.Append($"{burnDamageDescOnMAJOR} \n");
 					break;
 				case (TraumaDamageLevel.CRITICAL):
-					report += $"{burnDamageDescOnCHARRED} \n";
+					report.Append($"{burnDamageDescOnCHARRED} \n");
 					break;
 				default:
-					report += $"{burnDamageDescOnNone} \n";
+					report.Append($"{burnDamageDescOnNone} \n");
 					break;
 			}
 
-			return $"{TranslateTags(report)}";
+			return TranslateTags(report.ToString());
 		}
 
 		private string TranslateTags(string txt)
