@@ -37,13 +37,13 @@ namespace HealthV2
 			{
 				CheckIfBroken();
 				report.AppendLine("[Fracture Level]");
-				if (isFractured_Compound)
+				if (IsFracturedCompound)
 				{
 					report.AppendLine(BoneFracturedLvlThreeDesc);
 					return TranslateTags(report.ToString());
 				}
 
-				if (isFractured_Hairline)
+				if (IsFracturedHairline)
 				{
 					report.AppendLine(BoneFracturedLvlTwoDesc);
 					return TranslateTags(report.ToString());
