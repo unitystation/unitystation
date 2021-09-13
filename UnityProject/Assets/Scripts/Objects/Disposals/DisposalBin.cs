@@ -84,7 +84,7 @@ namespace Objects.Disposals
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
 		public bool ServerHasContents => virtualContainer != null ? virtualContainer.HasContents : false;
 
-		private float randomDunkPitch => Random.Range( 0.7f, 1.2f );
+		private float RandomDunkPitch => Random.Range( 0.7f, 1.2f );
 
 		[Tooltip("The sound when throwing things in the bin.")] [SerializeField]
 		private List<AddressableAudioSource> trashDunkSounds = null;
@@ -311,7 +311,7 @@ namespace Objects.Disposals
 			if (DMMath.Prob(25))
 			{
 				Chat.AddLocalMsgToChat(obj.ExpensiveName() + " bounces off " + bin.ExpensiveName() + " and doesn't go inside.", bin);
-				AudioSourceParameters dunkMissParameters = new AudioSourceParameters(pitch: randomDunkPitch);
+				AudioSourceParameters dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 				SoundManager.PlayNetworkedAtPos(trashDunkMissSound, gameObject.WorldPosServer(), dunkMissParameters);
 				return;
 			}
@@ -327,7 +327,7 @@ namespace Objects.Disposals
 			}
 
 			virtualContainer.AddItem(obj.GetComponent<ObjectBehaviour>());
-			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: randomDunkPitch);
+			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer(), dunkParameters);
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
