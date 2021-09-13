@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Items;
-using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -163,6 +162,11 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 	public void SetInitialPositionStates()
 	{
+		if (transform.position.z != -100) //mapping mistakes correction
+		{
+			transform.position = new Vector2(transform.position.x, transform.position.y);
+		}
+
 		var pos = transform.position;
 		if (snapToGridOnStart)
 		{

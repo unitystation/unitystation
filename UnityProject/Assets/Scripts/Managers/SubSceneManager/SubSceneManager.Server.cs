@@ -60,15 +60,14 @@ public partial class SubSceneManager
 	IEnumerator AddObserversForClient(NetworkConnection connToAdd, Scene sceneContext)
 	{
 		//Activate the matrices on the client first
-		for (int i = 0; i < MatrixManager.Instance.ActiveMatrices.Count; i++)
+		foreach (var matrixInfo in MatrixManager.Instance.ActiveMatrices.Values)
 		{
-			var matrix = MatrixManager.Instance.ActiveMatrices[i].Matrix;
-			if (matrix.gameObject.scene == sceneContext)
+			if (matrixInfo.Matrix.gameObject.scene == sceneContext)
 			{
-				matrix.GetComponentInParent<NetworkedMatrix>().MatrixSync.netIdentity.AddPlayerObserver(connToAdd);
+				matrixInfo.Matrix.GetComponentInParent<NetworkedMatrix>().MatrixSync.netIdentity.AddPlayerObserver(connToAdd);
 			}
 		}
-		
+
 		yield return WaitFor.EndOfFrame;
 
 		var objCount = 0;

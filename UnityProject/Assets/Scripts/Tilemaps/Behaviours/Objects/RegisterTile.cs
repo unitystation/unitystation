@@ -9,7 +9,6 @@ using Core.Editor.Attributes;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
 using Systems.Pipes;
-using Shuttles;
 using System.Collections;
 
 public enum ObjectType
@@ -181,6 +180,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public override void OnStartClient()
 	{
+		if (isServer)
+			return;
+
 		if (transform.parent == null) //object spawned mid-round
 		{
 			NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, ClientLoading);

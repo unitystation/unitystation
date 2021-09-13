@@ -36,7 +36,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static LayerMask tileDmgMask;
 
-	public List<MatrixInfo> ActiveMatrices { get; private set; } = new List<MatrixInfo>();
+	public Dictionary<int, MatrixInfo> ActiveMatrices { get; private set; } = new Dictionary<int, MatrixInfo>();
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
 	public static bool IsInitialized;
@@ -137,7 +137,7 @@ public partial class MatrixManager : MonoBehaviour
 
 		IsInitialized = true;
 
-		foreach (var matrixInfo in ActiveMatrices)
+		foreach (var matrixInfo in ActiveMatrices.Values)
 		{
 			ServerMatrixInitialization(matrixInfo.Matrix);
 		}
@@ -155,32 +155,24 @@ public partial class MatrixManager : MonoBehaviour
 		GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
 	}
 
-	private static void RegisterMatrix(Matrix matrix)
+	private void RegisterMatrix(Matrix matrix)
 	{
-		foreach (var curInfo in Instance.ActiveMatrices)
-		{
-			if (curInfo.Matrix == matrix) return;
-		}
+		var matrixInfo = CreateMatrixInfoFromMatrix(matrix, matrix.NetworkedMatrix.MatrixSync.matrixID);
 
-		var matrixInfo = CreateMatrixInfoFromMatrix(matrix, Instance.ActiveMatrices.Count);
+		ActiveMatrices.Add(matrixInfo.Id, matrixInfo);
 
-		if (Instance.ActiveMatrices.Contains(matrixInfo) == false)
+		if (matrixInfo.MatrixMove != null)
 		{
-			Instance.ActiveMatrices.Add(matrixInfo);
-		}
-
-		if (Instance.MovableMatrices.Contains(matrixInfo) == false && matrixInfo.MatrixMove != null)
-		{
-			Instance.MovableMatrices.Add(matrixInfo);
+			MovableMatrices.Add(matrixInfo);
 		}
 
 		matrix.Id = matrixInfo.Id;
 
 		if (matrix.IsSpaceMatrix)
 		{
-			if (Instance.spaceMatrix == null)
+			if (spaceMatrix == null)
 			{
-				Instance.spaceMatrix = matrix;
+				spaceMatrix = matrix;
 			}
 			else
 			{
@@ -190,9 +182,9 @@ public partial class MatrixManager : MonoBehaviour
 
 		if (matrix.IsMainStation)
 		{
-			if (Instance.mainStationMatrix == null)
+			if (mainStationMatrix == null)
 			{
-				Instance.mainStationMatrix = matrix;
+				mainStationMatrix = matrix;
 			}
 			else
 			{
@@ -202,9 +194,9 @@ public partial class MatrixManager : MonoBehaviour
 
 		if (matrix.IsLavaLand)
 		{
-			if (Instance.lavaLandMatrix == null)
+			if (lavaLandMatrix == null)
 			{
-				Instance.lavaLandMatrix = matrix;
+				lavaLandMatrix = matrix;
 			}
 			else
 			{
@@ -213,7 +205,7 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		matrix.ConfigureMatrixInfo(matrixInfo);
-		Instance.InitCollisions(matrixInfo);
+		InitCollisions(matrixInfo);
 	}
 
 	private static MatrixInfo CreateMatrixInfoFromMatrix(Matrix matrix, int id)
@@ -237,16 +229,14 @@ public partial class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 		{
-			MatrixInfo mat = Instance.ActiveMatrices[i];
-			if (mat.Matrix == Instance.spaceMatrix) continue;
-			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
+			if (matrixInfo.Matrix == Instance.spaceMatrix) continue;
+			if (matrixInfo.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, matrixInfo), isServer) == false)
 			{
-				return mat;
+				return matrixInfo;
 			}
 		}
-
 		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
 	}
 
@@ -264,10 +254,7 @@ public partial class MatrixManager : MonoBehaviour
 		LayerTypeSelection layerMask, LayerMask? Layermask2D = null, Vector3? WorldTo = null,
 		LayerTile[] tileNamesToIgnore = null)
 	{
-
-
 		Worldorigin.z = 0;
-
 
 		//TODO RRT
 		//get to  from vector
@@ -288,15 +275,13 @@ public partial class MatrixManager : MonoBehaviour
 
 		if (layerMask != LayerTypeSelection.None)
 		{
-			for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+			foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 			{
-				MatrixInfo mat = Instance.ActiveMatrices[i];
-				//if (mat.Matrix == Instance.spaceMatrix) continue;
-				if (LineIntersectsRect(Worldorigin, (Vector2) WorldTo, mat.WorldBounds))
+				if (LineIntersectsRect(Worldorigin, (Vector2) WorldTo, matrixInfo.WorldBounds))
 				{
-					Checkhit = mat.MetaTileMap.Raycast(Worldorigin.ToLocal(mat.Matrix), Vector2.zero, distance,
+					Checkhit = matrixInfo.MetaTileMap.Raycast(Worldorigin.ToLocal(matrixInfo.Matrix), Vector2.zero, distance,
 						layerMask,
-						WorldTo.Value.ToLocal(mat.Matrix), tileNamesToIgnore);
+						WorldTo.Value.ToLocal(matrixInfo.Matrix), tileNamesToIgnore);
 
 
 					if (Checkhit != null)
@@ -443,9 +428,9 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static void ListAllMatrices()
 	{
-		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 		{
-			Logger.Log("MATRIX: " + Instance.ActiveMatrices[i].Name, Category.Matrix);
+			Logger.Log("MATRIX: " + matrixInfo.Name, Category.Matrix);
 		}
 	}
 
@@ -498,7 +483,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
 	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		foreach (MatrixInfo mat in Instance.ActiveMatrices.Values)
 		{
 			if (mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -511,7 +496,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static bool IsConstructable(Vector3Int worldPos)
 	{
-		foreach (var matrixInfo in Instance.ActiveMatrices)
+		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 		{
 			if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
 			{
@@ -525,7 +510,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		foreach (MatrixInfo mat in Instance.ActiveMatrices.Values)
 		{
 			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -550,8 +535,8 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		// Gets the list of Matrixes to actually check
 		MatrixInfo[] includeList = excludeList != null
-			? ExcludeFromAllMatrixes(GetList(excludeList)).ToArray()
-			: Instance.ActiveMatrices.ToArray();
+			? ExcludeFromAllMatrixes(excludeList)
+			: Instance.ActiveMatrices.Values.ToArray();
 
 		return AllMatchInternal(mat =>
 			mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
@@ -715,7 +700,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
 	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		foreach (var mat in Instance.ActiveMatrices.Values)
 		{
 			if (mat == null) continue;
 
@@ -758,7 +743,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// <param name="worldPosition">Position where the update is triggered.</param>
 	public static void TriggerSubsystemUpdateAt(Vector3Int worldPosition)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		foreach (MatrixInfo mat in Instance.ActiveMatrices.Values)
 		{
 			Vector3Int position = WorldToLocalInt(worldPosition, mat);
 
@@ -896,14 +881,11 @@ public partial class MatrixManager : MonoBehaviour
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		var activeMatrices = Instance.ActiveMatrices;
-		for (var i = 0; i < activeMatrices.Count; i++)
+		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 		{
-			var matrixInfo = activeMatrices[i];
 			var position = WorldToLocalInt(worldPos, matrixInfo);
 			t.AddRange(matrixInfo.Matrix.Get<T>(position, isServer));
 		}
-
 		return t;
 	}
 
@@ -987,7 +969,7 @@ public partial class MatrixManager : MonoBehaviour
 	// By default will just check every Matrix
 	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition)
 	{
-		return AllMatchInternal(condition, Instance.ActiveMatrices.ToArray());
+		return AllMatchInternal(condition, Instance.ActiveMatrices.Values.ToArray());
 	}
 
 	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
@@ -1005,7 +987,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition)
 	{
-		return AnyMatchInternal(condition, Instance.ActiveMatrices.ToArray());
+		return AnyMatchInternal(condition, Instance.ActiveMatrices.Values.ToArray());
 	}
 
 	public static bool IsTableAtAnyMatrix(Vector3Int worldTarget, bool isServer)
@@ -1034,16 +1016,14 @@ public partial class MatrixManager : MonoBehaviour
 	/// </Summary>
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		//reverse loop so that station matrix comes last
-		for (var i = ActiveMatrices.Count - 1; i >= 0; i--)
+		foreach (var matrixInfo in ActiveMatrices.Values)
 		{
-			T first = ActiveMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, ActiveMatrices[i]), isServer);
+			T first = matrixInfo.Matrix.GetFirst<T>(WorldToLocalInt(position, matrixInfo), isServer);
 			if (first)
 			{
 				return first;
 			}
 		}
-
 		return null;
 	}
 
@@ -1057,7 +1037,8 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		//Sometimes Get is still being called on the old matrixmanager instance on a
 		//round restart
-		if (id >= Instance.ActiveMatrices.Count) return MatrixInfo.Invalid;
+		if (Instance.ActiveMatrices.ContainsKey(id) == false)
+			return MatrixInfo.Invalid;
 
 		return Instance.ActiveMatrices[id];
 	}
@@ -1082,95 +1063,39 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
-		//reverse loop so that station comes up last
-		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 		{
-			if (condition(Instance.ActiveMatrices[i]))
+			if (condition(matrixInfo))
 			{
-				return Instance.ActiveMatrices[i];
+				return matrixInfo;
 			}
 		}
-
 		return MatrixInfo.Invalid;
 	}
 
-	/// <summary>
-	/// Gets the MatrixInfo for multiple matrix ids
-	/// </summary>
-	/// <param name="idList"></param>
-	/// <returns>List of MatrixInfos</returns>
-	public static MatrixInfo[] GetList(int[] idList)
+	public static MatrixInfo[] ExcludeFromAllMatrixes(int[] excludeIDs)
 	{
-		if (idList == null)
+		var matrixList = new MatrixInfo[Instance.ActiveMatrices.Count - excludeIDs.Length];
+		var index = 0;
+		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 		{
-			return null;
-		}
-
-		MatrixInfo[] matrixInfoList = new MatrixInfo[idList.Length];
-		for (int i = 0; i < idList.Length; i++)
-		{
-			matrixInfoList[i] = Get(idList[i]);
-		}
-
-		return matrixInfoList;
-	}
-
-	/// <summary>
-	/// Gets the MatrixInfo for multiple matrixs
-	/// </summary>
-	/// <param name="matrixList"></param>
-	/// <returns>List of MatrixInfos</returns>
-	public static MatrixInfo[] GetList(Matrix[] matrixList)
-	{
-		if (matrixList == null)
-		{
-			return null;
-		}
-
-		int[] intList = new int[matrixList.Length];
-		for (int i = 0; i < matrixList.Length; i++)
-		{
-			intList[i] = matrixList[i].Id;
-		}
-
-		return GetList(intList);
-	}
-
-	public static MatrixInfo[] ExcludeFromAllMatrixes(MatrixInfo[] excludeList)
-	{
-		MatrixInfo[] matrixList = new MatrixInfo[Instance.ActiveMatrices.Count];
-
-		if (excludeList == null)
-		{
-			Array.Copy(Instance.ActiveMatrices.ToArray(), matrixList, matrixList.Length);
-			return matrixList;
-		}
-
-		int currentIndex = 0;
-		bool toAdd = true;
-		for (int i = 0; i < Instance.ActiveMatrices.Count; i++)
-		{
-			toAdd = true;
-			for (int j = 0; j < excludeList.Length; j++)
+			var addMe = true;
+			foreach (var excludeID in excludeIDs)
 			{
-				if (Instance.ActiveMatrices[i].Id == excludeList[j].Id)
+				if (matrixInfo.Id == excludeID)
 				{
-					toAdd = false;
+					addMe = false;
 					break;
 				}
 			}
 
-			if (toAdd)
+			if (addMe)
 			{
-				matrixList[currentIndex++] = Instance.ActiveMatrices[i];
+				matrixList[index] = matrixInfo;
+				index++;
 			}
 		}
-
-		// Only return the number of matrix's actually included
-		MatrixInfo[] returnList = new MatrixInfo[currentIndex];
-		Array.Copy(matrixList, returnList, currentIndex);
-
-		return returnList;
+		return matrixList;
 	}
 
 	/// <summary>
