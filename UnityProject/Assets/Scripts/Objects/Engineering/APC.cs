@@ -529,6 +529,8 @@ namespace Objects.Engineering
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			
 			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 		}
 
