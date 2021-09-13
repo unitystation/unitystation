@@ -69,10 +69,27 @@
 	/// Sets the client side target frame rate preference
 	/// </summary>
 	public static string TargetFrameRate = "TargetFrameRate";
+
 	/// <summary>
 	/// Sets the normal chat bubble size preference
 	/// </summary>
 	public static string ChatBubbleSize = "ChatBubbleSize";
+	/// <summary>
+	/// Whether chat bubble text appears instantly or if each character pops in
+	/// </summary>
+	public static string ChatBubbleInstant = "ChatBubbleInstant";
+	/// <summary>
+	/// If chat bubble isn't instant, how quick should each character pop in
+	/// </summary>
+	public static string ChatBubblePopInSpeed = "ChatBubblePopInSpeed";
+	/// <summary>
+	/// Additional time the chat bubble should stay open after all characters have popped in
+	/// </summary>
+	public static string ChatBubbleAdditionalTime = "ChatBubbleAdditionalTime";
+	/// <summary>
+	/// Whether the clown text is coloured
+	/// </summary>
+	public static string ChatBubbleClownColour = "ChatBubbleClownColour";
 
 	/// <summary>
 	/// VSync preference.

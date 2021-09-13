@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Initialisation;
+using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,9 +36,33 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 
 	void IInitialise.Initialise()
 	{
-		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize) == false)
 		{
-			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, 2f);
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, DisplaySettings.DEFAULT_CHATBUBBLESIZE);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleInstant) == false)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, DisplaySettings.DEFAULT_CHATBUBBLEINSTANT);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubblePopInSpeed) == false)
+		{
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DisplaySettings.DEFAULT_CHATBUBBLEPOPINSPEED);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleAdditionalTime) == false)
+		{
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, DisplaySettings.DEFAULT_CHATBUBBLEADDITIONALTIME);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleClownColour) == false)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleClownColour, DisplaySettings.DEFAULT_CHATBUBBLECLOWNCOLOUR);
 			PlayerPrefs.Save();
 		}
 

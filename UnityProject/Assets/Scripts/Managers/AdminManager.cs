@@ -1,42 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AdminManager : MonoBehaviour
+namespace Managers
 {
-	public ItemStorage LocalAdminGhostStorage;
-	public GameObject ItemStorageHolderPrefab;
-	private Dictionary<string, ItemStorage> ghostStorageList = new Dictionary<string, ItemStorage>();
-
-	private static AdminManager adminManager;
-	public static AdminManager Instance => adminManager;
-
-	private void Awake()
+	public class AdminManager : SingletonManager<AdminManager>
 	{
-		if (adminManager == null)
-		{
-			adminManager = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
-	}
+		public ItemStorage LocalAdminGhostStorage;
+		public GameObject ItemStorageHolderPrefab;
+		private Dictionary<string, ItemStorage> ghostStorageList = new Dictionary<string, ItemStorage>();
 
-	private ItemStorage CreateItemSlotStorage(ConnectedPlayer player)
-	{
-		var holder = Spawn.ServerPrefab(ItemStorageHolderPrefab, null, gameObject.transform);
-		var itemStorage = holder.GameObject.GetComponent<ItemStorage>();
-		ghostStorageList.Add(player.UserId, itemStorage);
-		return itemStorage;
-	}
-
-	public ItemStorage GetItemSlotStorage(ConnectedPlayer player)
-	{
-		if (ghostStorageList.ContainsKey(player.UserId))
+		private ItemStorage CreateItemSlotStorage(ConnectedPlayer player)
 		{
-			return ghostStorageList[player.UserId];
+			var holder = Spawn.ServerPrefab(ItemStorageHolderPrefab, null, gameObject.transform);
+			var itemStorage = holder.GameObject.GetComponent<ItemStorage>();
+			ghostStorageList.Add(player.UserId, itemStorage);
+			return itemStorage;
 		}
-		return CreateItemSlotStorage(player);
+
+		public ItemStorage GetItemSlotStorage(ConnectedPlayer player)
+		{
+			if (ghostStorageList.ContainsKey(player.UserId))
+			{
+				return ghostStorageList[player.UserId];
+			}
+			return CreateItemSlotStorage(player);
+		}
 	}
 }
