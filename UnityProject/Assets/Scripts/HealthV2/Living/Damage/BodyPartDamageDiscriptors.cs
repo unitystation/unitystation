@@ -25,8 +25,8 @@ namespace HealthV2
 		private string pireceDamageDescOnLARGE= "{readableName} suffers from a Ruptured Cavity.";
 		[SerializeField] private string internalDamageDesc	 = "This {readableName} is suffering from internal damage.";
 		[SerializeField] private string externalBleedingDesc = "This {readableName} is bleeding due to an open wound.";
-		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneFracturedLvlThreeDesc = "This {readableName} is suffering Hairline Fracture.";
-		[SerializeField, NaughtyAttributes.EnableIf("CanBeBroken")] private string BoneFracturedLvlTwoDesc = "This {readableName} is suffering Compound Fracture. It is completely snapped in half.";
+		[SerializeField, NaughtyAttributes.EnableIf(nameof(CanBeBroken))] private string BoneFracturedLvlThreeDesc = "This {readableName} is suffering Hairline Fracture.";
+		[SerializeField, NaughtyAttributes.EnableIf(nameof(CanBeBroken))] private string BoneFracturedLvlTwoDesc = "This {readableName} is suffering Compound Fracture. It is completely snapped in half.";
 
 		public string GetFullBodyPartDamageDescReport()
 		{
