@@ -25,7 +25,8 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable
+
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -75,8 +76,6 @@ namespace Doors
 		public bool IsPerformingAction => isPerformingAction;
 		public bool HasPower => GetPowerState();
 
-		private bool PowerState;
-
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
 		private SpriteRenderer spriteRenderer;
@@ -123,10 +122,11 @@ namespace Doors
 			apc = GetComponent<APCPoweredDevice>();
 			doorAnimator = GetComponent<DoorAnimatorV2>();
 			doorAnimator.AnimationFinished += OnAnimationFinished;
-			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
 		}
 
-		public void DelayedRegister()
+
+
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
@@ -136,19 +136,18 @@ namespace Doors
 		}
 
 
-		public void ReSetPowerStateCalculated()
-		{
-			HackingProcessBase.ReceivedPulse(ReSetPowerStateCalculated);
-		}
 
 		public bool GetPowerState()
 		{
-			return HackingProcessBase.PulsePortConnectedNoLoop(ReSetPowerStateCalculated);
+			return HackingProcessBase.PulsePortConnectedNoLoop(CheckPower);
 		}
 
 		public void CheckPower()
 		{
-			PowerState = APCPoweredDevice.IsOn(apc.State);
+			if (APCPoweredDevice.IsOn(apc.State))
+			{
+				HackingProcessBase.ReceivedPulse(CheckPower);
+			}
 		}
 
 		public override void OnStartClient()

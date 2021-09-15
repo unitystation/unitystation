@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Doors.Modules
 {
-	public class PressureModule : DoorModuleBase
+	public class PressureModule : DoorModuleBase, IServerSpawn
 	{
 		[SerializeField]
 		[Tooltip("If the door shows a pressure warning and is used again within this duration, it will open.")]
@@ -20,13 +20,7 @@ namespace Doors.Modules
 		private int pressureThresholdWarning = 120;
 		private bool warningActive;
 
-		protected override void Awake()
-		{
-			base.Awake();
-			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
-		}
-
-		public void DelayedRegister()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			master.HackingProcessBase.RegisterPort(PlayPressureWarning, master.GetType());
 		}

@@ -109,14 +109,19 @@ namespace Hacking
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
+			PanelInputCurrentPorts.Clear();
 			PanelOutputCurrentPorts.Clear();
 			DictionaryCurrentPorts.Clear();
 			Connections.Clear();
 			Cables.Clear();
-			// OnChangeServerContraflow.RemoveAllListeners();//maybe?
-			// hackingGUI = null;
+
 		}
 
+		/// <summary>
+		/// Get cleared on despawn So need to Reinitialise on spawn
+		/// </summary>
+		/// <param name="action"></param>
+		/// <param name="FromType"></param>
 		public void RegisterPort(Action action, Type FromType)
 		{
 			if (isServer == false) return;

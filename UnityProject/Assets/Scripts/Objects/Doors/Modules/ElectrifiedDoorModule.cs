@@ -7,7 +7,7 @@ using Initialisation;
 
 namespace Doors.Modules
 {
-	public class ElectrifiedDoorModule : DoorModuleBase
+	public class ElectrifiedDoorModule : DoorModuleBase, IServerSpawn
 	{
 		[SerializeField] private int voltageDamage = 9080;
 		[SerializeField] private bool isElectrecuted = false;
@@ -20,13 +20,7 @@ namespace Doors.Modules
 
 		private bool OneTimeElectrecuted = false;
 
-		protected override void Awake()
-		{
-			base.Awake();
-			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
-		}
-
-		public void DelayedRegister()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			master.HackingProcessBase.RegisterPort(ToggleElectrocution, master.GetType());
 			master.HackingProcessBase.RegisterPort(PreventElectrocution, master.GetType());
