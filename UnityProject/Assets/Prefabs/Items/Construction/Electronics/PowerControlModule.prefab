@@ -88,6 +88,23 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Heavy-duty switching circuits for power control.
       objectReference: {fileID: 0}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ab47ba198f9b46444a38e8d3d344d8e4,
+        type: 2}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 98b30f47be226514d8026ed918e8ad79,
+        type: 2}
     - target: {fileID: 7312540738445972505, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
       propertyPath: PresentSpriteSet
