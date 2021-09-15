@@ -135,28 +135,15 @@ namespace Doors
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
 		}
 
-		public bool PowerStateCalculated = false;
-
 
 		public void ReSetPowerStateCalculated()
 		{
-			PowerStateCalculated = false;
+			HackingProcessBase.ReceivedPulse(ReSetPowerStateCalculated);
 		}
 
 		public bool GetPowerState()
 		{
-			if (PowerStateCalculated == false)
-			{
-				PowerState = false;
-				PowerStateCalculated = true;
-				HackingProcessBase.ImpulsePort(CheckPower);
-				LoadManager.RegisterActionDelayed(ReSetPowerStateCalculated, 1);
-				return PowerState;
-			}
-			else
-			{
-				return PowerState;
-			}
+			return HackingProcessBase.PulsePortConnectedNoLoop(ReSetPowerStateCalculated);
 		}
 
 		public void CheckPower()

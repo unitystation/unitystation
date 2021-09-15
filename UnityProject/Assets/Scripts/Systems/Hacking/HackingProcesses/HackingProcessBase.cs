@@ -187,6 +187,45 @@ namespace Hacking
 		}
 
 
+		public List<Action> PulsedThisFrame = new  List<Action>();
+
+		public Dictionary<Action, bool> RecordedState = new Dictionary<Action, bool>();
+		public bool PulsePortConnectedNoLoop(Action action, bool Thisdefault = false)
+		{
+			if (Connections.ContainsKey(action) == false) return Thisdefault;
+			if (PulsedThisFrame.Contains(action)) return RecordedState[action];
+
+			PulsedThisFrame.Add(action);
+			RecordedState[action] = Thisdefault;
+			LoadManager.RegisterActionDelayed(() => PulsedThisFrame.Remove(action), 1);
+
+			foreach (var cable in Connections[action])
+			{
+				cable.Impulse();
+			}
+
+			return RecordedState[action];
+		}
+
+		public bool PulsePortConnected(Action action, bool Thisdefault = false)
+		{
+			if (Connections.ContainsKey(action) == false) return Thisdefault;
+			RecordedState[action] = Thisdefault;
+			foreach (var cable in Connections[action])
+			{
+				cable.Impulse();
+			}
+			return RecordedState[action];
+		}
+
+
+		public void ReceivedPulse(Action action)
+		{
+			if (RecordedState.ContainsKey(action) == false) return;
+			RecordedState[action] = !RecordedState[action];
+		}
+
+
 		/// <summary>
 		/// This handles placing of, cable, signaller and bomb
 		/// </summary>

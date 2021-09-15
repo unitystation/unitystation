@@ -64,35 +64,14 @@ namespace Doors.Modules
 			return CanElectricute(mob);
 		}
 
-		private bool SetPreventElectrocution = false;
-
 		public bool PulsePreventElectrocution()
 		{
-			if (SetPreventElectrocution == false)
-			{
-				OneTimeElectrecuted = true;
-				SetPreventElectrocution = true;
-				master.HackingProcessBase.ImpulsePort(PreventElectrocution);
-				LoadManager.RegisterActionDelayed(ReSetPreventElectrocution, 1);
-				return OneTimeElectrecuted;
-			}
-			else
-			{
-				return OneTimeElectrecuted;
-			}
-		}
-
-		public void ReSetPreventElectrocution()
-		{
-			SetPreventElectrocution = false;
+			return master.HackingProcessBase.PulsePortConnectedNoLoop(PreventElectrocution, true);
 		}
 
 		public void PreventElectrocution()
 		{
-			if (master.HasPower)
-			{
-				OneTimeElectrecuted = false;
-			}
+			master.HackingProcessBase.ReceivedPulse(PreventElectrocution);
 		}
 
 		private ModuleSignal CanElectricute(GameObject mob)
