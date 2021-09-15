@@ -64,9 +64,27 @@ namespace Doors.Modules
 			return CanElectricute(mob);
 		}
 
-		public void PulsePreventElectrocution()
+		private bool SetPreventElectrocution = false;
+
+		public bool PulsePreventElectrocution()
 		{
-			master.HackingProcessBase.ImpulsePort(PreventElectrocution);
+			if (SetPreventElectrocution == false)
+			{
+				OneTimeElectrecuted = true;
+				SetPreventElectrocution = true;
+				master.HackingProcessBase.ImpulsePort(PreventElectrocution);
+				LoadManager.RegisterActionDelayed(ReSetPreventElectrocution, 1);
+				return OneTimeElectrecuted;
+			}
+			else
+			{
+				return OneTimeElectrecuted;
+			}
+		}
+
+		public void ReSetPreventElectrocution()
+		{
+			SetPreventElectrocution = false;
 		}
 
 		public void PreventElectrocution()
@@ -83,9 +101,7 @@ namespace Doors.Modules
 			{
 				if (IsElectrecuted == false)
 				{
-					OneTimeElectrecuted = true;
-					PulsePreventElectrocution();
-					if (OneTimeElectrecuted)
+					if (PulsePreventElectrocution())
 					{
 						OneTimeElectrecuted = false;
 						if (PlayerHasInsulatedGloves(mob) == false)

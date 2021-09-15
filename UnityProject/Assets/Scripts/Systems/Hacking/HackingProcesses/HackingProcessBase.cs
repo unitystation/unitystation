@@ -25,8 +25,7 @@ namespace Hacking
 	[RequireComponent(typeof(ItemStorage))]
 	public class HackingProcessBase : NetworkBehaviour, IServerDespawn
 	{
-		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary =
-			new Dictionary<Type, Dictionary<MethodInfo, Color>>();
+		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary = new Dictionary<Type, Dictionary<MethodInfo, Color>>();
 
 		private static Dictionary<Type, List<Color>> MonoAvailableColours = new Dictionary<Type, List<Color>>();
 
@@ -46,10 +45,6 @@ namespace Hacking
 		public ItemTrait RemoteSignallerTrait;
 
 		private int ID = 1;
-
-		//The hacking GUI that is registered to this component.
-		private GUI_Hacking hackingGUI;
-		public GUI_Hacking HackingGUI => hackingGUI;
 
 		[SerializeField, Required] private ItemStorage itemStorage;
 
@@ -339,6 +334,28 @@ namespace Hacking
 					break;
 			}
 
+		}
+
+		[NaughtyAttributes.Button("TestRecursiveLoop")]
+		public void TestRecursiveLoop()
+		{
+			foreach (var StartActions in Connections.Keys)
+			{
+
+				foreach (var EndActions in Connections.Keys)
+				{
+					if (StartActions == EndActions) continue; //Assume you don't touch the door And it's already set
+					var OnePeace = Spawn.ServerPrefab(OnePeaceCoil.gameObject);
+					AddObjectToItemStorage(OnePeace.GameObject);
+					var newCable = OnePeace.GameObject.GetComponent<CableCoil>();
+					var insertCable = new Cable();
+					insertCable.cableCoil = newCable;
+					insertCable.PanelInput = EndActions;
+					insertCable.PanelOutput = StartActions;
+					Connections[StartActions].Add(insertCable);
+					Cables.Add(insertCable);
+				}
+			}
 		}
 
 		public class Cable
