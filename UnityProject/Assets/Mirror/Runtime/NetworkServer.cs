@@ -1498,9 +1498,14 @@ namespace Mirror
             {
                 if (identity.observers == null || identity.observers.Count == 0)
                 {
-                    // clear all component's dirty bits.
-                    // it would be spawned on new observers anyway.
-                    identity.ClearAllComponentsDirtyBits();
+	                //CUSTOM UNITYSTATION CODE//
+	                //No point in cleaning something that's not dirty is laggy too
+	                if (identity.isDirty)
+	                {
+		                // clear all component's dirty bits.
+		                // it would be spawned on new observers anyway.
+		                identity.ClearAllComponentsDirtyBits();
+	                }
                 }
             }
         }

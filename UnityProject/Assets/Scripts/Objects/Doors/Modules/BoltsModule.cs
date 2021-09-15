@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Doors.Modules
 {
-	public class BoltsModule : DoorModuleBase
+	public class BoltsModule : DoorModuleBase, IServerSpawn
 	{
 		[SerializeField] private ItemTrait IDToggleCard;
 
@@ -40,13 +40,7 @@ namespace Doors.Modules
 		}
 
 
-		protected override void Awake()
-		{
-			base.Awake();
-			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
-		}
-
-		public void DelayedRegister()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			master.HackingProcessBase.RegisterPort(ToggleBolts, master.GetType());
 		}

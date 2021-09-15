@@ -7,7 +7,7 @@ using Initialisation;
 
 namespace Doors.Modules
 {
-	public class ElectrifiedDoorModule : DoorModuleBase
+	public class ElectrifiedDoorModule : DoorModuleBase, IServerSpawn
 	{
 		[SerializeField] private int voltageDamage = 9080;
 		[SerializeField] private bool isElectrecuted = false;
@@ -20,13 +20,7 @@ namespace Doors.Modules
 
 		private bool OneTimeElectrecuted = false;
 
-		protected override void Awake()
-		{
-			base.Awake();
-			LoadManager.RegisterActionDelayed(DelayedRegister, 2);
-		}
-
-		public void DelayedRegister()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			master.HackingProcessBase.RegisterPort(ToggleElectrocution, master.GetType());
 			master.HackingProcessBase.RegisterPort(PreventElectrocution, master.GetType());
@@ -64,17 +58,14 @@ namespace Doors.Modules
 			return CanElectricute(mob);
 		}
 
-		public void PulsePreventElectrocution()
+		public bool PulsePreventElectrocution()
 		{
-			master.HackingProcessBase.ImpulsePort(PreventElectrocution);
+			return master.HackingProcessBase.PulsePortConnectedNoLoop(PreventElectrocution, true);
 		}
 
 		public void PreventElectrocution()
 		{
-			if (master.HasPower)
-			{
-				OneTimeElectrecuted = false;
-			}
+			master.HackingProcessBase.ReceivedPulse(PreventElectrocution);
 		}
 
 		private ModuleSignal CanElectricute(GameObject mob)
@@ -83,9 +74,7 @@ namespace Doors.Modules
 			{
 				if (IsElectrecuted == false)
 				{
-					OneTimeElectrecuted = true;
-					PulsePreventElectrocution();
-					if (OneTimeElectrecuted)
+					if (PulsePreventElectrocution())
 					{
 						OneTimeElectrecuted = false;
 						if (PlayerHasInsulatedGloves(mob) == false)

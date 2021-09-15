@@ -25,8 +25,7 @@ namespace Hacking
 	[RequireComponent(typeof(ItemStorage))]
 	public class HackingProcessBase : NetworkBehaviour, IServerDespawn
 	{
-		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary =
-			new Dictionary<Type, Dictionary<MethodInfo, Color>>();
+		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary = new Dictionary<Type, Dictionary<MethodInfo, Color>>();
 
 		private static Dictionary<Type, List<Color>> MonoAvailableColours = new Dictionary<Type, List<Color>>();
 
@@ -46,10 +45,6 @@ namespace Hacking
 		public ItemTrait RemoteSignallerTrait;
 
 		private int ID = 1;
-
-		//The hacking GUI that is registered to this component.
-		private GUI_Hacking hackingGUI;
-		public GUI_Hacking HackingGUI => hackingGUI;
 
 		[SerializeField, Required] private ItemStorage itemStorage;
 
@@ -114,14 +109,19 @@ namespace Hacking
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
+			PanelInputCurrentPorts.Clear();
 			PanelOutputCurrentPorts.Clear();
 			DictionaryCurrentPorts.Clear();
 			Connections.Clear();
 			Cables.Clear();
-			// OnChangeServerContraflow.RemoveAllListeners();//maybe?
-			// hackingGUI = null;
+
 		}
 
+		/// <summary>
+		/// Get cleared on despawn So need to Reinitialise on spawn
+		/// </summary>
+		/// <param name="action"></param>
+		/// <param name="FromType"></param>
 		public void RegisterPort(Action action, Type FromType)
 		{
 			if (isServer == false) return;
@@ -189,6 +189,45 @@ namespace Hacking
 			{
 				cable.Impulse();
 			}
+		}
+
+
+		public List<Action> PulsedThisFrame = new  List<Action>();
+
+		public Dictionary<Action, bool> RecordedState = new Dictionary<Action, bool>();
+		public bool PulsePortConnectedNoLoop(Action action, bool Thisdefault = false)
+		{
+			if (Connections.ContainsKey(action) == false) return Thisdefault;
+			if (PulsedThisFrame.Contains(action)) return RecordedState[action];
+
+			PulsedThisFrame.Add(action);
+			RecordedState[action] = Thisdefault;
+			LoadManager.RegisterActionDelayed(() => PulsedThisFrame.Remove(action), 1);
+
+			foreach (var cable in Connections[action])
+			{
+				cable.Impulse();
+			}
+
+			return RecordedState[action];
+		}
+
+		public bool PulsePortConnected(Action action, bool Thisdefault = false)
+		{
+			if (Connections.ContainsKey(action) == false) return Thisdefault;
+			RecordedState[action] = Thisdefault;
+			foreach (var cable in Connections[action])
+			{
+				cable.Impulse();
+			}
+			return RecordedState[action];
+		}
+
+
+		public void ReceivedPulse(Action action)
+		{
+			if (RecordedState.ContainsKey(action) == false) return;
+			RecordedState[action] = !RecordedState[action];
 		}
 
 
@@ -339,6 +378,28 @@ namespace Hacking
 					break;
 			}
 
+		}
+
+		[NaughtyAttributes.Button("TestRecursiveLoop")]
+		public void TestRecursiveLoop()
+		{
+			foreach (var StartActions in Connections.Keys)
+			{
+
+				foreach (var EndActions in Connections.Keys)
+				{
+					if (StartActions == EndActions) continue; //Assume you don't touch the door And it's already set
+					var OnePeace = Spawn.ServerPrefab(OnePeaceCoil.gameObject);
+					AddObjectToItemStorage(OnePeace.GameObject);
+					var newCable = OnePeace.GameObject.GetComponent<CableCoil>();
+					var insertCable = new Cable();
+					insertCable.cableCoil = newCable;
+					insertCable.PanelInput = EndActions;
+					insertCable.PanelOutput = StartActions;
+					Connections[StartActions].Add(insertCable);
+					Cables.Add(insertCable);
+				}
+			}
 		}
 
 		public class Cable

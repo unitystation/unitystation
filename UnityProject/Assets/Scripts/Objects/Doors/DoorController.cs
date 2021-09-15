@@ -577,24 +577,6 @@ namespace Doors
 			}
 		}
 
-		private void ServerElectrocute(GameObject obj)
-		{
-			float r = UnityEngine.Random.value;
-			if (r < 0.45) //TODO: Magic number, needs to be fixed.
-			{
-				PlayerScript ply = obj.GetComponent<PlayerScript>();
-				if (ply != null)
-				{
-					hackingProcess.HackingGUI.RemovePlayer(ply.gameObject);
-					TabUpdateMessage.Send(ply.gameObject, hackingProcess.HackingGUI.Provider, NetTabType.HackingPanel, TabAction.Close);
-					var playerLHB = obj.GetComponent<LivingHealthMasterBase>();
-					var electrocution = new Electrocution(9080, registerTile.WorldPositionServer, "wire"); //More magic numbers.
-					if (playerLHB != null) playerLHB.Electrocute(electrocution);
-				}
-			}
-
-		}
-
 		#region Multitool Interaction
 
 		[SerializeField]
