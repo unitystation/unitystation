@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 365286942262964143, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
     - target: {fileID: 2391862290675865850, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
@@ -23,10 +29,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: eb3039e757a51bd42aa5d92b0a3711ef
       objectReference: {fileID: 0}
+    - target: {fileID: 2542561142044044366, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300006, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
+        type: 3}
     - target: {fileID: 2576181618821966758, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Name
-      value: LowMachineConnectorItem
+      value: PowerTerminalLowItem
       objectReference: {fileID: 0}
     - target: {fileID: 2581668318916269778, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
@@ -93,6 +105,30 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 3016429826770117312, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
+        type: 3}
+    - target: {fileID: 4144529259151803750, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300002, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
+        type: 3}
+    - target: {fileID: 4724191004971380045, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
+    - target: {fileID: 5065124234103176114, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
     - target: {fileID: 5422858671993271279, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
@@ -114,6 +150,18 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 776718967
       objectReference: {fileID: 0}
+    - target: {fileID: 5452163707613445308, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300004, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
+        type: 3}
+    - target: {fileID: 5509797517278718378, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
     - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite

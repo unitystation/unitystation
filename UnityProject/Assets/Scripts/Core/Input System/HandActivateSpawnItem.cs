@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using AddressableReferences;
+
 
 namespace Items
 {
@@ -13,8 +14,13 @@ namespace Items
 		[SerializeField, FormerlySerializedAs("DeleteItemOnUse")]
 		private bool deleteItemOnUse = true;
 
+		[SerializeField]
+		private AddressableAudioSource spawnSound = default;
+
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			SoundManager.PlayNetworkedAtPos(spawnSound, interaction.Performer.transform.position, sourceObj: interaction.Performer);
+
 			var obj = Spawn.ServerPrefab(seedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject;
 			var attributes = obj.GetComponent<ItemAttributesV2>();
 			if (attributes != null)
