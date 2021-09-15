@@ -271,7 +271,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 			changed &= CheckFloatingServer();
 		}
 
-		if ((Vector2)predictedState.WorldPosition != (Vector2)transform.position)
+		if ((Vector2)predictedState.Position != (Vector2)transform.localPosition)
 		{
 			Lerp();
 			changed = true;

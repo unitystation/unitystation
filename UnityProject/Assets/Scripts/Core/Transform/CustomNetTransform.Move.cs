@@ -311,13 +311,12 @@ public partial class CustomNetTransform
 	/// Serverside lerping
 	private void ServerLerp()
 	{
-		Vector3 worldPos = serverState.Position;
-		Vector3 targetPos = worldPos.ToLocal(matrix);
+		var targetPos = serverState.Position;
 		//Set position immediately if not moving
 		if (serverState.Speed.Equals(0))
 		{
 			serverLerpState = serverState;
-			ServerOnTileReached(worldPos.RoundToInt());
+			ServerOnTileReached(serverState.WorldPosition.RoundToInt());
 			return;
 		}
 
