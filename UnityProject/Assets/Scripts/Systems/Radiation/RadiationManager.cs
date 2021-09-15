@@ -26,13 +26,13 @@ namespace Systems.Radiation
 		void OnEnable()
 		{
 			Instance = this;
-			EventManager.AddHandler(Event.ScenesLoadedServer, StartSim);
+			EventManager.AddHandler(Event.PostRoundStarted, StartSim);
 			EventManager.AddHandler(Event.RoundEnded, StopSim);
 		}
 
 		void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.ScenesLoadedServer, StartSim);
+			EventManager.RemoveHandler(Event.PostRoundStarted, StartSim);
 			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
 		}
 

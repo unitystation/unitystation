@@ -11,7 +11,7 @@ namespace Objects.Atmospherics
 	/// Main component for canister.
 	/// </summary>
 	[RequireComponent(typeof(Integrity))]
-	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn
 	{
 		public const float MAX_RELEASE_PRESSURE = AtmosConstants.ONE_ATMOSPHERE * 50;
 		private const int BURST_SPRITE = 1;
@@ -97,7 +97,7 @@ namespace Objects.Atmospherics
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 		}
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			// Update gas mix manually, in case Canister component loads before GasContainer.
 			// This ensures pressure indicator and canister tier are set correctly.
@@ -139,7 +139,7 @@ namespace Objects.Atmospherics
 			hasBurst = true;
 		}
 
-		private void OnDisable()
+		public void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}

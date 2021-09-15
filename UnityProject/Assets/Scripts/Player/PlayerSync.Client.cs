@@ -15,10 +15,10 @@ public partial class PlayerSync
 	}
 
 	/// Trusted state, received from server
-	public PlayerState playerState;
+	private PlayerState playerState;
 
 	/// Client predicted state
-	public PlayerState predictedState;
+	private PlayerState predictedState;
 
 	private Queue<PlayerAction> pendingActions;
 	private Vector2 lastDirectionClient;
@@ -409,7 +409,7 @@ public partial class PlayerSync
 	/// Called when PlayerMoveMessage is received
 	public void UpdateClientState(PlayerState newState)
 	{
-		if (!MatrixManager.IsInitialized)
+		if (!registerPlayer.Matrix.Initialized)
 		{
 			newState.NoLerp = true;
 			pendingInitStates.Enqueue(newState);

@@ -73,20 +73,6 @@ namespace Objects.Engineering
 			ReactorPipe = this.GetComponent<ReactorPipe>();
 		}
 
-		private void OnEnable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Add(CycleUpdate, 1);
-		}
-
-		private void OnDisable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			UpdateManager.Add(CycleUpdate, 1);
@@ -240,7 +226,6 @@ namespace Objects.Engineering
 			{
 				Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
 				PresentNeutrons = 0;
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 				OnDespawnServer(null);
 				_ = Despawn.ServerSingle(gameObject);
 			}

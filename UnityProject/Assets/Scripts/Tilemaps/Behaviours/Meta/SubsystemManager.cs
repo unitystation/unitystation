@@ -9,32 +9,14 @@ public class SubsystemManager : MonoBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
 	private bool initialized;
-
-	private void Start()
-	{
-		LoadManager.RegisterAction(Init);
-	}
-
-	void Init()
+	
+	public void Initialize()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
-		StartCoroutine(Initialize());
-	}
-	IEnumerator Initialize()
-	{
-		while (!MatrixManager.IsInitialized)
+		foreach (var system in systems)
 		{
-			yield return WaitFor.EndOfFrame;
+			system.Initialize();
 		}
-
-		yield return null; //So objects/doors can register themselves before atmospherics system scans for rooms
-		yield return null; //TODO: remove coroutines and orderly initialize matrix stuff, MatrixMove, RegisterTile, etc.
-		for (int i = 0; i < systems.Count; i++)
-		{
-			systems[i].Initialize();
-			yield return null;
-		}
-
 		initialized = true;
 	}
 

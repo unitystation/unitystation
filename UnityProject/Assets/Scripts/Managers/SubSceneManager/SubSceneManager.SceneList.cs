@@ -243,24 +243,7 @@ public partial class SubSceneManager
 
 		PokeClientSubScene.SendToAll( pickedMap);
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
-		yield return StartCoroutine(RunOnSpawnServer(pickedMap));
 		SyndicateLoaded = true;
-	}
-
-	private IEnumerator RunOnSpawnServer(string map)
-	{
-		if (GameManager.Instance.CurrentRoundState == RoundState.Started) // the game started long ago!
-		{
-			yield return new WaitForEndOfFrame(); //let the matrix initialize first
-			var loadedScene = SceneManager.GetSceneByName(map);
-
-			var rootObjects = loadedScene.GetRootGameObjects();
-			foreach (var matrix in rootObjects) //different matrix of a scene, ex: syndie outpost and shuttle
-			{
-				var iserverspawnlist = matrix.GetComponentsInChildren<IServerSpawn>();
-				GameManager.Instance.MappedOnSpawnServer(iserverspawnlist);
-			}
-		}
 	}
 
 	public IEnumerator LoadWizard()
@@ -278,7 +261,6 @@ public partial class SubSceneManager
 		});
 
 		PokeClientSubScene.SendToAll(pickedScene);
-		yield return StartCoroutine(RunOnSpawnServer(pickedScene));
 		WizardLoaded = true;
 	}
 

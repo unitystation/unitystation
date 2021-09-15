@@ -392,12 +392,9 @@ public static class Spawn
 		foreach (var spawnedObject in result.GameObjects)
 		{
 			var comps = spawnedObject.GetComponentsInChildren<IServerSpawn>();
-			if (comps != null)
+			foreach (var comp in comps)
 			{
-				foreach (var comp in comps)
-				{
-					comp.OnSpawnServer(result.SpawnInfo);
-				}
+				comp.OnSpawnServer(result.SpawnInfo);
 			}
 		}
 	}
