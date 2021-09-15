@@ -163,7 +163,7 @@ public partial class MatrixManager
 	private MatrixIntersection[] GetIntersections( MatrixInfo matrix )
 	{
 		List<MatrixIntersection> intersections = null;
-		foreach ( var otherMatrix in ActiveMatrices )
+		foreach ( var otherMatrix in ActiveMatrices.Values )
 		{
 			if ( matrix == null || matrix == otherMatrix )
 			{

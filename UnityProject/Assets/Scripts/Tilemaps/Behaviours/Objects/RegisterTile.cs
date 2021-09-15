@@ -9,7 +9,6 @@ using Core.Editor.Attributes;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
 using Systems.Pipes;
-using Shuttles;
 using System.Collections;
 
 public enum ObjectType
@@ -153,6 +152,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[PrefabModeOnly]
 	public SortingGroup CurrentsortingGroup;
 
+	private bool Initialized;
+
 	#region Lifecycle
 
 	protected virtual void Awake()
@@ -170,37 +171,63 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public override void OnStartServer()
 	{
-		LogMatrixDebug("OnStartServer");
-		Matrix = transform.parent.GetComponentInParent<Matrix>();
-		var matrixSync = Matrix.transform.parent.GetComponent<NetworkedMatrix>().MatrixSync;
-		StartCoroutine(ServerWaitForMatrixNetId(matrixSync));
-	}
-
-	//OnStartServer() is called by mirror and we don't know if the netID is set
-	//We can't use OnServerSpawn() since RegisterTile is a critical component that needs to be ready by then
-	private IEnumerator ServerWaitForMatrixNetId(MatrixSync matrixSync)
-	{
-		while (matrixSync.netId == 0 || (matrixSync.MatrixMove && matrixSync.MatrixMove.Initialized == false))
+		var matrix = transform.parent.GetComponentInParent<Matrix>();
+		if (matrix.Initialized)
 		{
-			yield return WaitFor.EndOfFrame;
+			Initialize(matrix);
 		}
-		if (iPushable != null)
-		{
-			iPushable.SetInitialPositionStates();
-		}
-		ServerSetNetworkedMatrixNetID(matrixSync.netId);
 	}
 
 	public override void OnStartClient()
 	{
-		if (isServer == false)
+		if (isServer)
+			return;
+
+		if (transform.parent == null) //object spawned mid-round
 		{
-			LogMatrixDebug("OnStartClient");
-			if (iPushable != null)
+			NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, ClientLoading);
+		}
+		else
+		{
+			var matrix = transform.parent.GetComponentInParent<Matrix>();
+			if (matrix.Initialized)
 			{
-				iPushable.SetInitialPositionStates();
+				Initialize(matrix);
 			}
-			NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration);
+		}
+	}
+
+	public void ClientLoading(NetworkedMatrix networkedMatrix)
+	{
+		var matrix = networkedMatrix.matrix;
+		if (matrix.Initialized)
+		{
+			Initialize(matrix);
+		}
+		else
+		{
+			//will be gathered with a GetComponentsInChildren() and initialized by the matrix
+			transform.SetParent(matrix.transform);
+		}
+	}
+
+	public void Initialize(Matrix matrix)
+	{
+		Matrix = matrix;
+		if (iPushable != null)
+		{
+			iPushable.SetInitialPositionStates();
+		}
+
+		Initialized = true;
+		var networkedMatrix = Matrix.transform.parent.GetComponent<NetworkedMatrix>();
+		if (isServer)
+		{
+			ServerSetNetworkedMatrixNetID(networkedMatrix.MatrixSync.netId);
+		}
+		else
+		{
+			FinishNetworkedMatrixRegistration(networkedMatrix);
 		}
 	}
 
@@ -311,8 +338,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
+		if (Initialized == false)
+			return;
+
 		networkedMatrixNetId = newNetworkedMatrixNetID;
-		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration);
+		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
 
 	private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
@@ -357,7 +387,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			UpdatePositionClient();
 		}
 
-		if (LocalPositionServer != TransformState.HiddenPos)
+		if (isServer)
 		{
 			UpdatePositionServer();
 		}

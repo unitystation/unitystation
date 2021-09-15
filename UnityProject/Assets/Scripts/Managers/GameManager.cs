@@ -191,13 +191,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
-		EventManager.AddHandler(Event.ScenesLoadedServer, OnRoundStart);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
-		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnRoundStart);
 	}
 
 	///<summary>
@@ -402,18 +400,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		StartCoroutine(WaitToCheckPlayers());
 	}
 
-	void OnRoundStart()
-	{
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			// Execute server-side OnSpawn hooks for mapped objects
-			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
-			MappedOnSpawnServer(iServerSpawns);
-		}
-
-		EventManager.Broadcast(Event.PostRoundStarted);
-	}
-
 	public void MappedOnSpawnServer(IEnumerable<IServerSpawn> iServerSpawns)
 	{
 		foreach (var s in iServerSpawns)
@@ -474,6 +460,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Tell all clients that the countdown has finished
 		UpdateCountdownMessage.Send(true, 0);
+		EventManager.Broadcast(Event.PostRoundStarted);
 	}
 
 	/// <summary>

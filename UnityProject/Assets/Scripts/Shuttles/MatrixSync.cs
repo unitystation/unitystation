@@ -26,7 +26,13 @@ namespace Shuttles
 			[HideInInspector]
 			public bool rcsModeActive;
 
+			[SyncVar(hook = nameof(SyncMatrixID))]
+			[HideInInspector]
+			public int matrixID;
+
 		#endregion
+
+		public static int matrixIDcounter;
 
 		private void Awake()
 		{
@@ -64,6 +70,9 @@ namespace Shuttles
 		{
 			base.OnStartServer();
 
+			matrixID = matrixIDcounter;
+			matrixIDcounter++;
+
 			networkedMatrix.OnStartServer();
 
 			if (matrixMove != null)
@@ -90,6 +99,11 @@ namespace Shuttles
 			{
 				rcsModeActive = newState;
 				matrixMove.OnRcsActivated(oldState, newState);
+			}
+
+			public void SyncMatrixID(int oldID, int newID)
+			{
+				matrixID = newID;
 			}
 
 		#endregion

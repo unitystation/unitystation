@@ -239,11 +239,6 @@ namespace Weapons
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{
-			Init();
-		}
-
-		private void Init()
-		{
 			if (MagInternal)
 			{
 				//automatic ejection always disabled

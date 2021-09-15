@@ -32,6 +32,10 @@ namespace Tilemaps.Behaviours.Layers
 		[HideInInspector]
 		public MatrixSync MatrixSync;
 
+		[NonSerialized] public bool Initialized;
+
+		public Matrix matrix;
+
 		/// <summary>
 		/// Gets a unity event that the caller can subscribe to which will be fired once
 		/// the networking for this matrix is initialized.
@@ -100,6 +104,11 @@ namespace Tilemaps.Behaviours.Layers
 			NetInitActions.Remove(MatrixSync.netId);
 		}
 
+		private void Awake()
+		{
+			matrix = GetComponentInChildren<Matrix>();
+		}
+
 		private void Start()
 		{
 			//Matrixes cannot be networked as a message to spawn an object beneath it can happen before the matrix has activated
@@ -115,8 +124,8 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				InitializedMatrices.Add(MatrixSync.netId, this);
 			}
-
 			FireInitEvents();
+			Initialized = true;
 		}
 
 		public void OnStartClient()
@@ -125,14 +134,13 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				InitializedMatrices.Add(MatrixSync.netId, this);
 			}
-
 			//make sure layer orientations are refreshed now that this matrix is initialized
 			foreach (var layer in GetComponentsInChildren<Layer>())
 			{
 				layer.InitFromMatrix();
 			}
-
 			FireInitEvents();
+			Initialized = true;
 		}
 
 		public void BackUpSetMatrixSync()
