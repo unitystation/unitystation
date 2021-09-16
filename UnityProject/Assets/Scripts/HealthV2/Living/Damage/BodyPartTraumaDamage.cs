@@ -446,8 +446,8 @@ namespace HealthV2
 			{
 				armorChanceModifer += 25; //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			}
-			
-			var chance = UnityEngine.Random.RandomRange(0, 100);
+
+			var chance = UnityEngine.Random.Range(0, 100);
 			if(chance < armorChanceModifer)
 			{
 				HealthMaster.DismemberingBodyParts.Add(this);
