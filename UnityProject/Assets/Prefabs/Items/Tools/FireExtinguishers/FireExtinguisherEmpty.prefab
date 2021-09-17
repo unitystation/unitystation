@@ -22,6 +22,16 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7726190153568297307, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726190153568297307, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7800619582892077965, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}
       propertyPath: m_AssetId

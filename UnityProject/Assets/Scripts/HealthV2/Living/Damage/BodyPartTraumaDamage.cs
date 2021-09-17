@@ -24,7 +24,7 @@ namespace HealthV2
 		public float InternalBleedingBloodLoss = 12;
 		public float ExternalBleedingBloodLoss = 6;
 
-		[SerializeField, Range(1.25f, 12.0f)] private float baseTraumaDamageMultiplier = 2.0f;
+		[SerializeField, Range(1.25f, 4.0f)] private float baseTraumaDamageMultiplier = 1.5f;
 
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
@@ -194,27 +194,14 @@ namespace HealthV2
 		private float MultiplyTraumaDamage(float baseDamage)
 		{
 			if (currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL || currentCutSize >= BodyPartCutSize.LARGE
-			|| Severity >= DamageSeverity.Critical)
-			{
-				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
-			}
-			else if (currentBurnDamageLevel >= TraumaDamageLevel.SERIOUS
-			         || currentCutSize >= BodyPartCutSize.MEDIUM || Severity >= DamageSeverity.Bad)
-			{
-				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
-			}
-			else if (currentBurnDamageLevel >= TraumaDamageLevel.SMALL
-			         || currentCutSize >= BodyPartCutSize.SMALL || Severity >= DamageSeverity.LightModerate)
+			|| Severity >= DamageSeverity.Max)
 			{
 				return baseDamage * baseTraumaDamageMultiplier;
 			}
-			else
-			{
-				return baseDamage;
-			}
+			return baseDamage;
 		}
 
-			[ContextMenu("Debug - Apply 25 Slash Damage")]
+		[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
 			ApplyTraumaDamage(25);
