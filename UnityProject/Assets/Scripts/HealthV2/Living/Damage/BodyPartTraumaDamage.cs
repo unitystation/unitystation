@@ -52,7 +52,7 @@ namespace HealthV2
 		public TraumaDamageLevel CurrentBurnDamageLevel   => currentBurnDamageLevel;
 
 		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
-		public float GibChance = 0.15f;
+		public int GibChance = 15;
 
 		/// <summary>
 		/// When does this body part take before it's contents in it's storage spill out?
@@ -427,10 +427,16 @@ namespace HealthV2
 		/// </summary>
 		private void DismemberBodyPartWithChance()
 		{
-			float chance = UnityEngine.Random.RandomRange(0.0f, 1.0f);
-			float armorChanceModifer = GibChance + SelfArmor.DismembermentProtectionChance;
-			if(Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE){armorChanceModifer -= 0.25f;} //Make it more likely that the bodypart can be gibbed in it's worst condition.
-			if(chance >= armorChanceModifer)
+			if (GibChance == 0)
+				return;
+			var armorChanceModifer = GibChance - SelfArmor.DismembermentProtectionChance;
+			if (Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE)
+			{
+				armorChanceModifer += 25; //Make it more likely that the bodypart can be gibbed in it's worst condition.
+			}
+
+			var chance = UnityEngine.Random.Range(0, 100);
+			if(chance < armorChanceModifer)
 			{
 				HealthMaster.DismemberingBodyParts.Add(this);
 			}
