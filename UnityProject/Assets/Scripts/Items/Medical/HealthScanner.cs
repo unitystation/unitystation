@@ -66,8 +66,12 @@ namespace Items.Medical
 				{
 					fullDamage[i] += bodypart.Damages[i];
 				}
-
 				partMessages.AppendLine(GetBodypartMessage(bodypart));
+			}
+
+			if (health.brain)
+			{
+				fullDamage[(int) DamageType.Oxy] = health.brain.RelatedPart.Oxy;
 			}
 
 			if ((int)totalPercent != 100)
@@ -106,16 +110,15 @@ namespace Items.Medical
 			string partName = bodypart.gameObject.ExpensiveName();
 
 			// Not the best way to do this, need a list of races
-			if (partName.StartsWith("human ") || partName.StartsWith("lizard ") || partName.StartsWith("moth ") || partName.StartsWith("cat "))
+			if (partName.StartsWith("human ") || partName.StartsWith("lizard ") || partName.StartsWith("moth ") || partName.StartsWith("catperson "))
 			{
 				partName = partName.Substring(partName.IndexOf(" ") + 1);
 			}
 
-			return $"{textInfo.ToTitleCase(partName), -12}" +
-					$"<color=#{bruteColor}>{Mathf.Round(bodypart.Brute), 4}</color>" +
-					$"<color=#{burnColor}>{Mathf.Round(bodypart.Burn), 4}</color>" +
-					$"<color=#{toxinColor}>{Mathf.Round(bodypart.Toxin), 4}</color>" +
-					$"<color=#{oxylossColor}>{Mathf.Round(bodypart.Oxy), 4}</color>";
+			return $"{textInfo.ToTitleCase(partName),-12}" +
+			       $"<color=#{bruteColor}>{Mathf.Round(bodypart.Brute),4}</color>" +
+			       $"<color=#{burnColor}>{Mathf.Round(bodypart.Burn),4}</color>" +
+			       $"<color=#{toxinColor}>{Mathf.Round(bodypart.Toxin),4}</color>";
 		}
 	}
 }
