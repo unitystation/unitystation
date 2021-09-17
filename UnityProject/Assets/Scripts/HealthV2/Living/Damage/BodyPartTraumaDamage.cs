@@ -24,7 +24,7 @@ namespace HealthV2
 		public float InternalBleedingBloodLoss = 12;
 		public float ExternalBleedingBloodLoss = 6;
 
-		[SerializeField, Range(1.25f, 12.0f)] private float baseTraumaDamageMultiplier = 2.0f;
+		[SerializeField, Range(1.25f, 4.0f)] private float baseTraumaDamageMultiplier = 1.5f;
 
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
@@ -196,7 +196,7 @@ namespace HealthV2
 			if (currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL || currentCutSize >= BodyPartCutSize.LARGE
 			|| Severity >= DamageSeverity.Max)
 			{
-				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
+				return baseDamage * baseTraumaDamageMultiplier;
 			}
 			return baseDamage;
 		}
