@@ -275,11 +275,11 @@ namespace HealthV2
 
 			switch ((int)traumaDamage)
 			{
-				case int n when n.IsBetween(0, 25, true):
+				case int n when n.IsBetween(0, 25):
 					return TraumaDamageLevel.NONE;
-				case int n when n.IsBetween(25, 50, false):
+				case int n when n.IsBetween(25, 50):
 					return TraumaDamageLevel.SMALL;
-				case int n when n.IsBetween(50, 75, false):
+				case int n when n.IsBetween(50, 75):
 					return TraumaDamageLevel.SERIOUS;
 				case int n when n > 75:
 					return TraumaDamageLevel.CRITICAL;
