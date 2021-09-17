@@ -194,27 +194,14 @@ namespace HealthV2
 		private float MultiplyTraumaDamage(float baseDamage)
 		{
 			if (currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL || currentCutSize >= BodyPartCutSize.LARGE
-			|| Severity >= DamageSeverity.Critical)
+			|| Severity >= DamageSeverity.Max)
 			{
 				return baseDamage * (baseTraumaDamageMultiplier + 0.25f);
 			}
-			else if (currentBurnDamageLevel >= TraumaDamageLevel.SERIOUS
-			         || currentCutSize >= BodyPartCutSize.MEDIUM || Severity >= DamageSeverity.Bad)
-			{
-				return baseDamage * (baseTraumaDamageMultiplier + 0.15f);
-			}
-			else if (currentBurnDamageLevel >= TraumaDamageLevel.SMALL
-			         || currentCutSize >= BodyPartCutSize.SMALL || Severity >= DamageSeverity.LightModerate)
-			{
-				return baseDamage * baseTraumaDamageMultiplier;
-			}
-			else
-			{
-				return baseDamage;
-			}
+			return baseDamage;
 		}
 
-			[ContextMenu("Debug - Apply 25 Slash Damage")]
+		[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
 			ApplyTraumaDamage(25);
