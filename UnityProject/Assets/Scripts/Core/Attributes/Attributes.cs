@@ -14,8 +14,8 @@ namespace Core.Editor.Attributes
 	public class SceneModeOnlyAttribute : PropertyAttribute { }
 
 	/// <summary>
-	/// Used for tests to detect whether the field is null on a prefab when it's not allowed to be
+	/// Used for tests to detect whether the field is null on a prefab/scene object when it's not allowed to be
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field)]
-	public class NotNullAttribute : Attribute { }
+	public class CannotBeNullAttribute : Attribute { }
 }

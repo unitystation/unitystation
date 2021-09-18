@@ -29,6 +29,10 @@ namespace Tests.Asset
 				if(gameObject == null) continue;
 
 				CheckNotNull(gameObject, report, "", true);
+
+				RandomUtils.IterateChildren(gameObject,
+					delegate(GameObject go) { CheckNotNull(go, report, "", true); },
+					true);
 			}
 
 			Assert.IsEmpty(report.ToString());
@@ -47,12 +51,16 @@ namespace Tests.Asset
 			{
 				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
 
+				if (scene.Contains("SquareStation") == false) continue;
+
 				var openScene = EditorSceneManager.OpenScene(scene);
 				var gameObjects = openScene.GetRootGameObjects();
 
 				foreach (var gameObject in gameObjects)
 				{
-					CheckNotNull(gameObject, report, openScene.name);
+					RandomUtils.IterateChildren(gameObject,
+						delegate(GameObject go) { CheckNotNull(go, report, openScene.name); },
+						true);
 				}
 			}
 
@@ -65,13 +73,11 @@ namespace Tests.Asset
 
 			foreach (var component in components)
 			{
-				var fields = component.GetType().GetFields();
+				var fields = component.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
 				foreach (var field in fields)
 				{
-					if(Attribute.IsDefined(field, typeof(NotNullAttribute)) == false) continue;
-
-					Debug.LogError($"{component.name} has attribute");
+					if(Attribute.IsDefined(field, typeof(CannotBeNullAttribute)) == false) continue;
 
 					if(field.GetValue(component) != null) continue;
 
