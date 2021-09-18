@@ -13,10 +13,10 @@ namespace Tests.Asset
 	public class NullTests
 	{
 		/// <summary>
-		/// Checks to make sure all objects in the prefabs with fields with NotNull are not null
+		/// Checks to make sure all objects in the prefabs with fields with CannotBeNull are not null
 		/// </summary>
 		[Test]
-		public void CheckNotNullPrefab()
+		public void CheckCannotBeNullPrefab()
 		{
 			var report = new StringBuilder();
 			var prefabGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
@@ -28,10 +28,10 @@ namespace Tests.Asset
 
 				if(gameObject == null) continue;
 
-				CheckNotNull(gameObject, report, "", true);
+				CheckCannotBeNull(gameObject, report, "", true);
 
 				RandomUtils.IterateChildren(gameObject,
-					delegate(GameObject go) { CheckNotNull(go, report, "", true); },
+					delegate(GameObject go) { CheckCannotBeNull(go, report, "", true); },
 					true);
 			}
 
@@ -39,10 +39,10 @@ namespace Tests.Asset
 		}
 
 		/// <summary>
-		/// Checks to make sure all objects in the scenes with fields with NotNull are not null
+		/// Checks to make sure all objects in the scenes with fields with CannotBeNull are not null
 		/// </summary>
 		[Test]
-		public void CheckNotNullScene()
+		public void CheckCannotBeNullScene()
 		{
 			var report = new StringBuilder();
 			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene", new string[] {"Assets/Scenes"});
@@ -57,7 +57,7 @@ namespace Tests.Asset
 				foreach (var gameObject in gameObjects)
 				{
 					RandomUtils.IterateChildren(gameObject,
-						delegate(GameObject go) { CheckNotNull(go, report, openScene.name); },
+						delegate(GameObject go) { CheckCannotBeNull(go, report, openScene.name); },
 						true);
 				}
 			}
@@ -65,7 +65,7 @@ namespace Tests.Asset
 			Assert.IsEmpty(report.ToString());
 		}
 
-		private void CheckNotNull(GameObject toCheck, StringBuilder report, string scene, bool isPrefab = false)
+		private void CheckCannotBeNull(GameObject toCheck, StringBuilder report, string scene, bool isPrefab = false)
 		{
 			var components = toCheck.GetComponents<MonoBehaviour>();
 

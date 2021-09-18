@@ -95,13 +95,7 @@ public static class RandomUtils
 	{
 		DoIterate(gameObject, childHandler, recursive);
 	}
-
-	/// <summary>
-	/// NOTE: Recursive!!!
-	/// </summary>
-	/// <param name="gameObject">Game object to iterate</param>
-	/// <param name="childHandler">A handler function on node</param>
-	/// <param name="recursive">Do it on children?</param>
+	
 	private static void DoIterate(GameObject gameObject, ChildHandler childHandler, bool recursive)
 	{
 		foreach (Transform child in gameObject.transform)
