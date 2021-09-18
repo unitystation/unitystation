@@ -51,8 +51,6 @@ namespace Tests.Asset
 			{
 				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
 
-				if (scene.Contains("SquareStation") == false) continue;
-
 				var openScene = EditorSceneManager.OpenScene(scene);
 				var gameObjects = openScene.GetRootGameObjects();
 

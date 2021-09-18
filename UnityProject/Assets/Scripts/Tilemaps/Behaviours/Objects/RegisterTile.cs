@@ -134,7 +134,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 
-	public CustomNetTransform customNetTransform;
+	private CustomNetTransform customNetTransform;
+	public CustomNetTransform CustomNetTransform => customNetTransform;
 
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
