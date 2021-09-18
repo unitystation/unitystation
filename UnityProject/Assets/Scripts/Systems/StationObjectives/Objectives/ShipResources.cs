@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Text;
 using Systems.Cargo;
+using Managers;
 
 namespace StationObjectives
 {
@@ -31,6 +32,22 @@ namespace StationObjectives
 
 			var report = new StringBuilder();
 			report.AppendFormat(description, itemTrait.name, MatrixManager.MainStationMatrix.GameObject.scene.name, requiredAmount);
+			report.AppendLine("\n\nAsteroid coordinates are as follows:");
+			var index = 0;
+			foreach (var location in CentComm.asteroidLocations)
+			{
+				index++;
+				if (index != 1)
+				{
+					report.Append(" - ");
+				}
+				report.AppendFormat("<size=24>{0}</size>", Vector2Int.RoundToInt(location));
+				if (index == 4)
+				{
+					report.Append("\n");
+					index = 0;
+				}
+			}
 			description = report.ToString();
 		}
 
