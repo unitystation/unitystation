@@ -114,10 +114,20 @@ public partial class MatrixManager : MonoBehaviour
 			registerTile.Initialize(matrix);
 		}
 
-		//mid-round scene
-		if (IsInitialized && CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.IsServer)
 		{
-			ServerMatrixInitialization(matrix);
+			if (IsInitialized)
+			{
+				//mid-round scene only
+				ServerMatrixInitialization(matrix);
+			}
+		}
+		else
+		{
+			if (SubSceneManager.Instance.loadedScenesList.Count == ActiveMatrices.Count)
+			{
+				IsInitialized = true;
+			}
 		}
 	}
 
