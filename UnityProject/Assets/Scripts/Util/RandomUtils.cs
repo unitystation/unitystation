@@ -95,7 +95,7 @@ public static class RandomUtils
 	{
 		DoIterate(gameObject, childHandler, recursive);
 	}
-	
+
 	private static void DoIterate(GameObject gameObject, ChildHandler childHandler, bool recursive)
 	{
 		foreach (Transform child in gameObject.transform)

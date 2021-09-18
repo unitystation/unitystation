@@ -80,7 +80,7 @@ namespace Tests.Asset
 					if(field.GetValue(component) != null) continue;
 
 					report.AppendLine(
-						$"{toCheck.ExpensiveName()} {(isPrefab ? "prefab" : $"scene: {scene}")} has a null value on component: {component.name} field: {field.Name}");
+						$"{toCheck.ExpensiveName()} {(isPrefab ? "prefab" : $"scene: {scene}")} has a null value on component: {component.GetType().Name} field: {field.Name}");
 				}
 			}
 		}
