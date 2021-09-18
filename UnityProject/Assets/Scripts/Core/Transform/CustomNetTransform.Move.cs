@@ -189,7 +189,7 @@ public partial class CustomNetTransform
 		Logger.LogTraceFormat(STOPPED_FLOATING, Category.Movement, gameObject.name);
         if (IsTileSnap)
         {
-        	serverState.Position = Vector3Int.RoundToInt(serverState.Position);
+        	serverState.LocalPosition = Vector3Int.RoundToInt(serverState.LocalPosition);
         }
         else
         {
@@ -311,7 +311,7 @@ public partial class CustomNetTransform
 	/// Serverside lerping
 	private void ServerLerp()
 	{
-		var targetPos = serverState.Position;
+		var targetPos = serverState.LocalPosition;
 		//Set position immediately if not moving
 		if (serverState.Speed.Equals(0))
 		{
@@ -320,10 +320,10 @@ public partial class CustomNetTransform
 			return;
 		}
 
-		var deltaMaxDistance = serverState.Speed * Time.deltaTime * serverLerpState.Position.SpeedTo(targetPos);
-		serverLerpState.Position = Vector3.MoveTowards(serverLerpState.Position, targetPos, deltaMaxDistance);
+		var deltaMaxDistance = serverState.Speed * Time.deltaTime * serverLerpState.LocalPosition.SpeedTo(targetPos);
+		serverLerpState.LocalPosition = Vector3.MoveTowards(serverLerpState.LocalPosition, targetPos, deltaMaxDistance);
 
-		if (serverLerpState.Position == targetPos)
+		if (serverLerpState.LocalPosition == targetPos)
 		{
 			ServerOnTileReached(serverState.WorldPosition.RoundToInt());
 		}
