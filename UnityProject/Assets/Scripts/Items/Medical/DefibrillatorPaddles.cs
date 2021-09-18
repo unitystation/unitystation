@@ -17,7 +17,8 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 	{
 		if (DefaultWillInteract.Default(interaction,side) == false)
 			return false;
-		if (interaction.TargetObject.GetComponent<LivingHealthMasterBase>() == null)
+		var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		if (livingHealthMaster == null)
 			return false;
 		var equipment = interaction.Performer.GetComponent<Equipment>();
 		var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).GameObjectReference;
@@ -29,6 +30,25 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 				return false;
 			}
 		}
+		if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false && side == NetworkSide.Server)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private bool CanDefibrillate(LivingHealthMasterBase livingHealthMaster, GameObject performer)
+	{
+		if (livingHealthMaster.brain == null || livingHealthMaster.brain.RelatedPart.Health < -100)
+		{
+			Chat.AddExamineMsgFromServer(performer, "It appears they're missing their brain or Their brain is too damaged");
+			return false;
+		}
+		if (livingHealthMaster.IsDead == false)
+		{
+			Chat.AddExamineMsgFromServer(performer, "The target is alive!");
+			return false;
+		}
 		return true;
 	}
 
@@ -36,13 +56,12 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 	{
 		void Perform()
 		{
-			var LHMB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-			if (LHMB.brain == null || LHMB.brain?.RelatedPart?.Health < -100)
+			var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "It appears they're missing their brain or Their brain is too damaged");
+				return;
 			}
-
-			foreach (var BodyPart in LHMB.BodyPartList)
+			foreach (var BodyPart in livingHealthMaster.BodyPartList)
 			{
 				foreach (var organ in BodyPart.OrganList)
 				{
@@ -54,8 +73,15 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 					}
 				}
 			}
-
-			LHMB.CalculateOverallHealth();
+			livingHealthMaster.CalculateOverallHealth();
+			if (livingHealthMaster.IsDead == false)
+			{
+				var ghost = livingHealthMaster.playerScript.mind?.ghost;
+				if (ghost)
+				{
+					ghost.playerNetworkActions.GhostEnterBody();
+				}
+			}
 		}
 		var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true), Perform);
 		bar.ServerStartProgress(interaction.Performer.RegisterTile(), Time, interaction.Performer);
