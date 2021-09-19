@@ -742,25 +742,35 @@ namespace Objects.Other
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Turret;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => connectedSwitch; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => connectedSwitch;
 		bool IMultitoolSlaveable.RequireLink => false; // TODO: set to false to ignore false positive; currently links are serialized on the switch
-
-		private void SetMaster(IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
 			if (unlocked == false)
 			{
-				//TODO how do you tell player you need to unlock??
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You try to link the controller but the turret interface is locked!");
+				return false;
+			}
+
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			// Already connected so disconnect
+			if (connectedSwitch != null)
+			{
+				connectedSwitch.RemoveTurretFromSwitch(this);
+				connectedSwitch = null;
 			}
 
 			if (master is TurretSwitch turretSwitch)
 			{
-				//Already connected so disconnect
-				if (connectedSwitch != null)
-				{
-					connectedSwitch.RemoveTurretFromSwitch(this);
-				}
-
 				connectedSwitch = turretSwitch;
 				turretSwitch.AddTurretToSwitch(this);
 			}

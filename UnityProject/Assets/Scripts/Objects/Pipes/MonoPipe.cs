@@ -16,7 +16,6 @@ namespace Objects.Atmospherics
 		public GameObject SpawnOnDeconstruct;
 		[PrefabModeOnly]
 		public RegisterTile registerTile;
-		[PrefabModeOnly]
 		public PipeData pipeData;
 		public Matrix Matrix => registerTile.Matrix;
 		public Vector3Int MatrixPos => registerTile.LocalPosition;

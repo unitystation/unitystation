@@ -288,7 +288,7 @@ namespace Core.Editor.Tools.Mapping
 			SortMastersToPosition(slave.gameObject.transform.position);
 
 			float distance = Vector3.Distance(slave.gameObject.transform.position, Masters[0].gameObject.transform.position);
-			slave.Master = distance > Masters[0].MaxDistance ? null : Masters[0];
+			slave.SetMasterEditor(distance > Masters[0].MaxDistance ? null : Masters[0]);
 
 			return distance;
 		}
@@ -314,7 +314,7 @@ namespace Core.Editor.Tools.Mapping
 
 			if (distance <= master.MaxDistance)
 			{
-				slave.Master = master;
+				slave.SetMasterEditor(master);
 			}
 
 			return distance;
