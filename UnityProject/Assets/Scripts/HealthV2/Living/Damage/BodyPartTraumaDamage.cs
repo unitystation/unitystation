@@ -95,7 +95,9 @@ namespace HealthV2
 
 		private bool isFracturedCompound = false;
 		private bool isFracturedHairline = false;
-		private bool jointDislocated = false; //TODO : ADD LATER.
+		private bool jointDislocated = false;
+
+		[SerializeField, Range(0, 100)] private int jointDislocationChance = 25;
 
 		/// <summary>
 		/// Critcal Blunt Trauma damage.
@@ -108,12 +110,18 @@ namespace HealthV2
 		public bool IsFracturedHairline => isFracturedHairline;
 
 		/// <summary>
+		/// Light blunt trauma damage.
+		/// </summary>
+		public bool JointDislocated => jointDislocated;
+
+		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
 		public float DamageThreshold = 18f;
 
-		[SerializeField] private DamageSeverity BoneFracturesOnDamageSevarity = DamageSeverity.Moderate;
-		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity = DamageSeverity.Bad;
+		[SerializeField] private DamageSeverity BoneDislocateOnDamageSevarity = DamageSeverity.LightModerate;
+		[SerializeField] private DamageSeverity BoneFracturesOnDamageSevarity = DamageSeverity.Bad;
+		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity    = DamageSeverity.Max;
 
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
@@ -180,6 +188,15 @@ namespace HealthV2
 		public void CheckIfBroken(bool announceHurtDamage = false)
 		{
 			if (CanBeBroken == false) { return; }
+
+			if (Severity >= BoneDislocateOnDamageSevarity)
+			{
+				//If we have a chance to do dislocation logic
+				//Apply then do not go through the rest of the CheckIfBrokenLogic()
+				bool chance = DMMath.Prob(jointDislocationChance);
+				if(chance && jointDislocated){PopJointBackIn(); return; }
+				if(chance && jointDislocated == false){DislocateJoint(); return; }
+			}
 			if (Severity == BoneFracturesOnDamageSevarity) { isFracturedHairline = true; }
 			if (Severity >= BoneBreaksOnDamageSevarity) { isFracturedCompound = true; }
 
@@ -189,6 +206,20 @@ namespace HealthV2
 					$"You hear a loud crack from your {BodyPartReadableName}.",
 					$"A loud crack can be heard from {HealthMaster.playerScript.visibleName}.");
 			}
+		}
+
+		public void DislocateJoint()
+		{
+			if (CanBeBroken == false || jointDislocated == true) { return; }
+			jointDislocated = true;
+			AnnounceJointDislocationEvent();
+		}
+
+		public void PopJointBackIn()
+		{
+			if(CanBeBroken == false || jointDislocated == false){return;}
+			jointDislocated = false;
+			AnnounceJointHealEvent();
 		}
 
 		private float MultiplyTraumaDamage(float baseDamage)
