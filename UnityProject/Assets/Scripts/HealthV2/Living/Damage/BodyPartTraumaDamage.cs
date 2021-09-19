@@ -173,6 +173,11 @@ namespace HealthV2
 			{
 				bodyPart.health -= damage;
 				bodyPart.CheckIfBroken(true);
+				if (damage > 50)
+				{
+					//Force very strong blunt force damage that could cause immediate Joint Dislocation.
+					bodyPart.DislocateJoint();
+				}
 			}
 
 			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
