@@ -171,24 +171,40 @@ namespace Systems.Electricity
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.APC;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => RelatedAPC; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => RelatedAPC;
 		bool IMultitoolSlaveable.RequireLink => isSelfPowered == false;
 
-		private void SetMaster(IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
 			if (blockApcChange)
 			{
-				//TODO how to tell player it is blocked?
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+						$"You try to set the {gameObject.ExpensiveName()}'s APC connection but it seems to be locked!");
+				return false;
 			}
 
-			var inApc = (master as Component)?.gameObject.GetComponent<APC>();
+			SetMaster(master);
+			return true;
+		}
+
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
 			if (RelatedAPC != null)
 			{
 				RemoveFromAPC();
+				RelatedAPC = null;
 			}
-			RelatedAPC = inApc;
-			RelatedAPC.OrNull()?.AddDevice(this);
+
+			if (master is APC apc)
+			{
+				RelatedAPC = apc;
+				RelatedAPC.AddDevice(this);
+			}
 		}
 
 		#endregion

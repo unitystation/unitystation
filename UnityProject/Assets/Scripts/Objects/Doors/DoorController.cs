@@ -587,10 +587,19 @@ namespace Doors
 		private bool requireLink = false;
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => doorMaster;
 		bool IMultitoolSlaveable.RequireLink => false;
 		// TODO: should be requireLink but hardcoded to false for now,
 		// doors don't know about links, only the switches
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
 		private IMultitoolMasterable doorMaster;
 
@@ -598,14 +607,11 @@ namespace Doors
 		{
 			doorMaster = master;
 
-			var doorSwitch = master as DoorSwitch;
-			if (doorSwitch)
+			if (master is DoorSwitch doorSwitch)
 			{
 				doorSwitch.AddDoorControllerFromScene(this);
-				return;
 			}
-			var statusDisplay = master as StatusDisplay;
-			if (statusDisplay)
+			else if (master is StatusDisplay statusDisplay)
 			{
 				statusDisplay.LinkDoor(this);
 			}

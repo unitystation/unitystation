@@ -124,7 +124,7 @@ namespace CustomInspectors
 						$"(distance of <b>{distance, 0:N}</b> tiles).", EditorUIUtils.LabelStyle);
 				if (GUILayout.Button("Clear", GUILayout.Width(EditorGUIUtility.currentViewWidth / 4)))
 				{
-					thisDevice.Master = null;
+					thisDevice.SetMasterEditor(null);
 					Save();
 				}
 				GUILayout.EndHorizontal();

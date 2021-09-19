@@ -60,11 +60,13 @@ namespace Items.Engineering
 					switch (multitoolBase)
 					{
 						case IMultitoolSlaveable slave:
-							slave.Master = Buffer;
-							Chat.AddExamineMsgFromServer(
+							if (slave.TrySetMaster(interaction, Buffer))
+							{
+								Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
 								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
+							}							
 							return;
 						case IMultitoolMultiMasterSlaveable slaveMultiMaster:
 							slaveMultiMaster.SetMasters(buffers);

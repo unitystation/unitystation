@@ -114,15 +114,27 @@ namespace Objects.Lighting
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.LightSwitch;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => relatedLightSwitch; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => relatedLightSwitch;
 		bool IMultitoolSlaveable.RequireLink => false;
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
 		private void SetMaster(IMultitoolMasterable master)
 		{
-			var lightSwitch = (master as Component)?.gameObject.GetComponent<LightSwitchV2>();
-			if (lightSwitch != relatedLightSwitch)
+			if (master is LightSwitchV2 lightSwitch && lightSwitch != relatedLightSwitch)
 			{
 				SubscribeToSwitchEvent(lightSwitch);
+			}
+			else if (relatedLightSwitch != null)
+			{
+				UnSubscribeFromSwitchEvent();
 			}
 		}
 

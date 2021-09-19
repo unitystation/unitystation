@@ -108,16 +108,21 @@ namespace Objects.Engineering
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		// Slave connection
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => Boiler; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => Boiler;
 		bool IMultitoolSlaveable.RequireLink => true;
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
 		private void SetMaster(IMultitoolMasterable master)
 		{
-			var boiler = (master as Component)?.gameObject.GetComponent<ReactorBoiler>();
-			if (boiler != null)
-			{
-				Boiler = boiler;
-			}
+			Boiler = master is ReactorBoiler boiler ? boiler : null;
 		}
 
 		#endregion
