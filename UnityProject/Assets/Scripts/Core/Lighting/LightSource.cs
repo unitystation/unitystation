@@ -395,7 +395,6 @@ namespace Objects.Lighting
 		{
 			UnSubscribeFromSwitchEvent();
 			relatedLightSwitch = lightSwitch;
-			// TODO: could be null????
 			lightSwitch.SwitchTriggerEvent += Trigger;
 		}
 
