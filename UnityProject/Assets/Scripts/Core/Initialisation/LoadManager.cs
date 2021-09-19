@@ -148,6 +148,7 @@ namespace Initialisation
 			{
 				DelayedActions.Remove(delayedAction);
 			}
+			ToClear.Clear();
 
 			SpawnSafeThread.Process();
 		}
