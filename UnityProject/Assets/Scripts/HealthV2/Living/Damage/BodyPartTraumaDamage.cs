@@ -542,6 +542,7 @@ namespace HealthV2
 					Disembowel();
 				}
 			}
+			if(lastDamage > 50){DislocateJoint();}
 			if(Severity >= GibsOnSeverityLevel && lastDamage >= DamageThreshold)
 			{
 				DismemberBodyPartWithChance();
