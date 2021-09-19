@@ -230,16 +230,16 @@ public partial class Chat : MonoBehaviour
 	private static Loudness CheckVoiceLevel(PlayerScript script, ChatChannel channels)
 	{
 		//Check if is not a ghost/spectator and the player has an inventory.
-		if (script.mind.body.IsDeadOrGhost || script.DynamicItemStorage == null)
+		if (script.IsDeadOrGhost || script.DynamicItemStorage == null)
 		{
 			return Loudness.NORMAL;
 		}
-		
+
 		foreach (ItemSlot slot in script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.ear))
 		{
 			Headset headset = slot.Item?.gameObject.GetComponent<Headset>();
 			if (headset == null) continue;
-			
+
 			//TODO this sets the voice level by the first headset found, if multiple should we choose loudest instead?
 			if (headset.LoudSpeakOn && IsOnCorrectChannels(channels))
 			{
@@ -260,7 +260,7 @@ public partial class Chat : MonoBehaviour
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
