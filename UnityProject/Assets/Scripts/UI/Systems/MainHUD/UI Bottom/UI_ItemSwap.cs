@@ -88,24 +88,25 @@ namespace UI
 			if (UIManager.UiDragAndDrop.FromSlotCache != null && UIManager.UiDragAndDrop.DraggedItem != null)
 			{
 				var fromSlot = UIManager.UiDragAndDrop.DraggedItem.GetComponent<Pickupable>().ItemSlot;
+				var targetItem = itemSlot.ItemSlot.ItemObject;
+
+				if (fromSlot.ItemObject == null || fromSlot.ItemObject == targetItem)
+					return;
 
 				// if there's an item in the target slot, try inventory apply interaction
-				var targetItem = itemSlot.ItemSlot.ItemObject;
+
 				if (targetItem != null)
 				{
 					var invApply = InventoryApply.ByLocalPlayer(itemSlot.ItemSlot, fromSlot);
+					
 					// check interactables in the fromSlot (if it's occupied)
-					if (fromSlot.ItemObject != null)
+					var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
+						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
 					{
-						var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
-							.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-						if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
-						{
-							UIManager.UiDragAndDrop.DropInteracted = true;
-							UIManager.UiDragAndDrop.StopDrag();
-							return;
-						}
-
+						UIManager.UiDragAndDrop.DropInteracted = true;
+						UIManager.UiDragAndDrop.StopDrag();
+						return;
 					}
 
 					// check interactables in the target
