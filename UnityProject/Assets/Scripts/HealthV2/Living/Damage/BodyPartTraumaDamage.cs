@@ -190,7 +190,7 @@ namespace HealthV2
 			}
 		}
 
-		public void CheckIfBroken(bool announceHurtDamage = false)
+		private void CheckIfBroken(bool announceHurtDamage = false)
 		{
 			if (CanBeBroken == false) { return; }
 
