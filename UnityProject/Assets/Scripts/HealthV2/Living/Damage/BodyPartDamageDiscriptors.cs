@@ -114,6 +114,43 @@ namespace HealthV2
 			return TranslateTags(report.ToString());
 		}
 
+		protected void AnnounceJointDislocationEvent()
+		{
+			PlayerScript script = HealthMaster.playerScript;
+			if (IsSurface)
+			{
+				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+					$"Your {BodyPartReadableName} dislocates from it's place!",
+					$"{script.visibleName}'s {BodyPartReadableName} becomes visibly out of place!");
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+					$"You wince and hold on to your {BodyPartReadableName} as it dislocates from your " +
+					$"{ContainedIn.gameObject.ExpensiveName()}.",
+					$"{script.visibleName} holds onto " +
+					$"{script.characterSettings.TheirPronoun(script)} {ContainedIn.gameObject.ExpensiveName()} in pain.");
+			}
+		}
+
+		protected void AnnounceJointHealEvent()
+		{
+			PlayerScript script = HealthMaster.playerScript;
+			if (IsSurface)
+			{
+				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+					$"Your {BodyPartReadableName} pops back into place!",
+					$"{script.visibleName}'s {BodyPartReadableName} returns to it's original state!");
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+					$"You scream out loud as your {BodyPartReadableName} pops back into place.",
+					$"{script.visibleName} screams out in pain as " +
+					$"a loud crack can be heard from their {ContainedIn.gameObject.ExpensiveName()}.");
+			}
+		}
+
 		private string TranslateTags(string txt)
 		{
 			return txt.Replace("{readableName}", BodyPartReadableName);
