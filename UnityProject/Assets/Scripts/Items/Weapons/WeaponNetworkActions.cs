@@ -145,7 +145,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
 					if(DMMath.Prob(traumaDamageChance))
 					{
-						victimHealth.ApplyTraumaDamage(damageZone, damage * traumaDamageMultiplier, tramuticDamageType);
+						victimHealth.ApplyTraumaDamage(damageZone, tramuticDamageType);
 					}
 					didHit = true;
 				}

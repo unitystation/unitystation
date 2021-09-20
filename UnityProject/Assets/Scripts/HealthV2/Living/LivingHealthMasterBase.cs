@@ -623,7 +623,7 @@ namespace HealthV2
 		/// <param name="damage">The Trauma damage value</param>
 		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
 		[Server]
-		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, TraumaticDamageTypes damageType)
+		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, TraumaticDamageTypes damageType)
 		{
 			foreach (var bodyPart in BodyPartList)
 			{
@@ -631,21 +631,20 @@ namespace HealthV2
 				{
 					if (damageType.HasFlag(TraumaticDamageTypes.BURN))
 					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN);
+						bodyPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
 					}
 					if (damageType.HasFlag(TraumaticDamageTypes.SLASH))
 					{
-						bodyPart.ApplyTraumaDamage(damage);
+						bodyPart.ApplyTraumaDamage();
 					}
 					if (damageType.HasFlag(TraumaticDamageTypes.PIERCE))
 					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.PIERCE);
+						bodyPart.ApplyTraumaDamage(TraumaticDamageTypes.PIERCE);
 					}
 					if (damageType.HasFlag(TraumaticDamageTypes.BLUNT))
 					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.BLUNT);
+						bodyPart.ApplyTraumaDamage(TraumaticDamageTypes.BLUNT);
 					}
-					CheckDismemberBody();
 					return;
 				}
 			}
@@ -717,25 +716,25 @@ namespace HealthV2
 			{
 				if (bodyPart.BodyPartType == partType)
 				{
-					if (bodyPart.CurrentBurnDamage > 0)
+					if (bodyPart.CurrentSlashDamageLevel  > TraumaDamageLevel.NONE)
 						return true;
-					if (bodyPart.CurrentSlashCutDamage > 0)
+					if (bodyPart.CurrentPierceDamageLevel > TraumaDamageLevel.NONE)
 						return true;
-					if (bodyPart.CurrentPierceDamage > 0)
+					if (bodyPart.CurrentBurnDamageLevel   > TraumaDamageLevel.NONE)
 						return true;
-					return bodyPart.IsFracturedCompound;
+					return bodyPart.CurrentBluntDamageLevel != TraumaDamageLevel.NONE;
 				}
 			}
 			return false;
 		}
 
-		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
+		public void HealTraumaDamage(BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
 		{
 			foreach(var bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == targetBodyPartToHeal)
 				{
-					bodyPart.HealTraumaticDamage(healAmount, typeToHeal);
+					bodyPart.HealTraumaticDamage(typeToHeal);
 				}
 			}
 		}
