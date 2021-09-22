@@ -626,14 +626,10 @@ namespace HealthV2
 		[Server]
 		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, TraumaticDamageTypes damageType)
 		{
-			TraumaticDamageTypes selectedType = TraumaticDamageTypes.NONE;
-			if (damageType.HasFlag(TraumaticDamageTypes.NONE) == false)
-			{
-				Random random = new Random();
-				TraumaticDamageTypes[] typeToSelectFrom =
-					Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => damageType.HasFlag(x)).ToArray();
-				selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
-			}
+			Random random = new Random();
+			TraumaticDamageTypes[] typeToSelectFrom =
+				Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => damageType.HasFlag(x)).ToArray();
+			TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
 
 			foreach (var bodyPart in BodyPartList)
 			{
