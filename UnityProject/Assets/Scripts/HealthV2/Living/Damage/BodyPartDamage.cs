@@ -262,7 +262,9 @@ namespace HealthV2
 				}
 			}
 
-			if (attackType == AttackType.Fire || attackType == AttackType.Laser || attackType == AttackType.Energy)
+			if(Severity <= DamageSeverity.LightModerate){return;}
+			if (damageType == DamageType.Burn || attackType == AttackType.Fire
+			                                  || attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{
 				ApplyTraumaDamage(TraumaticDamageTypes.BURN, true);
 			}
