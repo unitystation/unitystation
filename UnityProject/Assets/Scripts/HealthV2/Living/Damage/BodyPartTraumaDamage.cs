@@ -68,7 +68,7 @@ namespace HealthV2
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
-		[HideInInspector] public float CurrentInternalBleedingDamage
+		public float CurrentInternalBleedingDamage
 		{
 			get
 			{
