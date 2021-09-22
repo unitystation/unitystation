@@ -153,7 +153,6 @@ namespace HealthV2
 						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
 					}
 				}
-				AshBodyPart();
 			}
 		}
 
@@ -297,6 +296,7 @@ namespace HealthV2
 			{
 				currentBurnDamageLevel += 1;
 				CheckCharredBodyPart();
+				AshBodyPart();
 			}
 		}
 
