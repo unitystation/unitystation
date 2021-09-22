@@ -264,7 +264,7 @@ namespace HealthV2
 
 			if (attackType == AttackType.Fire || attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{
-				ApplyTraumaDamage(TraumaticDamageTypes.BURN);
+				ApplyTraumaDamage(TraumaticDamageTypes.BURN, true);
 			}
 		}
 

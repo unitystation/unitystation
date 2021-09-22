@@ -85,8 +85,9 @@ namespace HealthV2
 		/// Applies trauma damage to the body part, checks if it has enough protective armor to cancel the trauma damage
 		/// and automatically checks how big is the body part's cut size.
 		/// </summary>
-		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH)
+		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH, bool ignoreSeverityCheck = false)
 		{
+			if(Severity < DamageSeverity.LightModerate && ignoreSeverityCheck == false){return;}
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
@@ -131,13 +132,13 @@ namespace HealthV2
 		[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
-			ApplyTraumaDamage();
+			ApplyTraumaDamage(TraumaticDamageTypes.SLASH, true);
 		}
 
 		[ContextMenu("Debug - Apply 25 Pierce Damage")]
 		private void DEBUG_ApplyTestPierce()
 		{
-			ApplyTraumaDamage(TraumaticDamageTypes.PIERCE);
+			ApplyTraumaDamage(TraumaticDamageTypes.PIERCE, true);
 		}
 
 		private void CheckCharredBodyPart()
