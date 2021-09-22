@@ -20,7 +20,6 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 	private float traumaDamageChance = 0;
 	private TraumaticDamageTypes tramuticDamageType;
-	private int traumaDamageMultiplier = 1;
 
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
@@ -96,7 +95,6 @@ public class WeaponNetworkActions : NetworkBehaviour
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
 			tramuticDamageType = weaponAttributes.TraumaticDamageType;
 			traumaDamageChance = weaponAttributes.TraumaDamageChance;
-			traumaDamageMultiplier = weaponAttributes.TraumaDamageMultiplier;
 		}
 
 		LayerTile attackedTile = null;
