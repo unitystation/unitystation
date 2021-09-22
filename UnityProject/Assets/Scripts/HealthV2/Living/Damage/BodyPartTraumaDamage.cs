@@ -348,7 +348,7 @@ namespace HealthV2
 		/// </summary>
 		protected void CheckBodyPartIntigrity(float lastDamage)
 		{
-			if(currentSlashDamageLevel >= TraumaDamageLevel.CRITICAL || currentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
+			if(currentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
 			{
 				if(OrganList.Count != 0)
 				{
