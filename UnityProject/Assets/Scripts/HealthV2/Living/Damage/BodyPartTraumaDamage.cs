@@ -17,7 +17,7 @@ namespace HealthV2
 		public bool IsBleedingExternally => isBleedingExternally;
 
 		[Header("Trauma Damage settings")]
-		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
+		public Vector2 MinMaxInternalBleedingValues = new Vector2(2, 14);
 
 
 		[SerializeField] private float maximumInternalBleedDamage = 100;
@@ -53,8 +53,6 @@ namespace HealthV2
 		private float spillChanceWhenCutPresent = 0.5f;
 
 		public bool CanBleedInternally = false;
-
-		public bool CanBleedExternally = false;
 
 		public bool CanBeBroken        = false;
 
@@ -200,7 +198,7 @@ namespace HealthV2
 		/// </summary>
 		public IEnumerator ExternalBleedingLogic()
 		{
-			if(isBleedingExternally || CanBleedExternally == false)
+			if(isBleedingExternally || IsSurface == false)
 			{
 				yield break;
 			}
