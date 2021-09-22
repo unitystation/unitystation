@@ -34,13 +34,12 @@ public class DirectionalRotatesParent : MonoBehaviour
 		//rotate our sprite renderers based on the deviation from
 		//the prefab sprite orientation
 		var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(newDir);
-		transform.rotation = offset.Quaternion;
 
 		if (forceChildrenOpposite)
 		{
 			foreach (Transform child in transform)
 			{
-				child.rotation = Quaternion.Euler(newDir.Vector);
+				child.localRotation = offset.Quaternion;
 			}
 		}
 	}
