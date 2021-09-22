@@ -60,7 +60,7 @@ namespace HealthV2
 		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
-		public float DamageThreshold = 18f;
+		public float DamageThreshold = 21f;
 
 		[SerializeField] private DamageSeverity BoneFracturesOnDamageSevarity = DamageSeverity.Moderate;
 		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity    = DamageSeverity.Bad;
