@@ -178,6 +178,8 @@ namespace HealthV2
 				randomBodyPart.ApplyInternalDamage();
 				if(randomCustomBodyPart != null) { randomCustomBodyPart.ApplyInternalDamage(); }
 			}
+
+			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL) { StartCoroutine(ExternalBleedingLogic()); }
 		}
 
 		/// <summary>
@@ -354,6 +356,8 @@ namespace HealthV2
 					Disembowel();
 				}
 			}
+
+			if (currentSlashDamageLevel >= TraumaDamageLevel.SERIOUS) { StartCoroutine(ExternalBleedingLogic());}
 			if(Severity >= GibsOnSeverityLevel && lastDamage >= DamageThreshold || currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
 			{
 				DismemberBodyPartWithChance();
