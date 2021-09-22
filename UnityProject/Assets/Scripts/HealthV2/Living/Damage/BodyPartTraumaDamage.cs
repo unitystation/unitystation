@@ -200,7 +200,7 @@ namespace HealthV2
 		/// </summary>
 		public IEnumerator ExternalBleedingLogic()
 		{
-			if(isBleedingExternally)
+			if(isBleedingExternally || CanBleedExternally == false)
 			{
 				yield break;
 			}
