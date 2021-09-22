@@ -144,16 +144,15 @@ namespace HealthV2
 
 		private void CheckCharredBodyPart()
 		{
-			if (currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL)
+			if (currentBurnDamageLevel >= TraumaDamageLevel.SERIOUS)
 			{
-				if(currentBurnDamageLevel == TraumaDamageLevel.CRITICAL) //So we can do this once.
+				if(currentBurnDamageLevel == TraumaDamageLevel.SERIOUS) //So we can do this once.
 				{
 					foreach(var sprite in RelatedPresentSprites)
 					{
 						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
 					}
 				}
-				currentBurnDamageLevel = TraumaDamageLevel.CRITICAL;
 				AshBodyPart();
 			}
 		}
@@ -306,7 +305,7 @@ namespace HealthV2
 		/// </summary>
 		private void AshBodyPart()
 		{
-			if(currentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
+			if(currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL)
 			{
 				IEnumerable<ItemSlot> internalItemList = OrganStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
