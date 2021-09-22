@@ -11,6 +11,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 using Newtonsoft.Json;
+using Random = System.Random;
 
 namespace HealthV2
 {
@@ -625,26 +626,17 @@ namespace HealthV2
 		[Server]
 		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, TraumaticDamageTypes damageType)
 		{
+			Random random = new Random();
+			TraumaticDamageTypes[] typeToSelectFrom =
+				Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => damageType.HasFlag(x)).ToArray();
+
+			TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
+
 			foreach (var bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == aimedBodyPart)
 				{
-					if (damageType.HasFlag(TraumaticDamageTypes.BURN))
-					{
-						bodyPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.SLASH))
-					{
-						bodyPart.ApplyTraumaDamage();
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.PIERCE))
-					{
-						bodyPart.ApplyTraumaDamage(TraumaticDamageTypes.PIERCE);
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.BLUNT))
-					{
-						bodyPart.ApplyTraumaDamage(TraumaticDamageTypes.BLUNT);
-					}
+					bodyPart.ApplyTraumaDamage(selectedType);
 					return;
 				}
 			}
