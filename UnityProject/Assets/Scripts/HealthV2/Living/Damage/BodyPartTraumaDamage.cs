@@ -33,7 +33,7 @@ namespace HealthV2
 		private TraumaDamageLevel currentPierceDamageLevel = TraumaDamageLevel.NONE;
 		private TraumaDamageLevel currentSlashDamageLevel  = TraumaDamageLevel.NONE;
 		private TraumaDamageLevel currentBurnDamageLevel   = TraumaDamageLevel.NONE;
-		private TraumaDamageLevel currentBluntDamageLevel  = TraumaDamageLevel.NONE;
+		private TraumaDamageLevel currentBluntDamageLevel  = TraumaDamageLevel.NONE; //TODO : MERGE #7432 TO FINISH
 
 		public TraumaDamageLevel CurrentPierceDamageLevel => currentPierceDamageLevel;
 		public TraumaDamageLevel CurrentSlashDamageLevel  => currentSlashDamageLevel ;
