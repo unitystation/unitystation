@@ -126,7 +126,15 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			if (SubSceneManager.Instance.loadedScenesList.Count == ActiveMatrices.Count)
 			{
-				IsInitialized = true;
+				if (IsInitialized)
+				{
+					ClientMatrixInitialization(matrix);
+				}
+				else
+				{
+					IsInitialized = true;
+					ClientAllMatrixReady();
+				}
 			}
 		}
 	}
@@ -163,6 +171,23 @@ public partial class MatrixManager : MonoBehaviour
 
 		var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
 		GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
+	}
+
+	[Client]
+	private void ClientAllMatrixReady()
+	{
+		foreach (var matrixInfo in ActiveMatrices.Values)
+		{
+			var subsystemManager = matrixInfo.Matrix.GetComponentInParent<SubsystemManager>();
+			subsystemManager.Initialize();
+		}
+	}
+
+	[Client]
+	private void ClientMatrixInitialization(Matrix matrix)
+	{
+		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
+		subsystemManager.Initialize();
 	}
 
 	private void RegisterMatrix(Matrix matrix)
