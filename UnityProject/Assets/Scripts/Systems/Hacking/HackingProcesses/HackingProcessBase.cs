@@ -147,6 +147,13 @@ namespace Hacking
 			var newLocalPortData = new LocalPortData();
 
 			newLocalPortData.LocalAction = action;
+
+			if (ColourDictionary == null)
+			{
+				Logger.Log("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
+				return;
+			}
+
 			if (ColourDictionary.ContainsKey(FromType) == false)
 			{
 				ColourDictionary[FromType] = new Dictionary<MethodInfo, Color>();
