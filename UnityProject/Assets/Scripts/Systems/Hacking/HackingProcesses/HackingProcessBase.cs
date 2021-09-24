@@ -101,8 +101,8 @@ namespace Hacking
 
 		public static void CleanData()
 		{
-			MonoAvailableColours.Clear();
-			ColourDictionary.Clear();
+			MonoAvailableColours?.Clear();
+			ColourDictionary?.Clear();
 			HasRegisteredForRestart = false;
 		}
 
