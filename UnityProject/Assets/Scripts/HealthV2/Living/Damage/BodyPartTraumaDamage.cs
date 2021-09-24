@@ -227,7 +227,7 @@ namespace HealthV2
 		{
 			while(isBleedingExternally)
 			{
-				yield return WaitFor.Seconds(4f);
+				yield return WaitFor.Seconds(5f);
 				if (IsBleeding)
 				{
 					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
