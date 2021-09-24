@@ -66,9 +66,19 @@ namespace AddressableReferences
 					return null;
 				}
 
-				var AsynchronousHandle = Addressables.LoadAssetAsync<T>(AssetAddress);
-				await AsynchronousHandle.Task;
-				StoredLoadedReference = AsynchronousHandle.Result;
+				try
+				{
+					var AsynchronousHandle = Addressables.LoadAssetAsync<T>(AssetAddress);
+					await AsynchronousHandle.Task;
+					StoredLoadedReference = AsynchronousHandle.Result;
+				}
+				catch (InvalidKeyException Exception)
+				{
+					Logger.Log("Encountered " + Exception.Message + " for Asset ID: " + AssetAddress);
+					return null;
+				}
+
+
 				return StoredLoadedReference;
 			}
 		}

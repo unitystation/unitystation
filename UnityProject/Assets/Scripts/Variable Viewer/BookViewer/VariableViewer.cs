@@ -557,6 +557,8 @@ public static class Librarian
 				{
 					foreach (object c in list)
 					{
+						if (c == null) continue;
+
 						Sentence _sentence = new Sentence();
 						_sentence.ValueVariable = c;
 						_sentence.OnPageID = Page.ID;
@@ -1064,7 +1066,7 @@ public static class Librarian
 				{
 					if (InType == null || InObject == null || InObject as IConvertible == null)
 					{
-						Logger.LogError($"Can't convert {StringVariable} to {InObject.GetType()}  " +
+						Logger.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
 							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.VariableViewer);
 						return null;
 					}
