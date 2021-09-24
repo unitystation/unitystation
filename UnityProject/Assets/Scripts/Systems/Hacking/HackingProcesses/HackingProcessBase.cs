@@ -280,6 +280,12 @@ namespace Hacking
 						}
 					}
 
+					if (Cable == null)
+					{
+						Logger.LogWarning("No cable was found for cutting", Category.Interaction);
+						return;
+					}
+
 					Connections[Cable.PanelOutput].Remove(Cable);
 					Cables.Remove(Cable);
 					var Hand = PlayerScript.DynamicItemStorage.GetBestHand(Cable.cableCoil.GetComponent<Stackable>());
