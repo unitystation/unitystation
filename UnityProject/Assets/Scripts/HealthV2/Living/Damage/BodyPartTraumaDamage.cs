@@ -8,21 +8,17 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
-		private bool isBleedingInternally = false;
-
-		private bool isBleedingExternally = false;
-
-		public bool IsBleedingInternally => isBleedingInternally;
-
-		public bool IsBleedingExternally => isBleedingExternally;
 
 		[Header("Trauma Damage settings")]
-		public Vector2 MinMaxInternalBleedingValues = new Vector2(2, 14);
-
-
 		[SerializeField] private float maximumInternalBleedDamage = 100;
-		public float InternalBleedingBloodLoss = 12;
+		[SerializeField] private Vector2 minMaxInternalBleedingBloodLoss = new Vector2(2,4);
+		[SerializeField] private Vector2 minMaxExternalBleedingValues    = new Vector2(2, 14);
 
+		public Vector2 MinMaxExternalBleedingValues => minMaxExternalBleedingValues;
+		private bool isBleedingInternally = false;
+		private bool isBleedingExternally = false;
+		public bool IsBleedingInternally => isBleedingInternally;
+		public bool IsBleedingExternally => isBleedingExternally;
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
 		private float currentInternalBleedingDamage = 0;
@@ -230,7 +226,7 @@ namespace HealthV2
 				yield return WaitFor.Seconds(4f);
 				if (IsBleeding)
 				{
-					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
+					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxExternalBleedingValues.x, MinMaxExternalBleedingValues.y));
 				}
 			}
 		}
@@ -253,7 +249,7 @@ namespace HealthV2
 		/// </summary>
 		public void InternalBleedingLogic(AttackType attackType = AttackType.Internal, DamageType damageType = DamageType.Brute)
 		{
-			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
+			float damageToTake = UnityEngine.Random.Range(minMaxInternalBleedingBloodLoss.x, minMaxInternalBleedingBloodLoss.y);
 			if(currentInternalBleedingDamage >= maximumInternalBleedDamage)
 			{
 				BodyPart currentParent = ContainedIn;
