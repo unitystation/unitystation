@@ -143,14 +143,11 @@ namespace HealthV2
 
 		private void CheckCharredBodyPart()
 		{
-			if (currentBurnDamageLevel >= TraumaDamageLevel.SERIOUS)
+			if (currentBurnDamageLevel == TraumaDamageLevel.SERIOUS) //So we can do this once.
 			{
-				if(currentBurnDamageLevel == TraumaDamageLevel.SERIOUS) //So we can do this once.
+				foreach (var sprite in RelatedPresentSprites)
 				{
-					foreach(var sprite in RelatedPresentSprites)
-					{
-						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
-					}
+					sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
 				}
 			}
 		}
