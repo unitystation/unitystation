@@ -204,14 +204,14 @@ namespace HealthV2
 			isBleedingExternally = true;
 			IsBleeding = true;
 			StartCoroutine(Bleedout());
-			if(currentSlashDamageLevel <= TraumaDamageLevel.CRITICAL || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
+			if(currentSlashDamageLevel <= TraumaDamageLevel.SERIOUS || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
 			{
 				willCloseOnItsOwn = true;
 			}
 			if(willCloseOnItsOwn)
 			{
 				yield return WaitFor.Seconds(128);
-				if(currentSlashDamageLevel <= TraumaDamageLevel.CRITICAL || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
+				if(currentSlashDamageLevel <= TraumaDamageLevel.SERIOUS || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
 				{
 					StopExternalBleeding();
 					isBleedingExternally = false;
