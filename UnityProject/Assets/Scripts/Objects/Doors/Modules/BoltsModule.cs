@@ -113,7 +113,7 @@ namespace Doors.Modules
 
 		public void PulseToggleBolts(bool? State = null)
 		{
-			if (State == null)
+			if (State != null)
 			{
 				if (State.Value == boltsDown) return;
 				master.HackingProcessBase.ImpulsePort(ToggleBolts);
