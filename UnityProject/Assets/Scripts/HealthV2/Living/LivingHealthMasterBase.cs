@@ -340,17 +340,7 @@ namespace HealthV2
 		/// <summary>
 		/// Returns the current amount of oxy damage the brain has taken
 		/// </summary>
-		public float GetOxyDamage()
-		{
-			if (brain.OrNull()?.RelatedPart != null)
-			{
-				return 0;
-			}
-			else
-			{
-				return brain.RelatedPart.Oxy;
-			}
-		}
+		public float GetOxyDamage => brain != null && brain.RelatedPart != null ? brain.RelatedPart.Oxy : 0;
 
 		/// <summary>
 		/// Returns the the sum of all brute damage taken by body parts
