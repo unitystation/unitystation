@@ -256,13 +256,10 @@ namespace HealthV2
 			if(attackType == AttackType.Bomb)
 			{
 				TakeBluntDamage();
-				if(damageToLimb >= DamageThreshold)
-				{
-					DismemberBodyPartWithChance();
-				}
+				if(damageToLimb >= DamageThreshold) DismemberBodyPartWithChance();
 			}
 
-			if(Severity <= DamageSeverity.LightModerate){return;}
+			if(Severity <= DamageSeverity.LightModerate) return;
 			if (damageType == DamageType.Burn || attackType == AttackType.Fire
 			                                  || attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{

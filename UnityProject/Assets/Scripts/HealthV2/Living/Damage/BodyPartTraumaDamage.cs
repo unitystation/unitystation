@@ -83,12 +83,12 @@ namespace HealthV2
 		/// </summary>
 		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH, bool ignoreSeverityCheck = false)
 		{
-			if(Severity < DamageSeverity.LightModerate && ignoreSeverityCheck == false){return;}
+			if(Severity < DamageSeverity.LightModerate && ignoreSeverityCheck == false) return;
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if (damageType == TraumaticDamageTypes.SLASH)  { currentSlashDamageLevel   += 1;}
-				if (damageType == TraumaticDamageTypes.PIERCE) { currentPierceDamageLevel  += 1;}
+				if (damageType == TraumaticDamageTypes.SLASH)  currentSlashDamageLevel   += 1;
+				if (damageType == TraumaticDamageTypes.PIERCE) currentPierceDamageLevel  += 1;
 			}
 			//Burn and blunt damage checks for it's own armor damage type.
 			if (damageType == TraumaticDamageTypes.BURN)
@@ -117,10 +117,10 @@ namespace HealthV2
 
 			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
 			{
-				if (slot.IsEmpty) { return; }
+				if (slot.IsEmpty) return;
 				if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
 				{
-					if (bodyPart.CanBeBroken) { TakeBluntLogic(bodyPart);}
+					if (bodyPart.CanBeBroken) TakeBluntLogic(bodyPart);
 				}
 			}
 		}
@@ -168,10 +168,10 @@ namespace HealthV2
 			else
 			{
 				randomBodyPart.ApplyInternalDamage();
-				if(randomCustomBodyPart != null) { randomCustomBodyPart.ApplyInternalDamage(); }
+				if(randomCustomBodyPart != null) randomCustomBodyPart.ApplyInternalDamage();
 			}
 
-			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL) { StartCoroutine(ExternalBleedingLogic()); }
+			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL) StartCoroutine(ExternalBleedingLogic());
 		}
 
 		/// <summary>
@@ -192,10 +192,7 @@ namespace HealthV2
 		/// </summary>
 		public IEnumerator ExternalBleedingLogic()
 		{
-			if(isBleedingExternally || IsSurface == false)
-			{
-				yield break;
-			}
+			if(isBleedingExternally || IsSurface == false) yield break;
 			bool willCloseOnItsOwn = false;
 			isBleedingExternally = true;
 			IsBleeding = true;
@@ -349,7 +346,7 @@ namespace HealthV2
 				}
 			}
 
-			if (currentSlashDamageLevel >= TraumaDamageLevel.SERIOUS) { StartCoroutine(ExternalBleedingLogic());}
+			if (currentSlashDamageLevel >= TraumaDamageLevel.SERIOUS) StartCoroutine(ExternalBleedingLogic());
 			if(Severity >= GibsOnSeverityLevel && lastDamage >= DamageThreshold || currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
 			{
 				DismemberBodyPartWithChance();
