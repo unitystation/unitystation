@@ -69,10 +69,6 @@ namespace StationObjectives
 		private string GetObjectiveStatus()
 		{
 			var stringBuilder = new StringBuilder($"<color=blue>Objective of <b>{MatrixManager.MainStationMatrix.GameObject.scene.name}</b>:</color>\n", 200);
-			if (activeObjective == null)
-			{
-				return "Error: Status not found :S";
-			}
 			var complete = activeObjective.CheckCompletion();
 			stringBuilder.Append($"{activeObjective.GetRoundEndReport()}\n");
 			stringBuilder.AppendLine(complete ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");

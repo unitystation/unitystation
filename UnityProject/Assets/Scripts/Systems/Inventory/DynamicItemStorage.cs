@@ -467,15 +467,7 @@ public class DynamicItemStorage : NetworkBehaviour
 
 			ServerContents[SstorageCharacteristicse.namedSlot].Remove(Slot);
 
-			if (ServerObjectToSlots.ContainsKey(BbodyPartUISlots.GameObject))
-			{
-				ServerObjectToSlots[BbodyPartUISlots.GameObject].Remove(Slot);
-			}
-			else
-			{
-				Logger.LogWarning("Key was not found for Body Part UI Slot Object", Category.Inventory);
-				continue;
-			}
+			ServerObjectToSlots[BbodyPartUISlots.GameObject].Remove(Slot);
 
 			ServerTotal.Remove(Slot);
 			if (ServerSlotCharacteristic.ContainsKey(Slot)) ServerSlotCharacteristic.Remove(Slot);
