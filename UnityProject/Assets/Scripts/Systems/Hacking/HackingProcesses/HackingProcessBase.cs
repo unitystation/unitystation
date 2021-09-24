@@ -280,7 +280,7 @@ namespace Hacking
 					Cable Cable = null;
 					foreach (var cable in Cables)
 					{
-						if (cable.cableCoil.gameObject == Referenceobject)
+						if (cable?.cableCoil.gameObject == Referenceobject)
 						{
 							Cable = cable;
 							break;
