@@ -557,6 +557,8 @@ public static class Librarian
 				{
 					foreach (object c in list)
 					{
+						if (c == null) continue;
+						
 						Sentence _sentence = new Sentence();
 						_sentence.ValueVariable = c;
 						_sentence.OnPageID = Page.ID;
