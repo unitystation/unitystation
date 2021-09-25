@@ -118,7 +118,6 @@ namespace Items.Bureaucracy
 			{
 				readerProgress[player]++;
 
-				// TODO: play random page-turning sound => pageturn1.ogg || pageturn2.ogg || pageturn3.ogg
 				SoundManager.PlayNetworkedAtPos(pageturnSfx.PickRandom(), playerTile.WorldPositionServer, sourceObj: player.GameObject);
 				Chat.AddExamineMsgFromServer(player.GameObject, remarks.PickRandom());
 
