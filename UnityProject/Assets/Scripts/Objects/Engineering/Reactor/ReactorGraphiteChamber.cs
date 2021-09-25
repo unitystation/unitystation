@@ -224,10 +224,17 @@ namespace Objects.Engineering
 			PresentNeutrons *= KFactor;
 			if (NeutronSingularity < PresentNeutrons)
 			{
-				Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
-				PresentNeutrons = 0;
-				OnDespawnServer(null);
-				_ = Despawn.ServerSingle(gameObject);
+				try
+				{
+					Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
+					PresentNeutrons = 0;
+					OnDespawnServer(null);
+					_ = Despawn.ServerSingle(gameObject);
+				}
+				catch (NullReferenceException exception)
+				{
+					Logger.LogError("Caught NRE for Start Explosion code on ReactorGraphiteChamber.cs ln 229", Category.Electrical);
+				}
 			}
 
 			EditorPresentNeutrons = (float)PresentNeutrons;
