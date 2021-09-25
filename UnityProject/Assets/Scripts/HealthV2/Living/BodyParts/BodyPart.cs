@@ -326,7 +326,8 @@ namespace HealthV2
 				}
 
 				if (bodyPart.BodyPartType == BodyPartType.LeftArm || bodyPart.BodyPartType == BodyPartType.RightArm
-				|| bodyPart.BodyPartType == BodyPartType.LeftHand || bodyPart.BodyPartType == BodyPartType.RightHand)
+				|| bodyPart.BodyPartType == BodyPartType.LeftHand || bodyPart.BodyPartType == BodyPartType.RightHand
+				|| bodyPart.DeathOnRemoval)
 				{
 					DynamicItemStorage storge = HealthMaster.playerScript.DynamicItemStorage;
 					foreach (ItemSlot itemSlot in storge.GetNamedItemSlots(NamedSlot.leftHand))
