@@ -109,18 +109,6 @@ namespace Items
 			set => traumaDamageChance = value;
 		}
 
-		[SerializeField,
-		 Range(1, 8),
-		 Tooltip("To fine tune how strong trauma weapons are; use a value greater than 1 to increase their power. " +
-		         "Otherwise they'll continue to use the base damage value.")]
-		private int traumaDamageMultiplier = 1;
-
-		public int TraumaDamageMultiplier
-		{
-			get => traumaDamageMultiplier;
-			set => traumaDamageMultiplier = value;
-		}
-
 		[EnumFlag]
 		public TraumaticDamageTypes TraumaticDamageType;
 

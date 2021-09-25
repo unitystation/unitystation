@@ -202,7 +202,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			{
 				if(mobHealth != null)
 				{
-					if(mobHealth.CurrentBurnDamage > mobHealth.BodyPartAshesAboveThisDamage)
+					if(mobHealth.CurrentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
 					{
 						_ = Spawn.ServerPrefab(ashPrefab, mobHealth.HealthMaster.gameObject.RegisterTile().WorldPosition);
 						_ = Despawn.ServerSingle(slot.Item.gameObject);
