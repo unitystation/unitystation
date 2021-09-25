@@ -428,16 +428,25 @@ public class DynamicItemStorage : NetworkBehaviour
 	[Server]
 	public void Remove(IDynamicItemSlotS bodyPartUISlots)
 	{
-		if (ContainedInventorys.Contains(bodyPartUISlots) == false) return;
-		bodyPartUISlots.RelatedStorage.ServerRemoveObserverPlayer(this.gameObject);
-		ContainedInventorys.Remove(bodyPartUISlots);
-		UIBodyPartsToSerialise.Remove(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
-		bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet -= InventoryChange;
-
-		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+		try
 		{
-			item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
-			item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeClient);
+			if (ContainedInventorys.Contains(bodyPartUISlots) == false) return;
+			bodyPartUISlots.RelatedStorage.ServerRemoveObserverPlayer(this.gameObject);
+			ContainedInventorys.Remove(bodyPartUISlots);
+			UIBodyPartsToSerialise.Remove(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
+			bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet -= InventoryChange;
+
+			foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+			{
+				item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
+				item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeClient);
+			}
+
+		}
+		catch (NullReferenceException exception)
+		{
+			Logger.LogError("Caught NRE in DynamicItemStorage.Remove: " + exception.Message, Category.Inventory);
+			return;
 		}
 
 
