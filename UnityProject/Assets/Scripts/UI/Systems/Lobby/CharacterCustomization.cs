@@ -669,29 +669,9 @@ namespace UI.CharacterCreator
 
 		public void RollRandomCharacter()
 		{
-			// Randomise gender
-			Type gender = typeof(BodyType);
-			Array genders = gender.GetEnumValues();
-			int index = UnityEngine.Random.Range(0,3);
-			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
-
-			//Randomises player name and age.
-			switch (currentCharacter.BodyType)
-			{
-				case BodyType.Male:
-					currentCharacter.Name = StringManager.GetRandomMaleName();
-					break;
-				case BodyType.Female:
-					currentCharacter.Name = StringManager.GetRandomFemaleName();
-					break;
-				default:
-					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
-					break;																	//for now it will pick from both the male and female name pools
-			}
-			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
+			currentCharacter = RandomizeCharacterSettings();
 
 			//Randomises player accents. (Italian, Scottish, etc)
-			randomizeAccent();
 
 
 			//Randomises character skin tones.
@@ -715,22 +695,6 @@ namespace UI.CharacterCreator
 			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
 			{
 				customSubPart.RandomizeValues();
-			}
-		}
-
-		private void randomizeAccent()
-		{
-			int accentChance = UnityEngine.Random.Range(0, 100);
-			if(accentChance <= 35)
-			{
-				Type accent = typeof(Speech);
-				Array accents = accent.GetEnumValues();
-				int index = UnityEngine.Random.Range(0, 7);
-				currentCharacter.Speech = (Speech)accents.GetValue(index);
-			}
-			else
-			{
-				currentCharacter.Speech = Speech.None;
 			}
 		}
 
@@ -1507,6 +1471,84 @@ namespace UI.CharacterCreator
 					ThisSetRace = Race;
 				}
 			}
+		}
+
+		#endregion
+
+		#region StaticCustomizationFunctions
+
+		public static CharacterSettings RandomizeCharacterSettings()
+		{
+			CharacterSettings random = new CharacterSettings();
+			// Randomise gender
+			Type gender = typeof(BodyType);
+			Array genders = gender.GetEnumValues();
+			int index = UnityEngine.Random.Range(0,3);
+			random.BodyType = (BodyType)genders.GetValue(index);
+
+			//Randomises player name and age and skin tone.
+			random.Name = RandomizeCharacterName(random);
+			random.Age  = UnityEngine.Random.Range(19, 78);
+			random.SkinTone = RandomizeCharacterSkinToneHTMLString(random);
+
+			//Randomises player accents. (Italian, Scottish, etc)
+			random.Speech = RandomizeCharachterAccent();
+
+			return random;
+		}
+
+		public static string RandomizeCharacterSkinToneHTMLString(CharacterSettings data)
+		{
+			var RaceData = GetRaceData(data);
+
+			List<Color> raceSkinColors = RaceData.Base.SkinColours;
+			if (raceSkinColors.Count != 0)
+			{
+				return "#" + ColorUtility.ToHtmlStringRGB(raceSkinColors[UnityEngine.Random.Range(0, raceSkinColors.Count - 1)]);
+			}
+			return "#" + ColorUtility.ToHtmlStringRGBA(new Color(UnityEngine.Random.Range(0.1f, 1f),
+					UnityEngine.Random.Range(0.1f, 1f),
+					UnityEngine.Random.Range(0.1f, 1f), 1f));
+		}
+
+		public static string RandomizeCharacterName(CharacterSettings data, bool isNotPlayerDebug = true)
+		{
+			switch (data.BodyType)
+			{
+				case BodyType.Male:
+					return StringManager.GetRandomMaleName();
+				case BodyType.Female:
+					return StringManager.GetRandomFemaleName();
+				default:
+					if (isNotPlayerDebug) return StringManager.GetRandomName(Gender.NonBinary);
+					else return "Cuban Pete";
+			}
+		}
+
+		public static PlayerHealthData GetRaceData(CharacterSettings data)
+		{
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == data.Species)
+				{
+					return Race;
+				}
+			}
+			Logger.LogError($"Unable to get PlayerHealthData from {data.Name} / {data.Username}");
+			return new PlayerHealthData();
+		}
+
+		public static Speech RandomizeCharachterAccent()
+		{
+			int accentChance = UnityEngine.Random.Range(0, 100);
+			if(accentChance <= 35)
+			{
+				Type accent = typeof(Speech);
+				Array accents = accent.GetEnumValues();
+				int index = UnityEngine.Random.Range(0, 7);
+				return (Speech)accents.GetValue(index);
+			}
+			return Speech.None;
 		}
 
 		#endregion
