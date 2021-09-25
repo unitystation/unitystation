@@ -88,9 +88,9 @@ namespace Messages.Server
 				NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none)
 			};
 
-			msg.StorageIndexOnGameObject = 0;
 			try
 			{
+				msg.StorageIndexOnGameObject = 0;
 				foreach (var itemStorage in itemSlot.ItemStorage.GetComponents<ItemStorage>())
 				{
 					if (itemStorage == itemSlot.ItemStorage)
