@@ -353,11 +353,18 @@ namespace Chemistry.Components
 		#region Spill
 		private void SpillAll(bool thrown = false)
 		{
-			if (!IsEmpty)
+			try
 			{
-				var worldPos = customNetTransform.PushPull.AssumedWorldPositionServer();
-				worldPos.z = 0;
-				SpillAll(worldPos, thrown);
+				if (!IsEmpty)
+				{
+					var worldPos = customNetTransform.PushPull.AssumedWorldPositionServer();
+					worldPos.z = 0;
+					SpillAll(worldPos, thrown);
+				}
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught NRE in ReagentContainer SpillAll method: " + exception.Message, Category.Chemistry);
 			}
 		}
 

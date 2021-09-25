@@ -161,7 +161,7 @@ namespace Messages.Client.Interaction
 				//look up item in active hand slot
 				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
-				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+				var usedObject = clientStorage.GetActiveHandSlot()?.ItemObject;
 				LoadMultipleObjects(new uint[]{
 					TargetObject, ProcessorObject
 				});

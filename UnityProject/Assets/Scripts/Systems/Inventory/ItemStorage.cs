@@ -273,22 +273,30 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <returns></returns>
 	public GameObject GetRootStorageOrPlayer()
 	{
-		ItemStorage storage = this;
-		var pickupable = storage.GetComponent<Pickupable>();
-		while (pickupable != null && pickupable.ItemSlot != null)
+		try
 		{
-			storage = pickupable.ItemSlot.ItemStorage;
-			pickupable = storage.GetComponent<Pickupable>();
-			if (pickupable == null)
+			ItemStorage storage = this;
+			var pickupable = storage.GetComponent<Pickupable>();
+			while (pickupable != null && pickupable.ItemSlot != null)
 			{
-				if (storage.player != null)
+				storage = pickupable.ItemSlot.ItemStorage;
+				pickupable = storage.GetComponent<Pickupable>();
+				if (pickupable == null)
 				{
-					return storage.player.gameObject;
+					if (storage.player != null)
+					{
+						return storage.player.gameObject;
+					}
 				}
 			}
-		}
 
-		return storage.gameObject;
+			return storage.gameObject;
+		}
+		catch (NullReferenceException exception)
+		{
+			Logger.LogError("Caught NRE in ItemStorage: " + exception.Message, Category.Inventory);
+			return null;
+		}
 	}
 
 	/// <summary>
