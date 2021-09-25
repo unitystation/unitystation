@@ -144,8 +144,8 @@ namespace CustomInspectors
 	[CustomEditor(typeof(APCPoweredDevice))]
 	public class ApcDeviceInspector : SlaveDeviceInspector { }
 
-	//[CustomEditor(typeof(ACUDevice))]
-	//public class AcuDeviceInspector : SlaveDeviceInspector { }
+	[CustomEditor(typeof(AcuDevice))]
+	public class AcuDeviceInspector : SlaveDeviceInspector { }
 
 	[CustomEditor(typeof(FireLock))]
 	public class FirelockInspector : SlaveDeviceInspector { }

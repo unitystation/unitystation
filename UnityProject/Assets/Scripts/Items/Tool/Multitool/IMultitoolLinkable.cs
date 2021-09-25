@@ -16,6 +16,7 @@ namespace Systems.ObjectConnection
 		DoorButton,
 		GeneralSwitch,
 		Turret,
+		Acu,
 	}
 
 	public interface IMultitoolLinkable

@@ -21,10 +21,10 @@ namespace Core.Editor.Tools.Mapping
 	/// </summary>
 	public class ObjectNameValidator : EditorWindow
 	{
-		private static readonly string[] windowTabs = new string[] { /*"ACUs", */"Vents", "Scrubbers" };
-		private static readonly Type[] types = new Type[] { /*typeof(AirController), */typeof(AirVent), typeof(Scrubber) };
+		private static readonly string[] windowTabs = new string[] { "ACUs", "Vents", "Scrubbers" };
+		private static readonly Type[] types = new Type[] { typeof(AirController), typeof(AirVent), typeof(Scrubber) };
 		private static readonly string[] regexes =
-				new string[] { /*"^ACU - .+ - [A-z]{5}$", */"^Vent - .+ - [A-z]{5}$", "^Scrubber - .+ - [A-z]{5}$" };
+				new string[] { "^ACU - .+ - [A-z]{5}$", "^Vent - .+ - [A-z]{5}$", "^Scrubber - .+ - [A-z]{5}$" };
 		
 		private List<GameObject> gameObjects;
 		private List<GameObject> badObjects = new List<GameObject>();
@@ -184,12 +184,11 @@ namespace Core.Editor.Tools.Mapping
 		{
 			var type = types[activeWindowTab];
 
-			// ACUs not in this PR
-			/*if (type == typeof(AirController))
+			if (type == typeof(AirController))
 			{
 				gameObjects = new List<GameObject>(FindObjectsOfType<AirController>().Select(entity => entity.gameObject));
 			}
-			else */if (type == typeof(AirVent))
+			else if (type == typeof(AirVent))
 			{
 				gameObjects = new List<GameObject>(FindObjectsOfType<AirVent>().Select(entity => entity.gameObject));
 			}

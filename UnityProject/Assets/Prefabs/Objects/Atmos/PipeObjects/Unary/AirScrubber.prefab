@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2975719858706502834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896434316989478185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca47cf326c466494c8b57b3b98133d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
 --- !u!114 &6838831727670997784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,10 +66,14 @@ MonoBehaviour:
         Temperature: 0
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  SelfSufficient: 0
-  MMinimumPressure: 101
-  MaxInternalPressure: 8000
-  MaxTransferMoles: 10
+  weldFinishSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/WeldFinish.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  selfSufficient: 0
 --- !u!1001 &1846420785246050776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,7 +145,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300048, guid: ab114164e53d9954dac5b33964df4cf3,
+      objectReference: {fileID: 21300000, guid: 320ec0ebfcc2f234c85188ef36b2de8f,
         type: 3}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -165,6 +182,11 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2647416796583051997, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: StateUpdateOnClient
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3144899109316854307, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -175,8 +197,48 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
+      objectReference: {fileID: 11400000, guid: bffe8a6792ecdb04fa361a839344c954,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bffe8a6792ecdb04fa361a839344c954,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
       objectReference: {fileID: 11400000, guid: 6edfe9ee88d60e046ab116d8b095140c,
         type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c19de60e9a90c33478f45c579433d9e2,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d94b0f6ebceb06429e35050a4ce606b,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 49ecff3bb6d67e94c80e00a84372c062,
+        type: 2}
+    - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: isDirty
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_AssetId
