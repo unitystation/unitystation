@@ -1490,11 +1490,43 @@ namespace UI.CharacterCreator
 			random.Name = RandomizeCharacterName(random);
 			random.Age  = UnityEngine.Random.Range(19, 78);
 			random.SkinTone = RandomizeCharacterSkinToneHTMLString(random);
+			GetRandomUnderwearCustomisation(random);
 
 			//Randomises player accents. (Italian, Scottish, etc)
 			random.Speech = RandomizeCharachterAccent();
 
 			return random;
+		}
+
+		public static void GetRandomUnderwearCustomisation(CharacterSettings data)
+		{
+			var RaceData = GetRaceData(data);
+			foreach (CustomisationAllowedSetting customisation in RaceData.Base.CustomisationSettings)
+			{
+				Debug.Log($"Checking {customisation} || {customisation.CustomisationGroup.name}");
+				if (customisation.CustomisationGroup.name == "PlayerUnderShirt")
+				{
+					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
+					Debug.Log(customizationToAdd.Name);
+					ExternalCustomisation serializedCustom = new ExternalCustomisation();
+					serializedCustom.SerialisedValue.SelectedName = customizationToAdd.Name;
+					data.SerialisedExternalCustom.Append(serializedCustom);
+				}
+				if (customisation.CustomisationGroup.name == "PlayerUnderWear")
+				{
+					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
+					ExternalCustomisation serializedCustom = new ExternalCustomisation();
+					serializedCustom.SerialisedValue.SelectedName = customizationToAdd.Name;
+					data.SerialisedExternalCustom.Append(serializedCustom);
+				}
+				if (customisation.CustomisationGroup.name == "PlayerSocks")
+				{
+					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
+					ExternalCustomisation serializedCustom = new ExternalCustomisation();
+					serializedCustom.SerialisedValue.SelectedName = customizationToAdd.Name;
+					data.SerialisedExternalCustom.Append(serializedCustom);
+				}
+			}
 		}
 
 		public static string RandomizeCharacterSkinToneHTMLString(CharacterSettings data)
