@@ -436,7 +436,7 @@ namespace HealthV2
 			}
 
 			var chance = UnityEngine.Random.Range(0, 100);
-			if(chance < armorChanceModifer && HealthMaster != null)
+			if(chance < armorChanceModifer)
 			{
 				HealthMaster.DismemberingBodyParts.Add(this);
 			}
