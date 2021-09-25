@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using AddressableReferences;
+
 
 namespace Items.Bureaucracy
 {
@@ -26,6 +27,9 @@ namespace Items.Bureaucracy
 		[Tooltip("The possible strings that could be chosen to display to the reader when a page is considered read.")]
 		[SerializeField, ReorderableList]
 		private string[] remarks = default;
+
+		[SerializeField]
+		private List<AddressableAudioSource> pageturnSfx = default;
 
 		private readonly Dictionary<ConnectedPlayer, int> readerProgress = new Dictionary<ConnectedPlayer, int>();
 		protected bool hasBeenRead = false;
@@ -92,6 +96,7 @@ namespace Items.Bureaucracy
 		// Note: this is a recursive method.
 		private void ReadBook(ConnectedPlayer player, int pageToRead = 0)
 		{
+			var playerTile = player.GameObject.RegisterTile();
 			if (pageToRead >= pagesToRead || pageToRead > 10)
 			{
 				FinishReading(player);
@@ -104,7 +109,7 @@ namespace Items.Bureaucracy
 				false
 			);
 			StandardProgressAction.Create(cfg, ReadPage).ServerStartProgress(
-				player.GameObject.RegisterTile(),
+				playerTile,
 				timeToReadPage,
 				player.GameObject
 			);
@@ -114,7 +119,8 @@ namespace Items.Bureaucracy
 				readerProgress[player]++;
 
 				// TODO: play random page-turning sound => pageturn1.ogg || pageturn2.ogg || pageturn3.ogg
-				string remark = remarks[Random.Range(0, remarks.Length)];
+				SoundManager.PlayNetworkedAtPos(pageturnSfx.PickRandom(), playerTile.WorldPositionServer, sourceObj: player.GameObject);
+				string remark = remarks.PickRandom();
 				Chat.AddExamineMsgFromServer(player.GameObject, remark);
 
 				ReadBook(player, readerProgress[player]);

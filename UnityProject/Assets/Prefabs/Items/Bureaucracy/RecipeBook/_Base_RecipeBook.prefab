@@ -20,6 +20,25 @@ MonoBehaviour:
   - A remarkably simple book...
   - Why am I reading this simple book?
   - Simple things amuse simple minds...
+  pageturnSfx:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   containsRecipes: []
 --- !u!1001 &2057231823438970203
 PrefabInstance:
