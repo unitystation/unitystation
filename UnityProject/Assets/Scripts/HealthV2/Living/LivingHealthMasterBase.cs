@@ -589,21 +589,23 @@ namespace HealthV2
 			LastDamagedBy = damagedBy;
 
 			var count = 0;
-			foreach (var bodyPart in BodyPartList)
+
+			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (BodyPartList[i].BodyPartType == bodyPartAim)
 				{
 					count++;
 				}
 			}
 
-			foreach (var bodyPart in BodyPartList)
+			for (int i = BodyPartList.Count - 1; i > 0; i--)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (BodyPartList[i].BodyPartType == bodyPartAim)
 				{
-					bodyPart.TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration);
+					BodyPartList[i].TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration);
 				}
 			}
+			
 			CheckDismemberBody();
 		}
 
