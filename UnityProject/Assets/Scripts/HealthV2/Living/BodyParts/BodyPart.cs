@@ -324,7 +324,22 @@ namespace HealthV2
 				{
 					bodyPart.IsBleeding = true;
 				}
+
+				if (bodyPart.BodyPartType == BodyPartType.LeftArm || bodyPart.BodyPartType == BodyPartType.RightArm
+				|| bodyPart.BodyPartType == BodyPartType.LeftHand || bodyPart.BodyPartType == BodyPartType.RightHand)
+				{
+					DynamicItemStorage storge = HealthMaster.playerScript.DynamicItemStorage;
+					foreach (ItemSlot itemSlot in storge.GetNamedItemSlots(NamedSlot.leftHand))
+					{
+						Inventory.ServerDrop(itemSlot);
+					}
+					foreach (var itemSlot in storge.GetNamedItemSlots(NamedSlot.rightHand))
+					{
+						Inventory.ServerDrop(itemSlot);
+					}
+				}
 			}
+
 			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
