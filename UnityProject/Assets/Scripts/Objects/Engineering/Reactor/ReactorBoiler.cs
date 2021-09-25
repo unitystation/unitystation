@@ -58,7 +58,9 @@ namespace Objects.Engineering
 		{
 			//Maybe change equation later to something cool
 			CurrentPressureInput = 0;
-			CurrentPressureInput = (decimal)Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.InternalEnergy - (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * 293.15f))), float.MinValue, float.MaxValue);
+			CurrentPressureInput = (decimal)Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.InternalEnergy -
+			                                              (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * 293.15f))),
+				(float)decimal.MinValue, (float)decimal.MaxValue);
 			if (CurrentPressureInput > 0)
 			{
 				ReactorPipe.pipeData.mixAndVolume.InternalEnergy -= (float)(CurrentPressureInput * Efficiency);

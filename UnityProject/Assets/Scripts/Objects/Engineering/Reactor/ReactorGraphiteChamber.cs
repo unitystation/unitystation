@@ -295,7 +295,7 @@ namespace Objects.Engineering
 			}
 
 			CurrentPressure = (decimal)Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) *
-			                                        ReactorPipe.pipeData.mixAndVolume.Total.x), float.MinValue, float.MaxValue);
+			                                        ReactorPipe.pipeData.mixAndVolume.Total.x), (float)decimal.MinValue, (float)decimal.MaxValue);
 
 			if (CurrentPressure > MaxPressure)
 			{
