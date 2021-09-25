@@ -1028,16 +1028,23 @@ public static class Librarian
 			//Logger.Log(this.ToString());
 			//Logger.Log(ID.ToString());
 			//Logger.Log(Variable.GetType().ToString());
-			if (PInfo != null)
+			try
 			{
-				PInfo.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
-			}
-			else if (Info != null)
-			{
-				Info.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
-			}
+				if (PInfo != null)
+				{
+					PInfo.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
+				}
+				else if (Info != null)
+				{
+					Info.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
+				}
 
-			UpdatePage();
+				UpdatePage();
+			}
+			catch (ArgumentException exception)
+			{
+				Logger.LogError("Catch Argument Exception for Variable Viewer " + exception.Message, Category.VariableViewer);
+			}
 		}
 
 		public void Invoke()
