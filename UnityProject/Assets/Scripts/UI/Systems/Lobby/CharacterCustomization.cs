@@ -1508,25 +1508,42 @@ namespace UI.CharacterCreator
 				{
 					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
 					Debug.Log(customizationToAdd.Name);
-					ExternalCustomisation serializedCustom = new ExternalCustomisation();
-					serializedCustom.SerialisedValue.SelectedName = customizationToAdd.Name;
-					data.SerialisedExternalCustom.Append(serializedCustom);
+					ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
+					newExternalCustomisation.Key = customizationToAdd.name;
+					newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
+					Debug.Log(newExternalCustomisation);
+					data.SerialisedExternalCustom.Append(newExternalCustomisation);
 				}
 				if (customisation.CustomisationGroup.name == "PlayerUnderWear")
 				{
 					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
-					ExternalCustomisation serializedCustom = new ExternalCustomisation();
-					serializedCustom.SerialisedValue.SelectedName = customizationToAdd.Name;
-					data.SerialisedExternalCustom.Append(serializedCustom);
+					Debug.Log(customizationToAdd.Name);
+					ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
+					newExternalCustomisation.Key = customizationToAdd.name;
+					newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
+					Debug.Log(newExternalCustomisation);
+					data.SerialisedExternalCustom.Append(newExternalCustomisation);
 				}
 				if (customisation.CustomisationGroup.name == "PlayerSocks")
 				{
 					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
-					ExternalCustomisation serializedCustom = new ExternalCustomisation();
-					serializedCustom.SerialisedValue.SelectedName = customizationToAdd.Name;
-					data.SerialisedExternalCustom.Append(serializedCustom);
+					Debug.Log(customizationToAdd.Name);
+					ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
+					newExternalCustomisation.Key = customizationToAdd.name;
+					newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
+					Debug.Log(newExternalCustomisation);
+					data.SerialisedExternalCustom.Append(newExternalCustomisation);
 				}
 			}
+		}
+
+		public static CharacterSettings.CustomisationClass SerialiseCustomizationData(PlayerCustomisationData data)
+		{
+			var newcurrentSetting = new CharacterSettings.CustomisationClass();
+			newcurrentSetting.Colour = "#" + ColorUtility.ToHtmlStringRGB(Color.white);
+			newcurrentSetting.SelectedName = data.Name;
+			return newcurrentSetting;
+
 		}
 
 		public static string RandomizeCharacterSkinToneHTMLString(CharacterSettings data)
