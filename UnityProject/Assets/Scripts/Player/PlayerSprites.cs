@@ -199,15 +199,7 @@ public class PlayerSprites : MonoBehaviour
 	{
 
 		CustomisationStorage customisationStorage = null;
-		//(Max) : We need to find a way to fix customizations for Dummy players.
-		//Dummy players can be re-usable for other stuff in the future so I'm working on a PR to fix this;
-		//Until then I think this check should be left here.
-		if (ThisCharacter.SerialisedBodyPartCustom == null)
-		{
-			Logger.LogWarning($"{ThisCharacter.Name} has no Serialised customizations, This issue should be only related " +
-			                  $"to dummy players.");
-			return;
-		}
+
 		foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
 		{
 			if (livingHealthMasterBase.name == Custom.path)
