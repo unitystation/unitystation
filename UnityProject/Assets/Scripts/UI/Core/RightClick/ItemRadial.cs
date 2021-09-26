@@ -97,10 +97,17 @@ namespace UI.Core.RightClick
 
 		private void SetRadialScrollable(bool value)
 		{
-			Drag.enabled = value;
-			Scroll.enabled = value;
-			itemRing.raycastTarget = value;
-			itemLabel.raycastTarget = value;
+			try
+			{
+				Drag.enabled = value;
+				Scroll.enabled = value;
+				itemRing.raycastTarget = value;
+				itemLabel.raycastTarget = value;
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught a NRE in ItemRadial.SetRadialScrollable() " + exception.Message, Category.UI);
+			}
 		}
 
 		public void UpdateArrows()
@@ -112,8 +119,19 @@ namespace UI.Core.RightClick
 
 		public void LateUpdate()
 		{
-			background.rotation = Quaternion.identity;
-			itemLabel.transform.rotation = Quaternion.identity;
+			try
+			{
+				background.rotation = Quaternion.identity;
+				itemLabel.transform.rotation = Quaternion.identity;
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught a NRE in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+			}
+			catch (UnassignedReferenceException exception)
+			{
+				Logger.LogError("Caught an Unassigned Reference Exception in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+			}
 		}
 
 		public override void RotateRadial(float rotation)

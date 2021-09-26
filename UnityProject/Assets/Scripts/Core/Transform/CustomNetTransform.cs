@@ -306,10 +306,18 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		//Registering
 		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.LocalPosition) )
 		{
-			if (registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) == false)
+			if (server)
 			{
-				registerTile.UpdatePositionClient(); //predicted movement didnt swap to another matrix
+				if (registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) == false)
+				{
+					registerTile.UpdatePositionClient();
+				}
 			}
+			else
+			{
+				registerTile.UpdatePositionClient();
+			}
+
 			changed = true;
 		}
 

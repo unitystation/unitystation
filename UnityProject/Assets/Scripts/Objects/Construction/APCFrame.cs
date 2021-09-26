@@ -25,7 +25,7 @@ namespace Objects.Construction
 		private Integrity integrity;
 		private SpriteHandler spriteHandler;
 
-		private ItemSlot powerCellSlot = null; 
+		private ItemSlot powerCellSlot = null;
 		private ItemSlot powerControlSlot = null;
 
 		private Stateful stateful;
@@ -38,7 +38,7 @@ namespace Objects.Construction
 
 		private void Awake()
 		{
-			powerControlSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0); 
+			powerControlSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			powerCellSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(1);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -55,7 +55,14 @@ namespace Objects.Construction
 		}
 		private void OnEnable()
 		{
-			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+			try
+			{
+				integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Catched a NRE in APCFrame OnEnable() " + exception.Message, Category.Electrical);
+			}
 		}
 		private void OnDisable()
 		{
@@ -77,7 +84,7 @@ namespace Objects.Construction
 			//different logic depending on state
 			if (CurrentState == initialState)
 			{
-				//Adds the power control module or deconstruct			
+				//Adds the power control module or deconstruct
 				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 5)) ||
 					Validations.HasUsedActiveWelder(interaction);
 			}
@@ -253,7 +260,7 @@ namespace Objects.Construction
 						stateful.ServerChangeState(wrenchedState);
 						spriteHandler.ChangeSprite((int)SpriteStates.FrameWrenched);
 					});
-				
+
 			}
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
 			{
@@ -369,7 +376,7 @@ namespace Objects.Construction
 			Inventory.ServerTransfer(apcPowerCellSlot, powerCellSlot);
 
 			spriteHandler.ChangeSprite((int)SpriteStates.FrameWrenched);
-		
+
 			// Set initial state
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(wrenchedState);

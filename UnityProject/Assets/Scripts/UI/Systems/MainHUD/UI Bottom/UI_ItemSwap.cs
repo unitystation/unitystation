@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -59,20 +60,27 @@ namespace UI
 		public new void OnPointerEnter(PointerEventData eventData)
 		{
 			base.OnPointerEnter(eventData);
-
-			var item = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot().Item;
-			if (item == null
-				|| itemSlot.Item != null
-				|| itemSlot.NamedSlot == NamedSlot.rightHand
-				|| itemSlot.NamedSlot == NamedSlot.leftHand)
+			try
 			{
-				return;
+				var item = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot().Item;
+				if (item == null
+				    || itemSlot.Item != null
+				    || itemSlot.NamedSlot == NamedSlot.rightHand
+				    || itemSlot.NamedSlot == NamedSlot.leftHand)
+				{
+					return;
+				}
+
+				itemSlot.UpdateImage(item.gameObject,
+					Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item,
+						NetworkSide.Client)
+						? successOverlayColor
+						: failOverlayColor);
 			}
-			itemSlot.UpdateImage(item.gameObject,
-				Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item, NetworkSide.Client)
-				? successOverlayColor : failOverlayColor);
-
-
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught an NRE in UI_ItemSLot.OnPointerEnter() " + exception.Message, Category.UI);
+			}
 		}
 
 		public new void OnPointerExit(PointerEventData eventData)
@@ -98,7 +106,7 @@ namespace UI
 				if (targetItem != null)
 				{
 					var invApply = InventoryApply.ByLocalPlayer(itemSlot.ItemSlot, fromSlot);
-					
+
 					// check interactables in the fromSlot (if it's occupied)
 					var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
 						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
