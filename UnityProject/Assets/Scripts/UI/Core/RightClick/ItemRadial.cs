@@ -128,6 +128,10 @@ namespace UI.Core.RightClick
 			{
 				Logger.LogError("Caught a NRE in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
 			}
+			catch (UnassignedReferenceException exception)
+			{
+				Logger.LogError("Caught an Unassigned Reference Exception in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+			}
 		}
 
 		public override void RotateRadial(float rotation)

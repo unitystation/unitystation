@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -42,7 +43,18 @@ namespace UI.Core.RightClick
 
 		public void LateUpdate()
 		{
-			background.rotation = Quaternion.identity;
+			try
+			{
+				background.rotation = Quaternion.identity;
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught a NRE in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+			}
+			catch (UnassignedReferenceException exception)
+			{
+				Logger.LogError("Caught an Unassigned Reference Exception in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+			}
 		}
 
 		public override void Setup(int itemCount)
