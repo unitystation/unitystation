@@ -34,10 +34,10 @@ namespace UI.Objects.Atmospherics.Acu
 			modeLabel.SetValueServer($"Mode: {Acu.DesiredMode}");
 			UpdateLabels();
 
-			var gasesToDisplay = new List<GasValues>(Acu.AverageGasMix.GasesArray);
+			var gasesToDisplay = new List<GasValues>(Acu.AtmosphericAverage.GetGases());
 			gasesToDisplay.Sort((gasA, gasB) => gasB.Moles.CompareTo(gasA.Moles));
 
-			if (metricsContainer.Entries.Length * 30 != gasesToDisplay.Count)
+			if (metricsContainer.Entries.Length != gasesToDisplay.Count)
 			{
 				metricsContainer.SetItems(gasesToDisplay.Count);
 			}
@@ -45,23 +45,31 @@ namespace UI.Objects.Atmospherics.Acu
 			for (int i = 0; i < metricsContainer.Entries.Length; i++)
 			{
 				GasSO gas = gasesToDisplay[i].GasSO;
-				float ratio = Acu.AverageGasMix.GasRatio(gas);
-				float moles = Acu.AverageGasMix.GetMoles(gas);
+				float ratio = Acu.AtmosphericAverage.GetGasRatio(gas);
+				float moles = Acu.AtmosphericAverage.GetGasMoles(gas);
 				UpdateGasEntry(i, gas.Name, ratio, moles, Acu.GasLevelStatus[gas]);
 			}
 		}
 
 		private void UpdateLabels()
 		{
-			string pressureText = $"{Acu.AverageGasMix.Pressure, 0:N3} kPa";
-			string temperatureText = $"{TemperatureUtils.FromKelvin(Acu.AverageGasMix.Temperature, TemeratureUnits.C), 0:N1} °C";
+			string pressureText = "? kPa";
+			string temperatureText = "? °C";
+			string compositionText = "Unknown";
+
+			if (Acu.AtmosphericAverage.SampleSize > 0)
+			{
+				pressureText = $"{Acu.AtmosphericAverage.Pressure, 0:N3} kPa";
+				temperatureText = $"{TemperatureUtils.FromKelvin(Acu.AtmosphericAverage.Temperature, TemeratureUnits.C), 0:N1} °C";
+				compositionText = Acu.CompositionStatus.ToString();
+			}
 
 			pressureLabel.SetValueServer(
 					$"Pressure:    {GUI_Acu.ColorStringByStatus(pressureText, Acu.PressureStatus)}");
 			temperatureLabel.SetValueServer(
 					$"Temperature: {GUI_Acu.ColorStringByStatus(temperatureText, Acu.TemperatureStatus)}");
 			compositionLabel.SetValueServer(
-					$"Composition: {GUI_Acu.ColorStringByStatus(Acu.CompositionStatus.ToString(), Acu.CompositionStatus)}");
+					$"Composition: {GUI_Acu.ColorStringByStatus(compositionText, Acu.CompositionStatus)}");
 		}
 
 		private void UpdateGasEntry(int index, string name, float ratio, float moles, AcuStatus molStatus)

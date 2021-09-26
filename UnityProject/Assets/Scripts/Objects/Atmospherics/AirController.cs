@@ -81,14 +81,16 @@ namespace Objects.Atmospherics
 		public AcuMode DesiredMode { get; private set; }
 
 		/// <summary>
-		/// We piggyback off a <c>GasMix</c> to represent the average <c>GasMix</c> over all devices, including the controller.
-		/// <para>For data representation only.</para>
+		/// Represents the average values over each <c>GasMix</c>  devices (including the controller, if enabled).
+		/// BLAH
 		/// </summary>
-		public GasMix AverageGasMix { get; private set; }
+		public AcuSampleAverage AtmosphericAverage { get; private set; } = new AcuSampleAverage();
 
 		public AcuThresholds Thresholds { get; private set; }
 
 		public bool IsWriteable => IsPowered && IsLocked == false;
+
+		private AcuSample acuSample = new AcuSample();
 
 		#region Lifecycle
 
@@ -126,51 +128,35 @@ namespace Objects.Atmospherics
 
 		private void PeriodicUpdate()
 		{
-			AverageGasMix = GetAverageGasMix();
+			UpdateAtmosphericAverage();
 			UpdateStatusProperties();
 			spriteHandler.ChangeSprite((int)OverallStatus);
 
 			// Cycle will vacuum air, and then refill.
-			if (DesiredMode == AcuMode.Cycle && AverageGasMix.Pressure < AtmosConstants.ONE_ATMOSPHERE / 20)
+			if (DesiredMode == AcuMode.Cycle && AtmosphericAverage.Pressure < AtmosConstants.ONE_ATMOSPHERE / 20)
 			{
 				SetOperatingMode(AcuMode.Refill);
 			}
 			// Slightly different to /tg/: refill will now return to the initial operating mode once one atmosphere is reached.
-			else if (DesiredMode == AcuMode.Refill && AverageGasMix.Pressure > AtmosConstants.ONE_ATMOSPHERE)
+			else if (DesiredMode == AcuMode.Refill && AtmosphericAverage.Pressure > AtmosConstants.ONE_ATMOSPHERE)
 			{
 				SetOperatingMode(initialOperatingMode);
 			}
 		}
 
-		private GasMix GetAverageGasMix()
+		private void UpdateAtmosphericAverage()
 		{
-			int sampleSourceCount = ConnectedDevices.Count + (acuSamplesAir ? 1 : 0);
-
-			// Sample the gas at the ACU (if enabled).
-			GasMix avgMix = GasMix.NewGasMix(acuSamplesAir ? facingMetaNode.GasMix : GasMixes.BaseEmptyMix);
-
-			if (sampleSourceCount < 1) return avgMix;
-
-			// Sample the gas at all connected devices.
+			AtmosphericAverage.Clear();
 			foreach (IAcuControllable device in ConnectedDevices)
 			{
-				avgMix.Pressure += device.AmbientGasMix.Pressure;
-				avgMix.Temperature += device.AmbientGasMix.Temperature;
-
-				foreach (GasValues gas in device.AmbientGasMix.GasesArray)
-				{
-					avgMix.GasData.ChangeMoles(gas.GasSO, gas.Moles);
-				}
+				AtmosphericAverage.AddSample(device.AtmosphericSample);
 			}
 
-			avgMix.Pressure /= sampleSourceCount;
-			avgMix.Temperature /= sampleSourceCount;
-			foreach (var kvp in avgMix.GasData.GasesDict)
+			if (acuSamplesAir)
 			{
-				avgMix.GasData.GasesDict[kvp.Key].Moles /= sampleSourceCount;
+				acuSample.FromGasMix(facingMetaNode.GasMix);
+				AtmosphericAverage.AddSample(acuSample);
 			}
-
-			return avgMix;
 		}
 
 		#region Status
@@ -183,14 +169,20 @@ namespace Objects.Atmospherics
 
 		private void UpdateStatusProperties()
 		{
-			PressureStatus = GetMetricStatus(Thresholds.Pressure, AverageGasMix.Pressure);
-			TemperatureStatus = GetMetricStatus(Thresholds.Temperature, AverageGasMix.Temperature);
+			if (AtmosphericAverage.SampleSize < 1)
+			{
+				OverallStatus = PressureStatus = TemperatureStatus = CompositionStatus = AcuStatus.Caution;
+				return;
+			}
+
+			PressureStatus = GetMetricStatus(Thresholds.Pressure, AtmosphericAverage.Pressure);
+			TemperatureStatus = GetMetricStatus(Thresholds.Temperature, AtmosphericAverage.Temperature);
 			CompositionStatus = AcuStatus.Nominal;
 
 			// We need to loop over all possible gases (or more specifically, a union of detected gases and recognized gases).
 			foreach (GasSO gas in Gas.Gases.Values)
 			{
-				bool gasDetected = AverageGasMix.GasData.GasesDict.ContainsKey(gas);
+				bool gasDetected = AtmosphericAverage.HasGas(gas);
 				if (gasDetected && Thresholds.GasMoles.ContainsKey(gas) == false)
 				{
 					// Let thresholds know about this unrecognized gas, but values are undetermined (let a technician set them).
@@ -198,7 +190,7 @@ namespace Objects.Atmospherics
 				}
 
 				GasLevelStatus[gas] = gasDetected
-						? GetMetricStatus(Thresholds.GasMoles[gas], AverageGasMix.GetMoles(gas))
+						? GetMetricStatus(Thresholds.GasMoles[gas], AtmosphericAverage.GetGasMoles(gas))
 						: AcuStatus.Nominal;
 				CompositionStatus = GasLevelStatus[gas] > CompositionStatus? GasLevelStatus[gas] : CompositionStatus;
 			}
@@ -227,7 +219,10 @@ namespace Objects.Atmospherics
 
 		public void RequestImmediateUpdate()
 		{
-			PeriodicUpdate();
+			if (IsPowered)
+			{
+				PeriodicUpdate();
+			}
 		}
 
 		public void SetOperatingMode(AcuMode mode)

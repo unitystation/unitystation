@@ -117,16 +117,16 @@ namespace UI.Objects.Atmospherics.Acu
 				// so the initial invoke was missed.
 				TabOpened();
 			}
-
-			(pageSwitcher.CurrentPage as GUI_AcuPage).OnPageActivated();
 		}
 
 		private void TabOpened(ConnectedPlayer newPeeper = default)
 		{
+			SetPage(ValidatePage(requestedPage));
+
 			// Quicker ACU updates if we have peepers.
 			UpdateManager.Add(PeriodicUpdate, 0.5f);
 			Acu.OnStateChanged += OnAcuStateChanged;
-			Acu.RequestImmediateUpdate();
+			PeriodicUpdate();
 		}
 
 		private void TabClosed(ConnectedPlayer oldPeeper = default)

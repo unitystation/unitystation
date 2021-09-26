@@ -84,10 +84,14 @@ namespace UI.Objects.Atmospherics.Acu
 				filteredGasLines.Add(filteredGasesStr);
 			}
 
+			// "Scrubber - " as per NameValidator tool.
+			string scrubberName = scrubber.gameObject.name;
+			scrubberName = scrubberName.StartsWith("Scrubber - ") ? scrubberName.Substring("Scrubber - ".Length) : scrubberName;
+
 			// We use blank subscripts to get back to correct monospacing (each subscript is 0.5 monospace units)
 			string str =
 					"---------------------------------------------------\n" +
-					$"| {scrubber.gameObject.name,-35} {onStr}|\n" + // TODO: add random ID: - Afgwq
+					$"| {scrubberName, -35} {onStr}|\n" +
 					"|                                                 |\n" +
 					$"| Mode:       {modeStr}         |\n" +
 					$"| Range:      {rangeStr}         |\n" +

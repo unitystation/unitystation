@@ -308,7 +308,8 @@ namespace Objects.Atmospherics
 			AcuMode.Cycle, AcuMode.Draught, AcuMode.Siphon, AcuMode.PanicSiphon
 		};
 
-		public GasMix AmbientGasMix => metaNode.GasMix;
+		private AcuSample atmosphericSample = new AcuSample();
+		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMix);
 
 		public void SetOperatingMode(AcuMode mode)
 		{

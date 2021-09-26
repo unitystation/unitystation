@@ -64,14 +64,18 @@ namespace UI.Objects.Atmospherics.Acu
 
 		private void SetDevicePage(int page)
 		{
-			pageSwitcher.SetActivePage(page);
-			requestedPage = page;
+			if (page != requestedPage)
+			{
+				requestedPage = page;
+				ClearLists();
+				pageSwitcher.SetActivePage(requestedPage);
+			}
+			
 			UpdateLists();
 		}
 
 		private void UpdateLists()
 		{
-			ClearLists();
 			switch (requestedPage)
 			{
 				case 0:
@@ -95,7 +99,10 @@ namespace UI.Objects.Atmospherics.Acu
 		private void PopulateVents()
 		{
 			List<AirVent> vents = Acu.ConnectedDevices.OfType<AirVent>().ToList();
-			ventsList.AddItems(vents.Count);
+			if (vents.Count != ventsList.Entries.Length)
+			{
+				ventsList.SetItems(vents.Count);
+			}
 
 			for (int i = 0; i < ventsList.Entries.Length; i++)
 			{
@@ -108,7 +115,10 @@ namespace UI.Objects.Atmospherics.Acu
 		private void PopulateScrubbers()
 		{
 			List<Scrubber> scrubbers = Acu.ConnectedDevices.OfType<Scrubber>().ToList();
-			scrubbersList.AddItems(scrubbers.Count);
+			if (scrubbers.Count != scrubbersList.Entries.Length)
+			{
+				scrubbersList.SetItems(scrubbers.Count);
+			}
 
 			for (int i = 0; i < scrubbersList.Entries.Length; i++)
 			{

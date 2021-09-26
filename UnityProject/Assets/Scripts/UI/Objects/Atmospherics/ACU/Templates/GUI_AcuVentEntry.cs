@@ -63,9 +63,13 @@ namespace UI.Objects.Atmospherics.Acu
 				externalTargetLine = $"<color=#{disabledColor}>{externalTargetLine}</color>";
 			}
 
+			// "Vent - " as per NameValidator tool.
+			string ventName = vent.gameObject.name;
+			ventName = ventName.StartsWith("Vent - ") ? ventName.Substring("Vent - ".Length) : ventName;
+
 			string str =
 					"---------------------------------------------------\n" +
-					$"| {vent.gameObject.name, -35} {onStr}|\n" + // TODO: add random ID: - Afgwq
+					$"| {ventName, -35} {onStr}|\n" +
 					"|                                                 |\n" +
 					$"| Mode:       {modeStr}      |\n" +
 					$"| Regulator:  {internalStr} {externalStr}      |\n" +

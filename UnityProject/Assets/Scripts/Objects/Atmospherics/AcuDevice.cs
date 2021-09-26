@@ -7,8 +7,8 @@ namespace Objects.Atmospherics
 	/// <summary>Allows an <seealso cref="AcuDevice"/> to be used for air quality sampling and control.</summary>
 	public interface IAcuControllable
 	{
-		/// <summary>The <c>GasMix</c> the device reports for sampling. Typically is for the device's tile.</summary>
-		GasMix AmbientGasMix { get; }
+		/// <summary>The atmospheric sample the device reports. Typically is for the device's tile.</summary>
+		AcuSample AtmosphericSample { get; }
 
 		/// <summary>
 		/// The operating mode the controlling <see cref="AirController"/> has indicated the device should operate with.
