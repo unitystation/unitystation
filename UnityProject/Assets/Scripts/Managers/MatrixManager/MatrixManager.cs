@@ -264,15 +264,24 @@ public partial class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		try
 		{
-			if (matrixInfo.Matrix == Instance.spaceMatrix) continue;
-			if (matrixInfo.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, matrixInfo), isServer) == false)
+			foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 			{
-				return matrixInfo;
+				if (matrixInfo.Matrix == Instance.spaceMatrix) continue;
+				if (matrixInfo.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, matrixInfo), isServer) == false)
+				{
+					return matrixInfo;
+				}
 			}
+
+			return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
 		}
-		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
+		catch (NullReferenceException exception)
+		{
+			Logger.LogError("Caught an NRE on client in MatrixManager.AtPoint() " + exception.Message, Category.Matrix);
+			return null;
+		}
 	}
 
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
