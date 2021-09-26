@@ -523,13 +523,21 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		//Registering
 		if (registerPlayer.LocalPositionClient != Vector3Int.RoundToInt(predictedState.LocalPosition))
 		{
-			if (registerPlayer.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) == false)
+			if (server)
 			{
-				registerPlayer.UpdatePositionClient(); //predicted movement didnt swap to another matrix
+				if (registerPlayer.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) ==
+				    false)
+				{
+					registerPlayer.UpdatePositionClient();
+				}
+			}
+			else
+			{
+				registerPlayer.UpdatePositionClient();
 			}
 		}
 
-		if (registerPlayer.LocalPositionServer != Vector3Int.RoundToInt(serverState.LocalPosition))
+		if (server && registerPlayer.LocalPositionServer != Vector3Int.RoundToInt(serverState.LocalPosition))
 		{
 			registerPlayer.UpdatePositionServer();
 		}
