@@ -9,7 +9,6 @@ using AddressableReferences;
 using ScriptableObjects;
 using Systems.Interaction;
 using Systems.ObjectConnection;
-using Hacking;
 using HealthV2;
 using Objects.Wallmounts;
 
@@ -124,12 +123,6 @@ namespace Doors
 
 		private SpriteRenderer spriteRenderer;
 
-		private HackingProcessBase hackingProcess;
-		public HackingProcessBase HackingProcess => hackingProcess;
-
-		private bool isHackable;
-		public bool IsHackable => isHackable;
-
 		private float inputDelay = 0.5f;
 		private float delayStartTime = 0;
 		private float delayStartTimeTryOpen = 0;
@@ -156,9 +149,6 @@ namespace Doors
 			openLayer = LayerMask.NameToLayer("Door Open");
 			registerTile = gameObject.GetComponent<RegisterDoor>();
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
-
-			hackingProcess = GetComponent<HackingProcessBase>();
-			isHackable = hackingProcess != null;
 		}
 
 		public override void OnStartClient()
@@ -262,14 +252,7 @@ namespace Doors
 
 		public void CloseSignal()
 		{
-			if (isHackable)
-			{
-				// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnShouldClose);
-			}
-			else
-			{
-				TryClose();
-			}
+			TryClose();
 		}
 
 		public void TryClose()
@@ -333,30 +316,10 @@ namespace Doors
 
 			if (AccessRestrictions != null && AccessRestrictions.CheckAccess(originator) == false)
 			{
-				if (isHackable)
-				{
-					// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnIdRejected, originator);
-				}
-				else
-				{
-					ServerAccessDenied();
-				}
-
+				ServerAccessDenied();
 				return;
 			}
 
-			if (isHackable)
-			{
-				// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OnShouldOpen, originator);
-			}
-			else
-			{
-				TryOpen(originator);
-			}
-		}
-
-		private void HackingTryOpen(GameObject originator = null)
-		{
 			TryOpen(originator);
 		}
 
@@ -376,14 +339,7 @@ namespace Doors
 			{
 				if (pressureWarnActive == false && DoorUnderPressure() && isEmagged == false)
 				{
-					if (isHackable)
-					{
-						// hackingProcess.SendOutputToConnectedNodes(HackingIdentifier.ShouldDoPressureWarning);
-					}
-					else
-					{
-						ServerPressureWarn();
-					}
+					ServerPressureWarn();
 				}
 				else
 				{
@@ -587,10 +543,19 @@ namespace Doors
 		private bool requireLink = false;
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => doorMaster;
 		bool IMultitoolSlaveable.RequireLink => false;
 		// TODO: should be requireLink but hardcoded to false for now,
 		// doors don't know about links, only the switches
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
 		private IMultitoolMasterable doorMaster;
 
@@ -598,14 +563,11 @@ namespace Doors
 		{
 			doorMaster = master;
 
-			var doorSwitch = master as DoorSwitch;
-			if (doorSwitch)
+			if (master is DoorSwitch doorSwitch)
 			{
 				doorSwitch.AddDoorControllerFromScene(this);
-				return;
 			}
-			var statusDisplay = master as StatusDisplay;
-			if (statusDisplay)
+			else if (master is StatusDisplay statusDisplay)
 			{
 				statusDisplay.LinkDoor(this);
 			}

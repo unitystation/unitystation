@@ -114,15 +114,27 @@ namespace Objects.Lighting
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.LightSwitch;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => relatedLightSwitch; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => relatedLightSwitch;
 		bool IMultitoolSlaveable.RequireLink => false;
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
 		private void SetMaster(IMultitoolMasterable master)
 		{
-			var lightSwitch = (master as Component)?.gameObject.GetComponent<LightSwitchV2>();
-			if (lightSwitch != relatedLightSwitch)
+			if (master is LightSwitchV2 lightSwitch && lightSwitch != relatedLightSwitch)
 			{
 				SubscribeToSwitchEvent(lightSwitch);
+			}
+			else if (relatedLightSwitch != null)
+			{
+				UnSubscribeFromSwitchEvent();
 			}
 		}
 
@@ -293,28 +305,39 @@ namespace Objects.Lighting
 
 		private void TryRemoveBulb(HandApply interaction)
 		{
-			var handSlot = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-
-			if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
-					!Validations.HasItemTrait(handSlot.ItemObject, CommonTraits.Instance.BlackGloves)))
+			try
 			{
-				var playerHealth = interaction.PerformerPlayerScript.playerHealth;
-				var burntBodyPart = interaction.HandSlot.NamedSlot == NamedSlot.leftHand ? BodyPartType.LeftArm : BodyPartType.RightArm;
-				playerHealth.ApplyDamageToBodyPart(gameObject, 10f, AttackType.Energy, DamageType.Burn, burntBodyPart);
+				var handSlot = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 
-				Chat.AddExamineMsgFromServer(interaction.Performer,
+				if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
+				                                     !Validations.HasItemTrait(handSlot.ItemObject,
+					                                     CommonTraits.Instance.BlackGloves)))
+				{
+					var playerHealth = interaction.PerformerPlayerScript.playerHealth;
+					var burntBodyPart = interaction.HandSlot.NamedSlot == NamedSlot.leftHand
+						? BodyPartType.LeftArm
+						: BodyPartType.RightArm;
+					playerHealth.ApplyDamageToBodyPart(gameObject, 10f, AttackType.Energy, DamageType.Burn,
+						burntBodyPart);
+
+					Chat.AddExamineMsgFromServer(interaction.Performer,
 						"<color=red>You burn your hand on the bulb while attempting to remove it!</color>");
-				return;
-			}
+					return;
+				}
 
-			var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer()).GameObject;
-			ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
-			if (bestHand != null && spawnedItem != null)
+				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer()).GameObject;
+				ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
+				if (bestHand != null && spawnedItem != null)
+				{
+					Inventory.ServerAdd(spawnedItem, bestHand);
+				}
+
+				ServerChangeLightState(LightMountState.MissingBulb);
+			}
+			catch (NullReferenceException exception)
 			{
-				Inventory.ServerAdd(spawnedItem, bestHand);
+				Logger.LogError("A NRE was caught in LightSource.TryRemoveBulb(): " + exception.Message, Category.Lighting);
 			}
-
-			ServerChangeLightState(LightMountState.MissingBulb);
 		}
 
 		private void TryAddBulb(HandApply interaction)

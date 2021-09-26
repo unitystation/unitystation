@@ -126,7 +126,15 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			if (SubSceneManager.Instance.loadedScenesList.Count == ActiveMatrices.Count)
 			{
-				IsInitialized = true;
+				if (IsInitialized)
+				{
+					ClientMatrixInitialization(matrix);
+				}
+				else
+				{
+					IsInitialized = true;
+					ClientAllMatrixReady();
+				}
 			}
 		}
 	}
@@ -163,6 +171,23 @@ public partial class MatrixManager : MonoBehaviour
 
 		var iServerSpawnList = matrix.GetComponentsInChildren<IServerSpawn>();
 		GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
+	}
+
+	[Client]
+	private void ClientAllMatrixReady()
+	{
+		foreach (var matrixInfo in ActiveMatrices.Values)
+		{
+			var subsystemManager = matrixInfo.Matrix.GetComponentInParent<SubsystemManager>();
+			subsystemManager.Initialize();
+		}
+	}
+
+	[Client]
+	private void ClientMatrixInitialization(Matrix matrix)
+	{
+		var subsystemManager = matrix.GetComponentInParent<SubsystemManager>();
+		subsystemManager.Initialize();
 	}
 
 	private void RegisterMatrix(Matrix matrix)
@@ -239,15 +264,24 @@ public partial class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		try
 		{
-			if (matrixInfo.Matrix == Instance.spaceMatrix) continue;
-			if (matrixInfo.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, matrixInfo), isServer) == false)
+			foreach (var matrixInfo in Instance.ActiveMatrices.Values)
 			{
-				return matrixInfo;
+				if (matrixInfo.Matrix == Instance.spaceMatrix) continue;
+				if (matrixInfo.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, matrixInfo), isServer) == false)
+				{
+					return matrixInfo;
+				}
 			}
+
+			return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
 		}
-		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
+		catch (NullReferenceException exception)
+		{
+			Logger.LogError("Caught an NRE on client in MatrixManager.AtPoint() " + exception.Message, Category.Matrix);
+			return null;
+		}
 	}
 
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,

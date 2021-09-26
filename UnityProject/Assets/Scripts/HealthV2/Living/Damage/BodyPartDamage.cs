@@ -255,18 +255,16 @@ namespace HealthV2
 			}
 			if(attackType == AttackType.Bomb)
 			{
-				TakeBluntDamage(damage);
-				if(damageToLimb >= DamageThreshold)
-				{
-					DismemberBodyPartWithChance();
-				}
+				TakeBluntDamage();
+				if(damageToLimb >= DamageThreshold) DismemberBodyPartWithChance();
 			}
 
-			if (attackType == AttackType.Fire || attackType == AttackType.Laser || attackType == AttackType.Energy)
+			if(Severity <= DamageSeverity.LightModerate) return;
+			if (damageType == DamageType.Burn || attackType == AttackType.Fire
+			                                  || attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{
-				ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN);
+				ApplyTraumaDamage(TraumaticDamageTypes.BURN, true);
 			}
-			if(CanBeBroken){CheckIfBroken();} //If our external limb can be broken.
 		}
 
 
@@ -342,7 +340,7 @@ namespace HealthV2
 			if (severity <= 0)
 			{
 				Severity = DamageSeverity.None;
-				currentCutSize = BodyPartCutSize.NONE;
+				currentPierceDamageLevel = TraumaDamageLevel.NONE;
 			}
 			// If the limb is under 10% damage
 			else if (severity < 0.1)

@@ -69,11 +69,11 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	}
 
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
-	public Vector3Int ServerLocalPosition => serverState.Position.RoundToInt();
+	public Vector3Int ServerLocalPosition => serverState.LocalPosition.RoundToInt();
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
-	public Vector3Int ClientLocalPosition => predictedState.Position.RoundToInt();
+	public Vector3Int ClientLocalPosition => predictedState.LocalPosition.RoundToInt();
 	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();
-	public Vector3Int TrustedLocalPosition => clientState.Position.RoundToInt();
+	public Vector3Int TrustedLocalPosition => clientState.LocalPosition.RoundToInt();
 	public Vector3Int LastNonHiddenPosition { get; } = TransformState.HiddenPos; //todo: implement for CNT!
 
 	//Timer to unsubscribe from the UpdateManager if the object is still for too long
@@ -279,7 +279,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 			changed &= CheckFloatingServer();
 		}
 
-		if ((Vector2)predictedState.Position != (Vector2)transform.localPosition)
+		if ((Vector2)predictedState.LocalPosition != (Vector2)transform.localPosition)
 		{
 			Lerp();
 			changed = true;
@@ -297,19 +297,27 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		}
 
 		//Checking if we should change matrix once per tile
-		if (server && registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position) ) {
+		if (server && registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.LocalPosition) ) {
 			CheckMatrixSwitch();
 			registerTile.UpdatePositionServer();
 			UpdateOccupant();
 			changed = true;
 		}
 		//Registering
-		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position) )
+		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.LocalPosition) )
 		{
-			if (registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) == false)
+			if (server)
 			{
-				registerTile.UpdatePositionClient(); //predicted movement didnt swap to another matrix
+				if (registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) == false)
+				{
+					registerTile.UpdatePositionClient();
+				}
 			}
+			else
+			{
+				registerTile.UpdatePositionClient();
+			}
+
 			changed = true;
 		}
 
@@ -440,8 +448,8 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 			Stop(notify: false);
 		}
 
-		serverState.Position = TransformState.HiddenPos;
-		serverLerpState.Position = TransformState.HiddenPos;
+		serverState.LocalPosition = TransformState.HiddenPos;
+		serverLerpState.LocalPosition = TransformState.HiddenPos;
 
 		if (resetRotation)
 		{
@@ -473,7 +481,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	///     For CLIENT prediction purposes.
 	public void DisappearFromWorld()
 	{
-		predictedState.Position = TransformState.HiddenPos;
+		predictedState.LocalPosition = TransformState.HiddenPos;
 		UpdateActiveStatusClient();
 	}
 
@@ -574,7 +582,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	public void SyncClientStateLocalPosition(Vector3 oldLocalPosition, Vector3 newLocalPosition)
 	{
 		clientStateLocalPosition = newLocalPosition;
-		clientState.Position = newLocalPosition;
+		clientState.LocalPosition = newLocalPosition;
 		ClientValueChanged();
 	}
 
@@ -617,7 +625,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		clientStateSpeed = newState.speed;
 		clientStateWorldImpulse = newState.WorldImpulse;
 		clientStateMatrixId = newState.MatrixId;
-		clientStateLocalPosition = newState.Position;
+		clientStateLocalPosition = newState.LocalPosition;
 		clientStateIsFollowUpdate = newState.IsFollowUpdate;
 		clientStateSpinRotation = newState.SpinRotation;
 		clientStateSpinFactor = newState.SpinFactor;

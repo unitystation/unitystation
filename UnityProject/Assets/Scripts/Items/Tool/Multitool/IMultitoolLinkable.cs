@@ -45,7 +45,22 @@ namespace Systems.ObjectConnection
 	/// </summary>
 	public interface IMultitoolSlaveable : IMultitoolLinkable
 	{
-		IMultitoolMasterable Master { get; set; }
+		IMultitoolMasterable Master { get; }
+
+		/// <summary>
+		/// Try to set the master of the device in-game, via e.g. a multitool. Provides the initial interaction
+		/// responsible for the link request.
+		/// </summary>
+		/// <remarks>Master should never be null and it will always be of the relevant connection type.</remarks>
+		/// <param name="interaction">Linking interaction</param>
+		/// <param name="master">Requested master to link with</param>
+		/// <returns></returns>
+		bool TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master);
+
+		/// <summary>Set the master of the device from an editor environment.</summary>
+		/// <remarks>The master can be null to indicate an unlinked state.</remarks>
+		/// <param name="master">Null for unlinked state</param>
+		void SetMasterEditor(IMultitoolMasterable master);
 
 		bool RequireLink { get; }
 	}

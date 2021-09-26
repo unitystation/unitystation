@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AddressableReferences;
 using Initialisation;
 using Map;
@@ -12,7 +11,7 @@ using Objects.Wallmounts;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using StationObjectives;
 
 namespace Managers
 {
@@ -46,7 +45,7 @@ namespace Managers
 		[NonSerialized] public AlertLevel CurrentAlertLevel;
 
 		//Server only:
-		private List<Vector2> asteroidLocations = new List<Vector2>();
+		public static List<Vector2> asteroidLocations = new List<Vector2>();
 
 		public DateTime lastAlertChange;
 		public double coolDownAlertChange = 5;
@@ -125,7 +124,7 @@ namespace Managers
 			{
 				SendExtendedUpdate();
 			}
-
+			StationObjectiveManager.Instance.ServerChooseObjective();
 			StartCoroutine(WaitToGenericReport());
 		}
 

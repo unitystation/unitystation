@@ -35,46 +35,22 @@ namespace HealthV2
 
 			if (CanBeBroken)
 			{
-				CheckIfBroken();
 				report.AppendLine("[Fracture Level]");
-				if (IsFracturedCompound)
+				switch (currentBluntDamageLevel)
 				{
-					report.AppendLine(BoneFracturedLvlThreeDesc);
-					return TranslateTags(report.ToString());
+					case TraumaDamageLevel.CRITICAL:
+						report.AppendLine(BoneFracturedLvlThreeDesc);
+						return TranslateTags(report.ToString());
+					case TraumaDamageLevel.SERIOUS:
+						report.AppendLine(BoneFracturedLvlTwoDesc);
+						return TranslateTags(report.ToString());
+					case TraumaDamageLevel.SMALL:
+						report.AppendLine("Joint Dislocation detected.");
+						return report.ToString();
+					default:
+						report.AppendLine($"{BodyPartReadableName} suffers no fractures and is healthy.");
+						return report.ToString();
 				}
-
-				if (IsFracturedHairline)
-				{
-					report.AppendLine(BoneFracturedLvlTwoDesc);
-					return TranslateTags(report.ToString());
-				}
-
-				if (Severity == DamageSeverity.Light)
-				{
-					report.AppendLine("Joint Dislocation detected.");
-					return report.ToString();
-				}
-
-				report.AppendLine($"{BodyPartReadableName} suffers no fractures and is healthy.");
-
-				return TranslateTags(report.ToString());
-			}
-
-			report.Append("[Open Wound Size -> ");
-			switch (currentCutSize)
-			{
-				case (BodyPartCutSize.SMALL):
-					report.AppendLine($"{BodyPartCutSize.SMALL}]");
-					break;
-				case (BodyPartCutSize.MEDIUM):
-					report.AppendLine($"{BodyPartCutSize.MEDIUM}]");
-					break;
-				case (BodyPartCutSize.LARGE):
-					report.AppendLine($"{BodyPartCutSize.LARGE}]");
-					break;
-				default:
-					report.AppendLine("{BodyPartCutSize.NONE}]");
-					break;
 			}
 
 			report.AppendLine($"[Wound Bleeding -> {isBleedingExternally}]");
@@ -84,7 +60,7 @@ namespace HealthV2
 				report.AppendLine($"[Organ is internally bleeding -> {isBleedingInternally}]");
 			}
 
-			if(currentCutSize != BodyPartCutSize.NONE)
+			if(currentSlashDamageLevel != TraumaDamageLevel.NONE || currentPierceDamageLevel != TraumaDamageLevel.NONE)
 			{
 				report.AppendLine("[Wound Report]");
 				switch (currentPierceDamageLevel)

@@ -45,7 +45,7 @@ namespace InGameEvents
 
 		private void SetAsAntagSurvivor(ConnectedPlayer player)
 		{
-			Chat.AddExamineMsgFromServer(player, "<color='red'><size=60>You are the survivalist!</size></color>");
+			Chat.AddExamineMsgFromServer(player, "<color=red><size=60>You are the survivalist!</size></color>");
 			AntagManager.Instance.ServerFinishAntag(survivorAntag, player);
 		}
 	}

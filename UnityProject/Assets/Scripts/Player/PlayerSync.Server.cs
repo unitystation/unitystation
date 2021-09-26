@@ -25,7 +25,7 @@ public partial class PlayerSync
 	public CollisionEvent OnHighSpeedCollision() => onHighSpeedCollision;
 
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
-	public Vector3Int ServerLocalPosition => serverState.Position.RoundToInt();
+	public Vector3Int ServerLocalPosition => serverState.LocalPosition.RoundToInt();
 
 	public Vector3Int LastNonHiddenPosition => serverState.LastNonHiddenPosition.RoundToInt();
 
@@ -840,7 +840,7 @@ public partial class PlayerSync
 					//Extending prediction by one tile if player's transform reaches previously set goal
 					//note: since this is a local position, the impulse needs to be converted to a local rotation,
 					//hence the multiplication
-					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.LocalImpulse(this));
+					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.LocalPosition + (Vector3)serverState.LocalImpulse(this));
 					Vector3Int intOrigin = Vector3Int.RoundToInt(registerPlayer.WorldPosition + (Vector3)serverState.LocalImpulse(this));
 
 					if (intOrigin.x > 18000 || intOrigin.x < -18000 || intOrigin.y > 18000 || intOrigin.y < -18000)
@@ -849,7 +849,7 @@ public partial class PlayerSync
 						Logger.Log($"Player {transform.name} was forced to stop at {intOrigin}", Category.Movement);
 						return;
 					}
-					serverState.Position = newGoal;
+					serverState.LocalPosition = newGoal;
 					ClearQueueServer();
 
 					var newPos = serverState.WorldPosition;

@@ -11,6 +11,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 using Newtonsoft.Json;
+using Random = System.Random;
 
 namespace HealthV2
 {
@@ -340,17 +341,7 @@ namespace HealthV2
 		/// <summary>
 		/// Returns the current amount of oxy damage the brain has taken
 		/// </summary>
-		public float GetOxyDamage()
-		{
-			if (brain.OrNull()?.RelatedPart != null)
-			{
-				return 0;
-			}
-			else
-			{
-				return brain.RelatedPart.Oxy;
-			}
-		}
+		public float GetOxyDamage => brain != null && brain.RelatedPart != null ? brain.RelatedPart.Oxy : 0;
 
 		/// <summary>
 		/// Returns the the sum of all brute damage taken by body parts
@@ -598,21 +589,23 @@ namespace HealthV2
 			LastDamagedBy = damagedBy;
 
 			var count = 0;
-			foreach (var bodyPart in BodyPartList)
+
+			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (BodyPartList[i].BodyPartType == bodyPartAim)
 				{
 					count++;
 				}
 			}
 
-			foreach (var bodyPart in BodyPartList)
+			for (int i = BodyPartList.Count - 1; i > 0; i--)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (BodyPartList[i].BodyPartType == bodyPartAim)
 				{
-					bodyPart.TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration);
+					BodyPartList[i].TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration);
 				}
 			}
+			
 			CheckDismemberBody();
 		}
 
@@ -623,29 +616,18 @@ namespace HealthV2
 		/// <param name="damage">The Trauma damage value</param>
 		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
 		[Server]
-		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, float damage, TraumaticDamageTypes damageType)
+		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, TraumaticDamageTypes damageType)
 		{
+			Random random = new Random();
+			TraumaticDamageTypes[] typeToSelectFrom =
+				Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => damageType.HasFlag(x)).ToArray();
+			TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
+
 			foreach (var bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == aimedBodyPart)
 				{
-					if (damageType.HasFlag(TraumaticDamageTypes.BURN))
-					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.BURN);
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.SLASH))
-					{
-						bodyPart.ApplyTraumaDamage(damage);
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.PIERCE))
-					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.PIERCE);
-					}
-					if (damageType.HasFlag(TraumaticDamageTypes.BLUNT))
-					{
-						bodyPart.ApplyTraumaDamage(damage, TraumaticDamageTypes.BLUNT);
-					}
-					CheckDismemberBody();
+					bodyPart.ApplyTraumaDamage(selectedType);
 					return;
 				}
 			}
@@ -717,25 +699,25 @@ namespace HealthV2
 			{
 				if (bodyPart.BodyPartType == partType)
 				{
-					if (bodyPart.CurrentBurnDamage > 0)
+					if (bodyPart.CurrentSlashDamageLevel  > TraumaDamageLevel.NONE)
 						return true;
-					if (bodyPart.CurrentSlashCutDamage > 0)
+					if (bodyPart.CurrentPierceDamageLevel > TraumaDamageLevel.NONE)
 						return true;
-					if (bodyPart.CurrentPierceDamage > 0)
+					if (bodyPart.CurrentBurnDamageLevel   > TraumaDamageLevel.NONE)
 						return true;
-					return bodyPart.IsFracturedCompound;
+					return bodyPart.CurrentBluntDamageLevel != TraumaDamageLevel.NONE;
 				}
 			}
 			return false;
 		}
 
-		public void HealTraumaDamage(float healAmount, BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
+		public void HealTraumaDamage(BodyPartType targetBodyPartToHeal, TraumaticDamageTypes typeToHeal)
 		{
 			foreach(var bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == targetBodyPartToHeal)
 				{
-					bodyPart.HealTraumaticDamage(healAmount, typeToHeal);
+					bodyPart.HealTraumaticDamage(typeToHeal);
 				}
 			}
 		}

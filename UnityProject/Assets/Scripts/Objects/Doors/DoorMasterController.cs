@@ -14,10 +14,7 @@ using Systems.ObjectConnection;
 using Doors.Modules;
 using Hacking;
 using HealthV2;
-using Initialisation;
 using Objects.Wallmounts;
-using UI.Core.Net;
-
 
 
 namespace Doors
@@ -25,7 +22,6 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-
 	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn
 	{
 		#region inspector
@@ -124,8 +120,6 @@ namespace Doors
 			doorAnimator.AnimationFinished += OnAnimationFinished;
 		}
 
-
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
@@ -134,8 +128,6 @@ namespace Doors
 			HackingProcessBase.RegisterPort(CheckPower, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
 		}
-
-
 
 		public bool GetPowerState()
 		{
@@ -824,10 +816,19 @@ namespace Doors
 		private bool requireLink = false;
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => doorMaster; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => doorMaster;
 		bool IMultitoolSlaveable.RequireLink => false;
 		// TODO: should be requireLink but hardcoded to false for now,
 		// doors don't know about links, only the switches
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
 		private IMultitoolMasterable doorMaster;
 
@@ -835,19 +836,16 @@ namespace Doors
 		{
 			doorMaster = master;
 
-			var doorSwitch = master as DoorSwitch;
-			if (doorSwitch)
+			if (master is DoorSwitch doorSwitch)
 			{
 				doorSwitch.NewAddDoorControllerFromScene(this);
-				return;
 			}
-			var statusDisplay = master as StatusDisplay;
-			if (statusDisplay)
+			else if (master is StatusDisplay statusDisplay)
 			{
 				statusDisplay.NewLinkDoor(this);
 			}
 		}
-		#endregion
 
+		#endregion
 	}
 }

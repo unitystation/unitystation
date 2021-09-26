@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Messages.Client.Interaction;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -59,20 +60,27 @@ namespace UI
 		public new void OnPointerEnter(PointerEventData eventData)
 		{
 			base.OnPointerEnter(eventData);
-
-			var item = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot().Item;
-			if (item == null
-				|| itemSlot.Item != null
-				|| itemSlot.NamedSlot == NamedSlot.rightHand
-				|| itemSlot.NamedSlot == NamedSlot.leftHand)
+			try
 			{
-				return;
+				var item = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot().Item;
+				if (item == null
+				    || itemSlot.Item != null
+				    || itemSlot.NamedSlot == NamedSlot.rightHand
+				    || itemSlot.NamedSlot == NamedSlot.leftHand)
+				{
+					return;
+				}
+
+				itemSlot.UpdateImage(item.gameObject,
+					Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item,
+						NetworkSide.Client)
+						? successOverlayColor
+						: failOverlayColor);
 			}
-			itemSlot.UpdateImage(item.gameObject,
-				Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item, NetworkSide.Client)
-				? successOverlayColor : failOverlayColor);
-
-
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught an NRE in UI_ItemSLot.OnPointerEnter() " + exception.Message, Category.UI);
+			}
 		}
 
 		public new void OnPointerExit(PointerEventData eventData)
@@ -88,24 +96,25 @@ namespace UI
 			if (UIManager.UiDragAndDrop.FromSlotCache != null && UIManager.UiDragAndDrop.DraggedItem != null)
 			{
 				var fromSlot = UIManager.UiDragAndDrop.DraggedItem.GetComponent<Pickupable>().ItemSlot;
+				var targetItem = itemSlot.ItemSlot.ItemObject;
+
+				if (fromSlot.ItemObject == null || fromSlot.ItemObject == targetItem)
+					return;
 
 				// if there's an item in the target slot, try inventory apply interaction
-				var targetItem = itemSlot.ItemSlot.ItemObject;
+
 				if (targetItem != null)
 				{
 					var invApply = InventoryApply.ByLocalPlayer(itemSlot.ItemSlot, fromSlot);
-					// check interactables in the fromSlot (if it's occupied)
-					if (fromSlot.ItemObject != null)
-					{
-						var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
-							.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-						if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
-						{
-							UIManager.UiDragAndDrop.DropInteracted = true;
-							UIManager.UiDragAndDrop.StopDrag();
-							return;
-						}
 
+					// check interactables in the fromSlot (if it's occupied)
+					var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
+						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
+					{
+						UIManager.UiDragAndDrop.DropInteracted = true;
+						UIManager.UiDragAndDrop.StopDrag();
+						return;
 					}
 
 					// check interactables in the target

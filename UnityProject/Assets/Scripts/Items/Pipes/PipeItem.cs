@@ -4,11 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Pipes;
 using Objects;
-using System.Collections;
-using UnityEngine;
-using Systems.Pipes;
 using Objects.Atmospherics;
-
 
 
 namespace Items.Atmospherics
@@ -53,11 +49,10 @@ namespace Items.Atmospherics
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
-				var ZeroedLocation = new Vector3Int(x:registerItem.LocalPosition.x, y:registerItem.LocalPosition.y,0);
-				var metaDataNode = registerItem.Matrix.MetaDataLayer.Get(ZeroedLocation);
+				var metaDataNode = registerItem.Matrix.MetaDataLayer.Get(registerItem.LocalPositionServer);
 				var connections = GetConnections();
-				int Offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
-				connections.Rotate(Offset);
+				int offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
+				connections.Rotate(offset);
 				if (PipeTile.CanAddPipe(metaDataNode, connections) == false)
 				{
 					return;

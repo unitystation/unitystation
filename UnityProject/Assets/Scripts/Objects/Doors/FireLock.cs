@@ -46,21 +46,32 @@ namespace Doors
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.FireAlarm;
-		IMultitoolMasterable IMultitoolSlaveable.Master { get => fireAlarm; set => SetMaster(value); }
+		IMultitoolMasterable IMultitoolSlaveable.Master => fireAlarm;
 		bool IMultitoolSlaveable.RequireLink => true;
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
 		private void SetMaster(IMultitoolMasterable master)
 		{
-			FireAlarm newFireAlarm = (master as Component)?.gameObject.GetComponent<FireAlarm>();
-			if (newFireAlarm == null) return; // Might try to add firelock to something that is not a firealarm e.g. APC
-
+			// Disconnect link to currently connected fire alarm.
 			if (fireAlarm != null)
 			{
 				fireAlarm.FireLockList.Remove(this);
+				fireAlarm = null;
 			}
 
-			fireAlarm = newFireAlarm;
-			fireAlarm.FireLockList.Add(this);
+			if (master is FireAlarm alarm)
+			{
+				fireAlarm = alarm;
+				fireAlarm.FireLockList.Add(this);
+			}
 		}
 
 		#endregion

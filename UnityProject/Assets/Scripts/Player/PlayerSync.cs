@@ -509,7 +509,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 					PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 				}
 
-				if (serverState.Position != serverLerpState.Position)
+				if (serverState.LocalPosition != serverLerpState.LocalPosition)
 				{
 					ServerLerp();
 				}
@@ -521,15 +521,23 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		}
 
 		//Registering
-		if (registerPlayer.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position))
+		if (registerPlayer.LocalPositionClient != Vector3Int.RoundToInt(predictedState.LocalPosition))
 		{
-			if (registerPlayer.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) == false)
+			if (server)
 			{
-				registerPlayer.UpdatePositionClient(); //predicted movement didnt swap to another matrix
+				if (registerPlayer.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) ==
+				    false)
+				{
+					registerPlayer.UpdatePositionClient();
+				}
+			}
+			else
+			{
+				registerPlayer.UpdatePositionClient();
 			}
 		}
 
-		if (registerPlayer.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position))
+		if (server && registerPlayer.LocalPositionServer != Vector3Int.RoundToInt(serverState.LocalPosition))
 		{
 			registerPlayer.UpdatePositionServer();
 		}
@@ -560,7 +568,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		var newState = state;
 		newState.MoveNumber++;
-		newState.Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action, isReplay,
+		newState.LocalPosition = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.LocalPosition), action, isReplay,
 			MatrixManager.Get(newState.MatrixId).Matrix);
 
 		var proposedWorldPos = newState.WorldPosition;
