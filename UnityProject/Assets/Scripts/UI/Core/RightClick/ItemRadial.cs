@@ -119,8 +119,15 @@ namespace UI.Core.RightClick
 
 		public void LateUpdate()
 		{
-			background.rotation = Quaternion.identity;
-			itemLabel.transform.rotation = Quaternion.identity;
+			try
+			{
+				background.rotation = Quaternion.identity;
+				itemLabel.transform.rotation = Quaternion.identity;
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught a NRE in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+			}
 		}
 
 		public override void RotateRadial(float rotation)
