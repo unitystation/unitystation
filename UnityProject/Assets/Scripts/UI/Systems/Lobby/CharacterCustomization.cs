@@ -1490,7 +1490,7 @@ namespace UI.CharacterCreator
 			random.Name = RandomizeCharacterName(random);
 			random.Age  = UnityEngine.Random.Range(19, 78);
 			random.SkinTone = RandomizeCharacterSkinToneHTMLString(random);
-			GetRandomUnderwearCustomisation(random);
+			random.SerialisedExternalCustom = GetRandomUnderwearCustomisation(random);
 
 			//Randomises player accents. (Italian, Scottish, etc)
 			random.Speech = RandomizeCharachterAccent();
@@ -1498,49 +1498,36 @@ namespace UI.CharacterCreator
 			return random;
 		}
 
-		public static void GetRandomUnderwearCustomisation(CharacterSettings data)
+		public static List<ExternalCustomisation> GetRandomUnderwearCustomisation(CharacterSettings data)
 		{
 			var RaceData = GetRaceData(data);
+			List<ExternalCustomisation> externalCustomisations = new List<ExternalCustomisation>();
+
+			void logic(CustomisationAllowedSetting setting)
+			{
+				PlayerCustomisationData customizationToAdd = setting.CustomisationGroup.PlayerCustomisations.PickRandom();
+				ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
+				newExternalCustomisation.Key = customizationToAdd.name;
+				newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
+				externalCustomisations.Add(newExternalCustomisation);
+			}
+
 			foreach (CustomisationAllowedSetting customisation in RaceData.Base.CustomisationSettings)
 			{
-				Debug.Log($"Checking {customisation} || {customisation.CustomisationGroup.name}");
-				if (customisation.CustomisationGroup.name == "PlayerUnderShirt")
-				{
-					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
-					Debug.Log(customizationToAdd.Name);
-					ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
-					newExternalCustomisation.Key = customizationToAdd.name;
-					newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
-					Debug.Log(newExternalCustomisation);
-					data.SerialisedExternalCustom.Append(newExternalCustomisation);
-				}
-				if (customisation.CustomisationGroup.name == "PlayerUnderWear")
-				{
-					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
-					Debug.Log(customizationToAdd.Name);
-					ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
-					newExternalCustomisation.Key = customizationToAdd.name;
-					newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
-					Debug.Log(newExternalCustomisation);
-					data.SerialisedExternalCustom.Append(newExternalCustomisation);
-				}
-				if (customisation.CustomisationGroup.name == "PlayerSocks")
-				{
-					PlayerCustomisationData customizationToAdd = customisation.CustomisationGroup.PlayerCustomisations.PickRandom();
-					Debug.Log(customizationToAdd.Name);
-					ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
-					newExternalCustomisation.Key = customizationToAdd.name;
-					newExternalCustomisation.SerialisedValue = SerialiseCustomizationData(customizationToAdd);
-					Debug.Log(newExternalCustomisation);
-					data.SerialisedExternalCustom.Append(newExternalCustomisation);
-				}
+				if (customisation.CustomisationGroup.name == "PlayerUnderShirt") logic(customisation);
+				if (customisation.CustomisationGroup.name == "PlayerUnderWear") logic(customisation);
+				if (customisation.CustomisationGroup.name == "PlayerSocks") logic(customisation);
 			}
+
+			return externalCustomisations;
 		}
 
 		public static CharacterSettings.CustomisationClass SerialiseCustomizationData(PlayerCustomisationData data)
 		{
 			var newcurrentSetting = new CharacterSettings.CustomisationClass();
-			newcurrentSetting.Colour = "#" + ColorUtility.ToHtmlStringRGB(Color.white);
+			newcurrentSetting.Colour = "#" + ColorUtility.ToHtmlStringRGB(new Color(UnityEngine.Random.Range(0.1f, 1f),
+				UnityEngine.Random.Range(0.1f, 1f),
+				UnityEngine.Random.Range(0.1f, 1f), 1f));
 			newcurrentSetting.SelectedName = data.Name;
 			return newcurrentSetting;
 
