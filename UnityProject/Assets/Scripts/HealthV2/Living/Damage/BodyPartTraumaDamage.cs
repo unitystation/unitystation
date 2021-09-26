@@ -323,7 +323,7 @@ namespace HealthV2
 						}
 					}
 				}
-				if (DeathOnRemoval)
+				if (DeathOnRemoval && HealthMaster != null)
 				{
 					HealthMaster.Death();
 				}
