@@ -97,10 +97,17 @@ namespace UI.Core.RightClick
 
 		private void SetRadialScrollable(bool value)
 		{
-			Drag.enabled = value;
-			Scroll.enabled = value;
-			itemRing.raycastTarget = value;
-			itemLabel.raycastTarget = value;
+			try
+			{
+				Drag.enabled = value;
+				Scroll.enabled = value;
+				itemRing.raycastTarget = value;
+				itemLabel.raycastTarget = value;
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught a NRE in ItemRadial.SetRadialScrollable() " + exception.Message, Category.UI);
+			}
 		}
 
 		public void UpdateArrows()
