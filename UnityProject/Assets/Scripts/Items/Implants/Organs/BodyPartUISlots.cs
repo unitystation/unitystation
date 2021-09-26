@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace HealthV2
 {
@@ -12,7 +11,9 @@ namespace HealthV2
 		public NamedSlotFlagged NamedSlotFlagged;
 
 		private DynamicItemStorage ItemStorage;
-		public GameObject GameObject => gameObject;
+
+		[CanBeNull] public GameObject GameObject => gameObject;
+
 		public ItemStorage RelatedStorage => relatedStorage;
 
 		[SerializeField] [FormerlySerializedAs("RelatedStorage")]

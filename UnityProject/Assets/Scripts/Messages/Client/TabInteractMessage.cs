@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -52,8 +53,16 @@ namespace Messages.Client
 			}
 			else
 			{
-				validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
-				           || playerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
+				try
+				{
+					validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
+					           || playerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
+				}
+				catch (NullReferenceException exception)
+				{
+					Logger.LogError("Caught NRE in TabInterectMessage.Process: " + exception.Message, Category.Interaction);
+					return;
+				}
 			}
 
 			if (!validate)
