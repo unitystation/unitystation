@@ -101,8 +101,8 @@ namespace Hacking
 
 		public static void CleanData()
 		{
-			MonoAvailableColours.Clear();
-			ColourDictionary.Clear();
+			MonoAvailableColours?.Clear();
+			ColourDictionary?.Clear();
 			HasRegisteredForRestart = false;
 		}
 
@@ -147,6 +147,13 @@ namespace Hacking
 			var newLocalPortData = new LocalPortData();
 
 			newLocalPortData.LocalAction = action;
+
+			if (ColourDictionary == null)
+			{
+				Logger.Log("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
+				return;
+			}
+
 			if (ColourDictionary.ContainsKey(FromType) == false)
 			{
 				ColourDictionary[FromType] = new Dictionary<MethodInfo, Color>();
@@ -273,11 +280,17 @@ namespace Hacking
 					Cable Cable = null;
 					foreach (var cable in Cables)
 					{
-						if (cable.cableCoil.gameObject == Referenceobject)
+						if (cable?.cableCoil.gameObject == Referenceobject)
 						{
 							Cable = cable;
 							break;
 						}
+					}
+
+					if (Cable == null)
+					{
+						Logger.LogWarning("No cable was found for cutting", Category.Interaction);
+						return;
 					}
 
 					Connections[Cable.PanelOutput].Remove(Cable);

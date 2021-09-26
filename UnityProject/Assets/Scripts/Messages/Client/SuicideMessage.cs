@@ -22,7 +22,7 @@ namespace Messages.Client
 				}
 				else
 				{
-					livingHealthBehaviour.ApplyDamageAll(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
+					livingHealthBehaviour.Death();
 				}
 
 				return;

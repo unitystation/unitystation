@@ -276,7 +276,7 @@ public class Lungs : Organ
             {
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 				"You cough up blood!", $"{RelatedPart.HealthMaster.playerScript.visibleName} coughs up blood!");
-				RelatedPart.CurrentInternalBleedingDamage -= RelatedPart.InternalBleedingBloodLoss;
+				RelatedPart.CurrentInternalBleedingDamage -= 4;
 
 				//TODO: TAKE BLOOD
 				var bloodLoss = new ReagentMix();

@@ -2997,7 +2997,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -3342,7 +3342,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -8100,7 +8100,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -10800,17 +10800,17 @@ PrefabInstance:
     - target: {fileID: 5430074769912739366, guid: f2432d244a6b7774ea00ff013beb7dcb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5430074769912739366, guid: f2432d244a6b7774ea00ff013beb7dcb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5430074769912739366, guid: f2432d244a6b7774ea00ff013beb7dcb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000014901144
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5430074769912739366, guid: f2432d244a6b7774ea00ff013beb7dcb,
         type: 3}
@@ -16633,6 +16633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MatrixSync: {fileID: 0}
+  matrix: {fileID: 0}
 --- !u!114 &1179434767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16749,6 +16750,7 @@ MonoBehaviour:
   SafetyProtocolsOn: 1
   initialPosition: {x: 0, y: 0, z: 0}
   pivot: {x: 0, y: 0, z: 0}
+  matrix: {fileID: 0}
   IsForceStopped: 0
   RequiresFuel: 0
   rcsModeActive: 0
@@ -18287,7 +18289,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -21671,7 +21673,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -22696,7 +22698,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889,
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}

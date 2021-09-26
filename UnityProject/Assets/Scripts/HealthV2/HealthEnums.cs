@@ -60,14 +60,6 @@ public enum DamageType
 	Radiation = 6
 }
 
-public enum BodyPartCutSize
-{
-	NONE,
-	SMALL,
-	MEDIUM,
-	LARGE
-}
-
 public enum TraumaDamageLevel
 {
 	NONE,

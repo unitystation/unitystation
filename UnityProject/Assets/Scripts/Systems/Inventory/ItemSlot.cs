@@ -52,7 +52,7 @@ public class ItemSlot
 	/// <summary>
 	/// Net ID of the ItemStorage this slot exists in
 	/// </summary>
-	public uint ItemStorageNetID => itemStorage.GetComponent<NetworkIdentity>().netId;
+	public uint ItemStorageNetID => itemStorage != null ? itemStorage.GetComponent<NetworkIdentity>().netId : NetId.Invalid;
 
 	/// <summary>
 	/// ItemAttributes of item in this slot, null if no item or item doesn't have any attributes.

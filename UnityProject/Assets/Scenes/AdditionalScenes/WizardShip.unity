@@ -280,6 +280,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 1f8fe2981d2d3bb4f8643d0bed83b580,
         type: 3}
+    - target: {fileID: 1689274832931870787, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300006, guid: 1f8fe2981d2d3bb4f8643d0bed83b580,
+        type: 3}
     - target: {fileID: 1943076862554158340, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: sceneId
@@ -328,6 +334,12 @@ PrefabInstance:
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: 
+      value: 
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
+        type: 3}
+    - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
@@ -3325,6 +3337,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 1f8fe2981d2d3bb4f8643d0bed83b580,
         type: 3}
+    - target: {fileID: 1689274832931870787, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300006, guid: 1f8fe2981d2d3bb4f8643d0bed83b580,
+        type: 3}
     - target: {fileID: 1943076862554158340, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: sceneId
@@ -3373,6 +3391,12 @@ PrefabInstance:
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: 
+      value: 
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
+        type: 3}
+    - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
@@ -6273,6 +6297,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 1f8fe2981d2d3bb4f8643d0bed83b580,
         type: 3}
+    - target: {fileID: 1689274832931870787, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300006, guid: 1f8fe2981d2d3bb4f8643d0bed83b580,
+        type: 3}
     - target: {fileID: 1943076862554158340, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: sceneId
@@ -6321,6 +6351,12 @@ PrefabInstance:
     - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: 
+      value: 
+      objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
+        type: 3}
+    - target: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300006, guid: 244761d659f269a4793677b4e2651889,
         type: 3}
@@ -8958,6 +8994,7 @@ MonoBehaviour:
   SafetyProtocolsOn: 1
   initialPosition: {x: 0, y: 0, z: 0}
   pivot: {x: 0, y: 0, z: 0}
+  matrix: {fileID: 0}
   IsForceStopped: 0
   RequiresFuel: 0
   rcsModeActive: 0
@@ -18596,6 +18633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MatrixSync: {fileID: 0}
+  matrix: {fileID: 0}
 --- !u!483693784 &8583296789573265973
 TilemapRenderer:
   m_ObjectHideFlags: 0

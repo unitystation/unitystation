@@ -127,16 +127,23 @@ namespace UI.Objects.Shuttles
 					  && (mm.HasWorkingThrusters || mm.gameObject.name.Equals("Escape Pod")) //until pod gets engines
 			));
 
-			EntryList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
-			var stationBounds = MatrixManager.Get(0).MetaTileMap.GetBounds();
-			int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
-			EntryList.AddStaticItem(MapIconType.Station, stationBounds.center, stationRadius);
+			try
+			{
+				EntryList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
+				var stationBounds = MatrixManager.Get(0).MetaTileMap.GetBounds();
+				int stationRadius = (int) Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
+				EntryList.AddStaticItem(MapIconType.Station, stationBounds.center, stationRadius);
 
-			EntryList.AddItems(MapIconType.Waypoint, new List<GameObject>(new[] { Waypoint }));
+				EntryList.AddItems(MapIconType.Waypoint, new List<GameObject>(new[] {Waypoint}));
 
-			RescanElements();
+				RescanElements();
 
-			StartRefresh();
+				StartRefresh();
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught NRE in GUI_ShuttleControl.StartNormalOperation: " + exception.Message, Category.Shuttles);
+			}
 		}
 		/// <summary>
 		/// Add secret emag functionality to radar

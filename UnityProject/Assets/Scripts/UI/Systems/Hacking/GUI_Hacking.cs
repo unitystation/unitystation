@@ -71,8 +71,26 @@ namespace Hacking
 			{
 				GUI_CablePanel.CableData NetCable = new GUI_CablePanel.CableData();
 				NetCable.CableNetuID = cable.cableCoil.GetComponent<NetworkIdentity>().netId;
-				NetCable.IDConnectedFrom = hackProcess.DictionaryCurrentPorts[cable.PanelOutput].LocalID;
-				NetCable.IDConnectedTo = hackProcess.DictionaryCurrentPorts[cable.PanelInput].LocalID;
+				if (hackProcess.DictionaryCurrentPorts.ContainsKey(cable.PanelOutput))
+				{
+					NetCable.IDConnectedFrom = hackProcess.DictionaryCurrentPorts[cable.PanelOutput].LocalID;
+				}
+				else
+				{
+					Logger.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 76 GUI_Hacking.cs", Category.Interaction);
+					continue;
+				}
+
+				if (hackProcess.DictionaryCurrentPorts.ContainsKey(cable.PanelInput))
+				{
+					NetCable.IDConnectedTo = hackProcess.DictionaryCurrentPorts[cable.PanelInput].LocalID;
+				}
+				else
+				{
+					Logger.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 86 GUI_Hacking.cs", Category.Interaction);
+					continue;
+				}
+
 				addElements.Add(NetCable);
 			}
 

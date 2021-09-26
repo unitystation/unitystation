@@ -81,15 +81,23 @@ namespace Systems.Radiation
 
 		private void UpdateValues(float Invalue)
 		{
-			OutPuttingRadiation = Invalue;
-			float LightPower = OutPuttingRadiation / 24000;
-			if (LightPower > 1)
+			try
 			{
-				mLightRendererObject.transform.localScale = Vector3.one * 7 *  LightPower ;
-				LightPower = 1;
-			}
+				OutPuttingRadiation = Invalue;
+				float LightPower = OutPuttingRadiation / 24000;
+				if (LightPower > 1)
+				{
+					mLightRendererObject.transform.localScale = Vector3.one * 7 * LightPower;
+					LightPower = 1;
+				}
 
-			lightSprite.Color.a = LightPower;
+				lightSprite.Color.a = LightPower;
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught NRE with RadiationProducer UpdateValues " + exception.Message,
+					Category.Electrical);
+			}
 		}
 
 		private void RequestPulse()

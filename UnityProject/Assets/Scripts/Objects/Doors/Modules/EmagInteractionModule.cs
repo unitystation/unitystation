@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Items;
 using UnityEngine;
@@ -19,34 +20,41 @@ namespace Doors.Modules
 		{
 			if (interaction != null)
 			{
-				var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
-				if (ItemStorage != null)
+				try
 				{
-					var Hand = ItemStorage.GetActiveHandSlot().ItemAttributes;
-					if (Hand != null)
+					var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
+					if (ItemStorage != null)
 					{
-						if (Hand.HasTrait(CommonTraits.Instance.Emag))
+						var Hand = ItemStorage.GetActiveHandSlot().ItemAttributes;
+						if (Hand != null)
 						{
-							States.Add(DoorProcessingStates.SoftwareHacked);
-							StartCoroutine(ToggleBolts());
-							return ModuleSignal.Continue;
-						}
-					}
-
-					foreach (var item in ItemStorage.GetNamedItemSlots(NamedSlot.id))
-					{
-						var ID = item.ItemAttributes;
-
-						if (ID != null)
-						{
-							if (ID.HasTrait(CommonTraits.Instance.Emag))
+							if (Hand.HasTrait(CommonTraits.Instance.Emag))
 							{
 								States.Add(DoorProcessingStates.SoftwareHacked);
 								StartCoroutine(ToggleBolts());
 								return ModuleSignal.Continue;
 							}
 						}
+
+						foreach (var item in ItemStorage.GetNamedItemSlots(NamedSlot.id))
+						{
+							var ID = item.ItemAttributes;
+
+							if (ID != null)
+							{
+								if (ID.HasTrait(CommonTraits.Instance.Emag))
+								{
+									States.Add(DoorProcessingStates.SoftwareHacked);
+									StartCoroutine(ToggleBolts());
+									return ModuleSignal.Continue;
+								}
+							}
+						}
 					}
+				}
+				catch (NullReferenceException exception)
+				{
+					Logger.LogError("A NRE was caught in EmagInteractionModule.ClosedInteraction() " + exception.Message, Category.Interaction);
 				}
 			}
 
@@ -58,15 +66,25 @@ namespace Doors.Modules
 			var ItemStorage = byPlayer.GetComponent<DynamicItemStorage>();
 			if (ItemStorage != null)
 			{
-				var Hand = ItemStorage.GetActiveHandSlot().ItemAttributes;
-				if (Hand != null)
+				try
 				{
-					if (Hand.HasTrait(CommonTraits.Instance.Emag))
+					var Hand = ItemStorage.GetActiveHandSlot().ItemAttributes;
+					if (Hand != null)
 					{
-						States.Add(DoorProcessingStates.SoftwareHacked);
-						StartCoroutine(ToggleBolts());
-						return ModuleSignal.Continue;
+						if (Hand.HasTrait(CommonTraits.Instance.Emag))
+						{
+							States.Add(DoorProcessingStates.SoftwareHacked);
+							StartCoroutine(ToggleBolts());
+							return ModuleSignal.Continue;
+						}
 					}
+				}
+				catch (NullReferenceException exception)
+				{
+					Logger.LogError(
+						"A NRE was caught in EmagInteractionModule.BumpingInteraction(): " + exception.Message,
+						Category.Interaction);
+					return ModuleSignal.ContinueWithoutDoorStateChange;
 				}
 
 				foreach (var item in ItemStorage.GetNamedItemSlots(NamedSlot.id))

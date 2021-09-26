@@ -8,24 +8,17 @@ namespace HealthV2
 {
 	public partial class BodyPart
 	{
-		private bool isBleedingInternally = false;
-
-		private bool isBleedingExternally = false;
-
-		public bool IsBleedingInternally => isBleedingInternally;
-
-		public bool IsBleedingExternally => isBleedingExternally;
 
 		[Header("Trauma Damage settings")]
-		public Vector2 MinMaxInternalBleedingValues = new Vector2(5, 20);
-
-
 		[SerializeField] private float maximumInternalBleedDamage = 100;
-		public float InternalBleedingBloodLoss = 12;
-		public float ExternalBleedingBloodLoss = 6;
+		[SerializeField] private Vector2 minMaxInternalBleedingBloodLoss = new Vector2(2,4);
+		[SerializeField] private Vector2 minMaxExternalBleedingValues    = new Vector2(2, 14);
 
-		[SerializeField, Range(1.25f, 4.0f)] private float baseTraumaDamageMultiplier = 1.5f;
-
+		public Vector2 MinMaxExternalBleedingValues => minMaxExternalBleedingValues;
+		private bool isBleedingInternally = false;
+		private bool isBleedingExternally = false;
+		public bool IsBleedingInternally => isBleedingInternally;
+		public bool IsBleedingExternally => isBleedingExternally;
 		public float MaximumInternalBleedDamage => maximumInternalBleedDamage;
 
 		private float currentInternalBleedingDamage = 0;
@@ -33,47 +26,19 @@ namespace HealthV2
 		[SerializeField]
 		private Color bodyPartColorWhenCharred = Color.black;
 
-		private float currentSlashCutDamage= 0;
-		public float CurrentSlashCutDamage => currentSlashCutDamage;
-		private float currentPierceDamage  = 0;
-		public float CurrentPierceDamage   => currentPierceDamage;
-		private float currentBurnDamage    = 0;
-		public float CurrentBurnDamage     => currentBurnDamage;
-
-		[SerializeField] private float bodyPartAshesAboveThisDamage = 125;
-		public float BodyPartAshesAboveThisDamage => bodyPartAshesAboveThisDamage;
-
 		private TraumaDamageLevel currentPierceDamageLevel = TraumaDamageLevel.NONE;
 		private TraumaDamageLevel currentSlashDamageLevel  = TraumaDamageLevel.NONE;
 		private TraumaDamageLevel currentBurnDamageLevel   = TraumaDamageLevel.NONE;
+		private TraumaDamageLevel currentBluntDamageLevel  = TraumaDamageLevel.NONE; //TODO : MERGE #7434 TO FINISH #7432
 
 		public TraumaDamageLevel CurrentPierceDamageLevel => currentPierceDamageLevel;
 		public TraumaDamageLevel CurrentSlashDamageLevel  => currentSlashDamageLevel ;
 		public TraumaDamageLevel CurrentBurnDamageLevel   => currentBurnDamageLevel;
+		public TraumaDamageLevel CurrentBluntDamageLevel  => currentBluntDamageLevel;
+
 
 		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
 		public int GibChance = 15;
-
-		/// <summary>
-		/// When does this body part take before it's contents in it's storage spill out?
-		/// </summary>
-		[SerializeField,
-		Tooltip("When does the contents of this body part's storage to spill out when a large enough cut exists?")]
-		private BodyPartCutSize BodyPartStorageContentsSpillOutOnCutSize = BodyPartCutSize.LARGE;
-
-		/// <summary>
-		/// When do we start applying Slash logic?
-		/// </summary>
-		[SerializeField,
-		Tooltip("At what cut size do we start applying slash logic?")]
-		private BodyPartCutSize BodyPartSlashLogicOnCutSize = BodyPartCutSize.SMALL;
-
-		/// <summary>
-		/// When do we start applying disembowel logic?
-		/// </summary>
-		[SerializeField,
-		Tooltip("At what cut size do we start applying disembowel logic?")]
-		private BodyPartCutSize BodyPartDisembowelLogicOnCutSize = BodyPartCutSize.MEDIUM;
 
 		/// <summary>
 		/// How likely does the contents of this body part's storage to spill out?
@@ -83,42 +48,23 @@ namespace HealthV2
 		Range(0,1.0f)]
 		private float spillChanceWhenCutPresent = 0.5f;
 
-		/// <summary>
-		/// Does this body part have a cut and how big is it?
-		private BodyPartCutSize currentCutSize = BodyPartCutSize.NONE;
-
 		public bool CanBleedInternally = false;
 
-		public bool CanBleedExternally = false;
+		public bool CanBeBroken        = false;
 
-		public bool CanBeBroken = false;
-
-		private bool isFracturedCompound = false;
-		private bool isFracturedHairline = false;
-		private bool jointDislocated = false; //TODO : ADD LATER.
-
-		/// <summary>
-		/// Critcal Blunt Trauma damage.
-		/// </summary>
-		public bool IsFracturedCompound => isFracturedCompound;
-
-		/// <summary>
-		/// Severe Blunt Trauma damage.
-		/// </summary>
-		public bool IsFracturedHairline => isFracturedHairline;
 
 		/// <summary>
 		/// How much damage can this body part last before it breaks/gibs/Disembowles?
 		/// <summary>
-		public float DamageThreshold = 18f;
+		public float DamageThreshold = 21f;
 
 		[SerializeField] private DamageSeverity BoneFracturesOnDamageSevarity = DamageSeverity.Moderate;
-		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity = DamageSeverity.Bad;
+		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity    = DamageSeverity.Bad;
 
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
-		[HideInInspector] public float CurrentInternalBleedingDamage
+		public float CurrentInternalBleedingDamage
 		{
 			get
 			{
@@ -135,161 +81,70 @@ namespace HealthV2
 		/// Applies trauma damage to the body part, checks if it has enough protective armor to cancel the trauma damage
 		/// and automatically checks how big is the body part's cut size.
 		/// </summary>
-		public void ApplyTraumaDamage(float tramuaDamage, TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH)
+		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH, bool ignoreSeverityCheck = false)
 		{
+			if(Severity < DamageSeverity.LightModerate && ignoreSeverityCheck == false) return;
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
-				if (damageType == TraumaticDamageTypes.SLASH) { currentSlashCutDamage += MultiplyTraumaDamage(tramuaDamage); }
-				if (damageType == TraumaticDamageTypes.PIERCE) { currentPierceDamage += MultiplyTraumaDamage(tramuaDamage); }
-				CheckCutSize();
+				if (damageType == TraumaticDamageTypes.SLASH)  currentSlashDamageLevel   += 1;
+				if (damageType == TraumaticDamageTypes.PIERCE) currentPierceDamageLevel  += 1;
 			}
 			//Burn and blunt damage checks for it's own armor damage type.
 			if (damageType == TraumaticDamageTypes.BURN)
 			{
-				TakeBurnDamage(MultiplyTraumaDamage(tramuaDamage));
+				TakeBurnDamage();
 			}
 
 			if (damageType == TraumaticDamageTypes.BLUNT)
 			{
 				if (DMMath.Prob(SelfArmor.Melee * 100) == false)
 				{
-					TakeBluntDamage(tramuaDamage);
+					TakeBluntDamage();
 				}
 			}
 		}
 
-		public void TakeBluntDamage(float damage)
+		public void TakeBluntDamage()
 		{
 			void TakeBluntLogic(BodyPart bodyPart)
 			{
-				bodyPart.health -= damage;
-				bodyPart.CheckIfBroken(true);
-			}
-
-			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
-			{
-				if (slot.IsEmpty) { return; }
-				if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
-				{
-					if (bodyPart.CanBeBroken) { TakeBluntLogic(bodyPart);}
-				}
-			}
-		}
-
-		public void CheckIfBroken(bool announceHurtDamage = false)
-		{
-			if (CanBeBroken == false) { return; }
-			if (Severity == BoneFracturesOnDamageSevarity) { isFracturedHairline = true; }
-			if (Severity >= BoneBreaksOnDamageSevarity) { isFracturedCompound = true; }
-
-			if (isFracturedHairline && IsFracturedCompound != true && announceHurtDamage)
-			{
+				bodyPart.currentBluntDamageLevel += 1;
 				Chat.AddActionMsgToChat(HealthMaster.gameObject,
 					$"You hear a loud crack from your {BodyPartReadableName}.",
 					$"A loud crack can be heard from {HealthMaster.playerScript.visibleName}.");
 			}
-		}
 
-		private float MultiplyTraumaDamage(float baseDamage)
-		{
-			if (currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL || currentCutSize >= BodyPartCutSize.LARGE
-			|| Severity >= DamageSeverity.Max)
+			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
 			{
-				return baseDamage * baseTraumaDamageMultiplier;
+				if (slot.IsEmpty) return;
+				if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
+				{
+					if (bodyPart.CanBeBroken) TakeBluntLogic(bodyPart);
+				}
 			}
-			return baseDamage;
 		}
 
 		[ContextMenu("Debug - Apply 25 Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
-			ApplyTraumaDamage(25);
+			ApplyTraumaDamage(TraumaticDamageTypes.SLASH, true);
 		}
 
 		[ContextMenu("Debug - Apply 25 Pierce Damage")]
 		private void DEBUG_ApplyTestPierce()
 		{
-			ApplyTraumaDamage(25, TraumaticDamageTypes.PIERCE);
-		}
-
-		/// <summary>
-		/// Checks how big is the cut is right now.
-		/// Additonally ensures that all Trauma damage levels are updated to make sure cut size logic is correct everywhere.
-		/// </summary>
-		private void CheckCutSize()
-		{
-			currentBurnDamageLevel   = CheckTraumaDamageLevels(currentBurnDamage);
-			currentSlashDamageLevel  = CheckTraumaDamageLevels(currentSlashCutDamage);
-			currentPierceDamageLevel = CheckTraumaDamageLevels(currentPierceDamage);
-			CheckCharredBodyPart();
-			currentCutSize = GetCutSize(currentSlashDamageLevel);
-			currentCutSize = GetCutSize(currentPierceDamageLevel);
-		}
-
-		/// <summary>
-		/// Returns cut size level based on trauma damage levels.
-		/// </summary>
-		/// <param name="traumaLevel">TraumaDamageLevel current[trauma]level</param>
-		/// <returns>BodyPartCutSize</returns>
-		private BodyPartCutSize GetCutSize(TraumaDamageLevel traumaLevel)
-		{
-			switch (traumaLevel)
-			{
-				case TraumaDamageLevel.NONE:
-					return BodyPartCutSize.NONE;
-				case TraumaDamageLevel.SMALL:
-					return BodyPartCutSize.SMALL;
-				case TraumaDamageLevel.SERIOUS:
-					return BodyPartCutSize.MEDIUM;
-				case TraumaDamageLevel.CRITICAL:
-					return BodyPartCutSize.LARGE;
-				default:
-					Logger.LogError(
-						$"Unexpected cut size on: {gameObject}, {currentCutSize}");
-					return BodyPartCutSize.NONE;
-			}
-		}
-
-		/// <summary>
-		/// Returns trauma damage level based on a float.
-		/// </summary>
-		/// <param name="traumaDamage">float current[trauma]damage</param>
-		/// <returns>TraumaDamageLevel</returns>
-		private TraumaDamageLevel CheckTraumaDamageLevels(float traumaDamage)
-		{
-			//(Max) : Later we should add scaling values based on the body part's MaxHP.
-
-			switch ((int)traumaDamage)
-			{
-				case int n when n.IsBetween(0, 25):
-					return TraumaDamageLevel.NONE;
-				case int n when n.IsBetween(25, 50):
-					return TraumaDamageLevel.SMALL;
-				case int n when n.IsBetween(50, 75):
-					return TraumaDamageLevel.SERIOUS;
-				case int n when n > 75:
-					return TraumaDamageLevel.CRITICAL;
-				default:
-					Logger.LogError(
-						$"Unexpected float damage value on: {gameObject}, value -> {traumaDamage}");
-					return TraumaDamageLevel.NONE;
-			}
+			ApplyTraumaDamage(TraumaticDamageTypes.PIERCE, true);
 		}
 
 		private void CheckCharredBodyPart()
 		{
-			if (currentBurnDamage >= 75)
+			if (currentBurnDamageLevel == TraumaDamageLevel.SERIOUS) //So we can do this once.
 			{
-				if(currentBurnDamageLevel != TraumaDamageLevel.CRITICAL) //So we can do this once.
+				foreach (var sprite in RelatedPresentSprites)
 				{
-					foreach(var sprite in RelatedPresentSprites)
-					{
-						sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
-					}
+					sprite.baseSpriteHandler.SetColor(bodyPartColorWhenCharred);
 				}
-				currentBurnDamageLevel = TraumaDamageLevel.CRITICAL;
-				AshBodyPart();
 			}
 		}
 
@@ -301,34 +156,22 @@ namespace HealthV2
 		{
 			BodyPart randomBodyPart = OrganList.GetRandom().GetComponent<BodyPart>();
 			BodyPart randomCustomBodyPart = OptionalOrgans.GetRandom();
-			if(currentCutSize >= BodyPartStorageContentsSpillOutOnCutSize)
+			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
+			if(chance >= spillChanceWhenCutPresent)
 			{
-				float chance = UnityEngine.Random.Range(0.0f, 1.0f);
-				if(chance >= spillChanceWhenCutPresent)
+				HealthMaster.DismemberingBodyParts.Add(randomBodyPart);
+				if(randomCustomBodyPart != null)
 				{
-					HealthMaster.DismemberingBodyParts.Add(randomBodyPart);
-					if(randomCustomBodyPart != null)
-					{
-						HealthMaster.DismemberingBodyParts.Add(randomCustomBodyPart);
-					}
-				}
-				else
-				{
-					randomBodyPart.ApplyInternalDamage();
-					if(randomCustomBodyPart != null)
-					{
-						randomCustomBodyPart.ApplyInternalDamage();
-					}
+					HealthMaster.DismemberingBodyParts.Add(randomCustomBodyPart);
 				}
 			}
 			else
 			{
 				randomBodyPart.ApplyInternalDamage();
-				if(randomCustomBodyPart != null)
-				{
-					randomCustomBodyPart.ApplyInternalDamage();
-				}
+				if(randomCustomBodyPart != null) randomCustomBodyPart.ApplyInternalDamage();
 			}
+
+			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL) StartCoroutine(ExternalBleedingLogic());
 		}
 
 		/// <summary>
@@ -349,25 +192,21 @@ namespace HealthV2
 		/// </summary>
 		public IEnumerator ExternalBleedingLogic()
 		{
-			if(isBleedingExternally)
-			{
-				yield break;
-			}
+			if(isBleedingExternally || IsSurface == false) yield break;
 			bool willCloseOnItsOwn = false;
 			isBleedingExternally = true;
 			IsBleeding = true;
 			StartCoroutine(Bleedout());
-			CheckCutSize();
-			if(currentSlashDamageLevel != TraumaDamageLevel.CRITICAL || currentPierceDamageLevel == TraumaDamageLevel.SMALL)
+			if(currentSlashDamageLevel <= TraumaDamageLevel.SERIOUS || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
 			{
 				willCloseOnItsOwn = true;
 			}
 			if(willCloseOnItsOwn)
 			{
 				yield return WaitFor.Seconds(128);
-				CheckCutSize();
-				if(currentSlashDamageLevel != TraumaDamageLevel.CRITICAL || currentPierceDamageLevel == TraumaDamageLevel.SMALL)
+				if(currentSlashDamageLevel <= TraumaDamageLevel.SERIOUS || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
 				{
+					StopExternalBleeding();
 					isBleedingExternally = false;
 					IsBleeding = false;
 				}
@@ -384,7 +223,7 @@ namespace HealthV2
 				yield return WaitFor.Seconds(4f);
 				if (IsBleeding)
 				{
-					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y));
+					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxExternalBleedingValues.x, MinMaxExternalBleedingValues.y));
 				}
 			}
 		}
@@ -407,7 +246,7 @@ namespace HealthV2
 		/// </summary>
 		public void InternalBleedingLogic(AttackType attackType = AttackType.Internal, DamageType damageType = DamageType.Brute)
 		{
-			float damageToTake = UnityEngine.Random.Range(MinMaxInternalBleedingValues.x, MinMaxInternalBleedingValues.y);
+			float damageToTake = UnityEngine.Random.Range(minMaxInternalBleedingBloodLoss.x, minMaxInternalBleedingBloodLoss.y);
 			if(currentInternalBleedingDamage >= maximumInternalBleedDamage)
 			{
 				BodyPart currentParent = ContainedIn;
@@ -430,7 +269,7 @@ namespace HealthV2
 			if (GibChance == 0)
 				return;
 			var armorChanceModifer = GibChance - SelfArmor.DismembermentProtectionChance;
-			if (Severity == DamageSeverity.Max || currentCutSize == BodyPartCutSize.LARGE)
+			if (Severity == DamageSeverity.Max)
 			{
 				armorChanceModifer += 25; //Make it more likely that the bodypart can be gibbed in it's worst condition.
 			}
@@ -442,13 +281,13 @@ namespace HealthV2
 			}
 		}
 
-		private void TakeBurnDamage(float burnDamage)
+		private void TakeBurnDamage()
 		{
-			if(SelfArmor.Fire < burnDamage)
+			if(SelfArmor.Fire < TotalDamage)
 			{
-				currentBurnDamage += burnDamage;
-				currentBurnDamageLevel   = CheckTraumaDamageLevels(currentBurnDamage);
+				currentBurnDamageLevel += 1;
 				CheckCharredBodyPart();
+				AshBodyPart();
 			}
 		}
 
@@ -457,7 +296,7 @@ namespace HealthV2
 		/// </summary>
 		private void AshBodyPart()
 		{
-			if(currentBurnDamageLevel == TraumaDamageLevel.CRITICAL && currentBurnDamage > bodyPartAshesAboveThisDamage)
+			if(currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL)
 			{
 				IEnumerable<ItemSlot> internalItemList = OrganStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
@@ -499,35 +338,35 @@ namespace HealthV2
 		/// </summary>
 		protected void CheckBodyPartIntigrity(float lastDamage)
 		{
-			if(currentCutSize >= BodyPartSlashLogicOnCutSize)
+			if(currentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
 			{
 				if(OrganList.Count != 0)
 				{
 					Disembowel();
 				}
 			}
-			if(Severity >= GibsOnSeverityLevel && lastDamage >= DamageThreshold)
+
+			if (currentSlashDamageLevel >= TraumaDamageLevel.SERIOUS) StartCoroutine(ExternalBleedingLogic());
+			if(Severity >= GibsOnSeverityLevel && lastDamage >= DamageThreshold || currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
 			{
 				DismemberBodyPartWithChance();
 			}
 		}
 
-		public void HealTraumaticDamage(float healAmount, TraumaticDamageTypes damageTypeToHeal)
+		public void HealTraumaticDamage(TraumaticDamageTypes damageTypeToHeal)
 		{
 			if (damageTypeToHeal == TraumaticDamageTypes.BURN)
 			{
-				currentBurnDamage -= healAmount;
+				currentBurnDamageLevel -= 1;
 			}
 			if (damageTypeToHeal == TraumaticDamageTypes.SLASH)
 			{
-				currentSlashCutDamage -= healAmount;
+				currentSlashDamageLevel -= 1;
 			}
 			if (damageTypeToHeal == TraumaticDamageTypes.PIERCE)
 			{
-				currentPierceDamage -= healAmount;
+				currentPierceDamageLevel -= 1;
 			}
-
-			CheckCutSize();
 		}
 	}
 }

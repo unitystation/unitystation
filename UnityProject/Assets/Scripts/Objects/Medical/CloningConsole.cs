@@ -194,7 +194,7 @@ namespace Objects.Medical
 			mind = playerScript.mind;
 			name = playerScript.playerName;
 			characterSettings = playerScript.characterSettings;
-			oxyDmg = livingHealth.GetOxyDamage();
+			oxyDmg = livingHealth.GetOxyDamage;
 			burnDmg = livingHealth.GetTotalBurnDamage();
 			toxinDmg = 0;
 			bruteDmg = livingHealth.GetTotalBruteDamage();

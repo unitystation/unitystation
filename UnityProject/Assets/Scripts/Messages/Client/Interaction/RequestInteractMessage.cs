@@ -161,7 +161,7 @@ namespace Messages.Client.Interaction
 				//look up item in active hand slot
 				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
-				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+				var usedObject = clientStorage.GetActiveHandSlot()?.ItemObject;
 				LoadMultipleObjects(new uint[]{
 					TargetObject, ProcessorObject
 				});
@@ -266,16 +266,23 @@ namespace Messages.Client.Interaction
 			}
 			else if (InteractionType == typeof(TileApply))
 			{
-				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
-				var usedSlot = clientStorage.GetActiveHandSlot();
-				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-				LoadNetworkObject(ProcessorObject);
-				var processorObj = NetworkObject;
-				CheckMatrixSync(ref processorObj);
+				try
+				{
+					var clientStorage = SentByPlayer.Script.DynamicItemStorage;
+					var usedSlot = clientStorage.GetActiveHandSlot();
+					var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+					LoadNetworkObject(ProcessorObject);
+					var processorObj = NetworkObject;
+					CheckMatrixSync(ref processorObj);
 
-				processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
-					TargetVector, processorObj, usedSlot, usedObject, Intent,
-					TileApply.ApplyType.HandApply);
+					processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
+						TargetVector, processorObj, usedSlot, usedObject, Intent,
+						TileApply.ApplyType.HandApply);
+				}
+				catch (NullReferenceException exception)
+				{
+					Logger.LogError("Caught a NRE in RequestInteractMessage.Process(): " + exception.Message, Category.Interaction);
+				}
 			}
 			else if (InteractionType == typeof(TileMouseDrop))
 			{
