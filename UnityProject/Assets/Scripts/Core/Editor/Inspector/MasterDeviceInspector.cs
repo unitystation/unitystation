@@ -22,7 +22,7 @@ namespace CustomInspectors
 		public static Dictionary<MultitoolConnectionType, Color> LinkColors = new Dictionary<MultitoolConnectionType, Color>()
 		{
 			{ MultitoolConnectionType.APC, new Color(0.5f, 0.5f, 1, 1) },
-			//{ MultitoolConnectionType.ACU, Color.cyan },
+			{ MultitoolConnectionType.Acu, Color.cyan },
 			{ MultitoolConnectionType.FireAlarm, new Color(1, 0.5f, 0, 1) },
 			{ MultitoolConnectionType.LightSwitch, Color.yellow },
 		};
@@ -60,8 +60,8 @@ namespace CustomInspectors
 	[CustomEditor(typeof(APC))]
 	public class ApcInspector : MasterDeviceInspector { }
 
-	//[CustomEditor(typeof(AirController))]
-	//public class AcuInspector : MasterDeviceInspector { }
+	[CustomEditor(typeof(AirController))]
+	public class AcuInspector : MasterDeviceInspector { }
 
 	[CustomEditor(typeof(FireAlarm))]
 	public class FireAlarmInspector : MasterDeviceInspector { }
