@@ -187,11 +187,13 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		{
 			InitServerState();
 		}
-
-		Collider2D[] colls = GetComponents<Collider2D>();
-		foreach (var c in colls)
+		else
 		{
-			c.enabled = false;
+			Collider2D[] colls = GetComponents<Collider2D>();
+			foreach (var c in colls)
+			{
+				c.enabled = false;
+			}
 		}
 
 		Initialized = true;
