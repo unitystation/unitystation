@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
@@ -31,6 +32,8 @@ namespace Objects
 		private Sprite[] Offline = null;
 		[SerializeField]
 		private Sprite[] PowerOff = null;
+
+		private bool isOnCooldown = false;
 
 		private WorldGateway selectedWorld;// The world from the list that was chosen
 
@@ -118,7 +121,8 @@ namespace Objects
 
 			if (loadNormally)
 			{
-				WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
+				//WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
+				WaitTimeBeforeActivation = 30f;
 			}
 
 			Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
@@ -146,14 +150,14 @@ namespace Objects
 				if (APCPoweredDevice.IsOn(CurrentState) == false) return;
 
 				timeElapsedServer += Time.deltaTime;
-				if (timeElapsedServer > DetectionTime && isOn)
+				if (timeElapsedServer > DetectionTime && isOn && isOnCooldown == false)
 				{
 					DetectPlayer();
 					timeElapsedServer = 0;
 				}
 
 				timeElapsedServerSound += Time.deltaTime;
-				if (timeElapsedServerSound > SoundLength && isOn)
+				if (timeElapsedServerSound > SoundLength && isOn && isOnCooldown == false)
 				{
 					DetectPlayer();
 					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.MachineHum4, Position + Vector3Int.up);
@@ -239,6 +243,15 @@ namespace Objects
 			{
 				TransportUtility.TransportObjectAndPulled(item, TeleportTargetCoord);
 			}
+
+			StartCoroutine(TeleporterCooldown());
+		}
+
+		IEnumerator TeleporterCooldown()
+		{
+			isOnCooldown = true;
+			yield return new WaitForSeconds(1.2f);
+			isOnCooldown = false;
 		}
 
 		public virtual void SetOnline()
