@@ -25,10 +25,10 @@ namespace Doors.Modules
 					var ItemStorage = interaction.Performer.GetComponent<DynamicItemStorage>();
 					if (ItemStorage != null)
 					{
-						var Hand = ItemStorage.GetActiveHandSlot().ItemAttributes;
-						if (Hand != null)
+						Emag emagInHand = ItemStorage.GetActiveHandSlot().Item?.OrNull().gameObject.GetComponent<Emag>()?.OrNull();
+						if (emagInHand != null)
 						{
-							if (Hand.HasTrait(CommonTraits.Instance.Emag))
+							if (emagInHand.UseCharge(interaction))
 							{
 								States.Add(DoorProcessingStates.SoftwareHacked);
 								StartCoroutine(ToggleBolts());
@@ -39,15 +39,15 @@ namespace Doors.Modules
 						foreach (var item in ItemStorage.GetNamedItemSlots(NamedSlot.id))
 						{
 							var ID = item.ItemAttributes;
+							Emag emagInIdSlot = item.Item?.OrNull().gameObject.GetComponent<Emag>()?.OrNull();
 
-							if (ID != null)
+							if (ID != null) {continue;}
+							if (emagInIdSlot != null) {continue;}
+							if (emagInIdSlot.UseCharge(interaction))
 							{
-								if (ID.HasTrait(CommonTraits.Instance.Emag))
-								{
-									States.Add(DoorProcessingStates.SoftwareHacked);
-									StartCoroutine(ToggleBolts());
-									return ModuleSignal.Continue;
-								}
+								States.Add(DoorProcessingStates.SoftwareHacked);
+								StartCoroutine(ToggleBolts());
+								return ModuleSignal.Continue;
 							}
 						}
 					}
