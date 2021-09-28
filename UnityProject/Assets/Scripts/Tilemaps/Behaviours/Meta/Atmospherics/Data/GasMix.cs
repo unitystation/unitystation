@@ -17,8 +17,11 @@ namespace Systems.Atmospherics
 		public GasData GasData;
 		public GasValues[] GasesArray => GasData.GasesArray;
 
-		public float Pressure;// in kPA
-		public float Volume; // in m3
+		/// <summary>In kPa.</summary>
+		public float Pressure;
+		/// <summary>In cubic metres.</summary>
+		public float Volume;
+		/// <summary>In Kelvin.</summary>
 		public float Temperature;
 
 		private HashSet<GasSO> cache = new HashSet<GasSO>();

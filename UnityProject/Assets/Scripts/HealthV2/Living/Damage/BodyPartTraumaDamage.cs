@@ -323,12 +323,21 @@ namespace HealthV2
 						}
 					}
 				}
-				if (DeathOnRemoval)
+				if (DeathOnRemoval && HealthMaster != null)
 				{
 					HealthMaster.Death();
 				}
-				_ = Spawn.ServerPrefab(OrganStorage.AshPrefab, HealthMaster.gameObject.RegisterTile().WorldPosition);
-				_ = Despawn.ServerSingle(this.gameObject);
+
+				try
+				{
+					_ = Spawn.ServerPrefab(OrganStorage.AshPrefab,
+						HealthMaster.gameObject.RegisterTile().WorldPosition);
+					_ = Despawn.ServerSingle(this.gameObject);
+				}
+				catch (NullReferenceException exception)
+				{
+					Logger.LogError("Caught a NRE in BodyPartTraumaDamage.AshBodyPart() ", Category.Health);
+				}
 			}
 		}
 

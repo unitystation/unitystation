@@ -135,12 +135,12 @@ public class JoinedViewer : NetworkBehaviour
 			yield break;
 		}
 
-		while (netIdentity != null && !netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
+		while (netIdentity != null && connectionToClient != null && !netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
 		{
 			yield return WaitFor.EndOfFrame;
 		}
 
-		if (netIdentity != null)
+		if (netIdentity != null && connectionToClient != null)
 		{
 			yield return WaitFor.EndOfFrame;
 			TargetLocalPlayerRejoinUI(connectionToClient);

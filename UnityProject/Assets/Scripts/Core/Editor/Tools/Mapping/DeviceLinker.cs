@@ -63,7 +63,7 @@ namespace Core.Editor.Tools.Mapping
 		{
 			tabs = new WindowTab[] {
 				new WindowTab("APC Devices", MultitoolConnectionType.APC),
-				//new WindowTab("ACU Devices", MultitoolConnectionType.ACU),
+				new WindowTab("ACU Devices", MultitoolConnectionType.Acu),
 				new WindowTab("Firelocks", MultitoolConnectionType.FireAlarm),
 				new WindowTab("Lights", MultitoolConnectionType.LightSwitch),
 			};
