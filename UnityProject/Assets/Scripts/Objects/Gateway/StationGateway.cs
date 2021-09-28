@@ -121,8 +121,7 @@ namespace Objects
 
 			if (loadNormally)
 			{
-				//WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
-				WaitTimeBeforeActivation = 30f;
+				WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
 			}
 
 			Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
@@ -247,6 +246,11 @@ namespace Objects
 			StartCoroutine(TeleporterCooldown());
 		}
 
+
+		/// <summary>
+		/// Halts DetectPlayer() to stop a bug where the player would get stuck on the gateway
+		/// </summary>
+		/// <returns>Wait for 1.2 seconds</returns>
 		IEnumerator TeleporterCooldown()
 		{
 			isOnCooldown = true;
