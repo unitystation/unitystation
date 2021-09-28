@@ -322,22 +322,17 @@ namespace Systems.Electricity
 
 		public bool ConnectToClosestApc()
 		{
-			var apcs = Physics2D.OverlapCircleAll(registerTile.WorldPositionServer.To2Int(), 30);
+			var apcs = FindObjectsOfType<APC>();
 
-			apcs = apcs.Where(a => a.gameObject.GetComponent<APC>() != null).ToArray();
-
-			if (apcs.Length == 0)
-			{
-				return false;
-			}
+			apcs = apcs.Where(item => item.gameObject.GetComponent<APC>() != null).ToArray();
 
 			APC bestTarget = null;
-			float closestDistance = Mathf.Infinity;
-			var devicePosition = gameObject.transform.position;
+			float closestDistance = 30;
+			var devicePosition = gameObject.RegisterTile().WorldPositionServer;
 
 			foreach (var potentialTarget in apcs)
 			{
-				var directionToTarget = potentialTarget.gameObject.transform.position - devicePosition;
+				var directionToTarget = potentialTarget.gameObject.RegisterTile().WorldPositionServer - devicePosition;
 				float dSqrToTarget = directionToTarget.sqrMagnitude;
 
 				if (dSqrToTarget >= closestDistance) continue;
