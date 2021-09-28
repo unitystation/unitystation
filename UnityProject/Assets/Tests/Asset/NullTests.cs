@@ -144,24 +144,24 @@ namespace Tests.Asset
 			}
 		}
 
-		private void CheckField<T>(T toCheck, StringBuilder report, FieldInfo checkField) where T : UnityEngine.Object
+		private void CheckField<T>(T toCheck, StringBuilder report, FieldInfo fieldToCheck) where T : UnityEngine.Object
 		{
-			if (Attribute.IsDefined(checkField, typeof(CannotBeNullAttribute)) == false) return;
+			if (Attribute.IsDefined(fieldToCheck, typeof(CannotBeNullAttribute)) == false) return;
 
-			if(checkField.GetValue(toCheck) != null) return;
+			if(fieldToCheck.GetValue(toCheck) != null) return;
 
 			if (state == State.Prefab)
 			{
-				report.AppendLine($"{toCheck.name} prefab has a null value on {checkField.GetType().Name}");
+				report.AppendLine($"{toCheck.name} prefab has a null value on {fieldToCheck.GetType().Name}");
 			}
 			else if (state == State.Scene)
 			{
 				report.AppendLine(
-					$"{toCheck.name} scene object has a null value on {checkField.GetType().Name} in scene: {sceneName}");
+					$"{toCheck.name} scene object has a null value on {fieldToCheck.GetType().Name} in scene: {sceneName}");
 			}
 			else
 			{
-				report.AppendLine($"{toCheck.name} scriptable object has a null value on field: {checkField.Name}");
+				report.AppendLine($"{toCheck.name} scriptable object has a null value on field: {fieldToCheck.Name}");
 			}
 		}
 
