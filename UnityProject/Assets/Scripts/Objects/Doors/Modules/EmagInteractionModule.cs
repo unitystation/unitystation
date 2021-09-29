@@ -41,8 +41,8 @@ namespace Doors.Modules
 							var ID = item.ItemAttributes;
 							Emag emagInIdSlot = item.Item?.OrNull().gameObject.GetComponent<Emag>()?.OrNull();
 
-							if (ID != null) {continue;}
-							if (emagInIdSlot != null) {continue;}
+							if (ID != null) continue;
+							if (emagInIdSlot != null) continue;
 							if (emagInIdSlot.UseCharge(interaction))
 							{
 								States.Add(DoorProcessingStates.SoftwareHacked);
