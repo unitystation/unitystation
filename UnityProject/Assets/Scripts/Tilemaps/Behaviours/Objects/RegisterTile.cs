@@ -358,7 +358,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			if (objectLayer)
 			{
-				objectLayer.ServerObjects.Remove(LocalPositionClient, this);
+				objectLayer.ServerObjects.Remove(LocalPositionServer, this);
 				objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 			}
 			objectLayer = newObjectLayer;
