@@ -8,8 +8,6 @@ namespace Objects
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			
 			PlayerSync playerSync;
 			CustomNetTransform netTransform;
 			if (interaction.UsedObject.TryGetComponent(out playerSync))
