@@ -158,7 +158,6 @@ namespace Objects
 				timeElapsedServerSound += Time.deltaTime;
 				if (timeElapsedServerSound > SoundLength && isOn && isOnCooldown == false)
 				{
-					DetectPlayer();
 					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.MachineHum4, Position + Vector3Int.up);
 					timeElapsedServerSound = 0;
 				}
