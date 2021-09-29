@@ -42,6 +42,7 @@ namespace Construction.Conveyors
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			RefreshSprites();
 		}
 
 		private void OnValidate()
