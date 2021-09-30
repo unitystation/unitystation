@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using Core.Editor.Attributes;
-using UnityEditor;
-
 
 namespace Core.Directionals
 {
@@ -79,9 +77,6 @@ namespace Core.Directionals
 		private void OnEditorDirectionChanged()
 		{
 			SetSpriteOrientation(directional.InitialOrientation);
-			#if UNITY_EDITOR
-				EditorUtility.SetDirty(gameObject);
-			#endif
 		}
 
 		private void SetSpriteOrientation(Orientation newOrientation)

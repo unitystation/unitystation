@@ -24,15 +24,10 @@ public class Tools : Editor
 	private static void RefreshDirectionals()
 	{
 		var allDirs = FindObjectsOfType<Directional>();
-
-		for (int i = allDirs.Length - 1; i > 0; i--)
+		foreach (var directional in allDirs)
 		{
-			if(allDirs[i].onEditorDirectionChange != null)
-				allDirs[i].onEditorDirectionChange.Invoke();
-
-			allDirs[i].transform.localEulerAngles = Vector3.zero;
+			directional.changeDirectionInEditor();
 		}
-
 		Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
 	}
 
