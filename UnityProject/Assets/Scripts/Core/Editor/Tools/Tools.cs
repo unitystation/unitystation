@@ -26,7 +26,7 @@ public class Tools : Editor
 		var allDirs = FindObjectsOfType<Directional>();
 		foreach (var directional in allDirs)
 		{
-			directional.changeDirectionInEditor();
+			directional.ChangeDirectionInEditor();
 		}
 		Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
 	}

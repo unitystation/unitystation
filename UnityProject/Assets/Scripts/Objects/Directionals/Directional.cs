@@ -122,7 +122,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 		}
 	}
 
-	void OnDrawGizmosSelected()
+	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
 
@@ -134,21 +134,21 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 		{
 			DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.Vector);
 		}
-	}
+	}<
 
 	#if UNITY_EDITOR
-	void Update()
+	private void Update()
 	{
 		if (!Application.isPlaying)
 		{
 			if (editorInitialDirection != InitialDirection)
 			{
-				changeDirectionInEditor();
+				ChangeDirectionInEditor();
 			}
 		}
 	}
 
-	public void changeDirectionInEditor()
+	public void ChangeDirectionInEditor()
 	{
 		editorInitialDirection = InitialDirection;
 		if (onEditorDirectionChange != null)
