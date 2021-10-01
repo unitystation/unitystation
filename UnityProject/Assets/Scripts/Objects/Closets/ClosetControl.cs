@@ -751,7 +751,7 @@ namespace Objects
 		/// <summary>
 		/// Adds all items currently sitting on this closet into the closet
 		/// </summary>
-		private void CloseItemHandling()
+		public void CloseItemHandling()
 		{
 			var itemsOnCloset = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
 				.Where(ob => ob != null && ob.gameObject != gameObject)

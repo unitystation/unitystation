@@ -458,6 +458,9 @@ namespace Items.PDA
 			{
 				UplinkTC -= cost;
 				var item = result.GameObject;
+				if(item.TryGetComponent<RandomItemSpot>(out var randomItem)){
+					item = randomItem.spawnedItem;
+				}
 				Inventory.ServerAdd(item, GetBestSlot(item));
 			}
 		}

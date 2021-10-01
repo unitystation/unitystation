@@ -254,7 +254,13 @@ namespace Systems.Cargo
 			if (obj.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
 			{
 				//ensure it is added to crate
-				crate.ServerAddInternalItem(objectBehaviour);
+				if (obj.TryGetComponent<RandomItemSpot>(out var randomItem)){
+					randomItem.RollRandomPool();
+					crate.CloseItemHandling();
+				}
+				else{
+					crate.ServerAddInternalItem(objectBehaviour);
+				}
 			}
 			else
 			{

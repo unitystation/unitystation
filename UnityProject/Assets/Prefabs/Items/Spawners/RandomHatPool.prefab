@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  lootCount: 3
+  lootCount: 1
   fanOut: 0
   poolList:
-  - probability: 0
+  - probability: 100
     randomItemPool: {fileID: 11400000, guid: 2a18bf2660ae5f54a927f9251752b357, type: 2}
 --- !u!1001 &2838674892618678586
 PrefabInstance:

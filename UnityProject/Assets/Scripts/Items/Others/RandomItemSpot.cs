@@ -8,12 +8,14 @@ namespace Items
 {
 	public class RandomItemSpot : NetworkBehaviour, IServerSpawn
 	{
-		[Tooltip("Amout of items we could get from this pool")] [SerializeField]
+		[Tooltip("Amount of items we could get from this pool")] [SerializeField]
 		private int lootCount = 1;
 		[Tooltip("Should we spread the items in the tile once spawned?")][SerializeField]
 		private bool fanOut = false;
 		[Tooltip("List of possible pools of items to choose from")][SerializeField]
 		private List<PoolData> poolList = null;
+
+		public GameObject spawnedItem = null;
 
 		private const int MaxAmountRolls = 5;
 
@@ -22,7 +24,7 @@ namespace Items
 			RollRandomPool();
 		}
 
-		private void RollRandomPool()
+		public void RollRandomPool()
 		{
 			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
@@ -92,9 +94,9 @@ namespace Items
 			var worldPos = gameObject.AssumedWorldPosServer();
 			var pushPull = GetComponent<PushPull>();
 
-			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
+			var result = Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
+			this.spawnedItem = result.GameObject;
 		}
-
 	}
 
 	[Serializable]
