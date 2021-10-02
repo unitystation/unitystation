@@ -1,4 +1,4 @@
-using UnityEngine;
+-using UnityEngine;
 
 namespace Objects
 {
@@ -15,12 +15,12 @@ namespace Objects
 				if (playerSync.IsMoving || playerSync.playerMove.IsBuckled) return false;
 
 				// Do a sanity check to make sure someone isn't dropping the shadow from like 9000 tiles away.
-				float mag = (interaction.TargetObject.transform.position - playerSync.ServerPosition).magnitude;
+				float mag = (interaction.TargetObject.transform.position - playerSync.ClientPosition).magnitude;
 				if (mag > PlayerScript.interactionDistance) return false;
 			}
 			else if (interaction.UsedObject.TryGetComponent(out netTransform)) // Do the same check but for mouse draggable objects this time.
 			{
-				float mag = (interaction.TargetObject.transform.position - playerSync.ServerPosition).magnitude;
+				float mag = (interaction.TargetObject.transform.position - netTransform.ServerPosition).magnitude;
 				if (mag > PlayerScript.interactionDistance) return false;
 			}
 			else // Not sure what this object is so assume that we can't interact with it at all.
