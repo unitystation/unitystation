@@ -32,6 +32,7 @@ namespace UI
 			if (PlayerList.Instance.AdminToken == null) return;
 
 			vetoBtn.gameObject.SetActive(true);
+			VoteYes();
 		}
 
 		public void UpdateVoteWindow(string currentCount, string timer)
