@@ -105,6 +105,19 @@ namespace Items
 					$"You wave the Emag over the {interaction.TargetObject.ExpensiveName()}'s electrical panel.",
 						$"{interaction.Performer.ExpensiveName()} waves something over the {interaction.TargetObject.ExpensiveName()}'s electrical panel.");
 
+			return UseChargeLogic(interaction.Performer);
+		}
+
+		public bool UseCharge(GameObject TargetObject, GameObject Performer)
+		{
+			Chat.AddActionMsgToChat(Performer,
+				$"You wave the Emag over the {TargetObject.ExpensiveName()}'s electrical panel.",
+				$"{Performer.ExpensiveName()} waves something over the {TargetObject.ExpensiveName()}'s electrical panel.");
+			return UseChargeLogic(Performer);
+		}
+
+		private bool UseChargeLogic(GameObject Performer)
+		{
 			if (Charges > 0)
 			{
 				//if this is the first charge taken off, add recharge loop
@@ -120,7 +133,7 @@ namespace Items
 				}
 				else
 				{
-					_ = SoundManager.PlayNetworkedForPlayer(recipient: interaction.Performer, OutOfChargesSFXA, sourceObj: gameObject);
+					_ = SoundManager.PlayNetworkedForPlayer(recipient: Performer, OutOfChargesSFXA, sourceObj: gameObject);
 					spriteHandler.Empty();
 				}
 				return true;
