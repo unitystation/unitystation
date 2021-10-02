@@ -96,7 +96,7 @@ namespace Items
 
 			this.spawnedItem = item.Prefab;
 			if(!spawn) return;
-			var result = Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
+			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
 		}
 	}
 
