@@ -134,7 +134,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 		{
 			DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.Vector);
 		}
-	}<
+	}
 
 	#if UNITY_EDITOR
 	private void Update()
