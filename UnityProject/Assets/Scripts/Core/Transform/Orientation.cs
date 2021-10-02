@@ -266,6 +266,7 @@ public struct Orientation : IEquatable<Orientation>
 /// </summary>
 public enum OrientationEnum
 {
+	Default = -1,
 	Right = 0,
 	Up = 1,
 	Left = 2,
