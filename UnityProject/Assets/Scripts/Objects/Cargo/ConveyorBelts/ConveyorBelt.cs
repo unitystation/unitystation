@@ -10,7 +10,7 @@ namespace Construction.Conveyors
 {
 	[SelectionBase]
 	[ExecuteInEditMode]
-	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable
+	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerSpawn
 	{
 		private readonly Vector2Int[] searchDirs =
 		{
@@ -42,6 +42,12 @@ namespace Construction.Conveyors
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			if(netIdentity.isServer) RefreshSprites(); //So the host can see the sprites animated correctly on start.
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//So clients can see the sprites animated correctly on start.
 			RefreshSprites();
 		}
 
