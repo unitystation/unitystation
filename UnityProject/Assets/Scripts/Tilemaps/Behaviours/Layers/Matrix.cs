@@ -321,12 +321,6 @@ public class Matrix : MonoBehaviour
 		var filtered = new List<T>();
 		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
 		{
-			if (t == null)
-			{
-				Logger.LogError("Caught NRE in Matrix.Get() foreach loop, ln 326. Continuing loop without considering this RegisterTile.", Category.TileMaps);
-				continue;
-			}
-
 			T x = t.GetComponent<T>();
 			if (x != null)
 			{
