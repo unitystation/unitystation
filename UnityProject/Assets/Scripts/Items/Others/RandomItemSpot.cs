@@ -21,10 +21,10 @@ namespace Items
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			RollRandomPool();
+			RollRandomPool(true);
 		}
 
-		public void RollRandomPool()
+		public void RollRandomPool(bool spawn)
 		{
 			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
@@ -62,7 +62,7 @@ namespace Items
 					return;
 				}
 
-				SpawnItems(pool);
+				GenerateItem(pool, spawn);
 			}
 
 			RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
@@ -70,7 +70,7 @@ namespace Items
 			this.GetComponent<RegisterTile>().UpdatePositionServer();
 		}
 
-		private void SpawnItems(PoolData poolData)
+		private void GenerateItem(PoolData poolData, bool spawn)
 		{
 			if (poolData == null) return;
 
@@ -94,8 +94,9 @@ namespace Items
 			var worldPos = gameObject.AssumedWorldPosServer();
 			var pushPull = GetComponent<PushPull>();
 
+			this.spawnedItem = item.Prefab;
+			if(!spawn) return;
 			var result = Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
-			this.spawnedItem = result.GameObject;
 		}
 	}
 

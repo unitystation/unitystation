@@ -255,7 +255,7 @@ namespace Systems.Cargo
 			{
 				//ensure it is added to crate
 				if (obj.TryGetComponent<RandomItemSpot>(out var randomItem)){
-					randomItem.RollRandomPool();
+					randomItem.RollRandomPool(true);
 					crate.CloseItemHandling();
 				}
 				else{
