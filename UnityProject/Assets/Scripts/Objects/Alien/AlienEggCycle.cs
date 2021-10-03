@@ -8,7 +8,7 @@ using Messages.Server.SoundMessages;
 
 namespace Alien
 {
-	public class AlienEggCycle : MonoBehaviour, IInteractable<HandApply>, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
+	public class AlienEggCycle : MonoBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private AddressableAudioSource squishSFX = null;
 
@@ -215,8 +215,9 @@ namespace Alien
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return DefaultWillInteract.Default(interaction, side) &&
-				!(interaction.Intent == Intent.Harm && currentState == EggState.Grown);
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return side == NetworkSide.Server ? !(interaction.Intent == Intent.Harm && currentState == EggState.Grown) : true;
 		}
 
 		public enum EggState
