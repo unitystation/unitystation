@@ -215,7 +215,8 @@ namespace Alien
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return !(interaction.Intent == Intent.Harm && currentState == EggState.Grown);
+			return DefaultWillInteract.Default(interaction, side) &&
+				!(interaction.Intent == Intent.Harm && currentState == EggState.Grown);
 		}
 
 		public enum EggState
