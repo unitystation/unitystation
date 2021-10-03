@@ -8,7 +8,7 @@ using Messages.Server.SoundMessages;
 
 namespace Alien
 {
-	public class AlienEggCycle : MonoBehaviour, IInteractable<HandApply>, IServerSpawn, IServerDespawn
+	public class AlienEggCycle : MonoBehaviour, IInteractable<HandApply>, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private AddressableAudioSource squishSFX = null;
 
@@ -164,10 +164,7 @@ namespace Alien
 					Squish(interaction);
 					break;
 				case EggState.Grown:
-					if (interaction.Intent == Intent.Harm)
-						Squish(interaction);
-					else
-						Open(interaction);
+					Open(interaction);
 					break;
 				default:
 					UpdatePhase(EggState.Burst);
@@ -216,6 +213,10 @@ namespace Alien
 				$"{interaction.Performer.ExpensiveName()} touches the slimy egg!");
 		}
 
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			return !(interaction.Intent == Intent.Harm && currentState == EggState.Grown);
+		}
 
 		public enum EggState
 		{
