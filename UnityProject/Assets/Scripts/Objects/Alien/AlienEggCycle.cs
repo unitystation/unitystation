@@ -81,7 +81,7 @@ namespace Alien
 				case EggState.Grown:
 					spriteHandler.ChangeSprite(BIG_SPRITE);
 					StopAllCoroutines();
-					StartCoroutine(HatchEgg());
+					StartCoroutine(WaitForHatchEgg());
 					break;
 				case EggState.Burst:
 					spriteHandler.ChangeSprite(HATCHED_SPRITE);
@@ -103,9 +103,16 @@ namespace Alien
 		}
 
 
-		IEnumerator HatchEgg()
+		IEnumerator WaitForHatchEgg()
 		{
 			yield return WaitFor.Seconds(incubationTime / 2);
+
+			StartCoroutine(HatchEggAnimation());
+		}
+
+
+		IEnumerator HatchEggAnimation()
+		{
 			spriteHandler.ChangeSprite(OPENING_SPRITE);
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
 			UpdatePhase(EggState.Burst);
@@ -148,18 +155,38 @@ namespace Alien
 					FeelsSlimy(interaction);
 					break;
 				case EggState.Burst:
-					FeelsSlimy(interaction);
+					if (interaction.Intent == Intent.Harm)
+						Squish(interaction);
+					else
+						FeelsSlimy(interaction);
 					break;
 				case EggState.Growing:
 					Squish(interaction);
 					break;
 				case EggState.Grown:
-					UpdatePhase(EggState.Burst);
+					if (interaction.Intent == Intent.Harm)
+						Squish(interaction);
+					else
+						Open(interaction);
 					break;
 				default:
 					UpdatePhase(EggState.Burst);
 					break;
 			}
+		}
+
+
+		private void Open(HandApply interaction)
+		{
+			StopAllCoroutines();
+
+			Chat.AddActionMsgToChat(
+				interaction.Performer.gameObject,
+				"You open the alien egg!",
+				$"{interaction.Performer.ExpensiveName()} opens the alien egg!");
+
+			StartCoroutine(HatchEggAnimation());
+			registerObject.SetPassable(false, true);
 		}
 
 
