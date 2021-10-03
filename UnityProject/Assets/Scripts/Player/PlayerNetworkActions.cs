@@ -358,7 +358,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdInitiateRestartVote()
 	{
 		if (VotingManager.Instance == null) return;
-		VotingManager.Instance.TryInitiateRestartVote(gameObject);
+		VotingManager.Instance.TryInitiateRestartVote(gameObject, connectionToClient);
 	}
 
 	[Command]

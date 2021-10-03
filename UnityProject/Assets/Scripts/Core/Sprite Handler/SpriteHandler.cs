@@ -583,12 +583,18 @@ public class SpriteHandler : MonoBehaviour
 
 	void Awake()
 	{
-		TryInit();
+		if (Application.isPlaying)
+		{
+			TryInit();
+		}
 	}
 
 	void Start()
 	{
-		TryInit();
+		if (Application.isPlaying)
+		{
+			TryInit();
+		}
 	}
 
 	private void OnDestroy()
@@ -799,8 +805,10 @@ public class SpriteHandler : MonoBehaviour
 
 		GetImageComponent();
 		OnSpriteChanged?.Invoke(CurrentSprite);
-
-		PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
+		if (Application.isPlaying)
+		{
+			PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
+		}
 	}
 
 	private void OnDisable()

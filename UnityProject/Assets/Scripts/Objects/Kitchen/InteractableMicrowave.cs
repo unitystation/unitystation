@@ -41,7 +41,7 @@ namespace Objects.Kitchen
 		public string Examine(Vector3 worldPos = default)
 		{
 			var contents = microwave.HasContents
-					? string.Join(", ", $"<b>{microwave.Slots.Where(slot => slot.IsOccupied).Select(slot => slot.ItemObject.ExpensiveName())}</b>")
+					? string.Join(", ", microwave.Slots.Where(slot => slot.IsOccupied).Select(slot => $"<b>{slot.ItemObject.ExpensiveName()}</b>"))
 					: "<b>nothing</b>";
 
 			return $"The microwave is currently <b>{microwave.CurrentState.StateMsgForExamine}</b>. " +

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using Core.Editor.Attributes;
-
+using UnityEditor;
 
 /// <summary>
 /// Component which allows an object to have an orientation (facing) which is synced over the network, supports client
@@ -122,7 +122,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 		}
 	}
 
-void OnDrawGizmosSelected()
+	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
 
@@ -137,17 +137,28 @@ void OnDrawGizmosSelected()
 	}
 
 	#if UNITY_EDITOR
-	void Update()
+	private void Update()
 	{
 		if (!Application.isPlaying)
 		{
 			if (editorInitialDirection != InitialDirection)
 			{
-				editorInitialDirection = InitialDirection;
-				if(onEditorDirectionChange != null) onEditorDirectionChange.Invoke();
+				ChangeDirectionInEditor();
 			}
 		}
 	}
+
+	public void ChangeDirectionInEditor()
+	{
+		editorInitialDirection = InitialDirection;
+		if (onEditorDirectionChange != null)
+		{
+			onEditorDirectionChange.Invoke();
+		}
+		transform.localEulerAngles = Vector3.zero;
+		EditorUtility.SetDirty(gameObject);
+	}
+
 	#endif
 
 	public void OnSpawnServer(SpawnInfo info)

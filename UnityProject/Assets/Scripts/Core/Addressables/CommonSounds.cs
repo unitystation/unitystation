@@ -49,6 +49,7 @@ public class CommonSounds : SingletonScriptableObject<CommonSounds>
    //Ai announcements
    public AddressableAudioSource AnnouncementNotice = null;
    public AddressableAudioSource AnnouncementAnnounce = null;
+   public AddressableAudioSource AnnouncementCentCom = null;
    public AddressableAudioSource AnnouncementAlert = null;
    public AddressableAudioSource AnnouncementWelcome = null;
    public AddressableAudioSource AnnouncementIntercept = null;
