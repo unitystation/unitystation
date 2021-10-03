@@ -35,7 +35,7 @@ namespace Objects
 		{
 			StandardProgressActionConfig cfg =
 				new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, false);
-			var x = StandardProgressAction.Create(cfg, () =>
+			StandardProgressAction.Create(cfg, () =>
 			{
 				PlayerScript playerScript;
 				if (interaction.UsedObject.TryGetComponent(out playerScript))
