@@ -60,7 +60,8 @@ namespace Managers
 			{
 				{UpdateSound.Notice, CommonSounds.Instance.Notice2},
 				{UpdateSound.Alert, CommonSounds.Instance.Notice1},
-				{UpdateSound.Announce, CommonSounds.Instance.AnnouncementAnnounce}
+				{UpdateSound.Announce, CommonSounds.Instance.AnnouncementAnnounce},
+				{UpdateSound.CentComAnnounce, CommonSounds.Instance.AnnouncementCentCom}
 			};
 		}
 
@@ -281,6 +282,7 @@ namespace Managers
 			Notice,
 			Alert,
 			Announce,
+			CentComAnnounce,
 			NoSound
 		}
 
