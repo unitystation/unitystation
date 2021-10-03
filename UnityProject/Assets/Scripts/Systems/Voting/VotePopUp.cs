@@ -79,7 +79,7 @@ namespace UI
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
-				PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);
+				PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote();
 			}
 			buttonPresses++;
 			ToggleButtons(false);

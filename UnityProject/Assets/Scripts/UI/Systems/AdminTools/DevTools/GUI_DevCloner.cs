@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using DatabaseAPI;
-using Items;
-using Messages.Client.DevSpawner;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Items;
+using Messages.Client.DevSpawner;
+
 
 /// <summary>
 /// Main logic for the UI for cloning objects
@@ -202,7 +201,7 @@ public class GUI_DevCloner : MonoBehaviour
 					}
 					else
 					{
-						DevCloneMessage.Send(toClone, (Vector3) position, ServerData.UserID, PlayerList.Instance.AdminToken);
+						DevCloneMessage.Send(toClone, (Vector3) position);
 					}
 				}
 			}

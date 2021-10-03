@@ -7,8 +7,6 @@ namespace Messages.Client.VariableViewer
 		public struct NetMessage : NetworkMessage
 		{
 			public ulong BookID;
-			public string AdminId;
-			public string AdminToken;
 		}
 
 		public override void Process(NetMessage msg)
@@ -16,20 +14,19 @@ namespace Messages.Client.VariableViewer
 			ValidateAdmin(msg);
 		}
 
-		void ValidateAdmin(NetMessage msg)
+		private void ValidateAdmin(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
+
 			global::VariableViewer.RequestSendBook(msg.BookID, SentByPlayer.GameObject);
 		}
 
-
-		public static NetMessage Send(ulong BookID, string adminId, string adminToken)
+		public static NetMessage Send(ulong bookId)
 		{
-			NetMessage msg = new NetMessage();
-			msg.BookID = BookID;
-			msg.AdminId = adminId;
-			msg.AdminToken = adminToken;
+			NetMessage msg = new NetMessage
+			{
+				BookID = bookId
+			};
 
 			Send(msg);
 			return msg;

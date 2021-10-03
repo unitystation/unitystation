@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using DatabaseAPI;
 using Messages.Client.Admin;
 using ScriptableObjects;
+
 
 namespace UI.AdminTools
 {
@@ -15,11 +15,7 @@ namespace UI.AdminTools
 				//Just a safe value in case for whatever reason user didn't select a job and can click the button
 				: SOAdminJobsList.Instance.SpecialJobs.PickRandom();
 
-			RequestRespawnPlayer.SendSpecialRespawn(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
-				PlayerEntry.PlayerData.uid,
-				occupation);
+			RequestRespawnPlayer.SendSpecialRespawn(PlayerEntry.PlayerData.uid, occupation);
 		}
 	}
 }

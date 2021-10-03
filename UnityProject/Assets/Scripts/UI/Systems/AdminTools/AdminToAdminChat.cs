@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using Mirror;
 using DatabaseAPI;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
-using Mirror;
-using UnityEngine;
+
 
 namespace AdminTools
 {
@@ -18,14 +18,12 @@ namespace AdminTools
 		/// <summary>
 		/// All messages sent and recieved between admins
 		/// </summary>
-		private List<AdminChatMessage> serverAdminChatLogs
-			= new List<AdminChatMessage>();
+		private readonly List<AdminChatMessage> serverAdminChatLogs = new List<AdminChatMessage>();
 
 		/// <summary>
 		/// The admins client local cache for admin to admin chat
 		/// </summary>
-		private List<AdminChatMessage> clientAdminChatLogs
-			= new List<AdminChatMessage>();
+		private readonly List<AdminChatMessage> clientAdminChatLogs = new List<AdminChatMessage>();
 
 		public void ClearLogs()
 		{
@@ -38,7 +36,7 @@ namespace AdminTools
 			chatScroll.OnInputFieldSubmit += OnInputSend;
 			UIManager.Instance.adminChatButtons.adminNotification.ClearAll();
 			chatScroll.LoadChatEntries(clientAdminChatLogs.Cast<ChatEntryData>().ToList());
-			ClientGetUnreadAdminPlayerMessages(ServerData.UserID);
+			ClientGetUnreadAdminPlayerMessages();
 		}
 
 		private void OnDisable()
@@ -68,16 +66,16 @@ namespace AdminTools
 				return;
 			}
 
-			AdminChatUpdate update = new AdminChatUpdate();
-
-			update.messages = serverAdminChatLogs;
-
+			AdminChatUpdate update = new AdminChatUpdate
+			{
+				messages = serverAdminChatLogs
+			};
 			AdminChatUpdateMessage.SendLogUpdateToAdmin(requestee, update);
 		}
 
-		void ClientGetUnreadAdminPlayerMessages(string playerId)
+		private void ClientGetUnreadAdminPlayerMessages()
 		{
-			AdminCheckAdminMessages.Send(playerId, clientAdminChatLogs.Count);
+			AdminCheckAdminMessages.Send(clientAdminChatLogs.Count);
 		}
 
 		public void ClientUpdateChatLog(string unreadMessagesJson)
@@ -92,15 +90,7 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			var adminMsg = new AdminChatMessage
-			{
-				fromUserid = ServerData.UserID,
-				Message = message,
-				wasFromAdmin = true
-			};
-
-			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
-			RequestAdminChatMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, msg);
+			RequestAdminChatMessage.Send($"{ServerData.Auth.CurrentUser.DisplayName}: {message}");
 		}
 	}
 }

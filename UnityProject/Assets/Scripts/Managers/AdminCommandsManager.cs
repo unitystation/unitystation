@@ -1,17 +1,14 @@
+using System;
+using System.IO;
+using UnityEngine;
+using Mirror;
 using DiscordWebhook;
 using InGameEvents;
-using Mirror;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.IO;
 using Managers;
-using Messages.Client;
 using Messages.Server;
 using Messages.Server.AdminTools;
 using Strings;
-using UnityEngine;
-using UnityEngine.Profiling;
+
 
 namespace AdminCommands
 {
@@ -39,6 +36,8 @@ namespace AdminCommands
 			set { instance = value; }
 		}
 
+		public static readonly string AdminActionChatColor = "#0077ff";
+
 		private void Awake()
 		{
 			if (Instance == null)
@@ -50,18 +49,33 @@ namespace AdminCommands
 		/// <summary>
 		/// Checks whether the adminId and adminToken are valid
 		/// </summary>
-		/// <param name="adminId"></param>
-		/// <param name="adminToken"></param>
 		/// <param name="sender">The client which sends the command, this is populated by mirror so doesnt need to be manually
 		/// put in the parameters when calling the commands</param>
-		public static bool IsAdmin(string adminId, string adminToken, NetworkConnectionToClient sender)
+		public static bool IsAdmin(NetworkConnectionToClient sender, out ConnectedPlayer player)
 		{
-			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-			if (admin == null)
+			player = PlayerList.Instance.GetByConnection(sender);
+			if (PlayerList.Instance.IsAdmin(player) == false)
 			{
-				var player = PlayerList.Instance.GetByUserID(adminId);
 				var message =
-					$"Failed Admin check with id: {adminId}, associated player with that id (null if not valid id): {player?.Username}," +
+					$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
+					$"Possible hacked client with ip address: {sender?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
+				Logger.LogError(message, Category.Exploits);
+				LogAdminAction(message);
+
+				return false;
+			}
+
+			return true;
+		}
+
+		/// <inheritdoc cref="IsAdmin(NetworkConnectionToClient, out ConnectedPlayer)"/>
+		public static bool IsAdmin(NetworkConnection sender, out ConnectedPlayer player)
+		{
+			player = PlayerList.Instance.GetByConnection(sender);
+			if (PlayerList.Instance.IsAdmin(player) == false)
+			{
+				var message =
+					$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
 					$"Possible hacked client with ip address: {sender?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
 				Logger.LogError(message, Category.Exploits);
 				LogAdminAction(message);
@@ -75,18 +89,18 @@ namespace AdminCommands
 		#region GamemodePage
 
 		[Command(requiresAuthority = false)]
-		public void CmdToggleOOCMute(string adminId, string adminToken, NetworkConnectionToClient sender = null)
+		public void CmdToggleOOCMute(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			Chat.Instance.OOCMute = !Chat.Instance.OOCMute;
 
 			var msg = $"OOC has been {(Chat.Instance.OOCMute ? "muted" : "unmuted")}";
 
-			Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
+			Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}>{msg}</color>");
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: {(Chat.Instance.OOCMute ? "Muted" : "Unmuted")} OOC");
+			LogAdminAction($"{player.Username}: {(Chat.Instance.OOCMute ? "Muted" : "Unmuted")} OOC");
 		}
 
 		#endregion
@@ -94,14 +108,13 @@ namespace AdminCommands
 		#region EventsPage
 
 		[Command(requiresAuthority = false)]
-		public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake,
-			bool announceEvent,
-			InGameEventType eventType, string serializedEventParameters, NetworkConnectionToClient sender = null)
+		public void CmdTriggerGameEvent(int eventIndex, bool isFake, bool announceEvent,
+				InGameEventType eventType, string serializedEventParameters, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
-			InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, eventType, isFake,
-				PlayerList.Instance.GetByUserID(adminId).Username, announceEvent, serializedEventParameters);
+			InGameEventsManager.Instance.TriggerSpecificEvent(
+					eventIndex, eventType, isFake, player.Username, announceEvent, serializedEventParameters);
 		}
 
 		#endregion
@@ -109,24 +122,23 @@ namespace AdminCommands
 		#region RoundPage
 
 		[Command(requiresAuthority = false)]
-		public void CmdStartRound(string adminId, string adminToken, NetworkConnectionToClient sender = null)
+		public void CmdStartRound(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
 				GameManager.Instance.StartRound();
 
-				Chat.AddGameWideSystemMsgToChat("<color=blue>An Admin started the round early.</color>");
-
-				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Force STARTED the round.");
+				Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}>An admin started the round early.</color>");
+				LogAdminAction($"{player.Username}: Force STARTED the round.");
 			}
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdEndRound(string adminId, string adminToken, NetworkConnectionToClient sender = null)
+		public void CmdEndRound(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
 			{
 				GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
@@ -134,44 +146,45 @@ namespace AdminCommands
 				VideoPlayerMessage.Send(VideoType.RestartRound);
 				GameManager.Instance.EndRound();
 
-				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Force ENDED the round.");
+				Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}>An admin ended the round early.</color>");
+				LogAdminAction($"{player.Username}: Force ENDED the round.");
 			}
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdChangeNextMap(string adminId, string adminToken, string nextMap, NetworkConnectionToClient sender = null)
+		public void CmdChangeNextMap(string nextMap, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			if (SubSceneManager.AdminForcedMainStation == nextMap) return;
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.");
+			LogAdminAction($"{player.Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.");
 
 			SubSceneManager.AdminForcedMainStation = nextMap;
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdChangeAwaySite(string adminId, string adminToken, string nextAwaySite, NetworkConnectionToClient sender = null)
+		public void CmdChangeAwaySite(string nextAwaySite, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			if (SubSceneManager.AdminForcedAwaySite == nextAwaySite) return;
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.");
+			LogAdminAction($"{player.Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.");
 
 			SubSceneManager.AdminForcedAwaySite = nextAwaySite;
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdChangeAlertLevel(string adminId, string adminToken, CentComm.AlertLevel alertLevel , NetworkConnectionToClient sender = null)
+		public void CmdChangeAlertLevel(CentComm.AlertLevel alertLevel, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			var currentLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
 
 			if (currentLevel == alertLevel) return;
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the alert level from {currentLevel} to {alertLevel}.");
+			LogAdminAction($"{player.Username}: Changed the alert level from {currentLevel} to {alertLevel}.");
 
 			GameManager.Instance.CentComm.ChangeAlertLevel(alertLevel);
 		}
@@ -181,61 +194,61 @@ namespace AdminCommands
 		#region CentCom
 
 		[Command(requiresAuthority = false)]
-		public void CmdCallShuttle(string adminId, string adminToken, string text, NetworkConnectionToClient sender = null)
+		public void CmdCallShuttle(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
 			if (shuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
-				shuttle.CallShuttle(out var result);
+				shuttle.CallShuttle(out _);
 
 				var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
 				CentComm.MakeShuttleCallAnnouncement(minutes, text, true);
 
-				LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle. \n {text}");
+				LogAdminAction($"{player.Username}: CALLED the emergency shuttle. \n {text}");
 			}
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRecallShuttle(string adminId, string adminToken, string text, NetworkConnectionToClient sender = null)
+		public void CmdRecallShuttle(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			var success = GameManager.Instance.PrimaryEscapeShuttle.RecallShuttle(out var result, true);
 
-			if (!success) return;
+			if (success == false) return;
 
 			CentComm.MakeShuttleRecallAnnouncement(text);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle. \n {text}");
+			LogAdminAction($"{player.Username}: RECALLED the emergency shuttle. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text, NetworkConnectionToClient sender = null)
+		public void CmdSendCentCommAnnouncement(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.CentComAnnounce);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT. \n {text}");
+			LogAdminAction($"{player.Username}: made a central command ANNOUNCEMENT. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdSendCentCommReport(string adminId, string adminToken, string text, NetworkConnectionToClient sender = null)
+		public void CmdSendCentCommReport(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			GameManager.Instance.CentComm.MakeCommandReport(text);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT. \n {text}");
+			LogAdminAction($"{player.Username}: made a central command REPORT. \n {text}");
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdSendBlockShuttleCall(string adminId, string adminToken, bool toggleBool, NetworkConnectionToClient sender = null)
+		public void CmdSendBlockShuttleCall(bool toggleBool, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
@@ -243,13 +256,13 @@ namespace AdminCommands
 
 			shuttle.blockCall = toggleBool;
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: {(toggleBool ? "BLOCKED" : "UNBLOCKED")} shuttle calling.");
+			LogAdminAction($"{player.Username}: {(toggleBool ? "BLOCKED" : "UNBLOCKED")} shuttle calling.");
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdSendBlockShuttleRecall(string adminId, string adminToken, bool toggleBool, NetworkConnectionToClient sender = null)
+		public void CmdSendBlockShuttleRecall( bool toggleBool, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
@@ -257,17 +270,17 @@ namespace AdminCommands
 
 			shuttle.blockRecall = toggleBool;
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: {(toggleBool ? "BLOCKED" : "UNBLOCKED")} shuttle recalling.");
+			LogAdminAction($"{player.Username}: {(toggleBool ? "BLOCKED" : "UNBLOCKED")} shuttle recalling.");
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdCreateDeathSquad(string adminId, string adminToken, NetworkConnectionToClient sender = null)
+		public void CmdCreateDeathSquad(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
 			Systems.GhostRoles.GhostRoleManager.Instance.ServerCreateRole(deathsquadRole);
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: Created a Death Squad.");
+			LogAdminAction($"{player.Username}: Created a Death Squad.");
 		}
 
 		#endregion
@@ -282,28 +295,22 @@ namespace AdminCommands
 		/// <param name="userToSmite">User Id of the user to smite</param>
 		/// <param name="sender"></param>
 		[Command(requiresAuthority = false)]
-		public void CmdSmitePlayer(string adminId, string adminToken, string userToSmite, NetworkConnectionToClient sender = null)
+		public void CmdSmitePlayer(string userToSmite, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var admin) == false) return;
 
-			var players = PlayerList.Instance.GetAllByUserID(userToSmite);
-			if (players.Count != 0)
+			foreach (ConnectedPlayer player in PlayerList.Instance.GetAllByUserID(userToSmite))
 			{
-				foreach (ConnectedPlayer player in players)
-				{
-					if(player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) continue;
+				if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) continue;
 
-					string message =
-						$"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
-					Logger.Log(message, Category.Admin);
+				string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
+				Logger.Log(message, Category.Admin);
 
-					LogAdminAction(message);
+				LogAdminAction(message);
 
-					player.Script.playerHealth.Gib();
-				}
+				player.Script.playerHealth.Gib();
 			}
 		}
-
 
 		/// <summary>
 		/// Heals a player up
@@ -313,35 +320,31 @@ namespace AdminCommands
 		/// <param name="userToHeal"></param>
 		/// <param name="sender"></param>
 		[Command(requiresAuthority = false)]
-		public void CmdHealUpPlayer(string adminId, string adminToken, string userToHeal, NetworkConnectionToClient sender = null)
+		public void CmdHealUpPlayer(string userToHeal, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var admin) == false) return;
 
-			var players = PlayerList.Instance.GetAllByUserID(userToHeal);
-			if (players.Count != 0)
+			foreach (ConnectedPlayer player in PlayerList.Instance.GetAllByUserID(userToHeal))
 			{
-				foreach (ConnectedPlayer player in players)
-				{
-					//get player stuff.
-					PlayerScript playerScript = player.Script;
-					Mind playerMind = playerScript.mind;
-					var playerBody = playerMind.body;
-					string message = "";
+				//get player stuff.
+				PlayerScript playerScript = player.Script;
+				Mind playerMind = playerScript.mind;
+				var playerBody = playerMind.body;
+				string message;
 
-					//Does this player have a body that can be healed?
-					if(playerBody != null)
-					{
-						playerBody.playerHealth.RevivePlayerToFullHealth();
-						message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Healed up Username: {player.Username} ({player.Name})";
-					}
-					else
-					{
-						message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Attempted healing {player.Username} but they had no body!";
-					}
-					//Log what we did.
-					Logger.Log(message, Category.Admin);
-					LogAdminAction(message);
+				//Does this player have a body that can be healed?
+				if (playerBody != null)
+				{
+					playerBody.playerHealth.RevivePlayerToFullHealth();
+					message = $"{admin.Username}: Healed up Username: {player.Username} ({player.Name})";
 				}
+				else
+				{
+					message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
+				}
+				//Log what we did.
+				Logger.Log(message, Category.Admin);
+				LogAdminAction(message);
 			}
 		}
 
@@ -350,21 +353,23 @@ namespace AdminCommands
 		#region Sound
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlaySound(string adminId, string adminToken, string index, NetworkConnectionToClient sender = null)
+		public void CmdPlaySound(string index, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var admin) == false) return;
 
 			var players = PlayerList.Instance.InGamePlayers;
 
-			if (players == null || players.Count == 0) return; //If list of Players is empty dont run rest of code.
+			if (players == null) return; //If list of Players is empty dont run rest of code.
 
+			Logger.LogError($"TODO: reimplement admin sounds.");
 			foreach (var player in players)
 			{
-				// SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject,
-				// player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
+				// TODO: reimplement admin sounds.
+				//SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject,
+				//		player.GameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 			}
 
-			LogAdminAction($"{PlayerList.Instance.GetByUserID(adminId).Username}: played the global sound: {index}.");
+			LogAdminAction($"{admin.Username}: played the global sound: {index}.");
 		}
 
 		#endregion
@@ -372,25 +377,26 @@ namespace AdminCommands
 		#region Profiling
 
 		[Command(requiresAuthority = false)]
-		public void CmdStartProfile(string adminId, string adminToken, int frameCount, NetworkConnectionToClient sender = null)
+		public void CmdStartProfile(int frameCount, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out _) == false) return;
 
 			ProfileManager.Instance.StartProfile(frameCount);
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRequestProfiles(string adminId, string adminToken, NetworkConnectionToClient sender = null)
+		public void CmdRequestProfiles(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
-			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-			ProfileMessage.Send(admin);
+			if (IsAdmin(sender, out var player))
+			{
+				ProfileMessage.Send(player.GameObject);
+			}
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdDeleteProfile(string adminId, string adminToken, string profileName, NetworkConnectionToClient sender = null)
+		public void CmdDeleteProfile(string profileName, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out _) == false) return;
 			if (ProfileManager.runningProfile || ProfileManager.runningMemoryProfile) return;
 
 			string path = Directory.GetCurrentDirectory() + "/Profiles/" + profileName;
@@ -403,9 +409,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdStartMemoryProfile(string adminId, string adminToken, bool full, NetworkConnectionToClient sender = null)
+		public void CmdStartMemoryProfile(bool full, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out _) == false) return;
 
 			ProfileManager.Instance.RunMemoryProfile(full);
 		}
@@ -415,26 +421,22 @@ namespace AdminCommands
 		#region Inventory
 
 		[Command(requiresAuthority = false)]
-		public void CmdAdminGhostDropItem(string adminId, string adminToken, NetworkConnectionToClient sender = null)
+		public void CmdAdminGhostDropItem(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
-			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-			var connectedPlayer = admin.Player();
-			var itemStorage = AdminManager.Instance.GetItemSlotStorage(connectedPlayer);
+			var itemStorage = AdminManager.Instance.GetItemSlotStorage(player);
 			var slot = itemStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
-			Inventory.ServerDrop(slot, admin.AssumedWorldPosServer());
+			Inventory.ServerDrop(slot, player.Script.WorldPos.To2Int());
 		}
 
 
 		[Command(requiresAuthority = false)]
-		public void CmdAdminGhostSmashItem(string adminId, string adminToken, NetworkConnectionToClient sender = null)
+		public void CmdAdminGhostSmashItem(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(adminId, adminToken, sender) == false) return;
+			if (IsAdmin(sender, out var player) == false) return;
 
-			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-			var connectedPlayer = admin.Player();
-			var itemStorage = AdminManager.Instance.GetItemSlotStorage(connectedPlayer);
+			var itemStorage = AdminManager.Instance.GetItemSlotStorage(player);
 			var slot = itemStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
 			Inventory.ServerDespawn(slot);
 		}

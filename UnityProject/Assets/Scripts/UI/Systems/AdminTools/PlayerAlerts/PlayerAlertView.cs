@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using AdminTools;
-using DatabaseAPI;
 using Messages.Client.Admin;
 using Mirror;
 using UnityEngine.UI;
+
 
 public class PlayerAlertView : ChatEntryView
 {
@@ -57,7 +57,7 @@ public class PlayerAlertView : ChatEntryView
 				if (!PlayerManager.PlayerScript.IsGhost)
 				{
 					teleportButton.interactable = false;
-					PlayerManager.PlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+					PlayerManager.PlayerScript.playerNetworkActions.CmdAGhost();
 					cancelSource = new CancellationTokenSource();
 					StartCoroutine(GhostWait(target.gameObject, cancelSource.Token));
 
@@ -97,5 +97,3 @@ public class PlayerAlertView : ChatEntryView
 		takenCareOfButton.interactable = false;
 	}
 }
-
-

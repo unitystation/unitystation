@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DatabaseAPI;
 using AdminCommands;
 using UI.AdminTools;
+
 
 namespace AdminTools
 {
@@ -137,7 +136,7 @@ namespace AdminTools
 			devToolsPage.SetActive(true);
 			backBtn.SetActive(true);
 			windowTitle.text = "DEV TOOLS";
-			AdminCommandsManager.Instance.CmdRequestProfiles(ServerData.UserID, PlayerList.Instance.AdminToken);
+			AdminCommandsManager.Instance.CmdRequestProfiles();
 		}
 
 		public void ShowRespawnPage()

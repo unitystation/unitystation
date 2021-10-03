@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using DatabaseAPI;
-using Messages.Client.DevSpawner;
 using UnityEngine;
+using Messages.Client.DevSpawner;
+
 
 namespace UI.AdminTools
 {
@@ -53,8 +52,7 @@ namespace UI.AdminTools
 					}
 					else
 					{
-						DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject,
-							ServerData.UserID, PlayerList.Instance.AdminToken);
+						DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
 					}
 				}
 			}
