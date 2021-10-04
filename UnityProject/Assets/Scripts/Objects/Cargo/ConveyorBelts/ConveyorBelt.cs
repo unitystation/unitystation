@@ -42,24 +42,16 @@ namespace Construction.Conveyors
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			if(netIdentity.isServer) RefreshSprites(); //So the host can see the sprites animated correctly on start.
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			//So clients can see the sprites animated correctly on start.
-			RefreshSprites();
+			UpdateState();
 		}
 
 		private void OnValidate()
 		{
 			if (Application.isPlaying) return;
-			RefreshSprites();
-		}
-
-		public override void OnStartServer()
-		{
-			base.OnStartServer();
 			RefreshSprites();
 		}
 
