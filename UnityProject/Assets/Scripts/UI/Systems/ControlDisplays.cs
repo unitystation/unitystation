@@ -47,14 +47,14 @@ namespace UI
 		[SerializeField] private VideoPlayerController videoController = null;
 		public VideoPlayerController VideoPlayer => videoController;
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			EventManager.AddHandler(Event.PlayerSpawned, DetermineUI);
 			EventManager.AddHandler(Event.GhostSpawned, DetermineUI);
 			EventManager.AddHandler(Event.BlobSpawned, DetermineUI);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.PlayerSpawned, DetermineUI);
 			EventManager.RemoveHandler(Event.GhostSpawned, DetermineUI);
@@ -215,7 +215,7 @@ namespace UI
 			preRoundWindow.gameObject.SetActive(true);
 			preRoundWindow.SetUIForCountdown();
 
-			ServerInfoMessageClient.Send(ServerData.UserID);
+			ServerInfoMessageClient.Send();
 		}
 
 		public void SetScreenForJoining()

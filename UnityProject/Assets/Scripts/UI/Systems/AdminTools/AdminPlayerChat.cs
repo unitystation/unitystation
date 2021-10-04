@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DatabaseAPI;
 using Mirror;
 using UnityEngine;
+using DatabaseAPI;
 using DiscordWebhook;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
+
 
 namespace AdminTools
 {
@@ -23,14 +23,14 @@ namespace AdminTools
 		/// <summary>
 		/// All messages sent and recieved from players to admins
 		/// </summary>
-		private Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
-			= new Dictionary<string, List<AdminChatMessage>>();
+		private readonly Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
+				= new Dictionary<string, List<AdminChatMessage>>();
 
 		/// <summary>
 		/// The admins client local cache for admin to player chat
 		/// </summary>
-		private Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
-			= new Dictionary<string, List<AdminChatMessage>>();
+		private readonly Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
+				= new Dictionary<string, List<AdminChatMessage>>();
 
 		public void ClearLogs()
 		{
@@ -70,7 +70,7 @@ namespace AdminTools
 			ServerMessageRecording(playerId, entry);
 		}
 
-		void ServerMessageRecording(string playerId, AdminChatMessage entry)
+		private void ServerMessageRecording(string playerId, AdminChatMessage entry)
 		{
 			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
 			if (!Directory.Exists(chatlogDir))
@@ -117,15 +117,16 @@ namespace AdminTools
 				return;
 			}
 
-			AdminChatUpdate update = new AdminChatUpdate();
-
-			update.messages = serverAdminPlayerChatLogs[playerId].GetRange(currentCount,
-				serverAdminPlayerChatLogs[playerId].Count - currentCount);
+			AdminChatUpdate update = new AdminChatUpdate()
+			{
+				messages = serverAdminPlayerChatLogs[playerId].GetRange(currentCount,
+				serverAdminPlayerChatLogs[playerId].Count - currentCount)
+			};
 
 			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId);
 		}
 
-		void ClientGetUnreadAdminPlayerMessages(string playerId)
+		private void ClientGetUnreadAdminPlayerMessages(string playerId)
 		{
 			if (!clientAdminPlayerChatLogs.ContainsKey(playerId))
 			{
@@ -181,16 +182,8 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			var adminMsg = new AdminChatMessage
-			{
-				fromUserid = ServerData.UserID,
-				Message = message,
-				wasFromAdmin = true
-			};
-
 			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
-			RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,
-			msg);
+			RequestAdminBwoink.Send(selectedPlayer.uid, msg);
 		}
 	}
 }

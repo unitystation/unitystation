@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DatabaseAPI;
 using UnityEngine.UI;
 using AdminTools;
 using AdminCommands;
 using Managers;
 using Messages.Client.Admin;
+
 
 public class RoundManagerPage : AdminPage
 {
@@ -33,12 +32,12 @@ public class RoundManagerPage : AdminPage
 
 	public void ChangeMap()
 	{
-		AdminCommandsManager.Instance.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
+		AdminCommandsManager.Instance.CmdChangeNextMap(nextMapDropDown.options[nextMapDropDown.value].text);
 	}
 
 	public void ChangeAwaySite()
 	{
-		AdminCommandsManager.Instance.CmdChangeAwaySite(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
+		AdminCommandsManager.Instance.CmdChangeAwaySite(nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
 	}
 
 	public void StartRoundButtonClick()
@@ -48,7 +47,7 @@ public class RoundManagerPage : AdminPage
 
 	private void StartRound()
 	{
-		AdminCommandsManager.Instance.CmdStartRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+		AdminCommandsManager.Instance.CmdStartRound();
 	}
 
 	public void EndRoundButtonClick()
@@ -58,21 +57,21 @@ public class RoundManagerPage : AdminPage
 
 	private void EndRound()
 	{
-		AdminCommandsManager.Instance.CmdEndRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+		AdminCommandsManager.Instance.CmdEndRound();
 		adminTools.ClosePanel(); // We close the panel immediately after, so it is not open when new round starts.
 	}
 
 	public void ToggleLavaLand()
 	{
 		currentData.allowLavaLand = lavaLandToggle.isOn;
-		RequestLavaLandToggle.Send(ServerData.UserID, PlayerList.Instance.AdminToken, lavaLandToggle.isOn);
+		RequestLavaLandToggle.Send(lavaLandToggle.isOn);
 	}
 
 	public void ChangeAlertLevel()
 	{
 		if (!CentComm.AlertLevel.TryParse(alertLevelDropDown.options[alertLevelDropDown.value].text, out CentComm.AlertLevel alertLevel)) return;
 
-		AdminCommandsManager.Instance.CmdChangeAlertLevel(ServerData.UserID, PlayerList.Instance.AdminToken, alertLevel);
+		AdminCommandsManager.Instance.CmdChangeAlertLevel(alertLevel);
 	}
 
 	public override void OnPageRefresh(AdminPageRefreshData adminPageData)

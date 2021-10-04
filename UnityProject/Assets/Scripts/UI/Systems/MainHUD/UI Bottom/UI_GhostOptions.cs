@@ -9,7 +9,7 @@ using UI.Windows;
 using Systems.Teleport;
 using AdminCommands;
 using Effects;
-using DatabaseAPI;
+
 
 namespace UI.Systems.Ghost
 {
@@ -70,7 +70,7 @@ namespace UI.Systems.Ghost
 
 		public void Respawn()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer(ServerData.UserID, PlayerList.Instance.AdminToken);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
 			Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().EnsureAllEffectsAreDisabled();
 		}
 
@@ -117,7 +117,7 @@ namespace UI.Systems.Ghost
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
-				AdminCommandsManager.Instance.CmdAdminGhostDropItem(ServerData.UserID, PlayerList.Instance.AdminToken);
+				AdminCommandsManager.Instance.CmdAdminGhostDropItem();
 			}
 		}
 
@@ -126,7 +126,7 @@ namespace UI.Systems.Ghost
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
-				AdminCommandsManager.Instance.CmdAdminGhostSmashItem(ServerData.UserID, PlayerList.Instance.AdminToken);
+				AdminCommandsManager.Instance.CmdAdminGhostSmashItem();
 			}
 		}
 	}

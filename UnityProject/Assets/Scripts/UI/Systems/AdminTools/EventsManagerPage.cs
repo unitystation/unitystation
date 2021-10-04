@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DatabaseAPI;
 using UnityEngine.UI;
 using InGameEvents;
 using AdminTools;
@@ -10,6 +8,7 @@ using AdminCommands;
 using Assets.Scripts.UI.AdminTools;
 using System.Linq;
 using Messages.Client.Admin;
+
 
 public class EventsManagerPage : AdminPage
 {
@@ -72,15 +71,14 @@ public class EventsManagerPage : AdminPage
 			}
 		}
 
-		AdminCommandsManager.Instance.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, index,
-			isFakeToggle.isOn, announceToggle.isOn, eventType, null);
+		AdminCommandsManager.Instance.CmdTriggerGameEvent(index, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
 
 	}
 
 	public void ToggleRandomEvents()
 	{
 		currentData.randomEventsAllowed = randomEventToggle.isOn;
-		RequestRandomEventAllowedChange.Send(ServerData.UserID, PlayerList.Instance.AdminToken, randomEventToggle.isOn);
+		RequestRandomEventAllowedChange.Send(randomEventToggle.isOn);
 	}
 
 	public override void OnPageRefresh(AdminPageRefreshData adminPageData)

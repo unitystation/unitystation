@@ -14,6 +14,7 @@ using Messages.Server.AdminTools;
 using Newtonsoft.Json;
 using UI;
 
+
 /// <summary>
 /// Admin Controller for players
 /// </summary>
@@ -392,8 +393,6 @@ public partial class PlayerList
 			return false;
 		}
 		var Userid = unverifiedUserid;
-		var Token = unverifiedToken;
-
 
 		//Adds server to admin list if not already in it.
 		if (Userid == ServerData.UserID && !adminUsers.Contains(Userid))
@@ -408,7 +407,7 @@ public partial class PlayerList
 
 			if (user == null) return false;
 
-			var newToken = System.Guid.NewGuid().ToString();
+			var newToken = Guid.NewGuid().ToString();
 			if (!loggedInAdmins.ContainsKey(Userid))
 			{
 				loggedInAdmins.Add(Userid, newToken);
@@ -431,8 +430,7 @@ public partial class PlayerList
 			return false;
 		}
 
-
-		//banlist checking:
+		// banlist checking:
 		var banEntry = banList?.CheckForEntry(Userid, unverifiedConnPlayer.Connection.address, unverifiedClientId);
 		if (banEntry != null)
 		{
@@ -766,8 +764,6 @@ public partial class PlayerList
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string AdminID;
-			public string AdminToken;
 			public string PlayerID;
 			public string Reason;
 			public bool IsPerma;
@@ -779,21 +775,20 @@ public partial class PlayerList
 
 		public override void Process(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminID, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
-			//Server Stuff here
+			// Server Stuff here
 
-			PlayerList.Instance.ProcessJobBanRequest(msg.AdminID, msg.PlayerID, msg.Reason,
-				msg.IsPerma, msg.Minutes, msg.JobType, msg.KickAfter, msg.GhostAfter);
+			Instance.ProcessJobBanRequest(
+					SentByPlayer.UserId, msg.PlayerID, msg.Reason,
+					msg.IsPerma, msg.Minutes, msg.JobType, msg.KickAfter, msg.GhostAfter);
 		}
 
-		public static NetMessage Send(string adminID, string adminToken, string playerID, string reason, bool isPerma, int minutes, JobType jobType, bool kickAfter, bool ghostAfter)
+		public static NetMessage Send(
+				string playerID, string reason, bool isPerma, int minutes, JobType jobType, bool kickAfter, bool ghostAfter)
 		{
 			NetMessage msg = new NetMessage
 			{
-				AdminID = adminID,
-				AdminToken = adminToken,
 				PlayerID = playerID,
 				Reason = reason,
 				IsPerma = isPerma,
@@ -802,6 +797,7 @@ public partial class PlayerList
 				KickAfter = kickAfter,
 				GhostAfter = ghostAfter
 			};
+
 			Send(msg);
 			return msg;
 		}

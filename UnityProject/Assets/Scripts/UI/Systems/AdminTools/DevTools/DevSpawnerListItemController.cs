@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DatabaseAPI;
 using Items;
 using Messages.Client.DevSpawner;
 using UnityEngine;
@@ -7,11 +6,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
+
 [RequireComponent(typeof(EscapeKeyTarget))]
 public class DevSpawnerListItemController : MonoBehaviour
 {
 	public Image image;
-	bool isPaletted = false;
+	private bool isPaletted = false;
 	public List<Color> palette;
 	public Text titleText;
 	public Text detailText;
@@ -34,7 +34,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	private LightingSystem lightingSystem;
 	private bool cachedLightingState;
 
-	void Awake()
+	private void Awake()
 	{
 		// unity doesn't support property blocks on ui renderers, so this is a workaround
 		image.material = Instantiate(image.material);
@@ -45,7 +45,6 @@ public class DevSpawnerListItemController : MonoBehaviour
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
-
 
 	/// <summary>
 	/// Initializes it to display the document
@@ -101,8 +100,6 @@ public class DevSpawnerListItemController : MonoBehaviour
 			lightingSystem.enabled = cachedLightingState;
 		}
 	}
-
-
 
 	public void OnSelected()
 	{
@@ -185,12 +182,13 @@ public class DevSpawnerListItemController : MonoBehaviour
 		if (CustomNetworkManager.IsServer)
 		{
 			Spawn.ServerPrefab(prefab, position);
+			var player = PlayerManager.LocalPlayer.Player();
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				$"{PlayerManager.LocalPlayer.Player().Username} spawned a {prefab.name} at {position}", ServerData.UserID);
+					$"{player.Username} spawned a {prefab.name} at {position}", player.UserId);
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab, (Vector3) position, ServerData.UserID, PlayerList.Instance.AdminToken);
+			DevSpawnMessage.Send(prefab, (Vector3) position);
 		}
 	}
 }

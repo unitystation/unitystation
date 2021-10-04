@@ -91,7 +91,8 @@ namespace ServerInfo
 
 		public override void Process(NetMessage msg)
 		{
-			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(msg.ServerName, msg.ServerDesc, msg.ServerDiscordID);
+			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(
+					msg.ServerName, msg.ServerDesc, msg.ServerDiscordID);
 		}
 
 		public static NetMessage Send(NetworkConnection clientConn,string serverName, string serverDesc, string serverDiscordID)
@@ -110,22 +111,18 @@ namespace ServerInfo
 
 	public class ServerInfoLobbyMessageClient : ClientMessage<ServerInfoLobbyMessageClient.NetMessage>
 	{
-		public struct NetMessage : NetworkMessage
-		{
-			public string PlayerId;
-		}
+		public struct NetMessage : NetworkMessage { }
 
 		public override void Process(NetMessage msg)
 		{
-			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
+			ServerInfoLobbyMessageServer.Send(
+					SentByPlayer.Connection, ServerData.ServerConfig.ServerName,
+					ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
 		}
 
-		public static NetMessage Send(string playerId)
+		public static NetMessage Send()
 		{
-			NetMessage msg = new NetMessage
-			{
-				PlayerId = playerId,
-			};
+			NetMessage msg = new NetMessage();
 
 			Send(msg);
 			return msg;

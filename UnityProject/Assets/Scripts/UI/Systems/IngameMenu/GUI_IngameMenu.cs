@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ServerInfo;
 using DatabaseAPI;
+
 
 namespace UI
 {
@@ -19,9 +19,9 @@ namespace UI
 
 		public GameObject serverInfo;
 
-		private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
+		private ModalPanelManager ModalPanelManager => ModalPanelManager.Instance;
 
-		private CustomNetworkManager networkManager => CustomNetworkManager.Instance;
+		private CustomNetworkManager NetworkManager => CustomNetworkManager.Instance;
 		public static GUI_IngameMenu Instance;
 
 		private bool sentData;
@@ -91,7 +91,7 @@ namespace UI
 			if (!sentData)
 			{
 				sentData = true;
-				ServerInfoMessageClient.Send(ServerData.UserID);
+				ServerInfoMessageClient.Send();
 			}
 
 			serverInfo.SetActive(false);
@@ -148,7 +148,7 @@ namespace UI
 
 		public void LogoutButton()
 		{
-			modalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout");
+			ModalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout");
 		}
 
 		public void LogoutConfirmYesButton()
@@ -166,7 +166,7 @@ namespace UI
 
 		public void ExitButton()
 		{
-			modalPanelManager.Confirm("Are you sure?", ExitConfirmYesButton, "Exit");
+			ModalPanelManager.Confirm("Are you sure?", ExitConfirmYesButton, "Exit");
 		}
 
 		public void ExitConfirmYesButton()
@@ -189,14 +189,14 @@ namespace UI
 		private void StopNetworking()
 		{
 			// Check if a host or regular client is shutting down
-			if (networkManager._isServer)
+			if (NetworkManager._isServer)
 			{
-				networkManager.StopHost();
+				NetworkManager.StopHost();
 				Logger.Log("Stopping host", Category.Connections);
 			}
 			else
 			{
-				networkManager.StopClient();
+				NetworkManager.StopClient();
 				Logger.Log("Stopping client", Category.Connections);
 			}
 		}

@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DatabaseAPI;
-using Mirror;
 using UnityEngine;
+using Mirror;
+using DatabaseAPI;
 using DiscordWebhook;
 using Messages.Client.Admin;
 using Messages.Server.AdminTools;
+
 
 namespace AdminTools
 {
@@ -70,7 +70,7 @@ namespace AdminTools
 			ServerMessageRecording(playerId, entry);
 		}
 
-		void ServerMessageRecording(string playerId, AdminChatMessage entry)
+		private void ServerMessageRecording(string playerId, AdminChatMessage entry)
 		{
 			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
 			if (!Directory.Exists(chatlogDir))
@@ -125,7 +125,7 @@ namespace AdminTools
 			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId);
 		}
 
-		void ClientGetUnreadAdminPlayerMessages(string playerId)
+		private void ClientGetUnreadAdminPlayerMessages(string playerId)
 		{
 			if (!clientMentorPlayerChatLogs.ContainsKey(playerId))
 			{
@@ -181,18 +181,7 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			/*var asmentorMsg = new AdminChatMessage
-			{
-				fromUserid = ServerData.UserID,
-				Message = message,
-				wasFromAdmin = true
-			};*/ // I dont know what this does, as the variable is unused completely
-
-			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
-			string MentorOrAdminToken = PlayerList.Instance.MentorToken;
-			if(MentorOrAdminToken == null)
-				MentorOrAdminToken = PlayerList.Instance.AdminToken;
-			RequestMentorBwoink.Send(ServerData.UserID, MentorOrAdminToken, selectedPlayer.uid,msg);
+			RequestMentorBwoink.Send(selectedPlayer.uid, $"{ServerData.Auth.CurrentUser.DisplayName}: {message}");
 		}
 	}
 }

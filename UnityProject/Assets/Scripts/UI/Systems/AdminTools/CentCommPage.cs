@@ -1,99 +1,90 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using DatabaseAPI;
 using AdminCommands;
 using UnityEngine.UI;
 
+
 namespace AdminTools
 {
-    public class CentCommPage : AdminPage
-    {
-        [SerializeField] InputFieldFocus CentCommInputBox = null;
+	public class CentCommPage : AdminPage
+	{
+		[SerializeField] InputFieldFocus CentCommInputBox = null;
 
-        [SerializeField]
-        private Toggle callBlockToggle = null;
+		[SerializeField]
+		private Toggle callBlockToggle = null;
 
-        [SerializeField]
-        private Toggle recallBlockToggle = null;
+		[SerializeField]
+		private Toggle recallBlockToggle = null;
 
-        public void SendCentCommAnnouncementButtonClick()
-        {
-	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to send an ANNOUNCEMENT?", SendCentCommAnnouncement, gameObject);
-        }
+		public void SendCentCommAnnouncementButtonClick()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to send an ANNOUNCEMENT?", SendCentCommAnnouncement, gameObject);
+		}
 
-        private void SendCentCommAnnouncement()
-        {
+		private void SendCentCommAnnouncement()
+		{
+			AdminCommandsManager.Instance.CmdSendCentCommAnnouncement(CentCommInputBox.text);
 
-	        var text = CentCommInputBox.text;
+			adminTools.ShowMainPage();
+		}
 
-	        AdminCommandsManager.Instance.CmdSendCentCommAnnouncement(ServerData.UserID, PlayerList.Instance.AdminToken, text);
+		public void SendCentCommReportButtonClick()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to send a REPORT?", SendCentCommReport, gameObject);
+		}
 
-	        adminTools.ShowMainPage();
-        }
+		private void SendCentCommReport()
+		{
+			AdminCommandsManager.Instance.CmdSendCentCommReport(CentCommInputBox.text);
 
-        public void SendCentCommReportButtonClick()
-        {
-	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to send a REPORT?", SendCentCommReport, gameObject);
-        }
+			adminTools.ShowMainPage();
+		}
 
-        private void SendCentCommReport()
-        {
-	        var text = CentCommInputBox.text;
+		public void CallShuttleButtonClick()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to CALL the emergency shuttle?", CallShuttle, gameObject);
+		}
 
-	        AdminCommandsManager.Instance.CmdSendCentCommReport(ServerData.UserID, PlayerList.Instance.AdminToken, text);
+		private void CallShuttle()
+		{
+			AdminCommandsManager.Instance.CmdCallShuttle(CentCommInputBox.text);
+		}
 
-	        adminTools.ShowMainPage();
-        }
+		public void RecallShuttleButtonClick()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to RECALL the emergency shuttle?", RecallShuttle, gameObject);
+		}
 
-        public void CallShuttleButtonClick()
-        {
-	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to CALL the emergency shuttle?", CallShuttle, gameObject);
-        }
+		private void RecallShuttle()
+		{
+			AdminCommandsManager.Instance.CmdRecallShuttle(CentCommInputBox.text);
+		}
 
-        private void CallShuttle()
-        {
-	        var text = CentCommInputBox.text;
+		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
+		{
+			base.OnPageRefresh(adminPageData);
+			callBlockToggle.isOn = adminPageData.blockCall;
+			recallBlockToggle.isOn = adminPageData.blockRecall;
+		}
 
-	        AdminCommandsManager.Instance.CmdCallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken, text);
-        }
+		public void ToggleCallShuttle()
+		{
+			var toggleBool = callBlockToggle.isOn;
 
-        public void RecallShuttleButtonClick()
-        {
-	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to RECALL the emergency shuttle?", RecallShuttle, gameObject);
-        }
+			currentData.blockCall = toggleBool;
 
-        private void RecallShuttle()
-        {
-	        var text = CentCommInputBox.text;
+			AdminCommandsManager.Instance.CmdSendBlockShuttleCall(toggleBool);
+		}
 
-	        AdminCommandsManager.Instance.CmdRecallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken, text);
-        }
+		public void ToggleRecallShuttle()
+		{
+			var toggleBool = recallBlockToggle.isOn;
 
-        public override void OnPageRefresh(AdminPageRefreshData adminPageData)
-        {
-	        base.OnPageRefresh(adminPageData);
-	        callBlockToggle.isOn = adminPageData.blockCall;
-	        recallBlockToggle.isOn = adminPageData.blockRecall;
-        }
+			currentData.blockRecall = toggleBool;
 
-        public void ToggleCallShuttle()
-        {
-	        var toggleBool = callBlockToggle.isOn;
-
-	        currentData.blockCall = toggleBool;
-
-	        AdminCommandsManager.Instance.CmdSendBlockShuttleCall(ServerData.UserID, PlayerList.Instance.AdminToken, toggleBool);
-        }
-
-        public void ToggleRecallShuttle()
-        {
-	        var toggleBool = recallBlockToggle.isOn;
-
-	        currentData.blockRecall = toggleBool;
-
-	        AdminCommandsManager.Instance.CmdSendBlockShuttleRecall(ServerData.UserID, PlayerList.Instance.AdminToken, toggleBool);
-        }
+			AdminCommandsManager.Instance.CmdSendBlockShuttleRecall(toggleBool);
+		}
 
 		public void CreateERTBtn()
 		{
@@ -109,7 +100,7 @@ namespace AdminTools
 
 		private void CreateDeathSquad()
 		{
-			AdminCommandsManager.Instance.CmdCreateDeathSquad(ServerData.UserID, PlayerList.Instance.AdminToken);
+			AdminCommandsManager.Instance.CmdCreateDeathSquad();
 		}
-    }
+	}
 }
