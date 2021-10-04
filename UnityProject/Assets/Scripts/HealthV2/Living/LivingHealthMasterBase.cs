@@ -160,9 +160,6 @@ namespace HealthV2
 
 		protected GameObject LastDamagedBy;
 
-		[NonSerialized] public List<BodyPart> DismemberingBodyParts = new List<BodyPart>();
-
-
 		/// <summary>
 		/// The list of the internal net ids of the body parts contained within this container
 		/// </summary>
@@ -287,13 +284,13 @@ namespace HealthV2
 		{
 			if (IsDead == false)
 			{
-				for (int i = BodyPartList.Count - 1; i >= 0; i--)
+				foreach (var bodyPart in BodyPartList)
 				{
-					BodyPartList[i].ImplantPeriodicUpdate();
+					bodyPart.ImplantPeriodicUpdate();
 				}
 			}
 
-			fireStacksDamage();
+			FireStacksDamage();
 			CalculateRadiationDamage();
 
 			if (IsDead) return;
@@ -317,7 +314,7 @@ namespace HealthV2
 		/// <summary>
 		/// Applys damage from fire stacks and handles their effects and decay
 		/// </summary>
-		public void fireStacksDamage()
+		public void FireStacksDamage()
 		{
 			if (fireStacks > 0)
 			{
@@ -532,9 +529,8 @@ namespace HealthV2
 				damage /= bodyParts;
 			}
 
-			for (int i = BodyPartList.Count - 1; i >= 0; i--)
+			foreach (var bodyPart in BodyPartList.ToArray())
 			{
-				var bodyPart = BodyPartList[i];
 				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
 			}
 
@@ -543,29 +539,6 @@ namespace HealthV2
 				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
-			CheckDismemberBody();
-		}
-
-		/// <summary>
-		/// Apply damage to a random body part body of the creature. Server only
-		/// </summary>
-		/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
-		/// <param name="damage">Damage Amount.</param>
-		/// <param name="attackType">type of attack that is causing the damage</param>
-		/// <param name="damageType">The Type of Damage</param>
-		[Server]
-		public void ApplyDamageToRandom(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType)
-		{
-			var body = BodyPartList.PickRandom();
-
-			body.TakeDamage(damagedBy, damage, attackType, damageType);
-
-			if (damageType == DamageType.Brute)
-			{
-				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
-			}
-			CheckDismemberBody();
 		}
 
 		/// <summary>
@@ -578,57 +551,31 @@ namespace HealthV2
 		/// <param name="bodyPartAim">Body Part that is affected</param>
 		[Server]
 		public void ApplyDamageToBodyPart(GameObject damagedBy, float damage, AttackType attackType,
-			DamageType damageType, BodyPartType bodyPartAim = BodyPartType.None, float armorPenetration = 0
-		)
+			DamageType damageType, BodyPartType bodyPartAim = BodyPartType.None, float armorPenetration = 0,
+			double traumaDamageChance = 0, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE)
 		{
 			if (bodyPartAim == BodyPartType.None)
 			{
 				BodyPartType.Chest.Randomize(0);
 			}
-
 			LastDamagedBy = damagedBy;
 
 			var count = 0;
 
-			for (int i = BodyPartList.Count - 1; i >= 0; i--)
+			foreach (var bodyPart in BodyPartList)
 			{
-				if (BodyPartList[i].BodyPartType == bodyPartAim)
+				if (bodyPart.BodyPartType == bodyPartAim)
 				{
 					count++;
 				}
 			}
 
-			for (int i = BodyPartList.Count - 1; i > 0; i--)
+			foreach (var bodyPart in BodyPartList.ToArray())
 			{
-				if (BodyPartList[i].BodyPartType == bodyPartAim)
+				if (bodyPart.BodyPartType == bodyPartAim)
 				{
-					BodyPartList[i].TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration);
-				}
-			}
-			
-			CheckDismemberBody();
-		}
-
-		/// <summary>
-		/// Applys Trauma Damage to a specified body part of the creature. Server only
-		/// </summary>
-		/// <param name="aimedBodyPart">Which body part do we target?</param>
-		/// <param name="damage">The Trauma damage value</param>
-		/// <param name="damageType">TraumaticDamageType enum, can be Slash, Burn and/or Pierce.</param>
-		[Server]
-		public void ApplyTraumaDamage(BodyPartType aimedBodyPart, TraumaticDamageTypes damageType)
-		{
-			Random random = new Random();
-			TraumaticDamageTypes[] typeToSelectFrom =
-				Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => damageType.HasFlag(x)).ToArray();
-			TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
-
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.BodyPartType == aimedBodyPart)
-				{
-					bodyPart.ApplyTraumaDamage(selectedType);
-					return;
+					bodyPart.TakeDamage(damagedBy, damage/count, attackType, damageType, armorPenetration: armorPenetration,
+						traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 				}
 			}
 		}
@@ -784,21 +731,17 @@ namespace HealthV2
 			}
 		}
 
-		public void CheckDismemberBody()
+		public void DismemberBodyPart(BodyPart bodyPart)
 		{
-			foreach (var bodyPart in DismemberingBodyParts)
+			//TODO: remove bodypart component from organs
+			if (bodyPart.TryGetComponent<Organ>(out var organ))
 			{
-				//TODO: remove bodypart component from organs
-				if (bodyPart.TryGetComponent<Organ>(out var organ))
-				{
-					organ.RelatedPart.OrganStorage.ServerTryRemove(organ.gameObject);
-				}
-				else
-				{
-					bodyPart.TryRemoveFromBody();
-				}
+				organ.RelatedPart.OrganStorage.ServerTryRemove(organ.gameObject);
 			}
-			DismemberingBodyParts.Clear();
+			else
+			{
+				bodyPart.TryRemoveFromBody();
+			}
 		}
 
 		///<Summary>
