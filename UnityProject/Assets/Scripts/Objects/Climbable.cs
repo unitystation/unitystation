@@ -8,27 +8,27 @@ namespace Objects
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
-			PlayerSync playerSync;
-			CustomNetTransform netTransform;
-			if (interaction.UsedObject.TryGetComponent(out playerSync))
+			if (interaction.TargetObject == null) return false;
+			if (interaction.UsedObject == null) return false;
+			var targetObjectPos = side == NetworkSide.Server ?
+				interaction.TargetObject.WorldPosServer() : interaction.TargetObject.WorldPosClient();
+			if (interaction.UsedObject.TryGetComponent<PlayerSync>(out var playerSync))
 			{
 				if (playerSync.IsMoving || playerSync.playerMove.IsBuckled) return false;
-
 				// Do a sanity check to make sure someone isn't dropping the shadow from like 9000 tiles away.
-				float mag = (interaction.TargetObject.transform.position - playerSync.ClientPosition).magnitude;
-				if (mag > PlayerScript.interactionDistance) return false;
+				float mag = (targetObjectPos - (side == NetworkSide.Server ?
+					playerSync.ServerPosition : playerSync.ClientPosition)).magnitude;
+				return mag <= PlayerScript.interactionDistance;
 			}
-			else if (interaction.UsedObject.TryGetComponent(out netTransform)) // Do the same check but for mouse draggable objects this time.
+			// Do the same check but for mouse draggable objects this time.
+			if (interaction.UsedObject.TryGetComponent<CustomNetTransform>(out var netTransform))
 			{
-				float mag = (interaction.TargetObject.transform.position - netTransform.ServerPosition).magnitude;
-				if (mag > PlayerScript.interactionDistance) return false;
+				if (netTransform.PushPull.IsNotPushable) return false;
+				float mag = (targetObjectPos - (side == NetworkSide.Server ?
+					netTransform.ServerPosition : netTransform.ClientPosition)).magnitude;
+				return mag <= PlayerScript.interactionDistance;
 			}
-			else // Not sure what this object is so assume that we can't interact with it at all.
-			{
-				return false;
-			}
-
-			return true;
+			return false;
 		}
 
 		public void ServerPerformInteraction(MouseDrop interaction)
