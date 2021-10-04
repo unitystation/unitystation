@@ -37,17 +37,15 @@ namespace Objects
 				new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, false);
 			StandardProgressAction.Create(cfg, () =>
 			{
-				PlayerScript playerScript;
-				if (interaction.UsedObject.TryGetComponent(out playerScript))
+				if (interaction.UsedObject.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					playerScript.PlayerSync.SetPosition(this.gameObject.WorldPosServer());
+					playerScript.PlayerSync.SetPosition(gameObject.WorldPosServer());
 				}
 				else
 				{
-					var transformComp = interaction.UsedObject.GetComponent<CustomNetTransform>();
-					if (transformComp != null)
+					if (interaction.UsedObject.TryGetComponent<CustomNetTransform>(out var transformComp))
 					{
-						transformComp.AppearAtPositionServer(this.gameObject.WorldPosServer());
+						transformComp.AppearAtPositionServer(gameObject.WorldPosServer());
 					}
 				}
 			}).ServerStartProgress(interaction.UsedObject.RegisterTile(), ClimbTime, interaction.Performer);
