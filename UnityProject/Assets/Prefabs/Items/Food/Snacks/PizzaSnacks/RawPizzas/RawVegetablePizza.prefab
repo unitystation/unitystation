@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &908348892651774811
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1377849961496925871, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 2635048175138463619, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+    - target: {fileID: 2484870915614486753, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: initialName
+      value: raw vegetable pizza
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630683251513959159, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635048175138463619, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_Name
+      value: RawVegetablePizza
+      objectReference: {fileID: 0}
+    - target: {fileID: 2667722809128870455, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_AssetId
+      value: efdfbea9346786d479b56232c7b20360
+      objectReference: {fileID: 0}
+    - target: {fileID: 2667750968483135007, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2999159425223299336}
+    - target: {fileID: 2765324273396378847, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f00949bb04236da4681bf0d7a019626e,
+        type: 3}
+    - target: {fileID: 8203180745817711620, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b9f175e7a1af514db48c688026d4286,
+        type: 2}
+    - target: {fileID: 8947293182148793326, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: foreverID
+      value: 2051dd9e4v3d44140859bd686a1b9957
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2051dd9e472d44140859bd686a1b9957, type: 3}
+--- !u!114 &2999159425223299336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2667324062053954131, guid: 2051dd9e472d44140859bd686a1b9957,
+    type: 3}
+  m_PrefabInstance: {fileID: 908348892651774811}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
