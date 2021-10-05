@@ -55,6 +55,10 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 					    && entry.NamedSlot == NamedSlot.uniform
 					    && skirtVariant != null)
 					{
+						if(skirtVariant.TryGetComponent<Items.RandomItemSpot>(out var randomItem)){
+							randomItem.RollRandomPool(false, true);
+							skirtVariant = randomItem.spawnedItem;
+						}
 						var spawnskirt = Spawn.ServerPrefab(skirtVariant);
 						Inventory.ServerAdd(spawnskirt.GameObject, slot, entry.ReplacementStrategy, true );
 						spawnskirt.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
@@ -82,7 +86,10 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 								spawnThing = entry.Prefab;
 								break;
 						}
-
+						if(spawnThing.TryGetComponent<Items.RandomItemSpot>(out var randomItem)){
+							randomItem.RollRandomPool(false, true);
+							spawnThing = randomItem.spawnedItem;
+						}
 						var spawnbackpack = Spawn.ServerPrefab(spawnThing);
 						Inventory.ServerAdd(spawnbackpack.GameObject, slot, entry.ReplacementStrategy, true );
 						spawnbackpack.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
@@ -90,6 +97,10 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 						break;
 					}
 					var spawn = Spawn.ServerPrefab(entry.Prefab);
+					if(entry.Prefab.TryGetComponent<Items.RandomItemSpot>(out var randomItem2)){
+						randomItem2.RollRandomPool(false, true);
+						spawn = Spawn.ServerPrefab(randomItem2.spawnedItem);
+					}
 					Inventory.ServerAdd(spawn.GameObject, slot, entry.ReplacementStrategy, true );
 					spawn.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
 					PopulateSubInventory(spawn.GameObject, entry.namedSlotPopulatorEntrys);
@@ -124,6 +135,10 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 			}
 			if (ItemSlot == null) continue;
 
+			if(namedSlotPopulatorEntry.Prefab.TryGetComponent<Items.RandomItemSpot>(out var randomItem)){
+				randomItem.RollRandomPool(false, true);
+				namedSlotPopulatorEntry.Prefab = randomItem.spawnedItem;
+			}
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab);
 			Inventory.ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
 			Inventory.PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
