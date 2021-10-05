@@ -134,9 +134,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size / 10f);
 
-	[PrefabModeOnly]
-	public bool CannotBeAshed = false;
-
 	private void Awake()
 	{
 		EnsureInit();

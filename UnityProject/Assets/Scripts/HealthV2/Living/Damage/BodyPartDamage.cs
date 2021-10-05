@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using System.Linq;
+using Random = System.Random;
 
 namespace HealthV2
 {
@@ -205,9 +207,10 @@ namespace HealthV2
 		/// <param name="damage">Damage amount</param>
 		/// <param name="attackType">Type of attack that is causing the damage</param>
 		/// <param name="damageType">The type of damage</param>
-		/// <param name="damageSplit">Should the damage be divided amongst the contained body parts or applied to a random body part</param>
+		/// <param name="organDamageSplit">Should the damage be divided amongst the contained organs or applied to a random one</param>
 		public void TakeDamage(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType,
-								bool damageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0)
+								bool organDamageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0,
+								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE)
 		{
 			float damageToLimb = Armor.GetTotalDamage(
 				SelfArmor.GetDamage(damage, attackType, armorPenetration),
@@ -221,52 +224,67 @@ namespace HealthV2
 			// May also want it so it can miss sub organs
 			if (DamageSubOrgans && OrganList.Count > 0)
 			{
-				var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType, armorPenetration);
-				if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
-				{
-					organDamageRatingValue +=
-						1 - ((maxHealth - Damages[(int) damageType]) / SubOrganDamageIncreasePoint);
-					organDamageRatingValue = Math.Min(1, organDamageRatingValue);
-				}
-
-				var subDamage = damage * organDamageRatingValue;
-
-				//TODO: remove BodyPart component from organ
-				if (damageSplit)
-				{
-					foreach (var organ in OrganList)
-					{
-						var organBodyPart = organ.GetComponent<BodyPart>();
-						organBodyPart.TakeDamage(damagedBy, subDamage / OrganList.Count, attackType, damageType, damageSplit);
-					}
-				}
-				else
-				{
-					var organBodyPart = OrganList.PickRandom().GetComponent<BodyPart>(); //It's not like you can aim for Someone's liver can you
-					organBodyPart.TakeDamage(damagedBy, subDamage, attackType, damageType);
-				}
+				DamageOrgans(damage, attackType, damageType, organDamageSplit, armorPenetration);
 			}
 			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
 			{
 				if (attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
 				{
+					if (tramuticDamageType != TraumaticDamageTypes.NONE && DMMath.Prob(traumaDamageChance))
+					{
+						//TODO: move this to an utility, its hard to read! - picks a random enum from the ones already flagged
+						Random random = new Random();
+						TraumaticDamageTypes[] typeToSelectFrom = Enum.GetValues(typeof(TraumaticDamageTypes)).Cast<TraumaticDamageTypes>().Where(x => tramuticDamageType.HasFlag(x)).ToArray();
+						TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
+						ApplyTraumaDamage(selectedType);
+					}
 					CheckBodyPartIntigrity(damage);
 				}
 			}
+
 			if(attackType == AttackType.Bomb)
 			{
 				TakeBluntDamage();
-				if(damageToLimb >= DamageThreshold) DismemberBodyPartWithChance();
+				if (damageToLimb >= DamageThreshold)
+				{
+					DismemberBodyPartWithChance();
+				}
 			}
 
-			if(Severity <= DamageSeverity.LightModerate) return;
-			if (damageType == DamageType.Burn || attackType == AttackType.Fire
-			                                  || attackType == AttackType.Laser || attackType == AttackType.Energy)
+			if (damageType == DamageType.Burn || attackType == AttackType.Fire ||
+			    attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{
-				ApplyTraumaDamage(TraumaticDamageTypes.BURN, true);
+				ApplyTraumaDamage(TraumaticDamageTypes.BURN);
 			}
+
 		}
 
+		private void DamageOrgans(float damage, AttackType attackType, DamageType damageType, bool organDamageSplit, float armorPenetration)
+		{
+			var organDamageRatingValue = SubOrganBodyPartArmour.GetRatingValue(attackType, armorPenetration);
+			if (maxHealth - Damages[(int) damageType] < SubOrganDamageIncreasePoint)
+			{
+				organDamageRatingValue += 1 - ((maxHealth - Damages[(int) damageType]) / SubOrganDamageIncreasePoint);
+				organDamageRatingValue = Math.Min(1, organDamageRatingValue);
+			}
+
+			var subDamage = damage * organDamageRatingValue;
+
+			//TODO: remove BodyPart component from organ
+			if (organDamageSplit)
+			{
+				foreach (var organ in OrganList)
+				{
+					var organBodyPart = organ.GetComponent<BodyPart>();
+					organBodyPart.AffectDamage(subDamage / OrganList.Count, (int) damageType);
+				}
+			}
+			else
+			{
+				var organBodyPart = OrganList.PickRandom().GetComponent<BodyPart>(); //It's not like you can aim for Someone's liver can you
+				organBodyPart.AffectDamage(subDamage, (int) damageType);
+			}
+		}
 
 		/// <summary>
 		/// Heals damage taken by this body part
