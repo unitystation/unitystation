@@ -175,7 +175,7 @@ PrefabInstance:
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
@@ -185,7 +185,40 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 50b34b4129af2c64788ccc6f359eaff0,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ca0e430158e6534d80148580fd6efe8,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c773937e10483e44f99faf358f2b16e2,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7445234018201534294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
