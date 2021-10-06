@@ -24,10 +24,11 @@ namespace Weapons
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (interaction.TargetObject.gameObject.GetComponent<InteractableStorage>() != null) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)
-			 && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OrePlasma))
+			    && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.OrePlasma))
 			{
 				return false;
 			}
@@ -110,6 +111,7 @@ namespace Weapons
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
+			if (interaction.TargetObject.gameObject.GetComponent<InteractableStorage>() != null) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			if (interaction.FromSlot.Item == null) return false;
