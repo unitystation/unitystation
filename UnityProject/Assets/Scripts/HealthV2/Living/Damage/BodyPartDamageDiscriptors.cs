@@ -147,7 +147,7 @@ namespace HealthV2
 				Chat.AddActionMsgToChat(HealthMaster.gameObject,
 					$"You scream out loud as your {BodyPartReadableName} pops back into place.",
 					$"{script.visibleName} screams out in pain as " +
-					$"a loud crack can be heard from their {ContainedIn.gameObject.ExpensiveName()}.");
+					$"a loud crack can be heard from {script.characterSettings.TheirPronoun(script)} {ContainedIn.gameObject.ExpensiveName()}.");
 			}
 		}
 

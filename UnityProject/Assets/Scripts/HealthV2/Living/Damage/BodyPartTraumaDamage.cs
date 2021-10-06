@@ -109,6 +109,12 @@ namespace HealthV2
 		{
 			void TakeBluntLogic(BodyPart bodyPart)
 			{
+				if (bodyPart.currentBluntDamageLevel == TraumaDamageLevel.SMALL && DMMath.Prob(50))
+				{
+					bodyPart.currentBluntDamageLevel = TraumaDamageLevel.NONE;
+					AnnounceJointHealEvent();
+					return;
+				}
 				bodyPart.currentBluntDamageLevel += 1;
 				Chat.AddActionMsgToChat(HealthMaster.gameObject,
 					$"You hear a loud crack from your {BodyPartReadableName}.",
