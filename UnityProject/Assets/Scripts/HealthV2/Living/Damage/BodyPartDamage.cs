@@ -238,17 +238,14 @@ namespace HealthV2
 						TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
 						ApplyTraumaDamage(selectedType);
 					}
-					CheckBodyPartIntigrity(damage);
+					CheckBodyPartIntigrity();
 				}
 			}
 
 			if(attackType == AttackType.Bomb)
 			{
 				TakeBluntDamage();
-				if (damageToLimb >= DamageThreshold)
-				{
-					DismemberBodyPartWithChance();
-				}
+				DismemberBodyPartWithChance();
 			}
 
 			if (damageType == DamageType.Burn || attackType == AttackType.Fire ||

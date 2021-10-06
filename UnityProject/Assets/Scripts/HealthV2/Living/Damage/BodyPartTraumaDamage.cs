@@ -29,7 +29,7 @@ namespace HealthV2
 		private TraumaDamageLevel currentPierceDamageLevel = TraumaDamageLevel.NONE;
 		private TraumaDamageLevel currentSlashDamageLevel  = TraumaDamageLevel.NONE;
 		private TraumaDamageLevel currentBurnDamageLevel   = TraumaDamageLevel.NONE;
-		private TraumaDamageLevel currentBluntDamageLevel  = TraumaDamageLevel.NONE; //TODO : MERGE #7434 TO FINISH #7432
+		private TraumaDamageLevel currentBluntDamageLevel  = TraumaDamageLevel.NONE;
 
 		public TraumaDamageLevel CurrentPierceDamageLevel => currentPierceDamageLevel;
 		public TraumaDamageLevel CurrentSlashDamageLevel  => currentSlashDamageLevel ;
@@ -53,14 +53,6 @@ namespace HealthV2
 		public bool CanBeBroken        = false;
 
 
-		/// <summary>
-		/// How much damage can this body part last before it breaks/gibs/Disembowles?
-		/// <summary>
-		public float DamageThreshold = 21f;
-
-		[SerializeField] private DamageSeverity BoneFracturesOnDamageSevarity = DamageSeverity.Moderate;
-		[SerializeField] private DamageSeverity BoneBreaksOnDamageSevarity    = DamageSeverity.Bad;
-
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
@@ -79,11 +71,10 @@ namespace HealthV2
 
 		/// <summary>
 		/// Applies trauma damage to the body part, checks if it has enough protective armor to cancel the trauma damage
-		/// and automatically checks how big is the body part's cut size.
 		/// </summary>
 		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH, bool ignoreSeverityCheck = false)
 		{
-			if(Severity < DamageSeverity.LightModerate && ignoreSeverityCheck == false) return;
+			if(Severity < DamageSeverity.Bad && ignoreSeverityCheck == false) return;
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
 			{
@@ -96,12 +87,9 @@ namespace HealthV2
 				TakeBurnDamage();
 			}
 
-			if (damageType == TraumaticDamageTypes.BLUNT)
+			if (damageType == TraumaticDamageTypes.BLUNT && DMMath.Prob(SelfArmor.Melee * 100) == false)
 			{
-				if (DMMath.Prob(SelfArmor.Melee * 100) == false)
-				{
-					TakeBluntDamage();
-				}
+				TakeBluntDamage();
 			}
 		}
 
@@ -330,7 +318,7 @@ namespace HealthV2
 		/// <summary>
 		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
 		/// </summary>
-		protected void CheckBodyPartIntigrity(float lastDamage)
+		protected void CheckBodyPartIntigrity()
 		{
 			if(currentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
 			{
@@ -341,7 +329,7 @@ namespace HealthV2
 			}
 
 			if (currentSlashDamageLevel >= TraumaDamageLevel.SERIOUS) StartCoroutine(ExternalBleedingLogic());
-			if(Severity >= GibsOnSeverityLevel && lastDamage >= DamageThreshold || currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
+			if(Severity >= GibsOnSeverityLevel || currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
 			{
 				DismemberBodyPartWithChance();
 			}
@@ -360,6 +348,10 @@ namespace HealthV2
 			if (damageTypeToHeal == TraumaticDamageTypes.PIERCE)
 			{
 				currentPierceDamageLevel -= 1;
+			}
+			if (damageTypeToHeal == TraumaticDamageTypes.BLUNT)
+			{
+				currentBluntDamageLevel -= 1;
 			}
 		}
 	}
