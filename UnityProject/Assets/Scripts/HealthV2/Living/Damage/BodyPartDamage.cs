@@ -226,6 +226,8 @@ namespace HealthV2
 			{
 				DamageOrgans(damage, attackType, damageType, organDamageSplit, armorPenetration);
 			}
+
+			if(damage < 10) return; //Do not apply traumas if the damage is not serious.
 			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
 			{
 				if (attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
