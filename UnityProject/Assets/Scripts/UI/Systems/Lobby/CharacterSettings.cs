@@ -262,7 +262,7 @@ public class CharacterSettings
 		//Randomises player name and age and skin tone.
 		random.Name = RandomizeCharacterName(random);
 		random.Age  = UnityEngine.Random.Range(19, 78);
-		random.SkinTone = RandomizeCharacterSkinToneHTMLString(random);
+		random.SkinTone = RandomizeCharacterSkinToneHtmlString(random);
 		random.SerialisedExternalCustom = GetRandomUnderwearCustomisation(random);
 
 		//Randomises player accents. (Italian, Scottish, etc)
@@ -276,7 +276,7 @@ public class CharacterSettings
 		var RaceData = GetRaceData(data);
 		List<ExternalCustomisation> externalCustomisations = new List<ExternalCustomisation>();
 
-		void logic(CustomisationAllowedSetting setting)
+		void Logic(CustomisationAllowedSetting setting)
 		{
 			PlayerCustomisationData customizationToAdd = setting.CustomisationGroup.PlayerCustomisations.PickRandom();
 			ExternalCustomisation newExternalCustomisation = new ExternalCustomisation();
@@ -287,9 +287,9 @@ public class CharacterSettings
 
 		foreach (CustomisationAllowedSetting customisation in RaceData.Base.CustomisationSettings)
 		{
-			if (customisation.CustomisationGroup.name == "PlayerUnderShirt") logic(customisation);
-			if (customisation.CustomisationGroup.name == "PlayerUnderWear") logic(customisation);
-			if (customisation.CustomisationGroup.name == "PlayerSocks") logic(customisation);
+			if (customisation.CustomisationGroup.name == "PlayerUnderShirt") Logic(customisation);
+			if (customisation.CustomisationGroup.name == "PlayerUnderWear")  Logic(customisation);
+			if (customisation.CustomisationGroup.name == "PlayerSocks")      Logic(customisation);
 		}
 
 		return externalCustomisations;
@@ -304,7 +304,7 @@ public class CharacterSettings
 		return newcurrentSetting;
 	}
 
-	public static string RandomizeCharacterSkinToneHTMLString(CharacterSettings data)
+	public static string RandomizeCharacterSkinToneHtmlString(CharacterSettings data)
 	{
 		var RaceData = GetRaceData(data);
 
