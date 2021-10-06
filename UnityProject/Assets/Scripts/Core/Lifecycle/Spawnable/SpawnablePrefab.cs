@@ -30,7 +30,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 	/// <returns></returns>
 	public static SpawnablePrefab For(GameObject prefab, bool PrePickRandom = false)
 	{
-		return new SpawnablePrefab(prefab);
+		return new SpawnablePrefab(prefab, PrePickRandom);
 	}
 
 	/// <summary>
@@ -47,7 +47,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 			                      " is a prefab which is not spawnable. Request to spawn will be ignored.", Category.ItemSpawn, prefabName);
 			return null;
 		}
-		return new SpawnablePrefab(prefab);
+		return new SpawnablePrefab(prefab, PrePickRandom);
 	}
 
 	public SpawnableResult SpawnAt(SpawnDestination destination)
