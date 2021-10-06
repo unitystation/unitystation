@@ -104,9 +104,7 @@ namespace HealthV2
 					return;
 				}
 				bodyPart.currentBluntDamageLevel += 1;
-				Chat.AddActionMsgToChat(HealthMaster.gameObject,
-					$"You hear a loud crack from your {BodyPartReadableName}.",
-					$"A loud crack can be heard from {HealthMaster.playerScript.visibleName}.");
+				AnnounceJointDislocationEvent();
 			}
 
 			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
