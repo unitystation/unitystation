@@ -452,12 +452,8 @@ namespace Items.PDA
 			if (!IsUplinkCapable || IsUplinkLocked) return;
 
 			if (cost > UplinkTC) return;
-			if(objectRequested.TryGetComponent<RandomItemSpot>(out var randomItem)){
-				randomItem.RollRandomPool(false);
-				objectRequested = randomItem.spawnedItem;
-			}
 
-			var result = Spawn.ServerPrefab(objectRequested,GetComponent<Pickupable>().ItemSlot.Player.WorldPosition);
+			var result = Spawn.ServerPrefab(objectRequested,GetComponent<Pickupable>().ItemSlot.Player.WorldPosition, PrePickRandom: true);
 			if (result.Successful)
 			{
 				UplinkTC -= cost;

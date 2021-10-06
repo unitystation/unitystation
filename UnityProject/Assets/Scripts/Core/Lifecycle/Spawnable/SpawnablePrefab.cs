@@ -1,4 +1,5 @@
 
+using Items;
 using Mirror;
 using UnityEngine;
 
@@ -9,8 +10,16 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 {
 	private readonly GameObject prefab;
 
-	private SpawnablePrefab(GameObject prefab)
+	private SpawnablePrefab(GameObject prefab, bool PrePickRandom = false)
 	{
+		if (PrePickRandom)
+		{
+			if(prefab.TryGetComponent<RandomItemSpot>(out var randomItem)){
+				randomItem.RollRandomPool(false);
+				prefab = randomItem.spawnedItem;
+			}
+		}
+
 		this.prefab = prefab;
 	}
 
@@ -19,7 +28,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 	/// </summary>
 	/// <param name="prefab"></param>
 	/// <returns></returns>
-	public static SpawnablePrefab For(GameObject prefab)
+	public static SpawnablePrefab For(GameObject prefab, bool PrePickRandom = false)
 	{
 		return new SpawnablePrefab(prefab);
 	}
@@ -29,7 +38,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 	/// </summary>
 	/// <param name="prefabName"></param>
 	/// <returns></returns>
-	public static SpawnablePrefab For(string prefabName)
+	public static SpawnablePrefab For(string prefabName, bool PrePickRandom = false)
 	{
 		GameObject prefab = Spawn.GetPrefabByName(prefabName);
 		if (prefab == null)

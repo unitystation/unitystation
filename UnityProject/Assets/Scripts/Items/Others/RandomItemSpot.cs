@@ -24,7 +24,7 @@ namespace Items
 			RollRandomPool(true);
 		}
 
-		public void RollRandomPool(bool spawn, bool isInInventory = false)
+		public void RollRandomPool(bool spawn)
 		{
 			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
@@ -64,7 +64,6 @@ namespace Items
 
 				GenerateItem(pool, spawn);
 			}
-			if(isInInventory) return;
 			RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
 			this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
 			this.GetComponent<RegisterTile>().UpdatePositionServer();
@@ -92,8 +91,19 @@ namespace Items
 
 			var maxAmt = Random.Range(1, item.MaxAmount+1);
 
+
+			if (spawn == false)
+			{
+				if (this.spawnedItem != null)
+				{
+					Logger.LogError("Tried to Auto single spawn Multi-spawn loot, Picking last item to be spawned");
+				}
+				this.spawnedItem = item.Prefab;
+				return;
+			}
+
 			this.spawnedItem = item.Prefab;
-			if(!spawn) return;
+
 			var worldPos = gameObject.AssumedWorldPosServer();
 			var pushPull = GetComponent<PushPull>();
 			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);

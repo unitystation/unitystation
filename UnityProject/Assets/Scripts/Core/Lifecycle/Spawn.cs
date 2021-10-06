@@ -131,11 +131,11 @@ public static class Spawn
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false,
 		bool spawnItems = true, bool AutoOnSpawnServerHook = true,
-		PushPull sharePosition = null, bool mapspawn = false)
+		PushPull sharePosition = null, bool mapspawn = false, bool PrePickRandom = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
-				SpawnablePrefab.For(prefab),
+				SpawnablePrefab.For(prefab, PrePickRandom),
 				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable, sharePosition),
 				count, scatterRadius, spawnItems: spawnItems, mapspawn: mapspawn), AutoOnSpawnServerHook);
 	}
@@ -153,11 +153,11 @@ public static class Spawn
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(GameObject prefab, SpawnDestination destination, int count = 1,
-		float? scatterRadius = null,bool mapspawn = false)
+		float? scatterRadius = null,bool mapspawn = false, bool PrePickRandom = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
-				SpawnablePrefab.For(prefab),
+				SpawnablePrefab.For(prefab, PrePickRandom),
 				destination,
 				count, scatterRadius,mapspawn : mapspawn));
 	}
