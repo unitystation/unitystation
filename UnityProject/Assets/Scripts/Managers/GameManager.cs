@@ -138,6 +138,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private AudioClipsArray endOfRoundSounds = null;
 
 	public int errorCounter;
+	public int uniqueErrorCounter;
 
 	void IInitialise.Initialise()
 	{

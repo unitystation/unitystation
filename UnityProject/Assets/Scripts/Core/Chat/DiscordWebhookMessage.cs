@@ -264,8 +264,13 @@ namespace DiscordWebhook
 
 		void HandleLog(string logString, string stackTrace, LogType type)
 		{
-			if ((type == LogType.Exception || type == LogType.Error) && !ErrorMessageHashSet.Contains(stackTrace))
+			if (type == LogType.Exception || type == LogType.Error)
 			{
+				GameManager.Instance.errorCounter++;
+				if (ErrorMessageHashSet.Contains(stackTrace))
+					return;
+				GameManager.Instance.uniqueErrorCounter++;
+
 				ErrorMessageHashSet.Add(stackTrace);
 
 				if (logString.Contains("Can't get home directory!")) return;
@@ -280,7 +285,6 @@ namespace DiscordWebhook
 
 				logToSend = $"```\n{logToSend}```";
 
-				GameManager.Instance.errorCounter++;
 				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logToSend, "");
 			}
 		}
