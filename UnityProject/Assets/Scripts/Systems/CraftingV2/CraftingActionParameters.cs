@@ -2,6 +2,10 @@
 {
 	public class CraftingActionParameters
 	{
+		private FeedbackType feedback;
+
+		public FeedbackType Feedback => feedback;
+
 		private bool ignoreToolsAndIngredients;
 
 		/// <summary>

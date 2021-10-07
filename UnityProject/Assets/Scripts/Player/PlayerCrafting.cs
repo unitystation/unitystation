@@ -452,12 +452,12 @@ namespace Player
 					GetPossibleIngredients(networkSide),
 					GetPossibleTools(networkSide)
 				);
-				if (craftingActionParameters.feedback == FeedbackType.GiveAllFeedback)
+				if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback)
 				{
 					GiveClientSidedFeedback(craftingStatus, recipe, false);
 					return;
 				}
-				else if (craftingActionParameters.feedback == FeedbackType.GiveOnlySuccess && craftingStatus == craftingStatus.AllGood)
+				else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == craftingStatus.AllGood)
 
 				RequestStartCraftingAction.Send(recipe);
 				return;
@@ -511,15 +511,15 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.feedback == FeedbackType.GiveAllFeedback)
+			if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
-			else if (craftingActionParameters.feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
+			else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
-
+			
 			if (craftingStatus != CraftingStatus.AllGood)
 			{
 				return false;
@@ -600,11 +600,11 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.feedback == FeedbackType.GiveAllFeedback)
+			if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, true);
 			}
-			else if (craftingActionParameters.feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
+			else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, true);
 			}
