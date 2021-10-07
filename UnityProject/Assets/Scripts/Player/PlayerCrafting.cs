@@ -452,11 +452,12 @@ namespace Player
 					GetPossibleIngredients(networkSide),
 					GetPossibleTools(networkSide)
 				);
-				if (craftingActionParameters.ShouldGiveFeedback && craftingStatus != CraftingStatus.AllGood)
+				if (craftingActionParameters.feedback == FeedbackType.GiveAllFeedback)
 				{
 					GiveClientSidedFeedback(craftingStatus, recipe, false);
 					return;
 				}
+				else if (craftingActionParameters.feedback == FeedbackType.GiveOnlySuccess && craftingStatus == craftingStatus.AllGood)
 
 				RequestStartCraftingAction.Send(recipe);
 				return;
@@ -510,11 +511,11 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.ShouldGiveFeedback && craftingStatus != CraftingStatus.AllGood)
+			if (craftingActionParameters.feedback == FeedbackType.GiveAllFeedback)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
-			else if (craftingActionParameters.ShouldProclaimSuccess && craftingStatus == CraftingStatus.AllGood)
+			else if (craftingActionParameters.feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
@@ -599,11 +600,11 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.ShouldGiveFeedback && craftingStatus != CraftingStatus.AllGood)
+			if (craftingActionParameters.feedback == FeedbackType.GiveAllFeedback)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, true);
 			}
-			else if (craftingActionParameters.ShouldProclaimSuccess && craftingStatus == CraftingStatus.AllGood)
+			else if (craftingActionParameters.feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, true);
 			}

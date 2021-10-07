@@ -2,38 +2,28 @@
 {
 	public class CraftingActionParameters
 	{
-		private bool shouldGiveFeedback;
-
-		/// <summary>
-		/// 	Should we send feedback about a crafting status to the player?
-		/// </summary>
-		public bool ShouldGiveFeedback => shouldGiveFeedback;
-
 		private bool ignoreToolsAndIngredients;
 
 		/// <summary>
 		/// 	Should we ignore tools and ingredients while checking?
 		/// </summary>
 		public bool IgnoreToolsAndIngredients => ignoreToolsAndIngredients;
-
-		private bool shouldProclaimSuccess;
-
-		/// <summary>
-		/// 	Should we send feedback about a SUCCESSFUL crafting status to the player?
-		/// </summary>
-		public bool ShouldProclaimSuccess => shouldProclaimSuccess;
-
 		public static readonly CraftingActionParameters DefaultParameters
-			= new CraftingActionParameters(true, false, true);
+			= new CraftingActionParameters(false, FeedbackType.GiveAllFeedback);
 		
 		public static readonly CraftingActionParameters QuietParameters
-			= new CraftingActionParameters(false, false, true);
+			= new CraftingActionParameters(false, FeedbackType.GiveOnlySuccess);
 
-		public CraftingActionParameters(bool shouldGiveFeedback, bool ignoreToolsAndIngredients, bool shouldProclaimSuccess)
+		public CraftingActionParameters(bool ignoreToolsAndIngredients, FeedbackType feedback)
 		{
-			this.shouldGiveFeedback = shouldGiveFeedback;
 			this.ignoreToolsAndIngredients = ignoreToolsAndIngredients;
-			this.shouldProclaimSuccess = shouldProclaimSuccess;
 		}
+	}
+
+	public enum FeedbackType
+	{
+		GiveAllFeedback,
+		GiveNoFeedback,
+		GiveOnlySuccess
 	}
 }
