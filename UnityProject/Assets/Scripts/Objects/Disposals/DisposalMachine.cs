@@ -32,6 +32,7 @@ namespace Objects.Disposals
 
 		protected PositionalHandApply currentInteraction;
 
+		[SyncVar]
 		private InstallState installState = InstallState.Unattached;
 		public bool MachineUnattached => installState == InstallState.Unattached;
 		public bool MachineAnchored => installState == InstallState.Anchored;
@@ -51,7 +52,7 @@ namespace Objects.Disposals
 			baseSpriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
 			if (PipeTerminalExists())
 			{
