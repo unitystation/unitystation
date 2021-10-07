@@ -457,7 +457,7 @@ namespace Player
 					GiveClientSidedFeedback(craftingStatus, recipe, false);
 					return;
 				}
-				else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == craftingStatus.AllGood)
+				else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
 
 				RequestStartCraftingAction.Send(recipe);
 				return;
@@ -519,7 +519,7 @@ namespace Player
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
-			
+
 			if (craftingStatus != CraftingStatus.AllGood)
 			{
 				return false;
