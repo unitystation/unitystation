@@ -74,29 +74,31 @@ namespace Systems.CraftingV2
 				}
 				if(side == NetworkSide.Client)
 				{
-				if (
-					interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
+					if 
+					(
+						interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
 						relatedRecipe.Recipe,
 						possibleIngredients,
 						possibleTools
-					) == CraftingStatus.AllGood
-				)
-				{
-					return true;
-				}
+						) == CraftingStatus.AllGood
+					)
+					{
+						return true;
+					}
 				}
 				else if(side == NetworkSide.Server){
-				if (
-					interaction.PerformerPlayerScript.PlayerCrafting.CanCraft(
+					if 
+					(
+						interaction.PerformerPlayerScript.PlayerCrafting.CanCraft(
 						relatedRecipe.Recipe,
 						possibleIngredients,
 						possibleTools,
 						new List<ReagentContainer>()
-					) == CraftingStatus.AllGood
-				)
-				{
-					return true;
-				}
+						) == CraftingStatus.AllGood
+					)
+					{
+						return true;
+					}
 				}
 			}
 
