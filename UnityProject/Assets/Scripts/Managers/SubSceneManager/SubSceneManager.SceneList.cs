@@ -4,8 +4,6 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
 using UnityEngine;
-using System.Linq;
-using Messages.Server.SubScenes;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -241,7 +239,6 @@ public partial class SubSceneManager
 			SceneType = SceneType.AdditionalScenes
 		});
 
-		PokeClientSubScene.SendToAll( pickedMap);
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		SyndicateLoaded = true;
 	}
@@ -260,7 +257,6 @@ public partial class SubSceneManager
 			SceneType = SceneType.AdditionalScenes
 		});
 
-		PokeClientSubScene.SendToAll(pickedScene);
 		WizardLoaded = true;
 	}
 
