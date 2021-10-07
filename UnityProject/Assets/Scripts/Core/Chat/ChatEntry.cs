@@ -268,7 +268,7 @@ public class ChatEntry : MonoBehaviour
 
 	private void SetStackPos()
 	{
-		if (messageText.textInfo.characterInfo.Length - 1 <= messageText.textInfo.characterCount - 1)
+		if (messageText.textInfo.characterCount - 1 < messageText.textInfo.characterInfo.Length)
 		{
 			var lastCharacter = messageText.textInfo.characterInfo[messageText.textInfo.characterCount - 1];
 			var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
