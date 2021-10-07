@@ -250,7 +250,7 @@ namespace Player
 		}
 
 		[Client]
-		private CraftingStatus CanClientCraft(
+		public CraftingStatus CanClientCraft(
 			CraftingRecipe recipe,
 			List<CraftingIngredient> possibleIngredients,
 			List<ItemAttributesV2> possibleTools
@@ -510,7 +510,11 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.ShouldGiveFeedback)
+			if (craftingActionParameters.ShouldGiveFeedback && craftingStatus != CraftingStatus.AllGood)
+			{
+				GiveServerSidedFeedback(craftingStatus, recipe, false);
+			}
+			else if (craftingActionParameters.ShouldProclaimSuccess && craftingStatus == CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
@@ -595,10 +599,15 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.ShouldGiveFeedback)
+			if (craftingActionParameters.ShouldGiveFeedback && craftingStatus != CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, true);
 			}
+			else if (craftingActionParameters.ShouldProclaimSuccess && craftingStatus == CraftingStatus.AllGood)
+			{
+				GiveServerSidedFeedback(craftingStatus, recipe, true);
+			}
+
 
 			if (craftingStatus != CraftingStatus.AllGood)
 			{
@@ -647,7 +656,7 @@ namespace Player
 						return;
 					}
 
-					if (recipe.CraftingTime > 1)
+					if (recipe.CraftingTime > 0)
 					{
 						Chat.AddExamineMsgToClient(
 							$"You are trying to craft \"{recipe.RecipeName}\"..."

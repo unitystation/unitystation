@@ -72,9 +72,21 @@ namespace Systems.CraftingV2
 				{
 					continue;
 				}
-
-				if
-				(
+				if(side == NetworkSide.Client)
+				{
+				if (
+					interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
+						relatedRecipe.Recipe,
+						possibleIngredients,
+						possibleTools
+					) == CraftingStatus.AllGood
+				)
+				{
+					return true;
+				}
+				}
+				else if(side == NetworkSide.Server){
+				if (
 					interaction.PerformerPlayerScript.PlayerCrafting.CanCraft(
 						relatedRecipe.Recipe,
 						possibleIngredients,
@@ -84,6 +96,7 @@ namespace Systems.CraftingV2
 				)
 				{
 					return true;
+				}
 				}
 			}
 
@@ -122,14 +135,13 @@ namespace Systems.CraftingV2
 					continue;
 				}
 
-				if
-				(
+				if (
 					interaction.PerformerPlayerScript.PlayerCrafting.TryToStartCrafting(
 						relatedRecipe.Recipe,
 						possibleIngredients,
 						possibleTools,
 						new List<ReagentContainer>(),
-						CraftingActionParameters.DefaultParameters
+						CraftingActionParameters.QuietParameters
 					)
 				)
 				{

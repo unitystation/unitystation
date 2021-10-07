@@ -16,13 +16,24 @@
 		/// </summary>
 		public bool IgnoreToolsAndIngredients => ignoreToolsAndIngredients;
 
-		public static readonly CraftingActionParameters DefaultParameters
-			= new CraftingActionParameters(true, false);
+		private bool shouldProclaimSuccess;
 
-		public CraftingActionParameters(bool shouldGiveFeedback, bool ignoreToolsAndIngredients)
+		/// <summary>
+		/// 	Should we send feedback about a SUCCESSFUL crafting status to the player?
+		/// </summary>
+		public bool ShouldProclaimSuccess => shouldProclaimSuccess;
+
+		public static readonly CraftingActionParameters DefaultParameters
+			= new CraftingActionParameters(true, false, true);
+		
+		public static readonly CraftingActionParameters QuietParameters
+			= new CraftingActionParameters(false, false, true);
+
+		public CraftingActionParameters(bool shouldGiveFeedback, bool ignoreToolsAndIngredients, bool shouldProclaimSuccess)
 		{
 			this.shouldGiveFeedback = shouldGiveFeedback;
 			this.ignoreToolsAndIngredients = ignoreToolsAndIngredients;
+			this.shouldProclaimSuccess = shouldProclaimSuccess;
 		}
 	}
 }

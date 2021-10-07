@@ -12,6 +12,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 	{
 		private CraftingActionParameters craftingActionParameters = new CraftingActionParameters(
 			true,
+			true,
 			true
 		);
 
