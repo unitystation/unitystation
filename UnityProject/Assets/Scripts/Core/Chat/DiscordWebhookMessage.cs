@@ -280,6 +280,7 @@ namespace DiscordWebhook
 
 				logToSend = $"```\n{logToSend}```";
 
+				GameManager.Instance.errorCounter++;
 				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logToSend, "");
 			}
 		}

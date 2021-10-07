@@ -137,6 +137,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[SerializeField]
 	private AudioClipsArray endOfRoundSounds = null;
 
+	public int errorCounter;
+
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
