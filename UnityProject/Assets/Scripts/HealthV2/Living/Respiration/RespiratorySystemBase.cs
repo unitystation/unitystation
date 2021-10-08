@@ -180,7 +180,7 @@ namespace HealthV2
 			}
 			if (gasType == Gas.CarbonDioxide && pressure >= CARBON_DIOXIDE_SAFE_MAX)
 			{
-				ApplyDamage(pressure, DamageType.Tox);
+				ApplyDamage(pressure, DamageType.Oxy);
 			}
 		}
 
