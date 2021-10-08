@@ -1,27 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Messages.Server;
+using Mirror;
 
 
 public class FPSMonitor : MonoBehaviour
 {
-    private static FPSMonitor _fpsMonitor;
+	public static FPSMonitor Instance { get; private set; }
 
-
-    public static FPSMonitor Instance
-    {
-	    get
-	    {
-		    if (_fpsMonitor == null)
-		    {
-			    _fpsMonitor = FindObjectOfType<FPSMonitor>();
-		    }
-
-		    return _fpsMonitor;
-	    }
-    }
-
-    private List<float> avgSamples = new List<float>();
+	private List<float> avgSamples = new List<float>();
 
     public float Current { get; private set; }
     public float Average { get; private set; }
@@ -32,6 +19,14 @@ public class FPSMonitor : MonoBehaviour
     float timeInMin = 0f;
 
     private float updateClientsTimer;
+
+    private void Awake()
+    {
+	    if (Instance == null)
+	    {
+		    Instance = this;
+	    }
+    }
 
     void Update()
     {
@@ -83,8 +78,11 @@ public class FPSMonitor : MonoBehaviour
         updateClientsTimer += Time.unscaledDeltaTime;
         if (updateClientsTimer > 0.5f)
         {
-            UpdateServerFPS.Send(Current, Average);
-            updateClientsTimer = 0;
+	        if (NetworkServer.active)
+	        {
+		        UpdateServerFPS.Send(Current, Average);
+	        }
+	        updateClientsTimer = 0;
         }
     }
 }
