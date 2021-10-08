@@ -324,23 +324,9 @@ namespace HealthV2
 				{
 					bodyPart.IsBleeding = true;
 				}
-
-				if (bodyPart.BodyPartType == BodyPartType.LeftArm || bodyPart.BodyPartType == BodyPartType.RightArm
-				|| bodyPart.BodyPartType == BodyPartType.LeftHand || bodyPart.BodyPartType == BodyPartType.RightHand
-				|| bodyPart.DeathOnRemoval)
-				{
-					DynamicItemStorage storge = HealthMaster.playerScript.DynamicItemStorage;
-					foreach (ItemSlot itemSlot in storge.GetNamedItemSlots(NamedSlot.leftHand))
-					{
-						Inventory.ServerDrop(itemSlot);
-					}
-					foreach (var itemSlot in storge.GetNamedItemSlots(NamedSlot.rightHand))
-					{
-						Inventory.ServerDrop(itemSlot);
-					}
-				}
 			}
 
+			DropItemsOnDismemberment(this);
 			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
@@ -358,6 +344,42 @@ namespace HealthV2
 			if (gibsEntireBodyOnRemoval && beingGibbed == false)
 			{
 				HealthMaster.Gib();
+			}
+		}
+
+		/// <summary>
+		/// Drops items from a player's bodyPart inventory upon dismemberment.
+		/// </summary>
+		/// <param name="bodyPart">The bodyPart that's cut off</param>
+		private void DropItemsOnDismemberment(BodyPart bodyPart)
+		{
+			DynamicItemStorage storge = HealthMaster.playerScript.DynamicItemStorage;
+
+			void RemoveItemsFromSlot(NamedSlot namedSlot)
+			{
+				foreach (ItemSlot itemSlot in storge.GetNamedItemSlots(namedSlot))
+				{
+					Inventory.ServerDrop(itemSlot);
+				}
+			}
+
+			//We remove items from both hands to simulate a pain effect, because usually when you lose your arm the other one goes into shock
+			if (bodyPart.BodyPartType == BodyPartType.LeftArm
+			    || bodyPart.BodyPartType == BodyPartType.RightArm || bodyPart.BodyPartType == BodyPartType.LeftHand
+			    || bodyPart.BodyPartType == BodyPartType.RightHand || bodyPart.DeathOnRemoval)
+			{
+				RemoveItemsFromSlot(NamedSlot.leftHand);
+				RemoveItemsFromSlot(NamedSlot.rightHand);
+			}
+			if(bodyPart.BodyPartType == BodyPartType.RightLeg || bodyPart.BodyPartType == BodyPartType.LeftLeg ||
+			   bodyPart.BodyPartType == BodyPartType.LeftFoot || bodyPart.BodyPartType == BodyPartType.RightFoot)
+			{
+				RemoveItemsFromSlot(NamedSlot.feet);
+			}
+
+			if (bodyPart.BodyPartType == BodyPartType.Head)
+			{
+				RemoveItemsFromSlot(NamedSlot.head);
 			}
 		}
 
