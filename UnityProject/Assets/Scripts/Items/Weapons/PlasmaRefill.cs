@@ -24,7 +24,6 @@ namespace Weapons
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (interaction.TargetObject.gameObject.GetComponent<InteractableStorage>() != null) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)
