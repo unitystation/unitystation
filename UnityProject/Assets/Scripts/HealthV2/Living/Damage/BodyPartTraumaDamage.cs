@@ -56,6 +56,9 @@ namespace HealthV2
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
+		private float damageThreshold = 10f; //How much damage is required before we start worrying about traumas?
+		private float dislocationAutoHealPercent = 50f; //50% chance for joint dislocation to be healed on it's on by the next hit.
+
 		public float CurrentInternalBleedingDamage
 		{
 			get
@@ -76,7 +79,7 @@ namespace HealthV2
 		{
 			if(Severity < DamageSeverity.Bad && ignoreSeverityCheck == false) return;
 			//We use dismember protection chance because it's the most logical value.
-			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance * 100) == false)
+			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance) == false)
 			{
 				if (damageType == TraumaticDamageTypes.SLASH)  currentSlashDamageLevel   += 1;
 				if (damageType == TraumaticDamageTypes.PIERCE) currentPierceDamageLevel  += 1;
@@ -97,7 +100,7 @@ namespace HealthV2
 		{
 			void TakeBluntLogic(BodyPart bodyPart)
 			{
-				if (bodyPart.currentBluntDamageLevel == TraumaDamageLevel.SMALL && DMMath.Prob(50))
+				if (bodyPart.currentBluntDamageLevel == TraumaDamageLevel.SMALL && DMMath.Prob(dislocationAutoHealPercent))
 				{
 					bodyPart.currentBluntDamageLevel = TraumaDamageLevel.NONE;
 					AnnounceJointHealEvent();
