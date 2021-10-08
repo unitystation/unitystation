@@ -534,7 +534,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRespawnPlayer()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) || GameManager.Instance.RespawnCurrentlyAllowed)
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out _, false) || GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			ServerRespawnPlayer();
 		}

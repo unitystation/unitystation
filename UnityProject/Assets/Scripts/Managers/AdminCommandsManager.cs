@@ -51,34 +51,19 @@ namespace AdminCommands
 		/// </summary>
 		/// <param name="sender">The client which sends the command, this is populated by mirror so doesnt need to be manually
 		/// put in the parameters when calling the commands</param>
-		public static bool IsAdmin(NetworkConnectionToClient sender, out ConnectedPlayer player)
+		public static bool IsAdmin(NetworkConnection sender, out ConnectedPlayer player, bool logFailure = true)
 		{
 			player = PlayerList.Instance.GetByConnection(sender);
 			if (PlayerList.Instance.IsAdmin(player) == false)
 			{
-				var message =
-					$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
-					$"Possible hacked client with ip address: {sender?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
-				Logger.LogError(message, Category.Exploits);
-				LogAdminAction(message);
-
-				return false;
-			}
-
-			return true;
-		}
-
-		/// <inheritdoc cref="IsAdmin(NetworkConnectionToClient, out ConnectedPlayer)"/>
-		public static bool IsAdmin(NetworkConnection sender, out ConnectedPlayer player)
-		{
-			player = PlayerList.Instance.GetByConnection(sender);
-			if (PlayerList.Instance.IsAdmin(player) == false)
-			{
-				var message =
-					$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
-					$"Possible hacked client with ip address: {sender?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
-				Logger.LogError(message, Category.Exploits);
-				LogAdminAction(message);
+				if (logFailure)
+				{
+					var message =
+						$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
+						$"Possible hacked client with ip address: {sender?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
+					Logger.LogError(message, Category.Exploits);
+					LogAdminAction(message);
+				}
 
 				return false;
 			}
