@@ -134,6 +134,10 @@ namespace CustomInspectors
 		private void Save()
 		{
 			EditorUtility.SetDirty((Component) thisDevice);
+			if (thisDevice.Master != null)
+			{
+				EditorUtility.SetDirty((Component) thisDevice.Master);
+			}
 			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 		}
 	}

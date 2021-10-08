@@ -159,16 +159,19 @@ namespace HealthV2
 			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 			if(chance >= spillChanceWhenCutPresent)
 			{
-				HealthMaster.DismemberingBodyParts.Add(randomBodyPart);
+				HealthMaster.DismemberBodyPart(randomBodyPart);
 				if(randomCustomBodyPart != null)
 				{
-					HealthMaster.DismemberingBodyParts.Add(randomCustomBodyPart);
+					HealthMaster.DismemberBodyPart(randomCustomBodyPart);
 				}
 			}
 			else
 			{
 				randomBodyPart.ApplyInternalDamage();
-				if(randomCustomBodyPart != null) randomCustomBodyPart.ApplyInternalDamage();
+				if (randomCustomBodyPart != null)
+				{
+					randomCustomBodyPart.ApplyInternalDamage();
+				}
 			}
 
 			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL) StartCoroutine(ExternalBleedingLogic());
@@ -252,7 +255,7 @@ namespace HealthV2
 				BodyPart currentParent = ContainedIn;
 				if(currentParent != null)
 				{
-					currentParent.TakeDamage(null, damageToTake, attackType, damageType, damageSplit: false, false, 0);
+					currentParent.TakeDamage(null, damageToTake, attackType, damageType, organDamageSplit: false, false, 0);
 				}
 			}
 			else
@@ -277,7 +280,7 @@ namespace HealthV2
 			var chance = UnityEngine.Random.Range(0, 100);
 			if(chance < armorChanceModifer)
 			{
-				HealthMaster.DismemberingBodyParts.Add(this);
+				HealthMaster.DismemberBodyPart(this);
 			}
 		}
 
@@ -304,40 +307,16 @@ namespace HealthV2
 					Integrity itemObject = item.ItemObject.OrNull()?.GetComponent<Integrity>();
 					if(itemObject != null) //Incase this is an empty slot
 					{
-						if (itemObject.CannotBeAshed || itemObject.Resistances.Indestructable)
+						if (itemObject.Resistances.FireProof || itemObject.Resistances.Indestructable)
 						{
 							Inventory.ServerDrop(item);
 						}
 					}
-					var organ = item.ItemObject.OrNull()?.GetComponent<BodyPart>();
-					if (organ != null)
-					{
-						if (organ.gibsEntireBodyOnRemoval)
-						{
-							HealthMaster.Gib();
-							return;
-						}
-						if (organ.DeathOnRemoval)
-						{
-							HealthMaster.Death();
-						}
-					}
-				}
-				if (DeathOnRemoval && HealthMaster != null)
-				{
-					HealthMaster.Death();
 				}
 
-				try
-				{
-					_ = Spawn.ServerPrefab(OrganStorage.AshPrefab,
-						HealthMaster.gameObject.RegisterTile().WorldPosition);
-					_ = Despawn.ServerSingle(this.gameObject);
-				}
-				catch (NullReferenceException exception)
-				{
-					Logger.LogError("Caught a NRE in BodyPartTraumaDamage.AshBodyPart() ", Category.Health);
-				}
+				_ = Spawn.ServerPrefab(OrganStorage.AshPrefab, HealthMaster.RegisterTile.WorldPosition);
+				HealthMaster.DismemberBodyPart(this);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 

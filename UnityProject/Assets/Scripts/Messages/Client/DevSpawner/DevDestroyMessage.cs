@@ -1,5 +1,6 @@
-﻿using Mirror;
-using UnityEngine;
+﻿using UnityEngine;
+using Mirror;
+
 
 namespace Messages.Client.DevSpawner
 {
@@ -12,8 +13,6 @@ namespace Messages.Client.DevSpawner
 		{
 			// Net ID of the object to destroy
 			public uint ToDestroy;
-			public string AdminId;
-			public string AdminToken;
 
 			public override string ToString()
 			{
@@ -26,10 +25,9 @@ namespace Messages.Client.DevSpawner
 			ValidateAdmin(msg);
 		}
 
-		void ValidateAdmin(NetMessage msg)
+		private void ValidateAdmin(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
 			if (msg.ToDestroy.Equals(NetId.Invalid))
 			{
@@ -43,7 +41,7 @@ namespace Messages.Client.DevSpawner
 
 				Vector2Int worldPos = NetworkObject.transform.position.To2Int();
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-					$"{admin.Player().Username} destroyed a {NetworkObject} at {worldPos}", msg.AdminId);
+					$"{SentByPlayer.Username} destroyed a {NetworkObject} at {worldPos}", SentByPlayer.UserId);
 				_ = Despawn.ServerSingle(NetworkObject);
 			}
 		}
@@ -52,17 +50,13 @@ namespace Messages.Client.DevSpawner
 		/// Ask the server to destroy a specific object
 		/// </summary>
 		/// <param name="toClone">GameObject to destroy, must have a network identity</param>
-		/// <param name="adminId">user id of the admin trying to perform this action</param>
-		/// <param name="adminToken">token of the admin trying to perform this action</param>
 		/// <returns></returns>
-		public static void Send(GameObject toClone, string adminId, string adminToken)
+		public static void Send(GameObject toClone)
 		{
 
 			NetMessage msg = new NetMessage
 			{
 				ToDestroy = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
-				AdminId = adminId,
-				AdminToken = adminToken
 			};
 			Send(msg);
 		}

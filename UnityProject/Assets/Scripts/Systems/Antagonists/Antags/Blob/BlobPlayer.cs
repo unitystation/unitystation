@@ -715,7 +715,7 @@ namespace Blob
 
 					foreach (var playerDamage in currentStrain.playerDamages)
 					{
-						npcPlayerComponent.ApplyDamageToRandom(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
+						npcPlayerComponent.ApplyDamageToBodyPart(gameObject, playerDamage.damageDone, AttackType.Melee, playerDamage.damageType);
 					}
 
 					PlayAttackEffect(pos);

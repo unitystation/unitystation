@@ -1,6 +1,7 @@
 ﻿using System;
-using Mirror;
 using UnityEngine;
+using Mirror;
+
 
 namespace Messages.Client.DevSpawner
 {
@@ -15,8 +16,6 @@ namespace Messages.Client.DevSpawner
 			public Guid PrefabAssetID;
 			// position to spawn at.
 			public Vector2 WorldPosition;
-			public string AdminId;
-			public string AdminToken;
 
 			public override string ToString()
 			{
@@ -29,16 +28,16 @@ namespace Messages.Client.DevSpawner
 			ValidateAdmin(msg);
 		}
 
-		void ValidateAdmin(NetMessage msg)
+		private void ValidateAdmin(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
+
 			//no longer checks impassability, spawn anywhere, go hog wild.
 			if (ClientScene.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
 			{
 				Spawn.ServerPrefab(prefab, msg.WorldPosition);
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-					$"{admin.Player().Username} spawned a {prefab.name} at {msg.WorldPosition}", msg.AdminId);
+					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.UserId);
 			}
 			else
 			{
@@ -46,7 +45,6 @@ namespace Messages.Client.DevSpawner
 				                        " is not found in Mirror.ClientScene. Spawn will not" +
 				                        " occur.", Category.Admin, msg.PrefabAssetID);
 			}
-
 		}
 
 		/// <summary>
@@ -57,7 +55,7 @@ namespace Messages.Client.DevSpawner
 		/// <param name="adminId">user id of the admin trying to perform this action</param>
 		/// <param name="adminToken">token of the admin trying to perform this action</param>
 		/// <returns></returns>
-		public static void Send(GameObject prefab, Vector2 worldPosition, string adminId, string adminToken)
+		public static void Send(GameObject prefab, Vector2 worldPosition)
 		{
 			if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 			{
@@ -65,15 +63,14 @@ namespace Messages.Client.DevSpawner
 				{
 					PrefabAssetID = networkIdentity.assetId,
 					WorldPosition = worldPosition,
-					AdminId = adminId,
-					AdminToken = adminToken
 				};
 				Send(msg);
 			}
 			else
 			{
-				Logger.LogWarningFormat("Prefab {0} which you are attempting to spawn has no NetworkIdentity, thus cannot" +
-				                        " be spawned.", Category.Admin, prefab);
+				Logger.LogWarningFormat(
+						"Prefab {0} which you are attempting to spawn has no NetworkIdentity, thus cannot be spawned.",
+						Category.Admin, prefab);
 			}
 		}
 	}

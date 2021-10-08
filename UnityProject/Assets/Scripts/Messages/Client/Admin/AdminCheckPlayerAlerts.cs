@@ -1,5 +1,5 @@
-﻿using Messages.Client;
-using Mirror;
+﻿using Mirror;
+
 
 namespace Messages.Client.Admin
 {
@@ -7,20 +7,18 @@ namespace Messages.Client.Admin
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string PlayerId;
 			public int CurrentCount;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.playerAlerts.ServerRequestEntries(msg.PlayerId, msg.CurrentCount, SentByPlayer.Connection);
+			UIManager.Instance.playerAlerts.ServerRequestEntries(SentByPlayer.UserId, msg.CurrentCount, SentByPlayer.Connection);
 		}
 
-		public static NetMessage Send(string playerId, int currentCount)
+		public static NetMessage Send(int currentCount)
 		{
 			NetMessage msg = new NetMessage
 			{
-				PlayerId = playerId,
 				CurrentCount = currentCount
 			};
 

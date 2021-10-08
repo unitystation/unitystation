@@ -345,21 +345,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// True if this player is a ghost, meaning they exist in the ghost layer
 	/// </summary>
-	public bool IsGhost
-	{
-		get
-		{
-			try
-			{
-				return gameObject == null || PlayerUtils.IsGhost(gameObject);
-			}
-			catch (NullReferenceException exception)
-			{
-				Logger.LogError("Caught an NRE in PlayerScript.IsGhost() " + exception.Message, Category.Mobs);
-				return true; //might as well consider it a ghost then
-			}
-		}
-	}
+	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
 
 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body

@@ -9,17 +9,18 @@ using UnityEngine;
 using Mirror;
 using Audio.Containers;
 using ScriptableObjects;
+using AdminCommands;
 using Antagonists;
 using Systems.Atmospherics;
 using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
-using Objects.Research;
 using Player.Movement;
 using Shuttles;
 using UI.Core;
 using UI.Items;
+
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -371,13 +372,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdVetoRestartVote(string adminId, string adminToken)
+	public void CmdVetoRestartVote()
 	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out var player))
+		{
+			if (VotingManager.Instance == null) return;
 
-		if (VotingManager.Instance == null) return;
-		VotingManager.Instance.VetoVote(adminId);
+			VotingManager.Instance.VetoVote(player.ClientId);
+		}
 	}
 
 	/// <summary>
@@ -530,16 +532,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// Respawn action for Deathmatch v 0.1.3
 
 	[Command]
-	public void CmdRespawnPlayer(string adminID, string adminToken)
+	public void CmdRespawnPlayer()
 	{
-		if (GameManager.Instance.RespawnCurrentlyAllowed ||
-		    PlayerList.Instance.GetAdmin(adminID, adminToken))
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) || GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			ServerRespawnPlayer();
-		}
-		else
-		{
-			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.", Category.Exploits);
 		}
 	}
 
@@ -848,17 +845,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	#region Admin-only
 
 	[Command]
-	public void CmdAGhost(string adminId, string adminToken)
+	public void CmdAGhost()
 	{
-		ServerAGhost(adminId, adminToken);
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out _))
+		{
+			ServerAGhost();
+		}
 	}
 
 	[Server]
-	public void ServerAGhost(string adminId, string adminToken)
+	public void ServerAGhost()
 	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
 		if (!playerScript.IsGhost || playerScript.IsPlayerSemiGhost)//admin turns into ghost
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
@@ -872,10 +869,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
+	public void CmdAdminMakeHotspot(GameObject onObject)
 	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) == false) return;
+
 		if (onObject == null) return;
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
 		if (reactionManager == null) return;
@@ -888,29 +885,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdAdminSmash(GameObject toSmash, string adminId, string adminToken)
+	public void CmdAdminSmash(GameObject toSmash)
 	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) == false) return;
 
-		if (toSmash == null)
-		{
-			return;
-		}
+		if (toSmash == null) return;
 
 		var integrity = toSmash.GetComponent<Integrity>();
-		if (integrity == null)
-		{
-			return;
-		}
+		if (integrity == null) return;
 
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
 	[Command]
-	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
+	public void CmdGetAdminOverlayFullUpdate()
 	{
-		AdminOverlay.RequestFullUpdate(adminId, adminToken);
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out var player))
+		{
+			AdminOverlay.RequestFullUpdate(player);
+		}
 	}
 
 	#endregion

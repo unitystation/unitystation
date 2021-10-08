@@ -1,5 +1,5 @@
-﻿using Messages.Client;
-using Mirror;
+﻿using Mirror;
+
 
 namespace Messages.Client.Admin
 {
@@ -7,8 +7,6 @@ namespace Messages.Client.Admin
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string Userid;
-			public string AdminToken;
 			public string UserToPromote;
 		}
 
@@ -17,24 +15,20 @@ namespace Messages.Client.Admin
 			VerifyAdminStatus(msg);
 		}
 
-		void VerifyAdminStatus(NetMessage msg)
+		private void VerifyAdminStatus(NetMessage msg)
 		{
-			var player = PlayerList.Instance.GetAdmin(msg.Userid, msg.AdminToken);
-			if (player != null)
-			{
-				PlayerList.Instance.ProcessAdminEnableRequest(msg.Userid, msg.UserToPromote);
-				var user = PlayerList.Instance.GetByUserID(msg.UserToPromote);
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-					$"{player.Player().Username} made {user.Name} an admin. Users ID is: {msg.UserToPromote}", msg.Userid);
-			}
+			if (IsFromAdmin() == false) return;
+
+			PlayerList.Instance.ProcessAdminEnableRequest(SentByPlayer.UserId, msg.UserToPromote);
+			var user = PlayerList.Instance.GetByUserID(msg.UserToPromote);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+					$"{SentByPlayer.Username} made {user.Name} an admin. Users ID is: {msg.UserToPromote}", SentByPlayer.UserId);
 		}
 
-		public static NetMessage Send(string userId, string adminToken, string userIDToPromote)
+		public static NetMessage Send(string userIDToPromote)
 		{
 			NetMessage msg = new NetMessage
 			{
-				Userid = userId,
-				AdminToken = adminToken,
 				UserToPromote= userIDToPromote,
 			};
 

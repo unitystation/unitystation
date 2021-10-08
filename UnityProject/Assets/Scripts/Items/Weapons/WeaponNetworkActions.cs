@@ -140,11 +140,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 				// The attack hit.
 				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 				{
-					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
-					if(DMMath.Prob(traumaDamageChance))
-					{
-						victimHealth.ApplyTraumaDamage(damageZone, tramuticDamageType);
-					}
+					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 					didHit = true;
 				}
 				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))

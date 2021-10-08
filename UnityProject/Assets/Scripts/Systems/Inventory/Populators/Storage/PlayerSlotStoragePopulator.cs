@@ -55,7 +55,7 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 					    && entry.NamedSlot == NamedSlot.uniform
 					    && skirtVariant != null)
 					{
-						var spawnskirt = Spawn.ServerPrefab(skirtVariant);
+						var spawnskirt = Spawn.ServerPrefab(skirtVariant, PrePickRandom: true);
 						Inventory.ServerAdd(spawnskirt.GameObject, slot, entry.ReplacementStrategy, true );
 						spawnskirt.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
 						PopulateSubInventory(spawnskirt.GameObject, entry.namedSlotPopulatorEntrys);
@@ -83,13 +83,13 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 								break;
 						}
 
-						var spawnbackpack = Spawn.ServerPrefab(spawnThing);
+						var spawnbackpack = Spawn.ServerPrefab(spawnThing, PrePickRandom: true);
 						Inventory.ServerAdd(spawnbackpack.GameObject, slot, entry.ReplacementStrategy, true );
 						spawnbackpack.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
 						PopulateSubInventory(spawnbackpack.GameObject, entry.namedSlotPopulatorEntrys);
 						break;
 					}
-					var spawn = Spawn.ServerPrefab(entry.Prefab);
+					var spawn = Spawn.ServerPrefab(entry.Prefab, PrePickRandom: true);
 					Inventory.ServerAdd(spawn.GameObject, slot, entry.ReplacementStrategy, true );
 					spawn.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
 					PopulateSubInventory(spawn.GameObject, entry.namedSlotPopulatorEntrys);
@@ -124,7 +124,7 @@ public class PlayerSlotStoragePopulator : ItemStoragePopulator
 			}
 			if (ItemSlot == null) continue;
 
-			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab);
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 			Inventory.ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
 			Inventory.PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
 		}

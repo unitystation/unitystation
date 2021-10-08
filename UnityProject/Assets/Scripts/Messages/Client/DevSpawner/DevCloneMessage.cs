@@ -14,8 +14,6 @@ namespace Messages.Client.DevSpawner
 			public uint ToClone;
 			// position to spawn at.
 			public Vector2 WorldPosition;
-			public string AdminId;
-			public string AdminToken;
 
 			public override string ToString()
 			{
@@ -28,10 +26,9 @@ namespace Messages.Client.DevSpawner
 			ValidateAdmin(msg);
 		}
 
-		void ValidateAdmin(NetMessage msg)
+		private void ValidateAdmin(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
 			if (msg.ToClone.Equals(NetId.Invalid))
 			{
@@ -44,7 +41,7 @@ namespace Messages.Client.DevSpawner
 				{
 					Spawn.ServerClone(NetworkObject, msg.WorldPosition);
 					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-						$"{admin.Player().Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", msg.AdminId);
+						$"{SentByPlayer.Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", SentByPlayer.UserId);
 				}
 			}
 		}
@@ -54,18 +51,14 @@ namespace Messages.Client.DevSpawner
 		/// </summary>
 		/// <param name="toClone">GameObject to clone, must have a network identity</param>
 		/// <param name="worldPosition">world position to spawn it at</param>
-		/// <param name="adminId">user id of the admin trying to perform this action</param>
-		/// <param name="adminToken">token of the admin trying to perform this action</param>
 		/// <returns></returns>
-		public static void Send(GameObject toClone, Vector2 worldPosition, string adminId, string adminToken)
+		public static void Send(GameObject toClone, Vector2 worldPosition)
 		{
 
 			NetMessage msg = new NetMessage
 			{
 				ToClone = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				WorldPosition = worldPosition,
-				AdminId = adminId,
-				AdminToken = adminToken
 			};
 
 			Send(msg);

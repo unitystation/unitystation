@@ -1,26 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DatabaseAPI;
-using Messages.Client.VariableViewer;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Messages.Client.VariableViewer;
 
-public class SUBBookShelf : MonoBehaviour
+
+namespace AdminTools.VariableViewer
 {
-  	public Text Name;
-
-	private VariableViewerNetworking.IDnName _IDANName;
-	public VariableViewerNetworking.IDnName IDANName
+	public class SUBBookShelf : MonoBehaviour
 	{
-		get { return _IDANName; }
-		set
-		{
-			Name.text = value.SN;
-			_IDANName = value;
-		}
-	}
+		public Text Name;
 
-	public void OpenBookshelf() {
-		RequestBookshelfNetMessage.Send(_IDANName.ID, true, ServerData.UserID, PlayerList.Instance.AdminToken);
+		private VariableViewerNetworking.IDnName _IDANName;
+		public VariableViewerNetworking.IDnName IDANName {
+			get { return _IDANName; }
+			set {
+				Name.text = value.SN;
+				_IDANName = value;
+			}
+		}
+
+		public void OpenBookshelf()
+		{
+			RequestBookshelfNetMessage.Send(_IDANName.ID, true);
+		}
 	}
 }

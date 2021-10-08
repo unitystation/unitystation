@@ -453,7 +453,7 @@ namespace Items.PDA
 
 			if (cost > UplinkTC) return;
 
-			var result = Spawn.ServerPrefab(objectRequested,GetComponent<Pickupable>().ItemSlot.Player.WorldPosition);
+			var result = Spawn.ServerPrefab(objectRequested,GetComponent<Pickupable>().ItemSlot.Player.WorldPosition, PrePickRandom: true);
 			if (result.Successful)
 			{
 				UplinkTC -= cost;

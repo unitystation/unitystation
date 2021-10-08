@@ -10,7 +10,7 @@ namespace Construction.Conveyors
 {
 	[SelectionBase]
 	[ExecuteInEditMode]
-	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable
+	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerSpawn
 	{
 		private readonly Vector2Int[] searchDirs =
 		{
@@ -44,15 +44,14 @@ namespace Construction.Conveyors
 			registerTile = GetComponent<RegisterTile>();
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			UpdateState();
+		}
+
 		private void OnValidate()
 		{
 			if (Application.isPlaying) return;
-			RefreshSprites();
-		}
-
-		public override void OnStartServer()
-		{
-			base.OnStartServer();
 			RefreshSprites();
 		}
 

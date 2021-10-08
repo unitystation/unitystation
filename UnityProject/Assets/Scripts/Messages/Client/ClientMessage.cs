@@ -11,7 +11,7 @@ namespace Messages.Client
 		public ConnectedPlayer SentByPlayer;
 		public override void Process(NetworkConnection sentBy, T msg)
 		{
-			SentByPlayer = PlayerList.Instance.Get( sentBy );
+			SentByPlayer = PlayerList.Instance.Get(sentBy);
 			base.Process(sentBy, msg);
 		}
 
@@ -23,6 +23,16 @@ namespace Messages.Client
 		public static void SendUnreliable(T msg)
 		{
 			NetworkClient.Send(msg, 1);
+		}
+
+		internal bool IsFromAdmin()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				return PlayerList.Instance.IsAdmin(SentByPlayer);
+			}
+
+			return PlayerList.Instance.IsClientAdmin;
 		}
 
 		private static uint LocalPlayerId()
