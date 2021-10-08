@@ -139,6 +139,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public int ServerCurrentFPS;
 	public int ServerAverageFPS;
+	public int errorCounter;
+	public int uniqueErrorCounter;
 
 	void IInitialise.Initialise()
 	{

@@ -35,7 +35,6 @@ namespace Objects.Disposals
 		Handle = 3
 	}
 
-	[ExecuteInEditMode]
 	public class DisposalBin : DisposalMachine, IServerDespawn, IExaminable, ICheckedInteractable<MouseDrop>
 	{
 		private const int CHARGED_PRESSURE = 600; // kPa
@@ -48,6 +47,12 @@ namespace Objects.Disposals
 		private AddressableAudioSource AirFlapSound = null;
 		[SerializeField]
 		private AddressableAudioSource FlushSound = null;
+		[SerializeField]
+		[Tooltip("The sound when throwing things in the bin.")]
+		private List<AddressableAudioSource> trashDunkSounds = null;
+		[SerializeField]
+		[Tooltip("The sound when the item doesn't fall into the trash can.")]
+		private AddressableAudioSource trashDunkMissSound = null;
 
 		private string runLoopGUID = "";
 
@@ -82,15 +87,9 @@ namespace Objects.Disposals
 		public bool Screwdriverable => MachineSecured && (PowerDisconnected || PowerOff);
 		public int ChargePressure => chargePressure;
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
-		public bool ServerHasContents => virtualContainer != null ? virtualContainer.HasContents : false;
+		public bool ServerHasContents => virtualContainer != null && virtualContainer.HasContents;
 
-		private float RandomDunkPitch => Random.Range( 0.7f, 1.2f );
-
-		[Tooltip("The sound when throwing things in the bin.")] [SerializeField]
-		private List<AddressableAudioSource> trashDunkSounds = null;
-
-		[Tooltip("The sound when the item doesn't fall into the trash can.")] [SerializeField]
-		private AddressableAudioSource trashDunkMissSound = null;
+		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
 
 		#region Lifecycle
 
@@ -101,11 +100,13 @@ namespace Objects.Disposals
 			overlaysSpriteHandler = transform.GetChild(1).GetComponent<SpriteHandler>();
 		}
 
-		public override void OnStartServer()
+		public override void OnSpawnServer(SpawnInfo info)
 		{
 			// Assume bin starts unanchored and therefore UI is inaccessable.
 			netTab.enabled = false;
-			base.OnStartServer();
+			UpdateSpriteBinState();
+
+			base.OnSpawnServer(info);
 		}
 
 		protected override void SpawnMachineAsInstalled()
@@ -228,7 +229,8 @@ namespace Objects.Disposals
 			}
 			else if (MachineSecured)
 			{
-				StoreItem();
+				Inventory.ServerDrop(interaction.HandSlot, interaction.TargetVector);
+				StoreItem(interaction.UsedObject);
 			}
 		}
 
@@ -301,47 +303,34 @@ namespace Objects.Disposals
 		#endregion Interactions
 
 		// gives the probability of an object falling into the bin. Yes, it's like basketball
-		public void OnFlyingObjectHit(GameObject obj)
+		public void OnFlyingObjectHit(GameObject item)
 		{
-			if (MachineSecured == false)
-			{
-				return;
-			}
-			var bin = gameObject;
+			if (MachineSecured == false) return;
+
 			if (DMMath.Prob(25))
 			{
-				Chat.AddLocalMsgToChat(obj.ExpensiveName() + " bounces off " + bin.ExpensiveName() + " and doesn't go inside.", bin);
-				AudioSourceParameters dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
-				SoundManager.PlayNetworkedAtPos(trashDunkMissSound, gameObject.WorldPosServer(), dunkMissParameters);
+				Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!", gameObject);
+				var dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
+				SoundManager.PlayNetworkedAtPos(trashDunkMissSound, registerObject.WorldPositionServer, dunkMissParameters);
 				return;
 			}
-			Chat.AddLocalMsgToChat(obj.ExpensiveName() + " went straight into " + bin.ExpensiveName() + "!", bin);
-			StoreItem(obj);
+
+			Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!", gameObject);
+			StoreItem(item);
 		}
 
-		private void StoreItem(GameObject obj)
+		private void StoreItem(GameObject item)
 		{
 			if (virtualContainer == null)
 			{
 				virtualContainer = SpawnNewContainer();
 			}
 
-			virtualContainer.AddItem(obj.GetComponent<ObjectBehaviour>());
+			virtualContainer.AddItem(item.GetComponent<ObjectBehaviour>());
 			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer(), dunkParameters);
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
-		}
-
-		private void StoreItem(ItemSlot handSlot, GameObject handObject, Vector2 targetVector2)
-		{
-			Inventory.ServerDrop(handSlot, targetVector2);
-			StoreItem(handObject);
-		}
-
-		private void StoreItem()
-		{
-			StoreItem(currentInteraction.HandSlot, currentInteraction.HandObject, currentInteraction.TargetVector);
 		}
 
 		// TODO This was copied from somewhere. Where?

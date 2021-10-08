@@ -25,7 +25,7 @@ public class StoragePopulator : ItemStoragePopulator
 		foreach (var gameObject in DeprecatedContents)
 		{
 			var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
-			var spawn = Spawn.ServerPrefab(gameObject);
+			var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true);
 			Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints:  true );
 		}
 
@@ -46,7 +46,7 @@ public class StoragePopulator : ItemStoragePopulator
 			}
 			if (ItemSlot == null) continue;
 
-			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab);
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 			Inventory.ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
 			Inventory.PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
 		}
@@ -73,7 +73,7 @@ public class PrefabListPopulater : IItemStoragePopulator
 		foreach (var gameObject in DeprecatedContents)
 		{
 			var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
-			var spawn = Spawn.ServerPrefab(gameObject);
+			var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true);
 			Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints:  true );
 		}
 
@@ -92,7 +92,7 @@ public class PrefabListPopulater : IItemStoragePopulator
 			}
 			if (ItemSlot == null) continue;
 
-			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab);
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 			Inventory.ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
 			Inventory.PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
 		}

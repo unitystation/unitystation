@@ -79,29 +79,6 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 	}
 
-	//TODO Update mirror
-	public static void ManuallyLoadScene(string ToLoad)
-	{
-		Instance.StartCoroutine(Instance.WaitLoad(ToLoad));
-	}
-
-	IEnumerator WaitLoad(string ToLoad)
-	{
-		while (clientIsLoadingSubscene)
-		{
-			yield return null;
-		}
-		foreach (var ReadyLoaded in Instance.clientLoadedSubScenes)
-		{
-			if (ReadyLoaded.SceneName == ToLoad)
-			{
-				yield break;
-			}
-		}
-		clientIsLoadingSubscene = true;
-		yield return Instance.StartCoroutine(Instance.LoadSubScene(ToLoad));
-		clientIsLoadingSubscene = false;
-	}
 }
 
 public enum SceneType
