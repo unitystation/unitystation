@@ -21,6 +21,7 @@
 		public CraftingActionParameters(bool ignoreToolsAndIngredients, FeedbackType feedback)
 		{
 			this.ignoreToolsAndIngredients = ignoreToolsAndIngredients;
+			this.feedback = feedback;
 		}
 	}
 

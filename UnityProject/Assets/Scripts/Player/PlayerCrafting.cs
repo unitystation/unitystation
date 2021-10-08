@@ -458,6 +458,10 @@ namespace Player
 					return;
 				}
 				else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
+				{
+					GiveClientSidedFeedback(craftingStatus, recipe, false);
+					return;
+				}
 
 				RequestStartCraftingAction.Send(recipe);
 				return;
