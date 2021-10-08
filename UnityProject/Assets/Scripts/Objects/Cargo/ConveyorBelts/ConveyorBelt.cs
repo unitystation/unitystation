@@ -10,7 +10,7 @@ namespace Construction.Conveyors
 {
 	[SelectionBase]
 	[ExecuteInEditMode]
-	public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerSpawn
+	public class ConveyorBelt : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		private readonly Vector2Int[] searchDirs =
 		{
@@ -42,11 +42,6 @@ namespace Construction.Conveyors
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			UpdateState();
 		}
 
 		private void OnValidate()
@@ -141,6 +136,7 @@ namespace Construction.Conveyors
 		public void SetSwitchRef(ConveyorBeltSwitch switchRef)
 		{
 			AssignedSwitch = switchRef;
+			UpdateState();
 		}
 
 		/// <summary>
