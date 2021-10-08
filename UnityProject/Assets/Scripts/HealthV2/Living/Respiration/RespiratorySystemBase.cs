@@ -3,6 +3,7 @@ using Chemistry;
 using Items;
 using NaughtyAttributes;
 using Objects.Atmospherics;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,6 +31,10 @@ namespace HealthV2
 		public bool IsSuffocating => healthStateController.IsSuffocating;
 		public float temperature => healthStateController.Temperature;
 		public float pressure => healthStateController.Pressure;
+
+
+		private const float PLASMA_SAFE_MAX = 0.4F; //maximum amount of plasma in the air before it starts killing you
+		private const float CARBON_DIOXIDE_SAFE_MAX = 10; //maximum amount of CO2 in the air before it starts killing you
 
 
 		private void Awake()
@@ -156,6 +161,27 @@ namespace HealthV2
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Checks for toxic gases and if they excede their maximum range before they become deadly
+		/// </summary>
+		/// <param name="gasMix">the gases the character is breathing in</param>
+		/// <param name="gasType">what type of toxic gas we should check?</param>
+		public void ToxinBreathinCheck(GasMix gasMix, GasSO gasType)
+		{
+			if(CanBreathAnywhere || playerScript == null) return;
+			if(playerScript.Equipment.IsInternalsEnabled) return;
+
+			float pressure = gasMix.GetPressure(gasType);
+			if (gasType == Gas.Plasma && pressure >= PLASMA_SAFE_MAX)
+			{
+				ApplyDamage(pressure, DamageType.Tox);
+			}
+			if (gasType == Gas.CarbonDioxide && pressure >= CARBON_DIOXIDE_SAFE_MAX)
+			{
+				ApplyDamage(pressure, DamageType.Tox);
+			}
 		}
 
 		private void CheckPressureDamage()

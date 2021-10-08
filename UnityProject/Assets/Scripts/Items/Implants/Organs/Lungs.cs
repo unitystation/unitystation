@@ -186,6 +186,8 @@ public class Lungs : Organ
 		var Available = RelatedPart.bloodType.GetGasCapacityOfnonMeanCarrier(blood);
 		var TotalMoles = breathGasMix.Moles;
 
+		RelatedPart.HealthMaster.RespiratorySystem.ToxinBreathinCheck(breathGasMix, Gas.Plasma);
+
 		foreach (var gasValues in breathGasMix.GasData.GasesArray)
 		{
 			var gas = gasValues.GasSO;
