@@ -12,7 +12,8 @@ namespace Construction.Conveyors
 	/// <summary>
 	/// Used for controlling conveyor belts.
 	/// </summary>
-	public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolMultiMasterSlaveable, ICheckedInteractable<AiActivate>
+	public class ConveyorBeltSwitch : MonoBehaviour, IServerLifecycle, IMultitoolMultiMasterSlaveable,
+			ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
 	{
 		[Tooltip("Assign the conveyor belts this switch should control.")]
 		[SerializeField]
@@ -35,16 +36,16 @@ namespace Construction.Conveyors
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
-		private void OnDisable()
-		{
-			if (!isServer) return;
-
-			SetState(SwitchState.Off);
-		}
-
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			SetBeltInfo();
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			// turn off conveyors
+			SetState(SwitchState.Off);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		#endregion Lifecycle
