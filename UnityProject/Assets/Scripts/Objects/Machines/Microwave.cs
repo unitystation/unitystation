@@ -228,19 +228,26 @@ namespace Objects.Kitchen
 
 			// Add held item to the microwave.
 			ItemSlot storageSlot = storage.GetNextFreeIndexedSlot();
-			Stackable stack = interaction.HandSlot.ItemObject.GetComponent<Stackable>();
 			bool added = false;
-			if (stack == null || stack.Amount == 1){
-				added = Inventory.ServerTransfer(interaction.HandSlot, storageSlot);
+			if (interaction.HandSlot.ItemObject.TryGetComponent(out Stackable stack))
+			{
+				if(stack.Amount == 1)
+				{
+					added = Inventory.ServerTransfer(interaction.HandSlot, storageSlot);
+				}
+				else
+				{
+					var item = stack.ServerRemoveOne(); 
+					added = Inventory.ServerAdd(item, storageSlot);
+					if(!added)
+					{
+						stack.ServerIncrease(1); // adds back the lost amount to prevent microwaves from eating stackable items
+					}
+				}
 			}
 			else
 			{
-				var item = stack.ServerRemoveOne(); // might delete the item, i'm not sure
-				added = Inventory.ServerAdd(item, storageSlot);
-				if(!added)
-				{
-					stack.ServerIncrease(1); // adds back the lost amount to prevent microwaves from eating stackable items
-				}
+				added = Inventory.ServerTransfer(interaction.HandSlot, storageSlot);
 			}
 			if (storageSlot == null || added == false)
 			{
