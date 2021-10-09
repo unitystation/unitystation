@@ -188,8 +188,7 @@ public class Lungs : Organ
 		var Available = RelatedPart.bloodType.GetGasCapacityOfnonMeanCarrier(blood);
 		var TotalMoles = breathGasMix.Moles;
 
-		ToxinBreathinCheck(breathGasMix, Gas.Plasma);
-		ToxinBreathinCheck(breathGasMix, Gas.CarbonDioxide);
+		ToxinBreathinCheck(breathGasMix);
 
 		foreach (var gasValues in breathGasMix.GasData.GasesArray)
 		{
@@ -267,7 +266,7 @@ public class Lungs : Organ
     /// </summary>
     /// <param name="gasMix">the gases the character is breathing in</param>
     /// <param name="gasType">what type of toxic gas we should check?</param>
-    public virtual void ToxinBreathinCheck(GasMix gasMix, GasSO gasType)
+    public virtual void ToxinBreathinCheck(GasMix gasMix)
     {
     	if(RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere || RelatedPart.HealthMaster.playerScript == null) return;
         if(RelatedPart.HealthMaster.playerScript.Equipment.IsInternalsEnabled) return;
