@@ -320,7 +320,10 @@ namespace Mirror
 
             if (hasSpawned)
             {
-                Debug.LogError($"{name} has already spawned. Don't call Instantiate for NetworkIdentities that were in the scene since the beginning (aka scene objects).  Otherwise the client won't know which object to use for a SpawnSceneObject message.");
+				// Unitystation edit: add more information
+                Debug.LogError($"{name} in {(transform.parent == null ? "(no parent)" : transform.parent.name)} at position {transform.position} has already spawned. " +
+						$"Don't call Instantiate for NetworkIdentities that were in the scene since the beginning (aka scene objects). " +
+						$"Otherwise the client won't know which object to use for a SpawnSceneObject message.");
                 SpawnedFromInstantiate = true;
                 Destroy(gameObject);
             }

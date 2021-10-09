@@ -142,7 +142,7 @@ namespace UI.Objects.Shuttles
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("Caught NRE in GUI_ShuttleControl.StartNormalOperation: " + exception.Message, Category.Shuttles);
+				Logger.LogError("Caught NRE in GUI_ShuttleControl.StartNormalOperation: " + exception.StackTrace, Category.Shuttles);
 			}
 		}
 		/// <summary>
