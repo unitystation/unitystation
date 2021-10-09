@@ -72,11 +72,9 @@ namespace Systems.CraftingV2
 				{
 					continue;
 				}
-				if(side == NetworkSide.Client)
+				if (side == NetworkSide.Client)
 				{
-					if 
-					(
-						interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
+					if (interaction.PerformerPlayerScript.PlayerCrafting.CanClientCraft(
 						relatedRecipe.Recipe,
 						possibleIngredients,
 						possibleTools
@@ -86,10 +84,9 @@ namespace Systems.CraftingV2
 						return true;
 					}
 				}
-				else if(side == NetworkSide.Server){
-					if 
-					(
-						interaction.PerformerPlayerScript.PlayerCrafting.CanCraft(
+				else if (side == NetworkSide.Server)
+				{
+					if (interaction.PerformerPlayerScript.PlayerCrafting.CanCraft(
 						relatedRecipe.Recipe,
 						possibleIngredients,
 						possibleTools,
