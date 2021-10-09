@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class StatsTab : MonoBehaviour
@@ -11,6 +12,8 @@ public class StatsTab : MonoBehaviour
 	private Text currentMap = default;
 	[SerializeField]
 	private Text gameMode = default;
+	[SerializeField]
+	private Text serverFPS = default;
 
 	void OnEnable()
 	{
@@ -20,6 +23,11 @@ public class StatsTab : MonoBehaviour
 		EventManager.AddHandler(Event.MatrixManagerInit, OnMapInit);
 		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
 		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
+	}
+
+	public void Update()
+	{
+		serverFPS.text = $"{GameManager.Instance.ServerCurrentFPS} - avg: {GameManager.Instance.ServerAverageFPS}";
 	}
 
 	private void OnPreRoundStarted()
