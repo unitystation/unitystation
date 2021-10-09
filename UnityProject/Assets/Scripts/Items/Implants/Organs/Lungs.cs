@@ -23,10 +23,7 @@ public class Lungs : Organ
 	[Tooltip("The minimum pressure needed to avoid suffocation")]
 	[SerializeField] private float pressureSafeMin = 16;
 
-	[Tooltip("The maximum pressure needed to for breathable plasma to start being harmful")] [SerializeField]
-	private float plasmaPressureSafeMax = 0.4F;
-	[Tooltip("The maximum pressure needed to for breathable CO2 to start being harmful")] [SerializeField]
-	private float carbonDioxidePressureSafeMax = 10;
+	[SerializeField] private List<ToxicGases> toxicGasesToLung;
 
 	/// <summary>
 	/// The gas that this tries to put into the blood stream
@@ -270,19 +267,19 @@ public class Lungs : Organ
     /// </summary>
     /// <param name="gasMix">the gases the character is breathing in</param>
     /// <param name="gasType">what type of toxic gas we should check?</param>
-    public void ToxinBreathinCheck(GasMix gasMix, GasSO gasType)
+    public virtual void ToxinBreathinCheck(GasMix gasMix, GasSO gasType)
     {
     	if(RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere || RelatedPart.HealthMaster.playerScript == null) return;
+        if(RelatedPart.HealthMaster.playerScript.Equipment.IsInternalsEnabled) return;
 
-        float pressure = gasMix.GetPressure(gasType);
-    	if (gasType == Gas.Plasma && pressure >= plasmaPressureSafeMax)
-    	{
-	        RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(pressure, DamageType.Tox);
-    	}
-    	if (gasType == Gas.CarbonDioxide && pressure >= carbonDioxidePressureSafeMax)
-    	{
-	        RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(pressure, DamageType.Oxy);
-    	}
+        foreach (ToxicGases gas in toxicGasesToLung)
+        {
+	        float pressure = gasMix.GetPressure(gas.GasType);
+	        if (pressure >= gas.PressureSafeMax)
+	        {
+		        RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(pressure, gas.UnsafeLevelDamageType);
+	        }
+        }
     }
 
 	public override void InternalDamageLogic()
@@ -320,5 +317,14 @@ public class Lungs : Organ
     {
         yield return new WaitForSeconds(internalBleedingCooldown);
         onCooldown = false;
+    }
+
+    [Serializable]
+    class ToxicGases
+    {
+	    public GasSO GasType;
+	    public float PressureSafeMax = 0.4f;
+	    public float UnsafeLevelDamage = 10;
+	    public DamageType UnsafeLevelDamageType = DamageType.Tox;
     }
 }
