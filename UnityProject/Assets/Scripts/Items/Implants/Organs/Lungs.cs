@@ -23,6 +23,11 @@ public class Lungs : Organ
 	[Tooltip("The minimum pressure needed to avoid suffocation")]
 	[SerializeField] private float pressureSafeMin = 16;
 
+	[Tooltip("The maximum pressure needed to for breathable plasma to start being harmful")] [SerializeField]
+	private float plasmaPressureSafeMax = 0.4F;
+	[Tooltip("The maximum pressure needed to for breathable CO2 to start being harmful")] [SerializeField]
+	private float carbonDioxidePressureSafeMax = 10;
+
 	/// <summary>
 	/// The gas that this tries to put into the blood stream
 	/// </summary>
@@ -186,7 +191,8 @@ public class Lungs : Organ
 		var Available = RelatedPart.bloodType.GetGasCapacityOfnonMeanCarrier(blood);
 		var TotalMoles = breathGasMix.Moles;
 
-		RelatedPart.HealthMaster.RespiratorySystem.ToxinBreathinCheck(breathGasMix, Gas.Plasma);
+		ToxinBreathinCheck(breathGasMix, Gas.Plasma);
+		ToxinBreathinCheck(breathGasMix, Gas.CarbonDioxide);
 
 		foreach (var gasValues in breathGasMix.GasData.GasesArray)
 		{
@@ -258,6 +264,26 @@ public class Lungs : Organ
 		//Debug.Log("Gas inhaled: " + toInhale.Total + " Saturation: " + saturation);
 		return toInhale.Total > 0;
 	}
+
+	/// <summary>
+    /// Checks for toxic gases and if they excede their maximum range before they become deadly
+    /// </summary>
+    /// <param name="gasMix">the gases the character is breathing in</param>
+    /// <param name="gasType">what type of toxic gas we should check?</param>
+    public void ToxinBreathinCheck(GasMix gasMix, GasSO gasType)
+    {
+    	if(RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere || RelatedPart.HealthMaster.playerScript == null) return;
+
+        float pressure = gasMix.GetPressure(gasType);
+    	if (gasType == Gas.Plasma && pressure >= plasmaPressureSafeMax)
+    	{
+	        RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(pressure, DamageType.Tox);
+    	}
+    	if (gasType == Gas.CarbonDioxide && pressure >= carbonDioxidePressureSafeMax)
+    	{
+	        RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(pressure, DamageType.Oxy);
+    	}
+    }
 
 	public override void InternalDamageLogic()
 	{

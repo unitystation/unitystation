@@ -33,10 +33,6 @@ namespace HealthV2
 		public float pressure => healthStateController.Pressure;
 
 
-		private const float PLASMA_SAFE_MAX = 0.4F; //maximum amount of plasma in the air before it starts killing you
-		private const float CARBON_DIOXIDE_SAFE_MAX = 10; //maximum amount of CO2 in the air before it starts killing you
-
-
 		private void Awake()
 		{
 			circulatorySystem = GetComponent<CirculatorySystemBase>();
@@ -163,27 +159,6 @@ namespace HealthV2
 			return null;
 		}
 
-		/// <summary>
-		/// Checks for toxic gases and if they excede their maximum range before they become deadly
-		/// </summary>
-		/// <param name="gasMix">the gases the character is breathing in</param>
-		/// <param name="gasType">what type of toxic gas we should check?</param>
-		public void ToxinBreathinCheck(GasMix gasMix, GasSO gasType)
-		{
-			if(CanBreathAnywhere || playerScript == null) return;
-			if(playerScript.Equipment.IsInternalsEnabled) return;
-
-			float pressure = gasMix.GetPressure(gasType);
-			if (gasType == Gas.Plasma && pressure >= PLASMA_SAFE_MAX)
-			{
-				ApplyDamage(pressure, DamageType.Tox);
-			}
-			if (gasType == Gas.CarbonDioxide && pressure >= CARBON_DIOXIDE_SAFE_MAX)
-			{
-				ApplyDamage(pressure, DamageType.Oxy);
-			}
-		}
-
 		private void CheckPressureDamage()
 		{
 			if (pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
@@ -223,7 +198,7 @@ namespace HealthV2
 			return true;
 		}
 
-		private void ApplyDamage(float amount, DamageType damageType)
+		public void ApplyDamage(float amount, DamageType damageType)
 		{
 			//TODO: Figure out what kind of damage low pressure should be doing.
 			healthMaster.ApplyDamageAll(null, amount, AttackType.Internal, damageType);
