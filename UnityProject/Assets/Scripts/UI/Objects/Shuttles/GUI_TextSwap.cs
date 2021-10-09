@@ -11,18 +11,21 @@ namespace UI.Objects.Shuttles
 	public class GUI_TextSwap : MonoBehaviour
 	{
 		[Header("References")]
-		public GUI_ShuttleControl shuttleControlScript;
-		public Text textToSet;
+		[SerializeField]
+		private GUI_ShuttleControl shuttleControlScript = default;
+		[SerializeField]
+		private Text textToSet = default;
 
 		[Header("Settings")]
-		public UISwapDictionary textSetupDict;
+		[SerializeField]
+		private UISwapDictionary textSetupDict = default;
 
-		void Start()
+		private void Start()
 		{
 			if (shuttleControlScript == null || textToSet == null)
 			{
 				Logger.LogError("TextSwap script reference failure!", Category.UI);
-				this.enabled = false;
+				enabled = false;
 				return;
 			}
 
