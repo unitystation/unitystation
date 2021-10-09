@@ -228,7 +228,28 @@ namespace Objects.Kitchen
 
 			// Add held item to the microwave.
 			ItemSlot storageSlot = storage.GetNextFreeIndexedSlot();
-			if (storageSlot == null || Inventory.ServerTransfer(interaction.HandSlot, storageSlot) == false)
+			bool added = false;
+			if (interaction.HandSlot.ItemObject.TryGetComponent(out Stackable stack))
+			{
+				if(stack.Amount == 1)
+				{
+					added = Inventory.ServerTransfer(interaction.HandSlot, storageSlot);
+				}
+				else
+				{
+					var item = stack.ServerRemoveOne(); 
+					added = Inventory.ServerAdd(item, storageSlot);
+					if(!added)
+					{
+						stack.ServerIncrease(1); // adds back the lost amount to prevent microwaves from eating stackable items
+					}
+				}
+			}
+			else
+			{
+				added = Inventory.ServerTransfer(interaction.HandSlot, storageSlot);
+			}
+			if (storageSlot == null || added == false)
 			{
 				Chat.AddActionMsgToChat(interaction, "The microwave's matter bins are full!", string.Empty);
 				return true;
