@@ -64,7 +64,7 @@ public class TileChangeManager : MonoBehaviour
 			}
 			else
 			{
-				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName, entry.transformMatrix, entry.color );
+				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName, entry.orientation, entry.color );
 			}
 		}
 	}
@@ -80,47 +80,34 @@ public class TileChangeManager : MonoBehaviour
 
 	[Server]
 	public void UpdateTile(Vector3Int cellPosition, TileType tileType, string tileName,
-		Matrix4x4? transformMatrix = null, Color? color = null)
+		OrientationEnum orientation = OrientationEnum.Default, Color? color = null)
 	{
-		if (IsDifferent(cellPosition, tileType, tileName, transformMatrix, color))
+		if (IsDifferent(cellPosition, tileType, tileName, color))
 		{
-			InternalUpdateTile(cellPosition, tileType, tileName, transformMatrix, color);
+			InternalUpdateTile(cellPosition, tileType, tileName, orientation, color);
 
-			AlertClients(cellPosition, tileType, tileName, transformMatrix, color);
+			AlertClients(cellPosition, tileType, tileName, orientation, color);
 
-			AddToChangeList(cellPosition, tileType: tileType, tileName: tileName, transformMatrix : transformMatrix , color: color);
+			AddToChangeList(cellPosition, tileType: tileType, tileName: tileName, newOrientation : orientation , color: color);
 		}
 	}
 
 
 	[Server]
-	public Vector3Int UpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
-		Color? color = null)
+	public Vector3Int UpdateTile(Vector3Int cellPosition, LayerTile layerTile,
+		OrientationEnum orientation = OrientationEnum.Default, Color? color = null)
 	{
 		Vector3Int Vector3Int = Vector3Int.zero;
-		if (IsDifferent(cellPosition, layerTile, transformMatrix, color))
+		if (IsDifferent(cellPosition, layerTile, color))
 		{
-			Vector3Int = InternalUpdateTile(cellPosition, layerTile,transformMatrix, color);
+			Vector3Int = InternalUpdateTile(cellPosition, layerTile, orientation, color);
 
-			AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
+			AlertClients(cellPosition, layerTile.TileType, layerTile.name, orientation, color);
 
-			AddToChangeList(cellPosition, layerTile, transformMatrix : transformMatrix , color: color);
+			AddToChangeList(cellPosition, layerTile, newOrientation : orientation , color: color);
 		}
 
 		return Vector3Int;
-	}
-
-	/// <summary>
-	/// Used for the underfloor layer to reduce complexity on the main UpdateTile Function
-	/// </summary>
-	/// <param name="cellPosition"></param>
-	/// <param name="layerTile"></param>
-	[Server]
-	public void UnderfloorUpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
-		Color? color = null)
-	{
-		AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
-		AddToChangeList(cellPosition, layerTile, transformMatrix: transformMatrix, color : color);
 	}
 
 	[Server]
@@ -171,7 +158,7 @@ public class TileChangeManager : MonoBehaviour
 	/// Dynamically adds overlays to tile position
 	/// </summary>
 	[Server]
-	public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+	public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, OrientationEnum orientation = OrientationEnum.Default,
 		Color? color = null)
 	{
 		//use remove methods to remove overlay instead
@@ -187,11 +174,11 @@ public class TileChangeManager : MonoBehaviour
 
 		cellPosition = overlayPos.Value;
 
-		InternalUpdateTile(cellPosition, overlayTile, transformMatrix, color);
+		InternalUpdateTile(cellPosition, overlayTile, orientation, color);
 
-		AlertClients(cellPosition, overlayTile.TileType, overlayTile.OverlayName, transformMatrix, color);
+		AlertClients(cellPosition, overlayTile.TileType, overlayTile.OverlayName, orientation, color);
 
-		AddToChangeList(cellPosition, overlayTile.LayerType,  overlayTile.TileType, overlayTile.OverlayName, transformMatrix : transformMatrix,color : color);
+		AddToChangeList(cellPosition, overlayTile.LayerType,  overlayTile.TileType, overlayTile.OverlayName, orientation, color);
 	}
 
 	/// <summary>
@@ -199,10 +186,10 @@ public class TileChangeManager : MonoBehaviour
 	/// </summary>
 	[Server]
 	public void AddOverlay(Vector3Int cellPosition, TileType tileType, string tileName,
-		Matrix4x4? transformMatrix = null, Color? color = null)
+		OrientationEnum orientation = OrientationEnum.Default, Color? color = null)
 	{
 		var overlayTile = TileManager.GetTile(tileType, tileName) as OverlayTile;
-		AddOverlay(cellPosition, overlayTile, transformMatrix, color);
+		AddOverlay(cellPosition, overlayTile, orientation, color);
 	}
 
 	[Server]
@@ -324,38 +311,33 @@ public class TileChangeManager : MonoBehaviour
 	}
 
 	private void AlertClients(Vector3Int position, TileType tileType, string tileName,
-		Matrix4x4? transformMatrix = null, Color? color = null)
+		OrientationEnum orientation, Color? color = null)
 	{
 		if (color == null)
 		{
 			color = color.GetValueOrDefault(Color.white);
 		}
 
-		if (transformMatrix == null)
-		{
-			transformMatrix = transformMatrix.GetValueOrDefault(Matrix4x4.identity);
-		}
-
-		SpawnSafeThread.UpdateTileMessageSend(networkMatrix.MatrixSync.netId, position, tileType, tileName, (Matrix4x4)transformMatrix, (Color)color);
+		SpawnSafeThread.UpdateTileMessageSend(networkMatrix.MatrixSync.netId, position, tileType, tileName, orientation, (Color)color);
 	}
 
-	public void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,
-		Matrix4x4? transformMatrix = null, Color? color = null)
+	public Vector3Int InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,
+		OrientationEnum orientation, Color? color = null)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
-		metaTileMap.SetTile(position, layerTile, transformMatrix, color);
+		return metaTileMap.SetTile(position, layerTile, orientation, color);
 	}
 
-	public Vector3Int InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+	public Vector3Int InternalUpdateTile(Vector3 position, LayerTile layerTile, OrientationEnum orientation,
 		Color? color = null)
 	{
 		Vector3Int p = position.RoundToInt();
 
-		return metaTileMap.SetTile(p, layerTile, transformMatrix, color);
+		return metaTileMap.SetTile(p, layerTile, orientation, color);
 	}
 
 	private void AddToChangeList(Vector3Int position, LayerType layerType = LayerType.None,
-		TileType tileType = TileType.None, string tileName = null, Matrix4x4? transformMatrix = null,
+		TileType tileType = TileType.None, string tileName = null, OrientationEnum newOrientation = OrientationEnum.Default,
 		Color? color = null)
 	{
 		changeList.List.Add(new TileChangeEntry()
@@ -364,13 +346,13 @@ public class TileChangeManager : MonoBehaviour
 			LayerType = layerType,
 			TileType = tileType,
 			TileName = tileName,
-			transformMatrix = transformMatrix,
+			orientation = newOrientation,
 			color = color
 		});
 	}
 
 	private void AddToChangeList(Vector3Int position, LayerTile layerTile, LayerType layerType = LayerType.None,
-		Matrix4x4? transformMatrix = null, Color? color = null)
+		OrientationEnum newOrientation = OrientationEnum.Default, Color? color = null)
 	{
 		changeList.List.Add(new TileChangeEntry()
 		{
@@ -378,23 +360,21 @@ public class TileChangeManager : MonoBehaviour
 			LayerType = layerType,
 			TileType = layerTile.TileType,
 			TileName = layerTile.name,
-			transformMatrix = transformMatrix,
+			orientation = newOrientation,
 			color = color
 		});
 	}
 
-	private bool IsDifferent(Vector3Int position, TileType tileType, string tileName, Matrix4x4? transformMatrix = null,
-		Color? color = null)
+	private bool IsDifferent(Vector3Int position, TileType tileType, string tileName, Color? color = null)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
-		return IsDifferent(position, layerTile, transformMatrix, color);
+		return IsDifferent(position, layerTile, color);
 	}
 
-	private bool IsDifferent(Vector3Int position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
-		Color? color = null)
+	private bool IsDifferent(Vector3Int position, LayerTile layerTile, Color? color = null)
 	{
-		return metaTileMap.IsDifferent(position, layerTile, layerTile.LayerType, transformMatrix, color);
+		return metaTileMap.IsDifferent(position, layerTile, layerTile.LayerType, color);
 	}
 
 }
@@ -424,7 +404,7 @@ public class TileChangeEntry
 
 	public string TileName;
 
-	public Matrix4x4? transformMatrix;
+	public OrientationEnum orientation;
 
 	public Vector4? color;
 

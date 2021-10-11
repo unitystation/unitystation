@@ -497,7 +497,7 @@ public class Matrix : MonoBehaviour
 
 		if (Tile != null)
 		{
-			TileChangeManager.UpdateTile(position, Tile, Matrix4x4.identity, Color.white);
+			TileChangeManager.UpdateTile(position, Tile);
 		}
 	}
 

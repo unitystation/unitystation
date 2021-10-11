@@ -10,8 +10,8 @@ public static class SpawnSafeThread
 {
 	private static ConcurrentQueue<SpawnSafeThreadData> prefabsToSpawn = new ConcurrentQueue<SpawnSafeThreadData>();
 
-	private static ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>> tilesToUpdate
-		= new ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>>();
+	private static ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, OrientationEnum, Color, LayerType>> tilesToUpdate
+		= new ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, OrientationEnum, Color, LayerType>>();
 
 	private static ConcurrentQueue<Tuple<uint, Vector3Int, LayerType>> tilesToRemove
 		= new ConcurrentQueue<Tuple<uint, Vector3Int, LayerType>>();
@@ -41,7 +41,7 @@ public static class SpawnSafeThread
 
 		if (!tilesToUpdate.IsEmpty)
 		{
-			Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType> tuple;
+			Tuple<uint, Vector3Int, TileType, string, OrientationEnum, Color, LayerType> tuple;
 			while (tilesToUpdate.TryDequeue(out tuple))
 			{
 				UpdateTileMessage.Send(tuple.Item1, tuple.Item2, tuple.Item3, tuple.Item4, tuple.Item5, tuple.Item6,
@@ -67,11 +67,11 @@ public static class SpawnSafeThread
 	}
 
 	public static void UpdateTileMessageSend(uint matrixSyncNetID, Vector3Int position, TileType tileType,
-		string tileName, Matrix4x4 transformMatrix, Color colour)
+		string tileName, OrientationEnum orientation, Color colour)
 	{
 		tilesToUpdate.Enqueue(
-			new Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>
-				(matrixSyncNetID, position, tileType, tileName, transformMatrix, colour, LayerType.None));
+			new Tuple<uint, Vector3Int, TileType, string, OrientationEnum, Color, LayerType>
+				(matrixSyncNetID, position, tileType, tileName, orientation, colour, LayerType.None));
 	}
 
 	public static void RemoveTileMessageSend(uint matrixSyncNetID, Vector3Int cellPosition, LayerType layerType)

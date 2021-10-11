@@ -16,7 +16,7 @@ namespace Messages.Server
 		}
 
 		//just a best guess, try increasing it until the message exceeds mirror's limit
-		private static readonly int MAX_CHANGES_PER_MESSAGE = 20; // 25 caused issues
+		private static readonly int MAX_CHANGES_PER_MESSAGE = 200; // 25 caused issues
 
 		public override void Process(NetMessage msg)
 		{

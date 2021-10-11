@@ -87,7 +87,7 @@ public class LevelBrush : GridBrush
 			}
 			else
 			{
-				layer.GetComponent<Layer>().SetTile(position, null, Matrix4x4.identity, Color.white);
+				layer.GetComponent<Layer>().SetTile(position, null, OrientationEnum.Default, Color.white);
 			}
 		}
 	}
@@ -114,8 +114,8 @@ public class LevelBrush : GridBrush
 	{
 		foreach (LayerTile tile in metaTile.GetTiles())
 		{
-			//metaTileMap.RemoveTileWithlayer(position, tile.LayerType);
-			metaTileMap.SetTile(position, tile, cells[0].matrix, isPlaying: false);
+			var orientation = Orientation.GetOrientation(cells[0].matrix.rotation.z).AsEnum();
+			metaTileMap.SetTile(position, tile, orientation, isPlaying: false);
 		}
 	}
 
@@ -132,6 +132,7 @@ public class LevelBrush : GridBrush
 			SetTile(metaTileMap, position, requiredTile);
 		}
 
-		metaTileMap.SetTile(position, tile, cells[0].matrix, cells[0].color, isPlaying: false);
+		var orientation = Orientation.GetOrientation(cells[0].matrix.rotation.z).AsEnum();
+		metaTileMap.SetTile(position, tile, orientation, cells[0].color, isPlaying: false);
 	}
 }

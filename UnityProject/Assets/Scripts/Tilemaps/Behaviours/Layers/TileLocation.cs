@@ -43,6 +43,8 @@ namespace TileManagement
 			}
 		}
 
+		public OrientationEnum orientation;
+
 		private Matrix4x4 transformMatrix = Matrix4x4.identity;
 
 		public Matrix4x4 TransformMatrix

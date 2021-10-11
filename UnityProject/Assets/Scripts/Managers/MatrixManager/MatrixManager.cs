@@ -12,6 +12,7 @@ using Systems.Atmospherics;
 using Objects.Construction;
 using Player.Movement;
 using Mirror;
+using Messages.Client.NewPlayer;
 
 /// <summary>
 /// Defines collision type we expect
@@ -180,6 +181,7 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			var subsystemManager = matrixInfo.Matrix.GetComponentInParent<SubsystemManager>();
 			subsystemManager.Initialize();
+			TileChangeNewPlayer.Send(matrixInfo.NetID);
 		}
 	}
 

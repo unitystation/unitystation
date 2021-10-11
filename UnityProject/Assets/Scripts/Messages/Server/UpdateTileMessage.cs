@@ -12,7 +12,7 @@ namespace Messages.Server
 			public TileType TileType;
 			public LayerType LayerType;
 			public string TileName;
-			public Matrix4x4 TransformMatrix;
+			public OrientationEnum Orientation;
 			public Color Colour;
 			public uint MatrixSyncNetID;
 		}
@@ -25,17 +25,17 @@ namespace Messages.Server
 			public TileType TileType;
 			public LayerType layerType;
 			public string TileName;
-			public Matrix4x4 TransformMatrix;
+			public OrientationEnum Orientation;
 			public Color Colour;
 			public uint MatrixSyncNetID;
 
-			public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName, Matrix4x4 inTransformMatrix,
+			public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName, OrientationEnum orientation,
 				Color inColour, uint inMatrixSyncNetID, LayerType inlayerType)
 			{
 				Position = inPosition;
 				TileType = inTileType;
 				TileName = inTileName;
-				TransformMatrix = inTransformMatrix;
+				Orientation = orientation;
 				Colour = inColour;
 				MatrixSyncNetID = inMatrixSyncNetID;
 				layerType = inlayerType;
@@ -49,12 +49,12 @@ namespace Messages.Server
 			LoadNetworkObject(msg.MatrixSyncNetID);
 			if (NetworkObject == null)
 			{
-				DelayedStuff.Add(new delayedData(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour, msg.MatrixSyncNetID, msg.LayerType));
+				DelayedStuff.Add(new delayedData(msg.Position, msg.TileType, msg.TileName, msg.Orientation, msg.Colour, msg.MatrixSyncNetID, msg.LayerType));
 			}
 			else
 			{
 				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour);
+				tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.Orientation, msg.Colour);
 				TryDoNotDoneTiles();
 			}
 		}
@@ -69,7 +69,7 @@ namespace Messages.Server
 				{
 					var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
 					tileChangerManager.InternalUpdateTile(DelayedStuff[i].Position, DelayedStuff[i].TileType,
-						DelayedStuff[i].TileName, DelayedStuff[i].TransformMatrix, DelayedStuff[i].Colour);
+						DelayedStuff[i].TileName, DelayedStuff[i].Orientation, DelayedStuff[i].Colour);
 					DelayedStuff.RemoveAt(i);
 					i--;
 				}
@@ -77,15 +77,14 @@ namespace Messages.Server
 		}
 
 		public static NetMessage Send(uint matrixSyncNetID, Vector3Int position, TileType tileType,
-			string tileName,
-			Matrix4x4 transformMatrix, Color colour, LayerType LayerType)
+			string tileName, OrientationEnum orientation, Color colour, LayerType LayerType)
 		{
 			NetMessage msg = new NetMessage
 			{
 				Position = position,
 				TileType = tileType,
 				TileName = tileName,
-				TransformMatrix = transformMatrix,
+				Orientation = orientation,
 				Colour = colour,
 				MatrixSyncNetID = matrixSyncNetID,
 				LayerType = LayerType

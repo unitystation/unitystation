@@ -69,7 +69,7 @@ public class ObjectTile : BasicTile
 	}
 #endif
 
-	public void SpawnObject(Vector3Int position, Tilemap tilemap, Matrix4x4 transformMatrix)
+	public void SpawnObject(Vector3Int position, Tilemap tilemap, OrientationEnum orientation)
 	{
 		if (!Object)
 		{
@@ -86,14 +86,14 @@ public class ObjectTile : BasicTile
 		go.SetActive(false);
 		go.transform.parent = tilemap.transform;
 
-		Vector3 objectOffset = !Offset ? Vector3.zero : transformMatrix.rotation * Vector3.up;
+		Vector3 objectOffset = !Offset ? Vector3.zero : Orientation.FromEnum(orientation).Degrees * Vector3.up;
 
 		go.transform.localPosition = position + objectOffset;
 		go.transform.rotation = tilemap.transform.rotation;
 
 		if (!KeepOrientation)
 		{
-			go.transform.rotation *= transformMatrix.rotation;
+			go.transform.rotation = new Quaternion(0,0, Orientation.FromEnum(orientation).Degrees,0 );;
 		}
 
 		go.name = Object.name;

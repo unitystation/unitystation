@@ -214,9 +214,8 @@ namespace Objects.Disposals
 			DisposalPipe pipeTileToSpawn = GetPipeTileByOrientation(orientation);
 			if (pipeTileToSpawn != null)
 			{
-				var matrixTransform = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
 				Color pipeColor = GetComponentInChildren<SpriteRenderer>().color;
-				registerTile.Matrix.TileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
+				registerTile.Matrix.TileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn, orientation.AsEnum(), pipeColor);
 				_ = Despawn.ServerSingle(gameObject);
 			}
 			else

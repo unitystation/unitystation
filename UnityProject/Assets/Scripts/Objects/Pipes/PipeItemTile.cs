@@ -15,10 +15,11 @@ namespace Items.Atmospherics
 			var tile = GetPipeTile();
 			if (tile == null) return;
 
+			var orientation = Orientation.GetOrientation(transform.localEulerAngles.z).AsEnum();
 			int Offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
 			Quaternion rot = Quaternion.Euler(0.0f, 0.0f, Offset);
 			var Matrix = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
-			searchVec = registerItem.Matrix.TileChangeManager.UpdateTile(searchVec, tile, Matrix, Colour);
+			searchVec = registerItem.Matrix.TileChangeManager.UpdateTile(searchVec, tile, orientation, Colour);
 			tile.InitialiseNodeNew(searchVec, registerItem.Matrix, Matrix);
 			_ = Despawn.ServerSingle(this.gameObject);
 

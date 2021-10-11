@@ -155,13 +155,30 @@ public class Layer : MonoBehaviour
 		}
 	}
 
-	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
+	public virtual void SetTile(Vector3Int position, GenericTile tile, OrientationEnum orientation, Color color)
 	{
 		InternalSetTile(position, tile);
 
 		tilemap.SetColor(position, color);
-		tilemap.SetTransformMatrix(position, transformMatrix);
+		tilemap.SetTransformMatrix(position, GetMatrix4x4(orientation));
 		subsystemManager?.UpdateAt(position);
+	}
+
+	public static Matrix4x4 GetMatrix4x4(OrientationEnum orientation)
+	{
+		switch (orientation)
+		{
+			case OrientationEnum.Up:
+				return Matrix4x4.identity;
+			case OrientationEnum.Right:
+				return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 270f), Vector3.one);
+			case OrientationEnum.Left:
+				return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 90f), Vector3.one);
+			case OrientationEnum.Down:
+				return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 180f), Vector3.one);
+			default:
+				return Matrix4x4.identity;
+		}
 	}
 
 	/// <summary>

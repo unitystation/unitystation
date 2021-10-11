@@ -233,7 +233,7 @@ namespace TileManagement
 				else
 				{
 					QueueTileChange.PresentlyOn.SetTile(QueueTileChange.TileCoordinates, QueueTileChange.Tile,
-						QueueTileChange.TransformMatrix, QueueTileChange.Colour);
+						QueueTileChange.orientation, QueueTileChange.Colour);
 				}
 
 				lock (QueueTileChange)
@@ -529,8 +529,7 @@ namespace TileManagement
 
 
 		//Use TileChangeManager Instead if you want to me networked
-		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
-			Color? color = null,
+		public Vector3Int SetTile(Vector3Int position, LayerTile tile, OrientationEnum orientation, Color? color = null,
 			bool isPlaying = true)
 		{
 			if (Layers.TryGetValue(tile.LayerType, out var layer))
@@ -544,9 +543,7 @@ namespace TileManagement
 							position.z = 1 - i;
 							if (layer.GetTile(position) == null)
 							{
-								layer.SetTile(position, tile,
-									matrixTransform.GetValueOrDefault(Matrix4x4.identity),
-									color.GetValueOrDefault(Color.white));
+								layer.SetTile(position, tile, orientation, color.GetValueOrDefault(Color.white));
 								return position;
 							}
 						}
@@ -558,16 +555,14 @@ namespace TileManagement
 					}
 					else
 					{
-						layer.SetTile(position, tile,
-							matrixTransform.GetValueOrDefault(Matrix4x4.identity),
-							color.GetValueOrDefault(Color.white));
+						layer.SetTile(position, tile, orientation, color.GetValueOrDefault(Color.white));
 					}
 
 					return position;
 				}
 
 
-				TileLocation TileLcation = null;
+				TileLocation tileLocation = null;
 
 				if (tile.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
 				{
@@ -586,34 +581,34 @@ namespace TileManagement
 							TileLocations[index].TileCoordinates = position;
 						}
 
-						TileLcation = TileLocations[index];
+						tileLocation = TileLocations[index];
 					}
 				}
 				else
 				{
 					lock (PresentTiles)
 					{
-						PresentTiles[layer].TryGetValue(position, out TileLcation);
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 
-					if (TileLcation == null)
+					if (tileLocation == null)
 					{
-						TileLcation = GetPooledTile();
-						TileLcation.PresentlyOn = layer;
-						TileLcation.PresentMetaTileMap = this;
-						TileLcation.TileCoordinates = position;
+						tileLocation = GetPooledTile();
+						tileLocation.PresentlyOn = layer;
+						tileLocation.PresentMetaTileMap = this;
+						tileLocation.TileCoordinates = position;
 						lock (PresentTiles)
 						{
-							PresentTiles[layer][position] = TileLcation;
+							PresentTiles[layer][position] = tileLocation;
 						}
 					}
 				}
 
 
-				TileLcation.Tile = tile;
-				TileLcation.TransformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
-				TileLcation.Colour = color.GetValueOrDefault(Color.white);
-				TileLcation.OnStateChange();
+				tileLocation.Tile = tile;
+				tileLocation.orientation = orientation;
+				tileLocation.Colour = color.GetValueOrDefault(Color.white);
+				tileLocation.OnStateChange();
 				return position;
 			}
 			else
@@ -784,9 +779,8 @@ namespace TileManagement
 		/// <param name="transformMatrix"></param>
 		/// <param name="color"></param>
 		/// <returns></returns>
-		public bool IsDifferent(Vector3Int cellPosition, LayerTile layerTile, LayerType layerType,
-			Matrix4x4? transformMatrix = null,
-			Color? color = null, bool UseExactForMultilayer = false)
+		public bool IsDifferent(Vector3Int cellPosition, LayerTile layerTile, LayerType layerType, Color? color = null,
+			bool UseExactForMultilayer = false)
 		{
 			if (layerType == LayerType.Objects) return true;
 			if (Layers.TryGetValue(layerType, out var layer))
@@ -799,12 +793,6 @@ namespace TileManagement
 				if (color != null)
 				{
 					if (TileLcation.Colour != color.GetValueOrDefault(Color.white)) return true;
-				}
-
-				if (transformMatrix != null)
-				{
-					if (TileLcation.TransformMatrix != transformMatrix.GetValueOrDefault(Matrix4x4.identity))
-						return true;
 				}
 
 				return false;
@@ -2013,7 +2001,6 @@ namespace TileManagement
 			return null;
 		}
 	}
-
 
 	public enum OverlayType
 	{

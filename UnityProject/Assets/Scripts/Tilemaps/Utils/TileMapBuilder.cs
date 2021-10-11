@@ -15,45 +15,45 @@ using UnityEngine;
 
 		public void PlaceTile(Vector3Int position, GenericTile tile)
 		{
-			PlaceTile(position, tile, Matrix4x4.identity);
+			PlaceTile(position, tile, OrientationEnum.Default);
 		}
 
-		public void PlaceTile(Vector3Int position, GenericTile tile, Matrix4x4 matrixTransform)
+		public void PlaceTile(Vector3Int position, GenericTile tile, OrientationEnum orientation)
 		{
 			if (tile is LayerTile)
 			{
-				PlaceLayerTile(position, (LayerTile) tile, matrixTransform);
+				PlaceLayerTile(position, (LayerTile) tile, orientation);
 			}
 			else if (tile is MetaTile)
 			{
-				PlaceMetaTile(position, (MetaTile) tile, matrixTransform);
+				PlaceMetaTile(position, (MetaTile) tile, orientation);
 			}
 		}
 
-		private void PlaceMetaTile(Vector3Int position, MetaTile metaTile, Matrix4x4 matrixTransform)
+		private void PlaceMetaTile(Vector3Int position, MetaTile metaTile, OrientationEnum orientation)
 		{
 			foreach (LayerTile tile in metaTile.GetTiles())
 			{
-				PlaceLayerTile(position, tile, matrixTransform);
+				PlaceLayerTile(position, tile, orientation);
 			}
 		}
 
-		private void PlaceLayerTile(Vector3Int position, LayerTile tile, Matrix4x4 matrixTransform)
+		private void PlaceLayerTile(Vector3Int position, LayerTile tile, OrientationEnum orientation)
 		{
 			if (!importMode)
 			{
 				metaTileMap.RemoveTileWithlayer(position, tile.LayerType);
 			}
-			SetTile(position, tile, matrixTransform);
+			SetTile(position, tile, orientation);
 		}
 
-		private void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 matrixTransform)
+		private void SetTile(Vector3Int position, LayerTile tile, OrientationEnum orientation)
 		{
 			foreach (LayerTile requiredTile in tile.RequiredTiles)
 			{
-				SetTile(position, requiredTile, matrixTransform);
+				SetTile(position, requiredTile, orientation);
 			}
 
-			metaTileMap.SetTile(position, tile, matrixTransform);
+			metaTileMap.SetTile(position, tile, orientation);
 		}
 	}

@@ -29,7 +29,7 @@ public class ObjectLayer : Layer
 
 	}
 
-	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
+	public override void SetTile(Vector3Int position, GenericTile tile, OrientationEnum orientation, Color color)
 	{
 		ObjectTile objectTile = tile as ObjectTile;
 
@@ -39,7 +39,7 @@ public class ObjectLayer : Layer
 			base.InternalSetTile(position, tile);
 			base.InternalSetTile(position, null);
 
-			objectTile.SpawnObject(position, tilemap, transformMatrix);
+			objectTile.SpawnObject(position, tilemap, orientation);
 		}
 	}
 

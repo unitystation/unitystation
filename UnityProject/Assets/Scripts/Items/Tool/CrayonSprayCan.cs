@@ -185,7 +185,6 @@ namespace Items.Tool
 		{
 			//Work out colour
 			var chosenColour = GetColour();
-			var chosenDirection = GetDirection();
 
 			var tileToUse = GetTileFromIndex(isWall);
 
@@ -215,7 +214,7 @@ namespace Items.Tool
 							if (charges > 0 || charges == -1)
 							{
 								registerItem.TileChangeManager.RemoveOverlaysOfType(cellPos, isWall ? LayerType.Walls : LayerType.Floors, OverlayType.Cleanable);
-								registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
+								registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, orientation, chosenColour);
 							}
 
 							UseAndCheckCharges(interaction);
@@ -246,7 +245,7 @@ namespace Items.Tool
 				{
 					if (charges > 0 || charges == -1)
 					{
-						registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
+						registerItem.TileChangeManager.AddOverlay(cellPos, tileToUse, orientation, chosenColour);
 					}
 
 					UseAndCheckCharges(interaction);
@@ -276,23 +275,6 @@ namespace Items.Tool
 
 			//chosen value
 			return PickableColours[SetCrayonColour];
-		}
-
-		private Matrix4x4 GetDirection()
-		{
-			switch (orientation)
-			{
-				case OrientationEnum.Up:
-					return Matrix4x4.identity;
-				case OrientationEnum.Right:
-					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 270f), Vector3.one);
-				case OrientationEnum.Left:
-					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 90f), Vector3.one);
-				case OrientationEnum.Down:
-					return Matrix4x4.TRS(Vector3.zero,  Quaternion.Euler(0f, 0f, 180f), Vector3.one);
-				default:
-					return Matrix4x4.identity;
-			}
 		}
 
 		private void UseAndCheckCharges(PositionalHandApply interaction)

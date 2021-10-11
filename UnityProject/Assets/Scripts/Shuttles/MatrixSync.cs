@@ -58,7 +58,6 @@ namespace Shuttles
 			base.OnStartClient();
 
 			networkedMatrix.OnStartClient();
-			TileChangeNewPlayer.Send(netId);
 
 			if (matrixMove != null)
 			{
