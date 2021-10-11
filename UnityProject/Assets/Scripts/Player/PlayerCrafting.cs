@@ -452,15 +452,14 @@ namespace Player
 					GetPossibleIngredients(networkSide),
 					GetPossibleTools(networkSide)
 				);
-				if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback)
+				if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback && craftingStatus != CraftingStatus.AllGood)
 				{
 					GiveClientSidedFeedback(craftingStatus, recipe, false);
 					return;
 				}
-				else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
+				else if (craftingStatus == CraftingStatus.AllGood)
 				{
 					GiveClientSidedFeedback(craftingStatus, recipe, false);
-					return;
 				}
 
 				RequestStartCraftingAction.Send(recipe);
@@ -515,11 +514,11 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback)
+			if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback && craftingStatus != CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
-			else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
+			else if (craftingStatus == CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, false);
 			}
@@ -604,11 +603,11 @@ namespace Player
 					? CanServerCraft(recipe, reagentContainers)
 					: CanCraft(recipe, possibleIngredients, possibleTools, reagentContainers);
 
-			if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback)
+			if (craftingActionParameters.Feedback == FeedbackType.GiveAllFeedback && craftingStatus != CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, true);
 			}
-			else if (craftingActionParameters.Feedback == FeedbackType.GiveOnlySuccess && craftingStatus == CraftingStatus.AllGood)
+			else if (craftingStatus == CraftingStatus.AllGood)
 			{
 				GiveServerSidedFeedback(craftingStatus, recipe, true);
 			}
