@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breatheCooldown: 4
   pressureSafeMin: 16
-  toxicGasesToLung:
+  toxicGases:
   - GasType: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274, type: 2}
     PressureSafeMax: 0.4
     UnsafeLevelDamage: 10

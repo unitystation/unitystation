@@ -23,7 +23,7 @@ public class Lungs : Organ
 	[Tooltip("The minimum pressure needed to avoid suffocation")]
 	[SerializeField] private float pressureSafeMin = 16;
 
-	[SerializeField] private List<ToxicGases> toxicGasesToLung;
+	[SerializeField] private List<ToxicGas> toxicGases;
 
 	/// <summary>
 	/// The gas that this tries to put into the blood stream
@@ -271,7 +271,7 @@ public class Lungs : Organ
     	if(RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere || RelatedPart.HealthMaster.playerScript == null) return;
         if(RelatedPart.HealthMaster.playerScript.Equipment.IsInternalsEnabled) return;
 
-        foreach (ToxicGases gas in toxicGasesToLung)
+        foreach (ToxicGas gas in toxicGases)
         {
 	        float pressure = gasMix.GetPressure(gas.GasType);
 	        if (pressure >= gas.PressureSafeMax)
@@ -319,7 +319,7 @@ public class Lungs : Organ
     }
 
     [Serializable]
-    class ToxicGases
+    class ToxicGas
     {
 	    public GasSO GasType;
 	    public float PressureSafeMax = 0.4f;
