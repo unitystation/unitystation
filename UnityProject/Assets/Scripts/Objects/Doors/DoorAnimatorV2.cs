@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using Core.Editor.Attributes;
 using AddressableReferences;
 using Messages.Server;
+using Messages.Server.SoundMessages;
 
 
 namespace Doors
@@ -182,6 +183,7 @@ namespace Doors
 			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
 			ClientPlaySound(deniedSFX);
+			if(CustomNetworkManager.IsHeadless) _ = SoundManager.PlayNetworkedAtPosAsync(deniedSFX, gameObject.WorldPosClient());
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
@@ -206,7 +208,7 @@ namespace Doors
 		{
 			if(CustomNetworkManager.IsHeadless) return;
 
-			_ = SoundManager.PlayNetworkedAtPosAsync(sound, gameObject.WorldPosClient());
+			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient());
 		}
 
 		public void TurnOffAllLights()
