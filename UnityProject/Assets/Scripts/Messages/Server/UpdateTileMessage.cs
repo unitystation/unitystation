@@ -70,8 +70,15 @@ namespace Messages.Server
 				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
 				foreach (var Change in msg.Changes)
 				{
-					tileChangerManager.InternalUpdateTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
-						Change.Colour);
+					if (Change.TileType == TileType.None)
+					{
+						tileChangerManager.InternalRemoveTile(Change.Position, Change.layerType);
+					}
+					else
+					{
+						tileChangerManager.InternalUpdateTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
+							Change.Colour);
+					}
 				}
 
 				TryDoNotDoneTiles();

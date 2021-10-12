@@ -44,31 +44,6 @@ public class TileChangeManager : MonoBehaviour
 		networkMatrix = GetComponent<NetworkedMatrix>();
 	}
 
-	public void InitServerSync(string data)
-	{
-		//server doesn't ever need to run this because this will replay its own changes
-		if (CustomNetworkManager.IsServer) return;
-
-		//Unpacking the data example (and then run action change)
-		//We use NewtonSoft's Json as unity inbuilt doesnt support nullables
-		var dataList = JsonConvert.DeserializeObject<TileChangeList>(data);
-		foreach (TileChangeEntry entry in dataList.List)
-		{
-			Logger.LogTraceFormat("Received update for {0} layer {1} " + entry.TileName, Category.TileMaps,
-				entry.Position,
-				entry.LayerType);
-			// load tile & apply
-			if (entry.TileType.Equals(TileType.None))
-			{
-				InternalRemoveTile(entry.Position, entry.LayerType);
-			}
-			else
-			{
-				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName, entry.transformMatrix, entry.color );
-			}
-		}
-	}
-
 	[Server]
 	public void UpdateNewPlayer(NetworkConnection requestedBy)
 	{
