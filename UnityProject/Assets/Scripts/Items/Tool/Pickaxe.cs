@@ -1,5 +1,6 @@
 using UnityEngine;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using Objects.Mining;
 using TileManagement;
 
@@ -44,7 +45,8 @@ namespace Items
 				}
 				else
 				{
-					_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.BreakStone, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+					AudioSourceParameters parameters = new AudioSourceParameters(0, 100f);
+					_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.BreakStone, interaction.WorldPositionTarget, parameters);
 					var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
 
 					var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
