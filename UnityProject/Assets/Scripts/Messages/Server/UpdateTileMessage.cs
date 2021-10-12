@@ -60,7 +60,7 @@ namespace Messages.Server
 		{
 			if (CustomNetworkManager.IsServer) return;
 			LoadNetworkObject(msg.MatrixSyncNetID);
-			
+
 			if (NetworkObject == null)
 			{
 				DelayedStuff.AddRange(msg.Changes);
@@ -175,18 +175,17 @@ namespace Messages.Server
 				{
 					byte Operation = reader.ReadByte();
 
-					if (Operation == 255)
+					if (Operation == (byte)255)
 					{
 						break;
 					}
 
-
-					if (Operation == 1)
+					if (Operation == (byte)1)
 					{
 						WorkingOn.Colour = reader.ReadColor();
 					}
 
-					if (Operation == 2)
+					if (Operation == (byte)2)
 					{
 						WorkingOn.TransformMatrix = reader.ReadMatrix4x4();
 					}
@@ -217,7 +216,7 @@ namespace Messages.Server
 				if (delayedData.TransformMatrix != Matrix4x4.identity)
 				{
 					writer.WriteByte((byte) 2);
-					writer.WriteColor(delayedData.Colour);
+					writer.WriteMatrix4x4(delayedData.TransformMatrix);
 				}
 				writer.WriteByte((byte) 255);
 			}
