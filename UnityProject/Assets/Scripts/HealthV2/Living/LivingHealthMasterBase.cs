@@ -42,11 +42,6 @@ namespace HealthV2
 		public RegisterTile RegisterTile { get; private set; }
 
 		/// <summary>
-		/// The amount of damage taken per tick per stack of fire
-		/// </summary>
-		private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
-
-		/// <summary>
 		/// Returns the current conscious state of the creature
 		/// </summary>
 		public ConsciousState ConsciousState => healthStateController.ConsciousState;
@@ -319,7 +314,7 @@ namespace HealthV2
 			if (fireStacks > 0)
 			{
 				//TODO: Burn clothes (see species.dm handle_fire)
-				ApplyDamageAll(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn, true);
+				ApplyDamageAll(null, fireStacks, AttackType.Fire, DamageType.Burn, true);
 				//gradually deplete fire stacks
 				healthStateController.SetFireStacks(fireStacks - 0.1f);
 				//instantly stop burning if there's no oxygen at this location
