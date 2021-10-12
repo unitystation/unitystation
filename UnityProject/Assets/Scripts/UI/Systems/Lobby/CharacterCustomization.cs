@@ -669,29 +669,9 @@ namespace UI.CharacterCreator
 
 		public void RollRandomCharacter()
 		{
-			// Randomise gender
-			Type gender = typeof(BodyType);
-			Array genders = gender.GetEnumValues();
-			int index = UnityEngine.Random.Range(0,3);
-			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
-
-			//Randomises player name and age.
-			switch (currentCharacter.BodyType)
-			{
-				case BodyType.Male:
-					currentCharacter.Name = StringManager.GetRandomMaleName();
-					break;
-				case BodyType.Female:
-					currentCharacter.Name = StringManager.GetRandomFemaleName();
-					break;
-				default:
-					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
-					break;																	//for now it will pick from both the male and female name pools
-			}
-			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
+			currentCharacter = CharacterSettings.RandomizeCharacterSettings();
 
 			//Randomises player accents. (Italian, Scottish, etc)
-			randomizeAccent();
 
 
 			//Randomises character skin tones.
@@ -715,22 +695,6 @@ namespace UI.CharacterCreator
 			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
 			{
 				customSubPart.RandomizeValues();
-			}
-		}
-
-		private void randomizeAccent()
-		{
-			int accentChance = UnityEngine.Random.Range(0, 100);
-			if(accentChance <= 35)
-			{
-				Type accent = typeof(Speech);
-				Array accents = accent.GetEnumValues();
-				int index = UnityEngine.Random.Range(0, 7);
-				currentCharacter.Speech = (Speech)accents.GetValue(index);
-			}
-			else
-			{
-				currentCharacter.Speech = Speech.None;
 			}
 		}
 

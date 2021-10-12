@@ -199,6 +199,14 @@ public class PlayerSprites : MonoBehaviour
 	{
 
 		CustomisationStorage customisationStorage = null;
+
+		if (ThisCharacter.SerialisedBodyPartCustom == null)
+		{
+			//TODO : (Max) - Fix SerialisedBodyPartCustom being null on Dummy players
+			Logger.LogError($"{gameObject} has spawned with null bodyPart customizations. This error should only appear for Dummy players only.");
+			return;
+		}
+
 		foreach (var Custom in ThisCharacter.SerialisedBodyPartCustom)
 		{
 			if (livingHealthMasterBase.name == Custom.path)

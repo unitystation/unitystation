@@ -7,6 +7,7 @@ using Systems.Spawns;
 using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
+using UI.CharacterCreator;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -412,11 +413,13 @@ public static class PlayerSpawn
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
 
-			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, new CharacterSettings());
+			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings();
+
+			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, randomSettings);
 
 
 			//fire all hooks
-			var info = SpawnInfo.Player(OccupationList.Instance.Get(JobType.ASSISTANT), new CharacterSettings(), CustomNetworkManager.Instance.humanPlayerPrefab,
+			var info = SpawnInfo.Player(OccupationList.Instance.Get(JobType.ASSISTANT), randomSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
 				SpawnDestination.At(spawnTransform.gameObject));
 			Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, dummy));
 		}
