@@ -590,6 +590,27 @@ public class SoundManager : MonoBehaviour
 			polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 
+	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		GameObject gameObject,
+		bool isGlobal, AudioSourceParameters audioSourceParameters)
+	{
+		uint netId = NetId.Empty;
+		if (gameObject != null)
+		{
+			netId = gameObject.NetId();
+			if (netId == NetId.Invalid)
+			{
+				Logger.LogError("Provided Game object for PlayAtPosition  does not have a network identity " +
+				                addressableAudioSource.AssetAddress, Category.Audio);
+				return;
+			}
+		}
+
+
+		_ = PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, worldPos, "",
+			false, isGlobal, netId, audioSourceParameters);
+	}
+
 	/// <summary>
 	/// Play sound locally at given world position.
 	/// If more than one element is specified, one will be picked at random.

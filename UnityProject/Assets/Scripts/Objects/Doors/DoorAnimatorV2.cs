@@ -206,8 +206,9 @@ namespace Doors
 		private void ClientPlaySound(AddressableAudioSource sound)
 		{
 			if(CustomNetworkManager.IsHeadless) return;
+			AudioSourceParameters parameters = new AudioSourceParameters(0, 100f);
 
-			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient());
+			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient(), gameObject, false, parameters);
 		}
 
 		public void TurnOffAllLights()
