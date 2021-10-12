@@ -183,7 +183,6 @@ namespace Doors
 			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
 			ClientPlaySound(deniedSFX);
-			if(CustomNetworkManager.IsHeadless) _ = SoundManager.PlayNetworkedAtPosAsync(deniedSFX, gameObject.WorldPosClient());
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
@@ -207,8 +206,9 @@ namespace Doors
 		private void ClientPlaySound(AddressableAudioSource sound)
 		{
 			if(CustomNetworkManager.IsHeadless) return;
+			AudioSourceParameters parameters = new AudioSourceParameters(0, 100f);
 
-			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient());
+			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient(), gameObject, soundSpawnToken: default, false, false, parameters);
 		}
 
 		public void TurnOffAllLights()
