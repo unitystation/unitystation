@@ -58,6 +58,8 @@ namespace Items
 
 			objectName = wallTile.DisplayName;
 
+			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.WorldPositionTarget);
+
 			ToolUtils.ServerUseToolWithActionMessages(
 				interaction, calculatedMineTime,
 				$"You start mining the {objectName}...",
