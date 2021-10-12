@@ -44,7 +44,7 @@ namespace Items
 				}
 				else
 				{
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.BreakStone, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+					_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.BreakStone, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 					var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
 
 					var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
