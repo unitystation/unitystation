@@ -528,7 +528,7 @@ namespace TileManagement
 		}
 
 
-		//Use TileChangeManager Instead if you want to me networked
+		//Use TileChangeManager Instead if you want to be networked
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
 			Color? color = null,
 			bool isPlaying = true)

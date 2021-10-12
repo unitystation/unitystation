@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Mirror;
+using Tilemaps.Behaviours.Layers;
 
 namespace Messages.Server
 {
@@ -8,14 +10,12 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public Vector3Int Position;
-			public TileType TileType;
-			public LayerType LayerType;
-			public string TileName;
-			public Matrix4x4 TransformMatrix;
-			public Color Colour;
+			public List<delayedData> Changes;
 			public uint MatrixSyncNetID;
 		}
+
+		//just a best guess, try increasing it until the message exceeds mirror's limit
+		private static readonly int MAX_CHANGES_PER_MESSAGE = 350;
 
 		public static List<delayedData> DelayedStuff = new List<delayedData>();
 
@@ -25,11 +25,13 @@ namespace Messages.Server
 			public TileType TileType;
 			public LayerType layerType;
 			public string TileName;
-			public Matrix4x4 TransformMatrix;
-			public Color Colour;
 			public uint MatrixSyncNetID;
 
-			public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName, Matrix4x4 inTransformMatrix,
+			public Matrix4x4 TransformMatrix;
+			public Color Colour;
+
+			public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName,
+				Matrix4x4 inTransformMatrix,
 				Color inColour, uint inMatrixSyncNetID, LayerType inlayerType)
 			{
 				Position = inPosition;
@@ -40,6 +42,17 @@ namespace Messages.Server
 				MatrixSyncNetID = inMatrixSyncNetID;
 				layerType = inlayerType;
 			}
+
+			public delayedData(TileChangeEntry TileChangeEntry, uint inMatrixSyncNetID )
+			{
+				Position = TileChangeEntry.Position;
+				TileType = TileChangeEntry.TileType;
+				TileName = TileChangeEntry.TileName;
+				TransformMatrix = TileChangeEntry.transformMatrix.GetValueOrDefault(Matrix4x4.identity);
+				Colour = TileChangeEntry.color.GetValueOrDefault(Vector4.one);
+				MatrixSyncNetID = inMatrixSyncNetID;
+				layerType = TileChangeEntry.LayerType;
+			}
 		}
 
 
@@ -47,14 +60,20 @@ namespace Messages.Server
 		{
 			if (CustomNetworkManager.IsServer) return;
 			LoadNetworkObject(msg.MatrixSyncNetID);
+			
 			if (NetworkObject == null)
 			{
-				DelayedStuff.Add(new delayedData(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour, msg.MatrixSyncNetID, msg.LayerType));
+				DelayedStuff.AddRange(msg.Changes);
 			}
 			else
 			{
 				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalUpdateTile(msg.Position, msg.TileType, msg.TileName, msg.TransformMatrix, msg.Colour);
+				foreach (var Change in msg.Changes)
+				{
+					tileChangerManager.InternalUpdateTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
+						Change.Colour);
+				}
+
 				TryDoNotDoneTiles();
 			}
 		}
@@ -76,23 +95,133 @@ namespace Messages.Server
 			}
 		}
 
+
+		public static void SendTo(GameObject managerSubject, NetworkConnection recipient, TileChangeList changeList)
+		{
+			if (changeList == null || changeList.List.Count == 0) return;
+			var netID = managerSubject.GetComponent<NetworkedMatrix>().MatrixSync.netId;
+			foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE))
+			{
+				// foreach (var entry in changeChunk.List)
+				// {
+				// 	Logger.LogTraceFormat("Sending update for {0} layer {1}", Category.TileMaps, entry.Position,
+				// 		entry.LayerType);
+				// }
+				//  I imagine that doesn't help performance /\
+				List<delayedData> Changes = new List<delayedData>();
+
+				foreach (var tileChangeEntry in changeChunk)
+				{
+					Changes.Add(new delayedData(tileChangeEntry, netID));
+				}
+
+				NetMessage msg = new NetMessage
+				{
+					MatrixSyncNetID = netID,
+					Changes = Changes
+				};
+
+				SendTo(recipient, msg);
+			}
+		}
+
 		public static NetMessage Send(uint matrixSyncNetID, Vector3Int position, TileType tileType,
 			string tileName,
 			Matrix4x4 transformMatrix, Color colour, LayerType LayerType)
 		{
 			NetMessage msg = new NetMessage
 			{
-				Position = position,
-				TileType = tileType,
-				TileName = tileName,
-				TransformMatrix = transformMatrix,
-				Colour = colour,
+				Changes = new List<delayedData>()
+				{
+					new delayedData(position,tileType,tileName,transformMatrix, colour, matrixSyncNetID, LayerType)
+				},
 				MatrixSyncNetID = matrixSyncNetID,
-				LayerType = LayerType
 			};
 
 			SendToAll(msg);
 			return msg;
+		}
+	}
+
+	public static class UpdateTileMessageReaderWriters
+	{
+		public static UpdateTileMessage.NetMessage Deserialize(this NetworkReader reader)
+		{
+			var message = new UpdateTileMessage.NetMessage();
+			message.Changes = new List<UpdateTileMessage.delayedData>();
+			message.MatrixSyncNetID = reader.ReadUInt();
+			while (true)
+			{
+				var Continue = reader.ReadBool();
+				if (Continue == false)
+				{
+					break;
+				}
+
+				var WorkingOn = new UpdateTileMessage.delayedData
+				{
+					Position = reader.ReadVector3Int(),
+					TileType = (TileType) reader.ReadInt(),
+					layerType = (LayerType) reader.ReadInt(),
+					TileName = reader.ReadString(),
+					MatrixSyncNetID = message.MatrixSyncNetID,
+					TransformMatrix = Matrix4x4.identity,
+					Colour = Color.white
+				};
+
+
+
+				while (true)
+				{
+					byte Operation = reader.ReadByte();
+
+					if (Operation == 255)
+					{
+						break;
+					}
+
+
+					if (Operation == 1)
+					{
+						WorkingOn.Colour = reader.ReadColor();
+					}
+
+					if (Operation == 2)
+					{
+						WorkingOn.TransformMatrix = reader.ReadMatrix4x4();
+					}
+				}
+				message.Changes.Add(WorkingOn);
+			}
+
+			return message;
+		}
+
+		public static void Serialize(this NetworkWriter writer, UpdateTileMessage.NetMessage message)
+		{
+			writer.WriteUInt(message.MatrixSyncNetID);
+			foreach (var delayedData in message.Changes)
+			{
+				writer.WriteBool(true);
+				writer.WriteVector3Int(delayedData.Position);
+				writer.WriteInt((int)delayedData.TileType);
+				writer.WriteInt((int)delayedData.layerType);
+				writer.WriteString(delayedData.TileName);
+
+				if (delayedData.Colour != Color.white)
+				{
+					writer.WriteByte((byte) 1);
+					writer.WriteColor(delayedData.Colour);
+				}
+
+				if (delayedData.TransformMatrix != Matrix4x4.identity)
+				{
+					writer.WriteByte((byte) 2);
+					writer.WriteColor(delayedData.Colour);
+				}
+				writer.WriteByte((byte) 255);
+			}
+			writer.WriteBool(false);
 		}
 	}
 }

@@ -74,7 +74,7 @@ public class TileChangeManager : MonoBehaviour
 	{
 		if (changeList.List.Count > 0)
 		{
-			TileChangesNewClientSync.Send(gameObject, requestedBy, changeList);
+			UpdateTileMessage.SendTo(gameObject, requestedBy, changeList);
 		}
 	}
 
@@ -427,6 +427,7 @@ public class TileChangeEntry
 	public Matrix4x4? transformMatrix;
 
 	public Vector4? color;
+
 
 }
 
