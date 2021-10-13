@@ -79,13 +79,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8738561442620318437, guid: cfe9042ede477b142bedd0bdd7aef91d,
         type: 3}
+      propertyPath: explosionType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738561442620318437, guid: cfe9042ede477b142bedd0bdd7aef91d,
+        type: 3}
       propertyPath: shakeDistance
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738561442620318437, guid: cfe9042ede477b142bedd0bdd7aef91d,
+        type: 3}
+      propertyPath: unstableRadius
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8952833492921689446, guid: cfe9042ede477b142bedd0bdd7aef91d,
         type: 3}
       propertyPath: m_Name
-      value: a84mmheExplosion Variant
+      value: 84mmheExplosion
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfe9042ede477b142bedd0bdd7aef91d, type: 3}
