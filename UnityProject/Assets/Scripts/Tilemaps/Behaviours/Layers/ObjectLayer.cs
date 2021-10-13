@@ -83,7 +83,7 @@ public class ObjectLayer : Layer
 				&& o.IsPassableFromOutside(origin, isServer, context) == false
 				&& (context == null|| o.gameObject != context)
 				&& (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
-				&& collisionType != CollisionType.Click
+				&& (collisionType != CollisionType.Click || o.DoesNotBlockClick(origin, isServer) == false)
 				)
 			{
 				return false;
