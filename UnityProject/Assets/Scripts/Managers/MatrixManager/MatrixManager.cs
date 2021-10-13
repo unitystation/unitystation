@@ -21,7 +21,8 @@ public enum CollisionType
 	None = -1,
 	Player = 0,
 	Shuttle = 1,
-	Airborne = 2
+	Airborne = 2,
+	Click = 3
 };
 
 /// Matrix manager keeps a list of matrices that you can access from both client and server.

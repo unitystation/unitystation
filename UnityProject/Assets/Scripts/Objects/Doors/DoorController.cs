@@ -11,6 +11,7 @@ using Systems.Interaction;
 using Systems.ObjectConnection;
 using HealthV2;
 using Objects.Wallmounts;
+using UnityEngine.Events;
 
 
 namespace Doors
@@ -72,6 +73,10 @@ namespace Doors
 
 		[Tooltip("Does this door open automatically when you walk into it?")]
 		public bool IsAutomatic = true;
+
+		[NonSerialized] public UnityEvent OnDoorClose = new UnityEvent();
+
+		[NonSerialized] public UnityEvent OnDoorOpen = new UnityEvent();
 
 		/// <summary>
 		/// Makes registerTile door closed state accessible
@@ -285,7 +290,7 @@ namespace Doors
 			delayStartTime = Time.time;
 
 			IsClosed = true;
-
+			OnDoorClose?.Invoke();
 			if (isPerformingAction == false)
 			{
 				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Close);
@@ -359,7 +364,7 @@ namespace Doors
 				ResetWaiting();
 			}
 			IsClosed = false;
-
+			OnDoorOpen?.Invoke();
 			if (isPerformingAction == false)
 			{
 				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Open);
