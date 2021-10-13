@@ -132,6 +132,11 @@ namespace HealthV2
 		[HideInInspector]
 		public PlayerSprites playerSprites;
 
+		/// <summary>
+		/// Amount of radiation sustained. Not actually 'stacks' but rather a float.
+		/// </summary>
+		public float RadiationStacks;
+
 		// FireStacks note: It's called "stacks" but it's really just a floating point value that
 		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
 		private float fireStacks => healthStateController.FireStacks;
@@ -241,7 +246,7 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.IsServer == false)
 				return;
-			UpdateManager.Add(PeriodicUpdate, 1f);
+			UpdateManager.Add(PeriodicUpdate, tickRate);
 		}
 
 		void OnDisable()
@@ -304,11 +309,27 @@ namespace HealthV2
 		[Server]
 		public void CalculateRadiationDamage()
 		{
-			var radLevel = (RegisterTile.Matrix.GetRadiationLevel(RegisterTile.LocalPosition) * (tickRate / 5f) / 6);
+			var radLevel = RegisterTile.Matrix.GetRadiationLevel(RegisterTile.LocalPosition) * tickRate * 0.001f;
 
-			if (radLevel == 0) return;
+			if (radLevel > 0)
+			{
+				foreach (var bodyPart in BodyPartList)
+				{
+					var damage = bodyPart.ArmorDamageReduction(radLevel, AttackType.Rad, 0);
+					RadiationStacks += damage;
+				}
+			}
 
-			ApplyDamageAll(null, radLevel * 0.001f, AttackType.Rad, DamageType.Radiation);
+			if (RadiationStacks > 0)
+			{
+				//the damage is sloooow
+				var toxDamage = Mathf.Min(RadiationStacks, 1);
+
+				ApplyDamageAll(null, toxDamage, AttackType.Rad, DamageType.Tox, armorPenetration: 100);
+				RadiationStacks -= toxDamage;
+
+				//maybe add burn damage or cool things like catching on fire if the stacks are super high here?
+			}
 		}
 
 		/// <summary>
@@ -521,7 +542,7 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage</param>
 		/// <param name="damageSplit">Should the damage be divided by number of body parts or applied to each body part separately</param>
 		[Server]
-		public void ApplyDamageAll(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType, bool damageSplit = true)
+		public void ApplyDamageAll(GameObject damagedBy, float damage, AttackType attackType, DamageType damageType, bool damageSplit = true, float armorPenetration = 0)
 		{
 			if (damageSplit)
 			{
@@ -531,7 +552,7 @@ namespace HealthV2
 
 			foreach (var bodyPart in BodyPartList.ToArray())
 			{
-				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
+				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit, armorPenetration: armorPenetration);
 			}
 
 			if (damageType == DamageType.Brute)

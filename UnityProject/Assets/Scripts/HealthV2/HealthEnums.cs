@@ -56,8 +56,7 @@ public enum DamageType
 	Tox  = 2,
 	Oxy = 3,
 	Clone = 4,
-	Stamina = 5,
-	Radiation = 6
+	Stamina = 5
 }
 
 public enum TraumaDamageLevel

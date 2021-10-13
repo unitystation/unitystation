@@ -103,16 +103,10 @@ namespace HealthV2
 		public float Stamina => Damages[(int) DamageType.Stamina];
 
 		/// <summary>
-		/// Amount of radiation sustained. Not actually 'stacks' but rather a float.
-		/// </summary>
-		public float RadiationStacks => Damages[(int) DamageType.Radiation];
-		/// <summary>
 		/// List of all damage taken
 		/// </summary>
 		public readonly float[] Damages =
 		{
-			0,
-			0,
 			0,
 			0,
 			0,
@@ -132,7 +126,6 @@ namespace HealthV2
 				for (int i = 0; i < Damages.Length; i++)
 				{
 					if ((int) DamageType.Oxy == i) continue;
-					if ((int) DamageType.Radiation == i) continue;
 					TDamage += Damages[i];
 				}
 
@@ -153,7 +146,6 @@ namespace HealthV2
 				{
 					if ((int) DamageType.Oxy == i) continue;
 					if ((int) DamageType.Clone == i) continue;
-					if ((int) DamageType.Radiation == i) continue;
 					if ((int) DamageType.Stamina == i) continue;
 					TDamage += Damages[i];
 				}
@@ -172,7 +164,6 @@ namespace HealthV2
 				float TDamage = 0;
 				for (int i = 0; i < Damages.Length; i++)
 				{
-					if ((int) DamageType.Radiation == i) continue;
 					TDamage += Damages[i];
 				}
 
@@ -200,6 +191,16 @@ namespace HealthV2
 		}
 
 		/// <summary>
+		/// Uses bodypart natural armor and equipment armor to decrease the damage value
+		/// </summary>
+		public float ArmorDamageReduction(float damage, AttackType attackType, float armorPenetration)
+		{
+			damage = SelfArmor.GetDamage(damage, attackType, armorPenetration);
+			damage = Armor.GetTotalDamage(damage, attackType, ClothingArmors, armorPenetration);
+			return damage;
+		}
+
+		/// <summary>
 		/// Applies damage to this body part. Damage will be divided among it and sub organs depending on their
 		/// armor values.
 		/// </summary>
@@ -212,12 +213,7 @@ namespace HealthV2
 								bool organDamageSplit = false, bool DamageSubOrgans = true, float armorPenetration = 0,
 								double traumaDamageChance = 100, TraumaticDamageTypes tramuticDamageType = TraumaticDamageTypes.NONE)
 		{
-			float damageToLimb = Armor.GetTotalDamage(
-				SelfArmor.GetDamage(damage, attackType, armorPenetration),
-				attackType,
-				ClothingArmors,
-				armorPenetration
-			);
+			var damageToLimb = ArmorDamageReduction(damage, attackType, armorPenetration);
 			AffectDamage(damageToLimb, (int) damageType);
 
 			// May be changed to individual damage
@@ -326,22 +322,6 @@ namespace HealthV2
 		public void RecalculateEffectiveness()
 		{
 			DamageModifier.Multiplier = Mathf.Max(health, 0) / maxHealth;
-		}
-
-		/// <summary>
-		/// Consumes radiation stacks and processes it into toxin damage
-		/// </summary>
-		public void CalculateRadiationDamage()
-		{
-			if (RadiationStacks == 0) return;
-			var ProcessingRadiation = RadiationStacks * 0.001f;
-			if (ProcessingRadiation < 20 && ProcessingRadiation > 0.5f)
-			{
-				ProcessingRadiation = 20;
-			}
-
-			AffectDamage(-ProcessingRadiation, (int) DamageType.Radiation);
-			AffectDamage(ProcessingRadiation * 0.05f, (int) DamageType.Tox);
 		}
 
 		/// <summary>

@@ -152,7 +152,7 @@ namespace HealthV2
 
 		/// <summary>
 		/// Updates the body part and all contained body parts relative to their related
-		/// systems (default: blood system, radiation damage)
+		/// systems (default: blood system)
 		/// </summary>
 		public void ImplantPeriodicUpdate()
 		{
@@ -166,7 +166,6 @@ namespace HealthV2
 				}
 			}
 			BloodUpdate();
-			CalculateRadiationDamage();
 
 			if(IsBleeding)
 			{
