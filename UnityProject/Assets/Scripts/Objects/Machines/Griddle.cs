@@ -156,6 +156,7 @@ namespace Objects.Kitchen
 		private void HaltGriddle()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			SoundManager.PlayNetworkedAtPos(startSFX, WorldPosition, sourceObj: gameObject);
 			playAudioLoop = false;
 		}
 
@@ -169,7 +170,7 @@ namespace Objects.Kitchen
 				});
 			foreach (var onGrill in itemsOnGrill)
 			{
-				if(onGrill.gameObject.TryGetComponent(out Cookable slotCooked))
+				if(onGrill.gameObject.TryGetComponent(out Cookable slotCooked) && slotCooked.CookableBy.HasFlag(CookSource.Griddle))
 				{
 					if (slotCooked.AddCookingTime(cookTime) == true)
 					{
