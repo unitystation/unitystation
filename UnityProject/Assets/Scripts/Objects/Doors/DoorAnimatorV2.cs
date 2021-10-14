@@ -98,7 +98,6 @@ namespace Doors
 			else if (type == DoorUpdateType.AccessDenied)
 			{
 				StartCoroutine(PlayDeniedAnimation());
-				Logger.Log("bitch");
 			}
 
 			else if (type == DoorUpdateType.PressureWarn)
