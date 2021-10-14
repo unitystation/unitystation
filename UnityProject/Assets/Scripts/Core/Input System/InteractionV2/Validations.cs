@@ -126,10 +126,9 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
 	/// <returns></returns>
-	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false, bool isPlayerClick = true)
+	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
 	{
 		if (playerScript == null) return false;
-		if (isPlayerClick && CanInteractByCoolDownState(playerScript.gameObject) == false) return false;
 
 		if ((allowCuffed == false && playerScript.playerMove.IsCuffed) ||
 		    playerScript.IsGhost ||
@@ -210,15 +209,14 @@ public static class Validations
 		bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard,
 		Vector2? targetVector = null,
-		RegisterTile targetRegisterTile = null,
-		bool isPlayerClick = false
+		RegisterTile targetRegisterTile = null
 	)
 	{
 		if (playerScript == null) return false;
 
 		var playerObjBehavior = playerScript.pushPull;
 
-		if (CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick) == false)
+		if (CanInteract(playerScript, side, allowSoftCrit) == false)
 		{
 			return false;
 		}
