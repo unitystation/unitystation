@@ -126,21 +126,21 @@ MonoBehaviour:
   syncInterval: 0.1
   startSFX:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/UI/Click01.prefab
+    AssetAddress: Assets/Prefabs/Machines/ClickOnOff.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   kaputSfx:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/AI/PowerOff.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   RunningAudio:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/sizzle.prefab
+    AssetAddress: Assets/Prefabs/Machines/GrillSizzle.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
