@@ -92,6 +92,7 @@ namespace Doors.Modules
 		private void DenyAccess()
 		{
 			StartCoroutine(master.DoorAnimator.PlayDeniedAnimation());
+			master.DoorAnimator.ServerPlayDeniedSound();
 		}
 	}
 }

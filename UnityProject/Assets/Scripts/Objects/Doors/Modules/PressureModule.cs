@@ -60,6 +60,7 @@ namespace Doors.Modules
 		public void PlayPressureWarning()
 		{
 			StartCoroutine(master.DoorAnimator.PlayPressureWarningAnimation());
+			master.DoorAnimator.ServerPlayPressureSound();
 			StartCoroutine(ResetWarning());
 		}
 

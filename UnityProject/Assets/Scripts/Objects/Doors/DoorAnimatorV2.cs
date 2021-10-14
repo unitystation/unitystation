@@ -4,6 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using Core.Editor.Attributes;
 using AddressableReferences;
+using Audio.Managers;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 
@@ -97,6 +98,7 @@ namespace Doors
 			else if (type == DoorUpdateType.AccessDenied)
 			{
 				StartCoroutine(PlayDeniedAnimation());
+				Logger.Log("bitch");
 			}
 
 			else if (type == DoorUpdateType.PressureWarn)
@@ -182,7 +184,6 @@ namespace Doors
 		{
 			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
-			ClientPlaySound(deniedSFX);
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
@@ -195,7 +196,6 @@ namespace Doors
 		{
 			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.PressureWarning);
-			ClientPlaySound(warningSFX);
 			yield return WaitFor.Seconds(warningAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
@@ -208,6 +208,15 @@ namespace Doors
 			if(CustomNetworkManager.IsHeadless) return;
 
 			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient());
+		}
+
+		public void ServerPlayDeniedSound()
+		{
+			_ = SoundManager.PlayAtPosition(deniedSFX, gameObject.WorldPosServer());
+		}
+		public void ServerPlayPressureSound()
+		{
+			_ = SoundManager.PlayAtPosition(warningSFX, gameObject.WorldPosServer());
 		}
 
 		public void TurnOffAllLights()
