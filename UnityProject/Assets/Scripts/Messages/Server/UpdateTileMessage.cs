@@ -10,16 +10,18 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public List<delayedData> Changes;
+			public List<DelayedData> Changes;
 			public uint MatrixSyncNetID;
 		}
+
+
 
 		//just a best guess, try increasing it until the message exceeds mirror's limit
 		private static readonly int MAX_CHANGES_PER_MESSAGE = 350;
 
-		public static List<delayedData> DelayedStuff = new List<delayedData>();
+		public static List<DelayedData> DelayedStuff = new List<DelayedData>();
 
-		public struct delayedData
+		public struct DelayedData
 		{
 			public Vector3Int Position;
 			public TileType TileType;
@@ -30,7 +32,7 @@ namespace Messages.Server
 			public Matrix4x4 TransformMatrix;
 			public Color Colour;
 
-			public delayedData(Vector3Int inPosition, TileType inTileType, string inTileName,
+			public DelayedData(Vector3Int inPosition, TileType inTileType, string inTileName,
 				Matrix4x4 inTransformMatrix,
 				Color inColour, uint inMatrixSyncNetID, LayerType inlayerType)
 			{
@@ -43,7 +45,7 @@ namespace Messages.Server
 				layerType = inlayerType;
 			}
 
-			public delayedData(TileChangeEntry TileChangeEntry, uint inMatrixSyncNetID )
+			public DelayedData(TileChangeEntry TileChangeEntry, uint inMatrixSyncNetID )
 			{
 				Position = TileChangeEntry.Position;
 				TileType = TileChangeEntry.TileType;
@@ -115,11 +117,11 @@ namespace Messages.Server
 				// 		entry.LayerType);
 				// }
 				//  I imagine that doesn't help performance /\
-				List<delayedData> Changes = new List<delayedData>();
+				List<DelayedData> Changes = new List<DelayedData>();
 
 				foreach (var tileChangeEntry in changeChunk)
 				{
-					Changes.Add(new delayedData(tileChangeEntry, netID));
+					Changes.Add(new DelayedData(tileChangeEntry, netID));
 				}
 
 				NetMessage msg = new NetMessage
@@ -138,9 +140,9 @@ namespace Messages.Server
 		{
 			NetMessage msg = new NetMessage
 			{
-				Changes = new List<delayedData>()
+				Changes = new List<DelayedData>()
 				{
-					new delayedData(position,tileType,tileName,transformMatrix, colour, matrixSyncNetID, LayerType)
+					new DelayedData(position,tileType,tileName,transformMatrix, colour, matrixSyncNetID, LayerType)
 				},
 				MatrixSyncNetID = matrixSyncNetID,
 			};
@@ -152,10 +154,18 @@ namespace Messages.Server
 
 	public static class UpdateTileMessageReaderWriters
 	{
+
+		public enum EnumOperation
+		{
+			Colour = 1,
+			Matrix4x4 = 2,
+			NoMoreData = 255,
+		}
+
 		public static UpdateTileMessage.NetMessage Deserialize(this NetworkReader reader)
 		{
 			var message = new UpdateTileMessage.NetMessage();
-			message.Changes = new List<UpdateTileMessage.delayedData>();
+			message.Changes = new List<UpdateTileMessage.DelayedData>();
 			message.MatrixSyncNetID = reader.ReadUInt();
 			while (true)
 			{
@@ -165,7 +175,7 @@ namespace Messages.Server
 					break;
 				}
 
-				var WorkingOn = new UpdateTileMessage.delayedData
+				var WorkingOn = new UpdateTileMessage.DelayedData
 				{
 					Position = reader.ReadVector3Int(),
 					TileType = (TileType) reader.ReadInt(),
@@ -182,17 +192,17 @@ namespace Messages.Server
 				{
 					byte Operation = reader.ReadByte();
 
-					if (Operation == (byte)255)
+					if (Operation == (byte)EnumOperation.NoMoreData)
 					{
 						break;
 					}
 
-					if (Operation == (byte)1)
+					if (Operation == (byte)EnumOperation.Colour)
 					{
 						WorkingOn.Colour = reader.ReadColor();
 					}
 
-					if (Operation == (byte)2)
+					if (Operation == (byte)EnumOperation.Matrix4x4)
 					{
 						WorkingOn.TransformMatrix = reader.ReadMatrix4x4();
 					}
@@ -216,16 +226,16 @@ namespace Messages.Server
 
 				if (delayedData.Colour != Color.white)
 				{
-					writer.WriteByte((byte) 1);
+					writer.WriteByte((byte) EnumOperation.Colour);
 					writer.WriteColor(delayedData.Colour);
 				}
 
 				if (delayedData.TransformMatrix != Matrix4x4.identity)
 				{
-					writer.WriteByte((byte) 2);
+					writer.WriteByte((byte) EnumOperation.Matrix4x4);
 					writer.WriteMatrix4x4(delayedData.TransformMatrix);
 				}
-				writer.WriteByte((byte) 255);
+				writer.WriteByte((byte) EnumOperation.NoMoreData);
 			}
 			writer.WriteBool(false);
 		}
