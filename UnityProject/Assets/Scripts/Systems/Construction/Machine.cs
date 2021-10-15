@@ -78,7 +78,6 @@ namespace Objects.Machines
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
@@ -242,6 +241,10 @@ namespace Objects.Machines
 			{
 				refresh.InitialParts(basicPartsUsed);
 			}
+		}
+
+		public bool GetPanelOpen() {
+			return panelopen;
 		}
 	}
 

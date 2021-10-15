@@ -4,6 +4,7 @@ using Mirror;
 using Systems.Electricity.NodeModules;
 using Systems.Explosions;
 using Systems.Interaction;
+using Objects.Machines;
 
 
 namespace Objects.Engineering
@@ -22,6 +23,7 @@ namespace Objects.Engineering
 		private ElectricalNodeControl electricalNodeControl;
 		private BatterySupplyingModule batterySupplyingModule;
 		private GameObject currentSparkEffect;
+		private Machine machine;
 
 
 		private SpriteHandler baseSpriteHandler;
@@ -66,6 +68,7 @@ namespace Objects.Engineering
 			chargeLevelIndicator = transform.GetChild(3).GetComponent<SpriteHandler>();
 			registerTile = GetComponent<RegisterTile>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+			machine = GetComponent<Machine>();
 
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			batterySupplyingModule = GetComponent<BatterySupplyingModule>();
@@ -126,7 +129,10 @@ namespace Objects.Engineering
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.TargetObject != gameObject) return false;
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar)) return true;
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+			{
+				return !machine.GetPanelOpen();
+			} 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 			if (interaction.HandObject != null) return false;
 
