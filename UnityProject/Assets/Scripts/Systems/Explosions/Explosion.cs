@@ -71,7 +71,7 @@ namespace Systems.Explosions
 
 		public void Step()
 		{
-			if (ExplosionStrength < 0)
+			if (ExplosionStrength <= 0)
 			{
 				Pool();
 				return;
@@ -98,7 +98,6 @@ namespace Systems.Explosions
 				ExplosionManager.CheckLocations.Add(NodePoint.ExplosionNode);
 			}
 
-
 			e2 = err;
 			if (e2 > -dx)
 			{
@@ -111,6 +110,7 @@ namespace Systems.Explosions
 				err += dx;
 				y0 += sy;
 			}
+
 
 			ExplosionManager.CheckLines.Add(this);
 			if (InitialStep)
