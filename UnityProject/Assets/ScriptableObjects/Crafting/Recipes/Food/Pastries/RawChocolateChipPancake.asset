@@ -10,21 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
-  m_Name: PancakeRecipe
+  m_Name: RawChocolateChipPancake
   m_EditorClassIdentifier: 
   category: 12
-  craftingTime: 1.5
-  recipeName: Pancake
+  craftingTime: 0
+  recipeName: Raw Chocolate Chip Pancake
   recipeIconOverride: {fileID: 0}
   recipeDescription: 
   requiredIngredients:
   - requiredAmount: 1
-    requiredItem: {fileID: 7275968390465132960, guid: f595ab18e1bab564c9ce9efb6b081b4e,
+    requiredItem: {fileID: 442118255629855042, guid: b09e9d95fbf80594c8bbcf60be9b3f93,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 1628643895187577676, guid: 6e1d83a56a0c7ed4cbbf0fe93c39631d,
       type: 3}
   requiredReagents: []
   requiredToolTraits: []
   result:
-  - {fileID: 2757069092534841955, guid: 035adb3887f722a46a90a325f4096256, type: 3}
+  - {fileID: 951705001516204940, guid: 5cd38eaaba953e24dac2549471c9d534, type: 3}
   resultHandlers: []
-  isSimple: 0
-  indexInSingleton: 209
+  isSimple: 1
+  indexInSingleton: 346
