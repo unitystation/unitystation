@@ -30,9 +30,8 @@ namespace Systems.Clearance
 			{
 				return true;
 			}
-			// If the player has null or no defined access, access is denied
-			if (requesterClearance == null ||
-			    requesterClearance.Any() == false)
+			// If the player has null access, access is denied
+			if (requesterClearance == null)
 			{
 				return false;
 			}
