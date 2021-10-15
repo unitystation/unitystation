@@ -15,6 +15,22 @@ MonoBehaviour:
   stunTime: 5
   willDisarm: 0
   doMsg: 0
+--- !u!114 &9117865979644467156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2699700629119018223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67ae181d191ee74484da644b7d4d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useExplosionPrefab: 1
+  explosionPrefab: {fileID: 2030691012311280255, guid: 30c5f15fc1724f64aa8cf52742a96852,
+    type: 3}
+  explosionStrength: 80
 --- !u!1001 &553190107338962322
 PrefabInstance:
   m_ObjectHideFlags: 0
