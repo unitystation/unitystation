@@ -557,6 +557,12 @@ namespace HealthV2
 
 			var count = 0;
 
+			// If targeting eyes or mouth, damage head instead
+			if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
+			{
+				bodyPartAim = BodyPartType.Head;
+			}
+
 			foreach (var bodyPart in BodyPartList)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
