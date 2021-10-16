@@ -56,16 +56,15 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	public override void Initialize()
 	{
-		if (CustomNetworkManager.IsServer == false) return;
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
 		if (MatrixManager.IsInitialized)
 		{
-			LocateRooms();
+			if (CustomNetworkManager.IsServer) LocateRooms();
 			Stopwatch Dsw = new Stopwatch();
 			Dsw.Start();
-			matrix.MetaTileMap.InitialiseUnderFloorUtilities(true);
+			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 			Dsw.Stop();
 			Logger.Log($"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}

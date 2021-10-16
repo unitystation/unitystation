@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using Systems.Atmospherics;
+using Messages.Client.NewPlayer;
 using Objects.Construction;
 using Player.Movement;
 using Mirror;
@@ -180,6 +181,7 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			var subsystemManager = matrixInfo.Matrix.GetComponentInParent<SubsystemManager>();
 			subsystemManager.Initialize();
+			TileChangeNewPlayer.Send(matrixInfo.NetID);
 		}
 	}
 

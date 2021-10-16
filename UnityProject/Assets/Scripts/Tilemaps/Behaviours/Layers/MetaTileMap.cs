@@ -171,11 +171,6 @@ namespace TileManagement
 				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
 			DamageableLayers = damageableLayersValues.ToArray();
 			presentMatrix = this.GetComponent<Matrix>();
-
-			if (CustomNetworkManager.IsServer == false)
-			{
-				InitialiseUnderFloorUtilities(false);
-			}
 		}
 
 
