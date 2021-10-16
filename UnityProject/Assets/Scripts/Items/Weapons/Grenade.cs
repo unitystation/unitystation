@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Explosions;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using Objects;
 
 namespace Items.Weapons
@@ -93,7 +94,7 @@ namespace Items.Weapons
 			{
 				timerRunning = true;
 				UpdateTimer(timerRunning);
-				PlayPinSFX(originator.transform.position);
+				PlayPinSFX(originator.WorldPosServer());
 
 				if (unstableFuse)
 				{
@@ -163,7 +164,7 @@ namespace Items.Weapons
 
 		private void PlayPinSFX(Vector3 position)
 		{
-			SoundManager.PlayNetworkedAtPos(armbomb, position, sourceObj: gameObject);
+			_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, position);
 		}
 
 		private void UpdateTimer(bool timerRunning)
