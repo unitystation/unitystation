@@ -88,6 +88,8 @@ namespace TileManagement
 
 		private void OnEnable()
 		{
+			if (Application.isPlaying == false) return;
+
 			Layers = new Dictionary<LayerType, Layer>();
 			var layersKeys = new List<LayerType>();
 			var layersValues = new List<Layer>();
@@ -169,7 +171,6 @@ namespace TileManagement
 				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
 			DamageableLayers = damageableLayersValues.ToArray();
 			presentMatrix = this.GetComponent<Matrix>();
-			if (Application.isPlaying == false) return;
 		}
 
 
@@ -453,6 +454,9 @@ namespace TileManagement
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
+				if (layer.LayerType == LayerType.Underfloor) continue;
+				if (layer.LayerType == LayerType.Tables) continue;
+				if (layer.LayerType == LayerType.Effects) continue;
 
 				TileLcation = GetCorrectTileLocationForLayer(position, layer, UseExactForMultilayer);
 
@@ -528,7 +532,7 @@ namespace TileManagement
 		}
 
 
-		//Use TileChangeManager Instead if you want to me networked
+		//Use TileChangeManager Instead if you want to be networked
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
 			Color? color = null,
 			bool isPlaying = true)
