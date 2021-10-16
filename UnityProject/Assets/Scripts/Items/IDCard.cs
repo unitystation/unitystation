@@ -205,6 +205,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	{
 		if (!HasAccess(access)) return;
 		accessSyncList.Remove((int)access);
+		netIdentity.isDirty = true;
 	}
 
 	/// <summary>
@@ -215,6 +216,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	{
 		if (HasAccess(access)) return;
 		accessSyncList.Add((int)access);
+		netIdentity.isDirty = true;
 	}
 
 	/// <summary>
@@ -256,7 +258,12 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[Server]
 	public void ServerChangeOccupation(Occupation occupation, bool grantDefaultAccess = true, bool clear = true)
 	{
-		if (clear) accessSyncList.Clear();
+		if (clear)
+		{
+			accessSyncList.Clear();
+			netIdentity.isDirty = true;
+		}
+
 		if (grantDefaultAccess)
 		{
 			ServerAddAccess(occupation.AllowedAccess);

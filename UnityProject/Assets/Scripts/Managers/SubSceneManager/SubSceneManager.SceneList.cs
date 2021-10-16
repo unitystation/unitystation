@@ -82,6 +82,7 @@ public partial class SubSceneManager
 			SceneName = serverChosenMainStation,
 			SceneType = SceneType.MainStation
 		});
+		netIdentity.isDirty = true;
 	}
 
 	//Load all the asteroids on the server
@@ -98,6 +99,7 @@ public partial class SubSceneManager
 				SceneName = asteroid,
 				SceneType = SceneType.Asteroid
 			});
+			netIdentity.isDirty = true;
 		}
 	}
 
@@ -123,7 +125,7 @@ public partial class SubSceneManager
 				SceneName = centComData.CentComSceneName,
 				SceneType = SceneType.AdditionalScenes
 			});
-
+			netIdentity.isDirty = true;
 			yield break;
 		}
 
@@ -137,6 +139,7 @@ public partial class SubSceneManager
 			SceneName = pickedMap,
 			SceneType = SceneType.AdditionalScenes
 		});
+		netIdentity.isDirty = true;
 	}
 
 	//Load all the asteroids on the server
@@ -174,6 +177,7 @@ public partial class SubSceneManager
 				SceneName = additionalScene,
 				SceneType = SceneType.AdditionalScenes
 			});
+			netIdentity.isDirty = true;
 		}
 	}
 
@@ -211,6 +215,7 @@ public partial class SubSceneManager
 				SceneName = serverChosenAwaySite,
 				SceneType = SceneType.AwaySite
 			});
+			netIdentity.isDirty = true;
 		}
 	}
 
@@ -238,6 +243,7 @@ public partial class SubSceneManager
 			SceneName = pickedMap,
 			SceneType = SceneType.AdditionalScenes
 		});
+		netIdentity.isDirty = true;
 
 		SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 		SyndicateLoaded = true;
@@ -256,6 +262,7 @@ public partial class SubSceneManager
 			SceneName = pickedScene,
 			SceneType = SceneType.AdditionalScenes
 		});
+		netIdentity.isDirty = true;
 
 		WizardLoaded = true;
 	}
