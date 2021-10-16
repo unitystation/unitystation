@@ -195,17 +195,7 @@ namespace Objects.Engineering
 			}
 
 
-			if (PoppedPipes) //Its blown up so not connected so vent to steam
-			{
-				if (ReactorPipe.pipeData.mixAndVolume.Total.x > 0 &&
-					ReactorPipe.pipeData.mixAndVolume.Temperature > BoilingPoint)
-				{
-					var ExcessEnergy = ReactorPipe.pipeData.mixAndVolume.Temperature - BoilingPoint;
-					ExcessEnergy *= EnergyToEvaporateWaterPer1 * WaterEnergyDensityPer1;
-					ReactorPipe.pipeData.mixAndVolume.GetGasMix().MultiplyGas(ExcessEnergy);
-					ReactorPipe.pipeData.mixAndVolume.GetReagentMix().RemoveVolume(ReactorPipe.pipeData.mixAndVolume.Total.x * ExcessEnergy);
-				}
-			}
+
 
 
 			int SpontaneousNeutronProbability = RNG.Next(0, 10001);
@@ -239,6 +229,17 @@ namespace Objects.Engineering
 
 			EditorPresentNeutrons = (float)PresentNeutrons;
 			PowerOutput();
+
+			if (PoppedPipes) //Its blown up so not connected so vent to steam
+			{
+				if (ReactorPipe.pipeData.mixAndVolume.Total.x > 0 &&
+				    ReactorPipe.pipeData.mixAndVolume.Temperature > BoilingPoint)
+				{
+					var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Temperature - BoilingPoint) * ReactorPipe.pipeData.mixAndVolume.GetReagentMix().WholeHeatCapacity;
+					var AmountBoiledOff = ExcessEnergy/(EnergyToEvaporateWaterPer1);
+					_ = ReactorPipe.pipeData.mixAndVolume.GetReagentMix().Take(AmountBoiledOff);
+				}
+			}
 
 			//Sprites
 			//Reduce  sound of geiger counter
@@ -290,12 +291,7 @@ namespace Objects.Engineering
 			}
 
 			var ExtraEnergyGained = (float)EnergyReleased;
-			if (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity == 0)
-			{
-				ReactorPipe.pipeData.mixAndVolume.Temperature += ExtraEnergyGained / 90000;
-				var FF = ReactorPipe.pipeData.mixAndVolume.InternalEnergy;
-			}
-			else
+			if (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity != 0)
 			{
 				ReactorPipe.pipeData.mixAndVolume.InternalEnergy =
 					ReactorPipe.pipeData.mixAndVolume.InternalEnergy + ExtraEnergyGained;
