@@ -30,6 +30,11 @@ namespace Systems.Clearance
 			{
 				return true;
 			}
+			// If the player has null access, access is denied
+			if (requesterClearance == null)
+			{
+				return false;
+			}
 
 			switch (type)
 			{
