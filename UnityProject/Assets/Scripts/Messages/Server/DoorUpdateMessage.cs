@@ -25,6 +25,17 @@ namespace Messages.Server
 			LoadNetworkObject(msg.Door);
 			if (NetworkObject == null)  return;
 
+			//old doors //needed for fire locks and directional doors
+			var doorAnimator = NetworkObject.GetComponent<DoorAnimator>();
+			if (doorAnimator != null)
+			{
+				if (doorAnimator.isActiveAndEnabled == false) return;
+
+				doorAnimator.PlayAnimation(msg.Type, msg.SkipAnimation);
+				return;
+			}
+
+			//new doors
 			var doorMasterController = NetworkObject.GetComponent<DoorMasterController>();
 			if (doorMasterController != null)
 			{
