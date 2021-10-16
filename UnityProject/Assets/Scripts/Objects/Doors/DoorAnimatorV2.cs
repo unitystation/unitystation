@@ -211,11 +211,11 @@ namespace Doors
 
 		public void ServerPlayDeniedSound()
 		{
-			_ = SoundManager.PlayAtPosition(deniedSFX, gameObject.WorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(deniedSFX, gameObject.WorldPosServer());
 		}
 		public void ServerPlayPressureSound()
 		{
-			_ = SoundManager.PlayAtPosition(warningSFX, gameObject.WorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(warningSFX, gameObject.WorldPosServer());
 		}
 
 		public void TurnOffAllLights()
