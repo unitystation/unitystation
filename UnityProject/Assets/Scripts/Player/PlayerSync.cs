@@ -434,11 +434,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		if (pushPull == null || pushPull.parentContainer == null) return;
 		GameObject parentContainer = pushPull.parentContainer.gameObject;
 
-		if (parentContainer.TryGetComponent(out ClosetControl closet))
+		foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 		{
-			closet.PlayerTryEscaping(gameObject);
+			escapable.EntityTryEscape(gameObject);
 		}
-		else if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+
+		// TODO: convert to IEscapable
+		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			disposalContainer.PlayerTryEscaping(gameObject);
 		}

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
@@ -30,6 +29,7 @@ namespace Objects.Medical
 
 		private GUI_Cloning consoleGUI;
 		private RegisterTile registerTile;
+		private ClosetControl closet;
 
 		/// <summary>
 		/// Saved cloning records.
@@ -39,6 +39,7 @@ namespace Objects.Medical
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			closet = GetComponent<ClosetControl>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -67,10 +68,10 @@ namespace Objects.Medical
 				UpdateInoperableStatus();
 				return;
 			}
-			if (scanner.IsClosed)
+			if (closet.IsOpen == false)
 			{
-				scanner.ServerToggleLocked();
-				scanner.statusString = scanner.IsLocked ? "Scanner locked." : "Scanner unlocked.";
+				closet.SetLock(closet.IsLocked ? ClosetControl.Lock.Unlocked : ClosetControl.Lock.Locked);
+				scanner.statusString = closet.IsLocked ? "Scanner locked." : "Scanner unlocked.";
 			}
 			else
 			{

@@ -102,7 +102,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// Matrix gameObject, i.e. the one with NetworkedMatrix not the one with Matrix, hence calling
 	/// it "networked matrix".
 	/// </summary>
-	protected uint NetworkedMatrixNetId => networkedMatrixNetId;
+	public uint NetworkedMatrixNetId => networkedMatrixNetId;
 
 	/// <summary>
 	/// Returns the correct client/server version of world position depending on if this is

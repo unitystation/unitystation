@@ -226,20 +226,19 @@ namespace Systems.Cargo
 			OnShuttleUpdate.Invoke();
 		}
 
-		public void ProcessCargo(PushPull item, HashSet<GameObject> alreadySold)
+		public void ProcessCargo(GameObject obj, HashSet<GameObject> alreadySold)
 		{
-			var wrappedItem = item.GetComponent<WrappedBase>();
-			if (wrappedItem)
+			if (obj.TryGetComponent<WrappedBase>(out var wrappedObject))
 			{
-				var wrappedContents = wrappedItem.GetOrGenerateContent().GetComponent<PushPull>();
+				var wrappedContents = wrappedObject.GetOrGenerateContent();
 				ProcessCargo(wrappedContents, alreadySold);
-				DespawnItem(item, alreadySold);
+				DespawnItem(obj, alreadySold);
 				return;
 			}
 
 			//already sold this this sales cycle.
-			if (alreadySold.Contains(item.gameObject)) return;
-			var storage = item.GetComponent<InteractableStorage>();
+			if (alreadySold.Contains(obj)) return;
+			var storage = obj.GetComponent<InteractableStorage>();
 			if (storage)
 			{
 				//Check to spawn initial contents, cant just use prefab data due to recursion
@@ -252,37 +251,28 @@ namespace Systems.Cargo
 				{
 					if (slot.Item)
 					{
-						ProcessCargo(slot.Item.GetComponent<PushPull>(), alreadySold);
+						ProcessCargo(slot.Item.gameObject, alreadySold);
 					}
 				}
 			}
 
-			// note: it seems the held items are also detected in UnloadCargo as being on the matrix but only
-			// when they were spawned or moved onto that cargo shuttle (outside of the crate) prior to being placed into the crate. If they
-			// were instead placed into the crate and then the crate was moved onto the cargo shuttle, they
-			// will only be found with this check and won't be found in UnloadCargo.
-			// TODO: Better logic for ClosetControl updating its held items' parent matrix when crossing matrix with items inside.
-			var closet = item.GetComponent<ClosetControl>();
-			if (closet)
+			if (obj.TryGetComponent<ObjectContainer>(out var container))
 			{
-				//Check to spawn initial contents, cant just use prefab data due to recursion
-				if (closet.ContentsSpawned == false && closet.InitialContents != null)
-				{
-					closet.TrySpawnContents(true);
-				}
+				container.TrySpawnInitialContents(true);
 
-				foreach (var closetItem in closet.ServerHeldItems)
+				//Check to spawn initial contents, cant just use prefab data due to recursion
+				foreach (var recursiveObj in container.GetStoredObjects())
 				{
-					ProcessCargo(closetItem, alreadySold);
+					ProcessCargo(recursiveObj, alreadySold);
 				}
 			}
 
 			// If there is no bounty for the item - we dont destroy it.
-			var credits = Instance.GetSellPrice(item);
+			var credits = Instance.GetSellPrice(obj);
 			Credits += credits;
 			OnCreditsUpdate.Invoke();
 
-			var attributes = item.gameObject.GetComponent<Attributes>();
+			var attributes = obj.gameObject.GetComponent<Attributes>();
 			string exportName = String.Empty;
 			if (attributes)
 			{
@@ -297,7 +287,7 @@ namespace Systems.Cargo
 			}
 			else
 			{
-				exportName = item.gameObject.ExpensiveName();
+				exportName = obj.gameObject.ExpensiveName();
 			}
 			ExportedItem export;
 			if (exportedItems.ContainsKey(exportName))
@@ -314,7 +304,7 @@ namespace Systems.Cargo
 				exportedItems.Add(exportName, export);
 			}
 
-			var stackable = item.gameObject.GetComponent<Stackable>();
+			var stackable = obj.gameObject.GetComponent<Stackable>();
 			var count = 1;
 			if (stackable)
 			{
@@ -324,7 +314,7 @@ namespace Systems.Cargo
 			export.Count += count;
 			export.TotalValue += credits;
 
-			var itemAttributes = item.GetComponent<ItemAttributesV2>();
+			var itemAttributes = obj.GetComponent<ItemAttributesV2>();
 			if (itemAttributes)
 			{
 				foreach (var itemTrait in itemAttributes.GetTraits())
@@ -348,7 +338,7 @@ namespace Systems.Cargo
 			}
 
 			//Add value of mole inside gas container
-			var gasContainer = item.GetComponent<GasContainer>();
+			var gasContainer = obj.GetComponent<GasContainer>();
 			if (gasContainer)
 			{
 				var stringBuilder = new StringBuilder();
@@ -363,21 +353,22 @@ namespace Systems.Cargo
 				export.ExportMessage = stringBuilder.ToString();
 			}
 
-			var playerScript = item.GetComponent<PlayerScript>();
+			var playerScript = obj.GetComponent<PlayerScript>();
 			if (playerScript != null)
 			{
 				playerScript.playerHealth.Gib();
 			}
 
-			DespawnItem(item, alreadySold);
+			DespawnItem(obj, alreadySold);
 		}
 
-		private void DespawnItem(PushPull item, HashSet<GameObject> alreadySold)
+		private void DespawnItem(GameObject obj, HashSet<GameObject> alreadySold)
 		{
-			alreadySold.Add(item.gameObject);
-			item.registerTile.UnregisterClient();
-			item.registerTile.UnregisterServer();
-			_ = Despawn.ServerSingle(item.gameObject);
+			alreadySold.Add(obj);
+			var registerTile = obj.RegisterTile();
+			registerTile.UnregisterClient();
+			registerTile.UnregisterServer();
+			_ = Despawn.ServerSingle(obj);
 		}
 
 		private int TryCompleteBounty(ItemTrait itemTrait, int count)
@@ -485,20 +476,16 @@ namespace Systems.Cargo
 			OnCartUpdate.Invoke();
 		}
 
-		public int GetSellPrice(PushPull item)
+		public int GetSellPrice(GameObject obj)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer == false) return 0;
+
+			if (obj.TryGetComponent<Attributes>(out var attributes))
 			{
-				return 0;
+				return attributes.ExportCost;
 			}
 
-			var attributes = item.GetComponent<Attributes>();
-			if (attributes == null)
-			{
-				return 0;
-			}
-
-			return attributes.ExportCost;
+			return 0;
 		}
 
 		private class ExportedItem

@@ -58,13 +58,12 @@ namespace Items.Cargo
 				}
 			}
 
-			var closet = pricedObject.GetComponent<ClosetControl>();
-			if (closet)
+			if (pricedObject.TryGetComponent<ObjectContainer>(out var container))
 			{
-				foreach (var item in closet.ServerHeldItems)
+				foreach (var obj in container.GetStoredObjects())
 				{
 					containedContents = true;
-					price += GetPrice(item.gameObject).Item2;
+					price += GetPrice(obj).Item2;
 				}
 			}
 

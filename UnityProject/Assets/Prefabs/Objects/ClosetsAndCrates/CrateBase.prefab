@@ -28,10 +28,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
+      propertyPath: isWeldable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
       propertyPath: weldSprite
       value: 
       objectReference: {fileID: 21300000, guid: 014a4e18cb4503144ab23deea9756c8e,
         type: 3}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: passableWhenOpen
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: soundOnOpen.AssetAddress
@@ -52,6 +62,11 @@ PrefabInstance:
       propertyPath: customNetTransform
       value: 
       objectReference: {fileID: 6861515402827895378}
+    - target: {fileID: -3721001473523075953, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: spriteType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 877469643864734438, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Size.x

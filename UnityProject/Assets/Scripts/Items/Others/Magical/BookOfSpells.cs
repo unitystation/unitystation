@@ -108,15 +108,14 @@ namespace Items.Magical
 				points -= artifactEntry.Cost;
 				SoundManager.PlayNetworkedAtPos(summonItemSound, playerScript.WorldPos, sourceObj: playerScript.gameObject);
 
-				var closetControl = spawnResult.GameObject.GetComponent<ClosetControl>();
+				var objectContainer = spawnResult.GameObject.GetComponent<ObjectContainer>();
 
 				foreach (GameObject artifactPrefab in artifactEntry.Artifacts)
 				{
 					spawnResult = Spawn.ServerPrefab(artifactPrefab);
 					if (spawnResult.Successful)
 					{
-						ObjectBehaviour artifactBehaviour = spawnResult.GameObject.GetComponent<ObjectBehaviour>();
-						closetControl.ServerAddInternalItem(artifactBehaviour);
+						objectContainer.StoreObject(spawnResult.GameObject);
 					}
 				}
 			}
