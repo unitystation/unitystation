@@ -756,10 +756,10 @@ namespace MapSaver
 					ClassCount[PrefabMono.GetType().Name] = 0;
 				ClassCount[PrefabMono.GetType().Name]++;
 
-				var ClosetControl = gameObjectComponents[i] as ClosetControl;
-				if (ClosetControl != null)
+				var objectContainer = gameObjectComponents[i] as ObjectContainer;
+				if (objectContainer != null)
 				{
-					foreach (var objectBehaviour in ClosetControl.ServerHeldItems)
+					foreach (var objectBehaviour in objectContainer.GetStoredObjects().Select(obj => obj.GetComponent<ObjectBehaviour>()))
 					{
 						if (CoordinateOverride == null)
 						{

@@ -305,12 +305,7 @@ public static class Spawn
 				if (info.SpawnDestination.SharePosition != null &&
 				    info.SpawnDestination.SharePosition.parentContainer != null)
 				{
-					if (result.GameObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
-					{
-						var closetControl = info.SpawnDestination.SharePosition.parentContainer
-							.GetComponent<ClosetControl>();
-						closetControl.ServerAddInternalItem(objectBehaviour);
-					}
+					info.SpawnDestination.SharePosition.parentContainer.GetComponent<ObjectContainer>().StoreObjects(result.GameObjects);
 				}
 			}
 			else

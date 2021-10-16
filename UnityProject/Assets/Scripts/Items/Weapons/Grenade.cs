@@ -144,14 +144,6 @@ namespace Items.Weapons
 				var explosionMatrix = registerItem.Matrix;
 				var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
-				// If the grenade was in a closet before despawning it,
-				// it would be useful to remove it from the closet item list to avoid NullReferenceExceptions
-				ClosetControl closetControl = null;
-				if ((objectBehaviour.parentContainer != null) && (objectBehaviour.parentContainer.TryGetComponent(out closetControl)))
-				{
-					closetControl.ServerHeldItems.Remove(objectBehaviour);
-				}
-
 				// Despawn grenade
 				_ = Despawn.ServerSingle(gameObject);
 

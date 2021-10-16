@@ -7,11 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1158816060410949594, guid: 24eaaeb286e2fbe48a16783af29e3c02,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1532194731765180546, guid: 24eaaeb286e2fbe48a16783af29e3c02,
         type: 3}
       propertyPath: m_AssetId
       value: 8a5248bf3330c4449bed77940fbeb820
       objectReference: {fileID: 0}
+    - target: {fileID: 5592322250118808190, guid: 24eaaeb286e2fbe48a16783af29e3c02,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: e06d07b27e84f3743bf0d0f9c0969a8c,
+        type: 2}
     - target: {fileID: 6336365744275252137, guid: 24eaaeb286e2fbe48a16783af29e3c02,
         type: 3}
       propertyPath: foreverID
@@ -82,6 +93,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SuitStorageUnitCaptain
+      objectReference: {fileID: 0}
+    - target: {fileID: 8639641436648170908, guid: 24eaaeb286e2fbe48a16783af29e3c02,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24eaaeb286e2fbe48a16783af29e3c02, type: 3}

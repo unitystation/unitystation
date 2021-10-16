@@ -5,15 +5,13 @@ namespace Items.Cargo.Wrapping
 {
 	public class WrappableObject: WrappableBase
 	{
-		[SerializeField][Tooltip("Needed stacks of paper for wrapping this object.")]
+		[SerializeField]
+		[Tooltip("Needed stacks of paper for wrapping this object.")]
 		private int neededPaperAmount = 8;
 
-		private RegisterCloset registerCloset;
-
-		private void Awake()
-		{
-			registerCloset = GetComponent<RegisterCloset>();
-		}
+		[SerializeField]
+		[Tooltip("Type of wrapped sprite to use for this container.")]
+		private ContainerTypeSprite spriteType = ContainerTypeSprite.Crate;
 
 		protected override bool CanBeWrapped(GameObject performer, WrappingPaper paper)
 		{
@@ -47,7 +45,7 @@ namespace Items.Cargo.Wrapping
 
 		private void FinishWrapping(WrappingPaper paper)
 		{
-			GameObject result = null;
+			GameObject result;
 
 			switch (paper.WrapType)
 			{
@@ -66,22 +64,6 @@ namespace Items.Cargo.Wrapping
 			result = Spawn.ServerPrefab(result, gameObject.AssumedWorldPosServer()).GameObject;
 			var wrap = result.GetComponent<WrappedObject>();
 			wrap.SetContent(gameObject);
-			ContainerTypeSprite spriteType;
-
-			switch (registerCloset.closetType)
-			{
-				case ClosetType.LOCKER:
-					spriteType = ContainerTypeSprite.Locker;
-					break;
-				case ClosetType.CRATE:
-					spriteType = ContainerTypeSprite.Crate;
-					break;
-				default:
-					Logger.LogWarning($"{gameObject} is not a locker nor crate but it an attempt to wrap mas done." +
-					                  "We set the crate sprite and go on.", Category.Cargo);
-					spriteType = ContainerTypeSprite.Crate;
-					break;
-			}
 
 			wrap.SetContainerTypeSprite(spriteType);
 			Inventory.ServerConsume(paper.ItemSlot, neededPaperAmount);
