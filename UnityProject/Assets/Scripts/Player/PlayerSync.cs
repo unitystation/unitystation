@@ -490,11 +490,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 		if (Matrix != null)
 		{
-			CheckMovementClient();
-
 			if (server)
 			{
 				CheckMovementServer();
+			}
+			else
+			{
+				CheckMovementClient();
 			}
 
 			if (!ClientPositionReady)

@@ -516,11 +516,13 @@ namespace Mirror
         // true if syncInterval elapsed and any SyncVar or SyncObject is dirty
         public bool IsDirty()
         {
-            if (Time.time - lastSyncTime >= syncInterval)
-            {
-                return syncVarDirtyBits != 0L || AnySyncObjectDirty();
-            }
-            return false;
+	        //CUSTOM UNITYSTATION CODE// It's presumed to be dirty already since The addition of is dirty on the network component
+	        return true;
+	        // if (Time.time - lastSyncTime >= syncInterval)
+	        // {
+	        // return syncVarDirtyBits != 0L || AnySyncObjectDirty();
+	        // }
+	        // return false;
         }
 
         /// <summary>Override to do custom serialization (instead of SyncVars/SyncLists). Use OnDeserialize too.</summary>
