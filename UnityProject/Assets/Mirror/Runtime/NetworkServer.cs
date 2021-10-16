@@ -1552,8 +1552,9 @@ namespace Mirror
                     // NOTE: this is what we did before push->pull
                     //       broadcasting. let's keep doing this for
                     //       feature parity to not break anyone's project.
-                    //       TODO make this more simple / unnecessary later.
-                    identity.ClearDirtyComponentsDirtyBits();
+                    //       TODO make this more simple / unnecessary later.#
+                    //CUSTOM UNITYSTATION CODE// commented this out \/
+                    //identity.ClearDirtyComponentsDirtyBits();
                 }
                 // spawned list should have no null entries because we
                 // always call Remove in OnObjectDestroy everywhere.
