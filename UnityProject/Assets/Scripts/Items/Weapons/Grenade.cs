@@ -164,7 +164,7 @@ namespace Items.Weapons
 
 		private void PlayPinSFX(Vector3 position)
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, position, parameters);
+			_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, position);
 		}
 
 		private void UpdateTimer(bool timerRunning)
