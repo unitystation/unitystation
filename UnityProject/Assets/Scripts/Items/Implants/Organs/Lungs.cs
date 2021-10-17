@@ -262,23 +262,24 @@ public class Lungs : Organ
 	}
 
 	/// <summary>
-    /// Checks for toxic gases and if they excede their maximum range before they become deadly
-    /// </summary>
-    /// <param name="gasMix">the gases the character is breathing in</param>
+	/// Checks for toxic gases and if they excede their maximum range before they become deadly
+	/// </summary>
+	/// <param name="gasMix">the gases the character is breathing in</param>
 	public virtual void ToxinBreathinCheck(GasMix gasMix)
-    {
-	    if(RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere || RelatedPart.HealthMaster.playerScript == null) return;
-        if(RelatedPart.HealthMaster.playerScript.Equipment.IsInternalsEnabled) return;
-
-        foreach (ToxicGas gas in toxicGases)
-        {
-	        float pressure = gasMix.GetPressure(gas.GasType);
-	        if (pressure >= gas.PressureSafeMax)
-	        {
-		        RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(gas.UnsafeLevelDamage, gas.UnsafeLevelDamageType);
-	        }
-        }
-    }
+	{
+		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere ||
+		    RelatedPart.HealthMaster.playerScript == null) return;
+		if (RelatedPart.HealthMaster.playerScript.Equipment.IsInternalsEnabled) return;
+		foreach (ToxicGas gas in toxicGases)
+		{
+			float pressure = gasMix.GetPressure(gas.GasType);
+			if (pressure >= gas.PressureSafeMax)
+			{
+				RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(gas.UnsafeLevelDamage,
+					gas.UnsafeLevelDamageType);
+			}
+		}
+	}
 
 	public override void InternalDamageLogic()
 	{
