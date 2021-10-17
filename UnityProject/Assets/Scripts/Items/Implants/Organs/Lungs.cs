@@ -318,8 +318,7 @@ public class Lungs : Organ
         onCooldown = false;
     }
 
-    [Serializable]
-    class ToxicGas
+    [Serializable] class ToxicGas
     {
 	    public GasSO GasType = default;
 	    public float PressureSafeMax = 0.4f;
