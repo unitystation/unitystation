@@ -16,8 +16,12 @@ namespace Objects.Atmospherics
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			var registerTile = gameObject.RegisterTile();
-			var metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			metaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPosition);
+
+			registerTile.OnLocalPositionChangedServer.AddListener((newLocalPosition) =>
+			{
+				metaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPosition);
+			});
 		}
 
 		// Don't care about the ACU operating mode.
