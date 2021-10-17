@@ -321,7 +321,7 @@ public class Lungs : Organ
     [Serializable]
     class ToxicGas
     {
-	    public GasSO GasType;
+	    public GasSO GasType = default;
 	    public float PressureSafeMax = 0.4f;
 	    public float UnsafeLevelDamage = 10;
 	    public DamageType UnsafeLevelDamageType = DamageType.Tox;
