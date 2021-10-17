@@ -16,7 +16,6 @@ namespace Objects.Atmospherics
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			var registerTile = gameObject.RegisterTile();
-			var registerTile = gameObject.RegisterTile();
 			metaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPosition);
 
 			registerTile.OnLocalPositionChangedServer.AddListener((newLocalPosition) =>
