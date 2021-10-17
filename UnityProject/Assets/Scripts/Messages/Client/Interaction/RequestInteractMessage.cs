@@ -170,7 +170,8 @@ namespace Messages.Client.Interaction
 				CheckMatrixSync(ref targetObj);
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot, Intent, TargetBodyPart);
+				var interaction = PositionalHandApply.ByClient(
+						performer, usedObject, targetObj, TargetVector, usedSlot, Intent, TargetBodyPart, IsAltUsed);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(HandApply))
