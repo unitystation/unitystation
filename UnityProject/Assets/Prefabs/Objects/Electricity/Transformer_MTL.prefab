@@ -102,6 +102,16 @@ PrefabInstance:
       propertyPath: HighsideConnections.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2731523975421391927, guid: 84482a6a9ce96a746b992465f8766f03,
+        type: 3}
+      propertyPath: Reactions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2731523975421391927, guid: 84482a6a9ce96a746b992465f8766f03,
+        type: 3}
+      propertyPath: ListCanConnectTo.Array.data[1]
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3157373369197861252, guid: 84482a6a9ce96a746b992465f8766f03,
         type: 3}
       propertyPath: MachineParts
