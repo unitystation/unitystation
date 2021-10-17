@@ -18,6 +18,12 @@ namespace Objects.Atmospherics
 			var registerTile = gameObject.RegisterTile();
 			var metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			
+			registerTile.OnLocalPositionChangedServer.AddListener((newLocalPosition) =>
+			{
+				var metaDataLayer = MatrixManager.AtPoint(newLocalPosition, true).MetaDataLayer;
+				metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			});
 		}
 
 		// Don't care about the ACU operating mode.
