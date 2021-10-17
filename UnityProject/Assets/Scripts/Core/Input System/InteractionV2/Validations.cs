@@ -386,7 +386,7 @@ public static class Validations
 			return true;
 		}
 
-		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Airborne,
+		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Click,
 			context: context, includingPlayers: false, isReach: true,
 			excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills },
 			onlyExcludeLayerOnDestination: true);

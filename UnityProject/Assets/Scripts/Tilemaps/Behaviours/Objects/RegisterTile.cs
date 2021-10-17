@@ -735,6 +735,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		return false;
 	}
 
+	public virtual bool DoesNotBlockClick(Vector3Int reachingFrom, bool isServer)
+	{
+		return true;
+	}
+
 	///<summary> Is it passable when approaching from outside? </summary>
 	public virtual bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{

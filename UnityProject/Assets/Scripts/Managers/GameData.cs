@@ -69,7 +69,7 @@ public class GameData : MonoBehaviour
 
 	#region Lifecycle
 
-	private void Awake()
+	private void Start()
 	{
 		Init();
 	}
