@@ -27,7 +27,6 @@ public class PositionalHandApply : HandApply
 		base(performer, handObject, targetObject, targetBodyPart, handSlot, intent, isAltClick)
 	{
 		TargetVector = targetVector;
-		HandSlot = handSlot;
 	}
 
 	/// <summary>
