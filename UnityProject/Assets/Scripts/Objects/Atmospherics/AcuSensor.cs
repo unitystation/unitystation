@@ -16,12 +16,12 @@ namespace Objects.Atmospherics
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			var registerTile = gameObject.RegisterTile();
-			var metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
-			
+			var registerTile = gameObject.RegisterTile();
+			metaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPosition);
+
 			registerTile.OnLocalPositionChangedServer.AddListener((newLocalPosition) =>
 			{
-				metaNode = metaDataLayer.Get(newLocalPosition, false);
+				metaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPosition);
 			});
 		}
 
