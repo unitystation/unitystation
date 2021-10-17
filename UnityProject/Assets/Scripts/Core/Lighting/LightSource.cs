@@ -50,6 +50,7 @@ namespace Objects.Lighting
 		[SerializeField] private Vector4 collLeftSetting = Vector4.zero;
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
+		[SerializeField, Range(0,100f)] private float maximumDamageOnTouch = 3f;
 		private SOLightMountState currentState;
 		private ObjectBehaviour objectBehaviour;
 		private LightFixtureConstruction construction;
@@ -313,11 +314,12 @@ namespace Objects.Lighting
 				                                     !Validations.HasItemTrait(handSlot.ItemObject,
 					                                     CommonTraits.Instance.BlackGloves)))
 				{
+					float damage = Random.Range(0, maximumDamageOnTouch);
 					var playerHealth = interaction.PerformerPlayerScript.playerHealth;
 					var burntBodyPart = interaction.HandSlot.NamedSlot == NamedSlot.leftHand
 						? BodyPartType.LeftArm
 						: BodyPartType.RightArm;
-					playerHealth.ApplyDamageToBodyPart(gameObject, 10f, AttackType.Energy, DamageType.Burn,
+					playerHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Energy, DamageType.Burn,
 						burntBodyPart);
 
 					Chat.AddExamineMsgFromServer(interaction.Performer,
