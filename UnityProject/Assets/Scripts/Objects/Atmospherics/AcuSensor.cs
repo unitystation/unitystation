@@ -21,8 +21,7 @@ namespace Objects.Atmospherics
 			
 			registerTile.OnLocalPositionChangedServer.AddListener((newLocalPosition) =>
 			{
-				var metaDataLayer = MatrixManager.AtPoint(newLocalPosition, true).MetaDataLayer;
-				metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+				metaNode = metaDataLayer.Get(newLocalPosition, false);
 			});
 		}
 
