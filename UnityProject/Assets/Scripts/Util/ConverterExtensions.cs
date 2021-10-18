@@ -5,6 +5,11 @@ using UnityEngine;
 
 public static class ConverterExtensions
 {
+	public static Vector2 To2(this Vector3 other)
+	{
+		return new Vector2(other.x, other.y);
+	}
+
 	public static Vector3Int RoundToInt(this Vector3 other)
 	{
 		return Vector3Int.RoundToInt(other);

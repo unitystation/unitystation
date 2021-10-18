@@ -191,15 +191,15 @@ namespace Systems.MobAIs
 
 		CatAI AnyCatsNearby()
 		{
-			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls, directional.CurrentDirection.Vector, 10f, 5);
+			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls, directional.CurrentDirection.Vector, 10f);
 			foreach (var coll in hits)
 			{
-				if (coll.GameObject == null) continue;
+				if (coll == null) continue;
 
-				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<CatAI>() != null
-				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				if (coll != gameObject && coll.GetComponent<CatAI>() != null
+				                                  && !coll.GetComponent<LivingHealthBehaviour>().IsDead)
 				{
-					return coll.GameObject.GetComponent<CatAI>();
+					return coll.GetComponent<CatAI>();
 				}
 			}
 			return null;
