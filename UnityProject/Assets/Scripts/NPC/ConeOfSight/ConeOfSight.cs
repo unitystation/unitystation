@@ -40,7 +40,7 @@ public class ConeOfSight : MonoBehaviour
 
 		foreach (var hit in Hits)
 		{
-			if (isInsideSector(hit.transform.position.To2(), transform.position.To2(),
+			if (IsInsideSector(hit.transform.position.To2(), transform.position.To2(),
 				transform.position.To2() - v2.To2(), transform.position.To2() - v1.To2() ))
 			{
 				var RayHit = MatrixManager.RayCast(transform.position, Vector2.zero, lengthOfSight, hitLayers,
@@ -58,16 +58,16 @@ public class ConeOfSight : MonoBehaviour
 		return hitColls;
 	}
 
-	bool areClockwise(Vector2 v1, Vector2 v2)
+	bool AreClockwise(Vector2 v1, Vector2 v2)
 	{
 		return -v1.x * v2.y + v1.y * v2.x > 0;
 	}
 
-	bool isInsideSector(Vector2 point, Vector2 center, Vector2 sectorStart, Vector2 sectorEnd) //TODO Might bug out at 0,0 coordinates
+	bool IsInsideSector(Vector2 point, Vector2 center, Vector2 sectorStart, Vector2 sectorEnd) //TODO Might bug out at 0,0 coordinates
 	{
 		var relPoint = new Vector2(point.x - center.x, point.y - center.y);
-		return !areClockwise(sectorStart, relPoint) &&
-		       areClockwise(sectorEnd, relPoint);
+		return !AreClockwise(sectorStart, relPoint) &&
+		       AreClockwise(sectorEnd, relPoint);
 	}
 
 	/// <summary>
