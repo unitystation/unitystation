@@ -364,5 +364,24 @@ namespace HealthV2
 				currentBluntDamageLevel -= 1;
 			}
 		}
+		public void HealTraumaticDamage(TraumaticDamageTypes damageTypeToHeal, TraumaDamageLevel level)
+		{
+			if (damageTypeToHeal == TraumaticDamageTypes.BURN)
+			{
+				currentBurnDamageLevel = level;
+			}
+			if (damageTypeToHeal == TraumaticDamageTypes.SLASH)
+			{
+				currentSlashDamageLevel = level;
+			}
+			if (damageTypeToHeal == TraumaticDamageTypes.PIERCE)
+			{
+				currentPierceDamageLevel = level;
+			}
+			if (damageTypeToHeal == TraumaticDamageTypes.BLUNT)
+			{
+				currentBluntDamageLevel = level;
+			}
+		}
 	}
 }
