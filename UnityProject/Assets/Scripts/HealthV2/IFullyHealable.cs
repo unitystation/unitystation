@@ -1,6 +1,8 @@
 ﻿
-public interface IFullyHealable
+namespace HealthV2
 {
-
-	void FullyHeal();
+	public interface IFullyHealable
+	{
+		void FullyHeal();
+	}
 }

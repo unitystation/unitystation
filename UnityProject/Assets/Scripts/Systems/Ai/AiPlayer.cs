@@ -13,6 +13,7 @@ using Objects.Engineering;
 using Objects.Research;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
+using HealthV2;
 
 namespace Systems.Ai
 {
