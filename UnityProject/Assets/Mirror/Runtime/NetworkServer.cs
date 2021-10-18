@@ -1496,8 +1496,10 @@ namespace Mirror
             //   doing this for now.
             foreach (NetworkIdentity identity in NetworkIdentity.spawned.Values)
             {
-                if (identity.observers == null || identity.observers.Count == 0)
-                {
+	            //CUSTOM UNITYSTATION CODE//
+	            //Apparently these can be false but still be sending data to clients
+                // if (identity.observers == null || identity.observers.Count == 0)
+                // {
 	                //CUSTOM UNITYSTATION CODE//
 	                //No point in cleaning something that's not dirty is laggy too
 	                if (identity.isDirty)
@@ -1506,7 +1508,7 @@ namespace Mirror
 		                // it would be spawned on new observers anyway.
 		                identity.ClearAllComponentsDirtyBits();
 	                }
-                }
+                // }
             }
         }
 
