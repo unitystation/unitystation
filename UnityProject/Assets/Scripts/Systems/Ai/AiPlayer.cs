@@ -21,7 +21,7 @@ namespace Systems.Ai
 	/// This isn't the class which is on the AiCore or InteliCard that is AiVessel
 	/// Sync vars in this class only get sync'd to the object owner
 	/// </summary>
-	public class AiPlayer : NetworkBehaviour, IAdminInfo
+	public class AiPlayer : NetworkBehaviour, IAdminInfo, IFullyHealable
 	{
 		[SerializeField]
 		private GameObject corePrefab = null;
@@ -72,8 +72,10 @@ namespace Systems.Ai
 		private float power;
 
 		[SyncVar(hook = nameof(SyncIntegrity))]
-		private float integrity = 100;
+		private float integrity = StartingIntegrity;
 		public float Integrity => integrity;
+
+		public static readonly float StartingIntegrity = 100;
 
 		[SyncVar(hook = nameof(SyncNumberOfCameras))]
 		private uint numberOfCameras = 100;
@@ -778,7 +780,7 @@ namespace Systems.Ai
 			var newIntegrity = integrity + byValue;
 
 			//Integrity has to be between 0 and 100 due to the slider setting for the intelicard GUI
-			newIntegrity = Mathf.Clamp(newIntegrity, 0, 100);
+			newIntegrity = Mathf.Clamp(newIntegrity, 0, StartingIntegrity);
 
 			integrity = newIntegrity;
 
@@ -792,6 +794,11 @@ namespace Systems.Ai
 			{
 				vesselObject.GetComponent<AiVessel>().UpdateGui();
 			}
+		}
+
+		public void FullyHeal()
+		{
+			ChangeIntegrity(StartingIntegrity);
 		}
 
 		[Command]
