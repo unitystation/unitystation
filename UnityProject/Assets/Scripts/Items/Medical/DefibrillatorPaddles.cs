@@ -61,26 +61,10 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 			{
 				return;
 			}
-			foreach (var BodyPart in livingHealthMaster.BodyPartList)
-			{
-				foreach (var organ in BodyPart.OrganList)
-				{
-					if (organ is Heart heart)
-					{
-						heart.HeartAttack = false;
-						heart.CanTriggerHeartAttack = false;
-						heart.CurrentPulse = 0;
-					}
-				}
-			}
-			livingHealthMaster.CalculateOverallHealth();
+			livingHealthMaster.RestartHeart();
 			if (livingHealthMaster.IsDead == false)
 			{
-				var ghost = livingHealthMaster.playerScript.mind?.ghost;
-				if (ghost)
-				{
-					ghost.playerNetworkActions.GhostEnterBody();
-				}
+				livingHealthMaster.playerScript.ReturnGhostToBody();
 			}
 		}
 		var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true), Perform);

@@ -8,7 +8,7 @@ using Managers;
 using Messages.Server;
 using Messages.Server.AdminTools;
 using Strings;
-
+using HealthV2;
 
 namespace AdminCommands
 {
@@ -318,9 +318,9 @@ namespace AdminCommands
 				string message;
 
 				//Does this player have a body that can be healed?
-				if (playerBody != null)
+				if (playerBody != null && playerBody.TryGetComponent<IFullyHealable>(out var healable))
 				{
-					playerBody.playerHealth.RevivePlayerToFullHealth();
+					healable.FullyHeal();
 					message = $"{admin.Username}: Healed up Username: {player.Username} ({player.Name})";
 				}
 				else

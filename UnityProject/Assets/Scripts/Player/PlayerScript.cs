@@ -366,6 +366,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
 	public bool IsPlayerSemiGhost => playerState == PlayerStates.Blob || playerState == PlayerStates.Ai;
 
+	public void ReturnGhostToBody()
+	{
+		var ghost = mind?.ghost;
+		if (ghost != null)
+		{
+			ghost.playerNetworkActions.GhostEnterBody();
+		}
+	}
+
 	public object Chat { get; internal set; }
 
 	public bool IsGameObjectReachable(GameObject go, bool isServer, float interactDist = interactionDistance, GameObject context=null)

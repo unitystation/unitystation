@@ -22,7 +22,7 @@ namespace HealthV2
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
-	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable
+	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -673,12 +673,20 @@ namespace HealthV2
 		/// <summary>
 		/// Revives a dead player to full health.
 		/// </summary>
-		public void RevivePlayerToFullHealth()
+		public void FullyHeal()
 		{
 			Extinguish(); //Remove any fire on them.
 			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
 			healthStateController.SetOverallHealth(maxHealth); //Set the player's overall health to their race's maxHealth.
-			foreach (var bodyPart in BodyPartList) //Restart their heart.
+			RestartHeart();
+			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
+			playerScript.registerTile.ServerStandUp();
+			playerScript.ReturnGhostToBody();
+		}
+
+		public void RestartHeart()
+		{
+			foreach (var bodyPart in BodyPartList)
 			{
 				foreach (var organ in bodyPart.OrganList)
 				{
@@ -686,19 +694,11 @@ namespace HealthV2
 					{
 						heart.HeartAttack = false;
 						heart.CanTriggerHeartAttack = false;
-						heart.CurrentPulse = 100;
-						heart.DoHeartBeat();
+						heart.CurrentPulse = 0;
 					}
 				}
 			}
 			CalculateOverallHealth(); //This makes the player alive and concision.
-			playerScript.playerMove.allowInput = true; //Let them interact with the world again.
-			playerScript.registerTile.ServerStandUp();
-			if(playerScript.IsGhost)
-			{
-				//TODO: force return to body
-				return;
-			}
 		}
 
 		/// <summary>
