@@ -6,20 +6,19 @@ using UnityEngine;
 namespace Objects.Kitchen
 {
 	/// <summary>
-	/// Allows Microwave to be interacted with. Player can put food in the microwave to cook it.
-	/// The microwave can be interacted with to, for example, check the remaining time.
+	/// Allows Griddle to be interacted with. Player can put food on the griddle to cook it.
 	/// </summary>
-	//[RequireComponent(typeof(Griddle))]
+	[RequireComponent(typeof(Griddle))]
 	public class InteractableGriddle : MonoBehaviour, ICheckedInteractable<PositionalHandApply>,
 			IRightClickable, ICheckedInteractable<ContextMenuApply>
 	{
 
 		[SerializeField]
-		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's door.")]
+		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the griddle's table.")]
 		private SpriteClickRegion tableRegion = default;
 
 		[SerializeField]
-		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's power button.")]
+		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the griddle's power knob.")]
 		private SpriteClickRegion powerRegion = default;
 
 		private Griddle griddle;
@@ -35,7 +34,8 @@ namespace Objects.Kitchen
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
+			return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) 
+				|| Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar)) == false;
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)

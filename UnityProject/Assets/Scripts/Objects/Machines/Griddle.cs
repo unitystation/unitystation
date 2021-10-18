@@ -19,8 +19,8 @@ namespace Objects.Kitchen
 {
 	/// <summary>
 	/// A machine which can have meat items placed on top to cook them.
-	/// If the item has the Cookable component,
-	/// the item will be cooked once enough time has lapsed as determined in that component.
+	/// If the item has the Cookable component, the item will be cooked 
+	/// once enough time has lapsed as determined in that component.
 	/// </summary>
 	public class Griddle : NetworkBehaviour, IAPCPowerable, IRefreshParts
 	{
@@ -31,9 +31,6 @@ namespace Objects.Kitchen
 		}
 
 		[SerializeField] private AddressableAudioSource startSFX = null;
-
-		[SerializeField]
-		private AddressableAudioSource kaputSfx = default;
 
 		[SerializeField]
 		[Tooltip("The looped audio source to play while the griddle is running.")]
@@ -142,6 +139,10 @@ namespace Objects.Kitchen
 
 		private bool TryPlaceItemOnGriddle(PositionalHandApply interaction)
 		{
+			if (interaction == null || interaction.UsedObject == null)
+			{
+				return false;
+			}
 			Inventory.ServerDrop(interaction.HandSlot, interaction.TargetVector);
 			return true;
 		}
@@ -163,11 +164,7 @@ namespace Objects.Kitchen
 		private void CheckCooked(float cookTime)
 		{
 			var itemsOnGrill = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
-				.Where(ob => ob != null && ob.gameObject != gameObject)
-				.Where(ob =>
-				{
-					return true;
-				});
+				.Where(ob => ob != null && ob.gameObject != gameObject);
 			foreach (var onGrill in itemsOnGrill)
 			{
 				if(onGrill.gameObject.TryGetComponent(out Cookable slotCooked) && slotCooked.CookableBy.HasFlag(CookSource.Griddle))
@@ -176,7 +173,7 @@ namespace Objects.Kitchen
 					{
 						// Swap item for its cooked version, if applicable.
 						if (slotCooked.CookedProduct == null) return;
-						Spawn.ServerPrefab(slotCooked.CookedProduct, slotCooked.gameObject.RegisterTile().WorldPosition, transform.parent);
+						Spawn.ServerPrefab(slotCooked.CookedProduct, slotCooked.gameObject.transform.position, transform.parent);
 						_ = Despawn.ServerSingle(slotCooked.gameObject);
 					}
 				}

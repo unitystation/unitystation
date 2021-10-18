@@ -20,8 +20,6 @@ namespace Objects.Kitchen
 	/// <summary>
 	/// A machine into which players can insert items for cooking. If the item has the Cookable component,
 	/// the item will be cooked once enough time has lapsed as determined in that component.
-	/// Otherwise, any food item that doesn't have the cookable component will be cooked using
-	/// the legacy way, of converting to cooked when the oven's timer finishes.
 	/// </summary>
 	public class Oven : NetworkBehaviour, IAPCPowerable, IRefreshParts
 	{
@@ -63,7 +61,7 @@ namespace Objects.Kitchen
 		private ItemStorageStructure[] TierStorage = new ItemStorageStructure[4];
 
 		[SerializeField, Foldout("Power Usages")]
-		[Tooltip("Wattage of the oven's circuitry and display.")]
+		[Tooltip("Wattage of the oven's on light.")]
 		private int circuitWattage = 5;
 
 		[SerializeField, Foldout("Power Usages")]
@@ -79,7 +77,7 @@ namespace Objects.Kitchen
 		[Tooltip("Sprite responsible for the oven itself.")]
 		private SpriteHandler spriteHandlerOven = default;
 		[SerializeField]
-		[Tooltip("Sprite responsible for the door.")]
+		[Tooltip("Sprite responsible for the oven's door.")]
 		private SpriteHandler spriteHandlerDoor = default;
 		private ItemStorage storage;
 		private APCPoweredDevice poweredDevice;
