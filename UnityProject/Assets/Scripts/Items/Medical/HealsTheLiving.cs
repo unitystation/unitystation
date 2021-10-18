@@ -5,7 +5,7 @@ using HealthV2;
 using UnityEngine;
 using NaughtyAttributes;
 using Items;
- using Messages.Server.HealthMessages;
+using Messages.Server.HealthMessages;
 
  /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
@@ -13,21 +13,20 @@ using Items;
 [RequireComponent(typeof(Stackable))]
 public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	private static readonly StandardProgressActionConfig ProgressConfig =
+	protected static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
 
 	public DamageType healType;
+	public int healDamageAmount = 40;
 
 	public bool StopsExternalBleeding = false;
 	public bool HealsTraumaDamage = false;
-
-	[Range(0,100), EnableIf("HealsTraumaDamage")]
-	public float TraumaDamageToHeal = 20;
 
 	[SerializeField, EnableIf("HealsTraumaDamage")]
 	protected TraumaticDamageTypes TraumaTypeToHeal;
 
 	protected Stackable stackable;
+	[SerializeField] protected float timeTakenToHeal = 5f;
 
 	private void Awake()
 	{
@@ -82,7 +81,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
-		livingHealth.HealDamage(null, 40, healType, interaction.TargetBodyPart);
+		livingHealth.HealDamage(null, healDamageAmount, healType, interaction.TargetBodyPart);
 		if (StopsExternalBleeding)
 		{
 			RemoveLimbLossBleed(livingHealth, interaction);
@@ -102,7 +101,7 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 
 		StandardProgressAction.Create(ProgressConfig, ProgressComplete)
-			.ServerStartProgress(originator.RegisterTile(), 5f, originator);
+			.ServerStartProgress(originator.RegisterTile(), timeTakenToHeal, originator);
 	}
 
 	protected void HealTraumaDamage(LivingHealthMasterBase livingHealth, HandApply interaction)
