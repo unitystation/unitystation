@@ -56,7 +56,10 @@ namespace HealthV2
 
 		[SerializeField] private bool gibsEntireBodyOnRemoval = false;
 
-		private float damageThreshold = 10f; //How much damage is required before we start worrying about traumas?
+		//Damage thresholds to trigger traumas via AttackTypes
+		[SerializeField] private float bruteDamageThreshold = 18f;
+		[SerializeField] private float burnDamageThreshold  = 14f;
+		[SerializeField] private float bombDamageThreshold  = 10f;
 		private float dislocationAutoHealPercent = 50f; //50% chance for joint dislocation to be healed on it's on by the next hit.
 
 		public float CurrentInternalBleedingDamage
@@ -77,7 +80,7 @@ namespace HealthV2
 		/// </summary>
 		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH, bool ignoreSeverityCheck = false)
 		{
-			if(Severity < DamageSeverity.Bad && ignoreSeverityCheck == false) return;
+			if(HealthMaster.OverallHealth >= 0 && ignoreSeverityCheck == false) return;
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance) == false)
 			{

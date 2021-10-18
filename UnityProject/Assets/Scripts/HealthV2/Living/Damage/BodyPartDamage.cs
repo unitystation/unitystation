@@ -227,8 +227,7 @@ namespace HealthV2
 				DamageOrgans(damage, attackType, damageType, organDamageSplit, armorPenetration);
 			}
 
-			if(damage < damageThreshold) return; //Do not apply traumas if the damage is not serious.
-			if(damageType == DamageType.Brute) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
+			if(damageType == DamageType.Brute && damage >= bruteDamageThreshold) //Check damage type to avoid bugs where you can blow someone's head off with a shoe.
 			{
 				if (attackType == AttackType.Melee || attackType == AttackType.Laser || attackType == AttackType.Energy)
 				{
@@ -244,7 +243,7 @@ namespace HealthV2
 				}
 			}
 
-			if(attackType == AttackType.Bomb)
+			if(attackType == AttackType.Bomb && damage >= bombDamageThreshold)
 			{
 				TakeBluntDamage();
 				DismemberBodyPartWithChance();
@@ -253,7 +252,7 @@ namespace HealthV2
 			if (damageType == DamageType.Burn || attackType == AttackType.Fire ||
 			    attackType == AttackType.Laser || attackType == AttackType.Energy)
 			{
-				ApplyTraumaDamage(TraumaticDamageTypes.BURN);
+				if(damage >= burnDamageThreshold) ApplyTraumaDamage(TraumaticDamageTypes.BURN);
 			}
 
 		}
