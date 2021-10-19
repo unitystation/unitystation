@@ -97,7 +97,7 @@ namespace Systems.MobAIs
 
 		public virtual void OnDespawnServer(DespawnInfo info)
 		{
-			health.applyDamageEvent += AttackReceivedCoolDown;
+			health.applyDamageEvent -= AttackReceivedCoolDown;
 			ResetBehaviours();
 		}
 
@@ -197,7 +197,7 @@ namespace Systems.MobAIs
 
 		private void MonitorFollowingTime()
 		{
-			if (mobFollow.activated && followTimeMax != -1f)
+			if (mobFollow.activated && followTimeMax > 0)
 			{
 				followingTime += Time.deltaTime;
 				if (followingTime > followTimeMax)
@@ -209,7 +209,7 @@ namespace Systems.MobAIs
 
 		private void MonitorExploreTime()
 		{
-			if (mobExplore.activated && exploreTimeMax != -1f)
+			if (mobExplore.activated && exploreTimeMax > 0)
 			{
 				exploringTime += Time.deltaTime;
 				if (exploringTime > exploreTimeMax)
@@ -221,7 +221,7 @@ namespace Systems.MobAIs
 
 		private void MonitorFleeingTime()
 		{
-			if (mobFlee.activated && fleeTimeMax != -1f)
+			if (mobFlee.activated && fleeTimeMax > 0)
 			{
 				fleeingTime += Time.deltaTime;
 				if (fleeingTime > fleeTimeMax)

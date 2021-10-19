@@ -298,15 +298,17 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if ((damagedBy is null) != false || damagedBy == mobMeleeAction.FollowTarget)
+			if ((damagedBy is null) || damagedBy == mobMeleeAction.FollowTarget)
 			{
 				return;
 			}
+
 			//80% chance the mob decides to attack the new attacker
 			if (DMMath.Prob(attackLastAttackerChance) == false)
 			{
 				return;
 			}
+
 			var playerScript = damagedBy.GetComponent<PlayerScript>();
 			if (playerScript != null)
 			{
