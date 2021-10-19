@@ -620,19 +620,23 @@ public partial class CustomNetTransform
 	[Server]
 	private bool ValidateFloating(Vector3 origin, Vector3 goal)
 	{
+
 		//		Logger.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
 		var startPosition = Vector3Int.RoundToInt(origin);
 		var targetPosition = Vector3Int.RoundToInt(goal);
 
+		var Matrix = MatrixManager.AtPoint(targetPosition, CustomNetworkManager.Instance._isServer);
+		var Localposition = MatrixManager.WorldToLocalInt(targetPosition, Matrix);
+
 		var info = serverState.ActiveThrow;
 		IReadOnlyCollection<LivingHealthMasterBase> creaturesToHit =
 			Vector3Int.RoundToInt(serverState.ActiveThrow.OriginWorldPos) == targetPosition ?
-				null : LivingCreaturesInPosition(targetPosition);
+				null : LivingCreaturesInPosition(Localposition, Matrix);
 
 		if (serverState.Speed > SpeedHitThreshold)
 		{
 			OnHit(targetPosition, info, creaturesToHit);
-			DamageTile( goal,MatrixManager.GetDamageableTilemapsAt(targetPosition));
+			DamageTile( goal,Matrix.Matrix.TilemapsDamage);
 		}
 
 		if (CanDriftTo(startPosition, targetPosition, isServer : true))
@@ -642,9 +646,8 @@ public partial class CustomNetTransform
 			return (creaturesToHit == null || creaturesToHit.Count == 0) ||  (registerTile && registerTile.IsPassable(true));
 		}
 
-		IReadOnlyCollection<DisposalBin> bins = MatrixManager.GetAt<DisposalBin>(targetPosition, isServer: true)
-			.Where(bin => CanHitObject(bin)).ToArray();
-		if (bins.Count > 0)
+		var bins = Matrix.Matrix.Get<DisposalBin>(Localposition, isServer: true).Where(CanHitObject).ToArray();
+		if (bins.Length > 0)
 		{
 			bins.First().OnFlyingObjectHit(gameObject);
 		}
@@ -653,13 +656,24 @@ public partial class CustomNetTransform
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
-	private IReadOnlyCollection<LivingHealthMasterBase> LivingCreaturesInPosition(Vector3Int position)
+	private IReadOnlyCollection<LivingHealthMasterBase> LivingCreaturesInPosition(Vector3Int Localposition, MatrixInfo Matrix) //TODO Needs to be expanded to include mobs with only a simple cast
 	{
-		return MatrixManager.GetAt<LivingHealthMasterBase>(position, isServer: true)?
-				.Where(creature =>
-					creature.IsDead == false &&
-					CanHitObject(creature))
-				.ToArray();
+		List<LivingHealthMasterBase> ListHealth = new List<LivingHealthMasterBase>();
+		List<RegisterPlayer> RegisterPlayers = new List<RegisterPlayer>();
+
+		RegisterPlayers.AddRange(Matrix.Matrix.GetAs<RegisterPlayer>(Localposition, isServer));
+		foreach (var registerPlayer in RegisterPlayers)
+		{
+			if (registerPlayer.PlayerScript.playerHealth.IsDead == false)
+			{
+				if (CanHitObject(registerPlayer))
+				{
+					ListHealth.Add(registerPlayer.PlayerScript.playerHealth);
+				}
+			}
+		}
+
+		return ListHealth;
 	}
 
 	private bool CanHitObject(Component obj)

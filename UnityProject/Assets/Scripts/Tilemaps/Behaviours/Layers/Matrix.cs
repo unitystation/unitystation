@@ -212,6 +212,29 @@ public class Matrix : MonoBehaviour
 	}
 
 
+	public bool IsPassableLeaveTileCardinalMatrix(Vector3Int Localorigin, Vector3Int Localposition, bool isServer,
+		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+		bool isReach = false, bool onlyExcludeLayerOnDestination = false)
+	{
+		return MetaTileMap.IsPassableLeaveTileCardinalTileMap(Localorigin, Localposition, isServer, collisionType: collisionType,
+			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
+			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
+	}
+
+	public bool IsPassableEnterTileCardinalMatrix(Vector3Int Localorigin, Vector3Int Localposition, bool isServer,
+		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+		bool isReach = false, bool onlyExcludeLayerOnDestination = false)
+	{
+		return MetaTileMap.IsPassableEnterTileCardinalTileMap(Localorigin, Localposition, isServer, collisionType: collisionType,
+			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
+			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
+	}
+
+
 	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
 	public bool HasAnyDepartureBlockedOneMatrix(Vector3Int to, bool isServer, RegisterTile context)
 	{
@@ -310,6 +333,27 @@ public class Matrix : MonoBehaviour
 	{
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
+
+	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : class
+	{
+		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		{
+			return Enumerable.Empty<T>(); //?
+		}
+
+		var filtered = new List<T>();
+		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
+		{
+			T x = t as T;
+			if (x != null)
+			{
+				filtered.Add(x);
+			}
+		}
+
+		return filtered;
+	}
+
 
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{

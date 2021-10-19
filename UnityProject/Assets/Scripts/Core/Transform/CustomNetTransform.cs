@@ -276,7 +276,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 			changed &= CheckFloatingClient();
 		}
 
-		if (server)
+		if (server && IsFloatingServer)
 		{
 			changed &= CheckFloatingServer();
 		}

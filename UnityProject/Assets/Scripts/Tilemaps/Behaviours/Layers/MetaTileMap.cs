@@ -286,6 +286,25 @@ namespace TileManagement
 			return (damage - RemainingDamage);
 		}
 
+
+		public bool IsPassableLeaveTileCardinalTileMap(Vector3Int origin, Vector3Int to, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+			bool isReach = false, bool onlyExcludeLayerOnDestination = false)
+		{
+			return CanLeaveTile(origin, to, isServer, collisionType, inclPlayers, context, excludeLayers,
+				excludeTiles, ignoreObjects, isReach: isReach);
+		}
+
+		public bool IsPassableEnterTileCardinalTileMap(Vector3Int origin, Vector3Int to, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+			bool isReach = false, bool onlyExcludeLayerOnDestination = false)
+		{
+			return CanEnterTile(origin, to, isServer, collisionType, inclPlayers, context, excludeLayers,
+				excludeTiles, ignoreObjects, isReach: isReach);
+		}
+
 		public bool IsPassableAtOneTileMap(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
@@ -322,6 +341,76 @@ namespace TileManagement
 
 				return isPassableIfVerticalFirst;
 			}
+		}
+
+		private bool CanLeaveTile(Vector3Int origin, Vector3Int to, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+			bool isReach = false)
+		{
+			if (ignoreObjects == false &&
+			    ObjectLayer.CanLeaveTile(origin, to, isServer, collisionType, inclPlayers, context,
+				    excludeTiles, isReach: isReach) == false)
+			{
+				return false;
+			}
+
+			//Tiles don't have a Check for leaving
+
+			return true;
+
+		}
+
+		private bool CanEnterTile(Vector3Int origin, Vector3Int to, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+			bool isReach = false)
+		{
+			if (ignoreObjects == false &&
+			    ObjectLayer.CanEnterTile(origin, to, isServer, collisionType, inclPlayers, context,
+				    excludeTiles, isReach: isReach) == false)
+			{
+				return false;
+			}
+
+			TileLocation TileLcation = null;
+			for (var i = 0; i < SolidLayersValues.Length; i++)
+			{
+				var solidLayer = SolidLayersValues[i];
+
+				// Skip floor & base collisions if this is not a shuttle
+				if (collisionType != CollisionType.Shuttle)
+				{
+					if ((solidLayer.LayerType == LayerType.Grills || solidLayer.LayerType == LayerType.Tables ||
+					     solidLayer.LayerType == LayerType.Walls || solidLayer.LayerType == LayerType.Windows) == false)
+					{
+						continue;
+					}
+				}
+
+				// Skip if the current tested layer is being excluded.
+				if (excludeLayers != null && excludeLayers.Contains(solidLayer.LayerType))
+				{
+					continue;
+				}
+
+				TileLcation = GetCorrectTileLocationForLayer(to, solidLayer);
+
+				if (TileLcation?.Tile == null) continue;
+				var tile = TileLcation.Tile as BasicTile;
+
+				// Return passable if the tile type is being excluded from checks.
+				if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
+					continue;
+
+				if (tile.IsPassable(collisionType, origin, this) == false)
+				{
+					return false;
+				}
+			}
+
+			return true;
+
 		}
 
 		private bool IsPassableAtOrthogonal(Vector3Int origin, Vector3Int to, bool isServer,
