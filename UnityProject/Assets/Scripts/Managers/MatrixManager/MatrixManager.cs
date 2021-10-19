@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Chemistry;
 using Doors;
@@ -578,6 +579,38 @@ public partial class MatrixManager : MonoBehaviour
 			mat.Matrix.HasAnyDepartureBlockedOneMatrix(WorldToLocalInt(to, mat), isServer, context));
 	}
 
+
+	public struct MatrixOneTimePass
+	{
+		public MatrixInfo Info1;
+		public MatrixInfo Info2;
+		public MatrixInfo Info3;
+		public MatrixInfo Info4;
+
+		public bool IsFullySet()
+		{
+			if (Info1 != null && Info2 != null && Info3 != null && Info4 != null)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		public bool IsHalfFullySet()
+		{
+			if (Info1 != null && Info2 != null)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+	}
+
+	public static Stopwatch SW = new Stopwatch();
+
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatrices(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
@@ -585,137 +618,26 @@ public partial class MatrixManager : MonoBehaviour
 		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false,
 		bool onlyExcludeLayerOnDestination = false)
 	{
-		// checking in a cardinal direction
-		if (worldOrigin.x == worldTarget.x || worldOrigin.y == worldTarget.y)
-		{
-			var Matrix = MatrixManager.AtPoint(worldOrigin, isServer);
-			var BackupMatrix = Matrix;
-			var OriginLocalposition = MatrixManager.WorldToLocalInt(worldOrigin, Matrix);
-			var TargetLocalposition = MatrixManager.WorldToLocalInt(worldTarget, Matrix);
+		SW.Reset();
+		SW.Start();
 
-			//Check the origin matrix
-			if (NotInExclusions(excludeList, Matrix) && Matrix.Matrix.IsPassableAtOneMatrix(OriginLocalposition, TargetLocalposition,
-				isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-				excludeLayers: excludeLayers, isReach: isReach,
-				onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination) == false)
-			{
-				return false;
-			}
+		// Gets the list of Matrixes to actually check
+		MatrixInfo[] includeList = excludeList != null
+			? ExcludeFromAllMatrixes(excludeList)
+			: Instance.ActiveMatrices.Values.ToArray();
 
-			Matrix = MatrixManager.AtPoint(worldTarget, isServer);
-			if (BackupMatrix == Matrix) //These positions have already been checked
-			{
-				return true;
-			}
-
-			OriginLocalposition = MatrixManager.WorldToLocalInt(worldOrigin, Matrix);
-			TargetLocalposition = MatrixManager.WorldToLocalInt(worldTarget, Matrix);
-
-
-			if (NotInExclusions(excludeList, Matrix) && Matrix.Matrix.IsPassableAtOneMatrix(OriginLocalposition, TargetLocalposition,
-				isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-				excludeLayers: excludeLayers, isReach: isReach,
-				onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination) == false)
-			{
-				return false;
-			}
-
-			return true;
-		}
-		else
-		{
-			Vector3Int toX = new Vector3Int(worldTarget.x, worldOrigin.y, worldOrigin.z);
-			if (CheckCornerPath(worldOrigin,toX ,worldTarget, isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-				excludeLayers: excludeLayers, isReach: isReach,
-				onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination))
-			{
-				return true;
-			}
-
-			Vector3Int toY = new Vector3Int(worldOrigin.x, worldTarget.y, worldOrigin.z);
-			if (CheckCornerPath(worldOrigin,toY ,worldTarget, isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-				excludeLayers: excludeLayers, isReach: isReach,
-				onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination))
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-
-	private static bool NotInExclusions(int[] excludeList, MatrixInfo MatrixInfo)
-	{
-		if (excludeList != null)
-		{
-			for (int i = 0; i < excludeList.Length; i++)
-			{
-				if (excludeList[i] == MatrixInfo.Id)
-				{
-					return false;
-				}
-			}
-		}
-
-		return true;
-
-	}
-
-	private static bool CheckCornerPath(Vector3Int worldOrigin, Vector3Int Corner, Vector3Int worldTarget, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false,
-		bool onlyExcludeLayerOnDestination = false)
-	{
-		var Matrix = MatrixManager.AtPoint(worldOrigin, isServer);
-		var OriginLocalposition = MatrixManager.WorldToLocalInt(worldOrigin, Matrix);
-		var TargetLocalposition = MatrixManager.WorldToLocalInt(Corner, Matrix);
-
-		if (NotInExclusions(excludeList, Matrix) == false || Matrix.Matrix.IsPassableLeaveTileCardinalMatrix(OriginLocalposition,
-			TargetLocalposition, //can Leave to The Corner From start
-			isServer,
-			collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-			excludeLayers: excludeLayers, isReach: isReach,
-			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination))
-		{
-			Matrix = MatrixManager.AtPoint(Corner, isServer);
-			if (NotInExclusions(excludeList, Matrix) == false || Matrix.Matrix.IsPassableEnterTileCardinalMatrix(OriginLocalposition,
-				TargetLocalposition, //can Enter to The Corner
-				isServer,
-				collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-				excludeLayers: excludeLayers, isReach: isReach,
-				onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination))
-			{
-				OriginLocalposition = MatrixManager.WorldToLocalInt(Corner, Matrix);
-				TargetLocalposition = MatrixManager.WorldToLocalInt(worldTarget, Matrix);
-				if (NotInExclusions(excludeList, Matrix) == false || Matrix.Matrix.IsPassableLeaveTileCardinalMatrix(OriginLocalposition,
-					TargetLocalposition, //can Leave The corner to where were going to
-					isServer,
+		var ff =   AllMatchInternal(mat =>
+				mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
 					collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-					excludeLayers: excludeLayers, isReach: isReach,
-					onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination))
-				{
-					Matrix = MatrixManager.AtPoint(worldTarget, isServer);
-					if (NotInExclusions(excludeList, Matrix) == false || Matrix.Matrix.IsPassableEnterTileCardinalMatrix(
-						OriginLocalposition, //can Enter where were going to From corner
-						TargetLocalposition,
-						isServer,
-						collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-						excludeLayers: excludeLayers, isReach: isReach,
-						onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination))
-					{
-						return true;
-					}
-				}
-			}
-		}
+					excludeLayers: excludeLayers, isReach: isReach, onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination),
+			includeList);
 
-		return false;
+		SW.Stop();
+		Logger.Log("was > " + SW.ElapsedTicks);
+		return ff;
+
 	}
+
 
 	/// <summary>
 	/// Server only.

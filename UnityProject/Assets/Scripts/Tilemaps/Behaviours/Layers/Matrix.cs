@@ -212,29 +212,6 @@ public class Matrix : MonoBehaviour
 	}
 
 
-	public bool IsPassableLeaveTileCardinalMatrix(Vector3Int Localorigin, Vector3Int Localposition, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
-		bool isReach = false, bool onlyExcludeLayerOnDestination = false)
-	{
-		return MetaTileMap.IsPassableLeaveTileCardinalTileMap(Localorigin, Localposition, isServer, collisionType: collisionType,
-			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
-			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
-			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
-	}
-
-	public bool IsPassableEnterTileCardinalMatrix(Vector3Int Localorigin, Vector3Int Localposition, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
-		bool isReach = false, bool onlyExcludeLayerOnDestination = false)
-	{
-		return MetaTileMap.IsPassableEnterTileCardinalTileMap(Localorigin, Localposition, isServer, collisionType: collisionType,
-			inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers,
-			excludeTiles: excludeTiles, ignoreObjects: ignoreObjects, isReach: isReach,
-			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
-	}
-
-
 	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
 	public bool HasAnyDepartureBlockedOneMatrix(Vector3Int to, bool isServer, RegisterTile context)
 	{
