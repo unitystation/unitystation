@@ -107,7 +107,10 @@ namespace HealthV2
 					return;
 				}
 				bodyPart.currentBluntDamageLevel += 1;
-				AnnounceJointDislocationEvent();
+				if (BodyPartType != BodyPartType.Chest)
+				{
+					AnnounceJointDislocationEvent();
+				}
 			}
 
 			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
