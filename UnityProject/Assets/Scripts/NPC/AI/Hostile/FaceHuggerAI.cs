@@ -40,7 +40,7 @@ namespace Systems.MobAIs
 		/// <returns>Gameobject of the first player it found</returns>
 		protected override GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , directional.CurrentDirection.Vector, 10f, 10);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , directional.CurrentDirection.Vector, 10f);
 			if (hits.Count == 0)
 			{
 				return null;
@@ -48,11 +48,9 @@ namespace Systems.MobAIs
 
 			foreach (var coll in hits)
 			{
-				if (coll.GameObject == null) continue;
-
-				if (coll.GameObject.layer == playersLayer)
+				if (coll.layer == playersLayer)
 				{
-					return coll.GameObject;
+					return coll;
 				}
 			}
 

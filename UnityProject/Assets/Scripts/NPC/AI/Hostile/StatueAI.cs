@@ -60,18 +60,18 @@ namespace Systems.MobAIs
 
 		private bool IsSomeoneLookingAtMe()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , directional.CurrentDirection.Vector, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , directional.CurrentDirection.Vector, 10f);
 			if (hits.Count == 0) return false;
 
 			foreach (var coll in hits)
 			{
-				if (coll.GameObject == null) continue;
+				if (coll == null) continue;
 
-				var dir = (transform.position - coll.GameObject.transform.position).normalized;
+				var dir = (transform.position - coll.transform.position).normalized;
 
-				if (coll.GameObject.layer == playersLayer
-				    && !coll.GameObject.GetComponent<LivingHealthMasterBase>().IsDead
-				    && coll.GameObject.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
+				if (coll.layer == playersLayer
+				    && !coll.GetComponent<LivingHealthMasterBase>().IsDead
+				    && coll.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
 				{
 					Freeze();
 					return true;
