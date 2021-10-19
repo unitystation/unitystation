@@ -17,6 +17,7 @@ MonoBehaviour:
   lootCount: 1
   fanOut: 0
   poolList: []
+  spawnedItem: {fileID: 0}
 --- !u!1001 &2838674892618678586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,7 +27,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: RandomItemSpot
+      value: _RandomItemSpawnerBase
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_RootOrder

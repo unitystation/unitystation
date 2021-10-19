@@ -9,8 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: ProjectileVelocity
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: firemodeName.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: firemodeName.Array.data[0]
+      value: Hellfire
       objectReference: {fileID: 0}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -22,6 +32,12 @@ PrefabInstance:
       propertyPath: firemodeProjectiles.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 5996511364925663208, guid: c1e78413dfa7c5d4ebb396bb780027c1,
+        type: 3}
     - target: {fileID: 3537619260171532079, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: foreverID
