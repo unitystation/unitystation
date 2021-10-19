@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacity: 5
-  reactionSet: {fileID: 11400000, guid: 53dd4ae3aacb14740a59d39f2a38cf4f, type: 2}
+  reactionSet: {fileID: 11400000, guid: 78dc34557bff844439a0566ce5c7096f, type: 2}
   AdditionalReactions: []
   canPourOut: 0
   initialReagentMix:
@@ -121,7 +121,7 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   UseStandardExamine: 1
-  ExamineAmount: 0
+  ExamineAmount: 2
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist:
