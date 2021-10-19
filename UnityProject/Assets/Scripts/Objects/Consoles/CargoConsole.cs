@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Items;
 using Mirror;
 using UnityEngine;
 using UI.Objects.Cargo;
@@ -40,18 +41,18 @@ namespace Objects.Cargo
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Id))
+			IDCard id = interaction.HandSlot.Item.GetComponent<IDCard>();
+			Emag mag = interaction.HandSlot.Item.GetComponent<Emag>();
+			if (id != null)
 			{
-				CheckID(interaction.HandSlot.Item.GetComponent<IDCard>().JobType, interaction.Performer);
+				CheckID(id.JobType, interaction.Performer);
 			}
-			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+			if (mag == null || Emagged) return;
+			if (mag.UseCharge(interaction))
 			{
-				//"You adjust the supply console's routing and receiver spectrum, unlocking special supplies and contraband.
 				Emagged = true;
-				if (cargoGUI)
-				{
-					cargoGUI.pageCart.UpdateTab();
-				}
+				CorrectID = true;
+				if (cargoGUI) cargoGUI.pageCart.UpdateTab();
 			}
 		}
 
