@@ -341,13 +341,16 @@ namespace Systems.Cargo
 			var gasContainer = obj.GetComponent<GasContainer>();
 			if (gasContainer)
 			{
+				int gasPrise = 0;
 				var stringBuilder = new StringBuilder();
 				stringBuilder.Append(export.ExportMessage);
 
 				foreach (var gas in gasContainer.GasMix.GasesArray)
 				{
-					stringBuilder.AppendLine($"Exported {gas.Moles} moles of {gas.GasSO.Name} for {(int)gas.Moles * gas.GasSO.ExportPrice} credits");
-					export.TotalValue += (int)gas.Moles * gas.GasSO.ExportPrice;
+					gasPrise = (int)gas.Moles * gas.GasSO.ExportPrice;
+					stringBuilder.AppendLine($"Exported {gas.Moles} moles of {gas.GasSO.Name} for {gasPrise} credits");
+					export.TotalValue += gasPrise;
+					Credits += gasPrise;
 				}
 
 				export.ExportMessage = stringBuilder.ToString();
