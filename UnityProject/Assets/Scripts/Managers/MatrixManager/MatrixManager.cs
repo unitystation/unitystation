@@ -501,8 +501,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
 	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer)
 	{
-		var Matrix = MatrixManager.AtPoint(worldPos, isServer);
-		return Matrix.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, Matrix), isServer);
+		return AllMatchInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer));
 	}
 
 	/// <summary>
@@ -577,35 +576,6 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		return AnyMatchInternal(mat =>
 			mat.Matrix.HasAnyDepartureBlockedOneMatrix(WorldToLocalInt(to, mat), isServer, context));
-	}
-
-
-	public struct MatrixOneTimePass
-	{
-		public MatrixInfo Info1;
-		public MatrixInfo Info2;
-		public MatrixInfo Info3;
-		public MatrixInfo Info4;
-
-		public bool IsFullySet()
-		{
-			if (Info1 != null && Info2 != null && Info3 != null && Info4 != null)
-			{
-				return true;
-			}
-
-			return false;
-		}
-
-		public bool IsHalfFullySet()
-		{
-			if (Info1 != null && Info2 != null)
-			{
-				return true;
-			}
-
-			return false;
-		}
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
@@ -962,8 +932,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	public static bool IsSlipperyAt(Vector3Int worldPos)
 	{
-		var Matrix = MatrixManager.AtPoint(worldPos, CustomNetworkManager.IsServer);
-		return Matrix.MetaDataLayer.IsSlipperyAt(WorldToLocalInt(worldPos, Matrix));
+		return AnyMatchInternal(mat => mat.MetaDataLayer.IsSlipperyAt(WorldToLocalInt(worldPos, mat)));
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
