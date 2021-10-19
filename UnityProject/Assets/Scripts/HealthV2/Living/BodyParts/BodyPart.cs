@@ -42,7 +42,7 @@ namespace HealthV2
 		/// How much blood does the body lose when there is lost limbs in this container?
 		/// </summary>
 		[SerializeField, Tooltip("How much blood does the body lose when there is lost limbs in this container?")]
-		private float limbLossBleedingValue = 35f;
+		private float limbLossBleedingValue = 3.5f;
 
 		/// <summary>
 		/// The category that this body part falls under for targeting purposes

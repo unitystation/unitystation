@@ -210,7 +210,18 @@ namespace HealthV2
 
 			var info = HealthMaster.CirculatorySystem.BloodInfo;
 			float damage;
-			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
+			if (HealthMaster.CirculatorySystem.ReadyBloodPool.Total < info.BLOOD_CRITICAL)
+			{
+				//If we reach critical, the organism will very quickly accumulate damage.
+				//I'm picking 5f arbitarily, change if necessary
+				damage = 5f;
+			}
+			else if (HealthMaster.CirculatorySystem.ReadyBloodPool.Total < info.BLOOD_BAD)
+			{
+				//There's not enough blood in the body to sustain itself
+				damage = 1f;
+			}
+			else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
 				if (bloodSaturation <= 0)
