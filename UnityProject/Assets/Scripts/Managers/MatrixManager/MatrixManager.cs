@@ -606,10 +606,7 @@ public partial class MatrixManager : MonoBehaviour
 
 			return false;
 		}
-
 	}
-
-	public static Stopwatch SW = new Stopwatch();
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
@@ -618,24 +615,18 @@ public partial class MatrixManager : MonoBehaviour
 		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false,
 		bool onlyExcludeLayerOnDestination = false)
 	{
-		SW.Reset();
-		SW.Start();
-
 		// Gets the list of Matrixes to actually check
 		MatrixInfo[] includeList = excludeList != null
 			? ExcludeFromAllMatrixes(excludeList)
 			: Instance.ActiveMatrices.Values.ToArray();
 
-		var ff =   AllMatchInternal(mat =>
-				mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat), isServer,
+		return AllMatchInternal(mat =>
+				mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat),
+					isServer,
 					collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-					excludeLayers: excludeLayers, isReach: isReach, onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination),
+					excludeLayers: excludeLayers, isReach: isReach,
+					onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination),
 			includeList);
-
-		SW.Stop();
-		Logger.Log("was > " + SW.ElapsedTicks);
-		return ff;
-
 	}
 
 
