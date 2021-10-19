@@ -54,22 +54,29 @@ public class Lungs : Organ
 	[SerializeField] private float internalBleedingCooldown = 4f;
 	private bool onCooldown = false;
 
+	private BodyPart bodyPart;
+
+	private void Awake()
+	{
+		bodyPart = GetComponent<BodyPart>();
+	}
+
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
 		Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 		var TotalModified = 1f;
-		foreach (var Modifier in RelatedPart.AppliedModifiers)
+		foreach (var Modifier in bodyPart.AppliedModifiers)
 		{
 			var toMultiply = 1f;
-			if (Modifier == RelatedPart.DamageModifier)
+			if (Modifier == bodyPart.DamageModifier)
 			{
 				toMultiply = Mathf.Max(0f,
-					Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) /
-					RelatedPart.MaxHealth);
+					Mathf.Max(bodyPart.MaxHealth - bodyPart.TotalDamageWithoutOxyCloneRadStam, 0) /
+					bodyPart.MaxHealth);
 			}
-			else if (Modifier == RelatedPart.HungerModifier)
+			else if (Modifier == bodyPart.HungerModifier)
 			{
 				continue;
 			}
