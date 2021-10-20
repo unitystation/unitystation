@@ -101,11 +101,7 @@ namespace Items
 		/// </summary>
 		public bool UseCharge(HandApply interaction)
 		{
-			Chat.AddActionMsgToChat(interaction,
-					$"You wave the Emag over the {interaction.TargetObject.ExpensiveName()}'s electrical panel.",
-						$"{interaction.Performer.ExpensiveName()} waves something over the {interaction.TargetObject.ExpensiveName()}'s electrical panel.");
-
-			return UseChargeLogic(interaction.Performer);
+			return UseCharge(interaction.TargetObject, interaction.Performer);
 		}
 
 		public bool UseCharge(GameObject TargetObject, GameObject Performer)

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -254,10 +254,9 @@ namespace Systems.Cargo
 			//ensure it is added to crate
 			if (obj.TryGetComponent<RandomItemSpot>(out var randomItem))
 			{
-				randomItem.RollRandomPool(true);
-				var registerTile = randomItem.gameObject.RegisterTile();
+				var registerTile = container.gameObject.RegisterTile();
 				var items = registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
-						.Select(ob => ob.gameObject).Where(go => go != gameObject && go.TryGetComponent<ObjectContainer>(out _) == false);
+						.Select(ob => ob.gameObject).Where(go => go != obj);
 
 				container.StoreObjects(items);
 			}
