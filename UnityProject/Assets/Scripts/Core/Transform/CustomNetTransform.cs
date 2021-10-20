@@ -503,10 +503,6 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	    if (visible)
 	    {
 			var objectBehaviour = PushPull.TopContainer;
-			if (objectBehaviour == null)
-			{
-				objectBehaviour = PushPull;
-			}
 
 			if (objectBehaviour.transform.position == TransformState.HiddenPos)
 			{
