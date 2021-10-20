@@ -500,9 +500,20 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 	public void SetVisibleServer(bool visible)
     {
-	    if ( visible )
+	    if (visible)
 	    {
-			AppearAtPositionServer( PushPull.AssumedWorldPositionServer() );
+			var objectBehaviour = PushPull.TopContainer;
+			if (objectBehaviour == null)
+			{
+				objectBehaviour = PushPull;
+			}
+
+			if (objectBehaviour.transform.position == TransformState.HiddenPos)
+			{
+				Logger.LogError($"${this} is set to become visible at HiddenPos!");
+			}
+
+			AppearAtPositionServer(objectBehaviour.AssumedWorldPositionServer());
 	    }
 	    else
 	    {

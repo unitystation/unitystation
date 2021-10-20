@@ -4,16 +4,14 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
-using Messages.Server.SoundMessages;
 using Items;
-using System.Text;
 
 namespace Objects
 {
 	/// <summary>
 	/// Allows closet to be opened / closed / locked
 	/// </summary>
-	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandApply>, IRightClickable, IExaminable, IEscapable
+	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>, IRightClickable, IExaminable, IEscapable
 	{
 		// These sprite enums coincide with the sprite SOs set in SpriteHandler.
 		public enum Door
@@ -224,7 +222,10 @@ namespace Objects
 			var entitiesOnCloset = Matrix.Get<ObjectBehaviour>(registerObject.LocalPositionServer, true)
 					.Where(entity => entity.gameObject != gameObject && entity.IsPushable).Select(entity => entity.gameObject);
 
-			container.StoreObjects(entitiesOnCloset);
+			foreach (var entity in entitiesOnCloset)
+			{
+				container.StoreObject(entity, entity.transform.position - transform.position);
+			}
 		}
 
 		public void ReleaseObjects()
@@ -297,7 +298,7 @@ namespace Objects
 
 		#region Interaction
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
@@ -308,7 +309,7 @@ namespace Objects
 			return true;
 		}
 
-		public void ServerPerformInteraction(HandApply interaction)
+		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			if (interaction.IsAltClick)
 			{
@@ -345,7 +346,7 @@ namespace Objects
 			}
 		}
 
-		private void TryToggleDoor(HandApply interaction)
+		private void TryToggleDoor(PositionalHandApply interaction)
 		{
 			if (IsLocked)
 			{
@@ -362,7 +363,7 @@ namespace Objects
 			SetDoor(IsOpen ? Door.Closed : Door.Opened);
 		}
 
-		private void TryToggleLock(HandApply interaction)
+		private void TryToggleLock(PositionalHandApply interaction)
 		{
 			var effector = "hand";
 			if (interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id).Select(slot => slot.IsOccupied).Any())
@@ -407,7 +408,7 @@ namespace Objects
 			}
 		}
 
-		private void TryWeld(HandApply interaction)
+		private void TryWeld(PositionalHandApply interaction)
 		{
 			if (isWeldable == false)
 			{
@@ -424,7 +425,7 @@ namespace Objects
 					() => SetWeld(IsWelded ? Weld.NotWelded : Weld.Welded));
 		}
 
-		private void TryEmag(HandApply interaction, Emag emag)
+		private void TryEmag(PositionalHandApply interaction, Emag emag)
 		{
 			if (emag.EmagHasCharges() == false)
 			{
@@ -442,25 +443,23 @@ namespace Objects
 
 			SoundManager.PlayNetworkedAtPos(soundOnEmag, registerObject.WorldPositionServer, sourceObj: gameObject);
 
-			emag.UseCharge(interaction);
+			emag.UseCharge(gameObject, interaction.Performer);
 			BreakLock();
 			Chat.AddActionMsgToChat(interaction,
 				"The access panel errors. A slight amount of smoke pours from behind the panel...",
 						"You can smell caustic smoke from somewhere...");
 		}
 
-		private void TryStoreItem(HandApply interaction)
+		private void TryStoreItem(PositionalHandApply interaction)
 		{
-			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			Vector3 performerPosition = interaction.Performer.WorldPosServer();
-			Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
+			Inventory.ServerDrop(interaction.HandSlot, interaction.TargetVector);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var result = RightClickableResult.Create();
 
-			if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
+			if (WillInteract(PositionalHandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
 			{
 				// TODO: Make this contexual if holding a welder or wrench
 				var optionName = IsOpen ? "Close" : "Open";
@@ -472,7 +471,7 @@ namespace Objects
 
 		private void RightClickInteract()
 		{
-			InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
+			InteractionUtils.RequestInteract(PositionalHandApply.ByLocalPlayer(gameObject), this);
 		}
 
 		public string Examine(Vector3 worldPos = default)

@@ -30,8 +30,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	/// <summary>
 	/// *** USE WITH CAUTION! ***
 	/// Setting it to true without parent container will make it appear at HiddenPos.
-	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
-	/// I think this is valid server side only
+	/// Valid server side only
 	/// </summary>
 	public bool VisibleState {
 		get => Pushable.VisibleState;
