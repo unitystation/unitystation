@@ -246,20 +246,7 @@ namespace Objects.Wallmounts
 					{
 						if (AccessRestrictions == null || AccessRestrictions.CheckAccess(interaction.Performer))
 						{
-							currentTimerSeconds += 60;
-							if (currentTimerSeconds > 600)
-							{
-								currentTimerSeconds = 1;
-							}
-
-							if (countingDown == false)
-							{
-								StartCoroutine(TickTimer());
-							}
-							else
-							{
-								OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
-							}
+							AddTime(60);
 						}
 						else
 						{
@@ -349,6 +336,46 @@ namespace Objects.Wallmounts
 			}
 		}
 
+		private void AddTime(int value)
+		{
+			currentTimerSeconds += value;
+			if (currentTimerSeconds > 600)
+			{
+				ResetTimer();
+				return;
+			}
+			if (countingDown == false)
+			{
+				StartCoroutine(TickTimer());
+			}
+			else
+			{
+				OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+			}
+		}
+
+		private void RemoveTime(int value)
+		{
+			currentTimerSeconds -= value;
+			if (currentTimerSeconds < 0)
+			{
+				ResetTimer();
+				return;
+			}
+			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+		}
+
+		private void ResetTimer()
+		{
+			currentTimerSeconds = 0;
+			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+			if (countingDown)
+			{
+				OpenDoors();
+				countingDown = false;
+			}
+		}
+
 		private IEnumerator TickTimer()
 		{
 			countingDown = true;
@@ -357,12 +384,13 @@ namespace Objects.Wallmounts
 			{
 				OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
 				yield return WaitFor.Seconds(1);
+				if (countingDown == false)
+				{
+					yield break; //timer was reset manually
+				}
 				currentTimerSeconds -= 1;
 			}
-
-			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
-			OpenDoors();
-			countingDown = false;
+			ResetTimer();
 		}
 
 		private void CloseDoors()
@@ -403,7 +431,7 @@ namespace Objects.Wallmounts
 			if (stateNew == MountedMonitorState.Off)
 			{
 				MonitorSpriteHandler.SetSprite(closedOff);
-				DisplaySpriteHandler.SetSprite(null);
+				DisplaySpriteHandler.Empty(networked: false);
 				this.TryStopCoroutine(ref blinkHandle);
 				textField.text = "";
 			}
@@ -411,11 +439,11 @@ namespace Objects.Wallmounts
 			if (stateNew == MountedMonitorState.StatusText)
 			{
 				this.StartCoroutine(BlinkText(), ref blinkHandle);
-				DisplaySpriteHandler.SetSprite(null);
+				DisplaySpriteHandler.Empty(networked: false);
 			}
 			else if (stateNew == MountedMonitorState.Image)
 			{
-				DisplaySpriteHandler.SetSpriteSO(joeNews);
+				DisplaySpriteHandler.SetSpriteSO(joeNews, networked: false);
 				this.TryStopCoroutine(ref blinkHandle);
 				textField.text = "";
 			}
@@ -426,7 +454,7 @@ namespace Objects.Wallmounts
 			else if (stateNew == MountedMonitorState.NonScrewedPanel)
 			{
 				MonitorSpriteHandler.SetSprite(closedOff);
-				DisplaySpriteHandler.SetSprite(null);
+				DisplaySpriteHandler.Empty(networked: false);
 				this.TryStopCoroutine(ref blinkHandle);
 				textField.text = "";
 			}
@@ -478,27 +506,17 @@ namespace Objects.Wallmounts
 
 		public void ServerPerformInteraction(ContextMenuApply interaction)
 		{
-			switch (interaction.RequestedOption)
+			if (interaction.RequestedOption == "StopTimer")
 			{
-				case "StopTimer":
-					currentTimerSeconds = 0;
-					break;
-				case "AddTime":
-					if (!countingDown)
-					{
-						StartCoroutine(TickTimer());
-					}
-
-					currentTimerSeconds += 60;
-					break;
-				case "RemoveTime":
-					currentTimerSeconds -= 60;
-					if (currentTimerSeconds < 0)
-					{
-						currentTimerSeconds = 0;
-					}
-
-					break;
+				ResetTimer();
+			}
+			else if (interaction.RequestedOption == "AddTime")
+			{
+				AddTime(60);
+			}
+			else if (interaction.RequestedOption == "RemoveTime")
+			{
+				RemoveTime(60);
 			}
 		}
 
@@ -509,41 +527,24 @@ namespace Objects.Wallmounts
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
-
 			return true;
 		}
 
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
-			switch (interaction.ClickType)
+			if (interaction.ClickType == AiActivate.ClickTypes.CtrlClick)
 			{
-				//StopTimer
-				case AiActivate.ClickTypes.CtrlClick:
-					currentTimerSeconds = 0;
-					break;
-				//AddTime
-				case AiActivate.ClickTypes.NormalClick:
-					if (!countingDown)
-					{
-						StartCoroutine(TickTimer());
-					}
-
-					currentTimerSeconds += 60;
-					break;
-				//RemoveTime
-				case AiActivate.ClickTypes.ShiftClick:
-					currentTimerSeconds -= 60;
-					if (currentTimerSeconds < 0)
-					{
-						currentTimerSeconds = 0;
-					}
-
-					break;
-				default:
-					break;
+				ResetTimer();
+			}
+			else if (interaction.ClickType == AiActivate.ClickTypes.NormalClick)
+			{
+				AddTime(60);
+			}
+			else if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
+			{
+				RemoveTime(60);
 			}
 		}
-
 		#endregion
 	}
 
