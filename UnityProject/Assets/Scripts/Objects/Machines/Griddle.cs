@@ -30,7 +30,7 @@ namespace Objects.Kitchen
 			Running = 1
 		}
 
-		[SerializeField] private AddressableAudioSource startSFX = null;
+		[SerializeField] private AddressableAudioSource startSfx = null;
 
 		[SerializeField]
 		[Tooltip("The looped audio source to play while the griddle is running.")]
@@ -150,14 +150,14 @@ namespace Objects.Kitchen
 		private void StartGriddle()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			SoundManager.PlayNetworkedAtPos(startSFX, WorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(startSfx, WorldPosition, sourceObj: gameObject);
 			playAudioLoop = true;
 		}
 
 		private void HaltGriddle()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			SoundManager.PlayNetworkedAtPos(startSFX, WorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(startSfx, WorldPosition, sourceObj: gameObject);
 			playAudioLoop = false;
 		}
 
@@ -184,7 +184,7 @@ namespace Objects.Kitchen
 		{
 			if (newState)
 			{
-				StartCoroutine(DelayGriddleRunningSFX());
+				StartCoroutine(DelayGriddleRunningSfx());
 			}
 			else
 			{
@@ -192,8 +192,8 @@ namespace Objects.Kitchen
 			}
 		}
 
-		// We delay the running SFX so the starting SFX has time to play.
-		private IEnumerator DelayGriddleRunningSFX()
+		// We delay the running Sfx so the starting Sfx has time to play.
+		private IEnumerator DelayGriddleRunningSfx()
 		{
 			yield return WaitFor.Seconds(0.25f);
 

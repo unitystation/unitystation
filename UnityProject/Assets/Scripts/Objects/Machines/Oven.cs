@@ -36,11 +36,11 @@ namespace Objects.Kitchen
 		}
 
 		[SerializeField]
-		private AddressableAudioSource doorOpenSFX = null; // SFX the oven door should make when opening.
+		private AddressableAudioSource doorOpenSfx = null; // Sfx the oven door should make when opening.
 		[SerializeField]
-		private AddressableAudioSource doorCloseSFX = null; // SFX the oven door should make when closing.
+		private AddressableAudioSource doorCloseSfx = null; // Sfx the oven door should make when closing.
 
-		[SerializeField] private AddressableAudioSource startSFX = null;
+		[SerializeField] private AddressableAudioSource startSfx = null;
 
 		[SerializeField]
 		[Tooltip("The looped audio source to play while the oven is running.")]
@@ -182,7 +182,7 @@ namespace Objects.Kitchen
 			// Close the oven if nothing is held.
 			if (interaction == null || interaction.UsedObject == null)
 			{
-				SoundManager.PlayNetworkedAtPos(doorCloseSFX, WorldPosition, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(doorCloseSfx, WorldPosition, sourceObj: gameObject);
 				return false;
 			}
 
@@ -235,7 +235,7 @@ namespace Objects.Kitchen
 			Vector2 ovenInteriorCenterAbs = spritePosWorld + new Vector2(-0.075f, -0.075f);
 			Vector2 ovenInteriorCenterRel = ovenInteriorCenterAbs - WorldPosition.To2Int();
 
-			SoundManager.PlayNetworkedAtPos(doorOpenSFX, ovenInteriorCenterAbs, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(doorOpenSfx, ovenInteriorCenterAbs, sourceObj: gameObject);
 			storage.ServerDropAll(ovenInteriorCenterRel);
 
 			storedCookables.Clear();
@@ -245,7 +245,7 @@ namespace Objects.Kitchen
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			if(!silent)
-				SoundManager.PlayNetworkedAtPos(startSFX, WorldPosition, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(startSfx, WorldPosition, sourceObj: gameObject);
 			playAudioLoop = true;
 		}
 
@@ -253,7 +253,7 @@ namespace Objects.Kitchen
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			if(!silent)
-				SoundManager.PlayNetworkedAtPos(startSFX, WorldPosition, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(startSfx, WorldPosition, sourceObj: gameObject);
 			playAudioLoop = false;
 		}
 
@@ -289,7 +289,7 @@ namespace Objects.Kitchen
 		{
 			if (newState)
 			{
-				StartCoroutine(DelayOvenRunningSFX());
+				StartCoroutine(DelayOvenRunningSfx());
 			}
 			else
 			{
@@ -309,8 +309,8 @@ namespace Objects.Kitchen
 			OvenGlow.SetActive(newState);
 		}
 
-		// We delay the running SFX so the starting SFX has time to play.
-		private IEnumerator DelayOvenRunningSFX()
+		// We delay the running Sfx so the starting Sfx has time to play.
+		private IEnumerator DelayOvenRunningSfx()
 		{
 			yield return WaitFor.Seconds(0.25f);
 

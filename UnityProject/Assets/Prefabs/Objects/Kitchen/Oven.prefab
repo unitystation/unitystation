@@ -76,21 +76,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  doorOpenSFX:
+  doorOpenSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Oven/OvenOpen.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  doorCloseSFX:
+  doorCloseSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Oven/OvenClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  startSFX:
+  startSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/ClickOnOff.prefab
     AssetReference:
