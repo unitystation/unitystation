@@ -96,29 +96,26 @@ namespace HealthV2
 			}
 		}
 
+		public void TakeBluntLogic(LivingHealthMasterBase healthmaster, BodyPart containedIn)
+		{
+			if (currentBluntDamageLevel == TraumaDamageLevel.SMALL && DMMath.Prob(dislocationAutoHealPercent))
+			{
+				currentBluntDamageLevel = TraumaDamageLevel.NONE;
+				AnnounceJointHealEvent(healthmaster, containedIn);
+				return;
+			}
+			currentBluntDamageLevel += 1;
+			AnnounceJointDislocationEvent(healthmaster, containedIn);
+		}
+
 		public void TakeBluntDamage()
 		{
-			void TakeBluntLogic(BodyPart bodyPart)
-			{
-				if (bodyPart.currentBluntDamageLevel == TraumaDamageLevel.SMALL && DMMath.Prob(dislocationAutoHealPercent))
-				{
-					bodyPart.currentBluntDamageLevel = TraumaDamageLevel.NONE;
-					AnnounceJointHealEvent();
-					return;
-				}
-				bodyPart.currentBluntDamageLevel += 1;
-				if (BodyPartType != BodyPartType.Chest)
-				{
-					AnnounceJointDislocationEvent();
-				}
-			}
-
 			foreach (ItemSlot slot in OrganStorage.GetIndexedSlots())
 			{
 				if (slot.IsEmpty) return;
 				if (slot.Item.gameObject.TryGetComponent<BodyPart>(out var bodyPart))
 				{
-					if (bodyPart.CanBeBroken) TakeBluntLogic(bodyPart);
+					if (bodyPart.CanBeBroken) bodyPart.TakeBluntLogic(HealthMaster, this);
 				}
 			}
 		}
