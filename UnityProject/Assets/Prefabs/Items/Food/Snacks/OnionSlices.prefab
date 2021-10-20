@@ -109,6 +109,17 @@ PrefabInstance:
       propertyPath: relatedRecipes.Array.data[0].ingredientIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2699307914152838379, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CookableBy
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699307914152838379, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 2732419982259988243, guid: a2dbc0f342c8baf4ea706760850d401e,
+        type: 3}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet

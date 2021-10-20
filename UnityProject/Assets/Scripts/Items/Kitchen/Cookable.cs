@@ -69,6 +69,8 @@ namespace Items.Food
 	{
 		BurnUp = 0,
 		Microwave = 1 << 1,
+		Griddle = 1 << 2,
+		Oven = 1 << 3,
 		All = ~0,
 	}
 }

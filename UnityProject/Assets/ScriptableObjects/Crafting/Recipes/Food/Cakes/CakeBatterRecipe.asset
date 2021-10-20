@@ -21,8 +21,10 @@ MonoBehaviour:
   requiredReagents:
   - requiredAmount: 15
     requiredReagent: {fileID: 11400000, guid: 0c4cf985d57ba9ce18282581b4f45fe9, type: 2}
-  - requiredAmount: 15
+  - requiredAmount: 6
     requiredReagent: {fileID: 11400000, guid: 81c39cb6183d269ba82af38936032f67, type: 2}
+  - requiredAmount: 12
+    requiredReagent: {fileID: 11400000, guid: fe85faf5583837a42ab86018c4b3ec00, type: 2}
   - requiredAmount: 5
     requiredReagent: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
   requiredToolTraits: []
@@ -30,4 +32,4 @@ MonoBehaviour:
   - {fileID: 3963745021793217759, guid: f0694d96f4c13a246b3a6550a9b303dd, type: 3}
   resultHandlers: []
   isSimple: 0
-  indexInSingleton: 335
+  indexInSingleton: 332
