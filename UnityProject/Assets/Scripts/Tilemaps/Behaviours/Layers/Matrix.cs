@@ -311,7 +311,7 @@ public class Matrix : MonoBehaviour
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
 
-	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : class
+	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
