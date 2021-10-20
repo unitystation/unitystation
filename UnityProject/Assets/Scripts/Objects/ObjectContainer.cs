@@ -39,7 +39,8 @@ namespace Objects
 		private RegisterTile registerTile;
 		private ObjectBehaviour objectBehaviour;
 
-		private readonly HashSet<GameObject> storedObjects = new HashSet<GameObject>();
+		// stored contents and their positional offsets, if applicable
+		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
 
 		#region Lifecycle
 
@@ -87,9 +88,14 @@ namespace Objects
 
 		#endregion
 
-		public void StoreObject(GameObject obj)
+		/// <summary>
+		/// Stores the given object. Remembers the offset, if provided.
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <param name="offset"></param>
+		public void StoreObject(GameObject obj, Vector3 offset = new Vector3())
 		{
-			storedObjects.Add(obj);
+			storedObjects.Add(obj, offset);
 
 			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
 			{
@@ -111,6 +117,11 @@ namespace Objects
 			}
 		}
 
+		/// <summary>
+		/// Stores the given <c>IEnumerable</c> collection of GameObjects.
+		/// </summary>
+		/// <remarks>If you want to remember positional offsets, consider <see cref="StoreObject(GameObject, Vector3)"/></remarks>
+		/// <param name="gameObjects"></param>
 		public void StoreObjects(IEnumerable<GameObject> gameObjects)
 		{
 			foreach (var gameObject in gameObjects)
@@ -126,7 +137,7 @@ namespace Objects
 				TrySpawnInitialContents();
 			}
 
-			foreach (var obj in storedObjects)
+			foreach (var obj in storedObjects.Keys)
 			{
 				// May have despawned while in storage.
 				if (obj == null) continue;
@@ -141,6 +152,7 @@ namespace Objects
 		/// </summary>
 		public void RetrieveObject(GameObject obj)
 		{
+			if (obj == null || storedObjects.TryGetValue(obj, out var offset) == false) return;
 			storedObjects.Remove(obj);
 
 			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
@@ -150,7 +162,7 @@ namespace Objects
 				if (obj.TryGetComponent<CustomNetTransform>(out var cnt))
 				{
 					//avoids blinking of premapped items when opening first time in another place:
-					Vector3Int pos = registerTile.WorldPositionServer;
+					Vector3 pos = registerTile.WorldPositionServer + offset;
 					cnt.AppearAtPositionServer(pos);
 					if (objectBehaviour.Pushable.IsMovingServer)
 					{

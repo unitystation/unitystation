@@ -83,7 +83,9 @@ namespace Objects.Medical
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return closet.WillInteract(interaction, side);
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return interaction.Intent != Intent.Harm;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
