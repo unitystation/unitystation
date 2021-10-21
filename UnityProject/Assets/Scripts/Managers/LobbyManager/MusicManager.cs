@@ -71,6 +71,11 @@ namespace Audio.Containers
 			Synth.Instance.StopMusic();
 		}
 
+		public static void FadeOutMusic()
+		{
+			
+		}
+
 		/// <summary>
 		/// Plays a random music track.
 		/// <returns>String[] that represents the picked song's name.</returns>
@@ -91,6 +96,18 @@ namespace Audio.Containers
 			currentLobbyAudioSource.Play();
 			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
 			return currentLobbyAudioSource.clip.name.Split('_');
+		}
+
+		[NaughtyAttributes.Button("Play Random Track")]
+		private void DEBUG_PlayRandomTrack()
+		{
+			PlayRandomTrack();
+		}
+
+		[NaughtyAttributes.Button("Stop Music")]
+		private void DEBUG_StopMusic()
+		{
+			StopMusic();
 		}
 
 		public void ToggleMusicMute(bool mute)

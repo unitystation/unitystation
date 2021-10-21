@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Messages.Server.SoundMessages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AddressableReferences;
@@ -145,6 +146,7 @@ namespace Audio.Managers
 		public static void SetVolumeForAllAudioSources(float newVolume)
 		{
 			parameters.Volume = newVolume;
+			parameters.MixerType = MixerType.Ambient;
 
 			foreach (var audioSource in Instance.ambientAudioSources)
 			{
