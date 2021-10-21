@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Objects.Wallmounts
 {
@@ -34,6 +35,15 @@ namespace Objects.Wallmounts
 				if (existingRenderer == null)
 				{
 					renderer.gameObject.AddComponent<WallmountSpriteBehavior>();
+				}
+			}
+
+			var textRenderers = GetComponentsInChildren<Text>();
+			foreach (var text in textRenderers)
+			{
+				if (GetComponent<WallmountTextBehavior>() == null)
+				{
+					text.gameObject.AddComponent<WallmountTextBehavior>();
 				}
 			}
 		}

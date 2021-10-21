@@ -34,14 +34,14 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		private void Start()
+		public void Awake()
 		{
 			spriteRenderer = GetComponent<SpriteRenderer>();
 			wallmountBehavior = GetComponentInParent<WallmountBehavior>();
 		}
 
 		// Handles rendering logic, only runs when this sprite is on camera
-		private void OnWillRenderObject()
+		public void OnWillRenderObject()
 		{
 			// don't run check until player is created
 			if (PlayerManager.LocalPlayer == null || wallmountBehavior == null)
@@ -60,7 +60,12 @@ namespace Objects.Wallmounts
 				// recalculate if it is facing the player
 				visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
 			}
-			spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, visible ? 1 : 0);
+			SetAlpha(visible ? 1 : 0);
+		}
+
+		protected virtual void SetAlpha(int alpha)
+		{
+			spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
 		}
 	}
 }
