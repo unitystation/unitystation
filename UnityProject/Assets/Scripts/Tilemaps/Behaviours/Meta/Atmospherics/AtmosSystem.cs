@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
+using Mirror;
 
 namespace Systems.Atmospherics
 {
@@ -13,11 +14,9 @@ namespace Systems.Atmospherics
 
 		private Dictionary<int, RoomGasSetter> toSet = new Dictionary<int, RoomGasSetter>();
 
+		[Server]
 		public override void Initialize()
 		{
-			if (!CustomNetworkManager.IsServer)
-				return;
-
 			//We have bool to stop null checks on every pos
 			var hasCustomMix = defaultRoomGasMixOverride != null;
 

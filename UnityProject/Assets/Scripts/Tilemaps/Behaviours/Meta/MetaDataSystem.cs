@@ -1,10 +1,10 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Systems.Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using Mirror;
 
 /// <summary>
 /// Subsystem behavior which manages updating the MetaDataNodes and simulation that affects them for a given matrix.
@@ -54,6 +54,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 	}
 
+	[Server]
 	public override void Initialize()
 	{
 		Stopwatch sw = new Stopwatch();
@@ -61,7 +62,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		if (MatrixManager.IsInitialized)
 		{
-			if (CustomNetworkManager.IsServer) LocateRooms();
+			LocateRooms();
 			Stopwatch Dsw = new Stopwatch();
 			Dsw.Start();
 			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);

@@ -2,14 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Initialisation;
 using UnityEngine;
+using Mirror;
 
 public class SubsystemManager : MonoBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
 	private bool initialized;
-	
+
+	[Server]
 	public void Initialize()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
