@@ -1,7 +1,8 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using AddressableReferences;
-using HealthV2;
 using Items;
 
 namespace Objects.Drawers
@@ -83,41 +84,6 @@ namespace Objects.Drawers
 			UpdateCloseState();
 		}
 
-		protected override void EjectPlayers(bool morgueDespawning = false)
-		{
-			base.EjectPlayers(morgueDespawning);
-			UpdateConsciousnessPresent();
-		}
-
-		private void UpdateConsciousnessPresent()
-		{
-			foreach (ObjectBehaviour player in serverHeldPlayers)
-			{
-				if (Conscious(player))
-				{
-					consciousnessPresent = true;
-					return;
-				}
-			}
-
-			consciousnessPresent = false;
-		}
-
-		private bool Conscious(ObjectBehaviour playerMob)
-		{
-			var playerMind = playerMob.GetComponent<PlayerScript>().mind;
-			
-			//Player mind can be null if player was respawned as the old body mind is nulled
-			if (playerMind == null) return false;
-			
-			var playerMobID = playerMob.GetComponent<LivingHealthMasterBase>().mobID;
-
-			// If the mob IDs do not match, player is controlling a new mob, so we don't care about this old mob.
-			if (playerMind.bodyMobID == playerMobID && playerMind.IsOnline()) return true;
-
-			return false;
-		}
-
 		private void UseScrewdriver(HandApply interaction)
 		{
 #pragma warning disable CS0162 // Unreachable code detected
@@ -156,16 +122,27 @@ namespace Objects.Drawers
 
 		private void UpdateCloseState()
 		{
-			UpdateConsciousnessPresent();
+			var players = container.GetStoredObjects().Select(obj => obj.GetComponent<PlayerScript>()).Where(script => script != null);
+			// Player mind can be null if player was respawned as the old body mind is nulled
+			consciousnessPresent = players.Any(player => player.mind != null && player.mind.IsOnline());
 
 			if (consciousnessPresent && !alarmBroken)
 			{
 				SetDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 				StartCoroutine(PlayAlarm());
 			}
-			else if (serverHeldPlayers.Count > 0) SetDrawerState((DrawerState)MorgueState.ShutWithBraindead);
-			else if (serverHeldItems.Count > 0) SetDrawerState((DrawerState)MorgueState.ShutWithItems);
-			else SetDrawerState(DrawerState.Shut);
+			else if (players.Any())
+			{
+				SetDrawerState((DrawerState)MorgueState.ShutWithBraindead);
+			}
+			else if (container.IsEmpty == false)
+			{
+				SetDrawerState((DrawerState)MorgueState.ShutWithItems);
+			}
+			else
+			{
+				SetDrawerState(DrawerState.Shut);
+			}
 		}
 
 		private IEnumerator PlayAlarm()

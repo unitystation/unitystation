@@ -146,11 +146,16 @@ namespace Objects
 			}
 		}
 
+		public void RemoveObject(GameObject obj)
+		{
+			storedObjects.Remove(obj);
+		}
+
 		/// <summary>
 		/// Takes the given object out of storage, dropping it in the tile of the container, inheriting the inertia of the container.
 		/// If the object belongs to a player, then sends a <see cref="FollowCameraMessage"/>.
 		/// </summary>
-		public void RetrieveObject(GameObject obj)
+		public void RetrieveObject(GameObject obj, Vector3? worldPosition = null)
 		{
 			if (obj == null || storedObjects.TryGetValue(obj, out var offset) == false) return;
 			storedObjects.Remove(obj);
@@ -162,7 +167,7 @@ namespace Objects
 				if (obj.TryGetComponent<CustomNetTransform>(out var cnt))
 				{
 					//avoids blinking of premapped items when opening first time in another place:
-					Vector3 pos = registerTile.WorldPositionServer + offset;
+					Vector3 pos = worldPosition.GetValueOrDefault(registerTile.WorldPositionServer) + offset;
 					cnt.AppearAtPositionServer(pos);
 					if (objectBehaviour.Pushable.IsMovingServer)
 					{
@@ -185,11 +190,11 @@ namespace Objects
 			}
 		}
 
-		public void RetrieveObjects()
+		public void RetrieveObjects(Vector3? worldPosition = null)
 		{
 			foreach (var entity in GetStoredObjects().ToArray())
 			{
-				RetrieveObject(entity);
+				RetrieveObject(entity, worldPosition);
 			}
 
 			storedObjects.Clear();
