@@ -533,10 +533,10 @@ public partial class PlayerSync
 			if (serverBump == BumpType.Push || serverBump == BumpType.Blocked)
 			{
 				var worldTarget = state.WorldPosition.RoundToInt() + (Vector3Int)action.Direction();
-				var swapee = MatrixManager.GetAt<PlayerSync>(worldTarget, true);
+				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true);
 				if (swapee != null && swapee.Count > 0)
 				{
-					swapee[0].RollbackPosition();
+					swapee[0].PlayerScript.PlayerSync.RollbackPosition();
 				}
 			}
 		}

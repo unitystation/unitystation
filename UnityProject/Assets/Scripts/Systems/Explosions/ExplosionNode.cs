@@ -32,6 +32,11 @@ namespace Systems.Explosions
 
 			var metaTileMap = matrix.MetaTileMap;
 
+			if (Damagedealt <= 0)
+			{
+				return;
+			}
+
 			if (metaTileMap == null)
 			{
 				return;

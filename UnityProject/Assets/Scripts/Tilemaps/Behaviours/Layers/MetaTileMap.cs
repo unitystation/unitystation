@@ -324,6 +324,74 @@ namespace TileManagement
 			}
 		}
 
+		private bool CanLeaveTile(Vector3Int origin, Vector3Int to, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+			bool isReach = false)
+		{
+			if (ignoreObjects == false &&
+			    ObjectLayer.CanLeaveTile(origin, to, isServer, collisionType, inclPlayers, context,
+				    excludeTiles, isReach: isReach) == false)
+			{
+				return false;
+			}
+
+			//Tiles don't have a Check for leaving
+
+			return true;
+		}
+
+		private bool CanEnterTile(Vector3Int origin, Vector3Int to, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
+			bool isReach = false)
+		{
+			if (ignoreObjects == false &&
+			    ObjectLayer.CanEnterTile(origin, to, isServer, collisionType, inclPlayers, context,
+				    excludeTiles, isReach: isReach) == false)
+			{
+				return false;
+			}
+
+			TileLocation TileLcation = null;
+			for (var i = 0; i < SolidLayersValues.Length; i++)
+			{
+				var solidLayer = SolidLayersValues[i];
+
+				// Skip floor & base collisions if this is not a shuttle
+				if (collisionType != CollisionType.Shuttle)
+				{
+					if ((solidLayer.LayerType == LayerType.Grills || solidLayer.LayerType == LayerType.Tables ||
+					     solidLayer.LayerType == LayerType.Walls || solidLayer.LayerType == LayerType.Windows) == false)
+					{
+						continue;
+					}
+				}
+
+				// Skip if the current tested layer is being excluded.
+				if (excludeLayers != null && excludeLayers.Contains(solidLayer.LayerType))
+				{
+					continue;
+				}
+
+				TileLcation = GetCorrectTileLocationForLayer(to, solidLayer);
+
+				if (TileLcation?.Tile == null) continue;
+				var tile = TileLcation.Tile as BasicTile;
+
+				// Return passable if the tile type is being excluded from checks.
+				if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
+					continue;
+
+				if (tile.IsPassable(collisionType, origin, this) == false)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		private bool IsPassableAtOrthogonal(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
@@ -882,15 +950,15 @@ namespace TileManagement
 		/// </summary>
 		public bool IsEmptyAt(Vector3Int position, bool isServer)
 		{
-			for (var index = 0; index < LayersKeys.Length; index++)
+			for (var index = 0; index < LayersValues.Length; index++)
 			{
-				LayerType layer = LayersKeys[index];
-				if (layer != LayerType.Objects && HasTile(position, layer))
+				var layer = LayersValues[index];
+				if (layer.LayerType != LayerType.Objects && HasTile(position, layer))
 				{
 					return false;
 				}
 
-				if (layer == LayerType.Objects)
+				if (layer.LayerType == LayerType.Objects)
 				{
 					foreach (RegisterTile o in isServer
 						? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
@@ -987,6 +1055,24 @@ namespace TileManagement
 		{
 			return ObjectLayer.HasObject(position, IsServer);
 		}
+
+		/// <summary>
+		/// Cheap method to check if there's a tile, Do not use for objects
+		/// </summary>
+		/// <param name="position"></param>
+		/// <returns></returns>
+		public bool HasTile(Vector3Int position, Layer Layer)
+		{
+			TileLocation TileLcation = null;
+
+			if (Layer.LayerType == LayerType.Objects) return false;
+			if (Layer.LayerType == LayerType.Effects) return false;
+
+			TileLcation = GetCorrectTileLocationForLayer(position, Layer);
+
+			return TileLcation?.Tile;
+		}
+
 
 		/// <summary>
 		/// Cheap method to check if there's a tile, Do not use for objects
@@ -1932,7 +2018,8 @@ namespace TileManagement
 						}
 						else
 						{
-							ToInsertDictionary[AlocalPlacezzero].RemoveRange(LastIndex + 1, ToInsertDictionary[AlocalPlacezzero].Count - (LastIndex+1));
+							ToInsertDictionary[AlocalPlacezzero].RemoveRange(LastIndex + 1,
+								ToInsertDictionary[AlocalPlacezzero].Count - (LastIndex + 1));
 						}
 					}
 				}

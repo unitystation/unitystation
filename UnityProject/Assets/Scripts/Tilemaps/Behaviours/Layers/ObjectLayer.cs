@@ -66,25 +66,51 @@ public class ObjectLayer : Layer
 	public bool IsPassableAtOnThisLayer(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
 			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
+		if (CanLeaveTile(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles, isReach) == false)
+		{
+			return false;
+		}
+
+		if (CanEnterTile(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles, isReach) == false)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public bool CanLeaveTile(Vector3Int origin, Vector3Int to, bool isServer,
+		CollisionType collisionType = CollisionType.Player,
+		bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
+	{
 		//Targeting windoors here
 		foreach ( RegisterTile t in GetTileList(isServer).Get(origin))
 		{
 			if (t.IsPassableFromInside(to, isServer, context) == false
-				&& (context == null|| t.gameObject != context))
+			    && (context == null|| t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
 				return false;
 			}
 		}
 
+		return true;
+	}
+
+
+	public bool CanEnterTile(Vector3Int origin, Vector3Int to, bool isServer,
+		CollisionType collisionType = CollisionType.Player,
+		bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
+	{
+		//Targeting windoors here
 		foreach ( RegisterTile o in GetTileList(isServer).Get(to))
 		{
 			if ((inclPlayers || o.ObjectType != ObjectType.Player)
-				&& o.IsPassableFromOutside(origin, isServer, context) == false
-				&& (context == null|| o.gameObject != context)
-				&& (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
-				&& (collisionType != CollisionType.Click || o.DoesNotBlockClick(origin, isServer) == false)
-				)
+			    && o.IsPassableFromOutside(origin, isServer, context) == false
+			    && (context == null|| o.gameObject != context)
+			    && (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
+			    && (collisionType != CollisionType.Click || o.DoesNotBlockClick(origin, isServer) == false)
+			)
 			{
 				return false;
 			}

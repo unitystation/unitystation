@@ -311,6 +311,28 @@ public class Matrix : MonoBehaviour
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
 
+	//Has to inherit from register tile
+	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : class
+	{
+		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		{
+			return Enumerable.Empty<T>(); //?
+		}
+
+		var filtered = new List<T>();
+		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
+		{
+			T x = t as T;
+			if (x != null)
+			{
+				filtered.Add(x);
+			}
+		}
+
+		return filtered;
+	}
+
+
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))

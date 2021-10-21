@@ -496,9 +496,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			{
 				CheckMovementServer();
 			}
-			else
+			else if (CustomNetworkManager.IsHeadless == false)
 			{
-				CheckMovementClient();
+				CheckMovementClient(); //needed for space floating movement to update for the Server if it is not headless
 			}
 
 			if (!ClientPositionReady)
