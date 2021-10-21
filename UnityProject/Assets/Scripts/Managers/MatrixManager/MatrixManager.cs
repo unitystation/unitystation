@@ -180,8 +180,9 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		foreach (var matrixInfo in ActiveMatrices.Values)
 		{
-			var subsystemManager = matrixInfo.Matrix.GetComponentInParent<SubsystemManager>();
-			subsystemManager.Initialize();
+			//TODO fixme: expensive and overly complicated way to make tiles interactable by the client (wrenching pipe tiles, etc)
+			matrixInfo.Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+
 			TileChangeNewPlayer.Send(matrixInfo.NetID);
 		}
 	}
