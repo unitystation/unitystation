@@ -80,7 +80,7 @@ namespace HealthV2
 		/// </summary>
 		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH, bool ignoreSeverityCheck = false)
 		{
-			if(HealthMaster.OverallHealth >= 0 && ignoreSeverityCheck == false) return;
+			if(Severity >= DamageSeverity.Bad && ignoreSeverityCheck == false) return;
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance) == false)
 			{
@@ -123,13 +123,13 @@ namespace HealthV2
 			}
 		}
 
-		[ContextMenu("Debug - Apply 25 Slash Damage")]
+		[ContextMenu("Debug - Apply Slash Damage")]
 		private void DEBUG_ApplyTestSlash()
 		{
 			ApplyTraumaDamage(TraumaticDamageTypes.SLASH, true);
 		}
 
-		[ContextMenu("Debug - Apply 25 Pierce Damage")]
+		[ContextMenu("Debug - Apply Pierce Damage")]
 		private void DEBUG_ApplyTestPierce()
 		{
 			ApplyTraumaDamage(TraumaticDamageTypes.PIERCE, true);
