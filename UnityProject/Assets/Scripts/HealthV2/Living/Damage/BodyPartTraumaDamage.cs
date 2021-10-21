@@ -350,38 +350,38 @@ namespace HealthV2
 
 		public void HealTraumaticDamage(TraumaticDamageTypes damageTypeToHeal)
 		{
-			if (damageTypeToHeal == TraumaticDamageTypes.BURN)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.BURN))
 			{
 				currentBurnDamageLevel -= 1;
 			}
-			if (damageTypeToHeal == TraumaticDamageTypes.SLASH)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.SLASH))
 			{
 				currentSlashDamageLevel -= 1;
 			}
-			if (damageTypeToHeal == TraumaticDamageTypes.PIERCE)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.PIERCE))
 			{
 				currentPierceDamageLevel -= 1;
 			}
-			if (damageTypeToHeal == TraumaticDamageTypes.BLUNT)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.BLUNT))
 			{
 				currentBluntDamageLevel -= 1;
 			}
 		}
 		public void HealTraumaticDamage(TraumaticDamageTypes damageTypeToHeal, TraumaDamageLevel level)
 		{
-			if (damageTypeToHeal == TraumaticDamageTypes.BURN)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.BURN))
 			{
 				currentBurnDamageLevel = level;
 			}
-			if (damageTypeToHeal == TraumaticDamageTypes.SLASH)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.SLASH))
 			{
 				currentSlashDamageLevel = level;
 			}
-			if (damageTypeToHeal == TraumaticDamageTypes.PIERCE)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.PIERCE))
 			{
 				currentPierceDamageLevel = level;
 			}
-			if (damageTypeToHeal == TraumaticDamageTypes.BLUNT)
+			if (damageTypeToHeal.HasFlag(TraumaticDamageTypes.BLUNT))
 			{
 				currentBluntDamageLevel = level;
 			}
