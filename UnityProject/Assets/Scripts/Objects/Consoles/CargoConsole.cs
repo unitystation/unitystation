@@ -41,12 +41,12 @@ namespace Objects.Cargo
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			IDCard id = interaction.HandSlot.Item.GetComponent<IDCard>();
-			Emag mag = interaction.HandSlot.Item.GetComponent<Emag>();
-			if (id != null)
+			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
 				CheckID(id.JobType, interaction.Performer);
+				return;
 			}
+			Emag mag = interaction.HandSlot.Item.GetComponent<Emag>();
 			if (mag == null || Emagged) return;
 			if (mag.UseCharge(interaction))
 			{
