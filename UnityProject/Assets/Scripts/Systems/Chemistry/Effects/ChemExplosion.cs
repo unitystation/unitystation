@@ -39,7 +39,7 @@ namespace Chemistry.Effects
 			var strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
 
 
-			if (insideBody)
+			if (insideBody && strength > 0)
 			{
 				if (strength >= bodyPart.Health)
 				{
@@ -81,29 +81,30 @@ namespace Chemistry.Effects
 				}
 			}
 
-
-			//Check if this is happening inside of an Object first (machines, closets?)
-			if (registerObject == null)
+			if (strength > 0)
 			{
-				//If not, we need to check if the item is a bodypart inside of a player
-				if (insideBody)
+				//Check if this is happening inside of an Object first (machines, closets?)
+				if (registerObject == null)
 				{
-					Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength,
-						bodyPart.HealthMaster.RegisterTile.Matrix);
+					//If not, we need to check if the item is a bodypart inside of a player
+					if (insideBody)
+					{
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength,
+							bodyPart.HealthMaster.RegisterTile.Matrix);
+					}
+					else
+					{
+						//Otherwise, if it's not inside of a player, we consider it just an item
+						Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
+							objectBehaviour.registerTile.Matrix);
+					}
 				}
 				else
 				{
-					//Otherwise, if it's not inside of a player, we consider it just an item
-					Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
-						objectBehaviour.registerTile.Matrix);
+					Explosion.StartExplosion(registerObject.LocalPosition, strength,
+						registerObject.Matrix);
 				}
 			}
-			else
-			{
-				Explosion.StartExplosion(registerObject.LocalPosition, strength,
-					registerObject.Matrix);
-			}
-
 
 			// If sender is a pickupable item not inside the body, destroy it.
 			if (picked != null && !insideBody)
