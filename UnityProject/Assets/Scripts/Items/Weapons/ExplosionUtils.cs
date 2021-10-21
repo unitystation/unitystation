@@ -34,12 +34,12 @@ namespace Systems.Explosions
 			if (shakeDistance > DISTANT_THRESHOLD)
 			{
 				AddressableAudioSource distantName = DISTANT_EXPLOSION_SOUNDS[Random.Range(0, DISTANT_EXPLOSION_SOUNDS.Length)];
-				_ = SoundManager.PlayNetworkedAtPosAsync(distantName, worldPosition, global: true);
+				_ = SoundManager.PlayNetworkedAtPosAsync(distantName, worldPosition, global: false);
 			}
 			if (shakeIntensity > GROAN_THRESHOLD)
 			{
 				AddressableAudioSource groanName = STATION_GROAN_SOUNDS[Random.Range(0, STATION_GROAN_SOUNDS.Length)];
-				_ = SoundManager.PlayNetworkedAtPosAsync(groanName, worldPosition, global: true);
+				_ = SoundManager.PlayNetworkedAtPosAsync(groanName, worldPosition, global: false);
 			}
 		}
 	}
