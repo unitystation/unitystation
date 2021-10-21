@@ -354,6 +354,7 @@ namespace Systems.Cargo
 				}
 
 				export.ExportMessage = stringBuilder.ToString();
+				OnCreditsUpdate.Invoke();
 			}
 
 			var playerScript = obj.GetComponent<PlayerScript>();
@@ -408,6 +409,7 @@ namespace Systems.Cargo
 			}
 			ActiveBounties.Remove(cargoBounty);
 			Credits += cargoBounty.Reward;
+			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.Description} - completed.\n";
 			OnBountiesUpdate.Invoke();
 		}
 
