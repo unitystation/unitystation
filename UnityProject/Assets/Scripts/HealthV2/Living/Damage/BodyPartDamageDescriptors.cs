@@ -114,40 +114,44 @@ namespace HealthV2
 			return TranslateTags(report.ToString());
 		}
 
-		protected void AnnounceJointDislocationEvent()
+		protected void AnnounceJointDislocationEvent(LivingHealthMasterBase healthMaster, BodyPart containedIn)
 		{
-			PlayerScript script = HealthMaster.playerScript;
+			if (healthMaster == null) healthMaster = HealthMaster;
+			if (containedIn == null) containedIn = ContainedIn;
+			PlayerScript script = healthMaster.playerScript;
 			if (IsSurface)
 			{
-				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+				Chat.AddActionMsgToChat(healthMaster.gameObject,
 					$"Your {BodyPartReadableName} dislocates from it's place!",
 					$"{script.visibleName}'s {BodyPartReadableName} becomes visibly out of place!");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+				Chat.AddActionMsgToChat(healthMaster.gameObject,
 					$"You wince and hold on to your {BodyPartReadableName} as it dislocates from your " +
-					$"{ContainedIn.gameObject.ExpensiveName()}.",
+					$"{containedIn.gameObject.ExpensiveName()}.",
 					$"{script.visibleName} holds onto " +
-					$"{script.characterSettings.TheirPronoun(script)} {ContainedIn.gameObject.ExpensiveName()} in pain.");
+					$"{script.characterSettings.TheirPronoun(script)} {containedIn.gameObject.ExpensiveName()} in pain.");
 			}
 		}
 
-		protected void AnnounceJointHealEvent()
+		protected void AnnounceJointHealEvent(LivingHealthMasterBase healthMaster, BodyPart containedIn)
 		{
-			PlayerScript script = HealthMaster.playerScript;
+			if (healthMaster == null) healthMaster = HealthMaster;
+			if (containedIn == null) containedIn = ContainedIn;
+			PlayerScript script = healthMaster.playerScript;
 			if (IsSurface)
 			{
-				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+				Chat.AddActionMsgToChat(healthMaster.gameObject,
 					$"Your {BodyPartReadableName} pops back into place!",
 					$"{script.visibleName}'s {BodyPartReadableName} returns to it's original state!");
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(HealthMaster.gameObject,
+				Chat.AddActionMsgToChat(healthMaster.gameObject,
 					$"You scream out loud as your {BodyPartReadableName} pops back into place.",
 					$"{script.visibleName} screams out in pain as " +
-					$"a loud crack can be heard from {script.characterSettings.TheirPronoun(script)} {ContainedIn.gameObject.ExpensiveName()}.");
+					$"a loud crack can be heard from {script.characterSettings.TheirPronoun(script)} {containedIn.gameObject.ExpensiveName()}.");
 			}
 		}
 
