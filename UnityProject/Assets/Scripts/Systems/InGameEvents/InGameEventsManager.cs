@@ -104,19 +104,19 @@ namespace InGameEvents
 			}
 		}
 
-		public List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
+		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfFunEventScripts => listOfFunEventScripts;
 
 
-		public List<EventScriptBase> listOfSpecialEventScripts = new List<EventScriptBase>();
+		private List<EventScriptBase> listOfSpecialEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfSpecialEventScripts => listOfSpecialEventScripts;
 
 
-		public List<EventScriptBase> listOfAntagonistEventScripts = new List<EventScriptBase>();
+		private List<EventScriptBase> listOfAntagonistEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfAntagonistEventScripts => listOfAntagonistEventScripts;
 
 
-		public List<EventScriptBase> listOfDebugEventScripts = new List<EventScriptBase>();
+		private List<EventScriptBase> listOfDebugEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfDebugEventScripts => listOfDebugEventScripts;
 
 		public void AddEventToList(EventScriptBase eventToAdd, InGameEventType eventType)
@@ -134,7 +134,7 @@ namespace InGameEvents
 			list.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true, string serializedEventParameters = null)
+		public void TriggerSpecificEvent(int eventIndex, int musicIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true, string serializedEventParameters = null)
 		{
 			List<EventScriptBase> list;
 
@@ -165,6 +165,10 @@ namespace InGameEvents
 				eventChosen.TriggerEvent(serializedEventParameters);
 
 				AdminCommandsManager.LogAdminAction($"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}");
+			}
+			if (musicIndex != 0)
+			{
+				MusicManager.Instance.PlayTrack(musics[musicIndex - 1]);
 			}
 		}
 

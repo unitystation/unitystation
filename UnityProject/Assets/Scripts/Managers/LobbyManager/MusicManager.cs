@@ -63,11 +63,6 @@ namespace Audio.Containers
 			Synth.Instance.StopMusic();
 		}
 
-		public static void FadeOutMusic()
-		{
-
-		}
-
 		/// <summary>
 		/// Plays a random music track.
 		/// <returns>String[] that represents the picked song's name.</returns>
@@ -77,6 +72,27 @@ namespace Audio.Containers
 			StopMusic();
 			if (currentLobbyAudioSource == null) Init();
 			var audioSource = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
+			if(audioSource == null)
+			{
+				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
+				return null;
+			}
+			currentLobbyAudioSource.clip = audioSource.AudioSource.clip;
+			currentLobbyAudioSource.mute = isMusicMute;
+			currentLobbyAudioSource.volume = Instance.MusicVolume;
+			currentLobbyAudioSource.Play();
+			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
+			return currentLobbyAudioSource.clip.name.Split('_');
+		}
+
+		/// <summary>
+		/// Plays specific music track.
+		/// <returns>String[] that represents the picked song's name.</returns>
+		/// </summary>
+		public async Task<String[]> PlayTrack(AddressableAudioSource audioSource)
+		{
+			StopMusic();
+			if (currentLobbyAudioSource == null) Init();
 			if(audioSource == null)
 			{
 				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
