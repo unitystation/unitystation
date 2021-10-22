@@ -7,6 +7,7 @@ namespace HealthV2
 {
 	public class BodyPartFunctionality : MonoBehaviour
 	{
+		protected BodyPart bodyPart;
 		[NonSerialized]
 		public BodyPart RelatedPart;
 		public virtual void ImplantPeriodicUpdate(){}
@@ -15,6 +16,11 @@ namespace HealthV2
 		public virtual void SetUpSystems(){}
 		public virtual void BloodWasPumped(){}
 		public virtual void InternalDamageLogic() {}
+
+		private void Awake()
+		{
+			bodyPart = GetComponent<BodyPart>();
+		}
 	}
 
 }

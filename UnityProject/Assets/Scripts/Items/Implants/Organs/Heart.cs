@@ -110,20 +110,20 @@ public class Heart : BodyPartFunctionality
 
 		//To exclude stuff like hunger and oxygen damage
 		var TotalModified = 1f;
-		foreach (var Modifier in RelatedPart.AppliedModifiers)
+		foreach (var modifier in bodyPart.AppliedModifiers)
 		{
 			var toMultiply = 1f;
-			if (Modifier == RelatedPart.DamageModifier)
+			if (modifier == bodyPart.DamageModifier)
 			{
-				toMultiply = Mathf.Max(0f,Mathf.Max(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam, 0) / RelatedPart.MaxHealth);
+				toMultiply = Mathf.Max(0f,Mathf.Max(bodyPart.MaxHealth - bodyPart.TotalDamageWithoutOxyCloneRadStam, 0) / bodyPart.MaxHealth);
 			}
-			else if (Modifier == RelatedPart.HungerModifier)
+			else if (modifier == bodyPart.HungerModifier)
 			{
 				continue;
 			}
 			else
 			{
-				toMultiply = Mathf.Max(0f, Modifier.Multiplier);
+				toMultiply = Mathf.Max(0f, modifier.Multiplier);
 			}
 			TotalModified *= toMultiply;
 		}
