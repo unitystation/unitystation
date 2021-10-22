@@ -65,6 +65,10 @@ namespace HealthV2
 
 		public HungerState HungerState => hungerState;
 
+		[SyncVar(hook = nameof(SyncBleedingState))]
+		private BleedingState bleedingState;
+		public BleedingState BleedingState => bleedingState;
+
 
 		private bool DollDataChanged = false;
 
@@ -231,7 +235,11 @@ namespace HealthV2
 			hungerState = newHungerState;
 		}
 
-
+		[Client]
+		private void SyncBleedingState(BleedingState oldBleedingState, BleedingState newBleedingState)
+		{
+			bleedingState = newBleedingState;
+		}
 
 		[Client]
 		private void SyncHealthDoll(string oldDollData, string newDollData)

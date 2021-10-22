@@ -386,6 +386,121 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+--- !u!1 &5298223549311111985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9154657533698640364}
+  - component: {fileID: 8147562818109175295}
+  - component: {fileID: 449285169563921977}
+  - component: {fileID: 1154887461183373732}
+  - component: {fileID: 5127689507050033587}
+  m_Layer: 5
+  m_Name: BleedingAlert
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9154657533698640364
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298223549311111985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.396721, y: 1.396721, z: 1.396721}
+  m_Children: []
+  m_Father: {fileID: 6850120542485404431}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8147562818109175295
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298223549311111985}
+  m_CullTransparentMesh: 0
+--- !u!114 &449285169563921977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298223549311111985}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1154887461183373732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298223549311111985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Bleeding
+--- !u!114 &5127689507050033587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298223549311111985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue:
+  - {fileID: 11400000, guid: 7088ea7c29cc06d4bb3324ead7224353, type: 2}
+  - {fileID: 11400000, guid: 08feaf33c8c046540a684ad249951ef7, type: 2}
+  - {fileID: 11400000, guid: 952db7d501a8fd542a2dfa25a32bd07d, type: 2}
+  - {fileID: 11400000, guid: 37a78136eb9b5964da0b5714dcb339e1, type: 2}
+  - {fileID: 11400000, guid: 24a29b81dc8ee06428825496216466aa, type: 2}
+  PresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!1 &5335150533535898624
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,6 +1028,7 @@ MonoBehaviour:
   oxygenAlert: {fileID: 8152784201530871151}
   temperatureAlert: {fileID: 7702911561610958023}
   hungerAlert: {fileID: 6807999936802106865}
+  bleedingAlert: {fileID: 5127689507050033587}
   heartMonitor: {fileID: 8121562571424472627}
   bodyPartListeners:
   - {fileID: 8121640966308975201}
@@ -1847,6 +1963,7 @@ RectTransform:
   - {fileID: 8231684312633642269}
   - {fileID: 2225380001457744642}
   - {fileID: 4099844476581970532}
+  - {fileID: 9154657533698640364}
   m_Father: {fileID: 8232259481283617645}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

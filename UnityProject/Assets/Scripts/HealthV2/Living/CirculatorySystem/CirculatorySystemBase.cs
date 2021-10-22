@@ -60,4 +60,13 @@ namespace HealthV2
 			MatrixManager.ReagentReact(bloodLoss, healthMaster.gameObject.RegisterTile().WorldPositionServer);
 		}
 	}
+	public enum BleedingState
+	{
+		None,
+		VeryLow,
+		Low,
+		Medium,
+		High,
+		UhOh
+	}
 }
