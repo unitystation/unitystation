@@ -27,6 +27,11 @@ public class EventsManagerPage : AdminPage
 	[SerializeField]
 	private Toggle randomEventToggle = null;
 
+	[SerializeField]
+	private Dropdown eventMusicDropDown = null;
+
+	private bool musicLoaded;
+
 	/// <summary>
 	/// The pages to show for specifying extra parameters for an event type.
 	/// </summary>
@@ -85,6 +90,13 @@ public class EventsManagerPage : AdminPage
 	{
 		base.OnPageRefresh(adminPageData);
 		randomEventToggle.isOn = adminPageData.randomEventsAllowed;
+		if (InGameEventsManager.Instance.MusicListCache.Count == 0)
+		{
+			InGameEventsManager.Instance.LoadMusic();
+			GenerateDropDownMusicList();
+			musicLoaded = true;
+		}
+		
 	}
 
 	public void GenerateDropDownOptions()
@@ -104,6 +116,22 @@ public class EventsManagerPage : AdminPage
 
 		GenerateDropDownOptionsEventList(eventType);
 
+	}
+
+	private void GenerateDropDownMusicList()
+	{
+		//generate the drop down options:
+		var optionData = new List<Dropdown.OptionData>();
+
+		foreach (var eventTypeInList in InGameEventsManager.Instance.MusicListCache)
+		{
+			optionData.Add(new Dropdown.OptionData
+			{
+				text = eventTypeInList
+			});
+		}
+
+		eventMusicDropDown.options = optionData;
 	}
 
 	private void EventTypeOptions()

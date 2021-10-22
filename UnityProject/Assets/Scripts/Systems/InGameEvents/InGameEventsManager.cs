@@ -6,6 +6,9 @@ using System.Linq;
 using AdminCommands;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Audio.Containers;
+using System.Threading.Tasks;
+using AddressableReferences;
 
 namespace InGameEvents
 {
@@ -31,13 +34,21 @@ namespace InGameEvents
 		[SerializeField]
 		private int chanceItIsFake = 25;
 
+		private bool secondLoadAttempt;
+
 		public bool RandomEventsAllowed;
 
 		public int minPlayersForRandomEventsToHappen = 5;
 
-		[HideInInspector]
+		//[HideInInspector]
 		public List<string> EnumListCache = new List<string>();
+		//[HideInInspector]
+		public List<string> MusicListCache = new List<string>();
 
+		[SerializeField]
+		private AudioClipsArray eventMusic = null;
+
+		public List<AddressableAudioSource> musics;
 
 		private void Awake()
 		{
@@ -53,9 +64,23 @@ namespace InGameEvents
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
 		}
 
-		public void Start()
+		private void Start()
 		{
 			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
+		}
+
+		public async Task LoadMusic()
+		{
+			// We want the same musics that are in the lobby,
+			// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
+			musics = new List<AddressableAudioSource>();
+
+			foreach (var audioSource in eventMusic.AddressableAudioSource)
+			{
+				var song = await SoundManager.GetAddressableAudioSourceFromCache(audioSource);
+				musics.Add(song);
+				MusicListCache.Add(song.AudioSource.clip.name.Split('_')[0]);
+			}
 		}
 
 		private void Update()
@@ -79,19 +104,19 @@ namespace InGameEvents
 			}
 		}
 
-		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
+		public List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfFunEventScripts => listOfFunEventScripts;
 
 
-		private List<EventScriptBase> listOfSpecialEventScripts = new List<EventScriptBase>();
+		public List<EventScriptBase> listOfSpecialEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfSpecialEventScripts => listOfSpecialEventScripts;
 
 
-		private List<EventScriptBase> listOfAntagonistEventScripts = new List<EventScriptBase>();
+		public List<EventScriptBase> listOfAntagonistEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfAntagonistEventScripts => listOfAntagonistEventScripts;
 
 
-		private List<EventScriptBase> listOfDebugEventScripts = new List<EventScriptBase>();
+		public List<EventScriptBase> listOfDebugEventScripts = new List<EventScriptBase>();
 		public List<EventScriptBase> ListOfDebugEventScripts => listOfDebugEventScripts;
 
 		public void AddEventToList(EventScriptBase eventToAdd, InGameEventType eventType)
