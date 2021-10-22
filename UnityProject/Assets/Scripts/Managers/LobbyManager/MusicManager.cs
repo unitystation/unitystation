@@ -48,20 +48,12 @@ namespace Audio.Containers
 				currentLobbyAudioSource = GetComponent<AudioSource>();
 			}
 
+			currentLobbyAudioSource.outputAudioMixerGroup = AudioManager.Instance.MusicMixer;
+
 			//Mute Music Preference
 			if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
 			{
 				isMusicMute = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
-			}
-
-			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolume))
-			{
-				MusicVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolume);
-				currentLobbyAudioSource.volume =  PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolume);
-			}
-			else
-			{
-				SaveNewVolume(0.5f);
 			}
 		}
 
@@ -73,7 +65,7 @@ namespace Audio.Containers
 
 		public static void FadeOutMusic()
 		{
-			
+
 		}
 
 		/// <summary>
@@ -96,18 +88,6 @@ namespace Audio.Containers
 			currentLobbyAudioSource.Play();
 			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
 			return currentLobbyAudioSource.clip.name.Split('_');
-		}
-
-		[NaughtyAttributes.Button("Play Random Track")]
-		private void DEBUG_PlayRandomTrack()
-		{
-			PlayRandomTrack();
-		}
-
-		[NaughtyAttributes.Button("Stop Music")]
-		private void DEBUG_StopMusic()
-		{
-			StopMusic();
 		}
 
 		public void ToggleMusicMute(bool mute)
@@ -146,14 +126,14 @@ namespace Audio.Containers
 		public void ChangeVolume(float newVolume)
 		{
 			MusicVolume = newVolume;
-			currentLobbyAudioSource.volume = newVolume;
+			AudioManager.MusicVolume(newVolume);
 
 			SaveNewVolume(newVolume);
 		}
 
 		private void SaveNewVolume(float newVolume)
 		{
-			PlayerPrefs.SetFloat(PlayerPrefKeys.MusicVolume, newVolume);
+			PlayerPrefs.SetFloat(PlayerPrefKeys.MusicVolumeKey, newVolume);
 			PlayerPrefs.Save();
 		}
 	}

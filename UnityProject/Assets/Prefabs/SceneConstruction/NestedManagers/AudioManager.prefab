@@ -49,6 +49,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enteringSoundTrack: {fileID: 11400000, guid: badf90167da9bba4fa049fac3e2912eb, type: 2}
   leavingSoundTrack: {fileID: 11400000, guid: 887547c1601288541a8cf751bf33fbc1, type: 2}
+  audioMixer: {fileID: 24100000, guid: 94208a0928046438d9b8a00796e7a5a7, type: 2}
+  MasterMixer: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7, type: 2}
+  MusicMixer: {fileID: -4580727899087032196, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  SFXMixer: {fileID: 1461855447587545145, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  SFXMuffledMixer: {fileID: 7689869653675604508, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  AmbientMixer: {fileID: 1827435896452042842, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  TTSMixer: {fileID: 5431052916838343998, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
 --- !u!1001 &3412184721786106631
 PrefabInstance:
   m_ObjectHideFlags: 0

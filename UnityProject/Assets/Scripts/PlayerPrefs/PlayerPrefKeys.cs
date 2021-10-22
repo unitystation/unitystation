@@ -34,6 +34,12 @@
 	public static string MasterVolumeKey = "MasterVol";
 
 	/// <summary>
+	/// Sound FX Volume level
+	/// 0 - 1f
+	/// </summary>
+	public static string SoundFXVolumeKey = "SoundFXVol";
+
+	/// <summary>
 	/// TTS Toggle Pref.
 	/// 0 = disabled
 	/// 1 = enabled
@@ -57,7 +63,13 @@
 	/// 0 = disabled
 	/// 1 = enabled
 	/// </summary>
-	public static string MusicVolume = "MusicVolume";
+	public static string MusicVolumeKey = "MusicVol";
+
+	/// <summary>
+	/// TTS Volume level
+	/// 0 - 1f
+	/// </summary>
+	public static string TtsVolumeKey = "TTSVol";
 
 	/// <summary>
 	/// Whether or not to show highlights on items

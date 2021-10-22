@@ -8,6 +8,7 @@ using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Audio.Containers;
 
 /// <summary>
 /// Manager that allows to play sounds.
@@ -15,10 +16,6 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SoundManager : MonoBehaviour
 {
-	public AudioMixerGroup DefaultMixer;
-
-	public AudioMixerGroup MuffledMixer;
-
 	private static LayerMask layerMask;
 
 	private static SoundManager soundManager;
@@ -67,16 +64,6 @@ public class SoundManager : MonoBehaviour
 
 	private void Init()
 	{
-		//Master Volume
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
-		{
-			MasterVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey));
-		}
-		else
-		{
-			MasterVolume(1f);
-		}
-
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 	}
 
@@ -198,7 +185,7 @@ public class SoundManager : MonoBehaviour
 		soundSpawnObject.transform.SetParent(this.gameObject.transform);
 		soundSpawnObject.name = audioSource.name;
 		SoundSpawn soundSpawn = soundSpawnObject.GetComponent<SoundSpawn>();
-		soundSpawn.AudioSource.outputAudioMixerGroup = DefaultMixer;
+		soundSpawn.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMixer;
 		soundSpawn.SetAudioSource(audioSource);
 		soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
 		if (soundSpawnToken != string.Empty)
@@ -510,7 +497,7 @@ public class SoundManager : MonoBehaviour
 			    LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
 			    .ItHit)
 			{
-				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer;
 			}
 		if (polyphonic)
 		{
@@ -688,8 +675,7 @@ public class SoundManager : MonoBehaviour
 		if(audioSourceParameters.Spread != 0)
 			audioSource.spread = audioSourceParameters.Spread;
 
-		audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
-				? Instance.DefaultMixer : Instance.MuffledMixer;
+		audioSource.outputAudioMixerGroup = Instance.CalcAudioMixerGroup(audioSourceParameters.MixerType);
 
 		switch (audioSourceParameters.VolumeRolloffType)
 		{
@@ -723,8 +709,7 @@ public class SoundManager : MonoBehaviour
 		audioSource.minDistance = audioSourceParameters.MinDistance;
 		audioSource.maxDistance = audioSourceParameters.MaxDistance;
 		audioSource.spread = audioSourceParameters.Spread;
-		audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
-			? Instance.DefaultMixer : Instance.MuffledMixer;
+		audioSource.outputAudioMixerGroup = Instance.CalcAudioMixerGroup(audioSourceParameters.MixerType);
 		switch (audioSourceParameters.VolumeRolloffType)
 		{
 			case VolumeRolloffType.EaseInAndOut:
@@ -739,6 +724,22 @@ public class SoundManager : MonoBehaviour
 				audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
 				break;
 		}
+	}
+	/// <summary>
+	/// Determine which AudioMixerGroup to use based on MixerType enum
+	/// </summary>
+	/// <param name="mixerType">MixterType enum/returns>
+	private AudioMixerGroup CalcAudioMixerGroup (MixerType mixerType)
+	{
+		switch(mixerType)
+			{
+				case MixerType.Muffled:
+					return AudioManager.Instance.SFXMuffledMixer;
+				case MixerType.Ambient:
+					return AudioManager.Instance.AmbientMixer;
+				default:
+					return AudioManager.Instance.SFXMixer;
+			}
 	}
 
 	/// <summary>
@@ -758,17 +759,6 @@ public class SoundManager : MonoBehaviour
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 			Instance.SoundSpawns[soundSpawnToken]?.AudioSource.Stop();
-	}
-
-	/// <summary>
-	/// Sets all Sounds volume
-	/// </summary>
-	/// <param name="volume"></param>
-	public static void MasterVolume(float volume)
-	{
-		AudioListener.volume = volume;
-		PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
-		PlayerPrefs.Save();
 	}
 
 	/// <summary>
