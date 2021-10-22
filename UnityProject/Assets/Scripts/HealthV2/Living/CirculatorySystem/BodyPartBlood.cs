@@ -206,22 +206,9 @@ namespace HealthV2
 				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed);
 			}
 
-
-
 			var info = HealthMaster.CirculatorySystem.BloodInfo;
 			float damage;
-			if (HealthMaster.CirculatorySystem.ReadyBloodPool.Total < info.BLOOD_CRITICAL)
-			{
-				//If we reach critical, the organism will very quickly accumulate damage.
-				//I'm picking 5f arbitarily, change if necessary
-				damage = 5f;
-			}
-			else if (HealthMaster.CirculatorySystem.ReadyBloodPool.Total < info.BLOOD_BAD)
-			{
-				//There's not enough blood in the body to sustain itself
-				damage = 1f;
-			}
-			else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
+			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
 				if (bloodSaturation <= 0)
@@ -332,34 +319,19 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="bloodIn">Incoming blood</param>
 		/// <returns>Whatever is left over from bloodIn</returns>
-		public ReagentMix BloodPumpedEvent(ReagentMix bloodIn)
+		public void BloodPumpedEvent(ReagentMix bloodIn)
 		{
-			//Maybe have a dynamic 50% other blood in this blood
-			// if (bloodReagent != requiredReagent)
-			// {
-			// return HandleWrongBloodReagent(bloodReagent, amountOfBloodReagentPumped);
-			// }
-			//bloodReagent.Subtract()
-			//BloodContainer.Add(bloodReagent);
-
 			//Maybe have damage from high/low blood levels and high blood pressure
 
 			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, float.MaxValue);
 
-			if ((BloodContainer.ReagentMixTotal + bloodIn.Total) > BloodContainer.MaxCapacity)
-			{
-				float BloodToTake = BloodContainer.MaxCapacity - BloodContainer.ReagentMixTotal;
-				bloodIn.TransferTo(BloodContainer.CurrentReagentMix, BloodToTake);
-			}
-			else
-			{
-				bloodIn.TransferTo(BloodContainer.CurrentReagentMix, bloodIn.Total);
-			}
+
+			bloodIn.TransferTo(BloodContainer.CurrentReagentMix, bloodIn.Total);
+
 
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
 			BloodWasPumped();
-			return bloodIn;
 		}
 
 		public virtual void BloodWasPumped()

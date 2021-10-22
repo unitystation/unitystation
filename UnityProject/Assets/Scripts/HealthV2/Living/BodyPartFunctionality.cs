@@ -5,21 +5,16 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Organ : MonoBehaviour
+	public class BodyPartFunctionality : MonoBehaviour
 	{
 		[NonSerialized]
 		public BodyPart RelatedPart;
 		public virtual void ImplantPeriodicUpdate(){}
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealth){}
-		public virtual void HealthMasterSet(){}
+		public virtual void HealthMasterSet(LivingHealthMasterBase livingHealth){}
 		public virtual void SetUpSystems(){}
-
-		public virtual void Initialisation(){}
 		public virtual void BloodWasPumped(){}
-		public virtual void InternalDamageLogic()
-		{
-			RelatedPart.InternalBleedingLogic();
-		}
+		public virtual void InternalDamageLogic() {}
 	}
 
 }

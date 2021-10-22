@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class BodyFat : Organ, IMovementEffect
+	public class BodyFat : BodyPartFunctionality, IMovementEffect
 	{
 		[SerializeField] private float maxRunSpeedDebuff = -2;
 		[SerializeField] private float maxWalkingDebuff = -1.5f;
@@ -109,9 +109,9 @@ namespace HealthV2
 			AbsorbedAmount = 0;
 		}
 
-		public override void Initialisation()
+		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
 		{
-			base.Initialisation();
+			base.HealthMasterSet(livingHealth);
 			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{

@@ -193,6 +193,12 @@ public class PlayerSprites : MonoBehaviour
 				Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
 			}
 		}
+
+
+		foreach (var bodyPartOrgan in Body_Part.ContainBodyParts)
+		{
+			SubSetBodyPart(bodyPartOrgan, path);
+		}
 	}
 
 	public void SetupSprites()
@@ -225,13 +231,6 @@ public class PlayerSprites : MonoBehaviour
 		foreach (var bodyPart in livingHealthMasterBase.BodyPartList)
 		{
 			SubSetBodyPart(bodyPart, "");
-
-			//TODO: horrible, remove -- organ prefabs have bodyparts
-			foreach (var organ in bodyPart.OrganList)
-			{
-				var bodyPartOrgan = organ.GetComponent<BodyPart>();
-				SubSetBodyPart(bodyPartOrgan, $"/{bodyPart.name}");
-			}
 		}
 
 		PlayerHealthData SetRace = null;

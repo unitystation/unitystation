@@ -8,7 +8,7 @@ using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Lungs : Organ
+public class Lungs : BodyPartFunctionality
 {
 	/// <summary>
 	/// The number of ticks to wait until next breath is attempted

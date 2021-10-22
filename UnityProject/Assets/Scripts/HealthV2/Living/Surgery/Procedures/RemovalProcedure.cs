@@ -24,7 +24,7 @@ namespace HealthV2
 
 			PresentProcedure.ISon.ThisPresentProcedure.PreviousBodyPart = null;
 			PresentProcedure.ISon.ThisPresentProcedure.RelatedBodyPart = null;
-			if (OnBodyPart.TryGetComponent<Organ>(out var organ))
+			if (OnBodyPart.TryGetComponent<BodyPartFunctionality>(out var organ))
 			{
 				organ.RelatedPart.OrganStorage.ServerTryRemove(organ.gameObject);
 			}
