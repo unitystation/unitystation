@@ -93,13 +93,13 @@ namespace AdminCommands
 		#region EventsPage
 
 		[Command(requiresAuthority = false)]
-		public void CmdTriggerGameEvent(int eventIndex, bool isFake, bool announceEvent,
+		public void CmdTriggerGameEvent(int eventIndex, int musicIndex, bool isFake, bool announceEvent,
 				InGameEventType eventType, string serializedEventParameters, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
 
 			InGameEventsManager.Instance.TriggerSpecificEvent(
-					eventIndex, eventType, isFake, player.Username, announceEvent, serializedEventParameters);
+					eventIndex, musicIndex, eventType, isFake, player.Username, announceEvent, serializedEventParameters);
 		}
 
 		#endregion

@@ -155,7 +155,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5479156338487496473
 MonoBehaviour:
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 4748508647246467756}
   - component: {fileID: 8538565605628696324}
   m_Layer: 0
-  m_Name: Immovable Rod
+  m_Name: ScrubberSurge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,7 +207,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8538565605628696324
 MonoBehaviour:
@@ -218,23 +218,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1092207170390034217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42a1680a936ac544990d2d9061ebd7d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 71eaa0e8f701f82478bc2e15b2690d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EventName: Immovable Rod
+  EventName: Scrubber Surge
   StartTimer: 5
   EndTimer: 0
   EventType: 1
-  ChanceToHappen: 0.5
-  MinPlayersToTrigger: 25
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
-  immovableRodPrefab: {fileID: 7144248469089430455, guid: 92917100ffedb8446b152dfce67581f8,
+  reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
     type: 3}
-  minStrength: 2500
-  maxStrength: 4500
-  timeBetweenExplosions: 0.25
+  dispersionAgents:
+  - {fileID: 0}
+  - {fileID: 0}
+  spawnDelayRange: {x: 3, y: 10}
 --- !u!1 &2176390301219290958
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +319,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8688883408302241468
 MonoBehaviour:
@@ -392,7 +393,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1444185421979299837
 MonoBehaviour:
@@ -447,7 +448,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9013609522436419745
 MonoBehaviour:
@@ -508,7 +509,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3748124432481525740
 MonoBehaviour:
@@ -623,7 +624,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2610571774784088097
 MonoBehaviour:
@@ -707,7 +708,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1809593919738534580}
   - {fileID: 4748508647246467756}
   - {fileID: 5866069805973481999}
   - {fileID: 2229250345173143171}
@@ -722,6 +722,7 @@ Transform:
   - {fileID: 2967834443619550631}
   - {fileID: 1614149104379286000}
   - {fileID: 7644278449202499015}
+  - {fileID: 1809593919738534580}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -754,7 +755,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7198905062217266963
 MonoBehaviour:
@@ -817,7 +818,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2842095842743565100
 MonoBehaviour:
@@ -898,7 +899,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5844188118944054632
 MonoBehaviour:
@@ -1036,7 +1037,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2934142359551454669
 MonoBehaviour:
@@ -1110,7 +1111,7 @@ GameObject:
   - component: {fileID: 1809593919738534580}
   - component: {fileID: 1375060888515666893}
   m_Layer: 0
-  m_Name: PlayMusic
+  m_Name: Immovable Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1128,7 +1129,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 0
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1375060888515666893
 MonoBehaviour:
@@ -1139,10 +1140,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6000598525508854915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cc5321a1a1e143169feff4984bc2862, type: 3}
+  m_Script: {fileID: 11500000, guid: 42a1680a936ac544990d2d9061ebd7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EventName: Play Music
+  EventName: Immovable Rod
   StartTimer: 0
   EndTimer: 0
   EventType: 1
@@ -1151,8 +1152,10 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
-  audioClips: {fileID: 11400000, guid: 8f0c7210e66131a4980538619cd9d9cc, type: 2}
-  announceText: Music Event Started.
+  immovableRodPrefab: {fileID: 0}
+  minStrength: 200
+  maxStrength: 500
+  timeBetweenExplosions: 1
 --- !u!1 &6093678303304513412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,7 +1185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1734058573413260740
 MonoBehaviour:
@@ -1526,7 +1529,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6462514027336449978
 MonoBehaviour:
@@ -1606,10 +1609,6 @@ MonoBehaviour:
   MusicListCache: []
   eventMusic: {fileID: 11400000, guid: 754bcabad708be8409022843f6c689f4, type: 2}
   musics: []
-  listOfFunEventScripts: []
-  listOfSpecialEventScripts: []
-  listOfAntagonistEventScripts: []
-  listOfDebugEventScripts: []
 --- !u!114 &3416911991172850115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1689,7 +1688,7 @@ GameObject:
   - component: {fileID: 7644278449202499015}
   - component: {fileID: 5219137714795788897}
   m_Layer: 0
-  m_Name: ScrubberSurge
+  m_Name: Play Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1707,7 +1706,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5219137714795788897
 MonoBehaviour:
@@ -1718,21 +1717,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 9019151151982202521}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71eaa0e8f701f82478bc2e15b2690d8c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1cc5321a1a1e143169feff4984bc2862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EventName: Scrubber Surge
+  EventName: Play Music
   StartTimer: 0
   EndTimer: 0
   EventType: 1
-  ChanceToHappen: 30
+  ChanceToHappen: 0
   MinPlayersToTrigger: 0
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 0
-  reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
-    type: 3}
-  dispersionAgents:
-  - {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a, type: 2}
-  - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
-  spawnDelayRange: {x: 3, y: 10}
+  audioClips: {fileID: 0}
+  announceText: Music Event Started.

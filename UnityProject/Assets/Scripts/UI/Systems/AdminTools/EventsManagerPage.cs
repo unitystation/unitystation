@@ -8,6 +8,7 @@ using AdminCommands;
 using Assets.Scripts.UI.AdminTools;
 using System.Linq;
 using Messages.Client.Admin;
+using System.Threading.Tasks;
 
 
 public class EventsManagerPage : AdminPage
@@ -30,14 +31,13 @@ public class EventsManagerPage : AdminPage
 	[SerializeField]
 	private Dropdown eventMusicDropDown = null;
 
-	private bool musicLoaded;
-
 	/// <summary>
 	/// The pages to show for specifying extra parameters for an event type.
 	/// </summary>
 	private EventParameterPages eventsParametersPages = null;
 
 	private bool generated = false;
+	private bool musicLoaded;
 
 	public void Awake()
 	{
@@ -50,6 +50,7 @@ public class EventsManagerPage : AdminPage
 			out InGameEventType eventType)) return;
 
 		var index = nextDropDown.value;
+		var musicIndex = eventMusicDropDown.value;
 
 		if (eventType == InGameEventType.Random)
 		{
@@ -76,7 +77,7 @@ public class EventsManagerPage : AdminPage
 			}
 		}
 
-		AdminCommandsManager.Instance.CmdTriggerGameEvent(index, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
+		AdminCommandsManager.Instance.CmdTriggerGameEvent(index, musicIndex, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
 
 	}
 
@@ -90,14 +91,18 @@ public class EventsManagerPage : AdminPage
 	{
 		base.OnPageRefresh(adminPageData);
 		randomEventToggle.isOn = adminPageData.randomEventsAllowed;
+
 		if (InGameEventsManager.Instance.MusicListCache.Count == 0)
 		{
-			InGameEventsManager.Instance.LoadMusic();
-			GenerateDropDownMusicList();
-			musicLoaded = true;
+			LoadMusic();
 		}
-		
 	}
+
+	public async Task LoadMusic()
+	{
+		await InGameEventsManager.Instance.LoadMusic();
+		GenerateDropDownMusicList();
+	} 
 
 	public void GenerateDropDownOptions()
 	{
@@ -123,11 +128,17 @@ public class EventsManagerPage : AdminPage
 		//generate the drop down options:
 		var optionData = new List<Dropdown.OptionData>();
 
-		foreach (var eventTypeInList in InGameEventsManager.Instance.MusicListCache)
+		//Add None entry:
+		optionData.Add(new Dropdown.OptionData
+		{
+			text = "None"
+		});
+
+		foreach (var musicInList in InGameEventsManager.Instance.MusicListCache)
 		{
 			optionData.Add(new Dropdown.OptionData
 			{
-				text = eventTypeInList
+				text = musicInList
 			});
 		}
 
