@@ -88,8 +88,7 @@ namespace TileManagement
 
 		private void OnEnable()
 		{
-			if (Application.isPlaying == false) return;
-
+			
 			Layers = new Dictionary<LayerType, Layer>();
 			var layersKeys = new List<LayerType>();
 			var layersValues = new List<Layer>();
