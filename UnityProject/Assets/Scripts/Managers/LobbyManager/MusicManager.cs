@@ -106,6 +106,27 @@ namespace Audio.Containers
 			return currentLobbyAudioSource.clip.name.Split('_');
 		}
 
+		/// <summary>
+		/// Plays specific music track.
+		/// <returns>String[] that represents the picked song's name.</returns>
+		/// </summary>
+		public async Task<String[]> PlayTrack(AddressableAudioSource audioSource)
+		{
+			StopMusic();
+			if (currentLobbyAudioSource == null) Init();
+			if(audioSource == null)
+			{
+				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
+				return null;
+			}
+			currentLobbyAudioSource.clip = audioSource.AudioSource.clip;
+			currentLobbyAudioSource.mute = isMusicMute;
+			currentLobbyAudioSource.volume = Instance.MusicVolume;
+			currentLobbyAudioSource.Play();
+			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
+			return currentLobbyAudioSource.clip.name.Split('_');
+		}
+
 		public void ToggleMusicMute(bool mute)
 		{
 			isMusicMute = mute;
