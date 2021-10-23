@@ -61,9 +61,6 @@ namespace Objects.Disposals
 
 			foreach (var obj in objects)
 			{
-				// may have despawned while in storage (e.g. grenade)
-				if (obj == null) continue;
-
 				if (obj.TryGetComponent<IPushable>(out var pushable) == false) continue;
 
 				if (obj.TryGetComponent<RegisterObject>(out _) == false && obj.TryGetComponent<CustomNetTransform>(out var cnt))
