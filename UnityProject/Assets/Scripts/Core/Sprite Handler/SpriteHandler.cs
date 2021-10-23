@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
 #endif
@@ -15,7 +16,7 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class SpriteHandler : MonoBehaviour
 {
-	[SerializeField] private bool NetworkThis = true;
+	[SerializeField] public bool NetworkThis = true;
 
 	[SerializeField] private List<SpriteDataSO> SubCatalogue = new List<SpriteDataSO>();
 
@@ -35,7 +36,9 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField]
 	private bool pushTextureOnStartUp = true;
 
-	[SerializeField, Range(0, 3)]
+	[FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 3)]
+	private int initialVariantIndex = 0;
+
 	private int variantIndex = 0;
 
 	private int cataloguePage = -1;
@@ -580,12 +583,18 @@ public class SpriteHandler : MonoBehaviour
 
 	void Awake()
 	{
-		TryInit();
+		if (Application.isPlaying)
+		{
+			TryInit();
+		}
 	}
 
 	void Start()
 	{
-		TryInit();
+		if (Application.isPlaying)
+		{
+			TryInit();
+		}
 	}
 
 	private void OnDestroy()
@@ -739,6 +748,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void TryInit()
 	{
+		variantIndex = initialVariantIndex;
 		GetImageComponent();
 		bool Status = this.GetImageComponentStatus();
 		ImageComponentStatus(false);
@@ -795,8 +805,10 @@ public class SpriteHandler : MonoBehaviour
 
 		GetImageComponent();
 		OnSpriteChanged?.Invoke(CurrentSprite);
-
-		PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
+		if (Application.isPlaying)
+		{
+			PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
+		}
 	}
 
 	private void OnDisable()

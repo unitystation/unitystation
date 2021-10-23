@@ -111,11 +111,7 @@ namespace Objects
 			yield return WaitFor.Seconds(TRAVEL_TIME);
 
 			// Swap to stationary drop pod.
-			if (IsServer)
-			{
-				closetControl.ServerToggleLocked(false);
-			}
-			baseSpriteHandler.ChangeSprite((int)BaseSprite.Stationary, false);
+			baseSpriteHandler.ChangeSprite((int) BaseSprite.Stationary, false);
 			doorSpriteHandler.PushTexture(false);
 			landingSpriteHandler.PushClear(false);
 			registerObject.SetPassable(false, false);

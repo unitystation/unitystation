@@ -67,10 +67,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: AirScrubberSelfSufficient
       objectReference: {fileID: 0}
+    - target: {fileID: 4251730540804721504, guid: cb2f847ef3b8b754181a970a4032c552,
+        type: 3}
+      propertyPath: foreverID
+      value: 63c4576068eee0e4cb8cb02ef5b3bebf
+      objectReference: {fileID: 0}
     - target: {fileID: 4405169590460570373, guid: cb2f847ef3b8b754181a970a4032c552,
         type: 3}
       propertyPath: isSelfPowered
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670273391061955918, guid: cb2f847ef3b8b754181a970a4032c552,
+        type: 3}
+      propertyPath: Controller
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6838831727670997784, guid: cb2f847ef3b8b754181a970a4032c552,
         type: 3}

@@ -17,11 +17,33 @@ PrefabInstance:
       propertyPath: Gases.Array.data[1]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: foreverID
+      value: 8ce5550b60e73904c80a45b78a46a2d8
+      objectReference: {fileID: 0}
     - target: {fileID: 2103799393627445291, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 11d65c0287a34544a8af64a2f37a5270,
+        type: 2}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8121080a85174b0469c0bd178c8a7d56,
+        type: 2}
+    - target: {fileID: 4398748733116209864, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: allClothingData.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1002ef24de0613e4d9549e65e727bb2f,
         type: 2}
     - target: {fileID: 5217331594575896280, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}

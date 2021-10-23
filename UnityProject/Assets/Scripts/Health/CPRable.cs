@@ -21,9 +21,9 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject != null) return false;
 		if (interaction.TargetObject == interaction.Performer) return false;
 
-		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase targetPlayerHealth))
+		if (interaction.TargetObject.TryGetComponent(out LivingHealthMasterBase livingHealth))
 		{
-			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
+			if (livingHealth.ConsciousState == ConsciousState.CONSCIOUS) return false;
 		}
 
 		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
@@ -63,20 +63,23 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		bool hasLung = false;
 		bool hasHeart = false;
-		foreach (var BodyPart in health.GetBodyPartsInZone(TargetBodyPart, false))
+		foreach (var bodyPart in health.BodyPartList)
 		{
-			foreach (var organ in BodyPart.OrganList)
+			if (bodyPart.BodyPartType == TargetBodyPart)
 			{
-				if (organ is Lungs lung)
+				foreach (var organ in bodyPart.OrganList)
 				{
-					lung.TryBreathing(node, 1);
-					hasLung = true;
-				}
+					if (organ is Lungs lung)
+					{
+						lung.TryBreathing(node, 1);
+						hasLung = true;
+					}
 
-				if (organ is Heart heart)
-				{
-					heart.Heartbeat(1);
-					hasHeart = true;
+					if (organ is Heart heart)
+					{
+						heart.Heartbeat(1);
+						hasHeart = true;
+					}
 				}
 			}
 		}

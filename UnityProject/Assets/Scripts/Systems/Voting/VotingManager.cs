@@ -84,7 +84,7 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void TryInitiateRestartVote(GameObject instigator)
+	public void TryInitiateRestartVote(GameObject instigator, NetworkConnection sender = null)
 	{
 		if (voteInProgress || voteRestartSuccess) return;
 
@@ -101,6 +101,7 @@ public class VotingManager : NetworkBehaviour
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
 		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString());
+		RpcVoteCallerDefault(sender);
 		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
 
@@ -258,5 +259,13 @@ public class VotingManager : NetworkBehaviour
 		if (GUI_IngameMenu.Instance == null) return;
 
 		GUI_IngameMenu.Instance.VotePopUp.ShowVotePopUp(title, instigator, count, time);
+	}
+
+	[TargetRpc]
+	private void RpcVoteCallerDefault(NetworkConnection target)
+	{
+		if (GUI_IngameMenu.Instance == null) return;
+
+		GUI_IngameMenu.Instance.VotePopUp.VoteYes();
 	}
 }

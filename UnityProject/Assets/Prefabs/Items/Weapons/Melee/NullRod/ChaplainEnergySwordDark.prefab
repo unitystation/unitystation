@@ -25,17 +25,22 @@ PrefabInstance:
     - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: traumaDamageChance
-      value: 100
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: TraumaticDamageType
-      value: 17
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: traumaticDamageType
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: traumaDamageMultiplier
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
@@ -120,6 +125,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 99e9c87a38a642745be3077fe73a2498,
         type: 3}
+    - target: {fileID: 7333469232245533137, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: foreverID
+      value: 5df22a28dec799f4898d7d2e74007665
+      objectReference: {fileID: 0}
     - target: {fileID: 7510053344426679867, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: PresentSpriteSet

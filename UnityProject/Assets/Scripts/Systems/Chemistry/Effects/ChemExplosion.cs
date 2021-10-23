@@ -27,14 +27,19 @@ namespace Chemistry.Effects
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
 
 			bool insideBody = false;
-			if(bodyPart != null)  insideBody = bodyPart.Root != null;
+			if (bodyPart != null && bodyPart.HealthMaster != null)
+			{
+				insideBody = true;
+			}
+
+
 
 			// Based on radius calculation in Explosions\Explosion.cs, where an amount of 30u will have an
 			// explosion radius of 1. Strength is determined using a logarthmic formula to cause diminishing returns.
 			var strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
 
 
-			if (insideBody)
+			if (insideBody && strength > 0)
 			{
 				if (strength >= bodyPart.Health)
 				{
@@ -50,9 +55,6 @@ namespace Chemistry.Effects
 
 				foreach (BodyPart part in bodyPart.HealthMaster.BodyPartList)
 				{
-					if (part == bodyPart) continue; // we prioritised the origin organ first
-					if (part.ContainedIn == null) continue;
-
 					if (strength >= part.Health)
 					{
 						float temp = part.Health; //temporary store to make sure we don't use an updated health when decrementing strength
@@ -79,29 +81,30 @@ namespace Chemistry.Effects
 				}
 			}
 
-
-			//Check if this is happening inside of an Object first (machines, closets?)
-			if (registerObject == null)
+			if (strength > 0)
 			{
-				//If not, we need to check if the item is a bodypart inside of a player
-				if (insideBody)
+				//Check if this is happening inside of an Object first (machines, closets?)
+				if (registerObject == null)
 				{
-					Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength,
-						bodyPart.HealthMaster.RegisterTile.Matrix);
+					//If not, we need to check if the item is a bodypart inside of a player
+					if (insideBody)
+					{
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength,
+							bodyPart.HealthMaster.RegisterTile.Matrix);
+					}
+					else
+					{
+						//Otherwise, if it's not inside of a player, we consider it just an item
+						Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
+							objectBehaviour.registerTile.Matrix);
+					}
 				}
 				else
 				{
-					//Otherwise, if it's not inside of a player, we consider it just an item
-					Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
-						objectBehaviour.registerTile.Matrix);
+					Explosion.StartExplosion(registerObject.LocalPosition, strength,
+						registerObject.Matrix);
 				}
 			}
-			else
-			{
-				Explosion.StartExplosion(registerObject.LocalPosition, strength,
-					registerObject.Matrix);
-			}
-
 
 			// If sender is a pickupable item not inside the body, destroy it.
 			if (picked != null && !insideBody)

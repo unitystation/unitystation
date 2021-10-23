@@ -17,7 +17,6 @@ MonoBehaviour:
   crawlingSpeed: 0.3
   armEfficiency: 1
   legEfficiency: 1
-  canHoldItems: 0
 --- !u!1001 &8339248978158643673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110,6 +109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxCapacity
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: foreverID
+      value: 6a1a4888888e8994187da2ccb8d6f1c2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}

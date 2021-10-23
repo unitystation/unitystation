@@ -39,20 +39,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
---- !u!114 &1295264489575076378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2897339443933191501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ad9570c5ec4b1e995fad54bc897280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meatSteakPrefab: {fileID: 2897339443933191501, guid: e1d91ada62d0cf34e9b5e3f10e835d6b,
-    type: 3}
 --- !u!1001 &4237391950619250826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,12 +64,12 @@ PrefabInstance:
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -95,17 +81,17 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 19dc4d448d12cf6a5afec364347f7131,
+      objectReference: {fileID: 11400000, guid: fe85faf5583837a42ab86018c4b3ec00,
         type: 2}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -237,12 +223,28 @@ PrefabInstance:
       propertyPath: relatedRecipes.Array.data[2].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2699307914152838379, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CookableBy
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699307914152838379, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 2897339443933191501, guid: e1d91ada62d0cf34e9b5e3f10e835d6b,
+        type: 3}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 54ba86a4bf817a24594b804b56054cf2,
         type: 2}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: foreverID
+      value: b12af25ca29fbde47882f31d6e84e6eb
+      objectReference: {fileID: 0}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel

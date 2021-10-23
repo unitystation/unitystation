@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 /// <summary>
@@ -7,46 +6,27 @@ using UnityEngine;
 /// spot they are clicking). Useful for objects which have different logic based on where you click,
 /// such as InteractableTiles). Also fires when clicking on empty / open space.
 /// </summary>
-public class PositionalHandApply : BodyPartTargetedInteraction
+public class PositionalHandApply : HandApply
 {
-	public static readonly PositionalHandApply Invalid = new PositionalHandApply(null, null,
-		null, Vector2.zero, null, Intent.Help, BodyPartType.None);
+	private static readonly PositionalHandApply Invalid
+			= new PositionalHandApply(null, null, null, Vector2.zero, null, Intent.Help, BodyPartType.None, false);
 
-	private readonly ItemSlot handSlot;
+	/// <summary>Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.</summary>
+	public Vector2 TargetVector { get; protected set; }
 
-	public ItemSlot HandSlot => handSlot;
+	/// <summary>Targeted world position deduced from target vector and performer position.</summary>
+	public Vector2 WorldPositionTarget => (Vector2)Performer.transform.position + TargetVector;
 
-	/// <summary>
-	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand.
-	/// </summary>
-	public GameObject HandObject => UsedObject;
-
-	private readonly Vector2 targetVector;
-
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
-	public Vector2 WorldPositionTarget => (Vector2)Performer.transform.position + targetVector;
-
-	/// <summary>
-	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
-	/// </summary>
-	public Vector2 TargetVector => targetVector;
-
-	/// <summary>
-	///
-	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetVector">vector pointing from performer position to the spot they are targeting</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetVector,
-		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart) :
-		base(performer, handObject, targetObject, targetBodyPart, intent)
+		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick) :
+		base(performer, handObject, targetObject, targetBodyPart, handSlot, intent, isAltClick)
 	{
-		this.targetVector = targetVector;
-		this.handSlot = handSlot;
+		TargetVector = targetVector;
 	}
 
 	/// <summary>
@@ -63,11 +43,15 @@ public class PositionalHandApply : BodyPartTargetedInteraction
 			return Invalid;
 		}
 		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos() - PlayerManager.LocalPlayer.transform.position;
-		return new PositionalHandApply(PlayerManager.LocalPlayer,
-			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
-			targetObject,
-			targetVec,
-			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(), UIManager.CurrentIntent, UIManager.DamageZone);
+		return new PositionalHandApply(
+				PlayerManager.LocalPlayer,
+				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
+				targetObject,
+				targetVec,
+				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
+				UIManager.CurrentIntent,
+				UIManager.DamageZone,
+				KeyboardInputManager.IsAltPressed());
 	}
 
 	/// <summary>
@@ -84,9 +68,8 @@ public class PositionalHandApply : BodyPartTargetedInteraction
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static PositionalHandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject,
-		Vector2 targetVector,
-		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart)
+			Vector2 targetVector, ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick)
 	{
-		return new PositionalHandApply(clientPlayer, handObject, targetObject, targetVector, handSlot, intent, targetBodyPart);
+		return new PositionalHandApply(clientPlayer, handObject, targetObject, targetVector, handSlot, intent, targetBodyPart, isAltClick);
 	}
 }

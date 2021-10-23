@@ -139,6 +139,7 @@ namespace Systems.Pipes
 		public static PipeDirection PipesToDirections(PipeData pipe1, PipeData pipe2)
 		{
 			var VectorDifference = pipe2.MatrixPos - pipe1.MatrixPos;
+			VectorDifference.z = 0; //TODO Tile map upgrade
 			if (VectorDifference == Vector3Int.up)
 			{
 				return PipeDirection.North;

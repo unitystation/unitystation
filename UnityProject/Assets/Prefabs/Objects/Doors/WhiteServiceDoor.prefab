@@ -189,7 +189,6 @@ GameObject:
   - component: {fileID: 114146222308376800}
   - component: {fileID: 4595622538382479424}
   - component: {fileID: -751398850610513256}
-  - component: {fileID: -8806602694231772334}
   - component: {fileID: -8129384706441219098}
   m_Layer: 18
   m_Name: WhiteServiceDoor
@@ -291,11 +290,10 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 1
   DoorPressureSpriteOffset: 22
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 7
+  requireLink: 0
 --- !u!114 &114787423019724530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +561,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 114503806518682766}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
@@ -734,28 +734,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
---- !u!114 &-8806602694231772334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013430947772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bfcc0fbb86771940b4d7b38c9c7d3b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  wiresInitiallyExposed: 0
-  nodeInfo: {fileID: 11400000, guid: 70468a705c81370488f44537a6568005, type: 2}
-  openPanelSFX: 
-  closePanelSFX: 
-  NetTabType: 19
-  doorName: service door
-  hackPanelOverlay: {fileID: 0}
-  hackPanelSprite: {fileID: 0}
 --- !u!114 &-8129384706441219098
 MonoBehaviour:
   m_ObjectHideFlags: 0

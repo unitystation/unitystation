@@ -31,7 +31,7 @@ namespace Doors
 			if (skipAnimation) return;
 
 			doorController.isPerformingAction = true;
-			_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.AccessDenied, transform.position, gameObject);
+			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.AccessDenied, transform.position, gameObject);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)
@@ -281,7 +281,7 @@ namespace Doors
 			// Choose emergency lights sprite, overwrite with door bolt lights if
 			// pressureLevel is Warning and not Caution.
 			int spriteOffset = doorController.DoorPressureSpriteOffset;
-			if (doorController.pressureLevel == DoorController.PressureLevel.Warning)
+			if (doorController.CurrentPressureLevel == DoorController.PressureLevel.Warning)
 			{
 				spriteOffset = doorController.DoorDeniedSpriteOffset;
 			}

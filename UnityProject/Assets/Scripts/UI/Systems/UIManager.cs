@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.CraftingV2.GUI;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using Mirror;
 using AdminTools;
+using AdminTools.VariableViewer;
 using Audio.Managers;
 using Initialisation;
-using Mirror;
 using UI.Core;
 using UI.Jobs;
 using UI.UI_Bottom;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 using UI.Core.Windows;
 using UI.Windows;
 using UI;
+
 
 public class UIManager : MonoBehaviour, IInitialise
 {

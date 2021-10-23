@@ -127,7 +127,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 54f71332c1ee70848bda6c5eb2dbff1e, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &7806547096474758670
 GameObject:
@@ -230,7 +230,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &5231688345591793492
 PrefabInstance:
@@ -245,6 +245,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d8d507b6f2e885047b2f4132c36db182,
         type: 2}
+    - target: {fileID: 962286876995267014, guid: f1a38b78ce2ca024a92744e263e5e94a,
+        type: 3}
+      propertyPath: foreverID
+      value: f984960cf940f5242bd90a33f3c8c35a
+      objectReference: {fileID: 0}
     - target: {fileID: 5938858640531549309, guid: f1a38b78ce2ca024a92744e263e5e94a,
         type: 3}
       propertyPath: relatedRecipes.Array.size

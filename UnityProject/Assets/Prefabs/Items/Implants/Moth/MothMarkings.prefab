@@ -79,14 +79,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
+      propertyPath: DamageThreshold
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
       propertyPath: LobbyCustomisation
       value: 
       objectReference: {fileID: 7311007552350428261, guid: 1cdb6616b987ef0489edf7a59858a221,
         type: 3}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5296840151121956031, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: foreverID
+      value: 45119eb22af0c884593e070c8edbdaf5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ce21cfcc54d23d42825f0d4a9b15d49, type: 3}

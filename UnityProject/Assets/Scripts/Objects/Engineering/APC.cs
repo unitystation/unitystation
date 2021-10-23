@@ -10,13 +10,16 @@ using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Systems.ObjectConnection;
 using Objects.Lighting;
-
+using Objects.Construction;
+using Core.Editor.Attributes;
+using ScriptableObjects;
+using HealthV2;
 
 namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, INodeControl, IServerDespawn, ISetMultitoolMaster
+	public class APC : SubscriptionController, INodeControl, ICheckedInteractable<HandApply>, IServerDespawn, IMultitoolMasterable
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -49,11 +52,12 @@ namespace Objects.Engineering
 		private ResistanceSourceModule resistanceSourceModule;
 
 
-		[SerializeField, FormerlySerializedAs("NetTabType")]
+		[SerializeField, PrefabModeOnly, FormerlySerializedAs("NetTabType")]
 		private NetTabType netTabType = NetTabType.APC;
 
 		[Tooltip("Sound used when the APC loses all power.")]
-		[SerializeField] private AddressableAudioSource NoPowerSound = null;
+		[SerializeField, PrefabModeOnly]
+		private AddressableAudioSource NoPowerSound = null;
 
 		[NonSerialized]
 		//Called every power network update
@@ -79,8 +83,16 @@ namespace Objects.Engineering
 
 		private void Awake()
 		{
+			powerControlSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
+			powerCellSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(1);
+
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
+			integrity = GetComponent<Integrity>();
+		}
+		private void OnEnable()
+		{
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}
 
 		private void Start()
@@ -105,6 +117,7 @@ namespace Objects.Engineering
 
 		private void OnDisable()
 		{
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 			if (electricalNodeControl == null) return;
 			if(ElectricalManager.Instance == null)return;
 			if(ElectricalManager.Instance.electricalSync == null)return;
@@ -300,22 +313,27 @@ namespace Objects.Engineering
 		/// <summary>
 		/// The screen sprites which are currently being displayed
 		/// </summary>
+		[PrefabModeOnly]
 		Sprite[] loadedScreenSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is in a critical state
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] criticalSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is charging
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] chargingSprites;
 		/// <summary>
 		/// The animation sprites for when the APC is fully charged
 		/// </summary>
+		[PrefabModeOnly]
 		public Sprite[] fullSprites;
 		/// <summary>
 		/// The sprite renderer for the APC display
 		/// </summary>
+		[PrefabModeOnly]
 		public SpriteRenderer screenDisplay;
 		/// <summary>
 		/// The sprite index for the display animation
@@ -414,27 +432,33 @@ namespace Objects.Engineering
 				}
 			}
 		}
+		//	// -----------------------------------------------------
+		//	//					INTERACTION THINGS
+		//	// -----------------------------------------------------
+		/// <summary>
+		/// Can this APC not be deconstructed?
+		/// </summary>
+		public bool canNotBeDeconstructed;
 
-		#region Editor
+		[Tooltip("Time taken to screwdrive to deconstruct this.")]
+		[SerializeField]
+		private float secondsToScrewdrive = 2f;
 
-		void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
+		private ItemSlot powerControlSlot;
+		private ItemSlot powerCellSlot;
 
-			//Highlighting all controlled lightSources
-			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-			for (int i = 0; i < connectedDevices.Count; i++)
-			{
-				var lightSource = connectedDevices[i];
-				if(lightSource == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
-				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
-			}
-		}
+		[Tooltip("The board that this APC should contain")]
+		[SerializeField]
+		private GameObject powerControlModule = null;
 
-		#endregion
+		[Tooltip("The power cell that this APC uses")]
+		[SerializeField]
+		private GameObject powerCell = null;
+
+		private Integrity integrity;
+
+		[SerializeField]
+		private GameObject APCFrameObj = null;
 
 		#region Multitool Interaction
 
@@ -444,11 +468,7 @@ namespace Objects.Engineering
 		private bool multiMaster = true;
 		public bool MultiMaster => multiMaster;
 
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
-
-		public void AddSlave(object slaveObject)
-		{
-		}
+		int IMultitoolMasterable.MaxDistance => 30;
 
 		public void RemoveDevice(APCPoweredDevice apcPoweredDevice)
 		{
@@ -506,5 +526,64 @@ namespace Objects.Engineering
 		}
 
 		#endregion
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			
+			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (canNotBeDeconstructed)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "This APC is too well built to be deconstructed.");
+				return;
+			}
+
+			float voltage = Voltage*10;
+			Vector3 shockpos = gameObject.WorldPosServer();
+			Electrocution electrocution = new Electrocution(voltage, shockpos, "APC");
+			
+			interaction.Performer.GetComponent<PlayerHealthV2>().Electrocute(electrocution);
+
+			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
+					$"You start to disconnect the {gameObject.ExpensiveName()}'s electronics...",
+					$"{interaction.Performer.ExpensiveName()} starts to disconnect the {gameObject.ExpensiveName()}'s electronics...",
+					$"You disconnect the {gameObject.ExpensiveName()}'s electronics.",
+					$"{interaction.Performer.ExpensiveName()} disconnects the {gameObject.ExpensiveName()}'s electronics.",
+					() =>
+					{
+						WhenDestroyed(null);
+					});
+		}
+		public void WhenDestroyed(DestructionInfo info)
+		{
+			// rare cases were gameObject is destroyed for some reason and then the method is called
+			if (gameObject == null) return;
+
+			Inventory.ServerSpawnPrefab(powerControlModule, powerControlSlot, ReplacementStrategy.Cancel);
+			Inventory.ServerSpawnPrefab(powerCell, powerCellSlot, ReplacementStrategy.Cancel);
+
+			SpawnResult frameSpawn = Spawn.ServerPrefab(APCFrameObj, SpawnDestination.At(gameObject));
+			if (frameSpawn.Successful == false)
+			{
+				Logger.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
+				return;
+			}
+
+			GameObject frame = frameSpawn.GameObject;
+			frame.GetComponent<APCFrame>().ServerInitFromComputer(this);
+
+			var Directional = frame.GetComponent<Directional>();
+			if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Directional>().CurrentDirection);
+
+			_ = Despawn.ServerSingle(gameObject);
+
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+		}
 	}
+
 }
+

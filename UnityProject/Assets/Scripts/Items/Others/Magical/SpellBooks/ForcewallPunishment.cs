@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
+using AddressableReferences;
+
 
 namespace Items.Magical
 {
@@ -12,6 +14,9 @@ namespace Items.Magical
 	{
 		[SerializeField, Range(1, 300)]
 		private int petrifyTime = 60;
+
+		[SerializeField]
+		private AddressableAudioSource punishSfx = default;
 
 		public override void Punish(ConnectedPlayer player)
 		{
@@ -26,6 +31,7 @@ namespace Items.Magical
 
 			StartCoroutine(Unpetrify(player.Script));
 
+			SoundManager.PlayNetworkedAtPos(punishSfx, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddCombatMsgToChat(player.GameObject,
 					"<size=60><b>Your body freezes up! Can't... move... can't... think...</b></size>",
 					$"{player.GameObject.ExpensiveName()}'s skin rapidly turns to marble!");

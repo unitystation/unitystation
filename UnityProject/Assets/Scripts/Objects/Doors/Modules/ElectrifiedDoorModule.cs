@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity;
 using HealthV2;
+using Initialisation;
 
 namespace Doors.Modules
 {
-	public class ElectrifiedDoorModule : DoorModuleBase
+	public class ElectrifiedDoorModule : DoorModuleBase, IServerSpawn
 	{
 		[SerializeField] private int voltageDamage = 9080;
 		[SerializeField] private bool isElectrecuted = false;
@@ -17,12 +18,33 @@ namespace Doors.Modules
 			set => isElectrecuted = value;
 		}
 
+		private bool OneTimeElectrecuted = false;
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			master.HackingProcessBase.RegisterPort(ToggleElectrocution, master.GetType());
+			master.HackingProcessBase.RegisterPort(PreventElectrocution, master.GetType());
+		}
+
+		public void ToggleElectrocutionInput()
+		{
+			master.HackingProcessBase.ImpulsePort(ToggleElectrocution);
+		}
+
+
+		public void ToggleElectrocution()
+		{
+			if (master.HasPower) return;
+			IsElectrecuted = !IsElectrecuted;
+		}
+
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction == null)
 			{
 				return ModuleSignal.Continue;
 			}
+
 			return CanElectricute(interaction.Performer);
 		}
 
@@ -36,24 +58,52 @@ namespace Doors.Modules
 			return CanElectricute(mob);
 		}
 
+		public bool PulsePreventElectrocution()
+		{
+			return master.HackingProcessBase.PulsePortConnectedNoLoop(PreventElectrocution, true);
+		}
+
+		public void PreventElectrocution()
+		{
+			master.HackingProcessBase.ReceivedPulse(PreventElectrocution);
+		}
+
 		private ModuleSignal CanElectricute(GameObject mob)
 		{
-			if (master.HasPower && IsElectrecuted)
+			if (master.HasPower)
 			{
-				if (PlayerHasInsulatedGloves(mob) == false)
+				if (IsElectrecuted == false)
 				{
-					ServerElectrocute(mob);
-					return ModuleSignal.Break;
-				}
-				return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
-			}
+					if (PulsePreventElectrocution())
+					{
+						OneTimeElectrecuted = false;
+						if (PlayerHasInsulatedGloves(mob) == false)
+						{
+							ServerElectrocute(mob);
+							return ModuleSignal.Continue;
+						}
 
+						return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
+					}
+				}
+				else
+				{
+					if (PlayerHasInsulatedGloves(mob) == false)
+					{
+						ServerElectrocute(mob);
+						return ModuleSignal.Continue;
+					}
+
+					return ModuleSignal.ContinueRegardlessOfOtherModulesStates;
+				}
+			}
 			return ModuleSignal.Continue;
 		}
 
 		private bool PlayerHasInsulatedGloves(GameObject mob)
 		{
-			List<ItemSlot> slots = mob.GetComponent<PlayerScript>().OrNull()?.DynamicItemStorage.OrNull()?.GetNamedItemSlots(NamedSlot.hands);
+			List<ItemSlot> slots = mob.GetComponent<PlayerScript>().OrNull()?.DynamicItemStorage.OrNull()
+				?.GetNamedItemSlots(NamedSlot.hands);
 			if (slots != null)
 			{
 				foreach (ItemSlot slot in slots)
@@ -64,6 +114,7 @@ namespace Doors.Modules
 					}
 				}
 			}
+
 			return false;
 		}
 
@@ -72,7 +123,9 @@ namespace Doors.Modules
 			LivingHealthMasterBase healthScript = obj.GetComponent<LivingHealthMasterBase>();
 			if (healthScript != null)
 			{
-				var electrocution = new Electrocution(voltageDamage, master.RegisterTile.WorldPositionServer, "wire"); //More magic numbers.
+				var electrocution =
+					new Electrocution(voltageDamage, master.RegisterTile.WorldPositionServer,
+						"wire"); //More magic numbers.
 				healthScript.Electrocute(electrocution);
 			}
 		}
@@ -83,6 +136,7 @@ namespace Doors.Modules
 			{
 				return false;
 			}
+
 			return true;
 		}
 	}

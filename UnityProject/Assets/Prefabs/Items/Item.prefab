@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1373280397285383934}
   - component: {fileID: 6104600676241079028}
   - component: {fileID: 542829611148227948}
+  - component: {fileID: 6393191727481188567}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -175,6 +176,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 6393191727481188567}
   CurrentsortingGroup: {fileID: 6104600676241079028}
 --- !u!114 &114577415631634126
 MonoBehaviour:
@@ -316,7 +319,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6083a8f6e47464fb42db6e06bc08665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasSimpleRelatedRecipe: 0
   relatedRecipes: []
+--- !u!114 &6393191727481188567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foreverID: a7abba22164ce49f0bf9b9b219f39298
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,5 +435,5 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []

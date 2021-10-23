@@ -83,7 +83,7 @@ public class LevelBrush : GridBrush
 		{
 			if (metaTileMap)
 			{
-				metaTileMap.RemoveTile(position,  false);
+				metaTileMap.RemoveTile(position);
 			}
 			else
 			{

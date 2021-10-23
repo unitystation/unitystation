@@ -140,7 +140,7 @@ namespace Weapons
 					$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
 					$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
 					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
 			}
 		}
 

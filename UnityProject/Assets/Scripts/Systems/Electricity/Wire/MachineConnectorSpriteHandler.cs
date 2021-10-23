@@ -3,83 +3,85 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity;
+using NaughtyAttributes;
+using Core.Editor.Attributes;
 
 namespace Objects.Electrical
 {
-	public class MachineConnectorSpriteHandler : NetworkBehaviour
+	public class MachineConnectorSpriteHandler : MonoBehaviour, IServerSpawn
 	{
-		public List<PowerTypeCategory> CanConnectTo = new List<PowerTypeCategory>();
-		public HashSet<PowerTypeCategory> HashSetCanConnectTo;
-		public char InNorth = '0';
-		public char InSouth = '0';
-		public char InWest = '0';
-		public char InEast = '0';
+		[SerializeField, PrefabModeOnly]
+		public List<PowerTypeCategory> connectables = new List<PowerTypeCategory>();
 
-		public SpriteRenderer SRNorth;
-		public SpriteRenderer SRSouth;
-		public SpriteRenderer SRWest;
-		public SpriteRenderer SREast;
+		[SerializeField, BoxGroup("Sprite Handlers")]
+		private SpriteHandler spriteHandlerNorth;
 
-		[SyncVar(hook = nameof(UpdateSprites))]
-		public string Syncstring;
+		[SerializeField, BoxGroup("Sprite Handlers")]
+		private SpriteHandler spriteHandlerSouth;
 
+		[SerializeField, BoxGroup("Sprite Handlers")]
+		private SpriteHandler spriteHandlerEast;
+
+		[SerializeField, BoxGroup("Sprite Handlers")]
+		private SpriteHandler spriteHandlerWest;
+
+		[SerializeField]
 		public WireConnect Wire;
 
-		public void Check()
-		{
-			if (HashSetCanConnectTo == null)
-			{
-				HashSetCanConnectTo = new HashSet<PowerTypeCategory>(CanConnectTo);
-			}
+		private HashSet<PowerTypeCategory> connectionTypes;
+		private Dictionary<OrientationEnum, SpriteHandler> spriteHandlers;
 
-			InNorth = '0';
-			InSouth = '0';
-			InWest = '0';
-			InEast = '0';
-			Syncstring = "0000";
+		private void Awake()
+		{
+			connectionTypes = new HashSet<PowerTypeCategory>(connectables);
+
+			spriteHandlers = new Dictionary<OrientationEnum, SpriteHandler>()
+			{
+				{ OrientationEnum.Up, spriteHandlerNorth },
+				{ OrientationEnum.Down, spriteHandlerSouth },
+				{ OrientationEnum.Left, spriteHandlerWest },
+				{ OrientationEnum.Right, spriteHandlerEast },
+			};
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			RefreshSprites();
+		}
+
+		public void RefreshSprites()
+		{
 			HashSet<IntrinsicElectronicData> connections = new HashSet<IntrinsicElectronicData>();
-			ElectricityFunctions.SwitchCaseConnections(Wire.transform.localPosition,
-				Wire.Matrix, HashSetCanConnectTo,
-				Connection.MachineConnect, Wire.InData,
-				connections);
-			foreach (var cn in connections)
+			ElectricityFunctions.SwitchCaseConnections(
+					Wire.transform.localPosition, Wire.Matrix, connectionTypes,
+					Connection.MachineConnect, Wire.InData, connections);
+
+			HashSet<OrientationEnum> activeDirections = new HashSet<OrientationEnum>();
+			foreach (IntrinsicElectronicData connection in connections)
 			{
-				Vector3 v3 = (cn.Present.transform.localPosition - Wire.transform.localPosition).CutToInt();
-				if (v3 == Vector3.up)
-				{
-					InNorth = '1';
-				}
-				else if (v3 == Vector3.down)
-				{
-					InSouth = '1';
-				}
-				else if (v3 == Vector3.right)
-				{
-					InEast = '1';
-				}
-				else if (v3 == Vector3.left)
-				{
-					InWest = '1';
-				}
+				Vector3 vector = (connection.Present.transform.localPosition - Wire.transform.localPosition).CutToInt();
+				activeDirections.Add(Orientation.From(vector).AsEnum());
 			}
 
-			Syncstring = InNorth.ToString() + InSouth.ToString() + InWest.ToString() + InEast.ToString();
-			UpdateSprites(null, Syncstring);
-		}
-
-		public override void OnStartClient()
-		{
-			UpdateSprites(null, Syncstring);
-		}
-
-		public void UpdateSprites(string oldStates, string states)
-		{
-			if (states.Length != 4) return;
-
-			SRNorth.enabled = (states[0] == '1');
-			SRSouth.enabled = (states[1] == '1');
-			SRWest.enabled = (states[2] == '1');
-			SREast.enabled = (states[3] == '1');
+			foreach (var kvp in spriteHandlers)
+			{
+				SpriteHandler spriteHandler = kvp.Value;
+				if (activeDirections.Contains(kvp.Key))
+				{
+					if (spriteHandler.CurrentSpriteIndex == -1)
+					{
+						spriteHandler.ChangeSprite(0);
+					}
+					else
+					{
+						spriteHandler.PushTexture();
+					}
+				}
+				else
+				{
+					spriteHandler.PushClear();
+				}
+			}
 		}
 	}
 }

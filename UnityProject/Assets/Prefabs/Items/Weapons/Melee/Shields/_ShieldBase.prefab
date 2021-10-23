@@ -97,6 +97,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -106,5 +116,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4a6864f4624daeb4781dad0cca75a00e,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: d8e28939643d5a34095fed9b0898c45b
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

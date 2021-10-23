@@ -54,14 +54,12 @@ public class AccessRestrictions : MonoBehaviour
 
 	public static IDCard GetIDCard(GameObject idCardObj)
 	{
-		var idCard = idCardObj.GetComponent<IDCard>();
-		var pda = idCardObj.GetComponent<PDALogic>();
-		if (idCard != null)
+		if (idCardObj.TryGetComponent<IDCard>(out var idCard))
 		{
 			return idCard;
 		}
 
-		if (pda != null)
+		if (idCardObj.TryGetComponent<PDALogic>(out var pda))
 		{
 			return pda.IDCard;
 		}

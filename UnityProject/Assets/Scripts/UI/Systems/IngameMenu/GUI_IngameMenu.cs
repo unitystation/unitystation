@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ServerInfo;
 using DatabaseAPI;
+
 
 namespace UI
 {
@@ -19,9 +19,9 @@ namespace UI
 
 		public GameObject serverInfo;
 
-		private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
+		private ModalPanelManager ModalPanelManager => ModalPanelManager.Instance;
 
-		private CustomNetworkManager networkManager => CustomNetworkManager.Instance;
+		private CustomNetworkManager NetworkManager => CustomNetworkManager.Instance;
 		public static GUI_IngameMenu Instance;
 
 		private bool sentData;
@@ -73,7 +73,7 @@ namespace UI
 		/// <param name="nextMenuPanel">Menu panel to open</param>
 		public void OpenMenuPanel(GameObject nextMenuPanel)
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
 			nextMenuPanel.SetActive(true);
 		}
@@ -83,7 +83,7 @@ namespace UI
 		/// </summary>
 		public void OpenMenuPanel()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(true);
@@ -91,7 +91,7 @@ namespace UI
 			if (!sentData)
 			{
 				sentData = true;
-				ServerInfoMessageClient.Send(ServerData.UserID);
+				ServerInfoMessageClient.Send();
 			}
 
 			serverInfo.SetActive(false);
@@ -105,7 +105,7 @@ namespace UI
 		/// <param name="thisPanel">The menu panel to close.</param>
 		public void CloseMenuPanel(GameObject thisPanel)
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Logger.Log("Closing " + thisPanel.name + " menu", Category.UI);
 			thisPanel.SetActive(false);
 		}
@@ -117,7 +117,7 @@ namespace UI
 		{
 			if (doSound)
 			{
-				_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+				_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			}
 
 			Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
@@ -132,7 +132,7 @@ namespace UI
 
 		public void InitiateRestartVote()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			if (PlayerManager.PlayerScript == null) return;
 			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
@@ -148,13 +148,13 @@ namespace UI
 
 		public void LogoutButton()
 		{
-			modalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout");
+			ModalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout");
 		}
 
 		public void LogoutConfirmYesButton()
 		{
 			EventManager.Broadcast(Event.RoundEnded);
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			HideAllMenus();
 			StopNetworking();
 			SceneManager.LoadScene("Lobby");
@@ -166,12 +166,12 @@ namespace UI
 
 		public void ExitButton()
 		{
-			modalPanelManager.Confirm("Are you sure?", ExitConfirmYesButton, "Exit");
+			ModalPanelManager.Confirm("Are you sure?", ExitConfirmYesButton, "Exit");
 		}
 
 		public void ExitConfirmYesButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			StopNetworking();
 			// Either shutdown the application or stop the editor
 #if UNITY_EDITOR
@@ -189,14 +189,14 @@ namespace UI
 		private void StopNetworking()
 		{
 			// Check if a host or regular client is shutting down
-			if (networkManager._isServer)
+			if (NetworkManager._isServer)
 			{
-				networkManager.StopHost();
+				NetworkManager.StopHost();
 				Logger.Log("Stopping host", Category.Connections);
 			}
 			else
 			{
-				networkManager.StopClient();
+				NetworkManager.StopClient();
 				Logger.Log("Stopping client", Category.Connections);
 			}
 		}

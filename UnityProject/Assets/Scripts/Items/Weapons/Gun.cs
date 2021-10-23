@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Weapons.Projectiles;
 using NaughtyAttributes;
+using Player.Movement;
 
 namespace Weapons
 {
@@ -189,9 +190,9 @@ namespace Weapons
 		private uint queuedLoadMagNetID = NetId.Invalid;
 
 		private RegisterTile registerTile;
-		public ItemSlot magSlot;
-		public ItemSlot pinSlot;
-		public ItemSlot suppressorSlot;
+		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot magSlot;
+		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot pinSlot;
+		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot suppressorSlot;
 
 		protected const float PinRemoveTime = 10f;
 
@@ -237,11 +238,6 @@ namespace Weapons
 		}
 
 		public virtual void OnSpawnServer(SpawnInfo info)
-		{
-			Init();
-		}
-
-		private void Init()
 		{
 			if (MagInternal)
 			{
@@ -643,7 +639,7 @@ namespace Weapons
 					$"{interaction.Performer.ExpensiveName()} begins removing the {FiringPin.gameObject.ExpensiveName()} from {gameObject.ExpensiveName()}.");
 
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(UnityEngine.Random.Range(0.8f, 1.2f));
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.WireCutter, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
 			}
 		}
 
@@ -925,7 +921,7 @@ namespace Weapons
 
 		private void OutOfAmmoSfx()
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GunEmptyAlarm, transform.position, sourceObj: serverHolder);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GunEmptyAlarm, transform.position, sourceObj: serverHolder);
 		}
 
 		public void PlayEmptySfx()

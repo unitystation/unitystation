@@ -44,37 +44,12 @@ public class TileChangeManager : MonoBehaviour
 		networkMatrix = GetComponent<NetworkedMatrix>();
 	}
 
-	public void InitServerSync(string data)
-	{
-		//server doesn't ever need to run this because this will replay its own changes
-		if (CustomNetworkManager.IsServer) return;
-
-		//Unpacking the data example (and then run action change)
-		//We use NewtonSoft's Json as unity inbuilt doesnt support nullables
-		var dataList = JsonConvert.DeserializeObject<TileChangeList>(data);
-		foreach (TileChangeEntry entry in dataList.List)
-		{
-			Logger.LogTraceFormat("Received update for {0} layer {1} " + entry.TileName, Category.TileMaps,
-				entry.Position,
-				entry.LayerType);
-			// load tile & apply
-			if (entry.TileType.Equals(TileType.None))
-			{
-				InternalRemoveTile(entry.Position, entry.LayerType);
-			}
-			else
-			{
-				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName, entry.transformMatrix, entry.color );
-			}
-		}
-	}
-
 	[Server]
 	public void UpdateNewPlayer(NetworkConnection requestedBy)
 	{
 		if (changeList.List.Count > 0)
 		{
-			TileChangesNewClientSync.Send(gameObject, requestedBy, changeList);
+			UpdateTileMessage.SendTo(gameObject, requestedBy, changeList);
 		}
 	}
 
@@ -94,17 +69,20 @@ public class TileChangeManager : MonoBehaviour
 
 
 	[Server]
-	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+	public Vector3Int UpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
+		Vector3Int Vector3Int = Vector3Int.zero;
 		if (IsDifferent(cellPosition, layerTile, transformMatrix, color))
 		{
-			InternalUpdateTile(cellPosition, layerTile,transformMatrix, color);
+			Vector3Int = InternalUpdateTile(cellPosition, layerTile,transformMatrix, color);
 
 			AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
 
 			AddToChangeList(cellPosition, layerTile, transformMatrix : transformMatrix , color: color);
 		}
+
+		return Vector3Int;
 	}
 
 	/// <summary>
@@ -343,12 +321,12 @@ public class TileChangeManager : MonoBehaviour
 		metaTileMap.SetTile(position, layerTile, transformMatrix, color);
 	}
 
-	public void InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+	public Vector3Int InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.SetTile(p, layerTile, transformMatrix, color);
+		return metaTileMap.SetTile(p, layerTile, transformMatrix, color);
 	}
 
 	private void AddToChangeList(Vector3Int position, LayerType layerType = LayerType.None,
@@ -424,6 +402,7 @@ public class TileChangeEntry
 	public Matrix4x4? transformMatrix;
 
 	public Vector4? color;
+
 
 }
 

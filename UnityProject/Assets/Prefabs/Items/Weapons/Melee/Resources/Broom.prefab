@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3695110123352835740, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: foreverID
+      value: 8e2977953ed34c84c82792c99d2549b5
+      objectReference: {fileID: 0}
     - target: {fileID: 4520221803203555702, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -94,6 +99,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Used for sweeping, and flying into the night while cackling. Black cat
         not included.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}

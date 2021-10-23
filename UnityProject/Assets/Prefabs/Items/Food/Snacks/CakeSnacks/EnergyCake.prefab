@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 976623109836849065, guid: b3d41585e23dd2045892c06de579cb7f,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 6962744274134492344, guid: 21ae2f6a8ac91dc4db57c678c26ffa0f,
+        type: 3}
     - target: {fileID: 3110064447038586413, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -48,7 +54,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f3099d674423e3b4ea22848c16d25f56,
+      objectReference: {fileID: 5911011306017610136, guid: 48f9acecbef57b549b0fec937c75efb0,
         type: 3}
     - target: {fileID: 4103576889061410265, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
@@ -120,6 +126,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: cae7142a6f1b7504bbd27d4a9699a055
       objectReference: {fileID: 0}
+    - target: {fileID: 4294028215227799321, guid: b3d41585e23dd2045892c06de579cb7f,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 7149363110457713772}
     - target: {fileID: 4390651576208513511, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
       propertyPath: hitSound
@@ -155,11 +166,16 @@ PrefabInstance:
       propertyPath: StartingNutrients
       value: 738
       objectReference: {fileID: 0}
+    - target: {fileID: 7113885348979849960, guid: b3d41585e23dd2045892c06de579cb7f,
+        type: 3}
+      propertyPath: foreverID
+      value: cae7142a6f1b7504bbd27d4a9699a055
+      objectReference: {fileID: 0}
     - target: {fileID: 8017884922226511106, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 907e4d310fa126349a1e7e03a3906de0,
+      objectReference: {fileID: 11400000, guid: 6006fa66d42ffa34cba766cec88faee2,
         type: 2}
     - target: {fileID: 8017884922226511106, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
@@ -200,3 +216,15 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3d41585e23dd2045892c06de579cb7f, type: 3}
+--- !u!114 &7149363110457713772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4293777263945554773, guid: b3d41585e23dd2045892c06de579cb7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6386434617595051833}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

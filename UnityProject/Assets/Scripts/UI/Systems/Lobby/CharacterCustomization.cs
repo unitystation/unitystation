@@ -212,7 +212,7 @@ namespace UI.CharacterCreator
 			Cleanup();
 			LoadSettings(currentCharacter);
 			RefreshAll();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void ShowCharacterSelectorPage()
@@ -223,7 +223,7 @@ namespace UI.CharacterCreator
 			CharacterSelectorPage.SetActive(true);
 			CharacterCreatorPage.SetActive(false);
 			CheckIfCharacterListIsEmpty();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void ShowCharacterDeletionConfirmation()
@@ -252,12 +252,12 @@ namespace UI.CharacterCreator
 			ShowCharacterCreator();
 			ReturnCharacterPreviewFromTheCharacterSelector();
 			RefreshAll();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void EditCharacter()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			lastSettings = PlayerCharacters[currentCharacterIndex];
 			ReturnCharacterPreviewFromTheCharacterSelector();
@@ -305,7 +305,7 @@ namespace UI.CharacterCreator
 			PlayerManager.CurrentCharacterSettings = PlayerCharacters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			RefreshSelectorData();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void CheckIfCharacterListIsEmpty()
@@ -337,7 +337,7 @@ namespace UI.CharacterCreator
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void ScrollSelectorRight()
@@ -354,7 +354,7 @@ namespace UI.CharacterCreator
 			RefreshSelectorData();
 			RefreshAll();
 			SaveLastCharacterIndex();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void GetOriginalLocalPositionForCharacterPreview()
@@ -493,9 +493,9 @@ namespace UI.CharacterCreator
 
 			//Setup sprite//
 			//OpenBodySprites
-			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					ParentDictionary[bodyPart].Add(subBodyPart);
@@ -669,29 +669,9 @@ namespace UI.CharacterCreator
 
 		public void RollRandomCharacter()
 		{
-			// Randomise gender
-			Type gender = typeof(BodyType);
-			Array genders = gender.GetEnumValues();
-			int index = UnityEngine.Random.Range(0,3);
-			currentCharacter.BodyType = (BodyType)genders.GetValue(index);
-
-			//Randomises player name and age.
-			switch (currentCharacter.BodyType)
-			{
-				case BodyType.Male:
-					currentCharacter.Name = StringManager.GetRandomMaleName();
-					break;
-				case BodyType.Female:
-					currentCharacter.Name = StringManager.GetRandomFemaleName();
-					break;
-				default:
-					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);  //probably should get gender neutral names?
-					break;																	//for now it will pick from both the male and female name pools
-			}
-			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
+			currentCharacter = CharacterSettings.RandomizeCharacterSettings();
 
 			//Randomises player accents. (Italian, Scottish, etc)
-			randomizeAccent();
 
 
 			//Randomises character skin tones.
@@ -715,22 +695,6 @@ namespace UI.CharacterCreator
 			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
 			{
 				customSubPart.RandomizeValues();
-			}
-		}
-
-		private void randomizeAccent()
-		{
-			int accentChance = UnityEngine.Random.Range(0, 100);
-			if(accentChance <= 35)
-			{
-				Type accent = typeof(Speech);
-				Array accents = accent.GetEnumValues();
-				int index = UnityEngine.Random.Range(0, 7);
-				currentCharacter.Speech = (Speech)accents.GetValue(index);
-			}
-			else
-			{
-				currentCharacter.Speech = Speech.None;
 			}
 		}
 
@@ -924,9 +888,9 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSetBodyPart(subBodyPart, path);
@@ -1129,9 +1093,9 @@ namespace UI.CharacterCreator
 				SaveCustomisations(NewCustomisationStorage, OpenBodyCustomisation[bodyPart.name]);
 			}
 
-			if (bodyPart?.Storage?.Populater?.DeprecatedContents != null)
+			if (bodyPart?.OrganStorage?.Populater?.DeprecatedContents != null)
 			{
-				foreach (var Organ in bodyPart.Storage.Populater.DeprecatedContents)
+				foreach (var Organ in bodyPart.OrganStorage.Populater.DeprecatedContents)
 				{
 					var subBodyPart = Organ.GetComponent<BodyPart>();
 					SubSaveBodyPart(subBodyPart, path);
@@ -1161,7 +1125,7 @@ namespace UI.CharacterCreator
 			catch (InvalidOperationException e)
 			{
 				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
-				_ = SoundManager.Play(SingletonSOSounds.Instance.AccessDenied);
+				_ = SoundManager.Play(CommonSounds.Instance.AccessDenied);
 				DisplayErrorText(e.Message);
 				return;
 			}
@@ -1174,7 +1138,7 @@ namespace UI.CharacterCreator
 
 			SaveData();
 			ShowCharacterSelectorPage();
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			gameObject.SetActive(false);
 		}
 

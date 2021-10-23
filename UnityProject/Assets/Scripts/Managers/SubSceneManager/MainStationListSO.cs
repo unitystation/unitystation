@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using NaughtyAttributes;
+using System.Linq;
 using UnityEngine;
+using NaughtyAttributes;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(fileName = "MainStationListSO", menuName = "ScriptableObjects/MainStationList", order = 1)]
 public class MainStationListSO : ScriptableObject
@@ -14,8 +16,7 @@ public class MainStationListSO : ScriptableObject
 
 	public string GetRandomMainStation()
 	{
-		var mapConfigPath = Path.Combine(Application.streamingAssetsPath,
-			"maps.json");
+		var mapConfigPath = Path.Combine(Application.streamingAssetsPath, "maps.json");
 
 		if (File.Exists(mapConfigPath))
 		{
@@ -25,6 +26,7 @@ public class MainStationListSO : ScriptableObject
 			return maps.GetRandomMap();
 		}
 
-		return MainStations[Random.Range(0, MainStations.Count)];
+		// Check that we can actually load the scene.
+		return MainStations.Where(scene => SceneUtility.GetBuildIndexByScenePath(scene) > -1).PickRandom();
 	}
 }

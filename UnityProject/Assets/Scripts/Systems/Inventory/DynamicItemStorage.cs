@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Clothing;
 using HealthV2;
+using Initialisation;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -369,11 +370,24 @@ public class DynamicItemStorage : NetworkBehaviour
 	}
 
 
+	public bool CanAccommodate(ItemSlot ItemSlot, Stackable CheckStackable = null)
+	{
+		if (ItemSlot.IsEmpty) return true;
+		if (CheckStackable != null)
+		{
+			var Stackable = ItemSlot.Item.GetComponent<Stackable>();
+			if (Stackable == null) return false;
+			return Stackable.StacksWith(CheckStackable);
+		}
+
+		return false;
+	}
+
 	/// <summary>
 	/// Find the most appropriate Empty hand slot
 	/// </summary>
 	/// <returns></returns>
-	public ItemSlot GetBestHand()
+	public ItemSlot GetBestHand(Stackable CheckStackable = null)
 	{
 		if (playerNetworkActions == null)
 		{
@@ -381,7 +395,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 
 		var activeHand = GetNamedItemSlot(playerNetworkActions.activeHand, playerNetworkActions.CurrentActiveHand);
-		if (activeHand.IsEmpty)
+		if (CanAccommodate(activeHand, CheckStackable))
 		{
 			return activeHand;
 		}
@@ -389,16 +403,16 @@ public class DynamicItemStorage : NetworkBehaviour
 		var leftHands = GetNamedItemSlots(NamedSlot.leftHand);
 		foreach (var leftHand in leftHands)
 		{
-			if (leftHand != activeHand && leftHand.IsEmpty)
+			if (leftHand != activeHand && CanAccommodate(leftHand, CheckStackable))
 			{
 				return leftHand;
 			}
 		}
 
-		var rightHands = GetNamedItemSlots(NamedSlot.leftHand);
+		var rightHands = GetNamedItemSlots(NamedSlot.rightHand);
 		foreach (var rightHand in rightHands)
 		{
-			if (rightHand != activeHand && rightHand.IsEmpty)
+			if (rightHand != activeHand && CanAccommodate(rightHand, CheckStackable))
 			{
 				return rightHand;
 			}
@@ -414,16 +428,25 @@ public class DynamicItemStorage : NetworkBehaviour
 	[Server]
 	public void Remove(IDynamicItemSlotS bodyPartUISlots)
 	{
-		if (ContainedInventorys.Contains(bodyPartUISlots) == false) return;
-		bodyPartUISlots.RelatedStorage.ServerRemoveObserverPlayer(this.gameObject);
-		ContainedInventorys.Remove(bodyPartUISlots);
-		UIBodyPartsToSerialise.Remove(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
-		bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet -= InventoryChange;
-
-		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+		try
 		{
-			item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
-			item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeClient);
+			if (ContainedInventorys.Contains(bodyPartUISlots) == false) return;
+			bodyPartUISlots.RelatedStorage.ServerRemoveObserverPlayer(this.gameObject);
+			ContainedInventorys.Remove(bodyPartUISlots);
+			UIBodyPartsToSerialise.Remove(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
+			bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet -= InventoryChange;
+
+			foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+			{
+				item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
+				item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeClient);
+			}
+
+		}
+		catch (NullReferenceException exception)
+		{
+			Logger.LogError("Caught NRE in DynamicItemStorage.Remove: " + exception.Message, Category.Inventory);
+			return;
 		}
 
 
@@ -453,7 +476,15 @@ public class DynamicItemStorage : NetworkBehaviour
 
 			ServerContents[SstorageCharacteristicse.namedSlot].Remove(Slot);
 
-			ServerObjectToSlots[BbodyPartUISlots.GameObject].Remove(Slot);
+			if (ServerObjectToSlots.ContainsKey(BbodyPartUISlots.GameObject))
+			{
+				ServerObjectToSlots[BbodyPartUISlots.GameObject].Remove(Slot);
+			}
+			else
+			{
+				Logger.LogWarning("Key was not found for Body Part UI Slot Object", Category.Inventory);
+				continue;
+			}
 
 			ServerTotal.Remove(Slot);
 			if (ServerSlotCharacteristic.ContainsKey(Slot)) ServerSlotCharacteristic.Remove(Slot);
@@ -494,18 +525,26 @@ public class DynamicItemStorage : NetworkBehaviour
 	[Server]
 	public void Add(IDynamicItemSlotS bodyPartUISlots)
 	{
-		if (ContainedInventorys.Contains(bodyPartUISlots)) return;
-		bodyPartUISlots.RelatedStorage.ServerAddObserverPlayer(this.gameObject);
-		ContainedInventorys.Add(bodyPartUISlots);
-		UIBodyPartsToSerialise.Add(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
-		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
-		bodyPartUISlots.RelatedStorage.SetRegisterPlayer(registerPlayer);
-
-		bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet += InventoryChange;
-		foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+		try
 		{
-			item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeServer);
-			item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeClient);
+			if (ContainedInventorys.Contains(bodyPartUISlots)) return;
+			bodyPartUISlots.RelatedStorage.ServerAddObserverPlayer(this.gameObject);
+			ContainedInventorys.Add(bodyPartUISlots);
+			UIBodyPartsToSerialise.Add(bodyPartUISlots.GameObject.GetComponent<NetworkIdentity>().netId);
+			SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
+			bodyPartUISlots.RelatedStorage.SetRegisterPlayer(registerPlayer);
+
+			bodyPartUISlots.RelatedStorage.ServerInventoryItemSlotSet += InventoryChange;
+			foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
+			{
+				item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeServer);
+				item.OnSlotContentsChangeServer.AddListener(PassthroughContentsChangeClient);
+			}
+		}
+		catch (NullReferenceException exception)
+		{
+			Logger.LogError("Caught NRE in DynamicItemStorage.Add: " + exception.Message, Category.Inventory);
+			return;
 		}
 
 		foreach (var storageCharacteristicse in bodyPartUISlots.Storage)
@@ -522,7 +561,11 @@ public class DynamicItemStorage : NetworkBehaviour
 			ServerContents[storageCharacteristicse.namedSlot].Add(Slot);
 
 			if (ServerObjectToSlots.ContainsKey(bodyPartUISlots.GameObject) == false)
-				ServerObjectToSlots[bodyPartUISlots.GameObject] = new List<ItemSlot>();
+			{
+				ServerObjectToSlots.Add(bodyPartUISlots.GameObject, new List<ItemSlot>());
+			}
+
+
 			ServerObjectToSlots[bodyPartUISlots.GameObject].Add(Slot);
 
 			ServerTotal.Add(Slot);
@@ -671,7 +714,12 @@ public class DynamicItemStorage : NetworkBehaviour
 		{
 			if (NetworkIdentity.spawned.TryGetValue(IntIn, out var spawned) == false)
 			{
-				StartCoroutine(WaitAFrame(NewST));
+				void TempFunction()
+				{
+					ProcessChangeClient(NewST);
+				}
+
+				LoadManager.RegisterActionDelayed(TempFunction, 30);
 				return;
 			}
 
@@ -900,9 +948,11 @@ public class DynamicItemStorage : NetworkBehaviour
 					var Active = GetActiveConditionals(client);
 					if (Active.ContainsKey(storageCharacteristicse.Condition.CategoryID))
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
+						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
 							Active[storageCharacteristicse.Condition.CategoryID].BodyPartUISlots,
 							Active[storageCharacteristicse.Condition.CategoryID].StorageCharacteristics);
+						 Active.Remove(storageCharacteristicse.Condition.CategoryID);
+						 return tuple;
 					}
 					else
 					{
@@ -953,9 +1003,11 @@ public class DynamicItemStorage : NetworkBehaviour
 					var Active = GetActiveConditionals(client);
 					if (Active.ContainsKey(storageCharacteristicse.Condition.CategoryID))
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
+						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
 							Active[storageCharacteristicse.Condition.CategoryID].BodyPartUISlots,
 							Active[storageCharacteristicse.Condition.CategoryID].StorageCharacteristics);
+						Active.Remove(storageCharacteristicse.Condition.CategoryID);
+						return tuple;
 					}
 					else
 					{
@@ -1031,7 +1083,19 @@ public class DynamicItemStorage : NetworkBehaviour
 
 		foreach (var objt in ServerObjectToSlots.Keys)
 		{
-			objt.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(newBody);
+			if (objt == null)
+			{
+				Logger.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
+				continue;
+			}
+
+			if (objt.TryGetComponent<ItemStorage>(out var itemStorage) == false)
+			{
+				Logger.LogError($"ServerObjectToSlots on {gameObject.ExpensiveName()} had a game object key: {objt.ExpensiveName()} without an ItemStorage ");
+				continue;
+			}
+
+			itemStorage.ServerRemoveObserverPlayer(newBody);
 		}
 	}
 

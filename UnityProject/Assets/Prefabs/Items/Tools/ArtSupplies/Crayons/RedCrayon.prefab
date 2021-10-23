@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &153530786567163392
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1206827734152219689, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: initialName
+      value: Red Crayon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206827734152219689, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: initialSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f822c21d01410640916a7f5917956a2,
+        type: 2}
+    - target: {fileID: 1286070821221771933, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: colour
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: colour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: colour.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: colour.r
+      value: 0.6745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: setColour
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438471213590705318, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: setCrayonColour
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487292090815827991, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 542637eada9669a4fa834138a6ccccc8,
+        type: 3}
+    - target: {fileID: 1487292090815827991, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603734440395284031, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608376441554494283, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_Name
+      value: RedCrayon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1713105370501111551, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: f2c227eb9d06e794f97ffa435a309294
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833495918207883468, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 195820e0bdd7e4c479ae4cf982ce29e3,
+        type: 2}
+    - target: {fileID: 5685970718737428262, guid: 9535c39a291c4184a8e366e0b8295ef6,
+        type: 3}
+      propertyPath: foreverID
+      value: f2c227eb9d06e794f97ffa435a309294
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9535c39a291c4184a8e366e0b8295ef6, type: 3}

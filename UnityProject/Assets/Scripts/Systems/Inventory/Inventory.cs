@@ -356,31 +356,21 @@ public static class Inventory
 			// determine where it will appear
 			if (parentContainer != null)
 			{
-				// TODO: Not a big fan of this bespoke logic for dealing with dropping in closet control. Try to refactor this
 				Logger.LogTraceFormat("Dropping from slot {0} while in container {1}", Category.Inventory,
 					fromSlot,
 					parentContainer.name);
-				var closetControl = parentContainer.GetComponent<ClosetControl>();
-				if (closetControl == null)
+				var objectContainer = parentContainer.GetComponent<ObjectContainer>();
+				if (objectContainer == null)
 				{
 					Logger.LogWarningFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
-					                      "Currently only ClosetControl is supported. Please add code to handle this case.", Category.Inventory,
+					                      "Currently only ObjectContainer is supported. Please add code to handle this case.", Category.Inventory,
 						fromSlot,
 						holderPushPull.parentContainer.name);
 					return false;
 				}
 				//vanish it and set its parent container
 				ServerVanish(fromSlot);
-				var objBehavior = pickupable.GetComponent<ObjectBehaviour>();
-				if (objBehavior == null)
-				{
-					Logger.LogTraceFormat("Dropping object {0} while in container {1}, but dropped object had" +
-					                      " no object behavior. Cannot drop.", Category.Inventory,
-						pickupable,
-						holderPushPull.parentContainer.name);
-					return false;
-				}
-				closetControl.ServerAddInternalItem(objBehavior);
+				objectContainer.StoreObject(pickupable.gameObject);
 
 				return true;
 			}

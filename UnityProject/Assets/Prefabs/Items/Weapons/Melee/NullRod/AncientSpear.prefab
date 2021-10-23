@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3695110123352835740, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: foreverID
+      value: 7cfebc30d0b708a43a0914cd80a5520d
+      objectReference: {fileID: 0}
     - target: {fileID: 4520221803203555702, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -99,6 +104,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An ancient spear made of brass, I mean gold, I mean bronze. It looks
         highly mechanical.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}

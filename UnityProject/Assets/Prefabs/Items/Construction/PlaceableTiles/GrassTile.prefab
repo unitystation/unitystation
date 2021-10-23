@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1593224944700185510, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: foreverID
+      value: 1655a6297a3d0ff46b3b1d7467ee999f
+      objectReference: {fileID: 0}
     - target: {fileID: 2008855533471951948, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -17,11 +22,6 @@ PrefabInstance:
         type: 3}
       propertyPath: waysToPlace.Array.size
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: placeSound.AssetAddress
-      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}

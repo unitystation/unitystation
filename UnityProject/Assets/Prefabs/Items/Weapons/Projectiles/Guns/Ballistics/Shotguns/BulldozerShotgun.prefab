@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 969f370ba378d7e479e68212bf295e8f, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &8897308059029132826
 GameObject:
@@ -204,7 +204,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 6345ccfc8983cdd489aa04c42d86260c, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &5984584776123358415
 PrefabInstance:
@@ -249,7 +249,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 3417397333577640349, guid: 857e3b9968507b6419c8eefb3f1dfd9b,
+      objectReference: {fileID: 5531796456047199634, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -375,6 +375,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618752398906396102, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: foreverID
+      value: 1e9a929a33dead54e9b3584af40d2605
       objectReference: {fileID: 0}
     - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

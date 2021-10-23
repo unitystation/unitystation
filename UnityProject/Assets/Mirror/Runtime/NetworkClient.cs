@@ -985,6 +985,12 @@ namespace Mirror
             identity.hasAuthority = message.isOwner;
             identity.netId = message.netId;
 
+            ///CUSTOM UNITYSTATION CODE///
+            //Mirror specifically says that they dont support NetworkIdentities nested in normal gameobjects.
+            //But, we do it, so we have to override this and make sure we read and send world pos
+            identity.transform.position = message.position;
+            ///CUSTOM UNITYSTATION CODE///
+
             if (message.isLocalPlayer)
                 InternalAddPlayer(identity);
 

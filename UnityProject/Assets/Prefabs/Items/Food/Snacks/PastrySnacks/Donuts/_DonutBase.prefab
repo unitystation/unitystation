@@ -21,7 +21,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   StartingNutrients: 165
-  Nutriment: {fileID: 0}
+  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   healBruteDamage: 5
   healableJobs: 1700000021000000110000002a00000029000000
 --- !u!1001 &1205097671078976283
@@ -194,6 +194,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2d85073114394f948a0e6bfb1c0d4a24,
         type: 2}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: foreverID
+      value: c8966d5986e801548b806fb2ab2bbf3c
+      objectReference: {fileID: 0}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel

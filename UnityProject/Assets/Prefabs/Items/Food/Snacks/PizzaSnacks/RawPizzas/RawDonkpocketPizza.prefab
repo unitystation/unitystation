@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3109130688169691265
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1481641164470439280, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: foreverID
+      value: a09bUQcba1cc2524292c14edd703721X
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833948125506730650, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 14891bad27fa4424b904a7cb9e104196,
+        type: 2}
+    - target: {fileID: 5393337192057482879, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: initialName
+      value: raw donkpocket pizza
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5487322844202581097, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5491402170285736221, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_Name
+      value: RawDonkpocketPizza
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593807361333502081, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 7387336662769378380}
+    - target: {fileID: 5593845352006352041, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_AssetId
+      value: e670ea81a30d23343b42b4dcdb76f7bc
+      objectReference: {fileID: 0}
+    - target: {fileID: 5675824918576886337, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 538d5122727a0dc4f89be647317d4227,
+        type: 3}
+    - target: {fileID: 8915975292226684977, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 5491402170285736221, guid: a09b22cba1cc2524292c14edd7037211,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a09b22cba1cc2524292c14edd7037211, type: 3}
+--- !u!114 &7387336662769378380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5593697705815207117, guid: a09b22cba1cc2524292c14edd7037211,
+    type: 3}
+  m_PrefabInstance: {fileID: 3109130688169691265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

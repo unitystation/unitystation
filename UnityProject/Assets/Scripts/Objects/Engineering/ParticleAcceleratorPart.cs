@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Objects.Engineering
 {
-	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class ParticleAcceleratorPart : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn
 	{
 		private ParticleAcceleratorState currentState = ParticleAcceleratorState.Frame;
 		public ParticleAcceleratorState CurrentState => currentState;
@@ -50,22 +50,19 @@ namespace Objects.Engineering
 			directional = GetComponent<Directional>();
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if(startSetUp == false) return;
-
-			ChangeState(ParticleAcceleratorState.Closed);
-			amountOfWiresUsed = amountOfWiresNeeded;
-			wrenchSecurable.ServerSetPushable(false);
-		}
-
-		private void OnEnable()
-		{
+			if (startSetUp)
+			{
+				ChangeState(ParticleAcceleratorState.Closed);
+				amountOfWiresUsed = amountOfWiresNeeded;
+				wrenchSecurable.ServerSetPushable(false);
+			}
 			registerTile.OnLocalPositionChangedServer.AddListener(OnRegisterTileMove);
 			integrity.OnWillDestroyServer.AddListener(OnIntegrityDestroy);
 		}
 
-		private void OnDisable()
+		public void OnDisable()
 		{
 			registerTile.OnLocalPositionChangedServer.RemoveListener(OnRegisterTileMove);
 			integrity.OnWillDestroyServer.RemoveListener(OnIntegrityDestroy);

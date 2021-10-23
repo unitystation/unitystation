@@ -47,7 +47,7 @@ namespace Systems.CraftingV2.GUI
 		/// <param name="data">Ignored.</param>
 		public void OnPointerDown(PointerEventData data)
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			CraftingMenu.Instance.ChangeCategory(this);
 		}
 

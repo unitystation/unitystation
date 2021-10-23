@@ -272,7 +272,6 @@ GameObject:
   - component: {fileID: 114646079871242220}
   - component: {fileID: 2513312637528682473}
   - component: {fileID: -8733637487764893665}
-  - component: {fileID: 8506712833501498864}
   - component: {fileID: -2508148725464654491}
   m_Layer: 18
   m_Name: STEngineeringDoor
@@ -374,11 +373,10 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 1
   DoorPressureSpriteOffset: 25
-  pressureLevel: 0
   openingDirection: 0
-  spriteRenderer: {fileID: 212050190612633776}
   BlockAutoClose: 0
   conType: 7
+  requireLink: 0
 --- !u!114 &114054792819298036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +421,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 114403590302997272}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
@@ -851,28 +851,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
---- !u!114 &8506712833501498864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636844411894304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bfcc0fbb86771940b4d7b38c9c7d3b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  wiresInitiallyExposed: 0
-  nodeInfo: {fileID: 11400000, guid: 70468a705c81370488f44537a6568005, type: 2}
-  openPanelSFX: 
-  closePanelSFX: 
-  NetTabType: 19
-  doorName: engineering door
-  hackPanelOverlay: {fileID: 0}
-  hackPanelSprite: {fileID: 0}
 --- !u!114 &-2508148725464654491
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ namespace UI.Core.GUI.Components
 	/// <summary>
 	/// <para>Intended for use on diegetic adhesive labels stuck onto an object.</para>
 	/// <para>Varies the position and rotation of the label at initialisation.</para>
-	/// <para>See the <see cref="GUI_ACU"/> for a demonstration.</para>
+	/// <para>See the <see cref="GUI_Acu"/> for a demonstration.</para>
 	/// </summary>
 	public class DiegeticLabel : MonoBehaviour
 	{

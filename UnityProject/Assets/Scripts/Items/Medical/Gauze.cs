@@ -31,47 +31,41 @@ namespace Items.Medical
 			}
 		}
 
-		private void RemoveLimbExternalBleeding(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+		private void RemoveLimbExternalBleeding(LivingHealthMasterBase livingHealth, HandApply interaction)
 		{
-			foreach(var container in targetBodyPart.RootBodyPartContainers)
+			foreach(var bodyPart in livingHealth.BodyPartList)
 			{
-				if(container.BodyPartType == interaction.TargetBodyPart)
+				if(bodyPart.BodyPartType == interaction.TargetBodyPart)
 				{
-					foreach(BodyPart limb in container.ContainsLimbs)
+					if(bodyPart.IsBleedingExternally)
 					{
-						if(limb.IsBleedingExternally)
+						bodyPart.StopExternalBleeding();
+						if(interaction.Performer.Player().GameObject == interaction.TargetObject.Player().GameObject)
 						{
-							limb.StopExternalBleeding();
-							if(interaction.Performer.Player().GameObject == interaction.TargetObject.Player().GameObject)
-							{
-								Chat.AddActionMsgToChat(interaction.Performer.gameObject,
-								$"You stopped your {interaction.TargetObject.Player().Script.visibleName}'s bleeding.",
-								$"{interaction.PerformerPlayerScript.visibleName} stopped their own bleeding from their {interaction.TargetObject.ExpensiveName()}.");
-							}
-							else
-							{
-								Chat.AddActionMsgToChat(interaction.Performer.gameObject,
-								$"You stopped {interaction.TargetObject.Player().Script.visibleName}'s bleeding.",
-								$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.Player().Script.visibleName}'s bleeding.");
-							}
+							Chat.AddActionMsgToChat(interaction.Performer.gameObject,
+							$"You stopped your {interaction.TargetObject.Player().Script.visibleName}'s bleeding.",
+							$"{interaction.PerformerPlayerScript.visibleName} stopped their own bleeding from their {interaction.TargetObject.ExpensiveName()}.");
+						}
+						else
+						{
+							Chat.AddActionMsgToChat(interaction.Performer.gameObject,
+							$"You stopped {interaction.TargetObject.Player().Script.visibleName}'s bleeding.",
+							$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.Player().Script.visibleName}'s bleeding.");
 						}
 					}
 				}
 			}
 		}
 
-		private bool CheckForBleedingLimbs(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+		private bool CheckForBleedingLimbs(LivingHealthMasterBase livingHealth, HandApply interaction)
 		{
-			foreach(var container in targetBodyPart.RootBodyPartContainers)
+			foreach(var bodyPart in livingHealth.BodyPartList)
 			{
-				if(container.BodyPartType == interaction.TargetBodyPart)
+				if(bodyPart.BodyPartType == interaction.TargetBodyPart)
 				{
-					foreach(BodyPart limb in container.ContainsLimbs)
+					if(bodyPart.IsBleedingExternally)
 					{
-						if(limb.IsBleedingExternally)
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}

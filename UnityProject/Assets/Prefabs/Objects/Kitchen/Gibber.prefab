@@ -128,6 +128,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -296,11 +298,10 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   wattusage: 0.01
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  conType: 1
 --- !u!1 &1367537609961248
 GameObject:
   m_ObjectHideFlags: 0

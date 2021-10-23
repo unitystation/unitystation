@@ -57,7 +57,6 @@ MonoBehaviour:
   CheckUnauthorisedPersonnel: 0
   authorisedAccess: 4400000026000000
   CheckUnidentifiedLifeSigns: 1
-  conType: 9
 --- !u!114 &2506153195070795302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,11 +77,10 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   wattusage: 0.01
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  conType: 1
 --- !u!114 &7246554565139759485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +224,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 2a0c00d506dfa084b9b82a6290d9fb6d, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &2245715690121042660
 PrefabInstance:
@@ -320,6 +318,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 24217cb8b2338a3479aaf8d32b727ed1
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

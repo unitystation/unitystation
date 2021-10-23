@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 55ba2178ea0a0994b9c90a7f7359f0c3,
         type: 2}
+    - target: {fileID: 1734639913420629007, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: foreverID
+      value: 548b2e942a9ec6d69af3374e3be7dd50
+      objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: clothData
@@ -384,32 +389,32 @@ PrefabInstance:
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
-      value: 0.3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
-      value: 0.3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
-      value: 0.3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[3].armor.DismembermentProtectionChance
-      value: 0.3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[4].armor.DismembermentProtectionChance
-      value: 0.3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[5].armor.DismembermentProtectionChance
-      value: 0.3
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}

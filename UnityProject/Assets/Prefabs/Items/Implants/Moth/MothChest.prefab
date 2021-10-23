@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2527589168897478388, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: foreverID
+      value: 3ed842b30039deb42aa49b6ffcdd38dd
+      objectReference: {fileID: 0}
     - target: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: variantIndex
@@ -26,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: DamageThreshold
-      value: 15
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
@@ -41,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: baseTraumaDamageMultiplier
-      value: 0.35
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

@@ -266,7 +266,12 @@ namespace Weapons
 		/// <returns></returns>
 		public double CurrentRng()
 		{
-			double CurrentRng = RNGContents[clientAmmoRemains];
+			double CurrentRng = 1.0;
+			if (clientAmmoRemains <= RNGContents.Length - 1)
+			{
+				CurrentRng = RNGContents[clientAmmoRemains];
+			}
+
 			Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, CurrentRng, serverAmmoRemains, clientAmmoRemains);
 			return CurrentRng;
 		}

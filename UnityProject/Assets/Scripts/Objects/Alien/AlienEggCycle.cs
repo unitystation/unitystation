@@ -8,7 +8,7 @@ using Messages.Server.SoundMessages;
 
 namespace Alien
 {
-	public class AlienEggCycle : MonoBehaviour, IInteractable<HandApply>, IServerSpawn, IServerDespawn
+	public class AlienEggCycle : MonoBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private AddressableAudioSource squishSFX = null;
 
@@ -81,7 +81,7 @@ namespace Alien
 				case EggState.Grown:
 					spriteHandler.ChangeSprite(BIG_SPRITE);
 					StopAllCoroutines();
-					StartCoroutine(HatchEgg());
+					StartCoroutine(WaitForHatchEgg());
 					break;
 				case EggState.Burst:
 					spriteHandler.ChangeSprite(HATCHED_SPRITE);
@@ -103,9 +103,16 @@ namespace Alien
 		}
 
 
-		IEnumerator HatchEgg()
+		IEnumerator WaitForHatchEgg()
 		{
 			yield return WaitFor.Seconds(incubationTime / 2);
+
+			StartCoroutine(HatchEggAnimation());
+		}
+
+
+		IEnumerator HatchEggAnimation()
+		{
 			spriteHandler.ChangeSprite(OPENING_SPRITE);
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
 			UpdatePhase(EggState.Burst);
@@ -148,18 +155,35 @@ namespace Alien
 					FeelsSlimy(interaction);
 					break;
 				case EggState.Burst:
-					FeelsSlimy(interaction);
+					if (interaction.Intent == Intent.Harm)
+						Squish(interaction);
+					else
+						FeelsSlimy(interaction);
 					break;
 				case EggState.Growing:
 					Squish(interaction);
 					break;
 				case EggState.Grown:
-					UpdatePhase(EggState.Burst);
+					Open(interaction);
 					break;
 				default:
 					UpdatePhase(EggState.Burst);
 					break;
 			}
+		}
+
+
+		private void Open(HandApply interaction)
+		{
+			StopAllCoroutines();
+
+			Chat.AddActionMsgToChat(
+				interaction.Performer.gameObject,
+				"You open the alien egg!",
+				$"{interaction.Performer.ExpensiveName()} opens the alien egg!");
+
+			StartCoroutine(HatchEggAnimation());
+			registerObject.SetPassable(false, true);
 		}
 
 
@@ -189,6 +213,12 @@ namespace Alien
 				$"{interaction.Performer.ExpensiveName()} touches the slimy egg!");
 		}
 
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return side == NetworkSide.Server ? !(interaction.Intent == Intent.Harm && currentState == EggState.Grown) : true;
+		}
 
 		public enum EggState
 		{

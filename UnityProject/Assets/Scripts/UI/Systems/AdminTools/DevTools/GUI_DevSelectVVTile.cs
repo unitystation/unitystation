@@ -43,7 +43,7 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 		}
 	}
 
-	void Awake()
+	private void Awake()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
@@ -103,8 +103,7 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 			}
 			if (CommonInput.GetMouseButtonDown(0))
 			{
-				RequestToViewObjectsAtTile.Send(MouseUtils.MouseToWorldPos(),
-					ServerData.UserID, PlayerList.Instance.AdminToken);
+				RequestToViewObjectsAtTile.Send(MouseUtils.MouseToWorldPos());
 				OnEscape();
 			}
 

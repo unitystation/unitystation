@@ -53,9 +53,27 @@ MonoBehaviour:
         Temperature: 0
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  SelfSufficient: 0
-  MaxTransferMoles: 10
-  MaxOutletPressure: 110
+  weldFinishSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/WeldFinish.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  selfSufficient: 0
+--- !u!114 &5106770035520940082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712773701786103897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca47cf326c466494c8b57b3b98133d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
 --- !u!1001 &3479803565540039848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63,6 +81,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 511634085231996503, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_Name
@@ -72,26 +95,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -127,16 +130,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f8ec751801f469b4a88063453a00e437,
+      objectReference: {fileID: 21300000, guid: ef3690c082e291a4685cc57fba8c5abf,
         type: 3}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2494681440875532984, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: foreverID
+      value: 0d553281bdfc0fd438b3f6c7db58688c
+      objectReference: {fileID: 0}
     - target: {fileID: 2647416796583051997, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: isSelfPowered
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647416796583051997, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: StateUpdateOnClient
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3144899109316854307, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -149,13 +162,112 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
+      objectReference: {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: baebcdb1e047abd4a9b13590cdf7e8a2,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
       objectReference: {fileID: 11400000, guid: 42b9b9089fd5ed44692feb53ca55fb6b,
         type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: ec617ff61ab581741a2f891194e9b090,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: b3a045e48a0bbe84d89c1a177090dddd,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a3dab40edc67484fb3cabcd0ac0de26,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 92f2d9155565272448bacfe64b07e9e6,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[13]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cd86e2e03e92ad48a177259e1c82006,
+        type: 2}
+    - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: isDirty
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_AssetId
       value: 0d553281bdfc0fd438b3f6c7db58688c
       objectReference: {fileID: 0}
+    - target: {fileID: 7868529330565958841, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 937059977152898907}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: initialName
@@ -195,6 +307,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &937059977152898907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4416806320167582707, guid: 3937c48f98f9cd043babc5471ee77682,
+    type: 3}
+  m_PrefabInstance: {fileID: 3479803565540039848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712773701786103897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7490970043693980291 stripped

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: a04b8478cd5128343955dfd27c1e107f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d576437aea8f9b04a80ff4fd7f9a5dc0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,15 +98,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
+  - {fileID: 11400000, guid: 685ad63ad497a884091a906925a2e525, type: 2}
   - {fileID: 11400000, guid: 2eb2447d130efe249a31999049d66d10, type: 2}
-  - {fileID: 11400000, guid: 5fa94bf72f1f35b4ba953a9c950dd146, type: 2}
   - {fileID: 11400000, guid: 685ad63ad497a884091a906925a2e525, type: 2}
   - {fileID: 11400000, guid: 0755a74700d5b3a4ebf817369ab29d01, type: 2}
+  - {fileID: 11400000, guid: 5fa94bf72f1f35b4ba953a9c950dd146, type: 2}
   - {fileID: 11400000, guid: ecb8e57d160749b4d96a1a9b89bfead5, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 0755a74700d5b3a4ebf817369ab29d01, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 685ad63ad497a884091a906925a2e525, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &1711816394935574
 GameObject:
@@ -118,18 +119,20 @@ GameObject:
   m_Component:
   - component: {fileID: 4715117052207926}
   - component: {fileID: 61404138305600890}
-  - component: {fileID: 114529692711081598}
-  - component: {fileID: 9128197607768152992}
-  - component: {fileID: 114657711786529776}
-  - component: {fileID: 5322609074420117545}
-  - component: {fileID: 2464575245303528366}
-  - component: {fileID: 114532654656294352}
-  - component: {fileID: 114039584032850022}
-  - component: {fileID: 4585042576726451927}
   - component: {fileID: 114261379763110518}
-  - component: {fileID: -921045048710611501}
   - component: {fileID: 759269907227586911}
+  - component: {fileID: 114657711786529776}
+  - component: {fileID: 8266124704489133993}
+  - component: {fileID: -921045048710611501}
+  - component: {fileID: 114039584032850022}
+  - component: {fileID: 5322609074420117545}
+  - component: {fileID: 114529692711081598}
+  - component: {fileID: 114532654656294352}
   - component: {fileID: 6712593994754809297}
+  - component: {fileID: 4585042576726451927}
+  - component: {fileID: 2083068662276464495}
+  - component: {fileID: 7670393869610928267}
+  - component: {fileID: 9128197607768152992}
   m_Layer: 11
   m_Name: DNA_Scanner
   m_TagString: Untagged
@@ -178,7 +181,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114529692711081598
+--- !u!114 &114261379763110518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,11 +190,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711816394935574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeleeable: 1
---- !u!114 &9128197607768152992
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 4b507075734384867b1301bdbed10e81
+  hasSpawned: 0
+--- !u!114 &759269907227586911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,58 +207,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711816394935574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22bc22136d1c0934491149324f00dded, type: 3}
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 0}
-  alwaysSpawnContents: 0
-  lockLight: {fileID: 0}
-  IsLockable: 0
-  hideLockWhenOpened: 1
-  playerLimit: 1
-  breakoutTime: 120
-  matsOnDestroy: {fileID: 0}
-  matsDroppedOnDestroy: 2
-  soundOnOpen:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundOnClose:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundOnEmag:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/SnapCracklePop2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundOnEscape:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Rustle01.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  doorSpriteHandler: {fileID: 2200355187901365339}
-  lockOverlay: {fileID: 0}
-  isEmagged: 0
-  weldOverlay: {fileID: 0}
-  weldSprite: {fileID: 0}
-  isUnLockable: 1
-  isWeldable: 1
-  occupant: {fileID: 0}
-  statusString: 
-  RelatedAPC: {fileID: 0}
 --- !u!114 &114657711786529776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,7 +228,7 @@ MonoBehaviour:
   syncInterval: 0.1
   snapToGridOnStart: 1
   IsFixedMatrix: 0
---- !u!114 &5322609074420117545
+--- !u!114 &8266124704489133993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,51 +237,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711816394935574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 1
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &2464575245303528366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 114657711786529776}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 0
   initialCrawlPassable: 0
   passableExclusionsToThis: []
-  closetType: 2
---- !u!114 &114532654656294352
+--- !u!114 &-921045048710611501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,12 +261,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711816394935574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
-  RotateParent: {fileID: 0}
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: DNA Scanner
+  initialDescription: It scans DNA structures.
+  willHighlight: 1
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!114 &114039584032850022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,8 +319,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
---- !u!114 &4585042576726451927
+--- !u!114 &5322609074420117545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -393,23 +328,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711816394935574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  minimumWorkingVoltage: 190
-  expectedRunningVoltage: 240
-  maximumWorkingVoltage: 300
-  deviceType: 0
-  isSelfPowered: 0
-  wattusage: 0.01
-  resistance: 100000000
-  RelatedAPC: {fileID: 0}
-  AdvancedControlToScript: 0
-  StateUpdateOnClient: 1
-  conType: 1
---- !u!114 &114261379763110518
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 1
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &114529692711081598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,15 +358,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711816394935574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 4b507075734384867b1301bdbed10e81
-  hasSpawned: 0
---- !u!114 &-921045048710611501
+  isMeleeable: 1
+--- !u!114 &114532654656294352
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -435,31 +371,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1711816394935574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialName: DNA Scanner
-  initialDescription: It scans DNA structures.
-  willHighlight: 1
-  exportCost: 0
-  exportName: 
-  exportMessage: 
---- !u!114 &759269907227586911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
 --- !u!114 &6712593994754809297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,3 +395,116 @@ MonoBehaviour:
   canNotBeDeconstructed: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
+--- !u!114 &4585042576726451927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  InitialResistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 0
+--- !u!114 &2083068662276464495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 1
+--- !u!114 &7670393869610928267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  passableWhenOpen: 1
+  isLockable: 0
+  isWeldable: 0
+  breakoutTime: 120
+  hideLockWhenOpened: 1
+  matsOnDestroy: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+    type: 3}
+  matsDroppedOnDestroy: 2
+  doorSpriteHandler: {fileID: 2200355187901365339}
+  lockSpritehandler: {fileID: 0}
+  weldSpriteHandler: {fileID: 0}
+  soundOnOpen:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnClose:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEmag:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEscapeAttempt:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  soundOnEscape:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+--- !u!114 &9128197607768152992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bc22136d1c0934491149324f00dded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  statusString: 

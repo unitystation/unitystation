@@ -56,7 +56,7 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
 
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.MeteorsAnnouncement);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.MeteorsAnnouncement);
 			}
 
 			if (FakeEvent) return;

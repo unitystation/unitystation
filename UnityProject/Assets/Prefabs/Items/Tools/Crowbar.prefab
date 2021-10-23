@@ -18,6 +18,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 46204272e15305c4f8911cbc23b0d60f,
         type: 2}
+    - target: {fileID: 4089184234565288920, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: foreverID
+      value: 1bd4d6ea60dfdc1498ee8f06b7289fb4
+      objectReference: {fileID: 0}
     - target: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_Name
@@ -118,6 +123,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: It's a big crowbar. It doesn't fit in your pockets, because it's big.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}

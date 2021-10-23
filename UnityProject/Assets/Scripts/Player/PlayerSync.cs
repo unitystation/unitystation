@@ -5,6 +5,7 @@ using Messages.Client.NewPlayer;
 using UnityEngine;
 using Mirror;
 using Objects;
+using Player.Movement;
 
 public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {
@@ -65,6 +66,70 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
+
+	/// <summary>
+	/// true when player tries to break pull or leave container (e.g. locker).
+	/// </summary>
+	private bool didWiggle = false;
+
+	private void Awake()
+	{
+		playerScript = GetComponent<PlayerScript>();
+		pushPull = GetComponent<PushPull>();
+		playerDirectional = GetComponent<Directional>();
+		registerPlayer = GetComponent<RegisterPlayer>();
+	}
+
+	public void SetInitialPositionStates()
+	{
+		var matrixInfo = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), false);
+		predictedState.MatrixId = matrixInfo.Id;
+		playerState.MatrixId = matrixInfo.Id;
+		var pos = transform.position;
+		predictedState.WorldPosition = pos;
+		playerState.WorldPosition = pos;
+
+		PlayerNewPlayer.Send(netId);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+
+
+	}
+
+	public override void OnStartServer()
+	{
+		serverPendingActions = new Queue<PlayerAction>();
+		InitServerState();
+	}
+
+	public override void OnStartLocalPlayer()
+	{
+		setLocalPlayer();
+	}
+
+	private void OnEnable()
+	{
+		onTileReached.AddListener(Cross);
+		EventManager.AddHandler(Event.PlayerRejoined, setLocalPlayer);
+	}
+	private void OnDisable()
+	{
+		onTileReached.RemoveListener(Cross);
+		EventManager.RemoveHandler(Event.PlayerRejoined, setLocalPlayer);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	/// <summary>
+	/// Sets up the action queue for the local player.
+	/// </summary>
+	public void setLocalPlayer()
+	{
+		if (isLocalPlayer)
+		{
+			pendingActions = new Queue<PlayerAction>();
+			//UpdatePredictedState();
+			predictedSpeedClient = UIManager.Intent.Running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+		}
+	}
 
 	public void Nudge(NudgeInfo info)
 	{
@@ -357,63 +422,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	#endregion
 
-	private void Awake()
-	{
-		playerScript = GetComponent<PlayerScript>();
-		pushPull = GetComponent<PushPull>();
-		playerDirectional = GetComponent<Directional>();
-		registerPlayer = GetComponent<RegisterPlayer>();
-	}
-
-	public override void OnStartClient()
-	{
-		//prevents player temporarily showing up at 0,0 when they spawn before they receive their first position
-		playerState.WorldPosition = transform.localPosition;
-		PlayerNewPlayer.Send(netId);
-	}
-
-	public override void OnStartServer()
-	{
-		serverPendingActions = new Queue<PlayerAction>();
-		InitServerState();
-	}
-
-	public override void OnStartLocalPlayer()
-	{
-		setLocalPlayer();
-	}
-
-	private void OnEnable()
-	{
-		onTileReached.AddListener(Cross);
-		EventManager.AddHandler(Event.PlayerRejoined, setLocalPlayer);
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-	private void OnDisable()
-	{
-		onTileReached.RemoveListener(Cross);
-		EventManager.RemoveHandler(Event.PlayerRejoined, setLocalPlayer);
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-	/// <summary>
-	/// Sets up the action queue for the local player.
-	/// </summary>
-	public void setLocalPlayer()
-	{
-		if (isLocalPlayer)
-		{
-			pendingActions = new Queue<PlayerAction>();
-			UpdatePredictedState();
-			predictedSpeedClient = UIManager.Intent.Running ? playerMove.RunSpeed : playerMove.WalkSpeed;
-		}
-	}
-
-	/// <summary>
-	/// true when player tries to break pull or leave container (e.g. locker).
-	/// </summary>
-	private bool didWiggle = false;
-
 	[Command]
 	public void CmdTryEscapeContainer()
 	{
@@ -426,11 +434,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		if (pushPull == null || pushPull.parentContainer == null) return;
 		GameObject parentContainer = pushPull.parentContainer.gameObject;
 
-		if (parentContainer.TryGetComponent(out ClosetControl closet))
+		foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 		{
-			closet.PlayerTryEscaping(gameObject);
+			escapable.EntityTryEscape(gameObject);
 		}
-		else if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+
+		// TODO: convert to IEscapable
+		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			disposalContainer.PlayerTryEscaping(gameObject);
 		}
@@ -478,13 +488,17 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			return;
 		}
 
+		var server = CustomNetworkManager.IsServer;
+
 		if (Matrix != null)
 		{
-			CheckMovementClient();
-			bool server = isServer;
 			if (server)
 			{
 				CheckMovementServer();
+			}
+			else if (CustomNetworkManager.IsHeadless == false)
+			{
+				CheckMovementClient(); //needed for space floating movement to update for the Server if it is not headless
 			}
 
 			if (!ClientPositionReady)
@@ -499,7 +513,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 					PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 				}
 
-				if (serverState.Position != serverLerpState.Position)
+				if (serverState.LocalPosition != serverLerpState.LocalPosition)
 				{
 					ServerLerp();
 				}
@@ -511,12 +525,23 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		}
 
 		//Registering
-		if (registerPlayer.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position))
+		if (registerPlayer.LocalPositionClient != Vector3Int.RoundToInt(predictedState.LocalPosition))
 		{
-			registerPlayer.UpdatePositionClient();
+			if (server)
+			{
+				if (registerPlayer.ServerSetNetworkedMatrixNetID(MatrixManager.Get(predictedState.MatrixId).NetID) ==
+				    false)
+				{
+					registerPlayer.UpdatePositionClient();
+				}
+			}
+			else
+			{
+				registerPlayer.UpdatePositionClient();
+			}
 		}
 
-		if (registerPlayer.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position))
+		if (server && registerPlayer.LocalPositionServer != Vector3Int.RoundToInt(serverState.LocalPosition))
 		{
 			registerPlayer.UpdatePositionServer();
 		}
@@ -547,7 +572,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		var newState = state;
 		newState.MoveNumber++;
-		newState.Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action, isReplay,
+		newState.LocalPosition = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.LocalPosition), action, isReplay,
 			MatrixManager.Get(newState.MatrixId).Matrix);
 
 		var proposedWorldPos = newState.WorldPosition;

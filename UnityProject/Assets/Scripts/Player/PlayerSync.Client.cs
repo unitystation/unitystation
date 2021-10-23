@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Objects;
 
 public partial class PlayerSync
 {
@@ -34,12 +33,12 @@ public partial class PlayerSync
 	public bool CanPredictPush => ClientPositionReady;
 	public bool IsMovingClient => !ClientPositionReady;
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
-	public Vector3Int ClientLocalPosition => predictedState.Position.RoundToInt();
+	public Vector3Int ClientLocalPosition => predictedState.LocalPosition.RoundToInt();
 	public Vector3Int TrustedPosition => playerState.WorldPosition.RoundToInt();
-	public Vector3Int TrustedLocalPosition => playerState.Position.RoundToInt();
+	public Vector3Int TrustedLocalPosition => playerState.LocalPosition.RoundToInt();
 
 	/// Does client's transform pos match state pos? Ignores Z-axis. Unity's vectors might have 1E-05 of difference
-	private bool ClientPositionReady => Vector2.Distance( predictedState.Position, transform.localPosition ) < 0.001f
+	private bool ClientPositionReady => Vector2.Distance( predictedState.LocalPosition, transform.localPosition ) < 0.001f
 	                                    || playerState.WorldPosition == TransformState.HiddenPos;
 
 	//Pending Init state cache when the client is still loading in
@@ -410,7 +409,7 @@ public partial class PlayerSync
 	/// Called when PlayerMoveMessage is received
 	public void UpdateClientState(PlayerState newState)
 	{
-		if (!MatrixManager.IsInitialized)
+		if (!registerPlayer.Matrix.Initialized)
 		{
 			newState.NoLerp = true;
 			pendingInitStates.Enqueue(newState);
@@ -425,7 +424,7 @@ public partial class PlayerSync
 		var newWorldPos = Vector3Int.RoundToInt(newState.WorldPosition);
 		OnUpdateRecieved().Invoke(newWorldPos);
 
-		playerState = newState;
+			playerState = newState;
 
 		if ( newWorldPos == TransformState.HiddenPos )
 		{
@@ -462,11 +461,9 @@ public partial class PlayerSync
 
 		if (playerState.MatrixId != predictedState.MatrixId && isLocalPlayer)
 		{
-			PlayerState crossMatrixState = predictedState;
-			crossMatrixState.MatrixId = playerState.MatrixId;
-			crossMatrixState.WorldPosition = predictedState.WorldPosition;
-			crossMatrixState.WorldImpulse = playerState.WorldImpulse;
-			predictedState = crossMatrixState;
+			predictedState.MatrixId = playerState.MatrixId;
+			predictedState.WorldPosition = playerState.WorldPosition;
+			predictedState.WorldImpulse = playerState.WorldImpulse;
 		}
 
 		if (blockClientMovement)
@@ -499,7 +496,7 @@ public partial class PlayerSync
 			bool wrongFloatDir = playerState.MoveNumber < predictedState.MoveNumber &&
 							playerState.WorldImpulse != Vector2.zero &&
 							//note: since the Positions used below are local, we must use LocalImpulse to see if the prediction is actually wrong
-							playerState.LocalImpulse(this).normalized != (Vector2)(predictedState.Position - playerState.Position).normalized;
+							playerState.LocalImpulse(this).normalized != (Vector2)(predictedState.LocalPosition - playerState.LocalPosition).normalized;
 			if (spacewalkReset || wrongFloatDir)
 			{
 				//NOTE: This is currently generated when client is slipping indoors because there's no way for client
@@ -517,7 +514,7 @@ public partial class PlayerSync
 			//invalidate queue if serverstate was never predicted
 			bool serverAhead = playerState.MoveNumber > predictedState.MoveNumber;
 			bool posMismatch = playerState.MoveNumber == predictedState.MoveNumber
-							   && playerState.Position != predictedState.Position;
+							   && playerState.LocalPosition != predictedState.LocalPosition;
 			bool wrongMatrix = playerState.MatrixId != predictedState.MatrixId && playerState.MoveNumber == predictedState.MoveNumber;
 			if (serverAhead || posMismatch || wrongMatrix)
 			{
@@ -656,8 +653,8 @@ public partial class PlayerSync
 
 				//Extending prediction by one tile if player's transform reaches previously set goal
 				//note: position is local, so we must use local impulse to predict the new position
-				Vector3Int newGoal = Vector3Int.RoundToInt(predictedState.Position + (Vector3)predictedState.LocalImpulse(this));
-				predictedState.Position = newGoal;
+				Vector3Int newGoal = Vector3Int.RoundToInt(predictedState.LocalPosition + (Vector3)predictedState.LocalImpulse(this));
+				predictedState.LocalPosition = newGoal;
 
 				var newPos = predictedState.WorldPosition;
 

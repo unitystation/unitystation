@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 515578476199054552, guid: 0b535cf7390c5134ab33bf0ba595c24e,
+        type: 3}
+      propertyPath: foreverID
+      value: 1e817159ebc0bff4db52eae2aa6ff8b6
+      objectReference: {fileID: 0}
     - target: {fileID: 782242290376096562, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -23,6 +28,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Headset of the fellow who keeps society marching towards technological
         singularity.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719972196587897998, guid: 0b535cf7390c5134ab33bf0ba595c24e,
+        type: 3}
+      propertyPath: HasLoudSpeak
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6719972196587897998, guid: 0b535cf7390c5134ab33bf0ba595c24e,
         type: 3}

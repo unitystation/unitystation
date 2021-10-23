@@ -5234,6 +5234,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/smash.prefab
       objectReference: {fileID: 0}
@@ -5351,6 +5361,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 666968a3b9531a74c87377716fe13c05,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 908afbc5b9f871148b5ccd0b81bd147f
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &7914350351518715449 stripped

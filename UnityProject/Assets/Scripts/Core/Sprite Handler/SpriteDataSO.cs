@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using NaughtyAttributes;
 
 [CreateAssetMenu(fileName = "SpriteData", menuName = "ScriptableObjects/SpriteData")]
 public class SpriteDataSO : ScriptableObject
@@ -14,14 +16,14 @@ public class SpriteDataSO : ScriptableObject
 
 	public string DisplayName;
 
-	[System.Serializable]
+	[Serializable]
 	public class Variant
 	{
 		public List<Frame> Frames = new List<Frame>();
 	}
 
 
-	[System.Serializable]
+	[Serializable]
 	public class Frame
 	{
 		public Sprite sprite;
@@ -78,6 +80,13 @@ public class SpriteDataSO : ScriptableObject
 		EditorUtility.SetDirty(this);
 		EditorUtility.SetDirty( SpriteCatalogue.Instance);
 		AssetDatabase.SaveAssets();
+	}
+
+	[Button()]
+	public void ForceUpdateID()
+	{
+		setID = -1;
+		UpdateIDLocation();
 	}
 #endif
 }

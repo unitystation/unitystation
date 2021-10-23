@@ -16,6 +16,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 4126556881888558369}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -97,7 +99,7 @@ PrefabInstance:
     - target: {fileID: 3187403985938362322, guid: 044c5be8ebc308b4b9e450ab85fec306,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 78da03b3cd913f041abec3757f7c1f66
       objectReference: {fileID: 0}
     - target: {fileID: 6477934125076552368, guid: 044c5be8ebc308b4b9e450ab85fec306,
         type: 3}
@@ -169,6 +171,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayer
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969074351442584825, guid: 044c5be8ebc308b4b9e450ab85fec306,
+        type: 3}
+      propertyPath: foreverID
+      value: 78da03b3cd913f041abec3757f7c1f66
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5780793874901009398, guid: 044c5be8ebc308b4b9e450ab85fec306, type: 3}

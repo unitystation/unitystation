@@ -20,11 +20,10 @@ MonoBehaviour:
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  conType: 1
 --- !u!114 &768889878625444157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +62,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

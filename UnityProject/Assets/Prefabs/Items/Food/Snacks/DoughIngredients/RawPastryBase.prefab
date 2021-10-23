@@ -131,12 +131,28 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Must be cooked before use.
       objectReference: {fileID: 0}
+    - target: {fileID: 2699307914152838379, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CookableBy
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699307914152838379, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 7275968390465132960, guid: f595ab18e1bab564c9ce9efb6b081b4e,
+        type: 3}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3d2764fd50f876548af06fab73440da7,
         type: 2}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: foreverID
+      value: a7d09e9b2a16c444dad548bde8ead833
+      objectReference: {fileID: 0}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel

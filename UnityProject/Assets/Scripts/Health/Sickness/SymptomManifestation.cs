@@ -11,11 +11,11 @@ namespace Health.Sickness
 		public int Stage;
 		public LivingHealthMasterBase MobHealth;
 
-		public SymptomManifestation(SicknessAffliction sicknessAffliction, int stage, LivingHealthMasterBase mobHealth)
+		public SymptomManifestation(SicknessAffliction sicknessAffliction, int stage, LivingHealthMasterBase livingHealth)
 		{
 			SicknessAffliction = sicknessAffliction;
 			Stage = stage;
-			MobHealth = mobHealth;
+			MobHealth = livingHealth;
 		}
 	}
 }

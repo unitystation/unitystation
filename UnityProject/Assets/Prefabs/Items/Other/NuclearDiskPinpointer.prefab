@@ -128,7 +128,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 5a9ab032af75965428729a36d94645fb, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &101322261917603612
 PrefabInstance:
@@ -371,6 +371,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 28d8cd0bc39389e47a3072eeddc7961b,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 0be5d7918d0a16a4394474841c0dc985
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &100328150011014054 stripped

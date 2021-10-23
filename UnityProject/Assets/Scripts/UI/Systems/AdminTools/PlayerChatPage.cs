@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using DatabaseAPI;
-using Messages.Client.Admin;
 using UnityEngine;
 using UnityEngine.UI;
+using Messages.Client.Admin;
+
 
 namespace AdminTools
 {
@@ -14,14 +13,15 @@ namespace AdminTools
 		[SerializeField] private InputField inputField = null;
 		[SerializeField] private Transform chatContent = null;
 		[SerializeField] private GameObject adminChatEntryPrefab = null;
-		private List<AdminChatEntry> loadedChatEntries = new List<AdminChatEntry>();
+		private readonly List<AdminChatEntry> loadedChatEntries = new List<AdminChatEntry>();
 		private AdminPlayerEntry selectedPlayer;
+
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
 		{
 			base.OnPageRefresh(adminPageData);
 		}
 
-		Dictionary<string, List<string>> chatLogs = new Dictionary<string, List<string>>();
+		private readonly Dictionary<string, List<string>> chatLogs = new Dictionary<string, List<string>>();
 
 		private bool refreshClock;
 		private float waitTime;
@@ -42,7 +42,7 @@ namespace AdminTools
 			inputField.ActivateInputField();
 		}
 
-		void Update()
+		private void Update()
 		{
 			if (refreshClock)
 			{
@@ -100,14 +100,13 @@ namespace AdminTools
 			AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You: {inputField.text}");
 			RefreshChatLog(selectedPlayer.PlayerData.uid);
 			var message = $"{PlayerManager.CurrentCharacterSettings.Username}: {inputField.text}";
-			              RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.PlayerData.uid,
-				message);
+			RequestAdminBwoink.Send(selectedPlayer.PlayerData.uid, message);
 			inputField.text = "";
 			inputField.ActivateInputField();
 			StartCoroutine(AfterSubmit());
 		}
 
-		IEnumerator AfterSubmit()
+		private IEnumerator AfterSubmit()
 		{
 			yield return WaitFor.EndOfFrame;
 			UIManager.IsInputFocus = true;

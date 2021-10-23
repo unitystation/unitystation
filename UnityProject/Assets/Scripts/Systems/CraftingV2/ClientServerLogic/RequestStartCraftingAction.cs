@@ -12,7 +12,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 	{
 		private CraftingActionParameters craftingActionParameters = new CraftingActionParameters(
 			true,
-			true
+			FeedbackType.GiveAllFeedback
 		);
 
 		public struct NetMessage : NetworkMessage

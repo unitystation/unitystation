@@ -7,12 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3679165279116993520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: foreverID
+      value: 71f3f3e055831e94d960c1ec6d52b509
+      objectReference: {fileID: 0}
     - target: {fileID: 4536149052226606106, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 93cc56c549d8bcd48990dd32f3295b61,
         type: 2}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: DamageThreshold
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: CanBleedExternally
@@ -36,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: baseTraumaDamageMultiplier
-      value: 0.55
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
@@ -46,7 +56,7 @@ PrefabInstance:
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
-      value: 0.25
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}

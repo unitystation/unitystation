@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using DatabaseAPI;
 using AdminCommands;
+
 
 namespace AdminTools
 {
@@ -15,12 +15,12 @@ namespace AdminTools
 
 		public void StartProfile()
 		{
-			AdminCommandsManager.Instance.CmdStartProfile(ServerData.UserID, PlayerList.Instance.AdminToken, (int) framesSlider.value);
+			AdminCommandsManager.Instance.CmdStartProfile((int) framesSlider.value);
 		}
 
 		public void StartMemoryProfile()
 		{
-			AdminCommandsManager.Instance.CmdStartMemoryProfile(ServerData.UserID, PlayerList.Instance.AdminToken, memoryProfileToggle.isOn);
+			AdminCommandsManager.Instance.CmdStartMemoryProfile(memoryProfileToggle.isOn);
 		}
 
 		public void ChangeInputField()

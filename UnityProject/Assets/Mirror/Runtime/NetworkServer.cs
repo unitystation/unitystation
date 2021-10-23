@@ -70,6 +70,10 @@ namespace Mirror
             if (initialized)
                 return;
 
+            //CUSTOM UNITYSTATION CODE//
+            //So it can handle Not having domain reloading on
+            isLoadingScene = false;
+
             initialized = true;
             // Debug.Log("NetworkServer Created version " + Version.Current);
 
@@ -930,6 +934,13 @@ namespace Mirror
                     scale = identity.transform.localScale,
                     payload = payload,
                 };
+
+                ///CUSTOM UNITYSTATION CODE///
+                //Mirror specifically says that they dont support NetworkIdentities nested in normal gameobjects.
+                //But, we do it, so we have to override this and make sure we read and send world pos
+                message.position = identity.transform.position;
+                ///CUSTOM UNITYSTATION CODE///
+
                 conn.Send(message);
             }
         }
@@ -1485,12 +1496,19 @@ namespace Mirror
             //   doing this for now.
             foreach (NetworkIdentity identity in NetworkIdentity.spawned.Values)
             {
-                if (identity.observers == null || identity.observers.Count == 0)
-                {
-                    // clear all component's dirty bits.
-                    // it would be spawned on new observers anyway.
-                    identity.ClearAllComponentsDirtyBits();
-                }
+	            //CUSTOM UNITYSTATION CODE//
+	            //Apparently these can be false but still be sending data to clients
+                // if (identity.observers == null || identity.observers.Count == 0)
+                // {
+	                //CUSTOM UNITYSTATION CODE//
+	                //No point in cleaning something that's not dirty is laggy too
+	                if (identity.isDirty)
+	                {
+		                // clear all component's dirty bits.
+		                // it would be spawned on new observers anyway.
+		                identity.ClearAllComponentsDirtyBits();
+	                }
+                // }
             }
         }
 
@@ -1536,8 +1554,9 @@ namespace Mirror
                     // NOTE: this is what we did before push->pull
                     //       broadcasting. let's keep doing this for
                     //       feature parity to not break anyone's project.
-                    //       TODO make this more simple / unnecessary later.
-                    identity.ClearDirtyComponentsDirtyBits();
+                    //       TODO make this more simple / unnecessary later.#
+                    //CUSTOM UNITYSTATION CODE// commented this out \/
+                    //identity.ClearDirtyComponentsDirtyBits();
                 }
                 // spawned list should have no null entries because we
                 // always call Remove in OnObjectDestroy everywhere.

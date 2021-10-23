@@ -273,7 +273,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamageToRandom(null, 99999f, AttackType.Internal, DamageType.Brute);
+				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamageToBodyPart(null, 99999f, AttackType.Internal, DamageType.Brute);
 			}
 		}
 #if UNITY_EDITOR
@@ -586,7 +586,7 @@ namespace IngameDebugConsole
 					Chat.AddExamineMsgToClient(DateTime.Now.ToFileTimeUtc().ToString());
 					break;
 				case 2:
-					Chat.AddChatMsgToChat(ConnectedPlayer.Invalid, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC);
+					Chat.AddChatMsgToChat(ConnectedPlayer.Invalid, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC, Loudness.NORMAL);
 					break;
 				default:
 					Chat.AddLocalMsgToChat(DateTime.Now.ToFileTimeUtc().ToString(), new Vector2(Random.value*100,Random.value*100), null);

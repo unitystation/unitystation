@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Weapons;
 using Objects.Wallmounts;
+using Player.Movement;
 using Tilemaps.Behaviours.Layers;
 using UI;
 using UI.Action;
@@ -359,7 +360,9 @@ public class MouseInputController : MonoBehaviour
 
 			// check empty space positional hand apply
 			var mousePos = MouseUtils.MouseToWorldPos().RoundToInt();
-			var posHandApply = PositionalHandApply.ByLocalPlayer(MatrixManager.AtPoint(mousePos, false).GameObject.transform.parent.gameObject);
+			var posHandApply =
+				PositionalHandApply.ByLocalPlayer(MatrixManager.AtPoint(mousePos, false).GameObject.transform.parent
+					.gameObject);
 			if (posHandApply.HandObject != null)
 			{
 				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()
@@ -428,6 +431,18 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	/// <summary>
+	/// Used if you want to Force an interaction, Between Local character and certain Script ( Skips handApply.HandObject  )
+	/// </summary>
+	/// <param name="RelatedApply"></param>
+	/// <param name="Target"></param>
+	public static void CheckHandApply(IBaseInteractable<HandApply> targetHandAppliable, GameObject Target)
+	{
+		//call the used object's handapply interaction methods if it has any, for each object we are applying to
+		var handApply = HandApply.ByLocalPlayer(Target);
+		targetHandAppliable.ClientCheckAndTrigger(handApply);
 	}
 
 	private bool CheckAimApply(MouseButtonState buttonState)

@@ -20,7 +20,7 @@ namespace Objects.Disposals
 		Secured = 2
 	}
 
-	public abstract class DisposalMachine : NetworkBehaviour, IExaminable, ICheckedInteractable<PositionalHandApply> // Must it be positional?
+	public abstract class DisposalMachine : NetworkBehaviour, IServerSpawn, IExaminable, ICheckedInteractable<PositionalHandApply> // Must it be positional?
 	{
 		private const float WELD_TIME = 2f;
 		private const string PIPE_TERMINAL_NAME = "disposal pipe terminal";
@@ -32,6 +32,7 @@ namespace Objects.Disposals
 
 		protected PositionalHandApply currentInteraction;
 
+		[SyncVar]
 		private InstallState installState = InstallState.Unattached;
 		public bool MachineUnattached => installState == InstallState.Unattached;
 		public bool MachineAnchored => installState == InstallState.Anchored;
@@ -51,18 +52,8 @@ namespace Objects.Disposals
 			baseSpriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
 		}
 
-		public override void OnStartServer()
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
-			StartCoroutine(WaitForUnderfloorUtilities());
-		}
-
-		IEnumerator WaitForUnderfloorUtilities()
-		{
-			while (registerObject.Matrix.UnderFloorLayer.UnderFloorUtilitiesInitialised == false)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
-
 			if (PipeTerminalExists())
 			{
 				SpawnMachineAsInstalled();

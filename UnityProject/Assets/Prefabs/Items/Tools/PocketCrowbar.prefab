@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e3c3da90775a4e84285a1307be2f5045,
         type: 2}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: f709eab732189d6429ae3fa5beaf3fd3
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: hitDamage
@@ -51,8 +56,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: traumaDamageChance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: attackVerbs.Array.size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: traumaDamageMultiplier
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

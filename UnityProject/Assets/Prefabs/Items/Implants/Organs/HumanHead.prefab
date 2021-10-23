@@ -251,7 +251,7 @@ PrefabInstance:
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: baseTraumaDamageMultiplier
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -337,7 +337,7 @@ PrefabInstance:
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
-      value: 0.15
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1673759363237950006, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -474,6 +474,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f84a1624ec0edd640992da46c6e6adc3,
         type: 2}
+    - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: foreverID
+      value: 78253771c2047f94c9ae40161a6be7ee
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e241039a7933eb347bd1a9bb67a9078a, type: 3}
 --- !u!1 &7761316997644922781 stripped

@@ -47,7 +47,7 @@ namespace UI
 
 		public void CloseWindow()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			window.SetActive(false);
 		}
 	}

@@ -7,12 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2770176055730463766, guid: d243d9aff97ede04581d82563a576f0c,
+        type: 3}
+      propertyPath: foreverID
+      value: e10f9003b4cb0c74a9fd14df00f8eb55
+      objectReference: {fileID: 0}
     - target: {fileID: 3138167408386266108, guid: d243d9aff97ede04581d82563a576f0c,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1b5f00f4d05e87e4490435ab9702e11d,
         type: 2}
+    - target: {fileID: 5688082005075186663, guid: d243d9aff97ede04581d82563a576f0c,
+        type: 3}
+      propertyPath: DamageThreshold
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 5688082005075186663, guid: d243d9aff97ede04581d82563a576f0c,
         type: 3}
       propertyPath: LobbyCustomisation

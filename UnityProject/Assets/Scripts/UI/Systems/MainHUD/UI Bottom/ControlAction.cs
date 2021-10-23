@@ -31,7 +31,7 @@ public class ControlAction : MonoBehaviour
 
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
 
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		SoundManager.Play(CommonSounds.Instance.Click01);
 		Logger.Log("Resist Button", Category.UserInput);
 	}
 
@@ -61,7 +61,7 @@ public class ControlAction : MonoBehaviour
 
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.ItemStorage.gameObject.NetId(),
 			currentSlot.NamedSlot.GetValueOrDefault( NamedSlot.none ));
-		SoundManager.Play(SingletonSOSounds.Instance.Click01);
+		SoundManager.Play(CommonSounds.Instance.Click01);
 		Logger.Log("Drop Button", Category.UserInput);
 	}
 
@@ -89,7 +89,7 @@ public class ControlAction : MonoBehaviour
 
 			// Enable throw
 			Logger.Log("Throw Button Enabled", Category.UserInput);
-			SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			SoundManager.Play(CommonSounds.Instance.Click01);
 			UIManager.IsThrow = true;
 			throwImage.sprite = throwSprites[1];
 		}

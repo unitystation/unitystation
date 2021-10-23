@@ -60,36 +60,12 @@ public enum DamageType
 	Radiation = 6
 }
 
-public enum BodyPartCutSize
+public enum TraumaDamageLevel
 {
 	NONE,
 	SMALL,
-	MEDIUM,
-	LARGE
-}
-
-public enum PierceDamageLevel
-{
-	NONE,
-	SMALL,
-	MEDIUM,
-	LARGE
-}
-
-public enum SlashDamageLevel
-{
-	NONE,
-	SMALL,
-	MEDIUM,
-	LARGE
-}
-
-public enum BurnDamageLevels
-{
-	NONE,
-	MINOR,
-	MAJOR,
-	CHARRED
+	SERIOUS,
+	CRITICAL
 }
 
 [Flags]
@@ -98,5 +74,6 @@ public enum TraumaticDamageTypes
 	NONE = 0,
 	SLASH = 1 << 0,
 	PIERCE = 1 << 1,
-	BURN = 1 << 2
+	BURN = 1 << 2,
+	BLUNT = 1 << 3
 }

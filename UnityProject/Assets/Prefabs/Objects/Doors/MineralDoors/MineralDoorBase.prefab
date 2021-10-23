@@ -64,11 +64,10 @@ MonoBehaviour:
   maxTimeOpen: -1
   enablePressureWarning: 0
   DoorPressureSpriteOffset: 25
-  pressureLevel: 0
   openingDirection: 1
-  spriteRenderer: {fileID: 0}
   BlockAutoClose: 0
   conType: 0
+  requireLink: 0
 --- !u!114 &5000544461018017584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +84,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   OneDirectionRestricted: 0
   isClosed: 1
@@ -118,7 +119,6 @@ MonoBehaviour:
   doorController: {fileID: 3572030529697710648}
   spritePath: icons/obj/doors/mineral/mineral_doors_metal
   animFrames: 060000000500000004000000030000000200000001000000
-  animLength: 0
   closeFrame: 7
   deniedFrame: 0
   openFrame: 0
@@ -176,6 +176,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialIntegrity
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: foreverID
+      value: d6882bf1e96328b4189c858524c259b6
       objectReference: {fileID: 0}
     - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}

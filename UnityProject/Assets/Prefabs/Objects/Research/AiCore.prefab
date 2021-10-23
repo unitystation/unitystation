@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 36be84c14c5687848b616989d859c55c, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &6115472537149730407
 MonoBehaviour:
@@ -162,11 +162,10 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   wattusage: 0.01
-  resistance: 100000000
+  InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  conType: 1
 --- !u!1 &2252006090964192169
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +272,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &2574361578264524978
 GameObject:
@@ -579,6 +578,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 965a30360b6f44c4895003abe8ff4197
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

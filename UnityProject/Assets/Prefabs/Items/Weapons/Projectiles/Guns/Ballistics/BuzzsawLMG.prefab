@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 4f57749cea3a42f438cd8e62d34dd09d, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &7427627602401574627
 GameObject:
@@ -204,7 +204,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 1d69824cf81322f49a32f340ef4ac35f, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &9171831868174908090
 GameObject:
@@ -307,7 +307,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 414529b7583f44c4dae2dffa78f64590, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &5938049191058846253
 PrefabInstance:
@@ -322,6 +322,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 58cabe8bff8ac22419b12f2377947e35,
         type: 2}
+    - target: {fileID: 3015805540452711487, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: foreverID
+      value: 24274bda3be42c049b4bbb150f6e1220
+      objectReference: {fileID: 0}
     - target: {fileID: 3383358116270698800, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: setRestriction

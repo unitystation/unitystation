@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: DurathreadJumpsuitRecipe
+  m_EditorClassIdentifier: 
+  category: 5
+  craftingTime: 4
+  recipeName: Durathread Jumpsuit
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 4
+    requiredItem: {fileID: 6518234990418498199, guid: 55ab7eb20bc5aee4bbcac44ce16ab954,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 3011710637427380133, guid: c2fa92cf2549540d4abc5269341aaed5, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 310

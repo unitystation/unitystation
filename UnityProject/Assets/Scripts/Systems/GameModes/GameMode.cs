@@ -388,11 +388,7 @@ namespace GameModes
 			var msg =
 				$"{PlayerList.Instance.ReadyPlayers.Count} players ready, {antagsToSpawn} antags to spawn. {playerSpawnRequests.Count} players spawned (excludes antags), {antagSpawnRequests.Count} antags spawned";
 
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
-					msg,
-			"[GameMode]");
-
-			StationObjectiveManager.Instance.ServerChooseObjective();
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[GameMode]");
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(Event.RoundStarted, true);
 		}
@@ -420,8 +416,12 @@ namespace GameModes
 		/// </summary>
 		public void EndRoundReport()
 		{
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "`A round has ended`", "");
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, "```A round has ended```", "");
+			var roundDuration = GameManager.Instance.stationTime.AddHours(-12);
+			var output = $"A round has ended. Round duration: {roundDuration.ToString("HH:mm")}.";
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, $"`{output}`", "");
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"```{output} Total errors: {GameManager.Instance.errorCounter}. Unique errors: {GameManager.Instance.uniqueErrorCounter}```", "");
+			GameManager.Instance.errorCounter = 0;
+			GameManager.Instance.uniqueErrorCounter = 0;
 
 			Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
 			StationObjectiveManager.Instance.ShowStationStatusReport();

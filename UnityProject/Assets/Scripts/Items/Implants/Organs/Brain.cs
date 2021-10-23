@@ -15,9 +15,9 @@ namespace HealthV2
 		}
 		//Ensure removal of brain
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			livingHealthMasterBase.brain = null;
+			livingHealth.brain = null;
 
 		}
 	}

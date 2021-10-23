@@ -62,6 +62,11 @@ namespace Objects.Atmospherics
 
 			if (isOperating)
 			{
+				if (operatingMode == Mode.Extracting && pipeData.mixAndVolume.Density().y > MaxInternalPressure)
+				{
+					return;
+				}
+
 				GasMix.TransferGas(targetMix, sourceMix, molesRate * Effectiveness);
 				metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 			}
@@ -100,7 +105,7 @@ namespace Objects.Atmospherics
 
 		private void UpdateState()
 		{
-			isOperating = powerState == PowerState.Off ? false : isTurnedOn;
+			isOperating = powerState != PowerState.Off && isTurnedOn;
 
 			if (CustomNetworkManager.IsServer)
 			{

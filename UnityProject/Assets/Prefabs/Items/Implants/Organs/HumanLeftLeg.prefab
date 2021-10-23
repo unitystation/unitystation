@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: foreverID
+      value: 2e6f2ff9beb985749940d242877d84f0
+      objectReference: {fileID: 0}
     - target: {fileID: 1110343267396133870, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -161,6 +166,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
       propertyPath: bodyPartColorWhenCharred.a
       value: 1
       objectReference: {fileID: 0}
@@ -222,7 +237,7 @@ PrefabInstance:
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
-      value: 0.25
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}

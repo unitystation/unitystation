@@ -112,13 +112,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
-
-		//check for stacking with things on the ground
-		registerTile.WaitForMatrixInit(OnMatrixInit);
-	}
-
-	private void OnMatrixInit(MatrixInfo info)
-	{
 		ServerStackOnGround(registerTile.LocalPositionServer);
 	}
 
@@ -141,6 +134,12 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 				ServerCombine(stackable);
 			}
 		}
+	}
+
+	[Server]
+	public void ServerSetAmount(int newAmount)
+	{
+		SyncAmount(amount, newAmount);
 	}
 
 	private void SyncAmount(int oldAmount, int newAmount)
@@ -216,13 +215,14 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Server]
 	public GameObject ServerRemoveOne()
 	{
-		SyncAmount(amount, amount - 1);
-		if (amount <= 0)
+		if ((amount-1) <= 0)
 		{
 			return gameObject;
 		}
+		SyncAmount(amount, amount - 1);
 
 		var spawnInfo = Spawn.ServerPrefab(prefab, gameObject.transform.position, gameObject.transform);
+		spawnInfo.GameObject.GetComponent<Stackable>().ServerSetAmount(1);
 		return spawnInfo.GameObject;
 	}
 
@@ -279,7 +279,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	/// </summary>
 	/// <param name="toCheck"></param>
 	/// <returns></returns>
-	private bool StacksWith(Stackable toCheck)
+	public bool StacksWith(Stackable toCheck)
 	{
 		if (toCheck == null) return false;
 

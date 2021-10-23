@@ -7,7 +7,7 @@ using Systems.ObjectConnection;
 
 namespace Objects.Wallmounts
 {
-	public class GeneralSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+	public class GeneralSwitch : SubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -140,9 +140,7 @@ namespace Objects.Wallmounts
 		public MultitoolConnectionType ConType => conType;
 
 		public bool MultiMaster => true;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
-
-		public void AddSlave(object SlaveObject) { }
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 

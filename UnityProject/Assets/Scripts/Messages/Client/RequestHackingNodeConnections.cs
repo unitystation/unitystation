@@ -1,51 +1,49 @@
 ﻿using System.Collections.Generic;
+using Hacking;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
 
 namespace Messages.Client
 {
-	/// <summary>
-	///     Request hacking node data from the server.
-	/// </summary>
-	public class RequestHackingNodeConnections : ClientMessage<RequestHackingNodeConnections.NetMessage>
+	//Give me admin piz
+	public class RequestHackingInteraction : ClientMessage<RequestHackingInteraction.NetMessage>
 	{
+		public enum InteractionWith
+		{
+			Cable,
+			RemoteSignaller, //Probably should be generic but can't think of much stuff to add, If you want you can make it generic if you are adding as a stuff
+			Bomb,
+			CutWire
+		}
+
 		public struct NetMessage : NetworkMessage
 		{
-			public uint Player;
-			public uint HackableObject;
+			public uint netIDOfObjectBeingHacked;
+			public InteractionWith InteractionType;
+			public int PanelInputID;
+			public int PanelOutputID;
+			public uint NetIDOfInteractionObject;
+			public string ExtraData;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			LoadMultipleObjects(new uint[] { msg.Player, msg.HackableObject });
 
-			var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-			var hackObject = NetworkObjects[1];
-			if (playerScript.IsGameObjectReachable(hackObject, true, context: hackObject))
-			{
-
-				HackingProcessBase hackProcess = hackObject.GetComponent<HackingProcessBase>();
-				List<int[]> connectionList = hackProcess.GetNodeConnectionList();
-				if (connectionList != null)
-				{
-					SendDataToClient(NetworkObjects[0], hackObject, connectionList);
-					return;
-				}
-			}
+			LoadMultipleObjects(new []{msg.netIDOfObjectBeingHacked, msg.NetIDOfInteractionObject});
+			var HackingProcessBase = NetworkObjects[0].GetComponent<HackingProcessBase>();
+			HackingProcessBase.ProcessCustomInteraction(SentByPlayer.GameObject,msg.InteractionType, NetworkObjects[1],msg.PanelInputID,  msg.PanelOutputID);
 		}
 
-		void SendDataToClient(GameObject recipient, GameObject hackObject, List<int[]> connectionList)
-		{
-			HackingNodeConnectionList.Send(recipient, hackObject, connectionList);
-		}
-
-		public static NetMessage Send(GameObject player, GameObject hackObject)
+		public static NetMessage Send(GameObject hackObject,uint InNetIDOfInteractionObject, int InPanelInputID, int InPanelOutputID, InteractionWith InInteractionType )
 		{
 			NetMessage msg = new NetMessage
 			{
-				Player = player.GetComponent<NetworkIdentity>().netId,
-				HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
+				netIDOfObjectBeingHacked = hackObject.GetComponent<NetworkIdentity>().netId,
+				InteractionType = InInteractionType,
+				NetIDOfInteractionObject = InNetIDOfInteractionObject,
+				PanelInputID = InPanelInputID,
+				PanelOutputID  =InPanelOutputID
 			};
 
 			Send(msg);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Core.Editor.Attributes;
 
 namespace Core.Directionals
 {
@@ -13,28 +14,28 @@ namespace Core.Directionals
 	public class DirectionalSpriteV2 : MonoBehaviour
 	{
 		[Tooltip("Whether the sprite SO list should be changed instead of the variant, for some exceptional objects like morgues.")]
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private bool isChangingSO = false;
 
 		[Header("SpriteHandler Indexes")]
 		[Tooltip("SpriteHandler index to use when facing down.")]
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private int indexDown = 0;
 
 		[Tooltip("SpriteHandler index to use when facing up.")]
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private int indexUp = 1;
 
 		[Tooltip("SpriteHandler index to use when facing right.")]
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private int indexRight = 2;
 
 		[Tooltip("SpriteHandler index to use when facing left.")]
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private int indexLeft = 3;
 
 		[Tooltip("The SpriteHandlers to control. Allows multiple for overlays.")]
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		private SpriteHandler[] spriteHandlers = default;
 
 		private Directional directional;

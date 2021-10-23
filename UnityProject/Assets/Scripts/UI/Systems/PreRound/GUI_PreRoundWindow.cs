@@ -8,6 +8,7 @@ using DatabaseAPI;
 using ServerInfo;
 using AdminCommands;
 
+
 namespace UI
 {
 	public class GUI_PreRoundWindow : MonoBehaviour
@@ -158,7 +159,7 @@ namespace UI
 
 		public void StartNowButton()
 		{
-			AdminCommandsManager.Instance.CmdStartRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+			AdminCommandsManager.Instance.CmdStartRound();
 		}
 
 		public void SyncCountdown(bool started, double endTime)
@@ -181,7 +182,7 @@ namespace UI
 
 		public void OnCharacterButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			characterCustomization.SetActive(true);
 		}
 
@@ -190,7 +191,7 @@ namespace UI
 		/// </summary>
 		public void OnReadyButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			CharacterCreator.CharacterCustomization customizerScript = characterCustomization.GetComponentInChildren<CharacterCreator.CharacterCustomization>();
 			customizerScript.GetSavedCharacters();
 			if (customizerScript.PlayerCharacters.Count == 0)
@@ -211,7 +212,7 @@ namespace UI
 		/// </summary>
 		public void OnJoinButton()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			UIManager.Display.SetScreenForJobSelect();
 		}
 
@@ -251,7 +252,7 @@ namespace UI
 
 		private void SetInfoScreenOn()
 		{
-			ServerInfoLobbyMessageClient.Send(ServerData.UserID);
+			ServerInfoLobbyMessageClient.Send();
 			serverInfo.SetActive(false);
 			if (string.IsNullOrEmpty(ServerInfoUI.serverDesc)) return;
 			serverInfo.SetActive(true);

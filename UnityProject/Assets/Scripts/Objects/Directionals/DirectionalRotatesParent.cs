@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Core.Editor.Attributes;
+
 
 /// <summary>
 /// Component which causes ONLY parent to rotate based on Directional orientation
@@ -11,10 +12,10 @@ using UnityEngine;
 public class DirectionalRotatesParent : MonoBehaviour
 {
 	[Tooltip("Direction that the children of the root of this prefab are facing in.")]
-	[SerializeField]
+	[SerializeField, PrefabModeOnly]
 	private OrientationEnum prefabChildrenOrientation = OrientationEnum.Down;
 
-	[SerializeField]
+	[SerializeField, PrefabModeOnly]
 	private bool forceChildrenOpposite;
 
 	public OrientationEnum MappedOrientation
@@ -33,13 +34,12 @@ public class DirectionalRotatesParent : MonoBehaviour
 		//rotate our sprite renderers based on the deviation from
 		//the prefab sprite orientation
 		var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(newDir);
-		transform.rotation = offset.Quaternion;
 
 		if (forceChildrenOpposite)
 		{
 			foreach (Transform child in transform)
 			{
-				child.rotation = Quaternion.Euler(newDir.Vector);
+				child.localRotation = offset.Quaternion;
 			}
 		}
 	}

@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Systems.Ai;
 using UnityEngine;
@@ -6,6 +7,7 @@ using Blob;
 using HealthV2;
 using UI;
 using Player;
+using Player.Movement;
 using UI.Action;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
@@ -363,6 +365,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
 	public bool IsPlayerSemiGhost => playerState == PlayerStates.Blob || playerState == PlayerStates.Ai;
+
+	public void ReturnGhostToBody()
+	{
+		var ghost = mind?.ghost;
+		if (ghost != null)
+		{
+			ghost.playerNetworkActions.GhostEnterBody();
+		}
+	}
 
 	public object Chat { get; internal set; }
 

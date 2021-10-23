@@ -97,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 14
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -190,6 +190,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[14].Item
+      value: 
+      objectReference: {fileID: 1791647728409730387, guid: 3ce7c70f4f293004689a6e84fe5b861d,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[15].Item
+      value: 
+      objectReference: {fileID: 1755048626892662963, guid: 2454a7263ab93ac46bb411ab4d6657a3,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Stock
       value: 3
       objectReference: {fileID: 0}
@@ -251,6 +263,16 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[14].Stock
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[15].Stock
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -322,6 +344,21 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].ItemName
       value: Regen Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[14].ItemName
+      value: Gauze
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[15].ItemName
+      value: Charcoal Pill Bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: foreverID
+      value: 7ca27018ad6a1a04ab813ab2fbcc0236
       objectReference: {fileID: 0}
     - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

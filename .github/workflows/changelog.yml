@@ -56,4 +56,5 @@ jobs:
                 if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
                 uses: ad-m/github-push-action@master
                 with:
+                    force: true
                     github_token: ${{ secrets.GITHUB_TOKEN }}

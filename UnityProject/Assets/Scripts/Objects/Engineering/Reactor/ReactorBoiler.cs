@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Systems.Atmospherics;
 using UnityEngine;
 using ScriptableObjects;
 using Systems.ObjectConnection;
@@ -8,9 +9,9 @@ using Objects.Atmospherics;
 
 namespace Objects.Engineering
 {
-	public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInteractable<HandApply>, IServerDespawn
+	public class ReactorBoiler : MonoBehaviour, IMultitoolMasterable, ICheckedInteractable<HandApply>, IServerDespawn
 	{
-		public decimal MaxPressureInput = 630000M;
+		public decimal MaxPressureInput = 130000M;
 		public decimal CurrentPressureInput = 0;
 		public decimal OutputEnergy;
 		public decimal TotalEnergyInput;
@@ -58,19 +59,24 @@ namespace Objects.Engineering
 		{
 			//Maybe change equation later to something cool
 			CurrentPressureInput = 0;
-			CurrentPressureInput = (decimal)((ReactorPipe.pipeData.mixAndVolume.InternalEnergy - (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * 293.15f)));
+			CurrentPressureInput = (decimal)Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.InternalEnergy -
+			                                              (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity *  Reactions.KOffsetC + 20 ))),
+				(float)decimal.MinValue, (float)decimal.MaxValue);
 			if (CurrentPressureInput > 0)
 			{
-				ReactorPipe.pipeData.mixAndVolume.InternalEnergy -= (float)(CurrentPressureInput * Efficiency);
-
 				//Logger.Log("CurrentPressureInput " + CurrentPressureInput);
 				if (CurrentPressureInput > MaxPressureInput)
 				{
+					CurrentPressureInput = MaxPressureInput;
 					//Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
 					//Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
 				}
 
-				OutputEnergy = CurrentPressureInput * Efficiency;
+
+				ReactorPipe.pipeData.mixAndVolume.InternalEnergy -= (float)(CurrentPressureInput);
+
+
+				OutputEnergy = CurrentPressureInput * Efficiency; //Only half of the energy is converted into useful energy
 			}
 			else
 			{
@@ -98,14 +104,12 @@ namespace Objects.Engineering
 					() => { _ = Despawn.ServerSingle(gameObject); });
 			}
 		}
-		
+
 		#region Multitool Interaction
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
 		public bool MultiMaster => false;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
-
-		public void AddSlave(object SlaveObjectThis) { }
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 	}

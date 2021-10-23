@@ -4,33 +4,32 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
+using Core.Editor.Attributes;
 using Systems.ObjectConnection;
 using Objects.Engineering;
-using UnityEngine.Events;
 #if Unity_Editor
 using UnityEditor;
 #endif
 
 
-
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolSlave
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IMultitoolSlaveable
 	{
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
 		private float minimumWorkingVoltage = 190;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("ExpectedRunningVoltage")]
 		private float expectedRunningVoltage = 240;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MaximumWorkingVoltage")]
 		private float maximumWorkingVoltage = 300;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Category of this powered device. " +
 				"Different categories work like a set of breakers, so you can turn off lights and keep machines working.")]
 		private DeviceType deviceType = DeviceType.None;
@@ -41,7 +40,7 @@ namespace Systems.Electricity
 
 		public bool IsSelfPowered => isSelfPowered;
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Watts consumed per update when running at 240v")]
 		private float wattusage = 0.01f;
 
@@ -53,9 +52,14 @@ namespace Systems.Electricity
 			}
 		}
 
-		[SerializeField]
+		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("Resistance")]
+		[FormerlySerializedAs("resistance")]
+		private float InitialResistance = 99999999;
+
+
 		private float resistance = 99999999;
+
 
 		public float Resistance {
 			get => resistance;
@@ -63,9 +67,12 @@ namespace Systems.Electricity
 		}
 
 		[HideInInspector] public APC RelatedAPC;
-		public IAPCPowerable Powered;
+		private IAPCPowerable Powered;
+
+		[PrefabModeOnly]
 		public bool AdvancedControlToScript;
 
+		[PrefabModeOnly]
 		public bool StateUpdateOnClient = true;
 
 		[SyncVar(hook = nameof(UpdateSynchronisedState))]
@@ -82,9 +89,7 @@ namespace Systems.Electricity
 		[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
 		private float recordedVoltage = 0;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.APC;
-		public MultitoolConnectionType ConType => conType;
+		public float Voltage => RelatedAPC == null ? 0 : RelatedAPC.Voltage;
 
 		private Texture disconnectedImg;
 		private RegisterTile registerTile;
@@ -117,6 +122,7 @@ namespace Systems.Electricity
 		{
 			if (this == null) return;
 			if (Powered != null) return;
+			resistance = InitialResistance;
 			Powered = GetComponent<IAPCPowerable>();
 			registerTile = GetComponent<RegisterTile>();
 			if (isSelfPowered)
@@ -162,22 +168,46 @@ namespace Systems.Electricity
 
 		#endregion
 
-		public void SetMaster(ISetMultitoolMaster imaster)
+		#region Multitool Interaction
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.APC;
+		IMultitoolMasterable IMultitoolSlaveable.Master => RelatedAPC;
+		bool IMultitoolSlaveable.RequireLink => isSelfPowered == false;
+
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
 			if (blockApcChange)
 			{
-				//TODO how to tell player it is blocked?
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+						$"You try to set the {gameObject.ExpensiveName()}'s APC connection but it seems to be locked!");
+				return false;
 			}
 
-			var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
+			SetMaster(master);
+			return true;
+		}
+
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
 			if (RelatedAPC != null)
 			{
 				RemoveFromAPC();
+				RelatedAPC = null;
 			}
-			RelatedAPC = inApc;
-			RelatedAPC.OrNull()?.AddDevice(this);
+
+			if (master is APC apc)
+			{
+				RelatedAPC = apc;
+				RelatedAPC.AddDevice(this);
+			}
 		}
+
+		#endregion
 
 		/// <summary>
 		/// In case is a bit more tidy up needed when removing APC so not doing it it from APC end
@@ -278,29 +308,6 @@ namespace Systems.Electricity
 		public void LockApcLinking(bool newState)
 		{
 			blockApcChange = newState;
-		}
-
-		private void OnDrawGizmosSelected()
-		{
-			if (RelatedAPC == null || isSelfPowered)
-			{
-				return;
-			}
-
-			//Highlighting APC
-			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-			Gizmos.DrawLine(RelatedAPC.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
-		}
-
-		private void OnDrawGizmos()
-		{
-			if (RelatedAPC != null || isSelfPowered)
-			{
-				return;
-			}
-
-			Gizmos.DrawIcon(transform.position, "disconnected");
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

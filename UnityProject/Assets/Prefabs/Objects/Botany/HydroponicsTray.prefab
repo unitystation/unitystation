@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 7dfddd849e928f440aa8bd921b643aec, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &1609685257496530
 GameObject:
@@ -194,6 +194,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 114568927083047222}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -350,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacity: 200
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  reactionSet: {fileID: 0}
   AdditionalReactions: []
   canPourOut: 1
   initialReagentMix:
@@ -420,7 +422,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &114519504495500056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,7 +580,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300004, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -607,7 +608,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: b2bcc48cd1fe1224fa63b46854d61731, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &2821288067960047100
 GameObject:
@@ -682,7 +683,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -710,7 +711,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 9149d3bede9fd2240a3af3f95752d5b1, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &3663177110161525043
 GameObject:
@@ -785,7 +786,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -813,7 +814,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: df36fe710569d8b45ad564d6fa3a1a98, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &5226030624696872044
 GameObject:
@@ -888,7 +889,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -916,7 +917,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: de4912c9ed032ce498ce529b2ba9b1f9, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &8254462624725952794
 GameObject:
@@ -1019,5 +1020,5 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []

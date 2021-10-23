@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace Objects.Other
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(APCPoweredDevice))]
 	[RequireComponent(typeof(AccessRestrictions))]
-	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlave, IExaminable, IServerSpawn, ICanOpenNetTab
+	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IServerSpawn, ICanOpenNetTab
 	{
 		[SerializeField]
 		[Tooltip("Used to get the lethal bullet and spawn the gun when deconstructed")]
@@ -741,24 +741,36 @@ namespace Objects.Other
 
 		#region Multitool Interaction
 
-		public MultitoolConnectionType ConType => MultitoolConnectionType.Turret;
-
-		public void SetMaster(ISetMultitoolMaster iMaster)
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Turret;
+		IMultitoolMasterable IMultitoolSlaveable.Master => connectedSwitch;
+		bool IMultitoolSlaveable.RequireLink => false; // TODO: set to false to ignore false positive; currently links are serialized on the switch
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
 			if (unlocked == false)
 			{
-				//TODO how do you tell player you need to unlock??
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You try to link the controller but the turret interface is locked!");
+				return false;
 			}
 
-			if (iMaster is TurretSwitch turretSwitch)
-			{
-				//Already connected so disconnect
-				if (connectedSwitch != null)
-				{
-					connectedSwitch.RemoveTurretFromSwitch(this);
-				}
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
 
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			// Already connected so disconnect
+			if (connectedSwitch != null)
+			{
+				connectedSwitch.RemoveTurretFromSwitch(this);
+				connectedSwitch = null;
+			}
+
+			if (master is TurretSwitch turretSwitch)
+			{
 				connectedSwitch = turretSwitch;
 				turretSwitch.AddTurretToSwitch(this);
 			}

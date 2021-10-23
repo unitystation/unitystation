@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 213163831047894284, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: foreverID
+      value: f3996721d7d627840b3149bfe59eae2e
+      objectReference: {fileID: 0}
     - target: {fileID: 1083653974962930406, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -104,6 +109,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A wicked tool that cleaves through dirt just as easily as it does flesh.
         The design was styled after ancient lavaland tribal designs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}

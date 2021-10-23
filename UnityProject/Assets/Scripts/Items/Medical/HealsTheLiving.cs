@@ -72,47 +72,47 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	private void ServerApplyHeal(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+	private void ServerApplyHeal(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
-		targetBodyPart.HealDamage(null, 40, healType, interaction.TargetBodyPart);
+		livingHealth.HealDamage(null, 40, healType, interaction.TargetBodyPart);
 		if (StopsExternalBleeding)
 		{
-			RemoveLimbLossBleed(targetBodyPart, interaction);
+			RemoveLimbLossBleed(livingHealth, interaction);
 		}
 		if (HealsTraumaDamage)
 		{
-			HealTraumaDamage(targetBodyPart, interaction);
+			HealTraumaDamage(livingHealth, interaction);
 		}
 		stackable.ServerConsume(1);
 	}
 
-	private void ServerSelfHeal(GameObject originator, LivingHealthMasterBase livingHealthMasterBase, HandApply interaction)
+	private void ServerSelfHeal(GameObject originator, LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
 		void ProgressComplete()
 		{
-			ServerApplyHeal(livingHealthMasterBase, interaction);
+			ServerApplyHeal(livingHealth, interaction);
 		}
 
 		StandardProgressAction.Create(ProgressConfig, ProgressComplete)
 			.ServerStartProgress(originator.RegisterTile(), 5f, originator);
 	}
 
-	protected void HealTraumaDamage(LivingHealthMasterBase livingHealthMasterBase, HandApply interaction)
+	protected void HealTraumaDamage(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
-		if (livingHealthMasterBase.HasTraumaDamage(interaction.TargetBodyPart))
+		if (livingHealth.HasTraumaDamage(interaction.TargetBodyPart))
 		{
-			livingHealthMasterBase.HealTraumaDamage(TraumaDamageToHeal, interaction.TargetBodyPart, TraumaTypeToHeal);
+			livingHealth.HealTraumaDamage(interaction.TargetBodyPart, TraumaTypeToHeal);
 			Chat.AddActionMsgToChat(interaction,
-			$"You apply the {gameObject.ExpensiveName()} to {livingHealthMasterBase.playerScript.visibleName}",
-			$"{interaction.Performer.ExpensiveName()} applies {name} to {livingHealthMasterBase.playerScript.visibleName}.");
+			$"You apply the {gameObject.ExpensiveName()} to {livingHealth.playerScript.visibleName}",
+			$"{interaction.Performer.ExpensiveName()} applies {name} to {livingHealth.playerScript.visibleName}.");
 		}
 	}
 
-	protected bool CheckForBleedingBodyContainers(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+	protected bool CheckForBleedingBodyContainers(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
-		foreach(var container in targetBodyPart.RootBodyPartContainers)
+		foreach(var bodyPart in livingHealth.BodyPartList)
 		{
-			if(container.BodyPartType == interaction.TargetBodyPart && container.IsBleeding == true)
+			if(bodyPart.BodyPartType == interaction.TargetBodyPart && bodyPart.IsBleeding == true)
 			{
 				return true;
 			}
@@ -120,13 +120,13 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		return false;
 	}
 
-	protected void RemoveLimbLossBleed(LivingHealthMasterBase targetBodyPart, HandApply interaction)
+	protected void RemoveLimbLossBleed(LivingHealthMasterBase livingHealth, HandApply interaction)
 	{
-		foreach(var container in targetBodyPart.RootBodyPartContainers)
+		foreach(var bodyPart in livingHealth.BodyPartList)
 		{
-			if(container.BodyPartType == interaction.TargetBodyPart && container.IsBleeding == true)
+			if(bodyPart.BodyPartType == interaction.TargetBodyPart && bodyPart.IsBleeding == true)
 			{
-				container.IsBleeding = false;
+				bodyPart.IsBleeding = false;
 				Chat.AddActionMsgToChat(interaction.Performer.gameObject,
 				$"You stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.",
 				$"{interaction.PerformerPlayerScript.visibleName} stopped {interaction.TargetObject.ExpensiveName()}'s bleeding.");

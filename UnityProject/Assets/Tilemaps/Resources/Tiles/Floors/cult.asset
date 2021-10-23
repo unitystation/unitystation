@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: cult
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: engraved floor
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -51,7 +51,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
-  spawnOnDeconstruct: {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
+  spawnOnDeconstruct: {fileID: 6778811612999190005, guid: 43e09ddafe3576c43bccb2c5c0c31445,
     type: 3}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Player.Movement;
 using UnityEngine;
 
 namespace Objects
@@ -113,7 +114,7 @@ namespace Objects
 		/// </summary>
 		public void BucklePlayer(PlayerScript playerScript)
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Click01, gameObject.WorldPosServer(), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.WorldPosServer(), sourceObj: gameObject);
 
 			playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
@@ -136,7 +137,7 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Click01, interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
 
 			Unbuckle();
 		}

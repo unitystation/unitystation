@@ -12,8 +12,8 @@ namespace Items.Engineering
 		private bool isMultipleMaster = false;
 		private MultitoolConnectionType configurationBuffer = MultitoolConnectionType.Empty;
 
-		private readonly List<ISetMultitoolMaster> buffers = new List<ISetMultitoolMaster>();
-		private ISetMultitoolMaster Buffer => buffers.Count > 0 ? buffers[0] : null;
+		private readonly List<IMultitoolMasterable> buffers = new List<IMultitoolMasterable>();
+		private IMultitoolMasterable Buffer => buffers.Count > 0 ? buffers[0] : null;
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
@@ -21,60 +21,65 @@ namespace Items.Engineering
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (Validations.IsTarget(gameObject, interaction)) return false;
 
-			return interaction.TargetObject.TryGetComponent<ISetMultitoolBase>(out _);
+			return true;
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			var multitoolBases = interaction.TargetObject.GetComponents<ISetMultitoolBase>();
-			foreach (var multitoolBase in multitoolBases)
+			if (interaction.TargetObject != null)
 			{
-				if (Buffer == null || isMultipleMaster)
+				var multitoolBases = interaction.TargetObject.GetComponents<IMultitoolLinkable>();
+				foreach (var multitoolBase in multitoolBases)
 				{
-					if (multitoolBase is ISetMultitoolMaster master)
+					if (Buffer == null || isMultipleMaster)
 					{
-						configurationBuffer = master.ConType;
-						buffers.Add(master);
-						isMultipleMaster = master.MultiMaster;
-						Chat.AddExamineMsgFromServer(
+						if (multitoolBase is IMultitoolMasterable master)
+						{
+							configurationBuffer = master.ConType;
+							buffers.Add(master);
+							isMultipleMaster = master.MultiMaster;
+							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You add the <b>{interaction.TargetObject.ExpensiveName()}</b> to the multitool's master buffer.");
-						return;
+							return;
+						}
 					}
-				}
 
-				if (Buffer == null) continue;
-				if (configurationBuffer != multitoolBase.ConType) continue;
+					if (Buffer == null) continue;
+					if (configurationBuffer != multitoolBase.ConType) continue;
 
-				var slaveComponent = Buffer as Component;
-				if (Vector3.Distance(slaveComponent.transform.position, interaction.TargetObject.transform.position) > Buffer.MaxDistance)
-				{
-					Chat.AddExamineMsgFromServer(
+					var slaveComponent = Buffer as Component;
+					if (Vector3.Distance(slaveComponent.transform.position, interaction.TargetObject.transform.position) > Buffer.MaxDistance)
+					{
+						Chat.AddExamineMsgFromServer(
 							interaction.Performer,
 							$"This device is too far away from the master device <b>{slaveComponent.gameObject.ExpensiveName()}!");
-					return;
-				}
+						return;
+					}
 
-				switch (multitoolBase)
-				{
-					case ISetMultitoolSlave slave:
-						slave.SetMaster(Buffer);
-						Chat.AddExamineMsgFromServer(
+					switch (multitoolBase)
+					{
+						case IMultitoolSlaveable slave:
+							if (slave.TrySetMaster(interaction, Buffer))
+							{
+								Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
 								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
-						return;
-					case ISetMultitoolSlaveMultiMaster slaveMultiMaster:
-						slaveMultiMaster.SetMasters(buffers);
-						Chat.AddExamineMsgFromServer(
+							}							
+							return;
+						case IMultitoolMultiMasterSlaveable slaveMultiMaster:
+							slaveMultiMaster.SetMasters(buffers);
+							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> to the master devices in the buffer.");
-						return;
-					default:
-						Chat.AddExamineMsgFromServer(
+							return;
+						default:
+							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
 								"This only seems to have the capability of <b>writing</b> to the buffer.");
-						return;
+							return;
+					}
 				}
 			}
 
@@ -89,16 +94,28 @@ namespace Items.Engineering
 			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
 			var electricalNodes = matrix.GetElectricalConnections(localPosInt);
 
-			string message = "The multitool couldn't find anything electrical here.";
-			if (electricalNodes.Count > 0)
-			{
-				message = "The multitool's display lights up:\n";
-			}
+			APCPoweredDevice device = default;
+			bool deviceFound = interaction.TargetObject != null && interaction.TargetObject.TryGetComponent(out device);
 
-			StringBuilder sb = new StringBuilder(message);
-			foreach (var node in electricalNodes)
+			StringBuilder sb = new StringBuilder("The multitool couldn't find anything electrical here.");
+			if (deviceFound || electricalNodes.Count > 0)
 			{
-				sb.AppendLine(node.ShowInGameDetails());
+				sb.Clear();
+				sb.AppendLine("The multitool's display lights up.</i>");
+				
+				if (deviceFound)
+				{
+					sb.AppendLine(device.RelatedAPC == null
+							? $"<b>{device.gameObject.ExpensiveName()}</b> is not connected to an APC!"
+							: $"<b>{device.gameObject.ExpensiveName()}</b>: {device.Wattusage.ToEngineering("W")} " +
+									$"({device.RelatedAPC.Voltage.ToEngineering("V")})");
+				}
+				foreach (var node in electricalNodes)
+				{
+					sb.AppendLine(node.ShowInGameDetails());
+				}
+
+				sb.Append("<i>");
 			}
 
 			electricalNodes.Clear();

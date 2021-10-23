@@ -12,7 +12,7 @@ using Doors;
 
 namespace Objects.Wallmounts
 {
-	public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster, ICheckedInteractable<AiActivate>
+	public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<FireLock> FireLockList = new List<FireLock>();
 		private MetaDataNode metaNode;
@@ -233,23 +233,6 @@ namespace Objects.Wallmounts
 
 		#region Editor
 
-		void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
-
-			//Highlighting all controlled FireLocks
-			Gizmos.color = new Color(1, 0.5f, 0, 1);
-			for (int i = 0; i < FireLockList.Count; i++)
-			{
-				var FireLock = FireLockList[i];
-				if (FireLock == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, FireLock.transform.position);
-				Gizmos.DrawSphere(FireLock.transform.position, 0.25f);
-			}
-		}
-
 		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
@@ -303,9 +286,7 @@ namespace Objects.Wallmounts
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.FireAlarm;
 		public bool MultiMaster => true;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
-
-		public void AddSlave(object slave) { }
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 	}

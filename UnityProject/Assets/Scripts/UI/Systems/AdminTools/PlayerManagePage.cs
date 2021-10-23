@@ -5,6 +5,7 @@ using UI.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 namespace AdminTools
 {
 	public class PlayerManagePage : AdminPage
@@ -56,28 +57,24 @@ namespace AdminTools
 			adminTools.ShowRespawnPage();
 		}
 
-
 		public void OnHealUpButton()
 		{
-			AdminCommandsManager.Instance.CmdHealUpPlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
+			AdminCommandsManager.Instance.CmdHealUpPlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
 		/// <summary>
 		/// Sends the command to smite a player
 		/// </summary>
-		void SendSmitePlayerRequest()
+		private void SendSmitePlayerRequest()
 		{
-			AdminCommandsManager.Instance.CmdSmitePlayer(ServerData.UserID, PlayerList.Instance.AdminToken, PlayerEntry.PlayerData.uid);
+			AdminCommandsManager.Instance.CmdSmitePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
-		void SendMakePlayerAdminRequest()
+		private void SendMakePlayerAdminRequest()
 		{
-			RequestAdminPromotion.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
-				PlayerEntry.PlayerData.uid);
+			RequestAdminPromotion.Send(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
@@ -90,10 +87,7 @@ namespace AdminTools
 
 		private void SendTeleportAdminToPlayerRequest()
 		{
-
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				null,
 				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AdminToPlayer,
@@ -112,8 +106,6 @@ namespace AdminTools
 		private void SendTeleportPlayerToAdmin()
 		{
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				PlayerEntry.PlayerData.uid,
 				null,
 				RequestAdminTeleport.OpperationList.PlayerToAdmin,
@@ -131,14 +123,12 @@ namespace AdminTools
 
 		private void SendTeleportAdminToPlayerAghost()
 		{
-			if (!PlayerManager.LocalPlayerScript.IsGhost)
+			if (PlayerManager.LocalPlayerScript.IsGhost == false)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
 			}
 
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				null,
 				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AdminToPlayer,
@@ -172,8 +162,6 @@ namespace AdminTools
 			}
 
 			RequestAdminTeleport.Send(
-				ServerData.UserID,
-				PlayerList.Instance.AdminToken,
 				null,
 				PlayerEntry.PlayerData.uid,
 				RequestAdminTeleport.OpperationList.AllPlayersToPlayer,

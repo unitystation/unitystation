@@ -19,11 +19,6 @@ using Objects.Wallmounts;
 /// </summary>
 public static class Validations
 {
-	//Monitors the time between interactions and limits it by the min cool down time
-	private static Dictionary<GameObject, DateTime> playerCoolDown = new Dictionary<GameObject, DateTime>();
-	private static Dictionary<GameObject, int> playersMaxClick = new Dictionary<GameObject, int>();
-	private static double minCoolDown = 0.1f;
-	private static int maxClicks = 5;
 
 	/// <summary>
 	/// Check if this game object is not null has the specified component
@@ -126,10 +121,9 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
 	/// <returns></returns>
-	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false, bool isPlayerClick = true)
+	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
 	{
 		if (playerScript == null) return false;
-		if (isPlayerClick && CanInteractByCoolDownState(playerScript.gameObject) == false) return false;
 
 		if ((allowCuffed == false && playerScript.playerMove.IsCuffed) ||
 		    playerScript.IsGhost ||
@@ -139,37 +133,6 @@ public static class Validations
 			return false;
 		}
 
-		return true;
-	}
-
-	//Monitors the interaction rate of a player. If its too fast we return false
-	private static bool CanInteractByCoolDownState(GameObject playerObject)
-	{
-		if (playersMaxClick.ContainsKey(playerObject) == false)
-		{
-			playersMaxClick.Add(playerObject, 0);
-		}
-
-		if (playerCoolDown.ContainsKey(playerObject) == false)
-		{
-			playerCoolDown.Add(playerObject, DateTime.Now);
-			return true;
-		}
-
-		var totalSeconds = (DateTime.Now - playerCoolDown[playerObject]).TotalSeconds;
-		if(totalSeconds < minCoolDown)
-		{
-			playersMaxClick[playerObject]++;
-			if (playersMaxClick[playerObject] <= maxClicks)
-			{
-				return true;
-			}
-
-			return false;
-		}
-
-		playerCoolDown[playerObject] = DateTime.Now;
-		playersMaxClick[playerObject] = 0;
 		return true;
 	}
 
@@ -210,15 +173,14 @@ public static class Validations
 		bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard,
 		Vector2? targetVector = null,
-		RegisterTile targetRegisterTile = null,
-		bool isPlayerClick = false
+		RegisterTile targetRegisterTile = null
 	)
 	{
 		if (playerScript == null) return false;
 
 		var playerObjBehavior = playerScript.pushPull;
 
-		if (CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick) == false)
+		if (CanInteract(playerScript, side, allowSoftCrit) == false)
 		{
 			return false;
 		}
@@ -424,7 +386,7 @@ public static class Validations
 			return true;
 		}
 
-		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Airborne,
+		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Click,
 			context: context, includingPlayers: false, isReach: true,
 			excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills },
 			onlyExcludeLayerOnDestination: true);

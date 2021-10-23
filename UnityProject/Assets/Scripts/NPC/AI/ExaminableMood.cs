@@ -38,13 +38,13 @@ namespace NPC.AI
 		{
 			switch (mood.LevelPercent)
 			{
-				case int n when n.IsBetween(90, 100):
+				case int n when n > 89:
 					return veryGoodMood.PickRandom();
 				case int n when n.IsBetween(70, 89):
 					return goodMood.PickRandom();
 				case int n when n.IsBetween(41, 69):
 					return normalMood.PickRandom();
-				case int n when n.IsBetween(1, 40):
+				case int n when n < 41:
 					return badMood.PickRandom();
 				default:
 					Logger.LogError(

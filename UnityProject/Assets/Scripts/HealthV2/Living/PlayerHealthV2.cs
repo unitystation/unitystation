@@ -7,6 +7,7 @@ using Health.Sickness;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Mirror;
+using Player.Movement;
 using UnityEngine;
 
 namespace HealthV2
@@ -19,9 +20,7 @@ namespace HealthV2
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
 		public PlayerMove PlayerMove => playerMove;
-
-		private PlayerSprites playerSprites;
-
+		
 		private PlayerNetworkActions playerNetworkActions;
 
 		private RegisterPlayer registerPlayer;
@@ -29,13 +28,6 @@ namespace HealthV2
 		/// Cached register player
 		/// </summary>
 		public RegisterPlayer RegisterPlayer => registerPlayer;
-
-
-		private Equipment equipment;
-		/// <summary>
-		/// The associated Player Equipment
-		/// </summary>
-		public Equipment Equipment => equipment;
 
 		private DynamicItemStorage dynamicItemStorage;
 
@@ -62,7 +54,6 @@ namespace HealthV2
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			dynamicItemStorage = GetComponent<DynamicItemStorage>();
-			equipment = GetComponent<Equipment>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 			registerPlayer.AddStatus(this);
 		}
@@ -76,15 +67,6 @@ namespace HealthV2
 
 			//we stay upright if buckled or conscious
 			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
-		}
-
-		/// <summary>
-		/// Server only. Gibs the player.
-		/// </summary>
-		[Server]
-		public void ServerGibPlayer()
-		{
-			Gib();
 		}
 
 		public override void Gib()
@@ -301,19 +283,19 @@ namespace HealthV2
 
 		protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 		{
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ElectricShock, registerPlayer.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ElectricShock, registerPlayer.WorldPosition);
 			Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 		}
 
 		protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)
 		{
 			// TODO: Add sparks VFX at shockSourcePos.
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
 			Inventory.ServerDrop(dynamicItemStorage.GetActiveHandSlot());
 
 			// Slip is essentially a yelp SFX.
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Slip, registerPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, registerPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
@@ -328,7 +310,7 @@ namespace HealthV2
 
 			PlayerMove.allowInput = false;
 			// TODO: Add sparks VFX at shockSourcePos.
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Sparks, electrocution.ShockSourcePos);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
 			StartCoroutine(ElectrocutionSequence());
 
 			string victimChatString, observerChatString;
@@ -364,7 +346,7 @@ namespace HealthV2
 			registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 
 			yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);

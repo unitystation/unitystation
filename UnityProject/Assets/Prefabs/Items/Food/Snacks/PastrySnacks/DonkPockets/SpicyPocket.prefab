@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9147990811224727949, guid: e80ad87189425824496b405eaf77cbbf,
         type: 3}
+    - target: {fileID: 1150929257099711787, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 9147990811224727949, guid: e80ad87189425824496b405eaf77cbbf,
+        type: 3}
     - target: {fileID: 2980378721179210927, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -105,6 +111,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2be2233d0657ddd46ab5a78f5ee35397,
         type: 3}
+    - target: {fileID: 4217498956441677659, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4511480774014382949, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: initialName
@@ -125,10 +136,16 @@ PrefabInstance:
       propertyPath: StartingNutrients
       value: 154
       objectReference: {fileID: 0}
+    - target: {fileID: 6975192418094665834, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: foreverID
+      value: e826ddcefb2760747b1c17e17c572e54
+      objectReference: {fileID: 0}
     - target: {fileID: 7867923100964153216, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: feb5243108b3c514495142c144b6cb7a,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792, type: 3}

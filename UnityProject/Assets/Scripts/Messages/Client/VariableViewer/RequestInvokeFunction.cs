@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mirror;
-using UnityEngine;
+
 
 namespace Messages.Client.VariableViewer
 {
@@ -10,8 +9,6 @@ namespace Messages.Client.VariableViewer
 		public struct NetMessage : NetworkMessage
 		{
 			public ulong PageID;
-			public string AdminId;
-			public string AdminToken;
 		}
 
 		public override void Process(NetMessage msg)
@@ -19,20 +16,19 @@ namespace Messages.Client.VariableViewer
 			ValidateAdmin(msg);
 		}
 
-		void ValidateAdmin(NetMessage msg)
+		private void ValidateAdmin(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
-			global::VariableViewer.RequestInvokeFunction(msg.PageID, SentByPlayer.GameObject, msg.AdminId);
+			global::VariableViewer.RequestInvokeFunction(msg.PageID, SentByPlayer.GameObject, SentByPlayer.UserId);
 		}
 
-		public static NetMessage Send(ulong _PageID, string adminId, string adminToken)
+		public static NetMessage Send(ulong _PageID)
 		{
-			NetMessage msg = new NetMessage();
-			msg.PageID = _PageID;
-			msg.AdminId = adminId;
-			msg.AdminToken = adminToken;
+			NetMessage msg = new NetMessage
+			{
+				PageID = _PageID
+			};
 
 			Send(msg);
 			return msg;

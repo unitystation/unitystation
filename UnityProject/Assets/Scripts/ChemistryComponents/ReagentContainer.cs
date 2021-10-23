@@ -50,7 +50,6 @@ namespace Chemistry.Components
 		private bool destroyOnEmpty = default;
 
 		private ItemAttributesV2 itemAttributes = default;
-		private RegisterTile registerTile;
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;
 
@@ -131,8 +130,6 @@ namespace Chemistry.Components
 
 		private void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
-
 			// register spill on throw
 			customNetTransform = GetComponent<CustomNetTransform>();
 			if (customNetTransform)
@@ -356,14 +353,18 @@ namespace Chemistry.Components
 		#region Spill
 		private void SpillAll(bool thrown = false)
 		{
-			if (!IsEmpty)
+			try
 			{
-				if (registerTile && registerTile.CustomTransform)
+				if (!IsEmpty)
 				{
-					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer();
+					var worldPos = customNetTransform.PushPull.AssumedWorldPositionServer();
 					worldPos.z = 0;
 					SpillAll(worldPos, thrown);
 				}
+			}
+			catch (NullReferenceException exception)
+			{
+				Logger.LogError("Caught NRE in ReagentContainer SpillAll method: " + exception.Message, Category.Chemistry);
 			}
 		}
 

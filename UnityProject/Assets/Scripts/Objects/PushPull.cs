@@ -11,6 +11,7 @@ using Mirror;
 using UnityEngine.Serialization;
 using Objects;
 using Objects.Construction;
+using Player.Movement;
 using Random = UnityEngine.Random;
 
 
@@ -29,8 +30,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	/// <summary>
 	/// *** USE WITH CAUTION! ***
 	/// Setting it to true without parent container will make it appear at HiddenPos.
-	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
-	/// I think this is valid server side only
+	/// Valid server side only
 	/// </summary>
 	public bool VisibleState {
 		get => Pushable.VisibleState;
@@ -386,7 +386,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 
 			if (pullable.StartFollowing(this))
 			{
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.ThudSwoosh, pullable.transform.position, sourceObj: pullableObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position, sourceObj: pullableObject);
 
 				PulledObjectServer = pullable;
 

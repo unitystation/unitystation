@@ -30,7 +30,7 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3215795097462730364
+--- !u!114 &5592322250118808190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,20 +39,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6962181534262631904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 1
-  CurrentsortingGroup: {fileID: 5643744836951943504}
-  AtmosPassable: 1
-  ReachableThrough: 1
-  initialPassable: 0
-  initialCrawlPassable: 0
-  passableExclusionsToThis: []
-  closetType: 0
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 0
 --- !u!114 &6367803473829525767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,25 +58,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 0}
-  alwaysSpawnContents: 0
-  lockLight: {fileID: 0}
-  IsLockable: 0
-  hideLockWhenOpened: 1
-  playerLimit: 3
+  passableWhenOpen: 1
+  isLockable: 0
+  isWeldable: 0
   breakoutTime: 120
-  matsOnDestroy: {fileID: 0}
+  hideLockWhenOpened: 1
+  matsOnDestroy: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+    type: 3}
   matsDroppedOnDestroy: 2
+  doorSpriteHandler: {fileID: 7325076711681316151}
+  lockSpritehandler: {fileID: 0}
+  weldSpriteHandler: {fileID: 0}
   soundOnOpen:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Closet/closet_open.prefab
+    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   soundOnClose:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Closet/closet_close.prefab
+    AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -97,6 +90,13 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  soundOnEscapeAttempt:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   soundOnEscape:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Rustle02.prefab
@@ -104,13 +104,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-  doorSpriteHandler: {fileID: 7325076711681316151}
-  lockOverlay: {fileID: 0}
-  isEmagged: 0
-  weldOverlay: {fileID: 0}
-  weldSprite: {fileID: 0}
-  isUnLockable: 1
-  isWeldable: 1
 --- !u!1 &8639641436648170908
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +207,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 6ab9220e59190fe4bacaa124fbedc89d, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &8503951718868588636
 PrefabInstance:
@@ -309,6 +302,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SuitStorageUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 24eaaeb286e2fbe48a16783af29e3c02
+      objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -336,6 +334,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6ab9220e59190fe4bacaa124fbedc89d,
         type: 2}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 5204487082626927330}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName
@@ -364,9 +367,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8503951718868588636}
   m_PrefabAsset: {fileID: 0}
---- !u!210 &5643744836951943504 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+--- !u!114 &5204487082626927330 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4485046902360527550, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 8503951718868588636}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6962181534262631904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

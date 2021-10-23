@@ -11,7 +11,7 @@ using Objects.Atmospherics;
 
 namespace Objects.Engineering
 {
-	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn, IServerSpawn
+	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, IMultitoolMasterable, IServerDespawn, IServerSpawn
 	{
 		public float EditorPresentNeutrons;
 		public float EditorEnergyReleased;
@@ -71,20 +71,6 @@ namespace Objects.Engineering
 			radiationProducer = this.GetComponent<RadiationProducer>();
 			registerObject = this.GetComponent<RegisterObject>();
 			ReactorPipe = this.GetComponent<ReactorPipe>();
-		}
-
-		private void OnEnable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Add(CycleUpdate, 1);
-		}
-
-		private void OnDisable()
-		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
-
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -209,17 +195,7 @@ namespace Objects.Engineering
 			}
 
 
-			if (PoppedPipes) //Its blown up so not connected so vent to steam
-			{
-				if (ReactorPipe.pipeData.mixAndVolume.Total.x > 0 &&
-					ReactorPipe.pipeData.mixAndVolume.Temperature > BoilingPoint)
-				{
-					var ExcessEnergy = ReactorPipe.pipeData.mixAndVolume.Temperature - BoilingPoint;
-					ExcessEnergy *= EnergyToEvaporateWaterPer1 * WaterEnergyDensityPer1;
-					ReactorPipe.pipeData.mixAndVolume.GetGasMix().MultiplyGas(ExcessEnergy);
-					ReactorPipe.pipeData.mixAndVolume.GetReagentMix().RemoveVolume(ReactorPipe.pipeData.mixAndVolume.Total.x * ExcessEnergy);
-				}
-			}
+
 
 
 			int SpontaneousNeutronProbability = RNG.Next(0, 10001);
@@ -238,15 +214,32 @@ namespace Objects.Engineering
 			PresentNeutrons *= KFactor;
 			if (NeutronSingularity < PresentNeutrons)
 			{
-				Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
-				PresentNeutrons = 0;
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
-				OnDespawnServer(null);
-				_ = Despawn.ServerSingle(gameObject);
+				try
+				{
+					Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
+					PresentNeutrons = 0;
+					OnDespawnServer(null);
+					_ = Despawn.ServerSingle(gameObject);
+				}
+				catch (NullReferenceException exception)
+				{
+					Logger.LogError("Caught NRE for Start Explosion code on ReactorGraphiteChamber.cs " + exception.Message, Category.Electrical);
+				}
 			}
 
 			EditorPresentNeutrons = (float)PresentNeutrons;
 			PowerOutput();
+
+			if (PoppedPipes) //Its blown up so not connected so vent to steam
+			{
+				if (ReactorPipe.pipeData.mixAndVolume.Total.x > 0 &&
+				    ReactorPipe.pipeData.mixAndVolume.Temperature > BoilingPoint)
+				{
+					var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Temperature - BoilingPoint) * ReactorPipe.pipeData.mixAndVolume.GetReagentMix().WholeHeatCapacity;
+					var AmountBoiledOff = ExcessEnergy/(EnergyToEvaporateWaterPer1);
+					_ = ReactorPipe.pipeData.mixAndVolume.GetReagentMix().Take(AmountBoiledOff);
+				}
+			}
 
 			//Sprites
 			//Reduce  sound of geiger counter
@@ -298,19 +291,14 @@ namespace Objects.Engineering
 			}
 
 			var ExtraEnergyGained = (float)EnergyReleased;
-			if (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity == 0)
-			{
-				ReactorPipe.pipeData.mixAndVolume.Temperature += ExtraEnergyGained / 90000;
-				var FF = ReactorPipe.pipeData.mixAndVolume.InternalEnergy;
-			}
-			else
+			if (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity != 0)
 			{
 				ReactorPipe.pipeData.mixAndVolume.InternalEnergy =
 					ReactorPipe.pipeData.mixAndVolume.InternalEnergy + ExtraEnergyGained;
 			}
 
-			CurrentPressure = (decimal)((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) *
-										 ReactorPipe.pipeData.mixAndVolume.Total.x);
+			CurrentPressure = (decimal)Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) *
+			                                        ReactorPipe.pipeData.mixAndVolume.Total.x), (float)decimal.MinValue, (float)decimal.MaxValue);
 
 			if (CurrentPressure > MaxPressure)
 			{
@@ -478,11 +466,7 @@ namespace Objects.Engineering
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
 		public bool MultiMaster => false;
-		int ISetMultitoolMaster.MaxDistance => int.MaxValue;
-
-		public void AddSlave(object SlaveObjectThis)
-		{
-		}
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 	}

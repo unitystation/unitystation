@@ -1,37 +1,41 @@
-using UnityEngine;
-using Systems.ObjectConnection;
+using System;
 using Objects.Wallmounts;
+using Systems.ObjectConnection;
+using Messages.Server;
+using Mirror;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Doors
 {
-	public class FireLock : InteractableDoor, ISetMultitoolSlave
+	public class FireLock : InteractableDoor, IMultitoolSlaveable
 	{
+		public SortingGroup SortingGroup;
+
 		public FireAlarm fireAlarm;
 
-		[SerializeField]
-		private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
-		public MultitoolConnectionType ConType => conType;
+		[SyncVar(hook = nameof(SynchroniseLayerState))]
+		public DoorUpdateType DoorState = DoorUpdateType.Open;
 
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		public override void TryClose() { }
+
+		public override void TryOpen(GameObject performer) { }
+
+		public void Awake()
 		{
-			FireAlarm newFireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
-			if (newFireAlarm == null) return; // Might try to add firelock to something that is not a firealarm e.g. APC
-
-			if (fireAlarm != null)
-			{
-				fireAlarm.FireLockList.Remove(this);
-			}
-
-			fireAlarm = newFireAlarm;
-			fireAlarm.FireLockList.Add(this);
+			SortingGroup = this.GetComponent<SortingGroup>();
+			Controller.OnDoorClose.AddListener(DoorClose);
+			Controller.OnDoorOpen.AddListener(DoorOpen);
 		}
 
-		public override void TryClose()
+		public void DoorClose()
 		{
+			SynchroniseLayerState(DoorState, DoorUpdateType.Close);
 		}
 
-		public override void TryOpen(GameObject performer)
+		public void DoorOpen()
 		{
+			SynchroniseLayerState(DoorState, DoorUpdateType.Open);
 		}
 
 		void TriggerAlarm()
@@ -65,18 +69,60 @@ namespace Doors
 			Controller.Open();
 		}
 
-		//Copied over from LightSource.cs
-		void OnDrawGizmosSelected()
+		#region Multitool Interaction
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.FireAlarm;
+		IMultitoolMasterable IMultitoolSlaveable.Master => fireAlarm;
+		bool IMultitoolSlaveable.RequireLink => true;
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
-			if (fireAlarm == null)
-				return;
-			//Highlight associated fireAlarm.
-			Gizmos.color = new Color(1, 0.5f, 0, 1);
-			Gizmos.DrawLine(fireAlarm.transform.position, gameObject.transform.position);
-			Gizmos.DrawSphere(fireAlarm.transform.position, 0.25f);
+			SetMaster(master);
+			return true;
 		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			// Disconnect link to currently connected fire alarm.
+			if (fireAlarm != null)
+			{
+				fireAlarm.FireLockList.Remove(this);
+				fireAlarm = null;
+			}
+
+			if (master is FireAlarm alarm)
+			{
+				fireAlarm = alarm;
+				fireAlarm.FireLockList.Add(this);
+			}
+		}
+
+		public void UpdateLayerClosed()
+		{
+			SortingGroup.sortingLayerID = SortingLayer.NameToID("Doors Closed");
+		}
+
+		public void UpdateLayerOpen()
+		{
+			SortingGroup.sortingLayerID = SortingLayer.NameToID("Machines");
+		}
+
+		public void SynchroniseLayerState(DoorUpdateType OldType, DoorUpdateType NewType)
+		{
+			DoorState = NewType;
+			if (NewType == DoorUpdateType.Close)
+			{
+				UpdateLayerClosed();
+			}
+			else if (NewType == DoorUpdateType.Open)
+			{
+				UpdateLayerOpen();
+			}
+		}
+
+		#endregion
 	}
 }

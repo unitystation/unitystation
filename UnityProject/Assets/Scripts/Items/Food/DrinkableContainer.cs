@@ -8,6 +8,7 @@ using UnityEngine;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using HealthV2;
+using Random = UnityEngine.Random;
 using WebSocketSharp;
 
 [RequireComponent(typeof(ItemAttributesV2))]
@@ -20,11 +21,11 @@ public class DrinkableContainer : Consumable
 	[Tooltip("The name of the sound the player makes when drinking (must be in soundmanager")]
 	[SerializeField] private AddressableAudioSource drinkSound = null;
 
+	private float RandomPitch => Random.Range( 0.7f, 1.3f );
+
 	private ReagentContainer container;
 	private ItemAttributesV2 itemAttributes;
 	private RegisterItem item;
-
-	private AudioSourceParameters audioSourceParameters = new AudioSourceParameters(spatialBlend: 1f);
 
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
@@ -104,6 +105,7 @@ public class DrinkableContainer : Consumable
 		// Play sound
 		if (item && drinkSound != null)
 		{
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(RandomPitch, spatialBlend: 1f);
 			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, audioSourceParameters, sourceObj: eater.gameObject);
 		}
 	}

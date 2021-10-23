@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: dad9af55687493241add01b92d3b6f6e, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &-3362057103415789642
 MonoBehaviour:
@@ -190,6 +190,7 @@ MonoBehaviour:
   UIBG: {r: 0.63529414, g: 0.7058824, b: 0.8117647, a: 1}
   UIOVER: {r: 0, g: 0, b: 0, a: 0}
   OVERLAY: 0
+  PDAGui: {fileID: 0}
   informUplinkCodeDelay: 10
   telecrystalTrait: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9, type: 2}
   debugUplink: 0
@@ -499,7 +500,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 83ceb2386faa5bb46a76b523fd847202, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &7590180909891276049
 GameObject:
@@ -602,7 +603,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 291fa7bbd35e71f4b8b3cf0cc9894690, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &8265600929450994583
 GameObject:
@@ -705,7 +706,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 1dbd9c1df87ea9948adb3647b689db04, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &8868935868210309097
 GameObject:
@@ -809,7 +810,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 3b9f9ab67c6b14e43a11ad7941227c33, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &234557215263547549
 PrefabInstance:
@@ -968,6 +969,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f319abe1054c0a44f818e35c9ab66460,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 49b38681833f4d74ba6d4ab654a5d8cf
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!4 &239048463826641235 stripped

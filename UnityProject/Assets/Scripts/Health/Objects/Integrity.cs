@@ -1,16 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Systems.Atmospherics;
-using Systems.Explosions;
-using AddressableReferences;
-using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Events;
-using Mirror;
 using UnityEngine.Profiling;
+using Mirror;
+using Core.Editor.Attributes;
+using AddressableReferences;
+using DatabaseAPI;
 using Effects.Overlays;
 using ScriptableObjects;
+using Systems.Atmospherics;
+using Systems.Explosions;
+
 
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
@@ -61,37 +62,43 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("This object's initial \"HP\"")]
 	public float initialIntegrity = 100f;
 
+	[PrefabModeOnly]
 	[Tooltip("Sound to play when damage applied.")]
 	public AddressableAudioSource soundOnHit;
 
+	[PrefabModeOnly]
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;
 
 	/// <summary>
 	/// Armor for this object.
 	/// </summary>
+	[PrefabModeOnly]
 	[Tooltip("Armor for this object.")]
 	public Armor Armor = new Armor();
 
 	/// <summary>
 	/// resistances for this object.
 	/// </summary>
+	[PrefabModeOnly]
 	[Tooltip("Resistances of this object.")]
 	public Resistances Resistances = new Resistances();
 
 	/// <summary>
 	/// Below this temperature (in Kelvin) the object will be unaffected by fire exposure.
 	/// </summary>
+	[PrefabModeOnly]
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
 	/// <summary>
 	/// The explosion strength of this object if is set to explode on destroy
 	/// </summary>
+	[PrefabModeOnly]
 	[Tooltip("The explosion strength of this object if is set to explode on destroy")]
 	public float ExplosionsDamage = 100f;
 
-	[SerializeField]
+	[SerializeField, PrefabModeOnly]
 	private bool doDamageMessage = true;
 
 	public bool DoDamageMessage => doDamageMessage;
@@ -126,8 +133,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private bool isLarge;
 
 	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size / 10f);
-
-	public bool CannotBeAshed = false;
 
 	private void Awake()
 	{
@@ -403,11 +408,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void AdminSmash()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminSmash(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminSmash(gameObject);
 	}
+
 	private void AdminMakeHotspot()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)

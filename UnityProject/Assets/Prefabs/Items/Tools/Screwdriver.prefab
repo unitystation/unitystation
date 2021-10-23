@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: e18d809f9209b1c428c4f687fb59154b, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &894265496429246151
 PrefabInstance:
@@ -116,6 +116,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5d6db63d2443ef346b9a1ef236efbd90,
         type: 2}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: 366fb594c17e76346bbb29ad4ce021ad
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: hitDamage
@@ -174,12 +179,12 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: traumaDamageChance
-      value: 75
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: TraumaticDamageType
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

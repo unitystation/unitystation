@@ -103,7 +103,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &157762337711357078
 PrefabInstance:
@@ -202,6 +202,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxWatts
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: foreverID
+      value: 99df8f45d01a14245b669e902457edb0
       objectReference: {fileID: 0}
     - target: {fileID: 6510392005750913955, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}

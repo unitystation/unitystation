@@ -2,6 +2,9 @@
 ---
 
 
+* 2021/08/15: **[Improvement]** Processing raw meat now produces multiple raw meatballs instead of one cooked meatball. by [PetMudstone](https://github.com/PetMudstone) in PR #[7269](https://github.com/unitystation/unitystation/pull/7269)
+* 2021/08/15: **[New]** Using rolling pins on raw meatballs now creates raw patties. Burger recipes now use cooked patties instead of steaks where applicable. by [PetMudstone](https://github.com/PetMudstone) in PR #[7269](https://github.com/unitystation/unitystation/pull/7269)
+* 2021/08/15: **[Fix]** The sprites of many food items are no longer invisible. by [PetMudstone](https://github.com/PetMudstone) in PR #[7269](https://github.com/unitystation/unitystation/pull/7269)
 * 2021/08/13: **[Improvement]** - Players can now choose how big their chat log history is. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[7236](https://github.com/unitystation/unitystation/pull/7236)
 * 2021/08/13: **[Fix]** - Food processors no longer disappear, again. by [MaxIsJoe](https://github.com/MaxIsJoe) in PR #[7259](https://github.com/unitystation/unitystation/pull/7259)
 * 2021/08/12: **[New]** Made a lot of food properly craftable using the new crafting menu. by [PetMudstone](https://github.com/PetMudstone) in PR #[7248](https://github.com/unitystation/unitystation/pull/7248)

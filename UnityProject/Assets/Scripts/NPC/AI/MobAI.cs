@@ -97,7 +97,7 @@ namespace Systems.MobAIs
 
 		public virtual void OnDespawnServer(DespawnInfo info)
 		{
-			health.applyDamageEvent += AttackReceivedCoolDown;
+			health.applyDamageEvent -= AttackReceivedCoolDown;
 			ResetBehaviours();
 		}
 
@@ -174,7 +174,7 @@ namespace Systems.MobAIs
 				registerObject.SetPassable(false, true);
 				mobSprite.SetToBodyLayer();
 
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
 				mobSprite.SetToKnockedDown(true);
 			}
 		}
@@ -197,7 +197,7 @@ namespace Systems.MobAIs
 
 		private void MonitorFollowingTime()
 		{
-			if (mobFollow.activated && followTimeMax != -1f)
+			if (mobFollow.activated && followTimeMax > 0)
 			{
 				followingTime += Time.deltaTime;
 				if (followingTime > followTimeMax)
@@ -209,7 +209,7 @@ namespace Systems.MobAIs
 
 		private void MonitorExploreTime()
 		{
-			if (mobExplore.activated && exploreTimeMax != -1f)
+			if (mobExplore.activated && exploreTimeMax > 0)
 			{
 				exploringTime += Time.deltaTime;
 				if (exploringTime > exploreTimeMax)
@@ -221,7 +221,7 @@ namespace Systems.MobAIs
 
 		private void MonitorFleeingTime()
 		{
-			if (mobFlee.activated && fleeTimeMax != -1f)
+			if (mobFlee.activated && fleeTimeMax > 0)
 			{
 				fleeingTime += Time.deltaTime;
 				if (fleeingTime > fleeTimeMax)
@@ -473,9 +473,9 @@ namespace Systems.MobAIs
 		/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
 		/// </summary>
 		/// <param name="dir"></param>
-		/// <param name="healthBehaviour"></param>
+		/// <param name="livingHealth"></param>
 		/// <param name="doLerpAnimation"></param>
-		public virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase healthBehaviour) { }
+		public virtual void ActOnLiving(Vector3 dir, LivingHealthMasterBase livingHealth) { }
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction

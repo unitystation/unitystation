@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &-7603655294526718679
 MonoBehaviour:
@@ -142,6 +142,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1192346784581441163, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: foreverID
+      value: fe66ec36f566be84a9ccbc5a90aacd6f
+      objectReference: {fileID: 0}
     - target: {fileID: 2121397489038221665, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -247,7 +252,7 @@ PrefabInstance:
     - target: {fileID: 5745955074844693296, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 34
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5745955074844693296, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
@@ -452,6 +457,12 @@ PrefabInstance:
       propertyPath: relatedRecipes.Array.data[33].recipe
       value: 
       objectReference: {fileID: 11400000, guid: a8fd071f53eece344966d2002bf6c92a,
+        type: 2}
+    - target: {fileID: 5745955074844693296, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[34].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ca5a7f1e2a626f4ab60c0ba394557d7,
         type: 2}
     - target: {fileID: 5745955074844693296, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}

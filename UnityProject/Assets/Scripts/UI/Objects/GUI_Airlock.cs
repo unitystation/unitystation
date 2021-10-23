@@ -55,11 +55,12 @@ namespace UI.Objects
 
 		public void OnToggleAirLockSafety()
 		{
+			if (DoorMasterController.CanAIInteract() == false) return;
 			foreach (var module in DoorMasterController.ModulesList)
 			{
 				if (module is ElectrifiedDoorModule electric)
 				{
-					if(doorMasterController.HasPower) electric.IsElectrecuted = !electric.IsElectrecuted;
+					electric.ToggleElectrocutionInput();
 					doorMasterController.UpdateGui();
 					UpdateSafetyStatusUI(electric);
 					break;
@@ -70,6 +71,7 @@ namespace UI.Objects
 		private void UpdateSafetyStatusUI(ElectrifiedDoorModule door)
 		{
 			//(Max): This is broken for some reason and doesn't work.
+			if (DoorMasterController.CanAIInteract() == false) return;
 			if (doorMasterController.HasPower == false)
 			{
 				safetyImage.color = safetyImageColorWhenNOPOWER;
@@ -88,6 +90,7 @@ namespace UI.Objects
 		public void OnToggleOpenDoor()
 		{
 			if (DoorMasterController.HasPower == false) return;
+			if (DoorMasterController.CanAIInteract() == false) return;
 
 			if (DoorMasterController.IsClosed)
             {
@@ -95,7 +98,7 @@ namespace UI.Objects
             }
             else
             {
-	            DoorMasterController.TryForceClose();
+	            DoorMasterController.PulseTryForceClose();
             }
 		}
 
@@ -103,12 +106,14 @@ namespace UI.Objects
 		{
 			if (DoorMasterController.HasPower == false) return;
 
+			if (DoorMasterController.CanAIInteract() == false) return;
+
 			foreach (var module in DoorMasterController.ModulesList)
 			{
 				if(module is BoltsModule bolts)
 				{
 					//Toggle bolts
-					bolts.SetBoltsState(!bolts.BoltsDown);
+					bolts.PulseToggleBolts();
 					return;
 				}
 			}

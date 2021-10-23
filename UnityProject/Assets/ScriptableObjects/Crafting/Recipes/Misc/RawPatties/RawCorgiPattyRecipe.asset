@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: RawCorgiPattyRecipe
+  m_EditorClassIdentifier: 
+  category: 7
+  craftingTime: 0.5
+  recipeName: Raw Corgi Patty
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 3671490030635447117, guid: ae13aa2e9c2d0064e8b6a15d6a3c094b,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 8e3c98655a1b54d4a9251d1b68a1ef1a, type: 2}
+  result:
+  - {fileID: 5088662099382998178, guid: b9dda15585cbe5c4d90e4004ab5f371f, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 305

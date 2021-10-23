@@ -7,10 +7,11 @@ namespace HealthV2
 {
 	public class Organ : MonoBehaviour
 	{
+		protected BodyPart bodyPart;
 		[NonSerialized]
 		public BodyPart RelatedPart;
 		public virtual void ImplantPeriodicUpdate(){}
-		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase){}
+		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealth){}
 		public virtual void HealthMasterSet(){}
 		public virtual void SetUpSystems(){}
 
@@ -19,6 +20,11 @@ namespace HealthV2
 		public virtual void InternalDamageLogic()
 		{
 			RelatedPart.InternalBleedingLogic();
+		}
+
+		private void Awake()
+		{
+			bodyPart = GetComponent<BodyPart>();
 		}
 	}
 

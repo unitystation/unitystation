@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6435925942237908652
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3525490832341156112, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_Name
+      value: WornShirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 49d912bd7badc5a4083cc1898469a7bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 3611036598041473612, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7be628787aa14fb499179b2c8ee0d940,
+        type: 3}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialName
+      value: worn shirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A worn out, curiously comfortable t-shirt with a picture of Ian. You
+        wouldn't go so far as to say it feels like being hugged when you wear it,
+        but it's pretty close. Good for sleeping in.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7325966862900394647, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b911cd7f32c027848be36661609d6ed7,
+        type: 2}
+    - target: {fileID: 7518679174278335869, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: foreverID
+      value: 49d912bd7badc5a4083cc1898469a7bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 64036219f05cb4c4483445d1082171b7,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a0c29a11d2c864b7982765b5340eed0e, type: 3}

@@ -102,7 +102,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &3490467274430056261
 GameObject:
@@ -211,7 +211,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!114 &5099608509324219461
 MonoBehaviour:
@@ -342,7 +342,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &6243841975866764647
 PrefabInstance:
@@ -441,6 +441,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 1cbf5ea7cbc745545a7b382eeac3de03
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

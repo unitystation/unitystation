@@ -1,0 +1,386 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &4738636360042044168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7583157834381544897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialAmount: 1
+  maxAmount: 6
+  stacksWith: []
+--- !u!1001 &4170483187276987323
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 403739247926365693, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 846e0c7d59425e248bb9bd9924913509,
+        type: 2}
+    - target: {fileID: 605444323189848599, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: foreverID
+      value: 22153594ca62ee0418bb92cef2a1a384
+      objectReference: {fileID: 0}
+    - target: {fileID: 2381014139213378570, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2381014139213378570, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 4753068150696918738, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823087949323832078, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5826604050240140922, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_Name
+      value: _CutletBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857058975867227086, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 22153594ca62ee0418bb92cef2a1a384
+      objectReference: {fileID: 0}
+    - target: {fileID: 5921587132527232294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0e59909530c090e4d8f242ea056c6dee,
+        type: 3}
+    - target: {fileID: 5921587132527232294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210986391827355928, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: initialName
+      value: cutlet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210986391827355928, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A cooked meat cutlet.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: f614df5457266c44887e4e8a030e9e24,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 57680b35a134f0d47865895e251d51f5,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ecc59d4011820d34d93530cf329647f0,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c9c367b02211be74eaf2ab9d52afa558,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 79add9d5494bd6a44901b4ddd866043a,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0972c976a292eb14eaa0186db9c5449f,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 02d398fc440d2444b8550ccce7184544,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[7].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e5790b4d9cd77e34e9349f5d3265a5b6,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[8].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a8b7c7e69298cc49b3557a382e447ba,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[9].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: f1698b68f673b694493c91fd770d612e,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[10].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 71f4ad85e8f697749aa9c4098928aab9,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[11].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e2ff2f9ec45ed44ea1b1c3d1f2e411c,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[12].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e0404e7b16a6284880c63fc1886dc5f,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[13].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: bc864db7883c99345bca81fcbe5ff082,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[14].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c7f85c41e69e4154f861a243ac7e0d64,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[15].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c7f85c41e69e4154f861a243ac7e0d64,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[16].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c773937e10483e44f99faf358f2b16e2,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[17].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ca0e430158e6534d80148580fd6efe8,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 50b34b4129af2c64788ccc6f359eaff0,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[7].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[8].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[9].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[10].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[11].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[12].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[13].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[14].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[15].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[16].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[17].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445234018201534294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: CookableBy
+      value: 2147483647
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 699a33dd843ab594e9b3dbbf5b6305d4, type: 3}
+--- !u!1 &7583157834381544897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5826604050240140922, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 4170483187276987323}
+  m_PrefabAsset: {fileID: 0}

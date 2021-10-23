@@ -16,6 +16,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 4220530239086541485}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -92,7 +94,7 @@ PrefabInstance:
     - target: {fileID: 2745789640134156129, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: eea3e5cc25d1bf5428b92bc4ca7d661e
       objectReference: {fileID: 0}
     - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
@@ -179,6 +181,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257331783887787082, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: foreverID
+      value: eea3e5cc25d1bf5428b92bc4ca7d661e
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6492342720115995461, guid: 7020b235ecf8ece4ca00af70a60258f8, type: 3}

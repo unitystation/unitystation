@@ -29,7 +29,7 @@ namespace UI.CharacterCreator
 			characterCustomization.OpenColorPicker(BodyPartColour, ColorChange, 32f);
 		}
 
-		public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
+		public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase livingHealth)
 		{
 			Body_Part.SetCustomisationData = InData;
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);

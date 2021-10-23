@@ -11,7 +11,7 @@ namespace Objects.Atmospherics
 	/// Main component for canister.
 	/// </summary>
 	[RequireComponent(typeof(Integrity))]
-	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn
 	{
 		public const float MAX_RELEASE_PRESSURE = AtmosConstants.ONE_ATMOSPHERE * 50;
 		private const int BURST_SPRITE = 1;
@@ -95,10 +95,9 @@ namespace Objects.Atmospherics
 			networkTab = GetComponent<HasNetworkTab>();
 			registerObject = GetComponent<RegisterObject>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
-			SetDefaultIntegrity();
 		}
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			// Update gas mix manually, in case Canister component loads before GasContainer.
 			// This ensures pressure indicator and canister tier are set correctly.
@@ -140,34 +139,9 @@ namespace Objects.Atmospherics
 			hasBurst = true;
 		}
 
-		private void OnDisable()
+		public void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-		}
-
-		//this is just here so anyone trying to change the armor value in inspector sees it being
-		//reset
-		private void OnValidate()
-		{
-			SetDefaultIntegrity();
-		}
-
-		private void SetDefaultIntegrity()
-		{
-			//default canister integrity values
-			GetComponent<Integrity>().HeatResistance = 1000;
-			GetComponent<Integrity>().Armor = new Armor
-			{
-				Melee = 50,
-				Bullet = 50,
-				Laser = 50,
-				Energy = 100,
-				Bomb = 10,
-				Bio = 100,
-				Rad = 100,
-				Fire = 80,
-				Acid = 50
-			};
 		}
 
 		private void SyncBurstState(bool oldState, bool newState)

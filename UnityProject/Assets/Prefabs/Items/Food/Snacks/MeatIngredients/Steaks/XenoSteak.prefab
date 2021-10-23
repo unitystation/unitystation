@@ -15,12 +15,12 @@ PrefabInstance:
     - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: hasSimpleRelatedRecipe
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 854983433838044996, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -32,11 +32,6 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].ingredientIndex
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
@@ -107,6 +102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119310249531040511, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: foreverID
+      value: 4b81268e7c738bc4bb40a869f270dce6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdbfea1235c0674488cd2a61b2e9cfa4, type: 3}

@@ -300,7 +300,7 @@ public class EscapeShuttle : MonoBehaviour
 					Status = EscapeShuttleStatus.DockedCentcom;
 					if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
 					{
-						SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
+						SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceEnd, transform.position, sourceObj: gameObject);
 					}
 				}
 			}
@@ -544,7 +544,7 @@ public class EscapeShuttle : MonoBehaviour
 
 	public void SendShuttle()
 	{
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceBegin, transform.position, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceBegin, transform.position, sourceObj: gameObject);
 
 		StartCoroutine(WaitForShuttleLaunch());
 	}
@@ -553,7 +553,7 @@ public class EscapeShuttle : MonoBehaviour
 	{
 		yield return WaitFor.Seconds(7f);
 
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.HyperSpaceProgress, transform.position, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceProgress, transform.position, sourceObj: gameObject);
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 

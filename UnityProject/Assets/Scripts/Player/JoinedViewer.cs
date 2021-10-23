@@ -134,13 +134,24 @@ public class JoinedViewer : NetworkBehaviour
 			// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
 			yield break;
 		}
-		while (!netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
+
+		while (netIdentity != null && connectionToClient != null && !netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		yield return WaitFor.EndOfFrame;
-		TargetLocalPlayerRejoinUI(connectionToClient);
-		PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+
+		if (netIdentity != null && connectionToClient != null)
+		{
+			yield return WaitFor.EndOfFrame;
+			TargetLocalPlayerRejoinUI(connectionToClient);
+			PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+		}
+		else
+		{
+			Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
+			                "Turns out the NetID was destroyed for some reason while waiting for to be an observer" +
+			                "of the logged off player", Category.Connections);
+		}
 	}
 
 	[TargetRpc]

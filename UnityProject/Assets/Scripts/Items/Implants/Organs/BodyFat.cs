@@ -1,38 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player.Movement;
 using UnityEngine;
 
 namespace HealthV2
 {
-	public class BodyFat : Organ, PlayerMove.IMovementEffect
+	public class BodyFat : Organ, IMovementEffect
 	{
-		public float MaxRunSpeedDebuff = -2;
-		public float MaxWalkingDebuff = -1.5f;
-		public float MaxCrawlDebuff = -0.2f;
+		[SerializeField] private float maxRunSpeedDebuff = -2;
+		[SerializeField] private float maxWalkingDebuff = -1.5f;
+		[SerializeField] private float maxCrawlDebuff = -0.2f;
 
-		private float runSpeedDebuff;
-		private float WalkingDebuff;
-		private float CrawlDebuff;
+		public float RunningSpeedModifier { get; private set; }
 
-		public float RunningAdd
-		{
-			get => runSpeedDebuff;
-			set { }
-		}
+		public float WalkingSpeedModifier { get; private set; }
 
-		public float WalkingAdd
-		{
-			get => WalkingDebuff;
-			set { }
-		}
-
-
-		public float CrawlAdd
-		{
-			get => CrawlDebuff;
-			set { }
-		}
+		public float CrawlingSpeedModifier { get; private set; }
 
 
 		public Stomach RelatedStomach;
@@ -94,9 +78,9 @@ namespace HealthV2
 				WasApplyingDebuff = true;
 				float DeBuffMultiplier = (AbsorbedAmount - DebuffCutInPoint) / (MaxAmount - DebuffCutInPoint);
 				// Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
-				runSpeedDebuff = MaxRunSpeedDebuff * DeBuffMultiplier;
-				WalkingDebuff = MaxWalkingDebuff * DeBuffMultiplier;
-				CrawlDebuff = MaxCrawlDebuff * DeBuffMultiplier;
+				RunningSpeedModifier = maxRunSpeedDebuff * DeBuffMultiplier;
+				WalkingSpeedModifier = maxWalkingDebuff * DeBuffMultiplier;
+				CrawlingSpeedModifier = maxCrawlDebuff * DeBuffMultiplier;
 				var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 				if (playerHealthV2 != null)
 				{
@@ -135,10 +119,10 @@ namespace HealthV2
 			}
 		}
 
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
-			base.RemovedFromBody(livingHealthMasterBase);
-			var playerHealthV2 = livingHealthMasterBase as PlayerHealthV2;
+			base.RemovedFromBody(livingHealth);
+			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
 				playerHealthV2.PlayerMove.RemoveModifier(this);

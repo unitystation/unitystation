@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3679165279116993520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: foreverID
+      value: 7a55e658b049a4d4ab406b62b7e2b85b
+      objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: DismembermentChance
@@ -15,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: baseTraumaDamageMultiplier
-      value: 1.05
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6786220533655849171, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}

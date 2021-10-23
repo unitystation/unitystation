@@ -72,7 +72,7 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 		if (coll.gameObject.layer == 8)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.GlassStep, coll.transform.position, audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassStep, coll.transform.position, audioSourceParameters, sourceObj: gameObject);
 		}
 	}
 }

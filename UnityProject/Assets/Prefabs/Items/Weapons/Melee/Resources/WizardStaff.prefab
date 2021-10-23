@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c464d540ee81ac44682f578c68e562a3,
         type: 2}
+    - target: {fileID: 688350503109327316, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: foreverID
+      value: c0bdfc0522dc2ef43add0458efd1c87c
+      objectReference: {fileID: 0}
     - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: m_AssetId
@@ -123,6 +128,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: apparently a staff used by the wizard.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}

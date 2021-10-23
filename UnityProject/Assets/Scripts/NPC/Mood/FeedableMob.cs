@@ -36,7 +36,7 @@ namespace NPC.Mood
 			Inventory.ServerConsume(interaction.HandSlot, 1);
 			mood.OnFoodEaten();
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-			SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.EatFood,
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.EatFood,
 				gameObject.RegisterTile().WorldPosition, audioSourceParameters,	sourceObj: gameObject);
 
 			Chat.AddActionMsgToChat(

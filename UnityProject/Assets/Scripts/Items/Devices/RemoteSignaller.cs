@@ -9,7 +9,7 @@ using Mirror;
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(RadioMessager))]
 [RequireComponent(typeof(RadioReceiver))]
-[RequireComponent(typeof(HackingDevice))]
+// [RequireComponent(typeof(HackingDevice))]
 public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
 {
 	private ItemAttributesV2 itemAtts;
@@ -17,7 +17,7 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 	private Pickupable pickupable;
 	private RadioMessager radioMessager;
 	private RadioReceiver radioReceiver;
-	private HackingDevice hackDevice;
+	// private HackingDevice hackDevice;
 
 	[SyncVar]
 	private bool isOn = true;
@@ -43,7 +43,7 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 		radioMessager = GetComponent<RadioMessager>();
 		radioReceiver = GetComponent<RadioReceiver>();
 
-		hackDevice = GetComponent<HackingDevice>();
+		// hackDevice = GetComponent<HackingDevice>();
 	}
 
 	public override void OnStartClient()
@@ -86,6 +86,6 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 			UpdateChatMessage.Send(pickupable.ItemSlot.Player.gameObject, ChatChannel.Examine, ChatModifier.None, "You feel your signaler vibrate.");
 		}
 
-		hackDevice.SendOutputSignal();
+		// hackDevice.SendOutputSignal();
 	}
 }

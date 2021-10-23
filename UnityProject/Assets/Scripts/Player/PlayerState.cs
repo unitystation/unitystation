@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public struct PlayerState : IEquatable<PlayerState>
 {
-	public bool Active => Position != TransformState.HiddenPos;
+	public bool Active => LocalPosition != TransformState.HiddenPos;
 
 	///Don't set directly, use Speed instead.
 	///public in order to be serialized :\
@@ -20,7 +20,7 @@ public struct PlayerState : IEquatable<PlayerState>
 	}
 
 	public int MoveNumber;
-	public Vector3 Position;
+	public Vector3 LocalPosition;
 
 	[NonSerialized] public Vector3 LastNonHiddenPosition;
 
@@ -33,17 +33,17 @@ public struct PlayerState : IEquatable<PlayerState>
 				return TransformState.HiddenPos;
 			}
 
-			return MatrixManager.LocalToWorld(Position, MatrixManager.Get(MatrixId));
+			return MatrixManager.LocalToWorld(LocalPosition, MatrixManager.Get(MatrixId));
 		}
 		set
 		{
 			if (value == TransformState.HiddenPos)
 			{
-				Position = TransformState.HiddenPos;
+				LocalPosition = TransformState.HiddenPos;
 			}
 			else
 			{
-				Position = MatrixManager.WorldToLocal(value, MatrixManager.Get(MatrixId));
+				LocalPosition = MatrixManager.WorldToLocal(value, MatrixManager.Get(MatrixId));
 				LastNonHiddenPosition = value;
 			}
 		}
@@ -79,20 +79,20 @@ public struct PlayerState : IEquatable<PlayerState>
 
 	/// Means that this player is hidden
 	public static readonly PlayerState HiddenState =
-		new PlayerState {Position = TransformState.HiddenPos, MatrixId = 0};
+		new PlayerState {LocalPosition = TransformState.HiddenPos, MatrixId = 0};
 
 	public override string ToString()
 	{
 		return
 			Equals(HiddenState)
 				? "[Hidden]"
-				: $"[Move #{MoveNumber}, localPos:{(Vector2) Position}, worldPos:{(Vector2) WorldPosition} {nameof(NoLerp)}:{NoLerp}, {nameof(WorldImpulse)}:{WorldImpulse}, " +
+				: $"[Move #{MoveNumber}, localPos:{(Vector2) LocalPosition}, worldPos:{(Vector2) WorldPosition} {nameof(NoLerp)}:{NoLerp}, {nameof(WorldImpulse)}:{WorldImpulse}, " +
 				  $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, follow: {IsFollowUpdate}, matrix #{MatrixId}]";
 	}
 
 	public bool Equals(PlayerState other)
 	{
-		return speed.Equals(other.speed) && MoveNumber == other.MoveNumber && Position.Equals(other.Position)
+		return speed.Equals(other.speed) && MoveNumber == other.MoveNumber && LocalPosition.Equals(other.LocalPosition)
 		       && LastNonHiddenPosition.Equals(other.LastNonHiddenPosition) && IsFollowUpdate == other.IsFollowUpdate
 		       && NoLerp == other.NoLerp && WorldImpulse.Equals(other.WorldImpulse) && ResetClientQueue == other.ResetClientQueue
 		       && ImportantFlightUpdate == other.ImportantFlightUpdate && MatrixId == other.MatrixId;
@@ -109,7 +109,7 @@ public struct PlayerState : IEquatable<PlayerState>
 		{
 			var hashCode = speed.GetHashCode();
 			hashCode = (hashCode * 397) ^ MoveNumber;
-			hashCode = (hashCode * 397) ^ Position.GetHashCode();
+			hashCode = (hashCode * 397) ^ LocalPosition.GetHashCode();
 			hashCode = (hashCode * 397) ^ LastNonHiddenPosition.GetHashCode();
 			hashCode = (hashCode * 397) ^ IsFollowUpdate.GetHashCode();
 			hashCode = (hashCode * 397) ^ NoLerp.GetHashCode();

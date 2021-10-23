@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ca019c016fa96b043b30c7dad1cb77f1,
         type: 2}
+    - target: {fileID: 2063910191406448023, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
+        type: 3}
+      propertyPath: foreverID
+      value: 26a8b018cf8f8e444850eea5715bc58e
+      objectReference: {fileID: 0}
     - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
         type: 3}
       propertyPath: hitDamage
@@ -26,6 +31,11 @@ PrefabInstance:
     - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
         type: 3}
       propertyPath: throwDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
+        type: 3}
+      propertyPath: traumaDamageChance
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4903646652920302734, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
@@ -91,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 5011089245721545806, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
         type: 3}
       propertyPath: m_AssetId
-      value: 
+      value: 26a8b018cf8f8e444850eea5715bc58e
       objectReference: {fileID: 0}
     - target: {fileID: 5111364690065769126, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
         type: 3}

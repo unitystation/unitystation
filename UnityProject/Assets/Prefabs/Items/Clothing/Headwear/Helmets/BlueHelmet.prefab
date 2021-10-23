@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8227002267336491999
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3549479581640830887, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: foreverID
+      value: 77e7475b2a3b7574b916b9a4ca1cc6c6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: currentClothData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d8b960f3533042343a22fe9821b5c9b4,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b78a6669aa2e5c4fb31b3b2d89d0a1b,
+        type: 2}
+    - target: {fileID: 7524605284256423550, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 77e7475b2a3b7574b916b9a4ca1cc6c6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632320555952889534, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636118406116123594, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_Name
+      value: BlueHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712700953546887318, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 526b1d5072d1e31499cec2c114fce551,
+        type: 3}
+    - target: {fileID: 8004422176852823208, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: initialName
+      value: blue helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: fceccba0296eb5b4983bdfe2fc9ccdd0,
+        type: 3}
+      propertyPath: initialDescription
+      value: A reliable, blue tinted helmet reminding you that you still owe that
+        engineer a beer.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fceccba0296eb5b4983bdfe2fc9ccdd0, type: 3}

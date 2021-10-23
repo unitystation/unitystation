@@ -26,6 +26,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 55538d1aeac5a1a458e5b3dc993b7f3e,
         type: 2}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: foreverID
+      value: 445373074652a00409300b4b8a70dcb7
+      objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
@@ -142,7 +147,8 @@ PrefabInstance:
       propertyPath: MinMaxInternalBleedingValues.y
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!1 &7638872791175960119 stripped
 GameObject:

@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Text;
 using System.Linq;
+using UnityEngine;
 using Mirror;
 using Systems.Electricity;
 using HealthV2;
 
 namespace Objects.Medical
 {
-	public class DNAScanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPowerable
+	public class DNAScanner : NetworkBehaviour, IServerSpawn, IAPCPowerable, IExaminable, IEscapable,
+			ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>
 	{
+		[NonSerialized]
 		public LivingHealthMasterBase occupant;
 		public string statusString;
 
@@ -21,49 +24,45 @@ namespace Objects.Medical
 
 		private enum ScannerState
 		{
-			OpenUnpowered,
-			OpenPowered,
-			ClosedUnpowered,
-			ClosedPowered,
-			ClosedPoweredWithOccupant
+			ClosedUnpowered = 0,
+			OpenUnpowered = 1,
+			ClosedUnpoweredWithOccupant = 2,
+			ClosedPowered = 3,
+			OpenPowered = 4,
+			ClosedPoweredWithOccupant = 5,
 		}
 
-		public Engineering.APC RelatedAPC;
+		public Engineering.APC RelatedAPC => powerable.RelatedAPC;
 
-		private CancellationTokenSource cancelOccupiedAnim = new CancellationTokenSource();
+		private ObjectContainer container;
+		private ClosetControl closet;
+		private APCPoweredDevice powerable;
+		private SpriteHandler spriteHandler;
+
+		private void Awake()
+		{
+			container = GetComponent<ObjectContainer>();
+			closet = GetComponent<ClosetControl>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			powerable = GetComponent<APCPoweredDevice>();
+		}
 
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
+			Awake();
 			SyncPowered(powered, powered);
-			RelatedAPC = GetComponent<APCPoweredDevice>().RelatedAPC;
 		}
 
-		public override void OnSpawnServer(SpawnInfo info)
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			base.OnSpawnServer(info);
 			statusString = "Ready to scan.";
 			SyncPowered(powered, powered);
-			RelatedAPC = GetComponent<APCPoweredDevice>().RelatedAPC;
-		}
-
-		protected override void ServerHandleContentsOnStatusChange(bool willClose)
-		{
-			base.ServerHandleContentsOnStatusChange(willClose);
-			if (ServerHeldPlayers.Any())
-			{
-				var mob = ServerHeldPlayers.First();
-				occupant = mob.GetComponent<LivingHealthMasterBase>();
-			}
-			else
-			{
-				occupant = null;
-			}
 		}
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
-			if (side == NetworkSide.Server && IsClosed)
+			if (closet.IsOpen == false)
 				return false;
 			if (!Validations.CanInteract(interaction.PerformerPlayerScript, side))
 				return false;
@@ -78,45 +77,84 @@ namespace Objects.Medical
 
 		public void ServerPerformInteraction(MouseDrop drop)
 		{
-			var objectBehaviour = drop.DroppedObject.GetComponent<ObjectBehaviour>();
-			if (objectBehaviour)
-			{
-				ServerStorePlayer(objectBehaviour);
-				ServerToggleClosed(true);
-			}
+			container.StoreObject(drop.DroppedObject);
+			UpdateState();
 		}
 
-		protected override void UpdateSpritesOnStatusChange()
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (ClosetStatus == ClosetStatus.Open)
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			return interaction.Intent != Intent.Harm;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (closet.IsLocked)
 			{
-				cancelOccupiedAnim.Cancel();
-				if (!powered)
-				{
-					doorSpriteHandler.ChangeSprite((int) ScannerState.OpenUnpowered);
-				}
-				else
-				{
-					doorSpriteHandler.ChangeSprite((int) ScannerState.OpenPowered);
-				}
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+						$"The scanner's {gameObject.ExpensiveName()} door bolts refuse to budge!");
+				return;
 			}
-			else if (!powered)
+
+			UpdateState();
+		}
+
+		private void UpdateState()
+		{
+			if (closet.IsOpen)
 			{
-				cancelOccupiedAnim.Cancel();
-				doorSpriteHandler.ChangeSprite((int) ScannerState.ClosedUnpowered);
+				closet.SetDoor(ClosetControl.Door.Closed); // store items on tile
+				container.GetStoredObjects().FirstOrDefault(obj => obj.TryGetComponent(out occupant));
 			}
-			else if (ClosetStatus == ClosetStatus.Closed)
+			else
 			{
-				cancelOccupiedAnim.Cancel();
-				doorSpriteHandler.ChangeSprite((int) ScannerState.ClosedPowered);
+				occupant = null;
+				closet.SetDoor(ClosetControl.Door.Opened); // release contents
 			}
-			else if (ClosetStatus == ClosetStatus.ClosedWithOccupant)
+
+			UpdateSprites();
+		}
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			var sb = new StringBuilder();
+			if (closet.IsLocked)
 			{
-				cancelOccupiedAnim = new CancellationTokenSource();
-				if (gameObject != null && gameObject.activeInHierarchy)
-				{
-					doorSpriteHandler.ChangeSprite((int) ScannerState.ClosedPoweredWithOccupant);
-				}
+				sb.Append("It is locked closed.");
+			}
+			else
+			{
+				sb.Append(closet.IsOpen ? "It is open" : "It is closed");
+			}
+
+			sb.Append(powered ? "." : " and looks unpowered.");
+
+			if (container.IsEmpty == false)
+			{
+				sb.Append(" There seems to be something inside.");
+			}
+
+			return sb.ToString();
+		}
+
+		private void UpdateSprites()
+		{
+			if (occupant != null)
+			{
+				spriteHandler.ChangeSprite((int) (powered
+						? ScannerState.ClosedPoweredWithOccupant
+						: ScannerState.ClosedUnpoweredWithOccupant));
+				return;
+			}
+
+			if (powered)
+			{
+				spriteHandler.ChangeSprite((int) (closet.IsOpen ? ScannerState.OpenPowered : ScannerState.ClosedPowered));
+			}
+			else
+			{
+				spriteHandler.ChangeSprite((int) (closet.IsOpen ? ScannerState.OpenUnpowered : ScannerState.ClosedUnpowered));
 			}
 		}
 
@@ -129,12 +167,12 @@ namespace Objects.Medical
 			powered = value;
 			if (powered == false)
 			{
-				if (IsLocked)
+				if (closet.IsLocked)
 				{
-					ServerToggleLocked(false);
+					closet.SetLock(ClosetControl.Lock.Unlocked);
 				}
 			}
-			UpdateSpritesOnStatusChange();
+			UpdateSprites();
 		}
 
 		#region IAPCPowerable
@@ -143,7 +181,12 @@ namespace Objects.Medical
 
 		public void StateUpdate(PowerState state)
 		{
-			RelatedAPC = GetComponent<APCPoweredDevice>().RelatedAPC;
+			if (container == null)
+			{
+				// stateUpdate can be called before Awake()
+				Awake();
+			}
+
 			if (state == PowerState.Off || state == PowerState.LowVoltage)
 			{
 				SyncPowered(powered, false);
@@ -157,6 +200,13 @@ namespace Objects.Medical
 			{
 				powerInit = true;
 			}
+		}
+
+		public void EntityTryEscape(GameObject entity)
+		{
+			occupant = null;
+			closet.SetDoor(ClosetControl.Door.Opened);
+			UpdateSprites();
 		}
 
 		#endregion

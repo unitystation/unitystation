@@ -129,7 +129,7 @@ namespace UI
 		{
 			if (PlayerManager.LocalPlayer != null)
 			{
-				_ = SoundManager.PlayAtPosition(SingletonSOSounds.Instance.Rustle, PlayerManager.LocalPlayer.transform.position,
+				_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Rustle, PlayerManager.LocalPlayer.transform.position,
 					PlayerManager.LocalPlayer);
 			}
 

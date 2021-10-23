@@ -3,6 +3,7 @@ using Chemistry;
 using Items;
 using NaughtyAttributes;
 using Objects.Atmospherics;
+using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -197,7 +198,7 @@ namespace HealthV2
 			return true;
 		}
 
-		private void ApplyDamage(float amount, DamageType damageType)
+		public void ApplyDamage(float amount, DamageType damageType)
 		{
 			//TODO: Figure out what kind of damage low pressure should be doing.
 			healthMaster.ApplyDamageAll(null, amount, AttackType.Internal, damageType);

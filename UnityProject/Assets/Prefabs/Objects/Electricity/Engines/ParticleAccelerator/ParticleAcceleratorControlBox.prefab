@@ -14,24 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InData:
-    WireEndB: 0
-    WireEndA: 0
-    Categorytype: 0
-    ControllingDevice: {fileID: 0}
-    Present: {fileID: 0}
-    Data:
-      CurrentInWire: 0
-      ActualVoltage: 0
-      EstimatedResistance: 0
-      SupplyingCurrent: 0
-      InternalResistance: 0
-      SupplyingVoltage: 0
-      ProducingWatts: 0
-      ChangeToOff: 0
-      CurrentStoreValue: 0
-    DestroyQueueing: 0
-    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
@@ -173,7 +155,6 @@ MonoBehaviour:
     Ohms: 1000
     ResistanceAvailable: 1
   EditorResistance: 500
-  NotEditorResistanceset: 1
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
@@ -271,6 +252,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 3c17dd06c10d41546a933b249c71a1b4
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 445289761342866475, guid: 76d27f64a7f31d14cb2df20d85334df2,
+        type: 3}
+      propertyPath: foreverID
+      value: dddf5a67df777e944831f532fd0fd753
+      objectReference: {fileID: 0}
+    - target: {fileID: 851561302827267009, guid: 76d27f64a7f31d14cb2df20d85334df2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 27c459a7ce41f9346ae7b0bd8dce559f,
+        type: 2}
     - target: {fileID: 3404733912697195062, guid: 76d27f64a7f31d14cb2df20d85334df2,
         type: 3}
       propertyPath: NutritionLevel
@@ -74,6 +85,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: For the traitor on the go.
       objectReference: {fileID: 0}
+    - target: {fileID: 6658203529284123418, guid: 76d27f64a7f31d14cb2df20d85334df2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5354706736747559658, guid: ab79071f34bfbf84487bb9d97057063b,
+        type: 3}
     - target: {fileID: 6810787792469767474, guid: 76d27f64a7f31d14cb2df20d85334df2,
         type: 3}
       propertyPath: m_RootOrder
@@ -134,6 +151,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnergyCakeSlice
       objectReference: {fileID: 0}
+    - target: {fileID: 6846340374878824922, guid: 76d27f64a7f31d14cb2df20d85334df2,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2999728925133672086}
     - target: {fileID: 6846439903847282162, guid: 76d27f64a7f31d14cb2df20d85334df2,
         type: 3}
       propertyPath: m_AssetId
@@ -141,3 +163,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76d27f64a7f31d14cb2df20d85334df2, type: 3}
+--- !u!114 &2999728925133672086 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6846291707968284054, guid: 76d27f64a7f31d14cb2df20d85334df2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8548895979488176896}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

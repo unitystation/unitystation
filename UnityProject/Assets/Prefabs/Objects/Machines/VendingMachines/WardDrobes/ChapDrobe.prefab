@@ -47,6 +47,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3609835623878286527, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 8010223643789521214}
+    - target: {fileID: 3609835623878286527, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 7584790321836528268}
@@ -451,6 +456,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[12].Item
+      value: 
+      objectReference: {fileID: 5091484980588788379, guid: 2f111d14cf571254bacdce2d50aae81f,
+        type: 3}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[13].Item
       value: 
       objectReference: {fileID: 7636118406116123594, guid: 2676698809287454ca982a60b8310752,
@@ -759,7 +770,7 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[12].ItemName
-      value: EMPTY SLOT
+      value: Candle Pack
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -846,8 +857,25 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[29].ItemName
       value: Black Bishop's Cloak
       objectReference: {fileID: 0}
+    - target: {fileID: 9058133508007248574, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: foreverID
+      value: 0f95edaeb434c74478ba29c0179038b5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5000c293075c074d80896d211fcd50b, type: 3}
+--- !u!114 &8010223643789521214 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7089143074621320181, guid: f5000c293075c074d80896d211fcd50b,
+    type: 3}
+  m_PrefabInstance: {fileID: 958059352965192395}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!210 &7584790321836528268 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 7208331691177805895, guid: f5000c293075c074d80896d211fcd50b,

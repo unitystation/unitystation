@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: ScienceGlassesRecipe
+  m_EditorClassIdentifier: 
+  category: 5
+  craftingTime: 2
+  recipeName: Science Glasses
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 6841223995504525407, guid: 9836e3299e1fcf54cb6028cd4310ed3c,
+      type: 3}
+  - requiredAmount: 1
+    requiredItem: {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+  result:
+  - {fileID: 2679964424910470999, guid: 7919ffc0a7c666742a83c767f7cb427f, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 321

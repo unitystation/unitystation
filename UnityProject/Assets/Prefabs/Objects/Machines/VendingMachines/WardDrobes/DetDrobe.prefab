@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1465115208436918518, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: foreverID
+      value: 7a9f4b05d0be15c439f2c0d258200e77
+      objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: HullColor.b
@@ -30,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 20
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -357,25 +362,43 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].Item
       value: 
-      objectReference: {fileID: 7116736864254828308, guid: 823ad5b6a9d0dc94d8b6cf26ab12e175,
+      objectReference: {fileID: 7019925540262486990, guid: 7a5bc4eb879170843a619029adff792b,
         type: 3}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[18].Item
       value: 
-      objectReference: {fileID: 2043259655805960583, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+      objectReference: {fileID: 7019925540262486990, guid: 80f01cc1e23fda44b8a70fb7237dd285,
         type: 3}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[19].Item
       value: 
-      objectReference: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283,
+      objectReference: {fileID: 7019925540262486990, guid: 17bff0f4a8f4944489fa4b33de34bb8a,
         type: 3}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Stock
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[20].Item
+      value: 
+      objectReference: {fileID: 7116736864254828308, guid: 823ad5b6a9d0dc94d8b6cf26ab12e175,
+        type: 3}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[21].Item
+      value: 
+      objectReference: {fileID: 2043259655805960583, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+        type: 3}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[22].Item
+      value: 
+      objectReference: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283,
+        type: 3}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[2].Stock
@@ -468,6 +491,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[20].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[21].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[22].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[0].ItemName
       value: Hard-Worn Suit
       objectReference: {fileID: 0}
@@ -554,23 +592,38 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].ItemName
-      value: Detective's Flask
+      value: Black Tie
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[18].ItemName
-      value: Space Cigarettes Packet
+      value: Red Tie
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[19].ItemName
+      value: Loose Tie
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[20].ItemName
+      value: Detective's Flask
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[21].ItemName
+      value: Space Cigarettes Packet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[22].ItemName
       value: Flat Cap
       objectReference: {fileID: 0}
     - target: {fileID: 2325254099903673000, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6082626668263232754, guid: b0e724f2c716c4d48a0060158d97a58b,
+      objectReference: {fileID: -7186647468132015367, guid: b0e724f2c716c4d48a0060158d97a58b,
         type: 3}
     - target: {fileID: 2532371680913741503, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}

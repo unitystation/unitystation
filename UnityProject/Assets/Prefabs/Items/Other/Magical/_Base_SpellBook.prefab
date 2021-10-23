@@ -17,6 +17,25 @@ MonoBehaviour:
   canBeReadMultipleTimes: 0
   allowOnlyOneReader: 1
   remarks: []
+  pageturnSfx:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   spell: {fileID: 0}
 --- !u!1001 &8992526977647731412
 PrefabInstance:
@@ -77,6 +96,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2cded0bc000a25a4ba71a0b0042cec98,
         type: 2}
+    - target: {fileID: 5577699357403617726, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: foreverID
+      value: f9b48c194efec7840b9dea9662005173
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259, type: 3}
     - {fileID: 6541784096974092951, guid: 8332fa075a02a824eaf1162a1650b259, type: 3}

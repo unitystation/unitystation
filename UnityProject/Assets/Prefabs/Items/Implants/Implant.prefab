@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Storage: {fileID: 2719098251223779414}
+  OrganStorage: {fileID: 2719098251223779414}
+  playerSprites: {fileID: 0}
+  IsBleeding: 0
+  limbLossBleedingValue: 35
   BodyPartType: 0
   isDimorphic: 0
-  Root: {fileID: 0}
   ContainedIn: {fileID: 0}
   BodyTypesSprites:
     SpriteOrder:
@@ -85,16 +87,9 @@ MonoBehaviour:
   DamageEfficiencyMultiplier: 1
   maxHealth: 100
   Severity: 50
-  DamageThreshold: 18
-  GibsOnSeverityLevel: 150
-  GibChance: 0.15
-  BodyPartStorageContentsSpillOutOnCutSize: 3
-  BodyPartSlashLogicOnCutSize: 1
-  BodyPartDisembowelLogicOnCutSize: 2
-  spillChanceWhenCutPresent: 0.5
-  CanBleedInternally: 0
-  CanBleedExternally: 0
-  gibsEntireBodyOnRemoval: 0
+  BodyPartReadableName: '[Default Part Name]'
+  internalDamageDesc: This {readableName} is suffering from internal damage.
+  externalBleedingDesc: This {readableName} is bleeding due to an open wound.
   MinMaxInternalBleedingValues: {x: 5, y: 20}
   maximumInternalBleedDamage: 100
   InternalBleedingBloodLoss: 12
@@ -102,9 +97,16 @@ MonoBehaviour:
   baseTraumaDamageMultiplier: 0.25
   bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
   bodyPartAshesAboveThisDamage: 125
-  BodyPartReadableName: '[Default Part Name]'
-  internalDamageDesc: This {readableName} is suffering from internal damage.
-  externalBleedingDesc: This {readableName} is bleeding due to an open wound.
+  GibsOnSeverityLevel: 150
+  GibChance: 15
+  BodyPartStorageContentsSpillOutOnCutSize: 3
+  BodyPartSlashLogicOnCutSize: 1
+  BodyPartDisembowelLogicOnCutSize: 2
+  spillChanceWhenCutPresent: 0.5
+  CanBleedInternally: 0
+  CanBleedExternally: 0
+  DamageThreshold: 18
+  gibsEntireBodyOnRemoval: 0
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +240,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c,
         type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: foreverID
+      value: 1162a9966a460f940a18b4d183b04c30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &1163316686972202776 stripped

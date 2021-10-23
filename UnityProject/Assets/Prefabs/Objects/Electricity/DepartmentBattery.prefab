@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: -476175051414813368}
   - component: {fileID: -6614577757191591987}
   - component: {fileID: 1421609777951089046}
+  - component: {fileID: -3320177879817703201}
   m_Layer: 11
   m_Name: DepartmentBattery
   m_TagString: Untagged
@@ -91,6 +92,8 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
+  prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
   ReachableThrough: 1
@@ -185,24 +188,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InData:
-    WireEndB: 0
-    WireEndA: 0
-    Categorytype: 0
-    ControllingDevice: {fileID: 0}
-    Present: {fileID: 0}
-    Data:
-      CurrentInWire: 0
-      ActualVoltage: 0
-      EstimatedResistance: 0
-      SupplyingCurrent: 0
-      InternalResistance: 0
-      SupplyingVoltage: 0
-      ProducingWatts: 0
-      ChangeToOff: 0
-      CurrentStoreValue: 0
-    DestroyQueueing: 0
-    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
@@ -253,7 +238,6 @@ MonoBehaviour:
     Ohms: 0
     ResistanceAvailable: 1
   EditorResistance: 0
-  NotEditorResistanceset: 1
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
@@ -406,7 +390,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &-6614577757191591987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +422,27 @@ MonoBehaviour:
   canNotBeDeconstructed: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
+--- !u!114 &-3320177879817703201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: department battery
+  initialDescription: It receives power from the SMES by the medium voltage wires
+    and distributes the power to the local APCs by the low voltage wires.
+  willHighlight: 1
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

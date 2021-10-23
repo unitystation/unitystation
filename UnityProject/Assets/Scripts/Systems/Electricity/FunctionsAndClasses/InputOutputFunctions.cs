@@ -124,7 +124,7 @@ namespace Systems.Electricity
 
 			foreach (IntrinsicElectronicData Relatedindata in Thiswire.Data.connections)
 			{
-				if (!(outputSupplyingUsingData.Upstream.Contains(Relatedindata)) && (!(Thiswire == Relatedindata)))
+				if (!(outputSupplyingUsingData.Upstream.Contains(Relatedindata)) && (Thiswire != Relatedindata))
 				{
 					bool pass = true;
 					if (RelatedLine != null)
@@ -135,7 +135,7 @@ namespace Systems.Electricity
 						}
 					}
 
-					if (!(outputSupplyingUsingData.Downstream.Contains(Relatedindata)) && pass)
+					if (outputSupplyingUsingData.Downstream.Contains(Relatedindata) == false && pass && Relatedindata.Present != SourceInstance)
 					{
 						outputSupplyingUsingData.Downstream.Add(Relatedindata);
 						Relatedindata.DirectionInput(SourceInstance, Thiswire);

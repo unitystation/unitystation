@@ -62,9 +62,14 @@ public class SpawnInfo
 	/// </summary>
 	public readonly bool SpawnItems;
 
+	/// <summary>
+	///
+	/// </summary>
+	public readonly bool Mapspawn;
+
 	private SpawnInfo(SpawnType spawnType, ISpawnable spawnable, SpawnDestination spawnDestination, float? scatterRadius, int count, Occupation occupation,
 		GameObject clonedFrom = null,
-		CharacterSettings characterSettings = null, bool spawnItems = true)
+		CharacterSettings characterSettings = null, bool spawnItems = true, bool mapspawn = false)
 	{
 		SpawnType = spawnType;
 		SpawnableToSpawn = spawnable;
@@ -75,6 +80,7 @@ public class SpawnInfo
 		ClonedFrom = clonedFrom;
 		CharacterSettings = characterSettings;
 		SpawnItems = spawnItems;
+		Mapspawn = mapspawn;
 	}
 
 	/// <summary>
@@ -119,9 +125,9 @@ public class SpawnInfo
 	/// null (no scatter).</param>
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnInfo Spawnable(ISpawnable spawnable, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null, bool spawnItems = true)
+	public static SpawnInfo Spawnable(ISpawnable spawnable, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null, bool spawnItems = true, bool mapspawn = false)
 	{
-		return new SpawnInfo(SpawnType.Default, spawnable, spawnDestination, scatterRadius, count, null, spawnItems: spawnItems);
+		return new SpawnInfo(SpawnType.Default, spawnable, spawnDestination, scatterRadius, count, null, spawnItems: spawnItems, mapspawn : mapspawn );
 	}
 
 	/// <summary>

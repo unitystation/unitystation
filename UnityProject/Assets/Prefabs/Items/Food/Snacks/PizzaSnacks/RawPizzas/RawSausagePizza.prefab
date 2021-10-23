@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4613056052939501438
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2508680987064040879, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: foreverID
+      value: v3dU388746619344db4cdc07addc4f38
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399099255245457989, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b3711c71cc30c8f42ad444c6fdb38104,
+        type: 2}
+    - target: {fileID: 5612769997101594862, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 8820891359458226626, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+    - target: {fileID: 8690799837420241566, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 499a786a90bb18349afb0dc72f78e1df,
+        type: 3}
+    - target: {fileID: 8820891359458226626, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_Name
+      value: RawSausagePizza
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825256283083214006, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934627556384033910, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: m_AssetId
+      value: b7115b784ecf9894d8d5d60c1c290269
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934661111414689886, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 4322163433853547372}
+    - target: {fileID: 8973285096985206432, guid: e3db388746619344db4cdc07addc4f38,
+        type: 3}
+      propertyPath: initialName
+      value: raw sausage pizza
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e3db388746619344db4cdc07addc4f38, type: 3}
+--- !u!114 &4322163433853547372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8935061071218695186, guid: e3db388746619344db4cdc07addc4f38,
+    type: 3}
+  m_PrefabInstance: {fileID: 4613056052939501438}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

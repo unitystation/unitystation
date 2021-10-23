@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2527589168897478388, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: foreverID
+      value: b28ea5dc6586186429459abdd1a63af4
+      objectReference: {fileID: 0}
     - target: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: variantIndex
@@ -30,8 +35,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
+      propertyPath: spillChanceWhenCutPresent
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
       propertyPath: baseTraumaDamageMultiplier
-      value: 0.2
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}

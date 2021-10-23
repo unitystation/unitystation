@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: foreverID
+      value: 5c22d550fc2d31941bf147d721294daa
+      objectReference: {fileID: 0}
     - target: {fileID: 1110343267396133870, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -114,8 +119,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
       propertyPath: spillChanceWhenCutPresent
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using Messages.Client;
 using Messages.Client.Interaction;
 using UnityEngine;
@@ -73,7 +74,7 @@ namespace UI.Core
 		/// </summary>
 		public void OnClickExit()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			Reset();
 		}
@@ -83,7 +84,7 @@ namespace UI.Core
 		/// </summary>
 		public void OnClickExpandCollapse()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
 			expandedView.SetActive(!expandedView.activeSelf);
 		}

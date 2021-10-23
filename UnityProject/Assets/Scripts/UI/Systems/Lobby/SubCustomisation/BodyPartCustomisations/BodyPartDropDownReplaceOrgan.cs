@@ -60,22 +60,17 @@ namespace UI.CharacterCreator
 			return JsonConvert.SerializeObject(Dropdown.value);
 		}
 
-		public static void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData,
-			LivingHealthMasterBase LivingHealthMasterBase)
+		public static void OnPlayerBodyDeserialise(BodyPart bodyPart, string InData)
 		{
 			var PreviousOptions = JsonConvert.DeserializeObject<int>(InData);
-			if (PreviousOptions >= Body_Part.OptionalReplacementOrgan.Count + 1)
+			if (PreviousOptions >= bodyPart.OptionalReplacementOrgan.Count + 1)
 			{
 				return;
 			}
+			var spawned = Spawn.ServerPrefab(bodyPart.OptionalReplacementOrgan[PreviousOptions].gameObject);
 
-			var spawned = Spawn.ServerPrefab(Body_Part.OptionalReplacementOrgan[PreviousOptions].gameObject);
-			var Parent = Body_Part.GetParent();
-			if (Parent != null)
-			{
-				Parent.Storage.ServerTryAdd(spawned.GameObject);
-				Parent.Storage.ServerTryRemove(Body_Part.gameObject);
-			}
+			bodyPart.HealthMaster.BodyPartStorage.ServerTryAdd(spawned.GameObject);
+			bodyPart.HealthMaster.BodyPartStorage.ServerTryRemove(bodyPart.gameObject);
 		}
 
 		public void SetDropdownValue(string currentSetting)

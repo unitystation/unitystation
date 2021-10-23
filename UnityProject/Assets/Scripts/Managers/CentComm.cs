@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AddressableReferences;
 using Initialisation;
 using Map;
@@ -12,7 +11,7 @@ using Objects.Wallmounts;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using StationObjectives;
 
 namespace Managers
 {
@@ -46,7 +45,7 @@ namespace Managers
 		[NonSerialized] public AlertLevel CurrentAlertLevel;
 
 		//Server only:
-		private List<Vector2> asteroidLocations = new List<Vector2>();
+		public static List<Vector2> asteroidLocations = new List<Vector2>();
 
 		public DateTime lastAlertChange;
 		public double coolDownAlertChange = 5;
@@ -59,9 +58,10 @@ namespace Managers
 		{
 			updateTypes = new Dictionary<UpdateSound, AddressableAudioSource>
 			{
-				{UpdateSound.Notice, SingletonSOSounds.Instance.Notice2},
-				{UpdateSound.Alert, SingletonSOSounds.Instance.Notice1},
-				{UpdateSound.Announce, SingletonSOSounds.Instance.AnnouncementAnnounce}
+				{UpdateSound.Notice, CommonSounds.Instance.Notice2},
+				{UpdateSound.Alert, CommonSounds.Instance.Notice1},
+				{UpdateSound.Announce, CommonSounds.Instance.AnnouncementAnnounce},
+				{UpdateSound.CentComAnnounce, CommonSounds.Instance.AnnouncementCentCom}
 			};
 		}
 
@@ -91,7 +91,7 @@ namespace Managers
 				yield break;
 			}
 
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementWelcome);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementWelcome);
 
 			yield return WaitFor.Seconds(60f);
 
@@ -125,7 +125,7 @@ namespace Managers
 			{
 				SendExtendedUpdate();
 			}
-
+			StationObjectiveManager.Instance.ServerChooseObjective();
 			StartCoroutine(WaitToGenericReport());
 		}
 
@@ -136,7 +136,7 @@ namespace Managers
 		}
 		private void SendAntagUpdate()
 		{
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementIntercept);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementIntercept);
 			MakeAnnouncement(
 				ChatTemplates.CentcomAnnounce,
 				string.Format(
@@ -224,7 +224,7 @@ namespace Managers
 
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 				_ = SoundManager.PlayNetworked(updateTypes[UpdateSound.Notice], audioSourceParameters);
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.AnnouncementCommandReport);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementCommandReport);
 			}
 		}
 
@@ -263,7 +263,7 @@ namespace Managers
 				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleCallSub,minutes,text) ),
 				MatrixManager.MainStationMatrix);
 
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleCalled);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleCalled);
 		}
 
 		/// <summary>
@@ -275,13 +275,14 @@ namespace Managers
 				string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleRecallSub,text)),
 				MatrixManager.MainStationMatrix);
 
-			_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.ShuttleRecalled);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleRecalled);
 		}
 
 		public enum UpdateSound {
 			Notice,
 			Alert,
 			Announce,
+			CentComAnnounce,
 			NoSound
 		}
 

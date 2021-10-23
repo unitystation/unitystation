@@ -6,9 +6,9 @@ namespace Systems.Electricity.Inheritance
 {
 	public class ElectricalModuleInheritance : MonoBehaviour, IServerDespawn
 	{
-		public ElectricalModuleTypeCategory ModuleType;
+		[HideInInspector] public ElectricalModuleTypeCategory ModuleType;
 		public ElectricalNodeControl ControllingNode;
-		public HashSet<ElectricalUpdateTypeCategory> RequiresUpdateOn;
+		[HideInInspector] public HashSet<ElectricalUpdateTypeCategory> RequiresUpdateOn;
 
 		public virtual void OnStartServer() {
 		}

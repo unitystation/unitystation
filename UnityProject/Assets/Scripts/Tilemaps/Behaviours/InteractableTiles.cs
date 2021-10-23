@@ -210,7 +210,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			{
 				// Then we loop through each under floor layer in the matrix until we
 				// can find an interaction.
-				foreach (BasicTile underFloorTile in matrix.UnderFloorLayer.GetAllTilesByType<BasicTile>(localPosition))
+				foreach (BasicTile underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, LayerType.Underfloor))
 				{
 					// If pointing at electrical cable tile and player is holding
 					// Wirecutter in hand, we enable the cutting window and return false
@@ -280,10 +280,9 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 		// convert world position to cell position and set Z value to Z value from message
 		Vector3Int targetCellPosition = matrix.MetaTileMap.WorldToCell(message.targetWorldPosition);
-		targetCellPosition.z = message.positionZ;
 
 		// get electical tile from targetCellPosition
-		ElectricalCableTile electricalCable = matrix.UnderFloorLayer.GetTileUsingZ(targetCellPosition) as ElectricalCableTile;
+		ElectricalCableTile electricalCable = TileManager.GetTile(message.TileType, message.Name) as ElectricalCableTile;
 
 		if (electricalCable == null) return;
 
@@ -350,7 +349,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 			if (basicTile.LayerType == LayerType.Underfloor)
 			{
-				foreach (var underFloorTile in matrix.UnderFloorLayer.GetAllTilesByType<BasicTile>(localPosition))
+				foreach (var underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, LayerType.Underfloor))
 				{
 					var underFloorApply = new TileApply(
 							performer, usedObject, intent, (Vector2Int) localPosition,
@@ -556,7 +555,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		var getTile = metaTileMap.GetTile(cellPos, LayerType.Walls) as BasicTile;
 		if (getTile == null || getTile.Mineable == false) return false;
 
-		SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.BreakStone, worldPosition);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.BreakStone, worldPosition);
 		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
 			count: getTile.SpawnAmountOnDeconstruct);
 		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);

@@ -73,7 +73,7 @@ namespace Systems.Electricity
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.ScenesLoadedServer, StartSim);
+			EventManager.AddHandler(Event.PostRoundStarted, StartSim);
 			EventManager.AddHandler(Event.RoundEnded, StopSim);
 
 			if(Application.isEditor == false && NetworkServer.active == false) return;
@@ -83,7 +83,7 @@ namespace Systems.Electricity
 
 		private void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.ScenesLoadedServer, StartSim);
+			EventManager.RemoveHandler(Event.PostRoundStarted, StartSim);
 			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
 
 			if(Application.isEditor == false && NetworkServer.active == false) return;

@@ -261,8 +261,10 @@ public class RightClickManager : MonoBehaviour
 
 				if (!string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
 				{
-					Action VVAction = () => RequestBookshelfNetMessage.Send(curObject, ServerData.UserID, PlayerList.Instance.AdminToken);
-					subMenus.Add(VariableViewerOption.AsMenu(VVAction));
+					subMenus.Add(VariableViewerOption.AsMenu(() =>
+					{
+						RequestBookshelfNetMessage.Send(curObject);
+					}));
 				}
 			}
 

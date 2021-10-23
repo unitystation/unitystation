@@ -208,7 +208,17 @@ namespace Mirror
 
             // write string with same method as NetworkReader
             // convert to byte[]
-            int size = encoding.GetBytes(value, 0, value.Length, stringBuffer, 0);
+            int size = 0;
+            try
+            {
+	            size = encoding.GetBytes(value, 0, value.Length, stringBuffer, 0);
+            }
+            catch (ArgumentException exception)
+            {
+	            Debug.LogError("Caught ArguementException in Mirror::NetworkWriter.WriteString() " +
+	                            exception.Message);
+	            return;
+            }
 
             // check if within max size
             if (size >= NetworkWriter.MaxStringLength)

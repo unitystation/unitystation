@@ -15,15 +15,40 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (DefaultWillInteract.Default(interaction,side) == false) return false;
-		if (interaction.HandObject != this.gameObject) return false;
-		var Healthv2 = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-		if (Healthv2 == null) return false;
+		if (DefaultWillInteract.Default(interaction,side) == false)
+			return false;
+		var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		if (livingHealthMaster == null)
+			return false;
 		var equipment = interaction.Performer.GetComponent<Equipment>();
-		if (equipment == null) return false;
 		var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).GameObjectReference;
-		if (ObjectInSlot == null) return false;
-		if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false) return false;
+		if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
+		{
+			ObjectInSlot = equipment.GetClothingItem(NamedSlot.belt).GameObjectReference;
+			if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
+			{
+				return false;
+			}
+		}
+		if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false && side == NetworkSide.Server)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	private bool CanDefibrillate(LivingHealthMasterBase livingHealthMaster, GameObject performer)
+	{
+		if (livingHealthMaster.brain == null || livingHealthMaster.brain.RelatedPart.Health < -100)
+		{
+			Chat.AddExamineMsgFromServer(performer, "It appears they're missing their brain or Their brain is too damaged");
+			return false;
+		}
+		if (livingHealthMaster.IsDead == false)
+		{
+			Chat.AddExamineMsgFromServer(performer, "The target is alive!");
+			return false;
+		}
 		return true;
 	}
 
@@ -31,24 +56,15 @@ public class DefibrillatorPaddles : MonoBehaviour, ICheckedInteractable<HandAppl
 	{
 		void Perform()
 		{
-			var LHMB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-			if (LHMB.brain == null || LHMB.brain?.RelatedPart?.Health < -100)
+			var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "It appears they're missing their brain or Their brain is too damaged");
+				return;
 			}
-
-			foreach (var BodyPart in LHMB.BodyPartList)
+			livingHealthMaster.RestartHeart();
+			if (livingHealthMaster.IsDead == false)
 			{
-				foreach (var organ in BodyPart.OrganList)
-				{
-					if (organ is Heart heart)
-					{
-						heart.HeartAttack = false;
-						heart.CanTriggerHeartAttack = false;
-						heart.CurrentPulse = 0;
-					}
-				}
-
+				livingHealthMaster.playerScript.ReturnGhostToBody();
 			}
 		}
 		var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false, true), Perform);

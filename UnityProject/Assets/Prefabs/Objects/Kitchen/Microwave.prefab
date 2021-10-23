@@ -37,6 +37,13 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  kaputSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Bang.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   RunningAudio:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveLoop.prefab
@@ -51,6 +58,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab, type: 2}
   - {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678, type: 2}
   - {fileID: 11400000, guid: 8fdde641eac38ad4da32ccc0eeea50fc, type: 2}
+  circuitWattage: 5
+  ovenBulbWattage: 25
+  magnetronWattage: 850
 --- !u!114 &-1987769092904718235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,6 +507,11 @@ PrefabInstance:
       propertyPath: wattusage
       value: 850
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: StateUpdateOnClient
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: MachineParts
@@ -580,6 +595,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Microwave
       objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: cbae9a210d638ba4b9402e836c970fa2
+      objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -591,6 +611,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a9d9bf1a77c00d44f8434a8bd3be24c7,
         type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -661,7 +686,7 @@ PrefabInstance:
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialDescription
-      value: Cooks and boils stuff.
+      value: Microwaves stuff.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}

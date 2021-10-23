@@ -5,9 +5,11 @@ using Systems.ObjectConnection;
 
 namespace Objects.Engineering
 {
-	public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
+	public class ReactorControlConsole : MonoBehaviour, IMultitoolSlaveable
 	{
-		public ReactorGraphiteChamber ReactorChambers = null;
+		[SceneObjectReference] public ReactorGraphiteChamber ReactorChambers = null;
+
+		[SceneObjectReference] public List<ReactorGraphiteChamber> ReactorChambers2 = new List<ReactorGraphiteChamber>();
 
 		public void SuchControllRodDepth(float requestedDepth)
 		{
@@ -21,15 +23,22 @@ namespace Objects.Engineering
 
 		#region Multitool Interaction
 
-		public MultitoolConnectionType ConType => MultitoolConnectionType.ReactorChamber;
-
-		public void SetMaster(ISetMultitoolMaster Imaster)
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.ReactorChamber;
+		IMultitoolMasterable IMultitoolSlaveable.Master => ReactorChambers;
+		bool IMultitoolSlaveable.RequireLink => true;
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
-			var Chamber = (Imaster as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
-			if (Chamber != null)
-			{
-				ReactorChambers = Chamber;
-			}
+			SetMaster(master);
+			return true;
+		}
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			ReactorChambers = master is ReactorGraphiteChamber reactor ? reactor : null;
 		}
 
 		#endregion

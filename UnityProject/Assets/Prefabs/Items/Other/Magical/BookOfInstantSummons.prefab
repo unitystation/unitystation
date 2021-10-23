@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80b42b100d2feb24b950e7ed38a625e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  punishSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Magic/SummonItemsGeneric.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &3509815024118469271
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19,6 +26,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3579279403042536298, guid: f9b48c194efec7840b9dea9662005173,
+        type: 3}
+      propertyPath: foreverID
+      value: 22253e0e1cd72bf48892031645a51198
+      objectReference: {fileID: 0}
     - target: {fileID: 4067572995854857205, guid: f9b48c194efec7840b9dea9662005173,
         type: 3}
       propertyPath: spell

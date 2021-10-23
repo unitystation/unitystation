@@ -158,6 +158,28 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return Inventory.ServerAdd(inGameObject, slot);
 	}
 
+	public bool ServerTransferGameObjectToItemSlot(GameObject outGameObject, ItemSlot Slot)
+	{
+		var item = outGameObject.GetComponent<ItemAttributesV2>();
+		if (item == null) return false;
+		var slot = GetSlotFromItem(outGameObject);
+		if (slot == null) return false;
+		return Inventory.ServerTransfer(slot, Slot);
+	}
+
+	public ItemSlot GetSlotFromItem(GameObject gameObject)
+	{
+		foreach (var itemSlot in  GetItemSlots())
+		{
+			if (itemSlot.Item == null) continue;
+			if (itemSlot.Item.gameObject == gameObject)
+			{
+				return itemSlot;
+			}
+		}
+		return null;
+	}
+
 	public bool ServerTryTransferFrom(ItemSlot inSlot)
 	{
 		var Item = inSlot.Item.GetComponent<ItemAttributesV2>();
@@ -168,7 +190,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return Inventory.ServerTransfer(inSlot, slot, ReplacementStrategy.Cancel);
 	}
 
-	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
+	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false, Vector3? DroppedAtWorldPosition = null )
 	{
 		ItemAttributesV2 item = InGameObject.GetComponent<ItemAttributesV2>();
 		if (item == null) return false;
@@ -180,7 +202,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			{
 				if(mobHealth != null)
 				{
-					if(mobHealth.GetCurrentBurnDamage() > mobHealth.BodyPartAshesAboveThisDamage)
+					if(mobHealth.CurrentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
 					{
 						_ = Spawn.ServerPrefab(ashPrefab, mobHealth.HealthMaster.gameObject.RegisterTile().WorldPosition);
 						_ = Despawn.ServerSingle(slot.Item.gameObject);
@@ -193,7 +215,14 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 				}
 				else
 				{
-					return Inventory.ServerDrop(slot);
+					if (DroppedAtWorldPosition != null)
+					{
+						return Inventory.ServerDrop(slot, DroppedAtWorldPosition.GetValueOrDefault());
+					}
+					else
+					{
+						return Inventory.ServerDrop(slot);
+					}
 				}
 			}
 		}
@@ -244,22 +273,30 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <returns></returns>
 	public GameObject GetRootStorageOrPlayer()
 	{
-		ItemStorage storage = this;
-		var pickupable = storage.GetComponent<Pickupable>();
-		while (pickupable != null && pickupable.ItemSlot != null)
+		try
 		{
-			storage = pickupable.ItemSlot.ItemStorage;
-			pickupable = storage.GetComponent<Pickupable>();
-			if (pickupable == null)
+			ItemStorage storage = this;
+			var pickupable = storage.GetComponent<Pickupable>();
+			while (pickupable != null && pickupable.ItemSlot != null)
 			{
-				if (storage.player != null)
+				storage = pickupable.ItemSlot.ItemStorage;
+				pickupable = storage.GetComponent<Pickupable>();
+				if (pickupable == null)
 				{
-					return storage.player.gameObject;
+					if (storage.player != null)
+					{
+						return storage.player.gameObject;
+					}
 				}
 			}
-		}
 
-		return storage.gameObject;
+			return storage.gameObject;
+		}
+		catch (NullReferenceException exception)
+		{
+			Logger.LogError("Caught NRE in ItemStorage: " + exception.Message, Category.Inventory);
+			return null;
+		}
 	}
 
 	/// <summary>
@@ -536,13 +573,13 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
-	/// Drops all items in all slots at our current position.
+	/// Drops all items in all slots.
 	/// </summary>
-	public void ServerDropAll()
+	public void ServerDropAll(Vector2? worldTargetVector = null)
 	{
 		foreach (var itemSlot in GetItemSlots())
 		{
-			Inventory.ServerDrop(itemSlot);
+			Inventory.ServerDrop(itemSlot, worldTargetVector);
 		}
 	}
 }

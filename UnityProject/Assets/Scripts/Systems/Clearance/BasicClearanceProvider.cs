@@ -63,6 +63,7 @@ namespace Systems.Clearance
 			foreach (var c in newClearance)
 			{
 				syncedClearance.Add(c);
+				netIdentity.isDirty = true;
 			}
 		}
 
@@ -79,6 +80,7 @@ namespace Systems.Clearance
 			foreach (var c in newClearance)
 			{
 				syncedLowpopClearance.Add(c);
+				netIdentity.isDirty = true;
 			}
 		}
 
@@ -86,18 +88,21 @@ namespace Systems.Clearance
 		public void ServerClearClearance()
 		{
 			syncedClearance.Clear();
+			netIdentity.isDirty = true;
 		}
 
 		[Server]
 		public void ServerClearLowPopClearance()
 		{
 			syncedLowpopClearance.Clear();
+			netIdentity.isDirty = true;
 		}
 
 		// ReSharper disable Unity.PerformanceAnalysis
 		private void OnClearanceListUpdated(SyncList<Clearance>.Operation op, int index, Clearance oldAccess,
 			Clearance newAccess )
 		{
+			netIdentity.isDirty = true;
 			switch (op)
 			{
 				case SyncList<Clearance>.Operation.OP_ADD:
@@ -124,6 +129,7 @@ namespace Systems.Clearance
 		private void OnLowPopClearanceListUpdated(SyncList<Clearance>.Operation op, int index, Clearance oldAccess,
 			Clearance newAccess )
 		{
+			netIdentity.isDirty = true;
 			switch (op)
 			{
 				case SyncList<Clearance>.Operation.OP_ADD:

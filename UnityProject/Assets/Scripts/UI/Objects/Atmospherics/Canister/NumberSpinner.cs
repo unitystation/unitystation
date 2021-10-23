@@ -131,7 +131,7 @@ namespace UI.Core
 			targetValue = newValue;
 			if (muteSounds == false && tickCooldown <= 0)
 			{
-				_ = SoundManager.Play(SingletonSOSounds.Instance.Tick); //0.15f, pan: -0.3f
+				_ = SoundManager.Play(CommonSounds.Instance.Tick); //0.15f, pan: -0.3f
 				tickCooldown = MIN_SECONDS_PER_TICK;
 			}
 

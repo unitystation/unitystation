@@ -24,7 +24,7 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.NoSound);
 
-				_ = SoundManager.PlayNetworked(SingletonSOSounds.Instance.RadiationAnnouncement);
+				_ = SoundManager.PlayNetworked(CommonSounds.Instance.RadiationAnnouncement);
 			}
 
 			if (FakeEvent) return;

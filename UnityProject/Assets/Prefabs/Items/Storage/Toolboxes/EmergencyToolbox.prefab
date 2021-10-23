@@ -13,12 +13,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f1493f8472ad00246bfd949f5943fbef,
         type: 2}
+    - target: {fileID: 3337364742295634643, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: foreverID
+      value: 48215d170df22564f8730864a0fc91e2
+      objectReference: {fileID: 0}
     - target: {fileID: 7782483427117181164, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3,
         type: 2}
+    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand

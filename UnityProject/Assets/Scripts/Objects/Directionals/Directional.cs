@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using Core.Editor.Attributes;
+using UnityEditor;
 
 /// <summary>
 /// Component which allows an object to have an orientation (facing) which is synced over the network, supports client
@@ -18,12 +19,13 @@ using Mirror;
 /// This component should be used for all components which have some sort of directional behavior.
 /// </summary>
 [RequireComponent(typeof(RegisterTile))][ExecuteInEditMode]
-public class Directional : NetworkBehaviour, IMatrixRotation
+public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 {
 	[Tooltip("Direction of this object in the scene, used as the initial direction when the map loads.")]
 	public OrientationEnum InitialDirection = OrientationEnum.Down;
 
 	private OrientationEnum editorInitialDirection;
+	[PrefabModeOnly]
 	public UnityEvent onEditorDirectionChange;
 
 	/// <summary>
@@ -41,6 +43,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	/// matrix rotation to match the matrix rotation that occurred. If false,
 	/// direction will not be changed regardless of matrix rotation.
 	/// </summary>
+	[PrefabModeOnly]
 	[Tooltip("If true, direction will be changed at the end of " +
 	         "matrix rotation to match the matrix rotation that occurred. If false," +
 	         " direction will not be changed regardless of matrix rotation.")]
@@ -48,6 +51,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 
 	[Tooltip("If true this component will ignore all SyncVar updates. Useful if you just want to use" +
 	         "this component for easy direction changing at edit time")]
+	[PrefabModeOnly]
 	public bool DisableSyncing = false;
 
 	/// <summary>
@@ -118,7 +122,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
-void OnDrawGizmosSelected()
+	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
 
@@ -133,26 +137,31 @@ void OnDrawGizmosSelected()
 	}
 
 	#if UNITY_EDITOR
-	void Update()
+	private void Update()
 	{
 		if (!Application.isPlaying)
 		{
 			if (editorInitialDirection != InitialDirection)
 			{
-				editorInitialDirection = InitialDirection;
-				if(onEditorDirectionChange != null) onEditorDirectionChange.Invoke();
+				ChangeDirectionInEditor();
 			}
 		}
 	}
-	#endif
 
-	public override void OnStartServer()
+	public void ChangeDirectionInEditor()
 	{
-		var registerTile = GetComponent<RegisterTile>();
-		registerTile.WaitForMatrixInit(WaitForMatrixLoad);
+		editorInitialDirection = InitialDirection;
+		if (onEditorDirectionChange != null)
+		{
+			onEditorDirectionChange.Invoke();
+		}
+		transform.localEulerAngles = Vector3.zero;
+		EditorUtility.SetDirty(gameObject);
 	}
 
-	private void WaitForMatrixLoad(MatrixInfo matrixInfo)
+	#endif
+
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		serverDirection = new Orientation(InitialOrientation.Degrees);
 	}

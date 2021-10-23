@@ -13,7 +13,7 @@ namespace UI
 
 		public void BtnOk()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			gameObject.SetActive(false);
 
 		}

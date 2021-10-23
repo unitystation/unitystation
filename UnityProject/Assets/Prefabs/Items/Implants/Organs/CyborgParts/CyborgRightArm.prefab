@@ -25,10 +25,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0378a9ca5bc5ce945aac0e998962e216,
         type: 2}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: foreverID
+      value: 05849a8c832dadc4dbdbb0e5bbe37ec8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: spillChanceWhenCutPresent
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}

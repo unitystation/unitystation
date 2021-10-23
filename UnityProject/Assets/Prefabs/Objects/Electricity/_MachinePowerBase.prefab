@@ -14,24 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InData:
-    WireEndB: 0
-    WireEndA: 0
-    Categorytype: 0
-    ControllingDevice: {fileID: 0}
-    Present: {fileID: 0}
-    Data:
-      CurrentInWire: 0
-      ActualVoltage: 0
-      EstimatedResistance: 0
-      SupplyingCurrent: 0
-      InternalResistance: 0
-      SupplyingVoltage: 0
-      ProducingWatts: 0
-      ChangeToOff: 0
-      CurrentStoreValue: 0
-    DestroyQueueing: 0
-    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
@@ -53,7 +35,6 @@ MonoBehaviour:
     Ohms: 0
     ResistanceAvailable: 1
   EditorResistance: 0
-  NotEditorResistanceset: 1
   ReactionTo:
     ConnectingDevice: 0
     DirectionReaction: 0
@@ -150,6 +131,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: _MachinePowerBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: f9025da3beb40304cb15babfc0a6cafa
       objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

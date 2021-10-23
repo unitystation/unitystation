@@ -101,7 +101,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 12ce447deb3f3eb47b6b1d2978bb8998, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &7934139534291585897
 GameObject:
@@ -204,7 +204,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: b1f765c91deeccb4aa65d49f71339847, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &9154800603489594107
 GameObject:
@@ -307,7 +307,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 624c802034135c544bbbf700b476b1d2, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &4353788806237965640
 PrefabInstance:
@@ -322,6 +322,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0a9e2427149770148b3e6986156d3671,
         type: 2}
+    - target: {fileID: 3015805540452711487, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: foreverID
+      value: f03322d9ffd16e644abae72db1d8950a
+      objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: ammoType

@@ -59,7 +59,7 @@ public enum NetTabType
 	Airlock = 42,
 	Turret = 43,
 	ThermoMachine = 44,
-	ACU = 45, // Reserving my spot, to think I started at 30...
+	ACU = 45,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name

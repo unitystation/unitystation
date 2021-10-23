@@ -4,8 +4,10 @@ using UnityEngine;
 using Mirror;
 using Systems;
 using Systems.Spawns;
+using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
+using UI.CharacterCreator;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -352,14 +354,12 @@ public static class PlayerSpawn
 		}
 
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
-		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
 		//using parentTransform.rotation rather than Quaternion.identity because objects should always
 		//be upright w.r.t.  localRotation, NOT world rotation
 		var ghost = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
-		ghost.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		forMind.Ghosting(ghost);
 
@@ -389,10 +389,8 @@ public static class PlayerSpawn
 
 		//Get spawn location
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
-		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 		var newPlayer = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation, parentTransform);
-		newPlayer.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		//Create the mind without a job refactor this to make it as a ghost mind
 		Mind.Create(newPlayer);
@@ -415,11 +413,13 @@ public static class PlayerSpawn
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
 
-			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, new CharacterSettings());
+			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings();
+
+			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, randomSettings);
 
 
 			//fire all hooks
-			var info = SpawnInfo.Player(OccupationList.Instance.Get(JobType.ASSISTANT), new CharacterSettings(), CustomNetworkManager.Instance.humanPlayerPrefab,
+			var info = SpawnInfo.Player(OccupationList.Instance.Get(JobType.ASSISTANT), randomSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
 				SpawnDestination.At(spawnTransform.gameObject));
 			Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, dummy));
 		}
@@ -440,7 +440,6 @@ public static class PlayerSpawn
 		//player is only spawned on server, we don't sync it to other players yet
 		var spawnPosition = spawnWorldPosition;
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
-		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
 		if (playerPrefab == null)
@@ -452,7 +451,6 @@ public static class PlayerSpawn
 		//be upright w.r.t.  localRotation, NOT world rotation
 		var player = UnityEngine.Object.Instantiate(playerPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
-		player.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		return player;
 	}
@@ -524,12 +522,6 @@ public static class PlayerSpawn
 
 		}
 
-		var playerScript = newBody.GetComponent<PlayerScript>();
-		if (playerScript.PlayerSync != null)
-		{
-			playerScript.PlayerSync.NotifyPlayers(true);
-		}
-
 		// If the player is inside a container, send a ClosetHandlerMessage.
 		// The ClosetHandlerMessage will attach the container to the transfered player.
 		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
@@ -540,6 +532,7 @@ public static class PlayerSpawn
 
 		if (characterSettings != null)
 		{
+			var playerScript = newBody.GetComponent<PlayerScript>();
 			playerScript.characterSettings = characterSettings;
 			playerScript.playerName = playerScript.PlayerState != PlayerScript.PlayerStates.Ai ? characterSettings.Name : characterSettings.AiName;
 			newBody.name = characterSettings.Name;

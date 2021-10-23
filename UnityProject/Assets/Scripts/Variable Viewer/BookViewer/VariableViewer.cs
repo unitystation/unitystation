@@ -557,6 +557,8 @@ public static class Librarian
 				{
 					foreach (object c in list)
 					{
+						if (c == null) continue;
+
 						Sentence _sentence = new Sentence();
 						_sentence.ValueVariable = c;
 						_sentence.OnPageID = Page.ID;
@@ -1026,16 +1028,23 @@ public static class Librarian
 			//Logger.Log(this.ToString());
 			//Logger.Log(ID.ToString());
 			//Logger.Log(Variable.GetType().ToString());
-			if (PInfo != null)
+			try
 			{
-				PInfo.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
-			}
-			else if (Info != null)
-			{
-				Info.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
-			}
+				if (PInfo != null)
+				{
+					PInfo.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
+				}
+				else if (Info != null)
+				{
+					Info.SetValue(BindedTo.BookClass, DeSerialiseValue(Variable, Value, Variable.GetType()));
+				}
 
-			UpdatePage();
+				UpdatePage();
+			}
+			catch (ArgumentException exception)
+			{
+				Logger.LogError("Catch Argument Exception for Variable Viewer " + exception.Message, Category.VariableViewer);
+			}
 		}
 
 		public void Invoke()
@@ -1064,7 +1073,7 @@ public static class Librarian
 				{
 					if (InType == null || InObject == null || InObject as IConvertible == null)
 					{
-						Logger.LogError($"Can't convert {StringVariable} to {InObject.GetType()}  " +
+						Logger.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
 							$"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]", Category.VariableViewer);
 						return null;
 					}

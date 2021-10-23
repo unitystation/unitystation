@@ -156,7 +156,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 3a9de78bf93167b41aca0ce941e5f4b0, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1001 &1121291541897215969
 PrefabInstance:
@@ -165,6 +165,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: foreverID
+      value: 8045f2e94962c914b8ac82fbef1ea6e4
+      objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Sprite

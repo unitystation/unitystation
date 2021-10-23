@@ -1,0 +1,216 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-288669309392358375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8293460573435019875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1a7f835ef036e43a6a56f5f25de6a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mutatedFood: {fileID: 0}
+--- !u!1001 &1299383077833391439
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1209025498235043164, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 375
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209025498235043164, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: StartingNutrients
+      value: 375
+      objectReference: {fileID: 0}
+    - target: {fileID: 3771205322401006763, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 996d834c824e08e479793db4941b45ca,
+        type: 2}
+    - target: {fileID: 4155315648681964353, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: foreverID
+      value: f297c5f7ec90e204fa5a9991c56a8388
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954729823044027032, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_AssetId
+      value: f297c5f7ec90e204fa5a9991c56a8388
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990605135273558616, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6994121511001194284, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_Name
+      value: PlainBreadLoaf
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197290870251572336, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2c09aff5537c2a34c95b796521853cd8,
+        type: 3}
+    - target: {fileID: 7197290870251572336, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 02d398fc440d2444b8550ccce7184544,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dc413f18dbfe774ba2dd17ab349238d,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 51eb56e4ffa6ea84781e8d746e74bd0d,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b03a7bd9ff7f69e4cbdffb966b30cd3e,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c69a9aa067087c842aba3be609284b55,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2eb1055cec9ff0745b609167ca578340,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1de3551e79c953742b2e9acbb629efa6,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[7].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 74fac54f81c5bb544a775be9d6174a99,
+        type: 2}
+    - target: {fileID: 7393519938838312698, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[7].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7493293519372095566, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: initialName
+      value: bread loaf
+      objectReference: {fileID: 0}
+    - target: {fileID: 7493293519372095566, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: initialDescription
+      value: Some plain old earthen bread.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 8086802171712878468, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1c2bdc503ea85964dbb86ef10991bef8, type: 3}
+--- !u!1 &8293460573435019875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6994121511001194284, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1299383077833391439}
+  m_PrefabAsset: {fileID: 0}

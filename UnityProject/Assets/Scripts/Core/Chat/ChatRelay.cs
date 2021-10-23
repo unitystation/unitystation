@@ -56,6 +56,7 @@ public class ChatRelay : NetworkBehaviour
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
+		Loudness loud = chatEvent.VoiceLevel;
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local)
@@ -70,7 +71,7 @@ public class ChatRelay : NetworkBehaviour
 					players.RemoveAt(i);
 					continue;
 				}
-				
+
 				if (players[i].Script.gameObject == chatEvent.originator)
 				{
 					//Always send the originator chat to themselves
@@ -92,7 +93,7 @@ public class ChatRelay : NetworkBehaviour
 				//Send chat to PlayerChatLocation pos, usually just the player object but for AI is its vessel
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
 					?? players[i].Script.gameObject.AssumedWorldPosServer();
-					
+
 				//Do player position to originator distance check
 				if (DistanceCheck(playerPosition) == false)
 				{
@@ -104,7 +105,7 @@ public class ChatRelay : NetworkBehaviour
 					    aiPlayer.IsCarded == false)
 					{
 						playerPosition = players[i].Script.gameObject.AssumedWorldPosServer();
-						
+
 						//Check camera pos
 						if (DistanceCheck(playerPosition))
 						{
@@ -112,7 +113,7 @@ public class ChatRelay : NetworkBehaviour
 							continue;
 						}
 					}
-					
+
 					//Player failed distance checks remove them
 					players.RemoveAt(i);
 				}
@@ -168,7 +169,7 @@ public class ChatRelay : NetworkBehaviour
 				//Binary check here to avoid speaking in local when speaking on binary
 				if (!channels.HasFlag(ChatChannel.Binary) || (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false))
 				{
-					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
+					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 
 					continue;
@@ -187,7 +188,7 @@ public class ChatRelay : NetworkBehaviour
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channels != ChatChannel.None)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
+				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud, chatEvent.messageOthers,
 					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 			}
 		}
@@ -222,7 +223,7 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, Loudness loudness)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 

@@ -102,7 +102,7 @@ MonoBehaviour:
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &6387092560801259802
 GameObject:
@@ -447,6 +447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: a2f7e3ea5d1b72341939c4aeb0895b36
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}

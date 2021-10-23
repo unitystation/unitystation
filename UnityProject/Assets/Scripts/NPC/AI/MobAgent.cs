@@ -1,7 +1,8 @@
-﻿using Initialisation;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 using MLAgents;
 using Doors;
+using Objects;
 
 namespace Systems.MobAIs
 {
@@ -15,6 +16,7 @@ namespace Systems.MobAIs
 	{
 		protected CustomNetTransform cnt;
 		protected RegisterObject registerObj;
+		protected ObjectBehaviour objectBehaviour;
 		protected Directional directional;
 		protected LivingHealthBehaviour health; // For living beings
 		protected Integrity integrity; // For bots
@@ -27,17 +29,20 @@ namespace Systems.MobAIs
 		public bool performingAction;
 
 		public bool activated;
-		public float tickRate = 1f;
+		[Range(0.01f, 1), FormerlySerializedAs("tickRate")]
+		[Tooltip("Delay (in seconds) between mob actions/decisions.")]
+		public float TickDelay = 1f;
 		private float tickWait;
 		private float decisionTimeOut;
 
 		public bool Pause { get; set; }
 		protected RegisterTile OriginTile;
 
-		void Awake()
+		private void Awake()
 		{
 			cnt = GetComponent<CustomNetTransform>();
 			registerObj = GetComponent<RegisterObject>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
 			directional = GetComponent<Directional>();
 			health = GetComponent<LivingHealthBehaviour>();
 			integrity = GetComponent<Integrity>();
@@ -75,11 +80,6 @@ namespace Systems.MobAIs
 			cnt.OnTileReached().AddListener(OnTileReached);
 			startPos = OriginTile.WorldPositionServer;
 			isServer = true;
-			registerObj.WaitForMatrixInit(StartServerAgent);
-		}
-
-		void StartServerAgent(MatrixInfo info)
-		{
 			AgentServerStart();
 		}
 
@@ -128,7 +128,7 @@ namespace Systems.MobAIs
 		{
 		}
 
-		void MonitorDecisionMaking()
+		private void MonitorDecisionMaking()
 		{
 			// Only living mobs have health.  Some like the bots have integrity instead.
 			if (health != null) // Living mob
@@ -179,7 +179,7 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if (tickWait >= tickRate)
+			if (tickWait >= TickDelay)
 			{
 				tickWait = 0f;
 
@@ -200,67 +200,74 @@ namespace Systems.MobAIs
 			if (act == 0)
 			{
 				performingDecision = false;
+				return;
+			}
+			if (objectBehaviour.parentContainer != null)
+			{
+				foreach (var escapable in objectBehaviour.parentContainer.GetComponents<IEscapable>())
+				{
+					escapable.EntityTryEscape(gameObject);
+				}
+				return;
+			}
+
+			Vector2Int dirToMove = Vector2Int.zero;
+			int count = 1;
+			for (int y = 1; y > -2; y--)
+			{
+				for (int x = -1; x < 2; x++)
+				{
+					if (count == act)
+					{
+						dirToMove.x += x;
+						dirToMove.y += y;
+						y = -100;
+						break;
+					}
+					else
+					{
+						count++;
+					}
+				}
+			}
+
+			if (dirToMove == Vector2Int.zero)
+			{
+				performingDecision = false;
+				return;
+			}
+
+			var dest = registerObj.LocalPositionServer + (Vector3Int)dirToMove;
+
+			if (!cnt.Push(dirToMove, context: gameObject))
+			{
+				//Path is blocked try again
+				performingDecision = false;
+				DoorController tryGetDoor =
+					registerObj.Matrix.GetFirst<DoorController>(
+						dest, true);
+				if (tryGetDoor)
+				{
+					tryGetDoor.MobTryOpen(gameObject);
+				}
+
+				//New doors
+				DoorMasterController tryGetDoorMaster =
+					registerObj.Matrix.GetFirst<DoorMasterController>(
+						dest, true);
+				if (tryGetDoorMaster)
+				{
+					tryGetDoorMaster.Bump(gameObject);
+				}
 			}
 			else
 			{
-				Vector2Int dirToMove = Vector2Int.zero;
-				int count = 1;
-				for (int y = 1; y > -2; y--)
-				{
-					for (int x = -1; x < 2; x++)
-					{
-						if (count == act)
-						{
-							dirToMove.x += x;
-							dirToMove.y += y;
-							y = -100;
-							break;
-						}
-						else
-						{
-							count++;
-						}
-					}
-				}
+				OnPushSolid(dest);
+			}
 
-				if (dirToMove == Vector2Int.zero)
-				{
-					performingDecision = false;
-					return;
-				}
-
-				var dest = registerObj.LocalPositionServer + (Vector3Int)dirToMove;
-
-				if (!cnt.Push(dirToMove, context: gameObject))
-				{
-					//Path is blocked try again
-					performingDecision = false;
-					DoorController tryGetDoor =
-						registerObj.Matrix.GetFirst<DoorController>(
-							dest, true);
-					if (tryGetDoor)
-					{
-						tryGetDoor.MobTryOpen(gameObject);
-					}
-
-					//New doors
-					DoorMasterController tryGetDoorMaster =
-						registerObj.Matrix.GetFirst<DoorMasterController>(
-							dest, true);
-					if (tryGetDoorMaster)
-					{
-						tryGetDoorMaster.Bump(gameObject);
-					}
-				}
-				else
-				{
-					OnPushSolid(dest);
-				}
-
-				if (directional != null)
-				{
-					directional.FaceDirection(Orientation.From(dirToMove));
-				}
+			if (directional != null)
+			{
+				directional.FaceDirection(Orientation.From(dirToMove));
 			}
 		}
 

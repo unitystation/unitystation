@@ -69,7 +69,7 @@ public class GameData : MonoBehaviour
 
 	#region Lifecycle
 
-	private void Awake()
+	private void Start()
 	{
 		Init();
 	}
@@ -100,7 +100,7 @@ public class GameData : MonoBehaviour
 		{
 			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
 			{
-				AttemptAutoJoin();
+				AttemptAutoJoin(LobbyManager.Instance.lobbyDialogue.LoginSuccess);
 			}
 		}
 	}
@@ -183,7 +183,7 @@ public class GameData : MonoBehaviour
 		string uid = GetArgument("-uid");
 
 		//This is a hub message, attempt to login and connect to server
-		if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
+		if (!string.IsNullOrEmpty(serverIp) && !string.IsNullOrEmpty(port))
 		{
 			HubToServerConnect(serverIp, port, uid, token);
 			return true;
@@ -192,7 +192,7 @@ public class GameData : MonoBehaviour
 		return false;
 	}
 
-	private async void AttemptAutoJoin()
+	private async void AttemptAutoJoin(Action<String> OnLoginSuccess)
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
@@ -212,7 +212,7 @@ public class GameData : MonoBehaviour
 			});
 
 		await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser,
-			LobbyManager.Instance.lobbyDialogue.LoginSuccess,
+			OnLoginSuccess,
 			LobbyManager.Instance.lobbyDialogue.LoginError);
 	}
 
@@ -220,62 +220,78 @@ public class GameData : MonoBehaviour
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
-		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
-
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
 		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
+		LobbyManager.Instance.hostToggle.isOn = false;
+
 		GameScreenManager.Instance.serverIP = ip;
 
-		var refreshToken = new RefreshToken();
-		refreshToken.refreshToken = token;
-		refreshToken.userID = uid;
-
-		var response = await ServerData.ValidateToken(refreshToken);
-
-		if (response == null)
+		if (!String.IsNullOrEmpty(token))
 		{
-			LobbyManager.Instance.lobbyDialogue.LoginError(
-				$"Unknown server error. Please check your logs for more information by press F5");
-			return;
-		}
+			LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
+			var refreshToken = new RefreshToken();
+			refreshToken.refreshToken = token;
+			refreshToken.userID = uid;
 
-		if (!string.IsNullOrEmpty(response.errorMsg))
-		{
-			Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.DatabaseAPI);
-			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
-			return;
-		}
+			var response = await ServerData.ValidateToken(refreshToken);
 
-		await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message).ContinueWithOnMainThread(
-			async task =>
+			if (response == null)
 			{
-				if (task.IsCanceled)
-				{
-					Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
-					LobbyManager.Instance.lobbyDialogue.LoginError($"Sign in was cancelled");
-					return;
-				}
+				LobbyManager.Instance.lobbyDialogue.LoginError(
+					$"Unknown server error. Please check your logs for more information by press F5");
+				return;
+			}
 
-				if (task.IsFaulted)
-				{
-					Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
-					LobbyManager.Instance.lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
-					return;
-				}
+			if (!string.IsNullOrEmpty(response.errorMsg))
+			{
+				Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.DatabaseAPI);
+				LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
+				return;
+			}
 
-				var success = await ServerData.ValidateUser(task.Result, null, null);
+			await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message).ContinueWithOnMainThread(
+				async task =>
+				{
+					if (task.IsCanceled)
+					{
+						Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
+						LobbyManager.Instance.lobbyDialogue.LoginError($"Sign in was cancelled");
+						return;
+					}
 
-				if (success)
-				{
-					Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
-					LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
-				}
-				else
-				{
-					LobbyManager.Instance.lobbyDialogue.LoginError(
-						"Unknown error occured when verifying character settings on the server");
-				}
-			});
+					if (task.IsFaulted)
+					{
+						Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
+						LobbyManager.Instance.lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
+						return;
+					}
+
+					var success = await ServerData.ValidateUser(task.Result, null, null);
+
+					if (success)
+					{
+						Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
+						LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
+					}
+					else
+					{
+						LobbyManager.Instance.lobbyDialogue.LoginError(
+							"Unknown error occured when verifying character settings on the server");
+					}
+				});
+		}
+		else
+		{
+			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+			{
+				AttemptAutoJoin(OnHubConnectAutoJoinSuccess);
+			}
+		}
+	}
+
+	private void OnHubConnectAutoJoinSuccess(string msg)
+	{
+		LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
 	}
 
 	private void OnCharacterScreenCloseFromHubConnect()

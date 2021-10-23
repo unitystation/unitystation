@@ -78,19 +78,19 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 			{
-				Assemble(interaction, "metal", metalTable, SingletonSOSounds.Instance.Deconstruct);
+				Assemble(interaction, "metal", metalTable, CommonSounds.Instance.Deconstruct);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet))
 			{
-				Assemble(interaction, "glass", glassTable, SingletonSOSounds.Instance.GlassHit);
+				Assemble(interaction, "glass", glassTable, CommonSounds.Instance.GlassHit);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank))
 			{
-				Assemble(interaction, "wooden", woodTable, SingletonSOSounds.Instance.wood3);
+				Assemble(interaction, "wooden", woodTable, CommonSounds.Instance.wood3);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 			{
-				Assemble(interaction, "reinforced", reinforcedTable, SingletonSOSounds.Instance.Deconstruct);
+				Assemble(interaction, "reinforced", reinforcedTable, CommonSounds.Instance.Deconstruct);
 			}
 		}
 

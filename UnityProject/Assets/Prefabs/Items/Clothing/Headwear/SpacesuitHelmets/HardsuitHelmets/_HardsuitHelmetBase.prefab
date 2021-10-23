@@ -183,6 +183,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1bc524b932e63a04382723e5219d3f65,
         type: 2}
+    - target: {fileID: 4600432664360327230, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: foreverID
+      value: c60440956ff96af4b84ba3e95e41c3e0
+      objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Rad
@@ -316,17 +321,17 @@ PrefabInstance:
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
-      value: 0.55
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
-      value: 0.55
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 6699324801598458550, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
-      value: 0.55
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 7029879816411904817, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}

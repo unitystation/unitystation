@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
@@ -30,6 +29,7 @@ namespace Objects.Medical
 
 		private GUI_Cloning consoleGUI;
 		private RegisterTile registerTile;
+		private ClosetControl closet;
 
 		/// <summary>
 		/// Saved cloning records.
@@ -39,6 +39,7 @@ namespace Objects.Medical
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+			closet = GetComponent<ClosetControl>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -67,10 +68,10 @@ namespace Objects.Medical
 				UpdateInoperableStatus();
 				return;
 			}
-			if (scanner.IsClosed)
+			if (closet.IsOpen == false)
 			{
-				scanner.ServerToggleLocked();
-				scanner.statusString = scanner.IsLocked ? "Scanner locked." : "Scanner unlocked.";
+				closet.SetLock(closet.IsLocked ? ClosetControl.Lock.Unlocked : ClosetControl.Lock.Locked);
+				scanner.statusString = closet.IsLocked ? "Scanner locked." : "Scanner unlocked.";
 			}
 			else
 			{
@@ -147,10 +148,10 @@ namespace Objects.Medical
 			}
 		}
 
-		private void CreateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
+		private void CreateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
 			var record = new CloningRecord();
-			record.UpdateRecord(mob, playerScript);
+			record.UpdateRecord(livingHealth, playerScript);
 			cloningRecords.Add(record);
 		}
 
@@ -188,16 +189,16 @@ namespace Objects.Medical
 			scanID = Random.Range(0, 9999).ToString();
 		}
 
-		public void UpdateRecord(LivingHealthMasterBase mob, PlayerScript playerScript)
+		public void UpdateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
-			mobID = mob.mobID;
+			mobID = livingHealth.mobID;
 			mind = playerScript.mind;
 			name = playerScript.playerName;
 			characterSettings = playerScript.characterSettings;
-			oxyDmg = mob.GetOxyDamage();
-			burnDmg = mob.GetTotalBurnDamage();
+			oxyDmg = livingHealth.GetOxyDamage;
+			burnDmg = livingHealth.GetTotalBurnDamage();
 			toxinDmg = 0;
-			bruteDmg = mob.GetTotalBruteDamage();
+			bruteDmg = livingHealth.GetTotalBruteDamage();
 			uniqueIdentifier = "35562Eb18150514630991";
 		}
 	}

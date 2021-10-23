@@ -25,7 +25,7 @@ namespace UI.Objects.Atmospherics
 			// play toggle sound
 			if (muteSounds == false)
 			{
-				_ = SoundManager.Play(SingletonSOSounds.Instance.Valve); //volume 0.1f, pan: 0.3f
+				_ = SoundManager.Play(CommonSounds.Instance.Valve); //volume 0.1f, pan: 0.3f
 			}
 
 			// fix the shadow and rotate

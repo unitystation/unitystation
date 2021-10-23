@@ -309,6 +309,8 @@ namespace Objects.Construction
 					allowedTraits.Add(new AllowedTraitList(list.itemTrait));
 				}
 
+				netIdentity.isDirty = true;
+
 				Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
 				stateful.ServerChangeState(circuitAddedState);
 				putBoardInManually = true;
@@ -695,6 +697,8 @@ namespace Objects.Construction
 					allowedTraits.Add(new AllowedTraitList(list.itemTrait));
 				}
 			}
+
+			netIdentity.isDirty = true;
 
 			// Put it in
 			Inventory.ServerAdd(board, circuitBoardSlot);

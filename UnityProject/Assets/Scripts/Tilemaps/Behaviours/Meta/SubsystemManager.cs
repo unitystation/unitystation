@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Initialisation;
 using UnityEngine;
 using Mirror;
 
@@ -12,30 +10,14 @@ public class SubsystemManager : MonoBehaviour
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
 	private bool initialized;
 
-	private void Start()
-	{
-		LoadManager.RegisterAction(Init);
-	}
-
-	void Init()
+	[Server]
+	public void Initialize()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
-		StartCoroutine(Initialize());
-	}
-	IEnumerator Initialize()
-	{
-		while (!MatrixManager.IsInitialized)
+		foreach (var system in systems)
 		{
-			yield return WaitFor.EndOfFrame;
+			system.Initialize();
 		}
-		
-		yield return null; //So objects/doors can register themselves before atmospherics system scans for rooms
-		for (int i = 0; i < systems.Count; i++)
-		{
-			systems[i].Initialize();
-			yield return null;
-		}
-
 		initialized = true;
 	}
 

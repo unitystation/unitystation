@@ -35,6 +35,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8af1429ca219da24f893aa9ad0584dc6,
         type: 3}
+    - target: {fileID: 1551160093752787680, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 49fd66f37305f6c41a059c6a06068f58,
+        type: 2}
     - target: {fileID: 1596512047604066679, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
       propertyPath: m_RootOrder
@@ -106,6 +112,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 84eec8c9524b1694e95c0ca646db3184,
         type: 2}
+    - target: {fileID: 5660682764586686574, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: foreverID
+      value: 5f8f71237e56b5244a4119555cda299e
+      objectReference: {fileID: 0}
     - target: {fileID: 6805590453308241792, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
       propertyPath: MaximumMoles

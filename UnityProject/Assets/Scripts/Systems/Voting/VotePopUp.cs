@@ -49,7 +49,7 @@ namespace UI
 
 		public void VoteYes()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
 				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
@@ -63,7 +63,7 @@ namespace UI
 
 		public void VoteNo()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
 				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
@@ -76,10 +76,10 @@ namespace UI
 
 		public void AdminVeto()
 		{
-			_ = SoundManager.Play(SingletonSOSounds.Instance.Click01);
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (PlayerManager.PlayerScript != null)
 			{
-				PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote(ServerData.UserID, PlayerList.Instance.AdminToken);
+				PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote();
 			}
 			buttonPresses++;
 			ToggleButtons(false);

@@ -7,6 +7,7 @@ using AddressableReferences;
 using HealthV2;
 using Items;
 using Messages.Server.SoundMessages;
+using Player.Movement;
 using Systems.Interaction;
 
 public class WeaponNetworkActions : NetworkBehaviour
@@ -139,11 +140,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 				// The attack hit.
 				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 				{
-					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
-					if(DMMath.Prob(traumaDamageChance))
-					{
-						victimHealth.ApplyTraumaDamage(damageZone, damage, tramuticDamageType);
-					}
+					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 					didHit = true;
 				}
 				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
@@ -156,7 +153,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			{
 				// The punch missed.
 				string victimName = victim.ExpensiveName();
-				SoundManager.PlayNetworkedAtPos(SingletonSOSounds.Instance.PunchMiss, transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.PunchMiss, transform.position, sourceObj: gameObject);
 				Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
 					$"{gameObject.ExpensiveName()} has attempted to punch {victimName}!");
 			}

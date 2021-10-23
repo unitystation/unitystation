@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: DurathreadBeretRecipe
+  m_EditorClassIdentifier: 
+  category: 5
+  craftingTime: 4
+  recipeName: Durathread Beret
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 2
+    requiredItem: {fileID: 6518234990418498199, guid: 55ab7eb20bc5aee4bbcac44ce16ab954,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 6980020022460415521, guid: c54e94b479657484e86c4cb4f7622f91, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 311

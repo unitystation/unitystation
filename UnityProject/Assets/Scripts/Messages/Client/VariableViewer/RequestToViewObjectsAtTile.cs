@@ -1,5 +1,6 @@
-﻿using Mirror;
-using UnityEngine;
+﻿using UnityEngine;
+using Mirror;
+
 
 namespace Messages.Client.VariableViewer
 {
@@ -17,20 +18,17 @@ namespace Messages.Client.VariableViewer
 			ValidateAdmin(msg);
 		}
 
-		void ValidateAdmin(NetMessage msg)
+		private void ValidateAdmin(NetMessage msg)
 		{
-			var admin = PlayerList.Instance.GetAdmin(msg.AdminId, msg.AdminToken);
-			if (admin == null) return;
+			if (IsFromAdmin() == false) return;
 
 			global::VariableViewer.ProcessTile(msg.Location, SentByPlayer.GameObject);
 		}
 
-		public static NetMessage Send(Vector3 _Location, string adminId, string adminToken)
+		public static NetMessage Send(Vector3 _Location)
 		{
 			NetMessage msg = new NetMessage();
 			msg.Location = _Location;
-			msg.AdminId = adminId;
-			msg.AdminToken = adminToken;
 
 			Send(msg);
 			return msg;

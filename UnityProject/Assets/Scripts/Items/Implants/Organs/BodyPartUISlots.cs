@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace HealthV2
 {
-	public class BodyPartUISlots : Organ, IDynamicItemSlotS
+	public class BodyPartUISlots : MonoBehaviour, IDynamicItemSlotS
 	{
 		public NamedSlotFlagged NamedSlotFlagged;
 
 		private DynamicItemStorage ItemStorage;
-		public GameObject GameObject => gameObject;
+
+		[CanBeNull] public GameObject GameObject => gameObject;
+
 		public ItemStorage RelatedStorage => relatedStorage;
 
 		[SerializeField] [FormerlySerializedAs("RelatedStorage")]
@@ -23,25 +24,6 @@ namespace HealthV2
 
 		[SerializeField] [FormerlySerializedAs("Storage")]
 		private List<BodyPartUISlots.StorageCharacteristics> storage;
-
-		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
-		{
-			var dynamicItemStorage = livingHealthMasterBase.GetComponent<DynamicItemStorage>();
-			if (dynamicItemStorage != null)
-			{
-				dynamicItemStorage.Remove(this);
-			}
-		}
-
-		public override void HealthMasterSet()
-		{
-			if (RelatedPart.HealthMaster == null) return;
-			var dynamicItemStorage = RelatedPart.HealthMaster.GetComponent<DynamicItemStorage>();
-			if (dynamicItemStorage != null)
-			{
-				dynamicItemStorage.Add(this);
-			}
-		}
 
 		[System.Serializable]
 		public struct StorageCharacteristics

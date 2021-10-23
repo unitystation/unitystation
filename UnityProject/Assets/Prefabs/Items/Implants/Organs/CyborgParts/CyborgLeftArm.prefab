@@ -102,8 +102,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
+      propertyPath: CanBeBroken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
       propertyPath: spillChanceWhenCutPresent
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2934630090728222927, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
@@ -122,6 +132,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 22461163953d0de4f93ab6abb841f931,
         type: 2}
+    - target: {fileID: 4627556938812491582, guid: 719377fefb0114b448fc6ca9f7a5a6df,
+        type: 3}
+      propertyPath: foreverID
+      value: 6288c623448564447ad3e18185754a58
+      objectReference: {fileID: 0}
     - target: {fileID: 5603819714738991316, guid: 719377fefb0114b448fc6ca9f7a5a6df,
         type: 3}
       propertyPath: PresentSpriteSet

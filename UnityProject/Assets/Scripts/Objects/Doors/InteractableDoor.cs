@@ -121,7 +121,7 @@ namespace Doors
 		{
 			if (Controller == null) return;
 
-			if (Controller.IsClosed && Controller.IsHackable && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor))
+			if (Controller.IsClosed && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor))
 			{
 				//allows the jaws of life to pry open doors
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4.5f,

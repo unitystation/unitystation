@@ -26,6 +26,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6b5055fc1a351b742b629be57cdb01ac,
         type: 2}
+    - target: {fileID: 4397776740003088807, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
+      propertyPath: foreverID
+      value: 6cc52e3e49f58614882eba9fac485fbb
+      objectReference: {fileID: 0}
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
       propertyPath: initialName
@@ -38,9 +43,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: a579fbf00b8e2954889df615ba8a861f,
+        type: 2}
+    - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 64957c85b4ba5a1429d18378d62ed905,
         type: 2}
     - target: {fileID: 7160488065456827048, guid: 3d19628d41d177c469a643ad9c65a0a0,
         type: 3}

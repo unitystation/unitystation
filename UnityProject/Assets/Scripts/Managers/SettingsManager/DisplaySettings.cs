@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
 using UnityEngine;
 
 namespace Managers.SettingsManager
 {
-	public class DisplaySettings : MonoBehaviour
+	public class DisplaySettings : SingletonManager<DisplaySettings>
 	{
 		public class DisplaySettingsChangedEventArgs : EventArgs
 		{
@@ -77,6 +78,50 @@ namespace Managers.SettingsManager
 				}
 			}
 			private bool chatBubbleSizeChanged = false;
+
+			public bool ChatBubbleInstantChanged
+			{
+				get => chatBubbleInstantChanged;
+				set
+				{
+					chatBubbleInstantChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatBubbleInstantChanged = false;
+
+			public bool ChatBubblePopInSpeedChanged
+			{
+				get => chatBubblePopInSpeedChanged;
+				set
+				{
+					chatBubblePopInSpeedChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatBubblePopInSpeedChanged = false;
+
+			public bool ChatBubbleAdditionalTimeChanged
+			{
+				get => chatBubbleAdditionalTimeChanged;
+				set
+				{
+					chatBubbleAdditionalTimeChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatBubbleAdditionalTimeChanged = false;
+
+			public bool ChatBubbleClownColourChanged
+			{
+				get => chatBubbleClownColourChanged;
+				set
+				{
+					chatBubbleClownColourChanged = value;
+					changed |= value;
+				}
+			}
+			private bool chatBubbleClownColourChanged = false;
 		}
 
 
@@ -211,6 +256,7 @@ namespace Managers.SettingsManager
 		private const int MIN_ZOOMLEVEL = 8;
 		private const int MAX_ZOOMLEVEL = 64;
 
+		#region ChatBubbles
 
 		public float ChatBubbleSize
 		{
@@ -222,7 +268,7 @@ namespace Managers.SettingsManager
 			{
 				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
 				{
-					if (value != ChatBubbleSize)
+					if (value.Approx(ChatBubbleSize) == false)
 					{
 						dsEventArgs.ChatBubbleSizeChanged = true;
 						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, value);
@@ -236,7 +282,119 @@ namespace Managers.SettingsManager
 				}
 			}
 		}
-		private const float DEFAULT_CHATBUBBLESIZE = 2f;
+
+		public const float DEFAULT_CHATBUBBLESIZE = 2f;
+
+		public int ChatBubbleInstant
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleInstant, DEFAULT_CHATBUBBLEINSTANT);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleInstant))
+				{
+					if (value != ChatBubbleInstant)
+					{
+						dsEventArgs.ChatBubbleInstantChanged = true;
+						PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		// 0 == false, 1 == true
+		public const int DEFAULT_CHATBUBBLEINSTANT = 0;
+
+		public float ChatBubblePopInSpeed
+		{
+			get
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DEFAULT_CHATBUBBLEPOPINSPEED);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubblePopInSpeed))
+				{
+					if (value.Approx(ChatBubblePopInSpeed) == false)
+					{
+						dsEventArgs.ChatBubblePopInSpeedChanged = true;
+						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		public const float DEFAULT_CHATBUBBLEPOPINSPEED = 0.05f;
+
+		public float ChatBubbleAdditionalTime
+		{
+			get
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, DEFAULT_CHATBUBBLEADDITIONALTIME);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleAdditionalTime))
+				{
+					if (value.Approx(ChatBubbleAdditionalTime) == false)
+					{
+						dsEventArgs.ChatBubbleAdditionalTimeChanged = true;
+						PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		public const float DEFAULT_CHATBUBBLEADDITIONALTIME = 2f;
+
+		public int ChatBubbleClownColour
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleClownColour, DEFAULT_CHATBUBBLECLOWNCOLOUR);
+			}
+			set
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleClownColour))
+				{
+					if (value != ChatBubbleClownColour)
+					{
+						dsEventArgs.ChatBubbleClownColourChanged = true;
+						PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleClownColour, value);
+						PlayerPrefs.Save();
+					}
+				}
+				else
+				{
+					PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleClownColour, value);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
+		public const int DEFAULT_CHATBUBBLECLOWNCOLOUR = 1;
+
+		#endregion
 
 		//TODO: Resolution options: issues #2047 #4107
 
@@ -247,8 +405,9 @@ namespace Managers.SettingsManager
 			handler?.Invoke(this, e);
 		}
 
-		private void Awake()
+		public override void Awake()
 		{
+			base.Awake();
 			IsFullScreen = Screen.fullScreen;
 			SetupPrefs();
 		}
@@ -337,6 +496,22 @@ namespace Managers.SettingsManager
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ScrollWheelZoom))
 			{
 				ScrollWheelZoom = DEFAULT_SCROLLWHEELZOOM;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleInstant))
+			{
+				ChatBubbleInstant = DEFAULT_CHATBUBBLEINSTANT;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubblePopInSpeed))
+			{
+				ChatBubblePopInSpeed = DEFAULT_CHATBUBBLEPOPINSPEED;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleAdditionalTime))
+			{
+				ChatBubbleAdditionalTime = DEFAULT_CHATBUBBLEADDITIONALTIME;
+			}
+			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleClownColour))
+			{
+				ChatBubbleClownColour = DEFAULT_CHATBUBBLECLOWNCOLOUR;
 			}
 		}
 

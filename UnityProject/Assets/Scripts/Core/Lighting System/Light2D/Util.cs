@@ -626,7 +626,7 @@ namespace Light2D
 		}
 	}
 
-	public class ReadOnlyAttribute : PropertyAttribute
+	public class ReadOnlyAttributeLight2D : PropertyAttribute
 	{
 
 	}

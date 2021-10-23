@@ -159,6 +159,7 @@ public class ChatEntry : MonoBehaviour
 		}
 	}
 
+
 	public void AddChatDuplication()
 	{
 		if (stackCount == 1)
@@ -267,11 +268,18 @@ public class ChatEntry : MonoBehaviour
 
 	private void SetStackPos()
 	{
-		var lastCharacter = messageText.textInfo.characterInfo[messageText.textInfo.characterCount - 1];
-		var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
-		var newWorldPos = stackObject.transform.position;
-		newWorldPos.x = charWorld.x + 3;
-		stackObject.transform.position = newWorldPos;
+		if (messageText.textInfo.characterCount - 1 < messageText.textInfo.characterInfo.Length)
+		{
+			var lastCharacter = messageText.textInfo.characterInfo[messageText.textInfo.characterCount - 1];
+			var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
+			var newWorldPos = stackObject.transform.position;
+			newWorldPos.x = charWorld.x + 3;
+			stackObject.transform.position = newWorldPos;
+		}
+		else
+		{
+			Logger.LogError("Caught an IndexOutOfRange in ChatEntry.SetStackPos() ln 273", Category.Chat);
+		}
 	}
 
 	private void AnimateFade(float toAlpha, float time)

@@ -13,6 +13,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7467296567942243785, guid: 407fbe1180c4d864f8d80efa07b518e3,
         type: 3}
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: CookableBy
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1235368713201754175, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 7467296567942243785, guid: 407fbe1180c4d864f8d80efa07b518e3,
+        type: 3}
     - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: initialName
@@ -142,5 +153,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7841d1094dfee6e4c80816906a1d84fd,
         type: 2}
+    - target: {fileID: 9083999932805424510, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: foreverID
+      value: 4e05669938be94241b6b3453843bdd31
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}

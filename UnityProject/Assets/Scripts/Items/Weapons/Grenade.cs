@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Explosions;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using Objects;
 
 namespace Items.Weapons
@@ -93,7 +94,7 @@ namespace Items.Weapons
 			{
 				timerRunning = true;
 				UpdateTimer(timerRunning);
-				PlayPinSFX(originator.transform.position);
+				PlayPinSFX(originator.WorldPosServer());
 
 				if (unstableFuse)
 				{
@@ -143,14 +144,6 @@ namespace Items.Weapons
 				var explosionMatrix = registerItem.Matrix;
 				var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
-				// If the grenade was in a closet before despawning it,
-				// it would be useful to remove it from the closet item list to avoid NullReferenceExceptions
-				ClosetControl closetControl = null;
-				if ((objectBehaviour.parentContainer != null) && (objectBehaviour.parentContainer.TryGetComponent(out closetControl)))
-				{
-					closetControl.ServerHeldItems.Remove(objectBehaviour);
-				}
-
 				// Despawn grenade
 				_ = Despawn.ServerSingle(gameObject);
 
@@ -163,7 +156,7 @@ namespace Items.Weapons
 
 		private void PlayPinSFX(Vector3 position)
 		{
-			SoundManager.PlayNetworkedAtPos(armbomb, position, sourceObj: gameObject);
+			_ = SoundManager.PlayNetworkedAtPosAsync(armbomb, position);
 		}
 
 		private void UpdateTimer(bool timerRunning)

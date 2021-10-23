@@ -4,7 +4,6 @@ using Mirror;
 using Shuttles;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
 namespace Tilemaps.Behaviours.Layers
 {
@@ -33,6 +32,10 @@ namespace Tilemaps.Behaviours.Layers
 		[HideInInspector]
 		public MatrixSync MatrixSync;
 
+		[NonSerialized] public bool Initialized;
+
+		public Matrix matrix;
+
 		/// <summary>
 		/// Gets a unity event that the caller can subscribe to which will be fired once
 		/// the networking for this matrix is initialized.
@@ -45,7 +48,7 @@ namespace Tilemaps.Behaviours.Layers
 			if (unityEvent == null)
 			{
 				unityEvent = new NetworkedMatrixInitEvent();
-				NetInitActions[networkedMatrixNetId] = unityEvent;
+				NetInitActions.Add(networkedMatrixNetId, unityEvent);
 			}
 
 			return unityEvent;
@@ -66,8 +69,7 @@ namespace Tilemaps.Behaviours.Layers
 			}
 
 			//fire immediately if matrix is already initialized
-			InitializedMatrices.TryGetValue(networkedMatrixNetId, out var networkedMatrix);
-			if (networkedMatrix != null)
+			if (InitializedMatrices.TryGetValue(networkedMatrixNetId, out var networkedMatrix))
 			{
 				toInvoke.Invoke(networkedMatrix);
 			}
@@ -102,6 +104,11 @@ namespace Tilemaps.Behaviours.Layers
 			NetInitActions.Remove(MatrixSync.netId);
 		}
 
+		private void Awake()
+		{
+			matrix = GetComponentInChildren<Matrix>();
+		}
+
 		private void Start()
 		{
 			//Matrixes cannot be networked as a message to spawn an object beneath it can happen before the matrix has activated
@@ -117,14 +124,8 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				InitializedMatrices.Add(MatrixSync.netId, this);
 			}
-
-			//ensure all register tiles in this matrix have the correct net id
-			foreach (var rt in GetComponentsInChildren<RegisterTile>())
-			{
-				rt.ServerSetNetworkedMatrixNetID(MatrixSync.netId);
-			}
-
 			FireInitEvents();
+			Initialized = true;
 		}
 
 		public void OnStartClient()
@@ -133,14 +134,13 @@ namespace Tilemaps.Behaviours.Layers
 			{
 				InitializedMatrices.Add(MatrixSync.netId, this);
 			}
-
 			//make sure layer orientations are refreshed now that this matrix is initialized
 			foreach (var layer in GetComponentsInChildren<Layer>())
 			{
 				layer.InitFromMatrix();
 			}
-
 			FireInitEvents();
+			Initialized = true;
 		}
 
 		public void BackUpSetMatrixSync()

@@ -25,7 +25,7 @@ public class Armor
 	[Range(-100,100)] public float Magic;
 	[Range(-100,100)] public float Bio;
 
-	[Range(0f,1f)] public float DismembermentProtectionChance;
+	[Range(0,100)] public int DismembermentProtectionChance;
 
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance and armor penetration.
@@ -134,50 +134,6 @@ public class Armor
 		}
 
 		return 0;
-	}
-
-	/// <summary>
-	/// Operator override to add all armor types with ease. Thank you, Redline.
-	/// </summary>
-	public static Armor operator +(Armor a, Armor b)
-	{
-		var armor = new Armor
-		{
-			Melee = a.Melee + b.Melee,
-			Bullet = a.Bullet + b.Bullet,
-			Laser = a.Laser + b.Laser,
-			Energy = a.Energy + b.Energy,
-			Bomb = a.Bomb + b.Bomb,
-			Rad = a.Rad + b.Rad,
-			Fire = a.Fire + b.Fire,
-			Acid = a.Acid + b.Acid,
-			Magic = a.Magic + b.Magic,
-			Bio = a.Bio + b.Bio
-		};
-
-		return armor;
-	}
-
-	/// <summary>
-	/// Operator override to subtract all armor types with ease. Thank you, Redline.
-	/// </summary>
-	public static Armor operator -(Armor a, Armor b)
-	{
-		var armor = new Armor
-		{
-			Melee = a.Melee - b.Melee,
-			Bullet = a.Bullet - b.Bullet,
-			Laser = a.Laser - b.Laser,
-			Energy = a.Energy - b.Energy,
-			Bomb = a.Bomb - b.Bomb,
-			Rad = a.Rad - b.Rad,
-			Fire = a.Fire - b.Fire,
-			Acid = a.Acid - b.Acid,
-			Magic = a.Magic - b.Magic,
-			Bio = a.Bio - b.Bio
-		};
-
-		return armor;
 	}
 }
 

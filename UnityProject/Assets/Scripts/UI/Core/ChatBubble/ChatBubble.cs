@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ChatBubble : MonoBehaviour
 {
@@ -12,16 +14,17 @@ public class ChatBubble : MonoBehaviour
 	public Transform Target => target;
 	private Camera cam;
 
-	[SerializeField]
-	[Tooltip("The default font used when speaking.")]
+	[SerializeField] [Tooltip("The default font used when speaking.")]
 	private TMP_FontAsset fontDefault = null;
-	[SerializeField]
-	[Tooltip("The font used when the player is an abominable clown.")]
+
+	[SerializeField] [Tooltip("The font used when the player is an abominable clown.")]
 	private TMP_FontAsset fontClown = null;
+
+	[SerializeField] private TextMeshProUGUI bubbleText = null;
+
 	[SerializeField]
-	private TextMeshProUGUI bubbleText = null;
-	[SerializeField]
-	[Tooltip("The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
+	[Tooltip(
+		"The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
 	[Range(1, 200)]
 	private int maxMessageLength = 70;
 
@@ -29,9 +32,27 @@ public class ChatBubble : MonoBehaviour
 
 	class BubbleMsg
 	{
-		public float maxTime; public string msg; public float elapsedTime = 0f;
+		public float maxTime;
+		public string msg;
+		public float elapsedTime = 0f;
+
+		//Character showing delay vars
+		internal int characterIndex = 0;
+
+		//Use invis characters so text box doesnt resize
+		//keeps characters in the same place as characters appear (easier to read)
+		public bool buffered = true;
+
+		//Text appears instantly instead of pop in, from player prefs
+		public bool instantText = false;
+
+		//Character pop in speed, from player prefs
+		//TODO maybe add override?
+		internal float characterPopInSpeed;
+
 		internal ChatModifier modifier;
 	}
+
 	private Queue<BubbleMsg> msgQueue = new Queue<BubbleMsg>();
 	private bool showingDialogue = false;
 
@@ -79,13 +100,12 @@ public class ChatBubble : MonoBehaviour
 	private float bubbleSize = 2;
 
 	[SerializeField]
-	[Tooltip("The size multiplier of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
+	[Tooltip(
+		"The size multiplier of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
 	[Range(1, 100)]
 	private float bubbleSizeCaps = 1.2f;
 
-	[SerializeField]
-	[Tooltip("The size multipler of the chat bubble when starts the sentence with #.")]
-	[Range(1, 100)]
+	[SerializeField] [Tooltip("The size multipler of the chat bubble when starts the sentence with #.")] [Range(1, 100)]
 	private float bubbleSizeWhisper = 0.5f;
 
 	private CancellationTokenSource cancelSource;
@@ -106,6 +126,7 @@ public class ChatBubble : MonoBehaviour
 			total += msg.maxTime;
 			total += displayTimePerCharacter * displayTimeCharactersPerBubble;
 		}
+
 		return total;
 	}
 
@@ -114,7 +135,7 @@ public class ChatBubble : MonoBehaviour
 	/// </summary>
 	private float TimeToShow(int charCount)
 	{
-		return Mathf.Clamp((float)charCount * displayTimePerCharacter, displayTimeMin, displayTimeMax);
+		return Mathf.Clamp((float) charCount * displayTimePerCharacter, displayTimeMin, displayTimeMax);
 	}
 
 	private void OnEnable()
@@ -138,7 +159,7 @@ public class ChatBubble : MonoBehaviour
 	/// </summary>
 	public void SetupBubble(Transform _target, string msg, ChatModifier chatModifier = ChatModifier.None)
 	{
-		if(cam == null) cam = Camera.main;
+		if (cam == null) cam = Camera.main;
 
 		Vector3 viewPos = cam.WorldToScreenPoint(_target.position);
 		transform.position = viewPos;
@@ -167,22 +188,25 @@ public class ChatBubble : MonoBehaviour
 						break;
 					}
 				}
+
 				//Player is spamming with no whitespace. Cut it up
 				if (ws == -1 || ws == 0) ws = maxMessageLength + 2;
 
 				var split = msg.Substring(0, ws);
-				msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(split.Length), msg = split, modifier = chatModifier });
+				msgQueue.Enqueue(new BubbleMsg
+					{maxTime = TimeToShow(split.Length), msg = split, modifier = chatModifier});
 
 				msg = msg.Substring(ws + 1);
 				if (msg.Length <= maxMessageLength)
 				{
-					msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg, modifier = chatModifier });
+					msgQueue.Enqueue(new BubbleMsg
+						{maxTime = TimeToShow(msg.Length), msg = msg, modifier = chatModifier});
 				}
 			}
 		}
 		else
 		{
-			msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg, modifier = chatModifier });
+			msgQueue.Enqueue(new BubbleMsg {maxTime = TimeToShow(msg.Length), msg = msg, modifier = chatModifier});
 		}
 
 		// Progress quickly through the queue if there is a lot of text left.
@@ -197,8 +221,28 @@ public class ChatBubble : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 			yield break;
 		}
+
+		DoBubble:
+
 		BubbleMsg msg = msgQueue.Dequeue();
-		SetBubbleParameters(msg.msg, msg.modifier);
+
+		//Sets the chat text to instant from player prefs, 1 == true
+		msg.instantText = PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleInstant) == 1;
+
+		bubbleSize = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
+
+		if (msg.instantText)
+		{
+			SetBubbleParameters(msg.msg, msg.modifier);
+		}
+		else
+		{
+			//Sets the chat character pop in speed from player prefs
+			msg.characterPopInSpeed = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed);
+
+			//See if the show time needs updating for speed
+			CheckShowTime(msg);
+		}
 
 		while (showingDialogue)
 		{
@@ -208,7 +252,14 @@ public class ChatBubble : MonoBehaviour
 			}
 
 			yield return WaitFor.EndOfFrame;
+
 			msg.elapsedTime += Time.deltaTime;
+
+			if (msg.instantText == false)
+			{
+				ShowCharacter(msg);
+			}
+
 			if (msg.elapsedTime * displayTimeMultiplier >= msg.maxTime && msg.elapsedTime >= displayTimeMin)
 			{
 				if (msgQueue.Count == 0)
@@ -217,8 +268,7 @@ public class ChatBubble : MonoBehaviour
 				}
 				else
 				{
-					msg = msgQueue.Dequeue();
-					SetBubbleParameters(msg.msg, msg.modifier);
+					goto DoBubble;
 				}
 			}
 		}
@@ -226,7 +276,69 @@ public class ChatBubble : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 	}
 
-    void UpdateMe()
+	/// <summary>
+	/// Pops in characters from the message over time
+	/// </summary>
+	private void ShowCharacter(BubbleMsg msg)
+	{
+		while (msg.elapsedTime > 0f)
+		{
+			if (msg.characterIndex > msg.msg.Length - 1) break;
+
+			msg.elapsedTime -= msg.characterPopInSpeed;
+			var currentCharacter = msg.msg[msg.characterIndex];
+
+			if (char.IsWhiteSpace(currentCharacter))
+			{
+				msg.elapsedTime -= msg.characterPopInSpeed * 2f;
+			}
+			else if (char.IsPunctuation(currentCharacter))
+			{
+				msg.elapsedTime -= msg.characterPopInSpeed * 3f;
+			}
+
+			var text = msg.msg.Substring(0, msg.characterIndex + 1);
+			var newText = new StringBuilder();
+
+			//God Save Our Eyes
+			if ((msg.modifier & ChatModifier.Clown) == ChatModifier.Clown &&
+			    PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleClownColour) == 1)
+			{
+				for (int i = 0; i < text.Length; i++)
+				{
+					newText.Append($"<color=#{RandomUtils.CreateRandomBrightColorString()}>{text[i]}</color>");
+				}
+			}
+			else
+			{
+				newText.Append(text);
+			}
+
+			if (msg.buffered && msg.characterIndex < msg.msg.Length - 1)
+			{
+				//Add the rest of the character but invisible to make bubble correct size
+				//and keep the characters in the same place (helps reading)
+				newText.Append($"<color=#00000000>{msg.msg.Substring(msg.characterIndex + 1)}</color>");
+			}
+
+			SetBubbleParameters(newText.ToString(), msg.modifier);
+
+			msg.characterIndex++;
+		}
+	}
+
+	private void CheckShowTime(BubbleMsg msg)
+	{
+		var timeLeft = msg.maxTime - (msg.msg.Length * msg.characterPopInSpeed);
+		var additionalTime = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime);
+
+		if (timeLeft >= additionalTime) return;
+
+		//Set max time to the needed amount
+		msg.maxTime = additionalTime - timeLeft;
+	}
+
+	void UpdateMe()
     {
 	    if (target != null)
 	    {
@@ -277,8 +389,8 @@ public class ChatBubble : MonoBehaviour
 
 	    // Apply values
 	    UpdateChatBubbleSize();
-	    chatBubble.SetActive(true);
 	    bubbleText.text = msg;
+	    chatBubble.SetActive(true);
     }
 
     /// <summary>

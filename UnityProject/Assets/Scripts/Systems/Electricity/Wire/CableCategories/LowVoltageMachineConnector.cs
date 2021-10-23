@@ -50,7 +50,10 @@ namespace Objects.Engineering
 
 			ToolUtils.ServerPlayToolSound(interaction);
 
-			Spawn.ServerPrefab(machineConnectorPrefab, gameObject.AssumedWorldPosServer());
+			Spawn.ServerPrefab(
+					machineConnectorPrefab, gameObject.AssumedWorldPosServer(),
+					// Random positioning to make it clear this is disassembled
+					scatterRadius: 0.35f, localRotation: RandomUtils.RandomRotation2D());
 			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
