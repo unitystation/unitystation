@@ -77,7 +77,7 @@ namespace InGameEvents
 
 			foreach (var audioSource in eventMusic.AddressableAudioSource)
 			{
-				var song = await SoundManager.GetAddressableAudioSourceFromCache(audioSource);
+				var song = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
 				musics.Add(song);
 				MusicListCache.Add(song.AudioSource.clip.name.Split('_')[0]);
 			}

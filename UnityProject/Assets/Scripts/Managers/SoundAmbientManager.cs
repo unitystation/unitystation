@@ -55,7 +55,7 @@ namespace Audio.Managers
 		{
 			foreach (var source in audioSources)
 			{
-				var sound = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { source });
+				var sound = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { source });
 
 				if (Instance.ambientAudioSources.ContainsKey(sound.AudioSource.clip.name)) continue;
 

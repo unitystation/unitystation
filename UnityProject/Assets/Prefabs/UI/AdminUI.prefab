@@ -7125,6 +7125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonTemplate: {fileID: 8474970574817921969}
   soundButtons: []
+  musicAddressables: {fileID: 11400000, guid: 8f0c7210e66131a4980538619cd9d9cc, type: 2}
+  soundAddressables: {fileID: 11400000, guid: c1b2f01cfa730ed4aaa225c8cd7a0405, type: 2}
 --- !u!1 &4691709227139562678
 GameObject:
   m_ObjectHideFlags: 0
@@ -14882,6 +14884,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a6f9494007d064a8f9c7fde98a31ab, type: 3}
+--- !u!224 &3677468499188786878 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4427115934648860669, guid: 56a6f9494007d064a8f9c7fde98a31ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 1042786041408346435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8178515582144606883 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9153378183886187488, guid: 56a6f9494007d064a8f9c7fde98a31ab,
@@ -14894,12 +14902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d2aece24bd3c47b266d505e6077db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &3677468499188786878 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4427115934648860669, guid: 56a6f9494007d064a8f9c7fde98a31ab,
-    type: 3}
-  m_PrefabInstance: {fileID: 1042786041408346435}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1780882892158390858
 PrefabInstance:
   m_ObjectHideFlags: 0

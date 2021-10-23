@@ -71,7 +71,7 @@ namespace Audio.Containers
 		{
 			StopMusic();
 			if (currentLobbyAudioSource == null) Init();
-			var audioSource = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
+			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
 			if(audioSource == null)
 			{
 				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);

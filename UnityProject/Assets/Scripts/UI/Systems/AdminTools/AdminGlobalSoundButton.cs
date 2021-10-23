@@ -11,19 +11,25 @@ namespace AdminTools
 	public class AdminGlobalSoundButton : MonoBehaviour
 	{
 		public Text myText;
+		private int _index;
 
 		private AdminGlobalSound adminGlobalSound;
 
-		public void SetAdminGlobalSoundButtonText(string textString)
+		public void SetText(string textString)
 		{
 			myText.text = textString;
+		}
+
+		public void SetIndex(int index)
+		{
+			_index = index;
 		}
 
 		public void Onclick()
 		{
 			adminGlobalSound = GetComponentInParent<AdminGlobalSound>();
 
-			adminGlobalSound.PlaySound(myText.text); // Gives text to function to play sound.
+			adminGlobalSound.PlaySound(_index); // Gives text to function to play sound.
 		}
 	}
 }

@@ -23,12 +23,6 @@ public class SoundManager : MonoBehaviour
 	[SerializeField] private GameObject soundSpawnPrefab = null;
 
 	/// <summary>
-	/// Library of AddressableAudioSource.  Might be loaded or not.
-	/// </summary>
-	/// <remarks>Always use GetAddressableAudioSourceFromCache if you want a loaded version</remarks>
-	[HideInInspector] public readonly List<AddressableAudioSource> SoundsLibrary = new List<AddressableAudioSource>();
-
-	/// <summary>
 	/// A list of all sounds currently playing
 	/// </summary>
 	/// <remarks>
@@ -95,82 +89,6 @@ public class SoundManager : MonoBehaviour
 	#endregion
 
 	/// <summary>
-	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
-	/// </summary>
-	/// <param name="addressableAudioSources">The sound to be played.</param>
-	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
-	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(AddressableAudioSource addressableAudioSource)
-	{
-    //Make sure it is a valid Addressable AudioSource
-    if (addressableAudioSource == null || addressableAudioSource == default(AddressableAudioSource))
-		{
-			Logger.LogWarning("SoundManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Audio);
-			return null;
-		}
-		if (string.IsNullOrEmpty(addressableAudioSource.AssetAddress))
-		{
-			Logger.LogWarning("SoundManager received a null address for an addressable, look at log trace for responsible component", Category.Audio);
-			return null;
-		}
-		if (addressableAudioSource.AssetAddress == "null")
-		{
-			Logger.LogWarning("SoundManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
-			return null;
-		}
-		if(await addressableAudioSource.HasValidAddress() == false) return null;
-
-		//Try to get the Audio Source from cache, if its not there load it into cache
-		AddressableAudioSource addressableAudioSourceFromCache = null;
-		lock (Instance.SoundsLibrary)
-		{
-			addressableAudioSourceFromCache =
-				Instance.SoundsLibrary.FirstOrDefault(p => p.AssetAddress == addressableAudioSource.AssetAddress);
-		}
-		if (addressableAudioSourceFromCache == null)
-		{
-			lock (Instance.SoundsLibrary)
-			{
-				Instance.SoundsLibrary.Add(addressableAudioSource);
-			}
-			addressableAudioSourceFromCache = addressableAudioSource;
-		}
-
-		//Ensure that the audio source is loaded
-		GameObject gameObject = await addressableAudioSourceFromCache.Load();
-
-		if (gameObject == null)
-		{
-			Logger.LogError(
-				$"AddressableAudioSource in SoundManager failed to load from address: {addressableAudioSourceFromCache.AssetAddress}",
-				Category.Audio);
-			return null;
-		}
-
-		if (gameObject.TryGetComponent(out AudioSource audioSource) == false)
-		{
-			Logger.LogError(
-				$"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSourceFromCache.AssetAddress}",
-				Category.Audio);
-			return null;
-		}
-
-		return addressableAudioSourceFromCache;
-	}
-
-	/// <summary>
-	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
-	/// If more than one addressableAudioSource is provided, one will be picked at random.
-	/// </summary>
-	/// <param name="addressableAudioSources">A list containing sounds to be played. If more than one is specified, one will be picked at random.</param>
-	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
-	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(List<AddressableAudioSource> addressableAudioSources)
-	{
-		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
-		return addressableAudioSource;
-	}
-
-	/// <summary>
 	/// Generates a SoundSpawn and put it the SoundSpawns list.
 	/// This copies the AudioSource settings to the new SoundSpawn instance and returns it.
 	/// </summary>
@@ -234,7 +152,7 @@ public class SoundManager : MonoBehaviour
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters())
 	{
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		//addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
 	}
 
@@ -277,7 +195,7 @@ public class SoundManager : MonoBehaviour
 			return null;
 		}
 
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);;
+		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);;
 
 		if (global)
 		{
@@ -422,7 +340,7 @@ public class SoundManager : MonoBehaviour
 				Category.Audio);
 			return;
 		}
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 		PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 			audioSourceParameters);
 	}
@@ -460,7 +378,7 @@ public class SoundManager : MonoBehaviour
 		if(GameData.IsHeadlessServer)
 			return;
 
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
@@ -591,7 +509,7 @@ public class SoundManager : MonoBehaviour
 			return;
 
 		AddressableAudioSource addressableAudioSource =
-			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+			await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSources);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 

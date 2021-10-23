@@ -138,7 +138,7 @@ namespace Objects
 
 			foreach (var audioSource in adminMusic.AddressableAudioSource)
 			{
-				var song = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { audioSource });
+				var song = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { audioSource });
 				musics.Add(song);
 			}
 

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using AdminCommands;
 using DatabaseAPI;
+using Audio.Containers;
+using System.Threading.Tasks;
+using AddressableReferences;
+
 
 namespace AdminTools
 {
@@ -15,41 +19,76 @@ namespace AdminTools
 		private AdminGlobalSoundSearchBar SearchBar;
 		public List<GameObject> soundButtons = new List<GameObject>();
 
+		[SerializeField] private AudioClipsArray musicAddressables = null;
+		[SerializeField] private AudioClipsArray soundAddressables = null;
+
+		public List<AddressableAudioSource> musicList;
+		public List<AddressableAudioSource> soundList;
+
 		private void Awake()
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalSoundSearchBar>();
-			SoundList();
+			
+			musicList = DoLoadAudio(musicAddressables);
+			soundList = DoLoadAudio(soundAddressables);
+		}
+
+		private List<AddressableAudioSource> DoLoadAudio(AudioClipsArray audioAddressables)
+		{
+			var audioList = new List<AddressableAudioSource>();
+
+			async Task LoadAudio()
+			{
+				foreach (var audioSource in audioAddressables.AddressableAudioSource)
+				{
+					var audio = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
+					audioList.Add(audio);
+				}
+				LoadButtons();
+			}
+			
+			LoadAudio();
+			return audioList;
 		}
 
 		/// <summary>
-		/// Generates buttons for the list
+		/// Generates buttons for the sound list
 		/// </summary>
-		public void SoundList()
+		private void LoadButtons()
 		{
 			if (SearchBar != null)
 			{
 				SearchBar.Resettext();
 			}
 
-			var sounds = SoundManager.Instance.GetComponentsInChildren<AudioSource>();
-
-			foreach (AudioSource pair in sounds) //sounds is a readonly so will never change hopefully
+			int index = 0;
+			foreach (AddressableAudioSource sound in soundList)
 			{
-				if (!pair.loop)
+				AudioSource source = sound.AudioSource;
+				if (!source.loop)
 				{
 					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
 					button.SetActive(true);
-					button.GetComponent<AdminGlobalSoundButton>().SetAdminGlobalSoundButtonText(pair.gameObject.name);
+					AdminGlobalSoundButton buttonScript = button.GetComponent<AdminGlobalSoundButton>();
+					buttonScript.SetText(source.clip.name);
+					buttonScript.SetIndex(index++);
 					soundButtons.Add(button);
-
 					button.transform.SetParent(buttonTemplate.transform.parent, false);
 				}
 			}
 		}
 
-		public void PlaySound(string index) //send sound to sound manager
+		public void PlaySound(int index) //send sound to sound manager
 		{
-			AdminCommandsManager.Instance.CmdPlaySound(index);
+			if (index < soundList.Count)
+			{
+				AdminCommandsManager.Instance.CmdPlaySound(soundList[index]);
+			}
+		}
+
+		public void PlayMusic(string index)
+		{
+
 		}
 	}
 }

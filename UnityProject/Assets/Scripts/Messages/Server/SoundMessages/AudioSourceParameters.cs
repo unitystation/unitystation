@@ -6,7 +6,9 @@
 	{
 		Master,
 		Muffled,
-		Ambient
+		Ambient,
+		SoundFX,
+		Music
 	}
 
 	public enum VolumeRolloffType

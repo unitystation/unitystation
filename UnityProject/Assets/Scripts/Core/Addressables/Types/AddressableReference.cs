@@ -220,6 +220,10 @@ namespace AddressableReferences
 				return audioSource;
 			}
 		}
+		public AddressableAudioSource()
+		{
+			AssetReference = null;
+		}
 
 		/// <summary>
 		/// Constructor that provides an AddressableAudioSource by an AssetReference Primary Key (AssetGuid)
