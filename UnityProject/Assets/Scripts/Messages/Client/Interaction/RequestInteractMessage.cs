@@ -509,6 +509,7 @@ namespace Messages.Client.Interaction
 				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.TargetVector = casted.TargetVector;
 				msg.TargetBodyPart = casted.TargetBodyPart;
+				msg.IsAltUsed = casted.IsAltClick;
 			}
 			else if (typeof(T) == typeof(HandApply))
 			{
