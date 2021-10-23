@@ -1,34 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AddressableReferences;
 using Objects.Disposals;
+using Objects;
 
 namespace Systems.Disposals
 {
 	/// <summary>
 	/// Creates, updates, and removes all disposal instances.
 	/// </summary>
-	public class DisposalsManager : MonoBehaviour
+	public class DisposalsManager : MonoBehaviourSingleton<DisposalsManager>
 	{
-		private static DisposalsManager instance;
-		public static DisposalsManager Instance {
-			get {
-				if (instance == null)
-				{
-					instance = FindObjectOfType<DisposalsManager>();
-				}
-
-				return instance;
-			}
-			set { instance = value; }
-		}
-
 		[SerializeField]
 		[Tooltip("Set the virtual container prefab to be used in disposal instances.")]
 		public GameObject VirtualContainerPrefab;
 		[SerializeField]
 		[Tooltip("Set how many tiles every disposal instance can traverse in one second.")]
 		private float TileTraversalsPerSecond = 20;
+		[SerializeField]
+		private AddressableAudioSource disposalEjectionHiss = default;
+
+		public AddressableAudioSource DisposalEjectionHiss => disposalEjectionHiss;
 
 		private readonly List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
 
@@ -75,10 +68,13 @@ namespace Systems.Disposals
 		/// <summary>
 		/// Create a new disposal instance, which will move its contents along the disposal pipe network.
 		/// </summary>
-		/// <param name="container">The virtual container holding the entities to be disposed of.</param>
-		public void NewDisposal(DisposalVirtualContainer container)
+		/// <param name="sourceContainer">The container holding the entities to be disposed of.</param>
+		public void NewDisposal(ObjectContainer sourceContainer)
 		{
-			DisposalTraversal traversal = new DisposalTraversal(container);
+			var disposalContainer = SpawnVirtualContainer(sourceContainer.gameObject.RegisterTile().WorldPositionServer);
+			sourceContainer.TransferObjectsTo(disposalContainer.GetComponent<ObjectContainer>());
+
+			var traversal = new DisposalTraversal(disposalContainer.GetComponent<DisposalVirtualContainer>());
 			disposalInstances.Add(traversal);
 		}
 
