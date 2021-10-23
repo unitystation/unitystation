@@ -476,6 +476,8 @@ public partial class PlayerList : NetworkBehaviour
 				continue; //server player
 			}
 
+			if (adminUsers.Contains(player.UserId)) continue; // Allow admins to multikey (local devs connecting multiple clients)
+
 			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
 			{
 				Logger.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.UserId, player.ClientId);
