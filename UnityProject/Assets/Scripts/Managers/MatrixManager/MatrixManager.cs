@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Messages.Client.SpriteMessages;
 using System.Linq;
 using Chemistry;
 using Doors;
@@ -187,6 +187,7 @@ public partial class MatrixManager : MonoBehaviour
 			matrixInfo.Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 
 			TileChangeNewPlayer.Send(matrixInfo.NetID);
+			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
 	}
 
