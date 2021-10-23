@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Ai;
@@ -61,10 +61,7 @@ namespace Systems.Teleport
 					status = "(Cant tell if Dead/Alive or Ghost)";
 				}
 
-				//Gets Position of Player
-				var tile = player.gameObject.GetComponent<RegisterTile>();
-
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, tile.WorldPositionClient, player.gameObject);
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.AssumedWorldPos, player.gameObject);
 
 				yield return teleportInfo;
 			}
@@ -181,7 +178,9 @@ namespace Systems.Teleport
 
 		public static void TeleportLocalGhostTo(TeleportInfo teleportInfo)
 		{
-			var latestPosition = teleportInfo.gameObject.transform.position;
+			var latestPosition = teleportInfo.gameObject.TryGetComponent<ObjectBehaviour>(out var behaviour)
+					? behaviour.AssumedWorldPositionServer()
+					: teleportInfo.gameObject.transform.position;
 			var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
 
 			if (latestPosition != playerPosition)//Spam Prevention
