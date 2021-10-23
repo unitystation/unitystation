@@ -205,6 +205,14 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: e8030000
       productionTime: 1
+    - name: Machine Design (APC Power Control Module)
+      product: {fileID: 3895213071994396855, guid: 740edf7a0d4b9f84d8230c4c3ca7c91c,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
   - categoryName: Hydroponics Machinery
     products:
     - name: Machine Design (Biogenerator Board)
@@ -490,6 +498,24 @@ MonoBehaviour:
       productionTime: 1
     - name: Machine Design (Weapon Recharger Board)
       product: {fileID: 7003283453982593561, guid: 057772381b5669948b32540d09f450d2,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Machine Design (Oven)
+      product: {fileID: 8064311494710607596, guid: ad134247c14fffd408303ebd00dee939,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
+    - name: Machine Design (Griddle)
+      product: {fileID: 2643048570573207209, guid: bbe1beef835f982468c4c23ca569c5fc,
         type: 3}
       materialToAmounts:
         m_keys:
