@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114061922499461510}
   - component: {fileID: 7239127982659121932}
   - component: {fileID: 1330345529673600466}
+  - component: {fileID: 6707578277650812142}
   m_Layer: 11
   m_Name: DisposalBin
   m_TagString: Untagged
@@ -103,7 +104,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114770898345557290}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -187,7 +188,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &2759009461426029734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +342,20 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+--- !u!114 &6707578277650812142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010167295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 1
 --- !u!1 &1000010229813120
 GameObject:
   m_ObjectHideFlags: 0

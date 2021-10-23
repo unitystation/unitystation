@@ -35,7 +35,7 @@ namespace Objects.Disposals
 		Handle = 3
 	}
 
-	public class DisposalBin : DisposalMachine, IServerDespawn, IExaminable, ICheckedInteractable<MouseDrop>
+	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable
 	{
 		private const int CHARGED_PRESSURE = 600; // kPa
 		private const int AUTO_FLUSH_DELAY = 2;
@@ -71,8 +71,6 @@ namespace Objects.Disposals
 		[SyncVar]
 		private int chargePressure = 0;
 
-		private DisposalVirtualContainer virtualContainer;
-
 		public BinState BinState => binState;
 		public bool PowerDisconnected => binState == BinState.Disconnected;
 		public bool PowerOff => binState == BinState.Off;
@@ -87,7 +85,6 @@ namespace Objects.Disposals
 		public bool Screwdriverable => MachineSecured && (PowerDisconnected || PowerOff);
 		public int ChargePressure => chargePressure;
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
-		public bool ServerHasContents => virtualContainer != null && virtualContainer.HasContents;
 
 		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
 
@@ -115,14 +112,6 @@ namespace Objects.Disposals
 
 			chargePressure = CHARGED_PRESSURE;
 			SetBinState(BinState.Ready);
-		}
-
-		public void OnDespawnServer(DespawnInfo info)
-		{
-			if (virtualContainer != null)
-			{
-				_ = Despawn.ServerSingle(virtualContainer.gameObject);
-			}
 		}
 
 		#endregion Lifecycle
@@ -290,14 +279,17 @@ namespace Objects.Disposals
 			return baseString;
 		}
 
-		public void PlayerTryClimbingOut(GameObject player)
+		public void EntityTryEscape(GameObject entity)
 		{
-			if (BinFlushing) return;
-
-			if (player.TryGetComponent<ObjectBehaviour>(out var playerBehaviour))
+			if (BinFlushing)
 			{
-				EjectPlayer(playerBehaviour);
+				Chat.AddExamineMsgFromServer(
+						entity,
+						"You're too late! A blast of oily air hits you with force... You start to lose your grip...");
+				return;
 			}
+
+			container.RetrieveObject(entity);
 		}
 
 		#endregion Interactions
@@ -321,12 +313,8 @@ namespace Objects.Disposals
 
 		private void StoreItem(GameObject item)
 		{
-			if (virtualContainer == null)
-			{
-				virtualContainer = SpawnNewContainer();
-			}
+			container.StoreObject(item);
 
-			virtualContainer.AddItem(item.GetComponent<ObjectBehaviour>());
 			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer(), dunkParameters);
 
@@ -373,20 +361,9 @@ namespace Objects.Disposals
 
 		private void StorePlayer(MouseDrop interaction)
 		{
-			if (virtualContainer == null)
-			{
-				virtualContainer = SpawnNewContainer();
-			}
-
-			virtualContainer.AddPlayer(interaction.DroppedObject.GetComponent<ObjectBehaviour>());
+			container.StoreObject(interaction.DroppedObject);
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
-		}
-
-		private void EjectPlayer(ObjectBehaviour playerBehaviour)
-		{
-			if (virtualContainer == null) return;
-			virtualContainer.RemovePlayer(playerBehaviour);
 		}
 
 		#region UI
@@ -406,10 +383,8 @@ namespace Objects.Disposals
 				StopCoroutine(autoFlushCoroutine);
 			}
 			if (BinFlushing) return;
-			if (virtualContainer == null) return;
 
-			_ = Despawn.ServerSingle(virtualContainer.gameObject);
-			virtualContainer = null;
+			container.RetrieveObjects();
 		}
 
 		public void TogglePower()
@@ -434,7 +409,7 @@ namespace Objects.Disposals
 			if (BinCharged)
 			{
 				SetBinState(BinState.Ready);
-				if (ServerHasContents)
+				if (container.IsEmpty == false)
 				{
 					this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 				}
@@ -483,12 +458,7 @@ namespace Objects.Disposals
 			// Bin orifice closed. Release the charge.
 			chargePressure = 0;
 			SoundManager.PlayNetworkedAtPos(FlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
-			if (virtualContainer != null)
-			{
-				virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = null;
-				DisposalsManager.Instance.NewDisposal(virtualContainer);
-				virtualContainer = null;
-			}
+			DisposalsManager.Instance.NewDisposal(container);
 
 			// Restore charge.
 			SetBinState(BinState.Recharging);
@@ -498,7 +468,7 @@ namespace Objects.Disposals
 		private IEnumerator AutoFlush()
 		{
 			yield return WaitFor.Seconds(AUTO_FLUSH_DELAY);
-			if (BinReady && ServerHasContents)
+			if (BinReady && container.IsEmpty == false)
 			{
 				StartCoroutine(RunFlushSequence());
 			}

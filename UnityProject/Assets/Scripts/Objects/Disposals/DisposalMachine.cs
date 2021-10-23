@@ -28,6 +28,7 @@ namespace Objects.Disposals
 		protected RegisterObject registerObject;
 		protected ObjectAttributes objectAttributes;
 		protected ObjectBehaviour objectBehaviour;
+		protected ObjectContainer container;
 		protected SpriteHandler baseSpriteHandler;
 
 		protected PositionalHandApply currentInteraction;
@@ -48,6 +49,7 @@ namespace Objects.Disposals
 			registerObject = GetComponent<RegisterObject>();
 			objectAttributes = GetComponent<ObjectAttributes>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+			container = GetComponent<ObjectContainer>();
 
 			baseSpriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
 		}
@@ -132,13 +134,6 @@ namespace Objects.Disposals
 		}
 
 		#endregion Interactions
-
-		protected DisposalVirtualContainer SpawnNewContainer()
-		{
-			GameObject containerObject = DisposalsManager.SpawnVirtualContainer(registerObject.WorldPositionServer);
-			containerObject.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
-			return containerObject.GetComponent<DisposalVirtualContainer>();
-		}
 
 		#region Construction
 

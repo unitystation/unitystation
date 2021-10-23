@@ -20,9 +20,6 @@ namespace Systems.Disposals
 		public bool CurrentlyDelayed = false;
 		public bool TraversalFinished = false;
 
-		[SerializeField]
-		private AddressableAudioSource DisposalEjectionHiss = null;
-
 		private bool justStarted;
 		private DisposalPipe currentPipe;
 		private Vector3Int currentPipeLocalPos;
@@ -157,9 +154,9 @@ namespace Systems.Disposals
 		{
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
-			SoundManager.PlayNetworkedAtPos(DisposalEjectionHiss, worldPos);
+			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
 			TransferContainerToVector(NextPipeVector);
-			virtualContainer.EjectContentsAndThrow(currentPipeOutputSide.Vector);
+			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.Vector);
 			DespawnContainerAndFinish();
 		}
 
@@ -175,7 +172,7 @@ namespace Systems.Disposals
 				// Ended at a pipe terminal, but no disposal machinery was detected at its location. Ejecting upwards...
 				TryDamageTileFromEjection(currentPipeLocalPos);
 				// Eject contents with zero vector to give spin on contents.
-				virtualContainer.EjectContentsAndThrow(Vector3.zero);
+				virtualContainer.EjectContentsWithVector(Vector3.zero);
 				DespawnContainerAndFinish();
 			}
 		}

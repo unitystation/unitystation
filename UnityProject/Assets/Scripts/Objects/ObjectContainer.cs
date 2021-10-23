@@ -106,7 +106,7 @@ namespace Objects
 				{
 					playerScript.playerMove.IsTrapped = true;
 
-					// Start tracking closet
+					// Start tracking container
 					if (playerScript.IsGhost == false)
 					{
 						FollowCameraMessage.Send(obj, gameObject);
@@ -127,6 +127,20 @@ namespace Objects
 			foreach (var gameObject in gameObjects)
 			{
 				StoreObject(gameObject);
+			}
+		}
+
+		public void GatherObjects()
+		{
+			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
+			{
+				// Don't add the container to itself...
+				if (entity.gameObject == gameObject) continue;
+
+				// Can't store secured objects.
+				if (entity.IsPushable == false) continue;
+
+				StoreObject(entity.gameObject, entity.transform.position - transform.position);
 			}
 		}
 
@@ -198,6 +212,32 @@ namespace Objects
 			}
 
 			storedObjects.Clear();
+		}
+
+		public void TransferObjectsTo(ObjectContainer container)
+		{
+			container.ReceiveObjects(storedObjects);
+			storedObjects.Clear();
+		}
+
+		public void ReceiveObjects(Dictionary<GameObject, Vector3> objects)
+		{
+			foreach (var kvp in objects)
+			{
+				if (kvp.Key == null) continue;
+
+				storedObjects[kvp.Key] = kvp.Value;
+				kvp.Key.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
+
+				if (kvp.Key.TryGetComponent<PlayerScript>(out var playerScript))
+				{
+					// update player camera target
+					if (playerScript.IsGhost == false)
+					{
+						FollowCameraMessage.Send(kvp.Key, gameObject);
+					}
+				}
+			}
 		}
 
 		private void CheckPlayerCrawlState(ObjectBehaviour playerBehaviour)

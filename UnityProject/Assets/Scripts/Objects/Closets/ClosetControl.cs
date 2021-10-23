@@ -219,13 +219,7 @@ namespace Objects
 
 		public void CollectObjects()
 		{
-			var entitiesOnCloset = Matrix.Get<ObjectBehaviour>(registerObject.LocalPositionServer, true)
-					.Where(entity => entity.gameObject != gameObject && entity.IsPushable).Select(entity => entity.gameObject);
-
-			foreach (var entity in entitiesOnCloset)
-			{
-				container.StoreObject(entity, entity.transform.position - transform.position);
-			}
+			container.GatherObjects();
 		}
 
 		public void ReleaseObjects()
