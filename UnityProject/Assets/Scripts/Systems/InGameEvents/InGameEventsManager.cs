@@ -6,9 +6,6 @@ using System.Linq;
 using AdminCommands;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Audio.Containers;
-using System.Threading.Tasks;
-using AddressableReferences;
 
 namespace InGameEvents
 {
@@ -34,21 +31,13 @@ namespace InGameEvents
 		[SerializeField]
 		private int chanceItIsFake = 25;
 
-		private bool secondLoadAttempt;
-
 		public bool RandomEventsAllowed;
 
 		public int minPlayersForRandomEventsToHappen = 5;
 
-		//[HideInInspector]
+		[HideInInspector]
 		public List<string> EnumListCache = new List<string>();
-		//[HideInInspector]
-		public List<string> MusicListCache = new List<string>();
 
-		[SerializeField]
-		private AudioClipsArray eventMusic = null;
-
-		public List<AddressableAudioSource> musics;
 
 		private void Awake()
 		{
@@ -64,23 +53,9 @@ namespace InGameEvents
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
 		}
 
-		private void Start()
+		public void Start()
 		{
 			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
-		}
-
-		public async Task LoadMusic()
-		{
-			// We want the same musics that are in the lobby,
-			// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
-			musics = new List<AddressableAudioSource>();
-
-			foreach (var audioSource in eventMusic.AddressableAudioSource)
-			{
-				var song = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
-				musics.Add(song);
-				MusicListCache.Add(song.AudioSource.clip.name.Split('_')[0]);
-			}
 		}
 
 		private void Update()
@@ -134,7 +109,7 @@ namespace InGameEvents
 			list.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, int musicIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true, string serializedEventParameters = null)
+		public void TriggerSpecificEvent(int eventIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true, string serializedEventParameters = null)
 		{
 			List<EventScriptBase> list;
 
@@ -165,10 +140,6 @@ namespace InGameEvents
 				eventChosen.TriggerEvent(serializedEventParameters);
 
 				AdminCommandsManager.LogAdminAction($"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}");
-			}
-			if (musicIndex != 0)
-			{
-				MusicManager.Instance.PlayTrack(musics[musicIndex - 1]);
 			}
 		}
 
