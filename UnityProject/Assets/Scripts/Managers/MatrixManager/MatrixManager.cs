@@ -272,8 +272,6 @@ public partial class MatrixManager : MonoBehaviour
 		};
 	}
 
-	public static Stopwatch SW = new Stopwatch();
-
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
