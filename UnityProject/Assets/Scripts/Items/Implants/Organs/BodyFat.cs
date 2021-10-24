@@ -21,23 +21,35 @@ namespace HealthV2
 
 		public Stomach RelatedStomach;
 
-		public float ReleaseNutrimentAtPer1UBloodFlow = 0.005f;
+		public float ReleaseNutrimentPercentage = 0.1f;
 
-		public float AbsorbNutrimentAtPer1UBloodFlow  = 0.01f;
+		public float AbsorbNutrimentPercentage  = 0.5f;
 
-		public float ReleaseAmount = 5f;
+		public float ReleaseAmount = 2f;
 
-		public float MaxAmount = 500;
+		public float MinuteStoreMaxAmount =  60; //Last for 60 minutes
 
-		public float AbsorbedAmount = 100;
+		[NonSerialized] public const float StartAbsorbedAmount = 30;
 
-		public bool IsFull => Math.Abs(MaxAmount - AbsorbedAmount) < 0.01f;
+		[NonSerialized]	public float AbsorbedAmount = 0;
 
-		public float DebuffCutInPoint = 100; //some fat is ok
+		public bool IsFull => Math.Abs(MinuteStoreMaxAmount - AbsorbedAmount) < 0.01f;
+
+		public float DebuffInPoint = 35; //some fat is ok
 
 		public bool WasApplyingDebuff = false;
 
 		public bool isFreshBlood;
+
+		public void Awake()
+		{
+			AbsorbedAmount = StartAbsorbedAmount;
+		}
+
+		public void SetAbsorbedAmount(float newAbsorbedAmount)
+		{
+			AbsorbedAmount = newAbsorbedAmount;
+		}
 
 		public override void ImplantPeriodicUpdate()
 		{
@@ -45,7 +57,7 @@ namespace HealthV2
 			// Logger.Log("Absorbing >" + Absorbing);
 			float NutrimentPercentage = (RelatedPart.BloodContainer[RelatedPart.Nutriment] / RelatedPart.BloodContainer.ReagentMixTotal);
 			//Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
-			if (NutrimentPercentage < ReleaseNutrimentAtPer1UBloodFlow * RelatedPart.BloodThroughput)
+			if (NutrimentPercentage < ReleaseNutrimentPercentage)
 			{
 				float ToRelease = ReleaseAmount;
 				if (ToRelease > AbsorbedAmount)
@@ -58,12 +70,12 @@ namespace HealthV2
 				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
-			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentAtPer1UBloodFlow *  RelatedPart.BloodThroughput && AbsorbedAmount < MaxAmount)
+			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage *  RelatedPart.BloodThroughput && AbsorbedAmount < MinuteStoreMaxAmount)
 			{
 				float ToAbsorb = RelatedPart.BloodContainer[RelatedPart.Nutriment];
-				if (AbsorbedAmount + ToAbsorb > MaxAmount)
+				if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
 				{
-					ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MaxAmount);
+					ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
 				}
 
 				float Absorbing = RelatedPart.BloodContainer.CurrentReagentMix.Remove(RelatedPart.Nutriment, ToAbsorb);
@@ -73,10 +85,10 @@ namespace HealthV2
 
 			//Logger.Log("AbsorbedAmount >" + AbsorbedAmount);
 			//TODOH Proby doesn't need to be updated so often
-			if (DebuffCutInPoint < AbsorbedAmount)
+			if (DebuffInPoint < AbsorbedAmount)
 			{
 				WasApplyingDebuff = true;
-				float DeBuffMultiplier = (AbsorbedAmount - DebuffCutInPoint) / (MaxAmount - DebuffCutInPoint);
+				float DeBuffMultiplier = (AbsorbedAmount - DebuffInPoint) / (MinuteStoreMaxAmount - DebuffInPoint);
 				// Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
 				RunningSpeedModifier = maxRunSpeedDebuff * DeBuffMultiplier;
 				WalkingSpeedModifier = maxWalkingDebuff * DeBuffMultiplier;

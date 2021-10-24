@@ -118,6 +118,8 @@ namespace HealthV2
 		/// </summary>
 		public List<BodyPart> BodyPartList = new List<BodyPart>();
 
+		public List<BodyPart> SurfaceBodyParts = new List<BodyPart>();
+
 		/// <summary>
 		/// The storage container for the body parts
 		/// </summary>
@@ -222,10 +224,16 @@ namespace HealthV2
 			if (newImplant && newImplant.TryGetComponent<BodyPart>(out var addedBodyPart))
 			{
 				addedBodyPart.BodyPartAddHealthMaster(this);
+				SurfaceBodyParts.Add(addedBodyPart);
+
 			}
 			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedBodyPart))
 			{
 				removedBodyPart.BodyPartRemoveHealthMaster();
+				if (SurfaceBodyParts.Contains(removedBodyPart))
+				{
+					SurfaceBodyParts.Remove(removedBodyPart);
+				}
 			}
 		}
 
@@ -271,13 +279,17 @@ namespace HealthV2
 			bodyPart.TakeDamage(null, 1, AttackType.Melee, DamageType.Brute);
 		}
 
+		public float NutrimentConsumed = 0;
+
 		//Server Side only
 		private void PeriodicUpdate()
 		{
+			NutrimentConsumed = 0;
 			for (int i = BodyPartList.Count - 1; i >= 0; i--)
 			{
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
+
 
 			FireStacksDamage();
 			CalculateRadiationDamage();
@@ -414,9 +426,26 @@ namespace HealthV2
 			return false;
 		}
 
+		public float PerBodyPart;
+
 		//The cause of world hunger
 		public void InitialiseHunger(float numberOfMinutesBeforeHunger)
 		{
+			PerBodyPart= (BodyFat.StartAbsorbedAmount) / 60f / numberOfMinutesBeforeHunger; //TODO all Body parts
+
+			var TotalBloodFlow = 0f;
+
+			foreach (var bodyPart in BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				TotalBloodFlow += bodyPart.BloodThroughput;
+			}
+
+			foreach (var bodyPart in BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				bodyPart.PassiveConsumptionNutriment = (bodyPart.BloodThroughput / TotalBloodFlow ) * PerBodyPart;
+			}
 		}
 
 		/// <summary>

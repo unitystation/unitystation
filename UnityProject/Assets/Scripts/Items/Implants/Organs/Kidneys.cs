@@ -26,17 +26,17 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-			ContainedGoodReagents.Clear();
-			foreach (var Reagent in WhiteListReagents)
-			{
-				ContainedGoodReagents[Reagent] = RelatedPart.BloodContainer[Reagent];
-			}
-			RelatedPart.BloodContainer.CurrentReagentMix.Clear();
-
-			foreach (var Reagents in ContainedGoodReagents)
-			{
-				RelatedPart.BloodContainer.CurrentReagentMix.Add(Reagents.Key, Reagents.Value);
-			}
+			// ContainedGoodReagents.Clear();
+			// foreach (var Reagent in WhiteListReagents)
+			// {
+			// 	ContainedGoodReagents[Reagent] = RelatedPart.BloodContainer[Reagent];
+			// }
+			// RelatedPart.BloodContainer.CurrentReagentMix.Clear();
+			//
+			// foreach (var Reagents in ContainedGoodReagents)
+			// {
+			// 	RelatedPart.BloodContainer.CurrentReagentMix.Add(Reagents.Key, Reagents.Value);
+			// }
 			//Debug.Log("Kidney: " + BloodContainer[requiredReagent]/bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix));
 		}
 	}

@@ -29,6 +29,10 @@ namespace Chemistry.Components
 			private set { maxCapacity = value; }
 		}
 
+
+		//How much room is there left in the container
+		public float SpareCapacity => maxCapacity - ReagentMixTotal;
+
 		[Tooltip("Reactions list which can happen inside container. Use Default for generic containers")]
 		[SerializeField] private ReactionSet reactionSet;
 		public ReactionSet ReactionSet

@@ -288,7 +288,11 @@ namespace HealthV2
 		/// </summary>
 		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.BodyPartList.Add(this);
+			if (livingHealth.BodyPartList.Contains(this ) == false)
+			{
+				livingHealth.BodyPartList.Add(this);
+			}
+
 			SetHealthMaster(livingHealth);
 			livingHealth.ServerCreateSprite(this);
 
@@ -340,7 +344,8 @@ namespace HealthV2
 			}
 
 			DropItemsOnDismemberment(this);
-			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
+
+
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			dynamicItemStorage.Remove(bodyPartUISlot);
@@ -358,6 +363,15 @@ namespace HealthV2
 			{
 				HealthMaster.Gib();
 			}
+			if (ContainedIn != null)
+			{
+				ContainedIn.OrganStorage.ServerTryRemove(gameObject);
+			}
+			else
+			{
+				HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
+			}
+
 		}
 
 		/// <summary>

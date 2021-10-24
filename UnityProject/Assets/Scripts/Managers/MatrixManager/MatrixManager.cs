@@ -277,8 +277,6 @@ public partial class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		SW.Reset();
-		SW.Start();
 		try
 		{
 			for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
@@ -293,8 +291,6 @@ public partial class MatrixManager : MonoBehaviour
 				}
 			}
 
-			SW.Stop();
-			Logger.Log("MatrixInfo AtPoint Took " + SW.ElapsedTicks);
 			return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
 		}
 		catch (NullReferenceException exception)

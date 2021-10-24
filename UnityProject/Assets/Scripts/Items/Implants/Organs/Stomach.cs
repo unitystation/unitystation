@@ -17,6 +17,8 @@ namespace HealthV2
 
 		public BodyFat BodyFatToInstantiate;
 
+		public bool InitialFatSpawned = false;
+
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
@@ -46,6 +48,17 @@ namespace HealthV2
 			}
 
 			if (AllFat)
+			{
+				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+				Added.SetAbsorbedAmount(0);
+				BodyFats.Add(Added);
+				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
+			}
+		}
+
+		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
+		{
+			if (InitialFatSpawned == false)
 			{
 				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 				BodyFats.Add(Added);

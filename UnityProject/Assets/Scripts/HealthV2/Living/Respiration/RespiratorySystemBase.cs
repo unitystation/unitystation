@@ -111,15 +111,27 @@ namespace HealthV2
 		/// <summary>
 		/// Takes gases from a GasMix and puts them into blood as a reagent
 		/// </summary>
-		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
+		public void GasExchangeToBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess, float LungCapacity)
 		{
 			lock (toProcess.reagents)
 			{
 				foreach (var Reagent in toProcess.reagents.m_dict)
 				{
 					blood.Add(Reagent.Key, Reagent.Value);
-					if (!canBreathAnywhere)
-						atmos.RemoveGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value );
+				}
+			}
+
+
+			if (!canBreathAnywhere)
+			{
+				if (LungCapacity + 0.1f > atmos.Moles) //Just so scenario where there isn't Gas * 0 = 0
+				{
+					atmos.MultiplyGas(0.01f);
+				}
+				else
+				{
+					var PercentageRemaining =  1 - (LungCapacity / atmos.Moles);
+					atmos.MultiplyGas(PercentageRemaining);
 				}
 			}
 		}

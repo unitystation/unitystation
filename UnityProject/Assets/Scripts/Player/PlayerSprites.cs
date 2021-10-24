@@ -448,6 +448,8 @@ public class PlayerSprites : MonoBehaviour
 			SetUpCharacter();
 			SetupSprites();
 			livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
+			livingHealthMasterBase.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
+
 		}
 	}
 

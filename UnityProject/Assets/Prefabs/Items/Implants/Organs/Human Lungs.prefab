@@ -24,7 +24,6 @@ MonoBehaviour:
     UnsafeLevelDamage: 10
     UnsafeLevelDamageType: 3
   requiredGas: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
-  expelledGas: {fileID: 11400000, guid: b466ee2bb3ca27941b3c2393555d4fab, type: 2}
   LungSize: 6
   coughChanceWhenInternallyBleeding: 35
   internalBleedingCooldown: 4
@@ -145,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: bloodThroughput
-      value: 30
+      value: 10.714286
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
