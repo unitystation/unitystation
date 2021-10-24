@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +18,7 @@ namespace Objects.Shuttles
 
 		public TabStateEvent OnStateChange;
 		private TabState state = TabState.Normal;
+		[SerializeField] private AddressableAudioSource radarDetectionSound;
 
 		public TabState State {
 			get { return state; }
@@ -65,6 +67,11 @@ namespace Objects.Shuttles
 			{
 				hasNetworkTab.enabled = true;
 			}
+		}
+
+		public void PlayRadarDetectionSound()
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.WorldPosServer());
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

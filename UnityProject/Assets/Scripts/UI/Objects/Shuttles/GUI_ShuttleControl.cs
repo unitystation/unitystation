@@ -461,5 +461,11 @@ namespace UI.Objects.Shuttles
 			//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 			MatrixMove.SetSpeed(speed);
 		}
+
+		public void PlayRadarDetectionSound()
+		{
+			if(Trigger == null) return;
+			Trigger.PlayRadarDetectionSound();
+		}
 	}
 }
