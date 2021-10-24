@@ -21,9 +21,9 @@ namespace HealthV2
 
 		public Stomach RelatedStomach;
 
-		public float ReleaseNutrimentPercentage = 0.1f;
+		public float ReleaseNutrimentPercentage = 0.01f;
 
-		public float AbsorbNutrimentPercentage  = 0.5f;
+		public float AbsorbNutrimentPercentage  = 0.02f;
 
 		public float ReleaseAmount = 2f;
 
@@ -35,7 +35,7 @@ namespace HealthV2
 
 		public bool IsFull => Math.Abs(MinuteStoreMaxAmount - AbsorbedAmount) < 0.01f;
 
-		public float DebuffInPoint = 35; //some fat is ok
+		public float DDebuffInPoint = 35; //some fat is ok
 
 		public bool WasApplyingDebuff = false;
 
@@ -70,7 +70,7 @@ namespace HealthV2
 				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
-			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage *  RelatedPart.BloodThroughput && AbsorbedAmount < MinuteStoreMaxAmount)
+			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage && AbsorbedAmount < MinuteStoreMaxAmount)
 			{
 				float ToAbsorb = RelatedPart.BloodContainer[RelatedPart.Nutriment];
 				if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
@@ -85,10 +85,10 @@ namespace HealthV2
 
 			//Logger.Log("AbsorbedAmount >" + AbsorbedAmount);
 			//TODOH Proby doesn't need to be updated so often
-			if (DebuffInPoint < AbsorbedAmount)
+			if (DDebuffInPoint < AbsorbedAmount)
 			{
 				WasApplyingDebuff = true;
-				float DeBuffMultiplier = (AbsorbedAmount - DebuffInPoint) / (MinuteStoreMaxAmount - DebuffInPoint);
+				float DeBuffMultiplier = (AbsorbedAmount - DDebuffInPoint) / (MinuteStoreMaxAmount - DDebuffInPoint);
 				// Logger.Log("DeBuffMultiplier >" + DeBuffMultiplier);
 				RunningSpeedModifier = maxRunSpeedDebuff * DeBuffMultiplier;
 				WalkingSpeedModifier = maxWalkingDebuff * DeBuffMultiplier;
@@ -103,6 +103,10 @@ namespace HealthV2
 			if (AbsorbedAmount == 0)
 			{
 				RelatedPart.HungerState = HungerState.Malnourished;
+			}
+			else if (AbsorbedAmount < 5) //Five minutes of food
+			{
+				RelatedPart.HungerState = HungerState.Hungry;
 			}
 			else
 			{

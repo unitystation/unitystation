@@ -174,8 +174,7 @@ namespace HealthV2
 			var State = HungerState.Normal;
 			foreach (var bodyPart in BodyPartList)
 			{
-				if (bodyPart.HungerState == HungerState.Malnourished || bodyPart.HungerState == HungerState.Starving
-				) //TODO Add the other states
+				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
 				{
 					State = bodyPart.HungerState;
 					if (State == HungerState.Starving)

@@ -16,12 +16,11 @@ MonoBehaviour:
   maxWalkingDebuff: -1.5
   maxCrawlDebuff: -0.2
   RelatedStomach: {fileID: 0}
-  ReleaseNutrimentPercentage: 0.1
-  AbsorbNutrimentPercentage: 0.5
-  ReleaseAmount: 3.3333333
-  MinuteStoreMaxAmount: 100
-  StartAbsorbedAmount: 50
-  DebuffInPoint: 58.333332
+  ReleaseNutrimentPercentage: 0.01
+  AbsorbNutrimentPercentage: 0.02
+  ReleaseAmount: 2
+  MinuteStoreMaxAmount: 60
+  DDebuffInPoint: 35
   WasApplyingDebuff: 0
   isFreshBlood: 0
 --- !u!1001 &604480131879869523
@@ -146,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: bloodThroughput
-      value: 0.89285713
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

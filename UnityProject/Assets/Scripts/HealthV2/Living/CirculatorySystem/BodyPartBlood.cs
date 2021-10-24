@@ -285,12 +285,18 @@ namespace HealthV2
 				{
 					HungerModifier.Multiplier = 1f;
 				}
-				HungerState = HungerState.Normal;
+
+				if (HungerState == HungerState.Starving)
+				{
+					HungerState = HungerState.Normal;
+				}
+
+
 				BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
 			}
 			else
 			{
-				 HungerModifier.Multiplier = 0.5f;
+				HungerModifier.Multiplier = 0.5f;
 				HungerState = HungerState.Starving;
 				// Is Starving
 			}

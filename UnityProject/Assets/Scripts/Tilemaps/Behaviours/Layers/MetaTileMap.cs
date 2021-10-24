@@ -88,8 +88,6 @@ namespace TileManagement
 
 		private void OnEnable()
 		{
-			if (Application.isPlaying == false) return;
-
 			Layers = new Dictionary<LayerType, Layer>();
 			var layersKeys = new List<LayerType>();
 			var layersValues = new List<Layer>();
@@ -1140,11 +1138,6 @@ namespace TileManagement
 
 				TileLocation TileLcation = null;
 				TileLcation = GetCorrectTileLocationForLayer(position, layer);
-
-				lock (PresentTiles)
-				{
-					PresentTiles[layer].TryGetValue(position, out TileLcation);
-				}
 
 				if (TileLcation != null)
 				{

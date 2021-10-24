@@ -36,6 +36,15 @@ namespace HealthV2
 				RelatedPart.BloodContainer.Add(Digesting);
 			}
 
+			if (StomachContents.SpareCapacity < 2f) //Magic number
+			{
+				RelatedPart.HungerState = HungerState.Full;
+			}
+			else
+			{
+				RelatedPart.HungerState = HungerState.Normal;
+			}
+
 			bool AllFat = true;
 			foreach (var Fat in BodyFats)
 			{
