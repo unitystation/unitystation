@@ -371,8 +371,11 @@ namespace Objects
 			if (interaction.IsAltClick)
 			{
 				var idSource = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id)
-						.First(slot => slot.IsOccupied);
-				effector = idSource.ItemObject.ExpensiveName();
+						.FirstOrDefault(slot => slot.IsOccupied);
+				if (idSource != null)
+				{
+					effector = idSource.ItemObject.ExpensiveName();
+				}
 			}
 			else if (interaction.HandSlot.IsOccupied)
 			{
