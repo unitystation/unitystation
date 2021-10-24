@@ -13,12 +13,12 @@ public class NetFuelGauge : NetUIStringElement
 	{
 		get
 		{
-			return (( int ) ( Element.PercentageFuel )).ToString();
+			return (Element.PercentageFuel).ToString();
 		}
 		set
 		{
 			externalChange = true;
-			Element.PercentageFuel = int.Parse(value);
+			Element.PercentageFuel = float.Parse(value);
 			Element.UpdateFuelLevel(Element.PercentageFuel);
 			externalChange = false;
 		}
