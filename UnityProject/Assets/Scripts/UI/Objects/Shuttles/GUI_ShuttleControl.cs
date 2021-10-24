@@ -304,9 +304,9 @@ namespace UI.Objects.Shuttles
 			var fuelGauge = (NetUIElement<string>)this["FuelGauge"];
 			if (MatrixMove.ShuttleFuelSystem == null)
 			{
-				if (fuelGauge.Value != "100")
+				if (fuelGauge.Value != "0")
 				{
-					fuelGauge.SetValueServer((100).ToString());
+					fuelGauge.SetValueServer((0).ToString());
 				}
 
 			}

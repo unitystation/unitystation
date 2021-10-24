@@ -26,6 +26,9 @@ namespace Systems.Shuttles
 			if (MatrixMove == null)
 			{
 				MatrixMove = this.GetComponent<MatrixMove>();
+			}
+			if (MatrixMove)
+			{
 				MatrixMove.RegisterShuttleFuelSystem(this);
 			}
 
@@ -60,7 +63,7 @@ namespace Systems.Shuttles
 				{
 					MatrixMove.IsFueled = true;
 				}
-				FuelLevel = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) / 60000;
+				FuelLevel = Connector.canister.GasContainer.GasMix.GetMoles(Gas.Plasma) / Connector.canister.GasContainer.MaximumMoles;
 			}
 			else
 			{
