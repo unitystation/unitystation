@@ -237,6 +237,7 @@ namespace HealthV2
 		private void SyncHealthDoll(string oldDollData, string newDollData)
 		{
 			healthDollData = newDollData;
+			if (isServer) return;
 			CurrentHealthDollStorage = JsonConvert.DeserializeObject<HealthDollStorage>(healthDollData);
 			for (int i = 0; i < CurrentHealthDollStorage.DollStates.Count; i++)
 			{
