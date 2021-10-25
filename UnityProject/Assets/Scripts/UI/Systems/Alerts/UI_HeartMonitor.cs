@@ -97,8 +97,8 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	}
 
 	private float TemporaryDamageIndicator = 0;
-	private float Decay = 180f;
-	private float Magnifyer = 2f;
+	private float Decay = 2000;
+	private float Magnifyer = 50f;
 
 	private void CheckHealth()
 	{
@@ -121,6 +121,14 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
 
 		float HealthPercentage = overallHealthCache / maxHealth;
+
+
+		if (TemporaryDamageIndicator > 85)
+		{
+			TemporaryDamageIndicator = 85;
+		}
+
+
 		if (HealthPercentage > 0)
 		{
 			if (HealthPercentage >= 1)
@@ -159,8 +167,6 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 				CurrentSpriteSet = 6;
 			}
 		}
-
-
 
 
 		if (TemporaryDamageIndicator > 0)
