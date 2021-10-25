@@ -375,6 +375,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
 		//which will preserve their actual body because they no longer own it
 		base.OnServerDisconnect(conn);
+		SubSceneManager.Instance.RemoveSceneObserver(conn);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
