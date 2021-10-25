@@ -396,7 +396,7 @@ namespace Items.PDA
 		{
 			var code = "";
 			var codeList = UplinkPasswordList.Instance.WordList;
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 1; i++)
 			{
 				string word = codeList[Random.Range(0, codeList.Count)];
 				code += word;
