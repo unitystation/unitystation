@@ -317,7 +317,7 @@ namespace UI.Objects.Shuttles
 			else if(FuelSystemReference.Connector != null && FuelSystemReference.Connector.canister != null
 			&& FuelSystemReference.Connector.canister.GasContainer != null)
 			{
-				string value = $"{(FuelSystemReference.FuelLevel / 100f * FuelSystemReference.Connector.canister.GasContainer.MaximumMoles)}";
+				string value = $"{(FuelSystemReference.FuelLevel * 100f)}";
 				fuelGauge.SetValueServer(value);
 			}
 			yield return WaitFor.Seconds(1f);
