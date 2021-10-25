@@ -438,12 +438,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			escapable.EntityTryEscape(gameObject);
 		}
-
-		// TODO: convert to IEscapable
-		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
-		{
-			disposalContainer.PlayerTryEscaping(gameObject);
-		}
 	}
 
 	private void UpdateMe()

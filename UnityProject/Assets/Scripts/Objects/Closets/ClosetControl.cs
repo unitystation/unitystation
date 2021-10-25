@@ -219,13 +219,7 @@ namespace Objects
 
 		public void CollectObjects()
 		{
-			var entitiesOnCloset = Matrix.Get<ObjectBehaviour>(registerObject.LocalPositionServer, true)
-					.Where(entity => entity.gameObject != gameObject && entity.IsPushable).Select(entity => entity.gameObject);
-
-			foreach (var entity in entitiesOnCloset)
-			{
-				container.StoreObject(entity, entity.transform.position - transform.position);
-			}
+			container.GatherObjects();
 		}
 
 		public void ReleaseObjects()
@@ -330,18 +324,25 @@ namespace Objects
 					TryToggleLock(interaction);
 				}
 			}
-			else if (IsOpen == false)
+			else if (IsOpen)
 			{
-				TryToggleDoor(interaction);
+				if (interaction.HandSlot.IsOccupied)
+				{
+					// If nothing in the player's hand can be used on the closet, drop it in the closet.
+					TryStoreItem(interaction);
+				}
+				else
+				{
+					// Try close the locker.
+					TryToggleDoor(interaction);
+				}
 			}
-			else if (interaction.HandSlot.IsOccupied)
+			else if (Validations.HasUsedComponent<IDCard>(interaction) || Validations.HasUsedComponent<Items.PDA.PDALogic>(interaction))
 			{
-				// If nothing in the player's hand can be used on the closet, drop it in the closet.
-				TryStoreItem(interaction);
+				TryToggleLock(interaction);
 			}
 			else
 			{
-				// Try close the locker.
 				TryToggleDoor(interaction);
 			}
 		}
@@ -366,9 +367,15 @@ namespace Objects
 		private void TryToggleLock(PositionalHandApply interaction)
 		{
 			var effector = "hand";
-			if (interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id).Select(slot => slot.IsOccupied).Any())
+			
+			if (interaction.IsAltClick)
 			{
-				effector = "ID card";
+				var idSource = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id)
+						.FirstOrDefault(slot => slot.IsOccupied);
+				if (idSource != null)
+				{
+					effector = idSource.ItemObject.ExpensiveName();
+				}
 			}
 			else if (interaction.HandSlot.IsOccupied)
 			{

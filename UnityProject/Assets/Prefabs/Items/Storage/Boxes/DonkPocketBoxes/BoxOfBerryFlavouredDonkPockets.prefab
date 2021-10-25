@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2a4b77e62f5433e448827e10c1d14682,
         type: 3}
+    - target: {fileID: 3611493419046441529, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 8069964923422693835}
     - target: {fileID: 3611601839509589521, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: m_AssetId
@@ -89,6 +94,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fe1bc2fccd130b341ac1f358956c07e1,
         type: 2}
+    - target: {fileID: 7407530865711990818, guid: 160baf50e4a27c24a8c1f40b3232c886,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cd4db9f54af94d24b9b8b511dbf96700,
+        type: 2}
     - target: {fileID: 7723797334500868040, guid: 160baf50e4a27c24a8c1f40b3232c886,
         type: 3}
       propertyPath: foreverID
@@ -96,3 +107,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 160baf50e4a27c24a8c1f40b3232c886, type: 3}
+--- !u!114 &8069964923422693835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3611718007549288053, guid: 160baf50e4a27c24a8c1f40b3232c886,
+    type: 3}
+  m_PrefabInstance: {fileID: 6764723518813996990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

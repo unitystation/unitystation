@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 1367725800532977169, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: initialName
-      value: ammo box (40mm grenades)
+      value: ammo box (40mm HE grenades)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367725800532977169, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: initialDescription
+      value: A box of High Explosive 40mm grenade shells.
       objectReference: {fileID: 0}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -70,18 +75,23 @@ PrefabInstance:
     - target: {fileID: 1447548746969270643, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_Name
-      value: AmmoBox40mmGrenades
+      value: AmmoBox40mmHEGrenades
       objectReference: {fileID: 0}
     - target: {fileID: 1549955644806952135, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_AssetId
       value: 19fb6e6a3e54bc54e8215d5cbb5163b9
       objectReference: {fileID: 0}
+    - target: {fileID: 1550059537453885679, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 853182498462018068}
     - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cdabdc7e166c85c4f83e5735aae59c7c,
+      objectReference: {fileID: 21300000, guid: b468fb152808a5645b140d59cc8b60b5,
         type: 3}
     - target: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -92,7 +102,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: c1d36dc76abd5d04ca6da77a51693973,
+      objectReference: {fileID: 11400000, guid: 005a315e23c46504ca29da132f491f27,
         type: 2}
     - target: {fileID: 5524790904487003422, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -128,3 +138,15 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fae459459df71d4999b6618dc06f219, type: 3}
+--- !u!114 &853182498462018068 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1550107619980666019, guid: 3fae459459df71d4999b6618dc06f219,
+    type: 3}
+  m_PrefabInstance: {fileID: 2185383112152338103}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

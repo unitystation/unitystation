@@ -144,11 +144,11 @@ namespace AdminTools
 			panel.SetAdminOverlayPanel(entry.infos, Instance, obj.transform, entry.offset);
 		}
 
-		public static void ClientFullUpdate(AdminInfoUpdate update)
+		public static void ClientFullUpdate(AdminInfosEntry[] entries)
 		{
 			Instance.ReturnAllPanelsToPool();
 
-			foreach (var e in update.entries)
+			foreach (var e in entries)
 			{
 				ClientAddEntry(e);
 			}

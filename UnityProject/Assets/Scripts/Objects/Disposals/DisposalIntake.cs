@@ -9,7 +9,7 @@ using AddressableReferences;
 
 namespace Objects.Disposals
 {
-	public class DisposalIntake : DisposalMachine, IServerDespawn, IExaminable
+	public class DisposalIntake : DisposalMachine, IExaminable
 	{
 		private const float ANIMATION_TIME = 1.2f; // As per sprite sheet JSON file.
 		private const float FLUSH_DELAY = 1;
@@ -18,7 +18,6 @@ namespace Objects.Disposals
 		private AddressableAudioSource disposalFlushSound = null;
 
 		private DirectionalPassable directionalPassable;
-		private DisposalVirtualContainer virtualContainer;
 
 		public bool IsOperating { get; private set; }
 
@@ -47,20 +46,12 @@ namespace Objects.Disposals
 			UpdateSpriteOrientation();
 		}
 
-		public void OnDespawnServer(DespawnInfo info)
-		{
-			if (virtualContainer != null)
-			{
-				_ = Despawn.ServerSingle(virtualContainer.gameObject);
-			}
-		}
-
 		#endregion Lifecycle
 
 		// Woman! I can hardly express
 		// My mixed motions at my thoughtlessness
 		// TODO: Don't poll, find some sort of trigger for when an entity enters the same tile.
-		void UpdateMe()
+		private void UpdateMe()
 		{
 			if (MachineSecured == false || IsOperating) return;
 			GatherEntities();
@@ -136,24 +127,11 @@ namespace Objects.Disposals
 
 		private void GatherEntities()
 		{
-			var items = registerObject.Matrix.Get<ObjectBehaviour>(registerObject.LocalPosition, ObjectType.Item, true);
-			var objects = registerObject.Matrix.Get<ObjectBehaviour>(registerObject.LocalPosition, ObjectType.Object, true);
-			var players = registerObject.Matrix.Get<ObjectBehaviour>(registerObject.LocalPosition, ObjectType.Player, true);
+			container.GatherObjects();
 
-			var filteredObjects = objects.ToList();
-			filteredObjects.RemoveAll(entity =>
-					// Only want to transport movable objects
-					entity.GetComponent<ObjectBehaviour>().IsPushable == false ||
-					// Don't add the virtual container to itself.
-					entity.TryGetComponent<DisposalVirtualContainer>(out _)
-			);
-
-			if (items.Count() > 0 || filteredObjects.Count > 0 || players.Count() > 0)
+			if (container.IsEmpty == false)
 			{
 				StartCoroutine(RunIntakeSequence());
-				virtualContainer.AddItems(items);
-				virtualContainer.AddObjects(filteredObjects);
-				virtualContainer.AddPlayers(players);
 			}
 		}
 
@@ -162,16 +140,14 @@ namespace Objects.Disposals
 			// Intake orifice closes...
 			SetIntakeOperating(true);
 			DenyEntry();
-			virtualContainer = SpawnNewContainer();
 			yield return WaitFor.Seconds(FLUSH_DELAY);
 
 			// Intake orifice closed. Release the charge.
 			SoundManager.PlayNetworkedAtPos(disposalFlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
-			DisposalsManager.Instance.NewDisposal(virtualContainer);
+			DisposalsManager.Instance.NewDisposal(container);
 
 			// Restore charge, open orifice.
 			yield return WaitFor.Seconds(ANIMATION_TIME - FLUSH_DELAY);
-			virtualContainer = null;
 			AllowEntry();
 			SetIntakeOperating(false);
 		}
