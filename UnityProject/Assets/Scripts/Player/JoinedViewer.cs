@@ -129,29 +129,24 @@ public class JoinedViewer : NetworkBehaviour
 		if (netIdentity == null)
 		{
 			Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
-					"Cannot rejoin that player. Was original player object improperly created? "+
-					"Did we get runtime error while creating it?", Category.Connections);
+			                "Cannot rejoin that player. Was original player object improperly created? "+
+			                "Did we get runtime error while creating it?", Category.Connections);
 			// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
 			yield break;
 		}
 
-		while (netIdentity != null && connectionToClient != null && !netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
+		while (!netIdentity.observers.ContainsKey(connectionToClient.connectionId))
 		{
 			yield return WaitFor.EndOfFrame;
+			if (connectionToClient == null)
+			{
+				//disconnected while we were waiting
+				yield break;
+			}
 		}
 
-		if (netIdentity != null && connectionToClient != null)
-		{
-			yield return WaitFor.EndOfFrame;
-			TargetLocalPlayerRejoinUI(connectionToClient);
-			PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
-		}
-		else
-		{
-			Logger.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
-			                "Turns out the NetID was destroyed for some reason while waiting for to be an observer" +
-			                "of the logged off player", Category.Connections);
-		}
+		TargetLocalPlayerRejoinUI(connectionToClient);
+		PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
 	}
 
 	[TargetRpc]

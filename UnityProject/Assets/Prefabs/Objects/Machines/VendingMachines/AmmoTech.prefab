@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
@@ -69,6 +69,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Item
+      value: 
+      objectReference: {fileID: 5998552595617439364, guid: 69bad92cd7ffa0245a1615e65fc7ff1a,
+        type: 3}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[0].Stock
       value: 15
       objectReference: {fileID: 0}
@@ -94,6 +100,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[0].ItemName
       value: Rubbershot Shell
       objectReference: {fileID: 0}
@@ -116,6 +127,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[4].ItemName
       value: 4.6 WT550 Magazine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      value: 40mm Riot Grenade shell box
       objectReference: {fileID: 0}
     - target: {fileID: 5523991133008900239, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
