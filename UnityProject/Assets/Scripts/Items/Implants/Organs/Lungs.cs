@@ -114,9 +114,14 @@ public class Lungs : BodyPartFunctionality
 
 		// Try to get internal breathing if possible, otherwise get from the surroundings
 		IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix() ?? node;
-		ReagentMix AvailableBlood = RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take(RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total / 2f);
-		bool tryExhale = BreatheOut(container.GasMix, AvailableBlood, efficiency);
-		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
+
+		if (efficiency > 1)
+		{
+			efficiency = 1;
+		}
+		ReagentMix AvailableBlood = RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take((RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total * efficiency) / 2f);
+		bool tryExhale = BreatheOut(container.GasMix, AvailableBlood);
+		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood);
 		RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
 		return tryExhale || tryInhale;
 	}
@@ -127,7 +132,7 @@ public class Lungs : BodyPartFunctionality
 	/// <param name="gasMix">The gas mix to breathe out into</param>
 	/// <param name="blood">The blood to pull gases from</param>
 	/// <returns> True if breathGasMix was changed </returns>
-	private bool BreatheOut(GasMix gasMix, ReagentMix blood, float efficiency)
+	private bool BreatheOut(GasMix gasMix, ReagentMix blood)
 	{
 		var TotalGasInBlood = 0f;
 		foreach (var Reagent in blood.reagents.m_dict)
@@ -165,12 +170,8 @@ public class Lungs : BodyPartFunctionality
 	/// <param name="gasMix">The gas mix to breathe in from</param>
 	/// <param name="blood">The blood to put gases into</param>
 	/// <returns> True if breathGasMix was changed </returns>
-	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
+	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood)
 	{
-		if (efficiency > 1)
-		{
-			efficiency = 1;
-		}
 
 		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere)
 		{
@@ -228,7 +229,7 @@ public class Lungs : BodyPartFunctionality
 					PartialPressureMultiplier = 1;
 				}
 
-				molesRecieved = RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent) * PartialPressureMultiplier * efficiency;
+				molesRecieved = RelatedPart.bloodType.GetSpareGasCapacity(blood, gasReagent) * PartialPressureMultiplier;
 			}
 			else
 			{
@@ -239,7 +240,7 @@ public class Lungs : BodyPartFunctionality
 				else
 				{
 
-					molesRecieved =  (Available * (gasMoles / TotalMoles)) * PressureMultiplier * efficiency;
+					molesRecieved =  (Available * (gasMoles / TotalMoles)) * PressureMultiplier;
 				}
 			}
 

@@ -20,8 +20,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	[SerializeField] private Image bgImage = default;
 
-	[SerializeField]
-	public List<Spritelist> StatesSprites;
+	[SerializeField] public List<Spritelist> StatesSprites;
 
 	[SerializeField] private Sprite[] statesBgImages = default;
 
@@ -29,9 +28,9 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	private float timeWait;
 	private float blinkTimer;
 
-	[Tooltip("Time between monitor bg blinks")]
-	[SerializeField]
+	[Tooltip("Time between monitor bg blinks")] [SerializeField]
 	private float criticalBlinkingTime = 0.5f;
+
 	private float overallHealthCache = 100;
 
 
@@ -80,7 +79,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			}
 		}
 
-		if(blinkTimer >= criticalBlinkingTime)
+		if (blinkTimer >= criticalBlinkingTime)
 		{
 			blinkTimer = 0;
 			// blinking bg when state is Crit
@@ -89,7 +88,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 				CurrentSpriteSet = 5;
 				bgImage.sprite = statesBgImages[CurrentSpriteSet];
 			}
-			else if(CurrentSpriteSet == 5)
+			else if (CurrentSpriteSet == 5)
 			{
 				CurrentSpriteSet = 4;
 				bgImage.sprite = statesBgImages[CurrentSpriteSet];
@@ -97,43 +96,52 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		}
 	}
 
+	private float TemporaryDamageIndicator = 0;
+	private float Decay = 180f;
+	private float Magnifyer = 2f;
+
 	private void CheckHealth()
 	{
 		if (PlayerManager.LocalPlayerScript.playerHealth.OverallHealth == overallHealthCache)
 		{
 			return;
 		}
+
 		float maxHealth = PlayerManager.LocalPlayerScript.playerHealth.MaxHealth;
+		float DamagedDelta = overallHealthCache - PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
+
+		if (0 > DamagedDelta)
+		{
+			DamagedDelta = 0;
+		}
+
+		TemporaryDamageIndicator += DamagedDelta * Magnifyer;
+
+
 		overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
 
 		float HealthPercentage = overallHealthCache / maxHealth;
-		for (int i = 0; i < 1; i++)
+		if (HealthPercentage > 0)
 		{
 			if (HealthPercentage >= 1)
 			{
 				CurrentSpriteSet = 0;
-				overlayCrits.SetState(HealthPercentage);
-				break;
 			}
 			else if (HealthPercentage >= 0.66f)
 			{
 				CurrentSpriteSet = 1;
-				overlayCrits.SetState(HealthPercentage);
-				break;
 			}
 			else if (HealthPercentage >= 0.33f)
 			{
 				CurrentSpriteSet = 2;
-				overlayCrits.SetState(HealthPercentage);
-				break;
 			}
-			else if (HealthPercentage > 0)
+			else
 			{
 				CurrentSpriteSet = 3;
-				overlayCrits.SetState(HealthPercentage);
-				break;
 			}
-
+		}
+		else
+		{
 			HealthPercentage = overallHealthCache / 100f;
 
 			if (HealthPercentage > -0.66f)
@@ -149,11 +157,25 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			else
 			{
 				CurrentSpriteSet = 6;
-
 			}
-			overlayCrits.SetState(HealthPercentage);
 		}
 
+
+
+
+		if (TemporaryDamageIndicator > 0)
+		{
+			TemporaryDamageIndicator -= Decay * Time.deltaTime;
+			if (TemporaryDamageIndicator < 0)
+			{
+				TemporaryDamageIndicator = 0;
+			}
+
+			HealthPercentage = (overallHealthCache - TemporaryDamageIndicator) / maxHealth;
+		}
+
+
+		overlayCrits.SetState(HealthPercentage);
 
 
 		// crit state has 2 sprite sets (blinking)

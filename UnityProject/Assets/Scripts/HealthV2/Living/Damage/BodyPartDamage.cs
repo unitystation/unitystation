@@ -274,7 +274,7 @@ namespace HealthV2
 			{
 				foreach (var organ in containBodyParts)
 				{
-					organ.AffectDamage(subDamage / OrganList.Count, (int) damageType);
+					organ.AffectDamage(subDamage / containBodyParts.Count, (int) damageType);
 				}
 			}
 			else
