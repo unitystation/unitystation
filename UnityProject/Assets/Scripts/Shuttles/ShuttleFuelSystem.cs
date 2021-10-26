@@ -29,6 +29,7 @@ namespace Systems.Shuttles
 
 		protected void OnEnable()
 		{
+			if(MatrixMove.ShuttleFuelSystem == null) MatrixMove.RegisterShuttleFuelSystem(this); //For constructable shuttles.
 			if(CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
