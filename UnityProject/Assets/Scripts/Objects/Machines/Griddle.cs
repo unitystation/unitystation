@@ -19,7 +19,7 @@ namespace Objects.Kitchen
 {
 	/// <summary>
 	/// A machine which can have meat items placed on top to cook them.
-	/// If the item has the Cookable component, the item will be cooked 
+	/// If the item has the Cookable component, the item will be cooked
 	/// once enough time has lapsed as determined in that component.
 	/// </summary>
 	public class Griddle : NetworkBehaviour, IAPCPowerable, IRefreshParts
@@ -47,7 +47,7 @@ namespace Objects.Kitchen
 		private int magnetronWattage = 850;
 
 		private RegisterTile registerTile;
-		
+
 		private Matrix Matrix => registerTile.Matrix;
 		private SpriteHandler spriteHandler;
 		private APCPoweredDevice poweredDevice;
@@ -75,21 +75,13 @@ namespace Objects.Kitchen
 
 		#region Lifecycle
 
-		// Interfaces can call this script before Awake() is called.
-		private void EnsureInit()
+		private void Awake()
 		{
-			if (CurrentState != null) return;
-
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			poweredDevice = GetComponent<APCPoweredDevice>();
 
 			SetState(new GriddleUnpowered(this));
-		}
-
-		private void Start()
-		{
-			EnsureInit();
 		}
 
 		private void OnDisable()
@@ -210,8 +202,6 @@ namespace Objects.Kitchen
 
 		public void RefreshParts(IDictionary<GameObject, int> partsInFrame)
 		{
-			EnsureInit();
-
 			// Get the machine stock parts used in this instance and get the tier of each part.
 			// Collection is unorganized so run through the whole list.
 			foreach (GameObject part in partsInFrame.Keys)
@@ -234,7 +224,6 @@ namespace Objects.Kitchen
 		/// <param name="state">The power state to set the griddle's state with.</param>
 		public void StateUpdate(PowerState state)
 		{
-			EnsureInit();
 			CurrentState.PowerStateUpdate(state);
 		}
 

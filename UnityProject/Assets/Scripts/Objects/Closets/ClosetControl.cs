@@ -122,7 +122,12 @@ namespace Objects
 
 		private void Awake()
 		{
-			EnsureInit();
+			registerObject = GetComponent<RegisterObject>();
+			attributes = GetComponent<ObjectAttributes>();
+			container = GetComponent<ObjectContainer>();
+			pushPull = GetComponent<PushPull>();
+			accessRestrictions = GetComponent<AccessRestrictions>();
+
 			lockState = isLockable ? Lock.Locked : Lock.NoLock;
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 
@@ -130,20 +135,8 @@ namespace Objects
 			closetName = gameObject.ExpensiveName();
 		}
 
-		private void EnsureInit()
-		{
-			if (registerObject != null) return;
-
-			registerObject = GetComponent<RegisterObject>();
-			attributes = GetComponent<ObjectAttributes>();
-			container = GetComponent<ObjectContainer>();
-			pushPull = GetComponent<PushPull>();
-			accessRestrictions = GetComponent<AccessRestrictions>();
-		}
-
 		public override void OnStartClient()
 		{
-			EnsureInit();
 			SyncDoorState(doorState, doorState);
 		}
 
@@ -181,7 +174,7 @@ namespace Objects
 			{
 				lockSpritehandler.ChangeSprite((int) (IsOpen ? Lock.NoLock : lockState));
 			}
-			
+
 			SoundManager.PlayNetworkedAtPos(IsOpen ? soundOnOpen : soundOnClose, registerObject.WorldPositionServer, sourceObj: gameObject);
 
 			if (IsOpen)
@@ -291,7 +284,6 @@ namespace Objects
 
 		private void SyncDoorState(Door oldValue, Door value)
 		{
-			EnsureInit();
 			doorState = value;
 			SetPassableAndLayer(); // required on client
 		}

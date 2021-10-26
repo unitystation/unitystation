@@ -11,26 +11,20 @@ namespace Effects.Overlays
 	{
 		private SpriteHandler spriteHandler;
 
-		private bool init = false;
-
 		public bool OverlayActive { get; private set; } = true; // PresentSpriteSO is set on startup
 
 		private void Awake()
 		{
-			EnsureInit();
+			spriteHandler = GetComponent<SpriteHandler>();
 		}
 
-		private void OnDisable()
+		private void Start()
 		{
 			StopOverlay();
 		}
 
-		private void EnsureInit()
+		private void OnDisable()
 		{
-			if (init) return;
-			init = true;
-
-			spriteHandler = GetComponent<SpriteHandler>();
 			StopOverlay();
 		}
 
@@ -40,8 +34,6 @@ namespace Effects.Overlays
 		/// <param name="direction"></param>
 		public void StartOverlay(Orientation direction)
 		{
-			EnsureInit();
-
 			spriteHandler.ChangeSprite(0); // Load sprite into SpriteRenderer
 			spriteHandler.ChangeSpriteVariant(GetOrientationVariant(direction));
 			OverlayActive = true;

@@ -170,6 +170,7 @@ namespace Objects.Lighting
 		{
 			mState = newState;
 			ChangeCurrentState(newState);
+			SetSprites();
 			SetAnimation();
 		}
 
@@ -179,7 +180,6 @@ namespace Objects.Lighting
 			{
 				currentState = mountStatesMachine.LightMountStates[newState];
 			}
-			SetSprites();
 		}
 
 		public void EditorDirectionChange()

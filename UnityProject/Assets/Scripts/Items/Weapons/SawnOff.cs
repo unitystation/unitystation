@@ -12,7 +12,7 @@ namespace Weapons
 {
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(Gun))]
-	public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>
+	public class SawnOff : MonoBehaviour, ICheckedInteractable<InventoryApply>, IServerSpawn
 	{
 
 		private ItemAttributesV2 itemAttComp;
@@ -26,7 +26,7 @@ namespace Weapons
 
 		[SerializeField, Tooltip("Sawn off item size")]
 		private ItemSize sawnSize = ItemSize.Medium;
-	
+
 		[SerializeField, Tooltip("Value that determines how far a shot will deviate. (Never set this higher then 0.5 unless you want questionable results.)")]
 		private float sawnMaxRecoilVariance;
 
@@ -38,6 +38,10 @@ namespace Weapons
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			itemAttComp = gameObject.GetComponent<ItemAttributesV2>();
 			gunComp = gameObject.GetComponent<Gun>();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
 			spriteHandler.ChangeSprite(0);
 		}
 
@@ -94,7 +98,7 @@ namespace Weapons
 				}
 			}
 
-			// Propagates the InventoryApply Interaction to the Gun component for all basic gun InventoryApply interactions.	
+			// Propagates the InventoryApply Interaction to the Gun component for all basic gun InventoryApply interactions.
 			gunComp.ServerPerformInteraction(interaction);
 		}
 	}

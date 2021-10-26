@@ -59,11 +59,6 @@ public class ClothingItem : MonoBehaviour
 		get { return spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand; }
 	}
 
-	private void Awake()
-	{
-		UpdateSprite();
-	}
-
 	public void SetColor(Color value)
 	{
 		if (spriteHandler != null)
