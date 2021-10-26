@@ -548,11 +548,11 @@ namespace HealthV2
 		{
 			if (damageSplit)
 			{
-				float bodyParts = BodyPartList.Count;
+				float bodyParts = SurfaceBodyParts.Count;
 				damage /= bodyParts;
 			}
 
-			foreach (var bodyPart in BodyPartList.ToArray())
+			foreach (var bodyPart in SurfaceBodyParts.ToArray())
 			{
 				bodyPart.TakeDamage(damagedBy, damage, attackType, damageType, damageSplit);
 			}
@@ -592,7 +592,7 @@ namespace HealthV2
 				bodyPartAim = BodyPartType.Head;
 			}
 
-			foreach (var bodyPart in BodyPartList)
+			foreach (var bodyPart in SurfaceBodyParts)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
 				{
@@ -600,7 +600,7 @@ namespace HealthV2
 				}
 			}
 
-			foreach (var bodyPart in BodyPartList.ToArray())
+			foreach (var bodyPart in SurfaceBodyParts.ToArray())
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
 				{
@@ -617,7 +617,7 @@ namespace HealthV2
 		/// <returns></returns>
 		public bool ZoneHasDamageOf(BodyPartType bodyPartAim, DamageType SpecifiedType)
 		{
-			foreach (var bodyPart in BodyPartList)
+			foreach (var bodyPart in SurfaceBodyParts)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
 				{
@@ -745,7 +745,7 @@ namespace HealthV2
 		public void HealDamage(GameObject healingItem, int healAmt,
 			DamageType damageTypeToHeal, BodyPartType bodyPartAim)
 		{
-			foreach (var bodyPart in BodyPartList)
+			foreach (var bodyPart in SurfaceBodyParts)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
 				{
