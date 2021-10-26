@@ -399,7 +399,7 @@ namespace Items.PDA
 			string code = codeList[Random.Range(0, codeList.Count)];
 
 			string nums = Random.Range(111, 999).ToString();
-			return code += nums;
+			return code + nums;
 		}
 
 		private IEnumerator DelayInformUplinkCode(ConnectedPlayer forPlayer)
