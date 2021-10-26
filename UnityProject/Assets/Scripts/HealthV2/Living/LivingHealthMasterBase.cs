@@ -147,6 +147,19 @@ namespace HealthV2
 		/// </summary>
 		[NonSerialized] public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
+		// FireStacks note: It's called "stacks" but it's really just a floating point value that
+		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
+		private float bleedStacks => healthStateController.BleedStacks;
+
+		/// <summary>
+		/// How badly we're bleeding, same as tg bleed_stacks. 0 = not bleeding.
+		/// Exists client side - synced with server.
+		/// </summary>
+		public float BleedStacks => bleedStacks;
+
+		private float maxBleedStacks = 5f;
+		private bool maxBleedStacksReached = false;
+
 		private ObjectBehaviour objectBehaviour;
 		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
@@ -287,6 +300,7 @@ namespace HealthV2
 
 			FireStacksDamage();
 			CalculateRadiationDamage();
+			BleedStacksDamage();
 
 			if (IsDead) return;
 
@@ -327,6 +341,18 @@ namespace HealthV2
 
 				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700,
 					true);
+			}
+		}
+
+		/// <summary>
+		/// Applies bleeding from bleedstacks and handles their effects.
+		/// </summary>
+		public void BleedStacksDamage()
+		{
+			if (bleedStacks > 0)
+			{
+				CirculatorySystem.Bleed(0.5 * Math.Ceiling(bleedStacks));
+				healthStateController.SetBleedStacks(bleedStacks - 0.1f);
 			}
 		}
 
@@ -807,6 +833,22 @@ namespace HealthV2
 			}
 		}
 
+		public void ChangeBleedStacks(float deltaValue)
+		{
+			if (bleedStacks + deltaValue < 0)
+			{
+				healthStateController.SetBleedStacks(0);
+			}
+			else if (bleedStacks + deltaValue > maxBleedStacks)
+			{
+				healthStateController.SetBleedStacks(maxBleedStacks);
+			}
+			else
+			{
+				healthStateController.SetBleedStacks(bleedStacks + deltaValue);
+			}
+		}
+
 		/// <summary>
 		/// Removes all Fire Stacks
 		/// </summary>
@@ -879,6 +921,7 @@ namespace HealthV2
 			{
 				healthString.Append($" And {theyPronoun}'s on fire!");
 			}
+			
 
 			//Alive but not in body
 			if (script != null && script.HasSoul == false)

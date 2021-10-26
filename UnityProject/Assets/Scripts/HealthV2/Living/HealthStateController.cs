@@ -37,6 +37,11 @@ namespace HealthV2
 
 		private HealthBloodMessage BloodHealth => bloodHealth;
 
+		[SyncVar(hook = nameof(SyncBleedStacks))]
+		private float bleedStacks;
+
+		public float BleedStacks => bleedStacks;
+
 		[SyncVar(hook = nameof(SyncFireStacks))]
 		private float fireStacks;
 
@@ -104,7 +109,11 @@ namespace HealthV2
 			hungerState = newHungerState;
 		}
 
-
+		[Server]
+		public void SetBleedState(BleedingState newBleedingState)
+		{
+			bleedingState = newBleedingState;
+		}
 
 		[Server]
 		public void SetOverallHealth(float newHealth)
@@ -135,6 +144,12 @@ namespace HealthV2
 		public void SetFireStacks(float newValue)
 		{
 			fireStacks = Math.Max(0, newValue);
+		}
+
+		[Server]
+		public void SetBleedStacks(float newValue)
+		{
+			bleedStacks = Math.Max(0, newValue);
 		}
 
 		[Server]
@@ -209,6 +224,12 @@ namespace HealthV2
 		{
 			fireStacks = newStacks;
 			livingHealthMasterBase.OnClientFireStacksChange.Invoke(newStacks);
+		}
+
+		[Client]
+		private void SyncBleedStacks(float oldStacks, float newStacks)
+		{
+			bleedStacks = newStacks;
 		}
 
 		[Client]

@@ -221,7 +221,7 @@ namespace HealthV2
 				yield return WaitFor.Seconds(4f);
 				if (IsBleeding)
 				{
-					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxExternalBleedingValues.x, MinMaxExternalBleedingValues.y));
+					HealthMaster.ChangeBleedStacks(1f);
 				}
 			}
 		}
