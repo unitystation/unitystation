@@ -154,6 +154,9 @@ namespace Systems.Cargo
 				//need VisibleState check because despawned objects still stick around on their matrix transform
 				if (item != null && item.TryGetComponent<ObjectBehaviour>(out var behaviour) && behaviour.VisibleState)
 				{
+					// Don't sell secured objects e.g. conveyors.
+					if (behaviour.IsNotPushable) continue;
+
 					CargoManager.Instance.ProcessCargo(item, alreadySold);
 				}
 			}
