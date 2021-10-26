@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.DisposalPipes;
 
 namespace Objects.Disposals
 {
@@ -15,6 +16,7 @@ namespace Objects.Disposals
 
 		[Tooltip("Set the sprite this particular disposal pipe should use.")]
 		public Sprite sprite;
+
 		public override Sprite PreviewSprite => sprite;
 
 		[SerializeField]
@@ -53,6 +55,16 @@ namespace Objects.Disposals
 				return new ConnectablePoint(pair);
 			}
 		}
+
+		public void InitialiseNode(Vector3Int Location, Matrix matrix)
+		{
+			var ZeroedLocation = new Vector3Int(x: Location.x, y: Location.y, 0);
+			var metaData = matrix.MetaDataLayer.Get(ZeroedLocation);
+			var disPipeNode = new DisposalPipeNode();
+			disPipeNode.Initialise(this, Location);
+			metaData.DisposalPipeData.Add(disPipeNode);
+		}
+
 
 		public string Examine(Vector3 worldPos = default)
 		{
