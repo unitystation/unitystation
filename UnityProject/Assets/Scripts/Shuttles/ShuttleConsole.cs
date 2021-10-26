@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -71,7 +72,8 @@ namespace Objects.Shuttles
 
 		public void PlayRadarDetectionSound()
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.WorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.WorldPosServer(), 
+				default, default, default, default, gameObject);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
