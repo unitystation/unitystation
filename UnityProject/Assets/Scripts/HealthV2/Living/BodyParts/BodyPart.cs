@@ -170,7 +170,7 @@ namespace HealthV2
 
 			if(IsBleeding)
 			{
-				HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
+				HealthMaster.ChangeBleedStacks(1f);
 			}
 		}
 

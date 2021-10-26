@@ -110,7 +110,7 @@ namespace HealthV2
 		}
 
 		[Server]
-		public void SetBleedState(BleedingState newBleedingState)
+		public void SetBleedingState(BleedingState newBleedingState)
 		{
 			bleedingState = newBleedingState;
 		}

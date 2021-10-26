@@ -157,7 +157,7 @@ namespace HealthV2
 		/// </summary>
 		public float BleedStacks => bleedStacks;
 
-		private float maxBleedStacks = 5f;
+		private float maxBleedStacks = 10f;
 		private bool maxBleedStacksReached = false;
 
 		private ObjectBehaviour objectBehaviour;
@@ -199,6 +199,39 @@ namespace HealthV2
 				}
 			}
 
+			return State;
+		}
+
+		public BleedingState BleedingState => CalculateBleedingState();
+		public BleedingState CalculateBleedingState()
+		{
+			var State = BleedingState.None;
+			switch (Math.Ceiling(bleedStacks))
+			{
+				case 0:
+					State = BleedingState.None;
+					break;
+				case 1:
+					State = BleedingState.VeryLow;
+					break;
+				case 2:
+				case 3:
+					State = BleedingState.Low;
+					break;
+				case 4:
+				case 5:
+				case 6:
+					State = BleedingState.Medium;
+					break;
+				case 7:
+				case 8:
+					State = BleedingState.High;
+					break;
+				case 9:
+				case 10:
+					State = BleedingState.UhOh;
+					break;
+			}
 			return State;
 		}
 
@@ -351,7 +384,7 @@ namespace HealthV2
 		{
 			if (bleedStacks > 0)
 			{
-				CirculatorySystem.Bleed(0.5 * Math.Ceiling(bleedStacks));
+				CirculatorySystem.Bleed(1f * (float)Math.Ceiling(bleedStacks));
 				healthStateController.SetBleedStacks(bleedStacks - 0.1f);
 			}
 		}
@@ -475,6 +508,7 @@ namespace HealthV2
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
 			healthStateController.SetHunger(HungerState);
+			healthStateController.SetBleedingState(BleedingState);
 
 			if (currentHealth < -100)
 			{
