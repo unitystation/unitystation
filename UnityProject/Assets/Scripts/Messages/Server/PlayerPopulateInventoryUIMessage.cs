@@ -16,7 +16,7 @@ namespace Messages.Server
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.NetIDOfStorage);
-			UIManager.Instance.UI_SlotManager.RemoveAll();
+			UIManager.Instance.UI_SlotManager.UpdateUI();
 			NetworkObject.GetComponent<DynamicItemStorage>().ShowClientUI();
 		}
 
