@@ -9,6 +9,7 @@ using Systems.Electricity;
 using Systems.Explosions;
 using Systems.Pipes;
 using Systems.Radiation;
+using Systems.DisposalPipes;
 
 
 /// <summary>
@@ -42,6 +43,11 @@ public class MetaDataNode : IGasMixContainer
 	/// This contains all the pipe data needed On the tile
 	/// </summary>
 	public List<PipeNode> PipeData = new List<PipeNode>();
+
+	/// <summary>
+	/// This contains all the disposal pipe data needed On the tile
+	/// </summary>
+	public List<DisposalPipeNode> DisposalPipeData = new List<DisposalPipeNode>();
 
 	/// <summary>
 	/// Local position of this tile in its parent matrix.

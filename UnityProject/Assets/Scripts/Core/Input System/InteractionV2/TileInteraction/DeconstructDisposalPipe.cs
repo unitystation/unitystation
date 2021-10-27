@@ -1,4 +1,5 @@
 using UnityEngine;
+using Systems.DisposalPipes;
 
 namespace Objects.Disposals
 {
@@ -73,11 +74,26 @@ namespace Objects.Disposals
 
 		private void DeconstructPipe(TileApply interaction)
 		{
-			DisposalPipe pipe = interaction.BasicTile as DisposalPipe;
+			DisposalPipe pipeTile = interaction.BasicTile as DisposalPipe;
 
 			// Despawn pipe tile
 			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.NormalizeTo3Int(), true).Matrix;
-			matrix.TileChangeManager.RemoveTile(interaction.TargetCellPos, LayerType.Underfloor);
+			MetaDataNode metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos, false);
+			DisposalPipeNode disPipeNode = null;
+			for (var i = 0; i < metaDataNode.DisposalPipeData.Count; i++)
+			{
+				if (metaDataNode.DisposalPipeData[i].DisposalPipeTile == pipeTile)
+				{
+					disPipeNode = metaDataNode.DisposalPipeData[i];
+				}
+			}
+			if(disPipeNode == null)
+			{
+				Logger.LogError($"Impossible to deconstruct the disposal pipe at {interaction.TargetCellPos} in {matrix.gameObject.scene.name} - {matrix.name}. Disposal pipe node wasn't found",
+					Category.Pipes);
+				return;
+			}
+			matrix.TileChangeManager.RemoveTile(disPipeNode.NodeLocation, LayerType.Underfloor);
 
 			// Spawn pipe GameObject
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;
@@ -87,7 +103,7 @@ namespace Objects.Disposals
 
 			if (spawn.GameObject.TryGetComponent<Directional>(out var directional))
 			{
-				directional.FaceDirection(Orientation.FromEnum(pipe.DisposalPipeObjectOrientation));
+				directional.FaceDirection(Orientation.FromEnum(pipeTile.DisposalPipeObjectOrientation));
 			}
 
 			if (spawn.GameObject.TryGetComponent<ObjectBehaviour>(out var behaviour))

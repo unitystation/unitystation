@@ -394,16 +394,12 @@ namespace Items.PDA
 
 		private string GenerateUplinkUnlockCode()
 		{
-			var code = "";
 			var codeList = UplinkPasswordList.Instance.WordList;
-			for (int i = 0; i < 3; i++)
-			{
-				string word = codeList[Random.Range(0, codeList.Count)];
-				code += word;
-			}
+			
+			string code = codeList[Random.Range(0, codeList.Count)];
 
 			string nums = Random.Range(111, 999).ToString();
-			return code += nums;
+			return code + nums;
 		}
 
 		private IEnumerator DelayInformUplinkCode(ConnectedPlayer forPlayer)
