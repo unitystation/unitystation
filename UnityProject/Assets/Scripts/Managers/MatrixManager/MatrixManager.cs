@@ -544,16 +544,12 @@ public partial class MatrixManager : MonoBehaviour
 		return true;
 	}
 
-	public static bool IsConstructable(Vector3Int worldPos)
+	public static bool IsConstructable(Vector3Int worldPos, MatrixInfo matrixInfo)
 	{
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
 		{
-			if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
-			{
-				return true;
-			}
+			return true;
 		}
-
 		return false;
 	}
 

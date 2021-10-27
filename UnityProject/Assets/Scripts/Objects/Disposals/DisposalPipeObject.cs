@@ -12,7 +12,6 @@ namespace Objects.Disposals
 		private float weldTime = 3;
 
 		private RegisterTile registerTile;
-		private TileChangeManager tileChangeManager;
 		private ObjectBehaviour behaviour;
 
 		[SerializeField]
@@ -39,7 +38,6 @@ namespace Objects.Disposals
 		private void Awake()
 		{
 			registerTile = gameObject.RegisterTile();
-			tileChangeManager = registerTile.TileChangeManager;
 			behaviour = GetComponent<ObjectBehaviour>();
 		}
 
@@ -127,7 +125,7 @@ namespace Objects.Disposals
 
 		private bool VerboseFloorExists()
 		{
-			if (MatrixManager.IsConstructable(registerTile.WorldPositionServer))
+			if (MatrixManager.IsConstructable(registerTile.WorldPositionServer, registerTile.Matrix.MatrixInfo))
 			{
 				return true;
 			}
@@ -137,7 +135,7 @@ namespace Objects.Disposals
 
 		private bool VerbosePlatingExposed()
 		{
-			if (tileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors) == false) return true;
+			if (registerTile.TileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors) == false) return true;
 
 			Chat.AddExamineMsg(
 					currentInteraction.Performer,
@@ -216,7 +214,8 @@ namespace Objects.Disposals
 			{
 				var matrixTransform = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
 				Color pipeColor = GetComponentInChildren<SpriteRenderer>().color;
-				registerTile.Matrix.TileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
+				Vector3Int searchVec = registerTile.Matrix.TileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
+				pipeTileToSpawn.InitialiseNode(searchVec, registerTile.Matrix);
 				_ = Despawn.ServerSingle(gameObject);
 			}
 			else
