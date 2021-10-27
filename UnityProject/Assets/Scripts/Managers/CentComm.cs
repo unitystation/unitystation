@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
+using Google.Protobuf.WellKnownTypes;
 using Initialisation;
 using Map;
 using Messages.Server.SoundMessages;
@@ -23,8 +24,8 @@ namespace Managers
 		private GameObject paperPrefab = default;
 
 		public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
-		[NonSerialized] public string CommandStatusString;
-		[NonSerialized] public string EscapeShuttleTimeString;
+		[NonSerialized] public string CommandStatusString = string.Empty;
+		[NonSerialized] public string EscapeShuttleTimeString = string.Empty;
 
 		public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
 		{
