@@ -44,7 +44,7 @@ public class Lungs : BodyPartFunctionality
 	/// The volume of the lung in litres
 	/// </summary>
 	[Tooltip("The volume of the lung in litres")]
-	public float LungSize = 6;
+	public float LungSize = 1.5f;
 
 	[SerializeField, Range(0, 100)] private float coughChanceWhenInternallyBleeding = 32;
 	[SerializeField] private float internalBleedingCooldown = 4f;
