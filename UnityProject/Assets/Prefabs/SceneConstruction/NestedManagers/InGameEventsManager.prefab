@@ -721,7 +721,6 @@ Transform:
   - {fileID: 8107459317429369441}
   - {fileID: 2967834443619550631}
   - {fileID: 1614149104379286000}
-  - {fileID: 7644278449202499015}
   - {fileID: 1809593919738534580}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
@@ -1129,7 +1128,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1375060888515666893
 MonoBehaviour:
@@ -1606,9 +1605,6 @@ MonoBehaviour:
   RandomEventsAllowed: 1
   minPlayersForRandomEventsToHappen: 5
   EnumListCache: []
-  MusicListCache: []
-  eventMusic: {fileID: 11400000, guid: 754bcabad708be8409022843f6c689f4, type: 2}
-  musics: []
 --- !u!114 &3416911991172850115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1677,57 +1673,3 @@ Transform:
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9019151151982202521
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7644278449202499015}
-  - component: {fileID: 5219137714795788897}
-  m_Layer: 0
-  m_Name: Play Music
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7644278449202499015
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9019151151982202521}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5219137714795788897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9019151151982202521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cc5321a1a1e143169feff4984bc2862, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EventName: Play Music
-  StartTimer: 0
-  EndTimer: 0
-  EventType: 1
-  ChanceToHappen: 0
-  MinPlayersToTrigger: 0
-  parametersPageType: 0
-  FakeEvent: 0
-  AnnounceEvent: 0
-  audioClips: {fileID: 0}
-  announceText: Music Event Started.

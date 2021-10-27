@@ -58,7 +58,7 @@ namespace AdminTools
 			eventParameters.SicknessIndex = sicknessDropdown.value;
 
 			AdminCommandsManager.Instance.CmdTriggerGameEvent(
-					index, 0, fakeEvent, announceEvent, eventType, JsonConvert.SerializeObject(eventParameters));
+					index, fakeEvent, announceEvent, eventType, JsonConvert.SerializeObject(eventParameters));
 
 			// We hide the panel
 			gameObject.SetActive(false);
