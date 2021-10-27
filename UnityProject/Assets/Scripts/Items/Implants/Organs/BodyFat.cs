@@ -138,6 +138,7 @@ namespace HealthV2
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			base.RemovedFromBody(livingHealth);
+			RelatedStomach.BodyFats.Remove(this);
 			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
