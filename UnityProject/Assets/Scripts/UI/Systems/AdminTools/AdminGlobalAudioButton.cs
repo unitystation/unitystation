@@ -8,12 +8,12 @@ namespace AdminTools
 	/// <summary>
 	/// On the buttons in the list
 	/// </summary>
-	public class AdminGlobalSoundButton : MonoBehaviour
+	public class AdminGlobalAudioButton : MonoBehaviour
 	{
 		public Text myText;
 		private int _index;
 
-		private AdminGlobalSound adminGlobalSound;
+		private AdminGlobalAudio adminGlobalAudio;
 
 		public void SetText(string textString)
 		{
@@ -27,9 +27,9 @@ namespace AdminTools
 
 		public void Onclick()
 		{
-			adminGlobalSound = GetComponentInParent<AdminGlobalSound>();
+			adminGlobalAudio = GetComponentInParent<AdminGlobalAudio>();
 
-			adminGlobalSound.PlaySound(_index); // Gives text to function to play sound.
+			adminGlobalAudio.PlayAudio(_index); // Gives text to function to play audio.
 		}
 	}
 }

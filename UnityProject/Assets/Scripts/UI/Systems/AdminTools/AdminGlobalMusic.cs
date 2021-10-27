@@ -11,15 +11,15 @@ using AddressableReferences;
 namespace AdminTools
 {
 	/// <summary>
-	/// Lets Admins play sounds
+	/// Lets Admins play music
 	/// </summary>
-	public class AdminGlobalSound : AdminGlobalAudio
+	public class AdminGlobalMusic : AdminGlobalAudio
 	{
-		public override void PlayAudio(int index) //send sound to audio manager
+		public override void PlayAudio(int index) //send music to audio manager
 		{
 			if (index < audioList.Count)
 			{
-				AdminCommandsManager.Instance.CmdPlaySound(audioList[index]);
+				AdminCommandsManager.Instance.CmdPlayMusic(audioList[index]);
 			}
 		}
 	}

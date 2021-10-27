@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Messages.Server.SoundMessages;
 
 namespace Audio.Containers
 {
@@ -22,6 +23,8 @@ namespace Audio.Containers
 				return musicManager;
 			}
 		}
+
+		public string currentNetworkedSong = "";
 
 		[SerializeField] private SongTracker songTracker = null;
 		/// <summary>
@@ -151,6 +154,35 @@ namespace Audio.Containers
 		{
 			PlayerPrefs.SetFloat(PlayerPrefKeys.MusicVolumeKey, newVolume);
 			PlayerPrefs.Save();
+		}
+
+		/// <summary>
+		/// Plays music for all clients.
+		/// </summary>
+		/// <param name="addressableAudioSource">The sound to be played.</param>
+		/// <param name="audioSourceParameters">Extra parameters of the audio source</param>
+		/// <param name="polyphonic">Is the sound to be played polyphonic</param>
+		/// <param name="shakeParameters">Extra parameters that define the sound's associated shake</param>
+		public static void PlayNetworked(AddressableAudioSource addressableAudioSource,
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
+			ShakeParameters shakeParameters = new ShakeParameters())
+		{
+			if (Instance.currentNetworkedSong != "")
+			{
+				StopNetworked(Instance.currentNetworkedSong);
+			}
+			audioSourceParameters.MixerType = MixerType.Music;
+			Instance.currentNetworkedSong = PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
+			//ChangeAudioSourceParametersMessage.SendToAll(Instance.currentNetworkedSong, audioSourceParameters);
+		}
+
+		/// <summary>
+		/// Tell all clients to stop playing a song
+		/// </summary>
+		/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the sound to be stopped</returns>
+		public static void StopNetworked(string songToken)
+		{
+			StopSoundMessage.SendToAll(songToken);
 		}
 	}
 }

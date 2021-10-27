@@ -148,12 +148,11 @@ public class SoundManager : MonoBehaviour
 	/// <param name="audioSourceParameters">Extra parameters of the audio source</param>
 	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
 	/// <param name="shakeParameters">Extra parameters that define the sound's associated shake</param>
-	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSource,
+	public static string PlayNetworked(AddressableAudioSource addressableAudioSource,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters())
 	{
-		//addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
-		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
+		return PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
 	}
 
 	/// <summary>
@@ -164,12 +163,12 @@ public class SoundManager : MonoBehaviour
 	/// <param name="audioSourceParameters">Extra parameters of the audio source</param>
 	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
-	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources,
+	public static string PlayNetworked(List<AddressableAudioSource> addressableAudioSources,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters())
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters);
+		return PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters);
 	}
 
 	/// <summary>
@@ -651,6 +650,8 @@ public class SoundManager : MonoBehaviour
 	{
 		switch(mixerType)
 			{
+				case MixerType.Music:
+					return AudioManager.Instance.MusicMixer;
 				case MixerType.Muffled:
 					return AudioManager.Instance.SFXMuffledMixer;
 				case MixerType.Ambient:

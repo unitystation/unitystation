@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AdminTools
 {
-	public class AdminGlobalSoundButtonTab : MonoBehaviour
+	public class AdminGlobalAudioButtonTab : MonoBehaviour
 	{
 		[SerializeField] private GameObject globalSoundWindow = null;
 

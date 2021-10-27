@@ -11,6 +11,8 @@ using Strings;
 using HealthV2;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
+using System.Threading.Tasks;
+using Audio.Containers;
 
 namespace AdminCommands
 {
@@ -344,17 +346,18 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			SoundManager.PlayNetworked(addressableAudioSource);
-			// var players = PlayerList.Instance.InGamePlayers;
+		}
 
-			// if (players == null) return; //If list of Players is empty dont run rest of code.
-			// Logger.LogError($"TODO: reimplement admin sounds.");
-			// foreach (var player in players)
-			// {
-	
-			// 	SoundManager.PlayNetworked(addressableAudioSource);
-			// }
 
-			//LogAdminAction($"{admin.Username}: played the global sound: {addressableAudioSource.AudioSource.clip.name}.");
+		#endregion
+
+		#region Music
+
+		[Command(requiresAuthority = false)]
+		public void CmdPlayMusic(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			MusicManager.PlayNetworked(addressableAudioSource);
 		}
 
 		#endregion
