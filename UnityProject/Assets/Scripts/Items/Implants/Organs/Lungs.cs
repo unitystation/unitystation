@@ -268,28 +268,16 @@ public class Lungs : Organ
 	/// <param name="gasMix">the gases the character is breathing in</param>
 	public virtual void ToxinBreathinCheck(GasMix gasMix)
 	{
-
 		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere ||
 		    RelatedPart.HealthMaster.playerScript == null) return;
-		void DamageLogic(GasMix mix)
+		foreach (ToxicGas gas in toxicGases)
 		{
-			foreach (ToxicGas gas in toxicGases)
+			float pressure = gasMix.GetPressure(gas.GasType);
+			if (pressure >= gas.PressureSafeMax)
 			{
-				float pressure = mix.GetPressure(gas.GasType);
-				if (pressure >= gas.PressureSafeMax)
-				{
-					RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(gas.UnsafeLevelDamage,
-						gas.UnsafeLevelDamageType);
-				}
+				RelatedPart.HealthMaster.RespiratorySystem.ApplyDamage(gas.UnsafeLevelDamage,
+					gas.UnsafeLevelDamageType);
 			}
-		}
-		if (RelatedPart.HealthMaster.playerScript.Equipment.IsInternalsEnabled)
-		{
-			DamageLogic(RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix().GasMix);
-		}
-		else
-		{
-			DamageLogic(gasMix);
 		}
 	}
 
