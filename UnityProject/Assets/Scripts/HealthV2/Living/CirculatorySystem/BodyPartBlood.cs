@@ -112,7 +112,7 @@ namespace HealthV2
 		public Chemistry.Reagent NaturalToxinReagent;
 
 		[Tooltip("How much natural toxicity does this body part generate Per tick per 1u of blood flow ")]
-		public float ToxinGeneration = 0.002f;
+		public float ToxinGeneration = 0.0002f;
 
 
 		public HungerState HungerState = HungerState.Normal;
@@ -327,14 +327,9 @@ namespace HealthV2
 		public void BloodPumpedEvent(ReagentMix bloodIn)
 		{
 			//Maybe have damage from high/low blood levels and high blood pressure
-
-
-
 			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, 	(BloodContainer.CurrentReagentMix.Total + bloodIn.Total ) - BloodThroughput);
 
-
 			bloodIn.TransferTo(BloodContainer.CurrentReagentMix, bloodIn.Total);
-
 
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
