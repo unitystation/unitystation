@@ -61,8 +61,8 @@ namespace AdminTools
 			foreach (AddressableAudioSource audio in audioList)
 			{
 				AudioSource source = audio.AudioSource;
-				// if (!source.loop)
-				// {
+				if (!source.loop)
+				{
 					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
 					button.SetActive(true);
 					AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
@@ -70,7 +70,7 @@ namespace AdminTools
 					buttonScript.SetIndex(index++);
 					audioButtons.Add(button);
 					button.transform.SetParent(buttonTemplate.transform.parent, false);
-				// }
+				}
 			}
 		}
 
