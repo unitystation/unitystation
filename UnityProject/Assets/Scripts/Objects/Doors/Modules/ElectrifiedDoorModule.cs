@@ -34,7 +34,8 @@ namespace Doors.Modules
 
 		public void ToggleElectrocution()
 		{
-			if (master.HasPower) return;
+			if (master.HasPower == false)
+				return;
 			IsElectrecuted = !IsElectrecuted;
 		}
 
