@@ -7,32 +7,19 @@ using AddressableReferences;
 using Audio.Managers;
 using System.Threading.Tasks;
 using System.Linq;
+using Managers;
 
 namespace Audio.Containers
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : SingletonManager<AudioManager>
     {
-        private static AudioManager audioManager;
-        public static AudioManager Instance
-        {
-            get
-            {
-                if (audioManager == null)
-                {
-                    audioManager = FindObjectOfType<AudioManager>();
-                }
-
-                return audioManager;
-            }
-        }
-
         /// <summary>
         /// Library of AddressableAudioSource.  Might be loaded or not.
         /// </summary>
         /// <remarks>Always use GetAddressableAudioSourceFromCache if you want a loaded version</remarks>
         [HideInInspector] public readonly List<AddressableAudioSource> AudioLibrary = new List<AddressableAudioSource>();
         
-        public AudioMixer audioMixer;
+        [SerializeField] private AudioMixer audioMixer;
         public AudioMixerGroup MasterMixer;
         public AudioMixerGroup MusicMixer;
         public AudioMixerGroup SFXMixer;

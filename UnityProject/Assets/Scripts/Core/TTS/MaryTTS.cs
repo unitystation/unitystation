@@ -18,6 +18,9 @@ public class MaryTTS : MonoBehaviour {
 		if ( Instance == null ) {
 			Instance = this;
 		} //else gets destroyed by parent
+	}
+
+	private void Start() {
 		audioSource.outputAudioMixerGroup = AudioManager.Instance.TTSMixer;
 	}
 

@@ -51,13 +51,16 @@ namespace Audio.Containers
 				currentLobbyAudioSource = GetComponent<AudioSource>();
 			}
 
-			currentLobbyAudioSource.outputAudioMixerGroup = AudioManager.Instance.MusicMixer;
-
 			//Mute Music Preference
 			if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
 			{
 				isMusicMute = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
 			}
+		}
+
+		private void Start()
+		{
+			currentLobbyAudioSource.outputAudioMixerGroup = AudioManager.Instance.MusicMixer;
 		}
 
 		public static void StopMusic()
@@ -173,7 +176,6 @@ namespace Audio.Containers
 			}
 			audioSourceParameters.MixerType = MixerType.Music;
 			Instance.currentNetworkedSong = PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
-			//ChangeAudioSourceParametersMessage.SendToAll(Instance.currentNetworkedSong, audioSourceParameters);
 		}
 
 		/// <summary>

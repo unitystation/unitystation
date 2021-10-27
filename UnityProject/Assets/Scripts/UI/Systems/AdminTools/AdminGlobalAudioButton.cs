@@ -13,8 +13,6 @@ namespace AdminTools
 		public Text myText;
 		private int _index;
 
-		private AdminGlobalAudio adminGlobalAudio;
-
 		public void SetText(string textString)
 		{
 			myText.text = textString;
@@ -27,7 +25,7 @@ namespace AdminTools
 
 		public void Onclick()
 		{
-			adminGlobalAudio = GetComponentInParent<AdminGlobalAudio>();
+			var adminGlobalAudio = GetComponentInParent<AdminGlobalAudio>();
 
 			adminGlobalAudio.PlayAudio(_index); // Gives text to function to play audio.
 		}

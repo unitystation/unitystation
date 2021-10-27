@@ -27,12 +27,12 @@ namespace AdminTools
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalAudioSearchBar>();
 			
-			audioList = DoLoadAudio(audioAddressables);
+			DoLoadAudio(audioAddressables);
 		}
 
-		private List<AddressableAudioSource> DoLoadAudio(AudioClipsArray audioAddressables)
+		private void DoLoadAudio(AudioClipsArray audioAddressables)
 		{
-			var audioList = new List<AddressableAudioSource>();
+			audioList = new List<AddressableAudioSource>();
 
 			async Task LoadAudio()
 			{
@@ -45,7 +45,6 @@ namespace AdminTools
 			}
 			
 			LoadAudio();
-			return audioList;
 		}
 
 		/// <summary>

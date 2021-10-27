@@ -194,7 +194,7 @@ public class SoundManager : MonoBehaviour
 			return null;
 		}
 
-		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);;
+		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 
 		if (global)
 		{
