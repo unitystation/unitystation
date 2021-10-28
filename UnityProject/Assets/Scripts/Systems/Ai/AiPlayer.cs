@@ -598,9 +598,7 @@ namespace Systems.Ai
 				if(checkPlayerScript.gameObject == gameObject) return null;
 
 				//If we are player get position
-				objectPos = CustomNetworkManager.IsServer
-					? checkPlayerScript.PlayerSync.ServerPosition
-					: checkPlayerScript.PlayerSync.ClientPosition;
+				objectPos = checkPlayerScript.registerTile.WorldPosition;
 			}
 			else
 			{
@@ -608,9 +606,7 @@ namespace Systems.Ai
 				if (objectToCheck.TryGetComponent<MobAI>(out var mobAI))
 				{
 					//Get mob position
-					objectPos = CustomNetworkManager.IsServer
-						? mobAI.Cnt.ServerPosition
-						: mobAI.Cnt.ClientPosition;
+					objectPos =  mobAI.registerObject.WorldPosition;
 				}
 				else
 				{
