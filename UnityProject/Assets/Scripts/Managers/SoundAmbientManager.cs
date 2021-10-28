@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Messages.Server.SoundMessages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AddressableReferences;
@@ -40,19 +41,7 @@ namespace Audio.Managers
 
 		private void Awake()
 		{
-			SetVolumeWithPlayerPrefs();
-		}
-
-		private void SetVolumeWithPlayerPrefs()
-		{
-			if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
-			{
-				SetVolumeForAllAudioSources(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
-			}
-			else
-			{
-				SetVolumeForAllAudioSources(0.2f);
-			}
+			parameters.MixerType = MixerType.Ambient;
 		}
 
 		public InitialisationSystems Subsystem { get; }
@@ -66,7 +55,7 @@ namespace Audio.Managers
 		{
 			foreach (var source in audioSources)
 			{
-				var sound = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { source });
+				var sound = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { source });
 
 				if (Instance.ambientAudioSources.ContainsKey(sound.AudioSource.clip.name)) continue;
 
@@ -136,28 +125,6 @@ namespace Audio.Managers
 			{
 				SoundManager.Stop(audioSource.Value);
 			}
-		}
-
-		/// <summary>
-		/// Sets all ambient tracks to a certain volume
-		/// </summary>
-		/// <param name="newVolume"></param>
-		public static void SetVolumeForAllAudioSources(float newVolume)
-		{
-			parameters.Volume = newVolume;
-
-			foreach (var audioSource in Instance.ambientAudioSources)
-			{
-				audioSource.Value.AudioSource.volume = newVolume;
-			}
-
-			foreach (var audioSource in Instance.playingSource)
-			{
-				SoundManager.ChangeAudioSourceParameters(audioSource.Value, parameters);
-			}
-
-			PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, newVolume);
-			PlayerPrefs.Save();
 		}
 	}
 }

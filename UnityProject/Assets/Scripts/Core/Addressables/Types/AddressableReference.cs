@@ -222,6 +222,15 @@ namespace AddressableReferences
 		}
 
 		/// <summary>
+		/// A default constructor is required in order to pass addressableAudioSources as network messages
+		/// </summary>
+		/// <param name="assetReferenceGuid">The primary key (AssetGuid) of the AssetReference</param>
+		public AddressableAudioSource()
+		{
+			AssetReference = null;
+		}
+
+		/// <summary>
 		/// Constructor that provides an AddressableAudioSource by an AssetReference Primary Key (AssetGuid)
 		/// </summary>
 		/// <param name="assetReferenceGuid">The primary key (AssetGuid) of the AssetReference</param>

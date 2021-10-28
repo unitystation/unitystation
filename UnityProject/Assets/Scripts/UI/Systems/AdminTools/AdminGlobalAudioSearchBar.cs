@@ -9,7 +9,7 @@ namespace AdminTools
 	/// <summary>
 	/// SearchBar on the window
 	/// </summary>
-	public class AdminGlobalSoundSearchBar : MonoBehaviour
+	public class AdminGlobalAudioSearchBar : MonoBehaviour
 	{
 		private InputField Searchtext;
 
@@ -53,14 +53,14 @@ namespace AdminTools
 			HiddenButtons.Clear();
 
 			var buttons =
-				gameObject.transform.parent.GetComponent<AdminGlobalSound>()
-					.soundButtons; //Grabs fresh list of all the possible buttons as gameobjects
+				gameObject.transform.parent.GetComponent<AdminGlobalAudio>()
+					.audioButtons; //Grabs fresh list of all the possible buttons as gameobjects
 
 			for (int i = 0; i < buttons.Count; i++)
 			{
 				if (buttons[i] != null)
 				{
-					if (buttons[i].GetComponent<AdminGlobalSoundButton>().myText.text.ToLower()
+					if (buttons[i].GetComponent<AdminGlobalAudioButton>().myText.text.ToLower()
 						    .Contains(Searchtext.text.ToLower()) | Searchtext.text.Length == 0)
 					{
 					}
