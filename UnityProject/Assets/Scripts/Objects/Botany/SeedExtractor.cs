@@ -142,6 +142,7 @@ namespace Objects.Botany
 			if (interaction.HandObject.TryGetComponent<SeedPacket>(out var packet))
 			{
 				AddSeedPacketToStorage(packet, interaction);
+				return;
 			}
 			var grownFood = interaction.HandObject.GetComponent<GrownFood>();
 			var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
