@@ -141,13 +141,7 @@ namespace Objects.Botany
 		{
 			if (interaction.HandObject.TryGetComponent<SeedPacket>(out var packet))
 			{
-				seedPackets.Add(packet);
-				UpdateEvent.Invoke();
-				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You place the {packet.gameObject.ExpensiveName()} into the seed extractor.",
-					$"{interaction.Performer.name} places the {packet.gameObject.ExpensiveName()} into the seed extractor.");
-				Inventory.ServerTransfer(interaction.HandSlot, storage.GetBestSlotFor(interaction.HandObject));
-				return;
+				AddSeedPacketToStorage(packet, interaction);
 			}
 			var grownFood = interaction.HandObject.GetComponent<GrownFood>();
 			var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
@@ -169,6 +163,22 @@ namespace Objects.Botany
 			}
 			networkTab.ServerPerformInteraction(interaction);
 			foodToBeProcessed.Enqueue(grownFood);
+		}
+
+		private void AddSeedPacketToStorage(SeedPacket packet, HandApply interaction)
+		{
+			if (Inventory.ServerTransfer(interaction.HandSlot, storage.GetBestSlotFor(interaction.HandObject)))
+			{
+				seedPackets.Add(packet);
+				UpdateEvent.Invoke();
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You place the {packet.gameObject.ExpensiveName()} into the seed extractor.",
+					$"{interaction.Performer.name} places the {packet.gameObject.ExpensiveName()} into the seed extractor.");
+				return;
+			}
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You try and place the {packet.gameObject.ExpensiveName()} into the seed extractor but it is full!",
+				$"{interaction.Performer.name} tries to place the {packet.gameObject.ExpensiveName()} into the seed extractor but it is full!");
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
