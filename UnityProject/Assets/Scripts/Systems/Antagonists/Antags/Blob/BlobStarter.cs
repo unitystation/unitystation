@@ -270,7 +270,7 @@ namespace Blob
 				gameObject.GetComponent<PlayerSync>().SetPosition(position, true);
 			}
 
-			var spawnResult = Spawn.ServerPrefab(AntagManager.Instance.blobPlayerViewer, gameObject.GetComponent<PlayerSync>().ServerPosition, gameObject.transform.parent);
+			var spawnResult = Spawn.ServerPrefab(AntagManager.Instance.blobPlayerViewer, gameObject.RegisterTile().WorldPositionServer, gameObject.transform.parent);
 
 			if (!spawnResult.Successful)
 			{

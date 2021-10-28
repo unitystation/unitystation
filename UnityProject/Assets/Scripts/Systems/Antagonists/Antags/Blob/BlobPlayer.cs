@@ -201,7 +201,7 @@ namespace Blob
 
 			playerScript.SetPermanentName(overmindName);
 
-			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform.parent);
+			var result = Spawn.ServerPrefab(blobCorePrefab, registerPlayer.WorldPositionServer, gameObject.transform.parent);
 
 			if (!result.Successful)
 			{
@@ -1718,7 +1718,7 @@ namespace Blob
 
 		private void AttackAllSides(DamageInfo info)
 		{
-			var pos = info.AttackedIntegrity.gameObject.WorldPosServer();
+			var pos = info.AttackedIntegrity.RegisterTile.WorldPositionServer;
 
 			foreach (var offset in coords)
 			{
