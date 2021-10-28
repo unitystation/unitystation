@@ -16,13 +16,13 @@ MonoBehaviour:
   activeSpriteIndex: 1
   callOnClient: 1
   callOnServer: 0
-  actionName: 
-  description: 
+  actionName: Use trash bag
+  description: Empties the trash bag or collects everything under you.
   Sprites:
   - {fileID: 11400000, guid: 3f57e49f32b84b3439878a80dc26612d, type: 2}
   Backgrounds: []
   PreventBeingControlledBy: 
-  DisableOnEvent: 
+  DisableOnEvent: 0b000000
   isAimable: 0
   useCustomCursor: 0
   cursorTexture: {fileID: 0}
