@@ -118,8 +118,23 @@ namespace Objects.Botany
 		/// <param name="seedPacket">Seed packet to spawn</param>
 		public void DispenseSeedPacket(SeedPacket seedPacket)
 		{
-			// Spawn packet
 			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
+			bool willSpawnFromInventory = false;
+			//spawn packet if added directly into inventory by player
+			foreach (ItemSlot slot in storage.GetItemSlots())
+			{
+				if (slot.IsEmpty) continue;
+				if (!slot.ItemAttributes.HasTrait(CommonTraits.Instance.Seeds)) continue;
+				if (slot.ItemObject == seedPacket.gameObject)
+				{
+					Inventory.ServerDrop(slot, spawnPos);
+					willSpawnFromInventory = true;
+					break;
+				}
+			}
+			if(willSpawnFromInventory) return;
+			// Spawn packet if not added directly into inventory
+
 			CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
 			netTransform.AppearAtPosition(spawnPos);
 			netTransform.AppearAtPositionServer(spawnPos);
