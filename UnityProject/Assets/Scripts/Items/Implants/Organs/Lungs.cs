@@ -270,7 +270,6 @@ public class Lungs : Organ
 	{
 		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere ||
 		    RelatedPart.HealthMaster.playerScript == null) return;
-		if (RelatedPart.HealthMaster.playerScript.Equipment.IsInternalsEnabled) return;
 		foreach (ToxicGas gas in toxicGases)
 		{
 			float pressure = gasMix.GetPressure(gas.GasType);
