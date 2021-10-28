@@ -139,13 +139,6 @@ namespace Objects.Botany
 		[Server]
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject == null)
-			{
-				// If no interaction happens
-				networkTab.ServerPerformInteraction(interaction);
-				return;
-			}
-
 			if (interaction.HandObject.TryGetComponent<SeedPacket>(out var packet))
 			{
 				seedPackets.Add(packet);
@@ -153,7 +146,7 @@ namespace Objects.Botany
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You place the {packet.gameObject.ExpensiveName()} into the seed extractor.",
 					$"{interaction.Performer.name} places the {packet.gameObject.ExpensiveName()} into the seed extractor.");
-				Inventory.ServerDespawn(packet.gameObject);
+				Inventory.ServerTransfer(interaction.HandSlot, storage.GetBestSlotFor(interaction.HandObject));
 				return;
 			}
 			var grownFood = interaction.HandObject.GetComponent<GrownFood>();
@@ -174,6 +167,7 @@ namespace Objects.Botany
 			{
 				Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
 			}
+			networkTab.ServerPerformInteraction(interaction);
 			foodToBeProcessed.Enqueue(grownFood);
 		}
 
