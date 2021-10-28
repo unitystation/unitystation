@@ -255,7 +255,7 @@ namespace Blob
 			var bound = MatrixManager.MainStationMatrix.Bounds;
 
 			//To ensure that it has to be station matrix
-			var on = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer().RoundToInt(), true);
+			var on = this.GetComponent<RegisterTile>().Matrix.MatrixInfo;
 
 			//Teleport user to random location on station if outside radius of 600 or on a space tile
 			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
