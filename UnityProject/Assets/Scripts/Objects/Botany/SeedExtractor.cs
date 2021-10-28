@@ -139,39 +139,50 @@ namespace Objects.Botany
 		[Server]
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject != null)
+			if (interaction.HandObject == null)
 			{
-				var grownFood = interaction.HandObject.GetComponent<GrownFood>();
-				var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
-
-				if (!Inventory.ServerTransfer(interaction.HandSlot, storage.GetBestSlotFor(interaction.HandObject)))
-				{
-					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You try and place the {foodAtributes.ArticleName} into the seed extractor but it is full!",
-						$"{interaction.Performer.name} tries to place the {foodAtributes.ArticleName} into the seed extractor but it is full!");
-					return;
-			}
-
-				Chat.AddActionMsgToChat(interaction.Performer,
-				$"You place the {foodAtributes.ArticleName} into the seed extractor",
-				$"{interaction.Performer.name} places the {foodAtributes.name} into the seed extractor");
-				if (foodToBeProcessed.Count == 0 && currentState != PowerState.Off)
-				{
-					Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
-				}
-				foodToBeProcessed.Enqueue(grownFood);
+				// If no interaction happens
+				networkTab.ServerPerformInteraction(interaction);
 				return;
 			}
-			// If no interaction happens
-			networkTab.ServerPerformInteraction(interaction);
+
+			if (interaction.HandObject.TryGetComponent<SeedPacket>(out var packet))
+			{
+				seedPackets.Add(packet);
+				UpdateEvent.Invoke();
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You place the {packet.gameObject.ExpensiveName()} into the seed extractor.",
+					$"{interaction.Performer.name} places the {packet.gameObject.ExpensiveName()} into the seed extractor.");
+				Inventory.ServerDespawn(packet.gameObject);
+				return;
+			}
+			var grownFood = interaction.HandObject.GetComponent<GrownFood>();
+			var foodAtributes = grownFood.GetComponentInParent<ItemAttributesV2>();
+
+			if (!Inventory.ServerTransfer(interaction.HandSlot, storage.GetBestSlotFor(interaction.HandObject)))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You try and place the {foodAtributes.ArticleName} into the seed extractor but it is full!",
+					$"{interaction.Performer.name} tries to place the {foodAtributes.ArticleName} into the seed extractor but it is full!");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You place the {foodAtributes.ArticleName} into the seed extractor",
+				$"{interaction.Performer.name} places the {foodAtributes.name} into the seed extractor");
+			if (foodToBeProcessed.Count == 0 && currentState != PowerState.Off)
+			{
+				Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
+			}
+			foodToBeProcessed.Enqueue(grownFood);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (interaction.HandObject == null) return false;
 			return DefaultWillInteract.Default(interaction, side) &&
 			   interaction.TargetObject == gameObject &&
-			   interaction.HandObject != null &&
-			   interaction.HandObject.TryGetComponent<GrownFood>(out _);
+			   interaction.HandObject.TryGetComponent<GrownFood>(out _) || interaction.HandObject.TryGetComponent<SeedPacket>(out _);
 		}
 
 		#region IAPCPowerable
