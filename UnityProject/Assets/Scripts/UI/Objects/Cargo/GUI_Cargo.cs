@@ -49,6 +49,7 @@ namespace UI.Objects.Cargo
 		private void UpdateCreditsText()
 		{
 			СreditsText.SetValueServer($"Budget: {CargoManager.Instance.Credits}");
+			if (cargoConsole != null) { cargoConsole.PlayBudgetUpdateSound(); }
 		}
 
 		public void CallShuttle()

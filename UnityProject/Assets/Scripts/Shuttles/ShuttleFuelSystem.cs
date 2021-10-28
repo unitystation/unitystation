@@ -21,19 +21,16 @@ namespace Systems.Shuttles
 		public float optimumMassConsumption = 0.05f;
 
 
+		private void Awake()
+		{
+			if(MatrixMove == null) MatrixMove = GetComponent<MatrixMove>();
+		}
+
+
 		protected void OnEnable()
 		{
-			if (MatrixMove == null)
-			{
-				MatrixMove = this.GetComponent<MatrixMove>();
-			}
-			if (MatrixMove)
-			{
-				MatrixMove.RegisterShuttleFuelSystem(this);
-			}
-
+			if(MatrixMove.ShuttleFuelSystem == null) MatrixMove.RegisterShuttleFuelSystem(this); //For constructable shuttles.
 			if(CustomNetworkManager.IsServer == false) return;
-
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
