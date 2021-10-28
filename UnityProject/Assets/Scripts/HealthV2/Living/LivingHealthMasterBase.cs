@@ -214,21 +214,16 @@ namespace HealthV2
 				case 1:
 					State = BleedingState.VeryLow;
 					break;
-				case 2:
-				case 3:
+				case int n when n.IsBetween(2, 3):
 					State = BleedingState.Low;
 					break;
-				case 4:
-				case 5:
-				case 6:
+				case int n when n.IsBetween(4, 6):
 					State = BleedingState.Medium;
 					break;
-				case 7:
-				case 8:
+				case int n when n.IsBetween(7, 8):
 					State = BleedingState.High;
 					break;
-				case 9:
-				case 10:
+				case int n when n.IsBetween(9, 10):
 					State = BleedingState.UhOh;
 					break;
 			}
