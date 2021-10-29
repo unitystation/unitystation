@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AddressableReferences;
 using Items;
 using Mirror;
 using UnityEngine;
@@ -18,6 +19,8 @@ namespace Objects.Cargo
 
 		[SerializeField]
 		private List<JobType> allowedTypes = null;
+
+		[SerializeField] private AddressableAudioSource creditArrivalSound;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -76,6 +79,11 @@ namespace Objects.Cargo
 			Chat.AddActionMsgToChat(playeref, $"You swipe your ID through the supply console's ID slot, {denyString}",
 				$"{playeref.ExpensiveName()} swiped their ID through the supply console's ID slot");
 
+		}
+
+		public void PlayBudgetUpdateSound()
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.WorldPosServer());
 		}
 	}
 }

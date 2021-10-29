@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Messages.Client.SpriteMessages;
 using Messages.Server.SpritesMessages;
 using Mirror;
 using UnityEngine;
@@ -135,19 +134,6 @@ public class SpriteHandlerManager : NetworkBehaviour
 			}
 		}
 		SpriteUpdateMessage.SendToSpecified(requestedBy, Newtem);
-	}
-
-
-	public override void OnStartClient()
-	{
-		StartCoroutine(WaitForNetInitialisation());
-		base.OnStartClient();
-	}
-
-	private IEnumerator WaitForNetInitialisation()
-	{
-		yield return WaitFor.Seconds(3);
-		SpriteRequestCurrentStateMessage.Send(this.GetComponent<NetworkIdentity>().netId);
 	}
 
 	void LateUpdate()

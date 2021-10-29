@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 4748508647246467756}
   - component: {fileID: 8538565605628696324}
   m_Layer: 0
-  m_Name: Immovable Rod
+  m_Name: ScrubberSurge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,23 +218,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1092207170390034217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42a1680a936ac544990d2d9061ebd7d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 71eaa0e8f701f82478bc2e15b2690d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EventName: Immovable Rod
+  EventName: Scrubber Surge
   StartTimer: 5
   EndTimer: 0
   EventType: 1
-  ChanceToHappen: 0.5
-  MinPlayersToTrigger: 25
+  ChanceToHappen: 30
+  MinPlayersToTrigger: 0
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
-  immovableRodPrefab: {fileID: 7144248469089430455, guid: 92917100ffedb8446b152dfce67581f8,
+  reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
     type: 3}
-  minStrength: 2500
-  maxStrength: 4500
-  timeBetweenExplosions: 0.25
+  dispersionAgents:
+  - {fileID: 0}
+  - {fileID: 0}
+  spawnDelayRange: {x: 3, y: 10}
 --- !u!1 &2176390301219290958
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,7 +721,7 @@ Transform:
   - {fileID: 8107459317429369441}
   - {fileID: 2967834443619550631}
   - {fileID: 1614149104379286000}
-  - {fileID: 7644278449202499015}
+  - {fileID: 1809593919738534580}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1098,6 +1099,62 @@ MonoBehaviour:
   - maintenance areas
   - '[REDACTED]'
   - place with all those juicy wires
+--- !u!1 &6000598525508854915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809593919738534580}
+  - component: {fileID: 1375060888515666893}
+  m_Layer: 0
+  m_Name: Immovable Rod
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809593919738534580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6000598525508854915}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.2508955, y: 0.74306184, z: -0.91875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1375060888515666893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6000598525508854915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a1680a936ac544990d2d9061ebd7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Immovable Rod
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 0
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  immovableRodPrefab: {fileID: 0}
+  minStrength: 200
+  maxStrength: 500
+  timeBetweenExplosions: 1
 --- !u!1 &6093678303304513412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1616,61 +1673,3 @@ Transform:
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9019151151982202521
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7644278449202499015}
-  - component: {fileID: 5219137714795788897}
-  m_Layer: 0
-  m_Name: ScrubberSurge
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7644278449202499015
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9019151151982202521}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6277872687871681347}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5219137714795788897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9019151151982202521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71eaa0e8f701f82478bc2e15b2690d8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EventName: Scrubber Surge
-  StartTimer: 0
-  EndTimer: 0
-  EventType: 1
-  ChanceToHappen: 30
-  MinPlayersToTrigger: 0
-  parametersPageType: 0
-  FakeEvent: 0
-  AnnounceEvent: 0
-  reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
-    type: 3}
-  dispersionAgents:
-  - {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a, type: 2}
-  - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
-  spawnDelayRange: {x: 3, y: 10}

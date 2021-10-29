@@ -34,16 +34,8 @@ namespace Items
 		#region SyncVarFuncs
 		void Awake()
 		{
-			EnsureInit();
-		}
-
-		private void EnsureInit()
-		{
-			if (spriteHandler == null)
-			{
-				charges = startCharges;
-				spriteHandler = gameObject.transform.Find("Charges").GetComponent<SpriteHandler>();
-			}
+			charges = startCharges;
+			spriteHandler = gameObject.transform.Find("Charges").GetComponent<SpriteHandler>();
 		}
 
 		public void OnDisable()
@@ -56,7 +48,6 @@ namespace Items
 
 		public override void OnStartClient()
 		{
-			EnsureInit();
 			SyncCharges(Charges, charges);
 			base.OnStartClient();
 		}
@@ -69,9 +60,7 @@ namespace Items
 
 		private void SyncCharges(int oldCharges, int newCharges)
 		{
-			EnsureInit();
 			charges = newCharges;
-
 		}
 
 		public string Examine(Vector3 worldPos)

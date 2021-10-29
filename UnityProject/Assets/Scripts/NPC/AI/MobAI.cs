@@ -25,7 +25,7 @@ namespace Systems.MobAIs
 		protected CustomNetTransform cnt;
 		public CustomNetTransform Cnt => cnt;
 
-		protected RegisterObject registerObject;
+		public RegisterObject registerObject;
 		protected UprightSprites uprightSprites;
 		protected bool isServer;
 		private float followingTime = 0f;

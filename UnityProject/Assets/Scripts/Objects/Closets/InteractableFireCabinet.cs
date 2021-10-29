@@ -32,29 +32,15 @@ namespace Objects.Wallmounts
 
 		private void Awake()
 		{
-			EnsureInit();
-			//TODO: Can probably refactor this component to rely more on ItemStorage and do less of its own logic.
-		}
-
-		private void EnsureInit()
-		{
-			if (storageObject != null) return;
-			//we have an item storage with only 1 slot.
 			storageObject = GetComponent<ItemStorage>();
 			slot = storageObject.GetIndexedItemSlot(0);
+			//TODO: Can probably refactor this component to rely more on ItemStorage and do less of its own logic.
 		}
 
 		public override void OnStartServer()
 		{
-			EnsureInit();
 			IsClosed = true;
 			base.OnStartServer();
-		}
-
-		public override void OnStartClient()
-		{
-			EnsureInit();
-			base.OnStartClient();
 		}
 
 		#endregion

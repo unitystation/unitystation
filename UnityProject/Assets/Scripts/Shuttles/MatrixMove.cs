@@ -197,6 +197,10 @@ public class MatrixMove : ManagedBehaviour
 	{
 		networkedMatrix = GetComponent<NetworkedMatrix>();
 		matrix = GetComponentInChildren<Matrix>();
+		if (RequiresFuel)
+		{
+			shuttleFuelSystem = GetComponent<ShuttleFuelSystem>();
+		}
 	}
 
 	public void OnStartClient()
@@ -318,7 +322,7 @@ public class MatrixMove : ManagedBehaviour
 
 	public void RegisterShuttleFuelSystem(ShuttleFuelSystem shuttleFuel)
 	{
-		this.shuttleFuelSystem = shuttleFuel;
+		shuttleFuelSystem = shuttleFuel;
 	}
 
 	public void RegisterShuttleGuiScript(GUI_ShuttleControl shuttleGui)
@@ -327,7 +331,7 @@ public class MatrixMove : ManagedBehaviour
 	}
 	public void RegisterCoordReadoutScript(GUI_CoordReadout coordReadout)
 	{
-		this.coordReadoutScript = coordReadout;
+		coordReadoutScript = coordReadout;
 	}
 
 	private void SyncInitialPosition(Vector3 oldPos, Vector3 initialPos)

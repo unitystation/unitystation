@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Messages.Client.SpriteMessages;
 using System.Linq;
 using Chemistry;
 using Doors;
@@ -187,6 +187,7 @@ public partial class MatrixManager : MonoBehaviour
 			matrixInfo.Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 
 			TileChangeNewPlayer.Send(matrixInfo.NetID);
+			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
 	}
 
@@ -544,16 +545,12 @@ public partial class MatrixManager : MonoBehaviour
 		return true;
 	}
 
-	public static bool IsConstructable(Vector3Int worldPos)
+	public static bool IsConstructable(Vector3Int worldPos, MatrixInfo matrixInfo)
 	{
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
 		{
-			if (matrixInfo.Matrix.MetaTileMap.IsConstructable(WorldToLocalInt(worldPos, matrixInfo)))
-			{
-				return true;
-			}
+			return true;
 		}
-
 		return false;
 	}
 
