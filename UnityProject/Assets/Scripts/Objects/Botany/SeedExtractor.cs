@@ -177,7 +177,6 @@ namespace Objects.Botany
 			{
 				Chat.AddLocalMsgToChat("The seed extractor begins processing", gameObject);
 			}
-			networkTab.ServerPerformInteraction(interaction);
 			foodToBeProcessed.Enqueue(grownFood);
 		}
 
