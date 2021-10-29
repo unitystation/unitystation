@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Electricity;
@@ -121,20 +122,18 @@ namespace Objects.Botany
 			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
 			bool willSpawnFromInventory = false;
 			//spawn packet if added directly into inventory by player
-			foreach (ItemSlot slot in storage.GetItemSlots())
+			//this is to fix a bug where the packet no longer becomes pickupable after adding it back into an extractor.
+			if (seedPacket.gameObject.TryGetComponent<Pickupable>(out var packet))
 			{
-				if (slot.IsEmpty) continue;
-				if (!slot.ItemAttributes.HasTrait(CommonTraits.Instance.Seeds)) continue;
-				if (slot.ItemObject == seedPacket.gameObject)
+				if (packet.ItemSlot != null)
 				{
-					Inventory.ServerDrop(slot, spawnPos);
+					packet.ItemSlot.ItemStorage.ServerTryRemove(packet.gameObject, false, spawnPos);
 					willSpawnFromInventory = true;
-					break;
 				}
 			}
 			if(willSpawnFromInventory) return;
+			
 			// Spawn packet if not added directly into inventory
-
 			CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
 			netTransform.AppearAtPosition(spawnPos);
 			netTransform.AppearAtPositionServer(spawnPos);
