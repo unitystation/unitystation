@@ -551,7 +551,7 @@ namespace HealthV2
 		{
 			if (bodyPartAim == BodyPartType.None)
 			{
-				BodyPartType.Chest.Randomize(0);
+				bodyPartAim = BodyPartType.Chest.Randomize(0);
 			}
 			LastDamagedBy = damagedBy;
 
