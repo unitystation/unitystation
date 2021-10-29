@@ -12,7 +12,6 @@ namespace Items
 {
 	public class ButtonSignalReceiver : SignalReciver, ICheckedInteractable<HandApply>
 	{
-		[SyncVar] private IDCard idCard;
 		private DoorSwitch _switch;
 
 		public override void RecieveSignal(SignalStrength strength)
@@ -41,19 +40,12 @@ namespace Items
 				Chat.AddExamineMsg(interaction.Performer.gameObject, "You assign the switch to the receiver.");
 				_switch = @switch;
 			}
-
-			if (interaction.TargetObject.TryGetComponent<IDCard>(out var id))
-			{
-				Chat.AddExamineMsg(interaction.Performer.gameObject, "You assign your accesses to the receiver.");
-				idCard = id;
-			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (interaction.TargetObject.TryGetComponent<DoorSwitch>(out var _) ||
-			    interaction.TargetObject.TryGetComponent<IDCard>(out var _)) return true;
+			if (interaction.TargetObject.TryGetComponent<DoorSwitch>(out var _)) return true;
 			return false;
 		}
 	}

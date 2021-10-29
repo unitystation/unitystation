@@ -15,6 +15,7 @@ namespace Items
 			if (interaction.TargetObject.TryGetComponent<ButtonSignalReceiver>(out var receiver))
 			{
 				receiver.Emitter = this;
+				Chat.AddExamineMsg(interaction.Performer.gameObject, "You assign the receiver to this emitter.");
 			}
 		}
 
