@@ -8,7 +8,7 @@ using ScriptableObjects.Communications;
 
 namespace Communications
 {
-	public class SignalReciver : NetworkBehaviour
+	public class SignalReceiver : NetworkBehaviour
 	{
 		public SignalType SignalTypeToReceive = SignalType.PING;
 		[SyncVar] public float Frequency = 0F;

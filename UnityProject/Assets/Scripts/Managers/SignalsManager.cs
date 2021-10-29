@@ -24,12 +24,12 @@ namespace Managers
 			}
 		}
 
-		public List<SignalReciver> Recivers = new List<SignalReciver>();
+		public List<SignalReceiver> Recivers = new List<SignalReceiver>();
 
 		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo)
 		{
-			foreach (SignalReciver receiver in Recivers)
+			foreach (SignalReceiver receiver in Recivers)
 			{
 				if (receiver.SignalTypeToReceive != type) return;
 
@@ -53,12 +53,12 @@ namespace Managers
 			}
 		}
 
-		private bool AreOnTheSameFrequancy(SignalReciver receiver , SignalEmitter emitter)
+		private bool AreOnTheSameFrequancy(SignalReceiver receiver , SignalEmitter emitter)
 		{
 			return receiver.Frequency == emitter.Frequancy;
 		}
 
-		private void SignalStrengthHandler(SignalReciver receiver, SignalEmitter emitter, SignalDataSO signalDataSo)
+		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo)
 		{
 			SignalStrength strength = GetStrength(receiver, emitter, signalDataSo.SignalRange);
 			if (strength == SignalStrength.HEALTHY) receiver.RecieveSignal(strength);
@@ -81,7 +81,7 @@ namespace Managers
 			}
 		}
 
-		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReciver receiver, SignalStrength strength)
+		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength)
 		{
 			yield return new WaitForSeconds(waitTime);
 			if (receiver.gameObject == null)
@@ -96,7 +96,7 @@ namespace Managers
 		/// gets the signal strength between a receiver and an emitter
 		/// </summary>
 		/// <returns>SignalStrength</returns>
-		public SignalStrength GetStrength(SignalReciver receiver, SignalEmitter emitter, int range)
+		public SignalStrength GetStrength(SignalReceiver receiver, SignalEmitter emitter, int range)
 		{
 			int distance = (int)Vector3.Distance(receiver.gameObject.AssumedWorldPosServer(), emitter.gameObject.AssumedWorldPosServer());
 			Logger.Log($"{distance}");

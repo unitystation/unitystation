@@ -10,7 +10,7 @@ using Objects.Wallmounts;
 ///PLEASE REMOVE THIS (OR POLISH IT AND ADD IT TO THE LIST OF THINGS SCIENCE CAN MAKE) ONCE WE MAKE THE MOVE TO FULLY USE THE SIGNAL MANAGER
 namespace Items
 {
-	public class ButtonSignalReceiver : SignalReciver, ICheckedInteractable<HandApply>
+	public class ButtonSignalReceiver : SignalReceiver, ICheckedInteractable<HandApply>
 	{
 		private DoorSwitch _switch;
 
