@@ -62,7 +62,7 @@ namespace Managers
 
 		private bool AreOnTheSameFrequancy(SignalReceiver receiver , SignalEmitter emitter)
 		{
-			return receiver.Frequency == emitter.Frequancy;
+			return Mathf.Approximately(receiver.Frequency, emitter.Frequancy);
 		}
 
 		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo)
