@@ -99,12 +99,12 @@ namespace Managers
 		public SignalStrength GetStrength(SignalReciver receiver, SignalEmitter emitter, int range)
 		{
 			int distance = (int)Vector3.Distance(receiver.transform.position, emitter.transform.position);
-			if (range / 2 <= distance)
+			if (range / 4 <= distance)
 			{
 				return SignalStrength.DELAYED;
 			}
 
-			if (range / 4 <= distance)
+			if (range / 2 <= distance)
 			{
 				return SignalStrength.WEAK;
 			}
