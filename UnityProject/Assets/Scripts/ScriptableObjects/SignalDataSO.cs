@@ -11,6 +11,7 @@ namespace ScriptableObjects.Communications
 		public bool UsesRange = true;
 		public int SignalRange = 1000; //Measured in tiles(?)
 		public SignalType EmittedSignalType = SignalType.PING;
+		public Vector2 MinMaxFrequancy = new Vector2(100, 144); //in Khz
 
 	}
 }

@@ -37,6 +37,8 @@ namespace Managers
 			{
 				if (receiver.SignalTypeToReceive != type) return;
 
+				if (!receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y)) return;
+
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }

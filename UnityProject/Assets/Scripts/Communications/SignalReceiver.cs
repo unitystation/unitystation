@@ -11,7 +11,7 @@ namespace Communications
 	public class SignalReceiver : NetworkBehaviour
 	{
 		public SignalType SignalTypeToReceive = SignalType.PING;
-		[SyncVar] public float Frequency = 0F;
+		[SyncVar] public float Frequency = 122F;
 		[SyncVar] public SignalEmitter Emitter;
 		public float DelayTime = 3f; //How many seconds of delay before the SignalRecieve logic happens for weak signals
 

@@ -10,7 +10,7 @@ namespace Communications
 	public class SignalEmitter : NetworkBehaviour
 	{
 		[SerializeField] private SignalDataSO signalData;
-		[SyncVar] public float Frequancy = 0f;
+		[SyncVar] public float Frequancy = 122f;
 
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver
