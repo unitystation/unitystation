@@ -34,7 +34,6 @@ namespace Items
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if(interaction.IsAltClick == false) return;
-			Logger.Log(interaction.TargetObject.ExpensiveName());
 			if (interaction.TargetObject.TryGetComponent<DoorSwitch>(out var @switch))
 			{
 				Chat.AddExamineMsg(interaction.Performer.gameObject, "You assign the switch to the receiver.");

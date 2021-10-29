@@ -26,6 +26,13 @@ namespace Managers
 
 		public List<SignalReceiver> Recivers = new List<SignalReceiver>();
 
+		/// <summary>
+		/// Called from the server as the Recivers list is only avaliable for the host and not the clients to avoid cheating.
+		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
+		/// </summary>
+		/// <param name="emitter"></param>
+		/// <param name="type"></param>
+		/// <param name="signalDataSo"></param>
 		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo)
 		{
@@ -39,16 +46,17 @@ namespace Managers
 					receiver.RecieveSignal(SignalStrength.HEALTHY);
 					break;
 				}
+				//TODO (Max) : Radio signals should be sent to relays and servers.
 				if (receiver.SignalTypeToReceive == SignalType.RADIO && AreOnTheSameFrequancy(receiver, emitter))
 				{
-					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }
+					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); continue; }
 					receiver.RecieveSignal(SignalStrength.HEALTHY);
 					continue;
 				}
-
+				//Bounced radios always have a limited range.
 				if (receiver.SignalTypeToReceive == SignalType.BOUNCED && AreOnTheSameFrequancy(receiver, emitter))
 				{
-					receiver.RecieveSignal(SignalStrength.HEALTHY);
+					SignalStrengthHandler(receiver, emitter, signalDataSo);
 				}
 			}
 		}
@@ -94,12 +102,12 @@ namespace Managers
 
 		/// <summary>
 		/// gets the signal strength between a receiver and an emitter
+		/// the further the object is the weaker the signal.
 		/// </summary>
 		/// <returns>SignalStrength</returns>
 		public SignalStrength GetStrength(SignalReceiver receiver, SignalEmitter emitter, int range)
 		{
 			int distance = (int)Vector3.Distance(receiver.gameObject.AssumedWorldPosServer(), emitter.gameObject.AssumedWorldPosServer());
-			Logger.Log($"{distance}");
 			if (range / 4 <= distance)
 			{
 				return SignalStrength.DELAYED;
