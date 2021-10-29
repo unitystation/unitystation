@@ -8,7 +8,7 @@ namespace ScriptableObjects.Communications
 	[CreateAssetMenu(fileName = "SignalData", menuName = "ScriptableObjects/SignalData")]
 	public class SignalDataSO : ScriptableObject
 	{
-		[Tooltip("Is this signal global or do we want to check har far it is from a receiver?")]
+		[Tooltip("Is this signal global or do we want to check how far it is from a receiver?")]
 		public bool UsesRange = true;
 		[Tooltip("Measured in tiles")]
 		public int SignalRange = 300;
