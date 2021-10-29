@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Communications;
+using Managers;
+using Mirror;
+using Objects.Wallmounts;
+
+///NOTE : THIS ITEM IS CURRENTLY HERE FOR TESTING REASONS ONLY
+///PLEASE REMOVE THIS (OR POLISH IT AND ADD IT TO THE LIST OF THINGS SCIENCE CAN MAKE) ONCE WE MAKE THE MOVE TO FULLY USE THE SIGNAL MANAGER
+namespace Items
+{
+	public class ButtonSignalReceiver : SignalReciver, ICheckedInteractable<HandApply>
+	{
+		[SyncVar] private IDCard idCard;
+		private DoorSwitch _switch;
+
+		public override void RecieveSignal(SignalStrength strength)
+		{
+			if (_switch != null)
+			{
+				_switch.RunDoorController();
+				Respond(Emitter);
+				return;
+			}
+			Emitter.SignalFailed();
+		}
+
+
+		public override void Respond(SignalEmitter signalEmitter)
+		{
+			Chat.AddLocalMsgToChat("Signal sent!", signalEmitter.gameObject);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if(interaction.IsAltClick == false) return;
+			Logger.Log(interaction.TargetObject.ExpensiveName());
+			if (interaction.TargetObject.TryGetComponent<DoorSwitch>(out var @switch))
+			{
+				Chat.AddExamineMsg(interaction.Performer.gameObject, "You assign the switch to the receiver.");
+				_switch = @switch;
+			}
+
+			if (interaction.TargetObject.TryGetComponent<IDCard>(out var id))
+			{
+				Chat.AddExamineMsg(interaction.Performer.gameObject, "You assign your accesses to the receiver.");
+				idCard = id;
+			}
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.TargetObject.TryGetComponent<DoorSwitch>(out var _) ||
+			    interaction.TargetObject.TryGetComponent<IDCard>(out var _)) return true;
+			return false;
+		}
+	}
+}
+

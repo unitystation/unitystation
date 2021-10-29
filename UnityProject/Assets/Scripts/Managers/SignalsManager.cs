@@ -96,9 +96,9 @@ namespace Managers
 		/// gets the signal strength between a receiver and an emitter
 		/// </summary>
 		/// <returns>SignalStrength</returns>
-		public SignalStrength GetStrength(SignalReciver receiver, SignalEmitter emmiter, int range)
+		public SignalStrength GetStrength(SignalReciver receiver, SignalEmitter emitter, int range)
 		{
-			int distance = (int)Vector3.Distance(receiver.transform.position, emmiter.transform.position);
+			int distance = (int)Vector3.Distance(receiver.transform.position, emitter.transform.position);
 			if (range / 2 <= distance)
 			{
 				return SignalStrength.DELAYED;
