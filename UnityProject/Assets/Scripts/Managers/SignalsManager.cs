@@ -30,9 +30,6 @@ namespace Managers
 		/// Called from the server as the Recivers list is only avaliable for the host and to avoid clients from cheating.
 		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
 		/// </summary>
-		/// <param name="emitter"></param>
-		/// <param name="type"></param>
-		/// <param name="signalDataSo"></param>
 		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo)
 		{
