@@ -84,7 +84,7 @@ namespace Managers
 		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReciver receiver, SignalStrength strength)
 		{
 			yield return new WaitForSeconds(waitTime);
-			if (receiver.gameObject != null)
+			if (receiver.gameObject == null)
 			{
 				//In case the object despawns before the signal reaches it
 				yield break;
@@ -98,7 +98,8 @@ namespace Managers
 		/// <returns>SignalStrength</returns>
 		public SignalStrength GetStrength(SignalReciver receiver, SignalEmitter emitter, int range)
 		{
-			int distance = (int)Vector3.Distance(receiver.transform.position, emitter.transform.position);
+			int distance = (int)Vector3.Distance(receiver.gameObject.AssumedWorldPosServer(), emitter.gameObject.AssumedWorldPosServer());
+			Logger.Log($"{distance}");
 			if (range / 4 <= distance)
 			{
 				return SignalStrength.DELAYED;
