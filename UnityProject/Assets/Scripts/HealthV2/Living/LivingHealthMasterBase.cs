@@ -147,15 +147,11 @@ namespace HealthV2
 		/// </summary>
 		[NonSerialized] public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
-		// FireStacks note: It's called "stacks" but it's really just a floating point value that
-		// can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
-		private float bleedStacks => healthStateController.BleedStacks;
-
 		/// <summary>
 		/// How badly we're bleeding, same as tg bleed_stacks. 0 = not bleeding.
 		/// Exists client side - synced with server.
 		/// </summary>
-		public float BleedStacks => bleedStacks;
+		public float BleedStacks => healthStateController.BleedStacks;
 
 		private float maxBleedStacks = 10f;
 		private bool maxBleedStacksReached = false;
@@ -206,7 +202,7 @@ namespace HealthV2
 		public BleedingState CalculateBleedingState()
 		{
 			var State = BleedingState.None;
-			switch (Math.Ceiling(bleedStacks))
+			switch ((int)Math.Ceiling(BleedStacks))
 			{
 				case 0:
 					State = BleedingState.None;
@@ -377,10 +373,10 @@ namespace HealthV2
 		/// </summary>
 		public void BleedStacksDamage()
 		{
-			if (bleedStacks > 0)
+			if (BleedStacks > 0)
 			{
-				CirculatorySystem.Bleed(1f * (float)Math.Ceiling(bleedStacks));
-				healthStateController.SetBleedStacks(bleedStacks - 0.1f);
+				CirculatorySystem.Bleed(1f * (float)Math.Ceiling(BleedStacks));
+				healthStateController.SetBleedStacks(BleedStacks - 0.1f);
 			}
 		}
 
@@ -864,17 +860,17 @@ namespace HealthV2
 
 		public void ChangeBleedStacks(float deltaValue)
 		{
-			if (bleedStacks + deltaValue < 0)
+			if (BleedStacks + deltaValue < 0)
 			{
 				healthStateController.SetBleedStacks(0);
 			}
-			else if (bleedStacks + deltaValue > maxBleedStacks)
+			else if (BleedStacks + deltaValue > maxBleedStacks)
 			{
 				healthStateController.SetBleedStacks(maxBleedStacks);
 			}
 			else
 			{
-				healthStateController.SetBleedStacks(bleedStacks + deltaValue);
+				healthStateController.SetBleedStacks(BleedStacks + deltaValue);
 			}
 		}
 
