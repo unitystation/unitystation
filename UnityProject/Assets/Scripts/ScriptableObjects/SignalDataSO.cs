@@ -8,9 +8,12 @@ namespace ScriptableObjects.Communications
 	[CreateAssetMenu(fileName = "SignalData", menuName = "ScriptableObjects/SignalData")]
 	public class SignalDataSO : ScriptableObject
 	{
+		[Tooltip("Is this signal global or do we want to check har far it is from a receiver?")]
 		public bool UsesRange = true;
-		public int SignalRange = 1000; //Measured in tiles(?)
+		[Tooltip("Measured in tiles")]
+		public int SignalRange = 300;
 		public SignalType EmittedSignalType = SignalType.PING;
+		[Tooltip("If the frequancy of the receiver is inbetween these values then they'll go through.")]
 		public Vector2 MinMaxFrequancy = new Vector2(100, 144); //in Khz
 
 	}
