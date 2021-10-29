@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Managers;
 using ScriptableObjects.Communications;
 using UnityEngine;
+using Mirror;
 
 namespace Communications
 {
-	public class SignalEmitter : MonoBehaviour
+	public class SignalEmitter : NetworkBehaviour
 	{
 		[SerializeField] private SignalDataSO signalData;
-		public float Frequancy = 0f;
+		[SyncVar] public float Frequancy = 0f;
 
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver

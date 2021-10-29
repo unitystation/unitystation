@@ -26,6 +26,7 @@ namespace Managers
 
 		public List<SignalReciver> Recivers = new List<SignalReciver>();
 
+		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo)
 		{
 			foreach (SignalReciver receiver in Recivers)

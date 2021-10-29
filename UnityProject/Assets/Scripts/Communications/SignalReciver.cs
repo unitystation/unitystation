@@ -2,27 +2,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Managers;
+using Mirror;
 using UnityEngine;
 using ScriptableObjects.Communications;
 
 namespace Communications
 {
-	public class SignalReciver : MonoBehaviour
+	public class SignalReciver : NetworkBehaviour
 	{
 		public SignalType SignalTypeToReceive = SignalType.PING;
-		public float Frequency = 0F;
-		public SignalEmitter Emitter;
-		public bool RequiresPower = false; //Does this reciver require power to be able to operate?
+		[SyncVar] public float Frequency = 0F;
+		[SyncVar] public SignalEmitter Emitter;
 		public float DelayTime = 3f; //How many seconds of delay before the SignalRecieve logic happens for weak signals
 
 
 		private void Awake()
 		{
+			if(isClient) return;
 			SignalsManager.Instance.Recivers.Add(this);
 		}
 
 		private void OnDestroy()
 		{
+			if(isClient) return;
 			SignalsManager.Instance.Recivers.Remove(this);
 		}
 
