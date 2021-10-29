@@ -202,7 +202,7 @@ namespace Objects.Botany
 			if (interaction.HandObject == null) return false;
 			return DefaultWillInteract.Default(interaction, side) &&
 			   interaction.TargetObject == gameObject &&
-			   interaction.HandObject.TryGetComponent<GrownFood>(out _) || interaction.HandObject.TryGetComponent<SeedPacket>(out _);
+			   (interaction.HandObject.TryGetComponent<GrownFood>(out _) || interaction.HandObject.TryGetComponent<SeedPacket>(out _));
 		}
 
 		#region IAPCPowerable
