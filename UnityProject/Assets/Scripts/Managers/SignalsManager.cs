@@ -27,7 +27,7 @@ namespace Managers
 		public List<SignalReceiver> Recivers = new List<SignalReceiver>();
 
 		/// <summary>
-		/// Called from the server as the Recivers list is only avaliable for the host and not the clients to avoid cheating.
+		/// Called from the server as the Recivers list is only avaliable for the host and to avoid clients from cheating.
 		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
 		/// </summary>
 		/// <param name="emitter"></param>
