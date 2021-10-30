@@ -53,7 +53,7 @@ public class RightClickableElement
 	{
 		if (optionNameToOption == null)
 		{
-			InitOptionsDict();
+			initOptionDict();
 		}
 
 		if (optionNameToOption.TryGetValue(optionName, out var option))
@@ -70,13 +70,14 @@ public class RightClickableElement
 		}
 	}
 
-	private static void InitOptionsDict()
+	private static void initOptionDict()
 	{
 		optionNameToOption = new Dictionary<string, RightClickOption>();
+		var allOptions = RightClickOptionSingleton.Instance.RightClickOptions;
 
-		foreach (var opt in RightClickManager.Instance.RightClickOptions)
+		foreach (var option in allOptions)
 		{
-			optionNameToOption.Add(opt.name, opt);
+			optionNameToOption.Add(option.name, option);
 		}
 	}
 

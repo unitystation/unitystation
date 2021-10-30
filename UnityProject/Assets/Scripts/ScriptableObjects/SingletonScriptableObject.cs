@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -18,7 +17,6 @@ namespace ScriptableObjects
 		{
 			get
 			{
-				var watch = Stopwatch.StartNew();
 				if (!_instance)
 				{
 					_instance = Resources.FindObjectsOfTypeAll<T>().FirstOrDefault();
@@ -30,12 +28,6 @@ namespace ScriptableObjects
 				if (!_instance)
 				{
 					Logger.LogErrorFormat("SingletonScriptableObject instance for {0} not found!", Category.Unknown, typeof(T));
-				}
-				watch.Stop();
-				if (watch.ElapsedMilliseconds > 2)
-				{
-					Logger.LogWarning($"{typeof(T).FullName} SO took {watch.ElapsedMilliseconds} ms to find! " +
-							$"Try to serialize a reference to this SO singleton instead!");
 				}
 
 				return _instance;
