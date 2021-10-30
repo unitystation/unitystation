@@ -280,7 +280,7 @@ public partial class MatrixManager : MonoBehaviour
 			for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
 			{
 				var LocalPos = WorldToLocalInt(worldPos, Instance.ActiveMatricesList[i]);
-				if (MetaTileMap.IsWithinBounds(Instance.ActiveMatricesList[i].Bounds,LocalPos) == false) continue;
+				if (Instance.ActiveMatricesList[i].Bounds.Contains(LocalPos) == false) continue;
 
 				if (Instance.ActiveMatricesList[i].Matrix == Instance.spaceMatrix) continue;
 				if (Instance.ActiveMatricesList[i].Matrix.IsEmptyAt(LocalPos, isServer) == false)
