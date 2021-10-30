@@ -7,7 +7,7 @@ using Mirror;
 /// Handles displaying the ghost sprites.
 /// </summary>
 [RequireComponent(typeof(Directional))]
-public class GhostSprites : MonoBehaviour
+public class GhostSprites : MonoBehaviour, IServerSpawn
 {
 	//sprite renderer showing the ghost
 	private SpriteHandler SpriteHandler;
@@ -18,20 +18,30 @@ public class GhostSprites : MonoBehaviour
 
 	private Directional directional;
 
+	private bool AdminGhost;
+
 	protected void Awake()
 	{
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		SpriteHandler = GetComponentInChildren<SpriteHandler>();
-		if (CustomNetworkManager.Instance._isServer == false) return;
+	}
 
-
-		SpriteHandler.SetSpriteSO(GhostSpritesSOs.PickRandom());
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		if (AdminGhost)
+		{
+			SpriteHandler.SetSpriteSO(AdminGhostSpriteSOs.PickRandom());
+		}
+		else
+		{
+			SpriteHandler.SetSpriteSO(GhostSpritesSOs.PickRandom());
+		}
 	}
 
 	public void SetAdminGhost()
 	{
-		SpriteHandler.SetSpriteSO(AdminGhostSpriteSOs.PickRandom());
+		AdminGhost = true;
 	}
 
 	private void OnDirectionChange(Orientation direction)

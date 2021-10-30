@@ -92,7 +92,7 @@ namespace Objects.Kitchen
 		private bool ovenGlowEnabled = false;
 
 		public bool IsOperating => CurrentState is OvenRunning;
-		
+
 		public IEnumerable<ItemSlot> Slots => storage.GetItemSlots();
 		public bool HasContents => Slots.Any(Slot => Slot.IsOccupied);
 		public int StorageSize => storage.StorageSize();
@@ -115,21 +115,13 @@ namespace Objects.Kitchen
 
 		#region Lifecycle
 
-		// Interfaces can call this script before Awake() is called.
-		private void EnsureInit()
+		private void Awake()
 		{
-			if (CurrentState != null) return;
-
 			registerTile = GetComponent<RegisterTile>();
 			storage = GetComponent<ItemStorage>();
 			poweredDevice = GetComponent<APCPoweredDevice>();
 
 			SetState(new OvenUnpowered(this));
-		}
-
-		private void Start()
-		{
-			EnsureInit();
 		}
 
 		private void OnDisable()
@@ -197,7 +189,7 @@ namespace Objects.Kitchen
 				}
 				else
 				{
-					var item = stack.ServerRemoveOne(); 
+					var item = stack.ServerRemoveOne();
 					added = Inventory.ServerAdd(item, storageSlot);
 					if(!added)
 					{
@@ -327,8 +319,6 @@ namespace Objects.Kitchen
 
 		public void RefreshParts(IDictionary<GameObject, int> partsInFrame)
 		{
-			EnsureInit();
-
 			// Get the machine stock parts used in this instance and get the tier of each part.
 			// Collection is unorganized so run through the whole list.
 			foreach (GameObject part in partsInFrame.Keys)
@@ -359,7 +349,6 @@ namespace Objects.Kitchen
 		/// <param name="state">The power state to set the oven's state with.</param>
 		public void StateUpdate(PowerState state)
 		{
-			EnsureInit();
 			CurrentState.PowerStateUpdate(state);
 		}
 

@@ -201,7 +201,7 @@ namespace Blob
 
 			playerScript.SetPermanentName(overmindName);
 
-			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
+			var result = Spawn.ServerPrefab(blobCorePrefab, registerPlayer.WorldPositionServer, gameObject.transform.parent);
 
 			if (!result.Successful)
 			{
@@ -662,7 +662,7 @@ namespace Blob
 		{
 			if (!autoExpanding && !ValidateCost(normalBlobCost, blobNormalPrefab)) return;
 
-			var result = Spawn.ServerPrefab(blobNormalPrefab, worldPos, gameObject.transform);
+			var result = Spawn.ServerPrefab(blobNormalPrefab, worldPos, gameObject.transform.parent);
 
 			if (!result.Successful) return;
 
@@ -927,7 +927,7 @@ namespace Blob
 
 		private void PlayAttackEffect(Vector3 worldPos)
 		{
-			Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
+			Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform.parent);
 		}
 
 		#endregion
@@ -964,7 +964,7 @@ namespace Blob
 		{
 			if (ValidateCost(cost, prefab) == false) return;
 
-			var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform);
+			var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform.parent);
 
 			if (result.Successful == false) return;
 
@@ -1042,7 +1042,7 @@ namespace Blob
 
 					if (!ValidateCost(cost, prefab)) return;
 
-					var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform);
+					var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform.parent);
 
 					if (!result.Successful) return;
 
@@ -1718,7 +1718,7 @@ namespace Blob
 
 		private void AttackAllSides(DamageInfo info)
 		{
-			var pos = info.AttackedIntegrity.gameObject.WorldPosServer();
+			var pos = info.AttackedIntegrity.RegisterTile.WorldPositionServer;
 
 			foreach (var offset in coords)
 			{

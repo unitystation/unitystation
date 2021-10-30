@@ -58,6 +58,8 @@ namespace Objects.Wallmounts
 
 		[SerializeField] private StatusDisplayChannel channel = StatusDisplayChannel.Command;
 
+		private StatusDisplayChannel cachedChannel;
+
 		[SerializeField] private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 		public MultitoolConnectionType ConType => conType;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
@@ -120,19 +122,11 @@ namespace Objects.Wallmounts
 		/// </summary>
 		private void SyncStatusText(string oldText, string newText)
 		{
-			if (newText != null)
-			{
-				//display font doesn't have lowercase chars!
-				statusText = newText.ToUpper().Substring(0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE * 2));
-			}
-
-
-			if (!textField)
-			{
-				Logger.LogErrorFormat("text field not found for status display {0}", Category.Chat, this);
+			if (newText == null)
 				return;
-			}
 
+			//display font doesn't have lowercase chars!
+			statusText = newText.ToUpper().Substring(0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE * 2));
 			if (stateSync == MountedMonitorState.StatusText)
 			{
 				this.RestartCoroutine(BlinkText(), ref blinkHandle);
@@ -294,13 +288,20 @@ namespace Objects.Wallmounts
 		{
 			if (broadcastedChannel == StatusDisplayChannel.DoorTimer)
 			{
-				statusText = GameManager.FormatTime(currentTimerSeconds, "CELL\n");
+				statusText = FormatTime(currentTimerSeconds, "CELL\n");
 				channel = broadcastedChannel;
 				return;
 			}
 
 			if (channel == StatusDisplayChannel.DoorTimer)
 				return;
+
+			if (broadcastedChannel == StatusDisplayChannel.CachedChannel)
+			{
+				statusText = centComm.CommandStatusString;
+				channel = cachedChannel;
+				return;
+			}
 
 			if (broadcastedChannel == StatusDisplayChannel.EscapeShuttle)
 			{
@@ -314,6 +315,7 @@ namespace Objects.Wallmounts
 
 			statusText = centComm.CommandStatusString;
 			channel = broadcastedChannel;
+			cachedChannel = channel;
 		}
 
 		public void LinkDoor(DoorController doorController)
@@ -546,13 +548,24 @@ namespace Objects.Wallmounts
 			}
 		}
 		#endregion
+
+		public static string FormatTime(int timerSeconds, string prefix = "ETA: ")
+		{
+			if (timerSeconds < 0)
+			{
+				return string.Empty;
+			}
+
+			return prefix+TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
+		}
 	}
 
 	public enum StatusDisplayChannel
 	{
 		EscapeShuttle,
 		Command,
-		DoorTimer
+		DoorTimer,
+		CachedChannel
 	}
 
 	public class StatusDisplayUpdateEvent : UnityEvent<StatusDisplayChannel>

@@ -238,7 +238,7 @@ namespace TileManagement
 
 					if (CashedBoundsInt != null)
 					{
-						if (IsWithinBounds(CashedBoundsInt.Value, QueueTileChange.TileCoordinates) == false)
+						if (CashedBoundsInt.Value.Contains(QueueTileChange.TileCoordinates) == false)
 						{
 							CashedBoundsInt = null;
 						}
@@ -257,16 +257,6 @@ namespace TileManagement
 			{
 				layer.overlayStore.Clear();
 			}
-		}
-
-
-		public static bool IsWithinBounds(BoundsInt boundsInt, Vector3 Point)
-		{
-			if (Point.x > boundsInt.xMin && Point.x < boundsInt.xMax  &&
-			    Point.y > boundsInt.yMin && Point.y < boundsInt.yMax)
-				return true;
-
-			return false;
 		}
 
 		/// <summary>

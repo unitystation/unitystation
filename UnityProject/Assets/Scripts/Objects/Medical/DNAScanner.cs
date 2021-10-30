@@ -50,7 +50,6 @@ namespace Objects.Medical
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
-			Awake();
 			SyncPowered(powered, powered);
 		}
 
@@ -181,12 +180,6 @@ namespace Objects.Medical
 
 		public void StateUpdate(PowerState state)
 		{
-			if (container == null)
-			{
-				// stateUpdate can be called before Awake()
-				Awake();
-			}
-
 			if (state == PowerState.Off || state == PowerState.LowVoltage)
 			{
 				SyncPowered(powered, false);

@@ -43,8 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d935ea8480c849ad9b03708ffaa3ef6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultMixer: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7, type: 2}
+  DefaultMixer: {fileID: 1461855447587545145, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
   MuffledMixer: {fileID: 7689869653675604508, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
+  AmbientMixer: {fileID: 0}
   soundSpawnPrefab: {fileID: 7013270530123256728, guid: e9f60ed79c0ab4b479d37f3f8ebb5164,
     type: 3}

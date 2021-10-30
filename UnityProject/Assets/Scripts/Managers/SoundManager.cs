@@ -8,6 +8,7 @@ using Messages.Server.SoundMessages;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Audio.Containers;
 
 /// <summary>
 /// Manager that allows to play sounds.
@@ -15,21 +16,11 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SoundManager : MonoBehaviour
 {
-	public AudioMixerGroup DefaultMixer;
-
-	public AudioMixerGroup MuffledMixer;
-
 	private static LayerMask layerMask;
 
 	private static SoundManager soundManager;
 
 	[SerializeField] private GameObject soundSpawnPrefab = null;
-
-	/// <summary>
-	/// Library of AddressableAudioSource.  Might be loaded or not.
-	/// </summary>
-	/// <remarks>Always use GetAddressableAudioSourceFromCache if you want a loaded version</remarks>
-	[HideInInspector] public readonly List<AddressableAudioSource> SoundsLibrary = new List<AddressableAudioSource>();
 
 	/// <summary>
 	/// A list of all sounds currently playing
@@ -67,16 +58,6 @@ public class SoundManager : MonoBehaviour
 
 	private void Init()
 	{
-		//Master Volume
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
-		{
-			MasterVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey));
-		}
-		else
-		{
-			MasterVolume(1f);
-		}
-
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 	}
 
@@ -108,82 +89,6 @@ public class SoundManager : MonoBehaviour
 	#endregion
 
 	/// <summary>
-	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
-	/// </summary>
-	/// <param name="addressableAudioSources">The sound to be played.</param>
-	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
-	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(AddressableAudioSource addressableAudioSource)
-	{
-    //Make sure it is a valid Addressable AudioSource
-    if (addressableAudioSource == null || addressableAudioSource == default(AddressableAudioSource))
-		{
-			Logger.LogWarning("SoundManager recieved a null Addressable audio source, look at log trace for responsible component", Category.Audio);
-			return null;
-		}
-		if (string.IsNullOrEmpty(addressableAudioSource.AssetAddress))
-		{
-			Logger.LogWarning("SoundManager received a null address for an addressable, look at log trace for responsible component", Category.Audio);
-			return null;
-		}
-		if (addressableAudioSource.AssetAddress == "null")
-		{
-			Logger.LogWarning("SoundManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
-			return null;
-		}
-		if(await addressableAudioSource.HasValidAddress() == false) return null;
-
-		//Try to get the Audio Source from cache, if its not there load it into cache
-		AddressableAudioSource addressableAudioSourceFromCache = null;
-		lock (Instance.SoundsLibrary)
-		{
-			addressableAudioSourceFromCache =
-				Instance.SoundsLibrary.FirstOrDefault(p => p.AssetAddress == addressableAudioSource.AssetAddress);
-		}
-		if (addressableAudioSourceFromCache == null)
-		{
-			lock (Instance.SoundsLibrary)
-			{
-				Instance.SoundsLibrary.Add(addressableAudioSource);
-			}
-			addressableAudioSourceFromCache = addressableAudioSource;
-		}
-
-		//Ensure that the audio source is loaded
-		GameObject gameObject = await addressableAudioSourceFromCache.Load();
-
-		if (gameObject == null)
-		{
-			Logger.LogError(
-				$"AddressableAudioSource in SoundManager failed to load from address: {addressableAudioSourceFromCache.AssetAddress}",
-				Category.Audio);
-			return null;
-		}
-
-		if (gameObject.TryGetComponent(out AudioSource audioSource) == false)
-		{
-			Logger.LogError(
-				$"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSourceFromCache.AssetAddress}",
-				Category.Audio);
-			return null;
-		}
-
-		return addressableAudioSourceFromCache;
-	}
-
-	/// <summary>
-	/// Get a fully loaded addressableAudioSource from the loaded cache.  This ensures that everything is ready to use.
-	/// If more than one addressableAudioSource is provided, one will be picked at random.
-	/// </summary>
-	/// <param name="addressableAudioSources">A list containing sounds to be played. If more than one is specified, one will be picked at random.</param>
-	/// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
-	public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(List<AddressableAudioSource> addressableAudioSources)
-	{
-		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
-		return addressableAudioSource;
-	}
-
-	/// <summary>
 	/// Generates a SoundSpawn and put it the SoundSpawns list.
 	/// This copies the AudioSource settings to the new SoundSpawn instance and returns it.
 	/// </summary>
@@ -198,7 +103,7 @@ public class SoundManager : MonoBehaviour
 		soundSpawnObject.transform.SetParent(this.gameObject.transform);
 		soundSpawnObject.name = audioSource.name;
 		SoundSpawn soundSpawn = soundSpawnObject.GetComponent<SoundSpawn>();
-		soundSpawn.AudioSource.outputAudioMixerGroup = DefaultMixer;
+		soundSpawn.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMixer;
 		soundSpawn.SetAudioSource(audioSource);
 		soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
 		if (soundSpawnToken != string.Empty)
@@ -243,12 +148,11 @@ public class SoundManager : MonoBehaviour
 	/// <param name="audioSourceParameters">Extra parameters of the audio source</param>
 	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
 	/// <param name="shakeParameters">Extra parameters that define the sound's associated shake</param>
-	public static async Task PlayNetworked(AddressableAudioSource addressableAudioSource,
+	public static string PlayNetworked(AddressableAudioSource addressableAudioSource,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters())
 	{
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
-		PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
+		return PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
 	}
 
 	/// <summary>
@@ -259,12 +163,12 @@ public class SoundManager : MonoBehaviour
 	/// <param name="audioSourceParameters">Extra parameters of the audio source</param>
 	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
-	public static async Task PlayNetworked(List<AddressableAudioSource> addressableAudioSources,
+	public static string PlayNetworked(List<AddressableAudioSource> addressableAudioSources,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
 		ShakeParameters shakeParameters = new ShakeParameters())
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters);
+		return PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters);
 	}
 
 	/// <summary>
@@ -290,7 +194,7 @@ public class SoundManager : MonoBehaviour
 			return null;
 		}
 
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);;
+		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 
 		if (global)
 		{
@@ -435,7 +339,7 @@ public class SoundManager : MonoBehaviour
 				Category.Audio);
 			return;
 		}
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 		PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 			audioSourceParameters);
 	}
@@ -473,7 +377,7 @@ public class SoundManager : MonoBehaviour
 		if(GameData.IsHeadlessServer)
 			return;
 
-		addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
+		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
@@ -510,7 +414,7 @@ public class SoundManager : MonoBehaviour
 			    LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
 			    .ItHit)
 			{
-				source.AudioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer;
 			}
 		if (polyphonic)
 		{
@@ -604,7 +508,7 @@ public class SoundManager : MonoBehaviour
 			return;
 
 		AddressableAudioSource addressableAudioSource =
-			await GetAddressableAudioSourceFromCache(addressableAudioSources);
+			await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSources);
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 
@@ -688,8 +592,7 @@ public class SoundManager : MonoBehaviour
 		if(audioSourceParameters.Spread != 0)
 			audioSource.spread = audioSourceParameters.Spread;
 
-		audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
-				? Instance.DefaultMixer : Instance.MuffledMixer;
+		audioSource.outputAudioMixerGroup = Instance.CalcAudioMixerGroup(audioSourceParameters.MixerType);
 
 		switch (audioSourceParameters.VolumeRolloffType)
 		{
@@ -723,8 +626,7 @@ public class SoundManager : MonoBehaviour
 		audioSource.minDistance = audioSourceParameters.MinDistance;
 		audioSource.maxDistance = audioSourceParameters.MaxDistance;
 		audioSource.spread = audioSourceParameters.Spread;
-		audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
-			? Instance.DefaultMixer : Instance.MuffledMixer;
+		audioSource.outputAudioMixerGroup = Instance.CalcAudioMixerGroup(audioSourceParameters.MixerType);
 		switch (audioSourceParameters.VolumeRolloffType)
 		{
 			case VolumeRolloffType.EaseInAndOut:
@@ -739,6 +641,24 @@ public class SoundManager : MonoBehaviour
 				audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
 				break;
 		}
+	}
+	/// <summary>
+	/// Determine which AudioMixerGroup to use based on MixerType enum
+	/// </summary>
+	/// <param name="mixerType">MixterType enum/returns>
+	private AudioMixerGroup CalcAudioMixerGroup (MixerType mixerType)
+	{
+		switch(mixerType)
+			{
+				case MixerType.Music:
+					return AudioManager.Instance.MusicMixer;
+				case MixerType.Muffled:
+					return AudioManager.Instance.SFXMuffledMixer;
+				case MixerType.Ambient:
+					return AudioManager.Instance.AmbientMixer;
+				default:
+					return AudioManager.Instance.SFXMixer;
+			}
 	}
 
 	/// <summary>
@@ -758,17 +678,6 @@ public class SoundManager : MonoBehaviour
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 			Instance.SoundSpawns[soundSpawnToken]?.AudioSource.Stop();
-	}
-
-	/// <summary>
-	/// Sets all Sounds volume
-	/// </summary>
-	/// <param name="volume"></param>
-	public static void MasterVolume(float volume)
-	{
-		AudioListener.volume = volume;
-		PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
-		PlayerPrefs.Save();
 	}
 
 	/// <summary>

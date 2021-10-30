@@ -18,6 +18,8 @@ public partial class GameManager
 
 	public bool ShuttleSent => shuttleSent;
 
+	private bool beenToStation;
+
 	private void InitEscapeShuttle()
 	{
 		//Primary escape shuttle lookup
@@ -101,50 +103,39 @@ public partial class GameManager
 		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition(newPos);
 		primaryEscapeShuttle.InitDestination(newPos);
 
-		bool beenToStation = false;
+		beenToStation = false;
+	}
 
-		PrimaryEscapeShuttle.OnShuttleUpdate?.AddListener( status =>
+	public void OnShuttleUpdate(EscapeShuttleStatus status)
+	{
+		if (status == EscapeShuttleStatus.DockedCentcom && beenToStation)
 		{
-			// status display ETA tracking
-			if (status == EscapeShuttleStatus.OnRouteStation)
-			{
-				PrimaryEscapeShuttle.OnTimerUpdate.AddListener(TrackETA);
-			}
-			else
-			{
-				PrimaryEscapeShuttle.OnTimerUpdate.RemoveListener(TrackETA);
-				CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
-			}
+			Logger.Log("Shuttle arrived at Centcom", Category.Round);
+			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
+			StartCoroutine(WaitForRoundEnd());
+		}
 
-			if (status == EscapeShuttleStatus.DockedCentcom && beenToStation)
-			{
-				Logger.Log("Shuttle arrived at Centcom", Category.Round);
-				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
-				StartCoroutine(WaitForRoundEnd());
-			}
+		if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)
+		{
+			beenToStation = true;
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
+			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>"), MatrixManager.MainStationMatrix);
+			// should be changed to manual send later
+			departCoroutine = StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
+		}
+		else if (status == EscapeShuttleStatus.DockedStation && primaryEscapeShuttle.hostileEnvironment)
+		{
+			beenToStation = true;
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
+			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>"), MatrixManager.MainStationMatrix);
+		}
+	}
 
-			IEnumerator WaitForRoundEnd()
-			{
-				Logger.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
-				yield return WaitFor.Seconds(1f);
-				EndRound();
-			}
-
-			if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)
-			{
-				beenToStation = true;
-				_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
-				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>"), MatrixManager.MainStationMatrix);
-				// should be changed to manual send later
-				departCoroutine = StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
-			}
-			else if (status == EscapeShuttleStatus.DockedStation && primaryEscapeShuttle.hostileEnvironment)
-			{
-				beenToStation = true;
-				_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
-				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>"), MatrixManager.MainStationMatrix);
-			}
-		} );
+	private IEnumerator WaitForRoundEnd()
+	{
+		Logger.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
+		yield return WaitFor.Seconds(1f);
+		EndRound();
 	}
 
 	public void ForceSendEscapeShuttleFromStation(int departTime)
@@ -161,17 +152,7 @@ public partial class GameManager
 
 	private void TrackETA(int eta)
 	{
-		CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime( eta, "STATION\nETA: " ) );
-	}
 
-	public static string FormatTime(int timerSeconds, string prefix = "ETA: ")
-	{
-		if (timerSeconds < 0)
-		{
-			return string.Empty;
-		}
-
-		return prefix+TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
 	}
 
 	private IEnumerator SendEscapeShuttle(int seconds)
@@ -179,7 +160,7 @@ public partial class GameManager
 		// departure countdown
 		for (int i = seconds; i >= 0; i--)
 		{
-			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Depart\nETA: ") );
+			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime(i, "Depart\nETA: ") );
 			yield return WaitFor.Seconds(1);
 		}
 
@@ -190,7 +171,7 @@ public partial class GameManager
 		int timeToCentcom = ShuttleDepartTime * 2 - 2;
 		for (int i = timeToCentcom - 1; i >= 0; i--)
 		{
-			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );
+			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime(i, "CENTCOM\nETA: ") );
 			yield return WaitFor.Seconds(1);
 		}
 

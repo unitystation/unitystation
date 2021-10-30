@@ -71,7 +71,6 @@ namespace Objects.Science
 		{
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			spriteHandler.ChangeSprite(0);
 		}
 
 		private void Start()
@@ -97,6 +96,8 @@ namespace Objects.Science
 			{
 				LavaLandManager.Instance.LavaLandBase2Connector = this;
 			}
+
+			spriteHandler.ChangeSprite(0);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
