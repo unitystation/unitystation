@@ -8,23 +8,10 @@ using Random = System.Random;
 
 namespace Managers
 {
-	public class SignalsManager : NetworkBehaviour
+	public class SignalsManager : SingletonManager<SignalsManager>
 	{
-		private static SignalsManager signalsManager;
-		public static SignalsManager Instance
-		{
-			get
-			{
-				if (!signalsManager)
-				{
-					signalsManager = FindObjectOfType<SignalsManager>();
-				}
 
-				return signalsManager;
-			}
-		}
-
-		public List<SignalReceiver> Recivers = new List<SignalReceiver>();
+		public List<SignalReceiver> Receivers = new List<SignalReceiver>();
 
 		/// <summary>
 		/// Called from the server as the Recivers list is only avaliable for the host and to avoid clients from cheating.
@@ -33,23 +20,23 @@ namespace Managers
 		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo)
 		{
-			foreach (SignalReceiver receiver in Recivers)
+			foreach (SignalReceiver receiver in Receivers)
 			{
 				if (receiver.SignalTypeToReceive != type) return;
 
-				if (!receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y)) return;
+				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) return;
 
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }
-					receiver.RecieveSignal(SignalStrength.HEALTHY);
+					receiver.ReceiveSignal(SignalStrength.HEALTHY);
 					break;
 				}
 				//TODO (Max) : Radio signals should be sent to relays and servers.
 				if (receiver.SignalTypeToReceive == SignalType.RADIO && AreOnTheSameFrequancy(receiver, emitter))
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); continue; }
-					receiver.RecieveSignal(SignalStrength.HEALTHY);
+					receiver.ReceiveSignal(SignalStrength.HEALTHY);
 					continue;
 				}
 				//Bounced radios always have a limited range.
@@ -62,13 +49,13 @@ namespace Managers
 
 		private bool AreOnTheSameFrequancy(SignalReceiver receiver , SignalEmitter emitter)
 		{
-			return Mathf.Approximately(receiver.Frequency, emitter.Frequancy);
+			return Mathf.Approximately(receiver.Frequency, emitter.Frequency);
 		}
 
 		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo)
 		{
 			SignalStrength strength = GetStrength(receiver, emitter, signalDataSo.SignalRange);
-			if (strength == SignalStrength.HEALTHY) receiver.RecieveSignal(strength);
+			if (strength == SignalStrength.HEALTHY) receiver.ReceiveSignal(strength);
 			if (strength == SignalStrength.TOOFAR) emitter.SignalFailed();
 
 
@@ -90,13 +77,13 @@ namespace Managers
 
 		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength)
 		{
-			yield return new WaitForSeconds(waitTime);
+			yield return WaitFor.Seconds(waitTime);
 			if (receiver.gameObject == null)
 			{
 				//In case the object despawns before the signal reaches it
 				yield break;
 			}
-			receiver.RecieveSignal(strength);
+			receiver.ReceiveSignal(strength);
 		}
 
 		/// <summary>

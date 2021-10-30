@@ -12,13 +12,13 @@ namespace Items
 {
 	public class ButtonSignalReceiver : SignalReceiver, ICheckedInteractable<HandApply>
 	{
-		private DoorSwitch _switch;
+		private DoorSwitch doorSwitch;
 
-		public override void RecieveSignal(SignalStrength strength)
+		public override void ReceiveSignal(SignalStrength strength)
 		{
-			if (_switch != null)
+			if (doorSwitch != null)
 			{
-				_switch.RunDoorController();
+				doorSwitch.RunDoorController();
 				Respond(Emitter);
 				return;
 			}
@@ -37,7 +37,7 @@ namespace Items
 			if (interaction.TargetObject.TryGetComponent<DoorSwitch>(out var @switch))
 			{
 				Chat.AddExamineMsg(interaction.Performer.gameObject, "You assign the switch to the receiver.");
-				_switch = @switch;
+				doorSwitch = @switch;
 			}
 		}
 
