@@ -8,7 +8,7 @@ using Objects.Construction;
 
 namespace Objects.Atmospherics
 {
-	public class PipeDispenser : NetworkBehaviour
+	public class PipeDispenser : MonoBehaviour
 	{
 		private const float DISPENSING_TIME = 2; // As per sprite sheet JSON file.
 
@@ -23,9 +23,6 @@ namespace Objects.Atmospherics
 		private Coroutine animationRoutine;
 
 		public bool MachineOperating { get; private set; } = false;
-
-		[SyncVar(hook = nameof(SyncObjectProperties))]
-		private PipeObjectSettings newPipe;
 
 		public enum PipeLayer
 		{
@@ -62,33 +59,29 @@ namespace Objects.Atmospherics
 			}
 		}
 
-		private void SyncObjectProperties(PipeObjectSettings oldState, PipeObjectSettings newState)
-		{
-			newPipe = newState;
-			newPipe.pipeObject.GetComponentInChildren<SpriteRenderer>().color = newPipe.pipeColor;
-		}
-
 		public void Dispense(GameObject objectPrefab, PipeLayer pipeLayer, Color pipeColor)
 		{
 			if (MachineOperating || securable.IsAnchored == false) return;
 
 			this.RestartCoroutine(SetMachineOperating(), ref animationRoutine);
 			SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectBehaviour.AssumedWorldPositionServer());
-
-			if (spawnResult.Successful)
+			if (spawnResult.Successful == false)
 			{
-				spawnResult.GameObject.GetComponent<PipeItem>()?.SetColour(pipeColor);
-
-				newPipe = new PipeObjectSettings
-				{
-					pipeObject = spawnResult.GameObject,
-					pipeColor = pipeColor
-				};
+				Logger.LogError(
+						$"Failed to spawn an object from {name}!" +
+						$"Is {nameof(UI.Objects.Atmospherics.GUI_PipeDispenser)} missing reference to object prefab?",
+						Category.Pipes);
+				return;
 			}
-			else
+
+			foreach (var spriteHandler in spawnResult.GameObject.GetComponentsInChildren<SpriteHandler>())
 			{
-				Logger.LogError($"Failed to spawn an object from {name}! Is GUI_{name} missing reference to object prefab?",
-					Category.Pipes);
+				spriteHandler.SetColor(pipeColor);
+			}
+
+			if (spawnResult.GameObject.TryGetComponent<PipeItem>(out var pipe))
+			{
+				pipe.Colour = pipeColor;
 			}
 		}
 
@@ -105,12 +98,6 @@ namespace Objects.Atmospherics
 		private void OnAnchoredChange()
 		{
 			netTab.enabled = securable.IsAnchored;
-		}
-
-		private struct PipeObjectSettings
-		{
-			public GameObject pipeObject;
-			public Color pipeColor;
 		}
 	}
 }
