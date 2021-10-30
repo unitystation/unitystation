@@ -68,7 +68,7 @@ namespace Objects.Atmospherics
 			if (spawnResult.Successful == false)
 			{
 				Logger.LogError(
-						$"Failed to spawn an object from {name}!" +
+						$"Failed to spawn an object from {name}! " +
 						$"Is {nameof(UI.Objects.Atmospherics.GUI_PipeDispenser)} missing reference to object prefab?",
 						Category.Pipes);
 				return;
