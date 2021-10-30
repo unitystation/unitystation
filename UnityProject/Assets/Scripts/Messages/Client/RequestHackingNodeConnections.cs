@@ -30,9 +30,9 @@ namespace Messages.Client
 		public override void Process(NetMessage msg)
 		{
 
-			LoadMultipleObjects(new []{msg.netIDOfObjectBeingHacked, msg.NetIDOfInteractionObject});
+			LoadMultipleObjects(new []{msg.netIDOfObjectBeingHacked});
 			var HackingProcessBase = NetworkObjects[0].GetComponent<HackingProcessBase>();
-			HackingProcessBase.ProcessCustomInteraction(SentByPlayer.GameObject,msg.InteractionType, NetworkObjects[1],msg.PanelInputID,  msg.PanelOutputID);
+			HackingProcessBase.ProcessCustomInteraction(SentByPlayer.GameObject,msg.InteractionType,  msg.NetIDOfInteractionObject,msg.PanelInputID,  msg.PanelOutputID);
 		}
 
 		public static NetMessage Send(GameObject hackObject,uint InNetIDOfInteractionObject, int InPanelInputID, int InPanelOutputID, InteractionWith InInteractionType )
