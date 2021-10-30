@@ -844,34 +844,12 @@ namespace HealthV2
 		/// <param name="deltaValue">The amount to adjust the stacks by, negative if reducing positive if increasing</param>
 		public void ChangeFireStacks(float deltaValue)
 		{
-			if (fireStacks + deltaValue < 0)
-			{
-				healthStateController.SetFireStacks(0);
-			}
-			else if (fireStacks + deltaValue > maxFireStacks)
-			{
-				healthStateController.SetFireStacks(maxFireStacks);
-			}
-			else
-			{
-				healthStateController.SetFireStacks(fireStacks + deltaValue);
-			}
+			healthStateController.SetFireStacks(Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
 		}
 
 		public void ChangeBleedStacks(float deltaValue)
 		{
-			if (BleedStacks + deltaValue < 0)
-			{
-				healthStateController.SetBleedStacks(0);
-			}
-			else if (BleedStacks + deltaValue > maxBleedStacks)
-			{
-				healthStateController.SetBleedStacks(maxBleedStacks);
-			}
-			else
-			{
-				healthStateController.SetBleedStacks(BleedStacks + deltaValue);
-			}
+			healthStateController.SetBleedStacks(Mathf.Clamp((BleedStacks + deltaValue),0,maxBleedStacks));
 		}
 
 		/// <summary>
