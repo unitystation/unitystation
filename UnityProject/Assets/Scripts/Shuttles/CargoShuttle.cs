@@ -151,11 +151,18 @@ namespace Systems.Cargo
 			for (int i = 0; i < objectHolder.childCount; i++)
 			{
 				var item = objectHolder.GetChild(i).gameObject;
+				if (item == null) continue;
+
 				//need VisibleState check because despawned objects still stick around on their matrix transform
-				if (item != null && item.TryGetComponent<ObjectBehaviour>(out var behaviour) && behaviour.VisibleState)
+				if (item.TryGetComponent<ObjectBehaviour>(out var behaviour) && behaviour.VisibleState)
 				{
-					// Don't sell secured objects e.g. conveyors.
-					if (behaviour.IsNotPushable) continue;
+					if (item.TryGetComponent<Attributes>(out var attributes))
+					{
+						if (attributes.ExportType == Attributes.CargoExportType.Never) continue;
+
+						// Don't sell secured objects e.g. conveyors.
+						if (attributes.ExportType != Attributes.CargoExportType.Always && behaviour.IsNotPushable) continue;
+					}
 
 					CargoManager.Instance.ProcessCargo(item, alreadySold);
 				}

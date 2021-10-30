@@ -3,7 +3,7 @@ using UnityEngine;
 using Mirror;
 using Core.Editor.Attributes;
 using Messages.Client.Interaction;
-
+using NaughtyAttributes;
 
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
@@ -34,7 +34,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	private bool willHighlight = true;
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
 	private int exportCost = 0;
 
 	public int ExportCost
@@ -51,13 +51,18 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 		}
 	}
 
+	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
+	[Tooltip("If default, will only be considered exportable if the value is not zero and the object is movable.")]
+	private CargoExportType exportType = CargoExportType.Default;
+	public CargoExportType ExportType => exportType;
+
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
 	private string exportName = "";
 	public string ExportName => exportName;
 
 	[Tooltip("Additional message to display in the cargo console report.")]
-	[SerializeField, PrefabModeOnly]
+	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
 
@@ -184,5 +189,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	public void ServerSetArticleDescription(string desc)
 	{
 		SyncArticleDescription(articleDescription, desc);
+	}
+
+	public enum CargoExportType
+	{
+		/// <summary>Export if value not zero and not secured.</summary>
+		Default = 0,
+		Always = 1,
+		Never = 2,
 	}
 }
