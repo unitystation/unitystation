@@ -22,13 +22,17 @@ using UI;
 ///
 /// Refer to documentation at https://github.com/unitystation/unitystation/wiki/Right-Click-Menu
 /// </summary>
-public class RightClickManager : MonoBehaviour
+public class RightClickManager : MonoBehaviourSingleton<RightClickManager>
 {
 	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.7f);
 
 	private static readonly BranchWorldPosition BranchWorldPosition = new BranchWorldPosition();
 
 	private static readonly BranchScreenPosition BranchScreenPosition = new BranchScreenPosition();
+
+	[SerializeField]
+	private ScriptableObjects.RightClickOptionsList rightClickOptions = default;
+	public RightClickOption[] RightClickOptions => rightClickOptions.RightClickOptions;
 
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;
@@ -69,8 +73,9 @@ public class RightClickManager : MonoBehaviour
 		}
 	}
 
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
 		// cache all known usages of the RightClickMethod annotation
 		if (attributedTypes.Count == 0)
 		{
