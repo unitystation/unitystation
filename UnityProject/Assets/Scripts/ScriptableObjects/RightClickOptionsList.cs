@@ -2,8 +2,7 @@
 
 namespace ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "RightClickOptionSingleton", menuName = "Singleton/RightClickOptionSingleton")]
-	public class RightClickOptionSingleton : SingletonScriptableObject<RightClickOptionSingleton>
+	public class RightClickOptionsList : ScriptableObject
 	{
 		[SerializeField]
 		private RightClickOption[] rightClickOptions = new RightClickOption[0];
