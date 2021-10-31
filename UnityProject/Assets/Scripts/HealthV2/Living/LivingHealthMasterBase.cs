@@ -147,6 +147,15 @@ namespace HealthV2
 		/// </summary>
 		[NonSerialized] public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
+		/// <summary>
+		/// How badly we're bleeding, same as tg bleed_stacks. 0 = not bleeding.
+		/// Exists client side - synced with server.
+		/// </summary>
+		public float BleedStacks => healthStateController.BleedStacks;
+
+		private float maxBleedStacks = 10f;
+		private bool maxBleedStacksReached = false;
+
 		private ObjectBehaviour objectBehaviour;
 		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
@@ -184,6 +193,34 @@ namespace HealthV2
 				}
 			}
 
+			return State;
+		}
+
+		public BleedingState BleedingState => CalculateBleedingState();
+		public BleedingState CalculateBleedingState()
+		{
+			var State = BleedingState.None;
+			switch ((int)Math.Ceiling(BleedStacks))
+			{
+				case 0:
+					State = BleedingState.None;
+					break;
+				case 1:
+					State = BleedingState.VeryLow;
+					break;
+				case int n when n.IsBetween(2, 3):
+					State = BleedingState.Low;
+					break;
+				case int n when n.IsBetween(4, 6):
+					State = BleedingState.Medium;
+					break;
+				case int n when n.IsBetween(7, 8):
+					State = BleedingState.High;
+					break;
+				case int n when n.IsBetween(9, 10):
+					State = BleedingState.UhOh;
+					break;
+			}
 			return State;
 		}
 
@@ -292,6 +329,7 @@ namespace HealthV2
 
 			FireStacksDamage();
 			CalculateRadiationDamage();
+			BleedStacksDamage();
 
 			if (IsDead) return;
 
@@ -332,6 +370,18 @@ namespace HealthV2
 
 				RegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700,
 					true);
+			}
+		}
+
+		/// <summary>
+		/// Applies bleeding from bleedstacks and handles their effects.
+		/// </summary>
+		public void BleedStacksDamage()
+		{
+			if (BleedStacks > 0)
+			{
+				CirculatorySystem.Bleed(1f * (float)Math.Ceiling(BleedStacks));
+				healthStateController.SetBleedStacks(BleedStacks - 0.1f);
 			}
 		}
 
@@ -476,6 +526,7 @@ namespace HealthV2
 			//Sync health
 			healthStateController.SetOverallHealth(currentHealth);
 			healthStateController.SetHunger(HungerState);
+			healthStateController.SetBleedingState(BleedingState);
 
 			if (currentHealth < -100)
 			{
@@ -828,18 +879,12 @@ namespace HealthV2
 		/// <param name="deltaValue">The amount to adjust the stacks by, negative if reducing positive if increasing</param>
 		public void ChangeFireStacks(float deltaValue)
 		{
-			if (fireStacks + deltaValue < 0)
-			{
-				healthStateController.SetFireStacks(0);
-			}
-			else if (fireStacks + deltaValue > maxFireStacks)
-			{
-				healthStateController.SetFireStacks(maxFireStacks);
-			}
-			else
-			{
-				healthStateController.SetFireStacks(fireStacks + deltaValue);
-			}
+			healthStateController.SetFireStacks(Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
+		}
+
+		public void ChangeBleedStacks(float deltaValue)
+		{
+			healthStateController.SetBleedStacks(Mathf.Clamp((BleedStacks + deltaValue),0,maxBleedStacks));
 		}
 
 		/// <summary>
@@ -914,6 +959,7 @@ namespace HealthV2
 			{
 				healthString.Append($" And {theyPronoun}'s on fire!");
 			}
+			
 
 			//Alive but not in body
 			if (script != null && script.HasSoul == false)

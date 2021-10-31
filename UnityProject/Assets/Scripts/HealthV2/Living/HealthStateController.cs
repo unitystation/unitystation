@@ -37,6 +37,11 @@ namespace HealthV2
 
 		private HealthBloodMessage BloodHealth => bloodHealth;
 
+		[SyncVar(hook = nameof(SyncBleedStacks))]
+		private float bleedStacks;
+
+		public float BleedStacks => bleedStacks;
+
 		[SyncVar(hook = nameof(SyncFireStacks))]
 		private float fireStacks;
 
@@ -64,6 +69,10 @@ namespace HealthV2
 		private HungerState hungerState;
 
 		public HungerState HungerState => hungerState;
+
+		[SyncVar(hook = nameof(SyncBleedingState))]
+		private BleedingState bleedingState;
+		public BleedingState BleedingState => bleedingState;
 
 
 		private bool DollDataChanged = false;
@@ -100,7 +109,11 @@ namespace HealthV2
 			hungerState = newHungerState;
 		}
 
-
+		[Server]
+		public void SetBleedingState(BleedingState newBleedingState)
+		{
+			bleedingState = newBleedingState;
+		}
 
 		[Server]
 		public void SetOverallHealth(float newHealth)
@@ -131,6 +144,12 @@ namespace HealthV2
 		public void SetFireStacks(float newValue)
 		{
 			fireStacks = Math.Max(0, newValue);
+		}
+
+		[Server]
+		public void SetBleedStacks(float newValue)
+		{
+			bleedStacks = Math.Max(0, newValue);
 		}
 
 		[Server]
@@ -208,6 +227,12 @@ namespace HealthV2
 		}
 
 		[Client]
+		private void SyncBleedStacks(float oldStacks, float newStacks)
+		{
+			bleedStacks = newStacks;
+		}
+
+		[Client]
 		private void SyncSuffocating(bool oldSuffocating, bool newSuffocating)
 		{
 			isSuffocating = newSuffocating;
@@ -231,7 +256,11 @@ namespace HealthV2
 			hungerState = newHungerState;
 		}
 
-
+		[Client]
+		private void SyncBleedingState(BleedingState oldBleedingState, BleedingState newBleedingState)
+		{
+			bleedingState = newBleedingState;
+		}
 
 		[Client]
 		private void SyncHealthDoll(string oldDollData, string newDollData)
