@@ -11,6 +11,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using Systems.Atmospherics;
 using Messages.Client.NewPlayer;
+using Messages.Client.SpriteMessages;
 using Objects.Construction;
 using Player.Movement;
 using Mirror;
@@ -185,13 +186,13 @@ public partial class MatrixManager : MonoBehaviour
 	[Client]
 	private void ClientAllMatrixReady()
 	{
-		foreach (var matrixInfo in ActiveMatricesList)
+		for (int i = 0; i < ActiveMatricesList.Count; i++)
 		{
 			//TODO fixme: expensive and overly complicated way to make tiles interactable by the client (wrenching pipe tiles, etc)
-			matrixInfo.Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
-
-			TileChangeNewPlayer.Send(matrixInfo.NetID);
+			ActiveMatricesList[i].Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			TileChangeNewPlayer.Send(ActiveMatricesList[i].NetID);
 		}
+		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 	}
 
 	[Client]
