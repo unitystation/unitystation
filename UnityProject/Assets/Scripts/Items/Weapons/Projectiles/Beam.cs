@@ -48,7 +48,7 @@ namespace Weapons.Projectiles
 				behaviour.OnDespawn(hit,dis);
 			}
 
-			Despawn.ClientSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }
