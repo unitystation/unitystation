@@ -51,7 +51,6 @@ namespace Tests.Asset
 			if (Failed)
 			{
 				Assert.Fail(report.ToString());
-				return;
 			}
 		}
 
