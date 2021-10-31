@@ -17,11 +17,13 @@ namespace Items.Medical
 			if(CheckForBleedingLimbs(LHB, interaction))
 			{
 				RemoveLimbExternalBleeding(LHB, interaction);
+				LHB.ChangeBleedStacks(-2f);
 				stackable.ServerConsume(1);
 			}
 			else if(CheckForBleedingBodyContainers(LHB, interaction))
 			{
 				RemoveLimbLossBleed(LHB, interaction);
+				LHB.ChangeBleedStacks(-2f);
 				stackable.ServerConsume(1);
 			}
 			else
