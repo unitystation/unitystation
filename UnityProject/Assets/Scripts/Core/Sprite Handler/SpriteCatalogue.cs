@@ -7,6 +7,8 @@ public class SpriteCatalogue : SingletonScriptableObject<SpriteCatalogue>
 {
 	public List<SpriteDataSO> Catalogue = new List<SpriteDataSO>();
 
+	public static Dictionary<int,SpriteDataSO > ResistantCatalogue = new Dictionary<int, SpriteDataSO>();
+
 	public void AddToCatalogue(SpriteDataSO spriteDataSO)
 	{
 		for (int i = 0; i < Catalogue.Count; i++)
@@ -18,5 +20,21 @@ public class SpriteCatalogue : SingletonScriptableObject<SpriteCatalogue>
 			}
 		}
 		Catalogue.Add(spriteDataSO);
+	}
+
+	public void GenerateResistantCatalogue()
+	{
+		foreach (var Cata in Catalogue)
+		{
+			if (Cata != null)
+			{
+				if (ResistantCatalogue.ContainsKey(Cata.setID))
+				{
+					Logger.LogError("OH GOD Duplicate ID on " + Cata.name + " and " + ResistantCatalogue[Cata.setID].name);
+				}
+
+				ResistantCatalogue[Cata.setID] = Cata;
+			}
+		}
 	}
 }

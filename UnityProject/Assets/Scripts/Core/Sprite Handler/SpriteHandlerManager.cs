@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Messages.Server.SpritesMessages;
 using Mirror;
 using UnityEngine;
@@ -27,6 +28,11 @@ public class SpriteHandlerManager : NetworkBehaviour
 		else
 		{
 			Destroy(this);
+		}
+
+		if (SpriteCatalogue.ResistantCatalogue.Count == 0)
+		{
+			new Task(SpriteCatalogue.Instance.GenerateResistantCatalogue).Start();
 		}
 	}
 
