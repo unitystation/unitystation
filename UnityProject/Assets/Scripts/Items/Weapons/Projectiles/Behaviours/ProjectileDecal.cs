@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
-	public class ProjectileDecal : MonoBehaviour, IOnHit
+	public class ProjectileDecal : NetworkBehaviour, IOnHit
 	{
 		[SerializeField] private GameObject decal = null;
 
@@ -17,11 +18,18 @@ namespace Weapons.Projectiles.Behaviours
 				return false;
 			}
 
-			var newDecal = Spawn.ClientPrefab(decal.name,
-				hit.HitWorld).GameObject;
+			RpcClientSpawn(hit.HitWorld);
+			return false;
+		}
+
+		[ClientRpc]
+		public void RpcClientSpawn(Vector3 WorldPosition)
+
+		{
+			var newDecal = Spawn.ClientPrefab(decal,
+				WorldPosition).GameObject;
 			var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
 			timeLimitedDecal.SetUpDecal(animationTime);
-			return false;
 		}
 	}
 }

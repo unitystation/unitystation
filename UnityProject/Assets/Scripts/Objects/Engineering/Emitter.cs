@@ -6,6 +6,7 @@ using Messages.Server;
 using Systems.Clearance;
 using Systems.Electricity.NodeModules;
 using Systems.Interaction;
+using Weapons.Projectiles;
 
 
 namespace Objects.Engineering
@@ -115,8 +116,8 @@ namespace Objects.Engineering
 
 		public void ShootEmitter()
 		{
-			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.Vector, default);
-
+			ProjectileManager.InstantiateAndShoot(projectilePrefab, directional.CurrentDirection.Vector, gameObject,
+				null, BodyPartType.None);
 			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPositionServer);
 		}
 

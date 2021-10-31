@@ -10,6 +10,12 @@ public static class ConverterExtensions
 		return new Vector2(other.x, other.y);
 	}
 
+	public static Vector3 To3(this Vector2 other)
+	{
+		return new Vector3(other.x, other.y, 0);
+	}
+
+
 	public static Vector3Int RoundToInt(this Vector3 other)
 	{
 		return Vector3Int.RoundToInt(other);
