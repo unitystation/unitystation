@@ -120,7 +120,6 @@ namespace Objects.Botany
 		public void DispenseSeedPacket(SeedPacket seedPacket)
 		{
 			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
-			bool willSpawnFromInventory = false;
 			//spawn packet if added directly into inventory by player
 			//this is to fix a bug where the packet no longer becomes pickupable after adding it back into an extractor.
 			if (seedPacket.gameObject.TryGetComponent<Pickupable>(out var packet))
@@ -128,11 +127,10 @@ namespace Objects.Botany
 				if (packet.ItemSlot != null)
 				{
 					packet.ItemSlot.ItemStorage.ServerTryRemove(packet.gameObject, false, spawnPos);
-					willSpawnFromInventory = true;
+					return;
 				}
 			}
-			if(willSpawnFromInventory) return;
-			
+
 			// Spawn packet if not added directly into inventory
 			CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
 			netTransform.AppearAtPosition(spawnPos);
