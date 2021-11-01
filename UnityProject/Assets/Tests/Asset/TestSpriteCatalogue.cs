@@ -14,7 +14,9 @@ namespace Tests.Asset
 		{
 			var report = new StringBuilder();
 			bool Failed = false;
+			bool SuperFailed = false;
 
+			List<SpriteDataSO> ForceUpdateList = new List<SpriteDataSO>();
 
 			var Assets = FindAssetsByType<SpriteDataSO>();
 			if (SpriteCatalogue.Instance == null)
@@ -28,7 +30,26 @@ namespace Tests.Asset
 				if (SpriteCatalogue.Instance.Catalogue.Contains(Assete) == false)
 				{
 					report.AppendLine($"{Assete.name}: Not in Catalogue");
+					ForceUpdateList.Add(Assete);
 					Failed = true;
+				}
+
+				int i = 0;
+				foreach (var variant in Assete.Variance)
+				{
+					int j = 0;
+					foreach (var Frame in variant.Frames)
+					{
+						if (Frame.sprite == null)
+						{
+							report.AppendLine($"{Assete.name}: Has missing sprite frame at {i} Variant at {j} Frame");
+							Failed = true;
+							SuperFailed = true;
+						}
+						j++;
+					}
+
+					i++;
 				}
 			}
 
@@ -38,6 +59,8 @@ namespace Tests.Asset
 			{
 				if (SpriteDataSOs.ContainsKey(Assete.setID))
 				{
+					ForceUpdateList.Add(SpriteDataSOs[Assete.setID]);
+					ForceUpdateList.Add(Assete);
 					report.AppendLine($"{Assete.name}: Duplicated ID with {SpriteDataSOs[Assete.setID]}" );
 					Failed = true;
 				}
@@ -45,11 +68,28 @@ namespace Tests.Asset
 				SpriteDataSOs[Assete.setID] = Assete;
 			}
 
-			EditorUtility.SetDirty( SpriteCatalogue.Instance);
+			foreach (var ToForceUpdate in ForceUpdateList)
+			{
+				ToForceUpdate.ForceUpdateID();
+				EditorUtility.SetDirty(ToForceUpdate);
+			}
+
+			EditorUtility.SetDirty(SpriteCatalogue.Instance);
 			AssetDatabase.SaveAssets();
 
 			if (Failed)
 			{
+
+				if (SuperFailed == false)
+				{
+					report.AppendLine(
+						"hey, This is been handled automatically you just need to now Commit the changes");
+				}
+				else
+				{
+					report.AppendLine(
+						"hey, It's **not** been handled automatically and requires manual intervention on some files");
+				}
 				Assert.Fail(report.ToString());
 			}
 		}
