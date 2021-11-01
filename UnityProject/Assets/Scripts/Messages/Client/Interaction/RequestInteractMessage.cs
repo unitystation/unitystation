@@ -776,20 +776,20 @@ namespace Messages.Client.Interaction
 			{
 				writer.WriteUInt(message.TargetObject);
 				writer.WriteVector2(message.TargetVector);
-				writer.WriteInt((int) message.TargetBodyPart);
+				writer.WriteUInt((uint) message.TargetBodyPart);
 				writer.WriteBool(message.IsAltUsed);
 			}
 			else if (message.InteractionType == typeof(HandApply))
 			{
 				writer.WriteUInt(message.TargetObject);
-				writer.WriteInt((int) message.TargetBodyPart);
+				writer.WriteUInt((uint) message.TargetBodyPart);
 				writer.WriteBool(message.IsAltUsed);
 			}
 			else if (message.InteractionType == typeof(AimApply))
 			{
 				writer.WriteVector2(message.TargetVector);
 				writer.WriteBool(message.MouseButtonState == MouseButtonState.PRESS);
-				writer.WriteInt((int) message.TargetBodyPart);
+				writer.WriteUInt((uint) message.TargetBodyPart);
 			}
 			else if (message.InteractionType == typeof(MouseDrop))
 			{
