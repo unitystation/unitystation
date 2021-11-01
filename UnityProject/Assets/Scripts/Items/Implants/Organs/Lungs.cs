@@ -44,7 +44,7 @@ public class Lungs : BodyPartFunctionality
 	/// The volume of the lung in litres
 	/// </summary>
 	[Tooltip("The volume of the lung in litres")]
-	public float LungSize = 1.5f;
+	public float LungSize = 0.3f;
 
 	[SerializeField, Range(0, 100)] private float coughChanceWhenInternallyBleeding = 32;
 	[SerializeField] private float internalBleedingCooldown = 4f;
@@ -120,7 +120,7 @@ public class Lungs : BodyPartFunctionality
 			efficiency = 1;
 		}
 		ReagentMix AvailableBlood = RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take((RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total * efficiency) / 2f);
-		bool tryExhale = BreatheOut(container.GasMix, AvailableBlood);
+		bool tryExhale = BreatheOut(node.GasMix, AvailableBlood);
 		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood);
 		RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
 		return tryExhale || tryInhale;
@@ -149,10 +149,7 @@ public class Lungs : BodyPartFunctionality
 		{
 			if (GAS2ReagentSingleton.Instance.DictionaryReagentToGas.ContainsKey(Reagent.Key))
 			{
-				// Try to prevent lungs removing desired gases and non gases from blood.
-				// May want to add other gases that the lungs are unable to remove as well (ie toxins)
-				var gas = GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key);
-				if (gas != requiredGas && Reagent.Value > 0)
+				if (Reagent.Value > 0)
 				{
 					toExhale.Add(Reagent.Key, (Reagent.Value / TotalGasInBlood) * LungSize );
 				}
