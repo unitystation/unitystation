@@ -199,7 +199,7 @@ namespace Messages.Client.Interaction
 				var processorObj = NetworkObject;
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState, Intent);
+				var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState, TargetBodyPart, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(MouseDrop))
@@ -523,6 +523,7 @@ namespace Messages.Client.Interaction
 				var casted = interaction as AimApply;
 				msg.TargetVector = casted.TargetVector;
 				msg.MouseButtonState = casted.MouseButtonState;
+				msg.TargetBodyPart = casted.TargetBodyPart;
 			}
 			else if (typeof(T) == typeof(MouseDrop))
 			{
@@ -706,6 +707,7 @@ namespace Messages.Client.Interaction
 			{
 				message.TargetVector = reader.ReadVector2();
 				message.MouseButtonState = reader.ReadBool() ? MouseButtonState.PRESS : MouseButtonState.HOLD;
+				message.TargetBodyPart = (BodyPartType) reader.ReadUInt();
 			}
 			else if (message.InteractionType == typeof(MouseDrop))
 			{
@@ -774,19 +776,20 @@ namespace Messages.Client.Interaction
 			{
 				writer.WriteUInt(message.TargetObject);
 				writer.WriteVector2(message.TargetVector);
-				writer.WriteInt((int) message.TargetBodyPart);
+				writer.WriteUInt((uint) message.TargetBodyPart);
 				writer.WriteBool(message.IsAltUsed);
 			}
 			else if (message.InteractionType == typeof(HandApply))
 			{
 				writer.WriteUInt(message.TargetObject);
-				writer.WriteInt((int) message.TargetBodyPart);
+				writer.WriteUInt((uint) message.TargetBodyPart);
 				writer.WriteBool(message.IsAltUsed);
 			}
 			else if (message.InteractionType == typeof(AimApply))
 			{
 				writer.WriteVector2(message.TargetVector);
 				writer.WriteBool(message.MouseButtonState == MouseButtonState.PRESS);
+				writer.WriteUInt((uint) message.TargetBodyPart);
 			}
 			else if (message.InteractionType == typeof(MouseDrop))
 			{
