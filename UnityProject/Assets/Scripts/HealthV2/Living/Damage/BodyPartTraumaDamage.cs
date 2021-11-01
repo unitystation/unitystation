@@ -218,10 +218,11 @@ namespace HealthV2
 		{
 			while(isBleedingExternally)
 			{
-				yield return WaitFor.Seconds(4f);
+				//add 1 bleedstack every 10 seconds until the wound is closed
+				yield return WaitFor.Seconds(10f);
 				if (IsBleeding)
 				{
-					HealthMaster.CirculatorySystem.Bleed(UnityEngine.Random.Range(MinMaxExternalBleedingValues.x, MinMaxExternalBleedingValues.y));
+					HealthMaster.ChangeBleedStacks(1f);
 				}
 			}
 		}

@@ -167,11 +167,6 @@ namespace HealthV2
 			}
 			BloodUpdate();
 			CalculateRadiationDamage();
-
-			if(IsBleeding)
-			{
-				HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
-			}
 		}
 
 		public void SetHealthMaster(LivingHealthMasterBase livingHealth)
@@ -323,6 +318,7 @@ namespace HealthV2
 				if (bodyPart.BodyPartType == BodyPartType.Chest)
 				{
 					bodyPart.IsBleeding = true;
+					HealthMaster.ChangeBleedStacks(limbLossBleedingValue);
 				}
 			}
 
