@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using Systems.Atmospherics;
+using Managers;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using Objects.Construction;
@@ -32,14 +33,8 @@ public enum CollisionType
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
 [ExecuteInEditMode]
-public partial class MatrixManager : MonoBehaviour
+public partial class MatrixManager : SingletonManager<MatrixManager>
 {
-	private static MatrixManager matrixManager;
-
-	public static MatrixManager Instance => matrixManager;
-
-	private static LayerMask tileDmgMask;
-
 	public Dictionary<int, MatrixInfo> ActiveMatrices { get; private set; } = new Dictionary<int, MatrixInfo>();
 
 	public List<MatrixInfo> ActiveMatricesList  { get; private set; } = new List<MatrixInfo>();
@@ -58,20 +53,6 @@ public partial class MatrixManager : MonoBehaviour
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
-
-	private void Awake()
-	{
-		if (matrixManager == null)
-		{
-			matrixManager = this;
-		}
-		else
-		{
-			if (Application.isEditor && !Application.isPlaying) return;
-
-			Destroy(this);
-		}
-	}
 
 	private void OnEnable()
 	{
@@ -96,7 +77,6 @@ public partial class MatrixManager : MonoBehaviour
 
 	void ResetMatrixManager()
 	{
-		tileDmgMask = LayerMask.GetMask("Windows", "Walls");
 		Instance.spaceMatrix = null;
 		Instance.mainStationMatrix = null;
 		MovableMatrices.Clear();

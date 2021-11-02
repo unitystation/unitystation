@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Managers;
 using UnityEngine.Events;
 
 namespace GameConfig
@@ -10,11 +11,8 @@ namespace GameConfig
 	/// <summary>
 	/// Config for in game stuff
 	/// </summary>
-	public class GameConfigManager : MonoBehaviour
+	public class GameConfigManager : SingletonManager<GameConfigManager>
 	{
-		private static GameConfigManager instance;
-		public static GameConfigManager Instance => instance;
-
 		private GameConfig config;
 
 		public static GameConfig GameConfig
@@ -25,16 +23,9 @@ namespace GameConfig
 			}
 		}
 
-		private void Awake()
+		public override void Awake()
 		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
+			base.Awake();
 
 			//Load in awake so other scripts can get data in their start.
 			AttemptConfigLoad();

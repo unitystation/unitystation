@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using Messages.Server;
 using ScriptableObjects;
 using UnityEngine;
@@ -10,11 +11,8 @@ using Object = UnityEngine.Object;
 /// <summary>
 /// For server.
 /// </summary>
-public class NetworkTabManager : MonoBehaviour {
-
-	private static NetworkTabManager networkTabManager;
-	public static NetworkTabManager Instance => networkTabManager;
-
+public class NetworkTabManager : SingletonManager<NetworkTabManager>
+{
 	[SerializeField]
 	private GameObjectList netTabs = null;
 	public GameObjectList NetTabs => netTabs;
@@ -36,18 +34,6 @@ public class NetworkTabManager : MonoBehaviour {
 			return new List<ConnectedPlayer>();
 		}
 		return info.Peepers.ToList();
-	}
-
-	private void Awake()
-	{
-		if (networkTabManager == null)
-		{
-			networkTabManager = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
 	}
 
 	private void OnEnable()
