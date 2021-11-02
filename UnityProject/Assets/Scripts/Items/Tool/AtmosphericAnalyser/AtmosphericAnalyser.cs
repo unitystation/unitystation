@@ -71,12 +71,12 @@ namespace Items.Atmospherics
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			if (interaction.TargetObject == null) return false;
+			if (interaction.TargetObject == null || interaction.UsedObject == null) return false;
 
-			if (interaction.UsedObject == null) return false;
-
+			//Dont target self
 			if (interaction.TargetObject == gameObject) return false;
 
+			//Make sure used object is ourself
 			if (interaction.UsedObject != gameObject) return false;
 
 			return interaction.TargetObject.TryGetComponent<GasContainer>(out _);
