@@ -21,7 +21,7 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			//If we are null then we are somewhat dead
-			if (Owner?.body == null)
+			if (Owner?.body.OrNull().playerHealth == null)
 			{
 				return false;
 			}
