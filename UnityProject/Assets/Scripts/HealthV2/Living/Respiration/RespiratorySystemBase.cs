@@ -102,7 +102,7 @@ namespace HealthV2
 		{
 			foreach (var Reagent in toProcess.reagents.m_dict)
 			{
-				blood.Remove(Reagent.Key, Reagent.Value);
+				blood.Remove(Reagent.Key, float.MaxValue);
 				if (!canBreathAnywhere)
 					atmos.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
 			}
@@ -130,8 +130,13 @@ namespace HealthV2
 				}
 				else
 				{
-					var PercentageRemaining =  1 - (LungCapacity / atmos.Moles);
-					atmos.MultiplyGas(PercentageRemaining);
+					if (atmos.Moles == 0)
+					{
+						return;
+					}
+
+					var percentageRemaining =  1 - (LungCapacity / atmos.Moles);
+					atmos.MultiplyGas(percentageRemaining);
 				}
 			}
 		}

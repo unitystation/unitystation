@@ -19,7 +19,6 @@ namespace HealthV2
 			base.SetUpSystems();
 			if(WhiteListReagents.Count == 0)
 			{
-				WhiteListReagents.Add(RelatedPart.bloodType);
 				WhiteListReagents.Add(RelatedPart.requiredReagent);
 				WhiteListReagents.Add(RelatedPart.wasteReagent);
 				WhiteListReagents.Add(RelatedPart.Nutriment);
@@ -33,7 +32,7 @@ namespace HealthV2
 
 			foreach (var Reagent in RelatedPart.BloodContainer)
 			{
-				if (WhiteListReagents.Contains(Reagent.Key) == false)
+				if (WhiteListReagents.Contains(Reagent.Key) == false && Reagent.Key is BloodType == false)
 				{
 					ContainedBADReagents.Add(Reagent.Key, Reagent.Value * ProcessingPercentage * RelatedPart.TotalModified);
 
