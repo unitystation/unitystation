@@ -399,11 +399,6 @@ public class UIManager : MonoBehaviour, IInitialise
 			slot.Reset();
 		}
 
-		foreach (DamageMonitorListener listener in Instance.GetComponentsInChildren<DamageMonitorListener>())
-		{
-			listener.Reset();
-		}
-
 		StorageHandler.CloseStorageUI();
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;

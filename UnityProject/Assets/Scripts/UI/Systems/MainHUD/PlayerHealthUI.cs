@@ -139,17 +139,25 @@ public class PlayerHealthUI : MonoBehaviour
 		switch (PlayerManager.LocalPlayerScript.playerHealth.HealthStateController.HungerState)
 		{
 
+			case HungerState.Full:
+				hungerAlert.gameObject.SetActive(true);
+				hungerAlert.ChangeSprite(0);
+				break;
 			case HungerState.Normal:
 				hungerAlert.gameObject.SetActive(false);
 				hungerAlert.PushClear();
 				break;
+			case HungerState.Hungry:
+				hungerAlert.gameObject.SetActive(true);
+				hungerAlert.ChangeSprite(1);
+				break;
 			case HungerState.Malnourished:
 				hungerAlert.gameObject.SetActive(true);
-				hungerAlert.ChangeSprite(0);
+				hungerAlert.ChangeSprite(1);
 				break;
 			case HungerState.Starving:
 				hungerAlert.gameObject.SetActive(true);
-				hungerAlert.ChangeSprite(1);
+				hungerAlert.ChangeSprite(2);
 				break;
 			default:
 				hungerAlert.gameObject.SetActive(false);

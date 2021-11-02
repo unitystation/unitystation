@@ -7,7 +7,7 @@ using Chemistry.Components;
 
 namespace HealthV2
 {
-	public class Stomach : Organ
+	public class Stomach : BodyPartFunctionality
 	{
 		public ReagentContainer StomachContents;
 
@@ -16,6 +16,8 @@ namespace HealthV2
 		public List<BodyFat> BodyFats = new List<BodyFat>();
 
 		public BodyFat BodyFatToInstantiate;
+
+		public bool InitialFatSpawned = false;
 
 		public override void ImplantPeriodicUpdate()
 		{
@@ -34,6 +36,15 @@ namespace HealthV2
 				RelatedPart.BloodContainer.Add(Digesting);
 			}
 
+			if (StomachContents.SpareCapacity < 2f) //Magic number
+			{
+				RelatedPart.HungerState = HungerState.Full;
+			}
+			else
+			{
+				RelatedPart.HungerState = HungerState.Normal;
+			}
+
 			bool AllFat = true;
 			foreach (var Fat in BodyFats)
 			{
@@ -46,6 +57,17 @@ namespace HealthV2
 			}
 
 			if (AllFat)
+			{
+				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+				Added.SetAbsorbedAmount(0);
+				BodyFats.Add(Added);
+				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
+			}
+		}
+
+		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
+		{
+			if (InitialFatSpawned == false)
 			{
 				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 				BodyFats.Add(Added);
