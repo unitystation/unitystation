@@ -301,7 +301,14 @@ public class UpdateManager : MonoBehaviour
 					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
 				}
 
-				updateActions[i].Invoke();
+				try
+				{
+					updateActions[i].Invoke();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError(e.ToString());
+				}
 
 				if (Profile)
 				{
@@ -347,7 +354,14 @@ public class UpdateManager : MonoBehaviour
 		{
 			if (i < fixedUpdateActions.Count)
 			{
-				fixedUpdateActions[i].Invoke();
+				try
+				{
+					fixedUpdateActions[i].Invoke();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError(e.ToString());
+				}
 			}
 		}
 	}
@@ -358,7 +372,15 @@ public class UpdateManager : MonoBehaviour
 		{
 			if (i < lateUpdateActions.Count)
 			{
-				lateUpdateActions[i].Invoke();
+				try
+				{
+					lateUpdateActions[i].Invoke();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError(e.ToString());
+				}
+
 			}
 		}
 	}
