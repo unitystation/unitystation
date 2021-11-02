@@ -250,6 +250,8 @@ namespace Blob
 		/// </summary>
 		private void FormBlob()
 		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+
 			var playerScript = gameObject.GetComponent<PlayerScript>();
 
 			var bound = MatrixManager.MainStationMatrix.Bounds;
@@ -294,7 +296,6 @@ namespace Blob
 
 			gameObject.GetComponent<LivingHealthMasterBase>().Gib();
 
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			Destroy(this);
 		}
 
