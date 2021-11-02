@@ -60,6 +60,7 @@ namespace HealthV2
 			{
 				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 				Added.SetAbsorbedAmount(0);
+				Added.RelatedStomach = this;
 				BodyFats.Add(Added);
 				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
 			}
@@ -71,6 +72,7 @@ namespace HealthV2
 			{
 				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 				BodyFats.Add(Added);
+				Added.RelatedStomach = this;
 				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
 			}
 		}
@@ -79,7 +81,6 @@ namespace HealthV2
 		{
 			base.RemovedFromBody(livingHealth);
 			BodyFats.Clear();
-
 		}
 	}
 }
