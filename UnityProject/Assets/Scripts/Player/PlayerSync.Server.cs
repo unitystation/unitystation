@@ -90,10 +90,10 @@ public partial class PlayerSync
 		{
 			if (registerPlayer.IsSlippingServer)
 			{
-				return Matrix.IsNoGravityAt(serverState.WorldPosition.RoundToInt(), true)
-					|| Matrix.MetaDataLayer.IsSlipperyAt(serverState.WorldPosition.RoundToInt());
+				return Matrix.IsNoGravityAt(serverState.LocalPosition.RoundToInt(), true)
+					|| Matrix.MetaDataLayer.IsSlipperyAt(serverState.LocalPosition.RoundToInt());
 			}
-			return !playerScript.IsGhost && Matrix.IsNonStickyAt(serverState.WorldPosition.RoundToInt(), true);
+			return !playerScript.IsGhost && Matrix.IsNonStickyAt(serverState.LocalPosition.RoundToInt(), true);
 		}
 	}
 
