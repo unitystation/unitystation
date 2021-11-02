@@ -18,6 +18,8 @@ namespace HealthV2
 
 		public float CrawlingSpeedModifier { get; private set; }
 
+		public Stomach RelatedStomach;
+
 		public float ReleaseNutrimentPercentage = 0.01f;
 
 		public float AbsorbNutrimentPercentage  = 0.02f;
@@ -135,6 +137,7 @@ namespace HealthV2
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
 			base.RemovedFromBody(livingHealth);
+			RelatedStomach.BodyFats.Remove(this);
 			var playerHealthV2 = livingHealth as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{
