@@ -69,9 +69,9 @@ namespace HealthV2
 		/// <summary>
 		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
 		/// </summary>
-		[Tooltip("How much (in moles) blood reagent (eg oxygen) does this need each tick? For every 1u of blood flow")]
+		[Tooltip("What percentage per update of oxygen*(Required reagent) is consumed")]
 		[SerializeField]
-		private float bloodReagentConsumed = 0.00002f;
+		private float bloodReagentConsumedPercentage = 0.2f;
 
 		[Tooltip("How much blood reagent does this request per blood pump event?")] [SerializeField]
 		private float bloodThroughput = 5f; //This will need to be reworked when heartrate gets finished
@@ -186,24 +186,22 @@ namespace HealthV2
 		{
 			//Heal if blood saturation consumption is fine, otherwise do damage
 			float bloodSaturation = 0;
-			float bloodCap = bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix);
+			float bloodCap = bloodType.GetNormalGasCapacity(BloodContainer.CurrentReagentMix);
 			if (bloodCap > 0)
 			{
-				float foreignCap = bloodType.GetGasCapacityForeign(BloodContainer.CurrentReagentMix);
-				var ratioNativeBlood = bloodCap / (bloodCap + foreignCap);
-				bloodSaturation = BloodContainer[requiredReagent] * ratioNativeBlood / bloodCap;
+				bloodSaturation = BloodContainer[requiredReagent] / bloodCap;
 			}
 
 			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
 			if (!isBloodReagentConsumed) return;
 
 			float consumed =
-				BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumed * bloodThroughput);
+				BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentage * BloodContainer[requiredReagent]);
 
-			// Adds waste product (eg CO2) if any, currently always 1:1, could add code to change the ratio
+			// Adds waste product (eg CO2) if any, currently always 1:2, could add code to change the ratio
 			if (wasteReagent)
 			{
-				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed);
+				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed );
 			}
 
 			var info = HealthMaster.CirculatorySystem.BloodInfo;
@@ -224,12 +222,6 @@ namespace HealthV2
 				{
 					damage = 1;
 				}
-			}
-			else if (bloodSaturation > 2)
-			{
-				//There is more oxygen in the organ than the blood can hold
-				//Blood might be oversaturated, we might have the wrong blood, maybe do something here
-				damage = 0;
 			}
 			else
 			{
@@ -254,8 +246,8 @@ namespace HealthV2
 		public void OxyHeal(ReagentMix reagentMix, float amount)
 		{
 			if (Oxy <= 0) return;
-			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumed * bloodThroughput);
-			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumed * bloodThroughput,
+			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumedPercentage * bloodThroughput);
+			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumedPercentage * bloodThroughput,
 				(int) DamageType.Oxy);
 		}
 

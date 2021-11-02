@@ -14,6 +14,11 @@ public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBe
 	}
 
 
+	public virtual void Start()
+	{
+		Instance = this as T;
+	}
+
 	/// <summary>
 	/// If you override this then make sure you call base.OnDestroy() somewhere in your OnDestroy code.
 	/// </summary>

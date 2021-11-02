@@ -47,7 +47,7 @@ public class Heart : BodyPartFunctionality
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
-		if (RelatedPart.HealthMaster.OverallHealth < -100)
+		if (RelatedPart.HealthMaster.OverallHealth <= -100)
 		{
 
 			if (CanTriggerHeartAttack)
