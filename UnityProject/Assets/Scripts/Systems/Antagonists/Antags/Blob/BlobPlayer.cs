@@ -550,6 +550,7 @@ namespace Blob
 		private void TargetRpcTurnOffLight(NetworkConnection target)
 		{
 			overmindLightObject.SetActive(false);
+			overmindSprite.layer = 31;
 		}
 
 		#endregion
