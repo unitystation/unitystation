@@ -7,7 +7,7 @@ using Objects.Atmospherics;
 
 namespace Items.Atmospherics
 {
-	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
+	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 	{
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
@@ -65,6 +65,28 @@ namespace Items.Atmospherics
 				var gasMix = metaDataNode.PipeData[0].pipeData.GetMixAndVolume.GetGasMix();
 				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(gasMix));
 			}
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.TargetObject == null) return false;
+
+			if (interaction.UsedObject == null) return false;
+
+			if (interaction.TargetObject == gameObject) return false;
+
+			if (interaction.UsedObject != gameObject) return false;
+
+			return interaction.TargetObject.TryGetComponent<GasContainer>(out _);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if(interaction.TargetObject.TryGetComponent<GasContainer>(out var container) == false) return;
+
+			Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
 		}
 
 		private static string GetGasMixInfo(GasMix gasMix)
