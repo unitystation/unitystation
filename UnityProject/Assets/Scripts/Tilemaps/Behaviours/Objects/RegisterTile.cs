@@ -746,12 +746,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		return true;
 	}
 
-	/// <summary>Fetches the metadata of the tile.</summary>
-	public MetaDataNode GetMetaData(bool createIfNotExists = true)
-	{
-		return Matrix.MetaDataLayer.Get(LocalPosition, createIfNotExists);
-	}
-
 	//This makes it so electrical Stuff can be done on its own thread
 	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
 	{
