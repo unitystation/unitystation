@@ -664,7 +664,8 @@ public partial class CustomNetTransform
 		RegisterPlayers.AddRange(Matrix.Matrix.GetAs<RegisterPlayer>(Localposition, isServer));
 		foreach (var registerPlayer in RegisterPlayers)
 		{
-			if (registerPlayer.PlayerScript.playerHealth.IsDead == false)
+			var playerScript = registerPlayer.PlayerScript;
+			if (playerScript.IsGhost == false && playerScript.playerHealth.IsDead == false)
 			{
 				if (CanHitObject(registerPlayer))
 				{

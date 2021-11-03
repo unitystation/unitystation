@@ -41,6 +41,8 @@ public class RaceHealthData
 	public ImplantProcedure RootImplantProcedure;
 
 	public List<HealthV2.BodyPart> BodyPartsThatShareTheSkinTone = new List<HealthV2.BodyPart>();
+
+	public float NumberOfMinutesBeforeStarving = 30f;
 }
 
 

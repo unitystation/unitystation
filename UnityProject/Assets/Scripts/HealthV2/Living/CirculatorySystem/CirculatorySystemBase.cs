@@ -49,7 +49,7 @@ namespace HealthV2
 		{
 			// Currently only does blood and required reagents, should at nutriments and other common gases
 			var bloodToAdd = new ReagentMix(BloodType, amount);
-			bloodToAdd.Add(CirculatedReagent, bloodType.GetGasCapacity(bloodToAdd));
+			bloodToAdd.Add(CirculatedReagent, bloodType.GetSpareGasCapacity(bloodToAdd));
 			bloodPool.Add(bloodToAdd);
 		}
 
@@ -59,5 +59,14 @@ namespace HealthV2
 			ReadyBloodPool.TransferTo(bloodLoss, amount);
 			MatrixManager.ReagentReact(bloodLoss, healthMaster.gameObject.RegisterTile().WorldPositionServer);
 		}
+	}
+	public enum BleedingState
+	{
+		None,
+		VeryLow,
+		Low,
+		Medium,
+		High,
+		UhOh
 	}
 }

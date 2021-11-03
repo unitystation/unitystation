@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using HealthV2;
+using Managers;
 using Mirror;
 using UnityEngine;
 
@@ -10,13 +11,11 @@ namespace Health.Sickness
 	/// <summary>
 	/// Sickness subsystem manager
 	/// </summary>
-	public class SicknessManager : MonoBehaviour
+	public class SicknessManager : SingletonManager<SicknessManager>
 	{
 		public List<Sickness> Sicknesses;
 
 		private List<MobSickness> sickPlayers;
-
-		private static SicknessManager sicknessManager;
 		private Thread sicknessThread;
 		private float startedTime;
 		private System.Random random;
@@ -24,19 +23,6 @@ namespace Health.Sickness
 
 		[SerializeField]
 		private GameObject contagionPrefab = null;
-
-		public static SicknessManager Instance
-		{
-			get
-			{
-				if (!sicknessManager)
-				{
-					sicknessManager = FindObjectOfType<SicknessManager>();
-				}
-
-				return sicknessManager;
-			}
-		}
 
 		private void OnEnable()
 		{
@@ -131,7 +117,7 @@ namespace Health.Sickness
 						SicknessStage sicknessStage = sickness.SicknessStages[stage];
 
 						// Since many symptoms need to be called within the main thread, we invoke it
-						sicknessManager.blockingCollectionSymptoms.Add(new SymptomManifestation(sicknessAffliction, stage, livingHealth));
+						Instance.blockingCollectionSymptoms.Add(new SymptomManifestation(sicknessAffliction, stage, livingHealth));
 
 						if (sicknessStage.RepeatSymptom)
 						{

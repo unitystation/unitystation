@@ -88,7 +88,6 @@ namespace TileManagement
 
 		private void OnEnable()
 		{
-			
 			Layers = new Dictionary<LayerType, Layer>();
 			var layersKeys = new List<LayerType>();
 			var layersValues = new List<Layer>();
@@ -221,6 +220,8 @@ namespace TileManagement
 
 					QueueTileChange.PresentlyOn.RemoveTile(QueueTileChange.TileCoordinates);
 
+					//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
+
 					// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 					// Maybe it sets it to the correct ones when you set a tile idk
 
@@ -234,6 +235,14 @@ namespace TileManagement
 				{
 					QueueTileChange.PresentlyOn.SetTile(QueueTileChange.TileCoordinates, QueueTileChange.Tile,
 						QueueTileChange.TransformMatrix, QueueTileChange.Colour);
+
+					if (CashedBoundsInt != null)
+					{
+						if (CashedBoundsInt.Value.Contains(QueueTileChange.TileCoordinates) == false)
+						{
+							CashedBoundsInt = null;
+						}
+					}
 				}
 
 				lock (QueueTileChange)
@@ -249,7 +258,6 @@ namespace TileManagement
 				layer.overlayStore.Clear();
 			}
 		}
-
 
 		/// <summary>
 		/// Apply damage to damageable layers, top to bottom.
@@ -811,11 +819,11 @@ namespace TileManagement
 				var tileLocations = GetTileLocationsNeedLockSurrounding(cellPosition, layer);
 				if (tileLocations != null)
 				{
-					foreach (var tileLocation in tileLocations)
+					for (int i = 0; i < tileLocations.Count; i++)
 					{
-						if (tileLocation != null && tileLocation.Tile != null)
+						if (tileLocations[i] != null && tileLocations[i].Tile != null)
 						{
-							return tileLocation;
+							return tileLocations[i];
 						}
 					}
 				}
@@ -1123,10 +1131,7 @@ namespace TileManagement
 				}
 
 				TileLocation TileLcation = null;
-				lock (PresentTiles)
-				{
-					PresentTiles[layer].TryGetValue(position, out TileLcation);
-				}
+				TileLcation = GetCorrectTileLocationForLayer(position, layer);
 
 				if (TileLcation != null)
 				{
@@ -1576,6 +1581,7 @@ namespace TileManagement
 		public Vector3 CellToWorld(Vector3Int cellPos) => LayersValues[0].CellToWorld(cellPos);
 		public Vector3 WorldToLocal(Vector3 worldPos) => LayersValues[0].WorldToLocal(worldPos);
 
+
 		public BoundsInt GetWorldBounds()
 		{
 			var bounds = GetBounds();
@@ -1623,8 +1629,16 @@ namespace TileManagement
 			}
 		}
 
+
+		public BoundsInt? CashedBoundsInt;
+
 		public BoundsInt GetBounds()
 		{
+			if (CashedBoundsInt != null)
+			{
+				return CashedBoundsInt.Value;
+			}
+
 			Vector3Int minPosition = Vector3Int.one * int.MaxValue;
 			Vector3Int maxPosition = Vector3Int.one * int.MinValue;
 
@@ -1640,7 +1654,8 @@ namespace TileManagement
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
 
-			return new BoundsInt(minPosition, maxPosition - minPosition);
+			CashedBoundsInt = new BoundsInt(minPosition, maxPosition - minPosition);
+			return CashedBoundsInt.Value;
 		}
 
 		public Vector3Int WorldToCell(Vector3 worldPosition)

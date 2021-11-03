@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Limb : MonoBehaviour, IMovementEffect
+	public class Limb : BodyPartFunctionality, IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("The walking speed that will be used when attached as a leg.\n" +
@@ -35,7 +35,7 @@ namespace HealthV2
 		private BodyPart bodyPart;
 		private PlayerHealthV2 playerHealth;
 
-		public void Initialize()
+		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
 		{
 			bodyPart = GetComponent<BodyPart>();
 			playerHealth = bodyPart.HealthMaster as PlayerHealthV2;

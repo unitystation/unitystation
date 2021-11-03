@@ -30,6 +30,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public BoundsInt Bounds => MetaTileMap.GetBounds();
 
+	//Warning slow
 	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
 
 	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;

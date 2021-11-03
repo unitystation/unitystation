@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 2248633560201570898}
   - component: {fileID: -2094786560133369749}
   - component: {fileID: 8790646442014020747}
+  - component: {fileID: 447725445263908275}
   m_Layer: 11
   m_Name: All-In-One Grinder
   m_TagString: Untagged
@@ -168,7 +169,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114290125830698474}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -267,7 +268,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &-3515843423814105376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,3 +455,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &447725445263908275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012542722638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: c4be634dbd5639d48a6a53a6eaddf159, type: 2}
+  machineBoardPrefab: {fileID: 8664138476730898697, guid: 6e6e8549500ab9c4ea12508027c566e0,
+    type: 3}
+  canNotBeDeconstructed: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2

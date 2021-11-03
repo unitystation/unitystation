@@ -70,7 +70,7 @@ namespace Hacking
 			foreach (var cable in hackProcess.Cables)
 			{
 				GUI_CablePanel.CableData NetCable = new GUI_CablePanel.CableData();
-				NetCable.CableNetuID = cable.cableCoil.GetComponent<NetworkIdentity>().netId;
+				NetCable.CableNetuID = cable.cableCoilID;
 				if (hackProcess.DictionaryCurrentPorts.ContainsKey(cable.PanelOutput))
 				{
 					NetCable.IDConnectedFrom = hackProcess.DictionaryCurrentPorts[cable.PanelOutput].LocalID;

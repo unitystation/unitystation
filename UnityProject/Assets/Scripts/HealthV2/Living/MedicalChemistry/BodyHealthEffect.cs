@@ -26,6 +26,7 @@ public class BodyHealthEffect : MetabolismReaction
 
 	[ShowIf("MultiEffect")] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
 
+
 	[System.Serializable]
 	public struct TypeAndStrength
 	{

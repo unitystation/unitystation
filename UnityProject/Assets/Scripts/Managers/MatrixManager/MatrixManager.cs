@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Messages.Client.SpriteMessages;
+using System.Diagnostics;
 using System.Linq;
 using Chemistry;
 using Doors;
@@ -10,7 +10,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using Systems.Atmospherics;
+using Managers;
 using Messages.Client.NewPlayer;
+using Messages.Client.SpriteMessages;
 using Objects.Construction;
 using Player.Movement;
 using Mirror;
@@ -31,15 +33,12 @@ public enum CollisionType
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
 [ExecuteInEditMode]
-public partial class MatrixManager : MonoBehaviour
+public partial class MatrixManager : SingletonManager<MatrixManager>
 {
-	private static MatrixManager matrixManager;
-
-	public static MatrixManager Instance => matrixManager;
-
-	private static LayerMask tileDmgMask;
-
 	public Dictionary<int, MatrixInfo> ActiveMatrices { get; private set; } = new Dictionary<int, MatrixInfo>();
+
+	public List<MatrixInfo> ActiveMatricesList  { get; private set; } = new List<MatrixInfo>();
+
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
 	public static bool IsInitialized;
@@ -54,20 +53,6 @@ public partial class MatrixManager : MonoBehaviour
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
-
-	private void Awake()
-	{
-		if (matrixManager == null)
-		{
-			matrixManager = this;
-		}
-		else
-		{
-			if (Application.isEditor && !Application.isPlaying) return;
-
-			Destroy(this);
-		}
-	}
 
 	private void OnEnable()
 	{
@@ -92,11 +77,11 @@ public partial class MatrixManager : MonoBehaviour
 
 	void ResetMatrixManager()
 	{
-		tileDmgMask = LayerMask.GetMask("Windows", "Walls");
 		Instance.spaceMatrix = null;
 		Instance.mainStationMatrix = null;
 		MovableMatrices.Clear();
 		ActiveMatrices.Clear();
+		ActiveMatricesList.Clear();
 		movingMatrices.Clear();
 		wallsTileMaps.Clear();
 		trackedIntersections.Clear();
@@ -160,7 +145,7 @@ public partial class MatrixManager : MonoBehaviour
 
 		IsInitialized = true;
 
-		foreach (var matrixInfo in ActiveMatrices.Values)
+		foreach (var matrixInfo in ActiveMatricesList)
 		{
 			ServerMatrixInitialization(matrixInfo.Matrix);
 		}
@@ -181,14 +166,13 @@ public partial class MatrixManager : MonoBehaviour
 	[Client]
 	private void ClientAllMatrixReady()
 	{
-		foreach (var matrixInfo in ActiveMatrices.Values)
+		for (int i = 0; i < ActiveMatricesList.Count; i++)
 		{
 			//TODO fixme: expensive and overly complicated way to make tiles interactable by the client (wrenching pipe tiles, etc)
-			matrixInfo.Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
-
-			TileChangeNewPlayer.Send(matrixInfo.NetID);
-			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
+			ActiveMatricesList[i].Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			TileChangeNewPlayer.Send(ActiveMatricesList[i].NetID);
 		}
+		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 	}
 
 	[Client]
@@ -203,7 +187,7 @@ public partial class MatrixManager : MonoBehaviour
 		var matrixInfo = CreateMatrixInfoFromMatrix(matrix, matrix.NetworkedMatrix.MatrixSync.matrixID);
 
 		ActiveMatrices.Add(matrixInfo.Id, matrixInfo);
-
+		ActiveMatricesList.Add(matrixInfo);
 		if (matrixInfo.MatrixMove != null)
 		{
 			MovableMatrices.Add(matrixInfo);
@@ -274,12 +258,15 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		try
 		{
-			foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+			for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
 			{
-				if (matrixInfo.Matrix == Instance.spaceMatrix) continue;
-				if (matrixInfo.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, matrixInfo), isServer) == false)
+				var LocalPos = WorldToLocalInt(worldPos, Instance.ActiveMatricesList[i]);
+				if (Instance.ActiveMatricesList[i].Bounds.Contains(LocalPos) == false) continue;
+
+				if (Instance.ActiveMatricesList[i].Matrix == Instance.spaceMatrix) continue;
+				if (Instance.ActiveMatricesList[i].Matrix.IsEmptyAt(LocalPos, isServer) == false)
 				{
-					return matrixInfo;
+					return Instance.ActiveMatricesList[i];
 				}
 			}
 
@@ -326,15 +313,17 @@ public partial class MatrixManager : MonoBehaviour
 
 		if (layerMask != LayerTypeSelection.None)
 		{
-			foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+			foreach (var matrixInfo in Instance.ActiveMatricesList)
 			{
-				if (LineIntersectsRect(Worldorigin, (Vector2) WorldTo, matrixInfo.WorldBounds))
+				var Localorigin = Worldorigin.ToLocal(matrixInfo.Matrix);
+				var LocalTo = WorldTo.Value.ToLocal(matrixInfo.Matrix);
+
+				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.Bounds))
 				{
-					Checkhit = matrixInfo.MetaTileMap.Raycast(Worldorigin.ToLocal(matrixInfo.Matrix), Vector2.zero,
+					Checkhit = matrixInfo.MetaTileMap.Raycast(Localorigin, Vector2.zero,
 						distance,
 						layerMask,
-						WorldTo.Value.ToLocal(matrixInfo.Matrix), tileNamesToIgnore);
-
+						LocalTo, tileNamesToIgnore);
 
 					if (Checkhit != null)
 					{
@@ -377,6 +366,8 @@ public partial class MatrixManager : MonoBehaviour
 
 		return ClosestHit.Value;
 	}
+
+
 
 	public struct CustomPhysicsHit
 	{
@@ -479,7 +470,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static void ListAllMatrices()
 	{
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		foreach (var matrixInfo in Instance.ActiveMatricesList)
 		{
 			Logger.Log("MATRIX: " + matrixInfo.Name, Category.Matrix);
 		}
@@ -534,7 +525,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
 	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices.Values)
+		foreach (MatrixInfo mat in Instance.ActiveMatricesList)
 		{
 			if (mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -558,7 +549,7 @@ public partial class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices.Values)
+		foreach (MatrixInfo mat in Instance.ActiveMatricesList)
 		{
 			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
 			{
@@ -586,7 +577,7 @@ public partial class MatrixManager : MonoBehaviour
 		// Gets the list of Matrixes to actually check
 		MatrixInfo[] includeList = excludeList != null
 			? ExcludeFromAllMatrixes(excludeList)
-			: Instance.ActiveMatrices.Values.ToArray();
+			: Instance.ActiveMatricesList.ToArray();
 
 		return AllMatchInternal(mat =>
 				mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat),
@@ -757,7 +748,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
 	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
 	{
-		foreach (var mat in Instance.ActiveMatrices.Values)
+		foreach (var mat in Instance.ActiveMatricesList)
 		{
 			if (mat == null) continue;
 
@@ -800,7 +791,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// <param name="worldPosition">Position where the update is triggered.</param>
 	public static void TriggerSubsystemUpdateAt(Vector3Int worldPosition)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices.Values)
+		foreach (MatrixInfo mat in Instance.ActiveMatricesList)
 		{
 			Vector3Int position = WorldToLocalInt(worldPosition, mat);
 
@@ -944,7 +935,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		foreach (var matrixInfo in Instance.ActiveMatricesList)
 		{
 			var position = WorldToLocalInt(worldPos, matrixInfo);
 			t.AddRange(matrixInfo.Matrix.Get<T>(position, isServer));
@@ -957,7 +948,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static List<T> GetAs<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		foreach (var matrixInfo in Instance.ActiveMatricesList)
 		{
 			var position = WorldToLocalInt(worldPos, matrixInfo);
 			t.AddRange(matrixInfo.Matrix.GetAs<T>(position, isServer));
@@ -1046,7 +1037,7 @@ public partial class MatrixManager : MonoBehaviour
 	// By default will just check every Matrix
 	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition)
 	{
-		return AllMatchInternal(condition, Instance.ActiveMatrices.Values.ToArray());
+		return AllMatchInternal(condition, Instance.ActiveMatricesList.ToArray());
 	}
 
 	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
@@ -1064,7 +1055,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition)
 	{
-		return AnyMatchInternal(condition, Instance.ActiveMatrices.Values.ToArray());
+		return AnyMatchInternal(condition, Instance.ActiveMatricesList.ToArray());
 	}
 
 	public static bool IsTableAtAnyMatrix(Vector3Int worldTarget, bool isServer)
@@ -1096,7 +1087,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// </Summary>
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		foreach (var matrixInfo in ActiveMatrices.Values)
+		foreach (var matrixInfo in ActiveMatricesList)
 		{
 			T first = matrixInfo.Matrix.GetFirst<T>(WorldToLocalInt(position, matrixInfo), isServer);
 			if (first)
@@ -1144,7 +1135,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		foreach (var matrixInfo in Instance.ActiveMatricesList)
 		{
 			if (condition(matrixInfo))
 			{
@@ -1159,7 +1150,7 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		var matrixList = new MatrixInfo[Instance.ActiveMatrices.Count - excludeIDs.Length];
 		var index = 0;
-		foreach (var matrixInfo in Instance.ActiveMatrices.Values)
+		foreach (var matrixInfo in Instance.ActiveMatricesList)
 		{
 			var addMe = true;
 			foreach (var excludeID in excludeIDs)
