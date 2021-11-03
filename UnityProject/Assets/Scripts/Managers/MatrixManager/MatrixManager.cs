@@ -39,6 +39,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public List<MatrixInfo> ActiveMatricesList  { get; private set; } = new List<MatrixInfo>();
 
+	public Dictionary<Scene, List<Matrix>> InitializingMatrixes = new Dictionary<Scene, List<Matrix>>();
+
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
 	public static bool IsInitialized;
@@ -85,6 +87,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		movingMatrices.Clear();
 		wallsTileMaps.Clear();
 		trackedIntersections.Clear();
+		InitializingMatrixes.Clear();
 	}
 
 	public IEnumerator RegisterWhenReady(Matrix matrix)
@@ -114,7 +117,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 		else
 		{
-			if (SubSceneManager.Instance.loadedScenesList.Count == ActiveMatrices.Count)
+			if (AreAllMatrixReady())
 			{
 				if (IsInitialized)
 				{
@@ -129,6 +132,27 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 	}
 
+	private bool AreAllMatrixReady()
+	{
+		if (SubSceneManager.Instance.loadedScenesList.Count != InitializingMatrixes.Count)
+		{
+			return false;
+		}
+
+		foreach (var matrixList in InitializingMatrixes.Values)
+		{
+			foreach (var matrix in matrixList)
+			{
+				if (matrix.Initialized == false)
+				{
+					return false;
+				}
+			}
+		}
+		InitializingMatrixes.Clear();
+		return true;
+	}
+
 	[Server]
 	private void OnScenesLoaded()
 	{
@@ -138,7 +162,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	[Server]
 	private IEnumerator WaitForAllMatrices()
 	{
-		while (SubSceneManager.Instance.loadedScenesList.Count > ActiveMatrices.Count)
+		while (AreAllMatrixReady() == false)
 		{
 			yield return null;
 		}

@@ -111,6 +111,14 @@ public class Matrix : MonoBehaviour
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
+
+		if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
+		{
+			MatrixManager.Instance.InitializingMatrixes.Add(gameObject.scene, new List<Matrix>());
+		}
+		MatrixManager.Instance.InitializingMatrixes[gameObject.scene].Add(this);
+
+
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{
 			var cellPos = metaTileMap.WorldToCell(worldPos);
