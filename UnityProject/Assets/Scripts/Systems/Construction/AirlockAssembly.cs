@@ -11,12 +11,20 @@ namespace Objects.Construction
 	public class AirlockAssembly : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField, PrefabModeOnly]
-		[Tooltip("Game object which represents the fill layer of this door")]
+		[Tooltip("Game object which represents the fill layer of this airlock")]
 		private GameObject overlayFill = null;
 
 		[SerializeField, PrefabModeOnly]
-		[Tooltip("Game object which represents the hacking panel layer for this door")]
+		[Tooltip("Game object which represents the hacking panel layer for this airlock")]
 		private GameObject overlayHacking = null;
+
+		[Tooltip("Airlock to spawn.")]
+		[SerializeField]
+		private GameObject airlockToSpawn = null;
+
+		[Tooltip("Airlock windowed to spawn.")]
+		[SerializeField]
+		private GameObject airlockWindowedToSpawn = null;
 
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState wrenchedState = null;
@@ -32,6 +40,8 @@ namespace Objects.Construction
 		private ObjectBehaviour objectBehaviour;
 		private Integrity integrity;
 
+		private bool glassAdded = false;
+
 		private void Awake()
 		{
 			airlockElectronicsSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
@@ -45,7 +55,7 @@ namespace Objects.Construction
 
 			integrity = GetComponent<Integrity>();
 
-			//integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}
 
 		/// <summary>
@@ -71,7 +81,8 @@ namespace Objects.Construction
 			{
 				//add 9 cables or unwrench the airlock
 				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 9)) ||
-					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
+					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) || (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
+					Validations.HasUsedAtLeast(interaction, 1) && !glassAdded && airlockWindowedToSpawn);
 			}
 			else if (CurrentState == cablesAddedState)
 			{
@@ -125,26 +136,26 @@ namespace Objects.Construction
 				{
 					//wrench in place
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-						"You start wrenching the airlock into place...",
-						$"{interaction.Performer.ExpensiveName()} starts wrenching the airlock into place...",
-						"You wrench the airlock into place.",
-						$"{interaction.Performer.ExpensiveName()} wrenches the airlock into place.",
+						"You start to secure the airlock assembly to the floor...",
+						$"{interaction.Performer.ExpensiveName()} starts to secure the airlock assembly to the floor...",
+						"You secure the airlock assembly.",
+						$"{interaction.Performer.ExpensiveName()} secures the airlock assembly to the floor.",
 						() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
 					stateful.ServerChangeState(wrenchedState);
 				}
 				else
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, "Unable to wrench frame");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "Unable to secure airlock assembly");
 				}
 			}
 			else if (Validations.HasUsedActiveWelder(interaction))
 			{
 				//deconsruct, spawn 5 metals
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-					"You start deconstructing the frame...",
-					$"{interaction.Performer.ExpensiveName()} starts deconstructing the frame...",
-					"You deconstruct the frame.",
-					$"{interaction.Performer.ExpensiveName()} deconstructs the frame.",
+					"You start to disassemble the airlock assembly...",
+					$"{interaction.Performer.ExpensiveName()} starts to disassemble the airlock assembly...",
+					"You disassemble the airlock assembly.",
+					$"{interaction.Performer.ExpensiveName()} disassembles the airlock assembly.",
 					() =>
 					{
 						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
@@ -164,10 +175,10 @@ namespace Objects.Construction
 			{
 				//add 5 cables
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-					"You start adding cables to the airlock...",
-					$"{interaction.Performer.ExpensiveName()} starts adding cables to the airlock...",
+					"You start adding cables to the airlock assembly...",
+					$"{interaction.Performer.ExpensiveName()} starts adding cables to the airlock assembly...",
 					"You add cables to the airlock.",
-					$"{interaction.Performer.ExpensiveName()} adds cables to the airlock.",
+					$"{interaction.Performer.ExpensiveName()} adds cables to the airlock assembly.",
 					() =>
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 9);
@@ -179,12 +190,28 @@ namespace Objects.Construction
 			{
 				//unwrench
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-					"You start to unfasten the airlock...",
-					$"{interaction.Performer.ExpensiveName()} starts to unfasten the airlock...",
-					"You unfasten the airlock.",
-					$"{interaction.Performer.ExpensiveName()} unfastens the airlock.",
+					"You start to unsecure the airlock assembly from the floor...",
+					$"{interaction.Performer.ExpensiveName()} starts to unsecure the airlock assembly from the floor...",
+					"You unsecure the airlock assembly.",
+					$"{interaction.Performer.ExpensiveName()} unsecures the airlock assembly from the floor.",
 					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 				stateful.ServerChangeState(initialState);
+			}
+			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
+						 Validations.HasUsedAtLeast(interaction, 1) && !glassAdded && airlockWindowedToSpawn)
+			{
+				//add glass
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start to install glass into the airlock assembly...",
+					$"{interaction.Performer.ExpensiveName()} starts to install glass into the airlock assembly...",
+					"You install glass windows into the airlock assembly.",
+					$"{interaction.Performer.ExpensiveName()} installs glass windows into the airlock assembly.",
+					() =>
+					{
+						Inventory.ServerConsume(interaction.HandSlot, 1);
+						overlayFillHandler.ChangeSprite((int)Fill.GlassFill);
+						glassAdded = true;
+					});
 			}
 		}
 
@@ -197,10 +224,10 @@ namespace Objects.Construction
 			if (Validations.HasUsedComponent<AirlockElectronics>(interaction) && airlockElectronicsSlot.IsEmpty)
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-					"You start adding electronics to the airlock...",
-					$"{interaction.Performer.ExpensiveName()} starts adding electronics to the airlock...",
-					"You add electronics to the airlock.",
-					$"{interaction.Performer.ExpensiveName()} adds electronics to the airlock.",
+					"You start to install electronics into the airlock assembly...",
+					$"{interaction.Performer.ExpensiveName()} starts to install the electronics into the airlock assembly...",
+					"You install the airlock electronics.",
+					$"{interaction.Performer.ExpensiveName()} installs the electronics into the airlock assembly.",
 					() =>
 					{
 						if(Inventory.ServerTransfer(interaction.HandSlot, airlockElectronicsSlot))
@@ -213,12 +240,17 @@ namespace Objects.Construction
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
 			{
 				//cut out cables
-				Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
-					$"{interaction.Performer.ExpensiveName()} removes the cables.");
-				ToolUtils.ServerPlayToolSound(interaction);
-				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 9);
-				stateful.ServerChangeState(wrenchedState);
-				overlayHackingHandler.ChangeSprite((int)Panel.EmptyPanel);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start to cut the cables from the airlock assembly...",
+					$"{interaction.Performer.ExpensiveName()} starts to cut the cables from the airlock assembly...",
+					"You cut the cables from the airlock assembly.",
+					$"{interaction.Performer.ExpensiveName()} cuts the cables from the airlock assembly.",
+					() =>
+					{
+						Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 9);
+						stateful.ServerChangeState(wrenchedState);
+						overlayHackingHandler.ChangeSprite((int)Panel.EmptyPanel);
+					});
 			}
 		}
 
@@ -231,19 +263,38 @@ namespace Objects.Construction
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && airlockElectronicsSlot.IsOccupied)
 			{
 				//screw in the airlock electronics
-				Chat.AddActionMsgToChat(interaction, $"You screw {airlockElectronicsSlot.ItemObject.ExpensiveName()} into place.",
-					$"{interaction.Performer.ExpensiveName()} screws {airlockElectronicsSlot.ItemObject.ExpensiveName()} into place.");
-				ToolUtils.ServerPlayToolSound(interaction);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					$"You start to screw the {airlockElectronicsSlot.ItemObject.ExpensiveName()} into place...",
+					$"{interaction.Performer.ExpensiveName()} starts to screw the {airlockElectronicsSlot.ItemObject.ExpensiveName()} into place...",
+					"You finish the airlock.",
+					$"{interaction.Performer.ExpensiveName()} finishes the airlock.",
+					() =>
+					{
+						if (glassAdded && airlockWindowedToSpawn)
+						{
+							Spawn.ServerPrefab(airlockWindowedToSpawn, SpawnDestination.At(gameObject));
+						}
+						else
+						{
+							Spawn.ServerPrefab(airlockToSpawn, SpawnDestination.At(gameObject));
+						}
+						_ = Despawn.ServerSingle(gameObject);
+					});
 			}
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && airlockElectronicsSlot.IsOccupied)
 			{
 				//Crowbar the electronics out
-				Chat.AddActionMsgToChat(interaction, $"You remove the {airlockElectronicsSlot.ItemObject.ExpensiveName()} from the airlock.",
-					$"{interaction.Performer.ExpensiveName()} removes the {airlockElectronicsSlot.ItemObject.ExpensiveName()} from the airlcok.");
-				ToolUtils.ServerPlayToolSound(interaction);
-				Inventory.ServerDrop(airlockElectronicsSlot);
-				stateful.ServerChangeState(cablesAddedState);
-				overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start to remove electronics from the airlock assembly...",
+					$"{interaction.Performer.ExpensiveName()} starts to remove electronics from the airlock assembly...",
+					"You remove the airlock electronics from the airlock assembly.",
+					$"{interaction.Performer.ExpensiveName()} removes the electronics from the airlock assembly.",
+					() =>
+					{
+						Inventory.ServerDrop(airlockElectronicsSlot);
+						stateful.ServerChangeState(cablesAddedState);
+						overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+					});
 			}
 		}
 
@@ -252,12 +303,12 @@ namespace Objects.Construction
 			string msg = "";
 			if (CurrentState == initialState)
 			{
-				msg = "Use a wrench to secure the airlock to the floor, or a welder to deconstruct it.\n";
+				msg = "Use a wrench to secure the airlock assembly to the floor, or a welder to deconstruct it.\n";
 			}
 
 			if (CurrentState == wrenchedState)
 			{
-				msg = " Add 9 wires to continue construction, or use wrench to unfasten the airlock.\n";
+				msg = "Add 9 wires to continue construction or use wrench to unsecure the airlock assembly. You can add glass to make a window in the airlock.\n";
 			}
 
 			if (CurrentState == cablesAddedState)
@@ -271,6 +322,30 @@ namespace Objects.Construction
 			}
 
 			return msg;
+		}
+
+		public void WhenDestroyed(DestructionInfo info)
+		{
+			if (airlockElectronicsSlot.IsOccupied)
+			{
+				Inventory.ServerDrop(airlockElectronicsSlot);
+			}
+
+			if (glassAdded)
+			{
+				Spawn.ServerPrefab(CommonPrefabs.Instance.GlassShard, SpawnDestination.At(gameObject));
+			}
+
+			if (CurrentState != wrenchedState && CurrentState != initialState)
+			{
+				//1-5
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
+			}
+
+			//1-3
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 4));
+
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}
 
 		public enum Panel

@@ -25,11 +25,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d317f959a23cb6146ab5b4b2af996846,
         type: 2}
+    - target: {fileID: 459137905406169173, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c228f190f61e2554e8f2504ed0294805,
+        type: 3}
     - target: {fileID: 492649207374439926, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: initialName
       value: bronze airlock assembly
       objectReference: {fileID: 0}
+    - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 66246211da5a7a741873f1104075eda1,
+        type: 2}
     - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
@@ -53,6 +65,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f998c8bf4fcc510488c4d25d731c639e,
         type: 2}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockToSpawn
+      value: 
+      objectReference: {fileID: 4393903081075276977, guid: a1a2a7a3ddb6ace4990c5448161ab6e8,
+        type: 3}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockWindowedToSpawn
+      value: 
+      objectReference: {fileID: 4108223514464221015, guid: d17a3dd9833a3ad479599a753de686ed,
+        type: 3}
     - target: {fileID: 6125502474817307791, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: foreverID
