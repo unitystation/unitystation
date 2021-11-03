@@ -24,9 +24,9 @@ namespace Systems.Explosions
 		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance)
 		{
 
-			AddressableAudioSource explosionSound = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
-			AddressableAudioSource groanSound     = STATION_GROAN_SOUNDS[Random.Range(0, STATION_GROAN_SOUNDS.Length)];
-			AddressableAudioSource distantSound   = DISTANT_EXPLOSION_SOUNDS[Random.Range(0, DISTANT_EXPLOSION_SOUNDS.Length)];
+			AddressableAudioSource explosionSound = EXPLOSION_SOUNDS.PickRandom();
+			AddressableAudioSource groanSound     = STATION_GROAN_SOUNDS.PickRandom();
+			AddressableAudioSource distantSound   = DISTANT_EXPLOSION_SOUNDS.PickRandom();
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
 			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
 
