@@ -2,9 +2,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using Objects.Machines;
 
-public class CraftingManager : MonoBehaviour
+public class CraftingManager : SingletonManager<CraftingManager>
 {
 	private static CraftingManager craftingManager;
 	[SerializeField] private CraftingDatabase meals = new CraftingDatabase();
@@ -29,25 +30,14 @@ public class CraftingManager : MonoBehaviour
 	public static GrinderDatabase Grind => Instance.grind;
 	public static CraftingDatabase Mix => Instance.mix;
 
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
+
 		MaterialSheetData.Clear();
 		foreach (var material in MaterialSheetList)
 		{
 			MaterialSheetData.Add(material.materialTrait, material);
-		}
-	}
-
-	public static CraftingManager Instance
-	{
-		get
-		{
-			if (!craftingManager)
-			{
-				craftingManager = FindObjectOfType<CraftingManager>();
-			}
-
-			return craftingManager;
 		}
 	}
 

@@ -7,18 +7,15 @@ using System.Linq;
 using Mirror;
 using Newtonsoft.Json;
 using System.Globalization;
+using Managers;
 using Messages.Client;
 using Messages.Client.Admin;
 using Messages.Server;
 
 namespace AdminTools
 {
-	public class KickBanEntryPage : MonoBehaviour
+	public class KickBanEntryPage : SingletonManager<KickBanEntryPage>
 	{
-		private static KickBanEntryPage instance;
-
-		public static KickBanEntryPage Instance => instance;
-
 		[SerializeField] private GameObject kickPage = null;
 		[SerializeField] private GameObject banPage = null;
 		[SerializeField] private GameObject jobBanPage = null;
@@ -80,18 +77,6 @@ namespace AdminTools
 			}
 
 			gameObject.SetActive(true);
-		}
-
-		private void Awake()
-		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
 		}
 
 		private void Start()
@@ -249,7 +234,7 @@ namespace AdminTools
 				//client Stuff here
 				var bans = JsonConvert.DeserializeObject<List<JobBanEntry>>(msg.JobBanEntries);
 
-				foreach (var jobObject in KickBanEntryPage.instance.jobBanJobTypeListObjects)
+				foreach (var jobObject in Instance.jobBanJobTypeListObjects)
 				{
 					jobObject.toBeBanned.isOn = false;
 
