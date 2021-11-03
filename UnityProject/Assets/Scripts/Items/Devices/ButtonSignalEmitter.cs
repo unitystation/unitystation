@@ -19,6 +19,12 @@ namespace Items
 			}
 		}
 
+		protected override bool SendSignalLogic()
+		{
+			if(signalData == null) return false;
+			return true;
+		}
+
 		public override void SignalFailed()
 		{
 			Chat.AddLocalMsgToChat("Bzzt!", gameObject);
@@ -26,7 +32,7 @@ namespace Items
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			base.SendSignal();
+			SendSignal();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

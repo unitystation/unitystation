@@ -7,10 +7,10 @@ using Mirror;
 
 namespace Communications
 {
-	public class SignalEmitter : NetworkBehaviour
+	public abstract class SignalEmitter : NetworkBehaviour
 	{
-		[SerializeField] private SignalDataSO signalData;
-		private float frequency = 122f;
+		[SerializeField] protected SignalDataSO signalData;
+		[SerializeField] protected float frequency = 122f;
 
 		public float Frequency
 		{
@@ -21,16 +21,26 @@ namespace Communications
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver
 		/// </summary>
-		public virtual void SendSignal()
+		public void SendSignal()
 		{
-			if(signalData == null) return;
-			SignalsManager.Instance.SendSignal(this, signalData.EmittedSignalType, signalData);
+			if (SendSignalLogic())
+			{
+				SignalsManager.Instance.SendSignal(this, signalData.EmittedSignalType, signalData);
+				return;
+			}
+			SignalFailed();
 		}
+
+		/// <summary>
+		/// All the checks and logic that needs to be implemented to send a signal to a receiver.
+		/// if false, a signal won't be sent.
+		/// </summary>
+		protected abstract bool SendSignalLogic();
 
 		/// <summary>
 		/// If for whatever reason the signal fails and we want to do something afterwards.
 		/// </summary>
-		public virtual void SignalFailed() { }
+		public abstract void SignalFailed();
 
 	}
 }

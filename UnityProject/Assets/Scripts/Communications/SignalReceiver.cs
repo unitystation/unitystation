@@ -8,7 +8,7 @@ using ScriptableObjects.Communications;
 
 namespace Communications
 {
-	public class SignalReceiver : NetworkBehaviour
+	public abstract class SignalReceiver : NetworkBehaviour
 	{
 		public SignalType SignalTypeToReceive = SignalType.PING;
 		public float Frequency = 122F;
@@ -31,11 +31,11 @@ namespace Communications
 		/// <summary>
 		/// Logic to do when
 		/// </summary>
-		public virtual void ReceiveSignal(SignalStrength strength) { }
+		public abstract void ReceiveSignal(SignalStrength strength);
 
 
 		/// <summary>
-		/// Not required. If ReceiveSignal logic has been succesful we can respond to the emitter with some logic.
+		/// Optional. If ReceiveSignal logic has been succesful we can respond to the emitter with some logic.
 		/// </summary>
 		public virtual void Respond(SignalEmitter signalEmitter) { }
 	}
