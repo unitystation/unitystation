@@ -63,7 +63,7 @@ namespace UI.Objects.Disposals
 
 		private void ServerUpdatePressureSpinner()
 		{
-			StoredPressureSpinner.ServerSpinTo(bin.ChargePressure);
+			StoredPressureSpinner.ServerSpinTo(Mathf.FloorToInt(bin.ChargePressure));
 		}
 
 		private void ServerSetButtonsAndLEDsByState()

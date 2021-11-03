@@ -133,8 +133,9 @@ GameObject:
   - component: {fileID: 2083068662276464495}
   - component: {fileID: 7670393869610928267}
   - component: {fileID: 9128197607768152992}
+  - component: {fileID: 7336153530023379248}
   m_Layer: 11
-  m_Name: DNA_Scanner
+  m_Name: DNAScanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,6 +271,7 @@ MonoBehaviour:
   initialDescription: It scans DNA structures.
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &114039584032850022
@@ -294,6 +296,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -343,6 +346,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -452,6 +456,7 @@ MonoBehaviour:
   isWeldable: 0
   breakoutTime: 120
   hideLockWhenOpened: 1
+  isOnlySealedWhenWelded: 0
   matsOnDestroy: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
     type: 3}
   matsDroppedOnDestroy: 2
@@ -465,6 +470,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundOnClose:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
@@ -472,6 +478,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundOnEmag:
     SetLoadSetting: 0
     AssetAddress: null
@@ -479,6 +486,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundOnEscapeAttempt:
     SetLoadSetting: 0
     AssetAddress: null
@@ -486,6 +494,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundOnEscape:
     SetLoadSetting: 0
     AssetAddress: null
@@ -493,6 +502,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &9128197607768152992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,3 +518,31 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   statusString: 
+--- !u!114 &7336153530023379248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  StoredGasMix:
+    GasData:
+      GasesArray:
+      - GasSO: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
+        Moles: 8.314244
+      - GasSO: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
+        Moles: 33.256973
+    Pressure: 101.32501
+    Volume: 1
+    Temperature: 293.15
+  MaximumMoles: 1013.25
+  ReleasePressure: 101.325
+  Volume: 1
+  Temperature: 293.15
