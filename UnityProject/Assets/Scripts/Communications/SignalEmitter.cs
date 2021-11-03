@@ -21,7 +21,7 @@ namespace Communications
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver
 		/// </summary>
-		public void SendSignal()
+		public void TrySendSignal()
 		{
 			if (SendSignalLogic())
 			{

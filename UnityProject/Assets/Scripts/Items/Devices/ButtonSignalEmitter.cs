@@ -32,7 +32,7 @@ namespace Items
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			SendSignal();
+			TrySendSignal();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
