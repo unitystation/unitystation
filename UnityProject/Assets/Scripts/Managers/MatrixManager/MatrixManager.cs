@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Chemistry;
 using Doors;
 using TileManagement;
@@ -280,27 +278,20 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		try
+
+		for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
 		{
-			for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
+			var LocalPos = WorldToLocalInt(worldPos, Instance.ActiveMatricesList[i]);
+			if (Instance.ActiveMatricesList[i].Bounds.Contains(LocalPos) == false) continue;
+
+			if (Instance.ActiveMatricesList[i].Matrix == Instance.spaceMatrix) continue;
+			if (Instance.ActiveMatricesList[i].Matrix.IsEmptyAt(LocalPos, isServer) == false)
 			{
-				var LocalPos = WorldToLocalInt(worldPos, Instance.ActiveMatricesList[i]);
-				if (Instance.ActiveMatricesList[i].Bounds.Contains(LocalPos) == false) continue;
-
-				if (Instance.ActiveMatricesList[i].Matrix == Instance.spaceMatrix) continue;
-				if (Instance.ActiveMatricesList[i].Matrix.IsEmptyAt(LocalPos, isServer) == false)
-				{
-					return Instance.ActiveMatricesList[i];
-				}
+				return Instance.ActiveMatricesList[i];
 			}
+		}
 
-			return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
-		}
-		catch (NullReferenceException exception)
-		{
-			Logger.LogError("Caught an NRE on client in MatrixManager.AtPoint() " + exception.Message, Category.Matrix);
-			return null;
-		}
+		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
 	}
 
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
@@ -492,59 +483,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return true;
 	}
 
-	public static void ListAllMatrices()
-	{
-		foreach (var matrixInfo in Instance.ActiveMatricesList)
-		{
-			Logger.Log("MATRIX: " + matrixInfo.Name, Category.Matrix);
-		}
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsFloatingAt(Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsNonStickyAt(WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt"/>
-	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
-	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	/// <summary>
-	/// Server only.
-	/// Returns true if it's slippery or no gravity at provided position.
-	/// </summary>
-	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos)
-	{
-		return IsSlipperyAt(worldPos) || IsNoGravityAt(worldPos, isServer: true);
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
-	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat =>
-			mat.Matrix.IsFloatingAt(new[] {context}, WorldToLocalInt(worldPos, mat), isServer));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsFloatingAt(context, WorldToLocalInt(worldPos, mat), isServer));
-	}
-
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
 	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer)
@@ -583,35 +521,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		return true;
 	}
-
-	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
-	public static bool HasAnyDepartureBlockedAnyMatrix(Vector3Int to, bool isServer, RegisterTile context)
-	{
-		return AnyMatchInternal(mat =>
-			mat.Matrix.HasAnyDepartureBlockedOneMatrix(WorldToLocalInt(to, mat), isServer, context));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
-	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
-	public static bool IsPassableAtAllMatrices(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
-		int[] excludeList = null, List<LayerType> excludeLayers = null, bool isReach = false,
-		bool onlyExcludeLayerOnDestination = false)
-	{
-		// Gets the list of Matrixes to actually check
-		MatrixInfo[] includeList = excludeList != null
-			? ExcludeFromAllMatrixes(excludeList)
-			: Instance.ActiveMatricesList.ToArray();
-
-		return AllMatchInternal(mat =>
-				mat.Matrix.IsPassableAtOneMatrix(WorldToLocalInt(worldOrigin, mat), WorldToLocalInt(worldTarget, mat),
-					isServer,
-					collisionType: collisionType, includingPlayers: includingPlayers, context: context,
-					excludeLayers: excludeLayers, isReach: isReach,
-					onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination),
-			includeList);
-	}
-
 
 	/// <summary>
 	/// Server only.
@@ -927,34 +836,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		       IsAtmosPassableAt(worldTarget, isServer) == false;
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Vector3Int"/>
-	public static bool IsPassableAtAllMatricesOneTile(Vector3Int worldTarget, bool isServer,
-		bool includingPlayers = true,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null,
-		bool ignoreObjects = false,
-		bool onlyExcludeLayerOnDestination = false)
-	{
-		return AllMatchInternal(mat =>
-			mat.Matrix.IsPassableAtOneMatrixOneTile(WorldToLocalInt(worldTarget, mat), isServer, includingPlayers,
-				excludeLayers, excludeTiles, context, ignoreObjects, onlyExcludeLayerOnDestination));
-	}
-
-	/// <summary>
-	/// Serverside only: checks if tile is slippery
-	/// </summary>
-	public static bool IsSlipperyAt(Vector3Int worldPos)
-	{
-		return AnyMatchInternal(mat => mat.MetaDataLayer.IsSlipperyAt(WorldToLocalInt(worldPos, mat)));
-	}
-
-	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsAtmosPassableAt(Vector3Int worldTarget, bool isServer)
-	{
-		return AllMatchInternal(mat => mat.Matrix.IsAtmosPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
-	}
-
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
@@ -1045,11 +926,62 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return GetAt<T>((Vector3Int) targetObject.TileWorldPosition(), side == NetworkSide.Server);
 	}
 
-	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Vector3Int"/>
+	public static bool IsPassableAtAllMatricesOneTile(Vector3Int worldPos, bool isServer,
+		bool includingPlayers = true,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null,
+		bool ignoreObjects = false,
+		bool onlyExcludeLayerOnDestination = false)
 	{
-		for (var i = 0; i < matrixInfos.Length; i++)
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsPassableAtOneMatrixOneTile(localPos, isServer, includingPlayers,
+			excludeLayers, excludeTiles, context, ignoreObjects, onlyExcludeLayerOnDestination);
+		return value;
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	public static bool IsPassableAtAllMatrices(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer,
+		CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null,
+		MatrixInfo excludeMatrix = null, List<LayerType> excludeLayers = null, bool isReach = false,
+		bool onlyExcludeLayerOnDestination = false)
+	{
+		var matrixOrigin = AtPoint(worldOrigin, isServer);
+		var matrixTarget = AtPoint(worldTarget, isServer);
+		if (excludeMatrix != null)
 		{
-			if (condition(matrixInfos[i]) == false)
+			if (excludeMatrix == matrixOrigin)
+			{
+				matrixOrigin = Instance.spaceMatrix.MatrixInfo;
+			}
+			if (excludeMatrix == matrixTarget)
+			{
+				matrixTarget = Instance.spaceMatrix.MatrixInfo;
+			}
+		}
+
+		var localPosOrigin = WorldToLocalInt(worldOrigin, matrixOrigin);
+		var localPosTarget = WorldToLocalInt(worldTarget, matrixOrigin);
+
+		var value = matrixOrigin.Matrix.IsPassableAtOneMatrix(localPosOrigin, localPosTarget, isServer,
+			collisionType, includingPlayers, context, excludeLayers, isReach: isReach,
+			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
+		if (value == false)
+		{
+			return false;
+		}
+
+		if (matrixOrigin != matrixTarget)
+		{
+			localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
+			localPosTarget = WorldToLocalInt(worldTarget, matrixTarget);
+
+			value = matrixTarget.Matrix.IsPassableAtOneMatrix(localPosOrigin, localPosTarget, isServer,
+				collisionType, includingPlayers, context, excludeLayers, isReach: isReach,
+				onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
+			if (value == false)
 			{
 				return false;
 			}
@@ -1058,51 +990,114 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return true;
 	}
 
-	// By default will just check every Matrix
-	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition)
+	public static bool IsTableAt(Vector3Int worldPos, bool isServer)
 	{
-		return AllMatchInternal(condition, Instance.ActiveMatricesList.ToArray());
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsTableAt(localPos, isServer);
+		return value;
 	}
 
-	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
+	public static bool IsWallAt(Vector3Int worldPos, bool isServer)
 	{
-		for (var i = 0; i < matrixInfos.Length; i++)
-		{
-			if (condition(matrixInfos[i]))
-			{
-				return true;
-			}
-		}
-
-		return false;
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsWallAt(localPos, isServer);
+		return value;
 	}
 
-	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition)
+	public static bool IsWindowAt(Vector3Int worldPos, bool isServer)
 	{
-		return AnyMatchInternal(condition, Instance.ActiveMatricesList.ToArray());
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsWindowAt(localPos, isServer);
+		return value;
 	}
 
-	public static bool IsTableAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	public static bool IsGrillAt(Vector3Int worldPos, bool isServer)
 	{
-		return AnyMatchInternal(mat =>
-			mat != null && mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer));
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsGrillAt(localPos, isServer);
+		return value;
 	}
 
-	public static bool IsWallAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	/// <summary>
+	/// Serverside only: checks if tile is slippery
+	/// </summary>
+	[Server]
+	public static bool IsSlipperyAt(Vector3Int worldPos)
 	{
-		return AnyMatchInternal(mat => mat != null && mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer));
+		var matrixInfo = AtPoint(worldPos, true);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.MetaDataLayer.IsSlipperyAt(localPos);
+		return value;
 	}
 
-	public static bool IsWindowAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	/// <inheritdoc cref="ObjectLayer.HasAnyDepartureBlockedByRegisterTile(Vector3Int, bool, RegisterTile)"/>
+	public static bool HasAnyDepartureBlockedAt(Vector3Int worldPos, bool isServer, RegisterTile context)
 	{
-		return AnyMatchInternal(
-			mat => mat != null && mat.Matrix.IsWindowAt(WorldToLocalInt(worldTarget, mat), isServer));
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.HasAnyDepartureBlockedOneMatrix(localPos, isServer, context);
+		return value;
 	}
 
-	public static bool IsGrillAtAnyMatrix(Vector3Int worldTarget, bool isServer)
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
+	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer)
 	{
-		return AnyMatchInternal(mat =>
-			mat != null && mat.Matrix.IsGrillAt(WorldToLocalInt(worldTarget, mat), isServer));
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsNonStickyAt(localPos, isServer);
+		return value;
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt"/>
+	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
+	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsNoGravityAt(localPos, isServer);
+		return value;
+	}
+
+	/// <summary>
+	/// Server only.
+	/// Returns true if it's slippery or no gravity at provided position.
+	/// </summary>
+	[Server]
+	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos)
+	{
+		return IsSlipperyAt(worldPos) || IsNoGravityAt(worldPos, true);
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
+	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)
+	{
+		return IsFloatingAt(new[] {context}, worldPos, isServer);
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
+	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsFloatingAt(context, localPos, isServer);
+		return value;
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	public static bool IsAtmosPassableAt(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsAtmosPassableAt(localPos, isServer);
+		return value;
 	}
 
 	/// <Summary>
@@ -1168,32 +1163,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		return MatrixInfo.Invalid;
-	}
-
-	public static MatrixInfo[] ExcludeFromAllMatrixes(int[] excludeIDs)
-	{
-		var matrixList = new MatrixInfo[Instance.ActiveMatrices.Count - excludeIDs.Length];
-		var index = 0;
-		foreach (var matrixInfo in Instance.ActiveMatricesList)
-		{
-			var addMe = true;
-			foreach (var excludeID in excludeIDs)
-			{
-				if (matrixInfo.Id == excludeID)
-				{
-					addMe = false;
-					break;
-				}
-			}
-
-			if (addMe)
-			{
-				matrixList[index] = matrixInfo;
-				index++;
-			}
-		}
-
-		return matrixList;
 	}
 
 	/// <summary>

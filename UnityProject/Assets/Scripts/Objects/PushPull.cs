@@ -1015,7 +1015,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		{
 			// orthogonal movement
 			if (registerTile.IsPassableFromInside(-dir, serverSide) == false
-				&& MatrixManager.HasAnyDepartureBlockedAnyMatrix(from - dir, serverSide, registerTile))
+				&& MatrixManager.HasAnyDepartureBlockedAt(from - dir, serverSide, registerTile))
 			{
 				return true;
 			}
@@ -1028,8 +1028,8 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 
 			if (registerTile.IsPassableFromInside(-horizontalDir, serverSide) == false
 				&& registerTile.IsPassableFromInside(-verticalDir, serverSide) == false
-				&& MatrixManager.HasAnyDepartureBlockedAnyMatrix(from-horizontalDir, serverSide, registerTile)
-				&& MatrixManager.HasAnyDepartureBlockedAnyMatrix(from - verticalDir, serverSide, registerTile))
+				&& MatrixManager.HasAnyDepartureBlockedAt(from-horizontalDir, serverSide, registerTile)
+				&& MatrixManager.HasAnyDepartureBlockedAt(from - verticalDir, serverSide, registerTile))
 			{
 				return true;
 			}
