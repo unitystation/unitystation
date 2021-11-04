@@ -100,8 +100,7 @@ namespace Messages.Client.NewPlayer
 			var spawnRequest = PlayerSpawnRequest.RequestOccupation(
 					SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), characterSettings, SentByPlayer.UserId);
 
-			GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
-			GameManager.Instance.ProcessSpawnPlayerQueue();
+			GameManager.Instance.TrySpawnPlayer(spawnRequest);
 		}
 
 		private void NotifyError(JobRequestError error, string message)

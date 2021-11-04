@@ -122,14 +122,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
-	public Queue<PlayerSpawnRequest> SpawnPlayerRequestQueue = new Queue<PlayerSpawnRequest>();
-
-	private bool QueueProcessing;
-
-	private float timeElapsedQueueCheckServer = 0;
-
-	private const float QueueCheckTimeServer = 1f;
-
 	public bool QuickLoad = false;
 
 	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
@@ -379,12 +371,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if(CustomNetworkManager.Instance._isServer == false) return;
 
-		timeElapsedQueueCheckServer += Time.deltaTime;
-		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
-		{
-			ProcessSpawnPlayerQueue();
-			timeElapsedQueueCheckServer -= QueueCheckTimeServer;
-		}
 	}
 
 	/// <summary>
@@ -611,52 +597,28 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	}
 
 	[Server]
-	public void ProcessSpawnPlayerQueue()
+	public void TrySpawnPlayer(PlayerSpawnRequest player)
 	{
-		if (QueueProcessing) return;
-
-		QueueProcessing = true;
-
-		var count = SpawnPlayerRequestQueue.Count;
-
-		if (count == 0)
+		if (player == null || player.JoinedViewer == null)
 		{
-			QueueProcessing = false;
 			return;
 		}
 
-		for(var i = 1; i <= count; i++)
+		int slotsTaken = Instance.ClientGetOccupationsCount(player.RequestedOccupation.JobType);
+		int slotsMax = Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
+		if (slotsTaken >= slotsMax)
 		{
-			var player = SpawnPlayerRequestQueue.Peek();
-
-			if (player == null || player.JoinedViewer == null)
-			{
-				SpawnPlayerRequestQueue.Dequeue();
-				continue;
-			}
-
-			int slotsTaken = GameManager.Instance.ClientGetOccupationsCount(player.RequestedOccupation.JobType);
-			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
-			if (slotsTaken >= slotsMax)
-			{
-				SpawnPlayerRequestQueue.Dequeue();
-				continue;
-			}
-
-			//regardless of their chosen occupation, they might spawn as an antag instead.
-			//If they do, bypass the normal spawn logic.
-			if (GameManager.Instance.TrySpawnAntag(player))
-			{
-				SpawnPlayerRequestQueue.Dequeue();
-				continue;
-			}
-
-			PlayerSpawn.ServerSpawnPlayer(player);
-
-			SpawnPlayerRequestQueue.Dequeue();
+			return;
 		}
 
-		QueueProcessing = false;
+		//regardless of their chosen occupation, they might spawn as an antag instead.
+		//If they do, bypass the normal spawn logic.
+		if (Instance.GameMode.TrySpawnAntag(player))
+		{
+			return;
+		}
+
+		PlayerSpawn.ServerSpawnPlayer(player);
 	}
 
 	/// <summary>

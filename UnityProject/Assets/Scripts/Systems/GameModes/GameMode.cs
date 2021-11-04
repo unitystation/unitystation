@@ -236,8 +236,8 @@ namespace GameModes
 			}
 
 			// Are there enough antags already?
-			int newPlayerCount = PlayerList.Instance.InGamePlayers.Count + 1;
-			var expectedAntagCount = Math.Min((int)Math.Floor(newPlayerCount * AntagRatio), maxAntags);
+			int newPlayerCount = PlayerList.Instance.OnlineAndOfflineConnCount + 1;
+			var expectedAntagCount = Math.Min((int)Math.Round(newPlayerCount * AntagRatio), maxAntags);
 
 			if (AntagManager.Instance.AntagCount < expectedAntagCount)
 			{
