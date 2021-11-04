@@ -819,15 +819,7 @@ namespace HealthV2
 
 		public void DismemberBodyPart(BodyPart bodyPart)
 		{
-			//TODO: remove bodypart component from organs
-			if (bodyPart.TryGetComponent<BodyPartFunctionality>(out var organ))
-			{
-				organ.RelatedPart.OrganStorage.ServerTryRemove(organ.gameObject);
-			}
-			else
-			{
-				bodyPart.TryRemoveFromBody();
-			}
+			bodyPart.TryRemoveFromBody();
 		}
 
 		///<Summary>
@@ -959,7 +951,7 @@ namespace HealthV2
 			{
 				healthString.Append($" And {theyPronoun}'s on fire!");
 			}
-			
+
 
 			//Alive but not in body
 			if (script != null && script.HasSoul == false)
