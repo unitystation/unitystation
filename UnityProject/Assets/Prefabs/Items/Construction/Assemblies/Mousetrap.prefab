@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1687049626779096243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124724335112973799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7872cecd8e4de6d4f980cc941aeaca0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  enterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5086641195847908175}
+        m_TargetAssemblyTypeName: Objects.IStepEvent, Assets
+        m_MethodName: OnEnterableData
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5086641195847908175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124724335112973799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615eb111e382a344f9deba8fdcb5ee32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackType: 0
+  damageType: 0
+  traumaType: 0
+  damageToGive: 2
+  armorPentration: 0
+  traumaChance: 0
+  onStepSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Snap.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  hurtsOneFootOnly: 1
+  ignoresFootwear: 1
+  isTrap: 1
+  canCauseTrauma: 0
+  isArmed: 1
+  protectiveItemTraits:
+  - {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66, type: 2}
+  limbsToHurt: 04000000050000000c0000000b000000
 --- !u!1001 &514521408403553304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105,6 +167,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 866d30fbc8457a64eae1c27cb09b65bc
       objectReference: {fileID: 0}
+    - target: {fileID: 4578568276478799971, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 4082611662990458935}
     - target: {fileID: 7396244808014028178, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: foreverID
@@ -118,3 +185,21 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d4b5714989d64d86b11da761ecb15, type: 3}
+--- !u!1 &4124724335112973799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4476020110803030527, guid: 201d4b5714989d64d86b11da761ecb15,
+    type: 3}
+  m_PrefabInstance: {fileID: 514521408403553304}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4082611662990458935 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4578942373061721135, guid: 201d4b5714989d64d86b11da761ecb15,
+    type: 3}
+  m_PrefabInstance: {fileID: 514521408403553304}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124724335112973799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

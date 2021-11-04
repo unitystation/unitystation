@@ -26,6 +26,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &3832299256199899869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265521501557685915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615eb111e382a344f9deba8fdcb5ee32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackType: 0
+  damageType: 0
+  traumaType: 0
+  damageToGive: 5
+  armorPentration: 0
+  traumaChance: 0
+  onStepSounds: []
+  hurtsOneFootOnly: 0
+  ignoresFootwear: 0
+  isTrap: 0
+  canCauseTrauma: 0
+  isArmed: 0
+  protectiveItemTraits:
+  - {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66, type: 2}
+  limbsToHurt: 0500000004000000
 --- !u!114 &5405461569043606017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,10 +70,10 @@ MonoBehaviour:
   enterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 8016d853bdb154700bcbf3b57d8b0dd1, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 3832299256199899869}
+        m_TargetAssemblyTypeName: Objects.IStepEvent, Assets
+        m_MethodName: OnEnterableData
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -154,6 +181,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 82677ff961fa72944936cc923625a1bc
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2226203792706261835}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Armor.Acid
@@ -375,3 +407,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2266199196745466401}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2226203792706261835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 2266199196745466401}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265521501557685915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
