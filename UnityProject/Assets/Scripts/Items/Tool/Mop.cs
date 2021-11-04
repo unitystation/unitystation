@@ -42,7 +42,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
 		//don't attempt to mop walls
-		if (MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
+		if (MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
 		{
 			return false;
 		}

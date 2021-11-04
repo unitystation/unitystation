@@ -54,7 +54,7 @@ namespace Objects.Electrical
 			//can only be used on tiles
 			if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 			// If there's a table, we should drop there
-			if (MatrixManager.IsTableAtAnyMatrix(Vector3Int.RoundToInt(interaction.WorldPositionTarget), side == NetworkSide.Server))
+			if (MatrixManager.IsTableAt(Vector3Int.RoundToInt(interaction.WorldPositionTarget), side == NetworkSide.Server))
 			{
 				return false;
 			}
