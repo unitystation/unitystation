@@ -108,7 +108,7 @@ MonoBehaviour:
   borderPrefab: {fileID: 8380797343613280308, guid: fd3b76d65a417a64399cb3e8421946e6,
     type: 3}
   radialMask: {fileID: 8639802405008243711}
-  background: {fileID: 1583039639458426719}
+  background: {fileID: 1006286627157970256}
 --- !u!1773428102 &6186643238481727165
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -161,8 +161,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1583039639458426719}
-  - {fileID: 8132207552006571774}
+  - {fileID: 4244721469443374232}
+  - {fileID: 1006286627157970256}
   m_Father: {fileID: 9148614775400851224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -427,9 +427,9 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 7243324766535440047, guid: 355aa1c925725fb4fa05974e5e5d7241,
     type: 3}
---- !u!224 &1583039639458426719 stripped
+--- !u!224 &4244721469443374232 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: -8524424544509167813, guid: 355aa1c925725fb4fa05974e5e5d7241,
+  m_CorrespondingSourceObject: {fileID: -6439170484653939460, guid: 355aa1c925725fb4fa05974e5e5d7241,
     type: 3}
   m_PrefabInstance: {fileID: 2038792665849452644}
   m_PrefabAsset: {fileID: 0}
@@ -613,9 +613,9 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 7243324766535440047, guid: 6c693e934b75fbc438c8c5dcd34aa000,
     type: 3}
---- !u!224 &8132207552006571774 stripped
+--- !u!224 &1006286627157970256 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: -8524424544509167813, guid: 6c693e934b75fbc438c8c5dcd34aa000,
+  m_CorrespondingSourceObject: {fileID: 8403509093570657429, guid: 6c693e934b75fbc438c8c5dcd34aa000,
     type: 3}
   m_PrefabInstance: {fileID: 8748328743202795973}
   m_PrefabAsset: {fileID: 0}
