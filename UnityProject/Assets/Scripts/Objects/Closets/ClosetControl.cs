@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Items;
+using Objects.Atmospherics;
 
 namespace Objects
 {
@@ -60,6 +61,11 @@ namespace Objects
 		[Tooltip("Whether or not the lock sprite is hidden when the container is opened.")]
 		private bool hideLockWhenOpened = true;
 
+		[SerializeField]
+		[Tooltip("Whether the closet is atmospherically sealed only when" +
+				" closed or when closed and welded (and has the GasContainer component).")]
+		private bool isOnlySealedWhenWelded = true;
+
 		// TODO: These next two fields should really be a part of... ObjectAttributes?
 		[SerializeField]
 		[Tooltip("Type of material to drop when destroyed.")]
@@ -100,7 +106,8 @@ namespace Objects
 		// Components
 		private RegisterObject registerObject;
 		private ObjectAttributes attributes;
-		private ObjectContainer container;
+		private ObjectContainer objectContainer;
+		private GasContainer gasContainer;
 		private PushPull pushPull;
 		private AccessRestrictions accessRestrictions;
 
@@ -124,7 +131,8 @@ namespace Objects
 		{
 			registerObject = GetComponent<RegisterObject>();
 			attributes = GetComponent<ObjectAttributes>();
-			container = GetComponent<ObjectContainer>();
+			objectContainer = GetComponent<ObjectContainer>();
+			gasContainer = GetComponent<GasContainer>();
 			pushPull = GetComponent<PushPull>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 
@@ -185,6 +193,8 @@ namespace Objects
 			{
 				CollectObjects();
 			}
+
+			UpdateGasContainer();
 		}
 
 		public void SetLock(Lock newState)
@@ -200,7 +210,22 @@ namespace Objects
 			if (isWeldable == false) return;
 
 			weldState = newState;
+
+			if (isOnlySealedWhenWelded)
+			{
+				UpdateGasContainer();
+			}
+			
 			weldSpriteHandler.ChangeSprite((int) weldState);
+		}
+
+		private void UpdateGasContainer()
+		{
+			if (gasContainer != null)
+			{
+				gasContainer.IsSealed = IsOpen == false && (isOnlySealedWhenWelded == false || IsWelded);
+				gasContainer.EqualiseWithTile();
+			}
 		}
 
 		public void BreakLock()
@@ -212,12 +237,12 @@ namespace Objects
 
 		public void CollectObjects()
 		{
-			container.GatherObjects();
+			objectContainer.GatherObjects();
 		}
 
 		public void ReleaseObjects()
 		{
-			container.RetrieveObjects();
+			objectContainer.RetrieveObjects();
 		}
 
 		public void EntityTryEscape(GameObject performer)
