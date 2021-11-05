@@ -36,6 +36,8 @@ namespace HealthV2
 
 		public float DDebuffInPoint = 35; //some fat is ok
 
+		public float NoticeableDebuffInPoint = 45;
+
 		public bool WasApplyingDebuff = false;
 
 		public bool isFreshBlood;
@@ -106,6 +108,10 @@ namespace HealthV2
 			else if (AbsorbedAmount < 5) //Five minutes of food
 			{
 				RelatedPart.HungerState = HungerState.Hungry;
+			}
+			else  if (NoticeableDebuffInPoint < AbsorbedAmount)
+			{
+				RelatedPart.HungerState = HungerState.Full;
 			}
 			else
 			{
