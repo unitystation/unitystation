@@ -83,7 +83,7 @@ namespace Objects
 		public void TriggerTrapFromContainer(LivingHealthMasterBase health)
 		{
 			if(health != null) HurtHand(health);
-			//TODO : Move this to a mouse trap or a general trap script when we find a solid way to do attachments to objects.
+			//TODO : Move this to a mousetrap or a general modular trap script when we find a solid way to do attachments to objects.
 		}
 
 		/// <summary>
