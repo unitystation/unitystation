@@ -8,6 +8,7 @@ using Systems.Disposals;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using Systems.Atmospherics;
 
 namespace Objects.Disposals
 {
@@ -69,7 +70,7 @@ namespace Objects.Disposals
 		[SyncVar(hook = nameof(OnSyncBinState))]
 		private BinState binState = BinState.Disconnected;
 		[SyncVar]
-		private int chargePressure = 0;
+		private float chargePressure = 0;
 
 		public BinState BinState => binState;
 		public bool PowerDisconnected => binState == BinState.Disconnected;
@@ -83,7 +84,7 @@ namespace Objects.Disposals
 		/// This allows the screwdriver to be disposed of during normal operations.
 		/// </summary>
 		public bool Screwdriverable => MachineSecured && (PowerDisconnected || PowerOff);
-		public int ChargePressure => chargePressure;
+		public float ChargePressure => chargePressure;
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
 
 		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
@@ -289,7 +290,7 @@ namespace Objects.Disposals
 				return;
 			}
 
-			container.RetrieveObject(entity);
+			objectContainer.RetrieveObject(entity);
 		}
 
 		#endregion Interactions
@@ -313,7 +314,7 @@ namespace Objects.Disposals
 
 		private void StoreItem(GameObject item)
 		{
-			container.StoreObject(item);
+			objectContainer.StoreObject(item);
 
 			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer(), dunkParameters);
@@ -361,7 +362,7 @@ namespace Objects.Disposals
 
 		private void StorePlayer(MouseDrop interaction)
 		{
-			container.StoreObject(interaction.DroppedObject);
+			objectContainer.StoreObject(interaction.DroppedObject);
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 		}
@@ -384,7 +385,7 @@ namespace Objects.Disposals
 			}
 			if (BinFlushing) return;
 
-			container.RetrieveObjects();
+			objectContainer.RetrieveObjects();
 		}
 
 		public void TogglePower()
@@ -409,7 +410,7 @@ namespace Objects.Disposals
 			if (BinCharged)
 			{
 				SetBinState(BinState.Ready);
-				if (container.IsEmpty == false)
+				if (objectContainer.IsEmpty == false)
 				{
 					this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 				}
@@ -436,7 +437,7 @@ namespace Objects.Disposals
 			while (BinCharging && BinCharged == false)
 			{
 				yield return WaitFor.Seconds(1);
-				chargePressure += 20;
+				OperateAirPump();
 			}
 
 			if (PowerOff == false && PowerDisconnected == false)
@@ -449,6 +450,21 @@ namespace Objects.Disposals
 			SoundManager.PlayNetworkedAtPos(AirFlapSound, registerObject.WorldPositionServer, sourceObj: gameObject);
 		}
 
+		private void OperateAirPump()
+		{
+			MetaDataLayer metadata = registerObject.Matrix.MetaDataLayer;
+			GasMix tileMix = metadata.Get(registerObject.LocalPositionServer, false).GasMix;
+			
+			// TODO: add voltage multiplier when bins are powered
+			var molesToTransfer = (tileMix.Moles - (tileMix.Moles * (CHARGED_PRESSURE / gasContainer.GasMix.Pressure))) * -1;
+			molesToTransfer *= 0.5f;
+
+			GasMix.TransferGas(gasContainer.GasMix, tileMix, molesToTransfer.Clamp(0, 8));
+			metadata.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
+
+			chargePressure = gasContainer.GasMix.Pressure;
+		}
+
 		private IEnumerator RunFlushSequence()
 		{
 			// Bin orifice closes...
@@ -458,7 +474,7 @@ namespace Objects.Disposals
 			// Bin orifice closed. Release the charge.
 			chargePressure = 0;
 			SoundManager.PlayNetworkedAtPos(FlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
-			DisposalsManager.Instance.NewDisposal(container);
+			DisposalsManager.Instance.NewDisposal(gameObject);
 
 			// Restore charge.
 			SetBinState(BinState.Recharging);
@@ -468,7 +484,7 @@ namespace Objects.Disposals
 		private IEnumerator AutoFlush()
 		{
 			yield return WaitFor.Seconds(AUTO_FLUSH_DELAY);
-			if (BinReady && container.IsEmpty == false)
+			if (BinReady && objectContainer.IsEmpty == false)
 			{
 				StartCoroutine(RunFlushSequence());
 			}

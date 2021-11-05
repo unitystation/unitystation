@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Core.Directionals;
 using Systems.Disposals;
@@ -127,9 +125,9 @@ namespace Objects.Disposals
 
 		private void GatherEntities()
 		{
-			container.GatherObjects();
+			objectContainer.GatherObjects();
 
-			if (container.IsEmpty == false)
+			if (objectContainer.IsEmpty == false)
 			{
 				StartCoroutine(RunIntakeSequence());
 			}
@@ -144,7 +142,7 @@ namespace Objects.Disposals
 
 			// Intake orifice closed. Release the charge.
 			SoundManager.PlayNetworkedAtPos(disposalFlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
-			DisposalsManager.Instance.NewDisposal(container);
+			DisposalsManager.Instance.NewDisposal(gameObject);
 
 			// Restore charge, open orifice.
 			yield return WaitFor.Seconds(ANIMATION_TIME - FLUSH_DELAY);

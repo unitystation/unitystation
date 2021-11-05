@@ -18,7 +18,14 @@ namespace Items.Atmospherics
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			var metaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.registerTile.WorldPositionServer, true).MetaDataLayer;
+			if (interaction.PerformerPlayerScript.pushPull.parentContainer != null &&
+					interaction.PerformerPlayerScript.pushPull.parentContainer.TryGetComponent<GasContainer>(out var container))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+				return;
+			}
+
+			var metaDataLayer = interaction.PerformerPlayerScript.registerTile.Matrix.MetaDataLayer;
 			if (metaDataLayer != null)
 			{
 				var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
