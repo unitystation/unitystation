@@ -52,7 +52,7 @@ namespace HealthV2
 
 		//Handle by UpdateManager
 		//Server Side Only
-		void UpdateMe()
+		private void UpdateMe()
 		{
 			if (MatrixManager.IsInitialized && !canBreathAnywhere)
 			{
@@ -79,8 +79,9 @@ namespace HealthV2
 			}
 			else
 			{
-				Vector3Int position = objectBehaviour.AssumedWorldPositionServer();
-				ambientGasMix = MatrixManager.GetMetaDataAt(position).GasMix;
+				var matrix = healthMaster.RegisterTile.Matrix;
+				Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectBehaviour.AssumedWorldPositionServer(), matrix);
+				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
 			}
 
 			healthStateController.SetTemperature(ambientGasMix.Temperature);
