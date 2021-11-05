@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using HealthV2;
 using Items;
 using Messages.Server;
+using Objects;
 using UnityEngine;
 
 /// <summary>
@@ -421,10 +424,10 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	// This is all client only interaction:
 	public bool Interact(HandActivate interaction)
 	{
+		var slots = itemStorage.GetItemSlots();
 		if (canQuickEmpty)
 		{
 			// Drop all items that are inside this storage
-			var slots = itemStorage.GetItemSlots();
 
 			if (slots == null)
 			{
@@ -447,6 +450,15 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			}
 
 			return true;
+		}
+
+		foreach (var slot in slots)
+		{
+			if (slot.ItemObject.TryGetComponent<FloorHazard>(out var trap))
+			{
+				if(trap.IsArmed) trap.TriggerTrapFromContainer(interaction.Performer.GetComponent<LivingHealthMasterBase>());
+				break;
+			}
 		}
 
 		// open / close the backpack on activate

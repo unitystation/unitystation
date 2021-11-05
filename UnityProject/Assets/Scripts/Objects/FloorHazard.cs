@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,16 @@ namespace Objects
 		[SerializeField] private List<AddressableAudioSource> onStepSounds;
 		[SerializeField] private bool hurtsOneFootOnly;
 		[SerializeField] private bool ignoresFootwear;
+		[SerializeField] private bool ignoresHandwear;
 		[SerializeField] private bool isTrap;
 		[SerializeField] private bool canCauseTrauma;
 		[SerializeField, ShowIf("isTrap")] private bool isArmed;
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
+
+		private BodyPartType[] handTypes = {BodyPartType.LeftArm, BodyPartType.RightArm};
+
+		public bool IsArmed => isArmed;
 
 		public override void OnStep(BaseEventData eventData)
 		{
@@ -35,16 +41,11 @@ namespace Objects
 			//Text and Audio feedback.
 			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.ExpensiveName()}!",
 				$"{health.playerScript.visibleName} steps on the {gameObject.ExpensiveName()}!");
-			if(onStepSounds.Count == 0) return;
-			SoundManager.PlayNetworkedAtPos(onStepSounds.PickRandom(), gameObject.AssumedWorldPosServer());
+			PlayAudio();
 		}
 
 		private void HurtFeet(LivingHealthMasterBase health)
 		{
-			void ApplyDamageToFeet(BodyPartType type)
-			{
-				health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
-			}
 			if (ignoresFootwear == false)
 			{
 				bool willHurt = false;
@@ -64,14 +65,53 @@ namespace Objects
 			}
 			if (hurtsOneFootOnly)
 			{
-				ApplyDamageToFeet(limbsToHurt.PickRandom());
+				ApplyDamageToPartyType(health, limbsToHurt.PickRandom());
 				return;
 			}
 			foreach (BodyPart limb in health.BodyPartList)
 			{
 				if (!limbsToHurt.Contains(limb.BodyPartType)) continue;
-				ApplyDamageToFeet(limb.BodyPartType);
+				ApplyDamageToPartyType(health, limb.BodyPartType);
 			}
+		}
+
+
+		/// <summary>
+		/// Things to trigger for attached items if found + hurting peoples hands.
+		/// </summary>
+		/// <param name="health"></param>
+		public void TriggerTrapFromContainer(LivingHealthMasterBase health)
+		{
+			if(health != null) HurtHand(health);
+			//TODO : Move this to a mouse trap or a general trap script when we find a solid way to do attachments to objects.
+		}
+
+		/// <summary>
+		/// for triggering traps when inside storage containers
+		/// </summary>
+		/// <param name="health"></param>
+		private void HurtHand(LivingHealthMasterBase health)
+		{
+			foreach (var hand in health.playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
+			{
+				if(ignoresHandwear == false && hand.IsEmpty == false) continue;
+				ApplyDamageToPartyType(health, handTypes.PickRandom());
+			}
+			Chat.AddActionMsgToChat(gameObject, $"You are surprised with a {gameObject.ExpensiveName()} biting your hand!",
+				$"{health.playerScript.visibleName} screams in pain and surprise as {gameObject.ExpensiveName()} " +
+				$"bites {health.playerScript.characterSettings.TheirPronoun(health.playerScript)} hand!");
+			PlayAudio();
+		}
+
+		private void PlayAudio()
+		{
+			if(onStepSounds.Count == 0) return;
+			SoundManager.PlayNetworkedAtPos(onStepSounds.PickRandom(), gameObject.AssumedWorldPosServer());
+		}
+
+		private void ApplyDamageToPartyType(LivingHealthMasterBase health, BodyPartType type)
+		{
+			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
 		}
 
 		public bool ArmTrap()
