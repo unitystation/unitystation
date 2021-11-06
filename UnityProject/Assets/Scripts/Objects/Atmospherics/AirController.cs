@@ -90,7 +90,7 @@ namespace Objects.Atmospherics
 
 		public bool IsWriteable => IsPowered && IsLocked == false;
 
-		private AcuSample acuSample = new AcuSample();
+		private readonly AcuSample acuSample = new AcuSample();
 
 		#region Lifecycle
 
