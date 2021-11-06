@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Doors;
 using Items.Construction;
 using ScriptableObjects;
 using Core.Editor.Attributes;
@@ -50,6 +49,7 @@ namespace Objects.Construction
 
 			overlayFillHandler = overlayFill.GetComponent<SpriteHandler>();
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
+			//overlayHackingHandler.ChangeSprite((int)Panel.EmptyPanel);
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -346,6 +346,22 @@ namespace Objects.Construction
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 4));
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+		}
+
+		public void ServerInitFromComputer(ConstructibleDoor airlock, bool isWindowed)
+		{
+			//create the airlock electronics
+			Spawn.ServerPrefab(airlock.AirlockElectronicsPrefab, SpawnDestination.At(gameObject));
+
+			//set initial state
+			objectBehaviour.ServerSetPushable(false);
+			stateful.ServerChangeState(cablesAddedState);
+			overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
+			if (isWindowed)
+			{
+				overlayFillHandler.ChangeSprite((int)Fill.GlassFill);
+				glassAdded = true;
+			}
 		}
 
 		public enum Panel
