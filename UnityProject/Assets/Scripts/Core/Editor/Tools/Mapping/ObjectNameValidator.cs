@@ -87,7 +87,7 @@ namespace Core.Editor.Tools.Mapping
 			}
 		}
 
-		[MenuItem("Tools/Mapping/Name Validator", priority = 120)]
+		[MenuItem("Tools/Mapping/Name Validator", priority = 2)]
 		public static void ShowWindow()
 		{
 			GetWindow<ObjectNameValidator>().Show();

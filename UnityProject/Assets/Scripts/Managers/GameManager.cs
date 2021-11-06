@@ -2,12 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
 using Systems;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DatabaseAPI;
@@ -15,7 +13,6 @@ using DiscordWebhook;
 using Mirror;
 using GameConfig;
 using Initialisation;
-using AddressableReferences;
 using Audio.Containers;
 using Managers;
 using Messages.Server;
@@ -23,7 +20,6 @@ using Tilemaps.Behaviours.Layers;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
-
 	public static GameManager Instance;
 	public bool counting;
 	/// <summary>
@@ -129,9 +125,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[SerializeField]
 	private AudioClipsArray endOfRoundSounds = null;
 
+	[NonSerialized]
 	public int ServerCurrentFPS;
+	[NonSerialized]
 	public int ServerAverageFPS;
+	[NonSerialized]
 	public int errorCounter;
+	[NonSerialized]
 	public int uniqueErrorCounter;
 
 	void IInitialise.Initialise()
