@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace Objects
 {
-	public class FloorHazard : IStepEvent, ICheckedInteractable<HandActivate>
+	public class FloorHazard : StepEvent, ICheckedInteractable<HandActivate>
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;

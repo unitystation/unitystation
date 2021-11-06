@@ -6,7 +6,7 @@ namespace Objects
 {
 	[RequireComponent(typeof(Enterable))]
 
-	public abstract class IStepEvent : MonoBehaviour
+	public abstract class StepEvent : MonoBehaviour
 	{
 		public void OnEnterableData(BaseEventData eventData)
 		{
