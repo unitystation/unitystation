@@ -41,8 +41,8 @@ public class LobbyUIPlayerListController : MonoBehaviour
 			var c = playerEntry.GetComponent<LobbyUIListTemplate>();
 			c.playerName.text = $"{player.Tag} {player.UserName}";
 			c.playerNumber.text = i.ToString();
+			c.playerPing.text = player.pingToServer >= -1 ? $"{player.pingToServer * 1000}ms" : "NaN";
 			playerEntryList.Add(player, c);
-
 			playerEntry.transform.SetParent(playerTemplate.transform.parent, false);
 		}
 	}

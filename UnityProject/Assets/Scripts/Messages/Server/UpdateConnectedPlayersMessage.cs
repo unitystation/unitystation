@@ -56,7 +56,8 @@ namespace Messages.Server
 				{
 					UserName = c.Username,
 					Tag = tag,
-					Index = count
+					Index = count,
+					pingToServer = (int?)(c.Script?.RTT * 1000) ?? -1
 				});
 
 				count++;

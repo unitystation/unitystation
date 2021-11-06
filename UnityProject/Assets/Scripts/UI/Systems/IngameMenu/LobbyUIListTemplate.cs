@@ -12,6 +12,7 @@ public class LobbyUIListTemplate : MonoBehaviour
 
 	public TMP_Text playerNumber = null;
 	public TMP_Text playerName = null;
+	public TMP_Text playerPing;
 
 	public VerticalLayoutGroup layoutGroup = null;
 
