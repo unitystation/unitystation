@@ -17,8 +17,8 @@ MonoBehaviour:
   enterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5086641195847908175}
-        m_TargetAssemblyTypeName: Objects.IStepEvent, Assets
+      - m_Target: {fileID: 6469889204253213008}
+        m_TargetAssemblyTypeName: Objects.StepEvent, Assets
         m_MethodName: OnEnterableData
         m_Mode: 0
         m_Arguments:
@@ -29,7 +29,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5086641195847908175
+--- !u!114 &6469889204253213008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,13 +38,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4124724335112973799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615eb111e382a344f9deba8fdcb5ee32, type: 3}
+  m_Script: {fileID: 11500000, guid: 50d804042315402ea14957395ca813c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: 0
   damageType: 0
   traumaType: 0
-  damageToGive: 2
+  damageToGive: 5
   armorPentration: 0
   traumaChance: 0
   onStepSounds:
@@ -56,12 +56,12 @@ MonoBehaviour:
       m_SubObjectType: 
   hurtsOneFootOnly: 1
   ignoresFootwear: 1
-  isTrap: 1
+  ignoresHandwear: 0
   canCauseTrauma: 0
-  isArmed: 1
   protectiveItemTraits:
   - {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66, type: 2}
-  limbsToHurt: 04000000050000000c0000000b000000
+  limbsToHurt: 0b0000000c0000000500000004000000
+  isArmed: 0
 --- !u!1001 &514521408403553304
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using HealthV2;
 using Items;
 using Messages.Server;
 using Objects;
+using Objects.Other;
 using UnityEngine;
 
 /// <summary>
@@ -455,7 +456,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		foreach (var slot in slots)
 		{
 			if(slot.IsEmpty) continue;
-			if (slot.ItemObject.TryGetComponent<FloorHazard>(out var trap))
+			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
 			{
 				if(trap.IsArmed) trap.TriggerTrapFromContainer(interaction.Performer.GetComponent<LivingHealthMasterBase>());
 				break;
