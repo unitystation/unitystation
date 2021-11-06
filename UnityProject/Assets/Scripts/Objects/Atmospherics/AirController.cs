@@ -90,7 +90,7 @@ namespace Objects.Atmospherics
 
 		public bool IsWriteable => IsPowered && IsLocked == false;
 
-		private AcuSample acuSample = new AcuSample();
+		private readonly AcuSample acuSample = new AcuSample();
 
 		#region Lifecycle
 
@@ -303,10 +303,10 @@ namespace Objects.Atmospherics
 				case PowerState.LowVoltage:
 				case PowerState.OverVoltage:
 					IsPowered = true;
-					spriteHandler.ChangeSprite((int)AcuStatus.Nominal);
 					// StateUpdate() can be invoked before OnEnable() or before the matrix is ready.
 					if (IsReady)
 					{
+						spriteHandler.ChangeSprite((int) AcuStatus.Nominal);
 						UpdateManager.Add(PeriodicUpdate, 3);
 						PeriodicUpdate();
 					}
@@ -315,7 +315,7 @@ namespace Objects.Atmospherics
 					OverallStatus = AcuStatus.Off;
 					IsPowered = false;
 					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-					spriteHandler.ChangeSprite((int)AcuStatus.Off);
+					spriteHandler.ChangeSprite((int) AcuStatus.Off);
 					break;
 			}
 
