@@ -22,7 +22,7 @@ namespace Core.Editor.Tools.Mapping
 
 		private WindowTab Tab => tabs[activeWindowTab];
 
-		[MenuItem("Tools/Mapping/Device Linker", priority = 120)]
+		[MenuItem("Tools/Mapping/Device Linker", priority = 1)]
 		public static void ShowWindow()
 		{
 			GetWindow<DeviceLinkerWindow>().Show();
