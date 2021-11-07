@@ -86,8 +86,8 @@ namespace Unitystation.Options
 	        }
 	        else
 	        {
-		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(false);
 		        if(CustomNetworkManager.IsServer == false) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdatePingList);
+		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(false);
 	        }
         }
 
