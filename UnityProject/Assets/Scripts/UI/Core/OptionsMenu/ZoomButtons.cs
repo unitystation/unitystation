@@ -87,6 +87,7 @@ namespace Unitystation.Options
 	        else
 	        {
 		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(false);
+		        UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdatePingList);
 	        }
         }
 
