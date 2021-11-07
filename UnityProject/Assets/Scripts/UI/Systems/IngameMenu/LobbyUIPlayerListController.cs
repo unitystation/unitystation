@@ -46,4 +46,14 @@ public class LobbyUIPlayerListController : MonoBehaviour
 			playerEntry.transform.SetParent(playerTemplate.transform.parent, false);
 		}
 	}
+
+	public IEnumerator RefreshPing(GameObject list)
+	{
+		yield return WaitFor.Seconds(5f);
+		if (list.activeSelf)
+		{
+			GenerateList();
+			StartCoroutine(RefreshPing(list));
+		}
+	}
 }
