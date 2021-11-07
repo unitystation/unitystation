@@ -1,42 +1,53 @@
 using System;
 using UnityEngine;
 using Mirror;
+using UnityEditor;
+using NaughtyAttributes;
 using Systems.Atmospherics;
 using Systems.Explosions;
-using UnityEditor;
 
 namespace Objects.Atmospherics
 {
-	[RequireComponent(typeof(Integrity))]
 	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn, IServerInventoryMove
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
 
-		public GasMix GasMix { get; set; }
-
+		/// <summary>
+		/// If the container is not <see cref="IsSealed"/>, then the container is assumed to be mixed with the tile,
+		/// so the tile's gas mix is returned instead.
+		/// </summary>
+		public GasMix GasMix { get => IsSealed ? internalGasMix : TileMix; set => internalGasMix = value; }
+		private GasMix internalGasMix;
+		[InfoBox("Remember to right-click component header to validiate values.")]
 		public GasMix StoredGasMix = new GasMix();
 
 		public bool IsVenting { get; private set; } = false;
 
+		/// <summary>
+		/// If the gas container is not sealed, then the container is assumed to be mixed with the tile,
+		/// so <see cref="GasMix"/> will return the tile's mix.
+		/// </summary>
+		public bool IsSealed { get; set; } = true;
+
 		[Tooltip("This is the maximum moles the container should be able to contain without exploding.")]
 		public float MaximumMoles = 0f;
 
-		public float ReleasePressure = 101.325f;
+		public float ReleasePressure = AtmosConstants.ONE_ATMOSPHERE;
 		public float Volume;
 		public float Temperature;
 
+		private RegisterObject registerObject;
 		private Integrity integrity;
+		private Pickupable pickupable;
 
 		public Action ServerContainerExplode;
 
 		public float ServerInternalPressure => GasMix.Pressure;
-		private Vector3Int WorldPosition => gameObject.RegisterTile().WorldPosition;
-		private Vector3Int LocalPosition => gameObject.RegisterTile().LocalPosition;
+
+		private GasMix TileMix => registerObject.Matrix.MetaDataLayer.Get(registerObject.LocalPositionServer).GasMix;
 
 		private bool gasIsInitialised = false;
-
-		private Pickupable pickupable;
 
 		[SyncVar]
 		//Only updated and valid for canisters inside the players inventory!!!
@@ -51,6 +62,7 @@ namespace Objects.Atmospherics
 
 		private void Awake()
 		{
+			registerObject = GetComponent<RegisterObject>();
 			pickupable = GetComponent<Pickupable>();
 			integrity = GetComponent<Integrity>();
 		}
@@ -62,13 +74,21 @@ namespace Objects.Atmospherics
 				UpdateGasMix();
 			}
 
-			integrity.OnApplyDamage.AddListener(OnServerDamage);
+			// Not all containers need integrity e.g. DisposalVirtualContainer
+			if (integrity != null)
+			{
+				integrity.OnApplyDamage.AddListener(OnServerDamage);
+			}
 		}
 
 		private void OnDisable()
 		{
-			integrity.OnApplyDamage.RemoveListener(OnServerDamage);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
+			if (integrity != null)
+			{
+				integrity.OnApplyDamage.RemoveListener(OnServerDamage);
+			}
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, InventoryUpdateLoop);
 		}
 
 		private void OnServerDamage(DamageInfo info)
@@ -82,23 +102,29 @@ namespace Objects.Atmospherics
 
 		#endregion Lifecycle
 
+		public void EqualiseWithTile()
+		{
+			GasMix.MergeGasMix(TileMix);
+			registerObject.Matrix.MetaDataLayer.UpdateSystemsAt(registerObject.LocalPosition, SystemType.AtmosSystem);
+		}
+
 		// Needed for the internals tank on the player UI, to know oxygen gas percentage
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			//If going to a player start loop
 			if (info.ToPlayer != null && info.ToSlot != null)
 			{
-				UpdateManager.Add(UpdateLoop, 1f);
+				UpdateManager.Add(InventoryUpdateLoop, 1f);
 				return;
 			}
 
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, InventoryUpdateLoop);
 		}
 
 		//Serverside only update loop, runs every second, started when canister goes into players inventory
-		private void UpdateLoop()
+		private void InventoryUpdateLoop()
 		{
-			if(pickupable.ItemSlot == null) return;
+			if (pickupable.ItemSlot == null) return;
 
 			fullPercentageClient = FullPercentage;
 		}
@@ -113,7 +139,7 @@ namespace Objects.Atmospherics
 			//release all of our gases at once when destroyed
 			ReleaseContentsInstantly();
 
-			ExplosionUtils.PlaySoundAndShake(WorldPosition, shakeIntensity, (int)shakeDistance);
+			ExplosionUtils.PlaySoundAndShake(registerObject.WorldPositionServer, shakeIntensity, (int)shakeDistance);
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject);
 
 			ServerContainerExplode?.Invoke();
@@ -121,13 +147,13 @@ namespace Objects.Atmospherics
 			enabled = false;
 		}
 
-		private void ReleaseContentsInstantly()
+		public void ReleaseContentsInstantly()
 		{
-			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(WorldPosition, true).MetaDataLayer;
-			MetaDataNode node = metaDataLayer.Get(LocalPosition, false);
+			MetaDataLayer metaDataLayer = registerObject.Matrix.MetaDataLayer;
+			MetaDataNode node = metaDataLayer.Get(registerObject.LocalPositionServer, false);
 
 			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
-			metaDataLayer.UpdateSystemsAt(LocalPosition, SystemType.AtmosSystem);
+			metaDataLayer.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
 		}
 
 		[Server]

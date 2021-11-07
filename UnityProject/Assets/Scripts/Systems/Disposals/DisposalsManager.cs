@@ -4,6 +4,8 @@ using UnityEngine;
 using AddressableReferences;
 using Objects.Disposals;
 using Objects;
+using Objects.Atmospherics;
+using Systems.Atmospherics;
 
 namespace Systems.Disposals
 {
@@ -69,11 +71,22 @@ namespace Systems.Disposals
 		/// Create a new disposal instance, which will move its contents along the disposal pipe network.
 		/// </summary>
 		/// <param name="sourceContainer">The container holding the entities to be disposed of.</param>
-		public void NewDisposal(ObjectContainer sourceContainer)
+		public void NewDisposal(GameObject sourceObject)
 		{
-			var disposalContainer = SpawnVirtualContainer(sourceContainer.gameObject.RegisterTile().WorldPositionServer);
-			sourceContainer.TransferObjectsTo(disposalContainer.GetComponent<ObjectContainer>());
+			// Spawn virtual container
+			var disposalContainer = SpawnVirtualContainer(sourceObject.RegisterTile().WorldPositionServer);
 
+			// Transfer contents
+			if (sourceObject.TryGetComponent<ObjectContainer>(out var objectContainer))
+			{
+				objectContainer.TransferObjectsTo(disposalContainer.GetComponent<ObjectContainer>());
+			}
+			if (sourceObject.TryGetComponent<GasContainer>(out var gasContainer))
+			{
+				GasMix.TransferGas(disposalContainer.GetComponent<GasContainer>().GasMix, gasContainer.GasMix, gasContainer.GasMix.Moles);
+			}
+
+			// Start traversing
 			var traversal = new DisposalTraversal(disposalContainer.GetComponent<DisposalVirtualContainer>());
 			disposalInstances.Add(traversal);
 		}
