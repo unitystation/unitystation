@@ -82,18 +82,11 @@ namespace Unitystation.Options
 		        UIManager.Instance.lobbyUIPlayerListController.GenerateList();
 		        UIManager.Instance.lobbyUIPlayerListController.RefreshPing(gameObject);
 		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(true);
-		        if(CustomNetworkManager.IsServer == false) UpdateManager.Add(CallbackType.PERIODIC_UPDATE, UpdatePingList);
 	        }
 	        else
 	        {
-		        if(CustomNetworkManager.IsServer == false) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdatePingList);
 		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(false);
 	        }
-        }
-
-        private void UpdatePingList()
-        {
-	        UpdateConnectedPlayersMessage.Send();
         }
     }
 }

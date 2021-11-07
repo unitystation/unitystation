@@ -52,8 +52,14 @@ public class LobbyUIPlayerListController : MonoBehaviour
 		yield return WaitFor.Seconds(5f);
 		if (list.activeSelf)
 		{
+			UpdatePingList();
 			GenerateList();
 			StartCoroutine(RefreshPing(list));
 		}
+	}
+
+	private void UpdatePingList()
+	{
+		Messages.Server.UpdateConnectedPlayersMessage.Send();
 	}
 }
