@@ -130,18 +130,23 @@ namespace Objects
 			}
 		}
 
-		public void GatherObjects()
+		//Tries to gather object and checks if closet can be closed.
+		public bool GatherObjects()
 		{
 			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
 			{
 				// Don't add the container to itself...
 				if (entity.gameObject == gameObject) continue;
 
+				// We don't want to have locker/crate inside of another locker.
+				if (entity.TryGetComponent<ClosetControl>(out _) == true) return false;
+
 				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
-				if (entity.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false && entity.IsPushable == false) continue;
+				if (entity.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false && entity.IsPushable == false) return false;
 
 				StoreObject(entity.gameObject, entity.transform.position - transform.position);
 			}
+			return true;
 		}
 
 		public IEnumerable<GameObject> GetStoredObjects()

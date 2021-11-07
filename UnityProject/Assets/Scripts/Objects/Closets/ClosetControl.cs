@@ -212,7 +212,11 @@ namespace Objects
 
 		public void CollectObjects()
 		{
-			container.GatherObjects();
+			bool canClose = container.GatherObjects();
+			if(!canClose)
+            {
+				SetDoor(Door.Opened);
+			}
 		}
 
 		public void ReleaseObjects()
