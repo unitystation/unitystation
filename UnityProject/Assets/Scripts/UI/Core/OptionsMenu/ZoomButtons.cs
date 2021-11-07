@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 
 namespace Unitystation.Options
@@ -80,11 +82,17 @@ namespace Unitystation.Options
 		        UIManager.Instance.lobbyUIPlayerListController.GenerateList();
 		        UIManager.Instance.lobbyUIPlayerListController.RefreshPing(gameObject);
 		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(true);
+		        UpdateManager.Add(CallbackType.PERIODIC_UPDATE, UpdatePingList);
 	        }
 	        else
 	        {
 		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(false);
 	        }
+        }
+
+        private void UpdatePingList()
+        {
+	        UpdateConnectedPlayersMessage.Send();
         }
     }
 }
