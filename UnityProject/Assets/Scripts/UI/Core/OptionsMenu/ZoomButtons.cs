@@ -80,7 +80,7 @@ namespace Unitystation.Options
 	        if (!UIManager.Instance.lobbyUIPlayerListController.gameObject.activeSelf)
 	        {
 		        UIManager.Instance.lobbyUIPlayerListController.GenerateList();
-		        UIManager.Instance.lobbyUIPlayerListController.RefreshPing(gameObject);
+		        StartCoroutine(UIManager.Instance.lobbyUIPlayerListController.RefreshPing(gameObject));
 		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(true);
 	        }
 	        else
