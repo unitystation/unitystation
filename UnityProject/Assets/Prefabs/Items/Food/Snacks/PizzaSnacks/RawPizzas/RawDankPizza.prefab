@@ -90,6 +90,16 @@ PrefabInstance:
       objectReference: {fileID: 2712704233339259323}
     - target: {fileID: 2968628512659085805, guid: 0cb800d6ab549db49ac6e01d3e7970e4,
         type: 3}
+      propertyPath: CookTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2968628512659085805, guid: 0cb800d6ab549db49ac6e01d3e7970e4,
+        type: 3}
+      propertyPath: CookableBy
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2968628512659085805, guid: 0cb800d6ab549db49ac6e01d3e7970e4,
+        type: 3}
       propertyPath: CookedProduct
       value: 
       objectReference: {fileID: 2214687450486280385, guid: 0cb800d6ab549db49ac6e01d3e7970e4,
