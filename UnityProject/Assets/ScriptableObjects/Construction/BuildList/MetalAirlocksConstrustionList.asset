@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba38351aa03f427e90c2f6010b4c1b05, type: 3}
+  m_Name: MetalAirlocksConstrustionList
+  m_EditorClassIdentifier: 
+  entries:
+  - name: Atmospherics
+    prefab: {fileID: 6522342449639528788, guid: 305141e81e4aa6b4181a9406dab303c1,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Command
+    prefab: {fileID: 5915089575112957333, guid: 6defdc5b2fcdb8844a2c6104d7651c9e,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Engineering
+    prefab: {fileID: 8288961219254930326, guid: 1cea83c3c1cc68e49aa948f1176b11b8,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: External
+    prefab: {fileID: 5260978882079998124, guid: de92f3fe882b8e242a83b7327636280d,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Maintenance
+    prefab: {fileID: 505581349576183778, guid: 09b61d074c8b2b044817254c6d142131, type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Maintenance External
+    prefab: {fileID: 2827565308190451838, guid: 32832728e237bbe42af5712ba439ff67,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Medical
+    prefab: {fileID: 6050183544219608058, guid: 9ee844ec2c718de4f8946843dd15d7bd,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Cargo
+    prefab: {fileID: 6564794807068522134, guid: c62786093a3b2d74d9f84e2d1aa8faf2,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Public
+    prefab: {fileID: 7373807130743467081, guid: 712083b20731b2a4aa8d6da7643e767d,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Research
+    prefab: {fileID: 5174581413196171892, guid: 1ac7494865ee0e34f808a4e2e6589725,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Science
+    prefab: {fileID: 4726495986927682245, guid: 3912e5ee4e8771249a943ab1a7308743,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Security
+    prefab: {fileID: 1758604159448633806, guid: fe5a9596179cad745a196daea55ff441,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Shuttle
+    prefab: {fileID: 3175442228480872236, guid: 3122ffdeec28e714ca9d8504dad5e1b1,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Standard
+    prefab: {fileID: 1098236831370060136, guid: b94283d564a6208458af271a84369985,
+      type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}
+  - name: Virology
+    prefab: {fileID: 295318903328412407, guid: a1f7b5329bed0664795e9c3f5b4ec72d, type: 3}
+    cost: 4
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    insertedBuildList: {fileID: 0}

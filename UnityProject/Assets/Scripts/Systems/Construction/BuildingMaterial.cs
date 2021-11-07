@@ -16,7 +16,11 @@ namespace Construction
 		/// <summary>
 		/// List of things that can be built.
 		/// </summary>
-		public BuildList BuildList => buildList;
+		public BuildList BuildList
+		{
+			get => buildList;
+			set => buildList = value;
+		}
 
 		public bool Interact(HandActivate interaction)
 		{

@@ -16,10 +16,15 @@ namespace UI.UI_Bottom
 		[Tooltip("content panel into which the list items should be placed")]
 		[SerializeField] private GameObject contentPanel = null;
 
+		[Tooltip("back button to return to main menu")]
+		[SerializeField] private GameObject backButton = null;
+
 		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu = null;
 
 		// current object whose menu is being shown
 		private BuildingMaterial currentBuildingMaterial;
+		//default build list
+		private BuildList mainMenu;
 
 		//TODO: Implement, model kinda after dev spawner.
 
@@ -27,9 +32,10 @@ namespace UI.UI_Bottom
 		/// Displays the menu for the buildingMaterial
 		/// </summary>
 		/// <param name="buildingMaterial"></param>
-		public void ShowBuildMenu(BuildingMaterial buildingMaterial)
+		public void ShowBuildMenu(BuildingMaterial buildingMaterial, BuildList buildListToSave = null)
 		{
 			conveyorBuildMenu.gameObject.SetActive(false);
+			backButton.gameObject.SetActive(false);
 			transform.GetChild(0).gameObject.SetActive(true);
 			currentBuildingMaterial = buildingMaterial;
 			// delete previous results
@@ -43,6 +49,16 @@ namespace UI.UI_Bottom
 			{
 				CreateListItem(entry);
 			}
+			//save main menu
+			if (buildListToSave)
+			{
+				mainMenu = buildListToSave;
+				backButton.gameObject.SetActive(true);
+			}
+			else if (mainMenu != null && mainMenu != buildingMaterial.BuildList)
+			{
+				backButton.gameObject.SetActive(true);
+			}
 		}
 
 		public void ShowConveyorBeltMenu(BuildList.Entry entry, BuildingMaterial buildingMaterial)
@@ -55,6 +71,15 @@ namespace UI.UI_Bottom
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			transform.GetChild(0).gameObject.SetActive(false);
+		}
+
+		/// <summary>
+		/// Displays the default build list for the buildingMaterial. Used by button.
+		/// </summary>
+		public void ReturnToMainMenu()
+		{
+			currentBuildingMaterial.BuildList = mainMenu;
+			ShowBuildMenu(currentBuildingMaterial);
 		}
 
 		// add a list item to the content panel for spawning the specified result

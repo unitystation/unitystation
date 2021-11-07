@@ -93,6 +93,14 @@ namespace UI.UI_Bottom
 				UIManager.BuildMenu.ShowConveyorBeltMenu(entry, buildingMaterial);
 				return;
 			}
+			//Show the inserted build list. It works like spoiler.
+			if (entry.InsertedBuildList)
+			{
+				BuildList mainMenu = buildingMaterial.BuildList;
+				buildingMaterial.BuildList = entry.InsertedBuildList;
+				UIManager.BuildMenu.ShowBuildMenu(buildingMaterial, mainMenu);
+				return;
+			}
 
 			RequestBuildMessage.Send(entry, buildingMaterial);
 			UIManager.BuildMenu.CloseBuildMenu();
