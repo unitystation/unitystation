@@ -180,9 +180,15 @@ namespace HealthV2
 
 		public HungerState CalculateHungerState()
 		{
-			var State = HungerState.Normal;
+			var State = HungerState.Full;
 			foreach (var bodyPart in BodyPartList)
 			{
+				if (bodyPart.HungerState == HungerState.Full)
+				{
+					State = HungerState.Full;
+					break;
+				}
+
 				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
 				{
 					State = bodyPart.HungerState;

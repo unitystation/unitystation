@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-#if Unity_Editor
+using UnityEditor.Experimental.SceneManagement;
+using UnityEditor.SceneManagement;
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
@@ -12,7 +14,7 @@ public class PrefabTracker : MonoBehaviour
 	{
 		get
 		{
-#if Unity_Editor
+#if UNITY_EDITOR
 			if (string.IsNullOrEmpty(foreverID))
 			{
 				ReassignID();
@@ -36,7 +38,7 @@ public class PrefabTracker : MonoBehaviour
 
 	public void ReassignID() //Assuming it's a prefab Variant
 	{
-#if Unity_Editor
+#if UNITY_EDITOR
 		foreverID =
 			AssetDatabase.AssetPathToGUID(
 				AssetDatabase.GetAssetPath(gameObject)); //Can possibly change over time so need some prevention
@@ -44,14 +46,13 @@ public class PrefabTracker : MonoBehaviour
 		{
 			foreverID = CreateString(20);
 		}
-
 #endif
 	}
 
 	[NaughtyAttributes.Button("Assign random ID")]
 	public void ForceSetID() //Assuming it's a prefab Variant
 	{
-#if Unity_Editor
+#if UNITY_EDITOR
 
 		foreverID =
 			AssetDatabase.AssetPathToGUID(
@@ -64,8 +65,9 @@ public class PrefabTracker : MonoBehaviour
 		EditorUtility.SetDirty(gameObject);
 #endif
 	}
-	
+
 	static System.Random rd = new System.Random();
+
 	internal static string CreateString(int stringLength)
 	{
 		const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
@@ -78,5 +80,4 @@ public class PrefabTracker : MonoBehaviour
 
 		return new string(chars);
 	}
-
 }

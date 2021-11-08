@@ -134,7 +134,7 @@ public class Lungs : BodyPartFunctionality
 		}
 		ReagentMix AvailableBlood = RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take((RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total * efficiency) / 2f);
 		bool tryExhale = BreatheOut(gasMixSink, AvailableBlood);
-		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood);
+		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
 		RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
 		return tryExhale || tryInhale;
 	}
@@ -198,7 +198,7 @@ public class Lungs : BodyPartFunctionality
 	/// <param name="gasMix">The gas mix to breathe in from</param>
 	/// <param name="blood">The blood to put gases into</param>
 	/// <returns> True if breathGasMix was changed </returns>
-	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood)
+	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 	{
 
 		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere)
@@ -290,10 +290,12 @@ public class Lungs : BodyPartFunctionality
 		else if (bloodSaturation <= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
 		{
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
-			if (Random.value < 0.2)
-			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath",
-					$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");
+			if (efficiency < 0.5f)
+			{	if (Random.value < 0.2)
+				{
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath",
+						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");
+				}
 			}
 		}
 

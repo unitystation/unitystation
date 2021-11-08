@@ -267,6 +267,7 @@ namespace UI.CharacterCreator
 
 		public void HandleExitButton()
 		{
+			ItemChange(CharacterPreviewDropdown.value);
 			gameObject.SetActive(false);
 		}
 

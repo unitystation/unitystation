@@ -191,6 +191,7 @@ public class HandsController : MonoBehaviour
 		activeDoubleHandController.OrNull()?.Deactivate(ActiveHand);
 		activeDoubleHandController = doubleHandController;
 		ActiveHand = SetActiv;
+		if (activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject == null) return;
 
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(
 			activeDoubleHandController.GetHand(SetActiv).RelatedBodyPartUISlots.GameObject.NetId(), SetActiv);

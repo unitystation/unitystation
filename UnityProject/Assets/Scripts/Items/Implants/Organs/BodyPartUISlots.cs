@@ -13,7 +13,14 @@ namespace HealthV2
 
 		private DynamicItemStorage ItemStorage;
 
-		[CanBeNull] public GameObject GameObject => gameObject;
+		[CanBeNull] public GameObject GameObject
+		{
+			get
+			{
+				if (this == null) return null;
+				return gameObject;
+			}
+		}
 
 		public ItemStorage RelatedStorage => relatedStorage;
 
