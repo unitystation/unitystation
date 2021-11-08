@@ -18,6 +18,11 @@ namespace ScriptableObjects
 		{
 			get
 			{
+				if (!_instance && SOs.Instance != null)
+				{
+					_instance = SOs.Instance.GetEntry<T>();
+				}
+				// SO might not be added to SOs manager or might be requested before the manager has awoken.
 				var watch = Stopwatch.StartNew();
 				if (!_instance)
 				{

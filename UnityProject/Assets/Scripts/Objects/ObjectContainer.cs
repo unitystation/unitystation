@@ -140,8 +140,8 @@ namespace Objects
 				// Don't add the container to itself...
 				if (entity.gameObject == gameObject) continue;
 
-				// Can't store secured objects.
-				if (entity.IsPushable == false) continue;
+				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
+				if (entity.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false && entity.IsPushable == false) continue;
 
 				//No Nested ObjectContainer shenanigans
 				if (entity.GetComponent<ObjectContainer>()) continue;

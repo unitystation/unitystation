@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdminCommands;
+using Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,11 +13,8 @@ namespace InGameEvents
 	/// <summary>
 	/// The controller for in game events
 	/// </summary>
-	public class InGameEventsManager : MonoBehaviour
+	public class InGameEventsManager : SingletonManager<InGameEventsManager>
 	{
-		private static InGameEventsManager instance;
-		public static InGameEventsManager Instance => instance;
-
 		private float timer = 0f;
 
 		/// <summary>
@@ -39,16 +37,9 @@ namespace InGameEvents
 		public List<string> EnumListCache = new List<string>();
 
 
-		private void Awake()
+		public override void Awake()
 		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
+			base.Awake();
 
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
 		}

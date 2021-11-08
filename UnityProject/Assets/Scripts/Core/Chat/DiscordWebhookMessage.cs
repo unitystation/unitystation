@@ -6,6 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using DatabaseAPI;
 using System.Collections;
+using Managers;
 using Newtonsoft.Json;
 
 namespace DiscordWebhook
@@ -13,11 +14,8 @@ namespace DiscordWebhook
 	/// <summary>
 	/// Used to send messages to a discord webhook URLs, URLs need to be set up in the config.json file. Supports OOC, Ahelp, Announcements and All chat.
 	/// </summary>
-	public class DiscordWebhookMessage : MonoBehaviour
+	public class DiscordWebhookMessage : SingletonManager<DiscordWebhookMessage>
 	{
-		private static DiscordWebhookMessage instance;
-		public static DiscordWebhookMessage Instance => instance;
-
 		private Queue<string> OOCMessageQueue = new Queue<string>();
 		private Queue<string> AdminAhelpMessageQueue = new Queue<string>();
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
@@ -38,18 +36,6 @@ namespace DiscordWebhook
 		IList<string> RoleList = new List<string>();
 
 		private bool loggedWebKookError = false;
-
-		private void Awake()
-		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
 
 		private void Update()
 		{

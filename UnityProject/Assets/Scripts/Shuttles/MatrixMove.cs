@@ -763,10 +763,8 @@ public class MatrixMove : ManagedBehaviour
 			var sensor = SensorPositions[i];
 			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(sensor, MatrixInfo, serverTargetState);
 
-			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
-			int[] excludeList = { MatrixInfo.Id };
 			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
-											collisionType: matrixColliderType, excludeList: excludeList))
+											collisionType: matrixColliderType, excludeMatrix: MatrixInfo))
 			{
 				Logger.LogTrace(
 					$"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
@@ -795,10 +793,8 @@ public class MatrixMove : ManagedBehaviour
 			Vector3 localSensorAggrigateVector = (rotationSensorContainerTransform.localRotation * sensor.transform.localPosition) + rotationSensorContainerTransform.localPosition;
 			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(localSensorAggrigateVector, MatrixInfo, serverTargetState);
 
-			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
-			int[] excludeList = { MatrixInfo.Id };
 			if (!MatrixManager.IsPassableAtAllMatrices(sensorPos, sensorPos, isServer: true,
-											collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
+											collisionType: matrixColliderType, includingPlayers: true, excludeMatrix: MatrixInfo))
 			{
 				Logger.LogTrace(
 					$"Can't rotate at {serverTargetState.Position}->{serverTargetState.Position } (because {sensorPos} is occupied)!",
