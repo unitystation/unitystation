@@ -302,10 +302,11 @@ namespace Tests
 			    var device = objectDevice;
 			    if (device.listOfLights.Count == 0)
 			    {
+					var objectCoords = $"({device.transform.position.x}, {device.transform.position.y})";
 				    count++;
 				    var obStr = objectDevice.name;
 				    devicesWithoutAPC.Add(obStr);
-				    Logger.Log(obStr, Category.Tests);
+				    Logger.Log(obStr, Category.Tests, objectCoords);
 				    report.AppendLine(obStr);
 			    }
 		    }
@@ -323,9 +324,9 @@ namespace Tests
 	    public void CheckAllScenes_ForAPCs_ConnectedDevicesInTheList()
 	    {
 		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
-		    var listAPCsWrongDevices = new List<(string, string, string, string)>();
-		    var listAPCsWithNulls = new List<(string, string, string)>();
-		    var listAPCWithEmptyList = new List<(string, string, string)>();
+		    var listAPCsWrongDevices = new List<(string, string, string)>();
+		    var listAPCsWithNulls = new List<(string, string)>();
+		    var listAPCWithEmptyList = new List<(string, string)>();
 
 		    int countAPCsWithEmptyLists = 0;
 		    int countAPCsWithNullDevices = 0;
@@ -343,8 +344,7 @@ namespace Tests
 				    countAll++;
 				    if (device.ConnectedDevices.Count == 0)
 				    {
-						var objectCoords = $"({device.transform.position.x}, {device.transform.position.y})";
-					    listAPCWithEmptyList.Add((currentSceneName,device.name, objectCoords));
+					    listAPCWithEmptyList.Add((currentSceneName,device.name));
 					    countAPCsWithEmptyLists++;
 					    continue;
 				    }
@@ -352,15 +352,13 @@ namespace Tests
 				    {
 					    if (connectedDevice == null)
 					    {
-							var objectCoords = $"({connectedDevice.transform.position.x}, {connectedDevice.transform.position.y})";
-						    listAPCsWithNulls.Add((currentSceneName,device.name, objectCoords));
+						    listAPCsWithNulls.Add((currentSceneName,device.name));
 						    countAPCsWithNullDevices++;
 					    }
 					    else
 					    if (connectedDevice.RelatedAPC != device)
 					    {
-							var objectCoords = $"({device.transform.position.x}, {device.transform.position.y})";
-						    listAPCsWrongDevices.Add((currentSceneName,device.name,connectedDevice.name, objectCoords));
+						    listAPCsWrongDevices.Add((currentSceneName,device.name,connectedDevice.name));
 						    countAPCsWithBadlyAssignedDevices++;
 					    }
 				    }
@@ -371,17 +369,17 @@ namespace Tests
 		    var report = new StringBuilder();
 		    foreach (var s in listAPCWithEmptyList)
 		    {
-			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" {s.Item3} has an empty list of devices.";
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" has an empty list of devices.";
 			    report.AppendLine(missingComponentMsg);
 		    }
 		    foreach (var s in listAPCsWithNulls)
 		    {
-			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" {s.Item3} has a null value in the list.";
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" has a null value in the list.";
 			    report.AppendLine(missingComponentMsg);
 		    }
 		    foreach (var s in listAPCsWrongDevices)
 		    {
-			    var missingComponentMsg = $"{s.Item1}: \"{s.Item3}\" {s.Item4} is not assigned to \"{s.Item2}\"";
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item3}\" is not assigned to \"{s.Item2}\"";
 			    report.AppendLine(missingComponentMsg);
 		    }
 
