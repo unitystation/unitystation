@@ -273,7 +273,7 @@ namespace Objects
 		{
 			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
 			{
-				if (entity.GetComponent<ObjectContainer>() && entity != GetComponent<ObjectBehaviour>())
+				if (entity.GetComponent<ObjectContainer>() && entity != objectBehaviour)
 				{
 					return true;
 				}
