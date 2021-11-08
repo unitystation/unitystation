@@ -32,7 +32,7 @@ namespace Systems.Atmospherics
 			get
 			{
 				float value = 0;
-				foreach (var a in GasesArray)  //is good no modify
+				foreach (var a in GasesArray)  //doesn't appear to modify list while iterating
 				{
 					value += a.Moles;
 				}
@@ -52,7 +52,7 @@ namespace Systems.Atmospherics
 			{
 				float capacity = 0f;
 
-				foreach (var gas in GasesArray) //is good no modify
+				foreach (var gas in GasesArray) //doesn't appear to modify list while iterating
 				{
 					capacity += gas.GasSO.MolarHeatCapacity * gas.Moles;
 				}

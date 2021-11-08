@@ -103,7 +103,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					foreach (var gas in neighbor.GasMix.GasesArray) //is good no modify
+					foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
 					{
 						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
 						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);

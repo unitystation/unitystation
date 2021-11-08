@@ -355,7 +355,7 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			foreach (var gasData in node.GasMix.GasesArray) //is good no modify
+			foreach (var gasData in node.GasMix.GasesArray) //doesn't appear to modify list while iterating
 			{
 				var gas = gasData.GasSO;
 				if(!gas.HasOverlay) continue;

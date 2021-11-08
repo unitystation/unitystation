@@ -31,7 +31,7 @@ namespace Objects.Atmospherics
 
 			Pressure = mix.Pressure;
 			Temperature = mix.Temperature;
-			foreach (GasValues gas in mix.GasesArray)  //is good no modify
+			foreach (GasValues gas in mix.GasesArray)  //doesn't appear to modify list while iterating
 			{
 				GasMoles.Add(gas.GasSO, gas.Moles);
 			}
