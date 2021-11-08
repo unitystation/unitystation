@@ -306,7 +306,8 @@ namespace Tests
 				    count++;
 				    var obStr = objectDevice.name;
 				    devicesWithoutAPC.Add(obStr);
-				    Logger.Log(obStr, Category.Tests, objectCoords);
+				    Logger.Log(obStr, Category.Tests);
+					Logger.Log(objectCoords);
 				    report.AppendLine(obStr);
 			    }
 		    }
@@ -431,7 +432,8 @@ namespace Tests
 				    {
 						var objectCoords = $"({device.transform.position.x}, {device.transform.position.y})";
 					    devicesAPC.Add(device.name);
-					    Logger.Log($"ConnectedDevice is null in \"{device.name}\"" , objectCoords, Category.Tests);
+					    Logger.Log($"ConnectedDevice is null in \"{device.name}\"" , Category.Tests);
+						Logger.Log(objectCoords);
 					    report.AppendLine(device.name);
 					    count++;
 				    }
