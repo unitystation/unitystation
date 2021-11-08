@@ -215,7 +215,7 @@ namespace Objects
 			{
 				UpdateGasContainer();
 			}
-			
+
 			weldSpriteHandler.ChangeSprite((int) weldState);
 		}
 
@@ -390,7 +390,7 @@ namespace Objects
 
 			if (IsOpen)
 			{
-				if (container.IsAnotherContainerNear())
+				if (objectContainer.IsAnotherContainerNear())
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot close {closetName} with another container in the way!");
 				}

@@ -40,7 +40,7 @@ namespace Objects
 		private bool initialContentsSpawned = false;
 
 		private RegisterTile registerTile;
-		private ObjectBehaviour objectBehaviour;
+		private PushPull pushPullObject;
 
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
@@ -50,7 +50,7 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			pushPullObject = GetComponent<PushPull>();
 
 			registerTile.OnParentChangeComplete.AddListener(() =>
 			{
@@ -102,7 +102,7 @@ namespace Objects
 
 			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
 			{
-				objBehaviour.parentContainer = objectBehaviour;
+				objBehaviour.parentContainer = pushPullObject;
 				objBehaviour.VisibleState = false;
 
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
@@ -189,18 +189,18 @@ namespace Objects
 					//avoids blinking of premapped items when opening first time in another place:
 					Vector3 pos = worldPosition.GetValueOrDefault(registerTile.WorldPositionServer) + offset;
 					cnt.AppearAtPositionServer(pos);
-					if (objectBehaviour.Pushable.IsMovingServer)
+					if (pushPullObject.Pushable.IsMovingServer)
 					{
-						cnt.InertiaDrop(pos, objectBehaviour.Pushable.SpeedServer, objectBehaviour.InheritedImpulse.To2Int());
+						cnt.InertiaDrop(pos, pushPullObject.Pushable.SpeedServer, pushPullObject.InheritedImpulse.To2Int());
 					}
 				}
 				else if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
 					playerScript.PlayerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
 					playerScript.playerMove.IsTrapped = false;
-					if (objectBehaviour.Pushable.IsMovingServer)
+					if (pushPullObject.Pushable.IsMovingServer)
 					{
-						objBehaviour.TryPush(objectBehaviour.InheritedImpulse.To2Int(), objectBehaviour.Pushable.SpeedServer);
+						objBehaviour.TryPush(pushPullObject.InheritedImpulse.To2Int(), pushPullObject.Pushable.SpeedServer);
 					}
 
 					// Stop tracking closet
@@ -233,7 +233,7 @@ namespace Objects
 				if (kvp.Key == null) continue;
 
 				storedObjects[kvp.Key] = kvp.Value;
-				kvp.Key.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
+				kvp.Key.GetComponent<ObjectBehaviour>().parentContainer = pushPullObject;
 
 				if (kvp.Key.TryGetComponent<PlayerScript>(out var playerScript))
 				{
@@ -273,7 +273,7 @@ namespace Objects
 		{
 			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
 			{
-				if (entity.GetComponent<ObjectContainer>() && entity != objectBehaviour)
+				if (entity.GetComponent<ObjectContainer>() && entity != pushPullObject)
 				{
 					return true;
 				}
