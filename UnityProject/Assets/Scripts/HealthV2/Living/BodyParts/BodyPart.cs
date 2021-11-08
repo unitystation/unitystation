@@ -371,7 +371,7 @@ namespace HealthV2
 			}
 			else
 			{
-				HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
+				HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject);
 			}
 
 		}
