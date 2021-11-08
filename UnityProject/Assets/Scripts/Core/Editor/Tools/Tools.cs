@@ -314,4 +314,30 @@ public class Tools : Editor
 
 		Logger.Log($"Centered {count} objects!");
 	}
+
+	[MenuItem("Tools/Remove Missing Scripts")]
+	/// Courtesy of <see cref="https://answers.unity.com/questions/15225/how-do-i-remove-null-components-ie-missingmono-scr.html?childToView=1614734#answer-1614734"/> 
+	private static void RemoveMissingScripts()
+	{
+		int compCount = 0;
+		int goCount = 0;
+
+		foreach (var o in AssetDatabase.FindAssets("t:Prefab")
+					.Select(guid => AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid))))
+		{
+			if (o is GameObject go)
+			{
+				int count = GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(go);
+				if (count > 0)
+				{
+					// Edit: use undo record object, since undo destroy wont work with missing
+					Undo.RegisterCompleteObjectUndo(go, "Remove missing scripts");
+					GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
+					compCount += count;
+					goCount++;
+				}
+			}
+		}
+		Debug.Log($"Found and removed {compCount} missing scripts from {goCount} GameObjects");
+	}
 }

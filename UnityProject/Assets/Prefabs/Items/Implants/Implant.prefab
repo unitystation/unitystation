@@ -49,14 +49,13 @@ MonoBehaviour:
   wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
   BloodContainer: {fileID: 8113072997116454967}
   bloodReagentConsumed: 0.005
-  bloodThroughput: 5
+  bloodThroughput: 1.7857143
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  PassiveConsumptionNutriment: 0.00125
-  ConsumptionNutriment: 0.0025
+  HealingNutrimentMultiplier: 2
   ReagentMetabolism: 0.2
   NaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
     type: 2}
-  ToxinGeneration: 0.002
+  ToxinGeneration: 0.0002
   HungerState: 1
   SelfArmor:
     Melee: 0
@@ -90,22 +89,18 @@ MonoBehaviour:
   BodyPartReadableName: '[Default Part Name]'
   internalDamageDesc: This {readableName} is suffering from internal damage.
   externalBleedingDesc: This {readableName} is bleeding due to an open wound.
-  MinMaxInternalBleedingValues: {x: 5, y: 20}
+  BoneFracturedLvlThreeDesc: This {readableName} is suffering Hairline Fracture.
+  BoneFracturedLvlTwoDesc: This {readableName} is suffering Compound Fracture. It
+    is completely snapped in half.
   maximumInternalBleedDamage: 100
-  InternalBleedingBloodLoss: 12
-  ExternalBleedingBloodLoss: 6
-  baseTraumaDamageMultiplier: 0.25
+  minMaxInternalBleedingBloodLoss: {x: 2, y: 4}
+  minMaxExternalBleedingValues: {x: 2, y: 14}
   bodyPartColorWhenCharred: {r: 0, g: 0, b: 0, a: 1}
-  bodyPartAshesAboveThisDamage: 125
   GibsOnSeverityLevel: 150
   GibChance: 15
-  BodyPartStorageContentsSpillOutOnCutSize: 3
-  BodyPartSlashLogicOnCutSize: 1
-  BodyPartDisembowelLogicOnCutSize: 2
   spillChanceWhenCutPresent: 0.5
   CanBleedInternally: 0
-  CanBleedExternally: 0
-  DamageThreshold: 18
+  CanBeBroken: 0
   gibsEntireBodyOnRemoval: 0
 --- !u!114 &2719098251223779414
 MonoBehaviour:
@@ -226,6 +221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 1274871764999701192}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 4940620596253206870}
@@ -253,6 +253,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1164032867585741730}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1274871764999701192 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1164032867585741730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163316686972202776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!210 &4940620596253206870 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

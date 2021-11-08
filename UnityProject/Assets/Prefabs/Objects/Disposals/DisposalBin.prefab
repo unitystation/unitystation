@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 114061922499461510}
   - component: {fileID: 7239127982659121932}
   - component: {fileID: 1330345529673600466}
+  - component: {fileID: 6707578277650812142}
+  - component: {fileID: 5523562659901824724}
   m_Layer: 11
   m_Name: DisposalBin
   m_TagString: Untagged
@@ -103,7 +105,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114770898345557290}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -162,6 +164,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -187,7 +190,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &2759009461426029734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +208,7 @@ MonoBehaviour:
   initialDescription: A pneumatic waste disposal unit. What can fit in this?
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &-5087282277254670715
@@ -246,6 +249,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -302,6 +306,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   AirFlapSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Click.prefab
@@ -309,6 +314,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   FlushSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineFlush.prefab
@@ -316,6 +322,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   trashDunkSounds:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk1.prefab
@@ -323,18 +330,21 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   trashDunkMissSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/DunkMiss.prefab
@@ -342,6 +352,49 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+--- !u!114 &6707578277650812142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010167295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 1
+--- !u!114 &5523562659901824724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010167295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  StoredGasMix:
+    GasData:
+      GasesArray:
+      - GasSO: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
+        Moles: 4.157122
+      - GasSO: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
+        Moles: 16.628487
+    Pressure: 101.32501
+    Volume: 0.5
+    Temperature: 293.15
+  MaximumMoles: 1013.25
+  ReleasePressure: 101.325
+  Volume: 0.5
+  Temperature: 293.15
 --- !u!1 &1000010229813120
 GameObject:
   m_ObjectHideFlags: 0

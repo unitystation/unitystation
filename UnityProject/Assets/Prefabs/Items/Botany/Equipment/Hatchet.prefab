@@ -122,7 +122,6 @@ GameObject:
   - component: {fileID: 6001070637509285921}
   - component: {fileID: 6000834892531239841}
   - component: {fileID: 6001248824644544481}
-  - component: {fileID: -3445058822612490815}
   - component: {fileID: -2745594047464328484}
   - component: {fileID: -5694666669392884321}
   m_Layer: 10
@@ -324,7 +323,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 6001366298673395589}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
 --- !u!114 &6001070637509285921
@@ -389,7 +388,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &6001248824644544481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,18 +405,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: e7aafe1b61fb34e23a2d4e168a40bfa1
   hasSpawned: 0
---- !u!114 &-3445058822612490815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5970802900729141845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5053fe1df2f9e4fbda66ffeb7cd46abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-2745594047464328484
 MonoBehaviour:
   m_ObjectHideFlags: 0

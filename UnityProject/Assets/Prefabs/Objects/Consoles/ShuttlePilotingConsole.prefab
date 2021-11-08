@@ -16,6 +16,13 @@ MonoBehaviour:
   OnStateChange:
     m_PersistentCalls:
       m_Calls: []
+  radarDetectionSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/RadarDetection.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!1001 &6414903393843979902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -252,6 +259,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Used to pilot a shuttle.
       objectReference: {fileID: 0}
+    - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 1877286795687809285}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -283,13 +295,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8084113955194252400, guid: 6c8ca234bc73f434098080d753669712,
+      objectReference: {fileID: 6654473845117689798, guid: 6c8ca234bc73f434098080d753669712,
         type: 3}
     - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -396410952250788042, guid: 5f34cc165956f1847943f94c1bbb6de9,
+      objectReference: {fileID: 124375931300013382, guid: 5f34cc165956f1847943f94c1bbb6de9,
         type: 3}
     - target: {fileID: 5903546303531293955, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -604,6 +616,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShuttlePilotingConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: variantIndex
@@ -624,3 +651,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6414903393843979902}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1877286795687809285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4830997643641780091, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 6414903393843979902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650686735825012231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

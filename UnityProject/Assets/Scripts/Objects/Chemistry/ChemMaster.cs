@@ -90,15 +90,6 @@ namespace Chemistry
 			tempTransfer.Remove(reagent, amount);
 			Container.CurrentReagentMix.Add(reagent, amount);
 
-			//remove listing if empty
-			if (tempTransfer.reagents[reagent] <= 0)
-			{
-				lock (tempTransfer.reagents)
-				{
-					tempTransfer.reagents.m_dict.Remove(reagent);
-				}
-			}
-
 			TransferMixToBuffer(tempTransfer);
 
 			UpdateGui();
@@ -110,11 +101,6 @@ namespace Chemistry
 
 			//one removal, no math
 			tempTransfer.Remove(reagent, amount);
-			//remove listing if empty
-			if (tempTransfer.reagents[reagent] <= 0)
-			{
-				tempTransfer.reagentKeys.Remove(reagent);
-			}
 
 			//part two of transfer: fill Buffer from tempTransfer Mix
 			TransferMixToBuffer(tempTransfer);

@@ -66,13 +66,13 @@ namespace Objects.Kitchen
 
 		private void Awake()
 		{
-			EnsureInit();
+			registerTile = GetComponent<RegisterTile>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			storage = GetComponent<ItemStorage>();
 		}
 
 		public void OnSpawnServer(SpawnInfo spawn)
 		{
-			EnsureInit();
-
 			SetState(new ProcessorUnpowered(this));
 
 			// Get the machine stock parts used in this instance and get the tier of each part.
@@ -101,13 +101,6 @@ namespace Objects.Kitchen
 					binTier = part.GetComponent<StockTier>().Tier;
 				}
 			}
-		}
-
-		private void EnsureInit()
-		{
-			registerTile = GetComponent<RegisterTile>();
-			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			storage = GetComponent<ItemStorage>();
 		}
 
 		private void OnDisable()
@@ -319,7 +312,6 @@ namespace Objects.Kitchen
 		/// <param name="state">The power state to set the processor's state with.</param>
 		public void StateUpdate(PowerState state)
 		{
-			EnsureInit(); // This method could be called before the component's Awake().
 			if (isServer) // Since state changes affect animations (and call an Rpc animation function), only server can do this.
 			{
 				if (currentState == null)

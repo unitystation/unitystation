@@ -13,6 +13,7 @@ public class PlayerHealthUI : MonoBehaviour
 	public GameObject oxygenAlert;
 	public UI_TemperatureAlert temperatureAlert;
 	public SpriteHandler hungerAlert;
+	public SpriteHandler bleedingAlert;
 	public UI_HeartMonitor heartMonitor;
 	public List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
 
@@ -89,8 +90,8 @@ public class PlayerHealthUI : MonoBehaviour
 			EnableAlwaysVisible();
 		}
 
-		float temperature = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.temperature;
-		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.pressure;
+		float temperature = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.Temperature;
+		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.Pressure;
 
 		if (temperature < 110)
 		{
@@ -138,21 +139,61 @@ public class PlayerHealthUI : MonoBehaviour
 		switch (PlayerManager.LocalPlayerScript.playerHealth.HealthStateController.HungerState)
 		{
 
+			case HungerState.Full:
+				hungerAlert.gameObject.SetActive(true);
+				hungerAlert.ChangeSprite(0);
+				break;
 			case HungerState.Normal:
 				hungerAlert.gameObject.SetActive(false);
 				hungerAlert.PushClear();
 				break;
+			case HungerState.Hungry:
+				hungerAlert.gameObject.SetActive(true);
+				hungerAlert.ChangeSprite(1);
+				break;
 			case HungerState.Malnourished:
 				hungerAlert.gameObject.SetActive(true);
-				hungerAlert.ChangeSprite(0);
+				hungerAlert.ChangeSprite(1);
 				break;
 			case HungerState.Starving:
 				hungerAlert.gameObject.SetActive(true);
-				hungerAlert.ChangeSprite(1);
+				hungerAlert.ChangeSprite(2);
 				break;
 			default:
 				hungerAlert.gameObject.SetActive(false);
 				hungerAlert.PushClear();
+				break;
+		}
+
+		switch (PlayerManager.LocalPlayerScript.playerHealth.HealthStateController.BleedingState)
+		{
+			case BleedingState.None:
+				bleedingAlert.gameObject.SetActive(false);
+				bleedingAlert.PushClear();
+				break;
+			case BleedingState.VeryLow:
+				bleedingAlert.gameObject.SetActive(true);
+				bleedingAlert.ChangeSprite(0);
+				break;
+			case BleedingState.Low:
+				bleedingAlert.gameObject.SetActive(true);
+				bleedingAlert.ChangeSprite(1);
+				break;
+			case BleedingState.Medium:
+				bleedingAlert.gameObject.SetActive(true);
+				bleedingAlert.ChangeSprite(2);
+				break;
+			case BleedingState.High:
+				bleedingAlert.gameObject.SetActive(true);
+				bleedingAlert.ChangeSprite(3);
+				break;
+			case BleedingState.UhOh:
+				bleedingAlert.gameObject.SetActive(true);
+				bleedingAlert.ChangeSprite(4);
+				break;
+			default:
+				bleedingAlert.gameObject.SetActive(false);
+				bleedingAlert.PushClear();
 				break;
 		}
 

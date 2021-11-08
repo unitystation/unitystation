@@ -26,6 +26,7 @@ namespace Items.Atmospherics
 
 		public void Start()
 		{
+			if (isServer == false) return;
 			SpriteHandler.SetColor(Colour);
 		}
 

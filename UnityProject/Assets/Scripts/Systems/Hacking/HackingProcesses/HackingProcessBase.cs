@@ -46,7 +46,7 @@ namespace Hacking
 
 		private int ID = 1;
 
-		[SerializeField, Required] private ItemStorage itemStorage;
+		private uint CableID = 1;
 
 		public Dictionary<Action, List<Cable>> Connections = new Dictionary<Action, List<Cable>>();
 
@@ -70,21 +70,6 @@ namespace Hacking
 			public Action LocalAction;
 			public int LocalID; //Reuse same ID for output and input
 			public Color Colour;
-		}
-
-		public void AddObjectToItemStorage(GameObject gameObject)
-		{
-			ItemSlot SpareSlot = null;
-			foreach (var TitemSlot in itemStorage.GetItemSlots())
-			{
-				if (TitemSlot.Item == null)
-				{
-					SpareSlot = TitemSlot;
-					break;
-				}
-			}
-
-			Inventory.ServerAdd(gameObject, SpareSlot);
 		}
 
 		public void Awake()
@@ -125,14 +110,10 @@ namespace Hacking
 		public void RegisterPort(Action action, Type FromType)
 		{
 			if (isServer == false) return;
-			var OnePeace = Spawn.ServerPrefab(OnePeaceCoil.gameObject);
-			AddObjectToItemStorage(OnePeace.GameObject);
-
-
-			var newCable = OnePeace.GameObject.GetComponent<CableCoil>();
 			var insertCable = new Cable();
 
-			insertCable.cableCoil = newCable;
+			CableID++;
+			insertCable.cableCoilID = CableID;
 			insertCable.PanelInput = action;
 			insertCable.PanelOutput = action;
 			if (Connections.ContainsKey(action) == false)
@@ -262,7 +243,7 @@ namespace Hacking
 
 		public void ProcessCustomInteraction(GameObject Player,
 			RequestHackingInteraction.InteractionWith InteractionType,
-			GameObject Referenceobject, int PanelInputID, int PanelOutputID)
+			uint Referenceobject, int PanelInputID, int PanelOutputID)
 		{
 			PlayerScript PlayerScript = Player.GetComponent<PlayerScript>();
 			if (Validations.CanInteract(PlayerScript, NetworkSide.Server) == false) return;
@@ -280,7 +261,7 @@ namespace Hacking
 					Cable Cable = null;
 					foreach (var cable in Cables)
 					{
-						if (cable?.cableCoil.gameObject == Referenceobject)
+						if (cable?.cableCoilID == Referenceobject)
 						{
 							Cable = cable;
 							break;
@@ -295,16 +276,17 @@ namespace Hacking
 
 					Connections[Cable.PanelOutput].Remove(Cable);
 					Cables.Remove(Cable);
-					var Hand = PlayerScript.DynamicItemStorage.GetBestHand(Cable.cableCoil.GetComponent<Stackable>());
+					var Spawned = Spawn.ServerPrefab(OnePeaceCoil.gameObject).GameObject;
+
+
+					var Hand = PlayerScript.DynamicItemStorage.GetBestHand(Spawned.GetComponent<Stackable>());
 					if (Hand == null)
 					{
-						itemStorage.ServerTryRemove(Cable.cableCoil.gameObject,
-							DroppedAtWorldPosition: (PlayerScript.WorldPos -
-							                         this.GetComponent<RegisterTile>().WorldPositionServer));
+						Spawned.GetComponent<CustomNetTransform>().AppearAtPositionServer(PlayerScript.WorldPos - this.GetComponent<RegisterTile>().WorldPositionServer);
 					}
 					else
 					{
-						itemStorage.ServerTransferGameObjectToItemSlot(Cable.cableCoil.gameObject, Hand);
+						Inventory.ServerAdd(Spawned, Hand);
 					}
 
 
@@ -350,31 +332,14 @@ namespace Hacking
 					}
 
 
-					var stackable = Referenceobject.GetComponent<Stackable>();
 
-					var OnePeace = stackable.ServerRemoveOne();
-					if (OnePeace == stackable.gameObject)
-					{
-						ItemSlot SpareSlot = null;
-						foreach (var TitemSlot in itemStorage.GetItemSlots())
-						{
-							if (TitemSlot.Item == null)
-							{
-								SpareSlot = TitemSlot;
-								break;
-							}
-						}
+					var stackable = PlayerScript.DynamicItemStorage.GetActiveHandSlot().Item.GetComponent<Stackable>();
 
-						Inventory.ServerTransfer(PlayerScript.DynamicItemStorage.GetActiveHandSlot(), SpareSlot);
-					}
-					else
-					{
-						AddObjectToItemStorage(OnePeace);
-					}
+					stackable.ServerConsume(1);
 
-					var newCable = OnePeace.GetComponent<CableCoil>();
 					var insertCable = new Cable();
-					insertCable.cableCoil = newCable;
+					CableID++;
+					insertCable.cableCoilID = CableID;
 					Cables.Add(insertCable);
 
 					insertCable.PanelInput = LocalPortInput.LocalAction;
@@ -402,11 +367,9 @@ namespace Hacking
 				foreach (var EndActions in Connections.Keys)
 				{
 					if (StartActions == EndActions) continue; //Assume you don't touch the door And it's already set
-					var OnePeace = Spawn.ServerPrefab(OnePeaceCoil.gameObject);
-					AddObjectToItemStorage(OnePeace.GameObject);
-					var newCable = OnePeace.GameObject.GetComponent<CableCoil>();
 					var insertCable = new Cable();
-					insertCable.cableCoil = newCable;
+					CableID++;
+					insertCable.cableCoilID = CableID;
 					insertCable.PanelInput = EndActions;
 					insertCable.PanelOutput = StartActions;
 					Connections[StartActions].Add(insertCable);
@@ -419,7 +382,7 @@ namespace Hacking
 		{
 			public Action PanelInput;
 			public Action PanelOutput;
-			public CableCoil cableCoil;
+			public uint cableCoilID;
 
 			public void Impulse()
 			{

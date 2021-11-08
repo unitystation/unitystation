@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Brain : Organ
+	public class Brain : BodyPartFunctionality
 	{
 		//stuff in here?
 		//nah

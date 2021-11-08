@@ -250,16 +250,21 @@ namespace Blob
 		/// </summary>
 		private void FormBlob()
 		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+
 			var playerScript = gameObject.GetComponent<PlayerScript>();
 
 			var bound = MatrixManager.MainStationMatrix.Bounds;
 
+			//To ensure that it has to be station matrix
+			var on = this.GetComponent<RegisterTile>().Matrix.MatrixInfo;
+
 			//Teleport user to random location on station if outside radius of 600 or on a space tile
 			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
-				.magnitude > 600f) || MatrixManager.IsSpaceAt(gameObject.GetComponent<PlayerSync>().ServerPosition, true))
+				.magnitude > 600f) || MatrixManager.IsSpaceAt(gameObject.GetComponent<PlayerSync>().ServerPosition, true) || on != MatrixManager.MainStationMatrix)
 			{
 				Vector3 position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
-				while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true) || MatrixManager.IsWallAtAnyMatrix(Vector3Int.FloorToInt(position), true))
+				while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true) || MatrixManager.IsWallAt(Vector3Int.FloorToInt(position), true))
 				{
 					position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
 				}
@@ -267,7 +272,7 @@ namespace Blob
 				gameObject.GetComponent<PlayerSync>().SetPosition(position, true);
 			}
 
-			var spawnResult = Spawn.ServerPrefab(AntagManager.Instance.blobPlayerViewer, gameObject.GetComponent<PlayerSync>().ServerPosition, gameObject.transform.parent);
+			var spawnResult = Spawn.ServerPrefab(AntagManager.Instance.blobPlayerViewer, gameObject.RegisterTile().WorldPositionServer, gameObject.transform.parent);
 
 			if (!spawnResult.Successful)
 			{
@@ -291,7 +296,6 @@ namespace Blob
 
 			gameObject.GetComponent<LivingHealthMasterBase>().Gib();
 
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			Destroy(this);
 		}
 

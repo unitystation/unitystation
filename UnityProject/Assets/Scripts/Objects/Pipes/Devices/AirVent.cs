@@ -310,7 +310,7 @@ namespace Objects.Atmospherics
 
 		#region IAcuControllable
 
-		private AcuSample atmosphericSample = new AcuSample();
+		private readonly AcuSample atmosphericSample = new AcuSample();
 		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMix);
 
 		public void SetOperatingMode(AcuMode mode)

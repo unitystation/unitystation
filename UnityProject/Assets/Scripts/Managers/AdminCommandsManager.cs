@@ -9,6 +9,9 @@ using Messages.Server;
 using Messages.Server.AdminTools;
 using Strings;
 using HealthV2;
+using AddressableReferences;
+using Messages.Server.SoundMessages;
+using Audio.Containers;
 
 namespace AdminCommands
 {
@@ -338,23 +341,22 @@ namespace AdminCommands
 		#region Sound
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlaySound(string index, NetworkConnectionToClient sender = null)
+		public void CmdPlaySound(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
+			SoundManager.PlayNetworked(addressableAudioSource);
+		}
 
-			var players = PlayerList.Instance.InGamePlayers;
 
-			if (players == null) return; //If list of Players is empty dont run rest of code.
+		#endregion
 
-			Logger.LogError($"TODO: reimplement admin sounds.");
-			foreach (var player in players)
-			{
-				// TODO: reimplement admin sounds.
-				//SoundManager.PlayNetworkedForPlayerAtPos(player.GameObject,
-				//		player.GameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
-			}
+		#region Music
 
-			LogAdminAction($"{admin.Username}: played the global sound: {index}.");
+		[Command(requiresAuthority = false)]
+		public void CmdPlayMusic(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			MusicManager.PlayNetworked(addressableAudioSource);
 		}
 
 		#endregion

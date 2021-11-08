@@ -65,8 +65,6 @@ public class SpriteHandler : MonoBehaviour
 	/// </summary>
 	private bool isPaletteSet = false;
 
-	private bool initialised = false;
-
 	private NetworkIdentity networkIdentity;
 
 	private bool isSubCatalogueChanged = false;
@@ -292,13 +290,8 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetColor(Color value, bool networked = true)
 	{
-		if (initialised == false) TryInit();
 		if (setColour == value) return;
 		setColour = value;
-		if (HasImageComponent() == false)
-		{
-			GetImageComponent();
-		}
 
 		SetImageColor(value);
 		if (networked)
@@ -340,7 +333,6 @@ public class SpriteHandler : MonoBehaviour
 
 	public void PushClear(bool networked = true)
 	{
-		if (initialised == false) TryInit();
 		if (HasSpriteInImageComponent() == false) return;
 
 		SetImageSprite(null);
@@ -386,7 +378,6 @@ public class SpriteHandler : MonoBehaviour
 
 	public void PushTexture(bool networked = true)
 	{
-		if (initialised == false) TryInit();
 		if (PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
 		{
 			if (variantIndex < PresentSpriteSet.Variance.Count)
@@ -585,15 +576,32 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
-			TryInit();
-		}
-	}
+			spriteRenderer = GetComponent<SpriteRenderer>();
+			image = GetComponent<Image>();
+			if (image != null)
+			{
+				// unity doesn't support property blocks on ui renderers, so this is a workaround
+				image.material = Instantiate(image.material);
+			}
+			variantIndex = initialVariantIndex;
 
-	void Start()
-	{
-		if (Application.isPlaying)
-		{
-			TryInit();
+			if (NetworkThis)
+			{
+				networkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(gameObject);
+				SpriteHandlerManager.RegisterHandler(networkIdentity, this);
+			}
+
+			if (randomInitialSprite && CatalogueCount > 0)
+			{
+				ChangeSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
+			}
+			else if (PresentSpriteSet != null)
+			{
+				if (pushTextureOnStartUp)
+				{
+					PushTexture(false);
+				}
+			}
 		}
 	}
 
@@ -706,16 +714,8 @@ public class SpriteHandler : MonoBehaviour
 		OnSpriteChanged?.Invoke(value);
 	}
 
-	private bool HasImageComponent()
-	{
-		if (spriteRenderer != null) return (true);
-		if (image != null) return (true);
-		return (false);
-	}
-
 	public bool HasSpriteInImageComponent()
 	{
-		if (initialised == false) TryInit();
 		if (spriteRenderer != null)
 		{
 			if (spriteRenderer.sprite != null)
@@ -735,76 +735,8 @@ public class SpriteHandler : MonoBehaviour
 		return (false);
 	}
 
-	private void GetImageComponent()
-	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		image = GetComponent<Image>();
-		if (image != null)
-		{
-			// unity doesn't support property blocks on ui renderers, so this is a workaround
-			image.material = Instantiate(image.material);
-		}
-	}
-
-	private void TryInit()
-	{
-		variantIndex = initialVariantIndex;
-		GetImageComponent();
-		bool Status = this.GetImageComponentStatus();
-		ImageComponentStatus(false);
-		initialised = true;
-
-		if (randomInitialSprite && CatalogueCount > 0)
-		{
-			ChangeSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
-		}
-		else if (PresentSpriteSet != null)
-		{
-			if (HasImageComponent() && pushTextureOnStartUp)
-			{
-				PushTexture(false);
-			}
-		}
-
-		ImageComponentStatus(Status);
-	}
-
-	private void ImageComponentStatus(bool newStatus)
-	{
-		if (spriteRenderer != null)
-		{
-			spriteRenderer.enabled = newStatus;
-		}
-		else if (image != null)
-		{
-			image.enabled = newStatus;
-		}
-	}
-
-	private bool GetImageComponentStatus()
-	{
-		if (spriteRenderer != null)
-		{
-			return spriteRenderer.enabled;
-		}
-		else if (image != null)
-		{
-			return image.enabled;
-		}
-
-		return false;
-	}
-
 	private void OnEnable()
 	{
-		if (Application.isPlaying && NetworkThis)
-		{
-			networkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
-			SpriteHandlerManager.RegisterHandler(this.networkIdentity, this);
-		}
-
-		GetImageComponent();
-		OnSpriteChanged?.Invoke(CurrentSprite);
 		if (Application.isPlaying)
 		{
 			PushTexture(false); // TODO: animations don't resume when sprite object is disabled and re-enabled, this is a workaround
@@ -944,8 +876,6 @@ public class SpriteHandler : MonoBehaviour
 		if (this.gameObject.scene.path != null && this.gameObject.scene.path.Contains("Scenes") == false &&
 		    editorAnimating == null)
 		{
-			initialised = true;
-			GetImageComponent();
 			PushTexture();
 		}
 	}

@@ -8,6 +8,7 @@ using Systems.Disposals;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using Systems.Atmospherics;
 
 namespace Objects.Disposals
 {
@@ -35,7 +36,7 @@ namespace Objects.Disposals
 		Handle = 3
 	}
 
-	public class DisposalBin : DisposalMachine, IServerDespawn, IExaminable, ICheckedInteractable<MouseDrop>
+	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable
 	{
 		private const int CHARGED_PRESSURE = 600; // kPa
 		private const int AUTO_FLUSH_DELAY = 2;
@@ -69,9 +70,7 @@ namespace Objects.Disposals
 		[SyncVar(hook = nameof(OnSyncBinState))]
 		private BinState binState = BinState.Disconnected;
 		[SyncVar]
-		private int chargePressure = 0;
-
-		private DisposalVirtualContainer virtualContainer;
+		private float chargePressure = 0;
 
 		public BinState BinState => binState;
 		public bool PowerDisconnected => binState == BinState.Disconnected;
@@ -85,9 +84,8 @@ namespace Objects.Disposals
 		/// This allows the screwdriver to be disposed of during normal operations.
 		/// </summary>
 		public bool Screwdriverable => MachineSecured && (PowerDisconnected || PowerOff);
-		public int ChargePressure => chargePressure;
+		public float ChargePressure => chargePressure;
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
-		public bool ServerHasContents => virtualContainer != null && virtualContainer.HasContents;
 
 		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
 
@@ -115,14 +113,6 @@ namespace Objects.Disposals
 
 			chargePressure = CHARGED_PRESSURE;
 			SetBinState(BinState.Ready);
-		}
-
-		public void OnDespawnServer(DespawnInfo info)
-		{
-			if (virtualContainer != null)
-			{
-				_ = Despawn.ServerSingle(virtualContainer.gameObject);
-			}
 		}
 
 		#endregion Lifecycle
@@ -290,14 +280,17 @@ namespace Objects.Disposals
 			return baseString;
 		}
 
-		public void PlayerTryClimbingOut(GameObject player)
+		public void EntityTryEscape(GameObject entity)
 		{
-			if (BinFlushing) return;
-
-			if (player.TryGetComponent<ObjectBehaviour>(out var playerBehaviour))
+			if (BinFlushing)
 			{
-				EjectPlayer(playerBehaviour);
+				Chat.AddExamineMsgFromServer(
+						entity,
+						"You're too late! A blast of oily air hits you with force... You start to lose your grip...");
+				return;
 			}
+
+			objectContainer.RetrieveObject(entity);
 		}
 
 		#endregion Interactions
@@ -321,12 +314,8 @@ namespace Objects.Disposals
 
 		private void StoreItem(GameObject item)
 		{
-			if (virtualContainer == null)
-			{
-				virtualContainer = SpawnNewContainer();
-			}
+			objectContainer.StoreObject(item);
 
-			virtualContainer.AddItem(item.GetComponent<ObjectBehaviour>());
 			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
 			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer(), dunkParameters);
 
@@ -373,20 +362,9 @@ namespace Objects.Disposals
 
 		private void StorePlayer(MouseDrop interaction)
 		{
-			if (virtualContainer == null)
-			{
-				virtualContainer = SpawnNewContainer();
-			}
-
-			virtualContainer.AddPlayer(interaction.DroppedObject.GetComponent<ObjectBehaviour>());
+			objectContainer.StoreObject(interaction.DroppedObject);
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
-		}
-
-		private void EjectPlayer(ObjectBehaviour playerBehaviour)
-		{
-			if (virtualContainer == null) return;
-			virtualContainer.RemovePlayer(playerBehaviour);
 		}
 
 		#region UI
@@ -406,10 +384,8 @@ namespace Objects.Disposals
 				StopCoroutine(autoFlushCoroutine);
 			}
 			if (BinFlushing) return;
-			if (virtualContainer == null) return;
 
-			_ = Despawn.ServerSingle(virtualContainer.gameObject);
-			virtualContainer = null;
+			objectContainer.RetrieveObjects();
 		}
 
 		public void TogglePower()
@@ -434,7 +410,7 @@ namespace Objects.Disposals
 			if (BinCharged)
 			{
 				SetBinState(BinState.Ready);
-				if (ServerHasContents)
+				if (objectContainer.IsEmpty == false)
 				{
 					this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 				}
@@ -461,7 +437,7 @@ namespace Objects.Disposals
 			while (BinCharging && BinCharged == false)
 			{
 				yield return WaitFor.Seconds(1);
-				chargePressure += 20;
+				OperateAirPump();
 			}
 
 			if (PowerOff == false && PowerDisconnected == false)
@@ -474,6 +450,21 @@ namespace Objects.Disposals
 			SoundManager.PlayNetworkedAtPos(AirFlapSound, registerObject.WorldPositionServer, sourceObj: gameObject);
 		}
 
+		private void OperateAirPump()
+		{
+			MetaDataLayer metadata = registerObject.Matrix.MetaDataLayer;
+			GasMix tileMix = metadata.Get(registerObject.LocalPositionServer, false).GasMix;
+			
+			// TODO: add voltage multiplier when bins are powered
+			var molesToTransfer = (tileMix.Moles - (tileMix.Moles * (CHARGED_PRESSURE / gasContainer.GasMix.Pressure))) * -1;
+			molesToTransfer *= 0.5f;
+
+			GasMix.TransferGas(gasContainer.GasMix, tileMix, molesToTransfer.Clamp(0, 8));
+			metadata.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
+
+			chargePressure = gasContainer.GasMix.Pressure;
+		}
+
 		private IEnumerator RunFlushSequence()
 		{
 			// Bin orifice closes...
@@ -483,12 +474,7 @@ namespace Objects.Disposals
 			// Bin orifice closed. Release the charge.
 			chargePressure = 0;
 			SoundManager.PlayNetworkedAtPos(FlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
-			if (virtualContainer != null)
-			{
-				virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = null;
-				DisposalsManager.Instance.NewDisposal(virtualContainer);
-				virtualContainer = null;
-			}
+			DisposalsManager.Instance.NewDisposal(gameObject);
 
 			// Restore charge.
 			SetBinState(BinState.Recharging);
@@ -498,7 +484,7 @@ namespace Objects.Disposals
 		private IEnumerator AutoFlush()
 		{
 			yield return WaitFor.Seconds(AUTO_FLUSH_DELAY);
-			if (BinReady && ServerHasContents)
+			if (BinReady && objectContainer.IsEmpty == false)
 			{
 				StartCoroutine(RunFlushSequence());
 			}

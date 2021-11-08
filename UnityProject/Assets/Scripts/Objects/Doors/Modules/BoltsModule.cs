@@ -43,6 +43,7 @@ namespace Doors.Modules
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			master.HackingProcessBase.RegisterPort(ToggleBolts, master.GetType());
+			master.HackingProcessBase.RegisterPort(PreventBoltsFall, master.GetType());
 		}
 		/// <summary>
 		/// Set the current state for this door's bolts.
@@ -92,6 +93,12 @@ namespace Doors.Modules
 					PulseToggleBolts();
 					return ModuleSignal.Break;
 				}
+
+				if (PulsePreventBoltsFall())
+				{
+					SetBoltsState(true); //so Preveving all cables
+					return ModuleSignal.Break;
+				}
 			}
 
 			return ModuleSignal.Continue;
@@ -106,9 +113,21 @@ namespace Doors.Modules
 					PulseToggleBolts();
 					return ModuleSignal.Break;
 				}
+
+
 			}
 
 			return ModuleSignal.Continue;
+		}
+
+		public void PreventBoltsFall()
+		{
+			master.HackingProcessBase.ReceivedPulse(PreventBoltsFall);
+		}
+
+		public bool PulsePreventBoltsFall()
+		{
+			return master.HackingProcessBase.PulsePortConnectedNoLoop(PreventBoltsFall, true);
 		}
 
 		public void PulseToggleBolts(bool? State = null)
@@ -132,6 +151,10 @@ namespace Doors.Modules
 
 		public override bool CanDoorStateChange()
 		{
+			if (PulsePreventBoltsFall())
+			{
+				SetBoltsState(true);
+			}
 			return !boltsDown;
 		}
 	}

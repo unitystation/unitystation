@@ -24,10 +24,15 @@ public partial class SubSceneManager
 	{
 		if (NetworkServer.observerSceneList.ContainsKey(conn))
 		{
-			NetworkServer.observerSceneList.Remove(conn);
+			RemoveSceneObserver(conn);
 		}
 
 		NetworkServer.observerSceneList.Add(conn, new List<Scene> {SceneManager.GetActiveScene()});
+	}
+
+	public void RemoveSceneObserver(NetworkConnection conn)
+	{
+		NetworkServer.observerSceneList.Remove(conn);
 	}
 
 	/// <summary>

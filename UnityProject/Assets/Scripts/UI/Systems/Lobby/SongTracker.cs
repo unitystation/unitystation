@@ -39,13 +39,13 @@ namespace Audio.Containers
 				PlayerPrefs.Save();
 			}
 
-			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolume))
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey))
 			{
-				volumeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolume);
+				volumeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey);
 			}
 			else
 			{
-				volumeSlider.value = 0.5f;
+				volumeSlider.value = 0.8f;
 			}
 		}
 

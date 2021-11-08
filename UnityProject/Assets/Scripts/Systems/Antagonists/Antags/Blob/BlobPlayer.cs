@@ -163,8 +163,8 @@ namespace Blob
 		[SyncVar(hook = nameof(SyncTurnOnClientLight))]
 		private bool clientLight;
 
-		[HideInInspector]
-		public BlobStrain clientCurrentStrain;
+		private BlobStrain clientCurrentStrain;
+		public BlobStrain ClientCurrentStrain => clientCurrentStrain;
 
 		private int numOfBlobTiles = 1;
 
@@ -201,7 +201,7 @@ namespace Blob
 
 			playerScript.SetPermanentName(overmindName);
 
-			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
+			var result = Spawn.ServerPrefab(blobCorePrefab, registerPlayer.WorldPositionServer, gameObject.transform.parent);
 
 			if (!result.Successful)
 			{
@@ -550,6 +550,7 @@ namespace Blob
 		private void TargetRpcTurnOffLight(NetworkConnection target)
 		{
 			overmindLightObject.SetActive(false);
+			overmindSprite.layer = 31;
 		}
 
 		#endregion
@@ -586,10 +587,10 @@ namespace Blob
 		{
 			if (!ValidateAction(worldPos)) return false;
 
-			if (!autoExpanding && resources < attackCost)
+			if (!autoExpanding && (resources < attackCost || resources < normalBlobCost))
 			{
 				Chat.AddExamineMsgFromServer(gameObject,
-					$"Not enough biomass to attack, you need {attackCost} biomass");
+					$"Not enough biomass to attack or grow, you need {attackCost} biomass to attack and {normalBlobCost} biomass to grow");
 				return false;
 			}
 
@@ -662,7 +663,7 @@ namespace Blob
 		{
 			if (!autoExpanding && !ValidateCost(normalBlobCost, blobNormalPrefab)) return;
 
-			var result = Spawn.ServerPrefab(blobNormalPrefab, worldPos, gameObject.transform);
+			var result = Spawn.ServerPrefab(blobNormalPrefab, worldPos, gameObject.transform.parent);
 
 			if (!result.Successful) return;
 
@@ -927,7 +928,7 @@ namespace Blob
 
 		private void PlayAttackEffect(Vector3 worldPos)
 		{
-			Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
+			Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform.parent);
 		}
 
 		#endregion
@@ -964,7 +965,7 @@ namespace Blob
 		{
 			if (ValidateCost(cost, prefab) == false) return;
 
-			var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform);
+			var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform.parent);
 
 			if (result.Successful == false) return;
 
@@ -1042,7 +1043,7 @@ namespace Blob
 
 					if (!ValidateCost(cost, prefab)) return;
 
-					var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform);
+					var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform.parent);
 
 					if (!result.Successful) return;
 
@@ -1718,7 +1719,7 @@ namespace Blob
 
 		private void AttackAllSides(DamageInfo info)
 		{
-			var pos = info.AttackedIntegrity.gameObject.WorldPosServer();
+			var pos = info.AttackedIntegrity.RegisterTile.WorldPositionServer;
 
 			foreach (var offset in coords)
 			{

@@ -46,7 +46,7 @@ namespace Items.Medical
 					$"{performerName} analyzes {targetName}'s vitals.");
 
 			var health = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-			var totalPercent = Mathf.Round(100 * health.OverallHealth / health.MaxHealth);
+			var totalPercent = Mathf.Floor(100 * health.OverallHealth / health.MaxHealth);
 			var bloodTotal = Mathf.Round(health.GetTotalBlood());
 			var bloodPercent = Mathf.Round(bloodTotal / health.CirculatorySystem.BloodInfo.BLOOD_NORMAL * 100);
 			float[] fullDamage = new float[7];

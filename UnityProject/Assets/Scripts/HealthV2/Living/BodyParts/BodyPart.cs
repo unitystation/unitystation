@@ -19,7 +19,9 @@ namespace HealthV2
 		public LivingHealthMasterBase HealthMaster {get; private set;}
 
 
-		//TODO: prefab populator still contains bodyparts
+		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
+		public List<BodyPart> ContainBodyParts => containBodyParts;
+
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
@@ -27,8 +29,9 @@ namespace HealthV2
 		[Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage OrganStorage = null;
 
+		//Organs on the same body part
 		[NonSerialized]
-		public List<Organ> OrganList = new List<Organ>();
+		public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
 
 		/// <summary>
 		/// Player sprites for rendering equipment and clothing on the body part container
@@ -144,7 +147,15 @@ namespace HealthV2
 		void Awake()
 		{
 			OrganStorage = GetComponent<ItemStorage>();
-			OrganStorage.ServerInventoryItemSlotSet += OrganTransfer;
+			OrganStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
+			OrganList.Clear();
+			OrganList.AddRange(this.GetComponents<BodyPartFunctionality>());
+
+			foreach (var Organ in OrganList)
+			{
+				Organ.RelatedPart = this;
+			}
+
 			health = maxHealth;
 			AddModifier(DamageModifier);
 			UpdateSeverity();
@@ -170,8 +181,10 @@ namespace HealthV2
 
 			if(IsBleeding)
 			{
+				InternalBleedingLogic();
 				HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
 			}
+
 		}
 
 		public void SetHealthMaster(LivingHealthMasterBase livingHealth)
@@ -203,15 +216,18 @@ namespace HealthV2
 				BodySpriteSet = true;
 			}
 
+
 			UpdateIcons();
 			SetUpSystemsThis();
-
 
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			if (dynamicItemStorage != null)
 			{
 				var bodyPartUISlots = GetComponent<BodyPartUISlots>();
-				dynamicItemStorage.Add(bodyPartUISlots);
+				if (bodyPartUISlots != null)
+				{
+					dynamicItemStorage.Add(bodyPartUISlots);
+				}
 			}
 
 
@@ -244,72 +260,74 @@ namespace HealthV2
 			return new Tuple<SpriteOrder, List<SpriteDataSO>>(new SpriteOrder(), new List<SpriteDataSO>());
 		}
 
-		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
 		/// Both addition and removal of an organ
 		/// </summary>
-		public void OrganTransfer(Pickupable prevImplant, Pickupable newImplant)
+		public void BodyPartTransfer(Pickupable prevImplant, Pickupable newImplant)
 		{
-			if (newImplant && newImplant.TryGetComponent<Organ>(out var addedOrgan))
+			if (newImplant && newImplant.TryGetComponent<BodyPart>(out var addedOrgan))
 			{
-				addedOrgan.RelatedPart = this;
-				OrganList.Add(addedOrgan);
-				addedOrgan.Initialisation();
+				addedOrgan.ContainedIn = this;
+				containBodyParts.Add(addedOrgan);
 
 				if (HealthMaster)
 				{
-					//TODO: horrible, remove -- organ prefabs have a bodypart component
-					var bodyPart = addedOrgan.GetComponent<BodyPart>();
-					HealthMaster.ServerCreateSprite(bodyPart);
+					addedOrgan.BodyPartAddHealthMaster(HealthMaster);
 				}
 			}
-			else if(prevImplant && prevImplant.TryGetComponent<Organ>(out var removedOrgan))
+			else if(prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedOrgan))
 			{
-				OrganList.Remove(removedOrgan);
-				removedOrgan.RemovedFromBody(HealthMaster);
-				removedOrgan.RelatedPart = null;
+				containBodyParts.Remove(removedOrgan);
+
+				removedOrgan.ContainedIn = null;
+				removedOrgan.BodyPartRemoveHealthMaster();
 			}
 		}
 
 		/// <summary>
 		/// Body part was added to the body
 		/// </summary>
-		public void BodyPartAdded(LivingHealthMasterBase livingHealth)
+		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth)
 		{
-			livingHealth.BodyPartList.Add(this);
+			if (livingHealth.BodyPartList.Contains(this ) == false)
+			{
+				livingHealth.BodyPartList.Add(this);
+			}
+
 			SetHealthMaster(livingHealth);
 			livingHealth.ServerCreateSprite(this);
 
-			//legs and arms getting ready to affect speed
-			if (TryGetComponent<Limb>(out var limb))
-			{
-				limb.Initialize();
-			}
-
-			//TODO: horrible, remove -- organ prefabs have bodyparts
 			foreach (var organ in OrganList)
 			{
-				var organBodyPart = organ.GetComponent<BodyPart>();
-				livingHealth.ServerCreateSprite(organBodyPart);
+				organ.HealthMasterSet(HealthMaster);
+			}
+
+			foreach (var organ in containBodyParts)
+			{
+				organ.BodyPartAddHealthMaster(livingHealth);
 			}
 		}
 
 		/// <summary>
 		/// Body part was removed from the body
 		/// </summary>
-		public void BodyPartRemoval()
+		public void BodyPartRemoveHealthMaster()
 		{
 			foreach (var organ in OrganList)
 			{
 				organ.RemovedFromBody(HealthMaster);
-
-				//TODO: horrible, remove -- organ prefabs have bodyparts
-				var organBodyPart = organ.GetComponent<BodyPart>();
-				organBodyPart.RemoveSprites(playerSprites, HealthMaster);
 			}
+			foreach (var organ in containBodyParts)
+			{
+				organ.BodyPartRemoveHealthMaster();
+			}
+
+
 			RemoveSprites(playerSprites, HealthMaster);
 			HealthMaster.rootBodyPartController.UpdateClients();
 			HealthMaster.BodyPartList.Remove(this);
+			HealthMaster = null;
+
 		}
 
 		/// <summary>
@@ -323,11 +341,13 @@ namespace HealthV2
 				if (bodyPart.BodyPartType == BodyPartType.Chest)
 				{
 					bodyPart.IsBleeding = true;
+					HealthMaster.ChangeBleedStacks(limbLossBleedingValue);
 				}
 			}
 
 			DropItemsOnDismemberment(this);
-			HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
+
+
 			var bodyPartUISlot = GetComponent<BodyPartUISlots>();
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			dynamicItemStorage.Remove(bodyPartUISlot);
@@ -345,6 +365,15 @@ namespace HealthV2
 			{
 				HealthMaster.Gib();
 			}
+			if (ContainedIn != null)
+			{
+				ContainedIn.OrganStorage.ServerTryRemove(gameObject);
+			}
+			else
+			{
+				HealthMaster.BodyPartStorage.ServerTryRemove(gameObject);
+			}
+
 		}
 
 		/// <summary>
@@ -425,10 +454,13 @@ namespace HealthV2
 			if (SystemSetup) return;
 			SystemSetup = true;
 			BloodInitialise();
-			foreach (var organ in OrganList)
+
+			foreach (var Organ in OrganList)
 			{
-				organ.SetUpSystems();
+				Organ.SetUpSystems();
 			}
+
+
 		}
 	}
 

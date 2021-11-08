@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Items;
+using Objects.Atmospherics;
 
 namespace Objects
 {
@@ -60,6 +61,11 @@ namespace Objects
 		[Tooltip("Whether or not the lock sprite is hidden when the container is opened.")]
 		private bool hideLockWhenOpened = true;
 
+		[SerializeField]
+		[Tooltip("Whether the closet is atmospherically sealed only when" +
+				" closed or when closed and welded (and has the GasContainer component).")]
+		private bool isOnlySealedWhenWelded = true;
+
 		// TODO: These next two fields should really be a part of... ObjectAttributes?
 		[SerializeField]
 		[Tooltip("Type of material to drop when destroyed.")]
@@ -100,7 +106,8 @@ namespace Objects
 		// Components
 		private RegisterObject registerObject;
 		private ObjectAttributes attributes;
-		private ObjectContainer container;
+		private ObjectContainer objectContainer;
+		private GasContainer gasContainer;
 		private PushPull pushPull;
 		private AccessRestrictions accessRestrictions;
 
@@ -122,7 +129,13 @@ namespace Objects
 
 		private void Awake()
 		{
-			EnsureInit();
+			registerObject = GetComponent<RegisterObject>();
+			attributes = GetComponent<ObjectAttributes>();
+			objectContainer = GetComponent<ObjectContainer>();
+			gasContainer = GetComponent<GasContainer>();
+			pushPull = GetComponent<PushPull>();
+			accessRestrictions = GetComponent<AccessRestrictions>();
+
 			lockState = isLockable ? Lock.Locked : Lock.NoLock;
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 
@@ -130,20 +143,8 @@ namespace Objects
 			closetName = gameObject.ExpensiveName();
 		}
 
-		private void EnsureInit()
-		{
-			if (registerObject != null) return;
-
-			registerObject = GetComponent<RegisterObject>();
-			attributes = GetComponent<ObjectAttributes>();
-			container = GetComponent<ObjectContainer>();
-			pushPull = GetComponent<PushPull>();
-			accessRestrictions = GetComponent<AccessRestrictions>();
-		}
-
 		public override void OnStartClient()
 		{
-			EnsureInit();
 			SyncDoorState(doorState, doorState);
 		}
 
@@ -181,7 +182,7 @@ namespace Objects
 			{
 				lockSpritehandler.ChangeSprite((int) (IsOpen ? Lock.NoLock : lockState));
 			}
-			
+
 			SoundManager.PlayNetworkedAtPos(IsOpen ? soundOnOpen : soundOnClose, registerObject.WorldPositionServer, sourceObj: gameObject);
 
 			if (IsOpen)
@@ -192,6 +193,8 @@ namespace Objects
 			{
 				CollectObjects();
 			}
+
+			UpdateGasContainer();
 		}
 
 		public void SetLock(Lock newState)
@@ -207,7 +210,22 @@ namespace Objects
 			if (isWeldable == false) return;
 
 			weldState = newState;
+
+			if (isOnlySealedWhenWelded)
+			{
+				UpdateGasContainer();
+			}
+			
 			weldSpriteHandler.ChangeSprite((int) weldState);
+		}
+
+		private void UpdateGasContainer()
+		{
+			if (gasContainer != null)
+			{
+				gasContainer.IsSealed = IsOpen == false && (isOnlySealedWhenWelded == false || IsWelded);
+				gasContainer.EqualiseWithTile();
+			}
 		}
 
 		public void BreakLock()
@@ -219,18 +237,12 @@ namespace Objects
 
 		public void CollectObjects()
 		{
-			var entitiesOnCloset = Matrix.Get<ObjectBehaviour>(registerObject.LocalPositionServer, true)
-					.Where(entity => entity.gameObject != gameObject && entity.IsPushable).Select(entity => entity.gameObject);
-
-			foreach (var entity in entitiesOnCloset)
-			{
-				container.StoreObject(entity, entity.transform.position - transform.position);
-			}
+			objectContainer.GatherObjects();
 		}
 
 		public void ReleaseObjects()
 		{
-			container.RetrieveObjects();
+			objectContainer.RetrieveObjects();
 		}
 
 		public void EntityTryEscape(GameObject performer)
@@ -291,7 +303,6 @@ namespace Objects
 
 		private void SyncDoorState(Door oldValue, Door value)
 		{
-			EnsureInit();
 			doorState = value;
 			SetPassableAndLayer(); // required on client
 		}
@@ -330,18 +341,25 @@ namespace Objects
 					TryToggleLock(interaction);
 				}
 			}
-			else if (IsOpen == false)
+			else if (IsOpen)
 			{
-				TryToggleDoor(interaction);
+				if (interaction.HandSlot.IsOccupied)
+				{
+					// If nothing in the player's hand can be used on the closet, drop it in the closet.
+					TryStoreItem(interaction);
+				}
+				else
+				{
+					// Try close the locker.
+					TryToggleDoor(interaction);
+				}
 			}
-			else if (interaction.HandSlot.IsOccupied)
+			else if (Validations.HasUsedComponent<IDCard>(interaction) || Validations.HasUsedComponent<Items.PDA.PDALogic>(interaction))
 			{
-				// If nothing in the player's hand can be used on the closet, drop it in the closet.
-				TryStoreItem(interaction);
+				TryToggleLock(interaction);
 			}
 			else
 			{
-				// Try close the locker.
 				TryToggleDoor(interaction);
 			}
 		}
@@ -366,9 +384,15 @@ namespace Objects
 		private void TryToggleLock(PositionalHandApply interaction)
 		{
 			var effector = "hand";
-			if (interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id).Select(slot => slot.IsOccupied).Any())
+			
+			if (interaction.IsAltClick)
 			{
-				effector = "ID card";
+				var idSource = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id)
+						.FirstOrDefault(slot => slot.IsOccupied);
+				if (idSource != null)
+				{
+					effector = idSource.ItemObject.ExpensiveName();
+				}
 			}
 			else if (interaction.HandSlot.IsOccupied)
 			{

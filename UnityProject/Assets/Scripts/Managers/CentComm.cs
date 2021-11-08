@@ -23,8 +23,8 @@ namespace Managers
 		private GameObject paperPrefab = default;
 
 		public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
-		[NonSerialized] public string CommandStatusString;
-		[NonSerialized] public string EscapeShuttleTimeString;
+		[NonSerialized] public string CommandStatusString = string.Empty;
+		[NonSerialized] public string EscapeShuttleTimeString = string.Empty;
 
 		public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
 		{

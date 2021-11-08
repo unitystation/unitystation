@@ -21,6 +21,8 @@ public partial class PlayerList : NetworkBehaviour
 	public static PlayerList Instance;
 	public int ConnectionCount => loggedIn.Count;
 	public int OfflineConnCount => loggedOff.Count;
+	public int OnlineAndOfflineConnCount => loggedIn.Count + loggedOff.Count;
+
 	public List<ConnectedPlayer> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
 
 	public List<ConnectedPlayer> NonAntagPlayers =>
@@ -475,6 +477,8 @@ public partial class PlayerList : NetworkBehaviour
 			{
 				continue; //server player
 			}
+
+			if (adminUsers.Contains(player.UserId)) continue; // Allow admins to multikey (local devs connecting multiple clients)
 
 			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
 			{

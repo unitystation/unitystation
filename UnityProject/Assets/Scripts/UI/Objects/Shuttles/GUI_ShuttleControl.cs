@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Objects.Shuttles;
 using Objects.Command;
 using Systems.MobAIs;
+using Systems.Shuttles;
 using Map;
 
 namespace UI.Objects.Shuttles
@@ -60,6 +61,8 @@ namespace UI.Objects.Shuttles
 		private NetColorChanger OffOverlay => (NetColorChanger)this[nameof(OffOverlay)];
 		private NetColorChanger Rulers => (NetColorChanger)this[nameof(Rulers)];
 
+		private ShuttleFuelSystem FuelSystemReference;
+
 		public override void OnEnable()
 		{
 			base.OnEnable();
@@ -82,6 +85,7 @@ namespace UI.Objects.Shuttles
 
 			MatrixMove.RegisterCoordReadoutScript(CoordReadout);
 			MatrixMove.RegisterShuttleGuiScript(this);
+			FuelSystemReference = matrixMove.ShuttleFuelSystem;
 
 			//Not doing this for clients
 			if (IsServer)
@@ -302,17 +306,19 @@ namespace UI.Objects.Shuttles
 			EntryList.RefreshTrackedPos();
 			//Logger.Log((MatrixMove.shuttleFuelSystem.FuelLevel * 100).ToString());
 			var fuelGauge = (NetUIElement<string>)this["FuelGauge"];
-			if (MatrixMove.ShuttleFuelSystem == null)
+			if (FuelSystemReference == null)
 			{
-				if (fuelGauge.Value != "100")
+				if (fuelGauge.Value != "0")
 				{
-					fuelGauge.SetValueServer((100).ToString());
+					fuelGauge.SetValueServer((0).ToString());
 				}
 
 			}
-			else
+			else if(FuelSystemReference.Connector != null && FuelSystemReference.Connector.canister != null
+			&& FuelSystemReference.Connector.canister.GasContainer != null)
 			{
-				fuelGauge.SetValueServer(Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString());
+				string value = $"{(FuelSystemReference.FuelLevel * 100f)}";
+				fuelGauge.SetValueServer(value);
 			}
 			yield return WaitFor.Seconds(1f);
 
@@ -454,6 +460,12 @@ namespace UI.Objects.Shuttles
 			float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
 			//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 			MatrixMove.SetSpeed(speed);
+		}
+
+		public void PlayRadarDetectionSound()
+		{
+			if(Trigger == null) return;
+			Trigger.PlayRadarDetectionSound();
 		}
 	}
 }

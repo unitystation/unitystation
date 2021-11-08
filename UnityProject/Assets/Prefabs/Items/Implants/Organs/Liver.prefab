@@ -1,5 +1,68 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3517987674257483297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3590155709294246284}
+  - component: {fileID: 4547041776856584011}
+  m_Layer: 10
+  m_Name: Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3590155709294246284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3517987674257483297}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3413801339879858446}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4547041776856584011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3517987674257483297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCapacity: 100
+  reactionSet: {fileID: 11400000, guid: d867504583cfacb479e53eb0b14eba94, type: 2}
+  AdditionalReactions: []
+  canPourOut: 1
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
 --- !u!114 &7391146519884986471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,69 +129,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 143a0045ccc01b1288106b4252eea6c4, type: 2}
   processAmount: 0.1
   flushMultiplier: 2
---- !u!1 &3517987674257483297
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3590155709294246284}
-  - component: {fileID: 4547041776856584011}
-  m_Layer: 10
-  m_Name: Container
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3590155709294246284
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3517987674257483297}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3413801339879858446}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4547041776856584011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3517987674257483297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxCapacity: 100
-  reactionSet: {fileID: 11400000, guid: d867504583cfacb479e53eb0b14eba94, type: 2}
-  AdditionalReactions: []
-  canPourOut: 1
-  initialReagentMix:
-    temperature: 273.15
-    reagents:
-      m_keys: []
-      m_values: []
-    reagentKeys: []
-  destroyOnEmpty: 0
-  ContentsSet: 0
-  UseStandardExamine: 1
-  ExamineAmount: 0
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
 --- !u!1001 &7994835678340444955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,6 +152,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: e842d7513d34ec442af969504d96dfd9
       objectReference: {fileID: 0}
+    - target: {fileID: 4617543864376905469, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 3379511010340008362}
     - target: {fileID: 4617543864376905469, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -252,7 +257,7 @@ PrefabInstance:
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: bloodThroughput
-      value: 20
+      value: 7.142857
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -294,6 +299,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7994835678340444955}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3379511010340008362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4617654077899113137, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7994835678340444955}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3419287765834980474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!210 &8919293330744629812 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 1528108646680144175, guid: 35ef0ee8523cfc342bc863c12a3ac07c,

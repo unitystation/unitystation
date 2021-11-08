@@ -3,53 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using AdminCommands;
 using DatabaseAPI;
+using Audio.Containers;
+using System.Threading.Tasks;
+using AddressableReferences;
+
 
 namespace AdminTools
 {
 	/// <summary>
 	/// Lets Admins play sounds
 	/// </summary>
-	public class AdminGlobalSound : MonoBehaviour
+	public class AdminGlobalSound : AdminGlobalAudio
 	{
-		[SerializeField] private GameObject buttonTemplate = null;
-		private AdminGlobalSoundSearchBar SearchBar;
-		public List<GameObject> soundButtons = new List<GameObject>();
-
-		private void Awake()
+		public override void PlayAudio(int index) //send sound to audio manager
 		{
-			SearchBar = GetComponentInChildren<AdminGlobalSoundSearchBar>();
-			SoundList();
-		}
-
-		/// <summary>
-		/// Generates buttons for the list
-		/// </summary>
-		public void SoundList()
-		{
-			if (SearchBar != null)
+			if (index < audioList.Count)
 			{
-				SearchBar.Resettext();
+				AdminCommandsManager.Instance.CmdPlaySound(audioList[index]);
 			}
-
-			var sounds = SoundManager.Instance.GetComponentsInChildren<AudioSource>();
-
-			foreach (AudioSource pair in sounds) //sounds is a readonly so will never change hopefully
-			{
-				if (!pair.loop)
-				{
-					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
-					button.SetActive(true);
-					button.GetComponent<AdminGlobalSoundButton>().SetAdminGlobalSoundButtonText(pair.gameObject.name);
-					soundButtons.Add(button);
-
-					button.transform.SetParent(buttonTemplate.transform.parent, false);
-				}
-			}
-		}
-
-		public void PlaySound(string index) //send sound to sound manager
-		{
-			AdminCommandsManager.Instance.CmdPlaySound(index);
 		}
 	}
 }

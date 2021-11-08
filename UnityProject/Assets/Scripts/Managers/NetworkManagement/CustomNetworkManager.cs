@@ -201,9 +201,18 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
 				{
 					var OriginalOldID = prefabTracker.ForeverID;
-					//TODO Someone smarter than me work out which one is the base prefab
-					StoredIDs[prefabTracker.ForeverID].ReassignID();
-					prefabTracker.ReassignID();
+
+					var OriginDictionary =
+						PrefabUtility.GetCorrespondingObjectFromSource(StoredIDs[prefabTracker.ForeverID].gameObject);
+					if (OriginDictionary == prefabTracker.gameObject)
+					{
+						StoredIDs[prefabTracker.ForeverID].ReassignID();
+					}
+					else
+					{
+						prefabTracker.ReassignID();
+					}
+
 					var Preexisting = StoredIDs[OriginalOldID];
 
 					if (Preexisting.ForeverID != OriginalOldID &&
@@ -375,6 +384,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
 		//which will preserve their actual body because they no longer own it
 		base.OnServerDisconnect(conn);
+		SubSceneManager.Instance.RemoveSceneObserver(conn);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)

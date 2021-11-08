@@ -187,7 +187,8 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		{
 			InitServerState();
 		}
-		else
+
+		if (pos == TransformState.HiddenPos)
 		{
 			Collider2D[] colls = GetComponents<Collider2D>();
 			foreach (var c in colls)

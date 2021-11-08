@@ -9,7 +9,7 @@ using UnityEngine;
 /// fires continuously while the mouse button is being held down, and fires once on the initial click and
 /// also on the release. This is used for things like guns.
 /// </summary>
-public class AimApply : Interaction
+public class AimApply : BodyPartTargetedInteraction
 {
 	//cache player layermask
 	private static LayerMask PLAYER_LAYER_MASK = -1;
@@ -53,8 +53,9 @@ public class AimApply : Interaction
 	/// or ending.</param>
 	/// <param name="targetVector">vector pointing from shooter to the spot they are targeting - should NOT be normalized. Set to
 	/// Vector2.zero if aiming at self.</param>
-	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState, Vector2 targetVector, Intent intent) :
-		base(performer, handObject, intent)
+	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState,
+		Vector2 targetVector, BodyPartType bodyPartType, Intent intent) :
+		base(performer, handObject, null, bodyPartType, intent)
 	{
 		this.targetVector = targetVector;
 		this.handSlot = handSlot;
@@ -88,7 +89,7 @@ public class AimApply : Interaction
 		return new AimApply(PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			buttonState,
-			selfAim ? Vector2.zero : targetVector, UIManager.CurrentIntent);
+			selfAim ? Vector2.zero : targetVector, UIManager.DamageZone, UIManager.CurrentIntent);
 	}
 
 	/// <summary>
@@ -105,9 +106,9 @@ public class AimApply : Interaction
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	/// <param name="mouseButtonState">state of the mouse button</param>
 	public static AimApply ByClient(GameObject clientPlayer, Vector2 targetVector, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState,
-		Intent intent)
+		BodyPartType TargetBodyPart, Intent intent)
 	{
-		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, targetVector, intent);
+		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, targetVector, TargetBodyPart, intent);
 	}
 }
 

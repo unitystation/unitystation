@@ -207,6 +207,13 @@ MonoBehaviour:
     buildTime: 10
     spawnAmount: 1
     onePerTile: 1
+  - name: Air Controller Unit Frame
+    prefab: {fileID: 1491850521006362637, guid: ac79806040b5f0b46be39f5424b01030,
+      type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
   - name: Fire Alarm Frame
     prefab: {fileID: 7047389217536499885, guid: 1be23efbdb93f98418b05eaef470460a,
       type: 3}

@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
-using Systems.Disposals;
+using Objects.Atmospherics;
 
 namespace Objects.Disposals
 {
@@ -28,6 +27,8 @@ namespace Objects.Disposals
 		protected RegisterObject registerObject;
 		protected ObjectAttributes objectAttributes;
 		protected ObjectBehaviour objectBehaviour;
+		protected ObjectContainer objectContainer;
+		protected GasContainer gasContainer;
 		protected SpriteHandler baseSpriteHandler;
 
 		protected PositionalHandApply currentInteraction;
@@ -48,6 +49,8 @@ namespace Objects.Disposals
 			registerObject = GetComponent<RegisterObject>();
 			objectAttributes = GetComponent<ObjectAttributes>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectContainer = GetComponent<ObjectContainer>();
+			gasContainer = GetComponent<GasContainer>();
 
 			baseSpriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
 		}
@@ -132,13 +135,6 @@ namespace Objects.Disposals
 		}
 
 		#endregion Interactions
-
-		protected DisposalVirtualContainer SpawnNewContainer()
-		{
-			GameObject containerObject = DisposalsManager.SpawnVirtualContainer(registerObject.WorldPositionServer);
-			containerObject.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
-			return containerObject.GetComponent<DisposalVirtualContainer>();
-		}
 
 		#region Construction
 

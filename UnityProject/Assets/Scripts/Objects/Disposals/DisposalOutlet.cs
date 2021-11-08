@@ -69,14 +69,7 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteState()
 		{
-			if (IsOperating)
-			{
-				baseSpriteHandler.ChangeSprite((int) SpriteState.Operating);
-			}
-			else
-			{
-				baseSpriteHandler.ChangeSprite((int) SpriteState.Idle);
-			}
+			baseSpriteHandler.ChangeSprite((int) (IsOperating ? SpriteState.Operating : SpriteState.Idle));
 		}
 
 		private void UpdateSpriteOrientation()
@@ -159,7 +152,7 @@ namespace Objects.Disposals
 				// Outlet orifice open. Release the charge.
 				foreach (DisposalVirtualContainer container in receivedContainers)
 				{
-					container.EjectContentsAndThrow(directional.CurrentDirection.Vector);
+					container.EjectContentsWithVector(directional.CurrentDirection.Vector);
 					_ = Despawn.ServerSingle(container.gameObject);
 				}
 				receivedContainers.Clear();

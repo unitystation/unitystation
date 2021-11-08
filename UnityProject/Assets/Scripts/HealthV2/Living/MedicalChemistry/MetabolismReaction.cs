@@ -8,85 +8,45 @@ using UnityEngine;
 
 public class MetabolismReaction : Reaction
 {
+
+	public float MinimumThreshold = 0;
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{
+		tempMin = hasMinTemp ? (float?)serializableTempMin : null;
+		tempMax = hasMaxTemp ? (float?)serializableTempMax : null;
+
 		if (tempMin != null && reagentMix.Temperature <= tempMin ||
 		    tempMax != null && reagentMix.Temperature >= tempMax)
 		{
 			return false;
 		}
 
-		if (ingredients.m_dict.Count() == 0)
+		if (!ingredients.m_dict.All(reagent => reagentMix[reagent.Key] > 0))
 		{
 			return false;
 		}
 
-		var cancelApply = true;
-		foreach (var ingredient in ingredients.m_dict)
-		{
-			if (reagentMix.reagents.m_dict.ContainsKey(ingredient.Key) && reagentMix.reagents.m_dict[ingredient.Key] > 0)
-			{
-				cancelApply = false;
-				break;
-			}
-
-		}
-		if (cancelApply)
+		if (!ingredients.m_dict.Any())
 		{
 			return false;
 		}
 
-		var reactionAmount = Mathf.Infinity;
-		foreach (var ingredient in ingredients.m_dict)
-		{
-			var asd = reagentMix.reagents.m_dict[ingredient.Key] / ingredient.Value;
-			if (reactionAmount < asd)
-			{
-				reactionAmount = asd;
-			}
-		}
-
-		if (useExactAmounts)
-		{
-			reactionAmount = (float) Math.Floor(reactionAmount);
-			if (reactionAmount == 0)
-			{
-				return false;
-			}
-		}
-
-		cancelApply = true;
-		foreach (var catalyst in catalysts.m_dict)
-		{
-			if (reagentMix.reagents.m_dict[catalyst.Key] >= catalyst.Value * reactionAmount)
-			{
-				cancelApply = false;
-				break;
-			}
-		}
-		if (cancelApply)
+		if (!catalysts.m_dict.All(catalyst =>
+			reagentMix[catalyst.Key] >= catalyst.Value))
 		{
 			return false;
 		}
 
 		if (inhibitors.m_dict.Count > 0)
 		{
-			cancelApply = true;
-			foreach (var inhibitor in inhibitors.m_dict)
-			{
-				if (reagentMix.reagents.m_dict[inhibitor.Key] > inhibitor.Value * reactionAmount)
-				{
-					cancelApply = false;
-					break;
-				}
-			}
-			if (cancelApply)
+			if (inhibitors.m_dict.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value))
 			{
 				return false;
 			}
 		}
+
 
 		var BodyPart = sender.GetComponent<BodyPart>();
 		if (BodyPart == null)
@@ -96,7 +56,7 @@ public class MetabolismReaction : Reaction
 
 		BodyPart.MetabolismReactions.Add(this);
 
-		return true;
+		return false;
 	}
 
 	public void React(BodyPart sender, ReagentMix reagentMix, float INreactionAmount)
@@ -107,6 +67,22 @@ public class MetabolismReaction : Reaction
 		{
 			return;
 		}
+
+		bool HasValidIngredient = false;
+
+		foreach (var Ingredients in ingredients.m_dict)
+		{
+			if (reagentMix.reagents.m_dict.ContainsKey(Ingredients.Key))
+			{
+				if (reagentMix.reagents.m_dict[Ingredients.Key] > 0)
+				{
+					HasValidIngredient = true;
+					break;
+				}
+			}
+		}
+
+		if (HasValidIngredient == false) return;
 
 		if (!ingredients.m_dict.All(reagent => reagentMix.reagents.m_dict[reagent.Key] > 0))
 		{
@@ -119,6 +95,11 @@ public class MetabolismReaction : Reaction
 		}
 
 		var OptimalAmount = ingredients.m_dict.Min(i => reagentMix.reagents.m_dict[i.Key] / i.Value);
+
+		if (OptimalAmount < MinimumThreshold)
+		{
+			return;
+		}
 
 		var reactionAmount = Mathf.Min(OptimalAmount, INreactionAmount*ReagentMetabolismMultiplier);
 
