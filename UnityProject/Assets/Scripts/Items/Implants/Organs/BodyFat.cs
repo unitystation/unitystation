@@ -18,7 +18,6 @@ namespace HealthV2
 
 		public float CrawlingSpeedModifier { get; private set; }
 
-
 		public Stomach RelatedStomach;
 
 		public float ReleaseNutrimentPercentage = 0.01f;

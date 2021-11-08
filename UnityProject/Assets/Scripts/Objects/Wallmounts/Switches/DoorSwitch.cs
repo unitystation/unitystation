@@ -91,7 +91,7 @@ namespace Objects.Wallmounts
 			RpcPlayButtonAnim(true);
 		}
 
-		private void RunDoorController()
+		public void RunDoorController()
 		{
 			if (doorControllers.Count == 0 && NewdoorControllers.Count == 0)
 			{

@@ -180,8 +180,7 @@ namespace AdminTools.VariableViewer
 					if (IDtoHierarchyEntry.ContainsKey(NFHBS.ID) == false)
 					{
 						IDtoHierarchyEntry[NFHBS.PID].ChildPage = 0;
-						IDtoHierarchyEntry[NFHBS.PID].DisplayPage();
-						RecursiveUntilDisplayed(NFHBS);
+						IDtoHierarchyEntry[NFHBS.PID].SetChildPageToID(NFHBS.ID);
 					}
 					IDtoHierarchyEntry[NFHBS.ID].ExpandChildren();
 					i++;
@@ -193,23 +192,7 @@ namespace AdminTools.VariableViewer
 
 			}
 		}
-
-		public void RecursiveUntilDisplayed(VariableViewerNetworking.NetFriendlyHierarchyBookShelf NFHBS)
-		{
-			if (IDtoHierarchyEntry.ContainsKey(NFHBS.ID))
-			{
-				return;
-			}
-			else
-			{
-				if (IDtoHierarchyEntry[NFHBS.PID].ThePageDown.activeSelf)
-				{
-					IDtoHierarchyEntry[NFHBS.PID].PageDown();
-					RecursiveUntilDisplayed(NFHBS);
-				}
-			}
-		}
-
+		
 		public HierarchyEntry RecursiveGetParent(
 				VariableViewerNetworking.NetFriendlyHierarchyBookShelf bookShelf,
 				List<VariableViewerNetworking.NetFriendlyHierarchyBookShelf> passlist)

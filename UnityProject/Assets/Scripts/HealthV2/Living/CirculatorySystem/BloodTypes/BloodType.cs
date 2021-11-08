@@ -9,6 +9,8 @@ namespace HealthV2
 		[Tooltip("This is the reagent actually metabolised and circulated through this circulatory system.")]
 		public Chemistry.Reagent CirculatedReagent;	//Just one for now feel free to add the code for more if needed
 
+		public Chemistry.Reagent WasteCarryReagent;
+
 		// A, B, O, etc.  Don't know how alien blood types will work, but you can add anything over there.
 		public BloodTypes Type;
 
@@ -25,62 +27,33 @@ namespace HealthV2
 		public float BloodGasCapability;
 
 
-		public float GetGasCapacityOfnonMeanCarrier(ReagentMix reagentMix)
+
+		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent)
+		{
+			if (reagent == CirculatedReagent || reagent == null)
+			{
+				return GetNormalGasCapacity(reagentMix);
+			}
+			return GetSpecialGasCapacity(reagentMix);
+		}
+
+		public float GetNormalGasCapacity(ReagentMix reagentMix)
 		{
 			return reagentMix[this] * BloodGasCapability;
 		}
 
-
-		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
+		public float GetSpecialGasCapacity(ReagentMix reagentMix)
 		{
-			if (reagent == CirculatedReagent || reagent == null)
-			{
-				return reagentMix[this] * BloodCapacityOf;
-			}
-			return reagentMix[this] * BloodGasCapability;
+			return reagentMix[this] * BloodCapacityOf;
 		}
 
 		public float GetSpareGasCapacity(ReagentMix reagentMix, Reagent reagent = null)
 		{
 			if (reagent == CirculatedReagent || reagent == null)
 			{
-				return GetGasCapacity(reagentMix) - reagentMix[CirculatedReagent];
+				return GetSpecialGasCapacity(reagentMix) - reagentMix[CirculatedReagent];
 			}
 			return GetGasCapacity(reagentMix, reagent) - reagentMix[reagent];
-		}
-
-		public float GetGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
-		{
-			float toReturn = 0;
-			lock (reagentMix.reagents)
-			{
-				foreach(var reagen in reagentMix.reagents.m_dict)
-				{
-					var kindOfBlood = reagen.Key as BloodType;
-					if(kindOfBlood != null && kindOfBlood != this)
-					{
-						toReturn += kindOfBlood.GetGasCapacity(reagentMix, reagent);
-					}
-				}
-			}
-			return toReturn;
-		}
-		public float GetSpareGasCapacityForeign(ReagentMix reagentMix, Reagent reagent = null)
-		{
-			float toReturn = 0;
-			lock (reagentMix.reagents)
-			{
-				foreach (var reagen in reagentMix.reagents.m_dict)
-				{
-					var kindOfBlood = reagen.Key as BloodType;
-					if (kindOfBlood != null && kindOfBlood != this)
-					{
-						toReturn += kindOfBlood.GetSpareGasCapacity(reagentMix, reagent);
-					}
-				}
-			}
-
-			return toReturn;
 		}
 	}
 }

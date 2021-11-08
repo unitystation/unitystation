@@ -53,6 +53,8 @@ MonoBehaviour:
   restricted: 0
   access: 0
   generalSwitchControllers: []
+  storage: {fileID: 0}
+  receiver: {fileID: 0}
   conType: 8
 --- !u!1001 &7736396387788463905
 PrefabInstance:
@@ -115,17 +117,17 @@ PrefabInstance:
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -265,6 +267,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 6152803175483395487}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 5984075033766800941}
@@ -297,6 +304,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7736396387788463905}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6152803175483395487 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4485046902360527550, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7736396387788463905}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9063366402093685405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!210 &5984075033766800941 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
