@@ -257,9 +257,9 @@ namespace Objects
 
 			GameObject sourceobjbehavior = gameObject;
 			RegisterObject sourceregisterobject = registerObject;
-			if (GetComponent<ObjectBehaviour>().parentContainer != null)
+			if (pushPull.parentContainer != null)
 			{
-				sourceobjbehavior = GetComponent<ObjectBehaviour>().parentContainer.gameObject;
+				sourceobjbehavior = pushPull.parentContainer.gameObject;
 				sourceregisterobject = sourceobjbehavior.GetComponent<RegisterObject>();
 			}
 
