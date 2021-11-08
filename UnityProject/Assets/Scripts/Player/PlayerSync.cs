@@ -436,7 +436,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 		foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 		{
-			escapable.EntityTryEscape(gameObject);
+			escapable.EntityTryEscape(gameObject,null);
 		}
 	}
 

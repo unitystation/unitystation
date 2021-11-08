@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Items;
+using Items.Cargo.Wrapping;
 
 namespace Objects
 {
@@ -220,23 +221,33 @@ namespace Objects
 			container.RetrieveObjects();
 		}
 
-		public void EntityTryEscape(GameObject performer)
+		public void EntityTryEscape(GameObject performer, Action ifCompleted)
 		{
 			// First, try to just open the closet. Anything can do this.
 			if (IsLocked == false && IsWelded == false)
 			{
 				SetDoor(Door.Opened);
+				ifCompleted?.Invoke();
 				return;
 			}
 
+			GameObject sourceobjbehavior = gameObject;
+			RegisterObject sourceregisterobject = registerObject;
+			if (GetComponent<ObjectBehaviour>().parentContainer != null)
+			{
+				sourceobjbehavior = GetComponent<ObjectBehaviour>().parentContainer.gameObject;
+				sourceregisterobject = sourceobjbehavior.GetComponent<RegisterObject>();
+			}
+
 			// banging sound
-			SoundManager.PlayNetworkedAtPos(soundOnEscapeAttempt, registerObject.WorldPositionServer, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(soundOnEscapeAttempt, sourceregisterobject.WorldPositionServer, sourceObj: sourceobjbehavior);
 
 			// complex task involved
 			if (performer.Player() == null) return;
 
 			var bar = StandardProgressAction.Create(ProgressConfig, () =>
 			{
+				ifCompleted?.Invoke();
 				if (IsWelded)
 				{
 					// Remove the weld
@@ -250,15 +261,15 @@ namespace Objects
 
 				SetDoor(Door.Opened);
 
-				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerObject.WorldPositionServer, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(soundOnEmag, sourceregisterobject.WorldPositionServer, sourceObj: sourceobjbehavior);
 				Chat.AddActionMsgToChat(performer,
 						$"You successfully break out of the {closetName}.",
 						$"{performer.ExpensiveName()} emerges from the {closetName}!");
 			});
 
-			bar.ServerStartProgress(registerObject, breakoutTime, performer);
+			bar.ServerStartProgress(sourceregisterobject, breakoutTime, performer);
 
-			SoundManager.PlayNetworkedAtPos(soundOnEscape, registerObject.WorldPositionServer, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(soundOnEscape, sourceregisterobject.WorldPositionServer, sourceObj: sourceobjbehavior);
 			Chat.AddActionMsgToChat(performer,
 					$"You begin breaking out of the {closetName}...",
 					$"You hear noises coming from the {closetName}... Something must be trying to break out!");
@@ -353,13 +364,27 @@ namespace Objects
 				return;
 			}
 
-			SetDoor(IsOpen ? Door.Closed : Door.Opened);
+			if (IsOpen)
+			{
+				if (container.IsAnotherContainerNear())
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot close {closetName} with another container in the way!");
+				}
+				else
+				{
+					SetDoor(Door.Closed);
+				}
+			}
+			else
+			{
+				SetDoor(Door.Opened);
+			}
 		}
 
 		private void TryToggleLock(PositionalHandApply interaction)
 		{
 			var effector = "hand";
-			
+
 			if (interaction.IsAltClick)
 			{
 				var idSource = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id)

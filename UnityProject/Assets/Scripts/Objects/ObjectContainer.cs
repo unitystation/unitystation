@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using Messages.Server;
 
@@ -15,7 +17,8 @@ namespace Objects
 		/// </summary>
 		/// <remarks>The mob could be a player, bot, animal etc.</remarks>
 		/// <param name="entity">The <c>GameObject</c> of the mob attempting to escape.</param>
-		void EntityTryEscape(GameObject entity);
+		/// <param name="ifCompleted">An <c>Action</c> to carry out if escape is successful. </param>
+		void EntityTryEscape(GameObject entity, [CanBeNull] Action ifCompleted);
 	}
 
 	/// <summary>
@@ -140,6 +143,9 @@ namespace Objects
 				// Can't store secured objects.
 				if (entity.IsPushable == false) continue;
 
+				//No Nested ObjectContainer shenanigans
+				if (entity.GetComponent<ObjectContainer>()) continue;
+
 				StoreObject(entity.gameObject, entity.transform.position - transform.position);
 			}
 		}
@@ -257,6 +263,23 @@ namespace Objects
 			{
 				obj.RegisterTile().ServerSetNetworkedMatrixNetID(parentNetId);
 			}
+		}
+
+		/// <summary>
+		/// Checks for Other ObjectContainers in the vicinity of the tile this ObjectContainer is in.
+		/// </summary>
+		/// <returns>Returns true if at least one ObjectContainer exists on the same tile.</returns>
+		public bool IsAnotherContainerNear()
+		{
+			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
+			{
+				if (entity.GetComponent<ObjectContainer>() && entity != GetComponent<ObjectBehaviour>())
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
