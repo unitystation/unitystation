@@ -42,7 +42,6 @@ namespace Items.Cargo.Wrapping
 			UpdateExportCost(exportCost);
 			toWrap.GetComponent<PushPull>().VisibleState = false;
 			toWrap.GetComponent<ObjectBehaviour>().parentContainer = GetComponent<ObjectBehaviour>();
-			Debug.Log(GetOrGenerateContent());
 		}
 
 		private void UpdateExportCost(int value)
