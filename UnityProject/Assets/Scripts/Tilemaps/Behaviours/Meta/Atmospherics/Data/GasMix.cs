@@ -15,7 +15,7 @@ namespace Systems.Atmospherics
 	{
 		[InfoBox("Gas data container", EInfoBoxType.Normal)]
 		public GasData GasData;
-		public GasValues[] GasesArray => GasData.GasesArray;
+		public List<GasValues> GasesArray => GasData.GasesArray;
 
 		/// <summary>In kPa.</summary>
 		public float Pressure;
@@ -32,7 +32,7 @@ namespace Systems.Atmospherics
 			get
 			{
 				float value = 0;
-				foreach (var a in GasesArray)
+				foreach (var a in GasesArray)  //is good no modify
 				{
 					value += a.Moles;
 				}
@@ -52,7 +52,7 @@ namespace Systems.Atmospherics
 			{
 				float capacity = 0f;
 
-				foreach (var gas in GasesArray)
+				foreach (var gas in GasesArray) //is good no modify
 				{
 					capacity += gas.GasSO.MolarHeatCapacity * gas.Moles;
 				}
@@ -164,18 +164,20 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Transfers moles from one gas to another
 		/// </summary>
-		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer, bool DoNotTouchOriginalMix = false)
+		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer,
+			bool DoNotTouchOriginalMix = false)
 		{
 			var sourceStartMoles = source.Moles;
 			molesToTransfer = molesToTransfer.Clamp(0, sourceStartMoles);
 			if (CodeUtilities.IsEqual(molesToTransfer, 0) || CodeUtilities.IsEqual(sourceStartMoles, 0))
 				return;
-			var ratio =  molesToTransfer / sourceStartMoles;
+			var ratio = molesToTransfer / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
-			foreach (var gas in source.GasesArray)
+			for (int i = source.GasesArray.Count - 1; i >= 0; i--)
 			{
-				if(gas.GasSO == null) continue;
+				var gas = source.GasesArray[i];
+				if (gas.GasSO == null) continue;
 
 				var sourceMoles = source.GetMoles(gas.GasSO);
 				if (CodeUtilities.IsEqual(sourceMoles, 0)) continue;
@@ -205,13 +207,16 @@ namespace Systems.Atmospherics
 				target.SetTemperature(targetTempFinal);
 			}
 
-			if (CodeUtilities.IsEqual(ratio, 1)) //transferred everything, source is empty
+			if (DoNotTouchOriginalMix == false)
 			{
-				source.SetPressure(0);
-			}
-			else
-			{
-				source.RecalculatePressure();
+				if (CodeUtilities.IsEqual(ratio, 1)) //transferred everything, source is empty
+				{
+					source.SetPressure(0);
+				}
+				else
+				{
+					source.RecalculatePressure();
+				}
 			}
 		}
 
@@ -226,8 +231,9 @@ namespace Systems.Atmospherics
 			var newTemperature = totalWholeHeatCapacity > 0 ? totalInternalEnergy / totalWholeHeatCapacity : 0;
 			var totalVolume = Volume + otherGas.Volume;
 
-			foreach (var gas in GasesArray)
+			for (int i = GasesArray.Count - 1; i >= 0; i--)
 			{
+				var gas = GasesArray[i];
 				var gasMoles = GasData.GetGasMoles(gas.GasSO);
 				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
 				gasMoles /= totalVolume;
@@ -238,8 +244,10 @@ namespace Systems.Atmospherics
 				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
 			}
 
-			foreach (var gas in otherGas.GasesArray)
+
+			for (int i = otherGas.GasesArray.Count - 1; i >= 0; i--)
 			{
+				var gas = otherGas.GasesArray[i];
 				//Check if already merged
 				if(cache.Contains(gas.GasSO)) continue;
 
@@ -261,7 +269,7 @@ namespace Systems.Atmospherics
 
 		public void MultiplyGas(float factor)
 		{
-			for (int i = 0; i < GasesArray.Length; i++)
+			for (int i = 0; i < GasesArray.Count; i++)
 			{
 				GasesArray[i].Moles *= factor;
 			}
@@ -315,8 +323,9 @@ namespace Systems.Atmospherics
 			var newTemperature = totalInternalEnergy / totalWholeHeatCapacity;
 
 			//First do the gases in THIS gas mix and merge them with all pipes
-			foreach (var gas in GasesArray)
+			for (int i = GasesArray.Count - 1; i >= 0; i--)
 			{
+				var gas = GasesArray[i];
 				var gasMoles = GasData.GetGasMoles(gas.GasSO);
 
 				foreach (var gasMix in otherGas)
@@ -415,7 +424,7 @@ namespace Systems.Atmospherics
 
 		public void Copy(GasMix other)
 		{
-			GasData = other.GasData.Copy();
+			other.GasData.CopyTo(GasData);
 			Pressure = other.Pressure;
 			Temperature = other.Temperature;
 			Volume = other.Volume;
@@ -430,8 +439,7 @@ namespace Systems.Atmospherics
 		{
 			Temperature = AtmosDefines.SPACE_TEMPERATURE;
 
-			GasData.GasesArray = new GasValues[0];
-			GasData.GasesDict.Clear();
+			GasData.Clear();
 			Pressure = 0;
 			Volume = 0;
 		}

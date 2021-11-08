@@ -177,8 +177,10 @@ namespace Objects.Atmospherics
 				Volume = GasMix.Volume;
 				Temperature = GasMix.Temperature;
 
-				foreach (var gas in GasMix.GasesArray)
+
+				for (int i = GasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
+					var gas = GasMix.GasesArray[i];
 					StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
 				}
 			}

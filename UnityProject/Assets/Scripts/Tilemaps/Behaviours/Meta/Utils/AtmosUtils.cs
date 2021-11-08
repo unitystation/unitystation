@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
@@ -6,6 +7,23 @@ namespace Systems.Atmospherics
 {
 	public static class AtmosUtils
 	{
+
+		public static List<GasValues> PooledGasValues = new List<GasValues>();
+		public static GasValues GetGasValues()
+		{
+			lock (PooledGasValues)
+			{
+				if (PooledGasValues.Count > 0)
+				{
+					var QEntry = PooledGasValues[0];
+					PooledGasValues.RemoveAt(0);
+					return QEntry;
+				}
+			}
+
+			return new GasValues();
+		}
+
 		public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1, -1);
 
 		public static bool IsPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
@@ -65,8 +83,9 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					foreach (var gas in node.GasMix.GasesArray)
+					for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
 					{
+						var gas = node.GasMix.GasesArray[j];
 						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
 						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
 
@@ -84,7 +103,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					foreach (var gas in neighbor.GasMix.GasesArray)
+					foreach (var gas in neighbor.GasMix.GasesArray) //is good no modify
 					{
 						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
 						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
@@ -279,24 +298,11 @@ namespace Systems.Atmospherics
 			//Dont add if approx 0 or below threshold
 			if (moles.Approx(0) || moles <= AtmosConstants.MinPressureDifference) return;
 
-			//Create new array and add old gas values and new gas
-			var newValues = new GasValues {Moles = moles, GasSO = gasType};
-			var newArray = new GasValues[data.GasesArray.Length + 1];
+			var newValues = GetGasValues();
+			newValues.Moles = moles;
+			newValues.GasSO = gasType;
 
-			for (int i = 0; i < newArray.Length; i++)
-			{
-				if (data.GasesArray.Length == i)
-				{
-					newArray[i] = newValues;
-
-					//Should only happen on last index since we are adding only one thing so can break
-					break;
-				}
-
-				newArray[i] = data.GasesArray[i];
-			}
-
-			data.GasesArray = newArray;
+			data.GasesArray.Add(newValues);
 			data.GasesDict.Add(gasType, newValues);
 		}
 
@@ -305,19 +311,19 @@ namespace Systems.Atmospherics
 		/// </summary>
 		public static void RemoveGasType(this GasData data, GasSO gasType)
 		{
-			var newData = new GasValues[data.GasesArray.Length - 1];
-			var count = 0;
 
-			foreach (var gas in data.GasesArray)
+			for (int i = data.GasesArray.Count - 1; i >= 0; i--)
 			{
-				if(gas.GasSO == gasType) continue;
-
-				newData[count] = gas;
-				count++;
+				if (data.GasesArray[i].GasSO == gasType)
+				{
+					data.GasesDict.Remove(gasType);
+					data.GasesArray[i].Pool();
+					data.GasesArray.RemoveAt(i);
+					return;
+				}
 			}
 
-			data.GasesArray = newData;
-			data.GasesDict.Remove(gasType);
+
 		}
 
 		/// <summary>
@@ -336,6 +342,25 @@ namespace Systems.Atmospherics
 			newGasData.RegenerateDict();
 
 			return newGasData;
+		}
+
+
+		/// <summary>
+		/// Copies the array, creating new references
+		/// </summary>
+		/// <param name="oldData"></param>
+		public static GasData CopyTo(this GasData oldData, GasData CopyTo)
+		{
+			CopyTo.Clear();
+
+			foreach (var value in oldData.GasesArray)
+			{
+				CopyTo.SetMoles(value.GasSO, value.Moles);
+			}
+
+			CopyTo.RegenerateDict();
+
+			return CopyTo;
 		}
 	}
 }

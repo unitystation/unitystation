@@ -302,7 +302,7 @@ namespace Systems.Atmospherics
 		private void CalcMeanGasMix()
 		{
 			meanGasMix.Clear();
-			
+
 			var targetCount = 0;
 
 			for (var i = 0; i < nodes.Count; i++)
@@ -334,8 +334,12 @@ namespace Systems.Atmospherics
 			if (targetCount == 0) return;
 
 			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
-			foreach (var gasData in meanGasMix.GasesArray)
+
+
+
+			for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
 			{
+				var gasData = meanGasMix.GasesArray[i];
 				meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
 			}
 		}
@@ -351,7 +355,7 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			foreach (var gasData in node.GasMix.GasesArray)
+			foreach (var gasData in node.GasMix.GasesArray) //is good no modify
 			{
 				var gas = gasData.GasSO;
 				if(!gas.HasOverlay) continue;
