@@ -40,7 +40,6 @@ namespace Objects
 		{
 			if (ignoresFootwear == false)
 			{
-				bool willHurt = false;
 				foreach (var slot in health.playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 				{
 					if (slot.IsEmpty == false)
@@ -49,11 +48,10 @@ namespace Objects
 						if (slot.ItemAttributes.GetTraits().Any(trait => protectiveItemTraits.Contains(trait)))
 						{
 							willHurt = true;//If we found out that there's a trait that protect this foot.
-							break;
+							return;
 						}
 					}
 				}
-				if (willHurt == true) return;
 			}
 			if (hurtsOneFootOnly)
 			{
