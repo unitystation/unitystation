@@ -279,7 +279,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
 		//for performance, this is just a suggestion on which matrix we believe this point could be in, not always correct
-		if (possibleMatrix is null && IsInMatrix(worldPos, isServer, possibleMatrix))
+		if (possibleMatrix is null == false && IsInMatrix(worldPos, isServer, possibleMatrix))
 		{
 			return possibleMatrix;
 		}
