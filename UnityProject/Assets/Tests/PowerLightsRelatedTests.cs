@@ -302,11 +302,10 @@ namespace Tests
 			    var device = objectDevice;
 			    if (device.listOfLights.Count == 0)
 			    {
-					var objectCoords = $"({device.transform.position.x}, {device.transform.position.y})";
 				    count++;
 				    var obStr = objectDevice.name;
 				    devicesWithoutAPC.Add(obStr);
-				    Logger.Log(obStr, Category.Tests, objectCoords);
+				    Logger.Log(obStr, Category.Tests);
 				    report.AppendLine(obStr);
 			    }
 		    }
@@ -429,9 +428,8 @@ namespace Tests
 			    {
 				    if (connectedDevice == null)
 				    {
-						var objectCoords = $"({device.transform.position.x}, {device.transform.position.y})";
 					    devicesAPC.Add(device.name);
-					    Logger.Log($"ConnectedDevice is null in \"{device.name}\"" , objectCoords, Category.Tests);
+					    Logger.Log($"ConnectedDevice is null in \"{device.name}\"" , Category.Tests);
 					    report.AppendLine(device.name);
 					    count++;
 				    }
