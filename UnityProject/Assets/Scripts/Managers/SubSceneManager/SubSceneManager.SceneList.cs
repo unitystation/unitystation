@@ -54,11 +54,10 @@ public partial class SubSceneManager
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 	}
 
-	//Choose and load a main station on the server
+	//Load the space scene on the server
 	IEnumerator ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
 	{
 		loadTimer.IncrementLoadBar($"Loading the void of time and space");
-		//load main station
 		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer));
 		loadedScenesList.Add(new SceneInfo
 		{
