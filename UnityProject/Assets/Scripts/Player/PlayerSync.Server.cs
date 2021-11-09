@@ -77,7 +77,7 @@ public partial class PlayerSync
 				return false;
 			}
 			GameObject[] context = pushPull.IsPullingSomethingServer ? new[] { gameObject, pushPull.PulledObjectServer.gameObject } : new[] { gameObject };
-			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(serverState.WorldPosition), isServer: true);
+			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(serverState.WorldPosition), isServer: true, registerPlayer.Matrix.MatrixInfo);
 		}
 	}
 
@@ -93,7 +93,7 @@ public partial class PlayerSync
 				return Matrix.IsNoGravityAt(serverState.LocalPosition.RoundToInt(), true)
 					|| Matrix.MetaDataLayer.IsSlipperyAt(serverState.LocalPosition.RoundToInt());
 			}
-			return !playerScript.IsGhost && Matrix.IsNonStickyAt(serverState.LocalPosition.RoundToInt(), true);
+			return !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(serverState.WorldPosition), true, registerPlayer.Matrix.MatrixInfo);
 		}
 	}
 
@@ -239,7 +239,7 @@ public partial class PlayerSync
 
 		if (isNewtonian)
 		{
-			if (!MatrixManager.IsSlipperyOrNoGravityAt(pushGoal))
+			if (!MatrixManager.IsSlipperyOrNoGravityAt(pushGoal, registerPlayer.Matrix.MatrixInfo))
 			{
 				return false;
 			}

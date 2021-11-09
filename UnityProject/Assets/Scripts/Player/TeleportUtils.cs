@@ -209,8 +209,9 @@ namespace Systems.Teleport
 				GameObject objectToTeleport, int minRadius = 0, int maxRadius = 16,
 				bool tryAvoidSpace = false, bool tryAvoidImpassable = false)
 		{
-			Vector3Int originalPosition = objectToTeleport.RegisterTile().WorldPositionServer;
-			Vector3Int newPosition = GetTeleportPos(originalPosition, minRadius, maxRadius, tryAvoidSpace, tryAvoidImpassable);
+			var registerTile = objectToTeleport.RegisterTile();
+			Vector3Int originalPosition = registerTile.WorldPositionServer;
+			Vector3Int newPosition = GetTeleportPos(originalPosition, minRadius, maxRadius, tryAvoidSpace, tryAvoidImpassable, registerTile.Matrix.MatrixInfo);
 
 			if (objectToTeleport.TryGetComponent(out CustomNetTransform netTransform))
 			{
@@ -229,7 +230,7 @@ namespace Systems.Teleport
 			return newPosition;
 		}
 
-		private static Vector3Int GetTeleportPos(Vector3Int centrePoint, float minRadius, float maxRadius, bool avoidSpace, bool avoidImpassable)
+		private static Vector3Int GetTeleportPos(Vector3Int centrePoint, float minRadius, float maxRadius, bool avoidSpace, bool avoidImpassable, MatrixInfo possibleMatrix)
 		{
 			Vector3Int randomVector;
 			Vector3Int newPosition = Vector3Int.zero;
@@ -239,7 +240,7 @@ namespace Systems.Teleport
 				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).To2Int();
 				newPosition = centrePoint + randomVector;
 
-				if (avoidSpace && MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer))
+				if (avoidSpace && MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer, possibleMatrix))
 				{
 					continue;
 				}

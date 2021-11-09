@@ -370,7 +370,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		}
 		Poke();
 		Vector2 pos = worldPos; //Cut z-axis
-		serverState.MatrixId = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Id;
+		serverState.MatrixId = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true, registerTile.Matrix.MatrixInfo).Id;
 		if (!keepRotation)
 		{
 			serverState.SpinRotation = 0;
@@ -412,7 +412,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 
 //		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Matrix, gameObject.name, pos );
-		var newMatrix = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true );
+		var newMatrix = MatrixManager.AtPoint(serverState.WorldPosition.RoundToInt(), true, registerTile.Matrix.MatrixInfo);
 		if ( serverState.MatrixId != newMatrix.Id ) {
 			var oldMatrix = MatrixManager.Get( serverState.MatrixId );
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Matrix, gameObject, oldMatrix, newMatrix );
@@ -493,7 +493,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	public void AppearAtPosition(Vector3 worldPos)
 	{
 		var pos = (Vector2) worldPos; //Cut z-axis
-		predictedState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ), false ).Id;
+		predictedState.MatrixId = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), false, registerTile.Matrix.MatrixInfo).Id;
 		predictedState.WorldPosition = pos;
 		transform.position = pos;
 		UpdateActiveStatusClient();

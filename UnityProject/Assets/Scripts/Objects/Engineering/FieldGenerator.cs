@@ -638,7 +638,7 @@ namespace Objects.Engineering
 			}
 			else
 			{
-				if (MatrixManager.IsSpaceAt(registerTile.WorldPositionServer, true))
+				if (MatrixManager.IsSpaceAt(registerTile.WorldPositionServer, true, registerTile.Matrix.MatrixInfo))
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "Emitter needs to be on a floor or plating");
 					return;
