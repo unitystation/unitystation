@@ -46,7 +46,6 @@ namespace Objects
 						//Check if the footwear we have on has any protective traits against the floor hazard.
 						if (slot.ItemAttributes.GetTraits().Any(trait => protectiveItemTraits.Contains(trait)))
 						{
-							willHurt = true;//If we found out that there's a trait that protect this foot.
 							return;
 						}
 					}
