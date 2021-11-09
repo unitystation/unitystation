@@ -7,6 +7,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8310878229885749793, guid: d13212514984c824bb70e62b7f1d2672,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8310878229885749793, guid: d13212514984c824bb70e62b7f1d2672,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8310878229885749793, guid: d13212514984c824bb70e62b7f1d2672,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916,
+        type: 2}
+    - target: {fileID: -8310878229885749793, guid: d13212514984c824bb70e62b7f1d2672,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1371586153419060457, guid: d13212514984c824bb70e62b7f1d2672,
         type: 3}
       propertyPath: foreverID

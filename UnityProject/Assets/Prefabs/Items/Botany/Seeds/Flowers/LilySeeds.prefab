@@ -56,6 +56,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: These seeds grow into lilies.
       objectReference: {fileID: 0}
+    - target: {fileID: 8933605843918905828, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8933605843918905828, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 38c088d3df099cd4496f2d40f6c2e620,
+        type: 2}
+    - target: {fileID: 8933605843918905828, guid: 048adc7de22264941a619844198b1f44,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8962755130145035590, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
       propertyPath: m_RootOrder

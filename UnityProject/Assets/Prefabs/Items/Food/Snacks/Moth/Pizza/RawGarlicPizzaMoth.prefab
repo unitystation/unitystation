@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 991032968820274478, guid: 86669a8ef2406e440827ba82318ce65d,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 6536814998786834385, guid: d57389d8b86dcd84a97f0c6f4dad2e89,
+        type: 3}
     - target: {fileID: 4089171460277047134, guid: 86669a8ef2406e440827ba82318ce65d,
         type: 3}
       propertyPath: m_Sprite
@@ -92,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Ahh, garlic. A universally loved ingredient, except possibly by vampires.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7130583319509741679, guid: 86669a8ef2406e440827ba82318ce65d,
+        type: 3}
+      propertyPath: foreverID
+      value: garlickyourfingers
       objectReference: {fileID: 0}
     - target: {fileID: 8000729866041100165, guid: 86669a8ef2406e440827ba82318ce65d,
         type: 3}

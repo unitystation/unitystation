@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
@@ -39,6 +39,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0432d5ff74cbd9943b120e091cedbd44,
         type: 2}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b8f6e318587893489fca79214639d2b,
+        type: 2}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b271eba268c04bf45b9dcec4ad611cac,
+        type: 2}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: f3a80fcb48a153546a2267bd9cec3ef4,
+        type: 2}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293480710622182711, guid: f4bf59ff5b5123643b0531697d41819f,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4327133054638836117, guid: f4bf59ff5b5123643b0531697d41819f,
         type: 3}
       propertyPath: m_RootOrder

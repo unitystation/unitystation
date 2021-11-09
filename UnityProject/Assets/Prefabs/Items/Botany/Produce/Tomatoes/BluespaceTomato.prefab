@@ -17,6 +17,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: So lubricated, you might slip through space-time.
       objectReference: {fileID: 0}
+    - target: {fileID: 832228682700780560, guid: 214b68550d061cb4dbcadfb70e4473b5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 832228682700780560, guid: 214b68550d061cb4dbcadfb70e4473b5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b8f6e318587893489fca79214639d2b,
+        type: 2}
+    - target: {fileID: 832228682700780560, guid: 214b68550d061cb4dbcadfb70e4473b5,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 866864660364148166, guid: 214b68550d061cb4dbcadfb70e4473b5,
         type: 3}
       propertyPath: m_Name

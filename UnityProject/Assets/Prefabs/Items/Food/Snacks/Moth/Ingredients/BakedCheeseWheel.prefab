@@ -99,6 +99,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A baked cheese wheel, melty and delicious.
       objectReference: {fileID: 0}
+    - target: {fileID: 5597186496390693432, guid: 0bf643131a7f0e3469673a5d636ae7c2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597186496390693432, guid: 0bf643131a7f0e3469673a5d636ae7c2,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: e52277517b76eab44b004f454d6a500d,
+        type: 2}
     - target: {fileID: 6560667110401311558, guid: 0bf643131a7f0e3469673a5d636ae7c2,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size

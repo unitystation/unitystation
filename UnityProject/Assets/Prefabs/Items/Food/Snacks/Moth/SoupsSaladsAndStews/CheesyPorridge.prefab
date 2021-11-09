@@ -141,6 +141,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A rich and creamy bowl of cheesy cornmeal porridge.
       objectReference: {fileID: 0}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b5e858b008da2d3449622bc232f79d28,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}
 --- !u!114 &3853649597766347350 stripped

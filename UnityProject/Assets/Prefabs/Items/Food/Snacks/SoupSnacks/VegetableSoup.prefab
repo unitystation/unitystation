@@ -104,5 +104,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A true vegan meal.
       objectReference: {fileID: 0}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ec2cac231bfe4914fbed3ea2e8fb2a80,
+        type: 2}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}

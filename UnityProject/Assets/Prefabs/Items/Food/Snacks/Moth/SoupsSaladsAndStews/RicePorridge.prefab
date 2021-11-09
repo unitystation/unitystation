@@ -136,6 +136,23 @@ PrefabInstance:
       value: "A plate of rice porridge. It's mostly flavourless, but it does fill
         a spot. To the Chinese it's congee, and moths call it h\xF6llfl\xF6fmisklsl\xF8sk."
       objectReference: {fileID: 0}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ded603753e08b574bb3c5e8eb146235a,
+        type: 2}
+    - target: {fileID: 8444468843672604866, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ddce1ea8a2b9ad04a9cbe781c1d904b4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d98d684f3dbe544a3f54331019cba1, type: 3}
 --- !u!114 &3853649597766347350 stripped

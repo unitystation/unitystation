@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 306869321605523731, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 306869321605523731, guid: 23da5cf6be2781344b9040c388022fa5,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1355177528592921967, guid: 23da5cf6be2781344b9040c388022fa5,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -109,5 +119,6 @@ PrefabInstance:
       propertyPath: maxCapacity
       value: 125
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 306869321605523731, guid: 23da5cf6be2781344b9040c388022fa5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 23da5cf6be2781344b9040c388022fa5, type: 3}
