@@ -134,7 +134,7 @@ namespace Systems.Radiation
 			StopWatchlog.Restart();
 
 			//Radiation distance
-			int Radius = (int) Math.Round(Pulse.Strength / (Math.PI * 75));
+			int radius = (int) Math.Round(Pulse.Strength / (Math.PI * 75));
 			if (Radius > 50)
 			{
 				Radius = 50;
