@@ -231,7 +231,7 @@ namespace Systems.Radiation
 					foreach (var Layer in Pulse.Matrix.MetaTileMap.Layers)
 					{
 						if (Layer.Key == LayerType.Underfloor) continue;
-						var BasicTile_ =
+						var basicTile =
 							Pulse.Matrix.MetaTileMap.GetTile(new Vector2Int(x0, y0).To3Int(), Layer.Key) as BasicTile;
 						if (BasicTile_ != null)
 						{
