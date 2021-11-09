@@ -165,7 +165,7 @@ namespace Systems.Atmospherics
 		/// Transfers moles from one gas to another
 		/// </summary>
 		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer,
-			bool DoNotTouchOriginalMix = false)
+			bool doNotTouchOriginalMix = false)
 		{
 			var sourceStartMoles = source.Moles;
 			molesToTransfer = molesToTransfer.Clamp(0, sourceStartMoles);
