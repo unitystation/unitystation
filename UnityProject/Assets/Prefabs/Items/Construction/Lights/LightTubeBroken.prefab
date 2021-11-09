@@ -110,6 +110,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 11ce8d65a70014d4997c0bf4f1045b67,
         type: 2}
+    - target: {fileID: 7996474797712108770, guid: c51fa6d63cfcce3479b4420a95bba17e,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996474797712108770, guid: c51fa6d63cfcce3479b4420a95bba17e,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1851366012458346349, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
     - {fileID: -2234112497965333867, guid: c51fa6d63cfcce3479b4420a95bba17e, type: 3}
