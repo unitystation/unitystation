@@ -23,13 +23,14 @@ namespace Objects.Kitchen
 		}
 		public string Examine(Vector3 worldPos = default)
 		{
-			return $" It is currently in {(grinder.GrindOrJuice ? "grind" : "juice")} mode.";
+			return $"It is currently in {(grinder.GrindOrJuice ? "grind" : "juice")} mode.";
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			return true;
+
+			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
 		}
 
 		/// <summary>
@@ -39,11 +40,11 @@ namespace Objects.Kitchen
 		{
 			if (interaction.IsAltClick)
 			{
+				grinder.SwitchMode();
 				Chat.AddActionMsgToChat(
                 interaction.Performer,
                 $"You flick the All-In-One Grinder into {(grinder.GrindOrJuice ? "grind" : "juice")} mode.",
                 $"{interaction.Performer.ExpensiveName()} flicks the All-In-One Grinder into {(grinder.GrindOrJuice ? "grind" : "juice")} mode.");
-				grinder.SwitchMode();
 				return;
 			}
 			// If nothing's in hand, start machine.
