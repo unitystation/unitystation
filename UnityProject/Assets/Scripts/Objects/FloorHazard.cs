@@ -63,7 +63,7 @@ namespace Objects
 			}
 		}
 
-		protected virtual void PlayStepAudio()
+		protected void PlayStepAudio()
 		{
 			if(onStepSounds.Count == 0) return;
 			SoundManager.PlayNetworkedAtPos(onStepSounds.PickRandom(), gameObject.AssumedWorldPosServer());
