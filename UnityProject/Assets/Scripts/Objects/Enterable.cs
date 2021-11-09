@@ -8,23 +8,9 @@ namespace Objects
 	/// <summary>
 	/// Allows to trigger an event when a player enter in the space occupied by this component.
 	/// </summary>
-	public class Enterable: NetworkBehaviour
+	public interface IEnterable
 	{
-		/// <summary>
-		/// This is the function that will handle what happens when a player enters that enterable.
-		/// </summary>
-		[SerializeField]
-		public TriggerEvent enterEvent = null;
-
-		/// <summary>
-		/// Triggers the enter event
-		/// </summary>
-		/// <param name="gameObjectEntering">The object entering</param>
-		public void TriggerEnterEvent(GameObject gameObjectEntering)
-		{
-			BaseEventData eventData = new BaseEventData(EventSystem.current);
-			eventData.selectedObject = gameObjectEntering;
-			enterEvent.Invoke(eventData);
-		}
+		public abstract void OnStep(GameObject eventData);
+		public abstract bool WillStep(GameObject eventData);
 	}
 }

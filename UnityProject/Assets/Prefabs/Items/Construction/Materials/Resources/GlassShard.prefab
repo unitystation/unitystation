@@ -44,44 +44,19 @@ MonoBehaviour:
   damageToGive: 5
   armorPentration: 0
   traumaChance: 0
-  onStepSounds: []
+  onStepSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassStep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   hurtsOneFootOnly: 0
   ignoresFootwear: 0
-  isTrap: 0
   canCauseTrauma: 0
-  isArmed: 0
   protectiveItemTraits:
   - {fileID: 11400000, guid: 9dd6c830eadb94ceb8578c8ac94dde66, type: 2}
   limbsToHurt: 0500000004000000
---- !u!114 &5405461569043606017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2265521501557685915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7872cecd8e4de6d4f980cc941aeaca0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  enterEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3832299256199899869}
-        m_TargetAssemblyTypeName: Objects.IStepEvent, Assets
-        m_MethodName: OnEnterableData
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7942108884443502463
 MonoBehaviour:
   m_ObjectHideFlags: 0

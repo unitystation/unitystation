@@ -793,10 +793,10 @@ public partial class PlayerSync
 	/// <param name="targetPos">The entered position</param>
 	private void InteractEnterable(Vector3Int targetPos)
 	{
-		List<Enterable> enterables = MatrixManager.GetAt<Enterable>(targetPos, isServer);
-		foreach (Enterable enterable in enterables)
+		List<IEnterable> enterables = MatrixManager.GetAt<IEnterable>(targetPos, isServer);
+		foreach (IEnterable enterable in enterables)
 		{
-			enterable.TriggerEnterEvent(gameObject);
+			if(enterable.WillStep(gameObject)) enterable.OnStep(gameObject);
 		}
 	}
 

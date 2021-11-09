@@ -9,6 +9,7 @@ namespace Objects.Other
 	{
 
 		[SerializeField] private bool isArmed;
+		[SerializeField] protected bool ignoresHandwear;
 		public bool IsArmed => isArmed;
 
 		private BodyPartType[] handTypes = {BodyPartType.LeftArm, BodyPartType.RightArm};
@@ -33,7 +34,7 @@ namespace Objects.Other
 			Chat.AddActionMsgToChat(gameObject, $"You are surprised with a {gameObject.ExpensiveName()} biting your hand!",
 				$"{health.playerScript.visibleName} screams in pain and surprise as {gameObject.ExpensiveName()} " +
 				$"bites {health.playerScript.characterSettings.TheirPronoun(health.playerScript)} hand!");
-			PlayAudio();
+			PlayStepAudio();
 		}
 
 		/// <summary>
@@ -47,20 +48,16 @@ namespace Objects.Other
 		}
 
 
-		public override void OnStep(BaseEventData eventData)
+		public override void OnStep(GameObject eventData)
 		{
 			if (IsArmed == false) return;
-			LivingHealthMasterBase health = eventData.selectedObject.GetComponent<LivingHealthMasterBase>();
+			base.OnStep(eventData);
 			isArmed = false;
-			HurtFeet(health);
-			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.ExpensiveName()}!",
-				$"{health.playerScript.visibleName} steps on the {gameObject.ExpensiveName()}!");
-			PlayAudio();
 		}
 
-		public override bool WillStep(BaseEventData eventData)
+		public override bool WillStep(GameObject eventData)
 		{
-			if (eventData.selectedObject.gameObject.TryGetComponent<LivingHealthMasterBase>(out var _) == true) return true;
+			if (eventData.gameObject.TryGetComponent<LivingHealthMasterBase>(out var _) == true) return true;
 			return false;
 		}
 

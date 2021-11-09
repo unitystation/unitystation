@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace Objects
 {
-	public class FloorHazard : StepEvent
+	public class FloorHazard : MonoBehaviour, IEnterable
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
@@ -21,19 +21,18 @@ namespace Objects
 		[SerializeField] protected List<AddressableAudioSource> onStepSounds;
 		[SerializeField] protected bool hurtsOneFootOnly;
 		[SerializeField] protected bool ignoresFootwear;
-		[SerializeField] protected bool ignoresHandwear;
 		[SerializeField] private bool canCauseTrauma;
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
 
-		public override void OnStep(BaseEventData eventData)
+		public virtual void OnStep(GameObject eventData)
 		{
-			LivingHealthMasterBase health = eventData.selectedObject.GetComponent<LivingHealthMasterBase>();
+			LivingHealthMasterBase health = eventData.GetComponent<LivingHealthMasterBase>();
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
 			//Text and Audio feedback.
 			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.ExpensiveName()}!",
 				$"{health.playerScript.visibleName} steps on the {gameObject.ExpensiveName()}!");
-			PlayAudio();
+			PlayStepAudio();
 		}
 
 		protected void HurtFeet(LivingHealthMasterBase health)
@@ -67,7 +66,7 @@ namespace Objects
 			}
 		}
 
-		protected void PlayAudio()
+		protected virtual void PlayStepAudio()
 		{
 			if(onStepSounds.Count == 0) return;
 			SoundManager.PlayNetworkedAtPos(onStepSounds.PickRandom(), gameObject.AssumedWorldPosServer());
@@ -78,9 +77,9 @@ namespace Objects
 			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
 		}
 
-		public override bool WillStep(BaseEventData eventData)
+		public virtual bool WillStep(GameObject eventData)
 		{
-			if (eventData.selectedObject.gameObject.GetComponent<LivingHealthMasterBase>() != null) return true;
+			if (eventData.gameObject.GetComponent<LivingHealthMasterBase>() != null) return true;
 			return false;
 		}
 	}
