@@ -135,14 +135,14 @@ namespace Systems.Radiation
 
 			//Radiation distance
 			int radius = (int) Math.Round(Pulse.Strength / (Math.PI * 75));
-			if (Radius > 50)
+			if (radius > 50)
 			{
-				Radius = 50;
+				radius = 50;
 			}
 
 			//Logger.Log("Radius > " + Radius);
 			//Generates the conference
-			circleBres(Pulse.Location.x, Pulse.Location.y, Radius);
+			circleBres(Pulse.Location.x, Pulse.Location.y, radius);
 
 			//Logger.Log("CircleCircumference.Count > " + CircleCircumference.Count);
 			//Logger.Log("Pulse.Strengt> " + Pulse.Strength);
@@ -233,9 +233,9 @@ namespace Systems.Radiation
 						if (Layer.Key == LayerType.Underfloor) continue;
 						var basicTile =
 							Pulse.Matrix.MetaTileMap.GetTile(new Vector2Int(x0, y0).To3Int(), Layer.Key) as BasicTile;
-						if (BasicTile_ != null)
+						if (basicTile != null)
 						{
-							RadiationOnStep *= BasicTile_.RadiationPassability;
+							RadiationOnStep *= basicTile.RadiationPassability;
 						}
 					}
 
