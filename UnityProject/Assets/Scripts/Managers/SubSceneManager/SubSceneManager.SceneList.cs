@@ -29,6 +29,8 @@ public partial class SubSceneManager
 			yield return null;
 		}
 
+		yield return StartCoroutine(ServerLoadSpaceScene(loadTimer));
+
 		//Choose and load a mainstation
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
@@ -50,6 +52,20 @@ public partial class SubSceneManager
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast( Event.ScenesLoadedServer, false);
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
+	}
+
+	//Choose and load a main station on the server
+	IEnumerator ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
+	{
+		loadTimer.IncrementLoadBar($"Loading the void of time and space");
+		//load main station
+		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer));
+		loadedScenesList.Add(new SceneInfo
+		{
+			SceneName = "SpaceScene",
+			SceneType = SceneType.Space
+		});
+		netIdentity.isDirty = true;
 	}
 
 	//Choose and load a main station on the server

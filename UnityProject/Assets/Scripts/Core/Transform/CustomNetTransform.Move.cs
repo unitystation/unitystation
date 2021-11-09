@@ -100,12 +100,12 @@ public partial class CustomNetTransform
 			return false;
 		}
 
-		if (isNewtonian && !MatrixManager.IsSlipperyOrNoGravityAt(roundedTarget))
+		if (isNewtonian && !MatrixManager.IsSlipperyOrNoGravityAt(roundedTarget, registerTile.Matrix.MatrixInfo))
 		{
 			return false;
 		}
 
-		if (!followMode && MatrixManager.IsEmptyAt(roundedTarget, true))
+		if (!followMode && MatrixManager.IsEmptyAt(roundedTarget, true, registerTile.Matrix.MatrixInfo))
 		{
 			serverState.WorldImpulse = (Vector3)clampedDir;
 		}
@@ -149,7 +149,7 @@ public partial class CustomNetTransform
 			return false;
 		}
 
-		if (!followMode && MatrixManager.IsEmptyAt(target3int, false))
+		if (!followMode && MatrixManager.IsEmptyAt(target3int, false, registerTile.Matrix.MatrixInfo))
 		{
 			predictedState.WorldImpulse = target - currentPos.To2Int();
 		}
@@ -167,7 +167,7 @@ public partial class CustomNetTransform
 			predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
 		}
 
-		predictedState.MatrixId = MatrixManager.AtPoint(target3int, false).Id;
+		predictedState.MatrixId = MatrixManager.AtPoint(target3int, false, registerTile.Matrix.MatrixInfo).Id;
 		predictedState.WorldPosition = target3int;
 
 		//		Lerp to compensate one frame delay
@@ -420,7 +420,7 @@ public partial class CustomNetTransform
 		Vector2 impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
 		Vector3Int newGoal = CeilWithContext(serverState.WorldPosition, impulse);
-		if (MatrixManager.IsNoGravityAt(newGoal, isServer : true))
+		if (MatrixManager.IsNoGravityAt(newGoal, isServer : true, registerTile.Matrix.MatrixInfo))
 		{
 			serverState.WorldImpulse = impulse;
 			serverState.Speed = Random.Range(0.2f, 2f);
@@ -607,8 +607,8 @@ public partial class CustomNetTransform
 		var tempOriginInt = Vector3Int.RoundToInt(tempOrigin);
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
 		if (IsBeingThrownServer) return true;
-		if (MatrixManager.IsSlipperyAt(tempOriginInt) ||
-		    MatrixManager.IsNoGravityAt(tempOriginInt, true)) return true;
+		if (MatrixManager.IsSlipperyAt(tempOriginInt, registerTile.Matrix.MatrixInfo) ||
+		    MatrixManager.IsNoGravityAt(tempOriginInt, true, registerTile.Matrix.MatrixInfo)) return true;
 
 		return false;
 	}
@@ -625,7 +625,7 @@ public partial class CustomNetTransform
 		var startPosition = Vector3Int.RoundToInt(origin);
 		var targetPosition = Vector3Int.RoundToInt(goal);
 
-		var Matrix = MatrixManager.AtPoint(targetPosition, CustomNetworkManager.Instance._isServer);
+		var Matrix = MatrixManager.AtPoint(targetPosition, CustomNetworkManager.Instance._isServer, registerTile.Matrix.MatrixInfo);
 		var Localposition = MatrixManager.WorldToLocalInt(targetPosition, Matrix);
 
 		var info = serverState.ActiveThrow;

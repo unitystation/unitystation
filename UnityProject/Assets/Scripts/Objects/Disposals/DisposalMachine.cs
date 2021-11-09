@@ -155,7 +155,7 @@ namespace Objects.Disposals
 
 		private bool VerboseFloorExists()
 		{
-			if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true) == false) return true;
+			if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo) == false) return true;
 
 			Chat.AddExamineMsg(currentInteraction.Performer, $"A floor must be present to secure the {objectAttributes.InitialName}!");
 			return false;

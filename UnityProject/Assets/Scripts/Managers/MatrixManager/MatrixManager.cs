@@ -276,23 +276,43 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	/// Finds first matrix that is not empty at given world pos
-	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
+	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
+		//for performance, this is just a suggestion on which matrix we believe this point could be in, not always correct
+		if (possibleMatrix != null && IsInMatrix(worldPos, isServer, possibleMatrix))
+		{
+			return possibleMatrix;
+		}
 
 		for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
 		{
-			var LocalPos = WorldToLocalInt(worldPos, Instance.ActiveMatricesList[i]);
-			if (Instance.ActiveMatricesList[i].Bounds.Contains(LocalPos) == false) continue;
-
-			if (Instance.ActiveMatricesList[i].Matrix == Instance.spaceMatrix) continue;
-			if (Instance.ActiveMatricesList[i].Matrix.IsEmptyAt(LocalPos, isServer) == false)
+			var matrixInfo = Instance.ActiveMatricesList[i];
+			if (IsInMatrix(worldPos, isServer, matrixInfo))
 			{
-				return Instance.ActiveMatricesList[i];
+				return matrixInfo;
 			}
 		}
 
-		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
+		return Instance.spaceMatrix.MatrixInfo;
 	}
+
+	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
+	{
+		var LocalPos = WorldToLocalInt(worldPos, matrixInfo);
+
+		if (matrixInfo.Bounds.Contains(LocalPos) == false)
+			return false;
+		if (matrixInfo.Matrix == Instance.spaceMatrix)
+			return false;
+
+		if (matrixInfo.Matrix.IsEmptyAt(LocalPos, isServer) == false)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
 		Vector3 WorldTo)
@@ -485,17 +505,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
-	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer)
+	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatricesList)
-		{
-			if (mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
+		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsSpaceAt(WorldToLocalInt(localPos, matrixInfo), isServer);
+		return value;
 	}
 
 	public static bool IsConstructable(Vector3Int worldPos, MatrixInfo matrixInfo)
@@ -509,17 +524,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
-	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
+	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatricesList)
-		{
-			if (mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
+		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsEmptyAt(localPos, isServer);
+		return value;
 	}
 
 	/// <summary>
@@ -948,8 +958,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		MatrixInfo excludeMatrix = null, List<LayerType> excludeLayers = null, bool isReach = false,
 		bool onlyExcludeLayerOnDestination = false)
 	{
-		var matrixOrigin = AtPoint(worldOrigin, isServer);
-		var matrixTarget = AtPoint(worldTarget, isServer);
+		MatrixInfo possibleMatrix = context ? context.GetComponent<RegisterTile>()?.Matrix.MatrixInfo : null;
+
+		var matrixOrigin = AtPoint(worldOrigin, isServer, possibleMatrix);
+		var matrixTarget = AtPoint(worldTarget, isServer, possibleMatrix);
+
 		if (excludeMatrix != null)
 		{
 			if (excludeMatrix == matrixOrigin)
@@ -1026,9 +1039,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// Serverside only: checks if tile is slippery
 	/// </summary>
 	[Server]
-	public static bool IsSlipperyAt(Vector3Int worldPos)
+	public static bool IsSlipperyAt(Vector3Int worldPos, MatrixInfo possibleMatrix)
 	{
-		var matrixInfo = AtPoint(worldPos, true);
+		var matrixInfo = AtPoint(worldPos, true, possibleMatrix);
 		var localPos = WorldToLocalInt(worldPos, matrixInfo);
 		var value = matrixInfo.MetaDataLayer.IsSlipperyAt(localPos);
 		return value;
@@ -1043,21 +1056,25 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return value;
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer)
+	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
-		var matrixInfo = AtPoint(worldPos, isServer);
-		var localPos = WorldToLocalInt(worldPos, matrixInfo);
-		var value = matrixInfo.Matrix.IsNonStickyAt(localPos, isServer);
-		return value;
+		foreach (Vector3Int pos in worldPos.BoundsAround().allPositionsWithin)
+		{
+			var matrixInfo = AtPoint(pos, isServer, possibleMatrix);
+			var localPos = WorldToLocalInt(pos, matrixInfo);
+			if (matrixInfo.MetaTileMap.IsNoGravityAt(localPos, isServer) == false)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt"/>
 	///<inheritdoc cref="Matrix.IsNoGravityAt"/>
-	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer)
+	public static bool IsNoGravityAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
 	{
-		var matrixInfo = AtPoint(worldPos, isServer);
+		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
 		var localPos = WorldToLocalInt(worldPos, matrixInfo);
 		var value = matrixInfo.Matrix.IsNoGravityAt(localPos, isServer);
 		return value;
@@ -1068,26 +1085,28 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// Returns true if it's slippery or no gravity at provided position.
 	/// </summary>
 	[Server]
-	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos)
+	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos, MatrixInfo possibleMatrix)
 	{
-		return IsSlipperyAt(worldPos) || IsNoGravityAt(worldPos, true);
+		return IsSlipperyAt(worldPos, possibleMatrix) || IsNoGravityAt(worldPos, true, possibleMatrix);
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
-	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)
+	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
 	{
-		return IsFloatingAt(new[] {context}, worldPos, isServer);
+		return IsFloatingAt(new[] {context}, worldPos, isServer, possibleMatrix);
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer)
+	public static bool IsFloatingAt(GameObject[] context, Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix)
 	{
-		var matrixInfo = AtPoint(worldPos, isServer);
-		var localPos = WorldToLocalInt(worldPos, matrixInfo);
-		var value = matrixInfo.Matrix.IsFloatingAt(context, localPos, isServer);
-		return value;
+		foreach (Vector3Int pos in worldPos.BoundsAround().allPositionsWithin)
+		{
+			var matrixInfo = AtPoint(pos, isServer, possibleMatrix);
+			var localPos = WorldToLocalInt(pos, matrixInfo);
+			if (matrixInfo.MetaTileMap.IsEmptyAt(context, localPos, isServer) == false)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
@@ -1282,28 +1301,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		return positionList;
-	}
-
-	public void CleanTile(Vector3 worldPos, bool makeSlippery)
-	{
-		var worldPosInt = worldPos.CutToInt();
-		var matrix = AtPoint(worldPosInt, true);
-		var localPosInt = WorldToLocalInt(worldPosInt, matrix);
-		var floorDecals = GetAt<FloorDecal>(worldPosInt, isServer: true);
-
-		for (var i = 0; i < floorDecals.Count; i++)
-		{
-			floorDecals[i].TryClean();
-		}
-
-		if (IsSpaceAt(worldPosInt, true) == false && makeSlippery)
-		{
-			// Create a WaterSplat Decal (visible slippery tile)
-			EffectsFactory.WaterSplat(worldPosInt);
-
-			// Sets a tile to slippery
-			matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
-		}
 	}
 
 	public static Transform GetDefaultParent(Vector3? position, bool isServer)
