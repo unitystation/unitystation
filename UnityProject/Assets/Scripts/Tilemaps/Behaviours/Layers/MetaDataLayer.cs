@@ -9,7 +9,6 @@ using UnityEngine;
 using Objects.Construction;
 using TileManagement;
 using Systems.Chemistry;
-using Systems.Chemistry.Components;
 
 /// <summary>
 /// Holds and provides functionality for all the MetaDataTiles for a given matrix.

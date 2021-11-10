@@ -5,7 +5,6 @@ using Systems.Chemistry;
 using Systems.Chemistry.Components;
 using NaughtyAttributes;
 using UnityEngine;
-using Systems.Chemistry;
 
 namespace HealthV2
 {
