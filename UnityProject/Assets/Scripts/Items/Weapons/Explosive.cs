@@ -125,11 +125,11 @@ namespace Items.Weapons
 				var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
 				foreach (var registerTile in tiles)
 				{
-					Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()} - {registerTile.WorldPositionServer}");
-					Debug.DrawLine(interaction.Performer.WorldPosServer(), registerTile.WorldPositionServer, Color.red, 190, false);
+					Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()} - {registerTile.WorldPosition}");
+					Debug.DrawLine(interaction.Performer.WorldPosServer(), registerTile.WorldPosition, Color.red, 190, false);
 					if (CanAttatchToTarget(registerTile.Matrix, registerTile))
 					{
-						Inventory.ServerDrop(pickupable.ItemSlot, registerTile.WorldPositionServer.To2Int());
+						Inventory.ServerDrop(pickupable.ItemSlot, registerTile.LocalPosition.To2Int());
 						if (countDownOnArm)
 						{
 							pickupable.ServerSetCanPickup(false);
