@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 using UnityEngine.UI;
 using System.Text;
 using Items;

@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Chemistry;
+using Systems.Chemistry;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 /*
 namespace Tests.Chemistry
 {

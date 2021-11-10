@@ -1,6 +1,6 @@
-﻿using Chemistry.Components;
+﻿using Systems.Chemistry.Components;
 using System;
-using Chemistry;
+using Systems.Chemistry;
 using UnityEngine;
 
 /// <summary>

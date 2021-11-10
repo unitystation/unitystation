@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Chemistry.Components
+namespace Systems.Chemistry.Components
 {
 	/// <summary>
 	/// Used for events that occur when using hand apply, though could add more events from the reagent container.

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Systems.Atmospherics;
-using Chemistry;
+using Systems.Chemistry;
 using Health.Sickness;
 using JetBrains.Annotations;
 using Mirror;

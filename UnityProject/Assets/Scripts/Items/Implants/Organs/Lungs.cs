@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Systems.Atmospherics;
-using Chemistry;
+using Systems.Chemistry;
 using HealthV2;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;

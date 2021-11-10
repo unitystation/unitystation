@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Chemistry;
+using Systems.Chemistry;
 using UnityEngine;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 
 namespace HealthV2
 {

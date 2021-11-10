@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 using Managers;
 using Strings;
 using ScriptableObjects;

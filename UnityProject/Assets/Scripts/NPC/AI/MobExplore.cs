@@ -7,7 +7,8 @@ using Items.Food;
 using NaughtyAttributes;
 using Objects.Construction;
 using AddressableReferences;
-using Chemistry;
+using Systems.Chemistry;
+using Systems.Chemistry;
 
 namespace Systems.MobAIs
 {

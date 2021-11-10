@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 

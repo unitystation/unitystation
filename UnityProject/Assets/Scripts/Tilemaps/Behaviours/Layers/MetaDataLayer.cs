@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 using HealthV2;
 using Items;
 using Newtonsoft.Json;
 using UnityEngine;
 using Objects.Construction;
 using TileManagement;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 
 /// <summary>
 /// Holds and provides functionality for all the MetaDataTiles for a given matrix.

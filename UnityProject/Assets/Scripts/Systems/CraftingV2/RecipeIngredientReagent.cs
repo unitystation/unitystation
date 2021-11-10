@@ -1,5 +1,5 @@
 ﻿using System;
-using Chemistry;
+using Systems.Chemistry;
 using UnityEngine;
 
 namespace Systems.CraftingV2

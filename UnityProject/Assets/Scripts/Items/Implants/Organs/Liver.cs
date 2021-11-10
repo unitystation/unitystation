@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;

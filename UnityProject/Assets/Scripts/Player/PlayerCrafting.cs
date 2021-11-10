@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 using Items;
 using Mirror;
 using NaughtyAttributes;

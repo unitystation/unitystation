@@ -2,7 +2,7 @@
 using UnityEditor;
 #endif
 using UnityEngine;
-using Chemistry;
+using Systems.Chemistry;
 
 namespace ScriptableObjects
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Chemistry;
 
 
 [Serializable]
@@ -37,7 +38,7 @@ public class CraftingDatabase
 public class GrinderDatabase
 {
 	public GrinderRecipe[] grinderRecipeList;
-	public Chemistry.Reagent FindOutputReagent(string reagentName)
+	public Reagent FindOutputReagent(string reagentName)
 	{
 		foreach (GrinderRecipe recipe in grinderRecipeList)
 		{
@@ -48,7 +49,7 @@ public class GrinderDatabase
 		}
 		return null;
 	}
-	public Chemistry.Reagent FindReagentRecipe(List<Ingredient> ingredients)
+	public Reagent FindReagentRecipe(List<Ingredient> ingredients)
 	{
 		foreach (GrinderRecipe recipe in grinderRecipeList)
 		{

@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Systems.Botany;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 using Items;
 using Items.Botany;
 

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 using Mirror;
 using UnityEngine;
 using Systems.Electricity;
 
-namespace Chemistry
+namespace Systems.Chemistry
 {
 	/// <summary>
 	/// Main component for chemistry dispenser.

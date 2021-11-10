@@ -1,6 +1,6 @@
 ﻿using Systems.MobAIs;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;

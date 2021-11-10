@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 using Items;
 
 namespace Objects.Kitchen

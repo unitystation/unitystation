@@ -9,8 +9,8 @@ using Effects;
 using Items;
 using Machines;
 using Objects.Machines;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 
 namespace Objects.Kitchen
 {

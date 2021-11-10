@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ScriptableObjects;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 
 
 namespace Objects.Atmospherics

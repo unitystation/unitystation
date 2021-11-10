@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 using Items;
 
 [RequireComponent(typeof(Pickupable))]

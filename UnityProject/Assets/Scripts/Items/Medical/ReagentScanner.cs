@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
 using HealthV2;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 using UnityEngine;
 
 namespace Items.Others

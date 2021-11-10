@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Systems.CraftingV2.ResultHandlers;
-using Chemistry.Components;
+using Systems.Chemistry.Components;
 using Items;
 using NaughtyAttributes;
 using UnityEngine;

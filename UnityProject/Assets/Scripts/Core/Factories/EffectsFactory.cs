@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using UnityEngine;
 using Objects.Construction;
-using Chemistry;
-using Chemistry.Components;
+using Systems.Chemistry;
+using Systems.Chemistry.Components;
 
 public static class EffectsFactory
 {
