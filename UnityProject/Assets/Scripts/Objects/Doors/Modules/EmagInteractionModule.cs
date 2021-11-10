@@ -65,7 +65,7 @@ namespace Doors.Modules
 				catch (NullReferenceException exception)
 				{
 					Logger.LogError(
-						"A NRE was caught in EmagInteractionModule.ClosedInteraction() " + exception.Message,
+						$"A NRE was caught in EmagInteractionModule.ClosedInteraction() {exception.Message} \n {exception.StackTrace}",
 						Category.Interaction);
 				}
 			}

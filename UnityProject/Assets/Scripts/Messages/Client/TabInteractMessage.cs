@@ -60,7 +60,7 @@ namespace Messages.Client
 				}
 				catch (NullReferenceException exception)
 				{
-					Logger.LogError("Caught NRE in TabInterectMessage.Process: " + exception.Message, Category.Interaction);
+					Logger.LogError($"Caught NRE in TabInteractMessage.Process: {exception.Message} \n {exception.StackTrace}", Category.Interaction);
 					return;
 				}
 			}
