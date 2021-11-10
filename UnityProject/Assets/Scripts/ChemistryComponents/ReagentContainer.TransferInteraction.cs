@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Chemistry.Components
+namespace Systems.Chemistry.Components
 {
 	public struct TransferResult
 	{

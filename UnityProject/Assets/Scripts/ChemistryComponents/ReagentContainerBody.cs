@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Chemistry.Components
+namespace Systems.Chemistry.Components
 {
 	public class ReagentContainerBody : ReagentContainer
 	{

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-namespace Chemistry.Components
+namespace Systems.Chemistry.Components
 {
 	[Serializable]
 	public class ContainerCustomSprite

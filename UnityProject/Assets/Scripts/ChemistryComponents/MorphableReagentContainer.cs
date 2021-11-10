@@ -6,7 +6,7 @@ using Items;
 using UnityEngine;
 using Mirror;
 
-namespace Chemistry.Components
+namespace Systems.Chemistry.Components
 {
 	/// <summary>
 	/// Defines container that can change it appearance based on reagent inside

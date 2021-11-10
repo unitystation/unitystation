@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-namespace Chemistry.Components
+namespace Systems.Chemistry.Components
 {
 	/// <summary>
 	/// Defines reagent container that can store reagent mix. All reagent mix logic done server side.

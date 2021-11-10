@@ -1,9 +1,8 @@
-﻿using Chemistry;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Chemistry.Components
+namespace Systems.Chemistry.Components
 {
 	public partial class ReagentContainer : IExaminable
 	{

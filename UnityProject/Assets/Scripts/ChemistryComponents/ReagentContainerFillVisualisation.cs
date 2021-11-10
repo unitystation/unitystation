@@ -5,100 +5,101 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Chemistry.Components;
-
-/// <summary>
-/// Syncs ReagentContainer visualisation (fill level and content color) between all clients
-/// </summary>
-[RequireComponent(typeof(ReagentContainer))]
-public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
+namespace Systems.Chemistry.Components
 {
 	/// <summary>
-	/// Stores all information about visual state of container
+	/// Syncs ReagentContainer visualisation (fill level and content color) between all clients
 	/// </summary>
-	protected struct VisualState
+	[RequireComponent(typeof(ReagentContainer))]
+	public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 	{
-		public Color mixColor;
-		public float fillPercent;
-	}
-
-	[Tooltip("The render that shows fill of the container")]
-	public SpriteRenderer fillSpriteRender;
-
-	[Tooltip("Sorted sprites that represents fill of container")]
-	public Sprite[] fillIcons = new Sprite[0];
-
-	/// <summary>
-	/// Sync visual state (color, fill volume) from server to cliens
-	/// </summary>
-	[SyncVar(hook = "OnVisualStateChanged")]
-	private VisualState visualState;
-
-	private SpriteHandler fillSpriteHandler;
-	private ReagentContainer serverContainer;
-
-	private void Awake()
-	{
-		if (!fillSpriteRender)
-			return;
-		fillSpriteHandler = fillSpriteRender.GetComponent<SpriteHandler>();
-
-		serverContainer = GetComponent<ReagentContainer>();
-		if (serverContainer)
+		/// <summary>
+		/// Stores all information about visual state of container
+		/// </summary>
+		protected struct VisualState
 		{
-			serverContainer.OnReagentMixChanged.AddListener(ServerUpdateFillState);
+			public Color mixColor;
+			public float fillPercent;
 		}
-	}
 
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		// Need to update sprite on spawn
-		ServerUpdateFillState();
-	}
+		[Tooltip("The render that shows fill of the container")]
+		public SpriteRenderer fillSpriteRender;
 
-	[Server]
-	private void ServerUpdateFillState()
-	{
-		var fillPercent = serverContainer.GetFillPercent();
-		var mixColor = serverContainer.GetMixColor();
+		[Tooltip("Sorted sprites that represents fill of container")]
+		public Sprite[] fillIcons = new Sprite[0];
 
-		// Send it to all client by SyncVar
-		visualState = new VisualState()
+		/// <summary>
+		/// Sync visual state (color, fill volume) from server to cliens
+		/// </summary>
+		[SyncVar(hook = "OnVisualStateChanged")]
+		private VisualState visualState;
+
+		private SpriteHandler fillSpriteHandler;
+		private ReagentContainer serverContainer;
+
+		private void Awake()
 		{
-			fillPercent = fillPercent,
-			mixColor = mixColor
-		};
-	}
+			if (!fillSpriteRender)
+				return;
+			fillSpriteHandler = fillSpriteRender.GetComponent<SpriteHandler>();
 
-	[Client]
-	private void OnVisualStateChanged(VisualState oldState, VisualState newState)
-	{
-		if (!fillSpriteHandler)
-			return;
+			serverContainer = GetComponent<ReagentContainer>();
+			if (serverContainer)
+			{
+				serverContainer.OnReagentMixChanged.AddListener(ServerUpdateFillState);
+			}
+		}
 
-		// Apply new state to sprite render
-		var newSprite = GetSpriteByFill(newState.fillPercent);
-		fillSpriteHandler.SetSprite(newSprite);
-		fillSpriteHandler.SetColor(newState.mixColor, networked: false);
-	}
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			// Need to update sprite on spawn
+			ServerUpdateFillState();
+		}
 
-	private Sprite GetSpriteByFill(float fillPercent)
-	{
-		if (fillIcons.Length == 0)
-			return null;
+		[Server]
+		private void ServerUpdateFillState()
+		{
+			var fillPercent = serverContainer.GetFillPercent();
+			var mixColor = serverContainer.GetMixColor();
 
-		// check if container is empty
-		if (fillPercent <= 0f)
-			return null;
+			// Send it to all client by SyncVar
+			visualState = new VisualState()
+			{
+				fillPercent = fillPercent,
+				mixColor = mixColor
+			};
+		}
 
-		// Get the sprite index
-		var step = 1f / fillIcons.Length;
-		int index = (int)(fillPercent / step);
+		[Client]
+		private void OnVisualStateChanged(VisualState oldState, VisualState newState)
+		{
+			if (!fillSpriteHandler)
+				return;
 
-		// Return sprite from sprite list
-		if (index < fillIcons.Length)
-			return fillIcons[index];
-		else
-			return fillIcons.Last();
+			// Apply new state to sprite render
+			var newSprite = GetSpriteByFill(newState.fillPercent);
+			fillSpriteHandler.SetSprite(newSprite);
+			fillSpriteHandler.SetColor(newState.mixColor, networked: false);
+		}
+
+		private Sprite GetSpriteByFill(float fillPercent)
+		{
+			if (fillIcons.Length == 0)
+				return null;
+
+			// check if container is empty
+			if (fillPercent <= 0f)
+				return null;
+
+			// Get the sprite index
+			var step = 1f / fillIcons.Length;
+			int index = (int)(fillPercent / step);
+
+			// Return sprite from sprite list
+			if (index < fillIcons.Length)
+				return fillIcons[index];
+			else
+				return fillIcons.Last();
+		}
 	}
 }
