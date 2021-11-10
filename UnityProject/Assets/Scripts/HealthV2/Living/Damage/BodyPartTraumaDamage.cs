@@ -224,10 +224,9 @@ namespace HealthV2
 			{
 				//Add 1 bleedstack every 10 seconds until the wound is closed
 				yield return WaitFor.Seconds(10f);
-				if (IsBleeding)
-				{
-					HealthMaster.OrNull()?.ChangeBleedStacks(1f);
-				}
+				if (IsBleeding == false) continue;
+
+				HealthMaster.OrNull()?.ChangeBleedStacks(1f);
 			}
 		}
 
