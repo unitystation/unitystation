@@ -111,9 +111,10 @@ namespace Items.Weapons
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()}");
 			if (!DefaultWillInteract.Default(interaction, side) || pickupable.ItemSlot == null) return false;
 			var matrix = interaction.TargetObject.RegisterTile().Matrix;
-			var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
+			var tiles = matrix.GetRegisterTile(interaction.TargetObject.WorldPosServer().RoundToInt(), true);
 			foreach (var registerTile in tiles)
 			{
 				if (CanAttatchToTarget(registerTile.Matrix, registerTile))
@@ -128,13 +129,14 @@ namespace Items.Weapons
 		{
 			void Perform()
 			{
+				Debug.Log("handApply found walls and looking for the correct one");
 				var matrix = interaction.TargetObject.RegisterTile().Matrix;
-				var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
+				var tiles = matrix.GetRegisterTile(interaction.TargetObject.WorldPosServer().RoundToInt(), true);
 				foreach (var registerTile in tiles)
 				{
 					if (CanAttatchToTarget(registerTile.Matrix, registerTile))
 					{
-						Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetObject.TileWorldPosition());
+						Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetObject.AssumedWorldPosServer());
 						if (countDownOnArm)
 						{
 							pickupable.ServerSetCanPickup(false);
