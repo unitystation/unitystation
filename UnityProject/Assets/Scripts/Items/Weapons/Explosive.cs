@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Items.Weapons
 {
-	public class Explosive : SignalReceiver, ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IInteractable<HandActivate>
+	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>, IInteractable<HandActivate>
 	{
 		[Header("Explosive settings")]
 		[SerializeField] private bool detonateImmediatelyOnSignal;
@@ -75,11 +75,7 @@ namespace Items.Weapons
 
 		private bool CanAttatchToTarget(Matrix matrix, RegisterTile tile)
 		{
-			if (matrix.Get<Pickupable>(tile.WorldPositionServer, true).Any()) return false;
-			return matrix.IsWallAt(tile.WorldPosition, true) ||
-			       matrix.IsWindowAt(tile.WorldPosition, true) ||
-			       matrix.IsGrillAt(tile.WorldPosition, true) ||
-			       matrix.Get<RegisterDoor>(tile.WorldPositionServer, true).Any();
+			return matrix.Get<RegisterDoor>(tile.WorldPositionServer, true).Any() || matrix.Get<Pickupable>(tile.WorldPositionServer, true).Any();
 		}
 
 
@@ -110,38 +106,39 @@ namespace Items.Weapons
 			Chat.AddExamineMsg(interaction.Performer, "The C4 will wait for a signal from a remote when armed on a wall.");
 		}
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side) || pickupable.ItemSlot == null) return false;
 			return true;
 		}
 
-		public void ServerPerformInteraction(HandApply interaction)
+		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			void Perform()
 			{
-				var matrix = interaction.TargetObject.RegisterTile().Matrix;
-				var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
-				foreach (var registerTile in tiles)
+				if (interaction.TargetObject?.OrNull().RegisterTile()?.OrNull().Matrix?.OrNull() != null)
 				{
-					Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()} - {registerTile.WorldPosition}");
-					Debug.DrawLine(interaction.Performer.WorldPosServer(), registerTile.WorldPosition, Color.red, 190, false);
-					if (CanAttatchToTarget(registerTile.Matrix, registerTile))
+					var matrix = interaction.TargetObject.RegisterTile().Matrix;
+					var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
+
+					foreach (var registerTile in tiles)
 					{
-						Inventory.ServerDrop(pickupable.ItemSlot, registerTile.WorldPosition.To2Int());
-						if (countDownOnArm)
-						{
-							pickupable.ServerSetCanPickup(false);
-							spriteHandler.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-						}
-						isArmed = true;
-						Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to the {registerTile.gameObject.ExpensiveName()}",
-							$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to the {registerTile.gameObject.ExpensiveName()}");
-						Countdown();
+						if (CanAttatchToTarget(registerTile.Matrix, registerTile) == false) continue;
+						Chat.AddExamineMsg(interaction.Performer, $"The {interaction.TargetObject.ExpensiveName()} isn't a good spot to arm the C4 on..");
 						return;
 					}
-					Chat.AddExamineMsg(interaction.Performer, $"The {interaction.TargetObject.ExpensiveName()} isn't a good spot to arm the C4 on..");
 				}
+
+				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
+				if (countDownOnArm == true)
+				{
+					pickupable.ServerSetCanPickup(false);
+					spriteHandler.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+				}
+				isArmed = true;
+				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
+					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
+				Countdown();
 			}
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), 3f, interaction.Performer);
