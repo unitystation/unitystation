@@ -111,18 +111,9 @@ namespace Items.Weapons
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()}");
 			if (!DefaultWillInteract.Default(interaction, side) || pickupable.ItemSlot == null) return false;
-			var matrix = interaction.TargetObject.RegisterTile().Matrix;
-			var tiles = matrix.GetRegisterTile(interaction.TargetObject.WorldPosServer().RoundToInt(), true);
-			foreach (var registerTile in tiles)
-			{
-				if (CanAttatchToTarget(registerTile.Matrix, registerTile))
-				{
-					return true;
-				}
-			}
-			return false;
+			Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()}");
+			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
