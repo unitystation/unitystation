@@ -49,11 +49,11 @@ namespace Objects.Kitchen
 
 		public void AddItem(ItemSlot fromSlot)
 		{
-			if (fromSlot == null || fromSlot.IsEmpty || ((fromSlot.ItemObject.GetComponent<Grindable>() == null && fromSlot.ItemObject.GetComponent<Juiceable>() == null) && !fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.OpenContainer))) return;
+			if (fromSlot == null || fromSlot.IsEmpty || ((fromSlot.ItemObject.GetComponent<Grindable>() == null && fromSlot.ItemObject.GetComponent<Juiceable>() == null) && !fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))) return;
 
 			if(itemSlot.IsEmpty)
 			{
-				if (fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.OpenContainer))
+				if (fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))
 				{
 					Inventory.ServerTransfer(fromSlot, itemStorage.GetIndexedItemSlot(0));
 				}

@@ -13,7 +13,7 @@ namespace Objects.Kitchen
 	{
 		private DryingRack dryingRack;
 
-		private void Start()
+		private void Awake()
 		{
 			dryingRack = GetComponent<DryingRack>();
 		}

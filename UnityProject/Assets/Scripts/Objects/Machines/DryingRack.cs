@@ -31,12 +31,12 @@ namespace Objects.Kitchen
 
 		private void OnEnable()
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Add(UpdateMe, 0.5f);
 		}
 
 		private void OnDisable()
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace Objects.Kitchen
 		/// </summary>
 		private void UpdateMe()
 		{
-			CheckDried(Time.deltaTime);
+			CheckDried(0.5f);
 		}
 
 		/// <summary>
