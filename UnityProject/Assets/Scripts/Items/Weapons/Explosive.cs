@@ -136,7 +136,7 @@ namespace Items.Weapons
 				{
 					if (CanAttatchToTarget(registerTile.Matrix, registerTile))
 					{
-						Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetObject.AssumedWorldPosServer());
+						Inventory.ServerDrop(pickupable.ItemSlot, registerTile.WorldPositionServer.To2Int());
 						if (countDownOnArm)
 						{
 							pickupable.ServerSetCanPickup(false);
