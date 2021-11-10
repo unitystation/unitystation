@@ -32,6 +32,18 @@ namespace Systems.Explosions
 
 			_ = SoundManager.PlayNetworkedAtPosAsync(explosionSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
 
+			if (distantSound?.AudioSource.OrNull()?.maxDistance == null)
+			{
+				Logger.LogError($"distantSound?.AudioSource.OrNull()?.maxDistance == null From {distantSound}" );
+				return;
+			}
+
+			if (groanSound?.AudioSource.OrNull()?.maxDistance == null)
+			{
+				Logger.LogError($"groanSound?.AudioSource.OrNull()?.maxDistance == null From {groanSound}" );
+				return;
+			}
+
 			if (shakeDistance > distantSound.AudioSource.maxDistance)
 			{
 				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, global: true);

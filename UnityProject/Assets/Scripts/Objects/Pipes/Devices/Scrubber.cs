@@ -147,7 +147,7 @@ namespace Objects.Atmospherics
 			// If all these gases exceed transfer amount, reduce each gas scrub mole count proportionally.
 
 			float scrubbableMolesAvailable = 0;
-			foreach (GasValues gas in metaNode.GasMix.GasesArray)
+			foreach (GasValues gas in metaNode.GasMix.GasesArray) //doesn't appear to modify list while iterating
 			{
 				if (FilteredGases.Contains(gas.GasSO))
 				{
@@ -184,7 +184,7 @@ namespace Objects.Atmospherics
 			moles = moles.Clamp(0, nominalMolesTransferCap);
 
 			if (moles.Approx(0)) return;
-			
+
 			GasMix.TransferGas(pipeMix, metaNode.GasMix, moles);
 		}
 
@@ -295,7 +295,7 @@ namespace Objects.Atmospherics
 			{
 				basePower *= 8;
 			}
-			
+
 			powerable.Wattusage = basePower;
 		}
 
