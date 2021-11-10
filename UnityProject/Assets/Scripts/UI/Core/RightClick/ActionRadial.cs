@@ -49,11 +49,11 @@ namespace UI.Core.RightClick
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("Caught a NRE in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+				Logger.LogError($"Caught a NRE in ItemRadial.LateUpdate() {exception.Message} \n {exception.StackTrace}", Category.UI);
 			}
 			catch (UnassignedReferenceException exception)
 			{
-				Logger.LogError("Caught an Unassigned Reference Exception in ItemRadial.LateUpdate() " + exception.Message, Category.UI);
+				Logger.LogError($"Caught an Unassigned Reference Exception in ItemRadial.LateUpdate() {exception.Message} \n {exception.StackTrace}", Category.UI);
 			}
 		}
 

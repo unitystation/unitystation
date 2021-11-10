@@ -1060,7 +1060,7 @@ public static class Librarian
 			}
 			catch (ArgumentException exception)
 			{
-				Logger.LogError("Catch Argument Exception for Variable Viewer " + exception.Message, Category.VariableViewer);
+				Logger.LogError($"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}", Category.VariableViewer);
 			}
 		}
 
