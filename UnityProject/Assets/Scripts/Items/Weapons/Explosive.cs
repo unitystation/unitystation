@@ -75,10 +75,11 @@ namespace Items.Weapons
 
 		private bool CanAttatchToTarget(Matrix matrix, RegisterTile tile)
 		{
+			if (matrix.Get<Pickupable>(tile.WorldPositionServer, true).Any()) return false;
 			return matrix.IsWallAt(tile.WorldPosition, true) ||
 			       matrix.IsWindowAt(tile.WorldPosition, true) ||
 			       matrix.IsGrillAt(tile.WorldPosition, true) ||
-			       matrix.Get<RegisterDoor>(tile.WorldPosition, true).Any();
+			       matrix.Get<RegisterDoor>(tile.WorldPositionServer, true).Any();
 		}
 
 
@@ -112,7 +113,6 @@ namespace Items.Weapons
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side) || pickupable.ItemSlot == null) return false;
-			Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()}");
 			return true;
 		}
 
@@ -125,6 +125,7 @@ namespace Items.Weapons
 				var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
 				foreach (var registerTile in tiles)
 				{
+					Debug.Log($"{interaction.TargetObject} - {interaction.TargetObject.WorldPosServer()} - {registerTile.WorldPositionServer}");
 					Debug.DrawLine(interaction.Performer.WorldPosServer(), registerTile.WorldPositionServer, Color.red, 190, false);
 					if (CanAttatchToTarget(registerTile.Matrix, registerTile))
 					{
