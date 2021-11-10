@@ -120,7 +120,6 @@ namespace Items.Weapons
 		{
 			void Perform()
 			{
-				Debug.Log("handApply found walls and looking for the correct one");
 				var matrix = interaction.TargetObject.RegisterTile().Matrix;
 				var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
 				foreach (var registerTile in tiles)
