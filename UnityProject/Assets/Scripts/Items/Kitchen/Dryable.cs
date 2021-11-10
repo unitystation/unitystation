@@ -14,7 +14,7 @@ public class Dryable : MonoBehaviour
 	public GameObject DriedProduct;
 
 	/// <summary>
-	/// Raised when enough cooking time has been added (via <see cref="AddCookingTime(float)"/>)
+	/// Raised when enough drying time has been added (via <see cref="AddDryingTime(float)"/>)
 	/// </summary>
 	public event Action OnDried;
 
