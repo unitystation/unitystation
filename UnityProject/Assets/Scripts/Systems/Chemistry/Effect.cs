@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Chemistry
+namespace Systems.Chemistry
 {
 	public abstract class Effect : ScriptableObject
 	{

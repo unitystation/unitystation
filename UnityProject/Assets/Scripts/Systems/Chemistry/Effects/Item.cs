@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace Chemistry.Effects
+namespace Systems.Chemistry.Effects
 {
 	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Effect/Item")]
 	[Serializable]

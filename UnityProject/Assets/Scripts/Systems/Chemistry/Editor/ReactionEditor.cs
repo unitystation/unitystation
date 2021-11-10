@@ -1,8 +1,7 @@
-﻿using Chemistry;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace Chemistry.Editor
+namespace Systems.Chemistry.Editor
 {
 	[CustomEditor(typeof(Reaction))]
 	public class ReactionEditor : UnityEditor.Editor

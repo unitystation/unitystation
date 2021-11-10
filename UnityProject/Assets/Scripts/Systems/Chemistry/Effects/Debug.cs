@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Chemistry.Effects
+namespace Systems.Chemistry.Effects
 {
 	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Effect/Debug")]
 	public class Debug : Chemistry.Effect

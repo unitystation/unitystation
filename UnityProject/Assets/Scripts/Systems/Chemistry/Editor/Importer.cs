@@ -10,7 +10,7 @@ using UnityEngine;
 using YamlDotNet.Serialization;
 using Unity.EditorCoroutines.Editor;
 
-namespace Chemistry.Editor
+namespace Systems.Chemistry.Editor
 {
 	public class Importer : EditorWindow
 	{

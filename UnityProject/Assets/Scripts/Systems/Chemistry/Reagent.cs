@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Chemistry
+namespace Systems.Chemistry
 {
 	[CreateAssetMenu(fileName = "reagent", menuName = "ScriptableObjects/Chemistry/Reagent")]
 	public class Reagent : ScriptableObject

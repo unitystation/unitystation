@@ -6,7 +6,7 @@ using Mirror;
 using Systems.Explosions;
 using HealthV2;
 
-namespace Chemistry.Effects
+namespace Systems.Chemistry.Effects
 {
 	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Effect/ChemExplosion")]
 	public class ChemExplosion : Chemistry.Effect

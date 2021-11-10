@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Chemistry
+namespace Systems.Chemistry
 {
 	[Serializable]
 	public class ReagentMix
