@@ -19,7 +19,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	public bool searchWhileTyping = false;
 	[Tooltip("If searchWhileTyping is turned on, don't start searching until at least this many" +
 	         " characters are entered.")]
-	public int minCharactersForSearch = 3;
+	public int minCharactersForSearch = 2;
 
 	// search index
 	private SpawnerSearch spawnerSearch;
@@ -71,7 +71,7 @@ public class GUI_DevSpawner : MonoBehaviour
     public void Search()
     {
 	    if (searchBox.text.Length < minCharactersForSearch) return;
-	    
+
 		// delete previous results
 	    foreach (Transform child in contentPanel.transform)
 	    {
