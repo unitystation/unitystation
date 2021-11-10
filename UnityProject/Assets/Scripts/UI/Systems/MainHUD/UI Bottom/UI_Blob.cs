@@ -318,7 +318,7 @@ public class UI_Blob : MonoBehaviour
 
 	public void UpdateStrainInfo()
 	{
-		GenerateBlobStrainData(blobPlayer.clientCurrentStrain);
+		GenerateBlobStrainData(blobPlayer.ClientCurrentStrain);
 		ResetButtons();
 	}
 
@@ -365,7 +365,7 @@ public class UI_Blob : MonoBehaviour
 		//First time generating
 		if (!randomStrains.Any())
 		{
-			var strains = blobPlayer.blobStrains.Where(s => s != blobPlayer.clientCurrentStrain);
+			var strains = blobPlayer.blobStrains.Where(s => s != blobPlayer.ClientCurrentStrain);
 			randomStrains = strains.PickRandom(4).ToList();
 		}
 

@@ -89,6 +89,22 @@ namespace AdminTools.VariableViewer
 			}
 		}
 
+		public void SetChildPageToID(ulong ID)
+		{
+			var ChildrenList = this.Shelf.GetChildrenList();
+			int Index = 0;
+			for (int j = 0; j < ChildrenList.Count; j++)
+			{
+				if (ChildrenList[j].ID == ID)
+				{
+					Index = j;
+					break;
+				}
+			}
+			ChildPage = (Index / NumberPerPage); //Rounds to floor so is okay
+			DisplayPage();
+		}
+
 		public void PageDown()
 		{
 			ChildPage++;

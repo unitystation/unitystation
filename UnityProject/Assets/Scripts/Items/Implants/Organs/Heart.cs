@@ -5,7 +5,7 @@ using Chemistry;
 using HealthV2;
 using UnityEngine;
 
-public class Heart : Organ
+public class Heart : BodyPartFunctionality
 {
 	//The actual heartrate of this implant, in BPM.
 	/// <summary>
@@ -47,7 +47,7 @@ public class Heart : Organ
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
-		if (RelatedPart.HealthMaster.OverallHealth < -100)
+		if (RelatedPart.HealthMaster.OverallHealth <= -100)
 		{
 
 			if (CanTriggerHeartAttack)
@@ -108,6 +108,7 @@ public class Heart : Organ
 			return;
 		}
 
+		//To exclude stuff like hunger and oxygen damage
 		var TotalModified = 1f;
 		foreach (var modifier in bodyPart.AppliedModifiers)
 		{
@@ -133,30 +134,28 @@ public class Heart : Organ
 
 	public void Heartbeat(float efficiency)
 	{
+		if (efficiency > 1)
+		{
+			efficiency = 1;
+		}
 		CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
 		if (circulatorySystem)
 		{
-			float pumpedReagent = Math.Min(heartStrength * efficiency, circulatorySystem.ReadyBloodPool.Total);
+
 			float totalWantedBlood = 0;
 			foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
 				totalWantedBlood += implant.BloodThroughput;
 			}
-
-			pumpedReagent = Math.Min(pumpedReagent, totalWantedBlood);
-			ReagentMix SpareBlood = new ReagentMix();
+			float pumpedReagent = Math.Min(totalWantedBlood * efficiency, circulatorySystem.ReadyBloodPool.Total);
 
 			foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
 				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodThroughput / totalWantedBlood) * pumpedReagent);
-				BloodToGive.Add(SpareBlood);
-				SpareBlood.Clear();
-				SpareBlood.Add(implant.BloodPumpedEvent(BloodToGive));
+				implant.BloodPumpedEvent(BloodToGive);
 			}
-
-			circulatorySystem.ReadyBloodPool.Add(SpareBlood);
 		}
 	}
 

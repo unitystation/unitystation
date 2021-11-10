@@ -70,7 +70,7 @@ namespace HealthV2
 		/// <summary>
 		/// Stores how severely the body part is damage for purposes of examine
 		/// </summary>
-		[HideInInspector] public DamageSeverity Severity = DamageSeverity.LightModerate;
+		[HideInInspector] public DamageSeverity Severity = DamageSeverity.None;
 
 		/// <summary>
 		/// Toxin damage taken
@@ -222,7 +222,7 @@ namespace HealthV2
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
-			if (DamageSubOrgans && OrganList.Count > 0)
+			if (DamageSubOrgans && containBodyParts.Count > 0)
 			{
 				DamageOrgans(damage, attackType, damageType, organDamageSplit, armorPenetration);
 			}
@@ -272,15 +272,14 @@ namespace HealthV2
 			//TODO: remove BodyPart component from organ
 			if (organDamageSplit)
 			{
-				foreach (var organ in OrganList)
+				foreach (var organ in containBodyParts)
 				{
-					var organBodyPart = organ.GetComponent<BodyPart>();
-					organBodyPart.AffectDamage(subDamage / OrganList.Count, (int) damageType);
+					organ.AffectDamage(subDamage / containBodyParts.Count, (int) damageType);
 				}
 			}
 			else
 			{
-				var organBodyPart = OrganList.PickRandom().GetComponent<BodyPart>(); //It's not like you can aim for Someone's liver can you
+				var organBodyPart = containBodyParts.PickRandom().GetComponent<BodyPart>(); //It's not like you can aim for Someone's liver can you
 				organBodyPart.AffectDamage(subDamage, (int) damageType);
 			}
 		}

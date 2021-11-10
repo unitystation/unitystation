@@ -7,7 +7,7 @@ using Mirror;
 using Core.Editor.Attributes;
 using Systems.ObjectConnection;
 using Objects.Engineering;
-#if Unity_Editor
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
 
@@ -100,7 +100,7 @@ namespace Systems.Electricity
 
 		private void Awake()
 		{
-#if Unity_Editor
+#if UNITY_EDITOR
 		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
 
 #endif

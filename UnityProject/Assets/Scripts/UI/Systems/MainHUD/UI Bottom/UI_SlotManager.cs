@@ -26,12 +26,85 @@ public class UI_SlotManager : MonoBehaviour
 
 	public HandsController HandsController;
 
+
+	public List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>> ContainSlots = new List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>>();
 	public void Start()
 	{
-		EventManager.AddHandler(Event.LoggedOut, RemoveAll);
-		EventManager.AddHandler(Event.PlayerSpawned, RemoveAll);
-		EventManager.AddHandler(Event.RoundEnded, RemoveAll);
-		EventManager.AddHandler(Event.PreRoundStarted, RemoveAll);
+		EventManager.AddHandler(Event.LoggedOut, UpdateUI);
+		EventManager.AddHandler(Event.PlayerSpawned, UpdateUI);
+		EventManager.AddHandler(Event.RoundEnded, UpdateUI);
+		EventManager.AddHandler(Event.PreRoundStarted, UpdateUI);
+	}
+
+	public void UpdateUI()
+	{
+		if (PlayerManager.LocalPlayerScript.OrNull()?.DynamicItemStorage != null)
+		{
+			var DynamicItemStorage = PlayerManager.LocalPlayerScript.DynamicItemStorage;
+			var Newstored = DynamicItemStorage.ClientSlotCharacteristic;
+			List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>> Inadd = new List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>>();
+			List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>> Inremove = new List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>>();
+
+			foreach (var slot in Newstored)
+			{
+				if (slot.Value.NotPresentOnUI) continue;
+
+				bool NotPresent = true;
+				foreach (var Oldslot in ContainSlots)
+				{
+					if (Oldslot.Item1 == slot.Value.RelatedIDynamicItemSlotS && Oldslot.Item2 == slot.Value)
+					{
+						NotPresent = false;
+					}
+				}
+
+				if (NotPresent)
+				{
+					Inadd.Add(new Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(slot.Value.RelatedIDynamicItemSlotS, slot.Value));
+				}
+
+			}
+
+			foreach (var OLDslot in ContainSlots)
+			{
+				bool NotPresent = true;
+				foreach (var Newslot in Newstored)
+				{
+					if (OLDslot.Item1 == Newslot.Value.RelatedIDynamicItemSlotS && OLDslot.Item2 == Newslot.Value)
+					{
+						NotPresent = false;
+					}
+				}
+
+				if (NotPresent)
+				{
+					Inremove.Add(OLDslot);
+				}
+			}
+
+			foreach (var removeing in Inremove)
+			{
+				RemoveSpecifyedUISlot(removeing.Item1, removeing.Item2);
+				ContainSlots.Remove(removeing);
+
+			}
+
+			foreach (var Adding in Inadd)
+			{
+				AddIndividual(Adding.Item1, Adding.Item2);
+				ContainSlots.Add(Adding);
+			}
+		}
+		else
+		{
+
+			foreach (var contained in ContainSlots)
+			{
+				RemoveSpecifyedUISlot(contained.Item1, contained.Item2);
+			}
+			ContainSlots.Clear();
+		}
+
 	}
 
 	public void AddContainer(IDynamicItemSlotS bodyPartUISlots)
@@ -134,22 +207,6 @@ public class UI_SlotManager : MonoBehaviour
 		}
 	}
 
-
-	public void RemoveAll()
-	{
-		if (this == null) return;
-		foreach (var Inslots in BodyPartToSlot.Keys.ToArray())
-		{
-			foreach (var Characteristics in Inslots.Storage)
-			{
-				RemoveSpecifyedUISlot(Inslots, Characteristics);
-			}
-
-		}
-		BodyPartToSlot.Clear();
-
-		HandsController.RemoveAllHands();
-	}
 
 	public void AddIndividual(IDynamicItemSlotS bodyPartUISlots,
 		BodyPartUISlots.StorageCharacteristics storageCharacteristicse)

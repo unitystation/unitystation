@@ -1129,6 +1129,14 @@ namespace Mirror
                 return;
             }
 
+            /// <CUSTOM UNITYSTATION CODE>
+            if (conn.identity == null)
+            {
+	            Debug.LogError($"The server tried to add a disconnected player to the list of {gameObject.name} NetworkIdentity observers");
+	            return;
+            }
+            /// </CUSTOM UNITYSTATION CODE>
+
             // Debug.Log("Added observer " + conn.address + " added for " + gameObject);
 
             observers[conn.connectionId] = conn;

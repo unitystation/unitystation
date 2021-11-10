@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
@@ -12,7 +13,14 @@ namespace HealthV2
 
 		private DynamicItemStorage ItemStorage;
 
-		[CanBeNull] public GameObject GameObject => gameObject;
+		[CanBeNull] public GameObject GameObject
+		{
+			get
+			{
+				if (this == null) return null;
+				return gameObject;
+			}
+		}
 
 		public ItemStorage RelatedStorage => relatedStorage;
 
@@ -26,7 +34,7 @@ namespace HealthV2
 		private List<BodyPartUISlots.StorageCharacteristics> storage;
 
 		[System.Serializable]
-		public struct StorageCharacteristics
+		public class StorageCharacteristics
 		{
 			public bool NotPresentOnUI;
 			public UI_SlotManager.SlotArea SlotArea;
@@ -36,6 +44,9 @@ namespace HealthV2
 			public Sprite placeholderSprite;
 			public bool Conditional;
 			[ShowIf(nameof(Conditional))] public Conditional Condition;
+			[NonSerialized] public IDynamicItemSlotS RelatedIDynamicItemSlotS;
+
+
 		}
 
 

@@ -190,7 +190,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 						// If matrix manager says, the neighboring positions is space, the whole room is connected to space.
 						// Otherwise there is another matrix, blocking off the connection to space.
-						if (MatrixManager.IsSpaceAt(worldPosition, true))
+						if (MatrixManager.IsSpaceAt(worldPosition, true, matrix.MatrixInfo))
 						{
 							isSpace = true;
 						}
@@ -262,7 +262,7 @@ public class MetaDataSystem : SubsystemBehaviour
 					Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
 					// if matrixManager says, it's not space at the neighboring position, there must be a matrix with a non-space tile
-					if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true))
+					if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true, matrix.MatrixInfo))
 					{
 						MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
 

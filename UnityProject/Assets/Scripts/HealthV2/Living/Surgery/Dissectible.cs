@@ -180,10 +180,8 @@ namespace HealthV2
 			{
 				if (BodyPartIsopen)
 				{
-					foreach (var inBodyPart in BodyPartIsOn.OrganList)
+					foreach (var organBodyPart in BodyPartIsOn.ContainBodyParts)
 					{
-						//TODO: remove bodypart component from organs
-						var organBodyPart = inBodyPart.GetComponent<BodyPart>();
 						if (organBodyPart == ONBodyPart)
 						{
 							foreach (var Procedure in organBodyPart.SurgeryProcedureBase)
@@ -272,23 +270,18 @@ namespace HealthV2
 			if (currentlyOn == null)
 			{
 				var targetedBodyParts = new List<BodyPart>();
-				foreach (var bodyPart in LivingHealthMasterBase.BodyPartList)
+				foreach (var bodyPart in LivingHealthMasterBase.SurfaceBodyParts)
 				{
 					targetedBodyParts.Add(bodyPart);
 				}
+
 				SendSurgeryBodyParts.SendTo(targetedBodyParts, this, SentByPlayer);
 			}
 			else
 			{
 				if (BodyPartIsopen)
 				{
-					//TODO: remove bodypart component from organs
-					var organBodyPartList = new List<BodyPart>();
-					foreach (var organ in BodyPartIsOn.OrganList)
-					{
-						organBodyPartList.Add(organ.GetComponent<BodyPart>());
-					}
-					SendSurgeryBodyParts.SendTo(organBodyPartList, this, SentByPlayer);
+					SendSurgeryBodyParts.SendTo(BodyPartIsOn.ContainBodyParts, this, SentByPlayer);
 				}
 				else
 				{

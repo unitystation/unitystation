@@ -29,14 +29,15 @@ public static class RandomUtils
 	/// </summary>
 	public static Vector3Int GetRandomPointOnStation(bool avoidSpace = false, bool avoidImpassable = false)
 	{
-		var stationBounds = MatrixManager.MainStationMatrix.Bounds;
+		var stationMatrix = MatrixManager.MainStationMatrix;
+		var stationBounds = stationMatrix.Bounds;
 
 		Vector3Int point = default;
 		for (int i = 0; i < 10; i++)
 		{
 			point = stationBounds.GetRandomPoint().CutToInt();
 
-			if (avoidSpace && MatrixManager.IsSpaceAt(point, CustomNetworkManager.IsServer))
+			if (avoidSpace && MatrixManager.IsSpaceAt(point, CustomNetworkManager.IsServer, stationMatrix))
 			{
 				continue;
 			}

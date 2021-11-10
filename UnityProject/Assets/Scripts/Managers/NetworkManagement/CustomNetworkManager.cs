@@ -201,9 +201,18 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
 				{
 					var OriginalOldID = prefabTracker.ForeverID;
-					//TODO Someone smarter than me work out which one is the base prefab
-					StoredIDs[prefabTracker.ForeverID].ReassignID();
-					prefabTracker.ReassignID();
+
+					var OriginDictionary =
+						PrefabUtility.GetCorrespondingObjectFromSource(StoredIDs[prefabTracker.ForeverID].gameObject);
+					if (OriginDictionary == prefabTracker.gameObject)
+					{
+						StoredIDs[prefabTracker.ForeverID].ReassignID();
+					}
+					else
+					{
+						prefabTracker.ReassignID();
+					}
+
 					var Preexisting = StoredIDs[OriginalOldID];
 
 					if (Preexisting.ForeverID != OriginalOldID &&

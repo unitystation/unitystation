@@ -7,13 +7,13 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class DamageSymptoms : Organ
+	public class DamageSymptoms : BodyPartFunctionality
 	{
 		public List<SeverityAndSymptoms> severityAndSymptoms = new List<SeverityAndSymptoms>();
 		public float TimeBetweenSymptoms;
 		private float time;
 
-		public override void Initialisation()
+		public void Awake()
 		{
 			severityAndSymptoms = severityAndSymptoms.OrderByDescending(x => x.HealthPercentageAndBelow).Reverse().ToList();
 		}

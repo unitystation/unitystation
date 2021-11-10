@@ -163,8 +163,8 @@ namespace Blob
 		[SyncVar(hook = nameof(SyncTurnOnClientLight))]
 		private bool clientLight;
 
-		[HideInInspector]
-		public BlobStrain clientCurrentStrain;
+		private BlobStrain clientCurrentStrain;
+		public BlobStrain ClientCurrentStrain => clientCurrentStrain;
 
 		private int numOfBlobTiles = 1;
 
@@ -550,6 +550,7 @@ namespace Blob
 		private void TargetRpcTurnOffLight(NetworkConnection target)
 		{
 			overmindLightObject.SetActive(false);
+			overmindSprite.layer = 31;
 		}
 
 		#endregion
@@ -586,10 +587,10 @@ namespace Blob
 		{
 			if (!ValidateAction(worldPos)) return false;
 
-			if (!autoExpanding && resources < attackCost)
+			if (!autoExpanding && (resources < attackCost || resources < normalBlobCost))
 			{
 				Chat.AddExamineMsgFromServer(gameObject,
-					$"Not enough biomass to attack, you need {attackCost} biomass");
+					$"Not enough biomass to attack or grow, you need {attackCost} biomass to attack and {normalBlobCost} biomass to grow");
 				return false;
 			}
 
@@ -993,7 +994,7 @@ namespace Blob
 		{
 			if (!ValidateAction(worldPos)) return;
 
-			if (MatrixManager.IsSpaceAt(worldPos, true))
+			if (MatrixManager.IsSpaceAt(worldPos, true, registerPlayer.Matrix.MatrixInfo))
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Cannot place structures on space blob, find a sturdier location");
 				return;
@@ -1537,7 +1538,7 @@ namespace Blob
 
 		private void AddNonSpaceBlob(GameObject newBlob)
 		{
-			if(MatrixManager.IsSpaceAt(newBlob.GetComponent<RegisterObject>().WorldPositionServer, true)) return;
+			if(MatrixManager.IsSpaceAt(newBlob.GetComponent<RegisterObject>().WorldPositionServer, true, registerPlayer.Matrix.MatrixInfo)) return;
 
 			nonSpaceBlobTiles.Remove(null);
 			nonSpaceBlobTiles.Add(newBlob);

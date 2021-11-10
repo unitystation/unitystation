@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Mirror;
+using Object = UnityEngine.Object;
 
 namespace Systems.Electricity
 {
@@ -17,10 +19,9 @@ namespace Systems.Electricity
 		public bool Running { get; private set; }
 		public float MSSpeed = 100;
 
-		public static ElectricalManager Instance {
-			get {
-				return instance;
-			}
+		public static ElectricalManager Instance
+		{
+			get { return instance; }
 			set { instance = value; }
 		}
 
@@ -45,7 +46,7 @@ namespace Systems.Electricity
 		//Server Side Only
 		private void UpdateMe()
 		{
-			if(roundStartedServer == false) return;
+			if (roundStartedServer == false) return;
 
 			if (Mode == ElectricalMode.GameLoop && Running)
 			{
@@ -76,7 +77,7 @@ namespace Systems.Electricity
 			EventManager.AddHandler(Event.PostRoundStarted, StartSim);
 			EventManager.AddHandler(Event.RoundEnded, StopSim);
 
-			if(Application.isEditor == false && NetworkServer.active == false) return;
+			if (Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
@@ -86,9 +87,17 @@ namespace Systems.Electricity
 			EventManager.RemoveHandler(Event.PostRoundStarted, StartSim);
 			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
 
-			if(Application.isEditor == false && NetworkServer.active == false) return;
+			if (Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDestroy()
+		{
+			if (Application.isEditor)
+			{
+				StopSim();
+			}
 		}
 
 		public void StartSim()
@@ -102,7 +111,7 @@ namespace Systems.Electricity
 			electricalSync.Initialise();
 			if (Mode == ElectricalMode.Threaded)
 			{
-				electricalSync.SetSpeed((int)MSSpeed);
+				electricalSync.SetSpeed((int) MSSpeed);
 				electricalSync.StartSim();
 			}
 
@@ -115,6 +124,15 @@ namespace Systems.Electricity
 
 			Running = false;
 			electricalSync.StopSim();
+
+			if (electricalSync.MainThreadProcess)
+			{
+				lock (ElectricalLock)
+				{
+					electricalSync.MainThreadProcess = false;
+					Monitor.Pulse(ElectricalLock);
+				}
+			}
 			roundStartedServer = false;
 			electricalSync.Reset();
 			Logger.Log("Round Ended", Category.Electrical);
@@ -122,7 +140,7 @@ namespace Systems.Electricity
 
 		public static void SetInternalSpeed()
 		{
-			Instance.electricalSync.SetSpeed((int)Instance.MSSpeed);
+			Instance.electricalSync.SetSpeed((int) Instance.MSSpeed);
 		}
 	}
 

@@ -419,7 +419,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = LocalToWorld(source, position);
-				GizmoUtils.DrawText($"{node.GasMix.GasesArray.Length}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.GasesArray.Count}", p, false);
 			}
 		}
 	}

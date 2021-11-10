@@ -60,7 +60,7 @@ namespace Messages.Server.SpritesMessages
 				{
 					var argument = spriteUpdateEntry.arg[argumentIndex];
 					argumentIndex++;
-					spriteHandler.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[argument], networked: false);
+					spriteHandler.SetSpriteSO(SpriteCatalogue.ResistantCatalogue[argument], networked: false);
 				}
 				else if (spriteOperation == SpriteOperation.VariantIndex)
 				{
@@ -243,7 +243,7 @@ namespace Messages.Server.SpritesMessages
 						{
 							try
 							{
-								SP.SetSpriteSO(SpriteCatalogue.Instance.Catalogue[SpriteID], networked: false);
+								SP.SetSpriteSO(SpriteCatalogue.ResistantCatalogue[SpriteID], networked: false);
 							}
 							catch (Exception e)
 							{

@@ -111,6 +111,14 @@ public class Matrix : MonoBehaviour
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
+
+		if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
+		{
+			MatrixManager.Instance.InitializingMatrixes.Add(gameObject.scene, new List<Matrix>());
+		}
+		MatrixManager.Instance.InitializingMatrixes[gameObject.scene].Add(this);
+
+
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{
 			var cellPos = metaTileMap.WorldToCell(worldPos);
@@ -222,12 +230,7 @@ public class Matrix : MonoBehaviour
 	{
 		return MetaTileMap.IsAtmosPassableAt(position, isServer);
 	}
-
-	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position, bool isServer)
-	{
-		return MetaTileMap.IsAtmosPassableAt(origin, position, isServer);
-	}
-
+	
 	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsSpaceAt(position, isServer);
@@ -258,52 +261,10 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsEmptyAt(position, isServer);
 	}
 
-	/// Is this position and surrounding area completely clear of solid objects?
-	public bool IsFloatingAt(Vector3Int position, bool isServer)
-	{
-		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
-		{
-			if (!MetaTileMap.IsEmptyAt(pos, isServer))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	/// Is current position NOT a station tile? (Objects not taken into consideration)
 	public bool IsNoGravityAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsNoGravityAt(position, isServer);
-	}
-
-	/// Should player NOT stick to the station at this position?
-	public bool IsNonStickyAt(Vector3Int position, bool isServer)
-	{
-		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
-		{
-			if (MetaTileMap.IsNoGravityAt(pos, isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/// Is this position and surrounding area completely clear of solid objects except for provided one?
-	public bool IsFloatingAt(GameObject[] context, Vector3Int position, bool isServer)
-	{
-		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
-		{
-			if (MetaTileMap.IsEmptyAt(context, pos, isServer) == false)
-			{
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
