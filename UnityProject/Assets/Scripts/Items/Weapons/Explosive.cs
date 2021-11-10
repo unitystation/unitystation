@@ -122,9 +122,10 @@ namespace Items.Weapons
 			{
 				Debug.Log("handApply found walls and looking for the correct one");
 				var matrix = interaction.TargetObject.RegisterTile().Matrix;
-				var tiles = matrix.GetRegisterTile(interaction.TargetObject.WorldPosServer().RoundToInt(), true);
+				var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
 				foreach (var registerTile in tiles)
 				{
+					Debug.DrawLine(interaction.Performer.WorldPosServer(), registerTile.WorldPositionServer, Color.red, 190, false);
 					if (CanAttatchToTarget(registerTile.Matrix, registerTile))
 					{
 						Inventory.ServerDrop(pickupable.ItemSlot, registerTile.WorldPositionServer.To2Int());
