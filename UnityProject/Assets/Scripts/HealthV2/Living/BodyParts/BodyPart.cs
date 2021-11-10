@@ -322,12 +322,10 @@ namespace HealthV2
 				organ.BodyPartRemoveHealthMaster();
 			}
 
-
 			RemoveSprites(playerSprites, HealthMaster);
 			HealthMaster.rootBodyPartController.UpdateClients();
 			HealthMaster.BodyPartList.Remove(this);
 			HealthMaster = null;
-
 		}
 
 		/// <summary>
@@ -459,8 +457,6 @@ namespace HealthV2
 			{
 				Organ.SetUpSystems();
 			}
-
-
 		}
 	}
 

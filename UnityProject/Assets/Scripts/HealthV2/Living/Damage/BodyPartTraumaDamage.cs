@@ -169,7 +169,11 @@ namespace HealthV2
 				}
 			}
 
-			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL) StartCoroutine(ExternalBleedingLogic());
+			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL
+				&& isBleedingExternally == false && IsSurface)
+			{
+				StartCoroutine(ExternalBleedingLogic());
+			}
 		}
 
 		/// <summary>
@@ -188,26 +192,26 @@ namespace HealthV2
 		/// The logic executed for when a body part is externally bleeding.
 		/// checks if bleeding stops on it's own over time.
 		/// </summary>
-		public IEnumerator ExternalBleedingLogic()
+		private IEnumerator ExternalBleedingLogic()
 		{
 			if(isBleedingExternally || IsSurface == false) yield break;
-			bool willCloseOnItsOwn = false;
+
 			isBleedingExternally = true;
 			IsBleeding = true;
+
 			StartCoroutine(Bleedout());
+
+			//More than serious and small wounds will not close by themselves
+			if(currentSlashDamageLevel > TraumaDamageLevel.SERIOUS && currentPierceDamageLevel > TraumaDamageLevel.SMALL) yield break;
+
+			//Wait 128 seconds to close wound
+			yield return WaitFor.Seconds(128);
+
 			if(currentSlashDamageLevel <= TraumaDamageLevel.SERIOUS || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
 			{
-				willCloseOnItsOwn = true;
-			}
-			if(willCloseOnItsOwn)
-			{
-				yield return WaitFor.Seconds(128);
-				if(currentSlashDamageLevel <= TraumaDamageLevel.SERIOUS || currentPierceDamageLevel <= TraumaDamageLevel.SMALL)
-				{
-					StopExternalBleeding();
-					isBleedingExternally = false;
-					IsBleeding = false;
-				}
+				StopExternalBleeding();
+				isBleedingExternally = false;
+				IsBleeding = false;
 			}
 		}
 
@@ -218,11 +222,11 @@ namespace HealthV2
 		{
 			while(isBleedingExternally)
 			{
-				//add 1 bleedstack every 10 seconds until the wound is closed
+				//Add 1 bleedstack every 10 seconds until the wound is closed
 				yield return WaitFor.Seconds(10f);
 				if (IsBleeding)
 				{
-					HealthMaster.ChangeBleedStacks(1f);
+					HealthMaster.OrNull()?.ChangeBleedStacks(1f);
 				}
 			}
 		}
@@ -233,11 +237,10 @@ namespace HealthV2
 		/// </summary>
 		public void StopExternalBleeding()
 		{
-			if(isBleedingExternally)
-			{
-				isBleedingExternally = false;
-				StopCoroutine(Bleedout());
-			}
+			if (isBleedingExternally == false) return;
+			isBleedingExternally = false;
+
+			StopCoroutine(Bleedout());
 		}
 
 		/// <summary>
@@ -320,7 +323,7 @@ namespace HealthV2
 		/// <summary>
 		/// Checks if the bodypart is damaged to a point where it can be gibbed from the body
 		/// </summary>
-		protected void CheckBodyPartIntigrity()
+		protected void CheckBodyPartIntegrity()
 		{
 			if(currentPierceDamageLevel >= TraumaDamageLevel.SERIOUS)
 			{
@@ -330,7 +333,12 @@ namespace HealthV2
 				}
 			}
 
-			if (currentSlashDamageLevel >= TraumaDamageLevel.SERIOUS) StartCoroutine(ExternalBleedingLogic());
+			if (currentSlashDamageLevel >= TraumaDamageLevel.SERIOUS
+			    && isBleedingExternally == false && IsSurface)
+			{
+				StartCoroutine(ExternalBleedingLogic());
+			}
+
 			if(Severity >= GibsOnSeverityLevel || currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
 			{
 				DismemberBodyPartWithChance();
