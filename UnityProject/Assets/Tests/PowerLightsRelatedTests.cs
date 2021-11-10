@@ -78,7 +78,7 @@ namespace Tests
 				    }
 				    if (device.RelatedAPC == null && device.IsSelfPowered == false)
 				    {
-						var objectCoords = $"({objectDevice.transform.position.x}, {objectDevice.transform.position.y})";
+						var objectCoords = $"({objectDevice.transform.localPosition.x}, {objectDevice.transform.localPosition.y})";
 					    countMissingAPC++;
 					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name, objectCoords));
 				    }
@@ -169,7 +169,7 @@ namespace Tests
 				    }
 				    if (device.relatedLightSwitch == null)
 				    {
-						var objectCoords = $"({objectDevice.transform.position.x}, {objectDevice.transform.position.y})";
+						var objectCoords = $"({objectDevice.transform.localPosition.x}, {objectDevice.transform.localPosition.y})";
 					    countMissingSwitch++;
 					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name, objectCoords));
 				    }
@@ -254,7 +254,7 @@ namespace Tests
 				    var device = objectDevice;
 				    if (device.listOfLights.Count == 0)
 				    {
-						var objectCoords = $"({objectDevice.transform.position.x}, {objectDevice.transform.position.y})";
+						var objectCoords = $"({objectDevice.transform.localPosition.x}, {objectDevice.transform.localPosition.y})";
 					    countSwitchesWithoutLights++;
 					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name, objectCoords));
 				    }
@@ -432,7 +432,7 @@ namespace Tests
 					    Logger.Log($"ConnectedDevice is null in \"{device.name}\"" , Category.Tests);
 					    report.AppendLine(device.name);
 					    count++;
-				    }
+					}
 				    else
 				    if (connectedDevice.RelatedAPC != device)
 				    {
