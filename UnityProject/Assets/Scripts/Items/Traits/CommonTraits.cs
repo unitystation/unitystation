@@ -93,4 +93,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Id;
 	public ItemTrait ProximitySensor;
 	public ItemTrait PowerControlBoard;
+	public ItemTrait Beaker;
 }

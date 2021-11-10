@@ -83,6 +83,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharchoalStylus
       objectReference: {fileID: 0}
+    - target: {fileID: 8835575039856582561, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0196cc8cc2de8818b9d56bdb11582c6c,
+        type: 2}
+    - target: {fileID: 8835575039856582561, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f972208dc79aa9241bf34b9cedd44993,
+        type: 2}
+    - target: {fileID: 8835575039856582561, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835575039856582561, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8919208026219100906, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: m_Sprite

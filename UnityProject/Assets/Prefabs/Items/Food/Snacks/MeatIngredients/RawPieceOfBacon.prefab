@@ -146,6 +146,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A raw piece of bacon.
       objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b4cdb8b266eda4641a7e780643ce9d0c,
+        type: 2}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7445234018201534294, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: CookableBy
