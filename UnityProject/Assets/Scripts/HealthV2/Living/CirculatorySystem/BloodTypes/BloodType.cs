@@ -7,9 +7,9 @@ namespace HealthV2
 	public class BloodType : Reagent
 	{
 		[Tooltip("This is the reagent actually metabolised and circulated through this circulatory system.")]
-		public Chemistry.Reagent CirculatedReagent;	//Just one for now feel free to add the code for more if needed
+		public Reagent CirculatedReagent;	//Just one for now feel free to add the code for more if needed
 
-		public Chemistry.Reagent WasteCarryReagent;
+		public Reagent WasteCarryReagent;
 
 		// A, B, O, etc.  Don't know how alien blood types will work, but you can add anything over there.
 		public BloodTypes Type;

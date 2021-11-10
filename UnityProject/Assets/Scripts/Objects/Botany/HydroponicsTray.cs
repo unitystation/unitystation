@@ -40,9 +40,9 @@ namespace Objects.Botany
 
 		[SerializeField] private PlantTrayModification modification = PlantTrayModification.None;
 		[SerializeField] private ReagentContainer reagentContainer = null;
-		[SerializeField] private Chemistry.Reagent nutriment = null;
-		[SerializeField] private Chemistry.Reagent water = null;
-		[SerializeField] private Chemistry.Reagent mutagen = null;
+		[SerializeField] private Systems.Chemistry.Reagent nutriment = null;
+		[SerializeField] private Systems.Chemistry.Reagent water = null;
+		[SerializeField] private Systems.Chemistry.Reagent mutagen = null;
 		[SerializeField] private SpriteHandler plantSprite = null;
 		[SerializeField] private SpriteHandler harvestNotifier = null;
 		[SerializeField] private SpriteHandler weedNotifier = null;

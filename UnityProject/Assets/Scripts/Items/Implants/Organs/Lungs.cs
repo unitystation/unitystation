@@ -7,6 +7,7 @@ using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Systems.Chemistry.Components;
 
 public class Lungs : BodyPartFunctionality
 {

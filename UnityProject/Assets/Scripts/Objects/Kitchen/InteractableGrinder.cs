@@ -2,6 +2,7 @@
 using UnityEngine;
 using Systems.Chemistry.Components;
 using Items;
+using Systems.Chemistry;
 
 namespace Objects.Kitchen
 {
@@ -40,12 +41,23 @@ namespace Objects.Kitchen
 		{
 			if (interaction.IsAltClick)
 			{
-				grinder.SwitchMode();
-				Chat.AddActionMsgToChat(
-                interaction.Performer,
-                $"You flick the All-In-One Grinder into {(grinder.GrindOrJuice ? "grind" : "juice")} mode.",
-                $"{interaction.Performer.ExpensiveName()} flicks the All-In-One Grinder into {(grinder.GrindOrJuice ? "grind" : "juice")} mode.");
-				return;
+				// Check if the player is holding food that can be ground up
+				ItemAttributesV2 attr = interaction.HandObject.GetComponent<ItemAttributesV2>();
+				Ingredient ingredient = new Ingredient(attr.ArticleName);
+				Reagent meal = CraftingManager.Grind.FindReagentRecipe(new List<Ingredient> { ingredient });
+				int count = CraftingManager.Grind.FindReagentAmount(new List<Ingredient> { ingredient });
+				if (meal)
+				{
+					grinder.SetServerStackAmount(count);
+					grinder.ServerSetOutputMeal(meal.name);
+					_ = Despawn.ServerSingle(interaction.HandObject);
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You grind the {attr.ArticleName}.");
+					GetComponent<AIOGrinder>().GrindFood();
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"Your {attr.ArticleName} can not be ground up.");
+				}
 			}
 			// If nothing's in hand, start machine.
 			if (interaction.HandObject == null)

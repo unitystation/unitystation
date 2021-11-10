@@ -5,6 +5,7 @@ using Systems.Chemistry;
 using Systems.Chemistry.Components;
 using NaughtyAttributes;
 using UnityEngine;
+using Systems.Chemistry;
 
 namespace HealthV2
 {
@@ -46,13 +47,13 @@ namespace HealthV2
 		/// The reagent that is used by this body part, eg oxygen.
 		/// </summary>
 		[Tooltip("What blood reagent does this use?")]
-		public Chemistry.Reagent requiredReagent;
+		public Reagent requiredReagent;
 
 		/// <summary>
 		/// The reagent that the body part expels as waste, eg co2
 		/// </summary>
 		[Tooltip("What reagent does this expel as waste?")]
-		public Chemistry.Reagent wasteReagent;
+		public Reagent wasteReagent;
 
 		/// <summary>
 		/// The part's internal working set of the body's blood. This is the limit of the blood that the part can
@@ -109,7 +110,7 @@ namespace HealthV2
 		/// The National toxins that the body part makes ( give these to the liver to filter ) E.G Toxin
 		/// </summary>
 		[Tooltip("What reagent does this expel as waste?")]
-		public Chemistry.Reagent NaturalToxinReagent;
+		public Reagent NaturalToxinReagent;
 
 		[Tooltip("How much natural toxicity does this body part generate Per tick per 1u of blood flow ")]
 		public float ToxinGeneration = 0.0002f;
@@ -344,7 +345,7 @@ namespace HealthV2
 		/// <param name="bloodReagent"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		public virtual float HandleWrongBloodReagent(Chemistry.Reagent bloodReagent, float amount)
+		public virtual float HandleWrongBloodReagent(Reagent bloodReagent, float amount)
 		{
 			return amount;
 		}

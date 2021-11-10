@@ -8,7 +8,7 @@ using UnityEngine;
 // [CreateAssetMenu(fileName = "BodyHealDamageEffect",
 // menuName = "ScriptableObjects/Chemistry/Effect/Body/BodyHealDamageEffect")]
 [Serializable]
-public class BodyEffect : Chemistry.Effect
+public class BodyEffect : Systems.Chemistry.Effect
 {
 	public override void Apply(MonoBehaviour sender, float amount)
 	{

@@ -49,7 +49,7 @@ namespace Objects.Atmospherics
 
 		[NonSerialized]
 		public GasSO GasIndex;
-		public Chemistry.Reagent FilterReagent;
+		public Systems.Chemistry.Reagent FilterReagent;
 
 		public override void Awake()
 		{

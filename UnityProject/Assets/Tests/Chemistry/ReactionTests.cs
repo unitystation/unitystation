@@ -2,7 +2,7 @@ using System.Collections;
 using Systems.Chemistry;
 using NUnit.Framework;
 using UnityEngine;
-using Effect = Chemistry.Effect;
+using Effect = Systems.Chemistry.Effect;
 
 namespace Tests.Chemistry
 {
@@ -33,14 +33,14 @@ namespace Tests.Chemistry
 			simpleReaction.catalysts = new DictionaryReagentInt { };
 			simpleReaction.inhibitors = new DictionaryReagentInt { };
 			simpleReaction.results = new DictionaryReagentInt {[c] = 1};
-			simpleReaction.effects = new global::Chemistry.Effect[0];
+			simpleReaction.effects = new global::Systems.Chemistry.Effect[0];
 
 			var tempReaction = ScriptableObject.CreateInstance<Reaction>();
 			tempReaction.ingredients = new DictionaryReagentInt {[a] = 1, [b] = 1};
 			tempReaction.catalysts = new DictionaryReagentInt { };
 			tempReaction.inhibitors = new DictionaryReagentInt { };
 			tempReaction.results = new DictionaryReagentInt {[c] = 1};
-			tempReaction.effects = new global::Chemistry.Effect[0];
+			tempReaction.effects = new global::Systems.Chemistry.Effect[0];
 			tempReaction.hasMinTemp = true;
 			tempReaction.serializableTempMin = 200;
 			tempReaction.hasMaxTemp = true;

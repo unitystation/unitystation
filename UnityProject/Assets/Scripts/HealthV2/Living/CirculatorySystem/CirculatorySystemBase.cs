@@ -18,7 +18,7 @@ namespace HealthV2
 		public BloodType BloodType => bloodType;
 		public ReagentMix UsedBloodPool;
 		public ReagentMix ReadyBloodPool;
-		public Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
+		public Reagent CirculatedReagent => bloodType.CirculatedReagent;
 
 		[SerializeField]
 		[Required("Inital injecton of blood on player spawn")]

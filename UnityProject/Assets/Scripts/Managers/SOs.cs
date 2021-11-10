@@ -8,6 +8,7 @@ using Systems.CraftingV2;
 using Items.PDA;
 using Machines;
 using Objects.Atmospherics;
+using Systems.Chemistry.Components;
 
 namespace ScriptableObjects
 {
