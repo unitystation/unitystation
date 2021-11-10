@@ -129,7 +129,7 @@ namespace Items.Weapons
 					Debug.DrawLine(interaction.Performer.WorldPosServer(), registerTile.WorldPosition, Color.red, 190, false);
 					if (CanAttatchToTarget(registerTile.Matrix, registerTile))
 					{
-						Inventory.ServerDrop(pickupable.ItemSlot, registerTile.LocalPosition.To2Int());
+						Inventory.ServerDrop(pickupable.ItemSlot, registerTile.WorldPosition.To2Int());
 						if (countDownOnArm)
 						{
 							pickupable.ServerSetCanPickup(false);
