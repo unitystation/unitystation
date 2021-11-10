@@ -16,7 +16,8 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 6
   maxAmount: 6
-  stacksWith: []
+  stacksWith:
+  - {fileID: 1356312134200129213}
 --- !u!1001 &11753693000235898
 PrefabInstance:
   m_ObjectHideFlags: 0
