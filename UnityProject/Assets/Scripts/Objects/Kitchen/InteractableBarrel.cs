@@ -21,7 +21,8 @@ namespace Objects.Kitchen
 		}
 		public string Examine(Vector3 worldPos = default)
 		{
-			return $"It is currently {(barrel.Closed ? "closed, meaning the items inside are fermenting." : "open, meaning you can put things inside.")}";
+			return $"It is currently {(barrel.Closed ? "closed, meaning the items inside are fermenting." : "open, meaning you can put things inside.")}"
+				+ $" There is {(barrel.IsFilled ? "something" : "nothing")} inside it.";
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

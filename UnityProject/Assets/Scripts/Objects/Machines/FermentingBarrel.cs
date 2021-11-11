@@ -29,7 +29,7 @@ namespace Objects.Kitchen
 		private Vector3Int WorldPosition => registerTile.WorldPosition;
 
 		[SerializeField] private SpriteHandler barrelSpriteHandler;
-
+		public bool IsFilled => (itemStorage.GetNextFreeIndexedSlot().SlotIdentifier.SlotIndex != 0);
 		/// <summary>
 		/// Set up the AudioSource.
 		/// </summary>
