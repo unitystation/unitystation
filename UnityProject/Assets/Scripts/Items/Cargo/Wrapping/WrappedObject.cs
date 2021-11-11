@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using Objects;
+using UnityEngine;
 
 namespace Items.Cargo.Wrapping
 {
-	public class WrappedObject: WrappedBase, ICheckedInteractable<HandApply>, IServerSpawn
+	public class WrappedObject: WrappedBase, ICheckedInteractable<HandApply>, IServerSpawn, IEscapable
 	{
 		[SerializeField]
 		[Tooltip("Use this to set the initial type of this object. " +
@@ -13,6 +16,7 @@ namespace Items.Cargo.Wrapping
 		protected override void UnWrap()
 		{
 			PlayUnwrappingSound();
+
 			var unwrapped = GetOrGenerateContent();
 			if (unwrapped == null)
 			{
@@ -25,7 +29,13 @@ namespace Items.Cargo.Wrapping
 				return;
 			}
 
-			MakeContentVisible();
+			MakeContentVisible();//Does what it says on the tin
+
+			//Remove the container which was being wrapped from storage
+			RetrieveObject(unwrapped,gameObject.AssumedWorldPosServer());
+
+			//Return the contents back to the wrapped container
+			TransferObjectsTo(unwrapped.GetComponent<ObjectContainer>());
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
@@ -51,6 +61,21 @@ namespace Items.Cargo.Wrapping
 		{
 			if (info.SpawnType != SpawnType.Mapped) return;
 			SetContainerTypeSprite(typeSprite);
+		}
+
+		public void EntityTryEscape(GameObject entity, Action ifCompleted)
+		{
+			var container = GetOrGenerateContent();
+			container.GetComponent<IEscapable>().EntityTryEscape(entity, () =>
+			{
+				//The entity can have a little freedom, as a treat
+				RetrieveObject(entity, gameObject.AssumedWorldPosServer());
+
+				UnWrap();
+
+				//A successful escape assumes the container is now open, thus items must be released.
+				container.GetComponent<ObjectContainer>().RetrieveObjects();
+			});
 		}
 	}
 

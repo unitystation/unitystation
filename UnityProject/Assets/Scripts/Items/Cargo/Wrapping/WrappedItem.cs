@@ -13,9 +13,9 @@ namespace Items.Cargo.Wrapping
 		private Pickupable pickupable;
 		private ItemAttributesV2 itemAttributesV2;
 
-		protected override void Awake()
+		protected override void OnEnable()
 		{
-			base.Awake();
+			base.OnEnable();
 			pickupable = GetComponent<Pickupable>();
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
 		}
@@ -26,6 +26,7 @@ namespace Items.Cargo.Wrapping
 			var unwrapped = GetOrGenerateContent();
 			if (unwrapped == null) return;
 			MakeContentVisible();
+			RetrieveObject(unwrapped,gameObject.AssumedWorldPosServer());
 
 			if (pickupable.ItemSlot == null)
 			{
