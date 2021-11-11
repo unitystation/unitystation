@@ -26,7 +26,7 @@ namespace Objects.Kitchen
 		public bool Closed => closed;
 		private bool closed = true;
 		private RegisterTile registerTile;
-		public Vector3Int WorldPosition => registerTile.WorldPosition;
+		private Vector3Int WorldPosition => registerTile.WorldPosition;
 
 		[SerializeField] private SpriteHandler barrelSpriteHandler;
 
