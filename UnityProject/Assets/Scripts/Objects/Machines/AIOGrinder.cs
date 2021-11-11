@@ -54,9 +54,10 @@ namespace Objects.Kitchen
 		{
 			if (fromSlot == null || fromSlot.IsEmpty || ((fromSlot.ItemObject.GetComponent<Grindable>() == null && fromSlot.ItemObject.GetComponent<Juiceable>() == null) && !fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))) return;
 
-			if(itemSlot.IsEmpty)
+			
+			if (fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))
 			{
-				if (fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))
+				if(itemSlot.IsEmpty)
 				{
 					Inventory.ServerTransfer(fromSlot, itemStorage.GetIndexedItemSlot(0));
 				}
