@@ -29,7 +29,7 @@ namespace Objects.Kitchen
 		public bool GrindOrJuice => grindOrJuice;
 		private bool grindOrJuice = true;
 		private RegisterTile registerTile;
-		public Vector3Int WorldPosition => registerTile.WorldPosition;
+		private Vector3Int WorldPosition => registerTile.WorldPosition;
 
 		/// <summary>
 		/// Set up the AudioSource.
