@@ -240,7 +240,7 @@ namespace HealthV2
 						TraumaticDamageTypes selectedType = typeToSelectFrom[random.Next(1, typeToSelectFrom.Length)];
 						ApplyTraumaDamage(selectedType);
 					}
-					CheckBodyPartIntigrity();
+					CheckBodyPartIntegrity();
 				}
 			}
 
