@@ -60,6 +60,7 @@ public enum NetTabType
 	Turret = 43,
 	ThermoMachine = 44,
 	ACU = 45,
+	AirlockElectronics = 46,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
