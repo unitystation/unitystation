@@ -18,7 +18,7 @@ namespace Objects.Kitchen
 	/// A barrel into which players can insert certain food items.
 	/// Upon being inserted, they will be fermented into certain reagents.
 	/// </summary>
-	public class FermentingBarrel : NetworkBehaviour
+	public class FermentingBarrel : MonoBehaviour
 	{
 		public ReagentContainer container;
 		[SerializeField] private AddressableAudioSource closeSound = null;

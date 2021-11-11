@@ -15,7 +15,7 @@ namespace Objects.Kitchen
 	{
 		private FermentingBarrel barrel;
 
-		private void Start()
+		private void Awake()
 		{
 			barrel = GetComponent<FermentingBarrel>();
 		}
