@@ -332,11 +332,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	}
 
 	//for internal IF2 usages only, does server side logic for processing tileapply
-	public void ServerProcessInteraction(GameObject performer, Vector2 targetVector,  GameObject processorObj,
+	public void ServerProcessInteraction(GameObject performer, Vector2 TargetPosition,  GameObject processorObj,
 			ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
-		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
+		var worldPosTarget = (Vector2)TargetPosition.To3().ToWorld(performer.RegisterTile().Matrix);
 		Vector3Int localPosition = WorldToCell(worldPosTarget);
 		//pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(worldPosTarget, true);
@@ -353,7 +353,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				{
 					var underFloorApply = new TileApply(
 							performer, usedObject, intent, (Vector2Int) localPosition,
-							this, underFloorTile, usedSlot, targetVector, applyType);
+							this, underFloorTile, usedSlot, TargetPosition, applyType);
 
 					foreach (var tileInteraction in underFloorTile.TileInteractions)
 					{
@@ -370,7 +370,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			{
 				var tileApply = new TileApply(
 						performer, usedObject, intent, (Vector2Int) localPosition,
-						this, basicTile, usedSlot, targetVector, applyType);
+						this, basicTile, usedSlot, TargetPosition, applyType);
 
 				PerformTileInteract(tileApply);
 			}
@@ -414,8 +414,8 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 		if(tile is BasicTile basicTile)
 		{
-			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation), TileApply.ApplyType.MouseDrop);
-			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation));
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix), TileApply.ApplyType.MouseDrop);
+			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix));
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
 				if (tileInteraction == null) continue;
