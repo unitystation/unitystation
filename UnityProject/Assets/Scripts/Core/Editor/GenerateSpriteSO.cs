@@ -20,6 +20,12 @@ public class GenerateSpriteSO : EditorWindow
 
 	public static SpriteCatalogue spriteCatalogue;
 
+	[MenuItem("Tools/Refresh Sound Catalogue")]
+	public static void RefreshSoundCatalogue()
+	{
+		AddressablePicker.Refresh();
+	}
+
 	[MenuItem("Tools/Get Music keys")]
 	public static void GetMusicKeys()
 	{
