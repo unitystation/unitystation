@@ -3,7 +3,7 @@ using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
-using UnityEngine;
+using Core;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -34,7 +34,7 @@ public partial class SubSceneManager
 		//Choose and load a mainstation
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
-		if (GameManager.Instance.QuickLoad == false)
+		if (QuickLoad.IsEnabled == false)
 		{
 			//Load Asteroids:
 			yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
@@ -120,7 +120,7 @@ public partial class SubSceneManager
 
 	IEnumerator ServerLoadCentCom(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (QuickLoad.IsEnabled)
 		{
 			yield return null;
 		}
@@ -160,7 +160,7 @@ public partial class SubSceneManager
 	//Load all the asteroids on the server
 	IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (QuickLoad.IsEnabled)
 		{
 			yield return null;
 		}
@@ -199,7 +199,7 @@ public partial class SubSceneManager
 	//Load the away site on the server
 	IEnumerator ServerLoadAwaySite(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (QuickLoad.IsEnabled)
 		{
 			yield return null;
 		}
@@ -209,7 +209,7 @@ public partial class SubSceneManager
 		{
 			serverChosenAwaySite = prevEditorScene;
 		}
-		else if(AdminForcedAwaySite == "Random")
+		else if (AdminForcedAwaySite == "Random")
 		{
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
 		}

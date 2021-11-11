@@ -4,10 +4,9 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DatabaseAPI;
+using Core;
 using ServerInfo;
 using AdminCommands;
-
 
 namespace UI
 {
@@ -136,7 +135,7 @@ namespace UI
 			}
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
 
-			if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
+			if (QuickLoad.IsEnabled && mapLoadingPanel.activeSelf == false)
 			{
 				if (startedAlready == true) return;
 				startedAlready = true;

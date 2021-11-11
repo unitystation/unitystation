@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Core;
 using Objects.Wallmounts;
 using Strings;
 
@@ -63,7 +64,7 @@ public partial class GameManager
 		}
 
 		// Starting up at Centcom coordinates
-		if (Instance.QuickLoad)
+		if (QuickLoad.IsEnabled)
 		{
 			if (primaryEscapeShuttle.MatrixInfo == null) return;
 			if (primaryEscapeShuttle.MatrixInfo.MatrixMove == null) return;

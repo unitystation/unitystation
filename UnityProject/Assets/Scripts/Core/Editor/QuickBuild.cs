@@ -84,8 +84,8 @@ namespace Core.Editor
 
 			EditorGUILayout.HelpBox("Automatically sets build settings to get MVB " +
 					"(minimum viable build) by including only necessary scenes.\n\n" +
-					"Operates independently of the main build window. Settings are persistent and won't be picked up by git " +
-					"(except Quick Load which is handled externally, so be sure to not commit that change).", MessageType.Info);
+					"Operates independently of the main build window. Settings are persistent and won't be picked up by git.",
+					MessageType.Info);
 
 			NaughtyEditorGUI.PropertyField_Layout(mainStationProperty, false);
 			mainStationScene = mainStationProperty.stringValue;

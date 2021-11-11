@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using Core;
 
 [CreateAssetMenu(fileName = "AwayWorldListSO", menuName = "ScriptableObjects/AwayWorldList", order = 1)]
 public class AwayWorldListSO : ScriptableObject
@@ -14,7 +15,7 @@ public class AwayWorldListSO : ScriptableObject
 
 	public string GetRandomAwaySite()
 	{
-		if (AwayWorlds.Count > 0 && GameManager.Instance.QuickLoad == false)
+		if (AwayWorlds.Count > 0 && QuickLoad.IsEnabled == false)
 		{
 			return AwayWorlds[Random.Range(0, AwayWorlds.Count)];
 		}

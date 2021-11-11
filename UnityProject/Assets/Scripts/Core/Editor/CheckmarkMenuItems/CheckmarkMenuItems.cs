@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+using UnityEditor;
+using UnityEngine;
 
 namespace Core.Editor
 {
@@ -15,15 +16,14 @@ namespace Core.Editor
 		/// </summary>
 		public static bool IsEnabled
 		{
-			get => EditorPrefs.GetBool(SettingName, true);
-			set => EditorPrefs.SetBool(SettingName, value);
+			get => PlayerPrefs.GetInt(SettingName) == 1;
+			set => PlayerPrefs.SetInt(SettingName, value ? 1 : 0);
 		}
 
 		[MenuItem(MenuName, priority = 1)]
 		public static void Toggle()
 		{
 			IsEnabled = !IsEnabled;
-			UpdateGameManager(IsEnabled);
 		}
 
 		[MenuItem(MenuName, true, 1)]
@@ -31,24 +31,6 @@ namespace Core.Editor
 		{
 			Menu.SetChecked(MenuName, IsEnabled);
 			return true;
-		}
-
-		private static void UpdateGameManager(bool isQuickLoad)
-		{
-			var gameManager = AssetDatabase.LoadAssetAtPath<GameManager>
-					("Assets/Prefabs/SceneConstruction/NestedManagers/GameManager.prefab");
-			if (gameManager == null)
-			{
-				Logger.LogWarning($"{nameof(GameManager)} not found! Cannot set {nameof(GameManager.QuickLoad)} property.");
-				return;
-			}
-
-			if (gameManager.QuickLoad != isQuickLoad)
-			{
-				gameManager.QuickLoad = isQuickLoad;
-				EditorUtility.SetDirty(gameManager);
-				AssetDatabase.SaveAssets();
-			}
 		}
 	}
 

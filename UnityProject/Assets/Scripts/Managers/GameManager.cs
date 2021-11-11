@@ -118,8 +118,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
-	public bool QuickLoad = false;
-
 	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
 
 	[SerializeField]
