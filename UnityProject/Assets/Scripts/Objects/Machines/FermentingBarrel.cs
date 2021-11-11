@@ -20,9 +20,13 @@ namespace Objects.Kitchen
 	public class FermentingBarrel : NetworkBehaviour
 	{
 		public ReagentContainer container;
+		[SerializeField] private AddressableAudioSource closeSound = null;
+		[SerializeField] private AddressableAudioSource openSound = null;
 		private ItemStorage itemStorage;
 		public bool Closed => closed;
 		private bool closed = true;
+		private RegisterTile registerTile;
+		public Vector3Int WorldPosition => registerTile.WorldPosition;
 
 		[SerializeField] private SpriteHandler barrelSpriteHandler;
 
@@ -31,6 +35,7 @@ namespace Objects.Kitchen
 		/// </summary>
 		private void Awake()
 		{
+			registerTile = GetComponent<RegisterTile>();
 			container = GetComponent<ReagentContainer>();
 			itemStorage = GetComponent<ItemStorage>();
 		}
@@ -60,6 +65,7 @@ namespace Objects.Kitchen
 			if(closed)
 			{
 				UpdateManager.Remove(CallbackType.UPDATE, Update);
+				SoundManager.PlayNetworkedAtPos(openSound, WorldPosition, sourceObj: gameObject);
 				barrelSpriteHandler.ChangeSprite(0);
 				foreach (var slot in itemStorage.GetItemSlots())
 				{
@@ -69,6 +75,7 @@ namespace Objects.Kitchen
 			else
 			{
 				UpdateManager.Add(CallbackType.UPDATE, Update);
+				SoundManager.PlayNetworkedAtPos(closeSound, WorldPosition, sourceObj: gameObject);
 				barrelSpriteHandler.ChangeSprite(1);
 			}
 			closed = !closed;

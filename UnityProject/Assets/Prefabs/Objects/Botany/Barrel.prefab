@@ -376,6 +376,20 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   container: {fileID: 2566107475804999531}
+  closeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Crate/crate_close.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  openSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Crate/crate_open.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   barrelSpriteHandler: {fileID: 1016020168901396264}
 --- !u!114 &842434264674974605
 MonoBehaviour:

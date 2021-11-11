@@ -23,17 +23,20 @@ namespace Objects.Kitchen
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
 			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
 			: null;
-
+		[SerializeField] private AddressableAudioSource grindSound = null;
 		private ItemSlot itemSlot;
 		private ItemStorage itemStorage;
 		public bool GrindOrJuice => grindOrJuice;
 		private bool grindOrJuice = true;
+		private RegisterTile registerTile;
+		public Vector3Int WorldPosition => registerTile.WorldPosition;
 
 		/// <summary>
 		/// Set up the AudioSource.
 		/// </summary>
 		private void Awake()
 		{
+			registerTile = GetComponent<RegisterTile>();
 			itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
@@ -80,6 +83,7 @@ namespace Objects.Kitchen
 
 		public void Activate()
 		{
+			SoundManager.PlayNetworkedAtPos(grindSound, WorldPosition, sourceObj: gameObject);
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				if (slot == itemSlot) continue;
