@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using Chemistry;
+using Systems.Chemistry;
 
 /// <summary>
 /// This class enables an object to be ground up by an All-In-One-Grinder.
