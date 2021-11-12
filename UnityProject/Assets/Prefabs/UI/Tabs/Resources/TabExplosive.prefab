@@ -119,7 +119,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2437713177300902322}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: IncreaseTimeByTen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2901488234431783737
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,6 +191,12 @@ MonoBehaviour:
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
+  status: {fileID: 137657654943786286}
+  timer: {fileID: 2717159713705836363}
+  modeToggleButton: {fileID: 2776000704552996365}
+  armToggleButton: {fileID: 6558315003862518463}
+  safeColor: {r: 0, g: 1, b: 0, a: 1}
+  dangerColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1995694467985933563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +369,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8331868217778666429}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: IncreaseTimeByOne
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5193383456164565026
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +438,7 @@ GameObject:
   - component: {fileID: 8029471556841055575}
   - component: {fileID: 1109632191082232406}
   - component: {fileID: 6374717458459048452}
+  - component: {fileID: 137657654943786286}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -532,6 +563,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &137657654943786286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774461376779712906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6350195460877415032
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +694,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8785262192792775231}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: DecreaseTimeByTen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6730659621148576941
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,7 +862,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8515936399130071614}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: DecreaseTimeByOne
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7349477949354739242
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +886,7 @@ GameObject:
   - component: {fileID: 7222291334287033099}
   - component: {fileID: 1538639272756639379}
   - component: {fileID: 849224845779943638}
+  - component: {fileID: 2717159713705836363}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -943,6 +1011,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2717159713705836363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7349477949354739242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7361681339767238561
 GameObject:
   m_ObjectHideFlags: 0

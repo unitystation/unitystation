@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Items.Weapons;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace UI
@@ -18,15 +19,15 @@ namespace UI
 
 		[SerializeField] private NetLabel status;
 		[SerializeField] private NetLabel timer;
-		[SerializeField] private ToggleButton modeToggleButton;
-		[SerializeField] private ToggleButton armToggleButton;
+		[SerializeField] private Toggle modeToggleButton;
+		[SerializeField] private Toggle armToggleButton;
 
 		[SerializeField] private Color safeColor = Color.green;
 		[SerializeField] private Color dangerColor = Color.red;
 
 		private float timerCount;
 
-		private void Awake()
+		private void Start()
 		{
 			StartCoroutine(WaitForProvider());
 		}
