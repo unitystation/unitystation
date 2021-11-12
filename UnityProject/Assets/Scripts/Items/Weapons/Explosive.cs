@@ -123,9 +123,9 @@ namespace Items.Weapons
 			explosiveGUI.ServerPerformInteraction(interaction);
 		}
 
-		public void ToggleMode()
+		public void ToggleMode(bool mode)
 		{
-			countDownOnArm = !countDownOnArm;
+			detonateImmediatelyOnSignal = mode;
 		}
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)

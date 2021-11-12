@@ -48,6 +48,8 @@ namespace UI
 				timer.Value = "Waiting signal..";
 				status.Value = dangerColor.ToString();
 			}
+
+			modeToggleButton.isOn = explosiveDevice.DetonateImmediatelyOnSignal;
 		}
 
 		public void ArmDevice()
@@ -85,6 +87,11 @@ namespace UI
 				status.Value = safeColor.ToString();
 				UpdateTimer();
 			}
+		}
+
+		public void ToggleMode()
+		{
+			explosiveDevice.ToggleMode(armToggleButton.isOn);
 		}
 
 		public void IncreaseTimeByOne()
