@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Systems.Spells;
-using AddressableReferences;
-using Object = UnityEngine.Object;
 using NaughtyAttributes;
+using AddressableReferences;
+using Systems.Spells;
 
 namespace ScriptableObjects.Systems.Spells
 {
