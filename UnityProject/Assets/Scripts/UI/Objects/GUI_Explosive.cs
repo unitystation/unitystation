@@ -39,6 +39,15 @@ namespace UI
 				yield return WaitFor.EndOfFrame;
 			}
 			explosiveDevice = Provider.GetComponent<Explosive>();
+			if (explosiveDevice.DetonateImmediatelyOnSignal == false)
+			{
+				timer.Value = (explosiveDevice.TimeToDetonate * 1000).ToString();
+			}
+			else
+			{
+				timer.Value = "Waiting signal..";
+				status.Value = dangerColor.ToString();
+			}
 		}
 
 		public void ArmDevice()
@@ -46,6 +55,7 @@ namespace UI
 			if (explosiveDevice.DetonateImmediatelyOnSignal && modeToggleButton.isOn)
 			{
 				status.Value = "C4 is armed.";
+				explosiveDevice.IsArmed = true;
 				status.Value = dangerColor.ToString();
 				timer.Value = "Waiting signal..";
 				return;
@@ -53,6 +63,7 @@ namespace UI
 			if (explosiveDevice.DetonateImmediatelyOnSignal && modeToggleButton.isOn == false)
 			{
 				status.Value = "C4 is unarmed.";
+				explosiveDevice.IsArmed = false;
 				status.Value = safeColor.ToString();
 				UpdateTimer();
 				return;
@@ -61,6 +72,7 @@ namespace UI
 			{
 				status.Value = "C4 is armed.";
 				status.Value = dangerColor.ToString();
+				explosiveDevice.IsArmed = true;
 				UpdateTimer();
 				modeToggleButton.enabled = false;
 				explosiveDevice.Countdown();
@@ -69,6 +81,7 @@ namespace UI
 			if (explosiveDevice.DetonateImmediatelyOnSignal == false && modeToggleButton.isOn == true)
 			{
 				status.Value = "C4 is unarmed.";
+				explosiveDevice.IsArmed = false;
 				status.Value = safeColor.ToString();
 				UpdateTimer();
 			}

@@ -7,6 +7,7 @@ using Systems.Explosions;
 using ScriptableObjects.Communications;
 using Communications;
 using Managers;
+using Objects;
 using UI;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace Items.Weapons
 		[SerializeField] private RegisterItem registerItem;
 		[SerializeField] private ObjectBehaviour objectBehaviour;
 		[SerializeField] private Pickupable pickupable;
-		[SerializeField] private GUI_Explosive explosiveGUI;
+		[SerializeField] private HasNetworkTab explosiveGUI;
 
 		private bool hasExploded;
 		private bool isArmed;
@@ -40,6 +41,12 @@ namespace Items.Weapons
 		{
 			get => timeToDetonate;
 			set => timeToDetonate = value;
+		}
+
+		public bool IsArmed
+		{
+			get => isArmed;
+			set => isArmed = value;
 		}
 
 		public int MinimumTimeToDetonate => minimumTimeToDetonate;
@@ -113,18 +120,17 @@ namespace Items.Weapons
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			explosiveGUI.ServerPerformInteraction(interaction);
+		}
+
+		public void ToggleMode()
+		{
 			countDownOnArm = !countDownOnArm;
-			if (countDownOnArm)
-			{
-				Chat.AddExamineMsg(interaction.Performer, "The C4 will start counting down as soon it's armed on a wall.");
-				return;
-			}
-			Chat.AddExamineMsg(interaction.Performer, "The C4 will wait for a signal from a remote when armed on a wall.");
 		}
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side) || pickupable.ItemSlot == null) return false;
+			if (!DefaultWillInteract.Default(interaction, side) || isArmed) return false;
 			return true;
 		}
 
@@ -146,15 +152,16 @@ namespace Items.Weapons
 				}
 
 				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
-				if (countDownOnArm == true)
-				{
-					pickupable.ServerSetCanPickup(false);
-					spriteHandler.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-				}
-				isArmed = true;
+				pickupable.ServerSetCanPickup(false);
+				spriteHandler.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
-				Countdown();
+			}
+
+			if (pickupable.CanPickup == false || interaction.IsAltClick)
+			{
+				explosiveGUI.ServerPerformInteraction(interaction);
+				return;
 			}
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), 3f, interaction.Performer);

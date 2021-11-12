@@ -14,7 +14,7 @@ namespace Objects
 	/// please ensure this component is placed below them, otherwise the tab open/close will
 	/// be the interaction that always takes precedence.
 	/// </summary>
-	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
+	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>, IInteractable<HandActivate>
 	{
 		[NonSerialized]
 		private GameObject playerInteracted;
@@ -95,5 +95,18 @@ namespace Objects
 
 		#endregion
 
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
 	}
 }
