@@ -509,7 +509,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	{
 		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
 		var localPos = WorldToLocalInt(worldPos, matrixInfo);
-		var value = matrixInfo.Matrix.IsSpaceAt(WorldToLocalInt(localPos, matrixInfo), isServer);
+		var value = matrixInfo.Matrix.IsSpaceAt(localPos, isServer);
 		return value;
 	}
 

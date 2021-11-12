@@ -206,7 +206,7 @@ namespace Systems.MobAIs
 			{
 				foreach (var escapable in objectBehaviour.parentContainer.GetComponents<IEscapable>())
 				{
-					escapable.EntityTryEscape(gameObject);
+					escapable.EntityTryEscape(gameObject, null);
 				}
 				return;
 			}

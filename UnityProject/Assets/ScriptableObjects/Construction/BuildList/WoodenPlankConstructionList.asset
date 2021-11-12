@@ -76,7 +76,13 @@ MonoBehaviour:
   - name: Drying Rack
     prefab: {fileID: 6385563160038612826, guid: eb544c62ea86cf24f8a88cdcd1ed8d70,
       type: 3}
-    cost: 6
+    cost: 10
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Wooden Barrel
+    prefab: {fileID: 1239712576668220, guid: db8717f3f2a8a4170a0d870dcc9662e1, type: 3}
+    cost: 8
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1

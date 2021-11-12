@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using Messages.Server;
 
@@ -15,7 +17,8 @@ namespace Objects
 		/// </summary>
 		/// <remarks>The mob could be a player, bot, animal etc.</remarks>
 		/// <param name="entity">The <c>GameObject</c> of the mob attempting to escape.</param>
-		void EntityTryEscape(GameObject entity);
+		/// <param name="ifCompleted">An <c>Action</c> to carry out if escape is successful. </param>
+		void EntityTryEscape(GameObject entity, [CanBeNull] Action ifCompleted);
 	}
 
 	/// <summary>
@@ -37,7 +40,7 @@ namespace Objects
 		private bool initialContentsSpawned = false;
 
 		private RegisterTile registerTile;
-		private ObjectBehaviour objectBehaviour;
+		private PushPull pushPullObject;
 
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
@@ -47,7 +50,7 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			pushPullObject = GetComponent<PushPull>();
 
 			registerTile.OnParentChangeComplete.AddListener(() =>
 			{
@@ -99,7 +102,7 @@ namespace Objects
 
 			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
 			{
-				objBehaviour.parentContainer = objectBehaviour;
+				objBehaviour.parentContainer = pushPullObject;
 				objBehaviour.VisibleState = false;
 
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
@@ -139,6 +142,9 @@ namespace Objects
 
 				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
 				if (entity.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false && entity.IsPushable == false) continue;
+
+				//No Nested ObjectContainer shenanigans
+				if (entity.GetComponent<ObjectContainer>()) continue;
 
 				StoreObject(entity.gameObject, entity.transform.position - transform.position);
 			}
@@ -183,18 +189,18 @@ namespace Objects
 					//avoids blinking of premapped items when opening first time in another place:
 					Vector3 pos = worldPosition.GetValueOrDefault(registerTile.WorldPositionServer) + offset;
 					cnt.AppearAtPositionServer(pos);
-					if (objectBehaviour.Pushable.IsMovingServer)
+					if (pushPullObject.Pushable.IsMovingServer)
 					{
-						cnt.InertiaDrop(pos, objectBehaviour.Pushable.SpeedServer, objectBehaviour.InheritedImpulse.To2Int());
+						cnt.InertiaDrop(pos, pushPullObject.Pushable.SpeedServer, pushPullObject.InheritedImpulse.To2Int());
 					}
 				}
 				else if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
 					playerScript.PlayerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
 					playerScript.playerMove.IsTrapped = false;
-					if (objectBehaviour.Pushable.IsMovingServer)
+					if (pushPullObject.Pushable.IsMovingServer)
 					{
-						objBehaviour.TryPush(objectBehaviour.InheritedImpulse.To2Int(), objectBehaviour.Pushable.SpeedServer);
+						objBehaviour.TryPush(pushPullObject.InheritedImpulse.To2Int(), pushPullObject.Pushable.SpeedServer);
 					}
 
 					// Stop tracking closet
@@ -227,7 +233,7 @@ namespace Objects
 				if (kvp.Key == null) continue;
 
 				storedObjects[kvp.Key] = kvp.Value;
-				kvp.Key.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
+				kvp.Key.GetComponent<ObjectBehaviour>().parentContainer = pushPullObject;
 
 				if (kvp.Key.TryGetComponent<PlayerScript>(out var playerScript))
 				{
@@ -257,6 +263,23 @@ namespace Objects
 			{
 				obj.RegisterTile().ServerSetNetworkedMatrixNetID(parentNetId);
 			}
+		}
+
+		/// <summary>
+		/// Checks for Other ObjectContainers in the vicinity of the tile this ObjectContainer is in.
+		/// </summary>
+		/// <returns>Returns true if at least one ObjectContainer exists on the same tile.</returns>
+		public bool IsAnotherContainerNear()
+		{
+			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
+			{
+				if (entity.GetComponent<ObjectContainer>() && entity != pushPullObject)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
