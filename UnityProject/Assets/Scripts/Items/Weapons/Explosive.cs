@@ -7,6 +7,7 @@ using Systems.Explosions;
 using ScriptableObjects.Communications;
 using Communications;
 using Managers;
+using UI;
 using UnityEngine;
 
 
@@ -15,8 +16,10 @@ namespace Items.Weapons
 	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>, IInteractable<HandActivate>
 	{
 		[Header("Explosive settings")]
+		[SerializeField] private ExplosiveType explosiveType;
 		[SerializeField] private bool detonateImmediatelyOnSignal;
 		[SerializeField] private int timeToDetonate = 10;
+		[SerializeField] private int minimumTimeToDetonate = 10;
 		[SerializeField] private ExplosionComponent explosionPrefab;
 		[Header("Explosive Components")]
 		[SerializeField] private SpriteHandler spriteHandler;
@@ -24,13 +27,26 @@ namespace Items.Weapons
 		[SerializeField] private RegisterItem registerItem;
 		[SerializeField] private ObjectBehaviour objectBehaviour;
 		[SerializeField] private Pickupable pickupable;
+		[SerializeField] private GUI_Explosive explosiveGUI;
 
 		private bool hasExploded;
 		private bool isArmed;
 		private bool countDownOnArm = false;
 		private bool countDownActive = false;
 
-		private async void Countdown()
+		public ExplosiveType ExplosiveType => explosiveType;
+
+		public int TimeToDetonate
+		{
+			get => timeToDetonate;
+			set => timeToDetonate = value;
+		}
+
+		public int MinimumTimeToDetonate => minimumTimeToDetonate;
+
+		public bool DetonateImmediatelyOnSignal => detonateImmediatelyOnSignal;
+
+		public async void Countdown()
 		{
 			countDownActive = true;
 			spriteHandler.SetSpriteSO(activeSpriteSO);
@@ -143,5 +159,11 @@ namespace Items.Weapons
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), 3f, interaction.Performer);
 		}
+	}
+
+	public enum ExplosiveType
+	{
+		C4,
+		X4
 	}
 }

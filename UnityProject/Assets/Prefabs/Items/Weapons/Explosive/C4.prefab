@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 4625435621097251366}
   - component: {fileID: 1944057801525881069}
   - component: {fileID: -7063633880587810702}
+  - component: {fileID: 6823015290405359995}
   m_Layer: 0
   m_Name: C4
   m_TagString: Untagged
@@ -285,6 +286,7 @@ MonoBehaviour:
   registerItem: {fileID: 4084437145900613279}
   objectBehaviour: {fileID: 5809642687452026922}
   pickupable: {fileID: 6536533875639940645}
+  explosiveGUI: {fileID: 0}
 --- !u!210 &-7063633880587810702
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -296,6 +298,20 @@ SortingGroup:
   m_SortingLayerID: -2102490269
   m_SortingLayer: 14
   m_SortingOrder: 500
+--- !u!114 &6823015290405359995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896716891640034833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 46
+  aiInteractable: 0
 --- !u!1 &3204498178074362964
 GameObject:
   m_ObjectHideFlags: 0
