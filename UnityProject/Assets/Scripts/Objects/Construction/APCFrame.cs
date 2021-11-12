@@ -289,7 +289,7 @@ namespace Objects.Construction
 				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.GetComponent<CustomNetTransform>().ServerPosition, true);
 
 				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.GetComponent<CustomNetTransform>().ServerPosition, matrix);
-				var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
+				var econs = interaction.Performer.RegisterTile().Matrix.GetElectricalConnections(localPosInt);
 				foreach (var Connection in econs)
 				{
 					if (Connection.Categorytype == PowerTypeCategory.APC)
@@ -299,6 +299,10 @@ namespace Objects.Construction
 						return;
 					}
 				}
+
+				econs.Clear();
+				ElectricalPool.PooledFPCList.Add(econs);
+
 				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<CustomNetTransform>().ServerPosition, interaction.Performer.transform.parent, spawnItems: false).GameObject;
 
 				var Directional = WallMount.GetComponent<Directional>();
