@@ -23,17 +23,20 @@ namespace Objects.Kitchen
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
 			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
 			: null;
-
+		[SerializeField] private AddressableAudioSource grindSound = null;
 		private ItemSlot itemSlot;
 		private ItemStorage itemStorage;
 		public bool GrindOrJuice => grindOrJuice;
 		private bool grindOrJuice = true;
+		private RegisterTile registerTile;
+		private Vector3Int WorldPosition => registerTile.WorldPosition;
 
 		/// <summary>
 		/// Set up the AudioSource.
 		/// </summary>
 		private void Awake()
 		{
+			registerTile = GetComponent<RegisterTile>();
 			itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
@@ -51,9 +54,10 @@ namespace Objects.Kitchen
 		{
 			if (fromSlot == null || fromSlot.IsEmpty || ((fromSlot.ItemObject.GetComponent<Grindable>() == null && fromSlot.ItemObject.GetComponent<Juiceable>() == null) && !fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))) return;
 
-			if(itemSlot.IsEmpty)
+			
+			if (fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))
 			{
-				if (fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))
+				if(itemSlot.IsEmpty)
 				{
 					Inventory.ServerTransfer(fromSlot, itemStorage.GetIndexedItemSlot(0));
 				}
@@ -80,6 +84,7 @@ namespace Objects.Kitchen
 
 		public void Activate()
 		{
+			SoundManager.PlayNetworkedAtPos(grindSound, WorldPosition, sourceObj: gameObject);
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				if (slot == itemSlot) continue;
