@@ -61,6 +61,8 @@ namespace DatabaseAPI
 			}
 		}
 
+		public static Action serverDataLoaded;
+
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
@@ -75,6 +77,8 @@ namespace DatabaseAPI
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();
 			InitializeFirebase();
+
+			serverDataLoaded?.Invoke();
 		}
 
 		// Handle initialization of the necessary firebase modules:
