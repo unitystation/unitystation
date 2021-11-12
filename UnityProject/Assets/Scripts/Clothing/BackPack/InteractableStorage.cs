@@ -453,15 +453,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			return true;
 		}
 
-		foreach (var slot in slots)
-		{
-			if(slot.IsEmpty) continue;
-			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
-			{
-				if(trap.IsArmed) trap.TriggerTrapFromContainer(interaction.Performer.GetComponent<LivingHealthMasterBase>());
-				break;
-			}
-		}
+		if(interaction.Performer.TryGetComponent<PlayerNetworkActions>(out var actions)) actions.CmdTriggerStorageTrap(slots, interaction.Performer);
 
 		// open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)

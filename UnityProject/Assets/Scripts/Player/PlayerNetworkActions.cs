@@ -16,6 +16,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using Objects.Other;
 using Player.Movement;
 using Shuttles;
 using UI.Core;
@@ -953,6 +954,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		foreach (var dynamicInput in forGameObject.GetComponents<IDynamicInput>())
 		{
 			dynamicInput.OnInputFilled(input, playerScript);
+		}
+	}
+
+	[Command]
+	public void CmdTriggerStorageTrap(IEnumerable<ItemSlot> slots, GameObject player)
+	{
+		foreach (var slot in slots)
+		{
+			if(slot.IsEmpty) continue;
+			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
+			{
+				if(trap.IsArmed) trap.TriggerTrapFromContainer(player.GetComponent<LivingHealthMasterBase>());
+			}
 		}
 	}
 }
