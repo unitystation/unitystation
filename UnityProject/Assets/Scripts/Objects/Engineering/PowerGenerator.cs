@@ -168,9 +168,7 @@ namespace Objects.Engineering
 					else
 					{
 						amountTransfered = handStackable.Amount;
-						Logger.Log($"A- {itemSlot.ToString()} ");
 						Inventory.ServerTransfer(interaction.HandSlot, itemSlot, ReplacementStrategy.DropOther);
-						Logger.Log($"B- {itemSlot.ToString()} ");
 				}
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
 				}
@@ -207,7 +205,6 @@ namespace Objects.Engineering
 		{
 			if (Inventory.ServerConsume(itemSlot, 1))
 			{
-				Logger.Log($"yummy! I have *{itemSlot.ToString()}* in my inventory");
 				fuelAmount += fuelPerSheet;
 			}
 			else
