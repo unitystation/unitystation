@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 1938d68cf014593418170d935cc445d5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa903ffb4c7aa7a49934fda16b93f2b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,10 +98,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: 978c2be3703d9bd4ca7a8a187ba5a327, type: 2}
-  - {fileID: 11400000, guid: 3d0bb4d0b1bf23b4ebf4c743845271dc, type: 2}
-  - {fileID: 11400000, guid: 04aab938d3b952f4c836fb603ccaa46c, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 978c2be3703d9bd4ca7a8a187ba5a327, type: 2}
+  - {fileID: 11400000, guid: 9004424b7dd33614ebd4ad66abd029d8, type: 2}
+  - {fileID: 11400000, guid: 9004424b7dd33614ebd4ad66abd029d8, type: 2}
+  - {fileID: 11400000, guid: c4abc9a4762307f4480c59e931cf3d79, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 9004424b7dd33614ebd4ad66abd029d8, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -221,7 +221,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -274,7 +274,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -327,8 +327,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 1, b: 1, a: 0.83137256}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.39215687}
+      minColor: {r: 0.026587812, g: 0.1792453, b: 0, a: 0.83137256}
+      maxColor: {r: 0.53019845, g: 0.764151, b: 0.010813437, a: 0.39215687}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -390,8 +390,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.6
-      minScalar: 0.28
+      scalar: 0.8
+      minScalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -706,7 +706,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 82
+    maxNumParticles: 3
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -4951,7 +4951,7 @@ GameObject:
   - component: {fileID: 579887912259031821}
   - component: {fileID: 114093731737732554}
   m_Layer: 11
-  m_Name: PowerGeneratorPlasma
+  m_Name: PowerGeneratorUranium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5014,7 +5014,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 69c27c4a07b053d458c6fec363e66403
+  m_AssetId: 4bf5be1e4dd7555499d2a7fc31d33c3c
   hasSpawned: 0
 --- !u!114 &114738137265545768
 MonoBehaviour:
@@ -5032,7 +5032,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114537316452419530}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -5130,8 +5130,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: P.A.C.M.A.N
-  initialDescription: A portable generator for emergency backup power.
+  initialName: S.U.P.E.R.P.A.C.M.A.N
+  initialDescription: A portable generator for emergency backup power. Now 110% more
+    radioactive!
   willHighlight: 1
   exportCost: 50
   exportType: 0
@@ -5163,8 +5164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MachineParts: {fileID: 11400000, guid: 52fff1ebf0dfdce40beab5e2d39dd722, type: 2}
-  machineBoardPrefab: {fileID: 4184383661120845852, guid: 23ae18d4d92f03a4faba5c8e2e04ab49,
+  MachineParts: {fileID: 11400000, guid: 3ca2362686dc5d2468e707a6110e446d, type: 2}
+  machineBoardPrefab: {fileID: 4184383661120845852, guid: e577883c61a32a040b4038b22754e3b2,
     type: 3}
   canNotBeDeconstructed: 0
   mustBeUnanchored: 0
@@ -5332,9 +5333,9 @@ MonoBehaviour:
   Previouscurrent: 0
   current: 0
   PreviousSupplyingVoltage: 760000
-  SupplyingVoltage: 500000
+  SupplyingVoltage: 1250000
   PreviousInternalResistance: 76000
-  InternalResistance: 50000
+  InternalResistance: 125000
   PreviousProducingWatts: 0
   ProducingWatts: 0
 --- !u!114 &114093731737732554
@@ -5352,9 +5353,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   startAsOn: 0
-  fuelConsumptionRate: 0.02
+  fuelConsumptionRate: 0.04
   fuelTypes:
-  - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
+  - {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0, type: 2}
   generatorRunSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorRun.prefab

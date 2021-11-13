@@ -19,7 +19,11 @@ namespace Objects.Engineering
 		[Tooltip("The rate of fuel this generator should consume.")]
 		[Range(0.01f, 0.1f)]
 		[SerializeField]
-		private float plasmaConsumptionRate = 0.02f;
+		private float fuelConsumptionRate = 0.02f;
+
+		[Tooltip("The types of fuel this generator can consume (traits).")]
+		[SerializeField]
+		private List<ItemTrait> fuelTypes = null;
 
 		private RegisterTile registerTile;
 		private ItemSlot itemSlot;
@@ -138,55 +142,61 @@ namespace Objects.Engineering
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.TargetObject != gameObject) return false;
-			if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
-
-			return true;
+			if (interaction.HandObject == null) return true;
+			foreach (ItemTrait fuelType in fuelTypes) { if (Validations.HasItemTrait(interaction.HandObject, fuelType)) return true; }
+			return false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
-			{
-				int amountTransfered;
-				var handStackable = interaction.HandObject.GetComponent<Stackable>();
-				if (itemSlot.Item)
+			foreach(ItemTrait fuelType in fuelTypes)
+            {
+				if (Validations.HasItemTrait(interaction.HandObject, fuelType))
 				{
-					var stackable = itemSlot.Item.GetComponent<Stackable>();
-					if (stackable.SpareCapacity == 0)
+					int amountTransfered;
+					var handStackable = interaction.HandObject.GetComponent<Stackable>();
+					if (itemSlot.Item)
 					{
-						Chat.AddWarningMsgFromServer(interaction.Performer, "The generator sheet storage is full!");
-						return;
+						var stackable = itemSlot.Item.GetComponent<Stackable>();
+						if (stackable.SpareCapacity == 0)
+						{
+							Chat.AddWarningMsgFromServer(interaction.Performer, "The generator sheet storage is full!");
+							return;
+						}
+						amountTransfered = stackable.ServerCombine(handStackable);
 					}
-					amountTransfered = stackable.ServerCombine(handStackable);
-				}
-				else
-				{
-					amountTransfered = handStackable.Amount;
-					Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
-				}
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
-			}
-			else if (securable.IsAnchored)
-			{
-				if (!isOn)
-				{
-					if (!TryToggleOn())
+					else
 					{
-						Chat.AddWarningMsgFromServer(interaction.Performer, $"The generator needs more fuel!");
-					}
+						amountTransfered = handStackable.Amount;
+						Logger.Log($"A- {itemSlot.ToString()} ");
+						Inventory.ServerTransfer(interaction.HandSlot, itemSlot, ReplacementStrategy.DropOther);
+						Logger.Log($"B- {itemSlot.ToString()} ");
 				}
-				else
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
+				}
+				else if (securable.IsAnchored)
 				{
-					ToggleOff();
+					if (!isOn)
+					{
+						if (!TryToggleOn())
+						{
+							Chat.AddWarningMsgFromServer(interaction.Performer, $"The generator needs more fuel!");
+						}
+					}
+					else
+					{
+						ToggleOff();
+					}
 				}
 			}
 		}
+
 
 		#endregion Interaction
 
 		private void UpdateMe()
 		{
-			fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
+			fuelAmount -= Time.deltaTime * fuelConsumptionRate;
 			if (fuelAmount <= 0)
 			{
 				ConsumeSheet();
@@ -197,6 +207,7 @@ namespace Objects.Engineering
 		{
 			if (Inventory.ServerConsume(itemSlot, 1))
 			{
+				Logger.Log($"yummy! I have *{itemSlot.ToString()}* in my inventory");
 				fuelAmount += fuelPerSheet;
 			}
 			else
