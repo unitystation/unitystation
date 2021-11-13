@@ -6,7 +6,7 @@ using UnityEngine;
 using TMPro;
 using ServerInfo;
 
-public class LobbyUIPlayerListController : NetworkBehaviour
+public class LobbyUIPlayerListController : MonoBehaviour
 {
 	public TMP_Text title = null;
 	public TMP_Text playerCount = null;
@@ -53,21 +53,14 @@ public class LobbyUIPlayerListController : NetworkBehaviour
 		yield return WaitFor.Seconds(5f);
 		if (list.activeSelf)
 		{
-			CmdUpdatePingList();
+			UpdatePingList();
 			GenerateList();
 			StartCoroutine(RefreshPing(list));
 		}
 	}
-
-	[Command(requiresAuthority = false)]
-	private void CmdUpdatePingList()
+	private void UpdatePingList()
 	{
-		ServerUpdatePingList();
+		Messages.Client.PingMessage.Send();
 	}
 
-	[Server]
-	private void ServerUpdatePingList()
-	{
-		Messages.Server.UpdateConnectedPlayersMessage.Send();
-	}
 }
