@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Items.Weapons
 {
-	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>, IInteractable<HandActivate>
+	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>
 	{
 		[Header("Explosive settings")]
 		[SerializeField] private ExplosiveType explosiveType;
@@ -116,11 +116,6 @@ namespace Items.Weapons
 				Emitter = signalEmitter;
 				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
 			}
-		}
-
-		public void ServerPerformInteraction(HandActivate interaction)
-		{
-			explosiveGUI.ServerPerformInteraction(interaction);
 		}
 
 		public void ToggleMode(bool mode)
