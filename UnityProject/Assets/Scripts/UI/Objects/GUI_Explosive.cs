@@ -60,6 +60,7 @@ namespace UI
 			{
 				modeToggleButton.enabled = false;
 				explosiveDevice.Countdown();
+				UpdateStatusText();
 				UpdateTimer();
 				return;
 			}
@@ -99,7 +100,7 @@ namespace UI
 		{
 			status.Value = explosiveDevice.IsArmed ? "C4 is armed." : "C4 is unarmed.";
 			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : (timerCount * 1000).ToString();
-			status.Element.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
+			status.ElementTMP.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
 		}
 
 		IEnumerator UpdateTimer()
