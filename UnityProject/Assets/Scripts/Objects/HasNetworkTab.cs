@@ -94,19 +94,5 @@ namespace Objects
 		}
 
 		#endregion
-
-		public void ServerPerformInteraction(HandActivate interaction)
-		{
-			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
-			{
-				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
-
-				//If false block net tab opening
-				return;
-			}
-
-			playerInteracted = interaction.Performer;
-			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
-		}
 	}
 }

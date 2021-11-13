@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4625435621097251366}
   - component: {fileID: 1944057801525881069}
   - component: {fileID: -7063633880587810702}
-  - component: {fileID: 6823015290405359995}
+  - component: {fileID: 5745720402341052027}
   m_Layer: 0
   m_Name: C4
   m_TagString: Untagged
@@ -277,8 +277,10 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
+  explosiveType: 0
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
+  minimumTimeToDetonate: 10
   explosionPrefab: {fileID: 1087697603680455443, guid: 902b411850c4a0945b451f3f1333652b,
     type: 3}
   spriteHandler: {fileID: 5258580723283386321}
@@ -298,7 +300,7 @@ SortingGroup:
   m_SortingLayerID: -2102490269
   m_SortingLayer: 14
   m_SortingOrder: 500
---- !u!114 &6823015290405359995
+--- !u!114 &5745720402341052027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -307,11 +309,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 896716891640034833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 46
-  aiInteractable: 0
 --- !u!1 &3204498178074362964
 GameObject:
   m_ObjectHideFlags: 0
