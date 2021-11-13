@@ -14,7 +14,7 @@ namespace Objects
 	/// please ensure this component is placed below them, otherwise the tab open/close will
 	/// be the interaction that always takes precedence.
 	/// </summary>
-	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>, IInteractable<HandActivate>
+	public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
 	{
 		[NonSerialized]
 		private GameObject playerInteracted;
