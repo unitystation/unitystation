@@ -35,7 +35,6 @@ namespace Items.Weapons
 		private bool isArmed;
 		private bool countDownActive = false;
 		private bool isOnObject = false;
-		public ExplosiveType ExplosiveType => explosiveType;
 
 		public int TimeToDetonate
 		{
@@ -49,24 +48,17 @@ namespace Items.Weapons
 			set => isArmed = value;
 		}
 
-		public bool CountDownActive
-		{
-			get => countDownActive;
-			set => countDownActive = value;
-		}
-
-
 		public int MinimumTimeToDetonate => minimumTimeToDetonate;
-
 		public bool DetonateImmediatelyOnSignal => detonateImmediatelyOnSignal;
+		public bool CountDownActive => countDownActive;
+		public ExplosiveType ExplosiveType => explosiveType;
 
 		public async void Countdown()
 		{
-			Debug.Log("We're armed.");
 			countDownActive = true;
 			spriteHandler.SetSpriteSO(activeSpriteSO);
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
-			await Task.Delay(timeToDetonate * 1000); //Delay is in millaseconds
+			await Task.Delay(timeToDetonate * 1000); //Delay is in milliseconds
 			Detonate();
 		}
 
@@ -82,11 +74,11 @@ namespace Items.Weapons
 
 			if (isServer)
 			{
-				// Get data from grenade before despawning
+				// Get data before despawning
 				var explosionMatrix = registerItem.Matrix;
 				var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
-				// Despawn grenade
+				// Despawn the explosive
 				_ = Despawn.ServerSingle(gameObject);
 
 				// Explosion here
@@ -96,9 +88,18 @@ namespace Items.Weapons
 			}
 		}
 
+		/// <summary>
+		/// Toggle the detention mode of the explosive, true means it will only work with a signaling device.
+		/// </summary>
+		/// <param name="mode"></param>
+		public void ToggleMode(bool mode)
+		{
+			detonateImmediatelyOnSignal = mode;
+		}
+
 		public override void ReceiveSignal(SignalStrength strength)
 		{
-			if(countDownActive || isArmed == false) return;
+			if(countDownActive == true || isArmed == false) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
@@ -107,11 +108,15 @@ namespace Items.Weapons
 			Countdown();
 		}
 
+		/// <summary>
+		/// checks to see if we can attach the explosive to an object.
+		/// </summary>
 		private bool CanAttatchToTarget(Matrix matrix, RegisterTile tile)
 		{
 			return matrix.Get<RegisterDoor>(tile.WorldPositionServer, true).Any() || matrix.Get<Pickupable>(tile.WorldPositionServer, true).Any();
 		}
 
+		#region Interaction
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
@@ -129,14 +134,10 @@ namespace Items.Weapons
 			}
 		}
 
-		public void ToggleMode(bool mode)
-		{
-			detonateImmediatelyOnSignal = mode;
-		}
-
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side) || isArmed || pickupable.ItemSlot == null && isOnObject == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false
+			    || isArmed == true || pickupable.ItemSlot == null && isOnObject == false) return false;
 			return true;
 		}
 
@@ -148,7 +149,9 @@ namespace Items.Weapons
 				{
 					var matrix = interaction.TargetObject.RegisterTile().Matrix;
 					var tiles = matrix.GetRegisterTile(interaction.TargetObject.TileLocalPosition().To3Int(), true);
-
+					//Check to see if we're trying to attach the object to things we're not supposed to
+					//because we don't want stuff like this happening :
+					//https://youtu.be/0Yu8hEBMRwc
 					foreach (var registerTile in tiles)
 					{
 						if (CanAttatchToTarget(registerTile.Matrix, registerTile) == false) continue;
@@ -160,19 +163,23 @@ namespace Items.Weapons
 				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
-				spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+				spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f); //Visual feedback to indicate that it's been attached and not just dropped.
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
 			}
 
+			//For interacting with the explosive while it's on a wall.
 			if (pickupable.CanPickup == false && isOnObject == true || interaction.IsAltClick)
 			{
 				explosiveGUI.ServerPerformInteraction(interaction);
 				return;
 			}
+			//The progress bar that triggers Preform()
+			//Must not be interrupted for it to work.
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), 3f, interaction.Performer);
 		}
+		#endregion
 	}
 
 	public enum ExplosiveType
