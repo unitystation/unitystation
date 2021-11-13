@@ -148,7 +148,7 @@ namespace Items.Weapons
 
 				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
 				pickupable.ServerSetCanPickup(false);
-				spriteHandler.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+				spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
 			}
