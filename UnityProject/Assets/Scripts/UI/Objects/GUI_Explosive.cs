@@ -68,7 +68,7 @@ namespace UI
 
 		public void ToggleMode()
 		{
-			explosiveDevice.ToggleMode(armToggleButton.Element.isOn);
+			explosiveDevice.ToggleMode(modeToggleButton.Element.isOn);
 			UpdateStatusText();
 		}
 
@@ -98,7 +98,7 @@ namespace UI
 		private void UpdateStatusText()
 		{
 			status.Value = explosiveDevice.IsArmed ? "C4 is armed." : "C4 is unarmed.";
-			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : timerCount.ToString();
+			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : (timerCount * 1000).ToString();
 			status.Element.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
 		}
 
