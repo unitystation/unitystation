@@ -166,8 +166,8 @@ namespace Objects.Engineering
 					ToggleOff();
 				}
 			}
-            else
-            {
+			else
+			{
 				foreach (ItemTrait fuelType in fuelTypes)
 				{
 					if (Validations.HasItemTrait(interaction.HandObject, fuelType))
