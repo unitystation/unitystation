@@ -28,7 +28,7 @@ namespace Items.Weapons
 		[SerializeField] private RegisterItem registerItem;
 		[SerializeField] private ObjectBehaviour objectBehaviour;
 		[SerializeField] private Pickupable pickupable;
-		[SerializeField] private HasNetworkTab explosiveGUI;
+		[SerializeField] private HasNetworkTabItem explosiveGUI;
 
 		private bool hasExploded;
 		private bool isArmed;
