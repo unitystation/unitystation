@@ -88,13 +88,13 @@ namespace UI
 		}
 		public void DecreaseTimeByOne()
 		{
-			if(explosiveDevice.MinimumTimeToDetonate < explosiveDevice.TimeToDetonate  - 1 || armToggleButton.Element.isOn) return;
+			if(explosiveDevice.TimeToDetonate  - 1  < explosiveDevice.MinimumTimeToDetonate || armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByTen()
 		{
-			if(explosiveDevice.MinimumTimeToDetonate < explosiveDevice.TimeToDetonate  - 10 || armToggleButton.Element.isOn) return;
+			if(explosiveDevice.TimeToDetonate  - 10 < explosiveDevice.MinimumTimeToDetonate|| armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
 		}
@@ -124,7 +124,7 @@ namespace UI
 
 		private string DisplayTime()
 		{
-			return $"{(timerCount / 60).RoundToLargestInt()}:{(timerCount % 60).RoundToLargestInt()}";
+			return $"{Mathf.RoundToInt(timerCount / 60)}:{(timerCount % 60).RoundToLargestInt()}";
 		}
 	}
 }
