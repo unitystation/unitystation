@@ -21,9 +21,13 @@ namespace UI
 		[SerializeField] private NetLabel timer;
 		[SerializeField] private NetToggle modeToggleButton;
 		[SerializeField] private NetToggle armToggleButton;
+		[SerializeField] private Image background;
 
 		[SerializeField] private Color safeColor = Color.green;
 		[SerializeField] private Color dangerColor = Color.red;
+
+		[SerializeField] private Sprite C4Graphic;
+		[SerializeField] private Sprite X4Graphic;
 
 		private float timerCount;
 
@@ -47,6 +51,16 @@ namespace UI
 			{
 				timer.Value = "Waiting signal..";
 				status.Value = dangerColor.ToString();
+			}
+
+			switch (explosiveDevice.ExplosiveType)
+			{
+				case ExplosiveType.C4:
+					background.sprite = C4Graphic;
+					break;
+				case ExplosiveType.X4:
+					background.sprite = X4Graphic;
+					break;
 			}
 
 			modeToggleButton.Element.isOn = explosiveDevice.DetonateImmediatelyOnSignal;
