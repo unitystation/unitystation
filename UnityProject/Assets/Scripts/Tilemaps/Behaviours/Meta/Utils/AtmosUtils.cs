@@ -7,8 +7,8 @@ namespace Systems.Atmospherics
 {
 	public static class AtmosUtils
 	{
-
 		public static List<GasValues> PooledGasValues = new List<GasValues>();
+
 		public static GasValues GetGasValues()
 		{
 			lock (PooledGasValues)
@@ -267,43 +267,46 @@ namespace Systems.Atmospherics
 
 		private static void InternalSetMoles(GasData data, GasSO gasType, float moles, bool isChange)
 		{
-			//Try to get gas value if already inside mix
-			GetGasType(data, gasType, out var gas);
-
-			if (gas != null)
+			lock (data.GasesArray) //Because it gets the gas and it could be added in between this
 			{
-				if (isChange)
+				//Try to get gas value if already inside mix
+				GetGasType(data, gasType, out var gas);
+
+				if (gas != null)
 				{
-					gas.Moles += moles;
-				}
-				else
-				{
-					gas.Moles = moles;
+					if (isChange)
+					{
+						gas.Moles += moles;
+					}
+					else
+					{
+						gas.Moles = moles;
+					}
+
+					//Remove gas from mix if less than threshold
+					if (gas.Moles <= AtmosConstants.MinPressureDifference)
+					{
+						data.RemoveGasType(gasType);
+					}
+
+					return;
 				}
 
-				//Remove gas from mix if less than threshold
-				if (gas.Moles <= AtmosConstants.MinPressureDifference)
-				{
-					data.RemoveGasType(gasType);
-				}
+				//Gas isn't inside mix so we'll add it
 
-				return;
+				//Dont add new data for negative moles
+				if (Math.Sign(moles) == -1) return;
+
+				//Dont add if approx 0 or below threshold
+				if (moles.Approx(0) || moles <= AtmosConstants.MinPressureDifference) return;
+
+				var newValues = GetGasValues();
+				newValues.Moles = moles;
+				newValues.GasSO = gasType;
+
+				data.GasesArray.Add(newValues);
+				data.GasesDict.Add(gasType, newValues);
 			}
-
-			//Gas isn't inside mix so we'll add it
-
-			//Dont add new data for negative moles
-			if(Math.Sign(moles) == -1) return;
-
-			//Dont add if approx 0 or below threshold
-			if (moles.Approx(0) || moles <= AtmosConstants.MinPressureDifference) return;
-
-			var newValues = GetGasValues();
-			newValues.Moles = moles;
-			newValues.GasSO = gasType;
-
-			data.GasesArray.Add(newValues);
-			data.GasesDict.Add(gasType, newValues);
 		}
 
 		/// <summary>
@@ -311,19 +314,19 @@ namespace Systems.Atmospherics
 		/// </summary>
 		public static void RemoveGasType(this GasData data, GasSO gasType)
 		{
-
-			for (int i = data.GasesArray.Count - 1; i >= 0; i--)
+			lock (data.GasesArray)
 			{
-				if (data.GasesArray[i].GasSO == gasType)
+				for (int i = data.GasesArray.Count - 1; i >= 0; i--)
 				{
-					data.GasesDict.Remove(gasType);
-					data.GasesArray[i].Pool();
-					data.GasesArray.RemoveAt(i);
-					return;
+					if (data.GasesArray[i].GasSO == gasType)
+					{
+						data.GasesDict.Remove(gasType);
+						data.GasesArray[i].Pool();
+						data.GasesArray.RemoveAt(i);
+						return;
+					}
 				}
 			}
-
-
 		}
 
 		/// <summary>
