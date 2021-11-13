@@ -41,7 +41,7 @@ namespace UI
 			explosiveDevice = Provider.GetComponent<Explosive>();
 			if (explosiveDevice.DetonateImmediatelyOnSignal == false)
 			{
-				timer.Value = (explosiveDevice.TimeToDetonate * 1000).ToString();
+				timer.Value = explosiveDevice.TimeToDetonate.ToString();
 			}
 			else
 			{
@@ -51,17 +51,18 @@ namespace UI
 
 			modeToggleButton.Element.isOn = explosiveDevice.DetonateImmediatelyOnSignal;
 			timerCount = explosiveDevice.TimeToDetonate;
+			explosiveDevice.GUI = this;
 		}
 
 		public void ArmDevice()
 		{
 			explosiveDevice.IsArmed = armToggleButton.Element.isOn;
-			if (explosiveDevice.DetonateImmediatelyOnSignal == false && modeToggleButton.Element.isOn == true)
+			if (modeToggleButton.Element.isOn == false && armToggleButton.Element.isOn == true)
 			{
 				modeToggleButton.enabled = false;
+				armToggleButton.enabled = true;
 				explosiveDevice.Countdown();
 				UpdateStatusText();
-				UpdateTimer();
 				return;
 			}
 			UpdateStatusText();
@@ -98,24 +99,30 @@ namespace UI
 
 		private void UpdateStatusText()
 		{
-			status.Value = explosiveDevice.IsArmed ? "C4 is armed." : "C4 is unarmed.";
-			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : (timerCount * 1000).ToString();
+			status.Value = explosiveDevice.IsArmed ? "C4 is armed" : "C4 is unarmed";
+			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : DisplayTime();
 			status.ElementTMP.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
 		}
 
-		IEnumerator UpdateTimer()
+		public IEnumerator UpdateTimer()
 		{
 			if (explosiveDevice.CountDownActive == false)
 			{
 				timerCount = explosiveDevice.TimeToDetonate;
-				timer.Value = (timerCount * 1000).ToString();
+				timer.Value = DisplayTime();
 				yield break;
 			}
-			while (timerCount < explosiveDevice.TimeToDetonate * 1000)
+			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				timer.Value = timerCount.ToString();
+				timer.Value = DisplayTime();
+				yield return WaitFor.Seconds(1f);
 			}
+		}
+
+		private string DisplayTime()
+		{
+			return $"{(timerCount / 60).RoundToLargestInt()}:{(timerCount % 60).RoundToLargestInt()}";
 		}
 	}
 }

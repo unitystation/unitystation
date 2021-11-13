@@ -29,12 +29,12 @@ namespace Items.Weapons
 		[SerializeField] private ObjectBehaviour objectBehaviour;
 		[SerializeField] private Pickupable pickupable;
 		[SerializeField] private HasNetworkTabItem explosiveGUI;
+		[HideInInspector] public GUI_Explosive GUI;
 
 		private bool hasExploded;
 		private bool isArmed;
 		private bool countDownActive = false;
 		private bool isOnObject = false;
-
 		public ExplosiveType ExplosiveType => explosiveType;
 
 		public int TimeToDetonate
@@ -62,8 +62,10 @@ namespace Items.Weapons
 
 		public async void Countdown()
 		{
+			Debug.Log("We're armed.");
 			countDownActive = true;
 			spriteHandler.SetSpriteSO(activeSpriteSO);
+			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
 			await Task.Delay(timeToDetonate * 1000); //Delay is in millaseconds
 			Detonate();
 		}
