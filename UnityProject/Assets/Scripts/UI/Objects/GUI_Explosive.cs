@@ -76,23 +76,25 @@ namespace UI
 
 		public void IncreaseTimeByOne()
 		{
+			if(armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void IncreaseTimeByTen()
 		{
+			if(armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByOne()
 		{
-			if(explosiveDevice.MinimumTimeToDetonate < timerCount - 1) return;
+			if(explosiveDevice.MinimumTimeToDetonate < explosiveDevice.TimeToDetonate  - 1 || armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByTen()
 		{
-			if(explosiveDevice.MinimumTimeToDetonate < timerCount - 10) return;
+			if(explosiveDevice.MinimumTimeToDetonate < explosiveDevice.TimeToDetonate  - 10 || armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
 		}

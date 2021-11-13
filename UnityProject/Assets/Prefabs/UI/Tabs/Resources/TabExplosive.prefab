@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 4191700372514818152}
   - component: {fileID: 2437713177300902322}
   - component: {fileID: 8704211842170902772}
+  - component: {fileID: 4148987994120732688}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -193,6 +194,33 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2437713177300902322}
   m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: IncreaseTimeByTen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4148987994120732688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547122803356237167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6018750049248943481}
@@ -337,6 +365,7 @@ GameObject:
   - component: {fileID: 745875143835285778}
   - component: {fileID: 8331868217778666429}
   - component: {fileID: 4145351574065447296}
+  - component: {fileID: 7070717011757073613}
   m_Layer: 0
   m_Name: Button (1)
   m_TagString: Untagged
@@ -443,6 +472,33 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 8331868217778666429}
   m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: IncreaseTimeByOne
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7070717011757073613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3816761893407762725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6018750049248943481}
@@ -662,6 +718,7 @@ GameObject:
   - component: {fileID: 5588761892314781743}
   - component: {fileID: 8785262192792775231}
   - component: {fileID: 3677024222200132771}
+  - component: {fileID: 6203143445645939070}
   m_Layer: 0
   m_Name: Button (3)
   m_TagString: Untagged
@@ -782,6 +839,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6203143445645939070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6350195460877415032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: DecreaseTimeByTen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6730659621148576941
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,6 +914,7 @@ GameObject:
   - component: {fileID: 2182730421066424089}
   - component: {fileID: 8515936399130071614}
   - component: {fileID: 6168146560605865888}
+  - component: {fileID: 1946506508565449574}
   m_Layer: 0
   m_Name: Button (2)
   m_TagString: Untagged
@@ -924,7 +1009,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 21300000, guid: fcf70d70c5d4e6c4e8a8e1e0bbf47d01, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 2c5f708ea5adee34da91cbf9e1740938, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -936,6 +1021,33 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 8515936399130071614}
   m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6018750049248943481}
+        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_MethodName: DecreaseTimeByOne
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1946506508565449574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6880952751691160531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6018750049248943481}
@@ -985,8 +1097,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.2139, y: 0.1652}
-  m_SizeDelta: {x: 226.9857, y: 43.7907}
+  m_AnchoredPosition: {x: 0.5134, y: -1.0686}
+  m_SizeDelta: {x: 230.4403, y: 52.6739}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1538639272756639379
 CanvasRenderer:
@@ -1044,11 +1156,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.45
+  m_fontSize: 44.3
   m_fontSizeBase: 27
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 20
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -1080,7 +1192,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -0.38430786, z: -0.13186646, w: -0.14889526}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
