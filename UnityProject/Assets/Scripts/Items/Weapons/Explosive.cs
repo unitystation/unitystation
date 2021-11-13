@@ -32,7 +32,6 @@ namespace Items.Weapons
 
 		private bool hasExploded;
 		private bool isArmed;
-		private bool countDownOnArm = false;
 		private bool countDownActive = false;
 		private bool isOnObject = false;
 
@@ -49,6 +48,13 @@ namespace Items.Weapons
 			get => isArmed;
 			set => isArmed = value;
 		}
+
+		public bool CountDownActive
+		{
+			get => countDownActive;
+			set => countDownActive = value;
+		}
+
 
 		public int MinimumTimeToDetonate => minimumTimeToDetonate;
 

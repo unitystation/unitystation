@@ -19,8 +19,8 @@ namespace UI
 
 		[SerializeField] private NetLabel status;
 		[SerializeField] private NetLabel timer;
-		[SerializeField] private Toggle modeToggleButton;
-		[SerializeField] private Toggle armToggleButton;
+		[SerializeField] private NetToggle modeToggleButton;
+		[SerializeField] private NetToggle armToggleButton;
 
 		[SerializeField] private Color safeColor = Color.green;
 		[SerializeField] private Color dangerColor = Color.red;
@@ -49,49 +49,27 @@ namespace UI
 				status.Value = dangerColor.ToString();
 			}
 
-			modeToggleButton.isOn = explosiveDevice.DetonateImmediatelyOnSignal;
+			modeToggleButton.Element.isOn = explosiveDevice.DetonateImmediatelyOnSignal;
+			timerCount = explosiveDevice.TimeToDetonate;
 		}
 
 		public void ArmDevice()
 		{
-			if (explosiveDevice.DetonateImmediatelyOnSignal && modeToggleButton.isOn)
+			explosiveDevice.IsArmed = armToggleButton.Element.isOn;
+			if (explosiveDevice.DetonateImmediatelyOnSignal == false && modeToggleButton.Element.isOn == true)
 			{
-				status.Value = "C4 is armed.";
-				explosiveDevice.IsArmed = true;
-				status.Value = dangerColor.ToString();
-				timer.Value = "Waiting signal..";
-				return;
-			}
-			if (explosiveDevice.DetonateImmediatelyOnSignal && modeToggleButton.isOn == false)
-			{
-				status.Value = "C4 is unarmed.";
-				explosiveDevice.IsArmed = false;
-				status.Value = safeColor.ToString();
-				UpdateTimer();
-				return;
-			}
-			if (explosiveDevice.DetonateImmediatelyOnSignal == false && modeToggleButton.isOn == false)
-			{
-				status.Value = "C4 is armed.";
-				status.Value = dangerColor.ToString();
-				explosiveDevice.IsArmed = true;
-				UpdateTimer();
 				modeToggleButton.enabled = false;
 				explosiveDevice.Countdown();
+				UpdateTimer();
 				return;
 			}
-			if (explosiveDevice.DetonateImmediatelyOnSignal == false && modeToggleButton.isOn == true)
-			{
-				status.Value = "C4 is unarmed.";
-				explosiveDevice.IsArmed = false;
-				status.Value = safeColor.ToString();
-				UpdateTimer();
-			}
+			UpdateStatusText();
 		}
 
 		public void ToggleMode()
 		{
-			explosiveDevice.ToggleMode(armToggleButton.isOn);
+			explosiveDevice.ToggleMode(armToggleButton.Element.isOn);
+			UpdateStatusText();
 		}
 
 		public void IncreaseTimeByOne()
@@ -117,10 +95,18 @@ namespace UI
 			StartCoroutine(UpdateTimer());
 		}
 
+		private void UpdateStatusText()
+		{
+			status.Value = explosiveDevice.IsArmed ? "C4 is armed." : "C4 is unarmed.";
+			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : timerCount.ToString();
+			status.Element.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
+		}
+
 		IEnumerator UpdateTimer()
 		{
-			if (explosiveDevice.DetonateImmediatelyOnSignal == false && modeToggleButton.isOn == false)
+			if (explosiveDevice.CountDownActive == false)
 			{
+				timerCount = explosiveDevice.TimeToDetonate;
 				timer.Value = timerCount.ToString();
 				yield break;
 			}
