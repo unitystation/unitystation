@@ -143,10 +143,8 @@ namespace Objects.Engineering
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			if (interaction.HandObject == null) return true;
-			foreach (ItemTrait fuelType in fuelTypes)
-			{
-				if (Validations.HasItemTrait(interaction.HandObject, fuelType)) return true;
-			}
+			if (Validations.HasAnyTrait(interaction.HandObject, fuelTypes)) return true;
+			
 			return false;
 		}
 
