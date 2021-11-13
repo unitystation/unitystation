@@ -108,7 +108,7 @@ namespace UI
 			if (explosiveDevice.CountDownActive == false)
 			{
 				timerCount = explosiveDevice.TimeToDetonate;
-				timer.Value = timerCount.ToString();
+				timer.Value = (timerCount * 1000).ToString();
 				yield break;
 			}
 			while (timerCount < explosiveDevice.TimeToDetonate * 1000)
