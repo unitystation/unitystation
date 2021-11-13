@@ -34,6 +34,7 @@ namespace Items.Weapons
 		private bool isArmed;
 		private bool countDownOnArm = false;
 		private bool countDownActive = false;
+		private bool isOnObject = false;
 
 		public ExplosiveType ExplosiveType => explosiveType;
 
@@ -125,7 +126,7 @@ namespace Items.Weapons
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side) || isArmed) return false;
+			if (!DefaultWillInteract.Default(interaction, side) || isArmed || pickupable.ItemSlot == null && isOnObject == false) return false;
 			return true;
 		}
 
@@ -147,13 +148,14 @@ namespace Items.Weapons
 				}
 
 				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
+				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
 			}
 
-			if (pickupable.CanPickup == false || interaction.IsAltClick)
+			if (pickupable.CanPickup == false && isOnObject == true || interaction.IsAltClick)
 			{
 				explosiveGUI.ServerPerformInteraction(interaction);
 				return;
