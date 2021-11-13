@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: -7063633880587810702}
   - component: {fileID: 5745720402341052027}
   m_Layer: 0
-  m_Name: C4
+  m_Name: X4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 0a45eeafcc7b5164bb139db7bf25c0a8
+  m_AssetId: 9ca978c567f2e5c4bb8a6be3190717f7
   hasSpawned: 0
 --- !u!114 &6536533875639940645
 MonoBehaviour:
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foreverID: Ba1MYhuJ@eQ4Pdz!Ukd$
+  foreverID: faMQUY8Y7EXxqSdBB9h4
 --- !u!114 &799814669979061557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,13 +213,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: C4
-  initialDescription: Used to put holes in walls that are in your way, keep a safe
-    distance away from them when they flash.
+  initialName: X4
+  initialDescription: The #1 assanation tool in space!
   willHighlight: 1
   exportCost: 5
   exportType: 0
-  exportName: C4
+  exportName: X4
   exportMessage: Time to oga some bogas.
   initialTraits:
   - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
@@ -245,10 +244,10 @@ MonoBehaviour:
   attackVerbs: []
   CanBeUsedOnSelfOnHelpIntent: 0
   itemSprites:
-    SpriteInventoryIcon: {fileID: 11400000, guid: 854eba4f06f75d74a9a5d20cd7ff5421,
+    SpriteInventoryIcon: {fileID: 11400000, guid: 3da7f1362142e5c43808482f3aa86082,
       type: 2}
-    SpriteLeftHand: {fileID: 11400000, guid: 91831da8af368a8459f35be8bc00f154, type: 2}
-    SpriteRightHand: {fileID: 11400000, guid: 2692a9457382b3f489915530917c17d7, type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: c62159a0a74a087478468a36fd74d704, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 86539cfb71e23a347b706fcc98568131, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -277,14 +276,14 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  explosiveType: 0
+  explosiveType: 1
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
-  minimumTimeToDetonate: 10
-  explosionPrefab: {fileID: 2540564744460004555, guid: 311ad0ee31c0a654487179079dd48cdd,
+  minimumTimeToDetonate: 1
+  explosionPrefab: {fileID: 2540564744460004555, guid: 8fb8560e73de12548838a05b8ffcfcb1,
     type: 3}
   spriteHandler: {fileID: 5258580723283386321}
-  activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
+  activeSpriteSO: {fileID: 11400000, guid: 6eedd99a9dc83864f808d929d4e9bd36, type: 2}
   registerItem: {fileID: 4084437145900613279}
   objectBehaviour: {fileID: 5809642687452026922}
   pickupable: {fileID: 6536533875639940645}
@@ -300,7 +299,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -1964781063
   m_SortingLayer: 25
-  m_SortingOrder: 500
+  m_SortingOrder: 32767
 --- !u!114 &5745720402341052027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 854eba4f06f75d74a9a5d20cd7ff5421, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 3da7f1362142e5c43808482f3aa86082, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -411,7 +410,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0fc6eda29115e5d4ca69669abb541796, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2b756ccaa5662144cb843cd918ba58ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

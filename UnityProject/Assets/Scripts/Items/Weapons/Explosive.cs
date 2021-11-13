@@ -72,6 +72,8 @@ namespace Items.Weapons
 
 		private void Detonate()
 		{
+			//We don't use Explosion.StartExplosion() because it doesn't look or work as
+			//Explosion prefabs do
 			if (hasExploded)
 			{
 				return;
