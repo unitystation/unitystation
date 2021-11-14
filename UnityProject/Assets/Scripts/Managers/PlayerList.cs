@@ -575,6 +575,7 @@ public struct ClientConnectedPlayer
 {
 	public string UserName;
 	public string Tag;
+	public int PingToServer;
 
 	//Used to make this ClientConnectedPlayer unique even if UserName and Tags are the same
 	public int Index;

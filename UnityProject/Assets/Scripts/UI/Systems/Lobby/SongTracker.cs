@@ -58,7 +58,7 @@ namespace Audio.Containers
 		{
 			if (PlayingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
 
-			if (MusicManager.isLobbyMusicPlaying()) return;
+			if (MusicManager.isMusicPlaying()) return;
 
 			currentWaitTime += Time.deltaTime;
 			if (currentWaitTime >= timeBetweenSongs)

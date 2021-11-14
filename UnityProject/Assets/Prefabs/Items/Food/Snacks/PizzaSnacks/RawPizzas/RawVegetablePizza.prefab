@@ -9,6 +9,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1377849961496925871, guid: 2051dd9e472d44140859bd686a1b9957,
         type: 3}
+      propertyPath: CookTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1377849961496925871, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
+      propertyPath: CookableBy
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1377849961496925871, guid: 2051dd9e472d44140859bd686a1b9957,
+        type: 3}
       propertyPath: CookedProduct
       value: 
       objectReference: {fileID: 2635048175138463619, guid: 2051dd9e472d44140859bd686a1b9957,

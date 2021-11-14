@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4082501454514706868, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cff12e9f5a603b42a9787fb37cb8ae66,
+        type: 2}
     - target: {fileID: 53526953103084450, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: initialName
@@ -16,6 +22,22 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: I say blue-mah-to, you say blue-mae-to.
+      objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b8f6e318587893489fca79214639d2b,
+        type: 2}
+    - target: {fileID: 133036019159067926, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[18].ingredientIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 333905541421504412, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}

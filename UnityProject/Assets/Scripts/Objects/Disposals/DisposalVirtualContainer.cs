@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
 using Objects.Atmospherics;
+using Random = UnityEngine.Random;
 
 namespace Objects.Disposals
 {
@@ -88,7 +90,7 @@ namespace Objects.Disposals
 
 		#endregion EjectContents
 
-		public void EntityTryEscape(GameObject entity)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted)
 		{
 			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 		}

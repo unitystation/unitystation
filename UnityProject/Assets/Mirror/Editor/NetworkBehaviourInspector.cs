@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using NaughtyAttributes.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Mirror
 {
     [CustomEditor(typeof(NetworkBehaviour), true)]
     [CanEditMultipleObjects]
-    public class NetworkBehaviourInspector : Editor
+    public class NetworkBehaviourInspector : NaughtyInspector ///UNITYSTATION CODE/// so, It draws properly on Network behaviours
     {
         /// <summary>
         /// List of all visible syncVars in target class
@@ -52,7 +53,8 @@ namespace Mirror
 
         void OnEnable()
         {
-            if (target == null) { Debug.LogWarning("NetworkBehaviourInspector had no target object"); return; }
+	        base.OnEnable(); ///UNITYSTATION CODE/// So Naughty attributes works
+	        if (target == null) { Debug.LogWarning("NetworkBehaviourInspector had no target object"); return; }
 
             // If target's base class is changed from NetworkBehaviour to MonoBehaviour
             // then Unity temporarily keep using this Inspector causing things to break
@@ -76,7 +78,8 @@ namespace Mirror
 
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
+	        base.OnInspectorGUI();
+            //DrawDefaultInspector(); ///UNITYSTATION CODE/// So Naughty attributes works
             DrawDefaultSyncLists();
             DrawDefaultSyncSettings();
         }

@@ -79,7 +79,7 @@ namespace UI
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("Caught an NRE in UI_ItemSLot.OnPointerEnter() " + exception.Message, Category.UI);
+				Logger.LogError($"Caught an NRE in UI_ItemSLot.OnPointerEnter() {exception.Message} \n {exception.StackTrace}", Category.UI);
 			}
 		}
 

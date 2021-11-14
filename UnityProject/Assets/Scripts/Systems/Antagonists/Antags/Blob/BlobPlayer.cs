@@ -994,7 +994,7 @@ namespace Blob
 		{
 			if (!ValidateAction(worldPos)) return;
 
-			if (MatrixManager.IsSpaceAt(worldPos, true))
+			if (MatrixManager.IsSpaceAt(worldPos, true, registerPlayer.Matrix.MatrixInfo))
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Cannot place structures on space blob, find a sturdier location");
 				return;
@@ -1538,7 +1538,7 @@ namespace Blob
 
 		private void AddNonSpaceBlob(GameObject newBlob)
 		{
-			if(MatrixManager.IsSpaceAt(newBlob.GetComponent<RegisterObject>().WorldPositionServer, true)) return;
+			if(MatrixManager.IsSpaceAt(newBlob.GetComponent<RegisterObject>().WorldPositionServer, true, registerPlayer.Matrix.MatrixInfo)) return;
 
 			nonSpaceBlobTiles.Remove(null);
 			nonSpaceBlobTiles.Add(newBlob);

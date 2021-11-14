@@ -243,7 +243,7 @@ public class MetaDataLayer : MonoBehaviour
 		//check for any moppable overlays
 		matrix.TileChangeManager.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
 
-		if (MatrixManager.IsSpaceAt(worldPosInt, true) == false && makeSlippery)
+		if (MatrixManager.IsSpaceAt(worldPosInt, true, matrix.MatrixInfo) == false && makeSlippery)
 		{
 			// Create a WaterSplat Decal (visible slippery tile)
 			EffectsFactory.WaterSplat(worldPosInt);

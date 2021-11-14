@@ -368,7 +368,7 @@ namespace Chemistry.Components
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("Caught NRE in ReagentContainer SpillAll method: " + exception.Message, Category.Chemistry);
+				Logger.LogError($"Caught NRE in ReagentContainer SpillAll method: {exception.Message} \n {exception.StackTrace}", Category.Chemistry);
 			}
 		}
 

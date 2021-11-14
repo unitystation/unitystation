@@ -223,7 +223,7 @@ namespace Objects.Engineering
 				}
 				catch (NullReferenceException exception)
 				{
-					Logger.LogError("Caught NRE for Start Explosion code on ReactorGraphiteChamber.cs " + exception.Message, Category.Electrical);
+					Logger.LogError($"Caught NRE for Start Explosion code on ReactorGraphiteChamber.cs {exception.Message} \n {exception.StackTrace}", Category.Electrical);
 				}
 			}
 

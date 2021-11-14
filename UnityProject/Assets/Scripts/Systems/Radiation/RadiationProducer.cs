@@ -95,7 +95,7 @@ namespace Systems.Radiation
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("Caught NRE with RadiationProducer UpdateValues " + exception.Message,
+				Logger.LogError($"Caught NRE with RadiationProducer UpdateValues {exception.Message} \n {exception.StackTrace}",
 					Category.Electrical);
 			}
 		}

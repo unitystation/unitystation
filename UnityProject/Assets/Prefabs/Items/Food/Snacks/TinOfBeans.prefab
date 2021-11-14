@@ -136,5 +136,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Musical fruit in a slightly less musical container.
       objectReference: {fileID: 0}
+    - target: {fileID: 6721922589409276554, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6721922589409276554, guid: e291198bb131d49469d0b57ae983bd32,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: f523617b343df8840a80baf11343f9e3,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e291198bb131d49469d0b57ae983bd32, type: 3}
