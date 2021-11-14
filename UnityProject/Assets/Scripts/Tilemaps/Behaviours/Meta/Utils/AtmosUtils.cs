@@ -181,10 +181,14 @@ namespace Systems.Atmospherics
 		{
 			var total = 0f;
 
-			foreach (var gas in data.GasesArray)
+			lock (data.GasesArray)
 			{
-				total += gas.Moles;
+				foreach (var gas in data.GasesArray)
+				{
+					total += gas.Moles;
+				}
 			}
+
 
 			return total;
 		}
@@ -343,10 +347,14 @@ namespace Systems.Atmospherics
 		{
 			var newGasData = new GasData();
 
-			foreach (var value in oldData.GasesArray)
+			lock (oldData.GasesArray)
 			{
-				newGasData.SetMoles(value.GasSO, value.Moles);
+				foreach (var value in oldData.GasesArray)
+				{
+					newGasData.SetMoles(value.GasSO, value.Moles);
+				}
 			}
+
 
 			newGasData.RegenerateDict();
 
@@ -362,10 +370,14 @@ namespace Systems.Atmospherics
 		{
 			CopyTo.Clear();
 
-			foreach (var value in oldData.GasesArray)
+			lock (oldData.GasesArray)
 			{
-				CopyTo.SetMoles(value.GasSO, value.Moles);
+				foreach (var value in oldData.GasesArray)
+				{
+					CopyTo.SetMoles(value.GasSO, value.Moles);
+				}
 			}
+
 
 			CopyTo.RegenerateDict();
 
