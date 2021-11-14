@@ -336,11 +336,13 @@ namespace Systems.Atmospherics
 			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
 
 
-
-			for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
+			lock (meanGasMix.GasesArray)
 			{
-				var gasData = meanGasMix.GasesArray[i];
-				meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
+				for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
+				{
+					var gasData = meanGasMix.GasesArray[i];
+					meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
+				}
 			}
 		}
 

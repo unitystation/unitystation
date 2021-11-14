@@ -7,7 +7,8 @@ using Objects.Atmospherics;
 
 namespace Items.Atmospherics
 {
-	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
+	public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>,
+		ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 	{
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
@@ -19,7 +20,8 @@ namespace Items.Atmospherics
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			if (interaction.PerformerPlayerScript.pushPull.parentContainer != null &&
-					interaction.PerformerPlayerScript.pushPull.parentContainer.TryGetComponent<GasContainer>(out var container))
+			    interaction.PerformerPlayerScript.pushPull.parentContainer.TryGetComponent<GasContainer>(
+				    out var container))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
 				return;
@@ -57,7 +59,8 @@ namespace Items.Atmospherics
 
 				if (interaction.TargetObject.TryGetComponent(out MonoPipe monoPipe))
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(monoPipe.pipeData.mixAndVolume.GetGasMix()));
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						GetGasMixInfo(monoPipe.pipeData.mixAndVolume.GetGasMix()));
 					return;
 				}
 			}
@@ -91,7 +94,7 @@ namespace Items.Atmospherics
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			if(interaction.TargetObject.TryGetComponent<GasContainer>(out var container) == false) return;
+			if (interaction.TargetObject.TryGetComponent<GasContainer>(out var container) == false) return;
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
 		}
@@ -99,17 +102,20 @@ namespace Items.Atmospherics
 		private static string GetGasMixInfo(GasMix gasMix)
 		{
 			StringBuilder sb = new StringBuilder(
-					$"Pressure: {gasMix.Pressure:0.###} kPa, {gasMix.Moles:0.##} moles\n" +
-					$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
-					// You want Fahrenheit? HAHAHAHA
+				$"Pressure: {gasMix.Pressure:0.###} kPa, {gasMix.Moles:0.##} moles\n" +
+				$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
+			// You want Fahrenheit? HAHAHAHA
 
-			foreach (var gas in gasMix.GasesArray)  //doesn't appear to modify list while iterating
+			lock (gasMix.GasesArray)
 			{
-				var ratio = gasMix.GasRatio(gas.GasSO);
-
-				if (ratio.Approx(0) == false)
+				foreach (var gas in gasMix.GasesArray) //doesn't appear to modify list while iterating
 				{
-					sb.AppendLine($"{gas.GasSO.Name}: {ratio:P}");
+					var ratio = gasMix.GasRatio(gas.GasSO);
+
+					if (ratio.Approx(0) == false)
+					{
+						sb.AppendLine($"{gas.GasSO.Name}: {ratio:P}");
+					}
 				}
 			}
 

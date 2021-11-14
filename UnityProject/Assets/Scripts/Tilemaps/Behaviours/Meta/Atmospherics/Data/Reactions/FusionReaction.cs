@@ -33,11 +33,14 @@ namespace Systems.Atmospherics
 
 			var gasPower = 0f;
 
-
-			foreach (var gas in gasMix.GasesArray)  //doesn't appear to modify list while iterating
+			lock ( gasMix.GasesArray)
 			{
-				gasPower += gas.GasSO.FusionPower * gas.Moles;
+				foreach (var gas in gasMix.GasesArray)  //doesn't appear to modify list while iterating
+				{
+					gasPower += gas.GasSO.FusionPower * gas.Moles;
+				}
 			}
+
 
 			var instability =  Mathf.Pow(gasPower * AtmosDefines.INSTABILITY_GAS_POWER_FACTOR, 2) % toroidalSize;
 
