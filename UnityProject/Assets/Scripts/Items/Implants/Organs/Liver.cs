@@ -73,14 +73,14 @@ namespace HealthV2
 			Processing();
 			ReturnReagentsToBlood();
 
-			Logger.Log(debug.ToString(), Category.Health);
+			//Logger.Log(debug.ToString(), Category.Health);
 		}
 
 		private void BloodToLiver(ReagentContainerBody blood)
 		{
 			float tickPullProcessingAmnt =  RelatedPart.TotalModified *  processAmount;
 			float drawnAmount = 0;
-			debug.AppendLine("==== STAGE 1 || BLOOD TO PROCESSING ====");
+			//debug.AppendLine("==== STAGE 1 || BLOOD TO PROCESSING ====");
 
 			//figure out how much we are going to process or remove
 			lock (blood.CurrentReagentMix.reagents)
@@ -109,12 +109,12 @@ namespace HealthV2
 				}
 			}
 
-			debug.AppendLine($"Drawn from blood to liver: {drawnAmount}");
+			//debug.AppendLine($"Drawn from blood to liver: {drawnAmount}");
 
 			//take what we are gonna process or remove, out of the blood
 			foreach (Tuple<Reagent, float> reagent in tempArray)
 			{
-				debug.AppendLine($"{reagent.Item2.ToString(CultureInfo.DefaultThreadCurrentCulture)} of {reagent.Item1}\n");
+				//debug.AppendLine($"{reagent.Item2.ToString(CultureInfo.DefaultThreadCurrentCulture)} of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 				processingContainer.ReagentsChanged();
@@ -125,7 +125,7 @@ namespace HealthV2
 
 		private void Processing()
 		{
-			debug.AppendLine("==== STAGE 2 || REMOVAL FROM LIVER ====");
+			//debug.AppendLine("==== STAGE 2 || REMOVAL FROM LIVER ====");
 
 			float tickClearAmount = RelatedPart.TotalModified *  processAmount * flushMultiplier;
 
@@ -151,7 +151,7 @@ namespace HealthV2
 			//remove what's going to be removed
 			foreach (Tuple<Reagent, float> reagent in tempArray)
 			{
-				debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
+				//debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 			}
 
@@ -167,7 +167,7 @@ namespace HealthV2
 					if(playerEatDrinkEffects == null) return;
 
 					doop *= drunkMultiplier;
-					Logger.Log($"Adding {doop} drunk time\n", Category.Health);
+					//Logger.Log($"Adding {doop} drunk time\n", Category.Health);
 					playerEatDrinkEffects.ServerSendMessageToClient(RelatedPart.HealthMaster.gameObject, doop);
 				}
 			}
@@ -175,7 +175,7 @@ namespace HealthV2
 
 		private void ReturnReagentsToBlood()
 		{
-			debug.AppendLine("==== STAGE 3 || RETURN FROM LIVER ====");
+			//debug.AppendLine("==== STAGE 3 || RETURN FROM LIVER ====");
 
 			lock (processingContainer.CurrentReagentMix.reagents)
 			{
@@ -190,7 +190,7 @@ namespace HealthV2
 
 			foreach (Tuple<Reagent, float> reagent in tempArray)
 			{
-				debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
+				//debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
 				circ.UsedBloodPool.Add(reagent.Item1,
 					processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2));
