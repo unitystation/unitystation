@@ -17,7 +17,7 @@ namespace CameraEffects
 		private GameObject minimalVisibilitySprite;
 
 		[SerializeField]
-		private int maxDrunkTime = 120;
+		private int maxDrunkTime = 120000;
 
 		private const float TIMER_INTERVAL = 1f;
 		private float drunkCameraTime = 0;

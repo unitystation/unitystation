@@ -1,4 +1,5 @@
-﻿using Chemistry.Components;
+﻿using System;
+using Chemistry.Components;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,24 +108,6 @@ public class DrinkableContainer : Consumable
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(RandomPitch, spatialBlend: 1f);
 			SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, audioSourceParameters, sourceObj: eater.gameObject);
-		}
-	}
-
-	private void DoDrinkEffects(PlayerScript eater, float drinkAmount)
-	{
-		var playerEatDrinkEffects = eater.GetComponent<PlayerEatDrinkEffects>();
-
-		if(playerEatDrinkEffects == null) return;
-
-		if ((int) drinkAmount == 0) return;
-
-		foreach (var reagent in container.CurrentReagentMix.reagents.m_dict)
-		{
-			//if its not alcoholic skip
-			if (!AlcoholicDrinksSOScript.Instance.AlcoholicReagents.Contains(reagent.Key)) continue;
-
-			//The more different types of alcohol in a drink the longer you get drunk for each sip.
-			playerEatDrinkEffects.ServerSendMessageToClient(eater.gameObject, (int)drinkAmount);
 		}
 	}
 }
