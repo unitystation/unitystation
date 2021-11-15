@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Doors;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
@@ -165,6 +167,10 @@ namespace Systems.Spells
 					var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 					var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
 
+					if (matrixInfo.Matrix.Get<DoorMasterController>(localPos, true).Any())
+					{
+						return false;
+					}
 					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType)
 					&& !SpellData.ReplaceExisting)
 					{
