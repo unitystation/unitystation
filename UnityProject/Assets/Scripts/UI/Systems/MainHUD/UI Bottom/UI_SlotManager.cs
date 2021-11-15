@@ -211,6 +211,7 @@ public class UI_SlotManager : MonoBehaviour
 	public void AddIndividual(IDynamicItemSlotS bodyPartUISlots,
 		BodyPartUISlots.StorageCharacteristics storageCharacteristicse)
 	{
+		if (this == null) return;
 		if (storageCharacteristicse.SlotArea == SlotArea.Hands)
 		{
 			HandsController.AddHand(bodyPartUISlots, storageCharacteristicse);

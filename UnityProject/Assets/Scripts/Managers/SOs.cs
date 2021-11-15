@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using HealthV2;
@@ -84,6 +85,11 @@ namespace ScriptableObjects
 
 		public T GetEntry<T>() where T : ScriptableObject
 		{
+			if (typeSOMap.ContainsKey(typeof(T)) == false)
+			{
+				Logger.LogWarning("Try adding your " + typeof(T) + " To the SOs Scriptable object");
+				return null;
+			}
 			return typeSOMap[typeof(T)] as T;
 		}
 	}

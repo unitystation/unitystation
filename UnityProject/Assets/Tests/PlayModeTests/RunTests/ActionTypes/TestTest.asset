@@ -12,18 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bcd835b81fe71408841f69af610e37, type: 3}
   m_Name: TestTest
   m_EditorClassIdentifier: 
-  ShowKeyInput: 0
-  Key: 
   TestActions:
   - Key: 
-    Prefab: {fileID: 0}
+    Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
+      type: 3}
     NumberToSpawn: 1
-    PositionToSpawn: {x: 0, y: 0, z: 0}
-    StackableAmount: 1
+    PositionToSpawn: {x: 1, y: 0, z: 0}
+    StackableAmount: 0
     SpecifiedAction: 1
-  - Key: 
-    Prefab: {fileID: 0}
-    NumberToSpawn: 1
-    PositionToSpawn: {x: 0, y: 0, z: 0}
-    StackableAmount: 1
-    SpecifiedAction: 2

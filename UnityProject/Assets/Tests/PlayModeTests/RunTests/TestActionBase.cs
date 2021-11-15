@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameRunTests;
 using UnityEngine;
+
 [System.Serializable]
 public partial class TestAction
 {
@@ -14,16 +16,18 @@ public partial class TestAction
 	}
 
 
-	public void InitiateAction()
+	public bool InitiateAction(TestRunSO TestRunSO)
 	{
 		switch (SpecifiedAction)
 		{
 			case ActionType.SpawnX:
-				InitiateSpawnX();
+				return InitiateSpawnX(TestRunSO);
 				break;
 			case ActionType.KeyInput:
-				InitiateKeyInput();
+				return InitiateKeyInput(TestRunSO);
 				break;
 		}
+
+		return true;
 	}
 }

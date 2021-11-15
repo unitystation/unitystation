@@ -27,10 +27,14 @@ static class SceneAutoLoader
 	// Play mode change callback handles the scene load/reload.
 	private static void OnPlayModeChanged(PlayModeStateChange state)
 	{
-		if (EditorSceneManager.GetActiveScene().name.Contains("InitTestScene")) return; //tests are running do not interfere
-
 		if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode)
 		{
+			if (EditorSceneManager.GetActiveScene().name.Contains("InitTestScene"))
+			{
+				EditorPrefs.SetString("prevEditorScene", "RRT CleanStation"); //Sets it to the Test statistician to load
+				return; //tests are running do not interfere
+			}
+
 			if (EditorSceneManager.GetActiveScene().name == "Lobby" ||
 			    EditorSceneManager.GetActiveScene().name == "OnlineScene")
 			{
@@ -53,7 +57,6 @@ static class SceneAutoLoader
 				{
 					Logger.LogError($"Tried to autoload scene, but scene not found: {MasterScene}", Category.Editor);
 					EditorApplication.isPlaying = false;
-
 				}
 			}
 			else

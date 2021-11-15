@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Editor;
+using Messages.Server;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -24,30 +27,39 @@ namespace GameRunTests
 		[UnityTest]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
-			Debug.Log("o3o B");
-			// Use the Assert class to test conditions.
-			// Use yield to skip a frame.
-
-			Logger.Log("enter o3o" + DateTime.Now);
-
-			for (int i = 0; i < SceneManager.sceneCount; i++)
-			{
-				Logger.Log(SceneManager.GetSceneAt(i).name);
-			}
-
-			Logger.Log("o3o A");
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
-			//yield return SceneManager.LoadSceneAsync("RRT CleanStation");
+			GameManager.Instance.QuickLoad = true;
 
-			Logger.Log("end o3o" + DateTime.Now);
+			yield return TestSingleton.Instance.RunTests();
 
-			for (int i = 0; i < SceneManager.sceneCount; i++)
-			{
-				Logger.Log(SceneManager.GetSceneAt(i).name);
-			}
+			// yield return WaitFor.Seconds(10);
+			// RunRestartRound();
+			// yield return WaitFor.Seconds(10);
+			// RunRestartRound();
+			// yield return WaitFor.Seconds(10);
 
-			yield return WaitFor.Seconds(200);
-			Logger.Log("end3 o3o" + DateTime.Now);
+			GameManager.Instance.QuickLoad = false;
 		}
+
+
+		public static void RunRestartRound()
+		{
+			GameManager.Instance.RoundEndTime = 0f;
+			GameManager.Instance.EndRound();
+		}
+
+		// public void RunRestartRound()
+		// {
+		// 	if (CustomNetworkManager.Instance._isServer == false)
+		// 	{
+		// 		Logger.Log("Can only execute command from server.", Category.DebugConsole);
+		// 		return;
+		// 	}
+		//
+		// 	Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
+		// 	GameManager.Instance.RoundEndTime = 1f;
+		// 	GameManager.Instance.EndRound();
+		// }
 	}
+
 }
