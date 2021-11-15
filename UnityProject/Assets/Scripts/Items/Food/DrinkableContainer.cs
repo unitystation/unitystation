@@ -82,25 +82,30 @@ public class DrinkableContainer : Consumable
 	{
 		// Start drinking reagent mix
 		var drinkAmount = container.TransferAmount;
-		int stomachIndex = 0;
-		List<Stomach> stomachs = eater.playerHealth.GetStomachs();
-		while (drinkAmount > 0)
-		{
-			ReagentContainer stomachContainer = stomachs[stomachIndex].StomachContents;
-			if (stomachContainer.IsFull)
-			{
-				if (stomachIndex < stomachs.Count-1)
-				{
-					stomachIndex++;
-					continue;
-				}
-				break;
-			}
 
+		List<Stomach> stomachs = eater.playerHealth.GetStomachs();
+		foreach (Stomach currentStomach in stomachs)
+		{
+			ReagentContainer stomachContainer = currentStomach.StomachContents;
+
+			//fill current stomach as much as we can until empty
 			float transferred = Mathf.Min(drinkAmount,
 				stomachContainer.MaxCapacity - stomachContainer.CurrentReagentMix.Total);
 			container.TransferTo(transferred, stomachContainer);
+
+			//update how much is left
 			drinkAmount -= transferred;
+
+			//Yeetity, it's empty
+			if (drinkAmount <= 0) break;
+
+			//We didn't empty the drink, but maybe emptying the drink was the friends we made along the way
+			if (stomachs.LastOrDefault() == currentStomach)
+			{
+				Chat.AddExamineMsgFromServer(eater.gameObject,"You cannot drink anymore!");
+				if(eater != feeder)
+					Chat.AddExamineMsgFromServer(feeder.gameObject,$"{eater.visibleName} cannot seem to drink anymore!");
+			}
 		}
 
 		// Play sound
