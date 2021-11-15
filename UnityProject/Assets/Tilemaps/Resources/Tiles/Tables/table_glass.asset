@@ -51,13 +51,13 @@ MonoBehaviour:
   tileInteractions:
   - {fileID: 11400000, guid: 60c558a8dfbf4ee4e8225a3484933424, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
-  - {fileID: 11400000, guid: d27fd166098cf084abd6ebb4f8b2dd25, type: 2}
+  - {fileID: 11400000, guid: 3aa4d5af2288ea1449aa0d183fe484a5, type: 2}
   spawnOnDeconstruct: {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf,
     type: 3}
   spawnAmountOnDeconstruct: 2
   lootOnDespawn: {fileID: 11400000, guid: 2fad2125ace992148ab83979ad84ec66, type: 2}
   toTileWhenDestroyed: {fileID: 0}
-  spawnOnDestroy: {fileID: 0}
+  spawnOnDestroy: {fileID: 11400000, guid: bff4a7f1af3f56a498a49154ee69de68, type: 2}
   damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
