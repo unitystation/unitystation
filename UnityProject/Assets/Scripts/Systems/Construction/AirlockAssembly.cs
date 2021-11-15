@@ -49,7 +49,6 @@ namespace Objects.Construction
 
 			overlayFillHandler = overlayFill.GetComponent<SpriteHandler>();
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
-			//overlayHackingHandler.ChangeSprite((int)Panel.EmptyPanel);
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -79,8 +78,8 @@ namespace Objects.Construction
 			}
 			else if (CurrentState == wrenchedState)
 			{
-				//add 9 cables or unwrench the airlock
-				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 9)) ||
+				//add 1 cables or unwrench the airlock
+				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 1)) ||
 					Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) || (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
 					Validations.HasUsedAtLeast(interaction, 1) && !glassAdded && airlockWindowedToSpawn);
 			}
@@ -171,9 +170,9 @@ namespace Objects.Construction
 		private void WrenchedStateInteraction(HandApply interaction)
 		{
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
-									 Validations.HasUsedAtLeast(interaction, 9))
+									 Validations.HasUsedAtLeast(interaction, 1))
 			{
-				//add 5 cables
+				//add 1 cable
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start adding cables to the airlock assembly...",
 					$"{interaction.Performer.ExpensiveName()} starts adding cables to the airlock assembly...",
@@ -181,7 +180,7 @@ namespace Objects.Construction
 					$"{interaction.Performer.ExpensiveName()} adds cables to the airlock assembly.",
 					() =>
 					{
-						Inventory.ServerConsume(interaction.HandSlot, 9);
+						Inventory.ServerConsume(interaction.HandSlot, 1);
 						stateful.ServerChangeState(cablesAddedState);
 						overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
 					});
@@ -247,7 +246,7 @@ namespace Objects.Construction
 					$"{interaction.Performer.ExpensiveName()} cuts the cables from the airlock assembly.",
 					() =>
 					{
-						Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 9);
+						Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject));
 						stateful.ServerChangeState(wrenchedState);
 						overlayHackingHandler.ChangeSprite((int)Panel.EmptyPanel);
 					});
@@ -272,11 +271,11 @@ namespace Objects.Construction
 					{
 						if (glassAdded && airlockWindowedToSpawn)
 						{
-							Spawn.ServerPrefab(airlockWindowedToSpawn, SpawnDestination.At(gameObject));
+							ServerSpawnAirlock(airlockWindowedToSpawn);
 						}
 						else
 						{
-							Spawn.ServerPrefab(airlockToSpawn, SpawnDestination.At(gameObject));
+							ServerSpawnAirlock(airlockToSpawn);
 						}
 						_ = Despawn.ServerSingle(gameObject);
 					});
@@ -298,6 +297,22 @@ namespace Objects.Construction
 			}
 		}
 
+		/// <summary>
+		/// Spawn airlock and add access from airlock Electronics.
+		/// </summary>
+		/// <param name="airlockPrefab"></param>
+		private void ServerSpawnAirlock(GameObject airlockPrefab)
+		{
+			var airlock = Spawn.ServerPrefab(airlockPrefab, SpawnDestination.At(gameObject)).GameObject;
+			if (airlockElectronicsSlot.IsOccupied)
+			{
+				AccessRestrictions airlockAccess = airlock.GetComponentInChildren<AccessRestrictions>();
+				GameObject airlockElectronics = airlockElectronicsSlot.ItemObject;
+				AirlockElectronics electronics = airlockElectronics.GetComponent<AirlockElectronics>();
+				airlockAccess.restriction = electronics.CurrentAccess;
+			}
+		}
+
 		public string Examine(Vector3 worldPos)
 		{
 			string msg = "";
@@ -308,7 +323,11 @@ namespace Objects.Construction
 
 			if (CurrentState == wrenchedState)
 			{
-				msg = "Add 9 wires to continue construction or use wrench to unsecure the airlock assembly. You can add glass to make a window in the airlock.\n";
+				msg = "Add one wire to continue construction or use wrench to unsecure the airlock assembly.\n";
+				if (!glassAdded)
+				{
+					msg += "You can add glass to make a window in the airlock.\n";
+				}
 			}
 
 			if (CurrentState == cablesAddedState)
@@ -338,8 +357,8 @@ namespace Objects.Construction
 
 			if (CurrentState != wrenchedState && CurrentState != initialState)
 			{
-				//1-5
-				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 6));
+				//0-1
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(0, 2));
 			}
 
 			//1-3
@@ -348,12 +367,18 @@ namespace Objects.Construction
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}
 
-		public void ServerInitFromComputer(ConstructibleDoor airlock, bool isWindowed)
+		/// <summary>
+		/// Creating an airlock assembly from a deconstructed airlock.
+		/// </summary>
+		/// <param name="airlockElectronicsPrefab">prefab to create airlock electronics</param>
+		/// <param name="airlockAccess">access for installation in the airlock electronics</param>
+		/// <param name="isWindowed">add glass or not</param>
+		public void ServerInitFromComputer(GameObject airlockElectronicsPrefab, Access airlockAccess, bool isWindowed)
 		{
 			//create the airlock electronics
-			Spawn.ServerPrefab(airlock.AirlockElectronicsPrefab, SpawnDestination.At(gameObject));
+			var airlockElectronics = Spawn.ServerPrefab(airlockElectronicsPrefab, SpawnDestination.At(gameObject)).GameObject;
+			airlockElectronics.GetComponent<AirlockElectronics>().CurrentAccess = airlockAccess;
 
-			//set initial state
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(cablesAddedState);
 			overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);

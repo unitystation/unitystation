@@ -108,8 +108,10 @@ namespace Doors
 			// rare cases were gameObject is destroyed for some reason and then the method is called
 			if (gameObject == null) return;
 
+			AccessRestrictions airlockAccess = GetComponentInChildren<AccessRestrictions>();
+
 			var doorAssembly = Spawn.ServerPrefab(airlockAssemblyPrefab, SpawnDestination.At(gameObject)).GameObject;
-			doorAssembly.GetComponent<AirlockAssembly>().ServerInitFromComputer(this, doorMasterController.isWindowedDoor);
+			doorAssembly.GetComponent<AirlockAssembly>().ServerInitFromComputer(AirlockElectronicsPrefab, airlockAccess.restriction, doorMasterController.isWindowedDoor);
 			_ = Despawn.ServerSingle(gameObject);
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
