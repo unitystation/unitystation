@@ -182,7 +182,7 @@ namespace HealthV2
 			if(IsBleeding)
 			{
 				InternalBleedingLogic();
-				HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
+				//HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue); causes you to continue bleeding after hitting 0 bleedstacks
 			}
 
 		}
@@ -333,12 +333,14 @@ namespace HealthV2
 		/// </summary>
 		public void TryRemoveFromBody(bool beingGibbed = false)
 		{
+			bool alreadyBleeding = false;
 			SetRemovedColor();
 			foreach (var bodyPart in HealthMaster.BodyPartList)
 			{
-				if (bodyPart.BodyPartType == BodyPartType.Chest)
+				if (bodyPart.BodyPartType == BodyPartType.Chest && alreadyBleeding == false)
 				{
 					bodyPart.IsBleeding = true;
+					alreadyBleeding = true;
 					HealthMaster.ChangeBleedStacks(limbLossBleedingValue);
 				}
 			}
@@ -371,7 +373,6 @@ namespace HealthV2
 			{
 				HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject);
 			}
-
 		}
 
 		/// <summary>
