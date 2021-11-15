@@ -22,13 +22,13 @@ namespace Items.Weapons
 		[SerializeField] private int timeToDetonate = 10;
 		[SerializeField] private int minimumTimeToDetonate = 10;
 		[SerializeField] private ExplosionComponent explosionPrefab;
-		[Header("Explosive Components")]
-		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private SpriteDataSO activeSpriteSO;
-		[SerializeField] private RegisterItem registerItem;
-		[SerializeField] private ObjectBehaviour objectBehaviour;
-		[SerializeField] private Pickupable pickupable;
-		[SerializeField] private HasNetworkTabItem explosiveGUI;
+		[Header("Explosive Components")]
+		private SpriteHandler spriteHandler;
+		private RegisterItem registerItem;
+		private ObjectBehaviour objectBehaviour;
+		private Pickupable pickupable;
+		private HasNetworkTabItem explosiveGUI;
 		[HideInInspector] public GUI_Explosive GUI;
 
 		private bool hasExploded;
@@ -52,6 +52,15 @@ namespace Items.Weapons
 		public bool DetonateImmediatelyOnSignal => detonateImmediatelyOnSignal;
 		public bool CountDownActive => countDownActive;
 		public ExplosiveType ExplosiveType => explosiveType;
+
+		private void Awake()
+		{
+			spriteHandler = GetComponent<SpriteHandler>();
+			registerItem = GetComponent<RegisterItem>();
+			objectBehaviour = GetComponent<ObjectBehaviour>();
+			pickupable = GetComponent<Pickupable>();
+			explosiveGUI = GetComponent<HasNetworkTabItem>();
+		}
 
 		public async void Countdown()
 		{
