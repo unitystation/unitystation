@@ -266,14 +266,14 @@ namespace MapSaver
 			MatrixData matrixData = new MatrixData();
 			matrixData.ObjectMapData = SaveObjects(MetaTileMap, Localboundarie1, Localboundarie2, UseInstance);
 			matrixData.TileMapData = SaveTileMap(MetaTileMap, Localboundarie1, Localboundarie2);
-			matrixData.MatrixName = MetaTileMap.PresentMatrix.NetworkedMatrix.gameObject.name;
+			matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
 			matrixData.MatrixID = IDmatrixStatic;
-			matrixData.Location = Math.Round(MetaTileMap.PresentMatrix.NetworkedMatrix.transform.localPosition.x, 2) + "┼" +
-			                      Math.Round(MetaTileMap.PresentMatrix.NetworkedMatrix.transform.localPosition.y, 2) + "┼" +
-			                      Math.Round(MetaTileMap.PresentMatrix.NetworkedMatrix.transform.localPosition.z, 2) + "┼";
+			matrixData.Location = Math.Round(MetaTileMap.matrix.NetworkedMatrix.transform.localPosition.x, 2) + "┼" +
+			                      Math.Round(MetaTileMap.matrix.NetworkedMatrix.transform.localPosition.y, 2) + "┼" +
+			                      Math.Round(MetaTileMap.matrix.NetworkedMatrix.transform.localPosition.z, 2) + "┼";
 
 
-			var Angles = MetaTileMap.PresentMatrix.NetworkedMatrix.transform.eulerAngles;
+			var Angles = MetaTileMap.matrix.NetworkedMatrix.transform.eulerAngles;
 			matrixData.Location = matrixData.Location +
 			                      Math.Round(Angles.x, 2) + "ø" +
 			                      Math.Round(Angles.y, 2) + "ø" +
@@ -369,13 +369,13 @@ namespace MapSaver
 						}
 
 
-						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Value.Tile))
+						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Value.layerTile))
 						{
-							CommonLayerTilesCount[TileAndLocation.Value.Tile]++;
+							CommonLayerTilesCount[TileAndLocation.Value.layerTile]++;
 						}
 						else
 						{
-							CommonLayerTilesCount[TileAndLocation.Value.Tile] = 1;
+							CommonLayerTilesCount[TileAndLocation.Value.layerTile] = 1;
 						}
 
 						if (CommonColoursCount.ContainsKey(TileAndLocation.Value.Colour))
@@ -388,13 +388,13 @@ namespace MapSaver
 						}
 
 
-						if (CommonMatrix4x4Count.ContainsKey(TileAndLocation.Value.TransformMatrix))
+						if (CommonMatrix4x4Count.ContainsKey(TileAndLocation.Value.transformMatrix))
 						{
-							CommonMatrix4x4Count[TileAndLocation.Value.TransformMatrix]++;
+							CommonMatrix4x4Count[TileAndLocation.Value.transformMatrix]++;
 						}
 						else
 						{
-							CommonMatrix4x4Count[TileAndLocation.Value.TransformMatrix] = 1;
+							CommonMatrix4x4Count[TileAndLocation.Value.transformMatrix] = 1;
 						}
 					}
 				}
@@ -415,7 +415,7 @@ namespace MapSaver
 							if (UseBoundary)
 							{
 								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.TileCoordinates) ==
+									    TileAndLocation.position) ==
 								    false)
 								{
 									continue;
@@ -423,13 +423,13 @@ namespace MapSaver
 							}
 
 
-							if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Tile))
+							if (CommonLayerTilesCount.ContainsKey(TileAndLocation.layerTile))
 							{
-								CommonLayerTilesCount[TileAndLocation.Tile]++;
+								CommonLayerTilesCount[TileAndLocation.layerTile]++;
 							}
 							else
 							{
-								CommonLayerTilesCount[TileAndLocation.Tile] = 1;
+								CommonLayerTilesCount[TileAndLocation.layerTile] = 1;
 							}
 
 							if (CommonColoursCount.ContainsKey(TileAndLocation.Colour))
@@ -442,13 +442,13 @@ namespace MapSaver
 							}
 
 
-							if (CommonMatrix4x4Count.ContainsKey(TileAndLocation.TransformMatrix))
+							if (CommonMatrix4x4Count.ContainsKey(TileAndLocation.transformMatrix))
 							{
-								CommonMatrix4x4Count[TileAndLocation.TransformMatrix]++;
+								CommonMatrix4x4Count[TileAndLocation.transformMatrix]++;
 							}
 							else
 							{
-								CommonMatrix4x4Count[TileAndLocation.TransformMatrix] = 1;
+								CommonMatrix4x4Count[TileAndLocation.transformMatrix] = 1;
 							}
 						}
 					}
@@ -491,7 +491,7 @@ namespace MapSaver
 						SB.Append(LayerChar);
 						SB.Append((int) Layer.Key.LayerType);
 
-						int Index = CommonLayerTiles.IndexOf(TileAndLocation.Value.Tile);
+						int Index = CommonLayerTiles.IndexOf(TileAndLocation.Value.layerTile);
 
 
 						if (Index != 0)
@@ -507,7 +507,7 @@ namespace MapSaver
 							SB.Append(Index);
 						}
 
-						Index = CommonMatrix4x4.IndexOf(TileAndLocation.Value.TransformMatrix);
+						Index = CommonMatrix4x4.IndexOf(TileAndLocation.Value.transformMatrix);
 						if (Index != 0)
 						{
 							SB.Append(Matrix4x4Char);
@@ -529,7 +529,7 @@ namespace MapSaver
 							if (UseBoundary)
 							{
 								if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value,
-									    TileAndLocation.TileCoordinates) ==
+									    TileAndLocation.position) ==
 								    false)
 								{
 									continue;
@@ -538,15 +538,15 @@ namespace MapSaver
 
 							//TODO Tile map upgrade , Change to vector 4
 							SB.Append(LocationChar);
-							SB.Append(TileAndLocation.TileCoordinates.x);
+							SB.Append(TileAndLocation.position.x);
 							SB.Append(",");
-							SB.Append(TileAndLocation.TileCoordinates.y);
+							SB.Append(TileAndLocation.position.y);
 							SB.Append(",");
-							SB.Append(TileAndLocation.TileCoordinates.z);
+							SB.Append(TileAndLocation.position.z);
 							SB.Append(LayerChar);
 							SB.Append((int) Layer.Key.LayerType);
 
-							int Index = CommonLayerTiles.IndexOf(TileAndLocation.Tile);
+							int Index = CommonLayerTiles.IndexOf(TileAndLocation.layerTile);
 
 
 							if (Index != 0)
@@ -562,7 +562,7 @@ namespace MapSaver
 								SB.Append(Index);
 							}
 
-							Index = CommonMatrix4x4.IndexOf(TileAndLocation.TransformMatrix);
+							Index = CommonMatrix4x4.IndexOf(TileAndLocation.transformMatrix);
 							if (Index != 0)
 							{
 								SB.Append(Matrix4x4Char);
@@ -636,7 +636,7 @@ namespace MapSaver
 				ProcessIndividualObject(Object.gameObject, ObjectMapData, UseInstance: UseInstance);
 			}
 
-			foreach (var ObjectCoordinate in MetaTileMap.PresentMatrix.MetaDataLayer.InitialObjects)
+			foreach (var ObjectCoordinate in MetaTileMap.matrix.MetaDataLayer.InitialObjects)
 			{
 				if (UseBoundary)
 				{
@@ -894,7 +894,7 @@ namespace MapSaver
 									{
 										var mono = Item as MonoBehaviour;
 										if (mono == null) continue;
-										
+
 										PopulateIDRelation(ClassData, fieldData, mono, UseInstance);
 									}
 								}

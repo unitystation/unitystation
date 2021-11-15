@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using Messages.Server;
 using Objects.Atmospherics;
 using UnityEngine;
-using UnityEngine.Events;
-using Debug = UnityEngine.Debug;
 
 namespace TileManagement
 {
@@ -66,9 +66,9 @@ namespace TileManagement
 		/// </summary>
 		public Layer[] DamageableLayers { get; private set; }
 
-		private Matrix presentMatrix = null;
+		public Matrix matrix = null;
 
-		public Matrix PresentMatrix => presentMatrix;
+		private Thread mainThread;
 
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
@@ -132,12 +132,12 @@ namespace TileManagement
 							if (getTile != null)
 							{
 								Tile = GetPooledTile();
-								Tile.TileCoordinates = localPlace;
-								Tile.PresentMetaTileMap = this;
-								Tile.PresentlyOn = layer;
-								Tile.Tile = getTile;
+								Tile.position = localPlace;
+								Tile.metaTileMap = this;
+								Tile.layer = layer;
+								Tile.layerTile = getTile;
 								Tile.Colour = layer.Tilemap.GetColor(localPlace);
-								Tile.TransformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
+								Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
 								ToInsertDictionary[localPlace] = Tile;
 							}
 						}
@@ -168,87 +168,27 @@ namespace TileManagement
 			damageableLayersValues.Sort((layerOne, layerTwo) =>
 				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
 			DamageableLayers = damageableLayersValues.ToArray();
-			presentMatrix = this.GetComponent<Matrix>();
+			matrix = GetComponent<Matrix>();
+			mainThread = Thread.CurrentThread;
 		}
-
 
 		public void Update()
 		{
-			lock (QueuedChanges)
-			{
-				if (QueuedChanges.Count == 0) return;
-			}
+			if (QueuedChanges.Count == 0)
+				return;
 
 			stopwatch.Reset();
 			stopwatch.Start();
-			TileLocation QueueTileChange = null;
+			TileLocation tileLocation = null;
 			while (stopwatch.ElapsedMilliseconds < TargetMSpreFrame)
 			{
 				lock (QueuedChanges)
 				{
-					if (QueuedChanges.Count == 0) break;
-					QueueTileChange = QueuedChanges.Dequeue();
+					if (QueuedChanges.Count == 0)
+						break;
+					tileLocation = QueuedChanges.Dequeue();
 				}
-
-
-				if (QueueTileChange.Tile == null)
-				{
-					//Remove before setting
-					if (QueueTileChange.PresentlyOn.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
-					{
-						lock (MultilayerPresentTiles)
-						{
-							var tileLocations = GetTileLocationsNeedLockSurrounding(QueueTileChange.TileCoordinates,
-								QueueTileChange.PresentlyOn);
-							if (tileLocations != null)
-							{
-								if (tileLocations.Count > Math.Abs(1 - QueueTileChange.TileCoordinates.z))
-								{
-									tileLocations[Math.Abs(1 - QueueTileChange.TileCoordinates.z)] = null;
-								}
-							}
-						}
-					}
-					else
-					{
-						lock (PresentTiles)
-						{
-							PresentTiles[QueueTileChange.PresentlyOn][QueueTileChange.TileCoordinates] = null;
-						}
-					}
-
-
-					QueueTileChange.PresentlyOn.RemoveTile(QueueTileChange.TileCoordinates);
-
-					//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
-
-					// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
-					// Maybe it sets it to the correct ones when you set a tile idk
-
-					QueueTileChange.Clean();
-					lock (PooledTileLocation)
-					{
-						PooledTileLocation.Push(QueueTileChange);
-					}
-				}
-				else
-				{
-					QueueTileChange.PresentlyOn.SetTile(QueueTileChange.TileCoordinates, QueueTileChange.Tile,
-						QueueTileChange.TransformMatrix, QueueTileChange.Colour);
-
-					if (CashedBoundsInt != null)
-					{
-						if (CashedBoundsInt.Value.Contains(QueueTileChange.TileCoordinates) == false)
-						{
-							CashedBoundsInt = null;
-						}
-					}
-				}
-
-				lock (QueueTileChange)
-				{
-					QueueTileChange.InQueue = false;
-				}
+				MainThreadTileChange(tileLocation);
 			}
 
 			stopwatch.Stop();
@@ -256,6 +196,98 @@ namespace TileManagement
 			foreach (var layer in LayersValues)
 			{
 				layer.overlayStore.Clear();
+			}
+		}
+
+		private void ApplyTileChange(TileLocation tileLocation)
+		{
+			if (mainThread.Equals(Thread.CurrentThread))
+			{
+				MainThreadTileChange(tileLocation);
+			}
+			else
+			{
+				//cant modify the unity tilemap in a non main thread
+				QueuedChanges.Enqueue(tileLocation);
+			}
+		}
+
+		public void MainThreadTileChange(TileLocation tileLocation)
+		{
+			if (tileLocation.layerTile == null)
+			{
+				MainThreadRemoveTile(tileLocation);
+			}
+			else
+			{
+				MainThreadSetTile(tileLocation);
+			}
+		}
+
+		private void MainThreadRemoveTile(TileLocation tileLocation)
+		{
+			if (tileLocation.layer.LayerType == LayerType.Floors || tileLocation.layer.LayerType == LayerType.Base)
+			{
+				tileLocation.layer.TilemapDamage.SwitchObjectsMatrixAt(tileLocation.position);
+			}
+
+			//Remove before setting
+			if (tileLocation.layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
+			{
+				lock (MultilayerPresentTiles)
+				{
+					var tileLocations = GetTileLocationsNeedLockSurrounding(tileLocation.position, tileLocation.layer);
+					if (tileLocations != null)
+					{
+						if (tileLocations.Count > Math.Abs(1 - tileLocation.position.z))
+						{
+							tileLocations[Math.Abs(1 - tileLocation.position.z)] = null;
+						}
+					}
+				}
+			}
+			else
+			{
+				lock (PresentTiles)
+				{
+					PresentTiles[tileLocation.layer][tileLocation.position] = null;
+				}
+			}
+
+			tileLocation.layer.RemoveTile(tileLocation.position);
+			matrix.TileChangeManager.RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
+
+			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
+
+			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
+			// Maybe it sets it to the correct ones when you set a tile idk
+
+			lock (PooledTileLocation)
+			{
+				PooledTileLocation.Push(tileLocation);
+			}
+
+			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
+			if (CustomNetworkManager.IsServer)
+			{
+				matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType);
+				RemoveTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position, tileLocation.layer.LayerType);
+			}
+			tileLocation.Clean();
+		}
+
+		private void MainThreadSetTile(TileLocation tileLocation)
+		{
+			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
+				tileLocation.transformMatrix, tileLocation.Colour);
+			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
+
+			if (CashedBoundsInt != null)
+			{
+				if (CashedBoundsInt.Value.Contains(tileLocation.position) == false)
+				{
+					CashedBoundsInt = null;
+				}
 			}
 		}
 
@@ -267,8 +299,6 @@ namespace TileManagement
 		public float ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos,
 			AttackType attackType = AttackType.Melee)
 		{
-			//still needs to be done
-			//TileLocation TileLcation = null;
 			float RemainingDamage = damage;
 			foreach (var damageableLayer in DamageableLayers)
 			{
@@ -276,11 +306,6 @@ namespace TileManagement
 				{
 					return (damage);
 				}
-
-				// lock (PresentTiles)
-				// {
-				// 	PresentTiles[damageableLayer].TryGetValue(cellPos, out TileLcation);
-				// }
 
 				RemainingDamage -= damageableLayer.TilemapDamage.ApplyDamage(damage, attackType, worldPos);
 			}
@@ -331,74 +356,6 @@ namespace TileManagement
 			}
 		}
 
-		private bool CanLeaveTile(Vector3Int origin, Vector3Int to, bool isServer,
-			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
-			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
-			bool isReach = false)
-		{
-			if (ignoreObjects == false &&
-			    ObjectLayer.CanLeaveTile(origin, to, isServer, collisionType, inclPlayers, context,
-				    excludeTiles, isReach: isReach) == false)
-			{
-				return false;
-			}
-
-			//Tiles don't have a Check for leaving
-
-			return true;
-		}
-
-		private bool CanEnterTile(Vector3Int origin, Vector3Int to, bool isServer,
-			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
-			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
-			bool isReach = false)
-		{
-			if (ignoreObjects == false &&
-			    ObjectLayer.CanEnterTile(origin, to, isServer, collisionType, inclPlayers, context,
-				    excludeTiles, isReach: isReach) == false)
-			{
-				return false;
-			}
-
-			TileLocation TileLcation = null;
-			for (var i = 0; i < SolidLayersValues.Length; i++)
-			{
-				var solidLayer = SolidLayersValues[i];
-
-				// Skip floor & base collisions if this is not a shuttle
-				if (collisionType != CollisionType.Shuttle)
-				{
-					if ((solidLayer.LayerType == LayerType.Grills || solidLayer.LayerType == LayerType.Tables ||
-					     solidLayer.LayerType == LayerType.Walls || solidLayer.LayerType == LayerType.Windows) == false)
-					{
-						continue;
-					}
-				}
-
-				// Skip if the current tested layer is being excluded.
-				if (excludeLayers != null && excludeLayers.Contains(solidLayer.LayerType))
-				{
-					continue;
-				}
-
-				TileLcation = GetCorrectTileLocationForLayer(to, solidLayer);
-
-				if (TileLcation?.Tile == null) continue;
-				var tile = TileLcation.Tile as BasicTile;
-
-				// Return passable if the tile type is being excluded from checks.
-				if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
-					continue;
-
-				if (tile.IsPassable(collisionType, origin, this) == false)
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-
 		private bool IsPassableAtOrthogonal(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
@@ -411,7 +368,7 @@ namespace TileManagement
 				return false;
 			}
 
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			for (var i = 0; i < SolidLayersValues.Length; i++)
 			{
 				var solidLayer = SolidLayersValues[i];
@@ -432,10 +389,10 @@ namespace TileManagement
 					continue;
 				}
 
-				TileLcation = GetCorrectTileLocationForLayer(to, solidLayer);
+				tileLocation = GetCorrectTileLocationForLayer(to, solidLayer);
 
-				if (TileLcation?.Tile == null) continue;
-				var tile = TileLcation.Tile as BasicTile;
+				if (tileLocation?.layerTile == null) continue;
+				var tile = tileLocation.layerTile as BasicTile;
 
 				// Return passable if the tile type is being excluded from checks.
 				if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
@@ -472,18 +429,18 @@ namespace TileManagement
 			}
 
 
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Walls || layer.LayerType == LayerType.Windows)
 				{
 					lock (PresentTiles)
 					{
-						PresentTiles[layer].TryGetValue(to, out TileLcation);
+						PresentTiles[layer].TryGetValue(to, out tileLocation);
 					}
 
-					if (TileLcation?.Tile == null) continue;
-					if ((TileLcation.Tile as BasicTile)?.IsAtmosPassable() == false)
+					if (tileLocation?.layerTile == null) continue;
+					if ((tileLocation.layerTile as BasicTile)?.IsAtmosPassable() == false)
 					{
 						return false;
 					}
@@ -511,10 +468,10 @@ namespace TileManagement
 					}
 				}
 
-				if (tileLocation?.Tile == null)
+				if (tileLocation?.layerTile == null)
 					continue;
 
-				if ((tileLocation.Tile as BasicTile)?.constructable == false)
+				if ((tileLocation.layerTile as BasicTile)?.constructable == false)
 				{
 					canConstruct = false;
 					break;
@@ -529,7 +486,7 @@ namespace TileManagement
 
 		public bool IsSpaceAt(Vector3Int position, bool isServer, bool UseExactForMultilayer = false)
 		{
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
@@ -537,10 +494,10 @@ namespace TileManagement
 				if (layer.LayerType == LayerType.Tables) continue;
 				if (layer.LayerType == LayerType.Effects) continue;
 
-				TileLcation = GetCorrectTileLocationForLayer(position, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(position, layer, UseExactForMultilayer);
 
-				if (TileLcation?.Tile == null) continue;
-				if ((TileLcation.Tile as BasicTile)?.IsSpace() == false)
+				if (tileLocation?.layerTile == null) continue;
+				if ((tileLocation.layerTile as BasicTile)?.IsSpace() == false)
 				{
 					return false;
 				}
@@ -553,63 +510,43 @@ namespace TileManagement
 		public TileLocation GetCorrectTileLocationForLayer(Vector3Int position, Layer layer,
 			bool UseExactForMultilayer = false)
 		{
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			if (layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
 			{
 				if (UseExactForMultilayer)
 				{
-					TileLcation = GetTileExactLocationMultilayer(position, layer);
+					tileLocation = GetTileExactLocationMultilayer(position, layer);
 				}
 				else
 				{
-					TileLcation = GetTileLocationMultilayer(position, layer);
+					tileLocation = GetTileLocationMultilayer(position, layer);
 				}
 			}
 			else
 			{
 				lock (PresentTiles)
 				{
-					PresentTiles[layer].TryGetValue(position, out TileLcation);
+					PresentTiles[layer].TryGetValue(position, out tileLocation);
 				}
 			}
-
-			return TileLcation;
+			return tileLocation;
 		}
 
 		public bool IsTableAt(Vector3Int position)
 		{
 			if (Layers.TryGetValue(LayerType.Tables, out var layer))
 			{
-				TileLocation TileLcation = null;
+				TileLocation tileLocation = null;
 				lock (PresentTiles)
 				{
-					PresentTiles[layer].TryGetValue(position, out TileLcation);
+					PresentTiles[layer].TryGetValue(position, out tileLocation);
 				}
 
-				return TileLcation?.Tile;
+				return tileLocation?.layerTile;
 			}
 
 			return false;
 		}
-
-		public bool IsTileTypeAt(Vector3Int position, TileType tileType, bool UseExactForMultilayer = false)
-		{
-			//is Table here, That's all it Used for
-			for (var i = 0; i < LayersValues.Length; i++)
-			{
-				TileLocation TileLcation = null;
-				TileLcation = GetCorrectTileLocationForLayer(position, LayersValues[i], UseExactForMultilayer);
-
-
-				if (TileLcation.Tile != null && TileLcation.Tile.TileType == tileType)
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 
 		//Use TileChangeManager Instead if you want to be networked
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
@@ -650,7 +587,7 @@ namespace TileManagement
 				}
 
 
-				TileLocation TileLcation = null;
+				TileLocation tileLocation = null;
 
 				if (tile.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
 				{
@@ -664,39 +601,39 @@ namespace TileManagement
 						if (TileLocations[index] == null)
 						{
 							TileLocations[index] = GetPooledTile();
-							TileLocations[index].PresentlyOn = layer;
-							TileLocations[index].PresentMetaTileMap = this;
-							TileLocations[index].TileCoordinates = position;
+							TileLocations[index].layer = layer;
+							TileLocations[index].metaTileMap = this;
+							TileLocations[index].position = position;
 						}
 
-						TileLcation = TileLocations[index];
+						tileLocation = TileLocations[index];
 					}
 				}
 				else
 				{
 					lock (PresentTiles)
 					{
-						PresentTiles[layer].TryGetValue(position, out TileLcation);
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 
-					if (TileLcation == null)
+					if (tileLocation == null)
 					{
-						TileLcation = GetPooledTile();
-						TileLcation.PresentlyOn = layer;
-						TileLcation.PresentMetaTileMap = this;
-						TileLcation.TileCoordinates = position;
+						tileLocation = GetPooledTile();
+						tileLocation.layer = layer;
+						tileLocation.metaTileMap = this;
+						tileLocation.position = position;
 						lock (PresentTiles)
 						{
-							PresentTiles[layer][position] = TileLcation;
+							PresentTiles[layer][position] = tileLocation;
 						}
 					}
 				}
 
 
-				TileLcation.Tile = tile;
-				TileLcation.TransformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
-				TileLcation.Colour = color.GetValueOrDefault(Color.white);
-				TileLcation.OnStateChange();
+				tileLocation.layerTile = tile;
+				tileLocation.transformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
+				tileLocation.Colour = color.GetValueOrDefault(Color.white);
+				ApplyTileChange(tileLocation);
 				return position;
 			}
 			else
@@ -751,16 +688,12 @@ namespace TileManagement
 			if (layerType == LayerType.Objects) return null;
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				TileLocation TileLcation = null;
-				TileLcation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				TileLocation tileLocation = null;
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
 
-				return TileLcation?.Tile;
+				return tileLocation?.layerTile;
 			}
-			else
-			{
-				LogMissingLayer(cellPosition, layerType);
-			}
-
+			LogMissingLayer(cellPosition, layerType);
 			return null;
 		}
 
@@ -782,7 +715,6 @@ namespace TileManagement
 					}
 				}
 			}
-
 			return null;
 		}
 
@@ -803,7 +735,6 @@ namespace TileManagement
 					return LayerData[ZZeroposition];
 				}
 			}
-
 			return null;
 		}
 
@@ -821,14 +752,13 @@ namespace TileManagement
 				{
 					for (int i = 0; i < tileLocations.Count; i++)
 					{
-						if (tileLocations[i] != null && tileLocations[i].Tile != null)
+						if (tileLocations[i] != null && tileLocations[i].layerTile != null)
 						{
 							return tileLocations[i];
 						}
 					}
 				}
 			}
-
 			return null;
 		}
 
@@ -844,20 +774,13 @@ namespace TileManagement
 			if (layerType == LayerType.Objects) return null;
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				TileLocation TileLcation = null;
-				TileLcation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
-
-
-				return TileLcation?.Colour;
+				TileLocation tileLocation = null;
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				return tileLocation?.Colour;
 			}
-			else
-			{
-				LogMissingLayer(cellPosition, layerType);
-			}
-
+			LogMissingLayer(cellPosition, layerType);
 			return null;
 		}
-
 
 		/// <summary>
 		/// used to check if the tiles are same for networking
@@ -874,30 +797,26 @@ namespace TileManagement
 			if (layerType == LayerType.Objects) return true;
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				TileLocation TileLcation = null;
-				TileLcation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				TileLocation tileLocation = null;
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
 
-				if (TileLcation?.Tile != layerTile) return true;
+				if (tileLocation?.layerTile != layerTile) return true;
 
 				if (color != null)
 				{
-					if (TileLcation.Colour != color.GetValueOrDefault(Color.white)) return true;
+					if (tileLocation.Colour != color.GetValueOrDefault(Color.white)) return true;
 				}
 
 				if (transformMatrix != null)
 				{
-					if (TileLcation.TransformMatrix != transformMatrix.GetValueOrDefault(Matrix4x4.identity))
+					if (tileLocation.transformMatrix != transformMatrix.GetValueOrDefault(Matrix4x4.identity))
 						return true;
 				}
 
 				return false;
 				//return layer.IsDifferent(cellPosition, layerTile, transformMatrix, color);
 			}
-			else
-			{
-				LogMissingLayer(cellPosition, layerType);
-			}
-
+			LogMissingLayer(cellPosition, layerType);
 			return true;
 		}
 
@@ -910,22 +829,22 @@ namespace TileManagement
 		public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
 			bool UseExactForMultilayer = false)
 		{
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 
 				if (ignoreEffectsLayer && layer.LayerType == LayerType.Effects) continue;
 
-				TileLcation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
 
-				if (TileLcation != null && TileLcation.Tile != null)
+				if (tileLocation != null && tileLocation.layerTile != null)
 				{
 					break;
 				}
 			}
 
-			return TileLcation?.Tile;
+			return tileLocation?.layerTile;
 		}
 
 		/// <summary>
@@ -937,22 +856,22 @@ namespace TileManagement
 		public LayerTile GetTile(Vector3Int cellPosition, LayerTypeSelection ExcludedLayers,
 			bool UseExactForMultilayer = false)
 		{
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 
 				if (LTSUtil.IsLayerIn(ExcludedLayers, layer.LayerType)) continue;
 
-				TileLcation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
 
-				if (TileLcation != null)
+				if (tileLocation != null)
 				{
 					break;
 				}
 			}
 
-			return TileLcation?.Tile;
+			return tileLocation?.layerTile;
 		}
 
 
@@ -1074,14 +993,14 @@ namespace TileManagement
 		/// <returns></returns>
 		public bool HasTile(Vector3Int position, Layer Layer)
 		{
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 
 			if (Layer.LayerType == LayerType.Objects) return false;
 			if (Layer.LayerType == LayerType.Effects) return false;
 
-			TileLcation = GetCorrectTileLocationForLayer(position, Layer);
+			tileLocation = GetCorrectTileLocationForLayer(position, Layer);
 
-			return TileLcation?.Tile;
+			return tileLocation?.layerTile;
 		}
 
 
@@ -1092,21 +1011,21 @@ namespace TileManagement
 		/// <returns></returns>
 		public bool HasTile(Vector3Int position, bool UseExactForMultilayer = false)
 		{
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 				if (layer.LayerType == LayerType.Effects) continue;
 
-				TileLcation = GetCorrectTileLocationForLayer(position, layer, UseExactForMultilayer);
+				tileLocation = GetCorrectTileLocationForLayer(position, layer, UseExactForMultilayer);
 
-				if (TileLcation != null)
+				if (tileLocation != null)
 				{
 					break;
 				}
 			}
 
-			return TileLcation?.Tile;
+			return tileLocation?.layerTile;
 		}
 
 		/// <summary>
@@ -1130,10 +1049,10 @@ namespace TileManagement
 					return layer.HasTile(position);
 				}
 
-				TileLocation TileLcation = null;
-				TileLcation = GetCorrectTileLocationForLayer(position, layer);
+				TileLocation tileLocation = null;
+				tileLocation = GetCorrectTileLocationForLayer(position, layer);
 
-				if (TileLcation != null)
+				if (tileLocation != null)
 				{
 					return true;
 				}
@@ -1177,7 +1096,7 @@ namespace TileManagement
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 
-					if ((tileLocation == null || tileLocation.Tile == null) &&
+					if ((tileLocation == null || tileLocation.layerTile == null) &&
 					    layer.overlayStore.Contains(position) == false)
 					{
 						layer.overlayStore.Add(position);
@@ -1229,7 +1148,7 @@ namespace TileManagement
 
 					if (tileLocation != null)
 					{
-						overlayTile = tileLocation.Tile as OverlayTile;
+						overlayTile = tileLocation.layerTile as OverlayTile;
 
 						if (overlayTile != null && overlayTile.OverlayType == overlayType)
 						{
@@ -1282,7 +1201,7 @@ namespace TileManagement
 
 					if (tileLocation != null)
 					{
-						overlayTile = tileLocation.Tile as OverlayTile;
+						overlayTile = tileLocation.layerTile as OverlayTile;
 
 						if (overlayTile != null)
 						{
@@ -1336,7 +1255,7 @@ namespace TileManagement
 
 					if (tileLocation != null)
 					{
-						overlayTile = tileLocation.Tile as OverlayTile;
+						overlayTile = tileLocation.layerTile as OverlayTile;
 
 						if (overlayTile != null && overlayTile.OverlayType == overlayType)
 						{
@@ -1384,7 +1303,7 @@ namespace TileManagement
 
 					if (tileLocation != null)
 					{
-						overlayTile = tileLocation.Tile as OverlayTile;
+						overlayTile = tileLocation.layerTile as OverlayTile;
 
 						if (overlayTile != null && overlayTile.Equals(overlayTileWanted))
 						{
@@ -1432,7 +1351,7 @@ namespace TileManagement
 
 					if (tileLocation != null)
 					{
-						overlayTile = tileLocation.Tile as OverlayTile;
+						overlayTile = tileLocation.layerTile as OverlayTile;
 
 						if (overlayTile != null && overlayTile.OverlayType == overlayTypeWanted)
 						{
@@ -1452,23 +1371,10 @@ namespace TileManagement
 			return false;
 		}
 
-		public void NotifyRegisterTilePotentialMatrixChange(Vector3Int position)
-		{
-			if (Application.isPlaying && CustomNetworkManager.Instance._isServer)
-			{
-				foreach (var ServerObject in ObjectLayer.ServerObjects.Get(position))
-				{
-					ServerObject.customNetTransform.CheckMatrixSwitch();
-				}
-			}
-		}
-
-
 		//Use TileChangeManager Instead if you want to me networked
 		public void RemoveTile(Vector3Int position)
 		{
-			NotifyRegisterTilePotentialMatrixChange(position);
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
@@ -1498,58 +1404,54 @@ namespace TileManagement
 							return;
 						}
 					}
-
 					continue;
 				}
 
-
 				if (layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
 				{
-					TileLcation = GetTileExactLocationMultilayer(position, layer);
+					tileLocation = GetTileExactLocationMultilayer(position, layer);
 				}
 				else
 				{
 					lock (PresentTiles)
 					{
-						PresentTiles[layer].TryGetValue(position, out TileLcation);
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 				}
 
-
-				if (TileLcation != null)
+				if (tileLocation != null)
 				{
-					TileLcation.Tile = null;
-					TileLcation.OnStateChange();
+					tileLocation.layerTile = null;
+					ApplyTileChange(tileLocation);
 					return;
 				}
 			}
 		}
 
-		//Use TileChangeManager Instead if you want to me networked
 		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer)
 		{
 			if (refLayer == LayerType.Objects) return;
 
 			if (Layers.TryGetValue(refLayer, out var layer))
 			{
-				TileLocation TileLcation = null;
+				TileLocation tileLocation = null;
 
 				if (layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
 				{
-					TileLcation = GetTileExactLocationMultilayer(position, layer);
+					tileLocation = GetTileExactLocationMultilayer(position, layer);
 				}
 				else
 				{
 					lock (PresentTiles)
 					{
-						PresentTiles[layer].TryGetValue(position, out TileLcation);
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 				}
 
-				if (TileLcation != null)
+				if (tileLocation != null)
 				{
-					TileLcation.Tile = null;
-					TileLcation.OnStateChange();
+					tileLocation.layerTile = null;
+					ApplyTileChange(tileLocation);
 				}
 			}
 			else
@@ -1558,29 +1460,8 @@ namespace TileManagement
 			}
 		}
 
-		public void ClearAllTiles()
-		{
-			for (var i = 0; i < LayersValues.Length; i++)
-			{
-				lock (PresentTiles)
-				{
-					foreach (var keypar in PresentTiles[LayersValues[i]])
-					{
-						keypar.Value.Clean();
-						PooledTileLocation.Push(keypar.Value);
-					}
-
-					PresentTiles[LayersValues[i]].Clear();
-				}
-
-				LayersValues[i].ClearAllTiles();
-			}
-		}
-
 		public Vector3 LocalToWorld(Vector3 localPos) => LayersValues[0].LocalToWorld(localPos);
 		public Vector3 CellToWorld(Vector3Int cellPos) => LayersValues[0].CellToWorld(cellPos);
-		public Vector3 WorldToLocal(Vector3 worldPos) => LayersValues[0].WorldToLocal(worldPos);
-
 
 		public BoundsInt GetWorldBounds()
 		{
@@ -1588,7 +1469,7 @@ namespace TileManagement
 			//???
 			var min = CellToWorld(bounds.min);
 			var max = CellToWorld(bounds.max);
-			if (presentMatrix?.MatrixMove?.inProgressRotation != null)
+			if (matrix?.MatrixMove?.inProgressRotation != null)
 			{
 				Vector3Int TopRightMax = bounds.max;
 				Vector3Int BottomLeftMin = bounds.min;
@@ -1717,31 +1598,6 @@ namespace TileManagement
 				distance = (To.Value - origin).magnitude;
 			}
 
-			// var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(PresentMatrix));
-			// Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow, 30);
-			// Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
-
-			// var end = (new Vector3((float) To.Value.x, (float) To.Value.y, 0).ToWorld(PresentMatrix));
-			// Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
-			// Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
-
-			// Debug.DrawLine(Beginning, end, Color.magenta, 30);
-
-
-			Vector2 Relativetarget = To.Value - origin;
-			//custom code on tile to ask if it aptly got hit, if you want custom geometry
-//
-//What needs to be returned
-//What it hit, game object/tile
-//Normal of hit
-//Can be done quite easily since we know if me moving left or right
-
-//Static manager
-//Calculate if Within bounds of matrix?
-//End and start World pos
-//
-//Calculate offset to then put onto positions, Maybe each position gets its own Calculation
-
 			double RelativeX = 0;
 			double RelativeY = 0;
 
@@ -1769,26 +1625,23 @@ namespace TileManagement
 			{
 				gridOffsetx = -0.5d - Offsetuntouchx; //-0.5f
 				stepX = 1;
-				//sideDistX = (mapX + 1.0 - posX) * deltaDistX;
 			}
 
 			if (direction.y < 0)
 			{
 				gridOffsety = -(-0.5d + Offsetuntouchy); // 0.5f
 				stepY = -1;
-				//sideDistY = (posY - mapY) * deltaDistY;
 			}
 			else
 			{
 				gridOffsety = -0.5d - Offsetuntouchy; //-0.5f
 				stepY = 1;
-				//sideDistY = (mapY + 1.0 - posY) * deltaDistY;
 			}
 
 
 			var vec = Vector3Int.zero; //Tile it hit Local  Coordinates
 			var vecHit = Vector3.zero; //Coordinates of Edge tile hit
-			TileLocation TileLcation = null;
+			TileLocation tileLocation = null;
 
 			var vexinvX = (1d / (direction.x)); //Editions need to be done here for Working offset
 			var vexinvY = (1d / (direction.y)); //Needs to be conditional
@@ -1800,9 +1653,7 @@ namespace TileManagement
 
 			while (Math.Abs((xSteps + gridOffsetx + stepX) * vexinvX) < distance ||
 			       Math.Abs((ySteps + gridOffsety + stepY) * vexinvY) < distance)
-				//for (int Ai = 0; Ai < 6; Ai++)
 			{
-				//if (xBuildUp > yBuildUp)
 				if ((xSteps + gridOffsetx + stepX) * vexinvX < (ySteps + gridOffsety + stepY) * vexinvY
 				) // which one has a lesser multiplication factor since that will give a less Magnitude
 				{
@@ -1815,8 +1666,7 @@ namespace TileManagement
 
 					LeftFaceHit = true;
 				}
-				//else if (xBuildUp < yBuildUp)
-				else //if (xBuildUp < yBuildUp)
+				else
 				{
 					ySteps += stepY;
 					calculationFloat = ((ySteps + gridOffsety) * vexinvY);
@@ -1835,36 +1685,6 @@ namespace TileManagement
 				vecHit.y = origin.y + (float) RelativeY; // + offsetY;
 				//Check point here
 
-				if (LeftFaceHit)
-				{
-					// float TestX = ((vecHit.x - 0.5f) - Mathf.Floor(vecHit.x));
-
-					// if (0.05f < Math.Abs(TestX))
-					// {
-					// Logger.Log("Offsetuntouchx = " + Offsetuntouchx + "\n" + "directionx = " + direction.x + "\n" +
-					// "Step = " + xSteps + "\n" + "vexinv = " + vexinvX + "\n" + "offset = " + offsetX +
-					// "\n" + "\n" + "Test =" + TestX + "\n" + "Relative =" + (RelativeX)
-					// + "\n" + "\n"
-					// + " direction.x = " +  direction.x + " calculationFloat " + calculationFloat
-					// + "\n" + " xSteps " + xSteps + " gridOffsetx " + gridOffsetx  +"  vexinvX " + vexinvX);
-
-
-					// }
-				}
-				else
-				{
-					// float Testy = ((vecHit.y - 0.5f) - Mathf.Floor(vecHit.y));
-					// if (0.05f < Math.Abs(Testy))
-					// {
-					// Logger.Log("Offsetuntouchx = " + Offsetuntouchy + "\n" + "directionx = " + direction.y + "\n" +
-					// "Step = " + ySteps + "\n" + "vexinv = " + vexinvY + "\n" + "offset = " + offsetY +
-					// "\n" + "\n" + "Test =" + Testy + "\n" + "Relative =" + (RelativeY)
-					// + "\n" + "\n"
-					// + " direction.y = " +  direction.y + " calculationFloat " + calculationFloat
-					// + "\n" + " ySteps " + ySteps + " gridOffsety " + gridOffsety  +"  vexinvY " + vexinvY);
-					// }
-				}
-
 				for (var i = 0; i < LayersValues.Length; i++)
 				{
 					if (LayersValues[i].LayerType == LayerType.Objects) continue;
@@ -1872,32 +1692,13 @@ namespace TileManagement
 					{
 						lock (PresentTiles)
 						{
-							PresentTiles[LayersValues[i]].TryGetValue(vec, out TileLcation);
+							PresentTiles[LayersValues[i]].TryGetValue(vec, out tileLocation);
 						}
 
-						// var wold = (vecHit.ToWorld(PresentMatrix));
-						// Debug.DrawLine(wold + (Vector3.right * 0.09f), wold + (Vector3.left * 0.09f), Color.green, 30);
-						// Debug.DrawLine(wold + (Vector3.up * 0.09f), wold + (Vector3.down * 0.09f), Color.green, 30);
-
-
-						// if (LeftFaceHit)
-						// {
-						// Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
-						// }
-						// else
-						// {
-						// Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
-						// }
-
-						// ColorUtility.TryParseHtmlString("#ea9335", out var Orange);
-						// var map = ((Vector3) vec).ToWorld(PresentMatrix);
-						// Debug.DrawLine(map + (Vector3.right * 0.09f), map + (Vector3.left * 0.09f), Orange, 30);
-						// Debug.DrawLine(map + (Vector3.up * 0.09f), map + (Vector3.down * 0.09f), Orange, 30);
-
-						if (TileLcation != null)
+						if (tileLocation != null)
 						{
 							if (tileNamesToIgnore != null &&
-							    tileNamesToIgnore.Any(c => c.name == TileLcation?.Tile.name)) continue;
+							    tileNamesToIgnore.Any(c => c.name == tileLocation?.layerTile.name)) continue;
 
 							Vector2 normal;
 
@@ -1909,17 +1710,12 @@ namespace TileManagement
 							{
 								normal = Vector2.down * stepY;
 							}
+							Vector3 AdjustedNormal = ((Vector3) normal).ToWorld(matrix);
+							AdjustedNormal = AdjustedNormal - (Vector3.zero.ToWorld(matrix));
 
-
-							Vector3 AdjustedNormal = ((Vector3) normal).ToWorld(presentMatrix);
-							AdjustedNormal = AdjustedNormal - (Vector3.zero.ToWorld(presentMatrix));
-
-
-							// Debug.DrawLine(wold, wold + AdjustedNormal, Color.cyan, 30);
-
-							return new MatrixManager.CustomPhysicsHit(((Vector3) vec).ToWorld(presentMatrix),
-								(vecHit).ToWorld(presentMatrix), AdjustedNormal,
-								new Vector2((float) RelativeX, (float) RelativeY).magnitude, TileLcation);
+							return new MatrixManager.CustomPhysicsHit(((Vector3) vec).ToWorld(matrix),
+								(vecHit).ToWorld(matrix), AdjustedNormal,
+								new Vector2((float) RelativeX, (float) RelativeY).magnitude, tileLocation);
 						}
 					}
 				}
@@ -1956,12 +1752,12 @@ namespace TileManagement
 							if (getTile != null)
 							{
 								Tile = GetPooledTile();
-								Tile.TileCoordinates = localPlace;
-								Tile.PresentMetaTileMap = this;
-								Tile.PresentlyOn = layer;
-								Tile.Tile = getTile;
+								Tile.position = localPlace;
+								Tile.metaTileMap = this;
+								Tile.layer = layer;
+								Tile.layerTile = getTile;
 								Tile.Colour = layer.Tilemap.GetColor(localPlace);
-								Tile.TransformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
+								Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
 
 								if (isServer)
 								{
@@ -2072,7 +1868,7 @@ namespace TileManagement
 						{
 							foreach (var tileLocation in tileLocations)
 							{
-								var tile = tileLocation?.Tile;
+								var tile = tileLocation?.layerTile;
 								if (tile is T) tiles.Add(tile as T);
 							}
 						}
@@ -2080,13 +1876,13 @@ namespace TileManagement
 				}
 				else
 				{
-					TileLocation TileLcation = null;
+					TileLocation tileLocation = null;
 					lock (PresentTiles)
 					{
-						PresentTiles[layer].TryGetValue(position, out TileLcation);
+						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 
-					var tile = TileLcation.Tile;
+					var tile = tileLocation.layerTile;
 					if (tile is T) tiles.Add(tile as T);
 				}
 			}
@@ -2100,7 +1896,7 @@ namespace TileManagement
 			int NewIndex = LookThroughList.Count;
 			for (var i = 0; i < NewIndex; i++)
 			{
-				if (LookThroughList[i]?.Tile == null)
+				if (LookThroughList[i]?.layerTile == null)
 				{
 					return (i);
 				}
@@ -2115,10 +1911,10 @@ namespace TileManagement
 			if (layerType == LayerType.Objects) return null;
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				TileLocation TileLcation = null;
-				TileLcation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
+				TileLocation tileLocation = null;
+				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
 
-				return TileLcation?.TransformMatrix;
+				return tileLocation?.transformMatrix;
 			}
 			else
 			{

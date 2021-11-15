@@ -135,16 +135,5 @@ namespace Systems.Scenes
 
 			return newMap;
 		}
-
-		public void ClearMap(bool complete)
-		{
-
-			topMap.ClearAllTiles();
-			//botMap.ClearAllTiles();
-			if (complete)
-			{
-				terrainMap = null;
-			}
-		}
 	}
 }

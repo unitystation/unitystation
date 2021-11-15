@@ -162,31 +162,6 @@ public class ObjectLayer : Layer
 		return true;
 	}
 
-	public bool IsSpaceAt(Vector3Int position, bool isServer)
-	{
-		return IsAtmosPassableAt(position, position, isServer);
-	}
-
-	public override void ClearAllTiles()
-	{
-		for (var i = 0; i < ClientObjects.AllObjects.Count; i++)
-		{
-			RegisterTile obj = ClientObjects.AllObjects[i];
-			if (obj != null)
-			{
-				DestroyImmediate(obj.gameObject);
-			}
-		}
-		for (var i = 0; i < ServerObjects.AllObjects.Count; i++)
-		{
-			RegisterTile obj = ServerObjects.AllObjects[i];
-			if (obj != null)
-			{
-				DestroyImmediate(obj.gameObject);
-			}
-		}
-	}
-
 	public override void RecalculateBounds()
 	{
 

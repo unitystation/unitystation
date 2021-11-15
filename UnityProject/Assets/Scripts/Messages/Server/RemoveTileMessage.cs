@@ -13,50 +13,21 @@ namespace Messages.Server
 			public uint MatrixSyncNetId;
 		}
 
-		public static List<delayedData> DelayedStuff = new List<delayedData>();
-
-		public struct delayedData
-		{
-			public Vector3 Position;
-			public LayerType LayerType;
-			public uint MatrixSyncNetId;
-			public delayedData(Vector3 inPosition, LayerType inLayerType, uint inMatrixSyncNetId)
-			{
-				Position = inPosition;
-				LayerType = inLayerType;
-				MatrixSyncNetId = inMatrixSyncNetId;
-			}
-		}
 		public override void Process(NetMessage msg)
 		{
+			if (CustomNetworkManager.IsServer)
+			{
+				return;
+			}
 			LoadNetworkObject(msg.MatrixSyncNetId);
+			//client hasnt finished loading the scene, it'll ask for the bundle of changes aftewards
 			if (NetworkObject == null)
-			{
-				DelayedStuff.Add(new delayedData(msg.Position, msg.LayerType, msg.MatrixSyncNetId));
-			}
-			else
-			{
-				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-				tileChangerManager.InternalRemoveTile(msg.Position, msg.LayerType);
-				TryDoNotDoneTiles();
-			}
+				return;
+
+			var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
+			tileChangerManager.MetaTileMap.RemoveTileWithlayer(msg.Position.RoundToInt(), msg.LayerType);
 		}
 
-		public void TryDoNotDoneTiles()
-		{
-			for (int i = 0; i < DelayedStuff.Count; i++)
-			{
-				NetworkObject = null;
-				LoadNetworkObject(DelayedStuff[i].MatrixSyncNetId);
-				if (NetworkObject != null)
-				{
-					var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-					tileChangerManager.InternalRemoveTile(DelayedStuff[i].Position, DelayedStuff[i].LayerType);
-					DelayedStuff.RemoveAt(i);
-					i--;
-				}
-			}
-		}
 
 		public static NetMessage Send(uint matrixSyncNetId, Vector3 position, LayerType layerType)
 		{
@@ -66,7 +37,6 @@ namespace Messages.Server
 				LayerType = layerType,
 				MatrixSyncNetId = matrixSyncNetId
 			};
-
 			SendToAll(msg);
 			return msg;
 		}
