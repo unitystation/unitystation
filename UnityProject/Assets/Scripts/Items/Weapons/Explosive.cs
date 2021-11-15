@@ -183,6 +183,14 @@ namespace Items.Weapons
 				explosiveGUI.ServerPerformInteraction(interaction);
 				return;
 			}
+
+			//incase we forgot to pair while the C4 is on the wall
+			if (isOnObject && detonateImmediatelyOnSignal &&
+			    interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
+			{
+				Emitter = emitter;
+				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
+			}
 			//The progress bar that triggers Preform()
 			//Must not be interrupted for it to work.
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
