@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: parrot
+  registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 30
   doRandomActionWhenInTask: 1
@@ -190,6 +191,17 @@ PrefabInstance:
       propertyPath: EatFoodA.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: foodPreferences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: foodPreferences.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8476979d3fdab5c4bbcb12e844fed9cf,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64d782023543d4542b89ce3f9402b084, type: 3}
