@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NaughtyAttributes;
-using ScriptableObjects;
-using UnityEditor;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace ScriptableObjects.Systems.Spells
 {

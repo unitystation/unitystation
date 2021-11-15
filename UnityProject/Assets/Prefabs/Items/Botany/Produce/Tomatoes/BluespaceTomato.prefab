@@ -110,6 +110,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1469853839509517426, guid: be29a54809c5bfa4ba2d9fb3f1853261,
         type: 3}
+    - target: {fileID: 5551815260365209418, guid: 214b68550d061cb4dbcadfb70e4473b5,
+        type: 3}
+      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e1e8ec5001d527c068ccd89adbbc2461,
+        type: 2}
     - target: {fileID: 6106037996781547947, guid: 214b68550d061cb4dbcadfb70e4473b5,
         type: 3}
       propertyPath: foreverID

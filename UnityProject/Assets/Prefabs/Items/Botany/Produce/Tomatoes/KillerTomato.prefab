@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4082501454514706868, guid: 454947e247b8d27408f72041e753e7be,
+        type: 3}
+      propertyPath: fermentedReagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 32fa5437479bb97fa81b23ddc22fb0de,
+        type: 2}
     - target: {fileID: 53526953103084450, guid: 454947e247b8d27408f72041e753e7be,
         type: 3}
       propertyPath: initialName

@@ -16,6 +16,23 @@ MonoBehaviour:
     m_keys:
     - {fileID: 11400000, guid: f404090add8a06a26a3739a097558b8f, type: 2}
     m_values: 05000000
+--- !u!114 &8011537004590153809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5712032209254023650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FermentTime: 10
+  fermentedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: e93999e64602a55eba3f8021139e5822, type: 2}
+    m_values: 00000000
 --- !u!1001 &6862142478107303342
 PrefabInstance:
   m_ObjectHideFlags: 0
