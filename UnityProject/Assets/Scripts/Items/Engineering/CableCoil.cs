@@ -129,7 +129,7 @@ namespace Objects.Electrical
 						}
 					}
 
-					MsgAndAddToPool(ref eConnList, null);
+					MsgAndAddToPool(eConnList, null);
 					BuildCable(localPosInt, wireEndA, wireEndB, interaction);
 				}
 			}

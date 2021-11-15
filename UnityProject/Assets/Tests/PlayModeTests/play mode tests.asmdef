@@ -1,22 +1,18 @@
 {
-    "name": "Tests",
+    "name": "playmodetests",
     "rootNamespace": "",
     "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
         "Assets",
         "Mirror",
         "Mirror.Components",
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
         "Editor",
-        "Chemistry",
-        "SerializableDictionary",
         "Logger",
-        "NaughtyAttributes.Editor",
-        "NaughtyAttributes.Core"
+        "NaughtyAttributes.Core",
+        "NaughtyAttributes.Editor"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

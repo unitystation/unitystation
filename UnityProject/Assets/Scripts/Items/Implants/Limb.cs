@@ -32,7 +32,6 @@ namespace HealthV2
 		         "1 is a human leg.")]
 		private float legEfficiency = 1f;
 
-		private BodyPart bodyPart;
 		private PlayerHealthV2 playerHealth;
 
 		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)

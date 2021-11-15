@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bcd835b81fe71408841f69af610e37, type: 3}
+  m_Name: TestTest
+  m_EditorClassIdentifier: 
+  ShowKeyInput: 0
+  Key: 
+  TestActions:
+  - Key: 
+    Prefab: {fileID: 0}
+    NumberToSpawn: 1
+    PositionToSpawn: {x: 0, y: 0, z: 0}
+    StackableAmount: 1
+    SpecifiedAction: 1
+  - Key: 
+    Prefab: {fileID: 0}
+    NumberToSpawn: 1
+    PositionToSpawn: {x: 0, y: 0, z: 0}
+    StackableAmount: 1
+    SpecifiedAction: 2
