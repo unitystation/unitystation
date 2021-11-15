@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialMoodLevel: 0
+  initialMoodLevel: 50
   maxMoodLevel: 50
   isAffectedByDamage: 1
   moodOnHit: -10
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: mouse
+  registerObject: {fileID: 0}
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 30
   doRandomActionWhenInTask: 1
