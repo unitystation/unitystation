@@ -182,7 +182,6 @@ namespace HealthV2
 			if(IsBleeding)
 			{
 				InternalBleedingLogic();
-				//HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue); causes you to continue bleeding after hitting 0 bleedstacks
 			}
 
 		}
