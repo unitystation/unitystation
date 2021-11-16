@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -61,55 +63,71 @@ namespace Audio.Containers
         /// Sets all Sounds volume
         /// </summary>
         /// <param name="volume"></param>
-        public static void MasterVolume(float volume)
+        public static void MasterVolume(float volume, bool overwritePrefs = true)
         {
             Instance.audioMixer.SetFloat("Master_Volume", Mathf.Log10(volume) * 20);
-            PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
-            PlayerPrefs.Save();
+            if (overwritePrefs)
+            {
+                PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
+                PlayerPrefs.Save();
+            }
         }
 
         /// <summary>
         /// Sets Ambient Sounds volume
         /// </summary>
         /// <param name="volume"></param>
-        public static void AmbientVolume(float volume)
+        public static void AmbientVolume(float volume, bool overwritePrefs = true)
         {
             Instance.audioMixer.SetFloat("Ambient_Volume", Mathf.Log10(volume) * 20);
-            PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
-            PlayerPrefs.Save();
+            if (overwritePrefs)
+            {
+                PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
+                PlayerPrefs.Save();
+            }
         }
 
         /// <summary>
         /// Sets Sound FX volume
         /// </summary>
         /// <param name="volume"></param>
-        public static void SoundFXVolume(float volume)
+        public static void SoundFXVolume(float volume, bool overwritePrefs = true)
         {
             Instance.audioMixer.SetFloat("SoundFX_Volume", Mathf.Log10(volume) * 20);
-            PlayerPrefs.SetFloat(PlayerPrefKeys.SoundFXVolumeKey, volume);
-            PlayerPrefs.Save();
+            if (overwritePrefs)
+            {
+                PlayerPrefs.SetFloat(PlayerPrefKeys.SoundFXVolumeKey, volume);
+                PlayerPrefs.Save();
+            }
+            
         }
 
         /// <summary>
         /// Sets Music volume
         /// </summary>
         /// <param name="volume"></param>
-        public static void MusicVolume(float volume)
+        public static void MusicVolume(float volume, bool overwritePrefs = true)
         {
             Instance.audioMixer.SetFloat("Music_Volume", Mathf.Log10(volume) * 20);
-            PlayerPrefs.SetFloat(PlayerPrefKeys.MusicVolumeKey, volume);
-            PlayerPrefs.Save();
+            if (overwritePrefs)
+            {
+                PlayerPrefs.SetFloat(PlayerPrefKeys.MusicVolumeKey, volume);
+                PlayerPrefs.Save();
+            }
         }
 
         /// <summary>
         /// Sets TTS volume
         /// </summary>
         /// <param name="volume"></param>
-        public static void TtsVolume(float volume)
+        public static void TtsVolume(float volume, bool overwritePrefs = true)
         {
             Instance.audioMixer.SetFloat("TTS_Volume", Mathf.Log10(volume) * 20);
-            PlayerPrefs.SetFloat(PlayerPrefKeys.TtsVolumeKey, volume);
-            PlayerPrefs.Save();
+            if (overwritePrefs)
+            {
+                PlayerPrefs.SetFloat(PlayerPrefKeys.TtsVolumeKey, volume);
+                PlayerPrefs.Save();
+            }
         }
 
         /// <summary>
@@ -187,5 +205,21 @@ namespace Audio.Containers
             addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
             return addressableAudioSource;
         }
+        public async Task FadeMixerGroup(string exposedParam, float duration, float targetVolume)
+		{
+			float currentTimeMs = 0;
+			float currentVol;
+			audioMixer.GetFloat(exposedParam, out currentVol);
+			currentVol = Mathf.Pow(10, currentVol / 20);
+			float targetValue = Mathf.Clamp(targetVolume, 0.0001f, 1);
+			while (currentTimeMs < duration)
+			{
+				float newVol = Mathf.Lerp(currentVol, targetValue, currentTimeMs / duration);
+                currentTimeMs += 16f;
+				audioMixer.SetFloat(exposedParam, Mathf.Log10(newVol) * 20);
+                await Task.Delay(16); // Sleep for approx one frame (16 * 60 fps ~= 1000ms)
+			}
+            return;
+		}
     }
 }

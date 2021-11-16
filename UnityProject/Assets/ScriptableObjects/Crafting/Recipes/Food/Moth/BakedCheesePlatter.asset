@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: BakedCheesePlatter
+  m_EditorClassIdentifier: 
+  category: 21
+  craftingTime: 1
+  recipeName: "Stanntkrakt\xE6lo (Baked cheese platter)"
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 1451901068671368232, guid: b98a08b3dafb3364bab457d9e3eba3b9,
+      type: 3}
+  - requiredAmount: 3
+    requiredItem: {fileID: 6820213311377410443, guid: 9b4644e6dbd0b3e4d97348f3a667d755,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 1129621258546594492, guid: ca97eaf4916babe459dab1c7b889f955, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 357

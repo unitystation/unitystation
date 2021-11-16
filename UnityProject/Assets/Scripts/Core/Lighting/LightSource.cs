@@ -338,7 +338,7 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("A NRE was caught in LightSource.TryRemoveBulb(): " + exception.Message, Category.Lighting);
+				Logger.LogError($"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}", Category.Lighting);
 			}
 		}
 

@@ -464,7 +464,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError("Caught NRE in DynamicItemStorage.Remove: " + exception.Message, Category.Inventory);
+			Logger.LogError($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}", Category.Inventory);
 			return;
 		}
 

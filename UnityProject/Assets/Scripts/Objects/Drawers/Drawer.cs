@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
+using Random = UnityEngine.Random;
 
 namespace Objects.Drawers
 {
@@ -227,7 +229,7 @@ namespace Objects.Drawers
 			}
 		}
 
-		public void EntityTryEscape(GameObject entity)
+		public void EntityTryEscape(GameObject entity,Action ifCompleted)
 		{
 			if (entity.Player() != null)
 			{

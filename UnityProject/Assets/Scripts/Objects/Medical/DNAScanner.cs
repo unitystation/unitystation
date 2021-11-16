@@ -195,7 +195,7 @@ namespace Objects.Medical
 			}
 		}
 
-		public void EntityTryEscape(GameObject entity)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted)
 		{
 			occupant = null;
 			closet.SetDoor(ClosetControl.Door.Opened);

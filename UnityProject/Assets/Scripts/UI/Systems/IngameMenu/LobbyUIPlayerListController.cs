@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using Mirror;
 using UnityEngine;
 using TMPro;
 using ServerInfo;
@@ -41,9 +42,25 @@ public class LobbyUIPlayerListController : MonoBehaviour
 			var c = playerEntry.GetComponent<LobbyUIListTemplate>();
 			c.playerName.text = $"{player.Tag} {player.UserName}";
 			c.playerNumber.text = i.ToString();
+			c.playerPing.text = player.PingToServer >= 0 ? $"{player.PingToServer}ms" : "NaN";
 			playerEntryList.Add(player, c);
-
 			playerEntry.transform.SetParent(playerTemplate.transform.parent, false);
 		}
 	}
+
+	public IEnumerator RefreshPing(GameObject list)
+	{
+		yield return WaitFor.Seconds(5f);
+		if (list.activeSelf)
+		{
+			UpdatePingList();
+			GenerateList();
+			StartCoroutine(RefreshPing(list));
+		}
+	}
+	private void UpdatePingList()
+	{
+		Messages.Client.PingMessage.Send();
+	}
+
 }

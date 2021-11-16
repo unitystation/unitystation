@@ -94,6 +94,5 @@ namespace Objects
 		}
 
 		#endregion
-
 	}
 }

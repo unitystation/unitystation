@@ -282,7 +282,7 @@ namespace Messages.Client.Interaction
 				}
 				catch (NullReferenceException exception)
 				{
-					Logger.LogError("Caught a NRE in RequestInteractMessage.Process(): " + exception.Message, Category.Interaction);
+					Logger.LogError($"Caught a NRE in RequestInteractMessage.Process(): {exception.Message} \n {exception.StackTrace}", Category.Interaction);
 				}
 			}
 			else if (InteractionType == typeof(TileMouseDrop))

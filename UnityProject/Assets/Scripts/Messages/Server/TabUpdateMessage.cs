@@ -122,7 +122,7 @@ namespace Messages.Server
 					if (instance == null)
 					{
 						Logger.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
-								$"Does the tab prefab match the type '{type}'? Expecting prefab name 'Tab{type}' in a specific folder.");
+								$"Does the tab prefab match the type '{type}'? Make sure that 'Tab{type}' is listed inside the NetTabs SO.");
 						return default;
 					}
 					values = instance.ElementValues;
@@ -140,7 +140,7 @@ namespace Messages.Server
 						validate = Validations.CanApply(new AiActivate(recipient, null,
 							provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server);
 					}
-					
+
 					if (!validate)
 					{
 						Send(recipient, provider, type, TabAction.Close);
