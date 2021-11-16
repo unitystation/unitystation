@@ -95,7 +95,7 @@ public static class AtmosThread
 			}
 			catch (Exception e)
 			{
-				Logger.LogError(e.ToString(), Category.Atmos);
+				Logger.LogError($"Atmos Thread Error! \n{e}", Category.Atmos);
 			}
 
 			StopWatch.Stop();
