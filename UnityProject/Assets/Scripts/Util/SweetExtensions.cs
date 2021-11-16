@@ -542,6 +542,6 @@ public static class SweetExtensions
 	/// </summary>
 	public static string GetStack(this Exception source)
 	{
-		return $"{source.Message} + {source.StackTrace}";
+		return $"{source.Message}\n{source.StackTrace}";
 	}
 }
