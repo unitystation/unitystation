@@ -65,7 +65,7 @@ namespace Systems.Electricity
 						}
 						catch (Exception e)
 						{
-							Logger.LogError($"Electrical MainThreadProcess Error! \n{e}", Category.Electrical);
+							Logger.LogError($"Electrical MainThreadProcess Error! \n{e.GetStack()}", Category.Electrical);
 						}
 
 						electricalSync.MainThreadProcess = false;
