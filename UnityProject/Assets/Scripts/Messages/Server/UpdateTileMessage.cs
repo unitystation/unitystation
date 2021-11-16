@@ -112,4 +112,90 @@ namespace Messages.Server
 			return msg;
 		}
 	}
+
+	public static class UpdateTileMessageReaderWriters
+	{
+
+		public enum EnumOperation
+		{
+			Colour = 1,
+			Matrix4x4 = 2,
+			NoMoreData = 255,
+		}
+
+		public static UpdateTileMessage.NetMessage Deserialize(this NetworkReader reader)
+		{
+			var message = new UpdateTileMessage.NetMessage();
+			message.Changes = new List<UpdateTileMessage.DelayedData>();
+			message.MatrixSyncNetID = reader.ReadUInt();
+			while (true)
+			{
+				var Continue = reader.ReadBool();
+				if (Continue == false)
+				{
+					break;
+				}
+
+				var WorkingOn = new UpdateTileMessage.DelayedData
+				{
+					Position = reader.ReadVector3Int(),
+					TileType = (TileType) reader.ReadInt(),
+					layerType = (LayerType) reader.ReadInt(),
+					TileName = reader.ReadString(),
+					TransformMatrix = Matrix4x4.identity,
+					Colour = Color.white
+				};
+
+				while (true)
+				{
+					byte Operation = reader.ReadByte();
+
+					if (Operation == (byte)EnumOperation.NoMoreData)
+					{
+						break;
+					}
+
+					if (Operation == (byte)EnumOperation.Colour)
+					{
+						WorkingOn.Colour = reader.ReadColor();
+					}
+
+					if (Operation == (byte)EnumOperation.Matrix4x4)
+					{
+						WorkingOn.TransformMatrix = reader.ReadMatrix4x4();
+					}
+				}
+				message.Changes.Add(WorkingOn);
+			}
+
+			return message;
+		}
+
+		public static void Serialize(this NetworkWriter writer, UpdateTileMessage.NetMessage message)
+		{
+			writer.WriteUInt(message.MatrixSyncNetID);
+			foreach (var delayedData in message.Changes)
+			{
+				writer.WriteBool(true);
+				writer.WriteVector3Int(delayedData.Position);
+				writer.WriteInt((int)delayedData.TileType);
+				writer.WriteInt((int)delayedData.layerType);
+				writer.WriteString(delayedData.TileName);
+
+				if (delayedData.Colour != Color.white)
+				{
+					writer.WriteByte((byte) EnumOperation.Colour);
+					writer.WriteColor(delayedData.Colour);
+				}
+
+				if (delayedData.TransformMatrix != Matrix4x4.identity)
+				{
+					writer.WriteByte((byte) EnumOperation.Matrix4x4);
+					writer.WriteMatrix4x4(delayedData.TransformMatrix);
+				}
+				writer.WriteByte((byte) EnumOperation.NoMoreData);
+			}
+			writer.WriteBool(false);
+		}
+	}
 }
