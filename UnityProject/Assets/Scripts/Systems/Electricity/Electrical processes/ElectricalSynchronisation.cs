@@ -151,7 +151,7 @@ namespace Systems.Electricity
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($"Electrical Thread Error! \n{e.GetStack()}", Category.Electrical);
+					Logger.LogError($"Electrical Thread Error! {e.GetStack()}", Category.Electrical);
 				}
 
 				StopWatch.Stop();
