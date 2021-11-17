@@ -13,7 +13,7 @@ namespace Managers
 	public class TimedEventsManager : SingletonManager<TimedEventsManager>
 	{
 		[SerializeField] private List<TimedGameEventSO> events;
-		private List<TimedGameEventSO> activeEvents;
+		private List<TimedGameEventSO> activeEvents = new List<TimedGameEventSO>();
 
 		public List<TimedGameEventSO> ActiveEvents => activeEvents;
 
