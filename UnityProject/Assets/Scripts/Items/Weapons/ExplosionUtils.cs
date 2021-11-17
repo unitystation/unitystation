@@ -41,8 +41,7 @@ namespace Systems.Explosions
 
 				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, distantSoundAudioSourceParameters);
 			}
-
-
+			
 			//Furthest away sound
 			if (groanSound != null)
 			{
