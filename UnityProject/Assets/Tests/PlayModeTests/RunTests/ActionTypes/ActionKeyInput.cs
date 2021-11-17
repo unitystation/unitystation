@@ -15,7 +15,7 @@ public partial class TestAction
 	[System.Serializable]
 	public class KeyInput
 	{
-		public string Key;
+		public KeyCode Key;
 		public bool InitiateKeyInput(TestRunSO TestRunSO)
 		{
 			return true;

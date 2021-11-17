@@ -24,7 +24,6 @@ public partial class TestAction
 		{
 			case ActionType.SpawnX:
 				return InitiateSpawnX(TestRunSO);
-				break;
 			case ActionType.KeyInput:
 				return InitiateKeyInput(TestRunSO);
 			case ActionType.PrefabAt:
