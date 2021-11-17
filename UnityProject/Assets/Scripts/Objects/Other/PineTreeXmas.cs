@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Grpc.Core;
 using Managers;
 using Mirror;
 using ScriptableObjects.TimedGameEvents;
@@ -12,6 +13,7 @@ namespace Objects.Other
 	{
 		[SerializeField] private SpriteDataSO xmasSpriteSO;
 		[SerializeField] private TimedGameEventSO eventData;
+		[SerializeField] private GameObject giftObject;
 
 		[SyncVar] private List<string> giftedPlayers;
 		private bool canPickUpGifts;
@@ -42,6 +44,7 @@ namespace Objects.Other
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			Inventory.ServerSpawnPrefab(giftObject, interaction.HandSlot);
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You pick up a gift with your name on it.",
 				$"{interaction.PerformerPlayerScript.visibleName} picks up a gift with {interaction.PerformerPlayerScript.characterSettings.TheirPronoun(interaction.PerformerPlayerScript)} name on it.");

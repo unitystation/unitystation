@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b81bfd754531a48bc9df4fa2fbe0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   xmasSpriteSO: {fileID: 11400000, guid: 34e0ef91f28c3ff4db15d6d4f912b0f7, type: 2}
   eventData: {fileID: 11400000, guid: 440986ae9cbf9ba4f928e02db8e0a63b, type: 2}
+  giftObject: {fileID: 7230278577656183976, guid: baa3399d046d8c44ab18769f3e8210c5,
+    type: 3}
 --- !u!1001 &7242346333662327985
 PrefabInstance:
   m_ObjectHideFlags: 0

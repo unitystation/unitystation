@@ -10,6 +10,7 @@ namespace Managers
 	/// <summary>
 	/// Manager that handles timed game events that only happen under a specific time of the year/month/week/day
 	/// </summary>
+	/// TODO : Allow admins to create and save events for their sever
 	public class TimedEventsManager : SingletonManager<TimedEventsManager>
 	{
 		[SerializeField] private List<TimedGameEventSO> events;
