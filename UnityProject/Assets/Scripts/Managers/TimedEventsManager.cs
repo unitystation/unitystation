@@ -1,0 +1,38 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using ScriptableObjects.TimedGameEvents;
+
+namespace Managers
+{
+	/// <summary>
+	/// Manager that handles timed game events that only happen under a specific time of the year/month/week/day
+	/// </summary>
+	public class TimedEventsManager : SingletonManager<TimedEventsManager>
+	{
+		[SerializeField] private List<TimedGameEventSO> events;
+		private List<TimedGameEventSO> activeEvents;
+
+		public List<TimedGameEventSO> ActiveEvents => activeEvents;
+
+
+		public override void Awake()
+		{
+			base.Awake();
+			UpdateActiveEvents();
+		}
+
+		public void UpdateActiveEvents()
+		{
+			foreach (TimedGameEventSO eventSo in events)
+			{
+				if ((int)eventSo.Month != DateTime.Now.Month) continue;
+				if (DateTime.Today.Day.IsBetween(eventSo.DayOfMonthStart, eventSo.DayOfMonthEnd) == false) continue;
+				activeEvents.Add(eventSo);
+			}
+		}
+	}
+}
+
