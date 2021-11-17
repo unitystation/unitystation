@@ -17,16 +17,22 @@ namespace UI.Systems
 
 		private List<EventEntry> entries = new List<EventEntry>();
 
-		private void OnEnable()
+		private IEnumerator Start()
 		{
-			if (TimedEventsManager.Instance.ActiveEvents.Count == 0)
+			//we do this to avoid the error that happens on the lobby screen on start
+			yield return WaitFor.Seconds(2f);
+			CheckIfTheresAnEventOnStarting();
+		}
+
+		private void CheckIfTheresAnEventOnStarting()
+		{
+			buttonList.SetActive(true);
+			if (TimedEventsManager.Instance.ActiveEvents.Count <= 0)
 			{
 				MOTDPage.SetActive(true);
 				buttonList.SetActive(false);
 				eventsPage.SetActive(false);
-				return;
 			}
-			buttonList.SetActive(true);
 		}
 
 		public void OnButtonShowEventList()
