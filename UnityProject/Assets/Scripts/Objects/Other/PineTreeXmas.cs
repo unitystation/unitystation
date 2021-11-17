@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using AddressableReferences;
+using Audio.Containers;
 using Grpc.Core;
 using Managers;
 using Mirror;
@@ -14,6 +17,7 @@ namespace Objects.Other
 		[SerializeField] private SpriteDataSO xmasSpriteSO;
 		[SerializeField] private TimedGameEventSO eventData;
 		[SerializeField] private GameObject giftObject;
+		[SerializeField] private AddressableAudioSource ambientReminder;
 
 		[SyncVar] private List<string> giftedPlayers = new List<string>();
 		private bool canPickUpGifts;
@@ -27,7 +31,18 @@ namespace Objects.Other
 			{
 				canPickUpGifts = true;
 				spriteHandler.SetSpriteSO(xmasSpriteSO);
+				PlayEasterEgg();
 			}
+		}
+
+		private async void PlayEasterEgg()
+		{
+			await Task.Delay(60 * 1000); // millaseconds
+			if (DMMath.Prob(10))
+			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(ambientReminder, gameObject.WorldPosServer());
+			}
+			PlayEasterEgg();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
