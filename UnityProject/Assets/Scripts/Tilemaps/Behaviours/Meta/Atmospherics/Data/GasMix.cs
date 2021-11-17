@@ -87,7 +87,7 @@ namespace Systems.Atmospherics
 
 		public GasMix(float volume = AtmosConstants.TileVolume, float temperature = Reactions.KOffsetC + 20)
 		{
-			GasData = new GasData();
+			GasData = new GasData(0);
 			Volume = volume;
 			Temperature = temperature;
 		}

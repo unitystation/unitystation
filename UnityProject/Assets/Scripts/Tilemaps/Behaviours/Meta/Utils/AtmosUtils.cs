@@ -327,7 +327,7 @@ namespace Systems.Atmospherics
 		/// <param name="oldData"></param>
 		public static GasData Copy(this GasData oldData)
 		{
-			var newGasData = new GasData();
+			var newGasData = new GasData(oldData.GasesDict.Count);
 
 			foreach (var value in oldData.Gases)
 			{

@@ -101,7 +101,7 @@ namespace Systems.Pipes
 
 			mix.Add(mixAndVolume.mix);
 
-			var newOne = new GasData();
+			var newOne = new GasData(gasMix.Gases.Count);
 
 			foreach (var gasData in gasMix.Gases)
 			{
@@ -130,8 +130,8 @@ namespace Systems.Pipes
 
 			var returnMix = mix.Take(mix.Total * percentage);
 
-			var newOne = new GasData();
-			var removeNewOne = new GasData();
+			var newOne = new GasData(gasMix.Gases.Count);
+			var removeNewOne = new GasData(gasMix.Gases.Count);
 
 			foreach (var gasData in gasMix.Gases)
 			{
@@ -161,7 +161,7 @@ namespace Systems.Pipes
 
 			mix.Divide(divideAmount);
 
-			var newOne = new GasData();
+			var newOne = new GasData(gasMix.Gases.Count);
 
 			foreach (var gasData in gasMix.Gases)
 			{
@@ -181,7 +181,7 @@ namespace Systems.Pipes
 
 			mix.Multiply(multiplyAmount);
 
-			var newOne = new GasData();
+			var newOne = new GasData(gasMix.Gases.Count);
 
 			foreach (var gasData in gasMix.Gases)
 			{

@@ -38,13 +38,23 @@ namespace Systems.Atmospherics
 	public class GasData
 	{
 		//For editor serialisation, used to fill the GasesBag if necessary
-		public List<GasValues> GasesArray = new List<GasValues>();
+		[SerializeField]
+		private List<GasValues> GasesArray;
 
 		//Used for quick iteration
-		public ConcurrentBag<GasValues> Gases = new ConcurrentBag<GasValues>();
+		public ConcurrentBag<GasValues> Gases;
 
 		//Used for fast look up for specific gases
-		public Dictionary<int, GasValues> GasesDict = new Dictionary<int, GasValues>();
+		public Dictionary<int, GasValues> GasesDict;
+
+		public GasData(int amountOfGases)
+		{
+			//Null to save memory as we only need this in editor
+			GasesArray = null;
+
+			Gases = new ConcurrentBag<GasValues>();
+			GasesDict = new Dictionary<int, GasValues>(amountOfGases);
+		}
 
 		public void RegenerateDict()
 		{
@@ -64,7 +74,16 @@ namespace Systems.Atmospherics
 			}
 
 			//TODO Unity 2021.2 has .NET standard 2.1 which has a .Clear() method
-			Gases = new ConcurrentBag<GasValues>();
+			//Gases.Clear();
+
+			//TODO can do this but will GC
+			//Gases = new ConcurrentBag<GasValues>();
+
+			//TODO Or can do this so no GC
+			while (Gases.IsEmpty == false)
+			{
+				Gases.TryTake(out _);
+			}
 
 			GasesDict.Clear();
 		}
