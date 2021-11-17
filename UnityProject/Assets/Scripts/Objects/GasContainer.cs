@@ -65,6 +65,7 @@ namespace Objects.Atmospherics
 			registerObject = GetComponent<RegisterObject>();
 			pickupable = GetComponent<Pickupable>();
 			integrity = GetComponent<Integrity>();
+			StoredGasMix.SetUp();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -189,7 +190,15 @@ namespace Objects.Atmospherics
 		private void Validate()
 		{
 			Undo.RecordObject(gameObject, "Gas Change");
+
+			//Get the serialised values
+			StoredGasMix.SetUp();
+
+			//Do the gasMix math
 			StoredGasMix = GasMix.FromTemperature(StoredGasMix.GasData, Temperature, Volume);
+
+			//Update the serialised values
+			StoredGasMix.GasData.UpdateSerialised();
 		}
 #endif
 		public void UpdateGasMix()

@@ -28,6 +28,7 @@ namespace ScriptableObjects.Atmospherics
 
 		private void OnEnable()
 		{
+			//Sets up the gas ConcurrentBag using the serialised list from the inspector
 			gasMix.SetUp();
 		}
 

@@ -10,6 +10,8 @@ namespace Systems.Atmospherics
 {
 	/// <summary>
 	/// Represents a mix of gases
+	///
+	/// IF THIS IS BEING SET IN INSPECTOR CALL SetUp() in AWAKE
 	/// </summary>
 	[Serializable]
 	public class GasMix
@@ -92,6 +94,9 @@ namespace Systems.Atmospherics
 			Temperature = temperature;
 		}
 
+		/// <summary>
+		/// Set up the gas ConcurrentBag using the serialised list from the inspector
+		/// </summary>
 		public void SetUp()
 		{
 			GasData.SetUp();

@@ -34,6 +34,12 @@ namespace Systems.Atmospherics
 		public static GasSO Freon => GasesSingleton.Instance.Freon;
 	}
 
+	/// <summary>
+	/// Holds the moles and gasSO of gases
+	/// Has a dictionary for fast look up, and ConcurrentBag for thread-safe iteration
+	///
+	/// IF THIS IS BEING SET IN INSPECTOR CALL SetUp() in AWAKE
+	/// </summary>
 	[Serializable]
 	public class GasData
 	{
@@ -88,12 +94,25 @@ namespace Systems.Atmospherics
 			GasesDict.Clear();
 		}
 
+		/// <summary>
+		/// Set up the gas ConcurrentBag using the serialised list from the inspector
+		/// </summary>
 		public void SetUp()
 		{
+			Clear();
+
 			foreach (var gas in GasesArray)
 			{
-				Gases.Add(gas);
+				this.SetMoles(gas.GasSO, gas.Moles);
 			}
+		}
+
+		/// <summary>
+		/// Updates the serialised list for the inspector
+		/// </summary>
+		public void UpdateSerialised()
+		{
+			GasesArray = Gases.ToList();
 		}
 	}
 
