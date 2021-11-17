@@ -544,7 +544,7 @@ public static class SweetExtensions
 	/// </summary>
 	public static void Remove<T>(this ConcurrentBag<T> source, T toRemove)
 	{
-		if(source.IsEmpty) return;
+		if (source.IsEmpty) return;
 
 		//GC's oh well
 		var temp = new List<T>(source.Count - 1);
@@ -554,7 +554,7 @@ public static class SweetExtensions
 		{
 			source.TryTake(out var y);
 
-			if(y.Equals(toRemove)) continue;
+			if (y.Equals(toRemove)) continue;
 
 			temp.Add(y);
 		}
@@ -563,7 +563,8 @@ public static class SweetExtensions
 		{
 			source.Add(item);
 		}
-		
+	}
+
 	/// <summary>
 	/// Gets the message and stacktrace of the exception
 	/// </summary>
