@@ -66,7 +66,7 @@ namespace Items.Cargo.Wrapping
 				.ServerStartProgress(ActionTarget.Object(performer.RegisterTile()), timeToUnwrap, performer);
 		}
 
-		protected abstract void UnWrap();
+		public abstract void UnWrap();
 
 		/// <summary>
 		/// Used to get the content of the current package. If no content was set, then it will try to generate

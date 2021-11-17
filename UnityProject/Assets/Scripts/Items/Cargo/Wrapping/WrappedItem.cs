@@ -20,7 +20,7 @@ namespace Items.Cargo.Wrapping
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
 		}
 
-		protected override void UnWrap()
+		public override void UnWrap()
 		{
 			PlayUnwrappingSound();
 			var unwrapped = GetOrGenerateContent();

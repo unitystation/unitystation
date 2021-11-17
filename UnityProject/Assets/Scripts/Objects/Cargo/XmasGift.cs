@@ -24,7 +24,7 @@ namespace Items.Cargo
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			gift.ServerPerformInteraction(interaction);
+			gift.UnWrap();
 		}
 	}
 }
