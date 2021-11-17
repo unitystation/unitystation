@@ -59,7 +59,15 @@ namespace Systems.Electricity
 				{
 					lock (ElectricalLock)
 					{
-						electricalSync.PowerNetworkUpdate();
+						try
+						{
+							electricalSync.PowerNetworkUpdate();
+						}
+						catch (Exception e)
+						{
+							Logger.LogError($"Electrical MainThreadProcess Error! {e.GetStack()}", Category.Electrical);
+						}
+
 						electricalSync.MainThreadProcess = false;
 						Monitor.Pulse(ElectricalLock);
 					}

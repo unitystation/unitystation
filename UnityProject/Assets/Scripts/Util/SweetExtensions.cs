@@ -563,5 +563,12 @@ public static class SweetExtensions
 		{
 			source.Add(item);
 		}
+		
+	/// <summary>
+	/// Gets the message and stacktrace of the exception
+	/// </summary>
+	public static string GetStack(this Exception source)
+	{
+		return $"{source.Message}\n{source.StackTrace}";
 	}
 }

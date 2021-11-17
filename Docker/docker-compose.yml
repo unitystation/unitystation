@@ -6,7 +6,9 @@ services:
     ports:
       - 7777:7777/udp
       - 7777:7777/tcp
+      - 7778:7778/tcp
     environment:
+      RCON_PASSWORD: $RCON_PASSWORD
       HUB_USERNAME: $HUB_USERNAME
       HUB_PASSWORD: $HUB_PASSWORD
       SERVER_NAME: Unitystation - EU02 Staging

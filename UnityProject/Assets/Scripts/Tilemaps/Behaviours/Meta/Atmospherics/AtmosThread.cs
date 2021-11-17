@@ -88,7 +88,16 @@ public static class AtmosThread
 		{
 			sampler.Begin();
 			StopWatch.Restart();
-			RunStep();
+
+			try
+			{
+				RunStep();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($"Atmos Thread Error! {e.GetStack()}", Category.Atmos);
+			}
+
 			StopWatch.Stop();
 			sampler.End();
 			if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)

@@ -5116,7 +5116,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &3535876737568715888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5131,10 +5130,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: portable generator
+  initialName: P.A.C.M.A.N
   initialDescription: A portable generator for emergency backup power.
   willHighlight: 1
   exportCost: 50
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &-3599987768168059985
@@ -5352,7 +5352,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   startAsOn: 0
-  plasmaConsumptionRate: 0.02
+  fuelConsumptionRate: 0.02
+  fuelTypes:
+  - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
   generatorRunSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorRun.prefab

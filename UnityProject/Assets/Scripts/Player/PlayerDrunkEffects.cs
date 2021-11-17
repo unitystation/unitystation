@@ -6,20 +6,20 @@ using Mirror;
 using CameraEffects;
 using Messages.Server;
 
-public class PlayerEatDrinkEffects : NetworkBehaviour
+public class PlayerDrunkEffects : NetworkBehaviour
 {
 	[Server]
-	public void ServerSendMessageToClient(GameObject client, int newValue)
+	public void ServerSendMessageToClient(GameObject client, float newValue)
 	{
-		PlayerEatDrinkEffectsServerMessage.Send(client, newValue);
+		PlayerDrunkServerMessage.Send(client, newValue);
 	}
 }
 
-public class PlayerEatDrinkEffectsServerMessage : ServerMessage<PlayerEatDrinkEffectsServerMessage.NetMessage>
+public class PlayerDrunkServerMessage : ServerMessage<PlayerDrunkServerMessage.NetMessage>
 {
 	public struct NetMessage : NetworkMessage
 	{
-		public int alcoholValue;
+		public float alcoholValue;
 	}
 
 	public override void Process(NetMessage msg)
@@ -32,7 +32,7 @@ public class PlayerEatDrinkEffectsServerMessage : ServerMessage<PlayerEatDrinkEf
 	/// <summary>
 	/// Send full update to a client
 	/// </summary>
-	public static NetMessage Send(GameObject clientConn, int newAlcoholValue)
+	public static NetMessage Send(GameObject clientConn, float newAlcoholValue)
 	{
 		NetMessage msg = new NetMessage
 		{

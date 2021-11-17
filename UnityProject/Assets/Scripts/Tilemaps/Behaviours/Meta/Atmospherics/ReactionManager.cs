@@ -19,14 +19,6 @@ namespace Systems.Atmospherics
 		private GameObject fireLight = null;
 		public GameObject FireLightPrefab => fireLight;
 
-		private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
-
-		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions =
-			new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
-		public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> Reactions => reactions;
-
-		private static readonly int FIRE_FX_Z = -2;
-
 		private TileChangeManager tileChangeManager;
 		public TileChangeManager TileChangeManager => tileChangeManager;
 		private MetaDataLayer metaDataLayer;

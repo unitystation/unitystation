@@ -19,7 +19,11 @@ namespace Objects.Engineering
 		[Tooltip("The rate of fuel this generator should consume.")]
 		[Range(0.01f, 0.1f)]
 		[SerializeField]
-		private float plasmaConsumptionRate = 0.02f;
+		private float fuelConsumptionRate = 0.02f;
+
+		[Tooltip("The types of fuel this generator can consume (traits).")]
+		[SerializeField]
+		private List<ItemTrait> fuelTypes = null;
 
 		private RegisterTile registerTile;
 		private ItemSlot itemSlot;
@@ -138,35 +142,15 @@ namespace Objects.Engineering
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.TargetObject != gameObject) return false;
-			if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
-
-			return true;
+			if (interaction.HandObject == null) return true;
+			if (Validations.HasAnyTrait(interaction.HandObject, fuelTypes)) return true;
+			
+			return false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
-			{
-				int amountTransfered;
-				var handStackable = interaction.HandObject.GetComponent<Stackable>();
-				if (itemSlot.Item)
-				{
-					var stackable = itemSlot.Item.GetComponent<Stackable>();
-					if (stackable.SpareCapacity == 0)
-					{
-						Chat.AddWarningMsgFromServer(interaction.Performer, "The generator sheet storage is full!");
-						return;
-					}
-					amountTransfered = stackable.ServerCombine(handStackable);
-				}
-				else
-				{
-					amountTransfered = handStackable.Amount;
-					Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
-				}
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
-			}
-			else if (securable.IsAnchored)
+			if (interaction.HandObject == null && securable.IsAnchored)
 			{
 				if (!isOn)
 				{
@@ -180,13 +164,41 @@ namespace Objects.Engineering
 					ToggleOff();
 				}
 			}
+			else
+			{
+				foreach (ItemTrait fuelType in fuelTypes)
+				{
+					if (Validations.HasItemTrait(interaction.HandObject, fuelType))
+					{
+						int amountTransfered;
+						var handStackable = interaction.HandObject.GetComponent<Stackable>();
+						if (itemSlot.Item)
+						{
+							var stackable = itemSlot.Item.GetComponent<Stackable>();
+							if (stackable.SpareCapacity == 0)
+							{
+								Chat.AddWarningMsgFromServer(interaction.Performer, "The generator sheet storage is full!");
+								return;
+							}
+							amountTransfered = stackable.ServerCombine(handStackable);
+						}
+						else
+						{
+							amountTransfered = handStackable.Amount;
+							Inventory.ServerTransfer(interaction.HandSlot, itemSlot, ReplacementStrategy.DropOther);
+						}
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
+					}
+				}
+			}
 		}
+
 
 		#endregion Interaction
 
 		private void UpdateMe()
 		{
-			fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
+			fuelAmount -= Time.deltaTime * fuelConsumptionRate;
 			if (fuelAmount <= 0)
 			{
 				ConsumeSheet();
