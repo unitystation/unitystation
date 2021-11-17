@@ -102,7 +102,7 @@ public class MatrixMove : ManagedBehaviour
 	public bool rcsModeActive;
 
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
+	public bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
 	private bool IsAutopilotEngaged => Target != TransformState.HiddenPos;
 	private bool IsMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 
@@ -826,6 +826,7 @@ public class MatrixMove : ManagedBehaviour
 		var oldState = clientState;
 
 		clientState = newState;
+		matrix.MetaTileMap.GlobalCachedBounds = null;
 		Logger.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Shuttles, this, newState);
 
 
@@ -911,6 +912,7 @@ public class MatrixMove : ManagedBehaviour
 			//				When serverState reaches its planned destination,
 			//				embrace all other updates like changed speed and rotation
 			serverState = serverTargetState;
+			matrix.MetaTileMap.GlobalCachedBounds = null;
 			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Shuttles, this, serverState);
 			NotifyPlayers();
 		}
@@ -985,7 +987,6 @@ public class MatrixMove : ManagedBehaviour
 			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Shuttles, this, desiredOrientation);
 
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, RotationEvent.Start));
-
 			RequestNotify();
 			return true;
 		}

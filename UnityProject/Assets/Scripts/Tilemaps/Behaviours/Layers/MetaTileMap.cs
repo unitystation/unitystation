@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using Objects.Atmospherics;
 using UnityEngine;
-using UnityEngine.Events;
-using Debug = UnityEngine.Debug;
 
 namespace TileManagement
 {
@@ -71,7 +69,7 @@ namespace TileManagement
 		public Matrix PresentMatrix => presentMatrix;
 
 		private BoundsInt? LocalCachedBounds;
-		private Bounds? GlobalCachedBounds;
+		public Bounds? GlobalCachedBounds;
 
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
@@ -1619,7 +1617,7 @@ namespace TileManagement
 		{
 			if (GlobalCachedBounds == null)
 			{
-				CacheGlobalBound();
+				return CacheGlobalBound();
 			}
 			return GlobalCachedBounds.Value;
 		}
@@ -1642,7 +1640,7 @@ namespace TileManagement
 			LocalCachedBounds = new BoundsInt(minPosition, maxPosition - minPosition);
 		}
 
-		public void CacheGlobalBound()
+		public Bounds CacheGlobalBound()
 		{
 			var localBound = GetLocalBounds();
 
@@ -1665,9 +1663,14 @@ namespace TileManagement
 					maxPosition = point;
 				}
 			}
-
 			var middlePoint = minPosition + (maxPosition - minPosition) / 2;
-			GlobalCachedBounds = new Bounds(middlePoint, maxPosition - minPosition);
+			var newGlobalBounds = new Bounds(middlePoint, maxPosition - minPosition);
+			if (presentMatrix.MatrixMove == null || (presentMatrix.MatrixMove.IsMovingServer == false && presentMatrix.MatrixMove.IsRotatingServer == false))
+			{
+				GlobalCachedBounds = newGlobalBounds;
+			}
+
+			return newGlobalBounds;
 		}
 
 		public Vector3Int WorldToCell(Vector3 worldPosition)
