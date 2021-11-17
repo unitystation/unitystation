@@ -958,14 +958,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdTriggerStorageTrap(IEnumerable<ItemSlot> slots, GameObject player)
+	public void CmdTriggerStorageTrap(GameObject storage)
 	{
-		foreach (var slot in slots)
+		//Probably want to put a validations check here to make sure backpack is in range
+		//though this is only gonna hurt this player so isnt really hackable lol
+		if(storage == null) return;
+		if(storage.TryGetComponent<DynamicItemStorage>(out var slots) == false) return;
+
+		foreach (var slot in slots.GetItemSlots())
 		{
 			if(slot.IsEmpty) continue;
 			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
 			{
-				if(trap.IsArmed) trap.TriggerTrapFromContainer(player.GetComponent<LivingHealthMasterBase>());
+				if(trap.IsArmed) trap.TriggerTrapFromContainer(playerScript.playerHealth);
 			}
 		}
 	}

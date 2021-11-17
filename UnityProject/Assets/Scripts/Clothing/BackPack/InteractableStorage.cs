@@ -453,7 +453,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			return true;
 		}
 
-		interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(slots, interaction.Performer);
+		interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
 
 		// open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)
