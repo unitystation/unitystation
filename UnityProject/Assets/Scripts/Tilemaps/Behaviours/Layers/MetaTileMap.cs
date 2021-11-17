@@ -70,6 +70,9 @@ namespace TileManagement
 
 		public Matrix PresentMatrix => presentMatrix;
 
+		private BoundsInt? LocalCachedBounds;
+		private Bounds? GlobalCachedBounds;
+
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
 			float resistance = 0;
@@ -236,11 +239,12 @@ namespace TileManagement
 					QueueTileChange.PresentlyOn.SetTile(QueueTileChange.TileCoordinates, QueueTileChange.Tile,
 						QueueTileChange.TransformMatrix, QueueTileChange.Colour);
 
-					if (CashedBoundsInt != null)
+					if (LocalCachedBounds != null)
 					{
-						if (CashedBoundsInt.Value.Contains(QueueTileChange.TileCoordinates) == false)
+						if (BoundsExtensions.Contains(LocalCachedBounds.Value, QueueTileChange.TileCoordinates) == false)
 						{
-							CashedBoundsInt = null;
+							LocalCachedBounds = null;
+							GlobalCachedBounds = null;
 						}
 					}
 				}
@@ -1581,33 +1585,6 @@ namespace TileManagement
 		public Vector3 CellToWorld(Vector3Int cellPos) => LayersValues[0].CellToWorld(cellPos);
 		public Vector3 WorldToLocal(Vector3 worldPos) => LayersValues[0].WorldToLocal(worldPos);
 
-
-		public BoundsInt GetWorldBounds()
-		{
-			var bounds = GetBounds();
-			//???
-			var min = CellToWorld(bounds.min);
-			var max = CellToWorld(bounds.max);
-			if (presentMatrix?.MatrixMove?.inProgressRotation != null)
-			{
-				Vector3Int TopRightMax = bounds.max;
-				Vector3Int BottomLeftMin = bounds.min;
-				Vector3Int BottomRight = new Vector3Int(TopRightMax.x, BottomLeftMin.y, 0);
-				Vector3Int TopLeft = new Vector3Int(BottomLeftMin.x, TopRightMax.y, 0);
-				var TopRightMaxI = CellToWorld(TopRightMax);
-				var BottomLeftMinI = CellToWorld(BottomLeftMin);
-				var BottomRightI = CellToWorld(BottomRight);
-				var TopLeftI = CellToWorld(TopLeft);
-				MaxMinCheck(ref min, ref max, TopRightMaxI);
-				MaxMinCheck(ref min, ref max, BottomLeftMinI);
-				MaxMinCheck(ref min, ref max, BottomRightI);
-				MaxMinCheck(ref min, ref max, TopLeftI);
-			}
-
-
-			return new BoundsInt(min.RoundToInt(), (max - min).RoundToInt());
-		}
-
 		public void MaxMinCheck(ref Vector3 min, ref Vector3 max, Vector3 ToCompare)
 		{
 			if (ToCompare.x > max.x)
@@ -1629,16 +1606,26 @@ namespace TileManagement
 			}
 		}
 
-
-		public BoundsInt? CashedBoundsInt;
-
-		public BoundsInt GetBounds()
+		public BoundsInt GetLocalBounds()
 		{
-			if (CashedBoundsInt != null)
+			if (LocalCachedBounds == null)
 			{
-				return CashedBoundsInt.Value;
+				CacheLocalBound();
 			}
+			return LocalCachedBounds.Value;
+		}
 
+		public Bounds GetWorldBounds()
+		{
+			if (GlobalCachedBounds == null)
+			{
+				CacheGlobalBound();
+			}
+			return GlobalCachedBounds.Value;
+		}
+
+		public void CacheLocalBound()
+		{
 			Vector3Int minPosition = Vector3Int.one * int.MaxValue;
 			Vector3Int maxPosition = Vector3Int.one * int.MinValue;
 
@@ -1649,13 +1636,38 @@ namespace TileManagement
 				{
 					continue; // Has no tiles
 				}
-
 				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
+			LocalCachedBounds = new BoundsInt(minPosition, maxPosition - minPosition);
+		}
 
-			CashedBoundsInt = new BoundsInt(minPosition, maxPosition - minPosition);
-			return CashedBoundsInt.Value;
+		public void CacheGlobalBound()
+		{
+			var localBound = GetLocalBounds();
+
+			var bottomLeft = transform.TransformPoint(localBound.min);
+			var bottomRight = transform.TransformPoint(new Vector3(localBound.xMax, localBound.min.y, 0));
+			var topLeft = transform.TransformPoint(new Vector3(localBound.min.x, localBound.yMax, 0));
+			var topRight = transform.TransformPoint(localBound.max);
+
+			var globalPoints = new Vector3[4]{bottomLeft, bottomRight, topLeft, topRight};
+			var minPosition = bottomLeft;
+			var maxPosition = bottomLeft;
+			foreach (var point in globalPoints)
+			{
+				if (point.x < minPosition.x || point.y < minPosition.y)
+				{
+					minPosition = point;
+				}
+				if (point.x > maxPosition.x || point.y > maxPosition.y)
+				{
+					maxPosition = point;
+				}
+			}
+
+			var middlePoint = minPosition + (maxPosition - minPosition) / 2;
+			GlobalCachedBounds = new Bounds(middlePoint, maxPosition - minPosition);
 		}
 
 		public Vector3Int WorldToCell(Vector3 worldPosition)

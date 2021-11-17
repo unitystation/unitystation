@@ -28,10 +28,10 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 	private Vector3Int initialOffset;
 	private uint netId;
 
-	public BoundsInt Bounds => MetaTileMap.GetBounds();
+	public BoundsInt LocalBounds => MetaTileMap.GetLocalBounds();
 
 	//Warning slow
-	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
+	public Bounds WorldBounds => MetaTileMap.GetWorldBounds();
 
 	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
 
@@ -42,7 +42,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 	public string Name => Matrix.gameObject.name;
 
 	//todo: placeholder, should depend on solid tiles count instead (and use caching)
-	public float Mass => Bounds.size.sqrMagnitude/1000f;
+	public float Mass => LocalBounds.size.sqrMagnitude/1000f;
 
 	public bool IsMovable => MatrixMove != null;
 
