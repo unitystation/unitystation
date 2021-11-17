@@ -233,7 +233,7 @@ public class Lungs : BodyPartFunctionality
 
 		var TotalMoles = breathGasMix.Moles * PercentageCanTake;
 
-		foreach (var gasValues in breathGasMix.GasesArray)
+		foreach (var gasValues in breathGasMix.Gases)
 		{
 			var gas = gasValues.GasSO;
 			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;

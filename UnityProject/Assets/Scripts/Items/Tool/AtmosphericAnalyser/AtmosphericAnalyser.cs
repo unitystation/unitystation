@@ -106,7 +106,7 @@ namespace Items.Atmospherics
 				$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
 			// You want Fahrenheit? HAHAHAHA
 
-			foreach (var gasData in gasMix.GasesArray)
+			foreach (var gasData in gasMix.Gases)
 			{
 				var ratio = gasMix.GasRatio(gasData.GasSO);
 

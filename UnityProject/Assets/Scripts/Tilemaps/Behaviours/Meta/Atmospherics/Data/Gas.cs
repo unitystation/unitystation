@@ -37,8 +37,11 @@ namespace Systems.Atmospherics
 	[Serializable]
 	public class GasData
 	{
+		//For editor serialisation, used to fill the GasesBag if necessary
+		public List<GasValues> GasesArray = new List<GasValues>();
+
 		//Used for quick iteration
-		public ConcurrentBag<GasValues> GasesArray = new ConcurrentBag<GasValues>();
+		public ConcurrentBag<GasValues> Gases = new ConcurrentBag<GasValues>();
 
 		//Used for fast look up for specific gases
 		public Dictionary<int, GasValues> GasesDict = new Dictionary<int, GasValues>();
@@ -47,7 +50,7 @@ namespace Systems.Atmospherics
 		{
 			GasesDict.Clear();
 
-			foreach (var gasData in GasesArray)
+			foreach (var gasData in Gases)
 			{
 				GasesDict.Add(gasData.GasSO, gasData);
 			}
@@ -55,15 +58,23 @@ namespace Systems.Atmospherics
 
 		public void Clear()
 		{
-			foreach (var gasData in GasesArray)
+			foreach (var gasData in Gases)
 			{
 				gasData.Pool();
 			}
 
 			//TODO Unity 2021.2 has .NET standard 2.1 which has a .Clear() method
-			GasesArray = new ConcurrentBag<GasValues>();
+			Gases = new ConcurrentBag<GasValues>();
 
 			GasesDict.Clear();
+		}
+
+		public void SetUp()
+		{
+			foreach (var gas in GasesArray)
+			{
+				Gases.Add(gas);
+			}
 		}
 	}
 

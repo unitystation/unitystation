@@ -103,7 +103,7 @@ namespace Systems.Pipes
 
 			var newOne = new GasData();
 
-			foreach (var gasData in gasMix.GasesArray)
+			foreach (var gasData in gasMix.Gases)
 			{
 				newOne.SetMoles(gasData.GasSO, gasMix.GasData.GetGasMoles(gasData.GasSO) + mixAndVolume.gasMix.GasData.GetGasMoles(gasData.GasSO));
 			}
@@ -133,7 +133,7 @@ namespace Systems.Pipes
 			var newOne = new GasData();
 			var removeNewOne = new GasData();
 
-			foreach (var gasData in gasMix.GasesArray)
+			foreach (var gasData in gasMix.Gases)
 			{
 				var moles = gasMix.GasData.GetGasMoles(gasData.GasSO);
 				removeNewOne.SetMoles(gasData.GasSO, moles * percentage);
@@ -163,7 +163,7 @@ namespace Systems.Pipes
 
 			var newOne = new GasData();
 
-			foreach (var gasData in gasMix.GasesArray)
+			foreach (var gasData in gasMix.Gases)
 			{
 				newOne.SetMoles(gasData.GasSO, gasMix.GasData.GetGasMoles(gasData.GasSO) / divideAmount);
 			}
@@ -183,7 +183,7 @@ namespace Systems.Pipes
 
 			var newOne = new GasData();
 
-			foreach (var gasData in gasMix.GasesArray)
+			foreach (var gasData in gasMix.Gases)
 			{
 				newOne.SetMoles(gasData.GasSO, gasMix.GasData.GetGasMoles(gasData.GasSO) * multiplyAmount);
 			}

@@ -83,7 +83,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					foreach (var gas in node.GasMix.GasesArray)
+					foreach (var gas in node.GasMix.Gases)
 					{
 						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
 						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
@@ -102,7 +102,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
+					foreach (var gas in neighbor.GasMix.Gases) //doesn't appear to modify list while iterating
 					{
 						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
 						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
@@ -174,7 +174,7 @@ namespace Systems.Atmospherics
 		{
 			var total = 0f;
 
-			foreach (var gas in data.GasesArray)
+			foreach (var gas in data.Gases)
 			{
 				total += gas.Moles;
 			}
@@ -301,7 +301,7 @@ namespace Systems.Atmospherics
 			newValues.Moles = moles;
 			newValues.GasSO = gasType;
 
-			data.GasesArray.Add(newValues);
+			data.Gases.Add(newValues);
 			data.GasesDict.Add(gasType, newValues);
 		}
 
@@ -315,7 +315,7 @@ namespace Systems.Atmospherics
 				toRemove.Pool();
 
 				//This GC's, will have to see how bad
-				data.GasesArray.Remove(toRemove);
+				data.Gases.Remove(toRemove);
 
 				data.GasesDict.Remove(gasType);
 			}
@@ -329,7 +329,7 @@ namespace Systems.Atmospherics
 		{
 			var newGasData = new GasData();
 
-			foreach (var value in oldData.GasesArray)
+			foreach (var value in oldData.Gases)
 			{
 				newGasData.SetMoles(value.GasSO, value.Moles);
 			}
@@ -348,7 +348,7 @@ namespace Systems.Atmospherics
 		{
 			copyTo.Clear();
 
-			foreach (var value in oldData.GasesArray)
+			foreach (var value in oldData.Gases)
 			{
 				copyTo.SetMoles(value.GasSO, value.Moles);
 			}

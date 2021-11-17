@@ -148,7 +148,7 @@ namespace Objects.Atmospherics
 
 			float scrubbableMolesAvailable = 0;
 
-			foreach (var gas in metaNode.GasMix.GasesArray) //doesn't appear to modify list while iterating
+			foreach (var gas in metaNode.GasMix.Gases) //doesn't appear to modify list while iterating
 			{
 				if (FilteredGases.Contains(gas.GasSO) == false) continue;
 

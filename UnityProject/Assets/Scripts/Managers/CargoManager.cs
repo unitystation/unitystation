@@ -310,7 +310,7 @@ namespace Systems.Cargo
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
-				foreach (var gasData in gasContainer.GasMix.GasesArray)
+				foreach (var gasData in gasContainer.GasMix.Gases)
 				{
 					int gasValue = (int)gasData.Moles * gasData.GasSO.ExportPrice;
 					stringBuilder.AppendLine($"Exported {gasData.Moles} moles of {gasData.GasSO.Name} for {gasValue} credits");
