@@ -15,7 +15,7 @@ namespace Objects.Other
 		[SerializeField] private TimedGameEventSO eventData;
 		[SerializeField] private GameObject giftObject;
 
-		[SyncVar] private List<string> giftedPlayers;
+		[SyncVar] private List<string> giftedPlayers = new List<string>();
 		private bool canPickUpGifts;
 
 		private SpriteHandler spriteHandler;
