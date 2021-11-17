@@ -34,21 +34,22 @@ namespace Systems.Explosions
 			_ = SoundManager.PlayNetworkedAtPosAsync(explosionSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
 
 			//Next sound
-			if (groanSound != null)
-			{
-				AudioSourceParameters groanSoundAudioSourceParameters =
-					new AudioSourceParameters(0f, 100f, minDistance: 29, maxDistance: 62);
-
-				_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, groanSoundAudioSourceParameters);
-			}
-
-			//Furthest away sound
 			if (distantSound != null)
 			{
 				AudioSourceParameters distantSoundAudioSourceParameters =
-					new AudioSourceParameters(0f, 100f, minDistance: 63, maxDistance: 200);
+					new AudioSourceParameters(0f, 100f, minDistance: 29, maxDistance: 63);
 
 				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, distantSoundAudioSourceParameters);
+			}
+
+
+			//Furthest away sound
+			if (groanSound != null)
+			{
+				AudioSourceParameters groanSoundAudioSourceParameters =
+					new AudioSourceParameters(0f, 100f, minDistance: 63, maxDistance: 200);
+
+				_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, groanSoundAudioSourceParameters);
 			}
 		}
 	}
