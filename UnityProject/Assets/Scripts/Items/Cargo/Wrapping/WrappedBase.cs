@@ -76,13 +76,14 @@ namespace Items.Cargo.Wrapping
 		public GameObject GetOrGenerateContent()
 		{
 			GameObject content = null;
+			if (randomContentList.Count > 0)
+			{
+				content  = Spawn.ServerPrefab(randomContentList.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
+				return content;
+			}
 			if (GetStoredObjects() != null)
 			{
 				content = GetStoredObjects().FirstOrDefault();
-			}
-			else if (randomContentList.Count > 0)
-			{
-				content  = Spawn.ServerPrefab(randomContentList.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
 			}
 			return content;
 		}
