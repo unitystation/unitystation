@@ -30,17 +30,25 @@ namespace Systems.Explosions
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
 			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
 
+			//Closet sound
 			_ = SoundManager.PlayNetworkedAtPosAsync(explosionSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
 
-			if (groanSound?.AudioSource.OrNull()?.maxDistance == null) return;
+			//Next sound
+			if (groanSound != null)
+			{
+				AudioSourceParameters groanSoundAudioSourceParameters =
+					new AudioSourceParameters(0f, 100f, minDistance: 29, maxDistance: 62);
 
-			if (shakeDistance > distantSound.AudioSource.maxDistance)
-			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, global: true);
+				_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, groanSoundAudioSourceParameters);
 			}
-			if (shakeIntensity > groanSound.AudioSource.maxDistance)
+
+			//Furthest away sound
+			if (distantSound != null)
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, global: true);
+				AudioSourceParameters distantSoundAudioSourceParameters =
+					new AudioSourceParameters(0f, 100f, minDistance: 63, maxDistance: 200);
+
+				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, distantSoundAudioSourceParameters);
 			}
 		}
 	}
