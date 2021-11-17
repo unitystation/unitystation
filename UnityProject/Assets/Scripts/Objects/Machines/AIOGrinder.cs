@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-using Systems.Electricity;
 using AddressableReferences;
-using Effects;
-using Items;
-using Machines;
-using Objects.Machines;
 using Chemistry;
 using Chemistry.Components;
 
@@ -18,7 +11,7 @@ namespace Objects.Kitchen
 	/// A machine into which players can insert certain food items.
 	/// Upon being inserted, they will be ground into another material.
 	/// </summary>
-	public class AIOGrinder : NetworkBehaviour
+	public class AIOGrinder : MonoBehaviour
 	{
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
 			? itemSlot.ItemObject.GetComponent<ReagentContainer>()

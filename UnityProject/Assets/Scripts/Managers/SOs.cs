@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
+using ScriptableObjects.Systems.Spells;
 using HealthV2;
 using Managers;
 using Systems.CraftingV2;
@@ -40,6 +41,7 @@ namespace ScriptableObjects
 		public PoolConfig PoolConfig;
 		public RaceSOSingleton RaceSOSingleton;
 		public SOAdminJobsList AdminJobsList;
+		public SpellList SpellList;
 		public SpeechModManager SpeechModManager;
 		public SpriteCatalogue SpriteCatalogue;
 		public SurgeryProcedureBaseSingleton SurgeryProcedureBaseSingleton;
@@ -74,6 +76,7 @@ namespace ScriptableObjects
 				{ typeof(PoolConfig), PoolConfig },
 				{ typeof(RaceSOSingleton), RaceSOSingleton },
 				{ typeof(SOAdminJobsList), AdminJobsList },
+				{ typeof(SpellList), SpellList },
 				{ typeof(SpeechModManager), SpeechModManager },
 				{ typeof(SpriteCatalogue), SpriteCatalogue },
 				{ typeof(SurgeryProcedureBaseSingleton), SurgeryProcedureBaseSingleton },
@@ -85,12 +88,19 @@ namespace ScriptableObjects
 
 		public T GetEntry<T>() where T : ScriptableObject
 		{
-			if (typeSOMap.ContainsKey(typeof(T)) == false)
+			if (typeSOMap.TryGetValue(typeof(T), out ScriptableObject value))
 			{
-				Logger.LogWarning("Try adding your " + typeof(T) + " To the SOs Scriptable object");
-				return null;
+				if (value == null)
+				{
+					Logger.LogError($"{typeof(T).FullName} is not assigned to {gameObject.name} prefab.");
+					return null;
+				}
+
+				return value as T;
 			}
-			return typeSOMap[typeof(T)] as T;
+
+			Logger.LogError($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
+			return default;
 		}
 	}
 }

@@ -288,11 +288,11 @@ public partial class PlayerList
 		return mentorUsers.Contains(userID);
 	}
 
-	public async Task<bool> ValidatePlayer(string unverifiedClientId, string unverifiedUsername,
-		string unverifiedUserid, int unverifiedClientVersion, ConnectedPlayer unverifiedConnPlayer,
+	public async Task<bool> ValidatePlayer(int unverifiedClientVersion, ConnectedPlayer unverifiedConnPlayer,
 		string unverifiedToken)
 	{
-		var validAccount = await CheckUserState(unverifiedUserid, unverifiedToken, unverifiedConnPlayer, unverifiedClientId);
+		var validAccount =
+			await CheckUserState(unverifiedToken, unverifiedConnPlayer);
 
 		if (!validAccount)
 		{
@@ -310,44 +310,40 @@ public partial class PlayerList
 	}
 
 	//Check if tokens match and if the player is an admin or is banned
-	private async Task<bool> CheckUserState(
-		string unverifiedUserid,
-		string unverifiedToken,
-		ConnectedPlayer unverifiedConnPlayer,
-		string unverifiedClientId)
+	private async Task<bool> CheckUserState(string unverifiedToken, ConnectedPlayer unverifiedConnPlayer)
 	{
+		//Allow local offline testing
 		if (GameData.Instance.OfflineMode)
 		{
 			Logger.Log($"{unverifiedConnPlayer.Username} logged in successfully in offline mode. " +
-					   $"userid: {unverifiedUserid}", Category.Admin);
+					   $"userid: {unverifiedConnPlayer.UserId}", Category.Admin);
 			return true;
 		}
 
-		//allow empty token for local offline testing
-		if (string.IsNullOrEmpty(unverifiedToken) || string.IsNullOrEmpty(unverifiedUserid))
+		//Must have token and userId
+		if (string.IsNullOrEmpty(unverifiedToken) || string.IsNullOrEmpty(unverifiedConnPlayer.UserId))
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A user tried to connect with null userid or token value" +
-					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
 				Category.Admin);
 			return false;
 		}
 
-		//check if they are already logged in, skip this check if offline mode is enable or if not a release build.
+		//Check if they are already logged in, skip this check if offline mode is enable or if not a release build.
 		if (BuildPreferences.isForRelease)
 		{
-			var otherUser = GetByUserID(unverifiedUserid);
+			var otherUser = GetByUserID(unverifiedConnPlayer.UserId);
 			if (otherUser != null)
 			{
 				if (otherUser.Connection != null && otherUser.GameObject != null)
 				{
-					if (unverifiedConnPlayer.UserId == unverifiedUserid
-						&& unverifiedConnPlayer.Connection != otherUser.Connection)
+					if (unverifiedConnPlayer.Connection != otherUser.Connection)
 					{
 						StartCoroutine(
 							KickPlayer(unverifiedConnPlayer, $"Server Error: You are already logged into this server!"));
 						Logger.Log($"A user tried to connect with another client while already logged in \r\n" +
-								   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+								   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
 							Category.Admin);
 						return false;
 					}
@@ -360,20 +356,22 @@ public partial class PlayerList
 				StartCoroutine(
 					KickPlayer(unverifiedConnPlayer, $"Server Error: You already have an existing connection with the server!"));
 				Logger.LogWarning($"Warning 2 simultaneous connections from same IP detected\r\n" +
-						   $"Details: Unverified Username: {unverifiedConnPlayer.Username}, Unverified ClientID: {unverifiedClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+						   $"Details: Unverified Username: {unverifiedConnPlayer.Username}, Unverified ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
 					Category.Admin);
 			}
 		}
-		var refresh = new RefreshToken { userID = unverifiedUserid, refreshToken = unverifiedToken };//Assuming this validates it for now
+
+		var refresh = new RefreshToken { userID = unverifiedConnPlayer.UserId, refreshToken = unverifiedToken };//Assuming this validates it for now
 		var response = await ServerData.ValidateToken(refresh, true);
-		//fail, unless doing local offline testing
-		if (!GameData.Instance.OfflineMode)
+
+		//Fail, unless doing local offline testing
+		if (GameData.Instance.OfflineMode == false)
 		{
 			if (response == null)
 			{
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Server request error"));
 				Logger.Log($"Server request error for " +
-						   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+						   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
 					Category.Admin);
 				return false;
 			}
@@ -383,45 +381,54 @@ public partial class PlayerList
 			if (response == null) return false;
 		}
 
-		//allow error response for local offline testing
+		//Must have non-null/empty username
+		if (string.IsNullOrEmpty(unverifiedConnPlayer.Username))
+		{
+			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty)."));
+			Logger.Log($"A user tried to connect with null/empty username" +
+			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+				Category.Admin);
+			return false;
+		}
+
+		//Allow error response for local offline testing
 		if (response.errorCode == 1)
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A spoof attempt was recorded. " +
-					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
 				Category.Admin);
 			return false;
 		}
-		var Userid = unverifiedUserid;
+		var userId = unverifiedConnPlayer.UserId;
 
 		//Adds server to admin list if not already in it.
-		if (Userid == ServerData.UserID && !adminUsers.Contains(Userid))
+		if (userId == ServerData.UserID && !adminUsers.Contains(userId))
 		{
 			File.AppendAllLines(adminsPath, new string[]
 			{
-			"\r\n" + Userid
+			"\r\n" + userId
 			});
 
-			adminUsers.Add(Userid);
-			var user = GetByUserID(Userid);
+			adminUsers.Add(userId);
+			var user = GetByUserID(userId);
 
 			if (user == null) return false;
 
 			var newToken = Guid.NewGuid().ToString();
-			if (!loggedInAdmins.ContainsKey(Userid))
+			if (!loggedInAdmins.ContainsKey(userId))
 			{
-				loggedInAdmins.Add(Userid, newToken);
+				loggedInAdmins.Add(userId, newToken);
 				AdminEnableMessage.SendMessage(user, newToken);
 			}
 		}
 
-		//whitelist checking:
+		//Whitelist checking:
 		var lines = File.ReadAllLines(whiteListPath);
 
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.
-
-		if (lines.Length > 0 && !adminUsers.Contains(Userid) && !whiteListUsers.Contains(Userid))
+		if (lines.Length > 0 && !adminUsers.Contains(userId) && !whiteListUsers.Contains(userId))
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
 
@@ -430,8 +437,8 @@ public partial class PlayerList
 			return false;
 		}
 
-		// banlist checking:
-		var banEntry = banList?.CheckForEntry(Userid, unverifiedConnPlayer.Connection.address, unverifiedClientId);
+		//Banlist checking:
+		var banEntry = banList?.CheckForEntry(userId, unverifiedConnPlayer.Connection.address, unverifiedConnPlayer.ClientId);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan, "O", CultureInfo.InvariantCulture);
@@ -455,7 +462,7 @@ public partial class PlayerList
 		}
 
 		Logger.Log($"{unverifiedConnPlayer.Username} logged in successfully. " +
-				   $"userid: {Userid}", Category.Admin);
+				   $"userid: {userId}", Category.Admin);
 
 		return true;
 	}
