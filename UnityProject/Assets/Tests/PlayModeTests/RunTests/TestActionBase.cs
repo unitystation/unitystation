@@ -14,7 +14,8 @@ public partial class TestAction
 		SpawnX,
 		KeyInput,
 		PrefabAt,
-		RespawnPlayer
+		RespawnPlayer,
+		ActionWaite
 	}
 
 
@@ -30,6 +31,8 @@ public partial class TestAction
 				return InitiatePrefabAt(TestRunSO);
 			case ActionType.RespawnPlayer:
 				return InitiateRespawnPlayer(TestRunSO);
+			case ActionType.ActionWaite:
+				return InitiateActionWaite(TestRunSO);
 		}
 
 		return true;

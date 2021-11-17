@@ -15,9 +15,19 @@ public partial class TestAction
 	[System.Serializable]
 	public class KeyInput
 	{
+		public bool UnPress;
 		public KeyCode Key;
 		public bool InitiateKeyInput(TestRunSO TestRunSO)
 		{
+			if (UnPress)
+			{
+				InputManagerWrapper.UnPressKey(Key);
+			}
+			else
+			{
+				InputManagerWrapper.PressKey(Key);
+			}
+
 			return true;
 		}
 	}

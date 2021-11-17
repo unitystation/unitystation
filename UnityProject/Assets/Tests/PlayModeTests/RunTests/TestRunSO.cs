@@ -16,6 +16,9 @@ namespace GameRunTests
 
 		[NonSerialized] public StringBuilder Report = new StringBuilder("\n");
 
+		public YieldInstruction YieldInstruction;
+		public bool BoolYieldInstruction;
+
 		public IEnumerator RunTest(TestSingleton TestSingleton)
 		{
 			bool fail = false;
@@ -27,6 +30,13 @@ namespace GameRunTests
 				{
 					fail = true;
 					break;
+				}
+
+				if (YieldInstruction != null)
+				{
+					yield return YieldInstruction;
+					YieldInstruction = null;
+					BoolYieldInstruction = false;
 				}
 			}
 			TestSingleton.Results[this] = new Tuple<bool, StringBuilder>(fail, Report);
