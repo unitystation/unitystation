@@ -8,11 +8,23 @@ public partial class TestAction
 {
 	public bool ShowKeyInput => SpecifiedAction == ActionType.KeyInput;
 
-	[AllowNesting] [ShowIf("ShowKeyInput")] public string Key;
+	[AllowNesting] [ShowIf("ShowKeyInput")] public KeyInput DataKeyInput;
+
+
+
+	[System.Serializable]
+	public class KeyInput
+	{
+		public string Key;
+		public bool InitiateKeyInput(TestRunSO TestRunSO)
+		{
+			return true;
+		}
+	}
 
 	public bool InitiateKeyInput(TestRunSO TestRunSO)
 	{
-		return true;
+		return DataKeyInput.InitiateKeyInput(TestRunSO);
 	}
 
 }

@@ -31,7 +31,6 @@ namespace GameRunTests
 					yield return null;
 				}
 				yield return Test.RunTest(this);
-				yield return WaitFor.Seconds(50);
 				GameRunTests.RunRestartRound();
 			}
 
@@ -42,8 +41,7 @@ namespace GameRunTests
 				if (Result.Value.Item1)
 				{
 					Fail = true;
-					Stringbuilder.AppendLine("################ Failed tests ###################");
-					Stringbuilder.Append(Result.Key.name);
+					Stringbuilder.AppendLine($"################ {Result.Key.name} Failed tests ###################");
 					Stringbuilder.Append(Result.Value.Item2);
 				}
 			}

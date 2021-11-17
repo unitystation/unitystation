@@ -12,7 +12,9 @@ public partial class TestAction
 	{
 		None,
 		SpawnX,
-		KeyInput
+		KeyInput,
+		PrefabAt,
+		RespawnPlayer
 	}
 
 
@@ -25,7 +27,10 @@ public partial class TestAction
 				break;
 			case ActionType.KeyInput:
 				return InitiateKeyInput(TestRunSO);
-				break;
+			case ActionType.PrefabAt:
+				return InitiatePrefabAt(TestRunSO);
+			case ActionType.RespawnPlayer:
+				return InitiateRespawnPlayer(TestRunSO);
 		}
 
 		return true;
