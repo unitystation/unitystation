@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -535,5 +536,32 @@ public static class SweetExtensions
 		}
 
 		return Mathf.CeilToInt(source);
+	}
+
+	/// <summary>
+	/// Removes an item from a ConcurrentBag
+	/// Creates CG
+	/// </summary>
+	public static void Remove<T>(this ConcurrentBag<T> source, T toRemove)
+	{
+		if(source.IsEmpty) return;
+
+		//GC's oh well
+		var temp = new List<T>(source.Count - 1);
+
+		//Caution! If there's a thread that is adding stuff constantly to this bag then this wont stop!
+		while (source.IsEmpty == false)
+		{
+			source.TryTake(out var y);
+
+			if(y.Equals(toRemove)) continue;
+
+			temp.Add(y);
+		}
+
+		foreach (var item in temp)
+		{
+			source.Add(item);
+		}
 	}
 }

@@ -83,21 +83,17 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock (neighbor.GasMix.GasesArray)
+					foreach (var gas in node.GasMix.GasesArray)
 					{
-						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
+						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+
+						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 						{
-							var gas = node.GasMix.GasesArray[j];
-							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+							result = true;
 
-							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
-							{
-								result = true;
-
-								//We break not return here so we can still work out wind direction
-								break;
-							}
+							//We break not return here so we can still work out wind direction
+							break;
 						}
 					}
 				}
@@ -106,20 +102,17 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock ( neighbor.GasMix.GasesArray)
+					foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
 					{
-						foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
+						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+
+						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
 						{
-							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+							result = true;
 
-							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
-							{
-								result = true;
-
-								//We break not return here so we can still work out wind direction
-								break;
-							}
+							//We break not return here so we can still work out wind direction
+							break;
 						}
 					}
 				}
@@ -181,14 +174,10 @@ namespace Systems.Atmospherics
 		{
 			var total = 0f;
 
-			lock (data.GasesArray)
+			foreach (var gas in data.GasesArray)
 			{
-				foreach (var gas in data.GasesArray)
-				{
-					total += gas.Moles;
-				}
+				total += gas.Moles;
 			}
-
 
 			return total;
 		}
@@ -277,46 +266,43 @@ namespace Systems.Atmospherics
 
 		private static void InternalSetMoles(GasData data, GasSO gasType, float moles, bool isChange)
 		{
-			lock (data.GasesArray) //Because it gets the gas and it could be added in between this
+			//Try to get gas value if already inside mix
+			GetGasType(data, gasType, out var gas);
+
+			if (gas != null)
 			{
-				//Try to get gas value if already inside mix
-				GetGasType(data, gasType, out var gas);
-
-				if (gas != null)
+				if (isChange)
 				{
-					if (isChange)
-					{
-						gas.Moles += moles;
-					}
-					else
-					{
-						gas.Moles = moles;
-					}
-
-					//Remove gas from mix if less than threshold
-					if (gas.Moles <= AtmosConstants.MinPressureDifference)
-					{
-						data.RemoveGasType(gasType);
-					}
-
-					return;
+					gas.Moles += moles;
+				}
+				else
+				{
+					gas.Moles = moles;
 				}
 
-				//Gas isn't inside mix so we'll add it
+				//Remove gas from mix if less than threshold
+				if (gas.Moles <= AtmosConstants.MinPressureDifference)
+				{
+					data.RemoveGasType(gasType);
+				}
 
-				//Dont add new data for negative moles
-				if (Math.Sign(moles) == -1) return;
-
-				//Dont add if approx 0 or below threshold
-				if (moles.Approx(0) || moles <= AtmosConstants.MinPressureDifference) return;
-
-				var newValues = GetGasValues();
-				newValues.Moles = moles;
-				newValues.GasSO = gasType;
-
-				data.GasesArray.Add(newValues);
-				data.GasesDict.Add(gasType, newValues);
+				return;
 			}
+
+			//Gas isn't inside mix so we'll add it
+
+			//Dont add new data for negative moles
+			if (Math.Sign(moles) == -1) return;
+
+			//Dont add if approx 0 or below threshold
+			if (moles.Approx(0) || moles <= AtmosConstants.MinPressureDifference) return;
+
+			var newValues = GetGasValues();
+			newValues.Moles = moles;
+			newValues.GasSO = gasType;
+
+			data.GasesArray.Add(newValues);
+			data.GasesDict.Add(gasType, newValues);
 		}
 
 		/// <summary>
@@ -324,18 +310,14 @@ namespace Systems.Atmospherics
 		/// </summary>
 		public static void RemoveGasType(this GasData data, GasSO gasType)
 		{
-			lock (data.GasesArray)
+			if (data.GasesDict.TryGetValue(gasType, out var toRemove))
 			{
-				for (int i = data.GasesArray.Count - 1; i >= 0; i--)
-				{
-					if (data.GasesArray[i].GasSO == gasType)
-					{
-						data.GasesDict.Remove(gasType);
-						data.GasesArray[i].Pool();
-						data.GasesArray.RemoveAt(i);
-						return;
-					}
-				}
+				toRemove.Pool();
+
+				//This GC's, will have to see how bad
+				data.GasesArray.Remove(toRemove);
+
+				data.GasesDict.Remove(gasType);
 			}
 		}
 
@@ -347,14 +329,10 @@ namespace Systems.Atmospherics
 		{
 			var newGasData = new GasData();
 
-			lock (oldData.GasesArray)
+			foreach (var value in oldData.GasesArray)
 			{
-				foreach (var value in oldData.GasesArray)
-				{
-					newGasData.SetMoles(value.GasSO, value.Moles);
-				}
+				newGasData.SetMoles(value.GasSO, value.Moles);
 			}
-
 
 			newGasData.RegenerateDict();
 
@@ -366,22 +344,16 @@ namespace Systems.Atmospherics
 		/// Copies the array, creating new references
 		/// </summary>
 		/// <param name="oldData"></param>
-		public static GasData CopyTo(this GasData oldData, GasData CopyTo)
+		public static void CopyTo(this GasData oldData, GasData copyTo)
 		{
-			CopyTo.Clear();
+			copyTo.Clear();
 
-			lock (oldData.GasesArray)
+			foreach (var value in oldData.GasesArray)
 			{
-				foreach (var value in oldData.GasesArray)
-				{
-					CopyTo.SetMoles(value.GasSO, value.Moles);
-				}
+				copyTo.SetMoles(value.GasSO, value.Moles);
 			}
 
-
-			CopyTo.RegenerateDict();
-
-			return CopyTo;
+			copyTo.RegenerateDict();
 		}
 	}
 }

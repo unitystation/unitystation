@@ -310,17 +310,13 @@ namespace Systems.Cargo
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
-				lock (gasContainer.GasMix.GasesArray)
+				foreach (var gasData in gasContainer.GasMix.GasesArray)
 				{
-					foreach (var gas in gasContainer.GasMix.GasesArray)  //doesn't appear to modify list while iterating
-					{
-						int gasValue = (int)gas.Moles * gas.GasSO.ExportPrice;
-						stringBuilder.AppendLine($"Exported {gas.Moles} moles of {gas.GasSO.Name} for {gasValue} credits");
-						export.TotalValue += gasValue;
-						Credits += gasValue;
-					}
+					int gasValue = (int)gasData.Moles * gasData.GasSO.ExportPrice;
+					stringBuilder.AppendLine($"Exported {gasData.Moles} moles of {gasData.GasSO.Name} for {gasValue} credits");
+					export.TotalValue += gasValue;
+					Credits += gasValue;
 				}
-
 
 				export.ExportMessage = stringBuilder.ToString();
 				OnCreditsUpdate.Invoke();

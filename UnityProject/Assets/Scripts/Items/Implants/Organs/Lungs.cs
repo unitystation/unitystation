@@ -233,44 +233,40 @@ public class Lungs : BodyPartFunctionality
 
 		var TotalMoles = breathGasMix.Moles * PercentageCanTake;
 
-
-		lock (breathGasMix.GasData.GasesArray)
+		foreach (var gasValues in breathGasMix.GasesArray)
 		{
-			foreach (var gasValues in breathGasMix.GasData.GasesArray)
+			var gas = gasValues.GasSO;
+			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
+
+
+			// n = PV/RT
+			float gasMoles = breathGasMix.GetMoles(gas) * PercentageCanTake;
+
+
+			// Get as much as we need, or as much as in the lungs, whichever is lower
+			Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
+			float molesRecieved = 0;
+			if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
 			{
-				var gas = gasValues.GasSO;
-				if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
-
-
-				// n = PV/RT
-				float gasMoles = breathGasMix.GetMoles(gas) * PercentageCanTake;
-
-
-				// Get as much as we need, or as much as in the lungs, whichever is lower
-				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
-				float molesRecieved = 0;
-				if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
+				var PercentageMultiplier = (gasMoles / (TotalMoles));
+				molesRecieved = RelatedPart.bloodType.GetSpecialGasCapacity(blood) * PercentageMultiplier *
+				                PressureMultiplier;
+			}
+			else
+			{
+				if (gasMoles == 0)
 				{
-					var PercentageMultiplier = (gasMoles / (TotalMoles));
-					molesRecieved = RelatedPart.bloodType.GetSpecialGasCapacity(blood) * PercentageMultiplier *
-					                PressureMultiplier;
+					molesRecieved = 0;
 				}
 				else
 				{
-					if (gasMoles == 0)
-					{
-						molesRecieved = 0;
-					}
-					else
-					{
-						molesRecieved = (Available * (gasMoles / TotalMoles)) * PressureMultiplier;
-					}
+					molesRecieved = (Available * (gasMoles / TotalMoles)) * PressureMultiplier;
 				}
+			}
 
-				if (molesRecieved > 0)
-				{
-					toInhale.Add(gasReagent, molesRecieved);
-				}
+			if (molesRecieved > 0)
+			{
+				toInhale.Add(gasReagent, molesRecieved);
 			}
 		}
 

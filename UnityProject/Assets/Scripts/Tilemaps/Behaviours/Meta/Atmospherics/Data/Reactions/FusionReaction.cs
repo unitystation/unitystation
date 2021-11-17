@@ -33,12 +33,9 @@ namespace Systems.Atmospherics
 
 			var gasPower = 0f;
 
-			lock ( gasMix.GasesArray)
+			foreach (var gas in gasMix.GasesArray) //doesn't appear to modify list while iterating
 			{
-				foreach (var gas in gasMix.GasesArray)  //doesn't appear to modify list while iterating
-				{
-					gasPower += gas.GasSO.FusionPower * gas.Moles;
-				}
+				gasPower += gas.GasSO.FusionPower * gas.Moles;
 			}
 
 

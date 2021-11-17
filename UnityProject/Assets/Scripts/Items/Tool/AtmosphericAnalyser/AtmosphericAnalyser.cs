@@ -106,16 +106,13 @@ namespace Items.Atmospherics
 				$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
 			// You want Fahrenheit? HAHAHAHA
 
-			lock (gasMix.GasesArray)
+			foreach (var gasData in gasMix.GasesArray)
 			{
-				foreach (var gas in gasMix.GasesArray) //doesn't appear to modify list while iterating
-				{
-					var ratio = gasMix.GasRatio(gas.GasSO);
+				var ratio = gasMix.GasRatio(gasData.GasSO);
 
-					if (ratio.Approx(0) == false)
-					{
-						sb.AppendLine($"{gas.GasSO.Name}: {ratio:P}");
-					}
+				if (ratio.Approx(0) == false)
+				{
+					sb.AppendLine($"{gasData.GasSO.Name}: {ratio:P}");
 				}
 			}
 

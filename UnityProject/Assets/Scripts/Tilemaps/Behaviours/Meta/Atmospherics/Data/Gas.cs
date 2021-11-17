@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using ScriptableObjects.Atmospherics;
@@ -37,35 +38,32 @@ namespace Systems.Atmospherics
 	public class GasData
 	{
 		//Used for quick iteration
-		public List<GasValues> GasesArray = new List<GasValues>();
+		public ConcurrentBag<GasValues> GasesArray = new ConcurrentBag<GasValues>();
 
 		//Used for fast look up for specific gases
 		public Dictionary<int, GasValues> GasesDict = new Dictionary<int, GasValues>();
 
 		public void RegenerateDict()
 		{
-			lock (GasesArray)
+			GasesDict.Clear();
+
+			foreach (var gasData in GasesArray)
 			{
-				GasesDict.Clear();
-				for (int i = 0; i < GasesArray.Count; i++)
-				{
-					var value = GasesArray[i];
-					GasesDict.Add(value.GasSO, value);
-				}
+				GasesDict.Add(gasData.GasSO, gasData);
 			}
 		}
 
 		public void Clear()
 		{
-			lock (GasesArray)
+			foreach (var gasData in GasesArray)
 			{
-				for (int i = 0; i < GasesArray.Count; i++)
-				{
-					GasesArray[i].Pool();
-				}
-				GasesArray.Clear();
-				GasesDict.Clear();
+				gasData.Pool();
 			}
+
+			//TODO Unity 2021.2 has .NET standard 2.1 which has a .Clear() method
+			GasesArray = new ConcurrentBag<GasValues>();
+
+			GasesDict.Clear();
 		}
 	}
 
