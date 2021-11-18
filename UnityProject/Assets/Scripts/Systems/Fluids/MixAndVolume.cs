@@ -20,12 +20,13 @@ namespace Systems.Pipes
 			get => mix.InternalEnergy + gasMix.InternalEnergy;
 			set
 			{
-				if (CodeUtilities.IsEqual(WholeHeatCapacity, 0))
+				var InWholeHeatCapacity = WholeHeatCapacity;
+				if (CodeUtilities.IsEqual(InWholeHeatCapacity, 0))
 				{
 					return;
 				}
 
-				var temperature = (value / WholeHeatCapacity);
+				var temperature = (value / InWholeHeatCapacity);
 				mix.Temperature = temperature;
 				gasMix.SetTemperature(temperature);
 			}

@@ -2,13 +2,14 @@ using System.Collections;
 using UnityEngine;
 using HealthV2;
 using Messages.Server.SoundMessages;
+using Objects;
 
 namespace Items
 {
 	/// <summary>
 	/// Indicates an object that emits sound upon activation (bike horn/air horn...)
 	/// </summary>
-	public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
+	public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>, IEnterable
 	{
 		[SerializeField]
 		private float Cooldown = 0.2f;
@@ -118,6 +119,17 @@ namespace Items
 		{
 			ItemSlot itemslot = gameObject.GetComponent<Pickupable>().ItemSlot;
 			return itemslot != null ? itemslot.ItemStorage.GetRootStorageOrPlayer() : gameObject;
+		}
+
+		public void OnStep(GameObject eventData)
+		{
+			ClassicHonk();
+		}
+
+		public bool WillStep(GameObject eventData)
+		{
+			if (eventData.TryGetComponent<LivingHealthMasterBase>(out var _)) return true;
+			return false;
 		}
 	}
 }

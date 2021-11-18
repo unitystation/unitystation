@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HealthV2;
 using Items;
 using Messages.Server;
+using Objects;
+using Objects.Other;
 using UnityEngine;
 
 /// <summary>
@@ -444,10 +447,10 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	// This is all client only interaction:
 	public bool Interact(HandActivate interaction)
 	{
+		var slots = itemStorage.GetItemSlots();
 		if (canQuickEmpty)
 		{
 			// Drop all items that are inside this storage
-			var slots = itemStorage.GetItemSlots();
 
 			if (slots == null)
 			{
@@ -471,6 +474,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			return true;
 		}
+
+		interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
 
 		// open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)
