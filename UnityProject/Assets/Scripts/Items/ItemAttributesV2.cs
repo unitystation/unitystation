@@ -147,6 +147,11 @@ namespace Items
 			set => hitSound = value;
 		}
 
+		[Tooltip("Sound to be played when object gets added to storage.")]
+		[SerializeField]
+		private AddressableAudioSource inventoryMoveSound = null;
+		public AddressableAudioSource InventoryMoveSound => inventoryMoveSound;
+
 		//TODO: tank / eva fields should probably be migrated to a different component as they are very specific to clothing, particularly
 		//suits and masks. Probably belong in the Clothing component.
 		[Tooltip("Is this a mask that can connect to a tank?")]

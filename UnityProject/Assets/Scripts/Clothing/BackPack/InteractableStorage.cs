@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Items;
 using Messages.Server;
 using UnityEngine;
@@ -139,6 +140,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		// we need to be the target - something is put inside us
 		if (interaction.TargetObject != gameObject) return false;
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (itemStorage.GetItemSlots().All(slot => slot.IsOccupied) && interaction.UsedObject != null)
+		{
+			Chat.AddExamineMsg(interaction.Performer,
+				$"<color=red>The {interaction.UsedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}, Make some space!</color>");
+			return false;
+		}
 		// item must be able to fit
 		// note: since this is in local player's inventory, we are safe to check this stuff on client side
 		if (!Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
@@ -152,6 +159,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return;
 		Inventory.ServerTransfer(interaction.FromSlot,
 			itemStorage.GetBestSlotFor((interaction).UsedObject));
+		if (interaction.UsedObject.Item().InventoryMoveSound != null)
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(interaction.UsedObject.Item().InventoryMoveSound,
+				interaction.Performer.AssumedWorldPosServer());
+		}
 	}
 
 	/// <summary>
@@ -163,6 +175,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (itemStorage.GetItemSlots().All(slot => slot.IsOccupied) && interaction.HandObject != null)
+		{
+			Chat.AddExamineMsg(interaction.Performer,
+				$"<color=red>The {interaction.HandObject.ExpensiveName()} won't fit in the {interaction.HandObject.ExpensiveName()}, Make some space!</color>");
+			return false;
+		}
 
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
@@ -273,6 +291,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			// Add hand item to this storage
 			Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetBestSlotFor(interaction.HandObject));
+			if (interaction.UsedObject.Item().InventoryMoveSound != null)
+			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(interaction.UsedObject.Item().InventoryMoveSound,
+					interaction.Performer.AssumedWorldPosServer());
+			}
 		}
 		// See if this item can click pickup
 		else if (canClickPickup)
