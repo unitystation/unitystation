@@ -14,15 +14,16 @@ namespace Systems.Radiation
 		public List<RadiationPulse> PulseQueue = new List<RadiationPulse>();
 		private List<RadiationPulse> WorkingPulseQueue = new List<RadiationPulse>();
 
-		public static RadiationManager Instance {get; private set;}
+		public static RadiationManager Instance { get; private set; }
 
-		public bool Running { get; private set; }
+		public bool Running;
 		public float MSSpeed = 100;
 
 		private void OnApplicationQuit()
 		{
 			StopSim();
 		}
+
 		void OnEnable()
 		{
 			Instance = this;
@@ -36,6 +37,14 @@ namespace Systems.Radiation
 			EventManager.RemoveHandler(Event.RoundEnded, StopSim);
 		}
 
+		private void OnDestroy()
+		{
+			if (Application.isEditor)
+			{
+				StopSim();
+			}
+		}
+
 		public void StopSim()
 		{
 			if (!CustomNetworkManager.Instance._isServer) return;
@@ -47,18 +56,16 @@ namespace Systems.Radiation
 		public void StartSim()
 		{
 			if (!CustomNetworkManager.Instance._isServer) return;
-
-			Running = true;
-			SetSpeed((int) MSSpeed);
-			if (!running)
+			if (Running == false)
 			{
-				running = true;
+				SetSpeed((int) MSSpeed);
+				Running = true;
 				thread = new Thread(Run);
 				thread.Start();
 			}
+
 		}
 
-		private bool running;
 
 		private Stopwatch StopWatch = new Stopwatch();
 		private Stopwatch StopWatchlog = new Stopwatch();
@@ -86,6 +93,7 @@ namespace Systems.Radiation
 				WorkingPulseQueue.AddRange(PulseQueue);
 				PulseQueue.Clear();
 			}
+
 			for (int i = 0; i < WorkingPulseQueue.Count; i++)
 			{
 				Pulse(WorkingPulseQueue[i]);
@@ -97,7 +105,7 @@ namespace Systems.Radiation
 		private void Run()
 		{
 			Profiler.BeginThreadProfiling("Unitystation", "Radiation");
-			while (running)
+			while (Running)
 			{
 				sampler.Begin();
 				StopWatch.Restart();
@@ -126,15 +134,15 @@ namespace Systems.Radiation
 			StopWatchlog.Restart();
 
 			//Radiation distance
-			int Radius = (int) Math.Round(Pulse.Strength/(Math.PI*75));
-			if (Radius > 50)
+			int radius = (int) Math.Round(Pulse.Strength / (Math.PI * 75));
+			if (radius > 50)
 			{
-				Radius = 50;
+				radius = 50;
 			}
 
 			//Logger.Log("Radius > " + Radius);
 			//Generates the conference
-			circleBres(Pulse.Location.x, Pulse.Location.y, Radius);
+			circleBres(Pulse.Location.x, Pulse.Location.y, radius);
 
 			//Logger.Log("CircleCircumference.Count > " + CircleCircumference.Count);
 			//Logger.Log("Pulse.Strengt> " + Pulse.Strength);
@@ -149,8 +157,8 @@ namespace Systems.Radiation
 			//Set values on tiles
 			foreach (var NodePoint in CircleArea)
 			{
-
-				NodePoint.AddRadiationPulse(NodePoint.MidCalculationNumbers, DateTime.Now, Pulse.SourceID); //Drops off too quickly
+				NodePoint.AddRadiationPulse(NodePoint.MidCalculationNumbers, DateTime.Now,
+					Pulse.SourceID); //Drops off too quickly
 				NodePoint.MidCalculationNumbers = 0;
 				//Logger.Log("rad onv " + NodePoint.RadiationLevel);
 			}
@@ -223,16 +231,18 @@ namespace Systems.Radiation
 					foreach (var Layer in Pulse.Matrix.MetaTileMap.Layers)
 					{
 						if (Layer.Key == LayerType.Underfloor) continue;
-						var BasicTile_ = Pulse.Matrix.MetaTileMap.GetTile(new Vector2Int(x0, y0).To3Int(), Layer.Key ) as BasicTile;
-						if (BasicTile_ != null)
+						var basicTile =
+							Pulse.Matrix.MetaTileMap.GetTile(new Vector2Int(x0, y0).To3Int(), Layer.Key) as BasicTile;
+						if (basicTile != null)
 						{
-							RadiationOnStep *= BasicTile_.RadiationPassability;
+							RadiationOnStep *= basicTile.RadiationPassability;
 						}
 					}
 
 					CircleArea.Add(RadiationNode);
 					RadiationNode.MidCalculationNumbers += RadiationOnStep;
 				}
+
 				if (x0 == x1 && y0 == y1) break;
 				e2 = err;
 				if (e2 > -dx)
@@ -248,6 +258,7 @@ namespace Systems.Radiation
 				}
 			}
 		}
+
 		public void RequestPulse(Matrix Matrix, Vector3Int Location, float Strength, int InSourceID)
 		{
 			lock (PulseQueue)

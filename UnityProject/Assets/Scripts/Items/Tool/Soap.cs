@@ -38,7 +38,7 @@ namespace Items
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			var isWall = MatrixManager.IsWallAtAnyMatrix(interaction.WorldPositionTarget.RoundToInt(), true);
+			var isWall = MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), true);
 
 			//server is performing server-side logic for the interaction
 			//do the scrubbing

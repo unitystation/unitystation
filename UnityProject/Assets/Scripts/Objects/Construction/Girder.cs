@@ -132,7 +132,7 @@ namespace Objects.Construction
 				if (objectBehaviour.IsPushable)
 				{
 					// secure it if there's floor
-					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true))
+					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo))
 					{
 						Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the girder!");
 						return;

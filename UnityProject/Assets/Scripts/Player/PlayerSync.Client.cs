@@ -54,7 +54,7 @@ public partial class PlayerSync
 				return false;
 			}
 			GameObject[] context = pushPull.IsPullingSomethingClient ? new[] { gameObject, pushPull.PulledObjectClient.gameObject } : new[] { gameObject };
-			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false);
+			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false, registerPlayer.Matrix.MatrixInfo);
 		}
 	}
 
@@ -109,7 +109,7 @@ public partial class PlayerSync
 			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
 				action.Direction(), pendingActions.Count, ClientState, predictedState );
 
-			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false);
+			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false, registerPlayer.Matrix.MatrixInfo);
 			bool cancelMove = false;
 			//note that this would return true when client is stopped in space (due to !IsMovingClient).
 			//we check isGrounded again depending on bump type to validate if they are still allowed to move

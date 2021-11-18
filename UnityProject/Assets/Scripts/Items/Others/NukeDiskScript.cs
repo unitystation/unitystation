@@ -14,7 +14,7 @@ namespace Items.Command
 		private float boundRadius = 600;
 		private Pickupable pick;
 		private CustomNetTransform customNetTrans;
-		private RegisterItem registerItem;
+		private RegisterTile registerTile;
 		private BoundsInt bound;
 		private EscapeShuttle escapeShuttle;
 
@@ -35,7 +35,7 @@ namespace Items.Command
 		private void Awake()
 		{
 			customNetTrans = GetComponent<CustomNetTransform>();
-			registerItem = GetComponent<RegisterItem>();
+			registerTile = GetComponent<RegisterTile>();
 			pick = GetComponent<Pickupable>();
 		}
 
@@ -81,7 +81,7 @@ namespace Items.Command
 			if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
 			{
 				var matrixInfo = escapeShuttle.MatrixInfo;
-				if (matrixInfo == null || matrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
+				if (matrixInfo == null || matrixInfo.Bounds.Contains(registerTile.WorldPositionServer))
 				{
 					return false;
 				}
@@ -123,7 +123,7 @@ namespace Items.Command
 		private void Teleport()
 		{
 			Vector3 position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
-			while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true) || MatrixManager.IsWallAtAnyMatrix(Vector3Int.FloorToInt(position), true))
+			while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true, registerTile.Matrix.MatrixInfo) || MatrixManager.IsWallAt(Vector3Int.FloorToInt(position), true))
 			{
 				position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
 			}

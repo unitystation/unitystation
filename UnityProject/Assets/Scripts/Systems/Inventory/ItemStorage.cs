@@ -294,7 +294,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError("Caught NRE in ItemStorage: " + exception.Message, Category.Inventory);
+			Logger.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}", Category.Inventory);
 			return null;
 		}
 	}

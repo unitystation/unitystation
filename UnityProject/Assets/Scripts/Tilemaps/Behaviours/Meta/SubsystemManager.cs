@@ -38,7 +38,7 @@ public class SubsystemManager : MonoBehaviour
 
 		for (int i = 0; i < systems.Count; i++)
 		{
-			if (ToUpDate.HasFlag(systems[i].SubsystemType))
+			if ((ToUpDate & systems[i].SubsystemType) != 0)
 			{
 				systems[i].UpdateAt(localPosition);
 			}

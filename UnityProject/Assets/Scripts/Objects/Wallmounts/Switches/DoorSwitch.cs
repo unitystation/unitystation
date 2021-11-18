@@ -7,6 +7,7 @@ using NaughtyAttributes;
 using Systems.Interaction;
 using Systems.ObjectConnection;
 using Doors;
+using UnityEditor;
 
 
 namespace Objects.Wallmounts
@@ -39,13 +40,6 @@ namespace Objects.Wallmounts
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-		}
-
-		private void Awake()
-		{
-#if Unity_Editor
-		noDoorsImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/noDoor.png");
-#endif
 		}
 
 		private void Start()
@@ -91,7 +85,7 @@ namespace Objects.Wallmounts
 			RpcPlayButtonAnim(true);
 		}
 
-		private void RunDoorController()
+		public void RunDoorController()
 		{
 			if (doorControllers.Count == 0 && NewdoorControllers.Count == 0)
 			{

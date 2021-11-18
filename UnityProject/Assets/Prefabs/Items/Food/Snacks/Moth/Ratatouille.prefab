@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &704907921160441635
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1010465861566955982, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: CookTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1010465861566955982, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: CookableBy
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1010465861566955982, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: CookedProduct
+      value: 
+      objectReference: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+        type: 3}
+    - target: {fileID: 2927735516333260874, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044049564896965974, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: e5d5391e340d10f4d87415c9a68f4bbd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4146526900732266722, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_Name
+      value: Ratatouille
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150328874197841302, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4285906924649233342, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3882aee4dbb1dc0488bba5597c833c3a,
+        type: 3}
+    - target: {fileID: 4568609949838632832, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: initialName
+      value: ratatouille
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568609949838632832, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: initialDescription
+      value: The perfect dish to save your restaurant from a vindictive food critic.
+        Bonus points if you've got a rat in your hat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7003614032579265679, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: foreverID
+      value: funnier rat
+      objectReference: {fileID: 0}
+    - target: {fileID: 7840049007108633445, guid: af1c99256eee3e3408a6484e523e452f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cff62cb2a586094fb426713bf1486ad,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af1c99256eee3e3408a6484e523e452f, type: 3}

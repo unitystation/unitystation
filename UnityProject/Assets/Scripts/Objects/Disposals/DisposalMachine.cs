@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
-using Systems.Disposals;
+using Objects.Atmospherics;
 
 namespace Objects.Disposals
 {
@@ -28,7 +27,8 @@ namespace Objects.Disposals
 		protected RegisterObject registerObject;
 		protected ObjectAttributes objectAttributes;
 		protected ObjectBehaviour objectBehaviour;
-		protected ObjectContainer container;
+		protected ObjectContainer objectContainer;
+		protected GasContainer gasContainer;
 		protected SpriteHandler baseSpriteHandler;
 
 		protected PositionalHandApply currentInteraction;
@@ -49,7 +49,8 @@ namespace Objects.Disposals
 			registerObject = GetComponent<RegisterObject>();
 			objectAttributes = GetComponent<ObjectAttributes>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
-			container = GetComponent<ObjectContainer>();
+			objectContainer = GetComponent<ObjectContainer>();
+			gasContainer = GetComponent<GasContainer>();
 
 			baseSpriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
 		}
@@ -154,7 +155,7 @@ namespace Objects.Disposals
 
 		private bool VerboseFloorExists()
 		{
-			if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true) == false) return true;
+			if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo) == false) return true;
 
 			Chat.AddExamineMsg(currentInteraction.Performer, $"A floor must be present to secure the {objectAttributes.InitialName}!");
 			return false;

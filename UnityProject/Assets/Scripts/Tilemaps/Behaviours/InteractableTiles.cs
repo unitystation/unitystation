@@ -86,9 +86,33 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	public static InteractableTiles GetAt(Vector2 worldPos, bool isServer)
 	{
 		var matrixInfo = MatrixManager.AtPoint(worldPos.RoundToInt(), isServer);
-		var matrix = matrixInfo.Matrix;
-		var tileChangeManager = matrix.GetComponentInParent<TileChangeManager>();
-		return tileChangeManager.GetComponent<InteractableTiles>();
+		return matrixInfo.TileChangeManager.InteractableTiles;
+	}
+
+	/// <summary>
+	/// Gets the interactable tiles for the matrix at the indicated world position. Unless there's only space!
+	/// in that case tries to fetch an adjacent matrix, in the case of none, it returns the space matrix
+	/// </summary>
+	public static InteractableTiles TryGetNonSpaceMatrix(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = MatrixManager.AtPoint(worldPos, isServer);
+		if (matrixInfo.Matrix.IsSpaceMatrix == false)
+		{
+			return matrixInfo.TileChangeManager.InteractableTiles;
+		}
+
+		//This is just space! Lets try getting an adjacent matrix
+		foreach (var pos in worldPos.BoundsAround().allPositionsWithin)
+		{
+			matrixInfo = MatrixManager.AtPoint(pos, isServer);
+			if (matrixInfo.Matrix.IsSpaceMatrix == false)
+			{
+				return matrixInfo.TileChangeManager.InteractableTiles;
+			}
+		}
+
+		//we're in space and theres nothing but space all around us, we tried.
+		return MatrixManager.Instance.spaceMatrix.TileChangeManager.InteractableTiles;
 	}
 
 	/// <summary>
@@ -448,7 +472,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			OrientationEnum orientation = OrientationEnum.Down;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
 			bool isWallBlocked = false;
-			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
+			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
 			{
 				if (PlaceDirection.x > 0)
 				{
@@ -461,7 +485,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			}
 			else
 			{
-				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAtAnyMatrix(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
+				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
 				{
 					if (PlaceDirection.y > 0)
 					{
@@ -478,7 +502,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				}
 			}
 
-			if (!MatrixManager.IsWallAtAnyMatrix(tilePos, false) || isWallBlocked)
+			if (!MatrixManager.IsWallAt(tilePos, false) || isWallBlocked)
 			{
 				if (instanceActive)
 				{

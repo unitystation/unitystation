@@ -464,7 +464,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 		catch (NullReferenceException exception)
 		{
-			Logger.LogError("Caught NRE in DynamicItemStorage.Remove: " + exception.Message, Category.Inventory);
+			Logger.LogError($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}", Category.Inventory);
 			return;
 		}
 
@@ -767,6 +767,11 @@ public class DynamicItemStorage : NetworkBehaviour
 				continue;
 			}
 
+			if (spawned == null)
+			{
+				continue;
+			}
+
 			RemoveClient(spawned.GetComponent<IDynamicItemSlotS>());
 		}
 
@@ -776,6 +781,11 @@ public class DynamicItemStorage : NetworkBehaviour
 			{
 				Logger.LogError(
 					$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
+				continue;
+			}
+
+			if (spawned == null)
+			{
 				continue;
 			}
 
@@ -796,8 +806,10 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 		else
 		{
-			var newl = new List<uint>();
-			ProcessChangeClient(JsonConvert.SerializeObject(newl));
+			foreach (var dynamicItemSlot in ClientContainedInventorys.ToArray())
+			{
+				RemoveClient(dynamicItemSlot);
+			}
 		}
 	}
 

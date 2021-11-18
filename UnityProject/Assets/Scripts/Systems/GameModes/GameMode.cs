@@ -236,8 +236,8 @@ namespace GameModes
 			}
 
 			// Are there enough antags already?
-			int newPlayerCount = PlayerList.Instance.InGamePlayers.Count + 1;
-			var expectedAntagCount = Math.Min((int)Math.Floor(newPlayerCount * AntagRatio), maxAntags);
+			int newPlayerCount = PlayerList.Instance.OnlineAndOfflineConnCount + 1;
+			var expectedAntagCount = Math.Min((int)Math.Round(newPlayerCount * AntagRatio), maxAntags);
 
 			if (AntagManager.Instance.AntagCount < expectedAntagCount)
 			{
@@ -293,15 +293,23 @@ namespace GameModes
 
 		/// <summary>
 		/// Checks if the antag preferences have at least one of the possible antags enabled.
-		/// Assume the antag is enabled by default if it doesn't appear in the preferences.
+		/// Assume the antag is enabled by default if it doesn't appear in the preferences or was never set up.
 		/// </summary>
 		/// <param name="antagPrefs"></param>
 		/// <param name="antag"></param>
 		/// <returns></returns>
 		protected bool HasAntagEnabled(ref AntagPrefsDict antagPrefs, Antagonist antag)
 		{
-			return !antag.ShowInPreferences ||
-			       (antagPrefs.ContainsKey(antag.AntagName) && antagPrefs[antag.AntagName]);
+			if (antag.ShowInPreferences == false)
+			{
+				return true;
+			}
+			if (antagPrefs.ContainsKey(antag.AntagName) && antagPrefs[antag.AntagName] == false)
+			{
+				//manually set to false by the player
+				return false;
+			}
+			return true;
 		}
 
 		/// <summary>

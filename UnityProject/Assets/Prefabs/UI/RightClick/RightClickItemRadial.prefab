@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 9060144719699650913}
   - component: {fileID: 1156100514673360259}
   m_Layer: 5
-  m_Name: NextArrow3
+  m_Name: NextArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -607,8 +607,8 @@ RectTransform:
   m_Children:
   - {fileID: 639207831134748537}
   - {fileID: 2634159869124168331}
-  - {fileID: 7982788588768648572}
   - {fileID: 5530086014413178847}
+  - {fileID: 7982788588768648572}
   - {fileID: 7360659337893182502}
   - {fileID: 7746989757741798222}
   - {fileID: 8998279615968136674}
@@ -689,7 +689,7 @@ MonoBehaviour:
   upperMask: {fileID: 7746989757741798222}
   previousArrow: {fileID: 2951742535600077843}
   nextArrow: {fileID: 1156100514673360259}
-  background: {fileID: 7982788588768648572}
+  background: {fileID: 5530086014413178847}
   itemRing: {fileID: 540027771882249049}
   itemLabel: {fileID: 344888277810257935}
 --- !u!114 &7864490826961940268
@@ -746,62 +746,42 @@ PrefabInstance:
     - target: {fileID: -8524424544509167813, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8524424544509167813, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 194
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: -8524424544509167813, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 194
-      objectReference: {fileID: 0}
-    - target: {fileID: -8524424544509167813, guid: 007faf8947d462844bba2845078d8d5c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8524424544509167813, guid: 007faf8947d462844bba2845078d8d5c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8524424544509167813, guid: 007faf8947d462844bba2845078d8d5c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: -4802687162951226709, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_Name
       value: RadialItemInnerRing
       objectReference: {fileID: 0}
-    - target: {fileID: -4802687162951226709, guid: 007faf8947d462844bba2845078d8d5c,
+    - target: {fileID: -2304375700400688866, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Color.a
+      value: 0.29803923
       objectReference: {fileID: 0}
     - target: {fileID: -2304375700400688866, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.5137255
+      value: 0.78431374
       objectReference: {fileID: 0}
     - target: {fileID: -2304375700400688866, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.5137255
+      value: 0.5176471
       objectReference: {fileID: 0}
     - target: {fileID: -2304375700400688866, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.3019608
-      objectReference: {fileID: 0}
-    - target: {fileID: -2304375700400688866, guid: 007faf8947d462844bba2845078d8d5c,
-        type: 3}
-      propertyPath: m_Maskable
-      value: 0
+      value: 0.4627451
       objectReference: {fileID: 0}
     - target: {fileID: 1725816765075911490, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
@@ -816,7 +796,7 @@ PrefabInstance:
     - target: {fileID: 1725816765075911490, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1725816765075911490, guid: 007faf8947d462844bba2845078d8d5c,
         type: 3}
@@ -957,7 +937,7 @@ PrefabInstance:
     - target: {fileID: -8524424544509167813, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8524424544509167813, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
@@ -971,33 +951,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2304375700400688866, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
+      propertyPath: m_Color.a
+      value: 0.29803923
+      objectReference: {fileID: 0}
+    - target: {fileID: -2304375700400688866, guid: 8d3571c5e4b6da94689066d472152d4b,
+        type: 3}
       propertyPath: m_Color.b
-      value: 0.38431373
+      value: 0.78431374
       objectReference: {fileID: 0}
     - target: {fileID: -2304375700400688866, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.3254902
+      value: 0.5176471
       objectReference: {fileID: 0}
     - target: {fileID: -2304375700400688866, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.25490198
-      objectReference: {fileID: 0}
-    - target: {fileID: -2304375700400688866, guid: 8d3571c5e4b6da94689066d472152d4b,
-        type: 3}
-      propertyPath: m_Maskable
-      value: 0
+      value: 0.4627451
       objectReference: {fileID: 0}
     - target: {fileID: -510883232049887997, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
       propertyPath: m_Name
       value: RadialItemRing
-      objectReference: {fileID: 0}
-    - target: {fileID: -510883232049887997, guid: 8d3571c5e4b6da94689066d472152d4b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -169104232741821399, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
@@ -1037,7 +1012,7 @@ PrefabInstance:
     - target: {fileID: 2022557600479713481, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2022557600479713481, guid: 8d3571c5e4b6da94689066d472152d4b,
         type: 3}

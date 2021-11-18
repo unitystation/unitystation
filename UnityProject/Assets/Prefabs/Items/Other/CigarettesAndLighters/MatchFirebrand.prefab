@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8400735363209450118, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3,
+        type: 2}
     - target: {fileID: 3277144588670988188, guid: c94f0c553fec1af4cb4d7289fcaf0701,
         type: 3}
       propertyPath: foreverID

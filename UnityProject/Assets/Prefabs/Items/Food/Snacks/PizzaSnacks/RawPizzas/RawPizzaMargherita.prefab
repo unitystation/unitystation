@@ -9,6 +9,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1645523924037070760, guid: 95626cf5e33ae0a45ad264cca316fad2,
         type: 3}
+      propertyPath: CookTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1645523924037070760, guid: 95626cf5e33ae0a45ad264cca316fad2,
+        type: 3}
+      propertyPath: CookableBy
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1645523924037070760, guid: 95626cf5e33ae0a45ad264cca316fad2,
+        type: 3}
       propertyPath: CookedProduct
       value: 
       objectReference: {fileID: 2402839922089584260, guid: 95626cf5e33ae0a45ad264cca316fad2,
@@ -81,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 2402839922089584260, guid: 95626cf5e33ae0a45ad264cca316fad2,
         type: 3}
       propertyPath: m_Name
-      value: RawPizzaMargherita Variant
+      value: RawPizzaMargherita
       objectReference: {fileID: 0}
     - target: {fileID: 2569707870436447704, guid: 95626cf5e33ae0a45ad264cca316fad2,
         type: 3}

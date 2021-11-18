@@ -195,13 +195,13 @@ public class ChatRelay : NetworkBehaviour
 
 		if (rconManager != null)
 		{
-			string name = "";
+			string message = $"{chatEvent.speaker} {chatEvent.message}";
 			if ((namelessChannels & chatEvent.channels) != chatEvent.channels)
 			{
-				name = "<b>[" + chatEvent.channels + "]</b> ";
+				message = $"<b>[{chatEvent.channels}]</b> {message}";
 			}
 
-			RconManager.AddChatLog(name + chatEvent.message);
+			RconManager.AddChatLog(message);
 		}
 	}
 

@@ -50,9 +50,14 @@ public static class VariableViewer
 
 	}
 
-	public static void ProcessTransform(Transform transform, GameObject WhoBy)
+	public static void ProcessTransform(Transform transform, GameObject WhoBy, bool RefreshHierarchy = false)
 	{
-		Librarian.library.TraverseHierarchy();
+		if (Librarian.library.TransformToBookShelves.Count == 0)
+		{
+			Librarian.library.TraverseHierarchy();
+			RefreshHierarchy = true;
+		}
+
 		Librarian.Library.LibraryBookShelf BookShelf;
 		if (Librarian.TransformToBookShelf.ContainsKey(transform))
 		{
@@ -67,7 +72,10 @@ public static class VariableViewer
 
 		BookShelf.PopulateBookShelf();
 		SendBookShelfToClient(BookShelf,WhoBy);
-		LibraryNetMessage.Send(Librarian.library, WhoBy);
+		if (RefreshHierarchy)
+		{
+			LibraryNetMessage.Send(Librarian.library, WhoBy);
+		}
 
 	}
 
@@ -178,6 +186,8 @@ public static class VariableViewer
 				if (Bookshelf.Shelf == null)
 				{
 					Logger.LogError("Bookshelf has been destroyed > " + BookshelfID, Category.VariableViewer);
+					Librarian.library.TraverseHierarchy();
+					LibraryNetMessage.Send(Librarian.library, WhoBy);
 					return;
 				}
 
@@ -611,6 +621,14 @@ public static class Librarian
 				}
 			}
 
+			foreach (var root in Roots.ToArray())
+			{
+				if (root.Shelf == null)
+				{
+					Roots.Remove(root);
+				}
+			}
+
 			foreach (var TF in Transforms)
 			{
 				Librarian.library.TransformToBookShelves.Remove(TF);
@@ -633,7 +651,6 @@ public static class Librarian
 					RecursivePopulate(root.transform, null);
 				}
 			}
-
 		}
 
 		List<LibraryBookShelf> THISDestroy = new List<LibraryBookShelf>();
@@ -1043,7 +1060,7 @@ public static class Librarian
 			}
 			catch (ArgumentException exception)
 			{
-				Logger.LogError("Catch Argument Exception for Variable Viewer " + exception.Message, Category.VariableViewer);
+				Logger.LogError($"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}", Category.VariableViewer);
 			}
 		}
 

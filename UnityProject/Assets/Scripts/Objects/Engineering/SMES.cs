@@ -22,7 +22,6 @@ namespace Objects.Engineering
 
 		private ElectricalNodeControl electricalNodeControl;
 		private BatterySupplyingModule batterySupplyingModule;
-		private GameObject currentSparkEffect;
 		private Machine machine;
 
 
@@ -132,7 +131,7 @@ namespace Objects.Engineering
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
 				return !machine.GetPanelOpen();
-			} 
+			}
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return true;
 			if (interaction.HandObject != null) return false;
 
@@ -250,10 +249,7 @@ namespace Objects.Engineering
 
 		private void TrySpark()
 		{
-			//Not already doing an effect
-			if (currentSparkEffect != null) return;
-
-			currentSparkEffect = SparkUtil.TrySpark(objectBehaviour);
+			SparkUtil.TrySpark(gameObject);
 		}
 	}
 }

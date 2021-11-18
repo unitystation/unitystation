@@ -14,8 +14,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5247324347512863554, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}
+      propertyPath: CookTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5247324347512863554, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
       propertyPath: CookableBy
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 84c6e08358573194c8c518895b225efd,
+        type: 2}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959759505750653638, guid: 20e558a25e0b41942a7483724b3e4d45,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9135694018600570842, guid: 20e558a25e0b41942a7483724b3e4d45,
         type: 3}

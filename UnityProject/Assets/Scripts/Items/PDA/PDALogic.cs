@@ -277,10 +277,13 @@ namespace Items.PDA
 			if (interaction.IsAltClick && IDSlot.IsOccupied)
 			{
 				EjectIDCard();
+				Chat.AddActionMsgToChat(gameObject, "You eject the ID from the PDA.",
+					$"{interaction.Performer.ExpensiveName()} ejects an ID from the {gameObject.ExpensiveName()}");
 				return;
 			}
 
 			ServerInsertItem(interaction.UsedObject, interaction.HandSlot, interaction.Performer);
+			Chat.AddActionMsgToChat(gameObject, "You insert the ID inside the PDA.", $"{interaction.Performer.ExpensiveName()} inserts an ID into the {gameObject.ExpensiveName()}");
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -395,7 +398,7 @@ namespace Items.PDA
 		private string GenerateUplinkUnlockCode()
 		{
 			var codeList = UplinkPasswordList.Instance.WordList;
-			
+
 			string code = codeList[Random.Range(0, codeList.Count)];
 
 			string nums = Random.Range(111, 999).ToString();

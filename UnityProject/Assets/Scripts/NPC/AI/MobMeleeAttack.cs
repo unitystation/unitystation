@@ -122,7 +122,7 @@ namespace Systems.MobAIs
 				{
 					dir = new Vector3(isX ? normalised.x : 0, isX ? 0 : normalised.y , 0);
 
-					if (MatrixManager.IsWindowAtAnyMatrix(posShift, true) || MatrixManager.IsGrillAtAnyMatrix(posShift, true))
+					if (MatrixManager.IsWindowAt(posShift, true) || MatrixManager.IsGrillAt(posShift, true))
 					{
 						worldPos = posShift;
 						return true;

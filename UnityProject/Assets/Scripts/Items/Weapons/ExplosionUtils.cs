@@ -15,9 +15,6 @@ namespace Systems.Explosions
 		private static readonly AddressableAudioSource[] DISTANT_EXPLOSION_SOUNDS = { CommonSounds.Instance.ExplosionDistant1, CommonSounds.Instance.ExplosionDistant2 };
 		private static readonly AddressableAudioSource[] STATION_GROAN_SOUNDS = { CommonSounds.Instance.ExplosionCreak1, CommonSounds.Instance.ExplosionCreak2, CommonSounds.Instance.ExplosionCreak3 };
 
-		private static readonly int DISTANT_THRESHOLD = 63;
-		private static readonly int GROAN_THRESHOLD = 29;
-
 		/// <summary>
 		/// Play explosion sound and shake ground
 		/// </summary>
@@ -26,20 +23,32 @@ namespace Systems.Explosions
 		/// <param name="shakeDistance">how far away the shaking can be felt</param>
 		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance)
 		{
-			AddressableAudioSource sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
+
+			AddressableAudioSource explosionSound = EXPLOSION_SOUNDS.PickRandom();
+			AddressableAudioSource groanSound     = STATION_GROAN_SOUNDS.PickRandom();
+			AddressableAudioSource distantSound   = DISTANT_EXPLOSION_SOUNDS.PickRandom();
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
 			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
-			_ = SoundManager.PlayNetworkedAtPosAsync(sndName, worldPosition, audioSourceParameters, true, false, shakeParameters: shakeParameters);
 
-			if (shakeDistance > DISTANT_THRESHOLD)
+			//Closet sound
+			_ = SoundManager.PlayNetworkedAtPosAsync(explosionSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
+
+			//Next sound
+			if (distantSound != null)
 			{
-				AddressableAudioSource distantName = DISTANT_EXPLOSION_SOUNDS[Random.Range(0, DISTANT_EXPLOSION_SOUNDS.Length)];
-				_ = SoundManager.PlayNetworkedAtPosAsync(distantName, worldPosition, global: true);
+				AudioSourceParameters distantSoundAudioSourceParameters =
+					new AudioSourceParameters(0f, 100f, minDistance: 29, maxDistance: 63);
+
+				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, distantSoundAudioSourceParameters);
 			}
-			if (shakeIntensity > GROAN_THRESHOLD)
+			
+			//Furthest away sound
+			if (groanSound != null)
 			{
-				AddressableAudioSource groanName = STATION_GROAN_SOUNDS[Random.Range(0, STATION_GROAN_SOUNDS.Length)];
-				_ = SoundManager.PlayNetworkedAtPosAsync(groanName, worldPosition, global: true);
+				AudioSourceParameters groanSoundAudioSourceParameters =
+					new AudioSourceParameters(0f, 100f, minDistance: 63, maxDistance: 200);
+
+				_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, groanSoundAudioSourceParameters);
 			}
 		}
 	}

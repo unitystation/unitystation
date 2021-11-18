@@ -90,8 +90,8 @@ public class PlayerHealthUI : MonoBehaviour
 			EnableAlwaysVisible();
 		}
 
-		float temperature = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.temperature;
-		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.pressure;
+		float temperature = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.Temperature;
+		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.Pressure;
 
 		if (temperature < 110)
 		{

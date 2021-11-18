@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using Objects.Atmospherics;
+using Random = UnityEngine.Random;
 
 namespace Objects.Disposals
 {
@@ -15,14 +18,16 @@ namespace Objects.Disposals
 		[SerializeField]
 		private AddressableAudioSource ClangSound = default;
 
-		private ObjectContainer container;
+		private ObjectContainer objectContainer;
+		private GasContainer gasContainer;
 
 		// transform.position seems to be the only reliable method after OnDespawnServer() has been called.
 		private Vector3 ContainerWorldPosition => transform.position;
 
 		private void Awake()
 		{
-			container = GetComponent<ObjectContainer>();
+			objectContainer = GetComponent<ObjectContainer>();
+			gasContainer = GetComponent<GasContainer>();
 		}
 
 		#region EjectContents
@@ -47,7 +52,9 @@ namespace Objects.Disposals
 		/// </summary>
 		public void EjectContents()
 		{
-			container.RetrieveObjects();
+			objectContainer.RetrieveObjects();
+			gasContainer.IsSealed = false;
+			gasContainer.ReleaseContentsInstantly();
 		}
 
 		/// <summary>
@@ -56,8 +63,8 @@ namespace Objects.Disposals
 		/// <param name="exitVector">The direction (and distance) to throw or push the contents with</param>
 		public void EjectContentsWithVector(Vector3 exitVector)
 		{
-			var objects = container.GetStoredObjects().ToArray();
-			container.RetrieveObjects();
+			var objects = objectContainer.GetStoredObjects().ToArray();
+			objectContainer.RetrieveObjects();
 
 			foreach (var obj in objects)
 			{
@@ -76,18 +83,21 @@ namespace Objects.Disposals
 					script.registerTile.ServerStun();
 				}
 			}
+
+			gasContainer.IsSealed = false;
+			gasContainer.ReleaseContentsInstantly();
 		}
 
 		#endregion EjectContents
 
-		public void EntityTryEscape(GameObject entity)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted)
 		{
 			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 		}
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			int contentsCount = container.GetStoredObjects().Count();
+			int contentsCount = objectContainer.GetStoredObjects().Count();
 			return $"There {(contentsCount == 1 ? "is one entity" : $"are {contentsCount} entities")} inside.";
 		}
 	}

@@ -36,7 +36,7 @@ namespace HealthV2
 				RelatedPart.BloodContainer.Add(Digesting);
 			}
 
-			if (StomachContents.SpareCapacity < 2f) //Magic number
+			if (StomachContents.SpareCapacity < 15f) //Magic number
 			{
 				RelatedPart.HungerState = HungerState.Full;
 			}

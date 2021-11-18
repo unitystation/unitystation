@@ -4,7 +4,6 @@ using UnityEngine;
 using Mirror;
 using Systems.ObjectConnection;
 
-
 namespace Objects.Wallmounts
 {
 	public class GeneralSwitch : SubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable

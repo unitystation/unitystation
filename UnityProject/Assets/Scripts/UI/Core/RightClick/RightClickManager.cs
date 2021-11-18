@@ -268,7 +268,15 @@ public class RightClickManager : MonoBehaviourSingleton<RightClickManager>
 				{
 					subMenus.Add(VariableViewerOption.AsMenu(() =>
 					{
-						RequestBookshelfNetMessage.Send(curObject);
+						if (UIManager.Instance.LibraryUI.Roots.Count == 0)
+						{
+							RequestBookshelfNetMessage.Send(curObject, true);
+						}
+						else
+						{
+							RequestBookshelfNetMessage.Send(curObject, false);
+						}
+
 					}));
 				}
 			}

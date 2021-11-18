@@ -81,11 +81,18 @@ namespace StationObjectives
 
 		private string GetObjectiveStatusNonRich()
 		{
-			var message = $"Objective of {MatrixManager.MainStationMatrix.GameObject.scene.name}:\n";
-			var complete = activeObjective.CheckCompletion();
-			message += $"{activeObjective.GetRoundEndReport()}";
-			message += complete ? "Completed\n" : "Failed\n";
-			return message;
+			var message = $"Status of {MatrixManager.MainStationMatrix.GameObject.scene.name}:\n";
+			if (activeObjective != null)
+			{
+
+				bool complete = false;
+
+				complete = activeObjective.CheckCompletion();
+				message += $"{activeObjective.GetRoundEndReport()}";
+				message += complete ? "Completed\n" : "Failed\n";
+				return message;
+			}
+			return message + " Did not have any active objectives ";
 		}
 
 		private void ResetObjectives()

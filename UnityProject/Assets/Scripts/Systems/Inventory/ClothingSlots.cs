@@ -10,7 +10,15 @@ namespace Clothing
 		public NamedSlotFlagged NamedSlotFlagged;
 
 		private DynamicItemStorage ItemStorage;
-		public GameObject GameObject => gameObject;
+		public GameObject GameObject
+		{
+			get
+			{
+				if (this == null) return null;
+				return gameObject;
+			}
+		}
+
 		public ItemStorage RelatedStorage => relatedStorage;
 
 

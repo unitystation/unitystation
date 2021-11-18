@@ -110,6 +110,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: These seeds grow into blood-tomato plants.
       objectReference: {fileID: 0}
+    - target: {fileID: 4428397577451012794, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428397577451012794, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b8f6e318587893489fca79214639d2b,
+        type: 2}
+    - target: {fileID: 4428397577451012794, guid: 650450916815dfb4ba0aa087a3006beb,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7081205100875466497, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
       propertyPath: foreverID

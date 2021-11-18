@@ -111,15 +111,30 @@ public class Lungs : BodyPartFunctionality
 		}
 
 		// Try to get internal breathing if possible, otherwise get from the surroundings
-		IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix() ?? node;
+		IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix();
+		var gasMixSink = node.GasMix; // Where to dump lung exhaust
+		if (container == null)
+		{
+			// Could be in a container that has an internal gas mix, else use the tile's gas mix.
+			var parentContainer = RelatedPart.HealthMaster.ObjectBehaviour.parentContainer;
+			if (parentContainer != null && parentContainer.TryGetComponent<GasContainer>(out var gasContainer))
+			{
+				container = gasContainer;
+				gasMixSink = container.GasMix;
+			}
+			else
+			{
+				container = node;
+			}
+		}
 
 		if (efficiency > 1)
 		{
 			efficiency = 1;
 		}
 		ReagentMix AvailableBlood = RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take((RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total * efficiency) / 2f);
-		bool tryExhale = BreatheOut(node.GasMix, AvailableBlood);
-		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood);
+		bool tryExhale = BreatheOut(gasMixSink, AvailableBlood);
+		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
 		RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
 		return tryExhale || tryInhale;
 	}
@@ -183,10 +198,10 @@ public class Lungs : BodyPartFunctionality
 	/// <param name="gasMix">The gas mix to breathe in from</param>
 	/// <param name="blood">The blood to put gases into</param>
 	/// <returns> True if breathGasMix was changed </returns>
-	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood)
+	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 	{
 
-		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere)
+		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere)
 		{
 			blood.Add(RelatedPart.requiredReagent, RelatedPart.bloodType.GetSpareGasCapacity(blood));
 			return false;
@@ -275,10 +290,12 @@ public class Lungs : BodyPartFunctionality
 		else if (bloodSaturation <= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
 		{
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
-			if (Random.value < 0.2)
-			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath",
-					$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");
+			if (efficiency < 0.5f)
+			{	if (Random.value < 0.2)
+				{
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath",
+						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");
+				}
 			}
 		}
 
@@ -292,7 +309,7 @@ public class Lungs : BodyPartFunctionality
 	/// <param name="gasMix">the gases the character is breathing in</param>
 	public virtual void ToxinBreathinCheck(GasMix gasMix)
 	{
-		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreathAnywhere ||
+		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere ||
 		    RelatedPart.HealthMaster.playerScript == null) return;
 		foreach (ToxicGas gas in toxicGases)
 		{

@@ -180,9 +180,15 @@ namespace HealthV2
 
 		public HungerState CalculateHungerState()
 		{
-			var State = HungerState.Normal;
+			var State = HungerState.Full;
 			foreach (var bodyPart in BodyPartList)
 			{
+				if (bodyPart.HungerState == HungerState.Full)
+				{
+					State = HungerState.Full;
+					break;
+				}
+
 				if ((int) bodyPart.HungerState > (int) State) //TODO Add the other states
 				{
 					State = bodyPart.HungerState;
@@ -819,15 +825,7 @@ namespace HealthV2
 
 		public void DismemberBodyPart(BodyPart bodyPart)
 		{
-			//TODO: remove bodypart component from organs
-			if (bodyPart.TryGetComponent<BodyPartFunctionality>(out var organ))
-			{
-				organ.RelatedPart.OrganStorage.ServerTryRemove(organ.gameObject);
-			}
-			else
-			{
-				bodyPart.TryRemoveFromBody();
-			}
+			bodyPart.TryRemoveFromBody();
 		}
 
 		///<Summary>
@@ -959,7 +957,7 @@ namespace HealthV2
 			{
 				healthString.Append($" And {theyPronoun}'s on fire!");
 			}
-			
+
 
 			//Alive but not in body
 			if (script != null && script.HasSoul == false)

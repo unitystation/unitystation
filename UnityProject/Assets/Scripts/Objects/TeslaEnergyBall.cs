@@ -354,7 +354,7 @@ namespace Objects
 				pos.x += Random.Range(-range, range + 1);
 				pos.y += Random.Range(-range, range + 1);
 
-				if (MatrixManager.IsEmptyAt(pos, true))
+				if (MatrixManager.IsEmptyAt(pos, true, registerTile.Matrix.MatrixInfo))
 				{
 					return pos;
 				}

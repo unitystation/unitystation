@@ -63,7 +63,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		//which matrix are we clicking on
-		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, true);
+		var interactableTiles = InteractableTiles.TryGetNonSpaceMatrix(interaction.WorldPositionTarget.RoundToInt(), true);
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget,layerTypeSelection);
 

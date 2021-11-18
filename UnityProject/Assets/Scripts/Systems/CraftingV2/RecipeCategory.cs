@@ -26,6 +26,8 @@
 		Soups = 17,
 		Spaghettis = 18,
 		Frozen = 19,
-		Drinks = 20
+		Drinks = 20,
+		Moth = 21,
+		Lizard = 22
 	}
 }

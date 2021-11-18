@@ -34,7 +34,7 @@ namespace Systems.Atmospherics
 			var gasPower = 0f;
 
 
-			foreach (var gas in gasMix.GasesArray)
+			foreach (var gas in gasMix.GasesArray)  //doesn't appear to modify list while iterating
 			{
 				gasPower += gas.GasSO.FusionPower * gas.Moles;
 			}
