@@ -19,39 +19,47 @@ namespace Objects.Other
 		[SerializeField] private GameObject giftObject;
 		[SerializeField] private AddressableAudioSource ambientReminder;
 
-		[SyncVar] private List<string> giftedPlayers = new List<string>();
+		private List<string> giftedPlayers = new List<string>();
 		private bool canPickUpGifts;
 
 		private SpriteHandler spriteHandler;
 
-		private void Awake()
+		private void Start()
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			if (TimedEventsManager.Instance.ActiveEvents.Contains(eventData))
 			{
 				canPickUpGifts = true;
 				spriteHandler.SetSpriteSO(xmasSpriteSO);
-				PlayEasterEgg();
+				UpdateManager.Add(PlayEasterEgg, 60);
 			}
 		}
 
-		private async void PlayEasterEgg()
+		[ContextMenu("Play the reminder of our finite time")]
+		private void PlayEasterEgg()
 		{
-			await Task.Delay(60 * 1000); // millaseconds
+			if(gameObject == null) return;
+
 			if (DMMath.Prob(10))
 			{
 				_ = SoundManager.PlayNetworkedAtPosAsync(ambientReminder, gameObject.WorldPosServer());
 			}
-			PlayEasterEgg();
+		}
+
+		[Command]
+		private bool CmdIsGifted(string userID)
+		{
+			return giftedPlayers.Contains(userID);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (canPickUpGifts == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (giftedPlayers.Contains(interaction.PerformerPlayerScript.connectedPlayer.UserId))
+			if (interaction.HandSlot.IsOccupied) return false;
+			if (CmdIsGifted(interaction.PerformerPlayerScript.connectedPlayer.UserId))
 			{
-				Chat.AddExamineMsg(interaction.Performer, "You already received a gift!");
+				Chat.AddExamineMsg(interaction.Performer, "You already received a gift!", side);
 				return false;
 			}
 			return true;
@@ -59,7 +67,7 @@ namespace Objects.Other
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			Inventory.ServerSpawnPrefab(giftObject, interaction.HandSlot);
+			Inventory.ServerSpawnPrefab(giftObject, interaction.HandSlot, ReplacementStrategy.DropOther);
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You pick up a gift with your name on it.",
 				$"{interaction.PerformerPlayerScript.visibleName} picks up a gift with {interaction.PerformerPlayerScript.characterSettings.TheirPronoun(interaction.PerformerPlayerScript)} name on it.");
