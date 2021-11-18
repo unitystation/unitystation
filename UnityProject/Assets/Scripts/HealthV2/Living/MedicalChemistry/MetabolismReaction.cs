@@ -9,7 +9,7 @@ using UnityEngine;
 public class MetabolismReaction : Reaction
 {
 
-	public float MinimumThreshold = 0;
+	public float MinimumPercentageThreshold = 0;
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
@@ -96,7 +96,8 @@ public class MetabolismReaction : Reaction
 
 		var OptimalAmount = ingredients.m_dict.Min(i => reagentMix.reagents.m_dict[i.Key] / i.Value);
 
-		if (OptimalAmount < MinimumThreshold)
+
+		if (OptimalAmount / reagentMix.Total  < MinimumPercentageThreshold)
 		{
 			return;
 		}

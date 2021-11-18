@@ -56,14 +56,14 @@ public class BodyHealthEffect : MetabolismReaction
 				{
 					foreach (var Effect in Effects)
 					{
-						sender.TakeDamage(null, Effect.EffectPerOne * 3 * LimitedreactionAmount * -OverdoseDamageMultiplier, Effect.AttackType,
+						sender.TakeDamage(null, Effect.EffectPerOne * 6 * LimitedreactionAmount * -OverdoseDamageMultiplier, Effect.AttackType,
 							Effect.DamageEffect, DamageSubOrgans: false);
 					}
 
 				}
 				else
 				{
-					sender.TakeDamage(null, EffectPerOne * 3 * LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
+					sender.TakeDamage(null, EffectPerOne * 6 * LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 
@@ -76,14 +76,14 @@ public class BodyHealthEffect : MetabolismReaction
 		{
 			foreach (var Effect in Effects)
 			{
-				sender.TakeDamage(null, Effect.EffectPerOne * 3 * LimitedreactionAmount , Effect.AttackType,
+				sender.TakeDamage(null, Effect.EffectPerOne * 6 * LimitedreactionAmount , Effect.AttackType,
 					Effect.DamageEffect, DamageSubOrgans: false);
 			}
 
 		}
 		else
 		{
-			sender.TakeDamage(null, EffectPerOne * 3 * LimitedreactionAmount, AttackType,
+			sender.TakeDamage(null, EffectPerOne * 6 * LimitedreactionAmount, AttackType,
 				DamageEffect, DamageSubOrgans: false);
 		}
 

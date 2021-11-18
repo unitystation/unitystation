@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using Chemistry.Components;
 using Systems.Botany;
+using Chemistry;
 using Objects.Botany;
 using Items;
 using Items.Botany;
@@ -98,7 +99,15 @@ namespace Systems.Botany
 		/// </summary>
 		private void SetupChemicalContents()
 		{
-			reagentContainer.Multiply(plantData.Potency);
+			ReagentMix CurrentReagentMix = new ReagentMix();
+			foreach (var reagentAndAmount in plantData.ReagentProduction)
+			{
+				CurrentReagentMix.Add(reagentAndAmount.ChemistryReagent, reagentAndAmount.Amount);
+			}
+
+			reagentContainer.Add(CurrentReagentMix);
+
+			reagentContainer.Multiply( plantData.Potency / 100f * 2.5f ); //40 Potency = * 1
 		}
 
 		/// <summary>
