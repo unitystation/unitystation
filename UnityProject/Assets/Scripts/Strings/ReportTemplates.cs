@@ -5,7 +5,7 @@
 		public static readonly string CentcomReport = "<size=40><b>CentComm Report</b></size> " +
 		                                              "\n __________________________________\n\n{0}";
 
-		public static readonly string InitialUpdate = "<color=white><size=40><b>{0}</b></size></color>\n\n"
+		public static readonly string InitialUpdate = $"<color=white><size={ChatTemplates.LargeText}><b>{{0}}</b></size></color>\n\n"
 		                                              + "<color=#FF151F>A summary has been copied and" +
 		                                              " printed to all communications consoles</color>";
 

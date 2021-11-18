@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.Chat_UI;
 
 namespace Unitystation.Options
 {

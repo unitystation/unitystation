@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
-using UnityEngine.UI;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
 using Systems.Ai;
 using Messages.Server;
+using UI.Chat_UI;
 
 /// <summary>
 /// ChatRelay is only to be used internally via Chat.cs

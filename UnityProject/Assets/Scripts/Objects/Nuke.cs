@@ -8,7 +8,7 @@ using AddressableReferences;
 using Antagonists;
 using HealthV2;
 using Managers;
-using Messages.Server;
+using UI.Chat_UI;
 using Random = UnityEngine.Random;
 
 namespace Objects.Command
