@@ -9,6 +9,7 @@ using Managers;
 using Mirror;
 using ScriptableObjects.TimedGameEvents;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace Objects.Other
 {
@@ -58,7 +59,7 @@ namespace Objects.Other
 				Chat.AddExamineMsg(interaction.Performer, "You already received a gift!", side);
 				return false;
 			}
-			hasClicked = true;
+			if(side == NetworkSide.Client) hasClicked = true;
 			return true;
 		}
 
